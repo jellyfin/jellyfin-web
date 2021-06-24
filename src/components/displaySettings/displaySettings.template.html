@@ -1,10 +1,12 @@
-<form style="margin: 0 auto;">
-    <h2 class="sectionTitle">
-        ${Display}
-    </h2>
+<form style="margin: 0 auto">
+    <h2 class="sectionTitle">${Display}</h2>
 
     <div class="selectContainer languageSection hide">
-        <select id="selectLanguage" is="emby-select" label="${LabelDisplayLanguage}">
+        <select
+            id="selectLanguage"
+            is="jellyfin-select"
+            label="${LabelDisplayLanguage}"
+        >
             <option value="">${Auto}</option>
             <option value="af">Afrikaans</option>
             <option value="sq">Albanian</option>
@@ -69,14 +71,28 @@
         </select>
         <div class="fieldDescription">
             <div>${LabelDisplayLanguageHelp}</div>
-            <div class="learnHowToContributeContainer hide" style="margin-top: .25em;">
-                <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://github.com/jellyfin/jellyfin" target="_blank">${LearnHowYouCanContribute}</a>
+            <div
+                class="learnHowToContributeContainer hide"
+                style="margin-top: 0.25em"
+            >
+                <a
+                    is="jellyfin-linkbutton"
+                    rel="noopener noreferrer"
+                    class="button-link"
+                    href="https://github.com/jellyfin/jellyfin"
+                    target="_blank"
+                    >${LearnHowYouCanContribute}</a
+                >
             </div>
         </div>
     </div>
 
     <div class="selectContainer fldDateTimeLocale hide">
-        <select is="emby-select" class="selectDateTimeLocale" label="${LabelDateTimeLocale}">
+        <select
+            is="jellyfin-select"
+            class="selectDateTimeLocale"
+            label="${LabelDateTimeLocale}"
+        >
             <option value="">${Auto}</option>
             <option value="af">Afrikaans</option>
             <option value="sq">Albanian</option>
@@ -142,7 +158,11 @@
     </div>
 
     <div class="selectContainer fldDisplayMode hide">
-        <select is="emby-select" class="selectLayout" label="${LabelDisplayMode}">
+        <select
+            is="jellyfin-select"
+            class="selectLayout"
+            label="${LabelDisplayMode}"
+        >
             <option value="">${Auto}</option>
             <option value="desktop">${Desktop}</option>
             <option value="mobile">${Mobile}</option>
@@ -153,79 +173,151 @@
     </div>
 
     <div class="selectContainer">
-        <select id="selectTheme" is="emby-select" label="${LabelTheme}"></select>
+        <select
+            id="selectTheme"
+            is="jellyfin-select"
+            label="${LabelTheme}"
+        ></select>
     </div>
 
     <div class="selectContainer selectDashboardThemeContainer hide">
-        <select id="selectDashboardTheme" is="emby-select" label="${LabelDashboardTheme}"></select>
+        <select
+            id="selectDashboardTheme"
+            is="jellyfin-select"
+            label="${LabelDashboardTheme}"
+        ></select>
     </div>
 
     <div class="selectContainer hide selectScreensaverContainer">
-        <select is="emby-select" class="selectScreensaver" label="${LabelScreensaver}"></select>
+        <select
+            is="jellyfin-select"
+            class="selectScreensaver"
+            label="${LabelScreensaver}"
+        ></select>
     </div>
 
     <div class="inputContainer inputContainer-withDescription">
-        <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
+        <input
+            is="jellyfin-input"
+            type="number"
+            id="txtLibraryPageSize"
+            pattern="[0-9]*"
+            required="required"
+            min="0"
+            max="1000"
+            step="1"
+            label="${LabelLibraryPageSize}"
+        />
         <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
-            <input type="checkbox" is="emby-checkbox" id="chkFadein" />
+            <input type="checkbox" is="jellyfin-checkbox" id="chkFadein" />
             <span>${EnableFasterAnimations}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableFasterAnimationsHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${EnableFasterAnimationsHelp}
+        </div>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
-            <input type="checkbox" is="emby-checkbox" id="chkBlurhash" />
+            <input type="checkbox" is="jellyfin-checkbox" id="chkBlurhash" />
             <span>${EnableBlurHash}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableBlurHashHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${EnableBlurHashHelp}
+        </div>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
-            <input type="checkbox" is="emby-checkbox" id="chkDetailsBanner" />
+            <input
+                type="checkbox"
+                is="jellyfin-checkbox"
+                id="chkDetailsBanner"
+            />
             <span>${EnableDetailsBanner}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableDetailsBannerHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${EnableDetailsBannerHelp}
+        </div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldBackdrops hide">
+    <div
+        class="
+            checkboxContainer checkboxContainer-withDescription
+            fldBackdrops
+            hide
+        "
+    >
         <label>
-            <input type="checkbox" is="emby-checkbox" id="chkBackdrops" />
+            <input type="checkbox" is="jellyfin-checkbox" id="chkBackdrops" />
             <span>${Backdrops}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableBackdropsHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${EnableBackdropsHelp}
+        </div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldThemeSong hide">
+    <div
+        class="
+            checkboxContainer checkboxContainer-withDescription
+            fldThemeSong
+            hide
+        "
+    >
         <label>
-            <input type="checkbox" is="emby-checkbox" id="chkThemeSong" />
+            <input type="checkbox" is="jellyfin-checkbox" id="chkThemeSong" />
             <span>${ThemeSongs}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableThemeSongsHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${EnableThemeSongsHelp}
+        </div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldThemeVideo hide">
+    <div
+        class="
+            checkboxContainer checkboxContainer-withDescription
+            fldThemeVideo
+            hide
+        "
+    >
         <label>
-            <input type="checkbox" is="emby-checkbox" id="chkThemeVideo" />
+            <input type="checkbox" is="jellyfin-checkbox" id="chkThemeVideo" />
             <span>${ThemeVideos}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableThemeVideosHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${EnableThemeVideosHelp}
+        </div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldDisplayMissingEpisodes hide">
+    <div
+        class="
+            checkboxContainer checkboxContainer-withDescription
+            fldDisplayMissingEpisodes
+            hide
+        "
+    >
         <label>
-            <input type="checkbox" is="emby-checkbox" class="chkDisplayMissingEpisodes" />
+            <input
+                type="checkbox"
+                is="jellyfin-checkbox"
+                class="chkDisplayMissingEpisodes"
+            />
             <span>${DisplayMissingEpisodesWithinSeasons}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${DisplayMissingEpisodesWithinSeasonsHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${DisplayMissingEpisodesWithinSeasonsHelp}
+        </div>
     </div>
 
-    <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
+    <button
+        is="jellyfin-button"
+        type="submit"
+        class="raised button-submit block btnSave hide"
+    >
         <span>${Save}</span>
     </button>
 </form>

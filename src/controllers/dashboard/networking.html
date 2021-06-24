@@ -1,198 +1,551 @@
-<div id="networkingPage" data-role="page" class="page type-interior advancedConfigurationPage">
+<div
+    id="networkingPage"
+    data-role="page"
+    class="page type-interior advancedConfigurationPage"
+>
     <div>
         <div class="content-primary">
             <form class="dashboardHostingForm">
                 <div class="verticalSection verticalSection-extrabottompadding">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h2 class="sectionTitle">${TabNetworking}</h2>
-                        <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/networking/index.html">${Help}</a>
+                        <a
+                            is="jellyfin-linkbutton"
+                            rel="noopener noreferrer"
+                            class="raised button-alt headerHelpButton"
+                            target="_blank"
+                            href="https://docs.jellyfin.org/general/networking/index.html"
+                            >${Help}</a
+                        >
                     </div>
 
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
+                    <fieldset
+                        class="
+                            verticalSection verticalSection-extrabottompadding
+                        "
+                    >
                         <legend><h3>${HeaderServerAddressSettings}</h3></legend>
 
                         <div class="inputContainer">
-                            <input is="emby-input" type="number" id="txtPortNumber" label="${LabelLocalHttpServerPortNumber}" pattern="[0-9]*" required="required" min="1" max="65535" />
-                            <div class="fieldDescription">${LabelLocalHttpServerPortNumberHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="number"
+                                id="txtPortNumber"
+                                label="${LabelLocalHttpServerPortNumber}"
+                                pattern="[0-9]*"
+                                required="required"
+                                min="1"
+                                max="65535"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelLocalHttpServerPortNumberHelp}
+                            </div>
                         </div>
 
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableHttps" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkEnableHttps"
+                                />
                                 <span>${LabelEnableHttps}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableHttpsHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelEnableHttpsHelp}
+                            </div>
                         </div>
 
                         <div class="inputContainer">
-                            <input is="emby-input" type="number" id="txtHttpsPort" pattern="[0-9]*" required="required" min="1" max="65535" label="${LabelHttpsPort}" />
-                            <div class="fieldDescription">${LabelHttpsPortHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="number"
+                                id="txtHttpsPort"
+                                pattern="[0-9]*"
+                                required="required"
+                                min="1"
+                                max="65535"
+                                label="${LabelHttpsPort}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelHttpsPortHelp}
+                            </div>
                         </div>
 
                         <div class="inputContainer fldBaseUrl">
-                            <input is="emby-input" id="txtBaseUrl" type="text" label="${LabelBaseUrl}" />
-                            <div class="fieldDescription">${LabelBaseUrlHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                id="txtBaseUrl"
+                                type="text"
+                                label="${LabelBaseUrl}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelBaseUrlHelp}
+                            </div>
                         </div>
 
                         <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtLocalAddress" label="${LabelBindToLocalNetworkAddress}" />
-                            <div class="fieldDescription">${LabelBindToLocalNetworkAddressHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtLocalAddress"
+                                label="${LabelBindToLocalNetworkAddress}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelBindToLocalNetworkAddressHelp}
+                            </div>
                         </div>
 
                         <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtLanNetworks" label="${LabelLanNetworks}" />
-                            <div class="fieldDescription">${LanNetworksHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtLanNetworks"
+                                label="${LabelLanNetworks}"
+                            />
+                            <div class="fieldDescription">
+                                ${LanNetworksHelp}
+                            </div>
                         </div>
 
                         <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtKnownProxies" label="${LabelKnownProxies}" />
-                            <div class="fieldDescription">${KnownProxiesHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtKnownProxies"
+                                label="${LabelKnownProxies}"
+                            />
+                            <div class="fieldDescription">
+                                ${KnownProxiesHelp}
+                            </div>
                         </div>
                     </fieldset>
 
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
+                    <fieldset
+                        class="
+                            verticalSection verticalSection-extrabottompadding
+                        "
+                    >
                         <legend><h3>${HeaderHttpsSettings}</h3></legend>
 
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkRequireHttps" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkRequireHttps"
+                                />
                                 <span>${LabelRequireHttps}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelRequireHttpsHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelRequireHttpsHelp}
+                            </div>
                         </div>
 
                         <div class="inputContainer fldCertificatePath">
-                            <div style="display: flex; align-items: center;">
-                                <div style="flex-grow:1;">
-                                    <input is="emby-input" type="text" id="txtCertificatePath" label="${LabelCustomCertificatePath}" autocomplete="off" />
+                            <div style="display: flex; align-items: center">
+                                <div style="flex-grow: 1">
+                                    <input
+                                        is="jellyfin-input"
+                                        type="text"
+                                        id="txtCertificatePath"
+                                        label="${LabelCustomCertificatePath}"
+                                        autocomplete="off"
+                                    />
                                 </div>
-                                <button type="button" is="paper-icon-button-light" id="btnSelectCertPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><span class="material-icons search"></span></button>
+                                <button
+                                    type="button"
+                                    is="paper-icon-button-light"
+                                    id="btnSelectCertPath"
+                                    title="${ButtonSelectDirectory}"
+                                    class="jellyfin-input-iconbutton"
+                                >
+                                    <span class="material-icons search"></span>
+                                </button>
                             </div>
-                            <div class="fieldDescription">${LabelCustomCertificatePathHelp}</div>
+                            <div class="fieldDescription">
+                                ${LabelCustomCertificatePathHelp}
+                            </div>
                         </div>
 
                         <div class="inputContainer fldCertPassword">
-                            <input is="emby-input" id="txtCertPassword" type="password" label="${LabelCertificatePassword}" autocomplete="new-password" />
-                            <div class="fieldDescription">${LabelCertificatePasswordHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                id="txtCertPassword"
+                                type="password"
+                                label="${LabelCertificatePassword}"
+                                autocomplete="new-password"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelCertificatePasswordHelp}
+                            </div>
                         </div>
                     </fieldset>
 
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
+                    <fieldset
+                        class="
+                            verticalSection verticalSection-extrabottompadding
+                        "
+                    >
                         <legend><h3>${HeaderRemoteAccessSettings}</h3></legend>
 
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkRemoteAccess" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkRemoteAccess"
+                                />
                                 <span>${AllowRemoteAccess}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${AllowRemoteAccessHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${AllowRemoteAccessHelp}
+                            </div>
                         </div>
-                        <div class="inputContainer fldExternalAddressFilter hide">
-                            <input is="emby-input" type="text" id="txtExternalAddressFilter" label="${LabelAllowedRemoteAddresses}" />
-                            <div class="fieldDescription">${AllowedRemoteAddressesHelp}</div>
+                        <div
+                            class="inputContainer fldExternalAddressFilter hide"
+                        >
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtExternalAddressFilter"
+                                label="${LabelAllowedRemoteAddresses}"
+                            />
+                            <div class="fieldDescription">
+                                ${AllowedRemoteAddressesHelp}
+                            </div>
                         </div>
-                        <div class="selectContainer fldExternalAddressFilterMode hide">
-                            <select is="emby-select" id="selectExternalAddressFilterMode" label="${LabelAllowedRemoteAddressesMode}">
+                        <div
+                            class="
+                                selectContainer
+                                fldExternalAddressFilterMode
+                                hide
+                            "
+                        >
+                            <select
+                                is="jellyfin-select"
+                                id="selectExternalAddressFilterMode"
+                                label="${LabelAllowedRemoteAddressesMode}"
+                            >
                                 <option value="whitelist">${Whitelist}</option>
                                 <option value="blacklist">${Blacklist}</option>
                             </select>
                         </div>
 
-                        <div class="checkboxContainer checkboxContainer-withDescription fldEnableUpnp hide">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                                fldEnableUpnp
+                                hide
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableUpnp" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkEnableUpnp"
+                                />
                                 <span>${LabelEnableAutomaticPortMap}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableAutomaticPortMapHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelEnableAutomaticPortMapHelp}
+                            </div>
                         </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription hide">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                                hide
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkCreateHttpPortMap" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkCreateHttpPortMap"
+                                />
                                 <span>${LabelCreateHttpPortMap}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelCreateHttpPortMapHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelCreateHttpPortMapHelp}
+                            </div>
                         </div>
                         <div class="inputContainer fldPublicPort hide">
-                            <input is="emby-input" type="number" label="${LabelPublicHttpPort}" id="txtPublicPort" pattern="[0-9]*" required="required" min="1" max="65535" />
-                            <div class="fieldDescription">${LabelPublicHttpPortHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="number"
+                                label="${LabelPublicHttpPort}"
+                                id="txtPublicPort"
+                                pattern="[0-9]*"
+                                required="required"
+                                min="1"
+                                max="65535"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelPublicHttpPortHelp}
+                            </div>
                         </div>
                         <div class="inputContainer fldPublicHttpsPort hide">
-                            <input is="emby-input" type="number" id="txtPublicHttpsPort" pattern="[0-9]*" required="required" min="1" max="65535" label="${LabelPublicHttpsPort}" />
-                            <div class="fieldDescription">${LabelPublicHttpsPortHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="number"
+                                id="txtPublicHttpsPort"
+                                pattern="[0-9]*"
+                                required="required"
+                                min="1"
+                                max="65535"
+                                label="${LabelPublicHttpsPort}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelPublicHttpsPortHelp}
+                            </div>
                         </div>
                     </fieldset>
 
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
+                    <fieldset
+                        class="
+                            verticalSection verticalSection-extrabottompadding
+                        "
+                    >
                         <legend><h3>${HeaderNetworking}</h3></legend>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableIP4" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkEnableIP4"
+                                />
                                 <span>${LabelEnableIP4}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableIP4Help}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelEnableIP4Help}
+                            </div>
                         </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableIP6" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkEnableIP6"
+                                />
                                 <span>${LabelEnableIP6}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableIP6Help}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelEnableIP6Help}
+                            </div>
                         </div>
                     </fieldset>
 
-
-                    <fieldset class='verticalSection verticalSection-extrabottompadding hide'>
+                    <fieldset
+                        class="
+                            verticalSection verticalSection-extrabottompadding
+                            hide
+                        "
+                    >
                         <legend><h3>${HeaderAutoDiscovery}</h3></legend>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkAutodiscovery" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkAutodiscovery"
+                                />
                                 <span>${LabelAutomaticDiscovery}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelAutomaticDiscoveryHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelAutomaticDiscoveryHelp}
+                            </div>
                         </div>
                     </fieldset>
 
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
+                    <fieldset
+                        class="
+                            verticalSection verticalSection-extrabottompadding
+                        "
+                    >
                         <legend><h3>${HeaderPortRanges}</h3></legend>
 
                         <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtPublishedServer" label="${LabelPublishedServerUri}" />
-                            <div class="fieldDescription">${LabelPublishedServerUriHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtPublishedServer"
+                                label="${LabelPublishedServerUri}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelPublishedServerUriHelp}
+                            </div>
                         </div>
                         <div class="inputContainer hide">
-                            <input is="emby-input" type="text" id="txtUDPPortRange" pattern="[0-9\-]*" label="${LabelUDPPortRange}"  />
-                            <div class="fieldDescription">${LabelUDPPortRangeHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtUDPPortRange"
+                                pattern="[0-9\-]*"
+                                label="${LabelUDPPortRange}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelUDPPortRangeHelp}
+                            </div>
                         </div>
                         <div class="inputContainer hide">
-                            <input is="emby-input" type="text" id="txtHDHomerunPortRange" pattern="[0-9\-]*" label="${LabelHDHomerunPortRange}" />
-                            <div class="fieldDescription">${LabelHDHomerunPortRangeHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtHDHomerunPortRange"
+                                pattern="[0-9\-]*"
+                                label="${LabelHDHomerunPortRange}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelHDHomerunPortRangeHelp}
+                            </div>
                         </div>
                     </fieldset>
 
-                    <fieldset class='verticalSection verticalSection-extrabottompadding hide'>
+                    <fieldset
+                        class="
+                            verticalSection verticalSection-extrabottompadding
+                            hide
+                        "
+                    >
                         <legend><h3>${HeaderDebugging}</h3></legend>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableSSDPTracing" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkEnableSSDPTracing"
+                                />
                                 <span>${LabelEnableSSDPTracing}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableSSDPTracingHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelEnableSSDPTracingHelp}
+                            </div>
                         </div>
                         <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtSSDPTracingFilter" pattern="[0-9\.]*" label="${LabelSSDPTracingFilter}" />
-                            <div class="fieldDescription">${LabelSSDPTracingFilterHelp}</div>
+                            <input
+                                is="jellyfin-input"
+                                type="text"
+                                id="txtSSDPTracingFilter"
+                                pattern="[0-9\.]*"
+                                label="${LabelSSDPTracingFilter}"
+                            />
+                            <div class="fieldDescription">
+                                ${LabelSSDPTracingFilterHelp}
+                            </div>
                         </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
+                        <div
+                            class="
+                                checkboxContainer
+                                checkboxContainer-withDescription
+                            "
+                        >
                             <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkAutodiscoveryTracing" />
+                                <input
+                                    type="checkbox"
+                                    is="jellyfin-checkbox"
+                                    id="chkAutodiscoveryTracing"
+                                />
                                 <span>${LabelAutoDiscoveryTracing}</span>
                             </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelAutoDiscoveryTracingHelp}</div>
+                            <div
+                                class="
+                                    fieldDescription
+                                    checkboxFieldDescription
+                                "
+                            >
+                                ${LabelAutoDiscoveryTracingHelp}
+                            </div>
                         </div>
                     </fieldset>
                 </div>
                 <div>
-                    <button is="emby-button" type="submit" class="raised button-submit block">
+                    <button
+                        is="jellyfin-button"
+                        type="submit"
+                        class="raised button-submit block"
+                    >
                         <span>${Save}</span>
                     </button>
                 </div>

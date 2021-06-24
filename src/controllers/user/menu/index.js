@@ -1,6 +1,6 @@
 import { appHost } from '../../../components/apphost';
 import '../../../components/listview/listview.scss';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/jellyfin-button/jellyfin-button';
 import layoutManager from '../../../components/layoutManager';
 import Dashboard from '../../../scripts/clientUtils';
 

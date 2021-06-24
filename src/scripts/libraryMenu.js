@@ -11,7 +11,7 @@ import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
 import { getMenuLinks } from '../scripts/settings/webSettings';
-import '../elements/emby-button/paper-icon-button-light';
+import '../elements/jellyfin-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
 import '../assets/css/flexstyles.scss';
@@ -272,7 +272,7 @@ import Headroom from 'headroom.js';
     function refreshLibraryInfoInDrawer(user) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
+        html += '<a is="jellyfin-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
 
         // placeholder for custom menu links
         html += '<div class="customMenuOptions"></div>';
@@ -285,8 +285,8 @@ import Headroom from 'headroom.js';
             html += '<h3 class="sidebarHeader">';
             html += globalize.translate('HeaderAdmin');
             html += '</h3>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#!/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard"></span><span class="navMenuOptionText">' + globalize.translate('TabDashboard') + '</span></a>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#!/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit"></span><span class="navMenuOptionText">' + globalize.translate('Metadata') + '</span></a>';
+            html += '<a is="jellyfin-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#!/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard"></span><span class="navMenuOptionText">' + globalize.translate('TabDashboard') + '</span></a>';
+            html += '<a is="jellyfin-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#!/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit"></span><span class="navMenuOptionText">' + globalize.translate('Metadata') + '</span></a>';
             html += '</div>';
         }
 
@@ -297,11 +297,11 @@ import Headroom from 'headroom.js';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
+                html += '<a is="jellyfin-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
             }
 
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSignOut') + '</span></a>';
+            html += '<a is="jellyfin-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
+            html += '<a is="jellyfin-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSignOut') + '</span></a>';
             html += '</div>';
         }
 
@@ -525,7 +525,7 @@ import Headroom from 'headroom.js';
         pageIds = pageIds ? ' data-pageids="' + pageIds + '"' : '';
         let pageUrls = item.pageUrls ? item.pageUrls.join('|') : '';
         pageUrls = pageUrls ? ' data-pageurls="' + pageUrls + '"' : '';
-        menuHtml += '<a is="emby-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + '>';
+        menuHtml += '<a is="jellyfin-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + '>';
 
         if (item.icon) {
             menuHtml += '<span class="material-icons navMenuOptionIcon ' + item.icon + '"></span>';
@@ -562,7 +562,7 @@ import Headroom from 'headroom.js';
     function createDashboardMenu(apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             let html = '';
-            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="#!/home.html">';
+            html += '<a class="adminDrawerLogo clearLink" is="jellyfin-linkbutton" href="#!/home.html">';
             html += '<img src="assets/img/icon-transparent.png" />';
             html += '</a>';
             html += toolsMenuHtml;
@@ -641,7 +641,7 @@ import Headroom from 'headroom.js';
             getMenuLinks().then(links => {
                 links.forEach(link => {
                     const option = document.createElement('a');
-                    option.setAttribute('is', 'emby-linkbutton');
+                    option.setAttribute('is', 'jellyfin-linkbutton');
                     option.className = 'navMenuOption lnkMediaFolder';
                     option.rel = 'noopener noreferrer';
                     option.target = '_blank';
@@ -671,7 +671,7 @@ import Headroom from 'headroom.js';
                     const icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     const itemId = i.Id;
 
-                    return `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
+                    return `<a is="jellyfin-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
                                     <span class="material-icons navMenuOptionIcon ${icon}"></span>
                                     <span class="sectionName navMenuOptionText">${i.Name}</span>
                                   </a>`;

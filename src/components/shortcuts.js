@@ -94,7 +94,7 @@ import toast from './toast/toast';
     }
 
     function notifyRefreshNeeded(childElement, itemsContainer) {
-        itemsContainer = itemsContainer || dom.parentWithAttribute(childElement, 'is', 'emby-itemscontainer');
+        itemsContainer = itemsContainer || dom.parentWithAttribute(childElement, 'is', 'jellyfin-itemscontainer');
 
         if (itemsContainer) {
             itemsContainer.notifyRefreshNeeded(true);

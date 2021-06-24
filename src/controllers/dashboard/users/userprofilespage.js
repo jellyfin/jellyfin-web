@@ -3,9 +3,9 @@ import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
 import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';
-import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../elements/jellyfin-button/paper-icon-button-light';
 import '../../../components/cardbuilder/card.scss';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/jellyfin-button/jellyfin-button';
 import '../../../components/indicators/indicators.scss';
 import '../../../assets/css/flexstyles.scss';
 import Dashboard, { pageIdOn } from '../../../scripts/clientUtils';
@@ -94,7 +94,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += `<a is="emby-linkbutton" class="cardContent ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" href="#!/useredit.html?userId=${user.Id}">`;
+        html += `<a is="jellyfin-linkbutton" class="cardContent ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" href="#!/useredit.html?userId=${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {

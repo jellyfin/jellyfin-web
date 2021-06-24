@@ -1,9 +1,13 @@
-<form style="margin:0 auto;">
+<form style="margin: 0 auto">
     <div class="verticalSection verticalSection-extrabottompadding">
         <h2 class="sectionTitle">${Home}</h2>
 
         <div class="selectContainer hide selectTVHomeScreenContainer">
-            <select is="emby-select" class="selectTVHomeScreen" label="${LabelTVHomeScreen}">
+            <select
+                is="jellyfin-select"
+                class="selectTVHomeScreen"
+                label="${LabelTVHomeScreen}"
+            >
                 <option value="horizontal">${Horizontal}</option>
                 <option value="vertical">${Vertical}</option>
             </select>
@@ -12,16 +16,26 @@
 
         <div class="verticalSection verticalSection-extrabottompadding">
             <label class="checkboxContainer">
-                <input class="chkHidePlayedFromLatest" type="checkbox" is="emby-checkbox" />
+                <input
+                    class="chkHidePlayedFromLatest"
+                    type="checkbox"
+                    is="jellyfin-checkbox"
+                />
                 <span>${HideWatchedContentFromLatestMedia}</span>
             </label>
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectHomeSection1" label="{section1label}">
+            <select
+                is="jellyfin-select"
+                id="selectHomeSection1"
+                label="{section1label}"
+            >
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
                 <option value="librarybuttons">${HeaderMyMediaSmall}</option>
-                <option value="activerecordings">${HeaderActiveRecordings}</option>
+                <option value="activerecordings">
+                    ${HeaderActiveRecordings}
+                </option>
                 <option value="resume">${HeaderContinueWatching}</option>
                 <option value="resumeaudio">${HeaderContinueListening}</option>
                 <option value="resumebook">${HeaderContinueReading}</option>
@@ -32,10 +46,16 @@
             </select>
         </div>
         <div class="selectContainer">
-            <select is="emby-select" id="selectHomeSection2" label="{section2label}">
+            <select
+                is="jellyfin-select"
+                id="selectHomeSection2"
+                label="{section2label}"
+            >
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
                 <option value="librarybuttons">${HeaderMyMediaSmall}</option>
-                <option value="activerecordings">${HeaderActiveRecordings}</option>
+                <option value="activerecordings">
+                    ${HeaderActiveRecordings}
+                </option>
                 <option value="resume">${HeaderContinueWatching}</option>
                 <option value="resumeaudio">${HeaderContinueListening}</option>
                 <option value="resumebook">${HeaderContinueReading}</option>
@@ -46,10 +66,16 @@
             </select>
         </div>
         <div class="selectContainer">
-            <select is="emby-select" id="selectHomeSection3" label="{section3label}">
+            <select
+                is="jellyfin-select"
+                id="selectHomeSection3"
+                label="{section3label}"
+            >
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
                 <option value="librarybuttons">${HeaderMyMediaSmall}</option>
-                <option value="activerecordings">${HeaderActiveRecordings}</option>
+                <option value="activerecordings">
+                    ${HeaderActiveRecordings}
+                </option>
                 <option value="resume">${HeaderContinueWatching}</option>
                 <option value="resumeaudio">${HeaderContinueListening}</option>
                 <option value="resumebook">${HeaderContinueReading}</option>
@@ -60,10 +86,16 @@
             </select>
         </div>
         <div class="selectContainer">
-            <select is="emby-select" id="selectHomeSection4" label="{section4label}">
+            <select
+                is="jellyfin-select"
+                id="selectHomeSection4"
+                label="{section4label}"
+            >
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
                 <option value="librarybuttons">${HeaderMyMediaSmall}</option>
-                <option value="activerecordings">${HeaderActiveRecordings}</option>
+                <option value="activerecordings">
+                    ${HeaderActiveRecordings}
+                </option>
                 <option value="resume">${HeaderContinueWatching}</option>
                 <option value="resumeaudio">${HeaderContinueListening}</option>
                 <option value="resumebook">${HeaderContinueReading}</option>
@@ -74,10 +106,16 @@
             </select>
         </div>
         <div class="selectContainer">
-            <select is="emby-select" id="selectHomeSection5" label="{section5label}">
+            <select
+                is="jellyfin-select"
+                id="selectHomeSection5"
+                label="{section5label}"
+            >
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
                 <option value="librarybuttons">${HeaderMyMediaSmall}</option>
-                <option value="activerecordings">${HeaderActiveRecordings}</option>
+                <option value="activerecordings">
+                    ${HeaderActiveRecordings}
+                </option>
                 <option value="resume">${HeaderContinueWatching}</option>
                 <option value="resumeaudio">${HeaderContinueListening}</option>
                 <option value="resumebook">${HeaderContinueReading}</option>
@@ -88,10 +126,16 @@
             </select>
         </div>
         <div class="selectContainer">
-            <select is="emby-select" id="selectHomeSection6" label="{section6label}">
+            <select
+                is="jellyfin-select"
+                id="selectHomeSection6"
+                label="{section6label}"
+            >
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
                 <option value="librarybuttons">${HeaderMyMediaSmall}</option>
-                <option value="activerecordings">${HeaderActiveRecordings}</option>
+                <option value="activerecordings">
+                    ${HeaderActiveRecordings}
+                </option>
                 <option value="resume">${HeaderContinueWatching}</option>
                 <option value="resumeaudio">${HeaderContinueListening}</option>
                 <option value="resumebook">${HeaderContinueReading}</option>
@@ -102,10 +146,16 @@
             </select>
         </div>
         <div class="selectContainer">
-            <select is="emby-select" id="selectHomeSection7" label="{section7label}">
+            <select
+                is="jellyfin-select"
+                id="selectHomeSection7"
+                label="{section7label}"
+            >
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
                 <option value="librarybuttons">${HeaderMyMediaSmall}</option>
-                <option value="activerecordings">${HeaderActiveRecordings}</option>
+                <option value="activerecordings">
+                    ${HeaderActiveRecordings}
+                </option>
                 <option value="resume">${HeaderContinueWatching}</option>
                 <option value="resumeaudio">${HeaderContinueListening}</option>
                 <option value="resumebook">${HeaderContinueReading}</option>
@@ -129,11 +179,17 @@
         <div>
             <p>${LabelSelectFolderGroups}</p>
             <div class="folderGroupList"></div>
-            <div class="fieldDescription checkboxFieldDescription">${LabelSelectFolderGroupsHelp}</div>
+            <div class="fieldDescription checkboxFieldDescription">
+                ${LabelSelectFolderGroupsHelp}
+            </div>
         </div>
     </div>
 
-    <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
+    <button
+        is="jellyfin-button"
+        type="submit"
+        class="raised button-submit block btnSave hide"
+    >
         <span>${Save}</span>
     </button>
 </form>

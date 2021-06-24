@@ -5,11 +5,11 @@ import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-select/jellyfin-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import '../../assets/css/flexstyles.scss';
@@ -36,7 +36,7 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 
         const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
         itemHtml += '<label>';
-        itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter.Id + '" class="' + cssClass + '"/>';
+        itemHtml += '<input is="jellyfin-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter.Id + '" class="' + cssClass + '"/>';
         itemHtml += '<span>' + filter.Name + '</span>';
         itemHtml += '</label>';
 

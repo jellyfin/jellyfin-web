@@ -8,8 +8,8 @@ import loading from '../components/loading/loading';
 import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
 import { playbackManager } from '../components/playback/playbackmanager';
 import AlphaPicker from '../components/alphaPicker/alphaPicker';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-scroller/emby-scroller';
+import '../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
+import '../elements/jellyfin-scroller/jellyfin-scroller';
 import ServerConnections from '../components/ServerConnections';
 import { appRouter } from '../components/appRouter';
 

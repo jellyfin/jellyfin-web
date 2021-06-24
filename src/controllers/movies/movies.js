@@ -6,7 +6,7 @@ import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 
 /* eslint-disable indent */
 

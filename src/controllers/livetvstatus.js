@@ -7,10 +7,10 @@ import loading from '../components/loading/loading';
 import browser from '../scripts/browser';
 import '../components/listview/listview.scss';
 import '../assets/css/flexstyles.scss';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 import '../components/cardbuilder/card.scss';
 import 'material-design-icons-iconfont';
-import '../elements/emby-button/emby-button';
+import '../elements/jellyfin-button/jellyfin-button';
 import Dashboard from '../scripts/clientUtils';
 import confirm from '../components/confirm/confirm';
 
@@ -111,7 +111,7 @@ function renderProviders(page, providers) {
             html += '<div class="listItem">';
             html += '<span class="listItemIcon material-icons dvr"></span>';
             html += '<div class="listItemBody two-line">';
-            html += '<a is="emby-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + '&id=' + provider.Id + '">';
+            html += '<a is="jellyfin-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + '&id=' + provider.Id + '">';
             html += '<h3 class="listItemBodyText">';
             html += getProviderName(provider.Type);
             html += '</h3>';

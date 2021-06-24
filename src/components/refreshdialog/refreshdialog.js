@@ -3,11 +3,11 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-select/jellyfin-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
@@ -23,7 +23,7 @@ function getEditorHtml() {
     html += '<form style="margin:auto;">';
 
     html += '<div class="fldSelectPlaylist selectContainer">';
-    html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
+    html += '<select is="jellyfin-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
     html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
     html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
     html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
@@ -31,7 +31,7 @@ function getEditorHtml() {
     html += '</div>';
 
     html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
-    html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
+    html += '<input type="checkbox" is="jellyfin-checkbox" class="chkReplaceImages" />';
     html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
     html += '</label>';
 
@@ -43,7 +43,7 @@ function getEditorHtml() {
 
     html += '<br />';
     html += '<div class="formDialogFooter">';
-    html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
+    html += '<button is="jellyfin-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
     html += '</div>';
 
     html += '</form>';

@@ -2,7 +2,7 @@
 import { Events } from 'jellyfin-apiclient';
 import serverNotifications from '../scripts/serverNotifications';
 import globalize from '../scripts/globalize';
-import '../elements/emby-button/emby-button';
+import '../elements/jellyfin-button/jellyfin-button';
 import ServerConnections from '../components/ServerConnections';
 
 export default function (options) {

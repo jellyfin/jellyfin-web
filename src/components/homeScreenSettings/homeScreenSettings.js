@@ -7,8 +7,8 @@ import { Events } from 'jellyfin-apiclient';
 import homeSections from '../homesections/homesections';
 import dom from '../../scripts/dom';
 import '../listview/listview.scss';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/jellyfin-select/jellyfin-select';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './homeScreenSettings.template.html';
@@ -31,7 +31,7 @@ import template from './homeScreenSettings.template.html';
             const checkedHtml = isChecked ? ' checked="checked"' : '';
 
             currentHtml += '<label>';
-            currentHtml += `<input type="checkbox" is="emby-checkbox" class="chkGroupFolder" data-folderid="${i.Id}" id="${id}"${checkedHtml}/>`;
+            currentHtml += `<input type="checkbox" is="jellyfin-checkbox" class="chkGroupFolder" data-folderid="${i.Id}" id="${id}"${checkedHtml}/>`;
             currentHtml += `<span>${i.Name}</span>`;
             currentHtml += '</label>';
 
@@ -228,7 +228,7 @@ import template from './homeScreenSettings.template.html';
             isChecked = !(user.Configuration.MyMediaExcludes || []).includes(item.Id);
             html += '<div>';
             html += '<label>';
-            html += `<input type="checkbox" is="emby-checkbox" class="chkIncludeInMyMedia" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
+            html += `<input type="checkbox" is="jellyfin-checkbox" class="chkIncludeInMyMedia" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
             html += `<span>${globalize.translate('DisplayInMyMedia')}</span>`;
             html += '</label>';
             html += '</div>';
@@ -238,7 +238,7 @@ import template from './homeScreenSettings.template.html';
         if (!excludeFromLatest.includes(item.CollectionType || '')) {
             isChecked = !user.Configuration.LatestItemsExcludes.includes(item.Id);
             html += '<label class="fldIncludeInLatest">';
-            html += `<input type="checkbox" is="emby-checkbox" class="chkIncludeInLatest" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
+            html += `<input type="checkbox" is="jellyfin-checkbox" class="chkIncludeInLatest" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
             html += `<span>${globalize.translate('DisplayInOtherHomeScreenSections')}</span>`;
             html += '</label>';
         }
@@ -250,7 +250,7 @@ import template from './homeScreenSettings.template.html';
         if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
             const idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
             html += '<div class="selectContainer">';
-            html += `<select is="emby-select" class="selectLanding" data-folderid="${idForLanding}" label="${globalize.translate('LabelDefaultScreen')}">`;
+            html += `<select is="jellyfin-select" class="selectLanding" data-folderid="${idForLanding}" label="${globalize.translate('LabelDefaultScreen')}">`;
 
             const userValue = userSettings.get(`landing-${idForLanding}`);
 

@@ -1,7 +1,7 @@
 import datetime from '../../scripts/datetime';
 import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 import '../../components/listview/listview.scss';
 import '../../assets/css/flexstyles.scss';
 import Dashboard from '../../scripts/clientUtils';
@@ -39,7 +39,7 @@ import alert from '../../components/alert';
                     });
                     logUrl += '&api_key=' + apiClient.accessToken();
                     let logHtml = '';
-                    logHtml += '<a is="emby-linkbutton" href="' + logUrl + '" target="_blank" class="listItem listItem-border" style="color:inherit;">';
+                    logHtml += '<a is="jellyfin-linkbutton" href="' + logUrl + '" target="_blank" class="listItem listItem-border" style="color:inherit;">';
                     logHtml += '<div class="listItemBody two-line">';
                     logHtml += "<h3 class='listItemBodyText'>" + log.Name + '</h3>';
                     const date = datetime.parseISO8601Date(log.DateModified, true);

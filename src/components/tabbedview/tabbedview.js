@@ -1,7 +1,7 @@
 import backdrop from '../backdrop/backdrop';
 import * as mainTabsManager from '../maintabsmanager';
 import layoutManager from '../layoutManager';
-import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/jellyfin-tabs/jellyfin-tabs';
 import { appRouter } from '../appRouter';
 
 function onViewDestroy() {

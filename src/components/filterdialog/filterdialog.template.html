@@ -1,148 +1,252 @@
-<div style="margin: 0;padding:1.5em 2em;" class="filterDialogContent">
-
-    <div is="emby-collapse" title="${Filters}">
+<div style="margin: 0; padding: 1.5em 2em" class="filterDialogContent">
+    <div is="jellyfin-collapse" title="${Filters}">
         <div class="collapseContent">
             <div class="checkboxList">
                 <label class="videoStandard">
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter"
-                        data-filter="IsPlayed" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStandardFilter"
+                        data-filter="IsPlayed"
+                    />
                     <span>${Played}</span>
                 </label>
                 <label class="videoStandard">
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter"
-                        data-filter="IsUnPlayed" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStandardFilter"
+                        data-filter="IsUnPlayed"
+                    />
                     <span>${Unplayed}</span>
                 </label>
                 <label class="videoStandard">
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter"
-                        data-filter="IsResumable" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStandardFilter"
+                        data-filter="IsResumable"
+                    />
                     <span>${OptionResumable}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkFavorite"
-                        data-filter="IsFavorite" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStandardFilter chkFavorite"
+                        data-filter="IsFavorite"
+                    />
                     <span>${Favorites}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkLikes" data-filter="Likes" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStandardFilter chkLikes"
+                        data-filter="Likes"
+                    />
                     <span>${OptionLikes}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkDislikes"
-                        data-filter="Dislikes" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStandardFilter chkDislikes"
+                        data-filter="Dislikes"
+                    />
                     <span>${OptionDislikes}</span>
                 </label>
                 <label class="episodeFilter hide">
-                    <input type="checkbox" is="emby-checkbox" id="chkSpecialEpisode" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        id="chkSpecialEpisode"
+                    />
                     <span>${OptionSpecialEpisode}</span>
                 </label>
                 <label class="episodeFilter hide">
-                    <input type="checkbox" is="emby-checkbox" id="chkMissingEpisode" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        id="chkMissingEpisode"
+                    />
                     <span>${OptionMissingEpisode}</span>
                 </label>
                 <label class="episodeFilter hide">
-                    <input type="checkbox" is="emby-checkbox" id="chkFutureEpisode" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        id="chkFutureEpisode"
+                    />
                     <span>${OptionUnairedEpisode}</span>
                 </label>
             </div>
         </div>
     </div>
 
-    <div is="emby-collapse" title="${HeaderStatus}" class="seriesStatus hide">
+    <div
+        is="jellyfin-collapse"
+        title="${HeaderStatus}"
+        class="seriesStatus hide"
+    >
         <div class="collapseContent">
             <div class="checkboxList">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Continuing" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStatus"
+                        data-filter="Continuing"
+                    />
                     <span>${Continuing}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Ended" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkStatus"
+                        data-filter="Ended"
+                    />
                     <span>${Ended}</span>
                 </label>
             </div>
         </div>
     </div>
 
-    <div is="emby-collapse" title="${Features}" class="features hide">
+    <div is="jellyfin-collapse" title="${Features}" class="features hide">
         <div class="collapseContent">
             <div class="checkboxList">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkSubtitle" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkFeatureFilter"
+                        id="chkSubtitle"
+                    />
                     <span>${Subtitles}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkTrailer" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkFeatureFilter"
+                        id="chkTrailer"
+                    />
                     <span>${ButtonTrailer}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkSpecialFeature" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkFeatureFilter"
+                        id="chkSpecialFeature"
+                    />
                     <span>${SpecialFeatures}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkThemeSong" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkFeatureFilter"
+                        id="chkThemeSong"
+                    />
                     <span>${OptionHasThemeSong}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkThemeVideo" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkFeatureFilter"
+                        id="chkThemeVideo"
+                    />
                     <span>${OptionHasThemeVideo}</span>
                 </label>
             </div>
         </div>
     </div>
 
-    <div is="emby-collapse" title="${Genres}" class="genreFilters hide">
-        <div class="collapseContent filterOptions">
-        </div>
+    <div is="jellyfin-collapse" title="${Genres}" class="genreFilters hide">
+        <div class="collapseContent filterOptions"></div>
     </div>
 
-    <div is="emby-collapse" title="${HeaderParentalRatings}" class="officialRatingFilters hide">
-        <div class="collapseContent filterOptions">
-        </div>
+    <div
+        is="jellyfin-collapse"
+        title="${HeaderParentalRatings}"
+        class="officialRatingFilters hide"
+    >
+        <div class="collapseContent filterOptions"></div>
     </div>
 
-    <div is="emby-collapse" title="${Tags}" class="tagFilters hide">
-        <div class="collapseContent filterOptions">
-        </div>
+    <div is="jellyfin-collapse" title="${Tags}" class="tagFilters hide">
+        <div class="collapseContent filterOptions"></div>
     </div>
 
-    <div is="emby-collapse" title="${HeaderVideoTypes}" class="videoTypeFilters hide">
+    <div
+        is="jellyfin-collapse"
+        title="${HeaderVideoTypes}"
+        class="videoTypeFilters hide"
+    >
         <div class="collapseContent">
             <div class="checkboxList">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkVideoTypeFilter chkBluray"
-                        data-filter="Bluray" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkVideoTypeFilter chkBluray"
+                        data-filter="Bluray"
+                    />
                     <span>${OptionBluray}</span>
                 </label>
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkVideoTypeFilter chkDvd" data-filter="Dvd" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkVideoTypeFilter chkDvd"
+                        data-filter="Dvd"
+                    />
                     <span>${OptionDvd}</span>
                 </label>
 
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkHDFilter IsHD" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkHDFilter IsHD"
+                    />
                     <span>${OptionIsHD}</span>
                 </label>
 
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chk4KFilter Is4K" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chk4KFilter Is4K"
+                    />
                     <span>4K</span>
                 </label>
 
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkSDFilter IsHD" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkSDFilter IsHD"
+                    />
                     <span>${OptionIsSD}</span>
                 </label>
 
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chk3DFilter chk3D" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chk3DFilter chk3D"
+                    />
                     <span>${Option3D}</span>
                 </label>
             </div>
         </div>
     </div>
 
-    <div is="emby-collapse" title="${HeaderYears}" class="yearFilters hide">
-        <div class="collapseContent filterOptions">
-        </div>
+    <div is="jellyfin-collapse" title="${HeaderYears}" class="yearFilters hide">
+        <div class="collapseContent filterOptions"></div>
     </div>
 </div>

@@ -1,4 +1,8 @@
-<div id="streamingSettingsPage" data-role="page" class="page type-interior playbackConfigurationPage withTabs">
+<div
+    id="streamingSettingsPage"
+    data-role="page"
+    class="page type-interior playbackConfigurationPage withTabs"
+>
     <div>
         <div class="content-primary">
             <form class="streamingSettingsForm">
@@ -7,11 +11,26 @@
                         <h2 class="sectionTitle">${TabStreaming}</h2>
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" type="number" id="txtRemoteClientBitrateLimit" inputmode="decimal" pattern="[0-9]*(\.[0-9]+)?" min="0" step=".25" label="${LabelRemoteClientBitrateLimit}" />
-                        <div class="fieldDescription">${LabelRemoteClientBitrateLimitHelp}</div>
+                        <input
+                            is="jellyfin-input"
+                            type="number"
+                            id="txtRemoteClientBitrateLimit"
+                            inputmode="decimal"
+                            pattern="[0-9]*(\.[0-9]+)?"
+                            min="0"
+                            step=".25"
+                            label="${LabelRemoteClientBitrateLimit}"
+                        />
+                        <div class="fieldDescription">
+                            ${LabelRemoteClientBitrateLimitHelp}
+                        </div>
                     </div>
                 </div>
-                <button is="emby-button" type="submit" class="raised button-submit block">
+                <button
+                    is="jellyfin-button"
+                    type="submit"
+                    class="raised button-submit block"
+                >
                     <span>${Save}</span>
                 </button>
             </form>

@@ -5,8 +5,8 @@ import globalize from '../scripts/globalize';
 import { appHost } from '../components/apphost';
 import layoutManager from '../components/layoutManager';
 import focusManager from '../components/focusManager';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-scroller/emby-scroller';
+import '../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
+import '../elements/jellyfin-scroller/jellyfin-scroller';
 import ServerConnections from '../components/ServerConnections';
 
 /* eslint-disable indent */
@@ -242,7 +242,7 @@ import ServerConnections from '../components/ServerConnections';
             if (layoutManager.tv) {
                 html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + '</h2>';
             } else {
-                html += '<a is="emby-linkbutton" href="' + getRouteUrl(section, apiClient.serverId()) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                html += '<a is="jellyfin-linkbutton" href="' + getRouteUrl(section, apiClient.serverId()) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate(section.name);
                 html += '</h2>';
@@ -251,7 +251,7 @@ import ServerConnections from '../components/ServerConnections';
             }
 
             html += '</div>';
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="markfavorite"></div></div>';
+            html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true"><div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="markfavorite"></div></div>';
             html += '</div>';
         }
 

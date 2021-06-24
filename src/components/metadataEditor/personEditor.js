@@ -2,9 +2,9 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-select/jellyfin-select';
 import '../formdialog.scss';
 import template from './personEditor.template.html';
 

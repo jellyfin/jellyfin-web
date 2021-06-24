@@ -17,11 +17,11 @@ import './guide.scss';
 import './programs.scss';
 import 'material-design-icons-iconfont';
 import '../../assets/css/scrollstyles.scss';
-import '../../elements/emby-programcell/emby-programcell';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/jellyfin-programcell/jellyfin-programcell';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-tabs/jellyfin-tabs';
+import '../../elements/jellyfin-scroller/jellyfin-scroller';
 import '../../assets/css/flexstyles.scss';
 import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../ServerConnections';
@@ -528,7 +528,7 @@ function Guide(options) {
                 timerAttributes += ' data-seriestimerid="' + program.SeriesTimerId + '"';
             }
 
-            const isAttribute = endPercent >= 2 ? ' is="emby-programcell"' : '';
+            const isAttribute = endPercent >= 2 ? ' is="jellyfin-programcell"' : '';
 
             html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
@@ -646,7 +646,7 @@ function Guide(options) {
 
         programGrid.innerHTML = html.join('');
 
-        programCells = programGrid.querySelectorAll('[is=emby-programcell]');
+        programCells = programGrid.querySelectorAll('[is=jellyfin-programcell]');
 
         updateProgramCellsOnScroll(programGrid, programCells);
     }
@@ -799,14 +799,14 @@ function Guide(options) {
     }
 
     function getDateTabText(date, isActive, tabIndex) {
-        const cssClass = isActive ? 'emby-tab-button guide-date-tab-button emby-tab-button-active' : 'emby-tab-button guide-date-tab-button';
+        const cssClass = isActive ? 'jellyfin-tab-button guide-date-tab-button jellyfin-tab-button-active' : 'jellyfin-tab-button guide-date-tab-button';
 
-        let html = '<button is="emby-button" class="' + cssClass + '" data-index="' + tabIndex + '" data-date="' + date.getTime() + '">';
+        let html = '<button is="jellyfin-button" class="' + cssClass + '" data-index="' + tabIndex + '" data-date="' + date.getTime() + '">';
         let tabText = datetime.toLocaleDateString(date, { weekday: 'short' });
 
         tabText += '<br/>';
         tabText += date.getDate();
-        html += '<div class="emby-button-foreground">' + tabText + '</div>';
+        html += '<div class="jellyfin-button-foreground">' + tabText + '</div>';
         html += '</button>';
 
         return html;
@@ -854,7 +854,7 @@ function Guide(options) {
             tabIndex++;
         }
 
-        page.querySelector('.emby-tabs-slider').innerHTML = dateTabsHtml;
+        page.querySelector('.jellyfin-tabs-slider').innerHTML = dateTabsHtml;
         page.querySelector('.guideDateTabs').refresh();
 
         const newDate = new Date();

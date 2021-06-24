@@ -11,7 +11,7 @@ import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
 import './style.scss';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';
 // eslint-disable-next-line import/named, import/namespace
 import { Swiper } from 'swiper/swiper-bundle.esm';

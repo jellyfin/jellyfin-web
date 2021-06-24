@@ -1,18 +1,45 @@
-<div id="liveTvStatusPage" data-role="page" class="page type-interior liveTvSettingsPage">
+<div
+    id="liveTvStatusPage"
+    data-role="page"
+    class="page type-interior liveTvSettingsPage"
+>
     <div>
         <div class="content-primary">
             <div class="verticalSection verticalSection-extrabottompadding">
                 <div class="verticalSection verticalSection-extrabottompadding">
-                    <div class="sectionTitleContainer sectionTitleContainer-cards">
+                    <div
+                        class="
+                            sectionTitleContainer sectionTitleContainer-cards
+                        "
+                    >
                         <h2 class="sectionTitle sectionTitle-cards">
                             <span>${HeaderTunerDevices}</span>
                         </h2>
-                        <button is="emby-button" type="button" class="fab btnAddDevice submit sectionTitleButton" style="margin-left:1em;" title="${Add}">
+                        <button
+                            is="jellyfin-button"
+                            type="button"
+                            class="fab btnAddDevice submit sectionTitleButton"
+                            style="margin-left: 1em"
+                            title="${Add}"
+                        >
                             <span class="material-icons add"></span>
                         </button>
-                        <a is="emby-linkbutton" rel="noopener noreferrer" style="margin-left:2em!important;" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/live-tv/index.html">${Help}</a>
+                        <a
+                            is="jellyfin-linkbutton"
+                            rel="noopener noreferrer"
+                            style="margin-left: 2em !important"
+                            class="raised button-alt headerHelpButton"
+                            target="_blank"
+                            href="https://docs.jellyfin.org/general/server/live-tv/index.html"
+                            >${Help}</a
+                        >
                     </div>
-                    <div class="devicesList itemsContainer vertical-wrap" data-hovermenu="false" data-multiselect="false" style="margin-top: .5em;"></div>
+                    <div
+                        class="devicesList itemsContainer vertical-wrap"
+                        data-hovermenu="false"
+                        data-multiselect="false"
+                        style="margin-top: 0.5em"
+                    ></div>
                 </div>
             </div>
 
@@ -20,19 +47,33 @@
                 <div class="verticalSection">
                     <div class="sectionTitleContainer">
                         <h2 class="sectionTitle">${HeaderGuideProviders}</h2>
-                        <button is="emby-button" type="button" class="fab btnAddProvider submit" style="margin-left:1em;" title="${Add}">
+                        <button
+                            is="jellyfin-button"
+                            type="button"
+                            class="fab btnAddProvider submit"
+                            style="margin-left: 1em"
+                            title="${Add}"
+                        >
                             <span class="material-icons add"></span>
                         </button>
                     </div>
 
-                    <div class="providerList">
-                    </div>
+                    <div class="providerList"></div>
 
                     <div>
-                        <button is="emby-button" type="button" class="raised btnRefresh block button-cancel">
+                        <button
+                            is="jellyfin-button"
+                            type="button"
+                            class="raised btnRefresh block button-cancel"
+                        >
                             <span>${ButtonRefreshGuideData}</span>
                         </button>
-                        <progress max="100" min="0" style="width: 100%;" class="refreshGuideProgress"></progress>
+                        <progress
+                            max="100"
+                            min="0"
+                            style="width: 100%"
+                            class="refreshGuideProgress"
+                        ></progress>
                     </div>
                 </div>
             </div>

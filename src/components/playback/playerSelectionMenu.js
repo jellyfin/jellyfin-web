@@ -7,8 +7,8 @@ import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import { appHost } from '../apphost';
 import { enable, isEnabled, supported } from '../../scripts/autocast';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-button/jellyfin-button';
 import dialog from '../dialog/dialog';
 import dialogHelper from '../dialogHelper/dialogHelper';
 
@@ -210,7 +210,7 @@ function showActivePlayerMenuInternal(playerInfo) {
     if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
         html += '<label class="checkboxContainer">';
         const checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';
+        html += '<input type="checkbox" is="jellyfin-checkbox" class="chkMirror"' + checkedHtml + '/>';
         html += '<span>' + globalize.translate('EnableDisplayMirroring') + '</span>';
         html += '</label>';
     }
@@ -220,16 +220,16 @@ function showActivePlayerMenuInternal(playerInfo) {
     if (supported()) {
         html += '<div><label class="checkboxContainer">';
         const checkedHtmlAC = isEnabled() ? ' checked' : '';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
+        html += '<input type="checkbox" is="jellyfin-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
         html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
         html += '</label></div>';
     }
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
 
-    html += '<button is="emby-button" type="button" class="button-flat btnRemoteControl promptDialogButton">' + globalize.translate('HeaderRemoteControl') + '</button>';
-    html += '<button is="emby-button" type="button" class="button-flat btnDisconnect promptDialogButton ">' + globalize.translate('Disconnect') + '</button>';
-    html += '<button is="emby-button" type="button" class="button-flat btnCancel promptDialogButton">' + globalize.translate('ButtonCancel') + '</button>';
+    html += '<button is="jellyfin-button" type="button" class="button-flat btnRemoteControl promptDialogButton">' + globalize.translate('HeaderRemoteControl') + '</button>';
+    html += '<button is="jellyfin-button" type="button" class="button-flat btnDisconnect promptDialogButton ">' + globalize.translate('Disconnect') + '</button>';
+    html += '<button is="jellyfin-button" type="button" class="button-flat btnCancel promptDialogButton">' + globalize.translate('ButtonCancel') + '</button>';
     html += '</div>';
 
     html += '</div>';

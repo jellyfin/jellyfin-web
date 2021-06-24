@@ -4,7 +4,7 @@ import libraryBrowser from '../../scripts/libraryBrowser';
 import loading from '../../components/loading/loading';
 import { Events } from 'jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 
 export default function (view, params, tabContent) {
     function getPageData() {

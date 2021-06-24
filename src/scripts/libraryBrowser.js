@@ -121,7 +121,7 @@ export function getQueryPagingHtml (options) {
 export function showSortMenu (options) {
     Promise.all([
         import('../components/dialogHelper/dialogHelper'),
-        import('../elements/emby-radio/emby-radio')
+        import('../elements/jellyfin-radio/jellyfin-radio')
     ]).then(([{default: dialogHelper}]) => {
         function onSortByChange() {
             const newValue = this.value;
@@ -173,7 +173,7 @@ export function showSortMenu (options) {
             const option = options.items[i];
             const radioValue = option.id.replace(',', '_');
             isChecked = (options.query.SortBy || '').replace(',', '_') == radioValue ? ' checked' : '';
-            html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortBy" data-id="' + option.id + '" value="' + radioValue + '" class="menuSortBy" ' + isChecked + ' /><span>' + option.name + '</span></label>';
+            html += '<label class="radio-label-block"><input type="radio" is="jellyfin-radio" name="SortBy" data-id="' + option.id + '" value="' + radioValue + '" class="menuSortBy" ' + isChecked + ' /><span>' + option.name + '</span></label>';
         }
 
         html += '</div>';
@@ -182,9 +182,9 @@ export function showSortMenu (options) {
         html += '</h2>';
         html += '<div>';
         isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Ascending') + '</span></label>';
+        html += '<label class="radio-label-block"><input type="radio" is="jellyfin-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Ascending') + '</span></label>';
         isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
+        html += '<label class="radio-label-block"><input type="radio" is="jellyfin-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
         html += '</div>';
         html += '</div>';
         dlg.innerHTML = html;

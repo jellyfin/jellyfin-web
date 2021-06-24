@@ -8,9 +8,9 @@
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-input/emby-input';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-select/jellyfin-select';
+import '../../elements/jellyfin-input/jellyfin-input';
 import template from './imageOptionsEditor.template.html';
 
     function getDefaultImageConfig(itemType, type) {

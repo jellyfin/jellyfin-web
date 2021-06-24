@@ -8,13 +8,13 @@ import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
 import itemContextMenu from '../itemContextMenu';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-ratingbutton/jellyfin-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
-import '../../elements/emby-slider/emby-slider';
+import '../../elements/jellyfin-slider/jellyfin-slider';
 import { appRouter } from '../appRouter';
 
 /* eslint-disable indent */
@@ -48,7 +48,7 @@ import { appRouter } from '../appRouter';
 
         html += '<div class="nowPlayingBarTop">';
         html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
-        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
+        html += '<input type="range" is="jellyfin-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarInfoContainer">';
@@ -76,7 +76,7 @@ import { appRouter } from '../appRouter';
         html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
-        html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
+        html += '<input type="range" is="jellyfin-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
@@ -569,7 +569,7 @@ import { appRouter } from '../appRouter';
                             });
                         });
                     }
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
+                    nowPlayingUserData.innerHTML = '<button is="jellyfin-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                 });
             }
         } else {

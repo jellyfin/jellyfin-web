@@ -3,9 +3,9 @@ import loading from '../../../components/loading/loading';
 import datetime from '../../../scripts/datetime';
 import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
-import '../../../elements/emby-input/emby-input';
-import '../../../elements/emby-button/emby-button';
-import '../../../elements/emby-select/emby-select';
+import '../../../elements/jellyfin-input/jellyfin-input';
+import '../../../elements/jellyfin-button/jellyfin-button';
+import '../../../elements/jellyfin-select/jellyfin-select';
 import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */

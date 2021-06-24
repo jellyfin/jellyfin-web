@@ -1,25 +1,46 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
-    <h3 class="formDialogHeaderTitle">
-        ${Search}
-    </h3>
+    <button
+        is="paper-icon-button-light"
+        class="btnCancel autoSize"
+        tabindex="-1"
+    >
+        <span class="material-icons arrow_back"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${Search}</h3>
 </div>
 
 <div class="formDialogContent smoothScrollY">
     <div class="dialogContentInner">
-        <div class="flex align-items-center justify-content-center flex-wrap-wrap" style="margin: 2em 0;">
-
-            <div style="margin: 0;">
+        <div
+            class="
+                flex
+                align-items-center
+                justify-content-center
+                flex-wrap-wrap
+            "
+            style="margin: 2em 0"
+        >
+            <div style="margin: 0">
                 <div class="selectContainer">
-                    <select id="selectImageProvider" name="selectImageProvider" is="emby-select" label="${LabelSource}">
+                    <select
+                        id="selectImageProvider"
+                        name="selectImageProvider"
+                        is="jellyfin-select"
+                        label="${LabelSource}"
+                    >
                         <option value="">${All}</option>
                     </select>
                 </div>
             </div>
 
-            <div style="margin-left:1em;">
+            <div style="margin-left: 1em">
                 <div class="selectContainer">
-                    <select id="selectBrowsableImageType" name="selectBrowsableImageType" is="emby-select" label="${LabelType}">
+                    <select
+                        id="selectBrowsableImageType"
+                        name="selectBrowsableImageType"
+                        is="jellyfin-select"
+                        label="${LabelType}"
+                    >
                         <option value="Primary">${Primary}</option>
                         <option value="Art">${Art}</option>
                         <option value="Backdrop">${Backdrop}</option>
@@ -34,9 +55,13 @@
                     </select>
                 </div>
             </div>
-            <div class="availableImagesPaging" style="margin-left:1em;"></div>
-            <label style="margin: 0 0 0 1em;width:auto;">
-                <input id="chkAllLanguages" type="checkbox" is="emby-checkbox" />
+            <div class="availableImagesPaging" style="margin-left: 1em"></div>
+            <label style="margin: 0 0 0 1em; width: auto">
+                <input
+                    id="chkAllLanguages"
+                    type="checkbox"
+                    is="jellyfin-checkbox"
+                />
                 <span>${AllLanguages}</span>
             </label>
         </div>

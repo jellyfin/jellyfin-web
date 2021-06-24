@@ -1,12 +1,39 @@
-<div id="mediaLibraryPage" data-role="page" class="page type-interior mediaLibraryPage librarySectionPage withTabs fullWidthContent">
+<div
+    id="mediaLibraryPage"
+    data-role="page"
+    class="
+        page
+        type-interior
+        mediaLibraryPage
+        librarySectionPage
+        withTabs
+        fullWidthContent
+    "
+>
     <div>
         <div class="content-primary">
             <div class="padded-top padded-bottom">
-                <button is="emby-button" type="button" class="raised btnRefresh">
+                <button
+                    is="jellyfin-button"
+                    type="button"
+                    class="raised btnRefresh"
+                >
                     <span>${ButtonScanAllLibraries}</span>
                 </button>
-                <progress max="100" min="0" style="display: inline-block; vertical-align: middle;" class="refreshProgress"></progress>
-                <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt" target="_blank" href="https://docs.jellyfin.org/general/server/libraries.html">${Help}</a>
+                <progress
+                    max="100"
+                    min="0"
+                    style="display: inline-block; vertical-align: middle"
+                    class="refreshProgress"
+                ></progress>
+                <a
+                    is="jellyfin-linkbutton"
+                    rel="noopener noreferrer"
+                    class="raised button-alt"
+                    target="_blank"
+                    href="https://docs.jellyfin.org/general/server/libraries.html"
+                    >${Help}</a
+                >
             </div>
 
             <div id="divVirtualFolders"></div>

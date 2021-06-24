@@ -7,10 +7,10 @@ import SyncPlay from '../../components/syncPlay/core';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-select/jellyfin-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
@@ -157,21 +157,21 @@ import ServerConnections from '../ServerConnections';
 
         html += '<div class="fldSelectPlaylist selectContainer">';
         let autoFocus = items.length ? ' autofocus' : '';
-        html += `<select is="emby-select" id="selectPlaylistToAddTo" label="${globalize.translate('LabelPlaylist')}"${autoFocus}></select>`;
+        html += `<select is="jellyfin-select" id="selectPlaylistToAddTo" label="${globalize.translate('LabelPlaylist')}"${autoFocus}></select>`;
         html += '</div>';
 
         html += '<div class="newPlaylistInfo">';
 
         html += '<div class="inputContainer">';
         autoFocus = items.length ? '' : ' autofocus';
-        html += `<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="${globalize.translate('LabelName')}"${autoFocus} />`;
+        html += `<input is="jellyfin-input" type="text" id="txtNewPlaylistName" required="required" label="${globalize.translate('LabelName')}"${autoFocus} />`;
         html += '</div>';
 
         // newPlaylistInfo
         html += '</div>';
 
         html += '<div class="formDialogFooter">';
-        html += `<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">${globalize.translate('Add')}</button>`;
+        html += `<button is="jellyfin-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">${globalize.translate('Add')}</button>`;
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';

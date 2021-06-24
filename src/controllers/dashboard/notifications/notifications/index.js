@@ -1,7 +1,7 @@
 import loading from '../../../../components/loading/loading';
 import globalize from '../../../../scripts/globalize';
 import '../../../../components/listview/listview.scss';
-import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/jellyfin-button/jellyfin-button';
 
 function reload(page) {
     loading.show();
@@ -24,14 +24,14 @@ function reload(page) {
                 itemHtml += '</h2>';
                 if (showHelp) {
                     showHelp = false;
-                    itemHtml += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/notifications.html">';
+                    itemHtml += '<a is="jellyfin-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/notifications.html">';
                     itemHtml += globalize.translate('Help');
                     itemHtml += '</a>';
                 }
                 itemHtml += '</div>';
                 itemHtml += '<div class="paperList">';
             }
-            itemHtml += '<a class="listItem listItem-border" is="emby-linkbutton" data-ripple="false" href="notificationsetting.html?type=' + notification.Type + '">';
+            itemHtml += '<a class="listItem listItem-border" is="jellyfin-linkbutton" data-ripple="false" href="notificationsetting.html?type=' + notification.Type + '">';
             if (notification.Enabled) {
                 itemHtml += '<span class="listItemIcon material-icons notifications_active"></span>';
             } else {

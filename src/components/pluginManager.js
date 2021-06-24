@@ -28,7 +28,7 @@ import { playbackManager } from './playback/playbackmanager';
             route.contentPath = this.mapPath(plugin, route.path);
             route.path = this.#mapRoute(plugin, route);
 
-            Emby.App.defineRoute(route, plugin.id);
+            Jellyfin.App.defineRoute(route, plugin.id);
         }
 
         async #registerPlugin(plugin) {

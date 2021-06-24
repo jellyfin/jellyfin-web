@@ -1,5 +1,5 @@
 import { Events } from 'jellyfin-apiclient';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';

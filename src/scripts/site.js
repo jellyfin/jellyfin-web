@@ -19,7 +19,7 @@ import { getPlugins } from './settings/webSettings';
 import { pluginManager } from '../components/pluginManager';
 import packageManager from '../components/packageManager';
 import { appRouter } from '../components/appRouter';
-import '../elements/emby-button/emby-button';
+import '../elements/jellyfin-button/jellyfin-button';
 import './autoThemes';
 import './libraryMenu';
 import './routes';

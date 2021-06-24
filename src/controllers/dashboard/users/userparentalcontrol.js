@@ -4,7 +4,7 @@ import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
 import '../../../components/listview/listview.scss';
-import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../elements/jellyfin-button/paper-icon-button-light';
 import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
@@ -69,7 +69,7 @@ import toast from '../../../components/toast/toast';
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];
             const checkedAttribute = user.Policy.BlockUnratedItems.indexOf(item.value) != -1 ? ' checked="checked"' : '';
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
+            html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
         }
 
         html += '</div>';

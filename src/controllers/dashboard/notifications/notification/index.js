@@ -1,5 +1,5 @@
 import 'jquery';
-import '../../../../elements/emby-checkbox/emby-checkbox';
+import '../../../../elements/jellyfin-checkbox/jellyfin-checkbox';
 import Dashboard from '../../../../scripts/clientUtils';
 
 function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) {
@@ -7,7 +7,7 @@ function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) 
     html += items.map(function (u) {
         const isChecked = isEnabledList ? currentList.indexOf(u.Id) != -1 : currentList.indexOf(u.Id) == -1;
         const checkedHtml = isChecked ? ' checked="checked"' : '';
-        return '<label><input is="emby-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + '/><span>' + u.Name + '</span></label>';
+        return '<label><input is="jellyfin-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + '/><span>' + u.Name + '</span></label>';
     }).join('');
     html += '</div>';
     elem.html(html).trigger('create');

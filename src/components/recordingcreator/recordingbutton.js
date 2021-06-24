@@ -1,7 +1,7 @@
 import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-button/jellyfin-button';
 import './recordingfields.scss';
 import ServerConnections from '../ServerConnections';
 

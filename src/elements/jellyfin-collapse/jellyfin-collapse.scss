@@ -1,0 +1,43 @@
+.jellyfin-collapse {
+    margin: 0.5em 0;
+}
+
+.collapseContent {
+    border-width: 0;
+    padding: 1.25em 1.25em;
+    height: 0;
+    transition-property: height;
+    transition-duration: 300ms;
+    overflow: hidden;
+}
+
+.jellyfin-collapsible-button {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    text-transform: none;
+    width: 100%;
+    text-align: left;
+    border-width: 0 0 0.1em 0;
+    border-style: solid;
+    padding-left: 0.1em;
+    background: transparent;
+    box-shadow: none;
+}
+
+.jellyfin-collapse-expandIcon {
+    transform-origin: 50% 50%;
+    transition: transform 180ms ease-out;
+    position: absolute;
+    right: 0.5em;
+    font-size: 1.5em;
+}
+
+.jellyfin-collapse-expandIconExpanded {
+    transform: rotate(180deg);
+}
+
+.jellyfin-collapsible-title {
+    margin: 0;
+    padding: 0;
+}

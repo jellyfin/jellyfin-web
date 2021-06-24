@@ -1,30 +1,61 @@
-<form style="margin:0 auto;">
+<form style="margin: 0 auto">
     <div class="verticalSection">
-        <h2 class="sectionTitle">
-            ${Subtitles}
-        </h2>
+        <h2 class="sectionTitle">${Subtitles}</h2>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectSubtitleLanguage" label="${LabelPreferredSubtitleLanguage}"></select>
+            <select
+                is="jellyfin-select"
+                id="selectSubtitleLanguage"
+                label="${LabelPreferredSubtitleLanguage}"
+            ></select>
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectSubtitlePlaybackMode" label="${LabelSubtitlePlaybackMode}">
+            <select
+                is="jellyfin-select"
+                id="selectSubtitlePlaybackMode"
+                label="${LabelSubtitlePlaybackMode}"
+            >
                 <option value="Default">${Default}</option>
                 <option value="Smart">${Smart}</option>
                 <option value="OnlyForced">${OnlyForcedSubtitles}</option>
                 <option value="Always">${AlwaysPlaySubtitles}</option>
                 <option value="None">${None}</option>
             </select>
-            <div class="fieldDescription subtitlesDefaultHelp subtitlesHelp hide">${DefaultSubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesSmartHelp subtitlesHelp hide">${SmartSubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesAlwaysHelp subtitlesHelp hide">${AlwaysPlaySubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesOnlyForcedHelp subtitlesHelp hide">${OnlyForcedSubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesNoneHelp subtitlesHelp hide">${NoSubtitlesHelp}</div>
+            <div
+                class="fieldDescription subtitlesDefaultHelp subtitlesHelp hide"
+            >
+                ${DefaultSubtitlesHelp}
+            </div>
+            <div class="fieldDescription subtitlesSmartHelp subtitlesHelp hide">
+                ${SmartSubtitlesHelp}
+            </div>
+            <div
+                class="fieldDescription subtitlesAlwaysHelp subtitlesHelp hide"
+            >
+                ${AlwaysPlaySubtitlesHelp}
+            </div>
+            <div
+                class="
+                    fieldDescription
+                    subtitlesOnlyForcedHelp
+                    subtitlesHelp
+                    hide
+                "
+            >
+                ${OnlyForcedSubtitlesHelp}
+            </div>
+            <div class="fieldDescription subtitlesNoneHelp subtitlesHelp hide">
+                ${NoSubtitlesHelp}
+            </div>
         </div>
 
         <div class="selectContainer fldBurnIn hide">
-            <select is="emby-select" id="selectSubtitleBurnIn" label="${LabelBurnSubtitles}">
+            <select
+                is="jellyfin-select"
+                id="selectSubtitleBurnIn"
+                label="${LabelBurnSubtitles}"
+            >
                 <option value="">${Auto}</option>
                 <option value="onlyimageformats">${OnlyImageFormats}</option>
                 <option value="allcomplexformats">${AllComplexFormats}</option>
@@ -35,34 +66,73 @@
     </div>
 
     <div class="verticalSection subtitleAppearanceSection hide">
-        <h2 class="sectionTitle">
-            ${HeaderSubtitleAppearance}
-        </h2>
+        <h2 class="sectionTitle">${HeaderSubtitleAppearance}</h2>
 
-        <div class="subtitleappearance-fullpreview subtitleappearance-fullpreview-hide">
+        <div
+            class="
+                subtitleappearance-fullpreview
+                subtitleappearance-fullpreview-hide
+            "
+        >
             <div class="subtitleappearance-fullpreview-window">
                 <div class="subtitleappearance-fullpreview-text">
                     ${HeaderSubtitleAppearance}
-                    <br>
+                    <br />
                     ${TheseSettingsAffectSubtitlesOnThisDevice}
                 </div>
             </div>
         </div>
 
-        <div style="margin: 2em 0 2em;">
-            <div class="subtitleappearance-preview flex align-items-center justify-content-center" style="margin:2em 0;padding:1.6em;color:black;background:linear-gradient(140deg,#aa5cc3,#00a4dc);">
-                <div class="subtitleappearance-preview-window flex align-items-center justify-content-center" style="width: 90%; padding: .25em;">
-                    <div class="subtitleappearance-preview-text flex align-items-center justify-content-center">
+        <div style="margin: 2em 0 2em">
+            <div
+                class="
+                    subtitleappearance-preview
+                    flex
+                    align-items-center
+                    justify-content-center
+                "
+                style="
+                    margin: 2em 0;
+                    padding: 1.6em;
+                    color: black;
+                    background: linear-gradient(140deg, #aa5cc3, #00a4dc);
+                "
+            >
+                <div
+                    class="
+                        subtitleappearance-preview-window
+                        flex
+                        align-items-center
+                        justify-content-center
+                    "
+                    style="width: 90%; padding: 0.25em"
+                >
+                    <div
+                        class="
+                            subtitleappearance-preview-text
+                            flex
+                            align-items-center
+                            justify-content-center
+                        "
+                    >
                         ${TheseSettingsAffectSubtitlesOnThisDevice}
                     </div>
                 </div>
             </div>
-            <div class="fieldDescription">${SubtitleAppearanceSettingsDisclaimer}</div>
-            <div class="fieldDescription">${SubtitleAppearanceSettingsAlsoPassedToCastDevices}</div>
+            <div class="fieldDescription">
+                ${SubtitleAppearanceSettingsDisclaimer}
+            </div>
+            <div class="fieldDescription">
+                ${SubtitleAppearanceSettingsAlsoPassedToCastDevices}
+            </div>
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectTextSize" label="${LabelTextSize}">
+            <select
+                is="jellyfin-select"
+                id="selectTextSize"
+                label="${LabelTextSize}"
+            >
                 <option value="smaller">${Smaller}</option>
                 <option value="small">${Small}</option>
                 <option value="">${Normal}</option>
@@ -73,7 +143,7 @@
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectFont" label="${LabelFont}">
+            <select is="jellyfin-select" id="selectFont" label="${LabelFont}">
                 <option value="">${Default}</option>
                 <option value="typewriter">${Typewriter}</option>
                 <option value="print">${Print}</option>
@@ -84,15 +154,29 @@
         </div>
 
         <div class="inputContainer hide">
-            <input is="emby-input" id="inputTextBackground" label="${LabelTextBackgroundColor}" type="text" />
+            <input
+                is="jellyfin-input"
+                id="inputTextBackground"
+                label="${LabelTextBackgroundColor}"
+                type="text"
+            />
         </div>
 
         <div class="inputContainer hide">
-            <input is="emby-input" id="inputTextColor" label="${LabelTextColor}" type="text" />
+            <input
+                is="jellyfin-input"
+                id="inputTextColor"
+                label="${LabelTextColor}"
+                type="text"
+            />
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectDropShadow" label="${LabelDropShadow}">
+            <select
+                is="jellyfin-select"
+                id="selectDropShadow"
+                label="${LabelDropShadow}"
+            >
                 <option value="none">${None}</option>
                 <option value="raised">${Raised}</option>
                 <option value="depressed">${Depressed}</option>
@@ -103,20 +187,35 @@
 
         <div class="sliderContainer-settings">
             <div class="sliderContainer">
-                <input is="emby-slider" id="sliderVerticalPosition" label="${LabelSubtitleVerticalPosition}" type="range" min="-16" max="16" />
+                <input
+                    is="jellyfin-slider"
+                    id="sliderVerticalPosition"
+                    label="${LabelSubtitleVerticalPosition}"
+                    type="range"
+                    min="-16"
+                    max="16"
+                />
             </div>
             <div class="fieldDescription">${SubtitleVerticalPositionHelp}</div>
         </div>
 
         <div class="checkboxContainer">
             <label>
-                <input is="emby-checkbox" type="checkbox" class="chkPreview" />
+                <input
+                    is="jellyfin-checkbox"
+                    type="checkbox"
+                    class="chkPreview"
+                />
                 <span>${Preview}</span>
             </label>
         </div>
     </div>
 
-    <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
+    <button
+        is="jellyfin-button"
+        type="submit"
+        class="raised button-submit block btnSave hide"
+    >
         <span>${Save}</span>
     </button>
 </form>

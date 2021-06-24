@@ -1,21 +1,40 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
-    <h3 class="formDialogHeaderTitle">
-        ${HeaderRecordingOptions}
-    </h3>
+    <button
+        is="paper-icon-button-light"
+        class="btnCancel autoSize"
+        tabindex="-1"
+    >
+        <span class="material-icons arrow_back"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${HeaderRecordingOptions}</h3>
 </div>
 
 <div class="formDialogContent smoothScrollY">
     <div class="dialogContentInner dialog-content-centered">
-
         <form>
             <br />
             <div class="inputContainer">
                 <div class="flex align-items-center">
                     <div class="flex-grow">
-                        <input is="emby-input" type="number" id="txtPrePaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelStartWhenPossible}" />
+                        <input
+                            is="jellyfin-input"
+                            type="number"
+                            id="txtPrePaddingMinutes"
+                            pattern="[0-9]*"
+                            required="required"
+                            min="0"
+                            step="1"
+                            label="${LabelStartWhenPossible}"
+                        />
                     </div>
-                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.3em;">
+                    <div
+                        class="fieldDescription"
+                        style="
+                            margin-left: 0.5em;
+                            font-size: 90%;
+                            margin-top: 1.3em;
+                        "
+                    >
                         ${MinutesBefore}
                     </div>
                 </div>
@@ -23,9 +42,25 @@
             <div class="inputContainer">
                 <div class="flex align-items-center">
                     <div class="flex-grow">
-                        <input is="emby-input" type="number" id="txtPostPaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelStopWhenPossible}" />
+                        <input
+                            is="jellyfin-input"
+                            type="number"
+                            id="txtPostPaddingMinutes"
+                            pattern="[0-9]*"
+                            required="required"
+                            min="0"
+                            step="1"
+                            label="${LabelStopWhenPossible}"
+                        />
                     </div>
-                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.3em;">
+                    <div
+                        class="fieldDescription"
+                        style="
+                            margin-left: 0.5em;
+                            font-size: 90%;
+                            margin-top: 1.3em;
+                        "
+                    >
                         ${MinutesAfter}
                     </div>
                 </div>
@@ -33,14 +68,35 @@
             <br />
 
             <div class="formDialogFooter">
-                <button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit hide">
+                <button
+                    is="jellyfin-button"
+                    type="submit"
+                    class="
+                        raised
+                        btnSubmit
+                        block
+                        formDialogFooterItem
+                        button-submit
+                        hide
+                    "
+                >
                     <span>${Save}</span>
                 </button>
-                <button is="emby-button" type="button" class="raised btnCancelRecording block formDialogFooterItem button-cancel" style="white-space:nowrap;">
+                <button
+                    is="jellyfin-button"
+                    type="button"
+                    class="
+                        raised
+                        btnCancelRecording
+                        block
+                        formDialogFooterItem
+                        button-cancel
+                    "
+                    style="white-space: nowrap"
+                >
                     <span>${HeaderCancelRecording}</span>
                 </button>
             </div>
-
         </form>
     </div>
 </div>

@@ -2,11 +2,11 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-select/jellyfin-select';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 import '../../assets/css/flexstyles.scss';
 import template from './sortmenu.template.html';
 

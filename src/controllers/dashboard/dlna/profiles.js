@@ -3,7 +3,7 @@ import globalize from '../../../scripts/globalize';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import '../../../components/listview/listview.scss';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/jellyfin-button/jellyfin-button';
 import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
@@ -41,7 +41,7 @@ import confirm from '../../../components/confirm/confirm';
             html += '<div class="listItem listItem-border">';
             html += '<span class="listItemIcon material-icons live_tv"></span>';
             html += '<div class="listItemBody two-line">';
-            html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#!/dlnaprofile.html?id=" + profile.Id + "'>";
+            html += "<a is='jellyfin-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#!/dlnaprofile.html?id=" + profile.Id + "'>";
             html += '<div>' + profile.Name + '</div>';
             html += '</a>';
             html += '</div>';

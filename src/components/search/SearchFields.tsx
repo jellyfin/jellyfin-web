@@ -6,7 +6,7 @@ import globalize from '../../scripts/globalize';
 
 import 'material-design-icons-iconfont';
 
-import '../../elements/emby-input/emby-input';
+import '../../elements/jellyfin-input/jellyfin-input';
 import '../../assets/css/flexstyles.scss';
 import './searchfields.scss';
 import layoutManager from '../layoutManager';
@@ -17,7 +17,7 @@ import browser from '../../scripts/browser';
 // them as an html string for now =/
 const createInputElement = () => ({
     __html: `<input
-    is="emby-input"
+    is="jellyfin-input"
     class="searchfields-txtSearch"
     type="text"
     data-keyboard="true"

@@ -1,17 +1,23 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel autoSize" title="${Previous}" tabindex="-1">
+    <button
+        is="paper-icon-button-light"
+        class="btnCancel autoSize"
+        title="${Previous}"
+        tabindex="-1"
+    >
         <span class="material-icons arrow_back" aria-hidden="true"></span>
     </button>
-    <h3 class="formDialogHeaderTitle">
-        ${HeaderAccessSchedule}
-    </h3>
+    <h3 class="formDialogHeaderTitle">${HeaderAccessSchedule}</h3>
 </div>
-<div class="formDialogContent scrollY" style="padding-top:2em;">
+<div class="formDialogContent scrollY" style="padding-top: 2em">
     <div class="dialogContentInner dialog-content-centered">
-        <form class="scheduleForm" style="margin:auto;">
-
+        <form class="scheduleForm" style="margin: auto">
             <div class="selectContainer">
-                <select is="emby-select" id="selectDay" label="${LabelAccessDay}">
+                <select
+                    is="jellyfin-select"
+                    id="selectDay"
+                    label="${LabelAccessDay}"
+                >
                     <option value="Sunday">${Sunday}</option>
                     <option value="Monday">${Monday}</option>
                     <option value="Tuesday">${Tuesday}</option>
@@ -25,14 +31,28 @@
                 </select>
             </div>
             <div class="selectContainer">
-                <select is="emby-select" class="selectHour" id="selectStart" label="${LabelAccessStart}"></select>
+                <select
+                    is="jellyfin-select"
+                    class="selectHour"
+                    id="selectStart"
+                    label="${LabelAccessStart}"
+                ></select>
             </div>
             <div class="selectContainer">
-                <select is="emby-select" class="selectHour" id="selectEnd" label="${LabelAccessEnd}"></select>
+                <select
+                    is="jellyfin-select"
+                    class="selectHour"
+                    id="selectEnd"
+                    label="${LabelAccessEnd}"
+                ></select>
             </div>
 
             <div class="formDialogFooter">
-                <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <button
+                    is="jellyfin-button"
+                    type="submit"
+                    class="raised button-submit block formDialogFooterItem"
+                >
                     <span>${Add}</span>
                 </button>
             </div>

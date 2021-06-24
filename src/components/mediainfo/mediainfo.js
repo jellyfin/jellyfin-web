@@ -6,7 +6,7 @@ import indicators from '../indicators/indicators';
 import 'material-design-icons-iconfont';
 import './mediainfo.scss';
 import '../guide/programs.scss';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 
 /* eslint-disable indent */
     function getTimerIndicator(item) {
@@ -70,7 +70,7 @@ import '../../elements/emby-button/emby-button';
         if (item.ChannelName) {
             if (options.interactive && item.ChannelId) {
                 miscInfo.push({
-                    html: `<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="${appRouter.getRouteUrl({
+                    html: `<a is="jellyfin-linkbutton" class="button-flat mediaInfoItem" href="${appRouter.getRouteUrl({
 
                         ServerId: item.ServerId,
                         Type: 'TvChannel',

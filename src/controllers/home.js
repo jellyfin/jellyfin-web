@@ -1,8 +1,8 @@
 import TabbedView from '../components/tabbedview/tabbedview';
 import globalize from '../scripts/globalize';
-import '../elements/emby-tabs/emby-tabs';
-import '../elements/emby-button/emby-button';
-import '../elements/emby-scroller/emby-scroller';
+import '../elements/jellyfin-tabs/jellyfin-tabs';
+import '../elements/jellyfin-button/jellyfin-button';
+import '../elements/jellyfin-scroller/jellyfin-scroller';
 import { appRouter } from '../components/appRouter';
 
 class HomeView extends TabbedView {

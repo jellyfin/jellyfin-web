@@ -6,7 +6,7 @@ import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../components/listview/listview.scss';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/jellyfin-button/jellyfin-button';
 
 /* eslint-disable indent */
 
@@ -42,17 +42,17 @@ import '../../../elements/emby-button/emby-button';
                 html += currentCategory;
                 html += '</h2>';
                 if (i === 0) {
-                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">' + globalize.translate('Help') + '</a>';
+                    html += '<a is="jellyfin-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">' + globalize.translate('Help') + '</a>';
                 }
                 html += '</div>';
                 html += '<div class="paperList">';
             }
             html += '<div class="listItem listItem-border scheduledTaskPaperIconItem" data-status="' + task.State + '">';
-            html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
+            html += "<a is='jellyfin-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
             html += '<span class="material-icons listItemIcon schedule"></span>';
             html += '</a>';
             html += '<div class="listItemBody two-line">';
-            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
+            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='jellyfin-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
             html += "<h3 class='listItemBodyText'>" + task.Name + '</h3>';
             html += "<div class='secondary listItemBodyText' id='taskProgress" + task.Id + "'>" + getTaskProgressHtml(task) + '</div>';
             html += '</a>';

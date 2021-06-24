@@ -1,11 +1,13 @@
-<form style="margin: 0 auto;">
+<form style="margin: 0 auto">
     <div class="verticalSection verticalSection-extrabottompadding">
-        <h2 class="sectionTitle">
-            ${HeaderAudioSettings}
-        </h2>
+        <h2 class="sectionTitle">${HeaderAudioSettings}</h2>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectAllowedAudioChannels" label="${LabelAllowedAudioChannels}">
+            <select
+                is="jellyfin-select"
+                id="selectAllowedAudioChannels"
+                label="${LabelAllowedAudioChannels}"
+            >
                 <option value="-1">${Auto}</option>
                 <option value="1">${LabelSelectMono}</option>
                 <option value="2">${LabelSelectStereo}</option>
@@ -15,108 +17,200 @@
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" id="selectAudioLanguage" label="${LabelAudioLanguagePreference}"></select>
+            <select
+                is="jellyfin-select"
+                id="selectAudioLanguage"
+                label="${LabelAudioLanguagePreference}"
+            ></select>
         </div>
 
         <label class="checkboxContainer">
-            <input type="checkbox" is="emby-checkbox" class="chkPlayDefaultAudioTrack" />
+            <input
+                type="checkbox"
+                is="jellyfin-checkbox"
+                class="chkPlayDefaultAudioTrack"
+            />
             <span>${LabelPlayDefaultAudioTrack}</span>
         </label>
     </div>
 
     <div class="qualitySections hide">
-        <div class="verticalSection verticalSection-extrabottompadding videoQualitySection hide">
-            <h2 class="sectionTitle">
-                ${HeaderVideoQuality}
-            </h2>
+        <div
+            class="
+                verticalSection verticalSection-extrabottompadding
+                videoQualitySection
+                hide
+            "
+        >
+            <h2 class="sectionTitle">${HeaderVideoQuality}</h2>
 
             <div class="selectContainer fldVideoInNetworkQuality hide">
-                <select is="emby-select" class="selectVideoInNetworkQuality" label="${LabelHomeNetworkQuality}"></select>
+                <select
+                    is="jellyfin-select"
+                    class="selectVideoInNetworkQuality"
+                    label="${LabelHomeNetworkQuality}"
+                ></select>
             </div>
 
             <div class="selectContainer fldVideoInternetQuality hide">
-                <select is="emby-select" class="selectVideoInternetQuality" label="${LabelInternetQuality}"></select>
+                <select
+                    is="jellyfin-select"
+                    class="selectVideoInternetQuality"
+                    label="${LabelInternetQuality}"
+                ></select>
             </div>
 
             <div class="selectContainer fldChromecastQuality hide">
-                <select is="emby-select" class="selectChromecastVideoQuality" label="${LabelMaxChromecastBitrate}"></select>
+                <select
+                    is="jellyfin-select"
+                    class="selectChromecastVideoQuality"
+                    label="${LabelMaxChromecastBitrate}"
+                ></select>
             </div>
         </div>
 
-        <div class="verticalSection verticalSection-extrabottompadding musicQualitySection hide">
-            <h2>
-                ${HeaderMusicQuality}
-            </h2>
+        <div
+            class="
+                verticalSection verticalSection-extrabottompadding
+                musicQualitySection
+                hide
+            "
+        >
+            <h2>${HeaderMusicQuality}</h2>
 
             <div class="selectContainer">
-                <select is="emby-select" class="selectMusicInternetQuality" label="${LabelInternetQuality}"></select>
+                <select
+                    is="jellyfin-select"
+                    class="selectMusicInternetQuality"
+                    label="${LabelInternetQuality}"
+                ></select>
             </div>
         </div>
     </div>
 
     <div class="verticalSection verticalSection-extrabottompadding">
-        <h2 class="sectionTitle">
-            ${TabAdvanced}
-        </h2>
+        <h2 class="sectionTitle">${TabAdvanced}</h2>
 
         <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
-                <input type="checkbox" is="emby-checkbox" class="chkPreferFmp4HlsContainer" />
+                <input
+                    type="checkbox"
+                    is="jellyfin-checkbox"
+                    class="chkPreferFmp4HlsContainer"
+                />
                 <span>${PreferFmp4HlsContainer}</span>
             </label>
-            <div class="fieldDescription checkboxFieldDescription">${PreferFmp4HlsContainerHelp}</div>
+            <div class="fieldDescription checkboxFieldDescription">
+                ${PreferFmp4HlsContainerHelp}
+            </div>
         </div>
 
-        <div class="checkboxContainer checkboxContainer-withDescription cinemaModeOptions">
+        <div
+            class="
+                checkboxContainer checkboxContainer-withDescription
+                cinemaModeOptions
+            "
+        >
             <label>
-                <input type="checkbox" is="emby-checkbox" class="chkEnableCinemaMode" />
+                <input
+                    type="checkbox"
+                    is="jellyfin-checkbox"
+                    class="chkEnableCinemaMode"
+                />
                 <span>${EnableCinemaMode}</span>
             </label>
-            <div class="fieldDescription checkboxFieldDescription">${CinemaModeConfigurationHelp}</div>
+            <div class="fieldDescription checkboxFieldDescription">
+                ${CinemaModeConfigurationHelp}
+            </div>
         </div>
 
         <div class="checkboxContainer fldEpisodeAutoPlay hide">
             <label>
-                <input type="checkbox" is="emby-checkbox" class="chkEpisodeAutoPlay" />
+                <input
+                    type="checkbox"
+                    is="jellyfin-checkbox"
+                    class="chkEpisodeAutoPlay"
+                />
                 <span>${PlayNextEpisodeAutomatically}</span>
             </label>
         </div>
 
-        <div class="checkboxContainer checkboxContainer-withDescription fldEnableNextVideoOverlay hide">
+        <div
+            class="
+                checkboxContainer checkboxContainer-withDescription
+                fldEnableNextVideoOverlay
+                hide
+            "
+        >
             <label>
-                <input type="checkbox" is="emby-checkbox" class="chkEnableNextVideoOverlay" />
+                <input
+                    type="checkbox"
+                    is="jellyfin-checkbox"
+                    class="chkEnableNextVideoOverlay"
+                />
                 <span>${EnableNextVideoInfoOverlay}</span>
             </label>
-            <div class="fieldDescription checkboxFieldDescription">${EnableNextVideoInfoOverlayHelp}</div>
+            <div class="fieldDescription checkboxFieldDescription">
+                ${EnableNextVideoInfoOverlayHelp}
+            </div>
         </div>
 
-        <div class="checkboxContainer fldExternalPlayer checkboxContainer-withDescription hide">
+        <div
+            class="
+                checkboxContainer
+                fldExternalPlayer
+                checkboxContainer-withDescription
+                hide
+            "
+        >
             <label>
-                <input type="checkbox" is="emby-checkbox" class="chkExternalVideoPlayer" />
+                <input
+                    type="checkbox"
+                    is="jellyfin-checkbox"
+                    class="chkExternalVideoPlayer"
+                />
                 <span>${EnableExternalVideoPlayers}</span>
             </label>
             <div class="fieldDescription checkboxFieldDescription">
-                <div class="labelNativeExternalPlayers">${EnableExternalVideoPlayersHelp}</div>
+                <div class="labelNativeExternalPlayers">
+                    ${EnableExternalVideoPlayersHelp}
+                </div>
             </div>
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" class="selectChromecastVersion" label="${LabelChromecastVersion}">
+            <select
+                is="jellyfin-select"
+                class="selectChromecastVersion"
+                label="${LabelChromecastVersion}"
+            >
                 <option value="stable">${LabelStable}</option>
                 <option value="unstable">${LabelUnstable}</option>
             </select>
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" class="selectSkipForwardLength" label="${LabelSkipForwardLength}"></select>
+            <select
+                is="jellyfin-select"
+                class="selectSkipForwardLength"
+                label="${LabelSkipForwardLength}"
+            ></select>
         </div>
 
         <div class="selectContainer">
-            <select is="emby-select" class="selectSkipBackLength" label="${LabelSkipBackLength}"></select>
+            <select
+                is="jellyfin-select"
+                class="selectSkipBackLength"
+                label="${LabelSkipBackLength}"
+            ></select>
         </div>
     </div>
 
-    <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
+    <button
+        is="jellyfin-button"
+        type="submit"
+        class="raised button-submit block btnSave hide"
+    >
         <span>${Save}</span>
     </button>
 </form>

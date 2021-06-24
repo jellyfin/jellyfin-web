@@ -6,7 +6,7 @@ import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import imageHelper from '../../scripts/imagehelper';
 import '../../components/cardbuilder/card.scss';
-import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
+import '../../elements/jellyfin-itemrefreshindicator/jellyfin-itemrefreshindicator';
 import Dashboard, { pageClassOn, pageIdOn } from '../../scripts/clientUtils';
 import confirm from '../../components/confirm/confirm';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
@@ -212,7 +212,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
     }
 
     function getLink(text, url) {
-        return globalize.translate(text, '<a is="emby-linkbutton" class="button-link" href="' + url + '" target="_blank" data-autohide="true">', '</a>');
+        return globalize.translate(text, '<a is="jellyfin-linkbutton" class="button-link" href="' + url + '" target="_blank" data-autohide="true">', '</a>');
     }
 
     function getCollectionTypeOptions() {
@@ -286,7 +286,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
         if (hasCardImageContainer) {
             html += '<div class="cardIndicators backdropCardIndicators">';
-            html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle' ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
+            html += '<div is="jellyfin-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle' ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
             html += '</div>';
             html += '</div>';
         }

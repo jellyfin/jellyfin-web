@@ -4,7 +4,7 @@ import dom from '../../../../scripts/dom';
 import globalize from '../../../../scripts/globalize';
 import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
 import '../../../../components/cardbuilder/card.scss';
-import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/jellyfin-button/jellyfin-button';
 import Dashboard, { pageIdOn } from '../../../../scripts/clientUtils';
 import confirm from '../../../../components/confirm/confirm';
 
@@ -64,9 +64,9 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += '<div class="cardContent">';
     if (configPageUrl) {
-        html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${configPageUrl}">`;
+        html += `<a class="cardImageContainer" is="jellyfin-linkbutton" style="margin:0;padding:0" href="${configPageUrl}">`;
     } else {
-        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button" style="margin:0;padding:0">';
+        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect jellyfin-button" style="margin:0;padding:0">';
     }
 
     if (plugin.HasImage) {
@@ -126,7 +126,7 @@ function populateList(page, plugins, pluginConfigurationPages) {
     } else {
         html += '<div class="centerMessage">';
         html += '<h1>' + globalize.translate('MessageNoPluginsInstalled') + '</h1>';
-        html += '<p><a is="emby-linkbutton" class="button-link" href="#!/availableplugins.html">';
+        html += '<p><a is="jellyfin-linkbutton" class="button-link" href="#!/availableplugins.html">';
         html += globalize.translate('MessageBrowsePluginCatalog');
         html += '</a></p>';
         html += '</div>';

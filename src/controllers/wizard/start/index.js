@@ -1,7 +1,7 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import '../../../elements/emby-button/emby-button';
-import '../../../elements/emby-select/emby-select';
+import '../../../elements/jellyfin-button/jellyfin-button';
+import '../../../elements/jellyfin-select/jellyfin-select';
 import Dashboard from '../../../scripts/clientUtils';
 
 function loadPage(page, config, languageOptions) {

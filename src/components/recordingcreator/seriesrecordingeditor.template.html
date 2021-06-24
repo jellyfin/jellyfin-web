@@ -1,16 +1,26 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
-    <h3 class="formDialogHeaderTitle">
-        ${HeaderSeriesOptions}
-    </h3>
+    <button
+        is="paper-icon-button-light"
+        class="btnCancel autoSize"
+        tabindex="-1"
+    >
+        <span class="material-icons arrow_back"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${HeaderSeriesOptions}</h3>
 </div>
 
 <div class="formDialogContent smoothScrollY">
-    <div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">
-
-        <form style="max-width: none;">
+    <div
+        class="dialogContentInner dialog-content-centered"
+        style="padding-top: 2em"
+    >
+        <form style="max-width: none">
             <div class="selectContainer">
-                <select is="emby-select" class="selectShowType" label="${LabelRecord}">
+                <select
+                    is="jellyfin-select"
+                    class="selectShowType"
+                    label="${LabelRecord}"
+                >
                     <option value="new">${NewEpisodesOnly}</option>
                     <option value="all">${AllEpisodes}</option>
                 </select>
@@ -18,36 +28,72 @@
 
             <div class="checkboxContainer checkboxContainer-withDescription">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkSkipEpisodesInLibrary" />
+                    <input
+                        type="checkbox"
+                        is="jellyfin-checkbox"
+                        class="chkSkipEpisodesInLibrary"
+                    />
                     <span>${SkipEpisodesAlreadyInMyLibrary}</span>
                 </label>
-                <div class="fieldDescription checkboxFieldDescription">${SkipEpisodesAlreadyInMyLibraryHelp}</div>
+                <div class="fieldDescription checkboxFieldDescription">
+                    ${SkipEpisodesAlreadyInMyLibraryHelp}
+                </div>
             </div>
 
             <div class="selectContainer">
-                <select is="emby-select" class="selectChannels" label="${LabelChannels}">
-                    <option class="optionChannelOnly" value="one">${OneChannel}</option>
+                <select
+                    is="jellyfin-select"
+                    class="selectChannels"
+                    label="${LabelChannels}"
+                >
+                    <option class="optionChannelOnly" value="one">
+                        ${OneChannel}
+                    </option>
                     <option value="all">${AllChannels}</option>
                 </select>
             </div>
 
             <div class="selectContainer">
-                <select is="emby-select" class="selectAirTime" label="${LabelAirTime}">
+                <select
+                    is="jellyfin-select"
+                    class="selectAirTime"
+                    label="${LabelAirTime}"
+                >
                     <option class="optionAroundTime" value="original"></option>
                     <option value="any">${Anytime}</option>
                 </select>
             </div>
 
             <div class="selectContainer">
-                <select is="emby-select" class="selectKeepUpTo" label="${LabelKeepUpTo}"></select>
+                <select
+                    is="jellyfin-select"
+                    class="selectKeepUpTo"
+                    label="${LabelKeepUpTo}"
+                ></select>
             </div>
 
             <div class="inputContainer">
                 <div class="flex align-items-center">
                     <div class="flex-grow">
-                        <input is="emby-input" type="number" id="txtPrePaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelStartWhenPossible}" />
+                        <input
+                            is="jellyfin-input"
+                            type="number"
+                            id="txtPrePaddingMinutes"
+                            pattern="[0-9]*"
+                            required="required"
+                            min="0"
+                            step="1"
+                            label="${LabelStartWhenPossible}"
+                        />
                     </div>
-                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.3em;">
+                    <div
+                        class="fieldDescription"
+                        style="
+                            margin-left: 0.5em;
+                            font-size: 90%;
+                            margin-top: 1.3em;
+                        "
+                    >
                         ${MinutesBefore}
                     </div>
                 </div>
@@ -55,9 +101,25 @@
             <div class="inputContainer">
                 <div class="flex align-items-center">
                     <div class="flex-grow">
-                        <input is="emby-input" type="number" id="txtPostPaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelStopWhenPossible}" />
+                        <input
+                            is="jellyfin-input"
+                            type="number"
+                            id="txtPostPaddingMinutes"
+                            pattern="[0-9]*"
+                            required="required"
+                            min="0"
+                            step="1"
+                            label="${LabelStopWhenPossible}"
+                        />
                     </div>
-                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.3em;">
+                    <div
+                        class="fieldDescription"
+                        style="
+                            margin-left: 0.5em;
+                            font-size: 90%;
+                            margin-top: 1.3em;
+                        "
+                    >
                         ${MinutesAfter}
                     </div>
                 </div>
@@ -65,14 +127,35 @@
             <br />
 
             <div class="formDialogFooter">
-                <button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit hide">
+                <button
+                    is="jellyfin-button"
+                    type="submit"
+                    class="
+                        raised
+                        btnSubmit
+                        block
+                        formDialogFooterItem
+                        button-submit
+                        hide
+                    "
+                >
                     <span>${Save}</span>
                 </button>
-                <button is="emby-button" type="button" class="raised btnCancelRecording block formDialogFooterItem button-cancel" style="white-space: nowrap;">
+                <button
+                    is="jellyfin-button"
+                    type="button"
+                    class="
+                        raised
+                        btnCancelRecording
+                        block
+                        formDialogFooterItem
+                        button-cancel
+                    "
+                    style="white-space: nowrap"
+                >
                     <span>${HeaderCancelRecording}</span>
                 </button>
             </div>
-
         </form>
     </div>
 </div>

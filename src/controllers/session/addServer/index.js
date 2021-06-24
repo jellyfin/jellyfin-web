@@ -1,7 +1,7 @@
 import appSettings from '../../../scripts/settings/appSettings';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/jellyfin-button/jellyfin-button';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';
 

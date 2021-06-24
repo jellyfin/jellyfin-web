@@ -2,7 +2,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 import './actionSheet.scss';
 import 'material-design-icons-iconfont';
 import '../../assets/css/scrollstyles.scss';
@@ -199,7 +199,7 @@ export function show(options) {
 
         // Check for null in case int 0 was passed in
         const optionId = item.id == null || item.id === '' ? item.value : item.id;
-        html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
+        html += '<button' + autoFocus + ' is="jellyfin-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
         itemIcon = icons[i];
 
@@ -230,7 +230,7 @@ export function show(options) {
 
     if (options.showCancel) {
         html += '<div class="buttons">';
-        html += `<button is="emby-button" type="button" class="btnCloseActionSheet">${globalize.translate('ButtonCancel')}</button>`;
+        html += `<button is="jellyfin-button" type="button" class="btnCloseActionSheet">${globalize.translate('ButtonCancel')}</button>`;
         html += '</div>';
     }
     html += '</div>';

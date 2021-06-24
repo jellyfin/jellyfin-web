@@ -7,7 +7,7 @@ import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import itemHelper from '../itemHelper';
 import './upnextdialog.scss';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
@@ -28,11 +28,11 @@ import '../../assets/css/flexstyles.scss';
 
         html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
 
-        html += '<button type="button" is="emby-button" class="raised raised-mini btnStartNow upNextDialog-button">';
+        html += '<button type="button" is="jellyfin-button" class="raised raised-mini btnStartNow upNextDialog-button">';
         html += globalize.translate('HeaderStartNow');
         html += '</button>';
 
-        html += '<button type="button" is="emby-button" class="raised raised-mini btnHide upNextDialog-button">';
+        html += '<button type="button" is="jellyfin-button" class="raised raised-mini btnHide upNextDialog-button">';
         html += globalize.translate('Hide');
         html += '</button>';
 

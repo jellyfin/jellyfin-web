@@ -106,7 +106,7 @@ import confirm from '../confirm/confirm';
                 cssClass += ' checkedInitial';
             }
             const checkedAttribute = isChecked ? ' checked' : '';
-            itemSelectionPanel.innerHTML = `<label class="checkboxContainer"><input type="checkbox" is="emby-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="${cssClass}"${checkedAttribute}/><span></span></label>`;
+            itemSelectionPanel.innerHTML = `<label class="checkboxContainer"><input type="checkbox" is="jellyfin-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="${cssClass}"${checkedAttribute}/><span></span></label>`;
             const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
             chkItemSelect.addEventListener('change', onSelectionChange);
         }
@@ -302,7 +302,7 @@ import confirm from '../confirm/confirm';
         const elems = [];
 
         [].forEach.call(selectedElements, i => {
-            const container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
+            const container = dom.parentWithAttribute(i, 'is', 'jellyfin-itemscontainer');
 
             if (container && !elems.includes(container)) {
                 elems.push(container);
@@ -338,7 +338,7 @@ import confirm from '../confirm/confirm';
     }
 
     function showSelections(initialCard) {
-        import('../../elements/emby-checkbox/emby-checkbox').then(() => {
+        import('../../elements/jellyfin-checkbox/jellyfin-checkbox').then(() => {
             const cards = document.querySelectorAll('.card');
             for (let i = 0, length = cards.length; i < length; i++) {
                 showSelection(cards[i], initialCard === cards[i]);

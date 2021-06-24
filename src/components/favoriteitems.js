@@ -6,7 +6,7 @@ import imageLoader from './images/imageLoader';
 import globalize from '../scripts/globalize';
 import layoutManager from './layoutManager';
 import '../assets/css/scrollstyles.scss';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -141,7 +141,7 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 
             if (result.Items.length) {
                 if (html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', !layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                    html += '<a is="emby-linkbutton" href="' + ('#!/list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                    html += '<a is="jellyfin-linkbutton" href="' + ('#!/list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate(section.name);
                     html += '</h2>';
@@ -158,9 +158,9 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
                         scrollXClass += ' smoothScrollX';
                     }
 
-                    html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+                    html += '<div is="jellyfin-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
                 } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+                    html += '<div is="jellyfin-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
                 }
 
                 let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;

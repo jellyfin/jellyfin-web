@@ -2,7 +2,7 @@ import datetime from '../../scripts/datetime';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 import confirm from '../../components/confirm/confirm';
 import { pageIdOn } from '../../scripts/clientUtils';
 
@@ -25,7 +25,7 @@ import { pageIdOn } from '../../scripts/clientUtils';
             let html = '';
             html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
             html += '<td class="detailTableBodyCell">';
-            html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
+            html += '<button type="button" is="jellyfin-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
             html += '</td>';
             html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
             html += item.AccessToken;

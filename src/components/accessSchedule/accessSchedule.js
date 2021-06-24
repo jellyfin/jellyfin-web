@@ -9,8 +9,8 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-select/jellyfin-select';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import '../formdialog.scss';
 import template from './accessSchedule.template.html';
 

@@ -5,7 +5,7 @@ import libraryMenu from './libraryMenu';
 import libraryBrowser from './libraryBrowser';
 import imageLoader from '../components/images/imageLoader';
 import * as userSettings from './settings/userSettings';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 import Dashboard from './clientUtils';
 
 export default function (view) {

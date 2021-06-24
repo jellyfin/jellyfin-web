@@ -1,20 +1,44 @@
-<div data-role="page" id="forgotPasswordPage" class="page standalonePage forgotPasswordPage">
+<div
+    data-role="page"
+    id="forgotPasswordPage"
+    class="page standalonePage forgotPasswordPage"
+>
     <div class="padded-left padded-right padded-bottom-page">
-        <form class="forgotPasswordForm" style="text-align: center; margin: 0 auto;">
-            <div style="text-align: left;">
+        <form
+            class="forgotPasswordForm"
+            style="text-align: center; margin: 0 auto"
+        >
+            <div style="text-align: left">
                 <h1>${ButtonForgotPassword}</h1>
 
                 <div class="inputContainer">
-                    <input is="emby-input" type="text" id="txtName" label="${LabelUser}" autocomplete="off"/>
-                    <div class="fieldDescription">${LabelForgotPasswordUsernameHelp}</div>
+                    <input
+                        is="jellyfin-input"
+                        type="text"
+                        id="txtName"
+                        label="${LabelUser}"
+                        autocomplete="off"
+                    />
+                    <div class="fieldDescription">
+                        ${LabelForgotPasswordUsernameHelp}
+                    </div>
                 </div>
 
                 <div>
-                    <button is="emby-button" type="submit" class="raised submit block">
+                    <button
+                        is="jellyfin-button"
+                        type="submit"
+                        class="raised submit block"
+                    >
                         <span>${ButtonSubmit}</span>
                     </button>
 
-                    <button is="emby-button" type="button" class="raised cancel block btnCancel" onclick="history.back();">
+                    <button
+                        is="jellyfin-button"
+                        type="button"
+                        class="raised cancel block btnCancel"
+                        onclick="history.back();"
+                    >
                         <span>${ButtonCancel}</span>
                     </button>
                 </div>

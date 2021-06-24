@@ -1,18 +1,37 @@
-<div id="scheduledTaskPage" data-role="page" class="page type-interior scheduledTasksConfigurationPage">
+<div
+    id="scheduledTaskPage"
+    data-role="page"
+    class="page type-interior scheduledTasksConfigurationPage"
+>
     <div>
         <div class="content-primary">
             <div class="verticalSection">
                 <div class="sectionTitleContainer flex align-items-center">
                     <h2 class="sectionTitle taskName"></h2>
-                    <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">${Help}</a>
+                    <a
+                        is="jellyfin-linkbutton"
+                        rel="noopener noreferrer"
+                        class="raised button-alt headerHelpButton"
+                        target="_blank"
+                        href="https://docs.jellyfin.org/general/server/tasks.html"
+                        >${Help}</a
+                    >
                 </div>
                 <p id="pTaskDescription"></p>
             </div>
 
             <div class="readOnlyContent">
                 <div>
-                    <h2 style="vertical-align: middle; display: inline-block;">${HeaderTaskTriggers}</h2>
-                    <button is="emby-button" type="button" class="fab fab-mini btnAddTrigger submit" style="margin-left: 1em;" title="${ButtonAddScheduledTaskTrigger}">
+                    <h2 style="vertical-align: middle; display: inline-block">
+                        ${HeaderTaskTriggers}
+                    </h2>
+                    <button
+                        is="jellyfin-button"
+                        type="button"
+                        class="fab fab-mini btnAddTrigger submit"
+                        style="margin-left: 1em"
+                        title="${ButtonAddScheduledTaskTrigger}"
+                    >
                         <span class="material-icons add"></span>
                     </button>
                 </div>
@@ -20,22 +39,41 @@
             </div>
         </div>
     </div>
-    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
-        <form class="addTriggerForm" style="padding:1em;">
+    <div
+        data-role="popup"
+        id="popupAddTrigger"
+        class="dialog dialog-fixedSize dialog-medium hide"
+        style="position: fixed; top: 10%"
+    >
+        <form class="addTriggerForm" style="padding: 1em">
             <div class="ui-bar-a">
                 <h3>${ButtonAddScheduledTaskTrigger}</h3>
             </div>
             <div data-role="content">
                 <div class="selectContainer">
-                    <select is="emby-select" id="selectTriggerType" class="selectTriggerType" label="${LabelTriggerType}">
+                    <select
+                        is="jellyfin-select"
+                        id="selectTriggerType"
+                        class="selectTriggerType"
+                        label="${LabelTriggerType}"
+                    >
                         <option value="DailyTrigger">${OptionDaily}</option>
                         <option value="WeeklyTrigger">${OptionWeekly}</option>
-                        <option value="IntervalTrigger">${OptionOnInterval}</option>
-                        <option value="StartupTrigger">${OnApplicationStartup}</option>
+                        <option value="IntervalTrigger">
+                            ${OptionOnInterval}
+                        </option>
+                        <option value="StartupTrigger">
+                            ${OnApplicationStartup}
+                        </option>
                     </select>
                 </div>
                 <div id="fldDayOfWeek" class="selectContainer">
-                    <select is="emby-select" id="selectDayOfWeek" name="selectDayOfWeek" label="${LabelDay}">
+                    <select
+                        is="jellyfin-select"
+                        id="selectDayOfWeek"
+                        name="selectDayOfWeek"
+                        label="${LabelDay}"
+                    >
                         <option value="Sunday">${Sunday}</option>
                         <option value="Monday">${Monday}</option>
                         <option value="Tuesday">${Tuesday}</option>
@@ -46,15 +84,30 @@
                     </select>
                 </div>
                 <div id="fldTimeOfDay" class="selectContainer">
-                    <select is="emby-select" id="selectTimeOfDay" label="${LabelTime}"></select>
+                    <select
+                        is="jellyfin-select"
+                        id="selectTimeOfDay"
+                        label="${LabelTime}"
+                    ></select>
                 </div>
                 <div id="fldSelectSystemEvent" class="selectContainer">
-                    <select is="emby-select" id="selectSystemEvent" name="selectSystemEvent" label="${LabelEvent}">
-                        <option value="WakeFromSleep">${OptionWakeFromSleep}</option>
+                    <select
+                        is="jellyfin-select"
+                        id="selectSystemEvent"
+                        name="selectSystemEvent"
+                        label="${LabelEvent}"
+                    >
+                        <option value="WakeFromSleep">
+                            ${OptionWakeFromSleep}
+                        </option>
                     </select>
                 </div>
                 <div id="fldSelectInterval" class="selectContainer">
-                    <select is="emby-select" id="selectInterval" label="${LabelEveryXMinutes}">
+                    <select
+                        is="jellyfin-select"
+                        id="selectInterval"
+                        label="${LabelEveryXMinutes}"
+                    >
                         <option value="9000000000">15 minutes</option>
                         <option value="18000000000">30 minutes</option>
                         <option value="27000000000">45 minutes</option>
@@ -69,13 +122,32 @@
                     </select>
                 </div>
                 <div class="inputContainer">
-                    <input is="emby-input" id="txtTimeLimit" type="number" pattern="[0-9]*" min="1" step=".5" label="${LabelTimeLimitHours}" />
+                    <input
+                        is="jellyfin-input"
+                        id="txtTimeLimit"
+                        type="number"
+                        pattern="[0-9]*"
+                        min="1"
+                        step=".5"
+                        label="${LabelTimeLimitHours}"
+                    />
                 </div>
                 <div>
-                    <button is="emby-button" type="submit" class="raised button-submit block" data-icon="check">
+                    <button
+                        is="jellyfin-button"
+                        type="submit"
+                        class="raised button-submit block"
+                        data-icon="check"
+                    >
                         <span>${Add}</span>
                     </button>
-                    <button is="emby-button" type="button" class="raised button-cancel block" data-icon="delete" onclick="$(this).parents('.dialog').addClass('hide');">
+                    <button
+                        is="jellyfin-button"
+                        type="button"
+                        class="raised button-cancel block"
+                        data-icon="delete"
+                        onclick="$(this).parents('.dialog').addClass('hide');"
+                    >
                         <span>${ButtonCancel}</span>
                     </button>
                 </div>

@@ -71,9 +71,9 @@ function getTimersHtml(timers, options) {
             if (layoutManager.tv) {
                 scrollXClass += ' smoothScrollX';
             }
-            html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
 
         html += cardBuilder.getCardsHtml({

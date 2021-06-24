@@ -5,10 +5,10 @@ import imageLoader from '../images/imageLoader';
 import globalize from '../../scripts/globalize';
 import { appRouter } from '../appRouter';
 import imageHelper from '../../scripts/imagehelper';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
+import '../../elements/jellyfin-scroller/jellyfin-scroller';
+import '../../elements/jellyfin-button/jellyfin-button';
 import './homesections.scss';
 import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../ServerConnections';
@@ -190,13 +190,13 @@ import ServerConnections from '../ServerConnections';
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
 
-        html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
+        html += '<div is="jellyfin-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
 
         // library card background images
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];
             const icon = imageHelper.getLibraryIcon(item.CollectionType);
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
+            html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
 
         html += '</div>';
@@ -281,7 +281,7 @@ import ServerConnections from '../ServerConnections';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(parent, {
+            html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl(parent, {
                 section: 'latest'
             }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
@@ -295,10 +295,10 @@ import ServerConnections from '../ServerConnections';
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+            html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
         }
 
         if (enableScrollX()) {
@@ -342,10 +342,10 @@ import ServerConnections from '../ServerConnections';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
             if (enableScrollX()) {
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+                html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+                html += '<div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
             } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
+                html += '<div is="jellyfin-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
             }
 
             html += cardBuilder.getCardsHtml({
@@ -381,10 +381,10 @@ import ServerConnections from '../ServerConnections';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate(headerText) + '</h2>';
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += `<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="${dataMonitor}">`;
+            html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += `<div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="${dataMonitor}">`;
         } else {
-            html += `<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="${dataMonitor}">`;
+            html += `<div is="jellyfin-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="${dataMonitor}">`;
         }
 
         if (enableScrollX()) {
@@ -513,32 +513,32 @@ import ServerConnections from '../ServerConnections';
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true" data-scrollbuttons="false">';
+                    html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true" data-scrollbuttons="false">';
                     html += '<div class="padded-top padded-bottom scrollSlider focuscontainer-x">';
                 } else {
                     html += '<div class="padded-top padded-bottom focuscontainer-x">';
                 }
 
-                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                     serverId: apiClient.serverId(),
                     section: 'programs'
                 }) + '" class="raised"><span>' + globalize.translate('Programs') + '</span></a>';
 
-                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                     serverId: apiClient.serverId(),
                     section: 'guide'
                 }) + '" class="raised"><span>' + globalize.translate('Guide') + '</span></a>';
 
-                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
+                html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
                     serverId: apiClient.serverId()
                 }) + '" class="raised"><span>' + globalize.translate('Recordings') + '</span></a>';
 
-                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                     serverId: apiClient.serverId(),
                     section: 'dvrschedule'
                 }) + '" class="raised"><span>' + globalize.translate('Schedule') + '</span></a>';
 
-                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                     serverId: apiClient.serverId(),
                     section: 'seriesrecording'
                 }) + '" class="raised"><span>' + globalize.translate('Series') + '</span></a>';
@@ -554,7 +554,7 @@ import ServerConnections from '../ServerConnections';
                 html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
                 if (!layoutManager.tv) {
-                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                    html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                         serverId: apiClient.serverId(),
                         section: 'onnow'
                     }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
@@ -569,10 +569,10 @@ import ServerConnections from '../ServerConnections';
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                    html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+                    html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+                    html += '<div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
                 } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+                    html += '<div is="jellyfin-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
 
                 if (enableScrollX()) {
@@ -630,7 +630,7 @@ import ServerConnections from '../ServerConnections';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
+            html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
                 serverId: apiClient.serverId()
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
@@ -644,10 +644,10 @@ import ServerConnections from '../ServerConnections';
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+            html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
         }
 
         if (enableScrollX()) {
@@ -715,10 +715,10 @@ import ServerConnections from '../ServerConnections';
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+            html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
         }
 
         if (enableScrollX()) {

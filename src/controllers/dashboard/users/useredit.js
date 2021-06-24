@@ -18,13 +18,13 @@ import toast from '../../../components/toast/toast';
             for (const folder of mediaFolders) {
                 isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
-                html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
+                html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
             for (const folder of channelsResult.Items) {
                 isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
-                html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
+                html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
             $('.deleteAccess', page).html(html).trigger('create');

@@ -3,7 +3,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import '../../scripts/livetvcomponents';
 import '../../components/listview/listview.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 import Dashboard from '../../scripts/clientUtils';
 
 function renderRecordings(elem, recordings, cardOptions, scrollX) {

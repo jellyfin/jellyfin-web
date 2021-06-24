@@ -1,8 +1,8 @@
 import dom from '../scripts/dom';
 import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
-import '../elements/emby-tabs/emby-tabs';
-import '../elements/emby-button/emby-button';
+import '../elements/jellyfin-tabs/jellyfin-tabs';
+import '../elements/jellyfin-button/jellyfin-button';
 
 /* eslint-disable indent */
 
@@ -111,8 +111,8 @@ import '../elements/emby-button/emby-button';
             let index = 0;
 
             const indexAttribute = selectedIndex == null ? '' : (' data-index="' + selectedIndex + '"');
-            const tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
-                let tabClass = 'emby-tab-button';
+            const tabsHtml = '<div is="jellyfin-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="jellyfin-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
+                let tabClass = 'jellyfin-tab-button';
 
                 if (t.enabled === false) {
                     tabClass += ' hide';
@@ -125,9 +125,9 @@ import '../elements/emby-button/emby-button';
                 }
 
                 if (t.href) {
-                    tabHtml = '<a href="' + t.href + '" is="emby-linkbutton" class="' + tabClass + '" data-index="' + index + '"><div class="emby-button-foreground">' + t.name + '</div></a>';
+                    tabHtml = '<a href="' + t.href + '" is="jellyfin-linkbutton" class="' + tabClass + '" data-index="' + index + '"><div class="jellyfin-button-foreground">' + t.name + '</div></a>';
                 } else {
-                    tabHtml = '<button type="button" is="emby-button" class="' + tabClass + '" data-index="' + index + '"><div class="emby-button-foreground">' + t.name + '</div></button>';
+                    tabHtml = '<button type="button" is="jellyfin-button" class="' + tabClass + '" data-index="' + index + '"><div class="jellyfin-button-foreground">' + t.name + '</div></button>';
                 }
 
                 index++;
@@ -140,7 +140,7 @@ import '../elements/emby-button/emby-button';
             document.body.classList.add('withSectionTabs');
             tabOwnerView = view;
 
-            tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
+            tabsElem = tabsContainerElem.querySelector('[is="jellyfin-tabs"]');
 
             configureSwipeTabs(view, tabsElem);
 
@@ -178,13 +178,13 @@ import '../elements/emby-button/emby-button';
 
             return {
                 tabsContainer: tabsContainerElem,
-                tabs: tabsContainerElem.querySelector('[is="emby-tabs"]'),
+                tabs: tabsContainerElem.querySelector('[is="jellyfin-tabs"]'),
                 replaced: true
             };
         }
 
         if (!tabsElem) {
-            tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
+            tabsElem = tabsContainerElem.querySelector('[is="jellyfin-tabs"]');
         }
 
         tabsElem.selectedIndex(selectedIndex);
@@ -201,7 +201,7 @@ import '../elements/emby-button/emby-button';
         const tabsContainerElem = headerTabsContainer;
 
         if (!tabsElem) {
-            tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
+            tabsElem = tabsContainerElem.querySelector('[is="jellyfin-tabs"]');
         }
 
         if (index != null) {

@@ -10,7 +10,7 @@ html {
     background-color: #303030;
 }
 
-.emby-collapsible-button {
+.jellyfin-collapsible-button {
     border-color: #ccc;
     border-color: rgba(0, 0, 0, 0.158);
 }
@@ -274,8 +274,8 @@ html {
     background: #fff;
 }
 
-.emby-input,
-.emby-textarea {
+.jellyfin-input,
+.jellyfin-textarea {
     color: inherit;
     background: rgba(255, 255, 255, 0.9);
     border: 0.16em solid rgba(0, 0, 0, 0.158);
@@ -283,27 +283,27 @@ html {
     border-radius: 0.2em;
 }
 
-.emby-input:focus,
-.emby-textarea:focus {
+.jellyfin-input:focus,
+.jellyfin-textarea:focus {
     border-color: #00a4dc;
 }
 
-.emby-select-withcolor {
+.jellyfin-select-withcolor {
     color: inherit;
     background: rgba(255, 255, 255, 0.9);
     border: 0.07em solid rgba(0, 0, 0, 0.158);
 }
 
-.emby-checkbox:checked + span + .checkboxOutline,
-.emby-select-withcolor:focus {
+.jellyfin-checkbox:checked + span + .checkboxOutline,
+.jellyfin-select-withcolor:focus {
     border-color: #00a4dc;
 }
 
-.emby-checkbox:focus + span + .checkboxOutline {
+.jellyfin-checkbox:focus + span + .checkboxOutline {
     border-color: #fff;
 }
 
-.emby-checkbox:checked + span + .checkboxOutline {
+.jellyfin-checkbox:checked + span + .checkboxOutline {
     background-color: #00a4dc;
 }
 
@@ -321,16 +321,16 @@ html {
     margin: 0.4rem 0.5rem 0.4rem 0.5rem;
 }
 
-.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
+.jellyfin-checkbox:focus:not(:checked) + span + .checkboxOutline {
     border-color: #00a4dc;
 }
 
-.emby-select-withcolor > option {
+.jellyfin-select-withcolor > option {
     color: #000;
     background: #fff;
 }
 
-.emby-select-tv-withcolor:focus {
+.jellyfin-select-tv-withcolor:focus {
     background-color: #00a4dc;
     color: #fff;
 }
@@ -362,24 +362,24 @@ html {
     color: #fff;
 }
 
-.emby-button.show-focus:focus {
+.jellyfin-button.show-focus:focus {
     background: #00a4dc;
     color: #fff;
 }
 
-.emby-tab-button {
+.jellyfin-tab-button {
     color: #999;
 }
 
-.emby-tab-button-active {
+.jellyfin-tab-button-active {
     color: #fff;
 }
 
-.emby-tab-button.show-focus:focus {
+.jellyfin-tab-button.show-focus:focus {
     color: #fff;
 }
 
-.emby-tab-button:hover {
+.jellyfin-tab-button:hover {
     color: #fff;
 }
 
@@ -430,7 +430,7 @@ html {
     color: rgba(0, 0, 0, 0.54);
 }
 
-.guide-date-tab-button.emby-tab-button-active,
+.guide-date-tab-button.jellyfin-tab-button-active,
 .guide-date-tab-button:focus {
     color: #00a4dc;
 }

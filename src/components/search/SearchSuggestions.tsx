@@ -4,14 +4,14 @@ import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
 
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 
 // There seems to be some compatibility issues here between
 // React and our legacy web components, so we need to inject
 // them as an html string for now =/
 const createSuggestionLink = ({name, href}) => ({
     __html: `<a
-    is='emby-linkbutton'
+    is='jellyfin-linkbutton'
     class='button-link'
     style='display: inline-block; padding: 0.5em 1em;'
     href='${href}'

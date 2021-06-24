@@ -19,13 +19,13 @@ import globalize from '../../scripts/globalize';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import '../../assets/css/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-playstatebutton/emby-playstatebutton';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-playstatebutton/jellyfin-playstatebutton';
+import '../../elements/jellyfin-ratingbutton/jellyfin-ratingbutton';
+import '../../elements/jellyfin-scroller/jellyfin-scroller';
+import '../../elements/jellyfin-select/jellyfin-select';
 import itemShortcuts from '../../components/shortcuts';
 import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../../components/ServerConnections';
@@ -89,7 +89,7 @@ function getContextMenuOptions(item, user, button) {
 function getProgramScheduleHtml(items) {
     let html = '';
 
-    html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
+    html += '<div is="jellyfin-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
     html += listView.getListViewHtml({
         items: items,
         enableUserDataButtons: false,
@@ -411,7 +411,7 @@ function getArtistLinksHtml(artists, serverId, context) {
             itemType: 'MusicArtist',
             serverId: serverId
         });
-        html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
+        html.push('<a style="color:inherit;" class="button-link" is="jellyfin-linkbutton" href="' + href + '">' + artist.Name + '</a>');
     }
 
     return html.join(' / ');
@@ -444,7 +444,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="jellyfin-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(item.Name);
     }
@@ -459,7 +459,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="jellyfin-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
         parentRoute = appRouter.getRouteUrl({
             Id: item.SeasonId,
@@ -470,7 +470,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="jellyfin-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
@@ -483,7 +483,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="jellyfin-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
     } else if (item.Album) {
         parentNameHtml.push(item.Album);
     }
@@ -703,7 +703,7 @@ function reloadFromItem(instance, page, params, item, user) {
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
         let location = item.ProductionLocations[0];
         if (!layoutManager.tv && appHost.supports('externallinks')) {
-            location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
+            location = `<a is="jellyfin-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
         }
         itemBirthLocation.classList.remove('hide');
         itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', location);
@@ -779,12 +779,12 @@ function renderLinks(page, item) {
     const links = [];
 
     if (!layoutManager.tv && item.HomePageUrl) {
-        links.push(`<a is="emby-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        links.push(`<a is="jellyfin-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
     }
 
     if (item.ExternalUrls) {
         for (const url of item.ExternalUrls) {
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${url.Name}</a>`);
+            links.push(`<a is="jellyfin-linkbutton" class="button-link" href="${url.Url}" target="_blank">${url.Name}</a>`);
         }
     }
 
@@ -985,7 +985,7 @@ function renderGenres(page, item, context = inferContext(item)) {
     const type = context === 'music' ? 'MusicGenre' : 'Genre';
 
     const html = genres.map(function (p) {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+        return '<a style="color:inherit;" class="button-link" is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl({
             Name: p.Name,
             Type: type,
             ServerId: item.ServerId,
@@ -1014,7 +1014,7 @@ function renderWriter(page, item, context) {
     });
 
     const html = writers.map(function (person) {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+        return '<a style="color:inherit;" class="button-link" is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl({
             Name: person.Name,
             Type: 'Person',
             ServerId: item.ServerId,
@@ -1043,7 +1043,7 @@ function renderDirector(page, item, context) {
     });
 
     const html = directors.map(function (person) {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+        return '<a style="color:inherit;" class="button-link" is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl({
             Name: person.Name,
             Type: 'Person',
             ServerId: item.ServerId,
@@ -1188,7 +1188,7 @@ function renderMoreFromSeason(view, item, apiClient) {
 
             if (card) {
                 setTimeout(function () {
-                    section.querySelector('.emby-scroller').toStart(card.previousSibling || card, true);
+                    section.querySelector('.jellyfin-scroller').toStart(card.previousSibling || card, true);
                 }, 100);
             }
         });
@@ -1331,7 +1331,7 @@ function renderSeriesAirTime(page, item, isStatic) {
                 itemType: 'Studio',
                 serverId: item.ServerId
             });
-            html += ' on <a class="textlink button-link" is="emby-linkbutton" href="' + href + '">' + item.Studios[0].Name + '</a>';
+            html += ' on <a class="textlink button-link" is="jellyfin-linkbutton" href="' + href + '">' + item.Studios[0].Name + '</a>';
         }
     }
     if (html) {
@@ -1539,7 +1539,7 @@ function renderChildren(page, item) {
 }
 
 function renderItemsByName(page, item) {
-    import('../../scripts/itembynamedetailpage').then(() => {
+    import('../../scripts/itjellyfinnamedetailpage').then(() => {
         window.ItemsByName.renderItems(page, item);
     });
 }
@@ -1567,7 +1567,7 @@ function renderProgramsForChannel(page, result) {
                     month: 'long',
                     day: 'numeric'
                 }) + '</h2>';
-                html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
+                html += '<div is="jellyfin-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
                     items: currentItems,
                     enableUserDataButtons: false,
                     showParentTitle: true,
@@ -1592,7 +1592,7 @@ function renderProgramsForChannel(page, result) {
             month: 'long',
             day: 'numeric'
         }) + '</h2>';
-        html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
+        html += '<div is="jellyfin-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
             items: currentItems,
             enableUserDataButtons: false,
             showParentTitle: true,
@@ -1762,7 +1762,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
     html += '<span>' + type.name + '</span>';
     html += '</h2>';
     html += '</div>';
-    html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
+    html += '<div is="jellyfin-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
     const shape = type.type == 'MusicAlbum' ? getSquareShape(false) : getPortraitShape(false);
     html += cardBuilder.getCardsHtml({
         items: items,

@@ -2,9 +2,9 @@ import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
 import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
-import '../../../../elements/emby-button/emby-button';
-import '../../../../elements/emby-checkbox/emby-checkbox';
-import '../../../../elements/emby-select/emby-select';
+import '../../../../elements/jellyfin-button/jellyfin-button';
+import '../../../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../../../elements/jellyfin-select/jellyfin-select';
 import '../../../../components/formdialog.scss';
 import '../../../../components/listview/listview.scss';
 
@@ -64,7 +64,7 @@ function getRepositoryHtml(repository) {
     let html = '';
 
     html += '<div class="listItem listItem-border">';
-    html += `<a is="emby-linkbutton" style="margin:0;padding:0" class="clearLink listItemIconContainer" href="${repository.Url}">`;
+    html += `<a is="jellyfin-linkbutton" style="margin:0;padding:0" class="clearLink listItemIconContainer" href="${repository.Url}">`;
     html += '<span class="material-icons listItemIcon open_in_new"></span>';
     html += '</a>';
     html += '<div class="listItemBody two-line">';
@@ -122,14 +122,14 @@ export default function(view) {
         html += '</div>';
         html += '<form class="newPluginForm" style="margin:4em">';
         html += '<div class="inputContainer">';
-        html += `<input is="emby-input" id="txtRepositoryName" label="${globalize.translate('LabelRepositoryName')}" type="text" required />`;
+        html += `<input is="jellyfin-input" id="txtRepositoryName" label="${globalize.translate('LabelRepositoryName')}" type="text" required />`;
         html += `<div class="fieldDescription">${globalize.translate('LabelRepositoryNameHelp')}</div>`;
         html += '</div>';
         html += '<div class="inputContainer">';
-        html += `<input is="emby-input" id="txtRepositoryUrl" label="${globalize.translate('LabelRepositoryUrl')}" type="url" required />`;
+        html += `<input is="jellyfin-input" id="txtRepositoryUrl" label="${globalize.translate('LabelRepositoryUrl')}" type="url" required />`;
         html += `<div class="fieldDescription">${globalize.translate('LabelRepositoryUrlHelp')}</div>`;
         html += '</div>';
-        html += `<button is="emby-button" type="submit" class="raised button-submit block"><span>${globalize.translate('Save')}</span></button>`;
+        html += `<button is="jellyfin-button" type="submit" class="raised button-submit block"><span>${globalize.translate('Save')}</span></button>`;
         html += '</div>';
         html += '</form>';
 

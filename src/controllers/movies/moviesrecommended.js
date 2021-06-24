@@ -10,10 +10,10 @@ import dom from '../../scripts/dom';
 import imageLoader from '../../components/images/imageLoader';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-scroller/jellyfin-scroller';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
+import '../../elements/jellyfin-tabs/jellyfin-tabs';
+import '../../elements/jellyfin-button/jellyfin-button';
 import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
@@ -131,10 +131,10 @@ import Dashboard from '../../scripts/clientUtils';
         const allowBottomPadding = true;
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+            html += '<div is="jellyfin-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
+            html += '<div is="jellyfin-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
         }
 
         html += cardBuilder.getCardsHtml(recommendation.Items, {

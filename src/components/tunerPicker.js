@@ -8,8 +8,8 @@ import focusManager from './focusManager';
 import scrollHelper from '../scripts/scrollHelper';
 import 'material-design-icons-iconfont';
 import './formdialog.scss';
-import '../elements/emby-button/emby-button';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/jellyfin-button/jellyfin-button';
+import '../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 import './cardbuilder/card.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
@@ -23,7 +23,7 @@ function getEditorHtml() {
     html += '<p>' + globalize.translate('MessagePleaseWait') + '</p>';
     html += '</div>';
     html += '<h1 style="margin-bottom:.25em;" class="devicesHeader hide">' + globalize.translate('HeaderNewDevices') + '</h1>';
-    html += '<div is="emby-itemscontainer" class="results vertical-wrap">';
+    html += '<div is="jellyfin-itemscontainer" class="results vertical-wrap">';
     html += '</div>';
     html += '</div>';
     return html += '</div>';

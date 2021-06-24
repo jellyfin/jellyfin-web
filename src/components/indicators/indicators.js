@@ -1,6 +1,6 @@
 import datetime from '../../scripts/datetime';
 import itemHelper from '../itemHelper';
-import '../../elements/emby-progressbar/emby-progressbar';
+import '../../elements/jellyfin-progressbar/jellyfin-progressbar';
 import './indicators.scss';
 import 'material-design-icons-iconfont';
 
@@ -36,7 +36,7 @@ function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
         foregroundClass += ' itemProgressBarForeground-recording';
     }
 
-    return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
+    return '<div is="jellyfin-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
 }
 
 export function getProgressBarHtml(item, options) {

@@ -1,11 +1,11 @@
 import 'jquery';
 import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-textarea/emby-textarea';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-textarea/jellyfin-textarea';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-select/jellyfin-select';
+import '../../elements/jellyfin-button/jellyfin-button';
 import Dashboard from '../../scripts/clientUtils';
 import alert from '../../components/alert';
 

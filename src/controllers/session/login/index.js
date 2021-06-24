@@ -7,7 +7,7 @@ import libraryMenu from '../../../scripts/libraryMenu';
 import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import '../../../components/cardbuilder/card.scss';
-import '../../../elements/emby-checkbox/emby-checkbox';
+import '../../../elements/jellyfin-checkbox/jellyfin-checkbox';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';

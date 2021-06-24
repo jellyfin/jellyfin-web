@@ -12,9 +12,9 @@ import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import '../formdialog.scss';
 import 'material-design-icons-iconfont';
 import '../cardbuilder/card.scss';
@@ -301,7 +301,7 @@ import template from './itemidentifier.template.html';
 
                 const idLabel = globalize.translate('LabelDynamicExternalId', fullName);
 
-                html += `<input is="emby-input" class="txtLookupId" data-providerkey="${idInfo.Key}" id="${id}" label="${idLabel}"/>`;
+                html += `<input is="jellyfin-input" class="txtLookupId" data-providerkey="${idInfo.Key}" id="${id}" label="${idLabel}"/>`;
 
                 html += '</div>';
             }

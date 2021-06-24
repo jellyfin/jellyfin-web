@@ -3,11 +3,11 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
 import '../listview/listview.scss';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import './directorybrowser.scss';
 import '../formdialog.scss';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 import alert from '../alert';
 
 /* eslint-disable indent */
@@ -123,10 +123,10 @@ import alert from '../alert';
             labelKey = 'LabelPath';
         }
         const readOnlyAttribute = options.pathReadOnly ? ' readonly' : '';
-        html += `<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ${readOnlyAttribute} label="${globalize.translate(labelKey)}"/>`;
+        html += `<input is="jellyfin-input" id="txtDirectoryPickerPath" type="text" required="required" ${readOnlyAttribute} label="${globalize.translate(labelKey)}"/>`;
         html += '</div>';
         if (!readOnlyAttribute) {
-            html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
+            html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories jellyfin-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
         }
         html += '</div>';
         if (!readOnlyAttribute) {
@@ -134,14 +134,14 @@ import alert from '../alert';
         }
         if (options.enableNetworkSharePath) {
             html += '<div class="inputContainer" style="margin-top:2em;">';
-            html += `<input is="emby-input" id="txtNetworkPath" type="text" label="${globalize.translate('LabelOptionalNetworkPath')}"/>`;
+            html += `<input is="jellyfin-input" id="txtNetworkPath" type="text" label="${globalize.translate('LabelOptionalNetworkPath')}"/>`;
             html += '<div class="fieldDescription">';
             html += globalize.translate('LabelOptionalNetworkPathHelp', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
             html += '</div>';
             html += '</div>';
         }
         html += '<div class="formDialogFooter">';
-        html += `<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">${globalize.translate('ButtonOk')}</button>`;
+        html += `<button is="jellyfin-button" type="submit" class="raised button-submit block formDialogFooterItem">${globalize.translate('ButtonOk')}</button>`;
         html += '</div>';
         html += '</form>';
         html += '</div>';

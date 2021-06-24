@@ -5,9 +5,9 @@ import scrollHelper from '../../scripts/scrollHelper';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-input/emby-input';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-input/jellyfin-input';
 import '../formdialog.scss';
 import template from './prompt.template.html';
 

@@ -1,12 +1,12 @@
 import 'jquery';
 import loading from '../loading/loading';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-input/emby-input';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-input/jellyfin-input';
 import '../listview/listview.scss';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-select/jellyfin-select';
+import '../../elements/jellyfin-button/jellyfin-button';
 import '../../assets/css/flexstyles.scss';
 import Dashboard from '../../scripts/clientUtils';
 import { Events } from 'jellyfin-apiclient';
@@ -221,7 +221,7 @@ export default function (page, providerId, options) {
             const enabledTuners = providerInfo.EnabledTuners || [];
             const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
             const checkedAttribute = isChecked ? ' checked' : '';
-            html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
+            html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="jellyfin-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
             html += '<div class="listItemBody two-line">';
             html += '<div class="listItemBodyText">';
             html += device.FriendlyName || getTunerName(device.Type);
@@ -272,7 +272,7 @@ export default function (page, providerId, options) {
                 page.querySelector('.selectTunersSection').classList.remove('hide');
             }
         });
-        $('.createAccountHelp', page).html(globalize.translate('MessageCreateAccountAt', '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>'));
+        $('.createAccountHelp', page).html(globalize.translate('MessageCreateAccountAt', '<a is="jellyfin-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>'));
         reload();
     };
 }

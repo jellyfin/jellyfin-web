@@ -7,9 +7,9 @@ import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-button/jellyfin-button';
 import '../formdialog.scss';
 import '../cardbuilder/card.scss';
 import ServerConnections from '../ServerConnections';
@@ -207,7 +207,7 @@ import template from './imageDownloader.template.html';
         if (layoutManager.tv || !appHost.supports('externallinks')) {
             html += '<div class="cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain;"></div>';
         } else {
-            html += '<a is="emby-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';
+            html += '<a is="jellyfin-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';
         }
 
         html += '</div>';

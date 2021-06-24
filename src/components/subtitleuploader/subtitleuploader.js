@@ -7,8 +7,8 @@ import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import template from './subtitleuploader.template.html';
 import toast from '../toast/toast';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-select/jellyfin-select';
 import '../formdialog.scss';
 import './style.scss';
 

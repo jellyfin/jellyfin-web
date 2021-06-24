@@ -18,7 +18,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import itemShortcuts from '../shortcuts';
 import imageHelper from '../../scripts/imagehelper';
 import './card.scss';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import '../guide/programs.scss';
 import ServerConnections from '../ServerConnections';
 
@@ -1118,7 +1118,7 @@ import ServerConnections from '../ServerConnections';
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator');
+                import('../../elements/jellyfin-itemrefreshindicator/jellyfin-itemrefreshindicator');
             }
         }
 
@@ -1365,7 +1365,7 @@ import ServerConnections from '../ServerConnections';
 
                 if (item.Type === 'CollectionFolder' || item.CollectionType) {
                     const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
-                    indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
+                    indicatorsHtml += '<div is="jellyfin-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                     importRefreshIndicator();
                 }
 
@@ -1452,16 +1452,16 @@ import ServerConnections from '../ServerConnections';
 
             if (itemHelper.canMarkPlayed(item)) {
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('../../elements/emby-playstatebutton/emby-playstatebutton');
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
+                import('../../elements/jellyfin-playstatebutton/jellyfin-playstatebutton');
+                html += '<button is="jellyfin-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
             if (itemHelper.canRate(item)) {
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('../../elements/emby-ratingbutton/emby-ratingbutton');
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
+                import('../../elements/jellyfin-ratingbutton/jellyfin-ratingbutton');
+                html += '<button is="jellyfin-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
             html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';

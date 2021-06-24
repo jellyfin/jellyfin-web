@@ -10,7 +10,7 @@ import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
 
 import '../../scripts/dom';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 
 import html from './template.html';
 import './style.scss';

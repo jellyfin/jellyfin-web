@@ -1,10 +1,10 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
-import '../../../elements/emby-select/emby-select';
-import '../../../elements/emby-button/emby-button';
-import '../../../elements/emby-input/emby-input';
-import '../../../elements/emby-checkbox/emby-checkbox';
+import '../../../elements/jellyfin-select/jellyfin-select';
+import '../../../elements/jellyfin-button/jellyfin-button';
+import '../../../elements/jellyfin-input/jellyfin-input';
+import '../../../elements/jellyfin-checkbox/jellyfin-checkbox';
 import '../../../components/listview/listview.scss';
 import Dashboard from '../../../scripts/clientUtils';
 import toast from '../../../components/toast/toast';
@@ -265,7 +265,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '<div>';
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + index + '">';
+            html += '<a is="jellyfin-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + index + '">';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
             if (profile.Type == 'Video') {
@@ -325,7 +325,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '<div>';
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
+            html += '<a is="jellyfin-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += '<p>Protocol: ' + (profile.Protocol || 'Http') + '</p>';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
@@ -411,7 +411,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '<div>';
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
+            html += '<a is="jellyfin-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
             if (profile.Conditions && profile.Conditions.length) {
@@ -483,7 +483,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '<div>';
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
+            html += '<a is="jellyfin-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += '<p>' + globalize.translate('ValueCodec', profile.Codec || allText) + '</p>';
 
             if (profile.Conditions && profile.Conditions.length) {
@@ -554,7 +554,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '<div>';
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
+            html += '<a is="jellyfin-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
             if (profile.Type == 'Video') {

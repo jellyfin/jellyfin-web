@@ -1,56 +1,89 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
-    <h3 class="formDialogHeaderTitle">
-        ${HeaderEditImages}
-    </h3>
+    <button
+        is="paper-icon-button-light"
+        class="btnCancel autoSize"
+        tabindex="-1"
+    >
+        <span class="material-icons arrow_back"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${HeaderEditImages}</h3>
 </div>
 
 <div class="formDialogContent smoothScrollY">
     <div class="dialogContentInner">
-
         <div id="imagesContainer">
             <div class="imageEditor-buttons first-imageEditor-buttons">
-                <h2 style="margin:0;">${Images}</h2>
-                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize" style="margin-left: 1em;">
+                <h2 style="margin: 0">${Images}</h2>
+                <button
+                    type="button"
+                    is="jellyfin-button"
+                    class="btnBrowseAllImages fab mini autoSize"
+                    style="margin-left: 1em"
+                >
                     <span class="material-icons search"></span>
                 </button>
-                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide" style="margin-left: .5em;">
+                <button
+                    type="button"
+                    is="jellyfin-button"
+                    class="btnOpenUploadMenu fab mini hide"
+                    style="margin-left: 0.5em"
+                >
                     <span class="material-icons add"></span>
                 </button>
             </div>
-            <div id="images" class="itemsContainer vertical-wrap">
-            </div>
+            <div id="images" class="itemsContainer vertical-wrap"></div>
             <br />
         </div>
 
         <div id="backdropsContainer" class="hide">
             <div class="imageEditor-buttons">
-                <h2 style="margin:0;">${Backdrops}</h2>
-                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize" style="margin-left: 1em;" data-imagetype="Backdrop">
+                <h2 style="margin: 0">${Backdrops}</h2>
+                <button
+                    type="button"
+                    is="jellyfin-button"
+                    class="btnBrowseAllImages fab mini autoSize"
+                    style="margin-left: 1em"
+                    data-imagetype="Backdrop"
+                >
                     <span class="material-icons search"></span>
                 </button>
-                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide" style="margin-left: .5em;" data-imagetype="Backdrop">
+                <button
+                    type="button"
+                    is="jellyfin-button"
+                    class="btnOpenUploadMenu fab mini hide"
+                    style="margin-left: 0.5em"
+                    data-imagetype="Backdrop"
+                >
                     <span class="material-icons add"></span>
                 </button>
             </div>
-            <div id="backdrops" class="itemsContainer vertical-wrap">
-            </div>
+            <div id="backdrops" class="itemsContainer vertical-wrap"></div>
             <br />
         </div>
 
         <div id="screenshotsContainer" class="hide">
             <div class="imageEditor-buttons">
-                <h2 style="margin: 0;">${Screenshots}</h2>
-                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize" style="margin-left: 1em;" data-imagetype="Screenshot">
+                <h2 style="margin: 0">${Screenshots}</h2>
+                <button
+                    type="button"
+                    is="jellyfin-button"
+                    class="btnBrowseAllImages fab mini autoSize"
+                    style="margin-left: 1em"
+                    data-imagetype="Screenshot"
+                >
                     <span class="material-icons search"></span>
                 </button>
-                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide" style="margin-left: .5em;" data-imagetype="Screenshot">
+                <button
+                    type="button"
+                    is="jellyfin-button"
+                    class="btnOpenUploadMenu fab mini hide"
+                    style="margin-left: 0.5em"
+                    data-imagetype="Screenshot"
+                >
                     <span class="material-icons add"></span>
                 </button>
             </div>
-            <div id="screenshots" class="itemsContainer vertical-wrap">
-            </div>
+            <div id="screenshots" class="itemsContainer vertical-wrap"></div>
         </div>
     </div>
 </div>
-

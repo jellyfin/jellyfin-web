@@ -1,9 +1,9 @@
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import itemHelper from '../itemHelper';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 import './userdatabuttons.scss';
 import ServerConnections from '../ServerConnections';
 
@@ -20,7 +20,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
         buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
     }
 
-    const is = style === 'fab' ? 'emby-button' : 'paper-icon-button-light';
+    const is = style === 'fab' ? 'jellyfin-button' : 'paper-icon-button-light';
     let className = style === 'fab' ? 'autoSize fab' : 'autoSize';
 
     if (buttonCssClass) {

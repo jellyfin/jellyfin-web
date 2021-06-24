@@ -4,7 +4,7 @@ import { Events } from 'jellyfin-apiclient';
 function onSaveTimeout() {
     const self = this;
     self.saveTimeout = null;
-    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'jellyfin');
 }
 
 function saveServerPreferences(instance) {
@@ -43,7 +43,7 @@ export class UserSettings {
 
         const self = this;
 
-        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
+        return apiClient.getDisplayPreferences('usersettings', userId, 'jellyfin').then(function (result) {
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
         });

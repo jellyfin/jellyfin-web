@@ -3,9 +3,9 @@ import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
 import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
 import '../../../../components/cardbuilder/card.scss';
-import '../../../../elements/emby-button/emby-button';
-import '../../../../elements/emby-checkbox/emby-checkbox';
-import '../../../../elements/emby-select/emby-select';
+import '../../../../elements/jellyfin-button/jellyfin-button';
+import '../../../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../../../elements/jellyfin-select/jellyfin-select';
 
 function reloadList(page) {
     loading.show();
@@ -104,7 +104,7 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += '<div class="cardContent">';
-    html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${href}" ${target}>`;
+    html += `<a class="cardImageContainer" is="jellyfin-linkbutton" style="margin:0;padding:0" href="${href}" ${target}>`;
 
     if (plugin.imageUrl) {
         html += `<img src="${plugin.imageUrl}" style="width:100%" />`;

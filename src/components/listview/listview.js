@@ -13,8 +13,8 @@ import globalize from '../../scripts/globalize';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import './listview.scss';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import '../../elements/emby-playstatebutton/emby-playstatebutton';
+import '../../elements/jellyfin-ratingbutton/jellyfin-ratingbutton';
+import '../../elements/jellyfin-playstatebutton/jellyfin-playstatebutton';
 import ServerConnections from '../ServerConnections';
 
     function getIndex(item, options) {
@@ -459,11 +459,11 @@ import ServerConnections from '../ServerConnections';
                     const likes = userData.Likes == null ? '' : userData.Likes;
 
                     if (itemHelper.canMarkPlayed(item) && options.enablePlayedButton !== false) {
-                        html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check"></span></button>';
+                        html += '<button is="jellyfin-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check"></span></button>';
                     }
 
                     if (itemHelper.canRate(item) && options.enableRatingButton !== false) {
-                        html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
+                        html += '<button is="jellyfin-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                     }
                 }
 

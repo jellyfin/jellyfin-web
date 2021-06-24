@@ -4,7 +4,7 @@ import dom from '../scripts/dom';
 import * as datefns from 'date-fns';
 import dfnshelper from '../scripts/dfnshelper';
 import serverNotifications from '../scripts/serverNotifications';
-import '../elements/emby-button/emby-button';
+import '../elements/jellyfin-button/jellyfin-button';
 import './listview/listview.scss';
 import ServerConnections from './ServerConnections';
 import alert from './alert';

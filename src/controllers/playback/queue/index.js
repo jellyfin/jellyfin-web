@@ -1,6 +1,6 @@
 import remotecontrolFactory from '../../../components/remotecontrol/remotecontrol';
 import libraryMenu from '../../../scripts/libraryMenu';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/jellyfin-button/jellyfin-button';
 
 export default function (view) {
     const remoteControl = new remotecontrolFactory();

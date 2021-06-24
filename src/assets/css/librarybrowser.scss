@@ -501,8 +501,8 @@
     padding-right: 5%;
 }
 
-.layout-desktop .detailPageContent .emby-scroller,
-.layout-tv .detailPageContent .emby-scroller {
+.layout-desktop .detailPageContent .jellyfin-scroller,
+.layout-tv .detailPageContent .jellyfin-scroller {
     margin-left: 0;
 }
 
@@ -826,13 +826,13 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-.emby-button.detailFloatingButton {
+.jellyfin-button.detailFloatingButton {
     font-size: 1.4em;
     margin-right: 0.5em !important;
     color: rgba(255, 255, 255, 0.76);
 }
 
-.emby-button.detailFloatingButton .material-icons {
+.jellyfin-button.detailFloatingButton .material-icons {
     font-size: 3.5em;
 }
 
@@ -994,7 +994,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-.detailVerticalSection .emby-scrollbuttons {
+.detailVerticalSection .jellyfin-scrollbuttons {
     padding-top: 0.4em;
 }
 

@@ -4,11 +4,11 @@ import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-select/jellyfin-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import '../../assets/css/flexstyles.scss';
@@ -138,19 +138,19 @@ import toast from '../toast/toast';
         html += '<br/>';
         html += '<br/>';
         html += '<div class="selectContainer">';
-        html += `<select is="emby-select" label="${globalize.translate('LabelCollection')}" id="selectCollectionToAddTo" autofocus></select>`;
+        html += `<select is="jellyfin-select" label="${globalize.translate('LabelCollection')}" id="selectCollectionToAddTo" autofocus></select>`;
         html += '</div>';
         html += '</div>';
 
         html += '<div class="newCollectionInfo">';
 
         html += '<div class="inputContainer">';
-        html += `<input is="emby-input" type="text" id="txtNewCollectionName" required="required" label="${globalize.translate('LabelName')}" />`;
+        html += `<input is="jellyfin-input" type="text" id="txtNewCollectionName" required="required" label="${globalize.translate('LabelName')}" />`;
         html += `<div class="fieldDescription">${globalize.translate('NewCollectionNameExample')}</div>`;
         html += '</div>';
 
         html += '<label class="checkboxContainer">';
-        html += '<input is="emby-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
+        html += '<input is="jellyfin-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
         html += `<span>${globalize.translate('SearchForCollectionInternetMetadata')}</span>`;
         html += '</label>';
 
@@ -158,7 +158,7 @@ import toast from '../toast/toast';
         html += '</div>';
 
         html += '<div class="formDialogFooter">';
-        html += `<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">${globalize.translate('ButtonOk')}</button>`;
+        html += `<button is="jellyfin-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">${globalize.translate('ButtonOk')}</button>`;
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';

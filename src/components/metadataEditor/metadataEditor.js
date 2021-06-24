@@ -6,13 +6,13 @@ import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import shell from '../../scripts/shell';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
+import '../../elements/jellyfin-checkbox/jellyfin-checkbox';
+import '../../elements/jellyfin-input/jellyfin-input';
+import '../../elements/jellyfin-select/jellyfin-select';
 import '../listview/listview.scss';
-import '../../elements/emby-textarea/emby-textarea';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/jellyfin-textarea/jellyfin-textarea';
+import '../../elements/jellyfin-button/jellyfin-button';
+import '../../elements/jellyfin-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../assets/css/clearbutton.scss';
 import '../../assets/css/flexstyles.scss';
@@ -456,7 +456,7 @@ import template from './metadataEditor.template.html';
             const value = providerIds[idInfo.Key] || '';
 
             html += '<div class="flex-grow">';
-            html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" data-formatstring="' + formatString + '" id="' + id + '" label="' + labelText + '"/>';
+            html += '<input is="jellyfin-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" data-formatstring="' + formatString + '" id="' + id + '" label="' + labelText + '"/>';
             html += '</div>';
 
             if (formatString) {
@@ -947,7 +947,7 @@ import template from './metadataEditor.template.html';
             const value = field.value || field.name;
             const checkedHtml = currentFields.indexOf(value) === -1 ? ' checked' : '';
             html += '<label>';
-            html += '<input type="checkbox" is="emby-checkbox" class="selectLockedField" data-value="' + value + '"' + checkedHtml + '/>';
+            html += '<input type="checkbox" is="jellyfin-checkbox" class="selectLockedField" data-value="' + value + '"' + checkedHtml + '/>';
             html += '<span>' + name + '</span>';
             html += '</label>';
         }

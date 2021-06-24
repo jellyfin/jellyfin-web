@@ -5,7 +5,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import globalize from '../../scripts/globalize';
 import '../../assets/css/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -99,9 +99,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     scrollXClass += ' smoothScrollX';
                 }
 
-                html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+                html += '<div is="jellyfin-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
             } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+                html += '<div is="jellyfin-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
             html += cardBuilder.getCardsHtml({

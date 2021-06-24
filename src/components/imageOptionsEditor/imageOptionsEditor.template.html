@@ -1,54 +1,102 @@
 <div class="formDialogHeader">
-    <button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
-    <h3 class="formDialogHeaderTitle">
-        ${HeaderImageOptions}
-    </h3>
+    <button
+        type="button"
+        is="paper-icon-button-light"
+        class="btnCancel autoSize"
+        tabindex="-1"
+    >
+        <span class="material-icons arrow_back"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${HeaderImageOptions}</h3>
 </div>
 
 <div class="formDialogContent scrollY">
     <div class="dialogContentInner dialog-content-centered">
-        <form style="margin:1.5em auto 0;">
-
+        <form style="margin: 1.5em auto 0">
             <div class="verticalSection">
                 <h3 class="checkboxListLabel">${HeaderFetchImages}</h3>
                 <div class="imageSelections checkboxList">
-
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Primary" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Primary"
+                        />
                         <span>${Primary}</span>
                     </label>
 
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Art" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Art"
+                        />
                         <span>${Art}</span>
                     </label>
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="BoxRear" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="BoxRear"
+                        />
                         <span>${Back}</span>
                     </label>
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Banner" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Banner"
+                        />
                         <span>${Banner}</span>
                     </label>
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Box" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Box"
+                        />
                         <span>${Box}</span>
                     </label>
 
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Disc" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Disc"
+                        />
                         <span>${Disc}</span>
                     </label>
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Logo" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Logo"
+                        />
                         <span>${Logo}</span>
                     </label>
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Menu" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Menu"
+                        />
                         <span>${Menu}</span>
                     </label>
                     <label>
-                        <input type="checkbox" is="emby-checkbox" class="imageType" data-imagetype="Thumb" />
+                        <input
+                            type="checkbox"
+                            is="jellyfin-checkbox"
+                            class="imageType"
+                            data-imagetype="Thumb"
+                        />
                         <span>${Thumb}</span>
                     </label>
                 </div>
@@ -56,23 +104,54 @@
 
             <div class="backdropFields">
                 <div class="inputContainer">
-                    <input is="emby-input" type="number" id="txtMaxBackdrops" pattern="[0-9]*" required="required" min="0" label="${LabelMaxBackdropsPerItem}" />
+                    <input
+                        is="jellyfin-input"
+                        type="number"
+                        id="txtMaxBackdrops"
+                        pattern="[0-9]*"
+                        required="required"
+                        min="0"
+                        label="${LabelMaxBackdropsPerItem}"
+                    />
                 </div>
                 <div class="inputContainer">
-                    <input is="emby-input" type="number" id="txtMinBackdropDownloadWidth" pattern="[0-9]*" required="required" min="0" label="${LabelMinBackdropDownloadWidth}" />
+                    <input
+                        is="jellyfin-input"
+                        type="number"
+                        id="txtMinBackdropDownloadWidth"
+                        pattern="[0-9]*"
+                        required="required"
+                        min="0"
+                        label="${LabelMinBackdropDownloadWidth}"
+                    />
                 </div>
             </div>
 
             <div class="screenshotFields">
                 <div class="inputContainer">
-                    <input is="emby-input" type="number" id="txtMaxScreenshots" pattern="[0-9]*" required="required" min="0" label="${LabelMaxScreenshotsPerItem}" />
+                    <input
+                        is="jellyfin-input"
+                        type="number"
+                        id="txtMaxScreenshots"
+                        pattern="[0-9]*"
+                        required="required"
+                        min="0"
+                        label="${LabelMaxScreenshotsPerItem}"
+                    />
                 </div>
 
                 <div class="inputContainer">
-                    <input is="emby-input" type="number" id="txtMinScreenshotDownloadWidth" pattern="[0-9]*" required="required" min="0" label="${LabelMinScreenshotDownloadWidth}" />
+                    <input
+                        is="jellyfin-input"
+                        type="number"
+                        id="txtMinScreenshotDownloadWidth"
+                        pattern="[0-9]*"
+                        required="required"
+                        min="0"
+                        label="${LabelMinScreenshotDownloadWidth}"
+                    />
                 </div>
             </div>
-
         </form>
     </div>
 </div>

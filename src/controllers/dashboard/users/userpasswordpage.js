@@ -1,7 +1,7 @@
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/jellyfin-button/jellyfin-button';
 import Dashboard from '../../../scripts/clientUtils';
 import toast from '../../../components/toast/toast';
 import confirm from '../../../components/confirm/confirm';

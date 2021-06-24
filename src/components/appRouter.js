@@ -865,6 +865,6 @@ class AppRouter {
 
 export const appRouter = new AppRouter();
 
-window.Emby = window.Emby || {};
+window.Jellyfin = window.Jellyfin || {};
 
-window.Emby.Page = appRouter;
+window.Jellyfin.Page = appRouter;

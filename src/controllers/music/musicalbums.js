@@ -8,7 +8,7 @@ import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 
 /* eslint-disable indent */
 

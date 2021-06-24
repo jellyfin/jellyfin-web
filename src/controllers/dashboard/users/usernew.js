@@ -1,7 +1,7 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
-import '../../../elements/emby-checkbox/emby-checkbox';
+import '../../../elements/jellyfin-checkbox/jellyfin-checkbox';
 import Dashboard from '../../../scripts/clientUtils';
 import toast from '../../../components/toast/toast';
 
@@ -14,7 +14,7 @@ import toast from '../../../components/toast/toast';
 
         for (let i = 0; i < mediaFolders.length; i++) {
             const folder = mediaFolders[i];
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
+            html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkFolder" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';
@@ -29,7 +29,7 @@ import toast from '../../../components/toast/toast';
 
         for (let i = 0; i < channels.length; i++) {
             const folder = channels[i];
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
+            html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkChannel" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';

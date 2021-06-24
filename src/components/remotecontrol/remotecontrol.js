@@ -12,9 +12,9 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import itemContextMenu from '../itemContextMenu';
 import '../cardbuilder/card.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
 import './remotecontrol.scss';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import '../../elements/jellyfin-ratingbutton/jellyfin-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
@@ -147,7 +147,7 @@ function updateNowPlayingInfo(context, state, serverId) {
                     for (const artist of item.ArtistItems) {
                         const artistName = artist.Name;
                         const artistId = artist.Id;
-                        artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=${artistId}&serverId=${nowPlayingServerId}">${artistName}</a>`;
+                        artistsSeries += `<a class="button-link jellyfin-button" is="jellyfin-linkbutton" href="#!/details?id=${artistId}&serverId=${nowPlayingServerId}">${artistName}</a>`;
                         if (artist !== item.ArtistItems.slice(-1)[0]) {
                             artistsSeries += ', ';
                         }
@@ -165,7 +165,7 @@ function updateNowPlayingInfo(context, state, serverId) {
                 }
             }
             if (item.Album != null) {
-                albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + item.Album + '</a>';
+                albumName = '<a class="button-link jellyfin-button" is="jellyfin-linkbutton" href="#!/details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + item.Album + '</a>';
             }
             context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
             context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
@@ -173,12 +173,12 @@ function updateNowPlayingInfo(context, state, serverId) {
         } else if (item.Type == 'Episode') {
             if (item.SeasonName != null) {
                 const seasonName = item.SeasonName;
-                context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${seasonName}</a>`;
+                context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link jellyfin-button" is="jellyfin-linkbutton" href="#!/details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${seasonName}</a>`;
             }
             if (item.SeriesName != null) {
                 const seriesName = item.SeriesName;
                 if (item.SeriesId != null) {
-                    context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${seriesName}</a>`;
+                    context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link jellyfin-button" is="jellyfin-linkbutton" href="#!/details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${seriesName}</a>`;
                 } else {
                     context.querySelector('.nowPlayingSerie').innerHTML = seriesName;
                 }
@@ -233,8 +233,8 @@ function updateNowPlayingInfo(context, state, serverId) {
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             const userData = fullItem.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
-            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
-            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="jellyfin-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="jellyfin-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
         });
     } else {
         backdrop.clearBackdrop();
@@ -892,7 +892,7 @@ export default function () {
     function init(ownerView, context) {
         let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
         volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
-        volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
+        volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="jellyfin-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
         volumecontrolHtml += '</div>';
         const optionsSection = context.querySelector('.playlistSectionButton');
         if (!layoutManager.mobile) {

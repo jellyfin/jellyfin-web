@@ -5,7 +5,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
 import { appRouter } from '../../components/appRouter';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-button/jellyfin-button';
 
 /* eslint-disable indent */
 
@@ -143,7 +143,7 @@ import '../../elements/emby-button/emby-button';
                 for (const item of items) {
                     html += '<div class="verticalSection">';
                     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item, {
+                    html += '<a is="jellyfin-linkbutton" href="' + appRouter.getRouteUrl(item, {
                         context: 'tvshows',
                         parentId: params.topParentId
                     }) + '" class="more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre' + item.Id + '">';
@@ -158,9 +158,9 @@ import '../../elements/emby-button/emby-button';
                         if (layoutManager.tv) {
                             scrollXClass += 'smoothScrollX padded-top-focusscale padded-bottom-focusscale';
                         }
-                        html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' lazy padded-left padded-right" data-id="' + item.Id + '">';
+                        html += '<div is="jellyfin-itemscontainer" class="itemsContainer ' + scrollXClass + ' lazy padded-left padded-right" data-id="' + item.Id + '">';
                     } else {
-                        html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap lazy padded-left padded-right" data-id="' + item.Id + '">';
+                        html += '<div is="jellyfin-itemscontainer" class="itemsContainer vertical-wrap lazy padded-left padded-right" data-id="' + item.Id + '">';
                     }
                     html += '</div>';
                     html += '</div>';

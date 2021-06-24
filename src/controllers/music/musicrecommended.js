@@ -10,9 +10,9 @@ import libraryMenu from '../../scripts/libraryMenu';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import globalize from '../../scripts/globalize';
 import '../../assets/css/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-button/emby-button';
+import '../../elements/jellyfin-itemscontainer/jellyfin-itemscontainer';
+import '../../elements/jellyfin-tabs/jellyfin-tabs';
+import '../../elements/jellyfin-button/jellyfin-button';
 import '../../assets/css/flexstyles.scss';
 import Dashboard from '../../scripts/clientUtils';
 

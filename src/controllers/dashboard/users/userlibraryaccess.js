@@ -22,7 +22,7 @@ import toast from '../../../components/toast/toast';
             const folder = mediaFolders[i];
             const isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
+            html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';
@@ -41,7 +41,7 @@ import toast from '../../../components/toast/toast';
             const folder = channels[i];
             const isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
+            html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkChannel" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';
@@ -66,7 +66,7 @@ import toast from '../../../components/toast/toast';
         for (let i = 0, length = devices.length; i < length; i++) {
             const device = devices[i];
             const checkedAttribute = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1 ? ' checked="checked"' : '';
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkDevice" data-id="' + device.Id + '" ' + checkedAttribute + '><span>' + device.Name + ' - ' + device.AppName + '</span></label>';
+            html += '<label><input type="checkbox" is="jellyfin-checkbox" class="chkDevice" data-id="' + device.Id + '" ' + checkedAttribute + '><span>' + device.Name + ' - ' + device.AppName + '</span></label>';
         }
 
         html += '</div>';
