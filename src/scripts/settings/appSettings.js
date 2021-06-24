@@ -18,6 +18,19 @@ class AppSettings {
         return this.get('enableAutoLogin') !== 'false';
     }
 
+    /**
+     * Get or set 'Enable Gamepad' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable Gamepad' or undefined.
+     * @return {boolean} 'Enable Gamepad' state.
+     */
+    enableGamepad(val) {
+        if (val !== undefined) {
+            return this.set('enableGamepad', val.toString());
+        }
+
+        return this.get('enableGamepad') === 'true';
+    }
+
     enableSystemExternalPlayers(val) {
         if (val !== undefined) {
             this.set('enableSystemExternalPlayers', val.toString());
