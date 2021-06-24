@@ -3,6 +3,7 @@ import dom from '../../scripts/dom';
 import scroller from '../../libraries/scroller';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
+import layoutManager from '../../components/layoutManager';
 import './emby-tabs.scss';
 import '../../assets/css/scrollstyles.scss';
 
@@ -100,6 +101,14 @@ import '../../assets/css/scrollstyles.scss';
         }
     }
 
+    function onFocusIn(e) {
+        const tabs = this;
+        const tabButton = dom.parentWithClass(e.target, buttonClass);
+        if (tabButton && tabs.scroller) {
+            tabs.scroller.toCenter(tabButton, false);
+        }
+    }
+
     function onFocusOut(e) {
         const parentContainer = e.target.parentNode;
         const previousFocus = parentContainer.querySelector('.lastFocused');
@@ -155,10 +164,14 @@ import '../../assets/css/scrollstyles.scss';
             passive: true
         });
 
+        if (layoutManager.tv) {
+            dom.addEventListener(this, 'focusin', onFocusIn, { passive: true });
+        }
+
         dom.addEventListener(this, 'focusout', onFocusOut);
     };
 
-    EmbyTabs.focus = function onFocusIn() {
+    EmbyTabs.focus = function () {
         const selectedTab = this.querySelector('.' + activeButtonClass);
         const lastFocused = this.querySelector('.lastFocused');
 
@@ -210,6 +223,10 @@ import '../../assets/css/scrollstyles.scss';
         dom.removeEventListener(this, 'click', onClick, {
             passive: true
         });
+
+        if (layoutManager.tv) {
+            dom.removeEventListener(this, 'focusin', onFocusIn, { passive: true });
+        }
     };
 
     function getSelectedTabButton(elem) {
