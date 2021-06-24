@@ -14,6 +14,7 @@ import alert from '../../components/alert';
     function loadPage(page, config, languageOptions, systemInfo) {
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
+        page.querySelector('#chkQuickConnectAvailable').checked = config.QuickConnectAvailable === true;
         $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
         $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
         $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
@@ -33,6 +34,7 @@ import alert from '../../components/alert';
             config.CachePath = form.querySelector('#txtCachePath').value;
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
+            config.QuickConnectAvailable = form.querySelector('#chkQuickConnectAvailable').checked;
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
