@@ -45,7 +45,7 @@
     "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
-    "workbox-webpack-plugin": "^5.1.4",
+    "workbox-webpack-plugin": "^6.1.5",
     "worker-plugin": "^5.0.0"
   },
   "dependencies": {
