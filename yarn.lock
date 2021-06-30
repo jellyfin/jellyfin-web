@@ -4722,10 +4722,10 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-jellyfin-apiclient@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/jellyfin-apiclient/-/jellyfin-apiclient-1.6.0.tgz#77691e2c67af5235a2491a9a1951ae823a55da81"
-  integrity sha512-LL8YwUQJYTFdlx6VwA5C3+KWkLEM0V56fJGruUDwCVUCFQQVJ+E6hpHIO1lMeo26ZxURtebf5VtCCG35ZHugbg==
+jellyfin-apiclient@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/jellyfin-apiclient/-/jellyfin-apiclient-1.8.0.tgz#e61d5b157cc1263f1ae99c3bcc03b0df9280339b"
+  integrity sha512-fwAF1G89amm3uO2Yw0E26fW5X6JoyRUnOdBEeuSN04/NpdKKVHD4u53dgqF0jHzXNuKdn5eh0AuV37cMKzBanA==
 
 jest-worker@^24.9.0:
   version "24.9.0"
