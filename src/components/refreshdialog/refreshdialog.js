@@ -30,7 +30,7 @@ function getEditorHtml() {
     html += '</select>';
     html += '</div>';
 
-    html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
+    html += '<label class="checkboxContainer hidden fldReplaceExistingImages">';
     html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
     html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
     html += '</label>';
@@ -135,9 +135,9 @@ class RefreshDialog {
 
         dlg.querySelector('#selectMetadataRefreshMode').addEventListener('change', function () {
             if (this.value === 'scan') {
-                dlg.querySelector('.fldReplaceExistingImages').classList.add('hide');
+                dlg.querySelector('.fldReplaceExistingImages').classList.add('hidden');
             } else {
-                dlg.querySelector('.fldReplaceExistingImages').classList.remove('hide');
+                dlg.querySelector('.fldReplaceExistingImages').classList.remove('hidden');
             }
         });
 

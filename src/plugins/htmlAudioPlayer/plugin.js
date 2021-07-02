@@ -236,7 +236,7 @@ class HtmlAudioPlayer {
             if (!elem) {
                 elem = document.createElement('audio');
                 elem.classList.add('mediaPlayerAudio');
-                elem.classList.add('hide');
+                elem.classList.add('hidden');
 
                 document.body.appendChild(elem);
             }

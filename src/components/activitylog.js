@@ -89,9 +89,9 @@ import alert from './alert';
 
                 if (activityContainer) {
                     if (result.Items.length) {
-                        activityContainer.classList.remove('hide');
+                        activityContainer.classList.remove('hidden');
                     } else {
-                        activityContainer.classList.add('hide');
+                        activityContainer.classList.add('hidden');
                     }
                 }
             }

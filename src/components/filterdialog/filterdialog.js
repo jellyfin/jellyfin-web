@@ -12,9 +12,9 @@ import template from './filterdialog.template.html';
     function renderOptions(context, selector, cssClass, items, isCheckedFn) {
         const elem = context.querySelector(selector);
         if (items.length) {
-            elem.classList.remove('hide');
+            elem.classList.remove('hidden');
         } else {
-            elem.classList.add('hide');
+            elem.classList.add('hidden');
         }
         let html = '';
         html += '<div class="checkboxList">';
@@ -119,22 +119,22 @@ import template from './filterdialog.template.html';
         }
 
         if (enableDynamicFilters(options.mode)) {
-            context.querySelector('.genreFilters').classList.remove('hide');
-            context.querySelector('.officialRatingFilters').classList.remove('hide');
-            context.querySelector('.tagFilters').classList.remove('hide');
-            context.querySelector('.yearFilters').classList.remove('hide');
+            context.querySelector('.genreFilters').classList.remove('hidden');
+            context.querySelector('.officialRatingFilters').classList.remove('hidden');
+            context.querySelector('.tagFilters').classList.remove('hidden');
+            context.querySelector('.yearFilters').classList.remove('hidden');
         }
 
         if (options.mode === 'movies' || options.mode === 'episodes') {
-            context.querySelector('.videoTypeFilters').classList.remove('hide');
+            context.querySelector('.videoTypeFilters').classList.remove('hidden');
         }
 
         if (options.mode === 'movies' || options.mode === 'series' || options.mode === 'episodes') {
-            context.querySelector('.features').classList.remove('hide');
+            context.querySelector('.features').classList.remove('hidden');
         }
 
         if (options.mode === 'series') {
-            context.querySelector('.seriesStatus').classList.remove('hide');
+            context.querySelector('.seriesStatus').classList.remove('hidden');
         }
 
         if (options.mode === 'episodes') {
@@ -144,13 +144,13 @@ import template from './filterdialog.template.html';
 
     function showByClass(context, className) {
         for (const elem of context.querySelectorAll(`.${className}`)) {
-            elem.classList.remove('hide');
+            elem.classList.remove('hidden');
         }
     }
 
     function hideByClass(context, className) {
         for (const elem of context.querySelectorAll(`.${className}`)) {
-            elem.classList.add('hide');
+            elem.classList.add('hidden');
         }
     }
 

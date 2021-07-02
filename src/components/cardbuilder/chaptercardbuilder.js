@@ -115,9 +115,9 @@ import ServerConnections from '../ServerConnections';
             }
 
             if (chapters.length) {
-                options.parentContainer.classList.remove('hide');
+                options.parentContainer.classList.remove('hidden');
             } else {
-                options.parentContainer.classList.add('hide');
+                options.parentContainer.classList.add('hidden');
                 return;
             }
         }

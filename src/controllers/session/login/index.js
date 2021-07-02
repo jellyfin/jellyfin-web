@@ -115,9 +115,9 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
     function showManualForm(context, showCancel, focusPassword) {
         context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
-        context.querySelector('.manualLoginForm').classList.remove('hide');
-        context.querySelector('.visualLoginForm').classList.add('hide');
-        context.querySelector('.btnManual').classList.add('hide');
+        context.querySelector('.manualLoginForm').classList.remove('hidden');
+        context.querySelector('.visualLoginForm').classList.add('hidden');
+        context.querySelector('.btnManual').classList.add('hidden');
 
         if (focusPassword) {
             context.querySelector('#txtManualPassword').focus();
@@ -126,9 +126,9 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         }
 
         if (showCancel) {
-            context.querySelector('.btnCancel').classList.remove('hide');
+            context.querySelector('.btnCancel').classList.remove('hidden');
         } else {
-            context.querySelector('.btnCancel').classList.add('hide');
+            context.querySelector('.btnCancel').classList.add('hidden');
         }
     }
 
@@ -195,9 +195,9 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         }
 
         function showVisualForm() {
-            view.querySelector('.visualLoginForm').classList.remove('hide');
-            view.querySelector('.manualLoginForm').classList.add('hide');
-            view.querySelector('.btnManual').classList.remove('hide');
+            view.querySelector('.visualLoginForm').classList.remove('hidden');
+            view.querySelector('.manualLoginForm').classList.add('hidden');
+            view.querySelector('.btnManual').classList.remove('hidden');
 
             import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
@@ -255,7 +255,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             libraryMenu.setTransparentMenu(true);
 
             if (!appHost.supports('multiserver')) {
-                view.querySelector('.btnSelectServer').classList.add('hide');
+                view.querySelector('.btnSelectServer').classList.add('hidden');
             }
 
             const apiClient = getApiClient();
@@ -263,7 +263,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             apiClient.getQuickConnect('Status')
                 .then(status => {
                     if (status !== 'Unavailable') {
-                        view.querySelector('.btnQuick').classList.remove('hide');
+                        view.querySelector('.btnQuick').classList.remove('hidden');
                     }
                 })
                 .catch(() => {

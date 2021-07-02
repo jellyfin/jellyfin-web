@@ -22,7 +22,6 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
-import '../../assets/css/flexstyles.scss';
 import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../ServerConnections';
 import template from './tvguide.template.html';
@@ -68,10 +67,10 @@ function updateProgramCellOnScroll(cell, scrollPct) {
     if (guideProgramName) {
         if (pctOfWidth > 0 && pctOfWidth <= 100) {
             guideProgramName.style.transform = 'translateX(' + pctOfWidth + '%)';
-            caret.classList.remove('hide');
+            caret.classList.remove('hidden');
         } else {
             guideProgramName.style.transform = 'none';
-            caret.classList.add('hide');
+            caret.classList.add('hidden');
         }
     }
 }
@@ -299,10 +298,10 @@ function Guide(options) {
             const btnNextPage = context.querySelector('.btnNextPage');
 
             if (channelsResult.TotalRecordCount > channelLimit) {
-                context.querySelector('.guideOptions').classList.remove('hide');
+                context.querySelector('.guideOptions').classList.remove('hidden');
 
-                btnPreviousPage.classList.remove('hide');
-                btnNextPage.classList.remove('hide');
+                btnPreviousPage.classList.remove('hidden');
+                btnNextPage.classList.remove('hidden');
 
                 if (channelQuery.StartIndex) {
                     context.querySelector('.btnPreviousPage').disabled = false;
@@ -316,7 +315,7 @@ function Guide(options) {
                     btnNextPage.disabled = true;
                 }
             } else {
-                context.querySelector('.guideOptions').classList.add('hide');
+                context.querySelector('.guideOptions').classList.add('hidden');
             }
 
             const programFields = [];
@@ -537,7 +536,7 @@ function Guide(options) {
 
                 html += '<div class="' + guideProgramNameClass + '">';
 
-                html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></span></div>';
+                html += '<div class="guide-programNameCaret hidden"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></span></div>';
 
                 html += '<div class="guideProgramNameText">' + program.Name;
 

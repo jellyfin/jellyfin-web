@@ -53,7 +53,7 @@ import { appRouter } from '../../../components/appRouter';
                     recordingButtonManager = null;
                 }
 
-                return void view.querySelector('.btnRecord').classList.add('hide');
+                return void view.querySelector('.btnRecord').classList.add('hidden');
             }
 
             ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
@@ -67,7 +67,7 @@ import { appRouter } from '../../../components/appRouter';
                             item: item,
                             button: view.querySelector('.btnRecord')
                         });
-                        view.querySelector('.btnRecord').classList.remove('hide');
+                        view.querySelector('.btnRecord').classList.remove('hidden');
                     });
                 }
             });
@@ -94,21 +94,21 @@ import { appRouter } from '../../../components/appRouter';
             secondaryMediaInfo.innerHTML = secondaryMediaInfoHtml;
 
             if (secondaryMediaInfoHtml) {
-                secondaryMediaInfo.classList.remove('hide');
+                secondaryMediaInfo.classList.remove('hidden');
             } else {
-                secondaryMediaInfo.classList.add('hide');
+                secondaryMediaInfo.classList.add('hidden');
             }
 
             if (enableProgressByTimeOfDay) {
                 setDisplayTime(startTimeText, displayItem.StartDate);
                 setDisplayTime(endTimeText, displayItem.EndDate);
-                startTimeText.classList.remove('hide');
-                endTimeText.classList.remove('hide');
+                startTimeText.classList.remove('hidden');
+                endTimeText.classList.remove('hidden');
                 programStartDateMs = displayItem.StartDate ? datetime.parseISO8601Date(displayItem.StartDate).getTime() : 0;
                 programEndDateMs = displayItem.EndDate ? datetime.parseISO8601Date(displayItem.EndDate).getTime() : 0;
             } else {
-                startTimeText.classList.add('hide');
-                endTimeText.classList.add('hide');
+                startTimeText.classList.add('hidden');
+                endTimeText.classList.add('hidden');
                 startTimeText.innerHTML = '';
                 endTimeText.innerHTML = '';
                 programStartDateMs = 0;
@@ -154,8 +154,8 @@ import { appRouter } from '../../../components/appRouter';
                 nowPlayingPositionSlider.disabled = true;
                 btnFastForward.disabled = true;
                 btnRewind.disabled = true;
-                view.querySelector('.btnSubtitles').classList.add('hide');
-                view.querySelector('.btnAudio').classList.add('hide');
+                view.querySelector('.btnSubtitles').classList.add('hidden');
+                view.querySelector('.btnAudio').classList.add('hidden');
                 view.querySelector('.osdTitle').innerHTML = '';
                 view.querySelector('.osdMediaInfo').innerHTML = '';
                 return;
@@ -169,17 +169,17 @@ import { appRouter } from '../../../components/appRouter';
             btnRewind.disabled = false;
 
             if (playbackManager.subtitleTracks(player).length) {
-                view.querySelector('.btnSubtitles').classList.remove('hide');
+                view.querySelector('.btnSubtitles').classList.remove('hidden');
                 toggleSubtitleSync();
             } else {
-                view.querySelector('.btnSubtitles').classList.add('hide');
+                view.querySelector('.btnSubtitles').classList.add('hidden');
                 toggleSubtitleSync('forceToHide');
             }
 
             if (playbackManager.audioTracks(player).length > 1) {
-                view.querySelector('.btnAudio').classList.remove('hide');
+                view.querySelector('.btnAudio').classList.remove('hidden');
             } else {
-                view.querySelector('.btnAudio').classList.add('hide');
+                view.querySelector('.btnAudio').classList.add('hidden');
             }
         }
 
@@ -258,7 +258,7 @@ import { appRouter } from '../../../components/appRouter';
             const elem = e.target;
             if (elem != osdBottomElement)
                 return;
-            elem.classList.add('hide');
+            elem.classList.add('hidden');
             dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
             });
@@ -269,7 +269,7 @@ import { appRouter } from '../../../components/appRouter';
                 const elem = osdBottomElement;
                 currentVisibleMenu = 'osd';
                 clearHideAnimationEventListeners(elem);
-                elem.classList.remove('hide');
+                elem.classList.remove('hidden');
                 elem.classList.remove('videoOsdBottom-hidden');
 
                 if (!layoutManager.mobile) {
@@ -397,7 +397,7 @@ import { appRouter } from '../../../components/appRouter';
         function onRecordingCommand() {
             const btnRecord = view.querySelector('.btnRecord');
 
-            if (!btnRecord.classList.contains('hide')) {
+            if (!btnRecord.classList.contains('hidden')) {
                 btnRecord.click();
             }
         }
@@ -482,11 +482,11 @@ import { appRouter } from '../../../components/appRouter';
         }
 
         function onBeginFetch() {
-            document.querySelector('.osdMediaStatus').classList.remove('hide');
+            document.querySelector('.osdMediaStatus').classList.remove('hidden');
         }
 
         function onEndFetch() {
-            document.querySelector('.osdMediaStatus').classList.add('hide');
+            document.querySelector('.osdMediaStatus').classList.add('hidden');
         }
 
         function bindToPlayer(player) {
@@ -644,9 +644,9 @@ import { appRouter } from '../../../components/appRouter';
             updateNowPlayingInfo(player, state);
 
             if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
-                view.querySelector('.btnVideoOsdSettings').classList.remove('hide');
+                view.querySelector('.btnVideoOsdSettings').classList.remove('hidden');
             } else {
-                view.querySelector('.btnVideoOsdSettings').classList.add('hide');
+                view.querySelector('.btnVideoOsdSettings').classList.add('hidden');
             }
 
             const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
@@ -658,21 +658,21 @@ import { appRouter } from '../../../components/appRouter';
             }
 
             if (supportedCommands.indexOf('ToggleFullscreen') === -1 || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
-                view.querySelector('.btnFullscreen').classList.add('hide');
+                view.querySelector('.btnFullscreen').classList.add('hidden');
             } else {
-                view.querySelector('.btnFullscreen').classList.remove('hide');
+                view.querySelector('.btnFullscreen').classList.remove('hidden');
             }
 
             if (supportedCommands.indexOf('PictureInPicture') === -1) {
-                view.querySelector('.btnPip').classList.add('hide');
+                view.querySelector('.btnPip').classList.add('hidden');
             } else {
-                view.querySelector('.btnPip').classList.remove('hide');
+                view.querySelector('.btnPip').classList.remove('hidden');
             }
 
             if (supportedCommands.indexOf('AirPlay') === -1) {
-                view.querySelector('.btnAirPlay').classList.add('hide');
+                view.querySelector('.btnAirPlay').classList.add('hidden');
             } else {
-                view.querySelector('.btnAirPlay').classList.remove('hide');
+                view.querySelector('.btnAirPlay').classList.remove('hidden');
             }
 
             updateFullscreenIcon();
@@ -730,17 +730,17 @@ import { appRouter } from '../../../components/appRouter';
 
                 if (positionTicks >= 0) {
                     updateTimeText(nowPlayingPositionText, positionTicks);
-                    nowPlayingPositionText.classList.remove('hide');
+                    nowPlayingPositionText.classList.remove('hidden');
                 } else {
-                    nowPlayingPositionText.classList.add('hide');
+                    nowPlayingPositionText.classList.add('hidden');
                 }
 
                 const leftTicks = runtimeTicks - positionTicks;
                 if (leftTicks >= 0) {
                     updateTimeText(nowPlayingDurationText, leftTicks);
-                    nowPlayingDurationText.classList.remove('hide');
+                    nowPlayingDurationText.classList.remove('hidden');
                 } else {
-                    nowPlayingPositionText.classList.add('hide');
+                    nowPlayingPositionText.classList.add('hidden');
                 }
             }
         }
@@ -777,16 +777,16 @@ import { appRouter } from '../../../components/appRouter';
             }
 
             if (showMuteButton) {
-                buttonMute.classList.remove('hide');
+                buttonMute.classList.remove('hidden');
             } else {
-                buttonMute.classList.add('hide');
+                buttonMute.classList.add('hidden');
             }
 
             if (nowPlayingVolumeSlider) {
                 if (showVolumeSlider) {
-                    nowPlayingVolumeSliderContainer.classList.remove('hide');
+                    nowPlayingVolumeSliderContainer.classList.remove('hidden');
                 } else {
-                    nowPlayingVolumeSliderContainer.classList.add('hide');
+                    nowPlayingVolumeSliderContainer.classList.add('hidden');
                 }
 
                 if (!nowPlayingVolumeSlider.dragging) {
@@ -798,8 +798,8 @@ import { appRouter } from '../../../components/appRouter';
         function updatePlaylist() {
             const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
             const btnNextTrack = view.querySelector('.btnNextTrack');
-            btnPreviousTrack.classList.remove('hide');
-            btnNextTrack.classList.remove('hide');
+            btnPreviousTrack.classList.remove('hidden');
+            btnNextTrack.classList.remove('hidden');
             btnNextTrack.disabled = false;
             btnPreviousTrack.disabled = false;
         }
@@ -1387,7 +1387,7 @@ import { appRouter } from '../../../components/appRouter';
         });
         view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
         view.addEventListener('viewhide', function () {
-            headerElement.classList.remove('hide');
+            headerElement.classList.remove('hidden');
         });
         view.addEventListener('viewdestroy', function () {
             if (self.touchHelper) {

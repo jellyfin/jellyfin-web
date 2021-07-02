@@ -330,7 +330,7 @@ import ServerConnections from '../ServerConnections';
 
             const frag = document.createElement('div');
             frag.classList.add('verticalSection');
-            frag.classList.add('hide');
+            frag.classList.add('hidden');
             elem.appendChild(frag);
 
             renderLatestSection(frag, apiClient, user, item);
@@ -392,7 +392,7 @@ import ServerConnections from '../ServerConnections';
         }
         html += '</div>';
 
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
@@ -655,7 +655,7 @@ import ServerConnections from '../ServerConnections';
         }
         html += '</div>';
 
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
@@ -726,7 +726,7 @@ import ServerConnections from '../ServerConnections';
         }
         html += '</div>';
 
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');

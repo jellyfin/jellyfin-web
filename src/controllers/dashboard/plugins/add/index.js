@@ -52,8 +52,8 @@ function renderPackage(pkg, installedPlugins, page) {
     populateHistory(pkg, page);
 
     $('.pluginName', page).html(pkg.name);
-    $('#btnInstallDiv', page).removeClass('hide');
-    $('#pSelectVersion', page).removeClass('hide');
+    $('#btnInstallDiv', page).removeClass('hidden');
+    $('#pSelectVersion', page).removeClass('hidden');
 
     if (pkg.overview) {
         $('#overview', page).show().html(pkg.overview);

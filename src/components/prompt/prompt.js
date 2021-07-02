@@ -59,7 +59,7 @@ export default (() => {
         if (options.description) {
             dlg.querySelector('.fieldDescription').innerHTML = options.description;
         } else {
-            dlg.querySelector('.fieldDescription').classList.add('hide');
+            dlg.querySelector('.fieldDescription').classList.add('hidden');
         }
 
         setInputProperties(dlg, options);

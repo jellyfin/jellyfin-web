@@ -180,14 +180,14 @@ export default function (options) {
                 }
                 if (screenfull.isEnabled) {
                     html += getIcon('fullscreen', 'btnFullscreen', true);
-                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
+                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hidden', true);
                 }
             }
             html += getIcon('close', 'slideshowButton btnSlideshowExit hide-mouse-idle-tv', false);
             html += '</div>';
 
             if (!actionButtonsOnTop) {
-                html += '<div class="slideshowBottomBar hide">';
+                html += '<div class="slideshowBottomBar hidden">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
                 if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
@@ -198,7 +198,7 @@ export default function (options) {
                 }
                 if (screenfull.isEnabled) {
                     html += getIcon('fullscreen', 'btnFullscreen', true);
-                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
+                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hidden', true);
                 }
 
                 html += '</div>';
@@ -262,13 +262,13 @@ export default function (options) {
 
         if (layoutManager.desktop) {
             const topActionButtons = dialog.querySelector('.topActionButtons');
-            if (topActionButtons) topActionButtons.classList.add('hide');
+            if (topActionButtons) topActionButtons.classList.add('hidden');
         }
 
         const btnSlideshowPrevious = dialog.querySelector('.btnSlideshowPrevious');
-        if (btnSlideshowPrevious) btnSlideshowPrevious.classList.add('hide');
+        if (btnSlideshowPrevious) btnSlideshowPrevious.classList.add('hidden');
         const btnSlideshowNext = dialog.querySelector('.btnSlideshowNext');
-        if (btnSlideshowNext) btnSlideshowNext.classList.add('hide');
+        if (btnSlideshowNext) btnSlideshowNext.classList.add('hidden');
     }
 
     /**
@@ -507,9 +507,9 @@ export default function (options) {
         const btnFullscreen = dialog.querySelector('.btnFullscreen');
         const btnFullscreenExit = dialog.querySelector('.btnFullscreenExit');
         if (btnFullscreen)
-            btnFullscreen.classList.toggle('hide', isFullscreen);
+            btnFullscreen.classList.toggle('hidden', isFullscreen);
         if (btnFullscreenExit)
-            btnFullscreenExit.classList.toggle('hide', !isFullscreen);
+            btnFullscreenExit.classList.toggle('hidden', !isFullscreen);
     }
 
     /**
@@ -644,11 +644,11 @@ export default function (options) {
      * @param {string} slideFrom - Direction to slide from ('down', 'up', 'left', 'right')
      */
     function slideToShow(element, slideFrom) {
-        if (!element.classList.contains('hide')) {
+        if (!element.classList.contains('hidden')) {
             return;
         }
 
-        element.classList.remove('hide');
+        element.classList.remove('hidden');
 
         const onFinish = function () {
             const btnSlideshowPause = element.querySelector('.btnSlideshowPause');
@@ -673,12 +673,12 @@ export default function (options) {
      * @param {string} slideInto - Direction to slide into ('down', 'up', 'left', 'right')
      */
     function slideToHide(element, slideInto) {
-        if (element.classList.contains('hide')) {
+        if (element.classList.contains('hidden')) {
             return;
         }
 
         const onFinish = function () {
-            element.classList.add('hide');
+            element.classList.add('hidden');
         };
 
         if (!element.animate) {

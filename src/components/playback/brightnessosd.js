@@ -28,7 +28,7 @@ function ensureOsdElement() {
         enableAnimation = browser.supportsCssAnimation();
 
         elem = document.createElement('div');
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
         elem.classList.add('iconOsd');
         elem.classList.add('iconOsd-hidden');
         elem.classList.add('brightnessOsd');
@@ -43,7 +43,7 @@ function ensureOsdElement() {
 }
 
 function onHideComplete() {
-    this.classList.add('hide');
+    this.classList.add('hidden');
 }
 
 let hideTimeout;
@@ -56,7 +56,7 @@ function showOsd() {
         once: true
     });
 
-    elem.classList.remove('hide');
+    elem.classList.remove('hidden');
 
     // trigger reflow
     void elem.offsetWidth;

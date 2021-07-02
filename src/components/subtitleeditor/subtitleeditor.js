@@ -13,7 +13,6 @@ import '../formdialog.scss';
 import 'material-design-icons-iconfont';
 import './subtitleeditor.scss';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
@@ -130,9 +129,9 @@ function fillSubtitleList(context, item) {
     const elem = context.querySelector('.subtitleList');
 
     if (subs.length) {
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
     } else {
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
     }
     elem.innerHTML = html;
 }
@@ -163,13 +162,13 @@ function renderSearchResults(context, results) {
     let html = '';
 
     if (!results.length) {
-        context.querySelector('.noSearchResults').classList.remove('hide');
+        context.querySelector('.noSearchResults').classList.remove('hidden');
         context.querySelector('.subtitleResults').innerHTML = '';
         loading.hide();
         return;
     }
 
-    context.querySelector('.noSearchResults').classList.add('hide');
+    context.querySelector('.noSearchResults').classList.add('hidden');
 
     for (let i = 0, length = results.length; i < length; i++) {
         const result = results[i];
@@ -216,7 +215,7 @@ function renderSearchResults(context, results) {
         }
 
         if (result.IsHashMatch) {
-            html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
+            html += '<div class="secondary listItemBodyText"><div class="inline-flex items-center justify-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
         }
 
         html += '</div>';
@@ -252,7 +251,7 @@ function searchForSubtitles(context, language) {
 }
 
 function reload(context, apiClient, itemId) {
-    context.querySelector('.noSearchResults').classList.add('hide');
+    context.querySelector('.noSearchResults').classList.add('hidden');
 
     function onGetItem(item) {
         currentItem = item;
@@ -266,10 +265,10 @@ function reload(context, apiClient, itemId) {
 
         if (file) {
             context.querySelector('.pathValue').innerHTML = file;
-            context.querySelector('.originalFile').classList.remove('hide');
+            context.querySelector('.originalFile').classList.remove('hidden');
         } else {
             context.querySelector('.pathValue').innerHTML = '';
-            context.querySelector('.originalFile').classList.add('hide');
+            context.querySelector('.originalFile').classList.add('hidden');
         }
 
         loading.hide();
@@ -408,9 +407,9 @@ function showEditorInternal(itemId, serverId) {
 
         if (layoutManager.tv) {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
+            dlg.querySelector('.btnSearchSubtitles').classList.add('hidden');
         } else {
-            btnSubmit.classList.add('hide');
+            btnSubmit.classList.add('hidden');
         }
 
         // Don't allow redirection to other websites from the TV layout

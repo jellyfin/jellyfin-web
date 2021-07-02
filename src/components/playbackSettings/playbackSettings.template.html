@@ -24,26 +24,26 @@
         </label>
     </div>
 
-    <div class="qualitySections hide">
-        <div class="verticalSection verticalSection-extrabottompadding videoQualitySection hide">
+    <div class="qualitySections hidden">
+        <div class="verticalSection verticalSection-extrabottompadding videoQualitySection hidden">
             <h2 class="sectionTitle">
                 ${HeaderVideoQuality}
             </h2>
 
-            <div class="selectContainer fldVideoInNetworkQuality hide">
+            <div class="selectContainer fldVideoInNetworkQuality hidden">
                 <select is="emby-select" class="selectVideoInNetworkQuality" label="${LabelHomeNetworkQuality}"></select>
             </div>
 
-            <div class="selectContainer fldVideoInternetQuality hide">
+            <div class="selectContainer fldVideoInternetQuality hidden">
                 <select is="emby-select" class="selectVideoInternetQuality" label="${LabelInternetQuality}"></select>
             </div>
 
-            <div class="selectContainer fldChromecastQuality hide">
+            <div class="selectContainer fldChromecastQuality hidden">
                 <select is="emby-select" class="selectChromecastVideoQuality" label="${LabelMaxChromecastBitrate}"></select>
             </div>
         </div>
 
-        <div class="verticalSection verticalSection-extrabottompadding musicQualitySection hide">
+        <div class="verticalSection verticalSection-extrabottompadding musicQualitySection hidden">
             <h2>
                 ${HeaderMusicQuality}
             </h2>
@@ -75,14 +75,14 @@
             <div class="fieldDescription checkboxFieldDescription">${CinemaModeConfigurationHelp}</div>
         </div>
 
-        <div class="checkboxContainer fldEpisodeAutoPlay hide">
+        <div class="checkboxContainer fldEpisodeAutoPlay hidden">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkEpisodeAutoPlay" />
                 <span>${PlayNextEpisodeAutomatically}</span>
             </label>
         </div>
 
-        <div class="checkboxContainer checkboxContainer-withDescription fldEnableNextVideoOverlay hide">
+        <div class="checkboxContainer checkboxContainer-withDescription fldEnableNextVideoOverlay hidden">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkEnableNextVideoOverlay" />
                 <span>${EnableNextVideoInfoOverlay}</span>
@@ -90,7 +90,7 @@
             <div class="fieldDescription checkboxFieldDescription">${EnableNextVideoInfoOverlayHelp}</div>
         </div>
 
-        <div class="checkboxContainer fldExternalPlayer checkboxContainer-withDescription hide">
+        <div class="checkboxContainer fldExternalPlayer checkboxContainer-withDescription hidden">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkExternalVideoPlayer" />
                 <span>${EnableExternalVideoPlayers}</span>
@@ -116,7 +116,7 @@
         </div>
     </div>
 
-    <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
+    <button is="emby-button" type="submit" class="raised button-submit block btnSave hidden">
         <span>${Save}</span>
     </button>
 </form>

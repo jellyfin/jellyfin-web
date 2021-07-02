@@ -21,7 +21,7 @@ function reloadList(page) {
         });
     }).catch(() => {
         console.error('error loading repositories');
-        page.querySelector('#none').classList.remove('hide');
+        page.querySelector('#none').classList.remove('hidden');
         loading.hide();
     });
 }
@@ -51,9 +51,9 @@ function populateList(options) {
 
     html += '</div>';
     if (!options.repositories.length) {
-        options.noneElement.classList.remove('hide');
+        options.noneElement.classList.remove('hidden');
     } else {
-        options.noneElement.classList.add('hide');
+        options.noneElement.classList.add('hidden');
     }
 
     options.listElement.innerHTML = html;

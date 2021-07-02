@@ -31,17 +31,17 @@ export default function (view, params) {
         page.querySelector('.lnkControlsPreferences').setAttribute('href', '#!/mypreferencescontrols.html?userId=' + userId);
 
         const supportsClientSettings = appHost.supports('clientsettings');
-        page.querySelector('.clientSettings').classList.toggle('hide', !supportsClientSettings);
+        page.querySelector('.clientSettings').classList.toggle('hidden', !supportsClientSettings);
 
         const supportsMultiServer = appHost.supports('multiserver');
-        page.querySelector('.selectServer').classList.toggle('hide', !supportsMultiServer);
+        page.querySelector('.selectServer').classList.toggle('hidden', !supportsMultiServer);
 
         page.querySelector('.lnkControlsPreferences').classList.toggle('hide', layoutManager.mobile);
 
         ApiClient.getQuickConnect('Status')
             .then(status => {
                 if (status !== 'Unavailable') {
-                    page.querySelector('.lnkQuickConnectPreferences').classList.remove('hide');
+                    page.querySelector('.lnkQuickConnectPreferences').classList.remove('hidden');
                 }
             })
             .catch(() => {
@@ -51,15 +51,15 @@ export default function (view, params) {
         ApiClient.getUser(userId).then(function (user) {
             page.querySelector('.headerUsername').innerHTML = user.Name;
             if (user.Policy.IsAdministrator && !layoutManager.tv) {
-                page.querySelector('.adminSection').classList.remove('hide');
+                page.querySelector('.adminSection').classList.remove('hidden');
             }
         });
 
         // Hide the actions if user preferences are being edited for a different user
         if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
-            page.querySelector('.userSection').classList.add('hide');
-            page.querySelector('.adminSection').classList.add('hide');
-            page.querySelector('.lnkControlsPreferences').classList.add('hide');
+            page.querySelector('.userSection').classList.add('hidden');
+            page.querySelector('.adminSection').classList.add('hidden');
+            page.querySelector('.lnkControlsPreferences').classList.add('hidden');
         }
 
         import('../../../components/autoFocuser').then(({default: autoFocuser}) => {

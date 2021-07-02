@@ -16,7 +16,6 @@ import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../elements/emby-toggle/emby-toggle';
-import '../../assets/css/flexstyles.scss';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './mediaLibraryEditor.template.html';
@@ -149,9 +148,9 @@ import template from './mediaLibraryEditor.template.html';
         }
 
         if (options.library.CollectionType === 'boxsets') {
-            page.querySelector('.folders').classList.add('hide');
+            page.querySelector('.folders').classList.add('hidden');
         } else {
-            page.querySelector('.folders').classList.remove('hide');
+            page.querySelector('.folders').classList.remove('hidden');
         }
 
         page.querySelector('.folderList').innerHTML = pathInfos.map(getFolderHtml).join('');

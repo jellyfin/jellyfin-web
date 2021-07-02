@@ -104,9 +104,9 @@ import template from './itemidentifier.template.html';
     function showIdentificationSearchResults(page, results) {
         const identificationSearchResults = page.querySelector('.identificationSearchResults');
 
-        page.querySelector('.popupIdentifyForm').classList.add('hide');
-        identificationSearchResults.classList.remove('hide');
-        page.querySelector('.identifyOptionsForm').classList.add('hide');
+        page.querySelector('.popupIdentifyForm').classList.add('hidden');
+        identificationSearchResults.classList.remove('hidden');
+        page.querySelector('.identifyOptionsForm').classList.add('hidden');
         page.querySelector('.dialogContentInner').classList.remove('dialog-content-centered');
 
         let html = '';
@@ -153,9 +153,9 @@ import template from './itemidentifier.template.html';
     function showIdentifyOptions(page, identifyResult) {
         const identifyOptionsForm = page.querySelector('.identifyOptionsForm');
 
-        page.querySelector('.popupIdentifyForm').classList.add('hide');
-        page.querySelector('.identificationSearchResults').classList.add('hide');
-        identifyOptionsForm.classList.remove('hide');
+        page.querySelector('.popupIdentifyForm').classList.add('hidden');
+        page.querySelector('.identificationSearchResults').classList.add('hidden');
+        identifyOptionsForm.classList.remove('hidden');
         page.querySelector('#chkIdentifyReplaceImages').checked = true;
         page.querySelector('.dialogContentInner').classList.add('dialog-content-centered');
 
@@ -309,10 +309,10 @@ import template from './itemidentifier.template.html';
             page.querySelector('#txtLookupName').value = '';
 
             if (item.Type === 'Person' || item.Type === 'BoxSet') {
-                page.querySelector('.fldLookupYear').classList.add('hide');
+                page.querySelector('.fldLookupYear').classList.add('hidden');
                 page.querySelector('#txtLookupYear').value = '';
             } else {
-                page.querySelector('.fldLookupYear').classList.remove('hide');
+                page.querySelector('.fldLookupYear').classList.remove('hidden');
                 page.querySelector('#txtLookupYear').value = '';
             }
 
@@ -359,9 +359,9 @@ import template from './itemidentifier.template.html';
             }
 
             if (item.Path) {
-                dlg.querySelector('.fldPath').classList.remove('hide');
+                dlg.querySelector('.fldPath').classList.remove('hidden');
             } else {
-                dlg.querySelector('.fldPath').classList.add('hide');
+                dlg.querySelector('.fldPath').classList.add('hidden');
             }
 
             dlg.querySelector('.txtPath').innerHTML = item.Path || '';
@@ -457,10 +457,10 @@ import template from './itemidentifier.template.html';
         dlg.querySelector('#txtLookupName').value = itemName;
 
         if (itemType === 'Person' || itemType === 'BoxSet') {
-            dlg.querySelector('.fldLookupYear').classList.add('hide');
+            dlg.querySelector('.fldLookupYear').classList.add('hidden');
             dlg.querySelector('#txtLookupYear').value = '';
         } else {
-            dlg.querySelector('.fldLookupYear').classList.remove('hide');
+            dlg.querySelector('.fldLookupYear').classList.remove('hidden');
             dlg.querySelector('#txtLookupYear').value = itemYear;
         }
 

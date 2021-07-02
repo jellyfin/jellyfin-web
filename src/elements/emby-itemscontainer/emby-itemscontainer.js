@@ -436,9 +436,9 @@ import Sortable from 'sortablejs';
         const parentContainer = this.parentContainer;
         if (parentContainer) {
             if (items.length) {
-                parentContainer.classList.remove('hide');
+                parentContainer.classList.remove('hidden');
             } else {
-                parentContainer.classList.add('hide');
+                parentContainer.classList.add('hidden');
             }
         }
 

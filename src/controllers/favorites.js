@@ -236,7 +236,7 @@ import ServerConnections from '../components/ServerConnections';
                 sectionClass += ' verticalSection-extrabottompadding';
             }
 
-            html += '<div class="' + sectionClass + ' hide">';
+            html += '<div class="' + sectionClass + ' hidden">';
             html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
             if (layoutManager.tv) {

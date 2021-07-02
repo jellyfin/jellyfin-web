@@ -33,10 +33,10 @@ import template from './imageOptionsEditor.template.html';
 
     function setVisibilityOfBackdrops(elem, visible) {
         if (visible) {
-            elem.classList.remove('hide');
+            elem.classList.remove('hidden');
             elem.querySelector('input').setAttribute('required', 'required');
         } else {
-            elem.classList.add('hide');
+            elem.classList.add('hidden');
             elem.querySelector('input').setAttribute('required', '');
             elem.querySelector('input').removeAttribute('required');
         }
@@ -51,9 +51,9 @@ import template from './imageOptionsEditor.template.html';
             const container = dom.parentWithTag(i, 'LABEL');
 
             if (!supportedImageTypes.includes(imageType)) {
-                container.classList.add('hide');
+                container.classList.add('hidden');
             } else {
-                container.classList.remove('hide');
+                container.classList.remove('hidden');
             }
 
             if (getImageConfig(options, availableOptions, imageType, itemType).Limit) {
@@ -71,7 +71,7 @@ import template from './imageOptionsEditor.template.html';
     }
 
     function saveValues(context, options) {
-        options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hide)'), c => {
+        options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hidden)'), c => {
             return {
                 Type: c.getAttribute('data-imagetype'),
                 Limit: c.checked ? 1 : 0,

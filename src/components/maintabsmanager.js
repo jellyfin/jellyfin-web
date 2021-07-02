@@ -89,7 +89,7 @@ import '../elements/emby-button/emby-button';
                 document.body.classList.remove('withSectionTabs');
 
                 headerTabsContainer.innerHTML = '';
-                headerTabsContainer.classList.add('hide');
+                headerTabsContainer.classList.add('hidden');
 
                 tabOwnerView = null;
             }
@@ -104,7 +104,7 @@ import '../elements/emby-button/emby-button';
         const tabsContainerElem = headerTabsContainer;
 
         if (!tabOwnerView) {
-            tabsContainerElem.classList.remove('hide');
+            tabsContainerElem.classList.remove('hidden');
         }
 
         if (tabOwnerView !== view) {
@@ -115,7 +115,7 @@ import '../elements/emby-button/emby-button';
                 let tabClass = 'emby-tab-button';
 
                 if (t.enabled === false) {
-                    tabClass += ' hide';
+                    tabClass += ' hidden';
                 }
 
                 let tabHtml;

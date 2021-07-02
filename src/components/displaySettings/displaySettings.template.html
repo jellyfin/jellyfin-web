@@ -3,7 +3,7 @@
         ${Display}
     </h2>
 
-    <div class="selectContainer languageSection hide">
+    <div class="selectContainer languageSection hidden">
         <select id="selectLanguage" is="emby-select" label="${LabelDisplayLanguage}">
             <option value="">${Auto}</option>
             <option value="af">Afrikaans</option>
@@ -69,13 +69,13 @@
         </select>
         <div class="fieldDescription">
             <div>${LabelDisplayLanguageHelp}</div>
-            <div class="learnHowToContributeContainer hide" style="margin-top: .25em;">
+            <div class="learnHowToContributeContainer hidden" style="margin-top: .25em;">
                 <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://github.com/jellyfin/jellyfin" target="_blank">${LearnHowYouCanContribute}</a>
             </div>
         </div>
     </div>
 
-    <div class="selectContainer fldDateTimeLocale hide">
+    <div class="selectContainer fldDateTimeLocale hidden">
         <select is="emby-select" class="selectDateTimeLocale" label="${LabelDateTimeLocale}">
             <option value="">${Auto}</option>
             <option value="af">Afrikaans</option>
@@ -141,7 +141,7 @@
         </select>
     </div>
 
-    <div class="selectContainer fldDisplayMode hide">
+    <div class="selectContainer fldDisplayMode hidden">
         <select is="emby-select" class="selectLayout" label="${LabelDisplayMode}">
             <option value="">${Auto}</option>
             <option value="desktop">${Desktop}</option>
@@ -156,11 +156,11 @@
         <select id="selectTheme" is="emby-select" label="${LabelTheme}"></select>
     </div>
 
-    <div class="selectContainer selectDashboardThemeContainer hide">
+    <div class="selectContainer selectDashboardThemeContainer hidden">
         <select id="selectDashboardTheme" is="emby-select" label="${LabelDashboardTheme}"></select>
     </div>
 
-    <div class="selectContainer hide selectScreensaverContainer">
+    <div class="selectContainer hidden selectScreensaverContainer">
         <select is="emby-select" class="selectScreensaver" label="${LabelScreensaver}"></select>
     </div>
 
@@ -193,7 +193,7 @@
         <div class="fieldDescription checkboxFieldDescription">${EnableDetailsBannerHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldBackdrops hide">
+    <div class="checkboxContainer checkboxContainer-withDescription fldBackdrops hidden">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkBackdrops" />
             <span>${Backdrops}</span>
@@ -201,7 +201,7 @@
         <div class="fieldDescription checkboxFieldDescription">${EnableBackdropsHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldThemeSong hide">
+    <div class="checkboxContainer checkboxContainer-withDescription fldThemeSong hidden">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkThemeSong" />
             <span>${ThemeSongs}</span>
@@ -209,7 +209,7 @@
         <div class="fieldDescription checkboxFieldDescription">${EnableThemeSongsHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldThemeVideo hide">
+    <div class="checkboxContainer checkboxContainer-withDescription fldThemeVideo hidden">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkThemeVideo" />
             <span>${ThemeVideos}</span>
@@ -217,7 +217,7 @@
         <div class="fieldDescription checkboxFieldDescription">${EnableThemeVideosHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldDisplayMissingEpisodes hide">
+    <div class="checkboxContainer checkboxContainer-withDescription fldDisplayMissingEpisodes hidden">
         <label>
             <input type="checkbox" is="emby-checkbox" class="chkDisplayMissingEpisodes" />
             <span>${DisplayMissingEpisodesWithinSeasons}</span>
@@ -225,7 +225,7 @@
         <div class="fieldDescription checkboxFieldDescription">${DisplayMissingEpisodesWithinSeasonsHelp}</div>
     </div>
 
-    <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
+    <button is="emby-button" type="submit" class="raised button-submit block btnSave hidden">
         <span>${Save}</span>
     </button>
 </form>

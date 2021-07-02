@@ -13,7 +13,6 @@ import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
 import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
@@ -99,9 +98,9 @@ import Dashboard from '../../scripts/clientUtils';
             const elem = page.querySelector('#recentlyPlayed');
 
             if (result.Items.length) {
-                elem.classList.remove('hide');
+                elem.classList.remove('hidden');
             } else {
-                elem.classList.add('hide');
+                elem.classList.add('hidden');
             }
 
             const itemsContainer = elem.querySelector('.itemsContainer');
@@ -141,9 +140,9 @@ import Dashboard from '../../scripts/clientUtils';
             const elem = page.querySelector('#topPlayed');
 
             if (result.Items.length) {
-                elem.classList.remove('hide');
+                elem.classList.remove('hidden');
             } else {
-                elem.classList.add('hide');
+                elem.classList.add('hidden');
             }
 
             const itemsContainer = elem.querySelector('.itemsContainer');

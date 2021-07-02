@@ -9,7 +9,6 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
 import template from './viewSettings.template.html';
 
 function onSubmit(e) {
@@ -49,9 +48,9 @@ function showIfAllowed(context, selector, visible) {
     const elem = context.querySelector(selector);
 
     if (visible && !elem.classList.contains('hiddenFromViewSettings')) {
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
     } else {
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
     }
 }
 
@@ -90,10 +89,10 @@ class ViewSettings {
             const settingElements = dlg.querySelectorAll('.viewSetting');
             for (const settingElement of settingElements) {
                 if (options.visibleSettings.indexOf(settingElement.getAttribute('data-settingname')) === -1) {
-                    settingElement.classList.add('hide');
+                    settingElement.classList.add('hidden');
                     settingElement.classList.add('hiddenFromViewSettings');
                 } else {
-                    settingElement.classList.remove('hide');
+                    settingElement.classList.remove('hidden');
                     settingElement.classList.remove('hiddenFromViewSettings');
                 }
             }

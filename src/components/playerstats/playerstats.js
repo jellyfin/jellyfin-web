@@ -19,7 +19,7 @@ import ServerConnections from '../ServerConnections';
             parent.classList.add('playerStats-tv');
         }
 
-        parent.classList.add('hide');
+        parent.classList.add('hidden');
 
         let button;
 
@@ -507,10 +507,10 @@ class PlayerStats {
 
         this._enabled = enabled;
         if (enabled) {
-            this.element.classList.remove('hide');
+            this.element.classList.remove('hidden');
             bindEvents(this, options.player);
         } else {
-            this.element.classList.add('hide');
+            this.element.classList.add('hidden');
             unbindEvents(this, options.player);
         }
     }

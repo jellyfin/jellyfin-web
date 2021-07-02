@@ -12,9 +12,9 @@ function renderRecordings(elem, recordings, cardOptions, scrollX) {
     }
 
     if (recordings.length) {
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
     } else {
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
     }
 
     const recordingItems = elem.querySelector('.recordingItems');

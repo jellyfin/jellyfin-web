@@ -19,9 +19,9 @@ export default function (options) {
 
         if (options.panel) {
             if (task) {
-                options.panel.classList.remove('hide');
+                options.panel.classList.remove('hidden');
             } else {
-                options.panel.classList.add('hide');
+                options.panel.classList.add('hidden');
             }
         }
 
@@ -42,9 +42,9 @@ export default function (options) {
             options.progressElem.value = progress;
 
             if (task.State == 'Running') {
-                options.progressElem.classList.remove('hide');
+                options.progressElem.classList.remove('hidden');
             } else {
-                options.progressElem.classList.add('hide');
+                options.progressElem.classList.add('hidden');
             }
         }
 
@@ -106,7 +106,7 @@ export default function (options) {
     }
 
     if (options.panel) {
-        options.panel.classList.add('hide');
+        options.panel.classList.add('hidden');
     }
 
     if (options.mode == 'off') {

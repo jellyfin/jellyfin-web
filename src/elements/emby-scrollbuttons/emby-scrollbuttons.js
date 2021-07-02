@@ -39,8 +39,8 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         // TODO: Check if hack is really needed
         // hack alert add twenty for rounding errors
         if (scrollWidth <= scrollSize + 20) {
-            scrollButtons.scrollButtonsLeft.classList.add('hide');
-            scrollButtons.scrollButtonsRight.classList.add('hide');
+            scrollButtons.scrollButtonsLeft.classList.add('hidden');
+            scrollButtons.scrollButtonsRight.classList.add('hidden');
         }
 
         if (scrollPos > 0) {

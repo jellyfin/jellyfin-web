@@ -83,7 +83,7 @@ function populateList(options) {
     html += '</div>';
 
     if (!availablePlugins.length && options.noItemsElement) {
-        options.noItemsElement.classList.remove('hide');
+        options.noItemsElement.classList.remove('hidden');
     }
 
     options.catalogElement.innerHTML = html;

@@ -8,7 +8,7 @@ import '../emby-button/emby-button';
 
     function slideDownToShow(button, elem) {
         requestAnimationFrame(() => {
-            elem.classList.remove('hide');
+            elem.classList.remove('hidden');
             elem.classList.add('expanded');
             elem.style.height = 'auto';
             const height = elem.offsetHeight + 'px';
@@ -20,9 +20,9 @@ import '../emby-button/emby-button';
 
             setTimeout(function () {
                 if (elem.classList.contains('expanded')) {
-                    elem.classList.remove('hide');
+                    elem.classList.remove('hidden');
                 } else {
-                    elem.classList.add('hide');
+                    elem.classList.add('hidden');
                 }
                 elem.style.height = 'auto';
             }, 300);
@@ -43,9 +43,9 @@ import '../emby-button/emby-button';
 
             setTimeout(function () {
                 if (elem.classList.contains('expanded')) {
-                    elem.classList.remove('hide');
+                    elem.classList.remove('hidden');
                 } else {
-                    elem.classList.add('hide');
+                    elem.classList.add('hidden');
                 }
             }, 300);
 
@@ -76,7 +76,7 @@ import '../emby-button/emby-button';
 
         const collapseContent = this.querySelector('.collapseContent');
         if (collapseContent) {
-            collapseContent.classList.add('hide');
+            collapseContent.classList.add('hidden');
         }
 
         const title = this.getAttribute('title');

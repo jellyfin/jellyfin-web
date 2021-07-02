@@ -133,7 +133,7 @@ import confirm from '../../../components/confirm/confirm';
         showAddTriggerPopup: function (view) {
             $('#selectTriggerType', view).val('DailyTrigger');
             view.querySelector('#selectTriggerType').dispatchEvent(new CustomEvent('change', {}));
-            $('#popupAddTrigger', view).removeClass('hide');
+            $('#popupAddTrigger', view).removeClass('hidden');
         },
         confirmDeleteTrigger: function (view, index) {
             confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
@@ -214,7 +214,7 @@ import confirm from '../../../components/confirm/confirm';
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
-                    $('#popupAddTrigger').addClass('hide');
+                    $('#popupAddTrigger').addClass('hidden');
                     ScheduledTaskPage.refreshScheduledTask(view);
                 });
             });

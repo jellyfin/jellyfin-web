@@ -28,7 +28,7 @@ function init(instance) {
         }, 0);
     }
 
-    subtitleSyncContainer.classList.add('hide');
+    subtitleSyncContainer.classList.add('hidden');
 
     subtitleSyncTextField.updateOffset = function (offset) {
         this.textContent = offset + 's';
@@ -158,7 +158,7 @@ class SubtitleSync {
                             playbackManager.setSubtitleOffset(0, player);
                         }
                         // show subtitle sync
-                        subtitleSyncContainer.classList.remove('hide');
+                        subtitleSyncContainer.classList.remove('hidden');
                         break; // stop here
                     } // else continue and hide
                 case 'hide':
@@ -167,7 +167,7 @@ class SubtitleSync {
                         break;
                     }
                 case 'forceToHide':
-                    subtitleSyncContainer.classList.add('hide');
+                    subtitleSyncContainer.classList.add('hidden');
                     break;
             }
             /* eslint-enable no-fallthrough */

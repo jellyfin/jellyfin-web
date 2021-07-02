@@ -39,9 +39,9 @@ export default function (page, providerId, options) {
                 page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
 
                 if (page.querySelector('.chkAllTuners').checked) {
-                    page.querySelector('.selectTunersSection').classList.add('hide');
+                    page.querySelector('.selectTunersSection').classList.add('hidden');
                 } else {
-                    page.querySelector('.selectTunersSection').classList.remove('hide');
+                    page.querySelector('.selectTunersSection').classList.remove('hidden');
                 }
 
                 refreshTunerDevices(page, info, config.TunerHosts);
@@ -173,10 +173,10 @@ export default function (page, providerId, options) {
         // Only hide the buttons if explicitly set to false; default to showing if undefined or null
         // FIXME: rename this option to clarify logic
         const hideCancelButton = options.showCancelButton === false;
-        page.querySelector('.btnCancel').classList.toggle('hide', hideCancelButton);
+        page.querySelector('.btnCancel').classList.toggle('hidden', hideCancelButton);
 
         const hideSubmitButton = options.showSubmitButton === false;
-        page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
+        page.querySelector('.btnSubmitListings').classList.toggle('hidden', hideSubmitButton);
 
         $('form', page).on('submit', function () {
             submitListingsForm();
@@ -185,9 +185,9 @@ export default function (page, providerId, options) {
         page.querySelector('#btnSelectPath').addEventListener('click', onSelectPathClick);
         page.querySelector('.chkAllTuners').addEventListener('change', function (evt) {
             if (evt.target.checked) {
-                page.querySelector('.selectTunersSection').classList.add('hide');
+                page.querySelector('.selectTunersSection').classList.add('hidden');
             } else {
-                page.querySelector('.selectTunersSection').classList.remove('hide');
+                page.querySelector('.selectTunersSection').classList.remove('hidden');
             }
         });
         reload();

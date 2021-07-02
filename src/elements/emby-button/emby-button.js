@@ -47,9 +47,9 @@ EmbyButtonPrototype.attachedCallback = function () {
 
         if (this.getAttribute('data-autohide') === 'true') {
             if (appHost.supports('externallinks')) {
-                this.classList.remove('hide');
+                this.classList.remove('hidden');
             } else {
-                this.classList.add('hide');
+                this.classList.add('hidden');
             }
         }
     }

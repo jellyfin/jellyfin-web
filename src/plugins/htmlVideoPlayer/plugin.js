@@ -1281,9 +1281,9 @@ function tryRemoveElement(elem) {
 
                 if (selectedTrackEvent && selectedTrackEvent.Text) {
                     subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
-                    subtitleTextElement.classList.remove('hide');
+                    subtitleTextElement.classList.remove('hidden');
                 } else {
-                    subtitleTextElement.classList.add('hide');
+                    subtitleTextElement.classList.add('hidden');
                 }
             }
         }

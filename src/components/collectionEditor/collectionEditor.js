@@ -11,7 +11,6 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 
@@ -95,7 +94,7 @@ import toast from '../toast/toast';
 
         const select = panel.querySelector('#selectCollectionToAddTo');
 
-        panel.querySelector('.newCollectionInfo').classList.add('hide');
+        panel.querySelector('.newCollectionInfo').classList.add('hidden');
 
         const options = {
 
@@ -173,10 +172,10 @@ import toast from '../toast/toast';
     function initEditor(content, items) {
         content.querySelector('#selectCollectionToAddTo').addEventListener('change', function () {
             if (this.value) {
-                content.querySelector('.newCollectionInfo').classList.add('hide');
+                content.querySelector('.newCollectionInfo').classList.add('hidden');
                 content.querySelector('#txtNewCollectionName').removeAttribute('required');
             } else {
-                content.querySelector('.newCollectionInfo').classList.remove('hide');
+                content.querySelector('.newCollectionInfo').classList.remove('hidden');
                 content.querySelector('#txtNewCollectionName').setAttribute('required', 'required');
             }
         });
@@ -186,10 +185,10 @@ import toast from '../toast/toast';
         content.querySelector('.fldSelectedItemIds', content).value = items.join(',');
 
         if (items.length) {
-            content.querySelector('.fldSelectCollection').classList.remove('hide');
+            content.querySelector('.fldSelectCollection').classList.remove('hidden');
             populateCollections(content);
         } else {
-            content.querySelector('.fldSelectCollection').classList.add('hide');
+            content.querySelector('.fldSelectCollection').classList.add('hidden');
 
             const selectCollectionToAddTo = content.querySelector('#selectCollectionToAddTo');
             selectCollectionToAddTo.innerHTML = '';

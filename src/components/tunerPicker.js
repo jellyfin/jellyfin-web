@@ -18,11 +18,11 @@ function getEditorHtml() {
     let html = '';
     html += '<div class="formDialogContent scrollY">';
     html += '<div class="dialogContentInner dialog-content-centered">';
-    html += '<div class="loadingContent hide">';
+    html += '<div class="loadingContent hidden">';
     html += '<h1>' + globalize.translate('DetectingDevices') + '...</h1>';
     html += '<p>' + globalize.translate('MessagePleaseWait') + '</p>';
     html += '</div>';
-    html += '<h1 style="margin-bottom:.25em;" class="devicesHeader hide">' + globalize.translate('HeaderNewDevices') + '</h1>';
+    html += '<h1 style="margin-bottom:.25em;" class="devicesHeader hidden">' + globalize.translate('HeaderNewDevices') + '</h1>';
     html += '<div is="emby-itemscontainer" class="results vertical-wrap">';
     html += '</div>';
     html += '</div>';
@@ -91,10 +91,10 @@ function renderDevices(view, devices) {
     }
 
     if (devices.length) {
-        view.querySelector('.devicesHeader').classList.remove('hide');
+        view.querySelector('.devicesHeader').classList.remove('hidden');
     } else {
         html = '<p><br/>' + globalize.translate('NoNewDevicesFound') + '</p>';
-        view.querySelector('.devicesHeader').classList.add('hide');
+        view.querySelector('.devicesHeader').classList.add('hidden');
     }
 
     const elem = view.querySelector('.results');
@@ -107,13 +107,13 @@ function renderDevices(view, devices) {
 
 function discoverDevices(view) {
     loading.show();
-    view.querySelector('.loadingContent').classList.remove('hide');
+    view.querySelector('.loadingContent').classList.remove('hidden');
     return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discvover', {
         NewDevicesOnly: true
     })).then(function (devices) {
         currentDevices = devices;
         renderDevices(view, devices);
-        view.querySelector('.loadingContent').classList.add('hide');
+        view.querySelector('.loadingContent').classList.add('hidden');
         loading.hide();
     });
 }

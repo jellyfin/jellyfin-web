@@ -7,7 +7,6 @@ import globalize from '../../scripts/globalize';
 import 'material-design-icons-iconfont';
 
 import '../../elements/emby-input/emby-input';
-import '../../assets/css/flexstyles.scss';
 import './searchfields.scss';
 import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';
@@ -72,7 +71,7 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
             className='padded-left padded-right searchFields'
             ref={element}
         >
-            <div className='searchFieldsInner flex align-items-center justify-content-center'>
+            <div className='searchFieldsInner flex align-center justify-center'>
                 <span className='searchfields-icon material-icons search' />
                 <div
                     className='inputContainer flex-grow'

@@ -105,11 +105,11 @@ import toast from '../../../components/toast/toast';
     }
 
     function openPopup(elem) {
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
     }
 
     function closePopup(elem) {
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
     }
 
     function editIdentificationHeader(page, header) {
