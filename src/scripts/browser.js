@@ -14,7 +14,7 @@ function isTv() {
         return true;
     }
 
-    if (userAgent.indexOf('netcast')) {
+    if (userAgent.indexOf('netcast') !== -1) {
         return true;
     }
 
