@@ -1369,12 +1369,17 @@ function tryRemoveElement(elem) {
                             document.body.classList.add('hide-scroll');
                         }
 
-                        // don't animate on smart tv's, too slow
-                        if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
-                            return zoomIn(dlg).then(function () {
-                                return videoElement;
-                            });
-                        } else {
+                        if (options.fullscreen) {
+                            if (browser.tv && Screenfull.isEnabled) {
+                                Screenfull.request();
+                            }
+                            // don't animate on smart tv's, too slow
+                            if (!browser.slow && browser.supportsCssAnimation()) {
+                                return zoomIn(dlg).then(function () {
+                                    return videoElement;
+                                });
+                            }
+
                             return videoElement;
                         }
                     });
