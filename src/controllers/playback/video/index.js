@@ -402,7 +402,7 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
-        function onFullscreenChange() {
+        function onFullscreenChanged() {
             if (!layoutManager.tv) {
                 updateFullscreenIcon();
             } else if (!playbackManager.isFullscreen(currentPlayer)) {
@@ -513,7 +513,7 @@ import { appRouter } from '../../../components/appRouter';
             Events.on(player, 'pause', onPlayPauseStateChanged);
             Events.on(player, 'unpause', onPlayPauseStateChanged);
             Events.on(player, 'timeupdate', onTimeUpdate);
-            Events.on(player, 'fullscreenchange', onFullscreenChange);
+            Events.on(player, 'fullscreenchange', onFullscreenChanged);
             Events.on(player, 'mediastreamschange', onMediaStreamsChanged);
             Events.on(player, 'beginFetch', onBeginFetch);
             Events.on(player, 'endFetch', onEndFetch);
@@ -537,7 +537,7 @@ import { appRouter } from '../../../components/appRouter';
                 Events.off(player, 'pause', onPlayPauseStateChanged);
                 Events.off(player, 'unpause', onPlayPauseStateChanged);
                 Events.off(player, 'timeupdate', onTimeUpdate);
-                Events.off(player, 'fullscreenchange', onFullscreenChange);
+                Events.off(player, 'fullscreenchange', onFullscreenChanged);
                 Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
                 currentPlayer = null;
             }
@@ -683,7 +683,7 @@ import { appRouter } from '../../../components/appRouter';
                 view.querySelector('.btnAirPlay').classList.remove('hide');
             }
 
-            onFullscreenChange();
+            onFullscreenChanged();
         }
 
         function getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs) {
