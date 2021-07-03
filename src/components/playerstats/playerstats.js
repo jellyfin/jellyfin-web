@@ -175,7 +175,7 @@ import ServerConnections from '../ServerConnections';
             }
             sessionStats.push({
                 label: globalize.translate('LabelHardwareEncoding'),
-                value: session.TranscodingInfo.IsHardwareEncode
+                value: session.TranscodingInfo.HardwareAccelerationType
             });
         }
 
