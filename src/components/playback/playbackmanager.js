@@ -1960,7 +1960,7 @@ class PlaybackManager {
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
                 state.PlayState.PlaybackStartTimeTicks = self.playbackStartTime(player);
-                state.PlayState.PlaybackRate = self.getPlaybackRate(player)
+                state.PlayState.PlaybackRate = self.getPlaybackRate(player);
 
                 state.PlayState.SubtitleStreamIndex = self.getSubtitleStreamIndex(player);
                 state.PlayState.AudioStreamIndex = self.getAudioStreamIndex(player);
