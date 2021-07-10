@@ -1426,6 +1426,8 @@
     "Upload": "Upload",
     "UseDoubleRateDeinterlacing": "Double the frame rate when deinterlacing",
     "UseDoubleRateDeinterlacingHelp": "This setting uses the field rate when deinterlacing, often referred to as bob deinterlacing, which doubles the frame rate of the video to provide full motion like what you would see when viewing interlaced video on a TV.",
+    "UseEpisodeImagesInNextUp": "Use episode images in Next Up and Continue Watching sections",
+    "UseEpisodeImagesInNextUpHelp": "Next Up and Continue Watching sections will use episode images as thumbnails instead of the primary thumbnail of the show.",
     "UserAgentHelp": "Supply a custom user-agent HTTP header.",
     "UserProfilesIntro": "Jellyfin includes support for user profiles with granular display settings, play state, and parental controls.",
     "ValueAlbumCount": "{0} albums",

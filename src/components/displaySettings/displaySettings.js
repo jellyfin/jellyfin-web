@@ -122,6 +122,7 @@ import template from './displaySettings.template.html';
         context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
         context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
+        context.querySelector('#chkUseEpisodeImagesInNextUp').checked = userSettings.useEpisodeImagesInNextUpAndResume();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
@@ -156,6 +157,7 @@ import template from './displaySettings.template.html';
         userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
         userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
+        userSettingsInstance.useEpisodeImagesInNextUpAndResume(context.querySelector('#chkUseEpisodeImagesInNextUp').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {
             skinManager.setTheme(userSettingsInstance.theme());
