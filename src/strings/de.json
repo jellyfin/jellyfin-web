@@ -1299,9 +1299,9 @@
     "MessageSyncPlayGroupDoesNotExist": "Konnte der Gruppe nicht beitreten, da sie nicht existiert.",
     "MessageSyncPlayPlaybackPermissionRequired": "Wiedergabegenehmigung erforderlich.",
     "MessageSyncPlayNoGroupsAvailable": "Keine Gruppen verfügbar. Fange an, etwas abzuspielen.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> ist am laden…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> hat die Gruppe verlassen.",
-    "MessageSyncPlayUserJoined": "<b>{0}</b> ist der Gruppe beigetreten.",
+    "MessageSyncPlayGroupWait": "{0} lädt…",
+    "MessageSyncPlayUserLeft": "{0} hat die Gruppe verlassen.",
+    "MessageSyncPlayUserJoined": "{0} ist der Gruppe beigetreten.",
     "MessageSyncPlayDisabled": "SyncPlay deaktiviert.",
     "MessageSyncPlayEnabled": "SyncPlay aktiviert.",
     "LabelSyncPlayAccess": "SyncPlay-Zugriff",
@@ -1509,5 +1509,12 @@
     "EnablePlugin": "Aktivieren",
     "Framerate": "Bildrate",
     "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel, und die Sitzung empfängt die Datei ohne Änderungen.",
-    "HeaderContinueReading": "Weiterlesen"
+    "HeaderContinueReading": "Weiterlesen",
+    "EnableGamepadHelp": "Auf Eingaben aller verbundenen Controller hören.",
+    "LabelEnableGamepad": "Gamepad aktivieren",
+    "Controls": "Steuerung",
+    "TextSent": "Text gesendet.",
+    "MessageSent": "Nachricht gesendet.",
+    "LabelSlowResponseEnabled": "Warnung loggen, falls die Serverantwort langsam war",
+    "LabelSlowResponseTime": "Zeit in ms, nachdem eine Antwort als langsam eingestuft wird"
 }
