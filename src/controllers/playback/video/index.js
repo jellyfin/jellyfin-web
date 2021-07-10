@@ -313,8 +313,8 @@ import { appRouter } from '../../../components/appRouter';
 
         function onPointerMove(e) {
             if ((e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) === 'mouse') {
-                const eventX = e.screenX || 0;
-                const eventY = e.screenY || 0;
+                const eventX = e.screenX || e.clientX || 0;
+                const eventY = e.screenY || e.clientY || 0;
                 const obj = lastPointerMoveData;
 
                 if (!obj) {

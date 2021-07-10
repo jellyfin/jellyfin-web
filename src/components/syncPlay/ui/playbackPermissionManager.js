@@ -1,3 +1,5 @@
+import { appHost } from '../../apphost';
+
 /**
  * Creates an audio element that plays a silent sound.
  * @returns {HTMLMediaElement} The audio element.
@@ -33,6 +35,10 @@ class PlaybackPermissionManager {
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
     check () {
+        if (appHost.supports('htmlaudioautoplay')) {
+            return Promise.resolve(true);
+        }
+
         return new Promise((resolve, reject) => {
             const media = createTestMediaElement();
             media.play().then(() => {
