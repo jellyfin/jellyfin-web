@@ -1303,9 +1303,9 @@
     "MessageSyncPlayGroupDoesNotExist": "Не удалось присоединиться к группе, поскольку она не существует.",
     "MessageSyncPlayPlaybackPermissionRequired": "Требуется разрешение на воспроизведение.",
     "MessageSyncPlayNoGroupsAvailable": "Никакие группы не доступны. Сначала начните воспроизводить что-нибудь.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> буферизуется…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> покинул группу.",
-    "MessageSyncPlayUserJoined": "<b>{0}</b> присоединился к группе.",
+    "MessageSyncPlayGroupWait": "{0} буферизуется…",
+    "MessageSyncPlayUserLeft": "{0} покинул группу.",
+    "MessageSyncPlayUserJoined": "{0} присоединился к группе.",
     "LabelSyncPlayAccessNone": "Отключено для данного пользователя",
     "LabelSyncPlayAccessJoinGroups": "Разрешить пользователю присоединяться к группам",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Разрешить пользователю создавать и присоединять группы",
@@ -1509,5 +1509,12 @@
     "EnablePlugin": "Включить",
     "Framerate": "Ч-та кадров",
     "DirectPlayHelp": "Исходный файл полностью совместим с этим клиентом, а сеанс получает файл без изменений.",
-    "HeaderContinueReading": "Продолжить чтение"
+    "HeaderContinueReading": "Продолжить чтение",
+    "EnableGamepadHelp": "Слушать ввод от любых подключенных контроллеров.",
+    "LabelEnableGamepad": "Включить Gamepad",
+    "Controls": "Управление",
+    "TextSent": "Текст отправлен.",
+    "MessageSent": "Сообщение отправлено.",
+    "LabelSlowResponseTime": "Время, после которого ответ считается медленным, мс",
+    "LabelSlowResponseEnabled": "Записывать в журнал предупреждение, если ответ сервера был медленным"
 }
