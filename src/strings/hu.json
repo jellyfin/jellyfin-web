@@ -1288,9 +1288,9 @@
     "HeaderHttpsSettings": "HTTPS Beállítások",
     "HeaderDVR": "DVR",
     "SaveChanges": "Változtatások mentése",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> pufferel…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> elhagyta a csoportot.",
-    "MessageSyncPlayUserJoined": "<b>{0}</b> csatlakozott a csoporthoz.",
+    "MessageSyncPlayGroupWait": "{0} pufferel…",
+    "MessageSyncPlayUserLeft": "{0} elhagyta a csoportot.",
+    "MessageSyncPlayUserJoined": "{0}csatlakozott a csoporthoz.",
     "MessageSyncPlayDisabled": "SyncPlay letiltva.",
     "MessageSyncPlayEnabled": "SyncPlay engedélyezve.",
     "LabelSyncPlayAccess": "SyncPlay hozzáférés",
@@ -1509,5 +1509,12 @@
     "EnablePlugin": "Engedélyezés",
     "Framerate": "Filmkocka szám",
     "DirectPlayHelp": "A forrásfájl teljes mértékben kompatibilis ezzel az klienssel, és a munkamenet módosítások nélkül fogadja a fájlt.",
-    "HeaderContinueReading": "Olvasás Folytatása"
+    "HeaderContinueReading": "Olvasás Folytatása",
+    "EnableGamepadHelp": "Figyeljen bármilyen csatlakoztatott kontroller bemenetére.",
+    "LabelEnableGamepad": "Engedélyezze a Gamepad-ot",
+    "Controls": "Vezérlők",
+    "TextSent": "Szöveg elküldve.",
+    "MessageSent": "Üzenet elküldve.",
+    "LabelSlowResponseTime": "Az az idő ms-ban, amely után a válasz lassúnak tekinthető",
+    "LabelSlowResponseEnabled": "Naplófigyelmeztetés, ha a szerver válasza lassú volt"
 }
