@@ -449,7 +449,7 @@ import ServerConnections from '../ServerConnections';
                 showYear: true,
                 lines: 2
             });
-        }
+        };
     }
 
     function getOnNowFetchFn(serverId) {
