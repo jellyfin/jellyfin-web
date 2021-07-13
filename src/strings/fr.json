@@ -1312,9 +1312,9 @@
     "MessageSyncPlayGroupDoesNotExist": "Impossible de rejoindre le groupe car il n'existe pas.",
     "MessageSyncPlayPlaybackPermissionRequired": "Autorisation de lecture requise.",
     "MessageSyncPlayNoGroupsAvailable": "Aucun groupe disponible. Commencez par lire quelque chose.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> est en train de charger…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> a quitté le groupe.",
-    "MessageSyncPlayUserJoined": "<b>{0}</b> a rejoint le groupe.",
+    "MessageSyncPlayGroupWait": "{0} est en train de charger…",
+    "MessageSyncPlayUserLeft": "{0} a quitté le groupe.",
+    "MessageSyncPlayUserJoined": "{0} a rejoint le groupe.",
     "MessageSyncPlayDisabled": "SyncPlay désactivé.",
     "MessageSyncPlayEnabled": "SyncPlay activé.",
     "LabelSyncPlayAccess": "Accès SyncPlay",
@@ -1509,5 +1509,12 @@
     "DisablePlugin": "Désactiver",
     "EnablePlugin": "Activer",
     "DirectPlayHelp": "Le fichier source est entièrement compatible avec le client et la session reçoit le fichier sans modifications.",
-    "HeaderContinueReading": "Continuer à lire"
+    "HeaderContinueReading": "Continuer à lire",
+    "TextSent": "Message envoyé.",
+    "EnableGamepadHelp": "Détecter le signal de toute manette connectée.",
+    "LabelEnableGamepad": "Activer la manette de jeu",
+    "Controls": "Contrôles",
+    "MessageSent": "Message envoyé.",
+    "LabelSlowResponseTime": "Délai (en millisecondes) à partir duquel une réponse est considérée comme lente",
+    "LabelSlowResponseEnabled": "Enregistrer une alerte dans le fichier log si la réponse du serveur est trop lente"
 }
