@@ -33,7 +33,9 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'index.html'
+            template: 'index.html',
+            // Append file hashes to bundle urls for cache busting
+            hash: true
         }),
         new CopyPlugin({
             patterns: [
@@ -75,7 +77,8 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].[contenthash].bundle.js',
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
     },
