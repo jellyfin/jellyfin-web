@@ -21,3 +21,7 @@ markComment: >
   This bot exists to prevent issues from becoming stale and forgotten. Jellyfin is always moving forward, and bugs are often fixed as side effects of other changes. We therefore ask that bug report authors remain vigilant about their issues to ensure they are closed if fixed, or re-confirmed - perhaps with fresh logs or reproduction examples - regularly. If you have any questions you can reach us on [Matrix or Social Media](https://docs.jellyfin.org/general/getting-help.html).
 # Comment to post when closing a stale issue. Set to `false` to disable
 closeComment: false
+
+# Disable automatic closing of pull requests
+pulls:
+  daysUntilClose: false
