@@ -450,6 +450,9 @@ import '../../assets/css/scrollstyles.scss';
             dlg.classList.add(`dialog-${options.size}`);
         }
 
+        dlg.nominalOffsetHeight = dlg.offsetHeight;
+        dlg.nominalOffsetWidth = dlg.offsetWidth;
+
         if (enableAnimation()) {
             switch (dlg.animationConfig.entry.name) {
                 case 'fadein':
