@@ -150,7 +150,7 @@ import ServerConnections from '../ServerConnections';
         } else if (section === 'activerecordings') {
             loadLatestLiveTvRecordings(elem, true, apiClient);
         } else if (section === 'nextup') {
-            loadNextUp(elem, apiClient);
+            loadNextUp(elem, apiClient, userSettings);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         } else if (section === 'resumebook') {
@@ -592,9 +592,11 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function getNextUpFetchFn(serverId) {
+    function getNextUpFetchFn(serverId, userSettings) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
+            let oldestDateForNextUp = new Date()
+            oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
                 Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path',
@@ -602,7 +604,8 @@ import ServerConnections from '../ServerConnections';
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false,
-                DisableFirstEpisode: true
+                DisableFirstEpisode: false,
+                NextUpDateCutoff: oldestDateForNextUp.toUTCString()
             });
         };
     }
@@ -625,7 +628,7 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function loadNextUp(elem, apiClient) {
+    function loadNextUp(elem, apiClient, userSettings) {
         let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
@@ -659,7 +662,7 @@ import ServerConnections from '../ServerConnections';
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId());
+        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings);
         itemsContainer.getItemsHtml = getNextUpItemsHtml;
         itemsContainer.parentContainer = elem;
     }
