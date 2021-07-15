@@ -119,7 +119,6 @@ function getItemsForPlayback(serverId, query) {
             };
         });
     } else {
-        query.Limit = query.Limit || 300;
         query.Fields = 'Chapters';
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
