@@ -1516,5 +1516,7 @@
     "TextSent": "Text odeslán.",
     "MessageSent": "Zpráva odeslána.",
     "LabelSlowResponseTime": "Čas v milisekundách, nad který je odezva považována za pomalou",
-    "LabelSlowResponseEnabled": "Zaznamenat upozornění, pokud je odezva serveru pomalá"
+    "LabelSlowResponseEnabled": "Zaznamenat upozornění, pokud je odezva serveru pomalá",
+    "UseEpisodeImagesInNextUpHelp": "Sekce Další a Pokračovat ve sledování použijí obrázky dílů jako náhledy místo primárního náhledu seriálů.",
+    "UseEpisodeImagesInNextUp": "Použít obrázky dílů v sekcích Další a Pokračovat ve sledování"
 }
