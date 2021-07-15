@@ -211,4 +211,6 @@ Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
     bindEvents(newApiClient);
 });
 
+window.ServerNotifications = serverNotifications;
+
 export default serverNotifications;
