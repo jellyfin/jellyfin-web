@@ -520,7 +520,7 @@ import template from './metadataEditor.template.html';
             hideElement('#fldPath', context);
         }
 
-        if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer') {
+        if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Person') {
             showElement('#fldOriginalName', context);
         } else {
             hideElement('#fldOriginalName', context);
@@ -638,6 +638,9 @@ import template from './metadataEditor.template.html';
 
         if (item.Type === 'Person') {
             //todo
+            context.querySelector('#txtName').label(globalize.translate('LabelName'));
+            context.querySelector('#txtSortName').label(globalize.translate('LabelSortName'));
+            context.querySelector('#txtOriginalName').label(globalize.translate('LabelOriginalName'));
             context.querySelector('#txtProductionYear').label(globalize.translate('LabelBirthYear'));
             context.querySelector('#txtPremiereDate').label(globalize.translate('LabelBirthDate'));
             context.querySelector('#txtEndDate').label(globalize.translate('LabelDeathDate'));
