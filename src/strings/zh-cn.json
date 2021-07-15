@@ -1512,9 +1512,11 @@
     "HeaderContinueReading": "继续阅读",
     "EnableGamepadHelp": "监听来自任何连接的控制器输入。",
     "LabelEnableGamepad": "启用游戏手柄",
-    "Controls": "控件",
+    "Controls": "操控",
     "TextSent": "文本已发送。",
     "MessageSent": "消息已发送。",
     "LabelSlowResponseTime": "响应缓慢判断时间（单位毫秒）",
-    "LabelSlowResponseEnabled": "如果服务器响应缓慢，则记录警告"
+    "LabelSlowResponseEnabled": "如果服务器响应缓慢，则记录警告",
+    "UseEpisodeImagesInNextUpHelp": "下一步和继续观看模块将使用剧集图像作为缩略图，而不是节目的主缩略图。",
+    "UseEpisodeImagesInNextUp": "在下一步和继续观看模块中使用剧集图片"
 }
