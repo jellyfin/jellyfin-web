@@ -31,8 +31,16 @@ class AppRouter {
     startPages = ['home', 'login', 'selectserver'];
 
     constructor() {
-        window.addEventListener('popstate', () => {
-            this.popstateOccurred = true;
+        // WebKit fires a popstate event on document load
+        // Skip it using timeout
+        // For Tizen 2.x
+        // https://stackoverflow.com/a/12214354
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                window.addEventListener('popstate', () => {
+                    this.popstateOccurred = true;
+                });
+            }, 0);
         });
 
         document.addEventListener('viewshow', () => {
