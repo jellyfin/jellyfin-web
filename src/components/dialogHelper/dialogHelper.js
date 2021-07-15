@@ -379,7 +379,7 @@ import '../../assets/css/scrollstyles.scss';
             dlg.setAttribute('data-lockscroll', 'true');
         }
 
-        if (options.enableHistory === true) {
+        if (options.enableHistory !== false) {
             dlg.setAttribute('data-history', 'true');
         }
 
