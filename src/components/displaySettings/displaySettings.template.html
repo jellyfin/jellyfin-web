@@ -156,6 +156,19 @@
         <select id="selectTheme" is="emby-select" label="${LabelTheme}"></select>
     </div>
 
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkDisableCustomCss" />
+            <span>${DisableCustomCss}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${LabelDisableCustomCss}</div>
+    </div>
+
+    <div class="inputContainer customCssContainer">
+        <textarea is="emby-textarea" id="txtLocalCustomCss" label="${LabelCustomCss}" class="textarea-mono"></textarea>
+        <div class="fieldDescription">${LabelLocalCustomCss}</div>
+    </div>
+
     <div class="selectContainer selectDashboardThemeContainer hide">
         <select id="selectDashboardTheme" is="emby-select" label="${LabelDashboardTheme}"></select>
     </div>

@@ -11,6 +11,7 @@ import { Events } from 'jellyfin-apiclient';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
+import '../../elements/emby-textarea/emby-textarea';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './displaySettings.template.html';
@@ -124,6 +125,9 @@ import template from './displaySettings.template.html';
         context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
         context.querySelector('#chkUseEpisodeImagesInNextUp').checked = userSettings.useEpisodeImagesInNextUpAndResume();
 
+        context.querySelector('#chkDisableCustomCss').checked = userSettings.disableCustomCss();
+        context.querySelector('#txtLocalCustomCss').value = userSettings.customCss();
+
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
@@ -158,6 +162,9 @@ import template from './displaySettings.template.html';
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
         userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
         userSettingsInstance.useEpisodeImagesInNextUpAndResume(context.querySelector('#chkUseEpisodeImagesInNextUp').checked);
+
+        userSettingsInstance.disableCustomCss(context.querySelector('#chkDisableCustomCss').checked);
+        userSettingsInstance.customCss(context.querySelector('#txtLocalCustomCss').value);
 
         if (user.Id === apiClient.getCurrentUserId()) {
             skinManager.setTheme(userSettingsInstance.theme());

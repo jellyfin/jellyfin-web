@@ -56,7 +56,6 @@ import '../emby-input/emby-input';
                 textarea.style.height = 'auto';
                 newHeight = textarea.scrollHeight/* - offset*/;
             }
-            $('.customCssContainer').css('height', newHeight + 'px');
             textarea.style.height = newHeight + 'px';
         }
 

@@ -240,6 +240,32 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'disableCustomCss' state.
+     * @param {boolean|undefined} val - Flag to enable 'disableCustomCss' or undefined.
+     * @return {boolean} 'disableCustomCss' state.
+     */
+    disableCustomCss(val) {
+        if (val !== undefined) {
+            return this.set('disableCustomCss', val.toString(), false);
+        }
+
+        return this.get('disableCustomCss', false) === 'true';
+    }
+
+    /**
+     * Get or set customCss.
+     * @param {string|undefined} val - Language.
+     * @return {string} Language.
+     */
+    customCss(val) {
+        if (val !== undefined) {
+            return this.set('customCss', val.toString(), false);
+        }
+
+        return this.get('customCss', false);
+    }
+
+    /**
      * Get or set 'Details Banner' state.
      * @param {boolean|undefined} val - Flag to enable 'Details Banner' or undefined.
      * @return {boolean} 'Details Banner' state.
@@ -526,3 +552,5 @@ export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearan
 export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
 export const setFilter = currentSettings.setFilter.bind(currentSettings);
 export const getFilter = currentSettings.getFilter.bind(currentSettings);
+export const customCss = currentSettings.customCss.bind(currentSettings);
+export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);
