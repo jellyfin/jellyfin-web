@@ -38,16 +38,15 @@ export default function (view, params) {
 
         page.querySelector('.lnkControlsPreferences').classList.toggle('hide', layoutManager.mobile);
 
-        ApiClient.getQuickConnect('Status')
-            .then(status => {
-                if (status !== 'Unavailable') {
+        ApiClient.getQuickConnect('Enabled')
+            .then(enabled => {
+                if (enabled === true) {
                     page.querySelector('.lnkQuickConnectPreferences').classList.remove('hide');
                 }
             })
             .catch(() => {
                 console.debug('Failed to get QuickConnect status');
             });
-
         ApiClient.getUser(userId).then(function (user) {
             page.querySelector('.headerUsername').innerHTML = user.Name;
             if (user.Policy.IsAdministrator && !layoutManager.tv) {
