@@ -550,8 +550,8 @@
     "LabelKidsCategories": "Balalyq sanattary:",
     "LabelKodiMetadataDateFormat": "Şyğaru künınıñ pışımı:",
     "LabelKodiMetadataDateFormatHelp": "NFO-faildaryndağy barlyq künder osy pışımnıñ kömegımen taldanady.",
-    "LabelKodiMetadataEnableExtraThumbs": "extrafanart derekterın extrathūmbs örısıne köşıru",
-    "LabelKodiMetadataEnableExtraThumbsHelp": "Suretterdı jüktegen kezde, olar Kodı mūqabasymen eñ joğary siysymdyğy üşın extrafanart jäne extrathūmbs ekeuınde saqtalady.",
+    "LabelKodiMetadataEnableExtraThumbs": "extrafanart derekterın extrathumbs örısıne köşıru",
+    "LabelKodiMetadataEnableExtraThumbsHelp": "Suretterdı jüktegen kezde, olar Kodı mūqabasymen eñ joğary siysymdyğy üşın extrafanart jäne extrathumbs ekeuınde saqtalady.",
     "LabelKodiMetadataEnablePathSubstitution": "Jol almastyrudy qosu",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Serverdıñ jol almastyru teñşeuın paidalanyp suretterdıñ jol almastyruyn qosady.",
     "LabelKodiMetadataSaveImagePaths": "Suret joldaryn NFO-faildarynda saqtau",
@@ -1517,5 +1517,7 @@
     "TextSent": "Mätın jıberıldı.",
     "MessageSent": "Habar jıberıldı.",
     "LabelSlowResponseTime": "Jauap baiau bolyp sanalatyn uaqyt, ms",
-    "LabelSlowResponseEnabled": "Server jauaby baiau bolğan jağdaida jurnalğa eskertu jazu"
+    "LabelSlowResponseEnabled": "Server jauaby baiau bolğan jağdaida jurnalğa eskertu jazu",
+    "UseEpisodeImagesInNextUpHelp": "Kezektı jäne Qaraudy jalğastyru bölımınderınde telebölım suretterı körsetımnıñ negızgı surettıñ ornyna nobai retınde paidalanylady.",
+    "UseEpisodeImagesInNextUp": "Telebölım suretterın Kezektı jäne Qaraudy jalğastyru bölımderınde paidalanu"
 }
