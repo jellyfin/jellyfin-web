@@ -1,19 +1,15 @@
 <div id="quickConnectPreferencesPage" data-role="page" class="page libraryPage userPreferencesPage noSecondaryNavPage" data-title="${QuickConnect}" data-backbutton="true" style="margin: 0 auto; max-width: 54em">
-    <div class="settingsContainer padded-left padded-right padded-bottom-page">
-        <button is="emby-button" id="btnQuickConnectActivate" type="button" class="raised button-submit block">
-            <span>${ButtonActivate}</span>
-        </button>
-
-        <form class="quickConnectSettingsContainer">
-            <div style="margin-bottom: 1em">
-                ${QuickConnectDescription}
-            </div>
+    <form class="quickConnectSettingsContainer">
+        <div class="verticalSection">
+            <h2 class="sectionTitle">${QuickConnect}</h2>
+            <div>${QuickConnectDescription}</div>
+            <br />
             <div class="inputContainer">
                 <input is="emby-input" type="number" min="0" max="999999" required id="txtQuickConnectCode" label="${LabelQuickConnectCode}" autocomplete="off" />
             </div>
             <button id="btnQuickConnectAuthorize" is="emby-button" type="submit" class="raised button-submit block">
                 <span>${Authorize}</span>
             </button>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
