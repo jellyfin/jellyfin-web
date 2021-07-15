@@ -78,14 +78,10 @@ import '../elements/emby-button/emby-button';
     }
 
     export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
+        ensureElements();
+
         if (!view) {
             if (tabOwnerView) {
-                if (!headerTabsContainer) {
-                    headerTabsContainer = queryScope.querySelector('.headerTabs');
-                }
-
-                ensureElements();
-
                 document.body.classList.remove('withSectionTabs');
 
                 headerTabsContainer.innerHTML = '';
@@ -98,8 +94,6 @@ import '../elements/emby-button/emby-button';
                 replaced: false
             };
         }
-
-        ensureElements();
 
         const tabsContainerElem = headerTabsContainer;
 
@@ -178,18 +172,13 @@ import '../elements/emby-button/emby-button';
 
             return {
                 tabsContainer: tabsContainerElem,
-                tabs: tabsContainerElem.querySelector('[is="emby-tabs"]'),
+                tabs: tabsElem,
                 replaced: true
             };
         }
 
-        if (!tabsElem) {
-            tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
-        }
-
         tabsElem.selectedIndex(selectedIndex);
 
-        tabOwnerView = view;
         return {
             tabsContainer: tabsContainerElem,
             tabs: tabsElem,
@@ -198,12 +187,6 @@ import '../elements/emby-button/emby-button';
     }
 
     export function selectedTabIndex(index) {
-        const tabsContainerElem = headerTabsContainer;
-
-        if (!tabsElem) {
-            tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
-        }
-
         if (index != null) {
             tabsElem.selectedIndex(index);
         } else {
