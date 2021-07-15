@@ -694,6 +694,8 @@
     "MessageYouHaveVersionInstalled": "Sinulla on versio {0} asennettuna.",
     "MessagePleaseWait": "Ole hyvä ja odota. Tämä voi kestää hetken.",
     "MessageNothingHere": "Täällä ei ole mitään.",
+    "MessageNoCollectionsAvailable": "Kokoelmat mahdollistavat elokuvien ja muun kirjastosisällön personalisoidun ryhmittämisen. Paina + -näppäintä luodaksesi kokoelman.",
+    "MessageNoFavoritesAvailable": "Voit merkitä elokuvia, musiikkia ja muuta kirjastosisältöä suosikeiksi. Löydät suosikit nopeasti tältä sivulta!",
     "MessageNoPluginsInstalled": "Sinulla ei ole asennettuna yhtään liitännäistä.",
     "MessageNoAvailablePlugins": "Ei saatavilla olevia liitännäisiä.",
     "InstallingPackage": "Asennetaan {0} (versio {1})",
