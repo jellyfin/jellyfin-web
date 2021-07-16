@@ -1516,5 +1516,7 @@
     "TextSent": "Szöveg elküldve.",
     "MessageSent": "Üzenet elküldve.",
     "LabelSlowResponseTime": "Az az idő ms-ban, amely után a válasz lassúnak tekinthető",
-    "LabelSlowResponseEnabled": "Naplófigyelmeztetés, ha a szerver válasza lassú volt"
+    "LabelSlowResponseEnabled": "Naplófigyelmeztetés, ha a szerver válasza lassú volt",
+    "UseEpisodeImagesInNextUpHelp": "A Következő rész és a Nézés folytatása szakaszok epizódképeket használnak indexképként a műsor elsődleges miniatűrje helyett.",
+    "UseEpisodeImagesInNextUp": "Használjon epizódképeket a Következő rész és a Epizód folytatása szekciókban"
 }
