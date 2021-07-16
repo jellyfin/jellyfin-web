@@ -1516,5 +1516,7 @@
     "MessageSent": "Wiadomość została wysłana.",
     "TextSent": "Tekst został wysłany.",
     "LabelSlowResponseTime": "Czas w milisekundach po którym odpowiedź uznana będzie za powolną",
-    "LabelSlowResponseEnabled": "Zaloguj ostrzeżenie gdy serwer wolno odpowiada"
+    "LabelSlowResponseEnabled": "Zaloguj ostrzeżenie gdy serwer wolno odpowiada",
+    "UseEpisodeImagesInNextUpHelp": "Sekcje \"Do obejrzenia\" i \"Kontynuuj odtwarzanie\" pokażą grafikę epizodu jako podgląd zamiast głównej miniatury serii.",
+    "UseEpisodeImagesInNextUp": "Użyj grafik epizodów w sekcjach \"Do obejrzenia\" i \"Kontynuuj odtwarzanie\""
 }
