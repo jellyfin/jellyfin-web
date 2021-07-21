@@ -1304,7 +1304,7 @@
     "MessageSyncPlayPlaybackPermissionRequired": "Playback permission required.",
     "MessageSyncPlayNoGroupsAvailable": "No groups available. Start playing something first.",
     "MessageSyncPlayGroupWait": "<b>{0}</b> is buffering…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> has left the group.",
+    "MessageSyncPlayUserLeft": "{0} has left the group.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> has joined the group.",
     "MessageSyncPlayDisabled": "SyncPlay disabled.",
     "MessageSyncPlayEnabled": "SyncPlay enabled.",
@@ -1509,5 +1509,12 @@
     "MessagePlaybackError": "There was an error playing this file on your Google Cast receiver.",
     "MessageChromecastConnectionError": "Your Google Cast receiver is unable to contact the Jellyfin server. Please check the connection and try again.",
     "Framerate": "Framerate",
-    "DirectPlayHelp": "The source file is entirely compatible with this client, and the session is receiving the file without modifications."
+    "DirectPlayHelp": "The source file is entirely compatible with this client, and the session is receiving the file without modifications.",
+    "EnableGamepadHelp": "Listen for input from any connected controllers.",
+    "LabelEnableGamepad": "Enable Gamepad",
+    "Controls": "Controls",
+    "TextSent": "Text sent.",
+    "MessageSent": "Message sent.",
+    "LabelSlowResponseTime": "Time in ms after which a response is considered slow",
+    "LabelSlowResponseEnabled": "Log warning if server response was slow"
 }

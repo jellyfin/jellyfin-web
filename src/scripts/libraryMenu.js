@@ -6,11 +6,11 @@ import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlay from '../components/syncPlay/core';
 import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
+import { getMenuLinks } from '../scripts/settings/webSettings';
 import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
@@ -32,7 +32,7 @@ import Headroom from 'headroom.js';
         html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons sync_disabled"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
@@ -134,7 +134,7 @@ import Headroom from 'headroom.js';
             const policy = user.Policy ? user.Policy : user.localUser.Policy;
 
             const apiClient = getCurrentApiClient();
-            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
+            if (headerSyncButton && policy?.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -233,26 +233,6 @@ import Headroom from 'headroom.js';
         groupSelectionMenu.show(btn);
     }
 
-    function onSyncPlayEnabled(event, enabled) {
-        const icon = headerSyncButton.querySelector('span');
-        icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
-        if (enabled) {
-            icon.classList.add('sync');
-        } else {
-            icon.classList.add('sync_disabled');
-        }
-    }
-
-    function onSyncPlaySyncing(event, is_syncing) {
-        const icon = headerSyncButton.querySelector('span');
-        icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
-        if (is_syncing) {
-            icon.classList.add('sync_problem');
-        } else {
-            icon.classList.add('sync');
-        }
-    }
-
     function getItemHref(item, context) {
         return appRouter.getRouteUrl(item, {
             context: context
@@ -294,9 +274,11 @@ import Headroom from 'headroom.js';
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
 
+        // placeholder for custom menu links
+        html += '<div class="customMenuOptions"></div>';
+
         // libraries are added here
-        html += '<div class="libraryMenuOptions">';
-        html += '</div>';
+        html += '<div class="libraryMenuOptions"></div>';
 
         if (user.localUser && user.localUser.Policy.IsAdministrator) {
             html += '<div class="adminMenuOptions">';
@@ -429,12 +411,6 @@ import Headroom from 'headroom.js';
             href: '#!/devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
-        });
-        links.push({
-            name: globalize.translate('QuickConnect'),
-            href: '#!/quickConnect.html',
-            pageIds: ['quickConnectPage'],
-            icon: 'tap_and_play'
         });
         links.push({
             name: globalize.translate('HeaderActivity'),
@@ -659,6 +635,32 @@ import Headroom from 'headroom.js';
 
         const userId = Dashboard.getCurrentUserId();
         const apiClient = getCurrentApiClient();
+
+        const customMenuOptions = document.querySelector('.customMenuOptions');
+        if (customMenuOptions) {
+            getMenuLinks().then(links => {
+                links.forEach(link => {
+                    const option = document.createElement('a');
+                    option.setAttribute('is', 'emby-linkbutton');
+                    option.className = 'navMenuOption lnkMediaFolder';
+                    option.rel = 'noopener noreferrer';
+                    option.target = '_blank';
+                    option.href = link.url;
+
+                    const icon = document.createElement('span');
+                    icon.className = `material-icons navMenuOptionIcon ${link.icon || 'link'}`;
+                    option.appendChild(icon);
+
+                    const label = document.createElement('span');
+                    label.className = 'navMenuOptionText';
+                    label.textContent = link.name;
+                    option.appendChild(label);
+
+                    customMenuOptions.appendChild(option);
+                });
+            });
+        }
+
         const libraryMenuOptions = document.querySelector('.libraryMenuOptions');
 
         if (libraryMenuOptions) {
@@ -1022,9 +1024,6 @@ import Headroom from 'headroom.js';
     });
 
     Events.on(playbackManager, 'playerchange', updateCastIcon);
-
-    Events.on(SyncPlay.Manager, 'enabled', onSyncPlayEnabled);
-    Events.on(SyncPlay.Manager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
 

@@ -126,6 +126,18 @@ export function getThemes() {
 
 export const getDefaultTheme = () => internalDefaultTheme;
 
+export function getMenuLinks() {
+    return getConfig().then(config => {
+        if (!config.menuLinks) {
+            console.error('web config is invalid, missing menuLinks:', config);
+        }
+        return config.menuLinks || [];
+    }).catch(error => {
+        console.log('cannot get web config:', error);
+        return [];
+    });
+}
+
 export function getPlugins() {
     return getConfig().then(config => {
         if (!config.plugins) {

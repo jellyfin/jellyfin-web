@@ -254,6 +254,20 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Use Episode Images in Next Up and Continue Watching' state.
+     * @param {string|boolean|undefined} val - Flag to enable 'Use Episode Images in Next Up and Continue Watching' or undefined.
+     * @return {boolean} 'Use Episode Images in Next Up' state.
+     */
+    useEpisodeImagesInNextUpAndResume(val) {
+        if (val !== undefined) {
+            return this.set('useEpisodeImagesInNextUpAndResume', val.toString(), true);
+        }
+
+        val = this.get('useEpisodeImagesInNextUpAndResume', true);
+        return val === 'true';
+    }
+
+    /**
      * Get or set language.
      * @param {string|undefined} val - Language.
      * @return {string} Language.
@@ -494,6 +508,7 @@ export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSet
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
+export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const chromecastVersion = currentSettings.chromecastVersion.bind(currentSettings);

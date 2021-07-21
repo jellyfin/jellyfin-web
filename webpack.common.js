@@ -1,7 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const Assets = [
@@ -25,6 +24,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
         modules: [
             path.resolve(__dirname, 'node_modules')
         ]
@@ -33,7 +33,9 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'index.html'
+            template: 'index.html',
+            // Append file hashes to bundle urls for cache busting
+            hash: true
         }),
         new CopyPlugin({
             patterns: [
@@ -72,14 +74,11 @@ module.exports = {
                     to: path.resolve(__dirname, './dist/libraries/wasm-gen')
                 };
             })
-        }),
-        new WorkboxPlugin.InjectManifest({
-            swSrc: path.resolve(__dirname, 'src/serviceworker.js'),
-            swDest: 'serviceworker.js'
         })
     ],
     output: {
-        filename: '[name].[contenthash].bundle.js',
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
     },
@@ -92,10 +91,17 @@ module.exports = {
                 }
             },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|flv.js|libarchive.js)/,
                 use: [{
                     loader: 'babel-loader'
+                }]
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: [{
+                    loader: 'ts-loader'
                 }]
             },
             /* modules that Babel breaks when transforming to ESM */
@@ -118,8 +124,8 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            config: {
-                                path: __dirname
+                            postcssOptions: {
+                                config: path.resolve(__dirname, 'postcss.config.js')
                             }
                         }
                     },
@@ -134,8 +140,8 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            config: {
-                                path: __dirname
+                            postcssOptions: {
+                                config: path.resolve(__dirname, 'postcss.config.js')
                             }
                         }
                     }

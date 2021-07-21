@@ -1299,9 +1299,9 @@
     "MessageSyncPlayGroupDoesNotExist": "Impossibile unirsi al gruppo perchè non esiste.",
     "MessageSyncPlayPlaybackPermissionRequired": "Permesso di riproduzione necessario.",
     "MessageSyncPlayNoGroupsAvailable": "Nessun gruppo disponibile. Inizia a riprodurre qualcosa.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> sta bufferizzando…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> ha lasciato il gruppo.",
-    "MessageSyncPlayUserJoined": "<b>{0}</b> si è unito al gruppo.",
+    "MessageSyncPlayGroupWait": "{0} sta bufferizzando…",
+    "MessageSyncPlayUserLeft": "{0} ha lasciato il gruppo.",
+    "MessageSyncPlayUserJoined": "{0} si è unito al gruppo.",
     "MessageSyncPlayDisabled": "SyncPlay disabilitato.",
     "MessageSyncPlayEnabled": "SyncPlay abilitato.",
     "LabelSyncPlayAccess": "Accesso SyncPlay",
@@ -1508,5 +1508,9 @@
     "HeaderSelectFallbackFontPath": "Selezionare il percorso della cartella contenente i font di riserva",
     "LabelTonemappingThresholdHelp": "L'algoritmo di mappatura dei toni viene adattato per ogni scena e la soglia è utilizzata per rilevare cambiamenti di scena. Se la distanza tra la luminosità media del frame corrente e quella della scena corrente superano la soglia, la luminosità media e di picco della scena verranno ricalcolate. I valori predefiniti e raccomandati sono 0.8 e 0.2.",
     "Framerate": "Framerate",
-    "LabelTonemappingPeakHelp": "Sovrascrive il segnale nominale/picco/di riferimento con questo valore. Utile quando le informazioni di picco incorporate nei metadati di visualizzazione non sono affidabili o quando si esegue la mappatura dei toni da una gamma inferiore a una gamma più alta. I valori consigliati e predefiniti sono 100 e 0."
+    "LabelTonemappingPeakHelp": "Sovrascrive il segnale nominale/picco/di riferimento con questo valore. Utile quando le informazioni di picco incorporate nei metadati di visualizzazione non sono affidabili o quando si esegue la mappatura dei toni da una gamma inferiore a una gamma più alta. I valori consigliati e predefiniti sono 100 e 0.",
+    "HeaderContinueReading": "Continua a leggere",
+    "MessageSent": "Messaggio inviato.",
+    "LabelEnableGamepad": "Abilita il Gamepad",
+    "TextSent": "Messaggio inviato."
 }

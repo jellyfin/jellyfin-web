@@ -1494,5 +1494,9 @@
     "LabelCreateHttpPortMap": "Aktiver automatisk port mapping for http trafik såvel som https.",
     "LabelColorTransfer": "Farve overførsel:",
     "LabelColorSpace": "Farveplads:",
-    "LabelColorPrimaries": "Primære farver:"
+    "LabelColorPrimaries": "Primære farver:",
+    "MediaInfoColorTransfer": "Farveoverførsel",
+    "MediaInfoColorSpace": "Farveområde",
+    "MediaInfoColorPrimaries": "Primærfarver",
+    "HeaderContinueReading": "Fortsæt med at læse"
 }
