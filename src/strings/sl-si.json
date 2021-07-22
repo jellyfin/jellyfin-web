@@ -1389,5 +1389,12 @@
     "Framerate": "Sličic na sekundo",
     "DisablePlugin": "Onemogoči",
     "EnablePlugin": "Omogoči",
-    "DirectPlayHelp": "Izvorna datoteka je v celoti združljiva s tem odjemalcem, trenutna seja pa prejema datoteko brez predelave."
+    "DirectPlayHelp": "Izvorna datoteka je v celoti združljiva s tem odjemalcem, trenutna seja pa prejema datoteko brez predelave.",
+    "LabelSyncPlayTimeSyncOffset": "Časovni odmik",
+    "LabelSyncPlayResumePlayback": "Nadaljuj lokalno predvajanje",
+    "LabelSyncPlayHaltPlaybackDescription": "In ignoriraj posodobitve trenutnega predvajalnega seznama",
+    "LabelSyncPlayHaltPlayback": "Ustavi lokalno predvajanje",
+    "LabelSSDPTracingFilter": "SSDP Filter:",
+    "LabelPublishedServerUri": "Objavljeni URIji strežnikov:",
+    "HeaderContinueReading": "Nadaljuj branje"
 }
