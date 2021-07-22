@@ -367,6 +367,14 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle');
     }
 
+    const btnResume = page.querySelector('.mainDetailButtons .btnResume');
+    const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
+    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+        btnResume.classList.add('fab');
+    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+        btnPlay.classList.add('fab');
+    }
+
     return canPlay;
 }
 
@@ -2062,16 +2070,6 @@ export default function (view, params) {
 
     function init() {
         const apiClient = getApiClient();
-
-        const btnResume = view.querySelector('.mainDetailButtons .btnResume');
-        const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
-        if (layoutManager.tv && !btnResume.classList.contains('hide')) {
-            btnResume.classList.add('fab');
-            btnResume.classList.add('detailFloatingButton');
-        } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
-            btnPlay.classList.add('fab');
-            btnPlay.classList.add('detailFloatingButton');
-        }
 
         view.querySelectorAll('.btnPlay');
         bindAll(view, '.btnPlay', 'click', onPlayClick);
