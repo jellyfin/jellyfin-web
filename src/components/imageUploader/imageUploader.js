@@ -18,6 +18,7 @@ import './style.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './imageUploader.template.html';
+import mime from 'mime-db';
 
     let currentItemId;
     let currentServerId;
@@ -123,6 +124,40 @@ import template from './imageUploader.template.html';
 
         page.querySelector('.btnBrowse').addEventListener('click', () => {
             page.querySelector('#uploadImage').click();
+        });
+
+        page.querySelector('.btnDownloadFromUrl').addEventListener('click', () => {
+            showDownloadFromUrlPrompt(page);
+        });
+    }
+
+    function showDownloadFromUrlPrompt(page) {
+        import('../../components/prompt/prompt').then(async ({default: prompt}) => {
+            const url = await prompt({
+                title: globalize.translate('HeaderDownloadFromUrl'),
+                label: globalize.translate('LabelImageUrl'),
+                confirmText: globalize.translate('ButtonDownload')
+            });
+
+            try {
+                const response = await fetch(url);
+
+                if (response.ok) {
+                    const fileBlob = await response.blob();
+
+                    const extension = mime[response.headers.get('Content-Type') || 'image/jpeg'].extensions[0];
+
+                    const urlFileBlob = new File([fileBlob], `image.${extension}`, {
+                        type: response.headers.get('Content-Type') || 'image/jpeg'
+                    });
+
+                    setFiles(page, [urlFileBlob]);
+                } else {
+                    toast(globalize.translate('MessageFileDownloadError'));
+                }
+            } catch {
+                toast(globalize.translate('MessageFileDownloadError'));
+            }
         });
     }
 
