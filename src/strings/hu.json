@@ -610,7 +610,7 @@
     "HeaderMusicQuality": "Zene minősége",
     "HeaderNewApiKey": "Új API kulcs",
     "HeaderNewDevices": "Új eszközök",
-    "HeaderNextEpisodePlayingInValue": "A következő epizód {0} múlva automatikusan elindul",
+    "HeaderNextEpisodePlayingInValue": "Következő epizód {0}",
     "HeaderNextVideoPlayingInValue": "Következő videó lejátszása {0}",
     "HeaderOtherItems": "Egyéb elemek",
     "HeaderPasswordReset": "Jelszó visszaállítása",
