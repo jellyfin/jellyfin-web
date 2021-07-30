@@ -972,7 +972,7 @@
     "ScanForNewAndUpdatedFiles": "Scansiona per file nuovi e aggiornati",
     "ScanLibrary": "Scansione libreria",
     "Schedule": "Programmazione",
-    "Screenshot": "Immagine",
+    "Screenshot": "Istantanea",
     "Screenshots": "Screenshot",
     "Search": "Cerca",
     "SearchForCollectionInternetMetadata": "Cerca su internet le immagini ed i metadati",
@@ -1434,7 +1434,7 @@
     "HeaderUploadSubtitle": "Carica Sottotitolo",
     "HeaderPortRanges": "Firewall e Proxy",
     "HeaderNetworking": "Protocolli IP",
-    "HeaderDebugging": "Debugging and Tracing",
+    "HeaderDebugging": "Debugging e Tracing",
     "HeaderAutoDiscovery": "Discovery della Rete",
     "HeaderAddUser": "Aggiungi Utente",
     "HeaderAddUpdateSubtitle": "Aggiungi/Modifica Sottotitolo",
@@ -1512,5 +1512,11 @@
     "HeaderContinueReading": "Continua a leggere",
     "MessageSent": "Messaggio inviato.",
     "LabelEnableGamepad": "Abilita il Gamepad",
-    "TextSent": "Messaggio inviato."
+    "TextSent": "Messaggio inviato.",
+    "EnableGamepadHelp": "Ascolta per ingresso da ogni controller collegato.",
+    "Controls": "Controlli",
+    "UseEpisodeImagesInNextUpHelp": "Le sezioni Prossimo e Continua a guardare useranno le immagini dell'episodio come miniature al posto della miniatura principale dello spettacolo.",
+    "UseEpisodeImagesInNextUp": "Usa le immagini dell'episodio nelle sezioni Prossimo e Continua a guardare",
+    "LabelSlowResponseTime": "Tempo in ms dopo il quale una risposta è considerata lenta",
+    "LabelSlowResponseEnabled": "Logga un avviso se la risposta del server è troppo lenta"
 }
