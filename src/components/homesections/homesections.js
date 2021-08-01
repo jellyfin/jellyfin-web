@@ -598,7 +598,7 @@ import ServerConnections from '../ServerConnections';
     function getNextUpFetchFn(serverId, userSettings) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
-            let oldestDateForNextUp = new Date()
+            const oldestDateForNextUp = new Date();
             oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
