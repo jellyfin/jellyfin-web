@@ -26,7 +26,7 @@
     "css-loader": "^5.2.6",
     "cssnano": "^5.0.7",
     "eslint": "^7.29.0",
-    "eslint-plugin-compat": "^3.9.0",
+    "eslint-plugin-compat": "^3.11.1",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
