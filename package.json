@@ -5,7 +5,7 @@
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "@babel/core": "^7.14.6",
+    "@babel/core": "^7.15.0",
     "@babel/eslint-parser": "^7.14.7",
     "@babel/eslint-plugin": "^7.14.5",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -43,7 +43,7 @@
     "sass": "^1.35.1",
     "sass-loader": "^12.1.0",
     "source-map-loader": "^3.0.0",
-    "style-loader": "^3.0.0",
+    "style-loader": "^3.2.1",
     "stylelint": "^13.13.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-no-browser-hacks": "^1.2.1",
