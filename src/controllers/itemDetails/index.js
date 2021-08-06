@@ -564,7 +564,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    if (layoutManager.mobile || !userSettings.detailsBanner()) {
+    if (!userSettings.detailsBanner()) {
         return false;
     }
 
@@ -601,24 +601,6 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     return hasbackdrop;
 }
 
-function renderPrimaryImage(page, item, apiClient) {
-    if (item?.ImageTags?.Primary) {
-        const imageUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: 'Primary',
-            maxWidth: dom.getScreenWidth(),
-            tag: item.ImageTags.Primary
-        });
-
-        const imageElem = page.querySelector('#primaryImage');
-        imageElem.src = imageUrl;
-        imageElem.alt = item.Name;
-        if (item.PrimaryImageAspectRatio === 1) {
-            imageElem.classList.add('aspect-square');
-        }
-        page.querySelector('.primaryImageWrapper')?.classList.remove('hide');
-    }
-}
-
 function reloadFromItem(instance, page, params, item, user) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
@@ -631,9 +613,7 @@ function reloadFromItem(instance, page, params, item, user) {
         renderLogo(page, item, apiClient);
         renderDetailPageBackdrop(page, item, apiClient);
     }
-    if (layoutManager.mobile) {
-        renderPrimaryImage(page, item, apiClient);
-    }
+
     renderBackdrop(item);
 
     // Render the main information for the item
@@ -820,8 +800,8 @@ function renderDetailImage(elem, item, imageLoader) {
         overlayText: false,
         transition: false,
         disableIndicators: true,
-        overlayPlayButton: true,
-        action: 'play',
+        overlayPlayButton: layoutManager.mobile ? false : true,
+        action: layoutManager.mobile ? 'none' : 'play',
         width: dom.getWindowSize().innerWidth * 0.25
     });
 
