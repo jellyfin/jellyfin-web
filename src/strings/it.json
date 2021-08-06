@@ -1518,5 +1518,8 @@
     "UseEpisodeImagesInNextUpHelp": "Le sezioni Prossimo e Continua a guardare useranno le immagini dell'episodio come miniature al posto della miniatura principale dello spettacolo.",
     "UseEpisodeImagesInNextUp": "Usa le immagini dell'episodio nelle sezioni Prossimo e Continua a guardare",
     "LabelSlowResponseTime": "Tempo in ms dopo il quale una risposta è considerata lenta",
-    "LabelSlowResponseEnabled": "Logga un avviso se la risposta del server è troppo lenta"
+    "LabelSlowResponseEnabled": "Logga un avviso se la risposta del server è troppo lenta",
+    "DisableCustomCss": "Disattiva il CSS Personalizzato Fornito dal Server",
+    "LabelLocalCustomCss": "Stile CSS personalizzato che si applica solo a questo client. Potresti voler disabilitare il CSS personalizzato del server.",
+    "LabelDisableCustomCss": "Disattiva il CSS personalizzato per i temi/branding fornito dal server."
 }
