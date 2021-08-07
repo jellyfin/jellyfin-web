@@ -457,14 +457,14 @@ class HtmlAudioPlayer {
     setVolume(val) {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
-            mediaElement.volume = val / 100;
+            mediaElement.volume = Math.pow(val / 100, 2);
         }
     }
 
     getVolume() {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
-            return Math.min(Math.round(mediaElement.volume * 100), 100);
+            return Math.min(Math.round(Math.pow(mediaElement.volume, 0.5) * 100), 100);
         }
     }
 
