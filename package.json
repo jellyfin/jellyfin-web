@@ -71,7 +71,7 @@
     "date-fns": "^2.23.0",
     "epubjs": "^0.3.85",
     "fast-text-encoding": "^1.0.3",
-    "flv.js": "^1.5.0",
+    "flv.js": "^1.6.1",
     "headroom.js": "^0.12.0",
     "hls.js": "^0.14.17",
     "intersection-observer": "^0.12.0",
