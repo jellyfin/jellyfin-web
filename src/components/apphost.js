@@ -1,4 +1,4 @@
-import { version as appVersion } from '../../package.json';
+import Package from '../../package.json';
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
@@ -33,7 +33,7 @@ function getDeviceProfile(item) {
         let profile;
 
         if (window.NativeShell) {
-            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, appVersion);
+            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, Package.version);
         } else {
             const builderOpts = getBaseProfileOptions(item);
             profile = profileBuilder(builderOpts);
@@ -373,7 +373,7 @@ export const appHost = {
     },
     appVersion: function () {
         return window.NativeShell?.AppHost?.appVersion
-            ? window.NativeShell.AppHost.appVersion() : appVersion;
+            ? window.NativeShell.AppHost.appVersion() : Package.version;
     },
     getPushTokenInfo: function () {
         return {};
