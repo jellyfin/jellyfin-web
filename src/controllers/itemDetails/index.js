@@ -560,13 +560,19 @@ function renderBackdrop(item) {
 }
 
 function renderDetailPageBackdrop(page, item, apiClient) {
-    let imgUrl;
-    let hasbackdrop = false;
-    const itemBackdropElement = page.querySelector('#itemBackdrop');
-
+    // Details banner is disabled in user settings
     if (!userSettings.detailsBanner()) {
         return false;
     }
+
+    // Disable item backdrop for people because they never look right
+    if (item.Type === 'Person') {
+        return false;
+    }
+
+    let imgUrl;
+    let hasbackdrop = false;
+    const itemBackdropElement = page.querySelector('#itemBackdrop');
 
     if (item.BackdropImageTags && item.BackdropImageTags.length) {
         imgUrl = apiClient.getScaledImageUrl(item.Id, {
