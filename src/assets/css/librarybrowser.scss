@@ -565,7 +565,7 @@
             margin-bottom: 0 !important;
 
             .mediaInfoItem {
-                margin-bottom: 0.6em;
+                margin-top: 0.5em;
             }
         }
     }
@@ -587,8 +587,6 @@
 
     @media all and (max-width: 34em) {
         & {
-            margin-left: -32.5vw;
-            margin-top: 0;
             margin-bottom: 0;
         }
     }
@@ -615,13 +613,7 @@
 
 .layout-mobile .detailPagePrimaryContainer {
     flex-direction: column;
-    padding: 0.5rem 5% 0.5rem 37.5vw;
-
-    @media all and (min-width: 45em) {
-        & {
-            padding-left: 25vw;
-        }
-    }
+    padding: 0.5rem 5%;
 }
 
 .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
@@ -648,10 +640,13 @@
 
 .infoWrapper {
     flex: 1 0 0;
-}
 
-.layout-mobile .infoWrapper {
-    flex: 1 0 0%;
+    .layout-mobile & {
+        flex: 1 0 0%;
+        position: relative;
+        padding-left: 37.5%;
+        overflow: visible;
+    }
 }
 
 .infoText {
@@ -661,10 +656,10 @@
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
-}
 
-.layout-mobile .infoText {
-    white-space: normal;
+    .layout-mobile & {
+        white-space: normal;
+    }
 }
 
 .detailPageSecondaryContainer {
@@ -687,8 +682,9 @@
     }
 
     .layout-mobile & {
-        top: initial;
-        transform: translateY(-50%);
+        top: auto !important;
+        left: 0;
+        bottom: 0;
         max-width: 30vw;
     }
 
