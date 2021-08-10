@@ -103,6 +103,8 @@ function centerOnFocusVertical(e) {
 
 export const centerFocus = {
     on: function (element, horizontal) {
+        element.setAttribute(`data-scroll-mode-${horizontal ? 'x' : 'y'}`, 'custom');
+
         if (horizontal) {
             dom.addEventListener(element, 'focus', centerOnFocusHorizontal, {
                 capture: true,
@@ -116,6 +118,8 @@ export const centerFocus = {
         }
     },
     off: function (element, horizontal) {
+        element.removeAttribute(`data-scroll-mode-${horizontal ? 'x' : 'y'}`);
+
         if (horizontal) {
             dom.removeEventListener(element, 'focus', centerOnFocusHorizontal, {
                 capture: true,
