@@ -345,6 +345,12 @@
 }
 
 .detailLogo {
+    width: 25vw;
+    height: 16vh;
+    position: absolute;
+    top: 10vh;
+    right: 25vw;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
 }
@@ -725,15 +731,6 @@
 
 .detailPagePrimaryContent {
     position: relative;
-}
-
-.detailLogo {
-    width: 25vw;
-    height: 16vh;
-    position: absolute;
-    top: 10vh;
-    right: 25vw;
-    background-size: contain;
 }
 
 .noBackdrop .detailLogo,
