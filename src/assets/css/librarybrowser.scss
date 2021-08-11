@@ -581,14 +581,13 @@
 }
 
 .layout-mobile .mainDetailButtons {
-    flex: 1 0 0%;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    margin-left: 37.5%;
 
-    @media all and (max-width: 34em) {
-        & {
-            margin-bottom: 0;
-        }
+    @media all and (max-width: 32em) {
+        margin-bottom: 0;
+        margin-left: 0;
     }
 }
 
@@ -612,7 +611,8 @@
 }
 
 .layout-mobile .detailPagePrimaryContainer {
-    flex-direction: column;
+    display: block;
+    position: relative;
     padding: 0.5rem 5%;
 }
 
@@ -642,10 +642,12 @@
     flex: 1 0 0;
 
     .layout-mobile & {
-        flex: 1 0 0%;
-        position: relative;
         padding-left: 37.5%;
         overflow: visible;
+
+        @media all and (max-width: 32em) {
+            position: relative;
+        }
     }
 }
 
@@ -681,25 +683,35 @@
         margin: 0;
     }
 
+    &.backdropCard {
+        top: 35%;
+    }
+
+    &.squareCard {
+        top: 40%;
+    }
+
     .layout-mobile & {
-        top: auto !important;
-        left: 0;
-        bottom: 0;
+        left: 5%;
+        bottom: 1rem;
         max-width: 30vw;
+
+        @media all and (max-width: 32em) {
+            left: 0;
+            bottom: 0;
+        }
+
+        &,
+        &.backdropCard,
+        &.squareCard {
+            top: auto;
+        }
     }
 
     .layout-tv & {
         top: 50%;
         transform: translateY(-50%);
     }
-}
-
-.detailImageContainer .card.backdropCard {
-    top: 35%;
-}
-
-.detailImageContainer .card.squareCard {
-    top: 40%;
 }
 
 .layout-mobile .detailImageContainer {
