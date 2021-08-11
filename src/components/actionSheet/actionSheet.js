@@ -42,8 +42,8 @@ function getPosition(options, dlg) {
 
     pos.left += (pos.width || 0) / 2;
 
-    const height = dlg.offsetHeight || 300;
-    const width = dlg.offsetWidth || 160;
+    const height = dlg.nominalOffsetHeight || dlg.offsetHeight || 300;
+    const width = dlg.nominalOffsetWidth || dlg.offsetWidth || 160;
 
     // Account for popup size
     pos.top -= height / 2;
