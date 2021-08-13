@@ -624,8 +624,6 @@
 
 .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
 .layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
-    position: relative;
-    top: 0;
     padding-left: 32.45vw;
 }
 
@@ -679,7 +677,9 @@
 }
 
 .detailImageContainer .card {
-    position: absolute;
+    // important is needed here to override :focus setting
+    // the position to relative in the tv layout
+    position: absolute !important;
     top: 20%;
     max-width: 25vw;
     max-height: 80vh;
@@ -701,6 +701,7 @@
         left: 5%;
         bottom: 1rem;
         max-width: 30vw;
+        padding-left: 5%;
 
         @media all and (max-width: 32em) {
             left: 0;
@@ -715,13 +716,11 @@
     }
 
     .layout-tv & {
+        left: 5%;
+        width: 25vw;
         top: 50%;
         transform: translateY(-50%);
     }
-}
-
-.layout-mobile .detailImageContainer {
-    padding-left: 5%;
 }
 
 .layout-desktop .noBackdrop .detailImageContainer,
