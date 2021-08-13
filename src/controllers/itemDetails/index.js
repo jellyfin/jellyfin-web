@@ -565,8 +565,8 @@ function renderDetailPageBackdrop(page, item, apiClient) {
         return false;
     }
 
-    // Disable item backdrop for people because they never look right
-    if (item.Type === 'Person') {
+    // Disable item backdrop for books and people because they only have primary images
+    if (item.Type === 'Person' || item.Type === 'Book') {
         return false;
     }
 
