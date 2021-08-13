@@ -424,7 +424,7 @@
         content: "";
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.25);
+        background: rgba(0, 0, 0, 0.65);
         display: block;
     }
 }
@@ -610,21 +610,22 @@
     align-items: center;
     align-content: center;
     z-index: 2;
-}
 
-.layout-tv .detailPagePrimaryContainer {
-    display: block;
-}
+    .layout-mobile & {
+        display: block;
+        position: relative;
+        padding: 0.5rem 5%;
+    }
 
-.layout-mobile .detailPagePrimaryContainer {
-    display: block;
-    position: relative;
-    padding: 0.5rem 5%;
-}
+    .layout-desktop & {
+        position: relative;
+        padding-left: 32.45vw;
+    }
 
-.layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
-.layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
-    padding-left: 32.45vw;
+    .layout-tv & {
+        display: block;
+        padding-left: 32.45vw;
+    }
 }
 
 .layout-desktop .detailRibbon {
@@ -715,10 +716,16 @@
         }
     }
 
+    .layout-desktop & {
+        left: 3.3%;
+        top: -80%;
+        width: 25vw;
+    }
+
     .layout-tv & {
         left: 5%;
-        width: 25vw;
         top: 50%;
+        width: 25vw;
         transform: translateY(-50%);
     }
 }
