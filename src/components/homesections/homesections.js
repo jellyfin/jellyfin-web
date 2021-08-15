@@ -397,7 +397,7 @@ import ServerConnections from '../ServerConnections';
 
         const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getItemsToResumeFn(mediaType, apiClient.serverId());
-        itemsContainer.getItemsHtml = getItemsToResumeHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume());
+        itemsContainer.getItemsHtml = getItemsToResumeHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), mediaType);
         itemsContainer.parentContainer = elem;
     }
 
@@ -428,14 +428,14 @@ import ServerConnections from '../ServerConnections';
         };
     }
 
-    function getItemsToResumeHtmlFn(useEpisodeImages) {
+    function getItemsToResumeHtmlFn(useEpisodeImages, mediaType) {
         return function (items) {
             const cardLayout = false;
             return cardBuilder.getCardsHtml({
                 items: items,
                 preferThumb: true,
                 inheritThumb: !useEpisodeImages,
-                defaultShape: getThumbShape(),
+                shape: (mediaType === 'Book') ? getPortraitShape() : getThumbShape(),
                 overlayText: false,
                 showTitle: true,
                 showParentTitle: true,

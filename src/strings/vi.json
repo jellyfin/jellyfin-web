@@ -1518,5 +1518,8 @@
     "LabelSlowResponseTime": "Thời gian tính bằng mili giây sau đó phản hồi được coi là chậm",
     "LabelSlowResponseEnabled": "Cảnh báo ghi nhật ký nếu phản hồi của máy chủ chậm",
     "UseEpisodeImagesInNextUpHelp": "Phần Tiếp theo và Xem tiếp sẽ sử dụng hình ảnh của tập làm hình thu nhỏ thay vì hình thu nhỏ chính của chương trình.",
-    "UseEpisodeImagesInNextUp": "Sử dụng hình ảnh tập trong phần Tiếp theo và Xem tiếp"
+    "UseEpisodeImagesInNextUp": "Sử dụng hình ảnh tập trong phần Tiếp theo và Xem tiếp",
+    "LabelLocalCustomCss": "Kiểu CSS tùy chỉnh chỉ áp dụng cho máy khách này. Bạn có thể muốn tắt CSS tùy chỉnh của máy chủ.",
+    "LabelDisableCustomCss": "Tắt nhãn hiệu/chủ đề CSS tùy chỉnh được cung cấp từ máy chủ.",
+    "DisableCustomCss": "Tắt CSS tùy chỉnh do máy chủ cung cấp"
 }

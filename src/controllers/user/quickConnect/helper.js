@@ -1,6 +1,5 @@
 import globalize from '../../../scripts/globalize';
 import toast from '../../../components/toast/toast';
-import Dashboard from '../../../scripts/clientUtils';
 
 export const authorize = (code) => {
     const url = ApiClient.getUrl('/QuickConnect/Authorize?Code=' + code);
@@ -15,23 +14,4 @@ export const authorize = (code) => {
 
     // prevent bubbling
     return false;
-};
-
-export const activate = () => {
-    const url = ApiClient.getUrl('/QuickConnect/Activate');
-    return ApiClient.ajax({
-        type: 'POST',
-        url: url
-    }).then(() => {
-        toast(globalize.translate('QuickConnectActivationSuccessful'));
-        return true;
-    }).catch((e) => {
-        console.error('Error activating quick connect. Error:', e);
-        Dashboard.alert({
-            title: globalize.translate('HeaderError'),
-            message: globalize.translate('DefaultErrorMessage')
-        });
-
-        throw e;
-    });
 };

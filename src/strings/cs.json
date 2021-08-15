@@ -1518,5 +1518,8 @@
     "LabelSlowResponseTime": "Čas v milisekundách, nad který je odezva považována za pomalou",
     "LabelSlowResponseEnabled": "Zaznamenat upozornění, pokud je odezva serveru pomalá",
     "UseEpisodeImagesInNextUpHelp": "Sekce Další a Pokračovat ve sledování použijí obrázky dílů jako náhledy místo primárního náhledu seriálů.",
-    "UseEpisodeImagesInNextUp": "Použít obrázky dílů v sekcích Další a Pokračovat ve sledování"
+    "UseEpisodeImagesInNextUp": "Použít obrázky dílů v sekcích Další a Pokračovat ve sledování",
+    "LabelLocalCustomCss": "Úprava vzhledu prostřednictvím CSS, která se vztahuje pouze na tento klient. Možná bude potřeba vypnout CSS nabízené serverem.",
+    "LabelDisableCustomCss": "Vypnout úpravy vzhledu prostřednictvím CSS nabízené serverem.",
+    "DisableCustomCss": "Vypnout CSS nabízené serverem"
 }

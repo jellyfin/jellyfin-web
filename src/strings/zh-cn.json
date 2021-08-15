@@ -1518,5 +1518,8 @@
     "LabelSlowResponseTime": "响应缓慢判断时间（单位毫秒）",
     "LabelSlowResponseEnabled": "如果服务器响应缓慢，则记录警告",
     "UseEpisodeImagesInNextUpHelp": "下一步和继续观看模块将使用剧集图像作为缩略图，而不是节目的主缩略图。",
-    "UseEpisodeImagesInNextUp": "在下一步和继续观看模块中使用剧集图片"
+    "UseEpisodeImagesInNextUp": "在下一步和继续观看模块中使用剧集图片",
+    "LabelLocalCustomCss": "自定义 CSS 样式并仅应用于本客户端。您可能想要禁用服务器自定义 CSS。",
+    "LabelDisableCustomCss": "禁用由服务器提供的自定义 CSS 主题/品牌。",
+    "DisableCustomCss": "禁用服务器提供的自定义 CSS"
 }
