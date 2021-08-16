@@ -73,7 +73,7 @@
     "fast-text-encoding": "^1.0.3",
     "flv.js": "^1.6.1",
     "headroom.js": "^0.12.0",
-    "hls.js": "^1.0.8",
+    "hls.js": "^1.0.9",
     "intersection-observer": "^0.12.0",
     "jellyfin-apiclient": "^1.8.0",
     "jquery": "^3.5.1",
