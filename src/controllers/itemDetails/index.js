@@ -367,6 +367,14 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle');
     }
 
+    const btnResume = page.querySelector('.mainDetailButtons .btnResume');
+    const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
+    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+        btnResume.classList.add('fab');
+    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+        btnPlay.classList.add('fab');
+    }
+
     return canPlay;
 }
 
@@ -1216,11 +1224,9 @@ function renderMoreFromArtist(view, item, apiClient) {
         };
 
         if (item.Type === 'MusicArtist') {
-            query.ContributingArtistIds = item.Id;
-        } else if (apiClient.isMinServerVersion('3.4.1.18')) {
-            query.AlbumArtistIds = item.AlbumArtists[0].Id;
+            query.AlbumArtistIds = item.Id;
         } else {
-            query.ArtistIds = item.AlbumArtists[0].Id;
+            query.AlbumArtistIds = item.AlbumArtists[0].Id;
         }
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
@@ -2062,16 +2068,6 @@ export default function (view, params) {
 
     function init() {
         const apiClient = getApiClient();
-
-        const btnResume = view.querySelector('.mainDetailButtons .btnResume');
-        const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
-        if (layoutManager.tv && !btnResume.classList.contains('hide')) {
-            btnResume.classList.add('fab');
-            btnResume.classList.add('detailFloatingButton');
-        } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
-            btnPlay.classList.add('fab');
-            btnPlay.classList.add('detailFloatingButton');
-        }
 
         view.querySelectorAll('.btnPlay');
         bindAll(view, '.btnPlay', 'click', onPlayClick);

@@ -1519,5 +1519,8 @@
     "LabelSlowResponseTime": "Jauap baiau bolyp sanalatyn uaqyt, ms",
     "LabelSlowResponseEnabled": "Server jauaby baiau bolğan jağdaida jurnalğa eskertu jazu",
     "UseEpisodeImagesInNextUpHelp": "Kezektı jäne Qaraudy jalğastyru bölımınderınde telebölım suretterı körsetımnıñ negızgı surettıñ ornyna nobai retınde paidalanylady.",
-    "UseEpisodeImagesInNextUp": "Telebölım suretterın Kezektı jäne Qaraudy jalğastyru bölımderınde paidalanu"
+    "UseEpisodeImagesInNextUp": "Telebölım suretterın Kezektı jäne Qaraudy jalğastyru bölımderınde paidalanu",
+    "LabelLocalCustomCss": "Tek osy tūtynğyşta qoldanılatın teñşeulı CSS. Serverde teñşeulı CSS öşıruiñız mümkın.",
+    "LabelDisableCustomCss": "Serverden jetkızıletın taqyryptyq/brendiñtık teñşeulı CSS öşıru.",
+    "DisableCustomCss": "Serverde teñşeulı CSS öşıru"
 }

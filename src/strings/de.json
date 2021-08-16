@@ -1516,5 +1516,10 @@
     "TextSent": "Text gesendet.",
     "MessageSent": "Nachricht gesendet.",
     "LabelSlowResponseEnabled": "Warnung loggen, falls die Serverantwort langsam war",
-    "LabelSlowResponseTime": "Zeit in ms, nachdem eine Antwort als langsam eingestuft wird"
+    "LabelSlowResponseTime": "Zeit in ms, nachdem eine Antwort als langsam eingestuft wird",
+    "UseEpisodeImagesInNextUpHelp": "Die Abschnitte \"Als Nächstes\" und \"Weiterschauen\" verwenden Episodenbilder als Vorschaubilder anstelle des primären Vorschaubilds der Sendung.",
+    "UseEpisodeImagesInNextUp": "Verwenden Sie Episodenbilder in den Bereichen \"Als Nächstes\" und \"Weiterschauen\"",
+    "LabelLocalCustomCss": "Benutzerdefiniertes CSS-Styling, das nur für diesen Client gilt. Möglicherweise möchten Sie das benutzerdefinierte CSS des Servers deaktivieren.",
+    "LabelDisableCustomCss": "Vom Server bereitgestelltes benutzerdefiniertes CSS-Theme/Branding deaktivieren.",
+    "DisableCustomCss": "Vom Server bereitgestelltes benutzerdefiniertes CSS deaktivieren"
 }

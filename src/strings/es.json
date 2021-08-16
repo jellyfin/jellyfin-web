@@ -949,7 +949,7 @@
     "Share": "Compartir",
     "ShowAdvancedSettings": "Mostrar opciones avanzadas",
     "ShowIndicatorsFor": "Mostrar indicaciones para:",
-    "Shows": "Series de Televisión",
+    "Shows": "Series",
     "Shuffle": "Mezclar",
     "SimultaneousConnectionLimitHelp": "Número máximo de transmisiones simultáneas permitidas. Pon 0 para no tener límite.",
     "SkipEpisodesAlreadyInMyLibrary": "No grabar episodios que ya están en mi biblioteca",
@@ -1304,9 +1304,9 @@
     "MessageSyncPlayGroupDoesNotExist": "No se pudo unir al grupo porque no existe.",
     "MessageSyncPlayPlaybackPermissionRequired": "Requiere permiso para reproducir.",
     "MessageSyncPlayNoGroupsAvailable": "No hay grupos disponibles. Reproduce algo primero.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> se está cargando…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> abandonó el grupo.",
-    "MessageSyncPlayUserJoined": "<b>{0}</b> se ha unido al grupo.",
+    "MessageSyncPlayGroupWait": "{0} se está cargando…",
+    "MessageSyncPlayUserLeft": "{0} abandonó el grupo.",
+    "MessageSyncPlayUserJoined": "{0} se ha unido al grupo.",
     "MessageSyncPlayDisabled": "SyncPlay inactivo.",
     "MessageSyncPlayEnabled": "SyncPlay activo.",
     "LabelSyncPlayAccess": "Acceso a SyncPlay",
@@ -1509,5 +1509,9 @@
     "EnablePlugin": "Habilitar",
     "Framerate": "Tasa de cuadros",
     "DirectPlayHelp": "El archivo origen es totalmente compatible con este cliente, y la sesión está recibiendo el archivo sin modificaciones.",
-    "HeaderContinueReading": "Continuar Leyendo"
+    "HeaderContinueReading": "Continuar Leyendo",
+    "LabelEnableGamepad": "Habilitad Mando",
+    "Controls": "Controles",
+    "TextSent": "Texto enviado.",
+    "MessageSent": "Mensaje enviado."
 }
