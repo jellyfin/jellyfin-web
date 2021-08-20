@@ -668,11 +668,37 @@ import browser from './browser';
         }
 
         if (canPlayVp8) {
+            // TODO: Remove vpx entry once servers are migrated
             profile.TranscodingProfiles.push({
                 Container: 'webm',
                 Type: 'Video',
-                AudioCodec: 'vorbis',
+                AudioCodec: webmAudioCodecs.includes('opus') ? 'opus' : 'vorbis',
                 VideoCodec: 'vpx',
+                Context: 'Streaming',
+                Protocol: 'http',
+                // If audio transcoding is needed, limit channels to number of physical audio channels
+                // Trying to transcode to 5 channels when there are only 2 speakers generally does not sound good
+                MaxAudioChannels: physicalAudioChannels.toString()
+            });
+            profile.TranscodingProfiles.push({
+                Container: 'webm',
+                Type: 'Video',
+                AudioCodec: webmAudioCodecs.includes('opus') ? 'opus' : 'vorbis',
+                VideoCodec: 'vp8',
+                Context: 'Streaming',
+                Protocol: 'http',
+                // If audio transcoding is needed, limit channels to number of physical audio channels
+                // Trying to transcode to 5 channels when there are only 2 speakers generally does not sound good
+                MaxAudioChannels: physicalAudioChannels.toString()
+            });
+        }
+
+        if (canPlayVp9) {
+            profile.TranscodingProfiles.push({
+                Container: 'webm',
+                Type: 'Video',
+                AudioCodec: webmAudioCodecs.includes('opus') ? 'opus' : 'vorbis',
+                VideoCodec: 'vp9',
                 Context: 'Streaming',
                 Protocol: 'http',
                 // If audio transcoding is needed, limit channels to number of physical audio channels
