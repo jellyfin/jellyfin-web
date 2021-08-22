@@ -13,7 +13,7 @@ jobs:
   setup-vars:
     name: Setup Variables
     runs-on: ubuntu-latest
-#    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
 
     outputs:
       stage: ${{ steps.variables.outputs.stage }}
@@ -64,7 +64,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '14'
           check-latest: true
           cache: 'npm'
 

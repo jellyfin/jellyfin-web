@@ -12,7 +12,7 @@ ENV SOURCE_DIR=/jellyfin \
 # Prepare Debian build environment
 RUN apt-get update -yqq \
   && apt-get install -yqq mmv curl git \
-  && curl -fsSL https://deb.nodesource.com/setup_12.x | bash - \
+  && curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
   && apt-get install -yqq nodejs
 
 # Link to build script

@@ -13,7 +13,7 @@ jobs:
   setup-vars:
     name: Setup Variables
     runs-on: ubuntu-latest
-#    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
 
     outputs:
       short-sha: ${{ steps.variables.outputs.short-sha }}
@@ -101,24 +101,24 @@ jobs:
           name: jellyfin-web_${{ matrix.build-config }}
           path: deployment/dist
 
-#      - name: Create Target Directory on Repository Server
-#        uses: appleboy/ssh-action@v0.1.4
-#        with:
-#          host: ${{ secrets.DEPLOY_HOST }}
-#          username: ${{ secrets.DEPLOY_USER }}
-#          key: ${{ secrets.DEPLOY_KEY }}
-#          script_stop: true
-#          script: mkdir -p /srv/repository/incoming/gh-actions/${{ env.SHORT_SHA }}/${{ matrix.build-config }}
-#
-#      - name: Upload Packaging Artifacts to Repository Server
-#        uses: burnett01/rsync-deployments@4.1
-#        with:
-#          switches: -vrptz
-#          path: deployment/dist/
-#          remote_path: /srv/repository/incoming/gh-actions/${{ env.SHORT_SHA }}/${{ matrix.build-config }}
-#          remote_host: ${{ secrets.DEPLOY_HOST }}
-#          remote_user: ${{ secrets.DEPLOY_USER }}
-#          remote_key: ${{ secrets.DEPLOY_KEY }}
+      - name: Create Target Directory on Repository Server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script_stop: true
+          script: mkdir -p /srv/repository/incoming/gh-actions/${{ env.SHORT_SHA }}/${{ matrix.build-config }}
+
+      - name: Upload Packaging Artifacts to Repository Server
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -vrptz
+          path: deployment/dist/
+          remote_path: /srv/repository/incoming/gh-actions/${{ env.SHORT_SHA }}/${{ matrix.build-config }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
 
   trigger-meta:
     name: Triger Meta Package builds

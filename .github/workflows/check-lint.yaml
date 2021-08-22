@@ -2,9 +2,11 @@ name: Lint
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   run-eslint:
@@ -12,27 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out Git repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Setup node environment
-        uses: actions/setup-node@v2.4.0
+        uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 14
           check-latest: true
-
-      - name: Get npm cache directory path
-        id: npm-cache-dir-path
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache node_modules
-        uses: actions/cache@v2.1.6
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+          cache: 'npm'
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
@@ -47,27 +37,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out Git repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Setup node environment
-        uses: actions/setup-node@v2.4.0
+        uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 14
           check-latest: true
-
-      - name: Get npm cache directory path
-        id: npm-cache-dir-path
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache node_modules
-        uses: actions/cache@v2.1.6
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+          cache: 'npm'
 
       - name: Set up stylelint matcher
         uses: xt0rted/stylelint-problem-matcher@v1
@@ -85,27 +63,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out Git repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Setup node environment
-        uses: actions/setup-node@v2.4.0
+        uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 14
           check-latest: true
-
-      - name: Get npm cache directory path
-        id: npm-cache-dir-path
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache node_modules
-        uses: actions/cache@v2.1.6
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+          cache: 'npm'
 
       - name: Set up stylelint matcher
         uses: xt0rted/stylelint-problem-matcher@v1

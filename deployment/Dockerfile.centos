@@ -13,7 +13,7 @@ ENV SOURCE_DIR=/jellyfin \
 RUN yum update -yq \
   && yum install -yq epel-release \
   && yum install -yq @buildsys-build rpmdevtools git yum-plugins-core autoconf automake glibc-devel gcc-c++ make \
-  && curl -fsSL https://rpm.nodesource.com/setup_12.x | bash - \
+  && curl -fsSL https://rpm.nodesource.com/setup_14.x | bash - \
   && yum install -yq nodejs
 
 # Link to build script
