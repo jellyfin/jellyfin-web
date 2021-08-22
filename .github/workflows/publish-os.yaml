@@ -1,0 +1,153 @@
+name: '🚀 Publish OS Packages'
+
+on:
+  push:
+    branches:
+      - master
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+jobs:
+  setup-vars:
+    name: Setup Variables
+    runs-on: ubuntu-latest
+#    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+
+    outputs:
+      short-sha: ${{ steps.variables.outputs.short-sha }}
+      version: ${{ steps.variables.outputs.version }}
+      stage: ${{ steps.variables.outputs.stage }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup YQ
+        uses: chrisdickinson/setup-yq@latest
+        with:
+          yq-version: v4.9.8
+
+      - name: Setup variables
+        id: variables
+        run: |-
+          if [[ "${GITHUB_REF}" =~ '^refs/tags/v.*$' ]]; then
+            STAGE='stable'
+          fi
+          VERSION=`yq e '.version' build.yaml`
+          echo "::set-output name=version::${VERSION}"
+          echo "::set-output name=stage::${STAGE:-unstable}"
+          echo "::set-output name=short-sha::${GITHUB_SHA::7}"
+
+  build-packages:
+    name: Build JF-Web Packages
+    runs-on: ubuntu-latest
+    needs:
+      - setup-vars
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build-config:
+          - centos # TODO: is this still needed/valid
+          - debian
+          - fedora
+          - portable
+
+    env:
+      SHORT_SHA: ${{ needs.setup-vars.outputs.short-sha }}
+      VERSION: ${{ needs.setup-vars.outputs.version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build packaging container
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: jellyfin-web
+          tags: ${{ matrix.build-config }}
+          context: deployment
+          oci: true
+          dockerfiles: deployment/Dockerfile.${{ matrix.build-config }}
+
+      - name: Run packaging container (stable)
+        if: ${{ github.event_name == 'release' }}
+        run: |-
+          mkdir -p deployment/dist
+          podman run --rm \
+            -v $(pwd)/deployment/dist:/dist \
+            -v $(pwd):/jellyfin \
+            -e IS_UNSTABLE="no" \
+            -e BUILD_ID=${{ env.VERSION }} \
+            jellyfin-web:${{ matrix.build-config }}
+
+      - name: Run packaging container (unstable)
+        if: ${{ github.event_name != 'release' }}
+        run: |-
+          mkdir -p deployment/dist
+          BUILD_VERSION=${{ env.VERSION }}
+          podman run --rm \
+            -v $(pwd)/deployment/dist:/dist \
+            -v $(pwd):/jellyfin \
+            -e IS_UNSTABLE="yes" \
+            -e BUILD_ID=${BUILD_VERSION%.*}.${{ env.SHORT_SHA }} \
+            jellyfin-web:${{ matrix.build-config }}
+
+      - name: Publish artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: jellyfin-web_${{ matrix.build-config }}
+          path: deployment/dist
+
+#      - name: Create Target Directory on Repository Server
+#        uses: appleboy/ssh-action@v0.1.4
+#        with:
+#          host: ${{ secrets.DEPLOY_HOST }}
+#          username: ${{ secrets.DEPLOY_USER }}
+#          key: ${{ secrets.DEPLOY_KEY }}
+#          script_stop: true
+#          script: mkdir -p /srv/repository/incoming/gh-actions/${{ env.SHORT_SHA }}/${{ matrix.build-config }}
+#
+#      - name: Upload Packaging Artifacts to Repository Server
+#        uses: burnett01/rsync-deployments@4.1
+#        with:
+#          switches: -vrptz
+#          path: deployment/dist/
+#          remote_path: /srv/repository/incoming/gh-actions/${{ env.SHORT_SHA }}/${{ matrix.build-config }}
+#          remote_host: ${{ secrets.DEPLOY_HOST }}
+#          remote_user: ${{ secrets.DEPLOY_USER }}
+#          remote_key: ${{ secrets.DEPLOY_KEY }}
+
+  trigger-meta:
+    name: Triger Meta Package builds
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs:
+      - setup-vars
+      - build-packages
+
+    env:
+      SHORT_SHA: ${{ needs.setup-vars.outputs.short-sha }}
+      VERSION: ${{ needs.setup-vars.outputs.version }}
+      STAGE: ${{ needs.setup-vars.outputs.stage }}
+
+    steps:
+#      - name: Run OS package collect script
+#        uses: appleboy/ssh-action@v0.1.4
+#        with:
+#          host: ${{ secrets.DEPLOY_HOST }}
+#          username: ${{ secrets.DEPLOY_USER }}
+#          key: ${{ secrets.DEPLOY_KEY }}
+#          script_stop: true
+#          script: |-
+#            nohup sudo /srv/repository/collect-server.os-packs.sh \
+#              /srv/repository/incoming/gh-actions \
+#              ${{ env.SHORT_SHA }} \
+#              ${{ env.VERSION }} \
+#              ${{ env.STAGE }} &
+
+      - name: Debug
+        run: |-
+          echo "nohup sudo /srv/repository/collect-server.os-packs.sh /srv/repository/incoming/gh-actions ${{ env.SHORT_SHA }} ${{ env.VERSION }} ${{ env.STAGE }} &"
