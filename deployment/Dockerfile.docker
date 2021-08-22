@@ -1,11 +1,27 @@
-FROM node:lts-alpine
+FROM nginx:alpine
 
-ARG SOURCE_DIR=/src
-ARG ARTIFACT_DIR=/jellyfin-web
+ARG JELLYFIN_VERSION
 
-RUN apk add autoconf g++ make libpng-dev gifsicle alpine-sdk automake libtool make gcc musl-dev nasm python3
+# Default environment variables for the Jellyfin invocation
+ENV LC_ALL="en_US.UTF-8" \
+    LANG="en_US.UTF-8" \
+    LANGUAGE="en_US:en" \
+    JELLYFIN_WEB_VERSION="${JELLYFIN_WEB_VERSION:-10.8.0}"
 
-WORKDIR ${SOURCE_DIR}
-COPY . .
+# Open Container Initiative metadata labels
+LABEL \
+    org.opencontainers.image.vendor="Jellyfin project" \
+    org.opencontainers.image.title="Official Jellyfin standalone web Docker image" \
+    org.opencontainers.image.description="Jellyfin - The Free Software Media System" \
+    org.opencontainers.image.version="${JELLYFIN_WEB_VERSION}" \
+    org.opencontainers.image.url="https://jellyfin.org/" \
+    org.opencontainers.image.source="https://github.com/jellyfin/jellyfin" \
+    org.opencontainers.image.licenses="GPL-2.0"
 
-RUN npm ci --no-audit --unsafe-perm && mv dist ${ARTIFACT_DIR}
+COPY dist /opt/jellyfin-web
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY mime.types /etc/nginx/mime.types
+
+RUN rm -r /usr/share/nginx/html && ln -s /opt/jellyfin-web /usr/share/nginx/html
+
+EXPOSE 80/tcp

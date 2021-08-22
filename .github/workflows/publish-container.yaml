@@ -1,0 +1,123 @@
+name: '🚀 Publish Container Images'
+
+on:
+  push:
+    branches:
+      - master
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+jobs:
+  setup-vars:
+    name: Setup Variables
+    runs-on: ubuntu-latest
+#    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+
+    outputs:
+      stage: ${{ steps.variables.outputs.stage }}
+      short-sha: ${{ steps.variables.outputs.short-sha }}
+      major-minor: ${{ steps.variables.outputs.major-minor }}
+      version: ${{ steps.variables.outputs.version }}
+      year-week: ${{ steps.variables.outputs.year-week }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup YQ
+        uses: chrisdickinson/setup-yq@latest
+        with:
+          yq-version: v4.9.8
+
+      - name: Setup sariables
+        id: variables
+        run: |-
+          if [[ "${GITHUB_REF}" =~ '^refs/tags/v.*$' ]]; then
+            STAGE='stable'
+          fi
+          VERSION=`yq e '.version' build.yaml`
+          echo "::set-output name=stage::${STAGE:-unstable}"
+          echo "::set-output name=short-sha::${GITHUB_SHA::7}"
+          echo "::set-output name=major-minor::${VERSION%.*}"
+          echo "::set-output name=version::${VERSION}"
+          echo "::set-output name=year-week::$(date -u '+%Y%W')"
+
+  container-image:
+    name: Build Container Images
+    runs-on: ubuntu-latest
+    needs:
+      - setup-vars
+
+    env:
+      STAGE: ${{ needs.setup-vars.outputs.stage }}
+      SHORT_SHA: ${{ needs.setup-vars.outputs.short-sha }}
+      MAJOR_MINOR: ${{ needs.setup-vars.outputs.major-minor }}
+      SEMVER: ${{ needs.setup-vars.outputs.version }}
+      YEAR_WEEK: ${{ needs.setup-vars.outputs.year-week }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --no-audit
+        env:
+          SKIP_PREPARE: true
+
+      - name: Build Web
+        run: |-
+          npm run build:production
+          mv dist deployment/dist
+
+      - name: Build standalone web image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: jellyfin-web
+          tags: >-
+            ${{ env.STAGE }}
+            ${{ env.STAGE }}-${{ env.MAJOR_MINOR }}
+            ${{ env.STAGE }}-${{ env.SEMVER }}
+            ${{ env.SHORT_SHA }}
+          oci: true
+          arch: ${{ matrix.image-config }}
+          dockerfiles: deployment/Dockerfile.docker
+          context: deployment
+          build-args: |-
+            JELLYFIN_VERSION=${{ env.SEMVER }}
+
+      - name: Publish standalone web image to ghcr.io
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: ghcr.io/${{ github.repository_owner }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+
+      - name: Publish standalone web image to quay.io
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: quay.io/jellyfin
+          username: jellyfin+github_actions
+          password: ${{ secrets.RH_TOKEN }}
+
+      - name: Publish standalone web image to docker.io
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: docker.io/jellyfin
+          username: jellyfin
+          password: ${{ secrets.DH_TOKEN }}
