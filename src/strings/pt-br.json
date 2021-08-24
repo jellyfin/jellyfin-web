@@ -1509,5 +1509,13 @@
     "YoutubeBadRequest": "Requisição ruim.",
     "AspectRatioFill": "Preencher",
     "LabelHDHomerunPortRange": "Intervalo de portas HDHomerun:",
-    "HeaderContinueReading": "Continue Lendo"
+    "HeaderContinueReading": "Continue Lendo",
+    "UseEpisodeImagesInNextUp": "",
+    "TextSent": "",
+    "MessageSent": "",
+    "LabelSlowResponseTime": "",
+    "LabelSlowResponseEnabled": "",
+    "LabelLocalCustomCss": "",
+    "LabelDisableCustomCss": "",
+    "DisableCustomCss": ""
 }
