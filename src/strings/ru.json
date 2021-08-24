@@ -1539,5 +1539,6 @@
     "VideoCodecNotSupported": "Видеокодек не поддерживается",
     "SubtitleCodecNotSupported": "Кодек субтитров не поддерживается",
     "ContainerNotSupported": "Контейнер не поддерживается",
-    "AudioCodecNotSupported": "Аудиокодек не поддерживается"
+    "AudioCodecNotSupported": "Аудиокодек не поддерживается",
+    "LabelHardwareEncoding": "Аппаратное кодирование:"
 }
