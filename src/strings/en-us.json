@@ -646,6 +646,7 @@
     "LabelH265Crf": "H265 encoding CRF:",
     "LabelHardwareAccelerationType": "Hardware acceleration:",
     "LabelHardwareAccelerationTypeHelp": "Hardware acceleration requires additional configuration.",
+    "LabelHardwareEncoding": "Hardware encoding:",
     "LabelHDHomerunPortRange": "HD Homerun port range:",
     "LabelHDHomerunPortRangeHelp": "Restricts the HD Homerun UDP port range to this value. (Default is 1024 - 645535).",
     "LabelHomeNetworkQuality": "Home network quality:",
