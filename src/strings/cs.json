@@ -185,7 +185,7 @@
     "HeaderAddUpdateImage": "Přidat/aktualizovat obrázek",
     "HeaderAdditionalParts": "Další součásti",
     "HeaderAdmin": "Administrátor",
-    "HeaderAlbumArtists": "Umělci alba",
+    "HeaderAlbumArtists": "Album umělce",
     "HeaderAlert": "Upozornění",
     "HeaderApiKey": "Klíč k API",
     "HeaderApiKeys": "Klíče k API",
@@ -1539,5 +1539,6 @@
     "VideoCodecNotSupported": "Video kodek není podporován",
     "SubtitleCodecNotSupported": "Titulkový kodek není podporován",
     "ContainerNotSupported": "Kontejner není podporován",
-    "AudioCodecNotSupported": "Zvukový kodek není podporován"
+    "AudioCodecNotSupported": "Zvukový kodek není podporován",
+    "LabelHardwareEncoding": "Hardwarové kódování:"
 }
