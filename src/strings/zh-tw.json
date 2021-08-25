@@ -1539,5 +1539,6 @@
     "LabelCreateHttpPortMapHelp": "允許自動端口映射為除了HTTPS之外的HTTP流量創建規則。",
     "HeaderContinueReading": "繼續閱讀",
     "DisableCustomCss": "停用伺服器提供的自訂CSS",
-    "DirectPlayHelp": "原始檔完全相容於此客戶端，且工作階段正在接收檔案並未作任何修改。"
+    "DirectPlayHelp": "原始檔完全相容於此客戶端，且工作階段正在接收檔案並未作任何修改。",
+    "LabelHardwareEncoding": "硬體編碼器:"
 }
