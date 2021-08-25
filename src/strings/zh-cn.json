@@ -211,7 +211,7 @@
     "HeaderAddUpdateImage": "添加/更新 图片",
     "HeaderAdditionalParts": "附加部分",
     "HeaderAdmin": "管理",
-    "HeaderAlbumArtists": "作家专辑",
+    "HeaderAlbumArtists": "艺术家专辑",
     "HeaderAlert": "警报",
     "HeaderAllowMediaDeletionFrom": "允许从中删除媒体",
     "HeaderApiKey": "API 密钥",
@@ -235,7 +235,7 @@
     "HeaderContainerProfile": "媒体载体配置",
     "HeaderContainerProfileHelp": "媒体载体的配置文件标明了设备播放特定媒体格式时的限制。如果在限制之内则媒体将被转码，否则媒体格式将被配置为直接播放。",
     "HeaderContinueListening": "继续听",
-    "HeaderContinueWatching": "继续观影",
+    "HeaderContinueWatching": "继续观看",
     "HeaderCustomDlnaProfiles": "自定义配置",
     "HeaderDateIssued": "发布日期",
     "HeaderDefaultRecordingSettings": "默认录制设定",
@@ -1539,5 +1539,6 @@
     "VideoCodecNotSupported": "视频编码不支持",
     "SubtitleCodecNotSupported": "字幕解码不支持",
     "ContainerNotSupported": "该容器不支持",
-    "AudioCodecNotSupported": "音频编码不支持"
+    "AudioCodecNotSupported": "音频编码不支持",
+    "LabelHardwareEncoding": "硬件编码："
 }
