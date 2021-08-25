@@ -108,7 +108,7 @@
     "Raised": "Alto relevo",
     "Programs": "Programas",
     "Producer": "Produtor",
-    "MessagePluginInstalled": "A extensão foi instalada com sucesso. O Servidor Jellyfin necessitará de reiniciar para aplicar as alterações.",
+    "MessagePluginInstalled": "A extensão foi instalada com sucesso. O servidor necessitará de ser reiniciado para aplicar as alterações.",
     "PleaseSelectTwoItems": "Por favor seleccione pelo menos dois itens.",
     "PleaseRestartServerName": "Por favor, reinicie o Servidor Jellyfin - {0}.",
     "PleaseEnterNameOrId": "Por favor, digite um nome ou Id externo.",
@@ -1312,5 +1312,14 @@
     "EnableBlurHash": "Ativar marcadores desfocados para imagens",
     "DisablePlugin": "Desabilitar",
     "EnablePlugin": "Habilitar",
-    "DirectPlayHelp": "O arquivo de origem é totalmente compatível com este cliente e a sessão está recebendo o arquivo sem modificações."
+    "DirectPlayHelp": "O arquivo de origem é totalmente compatível com este cliente e a sessão está recebendo o arquivo sem modificações.",
+    "MessageSent": "Mensagem enviada.",
+    "MessagePluginInstallError": "Ocorreu um erro ao instalar a extensão.",
+    "MessageNoRepositories": "Sem repositórios.",
+    "MessageGetInstalledPluginsError": "Ocorreu um erro ao obter a lista das extensões instaladas.",
+    "MediaInfoColorPrimaries": "Cores primárias",
+    "LastSeen": "Visto pela ultima vez em {0}",
+    "LabelUserMaxActiveSessions": "Número máximo de sessões em simultâneo:",
+    "LabelUnstable": "Instável",
+    "LabelHardwareEncoding": "Codificação por hardware:"
 }
