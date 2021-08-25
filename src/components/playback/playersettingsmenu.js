@@ -41,8 +41,7 @@ function showQualityMenu(player, btn) {
 
     return actionsheet.show({
         items: menuItems,
-        positionTo: btn,
-        enableHistory: false
+        positionTo: btn
     }).then(function (id) {
         const bitrate = parseInt(id);
         if (bitrate !== selectedBitrate) {
@@ -78,8 +77,7 @@ function showRepeatModeMenu(player, btn) {
 
     return actionsheet.show({
         items: menuItems,
-        positionTo: btn,
-        enableHistory: false
+        positionTo: btn
     }).then(function (mode) {
         if (mode) {
             playbackManager.setRepeatMode(mode, player);
@@ -140,8 +138,7 @@ function showAspectRatioMenu(player, btn) {
 
     return actionsheet.show({
         items: menuItems,
-        positionTo: btn,
-        enableHistory: false
+        positionTo: btn
     }).then(function (id) {
         if (id) {
             playbackManager.setAspectRatio(id, player);
@@ -163,8 +160,7 @@ function showPlaybackRateMenu(player, btn) {
 
     return actionsheet.show({
         items: menuItems,
-        positionTo: btn,
-        enableHistory: false
+        positionTo: btn
     }).then(function (id) {
         if (id) {
             playbackManager.setPlaybackRate(id, player);
@@ -241,8 +237,7 @@ function showWithUser(options, player, user) {
 
     return actionsheet.show({
         items: menuItems,
-        positionTo: options.positionTo,
-        enableHistory: false
+        positionTo: options.positionTo
     }).then(function (id) {
         return handleSelectedOption(id, options, player);
     });

@@ -903,8 +903,7 @@ import { appRouter } from '../../../components/appRouter';
                 actionsheet.show({
                     items: menuItems,
                     title: globalize.translate('Audio'),
-                    positionTo: positionTo,
-                    enableHistory: false
+                    positionTo: positionTo
                 }).then(function (id) {
                     const index = parseInt(id);
 
@@ -950,8 +949,7 @@ import { appRouter } from '../../../components/appRouter';
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,
-                    positionTo: positionTo,
-                    enableHistory: false
+                    positionTo: positionTo
                 }).then(function (id) {
                     const index = parseInt(id);
 
