@@ -1539,5 +1539,6 @@
     "LabelSlowResponseEnabled": "Logg varning om serverns respons var för långsam",
     "LabelLocalCustomCss": "Unik CSS styling som enbart appliceras på denna klienten. Det rekommenderas att inaktivera server unik CSS.",
     "LabelDisableCustomCss": "Inaktivera unikt CSS tema försedd av servern.",
-    "DisableCustomCss": "Inaktivera Server-försedd Custom CSS"
+    "DisableCustomCss": "Inaktivera Server-försedd Custom CSS",
+    "LabelHardwareEncoding": "Hårdvaraomkodning:"
 }
