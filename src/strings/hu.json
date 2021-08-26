@@ -1539,5 +1539,6 @@
     "VideoCodecNotSupported": "A videó kodek nem támogatott",
     "SubtitleCodecNotSupported": "A felirat kodek nem támogatott",
     "ContainerNotSupported": "A tároló nem támogatott",
-    "AudioCodecNotSupported": "Az audio kodek nem támogatott"
+    "AudioCodecNotSupported": "Az audio kodek nem támogatott",
+    "LabelHardwareEncoding": "Hardver kódolás:"
 }
