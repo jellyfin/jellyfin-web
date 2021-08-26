@@ -1539,5 +1539,6 @@
     "VideoCodecNotSupported": "Bộ giải mã video không được hỗ trợ",
     "SubtitleCodecNotSupported": "Bộ giải mã phụ đề không được hỗ trợ",
     "ContainerNotSupported": "Vùng chứa không được hỗ trợ",
-    "AudioCodecNotSupported": "Bộ giải mã âm thanh không được hỗ trợ"
+    "AudioCodecNotSupported": "Bộ giải mã âm thanh không được hỗ trợ",
+    "LabelHardwareEncoding": "Mã hóa phần cứng:"
 }
