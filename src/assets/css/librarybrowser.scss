@@ -439,13 +439,6 @@
     padding-left: 32.45vw;
     padding-right: 2%;
 
-    @media all and (max-width: 45em) {
-        & {
-            padding-left: 5%;
-            padding-right: 5%;
-        }
-    }
-
     .layout-mobile & {
         padding-left: 5%;
         padding-right: 5%;
