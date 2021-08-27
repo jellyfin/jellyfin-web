@@ -429,8 +429,7 @@
     }
 }
 
-.layout-tv .itemBackdrop,
-.layout-desktop .noBackdrop .itemBackdrop {
+.layout-tv .itemBackdrop {
     display: none;
 }
 
@@ -457,16 +456,7 @@
         .emby-scroller {
             margin-left: 0;
         }
-
-        .noBackdrop {
-            margin-top: 2.5em;
-        }
     }
-}
-
-.layout-desktop .noBackdrop .detailImageContainer img,
-.layout-tv .noBackdrop .detailImageContainer img {
-    margin-top: 0;
 }
 
 .detailSectionContent a {
@@ -638,11 +628,6 @@
     height: inherit;
 }
 
-.layout-desktop .noBackdrop .detailRibbon,
-.layout-tv .noBackdrop .detailRibbon {
-    margin-top: 0;
-}
-
 .infoWrapper {
     flex: 1 0 0;
 
@@ -730,16 +715,10 @@
     }
 }
 
-.layout-desktop .noBackdrop .detailImageContainer,
-.layout-tv .noBackdrop .detailImageContainer {
-    margin-top: 0;
-}
-
 .detailPagePrimaryContent {
     position: relative;
 }
 
-.noBackdrop .detailLogo,
 .layout-mobile .detailLogo {
     display: none;
 }
@@ -974,11 +953,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
-}
-
-.layout-desktop .noBackdrop .detailPageWrapperContainer,
-.layout-tv .noBackdrop .detailPageWrapperContainer {
-    margin-top: 3.8em;
 }
 
 .mediaInfoStream {
