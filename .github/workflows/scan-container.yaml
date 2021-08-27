@@ -1,0 +1,71 @@
+name: '🔬 Run Container Scan'
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - deployment/Dockerfile.docker.*
+
+  pull_request:
+    branches:
+      - master
+    paths:
+      - deployment/Dockerfile.docker.*
+
+  workflow_dispatch:
+
+jobs:
+  scan-container:
+    name: Scan Container Image
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          check-latest: true
+          cache: 'npm'
+
+      - name: Setup YQ
+        uses: chrisdickinson/setup-yq@latest
+        with:
+          yq-version: v4.9.8
+
+      - name: Setup Variables
+        run: |-
+          VERSION=`yq e '.version' build.yaml`
+          echo "SEMVER=${VERSION}" >> $GITHUB_ENV
+          echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: npm ci --no-audit
+        env:
+          SKIP_PREPARE: true
+
+      - name: Build Web
+        run: |-
+          npm run build:production
+          mv dist deployment/dist
+
+      - name: Build headless Server Image
+        run: |-
+          docker build -f deployment/Dockerfile.docker \
+            --build-arg JELLYFIN_WEB_VERSION=${{ env.SEMVER }} \
+            -t docker.io/jellyfin-web:unstable-${{ env.SHORT_SHA }} \
+            ./deployment
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.0.19
+        with:
+          image-ref: docker.io/jellyfin-web:unstable-${{ env.SHORT_SHA }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
