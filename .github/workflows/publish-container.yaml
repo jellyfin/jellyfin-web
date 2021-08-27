@@ -20,7 +20,6 @@ jobs:
       short-sha: ${{ steps.variables.outputs.short-sha }}
       major-minor: ${{ steps.variables.outputs.major-minor }}
       version: ${{ steps.variables.outputs.version }}
-      year-week: ${{ steps.variables.outputs.year-week }}
 
     steps:
       - name: Checkout repository
@@ -42,7 +41,6 @@ jobs:
           echo "::set-output name=short-sha::${GITHUB_SHA::7}"
           echo "::set-output name=major-minor::${VERSION%.*}"
           echo "::set-output name=version::${VERSION}"
-          echo "::set-output name=year-week::$(date -u '+%Y%W')"
 
   container-image:
     name: Build Container Images
@@ -55,7 +53,6 @@ jobs:
       SHORT_SHA: ${{ needs.setup-vars.outputs.short-sha }}
       MAJOR_MINOR: ${{ needs.setup-vars.outputs.major-minor }}
       SEMVER: ${{ needs.setup-vars.outputs.version }}
-      YEAR_WEEK: ${{ needs.setup-vars.outputs.year-week }}
 
     steps:
       - name: Checkout repository
@@ -93,7 +90,7 @@ jobs:
           dockerfiles: deployment/Dockerfile.docker
           context: deployment
           build-args: |-
-            JELLYFIN_VERSION=${{ env.SEMVER }}
+            JELLYFIN_WEB_VERSION=${{ env.SEMVER }}
 
       - name: Publish standalone web image to ghcr.io
         uses: redhat-actions/push-to-registry@v2

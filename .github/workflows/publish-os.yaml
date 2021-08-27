@@ -50,7 +50,7 @@ jobs:
       fail-fast: false
       matrix:
         build-config:
-          - centos # TODO: is this still needed/valid
+          - centos
           - debian
           - fedora
           - portable
@@ -134,20 +134,17 @@ jobs:
       STAGE: ${{ needs.setup-vars.outputs.stage }}
 
     steps:
-#      - name: Run OS package collect script
-#        uses: appleboy/ssh-action@v0.1.4
-#        with:
-#          host: ${{ secrets.DEPLOY_HOST }}
-#          username: ${{ secrets.DEPLOY_USER }}
-#          key: ${{ secrets.DEPLOY_KEY }}
-#          script_stop: true
-#          script: |-
-#            nohup sudo /srv/repository/collect-server.os-packs.sh \
-#              /srv/repository/incoming/gh-actions \
-#              ${{ env.SHORT_SHA }} \
-#              ${{ env.VERSION }} \
-#              ${{ env.STAGE }} &
-
-      - name: Debug
-        run: |-
-          echo "nohup sudo /srv/repository/collect-server.os-packs.sh /srv/repository/incoming/gh-actions ${{ env.SHORT_SHA }} ${{ env.VERSION }} ${{ env.STAGE }} &"
+      - name: Run OS package collect script
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script_stop: true
+          script: |-
+            nohup sudo /srv/repository/collect-server.os-packs.sh \
+              /srv/repository/incoming/gh-actions \
+              ${{ env.SHORT_SHA }} \
+              ${{ env.VERSION }} \
+              ${{ env.STAGE }} \
+              web &

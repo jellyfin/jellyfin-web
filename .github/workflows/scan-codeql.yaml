@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: "🔬 Run CodeQL Scan"
 
 on:
   push:
@@ -14,6 +14,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
 
     strategy:
       fail-fast: false
