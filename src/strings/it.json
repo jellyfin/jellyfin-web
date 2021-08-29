@@ -1539,5 +1539,6 @@
     "VideoCodecNotSupported": "Codec Video non supportato",
     "SubtitleCodecNotSupported": "Codec sottotitoli non supportato",
     "ContainerNotSupported": "Container non supportato",
-    "AudioCodecNotSupported": "Codec Audio non supportato"
+    "AudioCodecNotSupported": "Codec Audio non supportato",
+    "LabelHardwareEncoding": "Codifica Hardware:"
 }
