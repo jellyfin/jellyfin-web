@@ -507,6 +507,14 @@
 .itemName {
     margin: 0.5em 0;
     font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    .layout-mobile & {
+        white-space: normal;
+        overflow: visible;
+    }
 }
 
 .itemName.originalTitle {
@@ -626,7 +634,6 @@
 
     .layout-mobile & {
         padding-left: 37.5%;
-        overflow: visible;
 
         @media all and (max-width: 32em) {
             position: relative;
@@ -635,16 +642,9 @@
 }
 
 .infoText {
-    white-space: nowrap;
-    text-overflow: ellipsis;
     text-align: left;
     min-width: 0;
     max-width: 100%;
-    overflow: hidden;
-
-    .layout-mobile & {
-        white-space: normal;
-    }
 }
 
 .detailPageSecondaryContainer {
