@@ -223,6 +223,11 @@ a[data-role=button] {
     border-radius: 0.8em;
 }
 
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+    border-radius: 0;
+}
+
 .cardOverlayContainer {
     border-radius: 0.8em;
 }
