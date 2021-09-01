@@ -37,8 +37,6 @@ class SettingsEditor {
 
         this.tabNames = [];
         this.tabs = {};
-
-        this.embed();
     }
 
     insertBefore(newNode, existingNode) {

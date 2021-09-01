@@ -156,9 +156,13 @@ class GroupSelectionMenu {
             } else if (id == 'leave-group') {
                 apiClient.leaveSyncPlayGroup();
             } else if (id == 'settings') {
-                new SyncPlaySettingsEditor(apiClient, SyncPlay.Manager.getTimeSyncCore(), {
-                    groupInfo: groupInfo
-                });
+                new SyncPlaySettingsEditor(apiClient, SyncPlay.Manager.getTimeSyncCore(), { groupInfo: groupInfo })
+                    .embed()
+                    .catch(error => {
+                        if (error) {
+                            console.error('Error creating SyncPlay settings editor', error);
+                        }
+                    });
             }
         }).catch((error) => {
             if (error) {
