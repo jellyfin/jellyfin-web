@@ -1131,5 +1131,21 @@
     "LabelOpenclDevice": "OpenCL Cihazı:",
     "Framerate": "Karehızı",
     "DisablePlugin": "Aktif değil",
-    "EnablePlugin": "Aktif"
+    "EnablePlugin": "Aktif",
+    "LabelMaxAudiobookResume": "Sesli kitapta okunabilecek kalan süre:",
+    "LabelLocalCustomCss": "Sadece bu istemciye uygulanabilir özel CSS tasarımı. Sunucu özel CSS tasarımı kapatmak isteyebilirsin.",
+    "LabelKodiMetadataEnableExtraThumbs": "Ek hayran resmini ek eskiz alanına kopyala",
+    "LabelIsForced": "Zorlanmış",
+    "LabelHDHomerunPortRangeHelp": "HD Hedef UDP bağlantı kapı serisini bu değerle sınırlar. (Varsayılan 1024-645535).",
+    "LabelHDHomerunPortRange": "HD Hedef bağlantı kapı serisi:",
+    "LabelHardwareEncoding": "Donanım şifreleme:",
+    "LabelH265Crf": "H265 CRF modunda şifreliyor:",
+    "LabelEnableSSDPTracingHelp": "SSDP ağ izleme detaylarının günlüğe girilmesini etkinleştir.<br/><b>DİKKAT</b>Bu değişiklik performansta ciddi düşüşlere sebep olacaktır.",
+    "LabelEnableSSDPTracing": "SSDP İzlemeyi Etkinleştir:",
+    "LabelDropShadow": "Gölgelendir:",
+    "LabelDisableCustomCss": "Sunucu tarafından sağlanan kişiye özel CSS tema/özelleştirme işlevini kapat.",
+    "LabelBlastMessageIntervalHelp": "Acil tanı mesajları arasındaki saniye cinsinden süreyi belirtir.",
+    "HeaderContinueReading": "Okumaya devam et",
+    "DisableCustomCss": "Sunucuyu Devre Dışı Bırak- Özel CSS Dosyası Sağlanmış",
+    "DirectPlayHelp": "Kaynak dosyası bu istemci ile tamamen uyumlu ve oturum dosyayı değişiklik yapmadan alıyor."
 }
