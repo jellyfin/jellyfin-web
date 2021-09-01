@@ -538,9 +538,6 @@ class PlaybackCore {
         // Diff might be caused by the player internally starting the playback.
         const diffMillis = (serverPositionTicks - currentPositionTicks) / Helper.TicksPerMillisecond;
 
-        // Adapt playback diff to selected device for time syncing.
-        const targetPlaybackDiff = diffMillis - this.timeSyncCore.getPlaybackDiff();
-
         // Notify update for playback sync.
         this.playbackDiffMillis = diffMillis;
         Events.trigger(this.manager, 'playback-diff', [this.playbackDiffMillis]);
@@ -553,22 +550,22 @@ class PlaybackCore {
         const playerWrapper = this.manager.getPlayerWrapper();
 
         if (this.syncEnabled && this.enableSyncCorrection) {
-            const absDiffMillis = Math.abs(targetPlaybackDiff);
+            const absDiffMillis = Math.abs(diffMillis);
             // TODO: SpeedToSync sounds bad on songs.
             // TODO: SpeedToSync is failing on Safari (Mojave); even if playbackRate is supported, some delay seems to exist.
             // TODO: both SpeedToSync and SpeedToSync seem to have a hard time keeping up on Android Chrome as well.
             if (playerWrapper.hasPlaybackRate() && this.useSpeedToSync && absDiffMillis >= this.minDelaySpeedToSync && absDiffMillis < this.maxDelaySpeedToSync) {
                 // Fix negative speed when client is ahead of time more than speedToSyncTime.
                 const MinSpeed = 0.2;
-                if (targetPlaybackDiff <= -speedToSyncTime * MinSpeed) {
-                    speedToSyncTime = Math.abs(targetPlaybackDiff) / (1.0 - MinSpeed);
+                if (diffMillis <= -speedToSyncTime * MinSpeed) {
+                    speedToSyncTime = Math.abs(diffMillis) / (1.0 - MinSpeed);
                 }
 
                 // SpeedToSync strategy.
-                const speed = 1 + targetPlaybackDiff / speedToSyncTime;
+                const speed = 1 + diffMillis / speedToSyncTime;
 
                 if (speed <= 0) {
-                    console.error('SyncPlay error: speed should not be negative!', speed, targetPlaybackDiff, speedToSyncTime);
+                    console.error('SyncPlay error: speed should not be negative!', speed, diffMillis, speedToSyncTime);
                 }
 
                 playerWrapper.setPlaybackRate(speed);

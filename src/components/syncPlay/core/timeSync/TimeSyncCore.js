@@ -8,6 +8,16 @@ import Settings from '../Settings';
 import TimeSyncServer from './TimeSyncServer';
 
 /**
+ * Utility function to offset a given date by a given amount of milliseconds.
+ * @param {Date} date The date.
+ * @param {number} offset The offset, in milliseconds.
+ * @returns {Date} The offset date.
+ */
+function offsetDate(date, offset) {
+    return new Date(date.getTime() + offset);
+}
+
+/**
  * Class that manages time syncing with several devices.
  */
 class TimeSyncCore {
@@ -89,7 +99,7 @@ class TimeSyncCore {
      */
     remoteDateToLocal(remote) {
         const date = this.timeSyncServer.remoteDateToLocal(remote);
-        return this.offsetDate(date, -this.extraTimeOffset);
+        return offsetDate(date, -this.extraTimeOffset);
     }
 
     /**
@@ -99,7 +109,7 @@ class TimeSyncCore {
      */
     localDateToRemote(local) {
         const date = this.timeSyncServer.localDateToRemote(local);
-        return this.offsetDate(date, this.extraTimeOffset);
+        return offsetDate(date, this.extraTimeOffset);
     }
 
     /**
@@ -108,25 +118,6 @@ class TimeSyncCore {
      */
     getTimeOffset() {
         return this.timeSyncServer.getTimeOffset() + this.extraTimeOffset;
-    }
-
-    /**
-     * Gets the playback diff that should be used to offset local playback, in milliseconds.
-     * @returns {number} The time offset.
-     */
-    getPlaybackDiff() {
-        // TODO: this will use playback data from WebRTC peers.
-        return 0;
-    }
-
-    /**
-     * Offsets a given date by a given ammount of milliseconds.
-     * @param {Date} date The date.
-     * @param {number} offset The offset, in milliseconds.
-     * @returns {Date} The offset date.
-     */
-    offsetDate(date, offset) {
-        return new Date(date.getTime() + offset);
     }
 }
 
