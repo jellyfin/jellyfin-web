@@ -1535,5 +1535,6 @@
     "VideoCodecNotSupported": "വീഡിയോ കോഡെക്ക് പിന്തുണയ്ക്കുന്നില്ല",
     "SubtitleCodecNotSupported": "സബ്ടൈറ്റിൽ കോഡെക്ക് പിന്തുണയ്ക്കുന്നില്ല",
     "ContainerNotSupported": "കണ്ടെയ്നർ പിന്തുണയ്ക്കുന്നില്ല",
-    "AudioCodecNotSupported": "ഓഡിയോ കോഡെക്ക് പിന്തുണയ്ക്കുന്നില്ല"
+    "AudioCodecNotSupported": "ഓഡിയോ കോഡെക്ക് പിന്തുണയ്ക്കുന്നില്ല",
+    "LabelHardwareEncoding": "ഹാർഡ്‌വെയർ എൻകോഡിംഗ്:"
 }
