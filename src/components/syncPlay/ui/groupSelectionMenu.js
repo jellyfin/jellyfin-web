@@ -79,7 +79,9 @@ class GroupSelectionMenu {
                         });
                     }
                 }).catch((error) => {
-                    console.error('SyncPlay: unexpected error listing groups:', error);
+                    if (error) {
+                        console.error('SyncPlay: unexpected error listing groups:', error);
+                    }
                 });
 
                 loading.hide();
@@ -159,7 +161,9 @@ class GroupSelectionMenu {
                 });
             }
         }).catch((error) => {
-            console.error('SyncPlay: unexpected error showing group menu:', error);
+            if (error) {
+                console.error('SyncPlay: unexpected error showing group menu:', error);
+            }
         });
 
         loading.hide();
