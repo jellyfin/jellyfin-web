@@ -875,8 +875,6 @@
     "LabelSyncPlaySettingsDescription": "Change SyncPlay preferences",
     "LabelSyncPlaySettingsGroupName": "Group name:",
     "LabelSyncPlaySettingsGroupNameHelp": "Change the group's name.",
-    "LabelSyncPlaySettingsTimeSync": "Device:",
-    "LabelSyncPlaySettingsTimeSyncHelp": "Pick the device to time sync with. Picking a local peer ensures less noticeable delay between devices on the same network.",
     "LabelSyncPlaySettingsExtraTimeOffset": "Extra time offset:",
     "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Manually adjust time offset with selected device for time sync. Tweak with care.",
     "LabelSyncPlaySettingsSyncCorrection": "Sync Correction",

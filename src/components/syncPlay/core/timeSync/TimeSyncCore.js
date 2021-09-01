@@ -59,32 +59,6 @@ class TimeSyncCore {
     }
 
     /**
-     * Gets the list of available devices for time sync.
-     * @returns {Array} The list of devices.
-     */
-    getDevices() {
-        const devices = [{
-            type: 'server',
-            id: 'server',
-            name: 'Server',
-            timeOffset: this.timeSyncServer.getTimeOffset(),
-            ping: this.timeSyncServer.getPing(),
-            peerTimeOffset: 0,
-            peerPing: 0
-        }];
-
-        return devices;
-    }
-
-    /**
-     * Gets the identifier of the selected device for time sync. Default value is 'server'.
-     * @returns {string} The identifier.
-     */
-    getActiveDevice() {
-        return this.timeSyncDeviceId;
-    }
-
-    /**
      * Gets the display name of the selected device for time sync.
      * @returns {string} The display name.
      */

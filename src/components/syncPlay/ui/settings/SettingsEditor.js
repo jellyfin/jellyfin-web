@@ -39,14 +39,6 @@ class SettingsEditor {
         this.tabs = {};
 
         this.embed();
-
-        Events.on(this.timeSyncCore, 'refresh-devices', () => {
-            this.refreshTimeSyncDevices();
-        });
-
-        Events.on(this.timeSyncCore, 'time-sync-server-update', () => {
-            this.refreshTimeSyncDevices();
-        });
     }
 
     insertBefore(newNode, existingNode) {
@@ -163,27 +155,6 @@ class SettingsEditor {
         context.querySelector('#txtMinDelaySkipToSync').value = SyncPlay.Settings.getFloat('minDelaySkipToSync', 400.0);
         context.querySelector('#chkSpeedToSync').checked = SyncPlay.Settings.getBool('useSpeedToSync', true);
         context.querySelector('#chkSkipToSync').checked = SyncPlay.Settings.getBool('useSkipToSync', true);
-
-        this.refreshTimeSyncDevices();
-        const timeSyncSelect = context.querySelector('#selectTimeSync');
-        timeSyncSelect.value = this.timeSyncCore.getActiveDevice();
-        this.timeSyncSelectedValue = timeSyncSelect.value;
-
-        timeSyncSelect.addEventListener('change', () => {
-            this.timeSyncSelectedValue = timeSyncSelect.value;
-        });
-    }
-
-    refreshTimeSyncDevices() {
-        const { context } = this;
-        const timeSyncSelect = context.querySelector('#selectTimeSync');
-        const devices = this.timeSyncCore.getDevices();
-
-        timeSyncSelect.innerHTML = devices.map(device => {
-            return `<option value="${device.id}">${device.name} (time offset: ${device.timeOffset} ms; ping: ${device.ping} ms)</option>`;
-        }).join('');
-
-        timeSyncSelect.value = this.timeSyncSelectedValue;
     }
 
     /**
@@ -218,7 +189,6 @@ class SettingsEditor {
     async saveToAppSettings() {
         const { context } = this;
 
-        const timeSyncDevice = context.querySelector('#selectTimeSync').value;
         const extraTimeOffset = context.querySelector('#txtExtraTimeOffset').value;
         const syncCorrection = context.querySelector('#chkSyncCorrection').checked;
         const minDelaySpeedToSync = context.querySelector('#txtMinDelaySpeedToSync').value;
@@ -228,7 +198,6 @@ class SettingsEditor {
         const useSpeedToSync = context.querySelector('#chkSpeedToSync').checked;
         const useSkipToSync = context.querySelector('#chkSkipToSync').checked;
 
-        SyncPlay.Settings.set('timeSyncDevice', timeSyncDevice);
         SyncPlay.Settings.set('extraTimeOffset', extraTimeOffset);
         SyncPlay.Settings.set('enableSyncCorrection', syncCorrection);
         SyncPlay.Settings.set('minDelaySpeedToSync', minDelaySpeedToSync);
