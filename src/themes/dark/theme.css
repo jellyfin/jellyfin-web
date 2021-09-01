@@ -289,14 +289,6 @@ html {
     color: #fff !important;
 }
 
-.emby-checkbox:focus + .checkboxOutline {
-    border-color: #fff;
-}
-
-.emby-checkbox:checked + .checkboxOutline {
-    background-color: #00a4dc;
-}
-
 .emby-checkbox:checked + span + .checkboxOutline {
     border-color: #00a4dc;
 }
@@ -310,7 +302,6 @@ html {
     background-color: #00a4dc;
 }
 
-.emby-checkbox:focus:not(:checked) + .checkboxOutline,
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
     border-color: #00a4dc;
 }

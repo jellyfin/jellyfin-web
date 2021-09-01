@@ -393,21 +393,11 @@ a[data-role=button] {
     color: #fff !important;
 }
 
-.emby-checkbox:focus + .checkboxOutline {
-    border-color: #ff77f1;
-}
-
-.emby-checkbox:checked + .checkboxOutline {
-    background-color: #030322;
-    border: 0.14em solid rgb(72, 195, 200);
-}
-
 .emby-checkbox:checked + span + .checkboxOutline {
     background-color: #030322;
     border: 0.14em solid rgb(72, 195, 200);
 }
 
-.emby-checkbox:checked + .checkboxOutline > .minimalCheckboxIcon-checked,
 .emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
     color: rgb(12, 232, 214);
 }
@@ -416,7 +406,6 @@ a[data-role=button] {
     border-color: #ff77f1;
 }
 
-.emby-checkbox:focus:not(:checked) + .checkboxOutline,
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
     border: 0.14em solid #ff77f1;
 }

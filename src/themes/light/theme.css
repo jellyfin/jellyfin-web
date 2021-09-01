@@ -293,14 +293,6 @@ html {
     border: 0.07em solid rgba(0, 0, 0, 0.158);
 }
 
-.emby-checkbox:focus + .checkboxOutline {
-    border-color: #000;
-}
-
-.emby-checkbox:checked + .checkboxOutline {
-    background-color: #00a4dc;
-}
-
 .emby-checkbox:checked + span + .checkboxOutline,
 .emby-select-withcolor:focus {
     border-color: #00a4dc;
@@ -315,7 +307,6 @@ html {
     background-color: #00a4dc;
 }
 
-.emby-checkbox:focus:not(:checked) + .checkboxOutline,
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
     border-color: #00a4dc;
 }
