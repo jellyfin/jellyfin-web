@@ -1554,5 +1554,6 @@
     "VideoCodecNotSupported": "வீடியோ கோடெக் ஆதரிக்கப்படவில்லை",
     "SubtitleCodecNotSupported": "வசன கோடெக் ஆதரிக்கப்படவில்லை",
     "ContainerNotSupported": "கொள்கலன் ஆதரிக்கப்படவில்லை",
-    "AudioCodecNotSupported": "ஆடியோ கோடெக் ஆதரிக்கப்படவில்லை"
+    "AudioCodecNotSupported": "ஆடியோ கோடெக் ஆதரிக்கப்படவில்லை",
+    "LabelHardwareEncoding": "வன்பொருள் குறியாக்கம்:"
 }
