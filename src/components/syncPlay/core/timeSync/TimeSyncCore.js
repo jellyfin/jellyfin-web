@@ -36,7 +36,7 @@ class TimeSyncCore {
             Events.trigger(this, 'time-sync-server-update', [timeOffset, ping]);
         });
 
-        Events.on(Settings, 'extraTimeOffset', (event, value, oldValue) => {
+        Events.on(Settings, 'extraTimeOffset', () => {
             this.extraTimeOffset = Settings.getFloat('extraTimeOffset', 0.0);
         });
     }

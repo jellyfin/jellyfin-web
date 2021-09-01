@@ -38,7 +38,7 @@ class PlaybackCore {
         this.manager = syncPlayManager;
         this.timeSyncCore = syncPlayManager.getTimeSyncCore();
 
-        Events.on(Settings, 'update', (event) => {
+        Events.on(Settings, 'update', () => {
             this.loadPreferences();
         });
     }

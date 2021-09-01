@@ -40,11 +40,11 @@ class SettingsEditor {
 
         this.embed();
 
-        Events.on(this.timeSyncCore, 'refresh-devices', (event) => {
+        Events.on(this.timeSyncCore, 'refresh-devices', () => {
             this.refreshTimeSyncDevices();
         });
 
-        Events.on(this.timeSyncCore, 'time-sync-server-update', (event) => {
+        Events.on(this.timeSyncCore, 'time-sync-server-update', () => {
             this.refreshTimeSyncDevices();
         });
     }
