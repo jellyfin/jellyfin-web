@@ -18,6 +18,7 @@ import '../../../../elements/emby-button/paper-icon-button-light';
 import '../../../../elements/emby-checkbox/emby-checkbox';
 import '../../../listview/listview.scss';
 import '../../../formdialog.scss';
+import { toBoolean, toFloat } from '../../../../scripts/stringUtils';
 
 function centerFocus(elem, horiz, on) {
     import('../../../../scripts/scrollHelper').then((scrollHelper) => {
@@ -145,14 +146,14 @@ class SettingsEditor {
     async initEditor() {
         const { context } = this;
 
-        context.querySelector('#txtExtraTimeOffset').value = SyncPlay.Settings.getFloat('extraTimeOffset', 0.0);
-        context.querySelector('#chkSyncCorrection').checked = SyncPlay.Settings.getBool('enableSyncCorrection', true);
-        context.querySelector('#txtMinDelaySpeedToSync').value = SyncPlay.Settings.getFloat('minDelaySpeedToSync', 60.0);
-        context.querySelector('#txtMaxDelaySpeedToSync').value = SyncPlay.Settings.getFloat('maxDelaySpeedToSync', 3000.0);
-        context.querySelector('#txtSpeedToSyncDuration').value = SyncPlay.Settings.getFloat('speedToSyncDuration', 1000.0);
-        context.querySelector('#txtMinDelaySkipToSync').value = SyncPlay.Settings.getFloat('minDelaySkipToSync', 400.0);
-        context.querySelector('#chkSpeedToSync').checked = SyncPlay.Settings.getBool('useSpeedToSync', true);
-        context.querySelector('#chkSkipToSync').checked = SyncPlay.Settings.getBool('useSkipToSync', true);
+        context.querySelector('#txtExtraTimeOffset').value = toFloat(SyncPlay.Settings.get('extraTimeOffset'), 0.0);
+        context.querySelector('#chkSyncCorrection').checked = toBoolean(SyncPlay.Settings.get('enableSyncCorrection'), true);
+        context.querySelector('#txtMinDelaySpeedToSync').value = toFloat(SyncPlay.Settings.get('minDelaySpeedToSync'), 60.0);
+        context.querySelector('#txtMaxDelaySpeedToSync').value = toFloat(SyncPlay.Settings.get('maxDelaySpeedToSync'), 3000.0);
+        context.querySelector('#txtSpeedToSyncDuration').value = toFloat(SyncPlay.Settings.get('speedToSyncDuration'), 1000.0);
+        context.querySelector('#txtMinDelaySkipToSync').value = toFloat(SyncPlay.Settings.get('minDelaySkipToSync'), 400.0);
+        context.querySelector('#chkSpeedToSync').checked = toBoolean(SyncPlay.Settings.get('useSpeedToSync'), true);
+        context.querySelector('#chkSkipToSync').checked = toBoolean(SyncPlay.Settings.get('useSkipToSync'), true);
     }
 
     /**

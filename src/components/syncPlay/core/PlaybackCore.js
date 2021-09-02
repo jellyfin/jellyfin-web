@@ -4,6 +4,7 @@
  */
 
 import { Events } from 'jellyfin-apiclient';
+import { toBoolean, toFloat } from '../../../scripts/stringUtils';
 import * as Helper from './Helper';
 import Settings from './Settings';
 
@@ -48,25 +49,25 @@ class PlaybackCore {
      */
     loadPreferences() {
         // Minimum required delay for SpeedToSync to kick in, in milliseconds.
-        this.minDelaySpeedToSync = Settings.getFloat('minDelaySpeedToSync', 60.0);
+        this.minDelaySpeedToSync = toFloat(Settings.get('minDelaySpeedToSync'), 60.0);
 
         // Maximum delay after which SkipToSync is used instead of SpeedToSync, in milliseconds.
-        this.maxDelaySpeedToSync = Settings.getFloat('maxDelaySpeedToSync', 3000.0);
+        this.maxDelaySpeedToSync = toFloat(Settings.get('maxDelaySpeedToSync'), 3000.0);
 
         // Time during which the playback is sped up, in milliseconds.
-        this.speedToSyncDuration = Settings.getFloat('speedToSyncDuration', 1000.0);
+        this.speedToSyncDuration = toFloat(Settings.get('speedToSyncDuration'), 1000.0);
 
         // Minimum required delay for SkipToSync to kick in, in milliseconds.
-        this.minDelaySkipToSync = Settings.getFloat('minDelaySkipToSync', 400.0);
+        this.minDelaySkipToSync = toFloat(Settings.get('minDelaySkipToSync'), 400.0);
 
         // Whether SpeedToSync should be used.
-        this.useSpeedToSync = Settings.getBool('useSpeedToSync', true);
+        this.useSpeedToSync = toBoolean(Settings.get('useSpeedToSync'), true);
 
         // Whether SkipToSync should be used.
-        this.useSkipToSync = Settings.getBool('useSkipToSync', true);
+        this.useSkipToSync = toBoolean(Settings.get('useSkipToSync'), true);
 
         // Whether sync correction during playback is active.
-        this.enableSyncCorrection = Settings.getBool('enableSyncCorrection', true);
+        this.enableSyncCorrection = toBoolean(Settings.get('enableSyncCorrection'), true);
     }
 
     /**

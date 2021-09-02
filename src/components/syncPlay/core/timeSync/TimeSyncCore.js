@@ -4,6 +4,7 @@
  */
 
 import { Events } from 'jellyfin-apiclient';
+import { toFloat } from '../../../../scripts/stringUtils';
 import Settings from '../Settings';
 import TimeSyncServer from './TimeSyncServer';
 
@@ -26,7 +27,7 @@ class TimeSyncCore {
         this.timeSyncServer = null;
 
         this.timeSyncDeviceId = Settings.get('timeSyncDevice') || 'server';
-        this.extraTimeOffset = Settings.getFloat('extraTimeOffset', 0.0);
+        this.extraTimeOffset = toFloat(Settings.get('extraTimeOffset'), 0.0);
     }
 
     /**
@@ -47,7 +48,7 @@ class TimeSyncCore {
         });
 
         Events.on(Settings, 'extraTimeOffset', () => {
-            this.extraTimeOffset = Settings.getFloat('extraTimeOffset', 0.0);
+            this.extraTimeOffset = toFloat(Settings.get('extraTimeOffset'), 0.0);
         });
     }
 
