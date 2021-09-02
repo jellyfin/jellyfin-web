@@ -10,6 +10,8 @@ import layoutManager from '../../../layoutManager';
 import loading from '../../../loading/loading';
 import toast from '../../../toast/toast';
 import globalize from '../../../../scripts/globalize';
+import { toBoolean, toFloat } from '../../../../scripts/stringUtils';
+
 import 'material-design-icons-iconfont';
 import '../../../../elements/emby-input/emby-input';
 import '../../../../elements/emby-select/emby-select';
@@ -18,7 +20,6 @@ import '../../../../elements/emby-button/paper-icon-button-light';
 import '../../../../elements/emby-checkbox/emby-checkbox';
 import '../../../listview/listview.scss';
 import '../../../formdialog.scss';
-import { toBoolean, toFloat } from '../../../../scripts/stringUtils';
 
 function centerFocus(elem, horiz, on) {
     import('../../../../scripts/scrollHelper').then((scrollHelper) => {
@@ -35,31 +36,6 @@ class SettingsEditor {
         this.apiClient = apiClient;
         this.timeSyncCore = timeSyncCore;
         this.options = options;
-
-        this.tabNames = [];
-        this.tabs = {};
-    }
-
-    insertBefore(newNode, existingNode) {
-        existingNode.parentNode.insertBefore(newNode, existingNode);
-    }
-
-    addTab(name, tab) {
-        this.tabNames.push(name);
-        this.tabs[name] = tab;
-    }
-
-    showTab(tabName) {
-        this.tabNames.forEach(id => {
-            this.tabs[id].style.display = 'none';
-            this.context.querySelector('#show-' + id).classList.remove('ui-btn-active');
-        });
-
-        const tab = this.tabs[tabName];
-        if (tab) {
-            tab.style.display = 'block';
-            this.context.querySelector('#show-' + tabName).classList.add('ui-btn-active');
-        }
     }
 
     async embed() {
@@ -79,33 +55,6 @@ class SettingsEditor {
 
         const { default: editorTemplate } = await import('./editor.html');
         this.context.innerHTML = globalize.translateHtml(editorTemplate, 'core');
-        const footer = this.context.querySelector('#footer');
-
-        // Create tabs
-        const { default: localTabTemplate } = await import('./localTab.html');
-        const localTab = this.translateTemplate(localTabTemplate);
-
-        const { default: advancedTabTemplate } = await import('./advancedTab.html');
-        const advancedTab = this.translateTemplate(advancedTabTemplate);
-
-        this.insertBefore(localTab, footer);
-        this.insertBefore(advancedTab, footer);
-
-        // Switch tabs using nav
-        this.addTab('localTab', localTab);
-        this.addTab('advancedTab', advancedTab);
-
-        this.showTab('localTab');
-
-        const tabButtons = this.context.querySelectorAll('.controlGroupButton');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                const tabName = event.target.getAttribute('data-showTab');
-                if (tabName) {
-                    this.showTab(tabName);
-                }
-            });
-        });
 
         // Set callbacks for form submission
         this.context.querySelector('form').addEventListener('submit', (event) => {
@@ -154,22 +103,6 @@ class SettingsEditor {
         context.querySelector('#txtMinDelaySkipToSync').value = toFloat(SyncPlay.Settings.get('minDelaySkipToSync'), 400.0);
         context.querySelector('#chkSpeedToSync').checked = toBoolean(SyncPlay.Settings.get('useSpeedToSync'), true);
         context.querySelector('#chkSkipToSync').checked = toBoolean(SyncPlay.Settings.get('useSkipToSync'), true);
-    }
-
-    /**
-     * @param {string} html HTML string representing a single element.
-     * @return {Element} The element.
-     */
-    htmlToElement(html) {
-        const template = document.createElement('template');
-        html = html.trim(); // Avoid returning a text node of whitespace.
-        template.innerHTML = html;
-        return template.content.firstChild;
-    }
-
-    translateTemplate(template) {
-        const translatedTemplate = globalize.translateHtml(template, 'core');
-        return this.htmlToElement(translatedTemplate);
     }
 
     onSubmit() {
