@@ -77,7 +77,6 @@ progress[aria-valuenow]::before {
     height: 4em;
 }
 
-.controlGroupButton,
 a[data-role=button] {
     background: #292929 !important;
     background-clip: padding-box;
@@ -94,7 +93,6 @@ a[data-role=button] {
     text-decoration: none !important;
 }
 
-div[data-role=controlgroup] .controlGroupButton,
 div[data-role=controlgroup] a[data-role=button] {
     display: inline-block !important;
     margin: 0 !important;
@@ -104,7 +102,6 @@ div[data-role=controlgroup] a[data-role=button] {
     border-radius: 0;
 }
 
-div[data-role=controlgroup] .controlGroupButton:first-child,
 div[data-role=controlgroup] a[data-role=button]:first-child {
     -webkit-border-bottom-left-radius: 0.3125em;
     border-bottom-left-radius: 0.3125em;
@@ -112,7 +109,6 @@ div[data-role=controlgroup] a[data-role=button]:first-child {
     border-top-left-radius: 0.3125em;
 }
 
-div[data-role=controlgroup] .controlGroupButton:last-child,
 div[data-role=controlgroup] a[data-role=button]:last-child {
     -webkit-border-bottom-right-radius: 0.3125em;
     border-bottom-right-radius: 0.3125em;
@@ -120,13 +116,11 @@ div[data-role=controlgroup] a[data-role=button]:last-child {
     border-top-right-radius: 0.3125em;
 }
 
-div[data-role=controlgroup] .controlGroupButton + .controlGroupButton,
 div[data-role=controlgroup] a[data-role=button] + a[data-role=button] {
     border-left-width: 0 !important;
     margin: 0 0 0 -0.4em !important;
 }
 
-div[data-role=controlgroup] .controlGroupButton.ui-btn-active,
 div[data-role=controlgroup] a.ui-btn-active {
     background: #00a4dc !important;
     color: #292929 !important;
