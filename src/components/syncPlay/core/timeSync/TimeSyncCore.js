@@ -4,8 +4,9 @@
  */
 
 import { Events } from 'jellyfin-apiclient';
+import appSettings from '../../../../scripts/settings/appSettings';
 import { toFloat } from '../../../../scripts/stringUtils';
-import Settings from '../Settings';
+import { getSetting } from '../Settings';
 import TimeSyncServer from './TimeSyncServer';
 
 /**
@@ -26,8 +27,8 @@ class TimeSyncCore {
         this.manager = null;
         this.timeSyncServer = null;
 
-        this.timeSyncDeviceId = Settings.get('timeSyncDevice') || 'server';
-        this.extraTimeOffset = toFloat(Settings.get('extraTimeOffset'), 0.0);
+        this.timeSyncDeviceId = getSetting('timeSyncDevice') || 'server';
+        this.extraTimeOffset = toFloat(getSetting('extraTimeOffset'), 0.0);
     }
 
     /**
@@ -47,8 +48,10 @@ class TimeSyncCore {
             Events.trigger(this, 'time-sync-server-update', [timeOffset, ping]);
         });
 
-        Events.on(Settings, 'extraTimeOffset', () => {
-            this.extraTimeOffset = toFloat(Settings.get('extraTimeOffset'), 0.0);
+        Events.on(appSettings, 'change', function (e, name) {
+            if (name === 'extraTimeOffset') {
+                this.extraTimeOffset = toFloat(getSetting('extraTimeOffset'), 0.0);
+            }
         });
     }
 

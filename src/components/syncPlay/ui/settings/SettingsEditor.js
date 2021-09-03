@@ -5,6 +5,7 @@
 
 import { Events } from 'jellyfin-apiclient';
 import SyncPlay from '../../core';
+import { getSetting, setSetting } from '../../core/Settings';
 import dialogHelper from '../../../dialogHelper/dialogHelper';
 import layoutManager from '../../../layoutManager';
 import loading from '../../../loading/loading';
@@ -95,14 +96,14 @@ class SettingsEditor {
     async initEditor() {
         const { context } = this;
 
-        context.querySelector('#txtExtraTimeOffset').value = toFloat(SyncPlay.Settings.get('extraTimeOffset'), 0.0);
-        context.querySelector('#chkSyncCorrection').checked = toBoolean(SyncPlay.Settings.get('enableSyncCorrection'), true);
-        context.querySelector('#txtMinDelaySpeedToSync').value = toFloat(SyncPlay.Settings.get('minDelaySpeedToSync'), 60.0);
-        context.querySelector('#txtMaxDelaySpeedToSync').value = toFloat(SyncPlay.Settings.get('maxDelaySpeedToSync'), 3000.0);
-        context.querySelector('#txtSpeedToSyncDuration').value = toFloat(SyncPlay.Settings.get('speedToSyncDuration'), 1000.0);
-        context.querySelector('#txtMinDelaySkipToSync').value = toFloat(SyncPlay.Settings.get('minDelaySkipToSync'), 400.0);
-        context.querySelector('#chkSpeedToSync').checked = toBoolean(SyncPlay.Settings.get('useSpeedToSync'), true);
-        context.querySelector('#chkSkipToSync').checked = toBoolean(SyncPlay.Settings.get('useSkipToSync'), true);
+        context.querySelector('#txtExtraTimeOffset').value = toFloat(getSetting('extraTimeOffset'), 0.0);
+        context.querySelector('#chkSyncCorrection').checked = toBoolean(getSetting('enableSyncCorrection'), true);
+        context.querySelector('#txtMinDelaySpeedToSync').value = toFloat(getSetting('minDelaySpeedToSync'), 60.0);
+        context.querySelector('#txtMaxDelaySpeedToSync').value = toFloat(getSetting('maxDelaySpeedToSync'), 3000.0);
+        context.querySelector('#txtSpeedToSyncDuration').value = toFloat(getSetting('speedToSyncDuration'), 1000.0);
+        context.querySelector('#txtMinDelaySkipToSync').value = toFloat(getSetting('minDelaySkipToSync'), 400.0);
+        context.querySelector('#chkSpeedToSync').checked = toBoolean(getSetting('useSpeedToSync'), true);
+        context.querySelector('#chkSkipToSync').checked = toBoolean(getSetting('useSkipToSync'), true);
     }
 
     onSubmit() {
@@ -130,16 +131,16 @@ class SettingsEditor {
         const useSpeedToSync = context.querySelector('#chkSpeedToSync').checked;
         const useSkipToSync = context.querySelector('#chkSkipToSync').checked;
 
-        SyncPlay.Settings.set('extraTimeOffset', extraTimeOffset);
-        SyncPlay.Settings.set('enableSyncCorrection', syncCorrection);
-        SyncPlay.Settings.set('minDelaySpeedToSync', minDelaySpeedToSync);
-        SyncPlay.Settings.set('maxDelaySpeedToSync', maxDelaySpeedToSync);
-        SyncPlay.Settings.set('speedToSyncDuration', speedToSyncDuration);
-        SyncPlay.Settings.set('minDelaySkipToSync', minDelaySkipToSync);
-        SyncPlay.Settings.set('useSpeedToSync', useSpeedToSync);
-        SyncPlay.Settings.set('useSkipToSync', useSkipToSync);
+        setSetting('extraTimeOffset', extraTimeOffset);
+        setSetting('enableSyncCorrection', syncCorrection);
+        setSetting('minDelaySpeedToSync', minDelaySpeedToSync);
+        setSetting('maxDelaySpeedToSync', maxDelaySpeedToSync);
+        setSetting('speedToSyncDuration', speedToSyncDuration);
+        setSetting('minDelaySkipToSync', minDelaySkipToSync);
+        setSetting('useSpeedToSync', useSpeedToSync);
+        setSetting('useSkipToSync', useSkipToSync);
 
-        Events.trigger(SyncPlay.Settings, 'update');
+        Events.trigger(SyncPlay.Manager, 'settings-update');
     }
 }
 
