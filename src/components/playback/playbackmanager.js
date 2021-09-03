@@ -3016,6 +3016,9 @@ class PlaybackManager {
             }
 
             return promise.then(function () {
+                // Clear the data since we were not listening 'stopped'
+                getPlayerData(activePlayer).streamInfo = null;
+
                 bindStopped(activePlayer);
 
                 if (enableLocalPlaylistManagement(activePlayer)) {
