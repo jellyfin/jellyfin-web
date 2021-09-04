@@ -267,10 +267,14 @@ export class BookPlayer {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 const book = epubjs(downloadHref, {openAs: 'epub'});
 
+                // We need to calculate the height of the window beforehand because using 100% is not accurate when the dialog is opening.
+                // In addition we don't render to the full height so that we have space for the top buttons.
+                const clientHeight = document.body.clientHeight;
+                const renderHeight = clientHeight - (clientHeight * 0.0425);
+
                 const rendition = book.renderTo('bookPlayerContainer', {
                     width: '100%',
-                    // Calculate the height of the window because using 100% is not accurate when the dialog is opening
-                    height: document.body.clientHeight,
+                    height: renderHeight,
                     // TODO: Add option for scrolled-doc
                     flow: 'paginated'
                 });
