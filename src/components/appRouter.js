@@ -25,6 +25,7 @@ class AppRouter {
     msgTimeout;
     popstateOccurred = false;
     resolveOnNextShow;
+    previousRoute = {};
     /**
      * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
      */
@@ -633,8 +634,13 @@ class AppRouter {
     getHandler(route) {
         return (ctx, next) => {
             ctx.isBack = this.popstateOccurred;
-            this.handleRoute(ctx, next, route);
             this.popstateOccurred = false;
+
+            const ignore = route.dummyRoute === true || this.previousRoute.dummyRoute === true;
+            this.previousRoute = route;
+            if (ignore) return;
+
+            this.handleRoute(ctx, next, route);
         };
     }
 
