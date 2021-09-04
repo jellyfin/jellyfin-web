@@ -226,10 +226,6 @@ html {
     background: none;
 }
 
-.noBackdrop .detailRibbon {
-    background: #202020;
-}
-
 .listItem-border {
     border-color: rgba(34, 34, 34, 0.9) !important;
 }

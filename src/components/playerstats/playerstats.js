@@ -173,6 +173,12 @@ import ServerConnections from '../ServerConnections';
                     value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
                 });
             }
+            if (session.TranscodingInfo.HardwareAccelerationType) {
+                sessionStats.push({
+                    label: globalize.translate('LabelHardwareEncoding'),
+                    value: session.TranscodingInfo.HardwareAccelerationType
+                });
+            }
         }
 
         return sessionStats;

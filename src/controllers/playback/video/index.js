@@ -313,8 +313,8 @@ import { appRouter } from '../../../components/appRouter';
 
         function onPointerMove(e) {
             if ((e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) === 'mouse') {
-                const eventX = e.screenX || 0;
-                const eventY = e.screenY || 0;
+                const eventX = e.screenX || e.clientX || 0;
+                const eventY = e.screenY || e.clientY || 0;
                 const obj = lastPointerMoveData;
 
                 if (!obj) {
@@ -716,6 +716,7 @@ import { appRouter } from '../../../components/appRouter';
                     } else {
                         nowPlayingPositionSlider.value = 0;
                     }
+                    
                     if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording' && playbackRate !== null) {
                         endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate, true);
                     } else {
@@ -902,7 +903,8 @@ import { appRouter } from '../../../components/appRouter';
                 actionsheet.show({
                     items: menuItems,
                     title: globalize.translate('Audio'),
-                    positionTo: positionTo
+                    positionTo: positionTo,
+                    enableHistory: false
                 }).then(function (id) {
                     const index = parseInt(id);
 
@@ -948,7 +950,8 @@ import { appRouter } from '../../../components/appRouter';
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,
-                    positionTo: positionTo
+                    positionTo: positionTo,
+                    enableHistory: false
                 }).then(function (id) {
                     const index = parseInt(id);
 

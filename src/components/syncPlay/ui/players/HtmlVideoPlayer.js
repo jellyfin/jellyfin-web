@@ -17,6 +17,16 @@ class HtmlVideoPlayer extends NoActivePlayer {
         this.isPlayerActive = false;
         this.savedPlaybackRate = 1.0;
         this.minBufferingThresholdMillis = 3000;
+
+        if (player.currentTimeAsync) {
+            /**
+             * Gets current playback position.
+             * @returns {Promise<number>} The player position, in milliseconds.
+             */
+            this.currentTimeAsync = () => {
+                return this.player.currentTimeAsync();
+            };
+        }
     }
 
     /**

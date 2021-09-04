@@ -602,7 +602,7 @@
     "LabelAllowedRemoteAddressesMode": "Type de filtre des adresses IP distantes :",
     "LabelAllowedRemoteAddresses": "Filtre d'adresse IP distante :",
     "LabelAbortedByServerShutdown": "(Annulé par l'arrêt du serveur)",
-    "KnownProxiesHelp": "Liste séparée par des virgules d'adresses IP des proxies connus utilisés pour se connecter à l'instance Jellyfin. Ceci est nécessaire afin de pouvoir utiliser correctement les entêtes X-Forwarded-For. Nécessite un redémarrage après sauvegarde.",
+    "KnownProxiesHelp": "Liste séparée par des virgules d'adresses IP ou de noms de domaine des proxies connus utilisés pour se connecter à l'instance Jellyfin. Ceci est nécessaire afin de pouvoir utiliser correctement les entêtes X-Forwarded-For. Nécessite un redémarrage après sauvegarde.",
     "LabelDropShadow": "Ombre portée :",
     "Raised": "Élevé",
     "TabRepositories": "Référentiels",
@@ -706,5 +706,9 @@
     "Subtitle": "Sous-titres",
     "Studios": "Studios",
     "StopRecording": "Arrêter d'enregistrer",
-    "Sports": "Sports"
+    "Sports": "Sports",
+    "LabelEmbedAlbumArtDidl": "Intégrer la couverture d'album dans le Didl",
+    "DisableCustomCss": "Désactiver le CSS personnalisé fourni par le serveur",
+    "LabelDisableCustomCss": "Désactiver le thème CSS personnalisé/l'image de marque fournie par le serveur.",
+    "HeaderContinueReading": "Continuer à lire"
 }

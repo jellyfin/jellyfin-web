@@ -94,13 +94,13 @@ import '../../assets/css/flexstyles.scss';
         }
     }
 
-    function onStartNowClick() {
+    async function onStartNowClick() {
         const options = this.options;
 
         if (options) {
             const player = options.player;
 
-            this.hide();
+            await this.hide();
 
             playbackManager.nextTrack(player);
         }
@@ -139,7 +139,7 @@ import '../../assets/css/flexstyles.scss';
         Events.trigger(instance, 'hide');
     }
 
-    function hideComingUpNext() {
+    async function hideComingUpNext() {
         const instance = this;
         clearCountdownTextTimeout(this);
 
@@ -159,17 +159,21 @@ import '../../assets/css/flexstyles.scss';
             return;
         }
 
-        // trigger a reflow to force it to animate again
-        void elem.offsetWidth;
-
-        elem.classList.add('upNextDialog-hidden');
-
         const fn = onHideAnimationComplete.bind(instance);
         instance._onHideAnimationComplete = fn;
 
-        dom.addEventListener(elem, transitionEndEventName, fn, {
-            once: true
+        const transitionEvent = await new Promise((resolve) => {
+            dom.addEventListener(elem, transitionEndEventName, resolve, {
+                once: true
+            });
+
+            // trigger a reflow to force it to animate again
+            void elem.offsetWidth;
+
+            elem.classList.add('upNextDialog-hidden');
         });
+
+        instance._onHideAnimationComplete(transitionEvent);
     }
 
     function getTimeRemainingMs(instance) {
@@ -226,8 +230,8 @@ class UpNextDialog {
 
         startComingUpNextHideTimer(this);
     }
-    hide() {
-        hideComingUpNext.call(this);
+    async hide() {
+        await hideComingUpNext.bind(this)();
     }
     destroy() {
         hideComingUpNext.call(this);

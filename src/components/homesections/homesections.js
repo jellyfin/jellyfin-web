@@ -144,17 +144,17 @@ import ServerConnections from '../ServerConnections';
         } else if (section === 'librarybuttons') {
             loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
         } else if (section === 'resume') {
-            return loadResume(elem, apiClient, 'HeaderContinueWatching', 'Video');
+            return loadResume(elem, apiClient, 'HeaderContinueWatching', 'Video', userSettings);
         } else if (section === 'resumeaudio') {
-            return loadResume(elem, apiClient, 'HeaderContinueListening', 'Audio');
+            return loadResume(elem, apiClient, 'HeaderContinueListening', 'Audio', userSettings);
         } else if (section === 'activerecordings') {
             loadLatestLiveTvRecordings(elem, true, apiClient);
         } else if (section === 'nextup') {
-            loadNextUp(elem, apiClient);
+            loadNextUp(elem, apiClient, userSettings);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         } else if (section === 'resumebook') {
-            return loadResume(elem, apiClient, 'HeaderContinueReading', 'Book');
+            return loadResume(elem, apiClient, 'HeaderContinueReading', 'Book', userSettings);
         } else {
             elem.innerHTML = '';
             return Promise.resolve();
@@ -374,7 +374,7 @@ import ServerConnections from '../ServerConnections';
         'Video': 'videoplayback,markplayed'
     };
 
-    function loadResume(elem, apiClient, headerText, mediaType) {
+    function loadResume(elem, apiClient, headerText, mediaType, userSettings) {
         let html = '';
 
         const dataMonitor = dataMonitorHints[mediaType] || 'markplayed';
@@ -397,7 +397,7 @@ import ServerConnections from '../ServerConnections';
 
         const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getItemsToResumeFn(mediaType, apiClient.serverId());
-        itemsContainer.getItemsHtml = getItemsToResumeHtml;
+        itemsContainer.getItemsHtml = getItemsToResumeHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), mediaType);
         itemsContainer.parentContainer = elem;
     }
 
@@ -428,25 +428,28 @@ import ServerConnections from '../ServerConnections';
         };
     }
 
-    function getItemsToResumeHtml(items) {
-        const cardLayout = false;
-        return cardBuilder.getCardsHtml({
-            items: items,
-            preferThumb: true,
-            defaultShape: getThumbShape(),
-            overlayText: false,
-            showTitle: true,
-            showParentTitle: true,
-            lazy: true,
-            showDetailsMenu: true,
-            overlayPlayButton: true,
-            context: 'home',
-            centerText: !cardLayout,
-            allowBottomPadding: false,
-            cardLayout: cardLayout,
-            showYear: true,
-            lines: 2
-        });
+    function getItemsToResumeHtmlFn(useEpisodeImages, mediaType) {
+        return function (items) {
+            const cardLayout = false;
+            return cardBuilder.getCardsHtml({
+                items: items,
+                preferThumb: true,
+                inheritThumb: !useEpisodeImages,
+                shape: (mediaType === 'Book') ? getPortraitShape() : getThumbShape(),
+                overlayText: false,
+                showTitle: true,
+                showParentTitle: true,
+                lazy: true,
+                showDetailsMenu: true,
+                overlayPlayButton: true,
+                context: 'home',
+                centerText: !cardLayout,
+                allowBottomPadding: false,
+                cardLayout: cardLayout,
+                showYear: true,
+                lines: 2
+            });
+        };
     }
 
     function getOnNowFetchFn(serverId) {
@@ -607,25 +610,28 @@ import ServerConnections from '../ServerConnections';
         };
     }
 
-    function getNextUpItemsHtml(items) {
-        const cardLayout = false;
-        return cardBuilder.getCardsHtml({
-            items: items,
-            preferThumb: true,
-            shape: getThumbShape(),
-            overlayText: false,
-            showTitle: true,
-            showParentTitle: true,
-            lazy: true,
-            overlayPlayButton: true,
-            context: 'home',
-            centerText: !cardLayout,
-            allowBottomPadding: !enableScrollX(),
-            cardLayout: cardLayout
-        });
+    function getNextUpItemsHtmlFn(useEpisodeImages) {
+        return function (items) {
+            const cardLayout = false;
+            return cardBuilder.getCardsHtml({
+                items: items,
+                preferThumb: true,
+                inheritThumb: !useEpisodeImages,
+                shape: getThumbShape(),
+                overlayText: false,
+                showTitle: true,
+                showParentTitle: true,
+                lazy: true,
+                overlayPlayButton: true,
+                context: 'home',
+                centerText: !cardLayout,
+                allowBottomPadding: !enableScrollX(),
+                cardLayout: cardLayout
+            });
+        };
     }
 
-    function loadNextUp(elem, apiClient) {
+    function loadNextUp(elem, apiClient, userSettings) {
         let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
@@ -660,7 +666,7 @@ import ServerConnections from '../ServerConnections';
 
         const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId());
-        itemsContainer.getItemsHtml = getNextUpItemsHtml;
+        itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume());
         itemsContainer.parentContainer = elem;
     }
 

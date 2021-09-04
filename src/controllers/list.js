@@ -1115,7 +1115,11 @@ class ItemsView {
         let imageType = userSettings.get(basekey + '-imageType');
 
         if (!imageType && params.type === 'nextup') {
-            imageType = 'thumb';
+            if (userSettings.useEpisodeImagesInNextUpAndResume()) {
+                imageType = 'primary';
+            } else {
+                imageType = 'thumb';
+            }
         }
 
         return {

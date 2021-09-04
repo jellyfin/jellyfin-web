@@ -1,30 +1,40 @@
 // TODO: This seems like a good candidate for deprecation
 export default {
     enableFullscreen: function() {
-        window.NativeShell?.enableFullscreen();
+        if (window.NativeShell?.enableFullscreen) {
+            window.NativeShell.enableFullscreen();
+        }
     },
     disableFullscreen: function() {
-        window.NativeShell?.disableFullscreen();
+        if (window.NativeShell?.disableFullscreen) {
+            window.NativeShell.disableFullscreen();
+        }
     },
     openUrl: function(url, target) {
-        if (window.NativeShell) {
+        if (window.NativeShell?.openUrl) {
             window.NativeShell.openUrl(url, target);
         } else {
             window.open(url, target || '_blank');
         }
     },
     updateMediaSession(mediaInfo) {
-        window.NativeShell?.updateMediaSession(mediaInfo);
+        if (window.NativeShell?.updateMediaSession) {
+            window.NativeShell.updateMediaSession(mediaInfo);
+        }
     },
     hideMediaSession() {
-        window.NativeShell?.hideMediaSession();
+        if (window.NativeShell?.hideMediaSession) {
+            window.NativeShell.hideMediaSession();
+        }
     },
     /**
      * Notify the NativeShell about volume level changes.
      * Useful for e.g. remote playback.
      */
     updateVolumeLevel(volume) {
-        window.NativeShell?.updateVolumeLevel(volume);
+        if (window.NativeShell?.updateVolumeLevel) {
+            window.NativeShell.updateVolumeLevel(volume);
+        }
     },
     /**
      * Download specified files with NativeShell if possible
@@ -32,7 +42,7 @@ export default {
      * @returns true on success
      */
     downloadFiles(items) {
-        if (window.NativeShell) {
+        if (window.NativeShell?.downloadFile) {
             items.forEach(item => window.NativeShell.downloadFile(item));
             return true;
         }
