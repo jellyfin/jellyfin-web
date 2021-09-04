@@ -1508,5 +1508,6 @@
     "DisablePlugin": "Zakázať",
     "EnablePlugin": "Povoliť",
     "Framerate": "Snímková frekvencia",
-    "DirectPlayHelp": "Zdrojový súbor je s klientom plne kompatibilný a relácia ho preto prijíma bez dodatočných modifikácií."
+    "DirectPlayHelp": "Zdrojový súbor je s klientom plne kompatibilný a relácia ho preto prijíma bez dodatočných modifikácií.",
+    "HeaderContinueReading": "Pokračovať v čítaní"
 }

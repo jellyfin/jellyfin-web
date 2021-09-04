@@ -46,6 +46,8 @@
  - [danieladov](https://github.com/danieladov)
  - [Stephane Senart](https://github.com/ssenart)
  - [imchasingshadows](https://github.com/imchasingshadows)
+ - [Ömer Erdinç Yağmurlu](https://github.com/omeryagmurlu)
+ - [Keegan Dahm](https://github.com/keegandahm)
 
 # Emby Contributors
 

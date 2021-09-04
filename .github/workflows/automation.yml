@@ -2,15 +2,19 @@ name: 'Automation'
 
 on:
   push:
+    branches:
+      - master
   pull_request_target:
+    types:
+      - synchronize
 
 jobs:
   triage:
     name: 'Merge conflict labeling'
     runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
     steps:
       - uses: eps1lon/actions-label-merge-conflict@v2.0.1
-        if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
         with:
           dirtyLabel: 'merge conflict'
           repoToken: ${{ secrets.JF_BOT_TOKEN }}

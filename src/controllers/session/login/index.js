@@ -260,9 +260,9 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
             const apiClient = getApiClient();
 
-            apiClient.getQuickConnect('Status')
-                .then(status => {
-                    if (status !== 'Unavailable') {
+            apiClient.getQuickConnect('Enabled')
+                .then(enabled => {
+                    if (enabled === true) {
                         view.querySelector('.btnQuick').classList.remove('hide');
                     }
                 })

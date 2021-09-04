@@ -1,4 +1,4 @@
-import { version as appVersion } from '../../package.json';
+import Package from '../../package.json';
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
@@ -33,7 +33,7 @@ function getDeviceProfile(item) {
         let profile;
 
         if (window.NativeShell) {
-            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, appVersion);
+            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, Package.version);
         } else {
             const builderOpts = getBaseProfileOptions(item);
             profile = profileBuilder(builderOpts);
@@ -275,7 +275,7 @@ const supportedFeatures = function () {
      */
 function doExit() {
     try {
-        if (window.NativeShell) {
+        if (window.NativeShell?.AppHost?.exit) {
             window.NativeShell.AppHost.exit();
         } else if (browser.tizen) {
             tizen.application.getCurrentApplication().exit();
@@ -360,16 +360,20 @@ export const appHost = {
         };
     },
     deviceName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceName() : getDeviceName();
+        return window.NativeShell?.AppHost?.deviceName
+            ? window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceId() : getDeviceId();
+        return window.NativeShell?.AppHost?.deviceId
+            ? window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;
+        return window.NativeShell?.AppHost?.appName
+            ? window.NativeShell.AppHost.appName() : appName;
     },
     appVersion: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.appVersion() : appVersion;
+        return window.NativeShell?.AppHost?.appVersion
+            ? window.NativeShell.AppHost.appVersion() : Package.version;
     },
     getPushTokenInfo: function () {
         return {};

@@ -1494,5 +1494,22 @@
     "LabelCreateHttpPortMap": "Aktiver automatisk port mapping for http trafik såvel som https.",
     "LabelColorTransfer": "Farve overførsel:",
     "LabelColorSpace": "Farveplads:",
-    "LabelColorPrimaries": "Primære farver:"
+    "LabelColorPrimaries": "Primære farver:",
+    "MediaInfoColorTransfer": "Farveoverførsel",
+    "MediaInfoColorSpace": "Farveområde",
+    "MediaInfoColorPrimaries": "Primærfarver",
+    "HeaderContinueReading": "Fortsæt med at læse",
+    "TonemappingAlgorithmHelp": "Tone-kortlægningen kan blive fin-justeret. Hvis du ikke er bekendt med disse muligheder, så lad dem være. Den anbefalet værdi er Hable.",
+    "TextSent": "Tekst sendt.",
+    "MessageSent": "Besked sendt.",
+    "LabelTonemappingThreshold": "Tone-kortlægning tærskel grænse:",
+    "LabelTonemappingRange": "Tone-kortlægnings rækkevidde:",
+    "LabelTonemappingPeakHelp": "Bestem signal/nominel/reference spids med denne værdi. Brugbar når den indskrevne spids information i metadataen er upålidelig eller når tone kortlægning fra lave til store værdier. Den anbefalet- og standardværdi er 100 og 0.",
+    "LabelTonemappingPeak": "Tone-kortlægningsspids:",
+    "LabelTonemappingParamHelp": "Indstil tone-kortlægning algoritmen. Den anbefalet- og standardværdi er NaN. Som regel skal den stå tom.",
+    "LabelSlowResponseTime": "Tid i millisekunder indtil en respons er betragtet som langsom",
+    "LabelSlowResponseEnabled": "Log advarsler hvis server respons er langsom",
+    "LabelLocalCustomCss": "Tilpasset CSS stil som kun bliver anvendt på denne klient. Overvej at slå tilpasset server CSS fra.",
+    "LabelDisableCustomCss": "Slå tilpasset CSS temaer/branding forsynet fra serveren fra.",
+    "DisableCustomCss": "Slå Server-Forsynet Tilpasset CSS fra"
 }

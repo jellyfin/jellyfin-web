@@ -1292,9 +1292,9 @@
     "MessageSyncPlayGroupDoesNotExist": "Kunne ikke bli med i gruppen fordi den ikke finnes.",
     "MessageSyncPlayPlaybackPermissionRequired": "Tillatelse for avspilling kreves.",
     "MessageSyncPlayNoGroupsAvailable": "Ingen grupper tilgjengelige. Begynn å spill noe først.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> bufrer…",
-    "MessageSyncPlayUserLeft": "<b>{0}</b> har forlatt gruppen.",
-    "MessageSyncPlayUserJoined": "<b>{0}</b> har blitt med i gruppen.",
+    "MessageSyncPlayGroupWait": "{0} bufrer…",
+    "MessageSyncPlayUserLeft": "{0} har forlatt gruppen.",
+    "MessageSyncPlayUserJoined": "{0} har blitt med i gruppen.",
     "MessageSyncPlayDisabled": "SyncPlay deaktivert.",
     "MessageSyncPlayEnabled": "SyncPlay aktivert.",
     "LabelSyncPlayAccess": "SyncPlay-tilgang",
@@ -1508,5 +1508,10 @@
     "Framerate": "Bildefrekvens",
     "DisablePlugin": "Deaktiver",
     "EnablePlugin": "Aktiver",
-    "DirectPlayHelp": "Kildefilen er helt kompatibel med denne klienten, og økten mottar filen uten endringer."
+    "DirectPlayHelp": "Kildefilen er helt kompatibel med denne klienten, og økten mottar filen uten endringer.",
+    "Controls": "Kontroller",
+    "TextSent": "Tekst sendt.",
+    "MessageSent": "Melding sendt.",
+    "LabelSlowResponseTime": "Tid i millisekunder før responsen regnes som treg",
+    "HeaderContinueReading": "Fortsett å lese"
 }

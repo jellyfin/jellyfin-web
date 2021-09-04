@@ -385,7 +385,6 @@ function tryRemoveElement(elem) {
             return new Promise((resolve, reject) => {
                 requireHlsPlayer(async () => {
                     let maxBufferLength = 30;
-                    let maxMaxBufferLength = 600;
 
                     // Some browsers cannot handle huge fragments in high bitrate.
                     // This issue usually happens when using HWA encoders with a high bitrate setting.
@@ -393,7 +392,6 @@ function tryRemoveElement(elem) {
                     // https://github.com/video-dev/hls.js/issues/876
                     if ((browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
                         maxBufferLength = 6;
-                        maxMaxBufferLength = 6;
                     }
 
                     const includeCorsCredentials = await getIncludeCorsCredentials();
@@ -401,7 +399,6 @@ function tryRemoveElement(elem) {
                     const hls = new Hls({
                         manifestLoadingTimeOut: 20000,
                         maxBufferLength: maxBufferLength,
-                        maxMaxBufferLength: maxMaxBufferLength,
                         xhrSetup(xhr) {
                             xhr.withCredentials = includeCorsCredentials;
                         }
@@ -1714,14 +1711,14 @@ function tryRemoveElement(elem) {
     setVolume(val) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-            mediaElement.volume = val / 100;
+            mediaElement.volume = Math.pow(val / 100, 3);
         }
     }
 
     getVolume() {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-            return Math.min(Math.round(mediaElement.volume * 100), 100);
+            return Math.min(Math.round(Math.pow(mediaElement.volume, 1 / 3) * 100), 100);
         }
     }
 

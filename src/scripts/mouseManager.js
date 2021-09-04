@@ -54,8 +54,8 @@ import dom from '../scripts/dom';
 
     let lastPointerMoveData;
     function onPointerMove(e) {
-        const eventX = e.screenX;
-        const eventY = e.screenY;
+        const eventX = e.screenX || e.clientX;
+        const eventY = e.screenY || e.clientY;
 
         // if coord don't exist how could it move
         if (typeof eventX === 'undefined' && typeof eventY === 'undefined') {
