@@ -667,12 +667,13 @@ import browser from './browser';
             }
         }
 
-        if (canPlayVp8) {
+        if (webmAudioCodecs.length && webmVideoCodecs.length) {
             profile.TranscodingProfiles.push({
                 Container: 'webm',
                 Type: 'Video',
-                AudioCodec: 'vorbis',
-                VideoCodec: 'vpx',
+                AudioCodec: webmAudioCodecs.join(','),
+                // TODO: Remove workaround when servers migrate away from 'vpx' for transcoding profiles.
+                VideoCodec: (canPlayVp8 ? webmVideoCodecs.concat('vpx') : webmVideoCodecs).join(','),
                 Context: 'Streaming',
                 Protocol: 'http',
                 // If audio transcoding is needed, limit channels to number of physical audio channels
