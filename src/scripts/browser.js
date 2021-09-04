@@ -14,11 +14,7 @@ function isTv() {
         return true;
     }
 
-    if (userAgent.indexOf('netcast') !== -1) {
-        return true;
-    }
-
-    if (userAgent.indexOf('web0s') !== -1) {
+    if (isWeb0s()) {
         return true;
     }
 
