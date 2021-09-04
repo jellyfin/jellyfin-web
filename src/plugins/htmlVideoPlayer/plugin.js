@@ -1372,6 +1372,7 @@ function tryRemoveElement(elem) {
                         if (options.fullscreen) {
                             if (browser.tv && Screenfull.isEnabled) {
                                 Screenfull.request();
+                                return videoElement;
                             }
                             // don't animate on smart tv's, too slow
                             if (!browser.slow && browser.supportsCssAnimation()) {
