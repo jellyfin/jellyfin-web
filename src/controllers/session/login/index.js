@@ -76,7 +76,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                         dialogHelper.close(dlg);
                     }
 
-                    const result = await apiClient.quickConnect(data.Authentication);
+                    const result = await apiClient.quickConnect(data.Secret);
                     onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
                 }, function (e) {
                     clearInterval(interval);
