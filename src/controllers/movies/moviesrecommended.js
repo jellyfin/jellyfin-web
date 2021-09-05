@@ -359,7 +359,9 @@ import Dashboard from '../../scripts/clientUtils';
             }));
         }
 
-        function onPlaybackStop(e, state) {
+        function onPlaybackStop(e, stopInfo) {
+            const state = stopInfo.state;
+
             if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
                 renderedTabs = [];
                 mainTabsManager.getTabsElement().triggerTabChange();
@@ -409,6 +411,7 @@ import Dashboard from '../../scripts/clientUtils';
             inputManager.on(window, onInputCommand);
         });
         view.addEventListener('viewbeforehide', function () {
+            Events.off(playbackManager, 'playbackstop', onPlaybackStop);
             inputManager.off(window, onInputCommand);
         });
         for (const tabController of tabControllers) {
