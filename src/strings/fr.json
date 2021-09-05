@@ -1155,7 +1155,7 @@
     "Genre": "Genre",
     "Genres": "Genres",
     "Guide": "Guide",
-    "GuestStar": "Guest star",
+    "GuestStar": "Invité vedette",
     "Photos": "Photos",
     "HeaderIdentification": "Identification",
     "HeaderTuners": "Égaliseur",
@@ -1540,5 +1540,14 @@
     "LabelLocalCustomCss": "Style CSS personnalisé s’appliquant à ce client seul. Selon les cas, désactiver le CSS du serveur peut s'avérer nécessaire.",
     "LabelHardwareEncoding": "Encodage matériel :",
     "LabelDisableCustomCss": "Désactiver le thème CSS fourni par le serveur.",
-    "AudioBitDepthNotSupported": "La profondeur de bits de l’audio n’est pas prise en charge"
+    "AudioBitDepthNotSupported": "La profondeur de bits de l’audio n’est pas prise en charge",
+    "Track": "Piste",
+    "Remixer": "Remixeur",
+    "ReleaseGroup": "Groupe de sortie",
+    "OtherArtist": "Autre Artiste",
+    "Mixer": "Mixeur",
+    "Lyricist": "Parolier",
+    "Engineer": "Ingénieur",
+    "Conductor": "Conducteur",
+    "Arranger": "Organisateur"
 }
