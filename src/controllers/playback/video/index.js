@@ -716,6 +716,7 @@ import { appRouter } from '../../../components/appRouter';
                     } else {
                         nowPlayingPositionSlider.value = 0;
                     }
+
                     if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording' && playbackRate !== null) {
                         endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate, true);
                     } else {
