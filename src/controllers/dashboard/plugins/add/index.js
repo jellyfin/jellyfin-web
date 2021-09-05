@@ -1,6 +1,6 @@
 import 'jquery';
 import marked from 'marked';
-import { sanitize } from 'dompurify';
+import DOMPurify from 'dompurify';
 import loading from '../../../../components/loading/loading';
 import globalize from '../../../../scripts/globalize';
 import '../../../../elements/emby-button/emby-button';
@@ -15,7 +15,7 @@ function populateHistory(packageInfo, page) {
     for (let i = 0; i < length; i++) {
         const version = packageInfo.versions[i];
         html += '<h2 style="margin:.5em 0;">' + version.version + '</h2>';
-        html += '<div style="margin-bottom:1.5em;">' + sanitize(marked(version.changelog)) + '</div>';
+        html += '<div style="margin-bottom:1.5em;">' + DOMPurify.sanitize(marked(version.changelog)) + '</div>';
     }
 
     $('#revisionHistory', page).html(html);
