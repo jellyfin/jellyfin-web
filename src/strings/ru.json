@@ -1540,5 +1540,14 @@
     "SubtitleCodecNotSupported": "Кодек субтитров не поддерживается",
     "ContainerNotSupported": "Контейнер не поддерживается",
     "AudioCodecNotSupported": "Аудиокодек не поддерживается",
-    "LabelHardwareEncoding": "Аппаратное кодирование:"
+    "LabelHardwareEncoding": "Аппаратное кодирование:",
+    "Track": "Трек",
+    "Remixer": "Ремиксер",
+    "ReleaseGroup": "Релиз группа",
+    "OtherArtist": "Другой исполнитель",
+    "Mixer": "Миксер",
+    "Lyricist": "Автор слов",
+    "Engineer": "Инженер звукозаписи",
+    "Conductor": "Дирижёр",
+    "Arranger": "Аранжировщик"
 }
