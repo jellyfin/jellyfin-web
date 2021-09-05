@@ -1541,5 +1541,14 @@
     "VideoCodecNotSupported": "Beine kodegine qoldau körsetılmeidı",
     "ContainerNotSupported": "Konteinerge qoldau körsetılmeidı",
     "AudioCodecNotSupported": "Dybys kodegıne qoldau körsetılmeidı",
-    "LabelHardwareEncoding": "Aparattyq kodtau:"
+    "LabelHardwareEncoding": "Aparattyq kodtau:",
+    "Engineer": "Dybys injenerı",
+    "Mixer": "Mikser",
+    "Track": "Jolşyq",
+    "Remixer": "Remikser",
+    "ReleaseGroup": "Şyğaruşy top",
+    "OtherArtist": "Basqa oryndauşy",
+    "Lyricist": "Öleñşi",
+    "Conductor": "Dirijör",
+    "Arranger": "Körkemdeuşı"
 }
