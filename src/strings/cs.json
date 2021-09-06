@@ -1540,5 +1540,14 @@
     "SubtitleCodecNotSupported": "Titulkový kodek není podporován",
     "ContainerNotSupported": "Kontejner není podporován",
     "AudioCodecNotSupported": "Zvukový kodek není podporován",
-    "LabelHardwareEncoding": "Hardwarové kódování:"
+    "LabelHardwareEncoding": "Hardwarové kódování:",
+    "Track": "Stopa",
+    "Remixer": "Remixoval",
+    "ReleaseGroup": "Skupina vydání",
+    "OtherArtist": "Další umělec",
+    "Mixer": "Zvukový mixér",
+    "Lyricist": "Textař",
+    "Engineer": "Zvukový inženýr",
+    "Conductor": "Dirigent",
+    "Arranger": "Aranžér"
 }
