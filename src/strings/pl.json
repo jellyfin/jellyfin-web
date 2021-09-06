@@ -1540,5 +1540,5 @@
     "LabelLocalCustomCss": "Niestandardowy styl CSS, który dotyczy tylko tego klienta. Możesz wyłączyć niestandardowy CSS serwera.",
     "LabelDisableCustomCss": "Wyłącz niestandardowe motywy/cechy CSS dostarczone z serwera.",
     "DisableCustomCss": "Wyłącz niestandardowe CSS dostarczane przez serwer",
-    "LabelHardwareEncoding": "Enkodowanie sprzętowe:"
+    "LabelHardwareEncoding": "Kodowanie sprzętowe:"
 }
