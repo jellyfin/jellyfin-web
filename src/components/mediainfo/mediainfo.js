@@ -330,8 +330,8 @@ import '../../elements/emby-button/emby-button';
         return null;
     }
 
-    export function getEndsAtFromPosition(runtimeTicks, positionTicks, includeText) {
-        let endDate = new Date().getTime() + ((runtimeTicks - (positionTicks || 0)) / 10000);
+    export function getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate, includeText) {
+        let endDate = new Date().getTime() + (1 / playbackRate) * ((runtimeTicks - (positionTicks || 0)) / 10000);
         endDate = new Date(endDate);
 
         const displayTime = datetime.getDisplayTime(endDate);

@@ -545,7 +545,7 @@ import { appRouter } from '../../../components/appRouter';
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
                     const currentTime = playbackManager.currentTime(player) * 10000;
-                    updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
+                    updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getPlaybackRate(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
                     showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
@@ -640,7 +640,7 @@ import { appRouter } from '../../../components/appRouter';
             btnRewind.disabled = !playState.CanSeek;
             const nowPlayingItem = state.NowPlayingItem || {};
             playbackStartTimeTicks = playState.PlaybackStartTimeTicks;
-            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.BufferedRanges || []);
+            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
 
             if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
@@ -682,7 +682,7 @@ import { appRouter } from '../../../components/appRouter';
             return (currentTimeMs - programStartDateMs) / programRuntimeMs * 100;
         }
 
-        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, bufferedRanges) {
+        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, playbackRate, bufferedRanges) {
             if (enableProgressByTimeOfDay) {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (programStartDateMs && programEndDateMs) {
@@ -717,8 +717,8 @@ import { appRouter } from '../../../components/appRouter';
                         nowPlayingPositionSlider.value = 0;
                     }
 
-                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
-                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
+                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording' && playbackRate !== null) {
+                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate, true);
                     } else {
                         endsAtText.innerHTML = '';
                     }
