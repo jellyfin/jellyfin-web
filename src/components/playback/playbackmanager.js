@@ -2245,6 +2245,7 @@ class PlaybackManager {
                 return promise.then(() => {
                     cancelPlayback();
                     loading.hide();
+                    console.error(`No player found for the requested media: ${item.Url}`);
                     showPlaybackInfoErrorMessage(self, 'ErrorPlayerNotFound');
                 });
             }
