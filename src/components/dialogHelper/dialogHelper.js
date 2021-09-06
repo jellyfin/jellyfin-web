@@ -142,7 +142,7 @@ import '../../assets/css/scrollstyles.scss';
         animateDialogOpen(dlg);
 
         if (isHistoryEnabled(dlg)) {
-            appRouter.show('/dialog', { dialogId: hash });
+            appRouter.show(`/dialog?dlg=${hash}`, { dialogId: hash });
 
             window.addEventListener('popstate', onHashChange);
         } else {
