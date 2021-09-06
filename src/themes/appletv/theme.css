@@ -159,11 +159,6 @@ html {
     background-color: #f57f17;
 }
 
-.formDialogFooter:not(.formDialogFooter-clear) {
-    border-top: 1px solid #ddd;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
 .cardText-secondary,
 .fieldDescription,
 .guide-programNameCaret,
@@ -203,6 +198,11 @@ html {
     color: rgba(255, 255, 255, 0.87);
 }
 
+.formDialogFooter:not(.formDialogFooter-clear) {
+    border-top: 1px solid #ddd;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .appfooter,
 .formDialogFooter:not(.formDialogFooter-clear),
 .playlistSectionButton {
@@ -212,6 +212,12 @@ html {
     background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
     background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
     background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+}
+
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    border: none;
+    color: initial;
+    background: none;
 }
 
 .nowPlayingBarSecondaryText {

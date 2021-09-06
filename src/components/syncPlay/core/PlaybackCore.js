@@ -4,7 +4,9 @@
  */
 
 import { Events } from 'jellyfin-apiclient';
+import { toBoolean, toFloat } from '../../../scripts/stringUtils';
 import * as Helper from './Helper';
+import { getSetting } from './Settings';
 
 /**
  * Class that manages the playback of SyncPlay.
@@ -25,6 +27,8 @@ class PlaybackCore {
         this.lastCommand = null; // Last scheduled playback command, might not be the latest one.
         this.scheduledCommandTimeout = null;
         this.syncTimeout = null;
+
+        this.loadPreferences();
     }
 
     /**
@@ -35,26 +39,35 @@ class PlaybackCore {
         this.manager = syncPlayManager;
         this.timeSyncCore = syncPlayManager.getTimeSyncCore();
 
+        Events.on(this.manager, 'settings-update', () => {
+            this.loadPreferences();
+        });
+    }
+
+    /**
+     * Loads preferences from saved settings.
+     */
+    loadPreferences() {
         // Minimum required delay for SpeedToSync to kick in, in milliseconds.
-        this.minDelaySpeedToSync = 60.0;
+        this.minDelaySpeedToSync = toFloat(getSetting('minDelaySpeedToSync'), 60.0);
 
         // Maximum delay after which SkipToSync is used instead of SpeedToSync, in milliseconds.
-        this.maxDelaySpeedToSync = 3000.0;
+        this.maxDelaySpeedToSync = toFloat(getSetting('maxDelaySpeedToSync'), 3000.0);
 
         // Time during which the playback is sped up, in milliseconds.
-        this.speedToSyncDuration = 1000.0;
+        this.speedToSyncDuration = toFloat(getSetting('speedToSyncDuration'), 1000.0);
 
         // Minimum required delay for SkipToSync to kick in, in milliseconds.
-        this.minDelaySkipToSync = 400.0;
+        this.minDelaySkipToSync = toFloat(getSetting('minDelaySkipToSync'), 400.0);
 
         // Whether SpeedToSync should be used.
-        this.useSpeedToSync = true;
+        this.useSpeedToSync = toBoolean(getSetting('useSpeedToSync'), true);
 
         // Whether SkipToSync should be used.
-        this.useSkipToSync = true;
+        this.useSkipToSync = toBoolean(getSetting('useSkipToSync'), true);
 
         // Whether sync correction during playback is active.
-        this.enableSyncCorrection = true;
+        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), true);
     }
 
     /**
@@ -526,7 +539,9 @@ class PlaybackCore {
         // Diff might be caused by the player internally starting the playback.
         const diffMillis = (serverPositionTicks - currentPositionTicks) / Helper.TicksPerMillisecond;
 
+        // Notify update for playback sync.
         this.playbackDiffMillis = diffMillis;
+        Events.trigger(this.manager, 'playback-diff', [this.playbackDiffMillis]);
 
         // Avoid overloading the browser.
         const elapsed = currentTime - this.lastSyncTime;

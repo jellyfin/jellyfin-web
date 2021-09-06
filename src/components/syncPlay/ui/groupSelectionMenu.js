@@ -1,5 +1,6 @@
 import { Events } from 'jellyfin-apiclient';
 import SyncPlay from '../core';
+import SyncPlaySettingsEditor from './settings/SettingsEditor';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import actionsheet from '../../actionSheet/actionSheet';
@@ -77,7 +78,9 @@ class GroupSelectionMenu {
                         });
                     }
                 }).catch((error) => {
-                    console.error('SyncPlay: unexpected error listing groups:', error);
+                    if (error) {
+                        console.error('SyncPlay: unexpected error listing groups:', error);
+                    }
                 });
 
                 loading.hide();
@@ -120,6 +123,14 @@ class GroupSelectionMenu {
         }
 
         menuItems.push({
+            name: globalize.translate('Settings'),
+            icon: 'video_settings',
+            id: 'settings',
+            selected: false,
+            secondaryText: globalize.translate('LabelSyncPlaySettingsDescription')
+        });
+
+        menuItems.push({
             name: globalize.translate('LabelSyncPlayLeaveGroup'),
             icon: 'meeting_room',
             id: 'leave-group',
@@ -142,9 +153,19 @@ class GroupSelectionMenu {
                 SyncPlay.Manager.haltGroupPlayback(apiClient);
             } else if (id == 'leave-group') {
                 apiClient.leaveSyncPlayGroup();
+            } else if (id == 'settings') {
+                new SyncPlaySettingsEditor(apiClient, SyncPlay.Manager.getTimeSyncCore(), { groupInfo: groupInfo })
+                    .embed()
+                    .catch(error => {
+                        if (error) {
+                            console.error('Error creating SyncPlay settings editor', error);
+                        }
+                    });
             }
         }).catch((error) => {
-            console.error('SyncPlay: unexpected error showing group menu:', error);
+            if (error) {
+                console.error('SyncPlay: unexpected error showing group menu:', error);
+            }
         });
 
         loading.hide();
