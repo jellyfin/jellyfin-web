@@ -87,7 +87,7 @@ import '../../assets/css/scrollstyles.scss';
             if (!self.closedByBack && isHistoryEnabled(dlg)) {
                 const state = window.history.state || {};
                 if (state.dialogId === hash) {
-                    window.history.back();
+                    appRouter.back();
                 }
             }
 
@@ -213,7 +213,7 @@ import '../../assets/css/scrollstyles.scss';
     export function close(dlg) {
         if (isOpened(dlg)) {
             if (isHistoryEnabled(dlg)) {
-                window.history.back();
+                appRouter.back();
             } else {
                 closeDialog(dlg);
             }
