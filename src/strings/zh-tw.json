@@ -711,7 +711,7 @@
     "LabelTheme": "主題：",
     "LabelTimeLimitHours": "時間限制（小時）：",
     "LabelTitle": "標題：",
-    "LabelTrackNumber": "追蹤編號：",
+    "LabelTrackNumber": "音軌編號：",
     "LabelTranscodingFramerate": "轉檔幀率：",
     "LabelTranscodingProgress": "轉檔進度：",
     "LabelType": "類型：",
@@ -1540,5 +1540,14 @@
     "HeaderContinueReading": "繼續閱讀",
     "DisableCustomCss": "停用伺服器提供的自訂CSS",
     "DirectPlayHelp": "原始檔完全相容於此客戶端，且工作階段正在接收檔案並未作任何修改。",
-    "LabelHardwareEncoding": "硬體編碼器:"
+    "LabelHardwareEncoding": "硬體編碼器:",
+    "Track": "音軌",
+    "Remixer": "重混師",
+    "ReleaseGroup": "發行組合",
+    "OtherArtist": "其他作家",
+    "Mixer": "混音師",
+    "Lyricist": "作詞",
+    "Engineer": "工程師",
+    "Conductor": "指揮",
+    "Arranger": "編曲"
 }
