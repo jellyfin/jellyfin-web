@@ -181,6 +181,14 @@ import { appRouter } from '../../../components/appRouter';
             } else {
                 view.querySelector('.btnAudio').classList.add('hide');
             }
+
+            if (playbackManager.currentItem(player).Chapters.length > 1) {
+                view.querySelector('.btnPreviousChapter').classList.remove('hide');
+                view.querySelector('.btnNextChapter').classList.remove('hide');
+            } else {
+                view.querySelector('.btnPreviousChapter').classList.add('hide');
+                view.querySelector('.btnNextChapter').classList.add('hide');
+            }
         }
 
         function setTitle(item, parentName) {
@@ -545,7 +553,7 @@ import { appRouter } from '../../../components/appRouter';
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
                     const currentTime = playbackManager.currentTime(player) * 10000;
-                    updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getPlaybackRate(player), playbackManager.getBufferedRanges(player));
+                    updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
                     showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
@@ -640,7 +648,7 @@ import { appRouter } from '../../../components/appRouter';
             btnRewind.disabled = !playState.CanSeek;
             const nowPlayingItem = state.NowPlayingItem || {};
             playbackStartTimeTicks = playState.PlaybackStartTimeTicks;
-            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
+            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
 
             if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
@@ -682,7 +690,7 @@ import { appRouter } from '../../../components/appRouter';
             return (currentTimeMs - programStartDateMs) / programRuntimeMs * 100;
         }
 
-        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, playbackRate, bufferedRanges) {
+        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, bufferedRanges) {
             if (enableProgressByTimeOfDay) {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (programStartDateMs && programEndDateMs) {
@@ -717,8 +725,8 @@ import { appRouter } from '../../../components/appRouter';
                         nowPlayingPositionSlider.value = 0;
                     }
 
-                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording' && playbackRate !== null) {
-                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate, true);
+                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
+                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
                     } else {
                         endsAtText.innerHTML = '';
                     }
@@ -903,7 +911,8 @@ import { appRouter } from '../../../components/appRouter';
                 actionsheet.show({
                     items: menuItems,
                     title: globalize.translate('Audio'),
-                    positionTo: positionTo
+                    positionTo: positionTo,
+                    enableHistory: false
                 }).then(function (id) {
                     const index = parseInt(id);
 
@@ -949,7 +958,8 @@ import { appRouter } from '../../../components/appRouter';
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,
-                    positionTo: positionTo
+                    positionTo: positionTo,
+                    enableHistory: false
                 }).then(function (id) {
                     const index = parseInt(id);
 
