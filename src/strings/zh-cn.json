@@ -170,7 +170,7 @@
     "ErrorAddingMediaPathToVirtualFolder": "添加媒体路径时发生错误。请确认路径是有效的，并且Jellyfin有对该位置的访问权。",
     "ErrorAddingTunerDevice": "添加协调器设备时发生错误。请确认它是可访问的然后再试一次。",
     "ErrorAddingXmlTvFile": "访问 XmlTV 文件时发生错误。请确认该文件是否存在然后再试一次。",
-    "ErrorGettingTvLineups": "下载 TV 节目表 时发生错误。请确认你的信息是否正确，然后再试。",
+    "ErrorGettingTvLineups": "下载 电视节目表 时发生错误。请确认你的信息是否正确，然后再试。",
     "ErrorStartHourGreaterThanEnd": "结束时间必须在开始时间后。",
     "ErrorPleaseSelectLineup": "请选择一个阵容, 然后再试一次。如果没有可用的阵容, 请检查您的用户名、密码和邮政编码是否正确。",
     "ErrorSavingTvProvider": "保存 TV 提供商时发生错误。请确认它是可访问的然后再试一次。",
@@ -1261,7 +1261,7 @@
     "OnWakeFromSleep": "当从睡眠中唤醒时",
     "DailyAt": "每天的 {0}",
     "LastSeen": "上次观看 {0}",
-    "PersonRole": "作为 {0}",
+    "PersonRole": "饰演 {0}",
     "OnApplicationStartup": "当应用启动时",
     "EveryXHours": "每 {0} 小时",
     "EveryHour": "每小时",
@@ -1540,5 +1540,6 @@
     "SubtitleCodecNotSupported": "字幕解码不支持",
     "ContainerNotSupported": "该容器不支持",
     "AudioCodecNotSupported": "音频编码不支持",
-    "LabelHardwareEncoding": "硬件编码："
+    "LabelHardwareEncoding": "硬件编码：",
+    "Arranger": "编曲"
 }
