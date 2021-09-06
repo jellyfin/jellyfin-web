@@ -20,7 +20,7 @@
     "autoprefixer": "^10.3.3",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-polyfill": "^1.0.0",
-    "clean-webpack-plugin": "^3.0.0",
+    "clean-webpack-plugin": "^4.0.0",
     "confusing-browser-globals": "^1.0.10",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^5.2.6",
