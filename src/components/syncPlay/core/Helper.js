@@ -4,6 +4,7 @@
  */
 
 import { Events } from 'jellyfin-apiclient';
+import ServerConnections from '../../ServerConnections';
 
 /**
  * Constants
@@ -72,7 +73,11 @@ export function stringToGuid(input) {
     return input.replace(/([0-z]{8})([0-z]{4})([0-z]{4})([0-z]{4})([0-z]{12})/, '$1-$2-$3-$4-$5');
 }
 
-export function getItemsForPlayback(apiClient, query) {
+export function getItemsForPlayback(_apiClient, query) {
+    const serverId = _apiClient.serverId();
+
+    const apiClient = ServerConnections.getApiClient(serverId);
+
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
 
@@ -103,7 +108,7 @@ function mergePlaybackQueries(obj1, obj2) {
     return query;
 }
 
-export function translateItemsForPlayback(apiClient, items, options) {
+export function translateItemsForPlayback(_apiClient, items, options) {
     if (items.length > 1 && options && options.ids) {
         // Use the original request id array for sorting the result in the proper order.
         items.sort(function (a, b) {
@@ -113,6 +118,10 @@ export function translateItemsForPlayback(apiClient, items, options) {
 
     const firstItem = items[0];
     let promise;
+
+    const serverId = firstItem.ServerId;
+
+    const apiClient = ServerConnections.getApiClient(serverId);
 
     const queryOptions = options.queryOptions || {};
 
