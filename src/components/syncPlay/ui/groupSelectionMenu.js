@@ -63,7 +63,6 @@ class GroupSelectionMenu {
                     title: globalize.translate('HeaderSyncPlaySelectGroup'),
                     items: menuItems,
                     positionTo: button,
-                    resolveOnClick: true,
                     border: true
                 };
 
@@ -142,7 +141,6 @@ class GroupSelectionMenu {
             title: groupInfo.GroupName,
             items: menuItems,
             positionTo: button,
-            resolveOnClick: true,
             border: true
         };
 
