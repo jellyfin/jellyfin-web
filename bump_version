@@ -4,7 +4,6 @@
 
 set -o errexit
 set -o pipefail
-set -o xtrace
 
 usage() {
     echo -e "bump_version - increase the shared version and generate changelogs"
@@ -18,22 +17,17 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-shared_version_file="src/components/apphost.js"
 build_file="./build.yaml"
+package_file="./package*.json"
 
 new_version="$1"
 
-# Parse the version from shared version file
-old_version="$( grep "appVersion" ${shared_version_file} | head -1 | sed -E "s/var appVersion = '([0-9\.]+)';/\1/" | tr -d '[:space:]' )"
-echo "Old version in appHost is: $old_version"
-
-# Set the shared version to the specified new_version
-old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
-new_version_sed="$( cut -f1 -d'-' <<<"${new_version}" )"
-sed -i "s/${old_version_sed}/${new_version_sed}/g" ${shared_version_file}
-
+# Parse the version from build.yaml
 old_version="$( grep "version:" ${build_file} | sed -E 's/version: "([0-9\.]+[-a-z0-9]*)"/\1/' )"
-echo "Old version in ${build_file}: ${old_version}"
+echo "Old version: ${old_version}"
+
+# Bump the NPM version
+npm --no-git-tag-version version v${new_version}
 
 # Set the build.yaml version to the specified new_version
 old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
@@ -70,6 +64,7 @@ pushd ${fedora_spec_temp_dir}
 # Split out the stuff before and after changelog
 csplit jellyfin-web.spec  "/^%changelog/" # produces xx00 xx01
 # Update the version in xx00
+new_version_sed="$( sed 's/\./\\./g' <<<"${new_version}" )" # Escape the '.' chars
 sed -i "s/${old_version_sed}/${new_version_sed}/g" xx00
 # Remove the header from xx01
 sed -i '/^%changelog/d' xx01
@@ -87,5 +82,5 @@ mv ${fedora_spec_temp} ${fedora_spec_file}
 rm -rf ${fedora_changelog_temp} ${fedora_spec_temp_dir}
 
 # Stage the changed files for commit
-git add ${shared_version_file} ${build_file} ${debian_changelog_file} ${fedora_spec_file}
+git add ${build_file} ${debian_changelog_file} ${fedora_spec_file} ${package_file}
 git status
