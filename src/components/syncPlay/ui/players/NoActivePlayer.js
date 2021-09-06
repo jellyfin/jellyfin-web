@@ -253,7 +253,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's clearQueue method.
      */
-    clearQueueRequest(clearPlayingItem, player) {
+    clearQueueRequest(clearPlayingItem) {
         const controller = syncPlayManager.getController();
         controller.clearPlaylist(clearPlayingItem);
     }
