@@ -1540,5 +1540,14 @@
     "SubtitleCodecNotSupported": "A felirat kodek nem támogatott",
     "ContainerNotSupported": "A tároló nem támogatott",
     "AudioCodecNotSupported": "Az audio kodek nem támogatott",
-    "LabelHardwareEncoding": "Hardver kódolás:"
+    "LabelHardwareEncoding": "Hardver kódolás:",
+    "Track": "Szám",
+    "Remixer": "Remixelő",
+    "ReleaseGroup": "Kiadási csoport",
+    "OtherArtist": "Egyéb előadó",
+    "Mixer": "Keverő",
+    "Lyricist": "Szövegíró",
+    "Engineer": "Mérnök",
+    "Conductor": "Karmester",
+    "Arranger": "Rendező"
 }
