@@ -637,7 +637,6 @@ import template from './metadataEditor.template.html';
         }
 
         if (item.Type === 'Person') {
-            //todo
             context.querySelector('#txtName').label(globalize.translate('LabelName'));
             context.querySelector('#txtSortName').label(globalize.translate('LabelSortName'));
             context.querySelector('#txtOriginalName').label(globalize.translate('LabelOriginalName'));
