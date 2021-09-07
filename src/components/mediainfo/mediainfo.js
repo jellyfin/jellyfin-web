@@ -106,7 +106,6 @@ import '../../elements/emby-button/emby-button';
         const miscInfo = [];
         let text;
         let date;
-        let minutes;
         let count;
 
         const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
@@ -257,18 +256,17 @@ import '../../elements/emby-button/emby-button';
             if (item.Type === 'Audio') {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
-                const ticksPerMinute = 600000000;
-                const totalMinutes = Math.floor(item.RunTimeTicks / ticksPerMinute) || 1;
+                const totalMinutes = Math.round(item.RunTimeTicks / 600000000) || 1;
                 const totalHours = Math.floor(totalMinutes / 60);
                 const remainderMinutes = totalMinutes % 60;
                 const result = [];
                 if (totalHours > 0) {
-                    result.push(`${totalHours} hrs`);
+                    result.push(`${totalHours}h`);
                 }
                 if (totalMinutes > 0) {
-                    result.push(`${remainderMinutes} mins`);
+                    result.push(`${remainderMinutes}m`);
                 }
-                miscInfo.push(result.join(', '));
+                miscInfo.push(result.join(' '));
             }
         }
 
