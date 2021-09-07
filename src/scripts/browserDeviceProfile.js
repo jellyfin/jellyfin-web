@@ -228,7 +228,7 @@ import browser from './browser';
                 supported = browser.tizen;
                 break;
             case 'mov':
-                supported = browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
+                supported = browser.safari || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
                 videoCodecs.push('h264');
                 break;
             case 'm2ts':
@@ -414,8 +414,10 @@ import browser from './browser';
 
         if (canPlayAudioFormat('opus')) {
             videoAudioCodecs.push('opus');
-            hlsInTsVideoAudioCodecs.push('opus');
             webmAudioCodecs.push('opus');
+            if (browser.tizen) {
+                hlsInTsVideoAudioCodecs.push('opus');
+            }
         }
 
         if (canPlayAudioFormat('flac')) {
@@ -462,6 +464,10 @@ import browser from './browser';
             // safari is lying on HDR and 60fps videos, use fMP4 instead
             if (!browser.safari) {
                 mp4VideoCodecs.push('hevc');
+            }
+
+            if (browser.tizen || browser.web0s) {
+                hlsInTsVideoCodecs.push('hevc');
             }
         }
 
@@ -661,12 +667,13 @@ import browser from './browser';
             }
         }
 
-        if (canPlayVp8) {
+        if (webmAudioCodecs.length && webmVideoCodecs.length) {
             profile.TranscodingProfiles.push({
                 Container: 'webm',
                 Type: 'Video',
-                AudioCodec: 'vorbis',
-                VideoCodec: 'vpx',
+                AudioCodec: webmAudioCodecs.join(','),
+                // TODO: Remove workaround when servers migrate away from 'vpx' for transcoding profiles.
+                VideoCodec: (canPlayVp8 ? webmVideoCodecs.concat('vpx') : webmVideoCodecs).join(','),
                 Context: 'Streaming',
                 Protocol: 'http',
                 // If audio transcoding is needed, limit channels to number of physical audio channels
@@ -944,21 +951,24 @@ import browser from './browser';
         // Subtitle profiles
         // External vtt or burn in
         profile.SubtitleProfiles = [];
-        if (supportsTextTracks()) {
-            profile.SubtitleProfiles.push({
-                Format: 'vtt',
-                Method: 'External'
-            });
-        }
-        if (options.enableSsaRender !== false && (!options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats')) {
-            profile.SubtitleProfiles.push({
-                Format: 'ass',
-                Method: 'External'
-            });
-            profile.SubtitleProfiles.push({
-                Format: 'ssa',
-                Method: 'External'
-            });
+        const subtitleBurninSetting = appSettings.get('subtitleburnin');
+        if (subtitleBurninSetting !== 'all') {
+            if (supportsTextTracks()) {
+                profile.SubtitleProfiles.push({
+                    Format: 'vtt',
+                    Method: 'External'
+                });
+            }
+            if (options.enableSsaRender !== false && !options.isRetry && subtitleBurninSetting !== 'allcomplexformats') {
+                profile.SubtitleProfiles.push({
+                    Format: 'ass',
+                    Method: 'External'
+                });
+                profile.SubtitleProfiles.push({
+                    Format: 'ssa',
+                    Method: 'External'
+                });
+            }
         }
 
         profile.ResponseProfiles = [];

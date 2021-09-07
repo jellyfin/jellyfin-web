@@ -170,6 +170,11 @@ html {
     color: inherit;
 }
 
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+    border: none;
+}
+
 .cardText-secondary,
 .fieldDescription,
 .guide-programNameCaret,

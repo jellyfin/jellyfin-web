@@ -4,7 +4,20 @@
  */
 
 import { Events } from 'jellyfin-apiclient';
+import appSettings from '../../../../scripts/settings/appSettings';
+import { toFloat } from '../../../../scripts/stringUtils';
+import { getSetting } from '../Settings';
 import TimeSyncServer from './TimeSyncServer';
+
+/**
+ * Utility function to offset a given date by a given amount of milliseconds.
+ * @param {Date} date The date.
+ * @param {number} offset The offset, in milliseconds.
+ * @returns {Date} The offset date.
+ */
+function offsetDate(date, offset) {
+    return new Date(date.getTime() + offset);
+}
 
 /**
  * Class that manages time syncing with several devices.
@@ -13,6 +26,9 @@ class TimeSyncCore {
     constructor() {
         this.manager = null;
         this.timeSyncServer = null;
+
+        this.timeSyncDeviceId = getSetting('timeSyncDevice') || 'server';
+        this.extraTimeOffset = toFloat(getSetting('extraTimeOffset'), 0.0);
     }
 
     /**
@@ -30,6 +46,12 @@ class TimeSyncCore {
             }
 
             Events.trigger(this, 'time-sync-server-update', [timeOffset, ping]);
+        });
+
+        Events.on(appSettings, 'change', function (e, name) {
+            if (name === 'extraTimeOffset') {
+                this.extraTimeOffset = toFloat(getSetting('extraTimeOffset'), 0.0);
+            }
         });
     }
 
@@ -54,7 +76,8 @@ class TimeSyncCore {
      * @returns {Date} Local time.
      */
     remoteDateToLocal(remote) {
-        return this.timeSyncServer.remoteDateToLocal(remote);
+        const date = this.timeSyncServer.remoteDateToLocal(remote);
+        return offsetDate(date, -this.extraTimeOffset);
     }
 
     /**
@@ -63,15 +86,16 @@ class TimeSyncCore {
      * @returns {Date} Server time.
      */
     localDateToRemote(local) {
-        return this.timeSyncServer.localDateToRemote(local);
+        const date = this.timeSyncServer.localDateToRemote(local);
+        return offsetDate(date, this.extraTimeOffset);
     }
 
     /**
-     * Gets time offset that should be used for time syncing, in milliseconds.
+     * Gets time offset that should be used for time syncing, in milliseconds. Takes into account server and active device selected for syncing.
      * @returns {number} The time offset.
      */
     getTimeOffset() {
-        return this.timeSyncServer.getTimeOffset();
+        return this.timeSyncServer.getTimeOffset() + this.extraTimeOffset;
     }
 }
 

@@ -45,6 +45,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
 
         playbackManager._localPlay = playbackManager.play;
         playbackManager._localSetCurrentPlaylistItem = playbackManager.setCurrentPlaylistItem;
+        playbackManager._localClearQueue = playbackManager.clearQueue;
         playbackManager._localRemoveFromPlaylist = playbackManager.removeFromPlaylist;
         playbackManager._localMovePlaylistItem = playbackManager.movePlaylistItem;
         playbackManager._localQueue = playbackManager.queue;
@@ -62,6 +63,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
 
         playbackManager.play = this.playRequest;
         playbackManager.setCurrentPlaylistItem = this.setCurrentPlaylistItemRequest;
+        playbackManager.clearQueue = this.clearQueueRequest;
         playbackManager.removeFromPlaylist = this.removeFromPlaylistRequest;
         playbackManager.movePlaylistItem = this.movePlaylistItemRequest;
         playbackManager.queue = this.queueRequest;
@@ -93,6 +95,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
 
         playbackManager.play = playbackManager._localPlay;
         playbackManager.setCurrentPlaylistItem = playbackManager._localSetCurrentPlaylistItem;
+        playbackManager.clearQueue = this._localClearQueue;
         playbackManager.removeFromPlaylist = playbackManager._localRemoveFromPlaylist;
         playbackManager.movePlaylistItem = playbackManager._localMovePlaylistItem;
         playbackManager.queue = playbackManager._localQueue;
@@ -245,6 +248,14 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     setCurrentPlaylistItemRequest(playlistItemId) {
         const controller = syncPlayManager.getController();
         controller.setCurrentPlaylistItem(playlistItemId);
+    }
+
+    /**
+     * Overrides PlaybackManager's clearQueue method.
+     */
+    clearQueueRequest(clearPlayingItem) {
+        const controller = syncPlayManager.getController();
+        controller.clearPlaylist(clearPlayingItem);
     }
 
     /**

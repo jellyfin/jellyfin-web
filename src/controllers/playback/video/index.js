@@ -1,5 +1,6 @@
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import SyncPlay from '../../../components/syncPlay/core';
+import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
@@ -312,8 +313,8 @@ import { appRouter } from '../../../components/appRouter';
 
         function onPointerMove(e) {
             if ((e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) === 'mouse') {
-                const eventX = e.screenX || 0;
-                const eventY = e.screenY || 0;
+                const eventX = e.screenX || e.clientX || 0;
+                const eventY = e.screenY || e.clientY || 0;
                 const obj = lastPointerMoveData;
 
                 if (!obj) {
@@ -544,7 +545,7 @@ import { appRouter } from '../../../components/appRouter';
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
                     const currentTime = playbackManager.currentTime(player) * 10000;
-                    updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
+                    updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getPlaybackRate(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
                     showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
@@ -639,7 +640,7 @@ import { appRouter } from '../../../components/appRouter';
             btnRewind.disabled = !playState.CanSeek;
             const nowPlayingItem = state.NowPlayingItem || {};
             playbackStartTimeTicks = playState.PlaybackStartTimeTicks;
-            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.BufferedRanges || []);
+            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
 
             if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
@@ -681,7 +682,7 @@ import { appRouter } from '../../../components/appRouter';
             return (currentTimeMs - programStartDateMs) / programRuntimeMs * 100;
         }
 
-        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, bufferedRanges) {
+        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, playbackRate, bufferedRanges) {
             if (enableProgressByTimeOfDay) {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (programStartDateMs && programEndDateMs) {
@@ -716,8 +717,8 @@ import { appRouter } from '../../../components/appRouter';
                         nowPlayingPositionSlider.value = 0;
                     }
 
-                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
-                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
+                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording' && playbackRate !== null) {
+                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate, true);
                     } else {
                         endsAtText.innerHTML = '';
                     }
@@ -987,14 +988,30 @@ import { appRouter } from '../../../components/appRouter';
          */
         let clickedElement;
 
+        function onClickCapture(e) {
+            // Firefox/Edge emits `click` even if `preventDefault` was used on `keydown`
+            // Ignore 'click' if another element was originally clicked
+            if (!e.target.contains(clickedElement)) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
+
         function onKeyDown(e) {
             clickedElement = e.target;
 
             const key = keyboardnavigation.getKeyName(e);
             const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
 
-            if (!currentVisibleMenu && e.keyCode === 32) {
-                playbackManager.playPause(currentPlayer);
+            if (e.keyCode === 32) {
+                if (e.target.tagName !== 'BUTTON' || !layoutManager.tv) {
+                    playbackManager.playPause(currentPlayer);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Trick Firefox with a null element to skip next click
+                    clickedElement = null;
+                }
                 showOsd();
                 return;
             }
@@ -1304,6 +1321,9 @@ import { appRouter } from '../../../components/appRouter';
                     capture: true,
                     passive: true
                 });
+                if (browser.firefox || browser.edge) {
+                    dom.addEventListener(document, 'click', onClickCapture, { capture: true });
+                }
             } catch (e) {
                 appRouter.goHome();
             }
@@ -1342,6 +1362,9 @@ import { appRouter } from '../../../components/appRouter';
                 capture: true,
                 passive: true
             });
+            if (browser.firefox || browser.edge) {
+                dom.removeEventListener(document, 'click', onClickCapture, { capture: true });
+            }
             stopOsdHideTimer();
             headerElement.classList.remove('osdHeader');
             headerElement.classList.remove('osdHeader-hidden');
@@ -1491,10 +1514,7 @@ import { appRouter } from '../../../components/appRouter';
             playbackManager.previousTrack(currentPlayer);
         });
         view.querySelector('.btnPause').addEventListener('click', function () {
-            // Ignore 'click' if another element was originally clicked (Firefox/Edge issue)
-            if (this.contains(clickedElement)) {
-                playbackManager.playPause(currentPlayer);
-            }
+            playbackManager.playPause(currentPlayer);
         });
         view.querySelector('.btnNextTrack').addEventListener('click', function () {
             playbackManager.nextTrack(currentPlayer);

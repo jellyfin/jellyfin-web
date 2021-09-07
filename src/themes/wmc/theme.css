@@ -193,6 +193,11 @@ html {
     color: rgba(255, 255, 255, 0.78);
 }
 
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background: transparent;
+    color: initial;
+}
+
 .itemSelectionPanel {
     border: 1px solid #00a4dc;
 }
@@ -456,7 +461,8 @@ html {
     background-color: #081b3b;
 }
 
-.layout-desktop ::-webkit-scrollbar {
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
     width: 1em;
     height: 1em;
 }

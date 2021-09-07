@@ -253,6 +253,32 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'disableCustomCss' state.
+     * @param {boolean|undefined} val - Flag to enable 'disableCustomCss' or undefined.
+     * @return {boolean} 'disableCustomCss' state.
+     */
+    disableCustomCss(val) {
+        if (val !== undefined) {
+            return this.set('disableCustomCss', val.toString(), false);
+        }
+
+        return this.get('disableCustomCss', false) === 'true';
+    }
+
+    /**
+     * Get or set customCss.
+     * @param {string|undefined} val - Language.
+     * @return {string} Language.
+     */
+    customCss(val) {
+        if (val !== undefined) {
+            return this.set('customCss', val.toString(), false);
+        }
+
+        return this.get('customCss', false);
+    }
+
+    /**
      * Get or set 'Details Banner' state.
      * @param {boolean|undefined} val - Flag to enable 'Details Banner' or undefined.
      * @return {boolean} 'Details Banner' state.
@@ -264,6 +290,20 @@ export class UserSettings {
 
         val = this.get('detailsBanner', false);
         return val !== 'false';
+    }
+
+    /**
+     * Get or set 'Use Episode Images in Next Up and Continue Watching' state.
+     * @param {string|boolean|undefined} val - Flag to enable 'Use Episode Images in Next Up and Continue Watching' or undefined.
+     * @return {boolean} 'Use Episode Images in Next Up' state.
+     */
+    useEpisodeImagesInNextUpAndResume(val) {
+        if (val !== undefined) {
+            return this.set('useEpisodeImagesInNextUpAndResume', val.toString(), true);
+        }
+
+        val = this.get('useEpisodeImagesInNextUpAndResume', true);
+        return val === 'true';
     }
 
     /**
@@ -508,6 +548,7 @@ export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSet
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
+export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const chromecastVersion = currentSettings.chromecastVersion.bind(currentSettings);
@@ -525,3 +566,5 @@ export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearan
 export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
 export const setFilter = currentSettings.setFilter.bind(currentSettings);
 export const getFilter = currentSettings.getFilter.bind(currentSettings);
+export const customCss = currentSettings.customCss.bind(currentSettings);
+export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);

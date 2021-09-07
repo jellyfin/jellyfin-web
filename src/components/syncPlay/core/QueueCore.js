@@ -3,6 +3,8 @@
  * @module components/syncPlay/core/QueueCore
  */
 
+import globalize from '../../../scripts/globalize';
+import toast from '../../toast/toast';
 import * as Helper from './Helper';
 
 /**
@@ -165,14 +167,16 @@ class QueueCore {
      * @param {string} origin The origin of the wait call, used for debug.
      */
     scheduleReadyRequestOnPlaybackStart(apiClient, origin) {
-        Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(() => {
+        Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(async () => {
             console.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server.');
             const playerWrapper = this.manager.getPlayerWrapper();
             playerWrapper.localPause();
 
             const currentTime = new Date();
             const now = this.manager.timeSyncCore.localDateToRemote(currentTime);
-            const currentPosition = playerWrapper.currentTime();
+            const currentPosition = (playerWrapper.currentTimeAsync
+                ? await playerWrapper.currentTimeAsync()
+                : playerWrapper.currentTime());
             const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
             const isPlaying = playerWrapper.isPlaying();
 
@@ -185,7 +189,7 @@ class QueueCore {
         }).catch((error) => {
             console.error('Error while waiting for `playbackstart` event!', origin, error);
             if (!this.manager.isSyncPlayEnabled()) {
-                Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+                toast(globalize.translate('MessageSyncPlayErrorMedia'));
             }
 
             this.manager.haltGroupPlayback(apiClient);
@@ -234,7 +238,7 @@ class QueueCore {
             this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
         }).catch((error) => {
             console.error(error);
-            Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+            toast(globalize.translate('MessageSyncPlayErrorMedia'));
         });
     }
 

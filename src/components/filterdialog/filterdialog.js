@@ -32,9 +32,6 @@ import template from './filterdialog.template.html';
     }
 
     function renderFilters(context, result, query) {
-        if (result.Tags) {
-            result.Tags.length = Math.min(result.Tags.length, 50);
-        }
         renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
             const delimeter = '|';
             return (delimeter + (query.Genres || '') + delimeter).includes(delimeter + i + delimeter);

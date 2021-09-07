@@ -925,7 +925,9 @@ import template from './metadataEditor.template.html';
             html += '</div>';
 
             if (person.Role && person.Role !== lastType) {
-                html += '<div class="secondary">' + (person.Role) + '</div>';
+                html += '<div class="secondary">' + person.Role + '</div>';
+            } else {
+                html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
             }
 
             html += '</button>';

@@ -65,7 +65,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             cardContainer += '<div class="cardPadder cardPadder-square">';
             cardContainer += '</div>';
             cardContainer += '<div class="cardContent">';
-            cardContainer += `<div class="cardImageContainer coveredImage ${cardBuilder.getDefaultBackgroundClass()}" style="border-radius:0.2em">`;
+            cardContainer += `<div class="cardImageContainer coveredImage ${cardBuilder.getDefaultBackgroundClass()}">`;
             cardContainer += cardImageContainer;
             cardContainer += '</div>';
             cardContainer += '</div>';

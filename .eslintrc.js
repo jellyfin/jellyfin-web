@@ -4,6 +4,7 @@ module.exports = {
     root: true,
     plugins: [
         '@babel',
+        'react',
         'promise',
         'import',
         'eslint-comments'
@@ -18,11 +19,13 @@ module.exports = {
         ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: {
-            impliedStrict: true
+            impliedStrict: true,
+            jsx: true
         }
     },
     extends: [
         'eslint:recommended',
+        'plugin:react/recommended',
         // 'plugin:promise/recommended',
         'plugin:import/errors',
         'plugin:eslint-comments/recommended',
@@ -36,6 +39,7 @@ module.exports = {
         'comma-spacing': ['error'],
         'eol-last': ['error'],
         'indent': ['error', 4, { 'SwitchCase': 1 }],
+        'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
         'max-statements-per-line': ['error'],
         'no-floating-decimal': ['error'],
@@ -54,10 +58,25 @@ module.exports = {
         'space-infix-ops': 'error',
         'yoda': 'error'
     },
+    settings: {
+        react: {
+            version: 'detect'
+        },
+        'import/extensions': [
+            '.js',
+            '.ts',
+            '.jsx',
+            '.tsx'
+        ],
+        'import/parsers': {
+            '@typescript-eslint/parser': [ '.ts', '.tsx' ]
+        }
+    },
     overrides: [
         {
             files: [
-                './src/**/*.js'
+                './src/**/*.js',
+                './src/**/*.ts'
             ],
             parser: '@babel/eslint-parser',
             env: {
@@ -93,6 +112,7 @@ module.exports = {
                 'LibraryMenu': 'writable',
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
+                'Loading': 'writable',
                 'MetadataEditor': 'writable',
                 'PlaylistViewer': 'writable',
                 'UserParentalControlPage': 'writable',
@@ -187,6 +207,23 @@ module.exports = {
                     'document.querySelector'
                 ]
             }
+        },
+        {
+            files: [
+                './src/**/*.ts',
+                './src/**/*.tsx'
+            ],
+            parser: '@typescript-eslint/parser',
+            plugins: ['@typescript-eslint'],
+            extends: [
+                'eslint:recommended',
+                'plugin:import/typescript',
+                'plugin:@typescript-eslint/recommended',
+                'plugin:eslint-comments/recommended',
+                'plugin:react/recommended',
+                'plugin:react-hooks/recommended',
+                'plugin:jsx-a11y/recommended'
+            ]
         }
     ]
 };

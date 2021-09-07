@@ -76,7 +76,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                         dialogHelper.close(dlg);
                     }
 
-                    const result = await apiClient.quickConnect(data.Authentication);
+                    const result = await apiClient.quickConnect(data.Secret);
                     onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
                 }, function (e) {
                     clearInterval(interval);
@@ -154,7 +154,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             html += '<div class="' + cardBoxCssClass + '">';
             html += '<div class="cardScalable">';
             html += '<div class="cardPadder cardPadder-square"></div>';
-            html += `<div class="cardContent" style="border-radius:0.2em" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
+            html += `<div class="cardContent" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
             let imgUrl;
 
             if (user.PrimaryImageTag) {
@@ -260,9 +260,9 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
             const apiClient = getApiClient();
 
-            apiClient.getQuickConnect('Status')
-                .then(status => {
-                    if (status !== 'Unavailable') {
+            apiClient.getQuickConnect('Enabled')
+                .then(enabled => {
+                    if (enabled === true) {
                         view.querySelector('.btnQuick').classList.remove('hide');
                     }
                 })

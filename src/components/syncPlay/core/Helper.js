@@ -72,27 +72,13 @@ export function stringToGuid(input) {
     return input.replace(/([0-z]{8})([0-z]{4})([0-z]{4})([0-z]{4})([0-z]{12})/, '$1-$2-$3-$4-$5');
 }
 
-/**
- * Triggers a show-message event.
- * @param {Object} syncPlayManager The SyncPlay manager.
- * @param {string} message The message name.
- * @param {Array} args Extra data needed for the message, optional.
- */
-export function showMessage(syncPlayManager, message, args = []) {
-    Events.trigger(syncPlayManager, 'show-message', [{
-        message: message,
-        args: args
-    }]);
-}
-
 export function getItemsForPlayback(apiClient, query) {
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
 
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
             return {
-                Items: [item],
-                TotalRecordCount: 1
+                Items: [item]
             };
         });
     } else {

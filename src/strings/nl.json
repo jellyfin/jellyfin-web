@@ -1,9 +1,9 @@
 {
     "Absolute": "Absoluut",
-    "AccessRestrictedTryAgainLater": "Toegang is momenteel beperkt, probeer later opnieuw.",
+    "AccessRestrictedTryAgainLater": "Toegang is momenteel beperkt. Probeer het later opnieuw.",
     "Actor": "Acteur",
     "Add": "Toevoegen",
-    "AddToCollection": "Toevoegen aan Collectie",
+    "AddToCollection": "Toevoegen aan collectie",
     "AddToPlayQueue": "Toevoegen aan wachtrij",
     "AddToPlaylist": "Toevoegen aan afspeellijst",
     "AddedOnValue": "{0} toegevoegd",
@@ -789,7 +789,7 @@
     "Next": "Volgende",
     "NextUp": "Hierna",
     "No": "Nee",
-    "NoNewDevicesFound": "Er zijn geen nieuwe apparaten gevonden. Sluit dit melding en voer handmatig de apparaat gegevens in om een nieuwe tuner toe te voegen.",
+    "NoNewDevicesFound": "Er zijn geen nieuwe apparaten gevonden. Sluit deze melding en voer handmatig de apparaat gegevens in om een nieuwe tuner toe te voegen.",
     "MessageNoNextUpItems": "Niets gevonden. Start met kijken!",
     "MessageNoPluginConfiguration": "Deze plugin heeft geen instellingen te configureren.",
     "NoSubtitleSearchResultsFound": "Geen resultaten gevonden.",
@@ -1498,7 +1498,7 @@
     "LabelSyncPlayHaltPlayback": "Stop lokaal afspelen",
     "LabelMinAudiobookResume": "Minimale resterende duur van luisterboek:",
     "LabelMaxAudiobookResumeHelp": "Titels worden als afgespeeld beschouwd indien gestopt na deze tijd.",
-    "LabelMaxAudiobookResume": "Maximale resterende duur in minuten:",
+    "LabelMaxAudiobookResume": "Audioboek resterende duur in minuten:",
     "MessagePlaybackError": "Er was een error tijdens het afspelen van dit bestand op uw Google Cast.",
     "MessageChromecastConnectionError": "Uw Google Cast kan niet verbinden met de Jellyfin server. Controleer de verbinding en probeer opnieuw.",
     "LabelMinAudiobookResumeHelp": "Titels worden als niet afgespeeld beschouwd indien gestopt voor deze tijd.",
@@ -1508,5 +1508,6 @@
     "Framerate": "Beeldsnelheid",
     "DisablePlugin": "Uitschakelen",
     "EnablePlugin": "Inschakelen",
-    "DirectPlayHelp": "Het bronbestand is volledig compatibel met deze client, en de sessie ontvangt het bestand zonder wijzigingen."
+    "DirectPlayHelp": "Het bronbestand is volledig compatibel met deze client, en de sessie ontvangt het bestand zonder wijzigingen.",
+    "HeaderContinueReading": "Verder lezen"
 }

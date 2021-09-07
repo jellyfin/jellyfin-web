@@ -429,7 +429,7 @@ function getPlaybackInfo(player,
     enableDirectStream,
     allowVideoStreamCopy,
     allowAudioStreamCopy) {
-    if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio') {
+    if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
         return Promise.resolve({
             MediaSources: [
                 {
@@ -1692,7 +1692,7 @@ class PlaybackManager {
                     if (validatePlaybackInfoResult(self, result)) {
                         currentMediaSource = result.MediaSources[0];
 
-                        const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks);
+                        const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
                         streamInfo.fullscreen = currentPlayOptions.fullscreen;
                         streamInfo.lastMediaInfoQuery = lastMediaInfoQuery;
 
@@ -1960,6 +1960,7 @@ class PlaybackManager {
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
                 state.PlayState.PlaybackStartTimeTicks = self.playbackStartTime(player);
+                state.PlayState.PlaybackRate = self.getPlaybackRate(player);
 
                 state.PlayState.SubtitleStreamIndex = self.getSubtitleStreamIndex(player);
                 state.PlayState.AudioStreamIndex = self.getAudioStreamIndex(player);
@@ -2153,7 +2154,7 @@ class PlaybackManager {
             }, onInterceptorRejection);
         }
 
-        function onInterceptorRejection() {
+        function cancelPlayback() {
             const player = self._currentPlayer;
 
             if (player) {
@@ -2162,7 +2163,10 @@ class PlaybackManager {
             }
 
             Events.trigger(self, 'playbackcancelled');
+        }
 
+        function onInterceptorRejection() {
+            cancelPlayback();
             return Promise.reject();
         }
 
@@ -2335,6 +2339,15 @@ class PlaybackManager {
                 promise = Promise.resolve();
             }
 
+            if (!player) {
+                return promise.then(() => {
+                    cancelPlayback();
+                    loading.hide();
+                    console.error(`No player found for the requested media: ${item.Url}`);
+                    showPlaybackInfoErrorMessage(self, 'ErrorPlayerNotFound');
+                });
+            }
+
             if (!isServerItem(item) || item.MediaType === 'Book') {
                 return promise.then(function () {
                     const streamInfo = createStreamInfoFromUrlItem(item);
@@ -2372,7 +2385,7 @@ class PlaybackManager {
                     if (userSettings.enableSetUsingLastTracks())
                         autoSetNextTracks(prevSource, mediaSource);
 
-                    const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
+                    const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
                     streamInfo.fullscreen = playOptions.fullscreen;
 
@@ -2411,7 +2424,7 @@ class PlaybackManager {
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
                     return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
-                        return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
+                        return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
                     });
                 });
             });
@@ -2437,7 +2450,7 @@ class PlaybackManager {
             });
         };
 
-        function createStreamInfo(apiClient, type, item, mediaSource, startPosition) {
+        function createStreamInfo(apiClient, type, item, mediaSource, startPosition, player) {
             let mediaUrl;
             let contentType;
             let transcodingOffsetTicks = 0;
@@ -2448,6 +2461,14 @@ class PlaybackManager {
 
             const mediaSourceContainer = (mediaSource.Container || '').toLowerCase();
             let directOptions;
+
+            if (mediaSource.MediaStreams && player.useFullSubtitleUrls) {
+                mediaSource.MediaStreams.forEach(stream => {
+                    if (stream.DeliveryUrl && stream.DeliveryUrl.startsWith('/')) {
+                        stream.DeliveryUrl = apiClient.getUrl(stream.DeliveryUrl);
+                    }
+                });
+            }
 
             if (type === 'Video' || type === 'Audio') {
                 contentType = getMimeType(type.toLowerCase(), mediaSourceContainer);
@@ -3118,6 +3139,9 @@ class PlaybackManager {
             }
 
             return promise.then(function () {
+                // Clear the data since we were not listening 'stopped'
+                getPlayerData(activePlayer).streamInfo = null;
+
                 bindStopped(activePlayer);
 
                 if (enableLocalPlaylistManagement(activePlayer)) {

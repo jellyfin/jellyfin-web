@@ -635,7 +635,7 @@ import toast from '../../../components/toast/toast';
                 data: JSON.stringify(profile),
                 contentType: 'application/json'
             }).then(function () {
-                toast('Settings saved.');
+                toast(globalize.translate('SettingsSaved'));
             }, Dashboard.processErrorResponse);
         } else {
             ApiClient.ajax({

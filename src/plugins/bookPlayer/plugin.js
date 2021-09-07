@@ -5,6 +5,7 @@ import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../../components/ServerConnections';
+import * as Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
 import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
@@ -151,6 +152,7 @@ export class BookPlayer {
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
+        elem.querySelector('#btnBookplayerFullscreen').addEventListener('click', this.toggleFullscreen);
         elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.next);
     }
@@ -170,6 +172,7 @@ export class BookPlayer {
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('#btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
         elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
+        elem.querySelector('#btnBookplayerFullscreen').removeEventListener('click', this.toggleFullscreen);
         elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.next);
     }
@@ -188,6 +191,15 @@ export class BookPlayer {
     openTableOfContents() {
         if (this.loaded) {
             this.tocElement = new TableOfContents(this);
+        }
+    }
+
+    toggleFullscreen() {
+        if (Screenfull.isEnabled) {
+            const icon = document.querySelector('#btnBookplayerFullscreen .material-icons');
+            icon.classList.remove(Screenfull.isFullscreen ? 'fullscreen_exit' : 'fullscreen');
+            icon.classList.add(Screenfull.isFullscreen ? 'fullscreen' : 'fullscreen_exit');
+            Screenfull.toggle();
         }
     }
 
@@ -246,15 +258,23 @@ export class BookPlayer {
         const serverId = item.ServerId;
         const apiClient = ServerConnections.getApiClient(serverId);
 
+        if (!Screenfull.isEnabled) {
+            document.getElementById('btnBookplayerFullscreen').display = 'none';
+        }
+
         return new Promise((resolve, reject) => {
             import('epubjs').then(({default: epubjs}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 const book = epubjs(downloadHref, {openAs: 'epub'});
 
+                // We need to calculate the height of the window beforehand because using 100% is not accurate when the dialog is opening.
+                // In addition we don't render to the full height so that we have space for the top buttons.
+                const clientHeight = document.body.clientHeight;
+                const renderHeight = clientHeight - (clientHeight * 0.0425);
+
                 const rendition = book.renderTo('bookPlayerContainer', {
                     width: '100%',
-                    // Calculate the height of the window because using 100% is not accurate when the dialog is opening
-                    height: document.body.clientHeight,
+                    height: renderHeight,
                     // TODO: Add option for scrolled-doc
                     flow: 'paginated'
                 });

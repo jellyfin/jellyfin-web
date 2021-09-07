@@ -139,6 +139,10 @@ html {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+}
+
 .defaultCardBackground1 {
     background-color: #213440;
 }
@@ -476,7 +480,8 @@ html {
     background-color: #3b3b3b;
 }
 
-.layout-desktop ::-webkit-scrollbar {
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
     width: 1em;
     height: 1em;
 }

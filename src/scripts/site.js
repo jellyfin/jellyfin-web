@@ -33,10 +33,10 @@ import '../legacy/focusPreventScroll';
 import '../legacy/vendorStyles';
 import SyncPlay from '../components/syncPlay/core';
 import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';
 import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';
 import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
+import { currentSettings } from './settings/userSettings';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -169,13 +169,14 @@ function initSyncPlay() {
     // Start SyncPlay.
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) SyncPlay.Manager.init(apiClient);
-    SyncPlayToasts.init();
 
     // FIXME: Multiple apiClients?
     Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => SyncPlay.Manager.init(newApiClient));
+    Events.on(ServerConnections, 'localusersignedin', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
+    Events.on(ServerConnections, 'localusersignedout', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
 }
 
-function onAppReady() {
+async function onAppReady() {
     console.debug('begin onAppReady');
 
     console.debug('onAppReady: loading dependencies');
@@ -218,34 +219,70 @@ function onAppReady() {
 
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
-        fetch(apiClient.getUrl('Branding/Css'))
+        const updateStyle = (css) => {
+            let style = document.querySelector('#cssBranding');
+            if (!style) {
+                // Inject the branding css as a dom element in body so it will take
+                // precedence over other stylesheets
+                style = document.createElement('style');
+                style.id = 'cssBranding';
+                document.body.appendChild(style);
+            }
+            style.textContent = css;
+        };
+
+        const style = fetch(apiClient.getUrl('Branding/Css'))
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error(response.status + ' ' + response.statusText);
                 }
                 return response.text();
             })
-            .then(function(css) {
-                let style = document.querySelector('#cssBranding');
-                if (!style) {
-                    // Inject the branding css as a dom element in body so it will take
-                    // precedence over other stylesheets
-                    style = document.createElement('style');
-                    style.id = 'cssBranding';
-                    document.body.appendChild(style);
-                }
-                style.textContent = css;
-            })
             .catch(function(err) {
                 console.warn('Error applying custom css', err);
             });
+
+        const handleStyleChange = async () => {
+            if (currentSettings.disableCustomCss()) {
+                updateStyle('');
+            } else {
+                updateStyle(await style);
+            }
+
+            const localCss = currentSettings.customCss();
+            let localStyle = document.querySelector('#localCssBranding');
+            if (localCss) {
+                if (!localStyle) {
+                    // Inject the branding css as a dom element in body so it will take
+                    // precedence over other stylesheets
+                    localStyle = document.createElement('style');
+                    localStyle.id = 'localCssBranding';
+                    document.body.appendChild(localStyle);
+                }
+                localStyle.textContent = localCss;
+            } else {
+                if (localStyle) {
+                    localStyle.textContent = '';
+                }
+            }
+        };
+
+        Events.on(ServerConnections, 'localusersignedin', handleStyleChange);
+        Events.on(ServerConnections, 'localusersignedout', handleStyleChange);
+        Events.on(currentSettings, 'change', (e, prop) => {
+            if (prop == 'disableCustomCss' || prop == 'customCss') {
+                handleStyleChange();
+            }
+        });
+
+        style.then(updateStyle);
     }
 }
 
 function registerServiceWorker() {
     /* eslint-disable compat/compat */
     if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
-        navigator.serviceWorker.register('/serviceworker.js').then(() =>
+        navigator.serviceWorker.register('serviceworker.js').then(() =>
             console.log('serviceWorker registered')
         ).catch(error =>
             console.log('error registering serviceWorker: ' + error)
