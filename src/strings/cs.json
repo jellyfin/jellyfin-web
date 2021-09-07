@@ -1569,5 +1569,8 @@
     "LabelSyncPlaySettingsDescription": "Změnit nastavení SyncPlay",
     "HeaderSyncPlayTimeSyncSettings": "Synchronizace času",
     "HeaderSyncPlayPlaybackSettings": "Přehrávání",
-    "HeaderSyncPlaySettings": "Nastavení SyncPlay"
+    "HeaderSyncPlaySettings": "Nastavení SyncPlay",
+    "SetUsingLastTracksHelp": "Pokusit se nastavit titulky a zvuk co nejblíže poslednímu videu.",
+    "SetUsingLastTracks": "Nastavit titulky a zvuk podle předchozí položky",
+    "ErrorPlayerNotFound": "Pro požadované médium nebyl nalezen žádný přehrávač."
 }
