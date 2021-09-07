@@ -2107,7 +2107,7 @@ class PlaybackManager {
             }
         }
 
-        function playInternal(item, playOptions, onPlaybackStartedFn) {
+        function playInternal(item, playOptions, onPlaybackStartedFn, prevSource) {
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
@@ -2132,7 +2132,7 @@ class PlaybackManager {
                 const mediaType = item.MediaType;
 
                 const onBitrateDetectionFailure = function () {
-                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn);
+                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn, prevSource);
                 };
 
                 if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
@@ -2145,7 +2145,7 @@ class PlaybackManager {
                         return apiClient.detectBitrate().then(function (bitrate) {
                             appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
 
-                            return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn);
+                            return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
                         }, onBitrateDetectionFailure);
                     } else {
                         onBitrateDetectionFailure();
@@ -2226,7 +2226,104 @@ class PlaybackManager {
             });
         }
 
-        function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn) {
+        function rankStreamType(prevIndex, prevSource, mediaSource, streamType) {
+            if (prevIndex == -1) {
+                console.debug(`AutoSet ${streamType} - No Stream Set`);
+                if (streamType == 'Subtitle')
+                    mediaSource.DefaultSubtitleStreamIndex = -1;
+                return;
+            }
+
+            if (!prevSource.MediaStreams || !mediaSource.MediaStreams) {
+                console.debug(`AutoSet ${streamType} - No MediaStreams`);
+                return;
+            }
+
+            let bestStreamIndex = null;
+            let bestStreamScore = 0;
+            const prevStream = prevSource.MediaStreams[prevIndex];
+
+            if (!prevStream) {
+                console.debug(`AutoSet ${streamType} - No prevStream`);
+                return;
+            }
+
+            console.debug(`AutoSet ${streamType} - Previous was ${prevStream.Index} - ${prevStream.DisplayTitle}`);
+
+            let prevRelIndex = 0;
+            for (const stream of prevSource.MediaStreams) {
+                if (stream.Type != streamType)
+                    continue;
+
+                if (stream.Index == prevIndex)
+                    break;
+
+                prevRelIndex += 1;
+            }
+
+            let newRelIndex = 0;
+            for (const stream of mediaSource.MediaStreams) {
+                if (stream.Type != streamType)
+                    continue;
+
+                let score = 0;
+
+                if (prevStream.Codec == stream.Codec)
+                    score += 1;
+                if (prevRelIndex == newRelIndex)
+                    score += 1;
+                if (prevStream.Title && prevStream.Title == stream.Title)
+                    score += 2;
+                if (prevStream.Language && prevStream.Language != 'und' && prevStream.Language == stream.Language)
+                    score += 2;
+
+                console.debug(`AutoSet ${streamType} - Score ${score} for ${stream.Index} - ${stream.DisplayTitle}`);
+                if (score > bestStreamScore && score >= 3) {
+                    bestStreamScore = score;
+                    bestStreamIndex = stream.Index;
+                }
+
+                newRelIndex += 1;
+            }
+
+            if (bestStreamIndex != null) {
+                console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
+                if (streamType == 'Subtitle')
+                    mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
+                if (streamType == 'Audio')
+                    mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
+            } else {
+                console.debug(`AutoSet ${streamType} - Threshold not met. Using default.`);
+            }
+        }
+
+        function autoSetNextTracks(prevSource, mediaSource) {
+            try {
+                if (!prevSource) return;
+
+                if (!mediaSource) {
+                    console.warn('AutoSet - No mediaSource');
+                    return;
+                }
+
+                if (typeof prevSource.DefaultAudioStreamIndex != 'number'
+                    || typeof prevSource.DefaultSubtitleStreamIndex != 'number')
+                    return;
+
+                if (typeof mediaSource.DefaultAudioStreamIndex != 'number'
+                    || typeof mediaSource.DefaultSubtitleStreamIndex != 'number') {
+                    console.warn('AutoSet - No stream indexes (but prevSource has them)');
+                    return;
+                }
+
+                rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
+                rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+            } catch (e) {
+                console.error(`AutoSet - Caught unexpected error: ${e}`);
+            }
+        }
+
+        function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn, prevSource) {
             const startPosition = playOptions.startPositionTicks;
 
             const player = getPlayer(item, playOptions);
@@ -2285,6 +2382,9 @@ class PlaybackManager {
                 playOptions.items = null;
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
+                    if (userSettings.enableSetUsingLastTracks())
+                        autoSetNextTracks(prevSource, mediaSource);
+
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
                     streamInfo.fullscreen = playOptions.fullscreen;
@@ -2643,6 +2743,16 @@ class PlaybackManager {
             return self.previousTrack(player);
         };
 
+        function getPreviousSource(player) {
+            const prevSource = self.currentMediaSource(player);
+            const prevPlayerData = getPlayerData(player);
+            return {
+                ...prevSource,
+                DefaultAudioStreamIndex: prevPlayerData.audioStreamIndex,
+                DefaultSubtitleStreamIndex: prevPlayerData.subtitleStreamIndex
+            };
+        }
+
         self.nextTrack = function (player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
@@ -2658,7 +2768,7 @@ class PlaybackManager {
 
                 playInternal(newItemInfo.item, newItemPlayOptions, function () {
                     setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
-                });
+                }, getPreviousSource(player));
             }
         };
 
@@ -2679,7 +2789,7 @@ class PlaybackManager {
 
                     playInternal(newItem, newItemPlayOptions, function () {
                         setPlaylistState(newItem.PlaylistItemId, newIndex);
-                    });
+                    }, getPreviousSource(player));
                 }
             }
         };
