@@ -1549,5 +1549,6 @@
     "Lyricist": "Parolier",
     "Engineer": "Ingénieur",
     "Conductor": "Conducteur",
-    "Arranger": "Organisateur"
+    "Arranger": "Organisateur",
+    "HeaderSyncPlaySettings": "Paramètres SyncPlay"
 }
