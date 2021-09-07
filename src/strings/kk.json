@@ -1550,5 +1550,17 @@
     "OtherArtist": "Basqa oryndauşy",
     "Lyricist": "Öleñşi",
     "Conductor": "Dirijör",
-    "Arranger": "Körkemdeuşı"
+    "Arranger": "Körkemdeuşı",
+    "LabelSyncPlaySettingsSkipToSync": "SkipToSync qosu",
+    "LabelSyncPlaySettingsSpeedToSync": "SpeedToSync qosu",
+    "LabelSyncPlaySettingsMinDelaySkipToSync": "SkipToSync eñ az kıdırtuı:",
+    "LabelSyncPlaySettingsSpeedToSyncDuration": "SpeedToSync ūzaqtyğy:",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSync": "SpeedToSync eñ köp kıdırtuı:",
+    "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync eñ az kıdırtuı:",
+    "LabelSyncPlaySettingsSyncCorrection": "Ündestıru tüzetuı",
+    "LabelSyncPlaySettingsExtraTimeOffset": "Uaqyttyñ qosymşa yğysuy:",
+    "LabelSyncPlaySettingsDescription": "SyncPlay baptaularyn özgertu",
+    "HeaderSyncPlayTimeSyncSettings": "Uaqyt ündestıru",
+    "HeaderSyncPlayPlaybackSettings": "Oinatu",
+    "HeaderSyncPlaySettings": "SyncPlay parametrlerı"
 }
