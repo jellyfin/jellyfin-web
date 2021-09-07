@@ -1569,5 +1569,10 @@
     "LabelSyncPlaySettingsDescription": "Изменить настройки SyncPlay",
     "HeaderSyncPlayTimeSyncSettings": "Временная синхронизация",
     "HeaderSyncPlayPlaybackSettings": "Воспроизведение",
-    "HeaderSyncPlaySettings": "Параметры SyncPlay"
+    "HeaderSyncPlaySettings": "Параметры SyncPlay",
+    "SetUsingLastTracksHelp": "Попытка задать субтитры / аудиодорожку для ближайшего соответствия к последнему видео.",
+    "SetUsingLastTracks": "Задать субтитры / аудиодорожки с предыдущим элементом",
+    "PreviousChapter": "Предыдущая сцена",
+    "NextChapter": "Следующая сцена",
+    "ErrorPlayerNotFound": "Не найден проигрыватель для запрошенных медиаданных."
 }
