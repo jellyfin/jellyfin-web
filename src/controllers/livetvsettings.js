@@ -60,8 +60,8 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
     const page = this;
     $('.liveTvSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
     $('#btnSelectRecordingPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then((Module) => {
-            const picker = new Module.DirectoryBrowser();
+        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
                     if (path) {
@@ -75,8 +75,8 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
         });
     });
     $('#btnSelectMovieRecordingPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then((Module) => {
-            const picker = new Module.DirectoryBrowser();
+        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
                     if (path) {
@@ -90,8 +90,8 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
         });
     });
     $('#btnSelectSeriesRecordingPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then((Module) => {
-            const picker = new Module.DirectoryBrowser();
+        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
                     if (path) {
@@ -105,8 +105,8 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
         });
     });
     $('#btnSelectPostProcessorPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then((Module) => {
-            const picker = new Module.DirectoryBrowser();
+        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            const picker = new DirectoryBrowser();
             picker.show({
                 includeFiles: true,
                 callback: function (path) {

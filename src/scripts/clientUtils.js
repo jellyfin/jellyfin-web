@@ -7,7 +7,7 @@ import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
 import * as webSettings from './settings/webSettings';
 import datetime from '../scripts/datetime';
-import { DirectoryBrowser } from '../components/directorybrowser/directorybrowser';
+import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
 

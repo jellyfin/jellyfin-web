@@ -162,8 +162,8 @@ import template from './mediaLibraryEditor.template.html';
     }
 
     function showDirectoryBrowser(context, originalPath, networkPath) {
-        import('../directorybrowser/directorybrowser').then((Module) => {
-            const picker = new Module.DirectoryBrowser();
+        import('../directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            const picker = new DirectoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
                 pathReadOnly: originalPath != null,

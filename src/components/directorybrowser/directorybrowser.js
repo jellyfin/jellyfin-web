@@ -309,4 +309,4 @@ import alert from '../alert';
     }
 
 /* eslint-enable indent */
-export {DirectoryBrowser};
+export default DirectoryBrowser;

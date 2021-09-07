@@ -85,7 +85,7 @@ function loadCoreDictionary() {
 
 function init() {
     // This is used in plugins
-    window.events = Events;
+    window.Events = Events;
     window.TaskButton = taskButton;
 
     serverAddress().then(server => {
