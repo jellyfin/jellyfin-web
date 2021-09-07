@@ -1158,7 +1158,7 @@
     "OptionProtocolHttp": "HTTP",
     "OptionRegex": "Reguläre Ausdrücke",
     "OptionSpecialEpisode": "Extras",
-    "OptionTrackName": "Spurname",
+    "OptionTrackName": "Titel",
     "Screenshots": "Bildschirmfotos",
     "Studios": "Studios",
     "TV": "TV",
@@ -1540,5 +1540,16 @@
     "SubtitleCodecNotSupported": "Der Untertitel-Codec wird nicht unterstützt",
     "AudioCodecNotSupported": "Der Audio-Codec wird nicht unterstützt",
     "ContainerNotSupported": "Der Container wird nicht unterstützt",
-    "LabelHardwareEncoding": "Hardwarekodierung:"
+    "LabelHardwareEncoding": "Hardwarekodierung:",
+    "Remixer": "Remixer",
+    "ReleaseGroup": "Veröffentlichungsgruppe",
+    "OtherArtist": "Anderer Künstler",
+    "Mixer": "Mixer",
+    "Lyricist": "Texter",
+    "LabelSyncPlaySettingsDescription": "SyncPlay Einstellungen ändern",
+    "HeaderSyncPlayPlaybackSettings": "Wiedergabe",
+    "HeaderSyncPlaySettings": "SyncPlay Einstellungen",
+    "Engineer": "Toningenieur",
+    "Conductor": "Dirigent",
+    "Arranger": "Arrangeur"
 }
