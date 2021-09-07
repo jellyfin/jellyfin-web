@@ -1539,5 +1539,6 @@
     "LabelSlowResponseEnabled": "Registrar alerta si la respuesta del servidor es lenta",
     "LabelLocalCustomCss": "Estilos CSS personalizados que se aplican sólo a este cliente. Es posible que desee desactivar el CSS personalizado del servidor.",
     "LabelDisableCustomCss": "Desactivar la temática/marca CSS personalizada proporcionada desde el servidor.",
-    "DisableCustomCss": "Desactivar el CSS personalizado proporcionado por el servidor"
+    "DisableCustomCss": "Desactivar el CSS personalizado proporcionado por el servidor",
+    "Production": "Producción"
 }
