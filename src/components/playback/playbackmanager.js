@@ -2154,7 +2154,7 @@ class PlaybackManager {
             }, onInterceptorRejection);
         }
 
-        function onInterceptorRejection() {
+        function cancelPlayback() {
             const player = self._currentPlayer;
 
             if (player) {
@@ -2163,7 +2163,10 @@ class PlaybackManager {
             }
 
             Events.trigger(self, 'playbackcancelled');
+        }
 
+        function onInterceptorRejection() {
+            cancelPlayback();
             return Promise.reject();
         }
 
@@ -2237,6 +2240,15 @@ class PlaybackManager {
                 promise = onPlaybackChanging(activePlayer, player, item);
             } else {
                 promise = Promise.resolve();
+            }
+
+            if (!player) {
+                return promise.then(() => {
+                    cancelPlayback();
+                    loading.hide();
+                    console.error(`No player found for the requested media: ${item.Url}`);
+                    showPlaybackInfoErrorMessage(self, 'ErrorPlayerNotFound');
+                });
             }
 
             if (!isServerItem(item) || item.MediaType === 'Book') {
