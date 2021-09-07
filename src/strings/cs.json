@@ -1572,5 +1572,7 @@
     "HeaderSyncPlaySettings": "Nastavení SyncPlay",
     "SetUsingLastTracksHelp": "Pokusit se nastavit titulky a zvuk co nejblíže poslednímu videu.",
     "SetUsingLastTracks": "Nastavit titulky a zvuk podle předchozí položky",
-    "ErrorPlayerNotFound": "Pro požadované médium nebyl nalezen žádný přehrávač."
+    "ErrorPlayerNotFound": "Pro požadované médium nebyl nalezen žádný přehrávač.",
+    "PreviousChapter": "Předchozí kapitola",
+    "NextChapter": "Další kapitola"
 }
