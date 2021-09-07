@@ -1564,5 +1564,11 @@
     "LabelSyncPlaySettingsDescription": "變更SyncPlay設定",
     "HeaderSyncPlayTimeSyncSettings": "時間同步",
     "HeaderSyncPlayPlaybackSettings": "回放",
-    "HeaderSyncPlaySettings": "SyncPlay設定"
+    "HeaderSyncPlaySettings": "SyncPlay設定",
+    "LabelSyncPlaySettingsSpeedToSync": "啟用SpeedToSync",
+    "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "SkipToSync嘗試校正播放位置後的最小延遲。",
+    "ErrorPlayerNotFound": "找不到這個媒體所需的播放器。",
+    "LabelSyncPlaySettingsSkipToSyncHelp": "同步校正方法包括尋找估計位置。必須啓用同步校正。",
+    "LabelSyncPlaySettingsSkipToSync": "啟用SkipToSync",
+    "LabelSyncPlaySettingsSpeedToSyncHelp": "同步校正方法包括加快播放速度。必須啓用同步校正。"
 }
