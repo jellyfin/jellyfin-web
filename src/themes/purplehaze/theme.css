@@ -105,11 +105,13 @@ progress::-webkit-progress-value {
     background: #ff77f1;
 }
 
+div[data-role=controlgroup] .controlGroupButton.ui-btn-active,
 div[data-role=controlgroup] a.ui-btn-active {
     background: #55828b !important;
     color: #e1e5f2 !important;
 }
 
+.controlGroupButton,
 a[data-role=button] {
     background: rgba(2, 43, 58, 0.521) !important;
 }
@@ -219,6 +221,11 @@ a[data-role=button] {
 .visualCardBox {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 0.8em;
+}
+
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+    border-radius: 0;
 }
 
 .cardOverlayContainer {

@@ -1,6 +1,6 @@
 const path = require('path');
 const common = require('./webpack.common');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {

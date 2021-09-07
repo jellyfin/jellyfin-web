@@ -28,6 +28,7 @@ export default function (view, params) {
         page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#!/mypreferencesplayback.html?userId=' + userId);
         page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#!/mypreferencessubtitles.html?userId=' + userId);
         page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#!/mypreferencesquickconnect.html');
+        page.querySelector('.lnkControlsPreferences').setAttribute('href', '#!/mypreferencescontrols.html?userId=' + userId);
 
         const supportsClientSettings = appHost.supports('clientsettings');
         page.querySelector('.clientSettings').classList.toggle('hide', !supportsClientSettings);
@@ -35,16 +36,17 @@ export default function (view, params) {
         const supportsMultiServer = appHost.supports('multiserver');
         page.querySelector('.selectServer').classList.toggle('hide', !supportsMultiServer);
 
-        ApiClient.getQuickConnect('Status')
-            .then(status => {
-                if (status !== 'Unavailable') {
+        page.querySelector('.lnkControlsPreferences').classList.toggle('hide', layoutManager.mobile);
+
+        ApiClient.getQuickConnect('Enabled')
+            .then(enabled => {
+                if (enabled === true) {
                     page.querySelector('.lnkQuickConnectPreferences').classList.remove('hide');
                 }
             })
             .catch(() => {
                 console.debug('Failed to get QuickConnect status');
             });
-
         ApiClient.getUser(userId).then(function (user) {
             page.querySelector('.headerUsername').innerHTML = user.Name;
             if (user.Policy.IsAdministrator && !layoutManager.tv) {
@@ -56,6 +58,7 @@ export default function (view, params) {
         if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
             page.querySelector('.userSection').classList.add('hide');
             page.querySelector('.adminSection').classList.add('hide');
+            page.querySelector('.lnkControlsPreferences').classList.add('hide');
         }
 
         import('../../../components/autoFocuser').then(({default: autoFocuser}) => {

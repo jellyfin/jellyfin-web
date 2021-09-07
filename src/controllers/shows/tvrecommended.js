@@ -119,6 +119,7 @@ import autoFocuser from '../../components/autoFocuser';
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: container,
                 preferThumb: true,
+                inheritThumb: !userSettings.useEpisodeImagesInNextUpAndResume(),
                 shape: getThumbShape(),
                 scalable: true,
                 overlayPlayButton: true,
@@ -197,6 +198,7 @@ import autoFocuser from '../../components/autoFocuser';
                 parentContainer: section,
                 itemsContainer: container,
                 preferThumb: true,
+                inheritThumb: !userSettings.useEpisodeImagesInNextUpAndResume(),
                 shape: 'backdrop',
                 scalable: true,
                 showTitle: true,

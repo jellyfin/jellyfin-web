@@ -13,6 +13,7 @@
             case 'Kodi':
                 return baseUrl + 'kodi.svg';
             case 'Jellyfin Android':
+            case 'AndroidTV':
             case 'Android TV':
                 return baseUrl + 'android.svg';
             case 'Jellyfin Web':

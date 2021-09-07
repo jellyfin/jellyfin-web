@@ -11,6 +11,7 @@ import viewManager from './viewManager/viewManager';
 import Dashboard from '../scripts/clientUtils';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
+import reactControllerFactory from './reactControllerFactory';
 
 class AppRouter {
     allRoutes = [];
@@ -24,14 +25,23 @@ class AppRouter {
     msgTimeout;
     popstateOccurred = false;
     resolveOnNextShow;
+    previousRoute = {};
     /**
      * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
      */
     startPages = ['home', 'login', 'selectserver'];
 
     constructor() {
-        window.addEventListener('popstate', () => {
-            this.popstateOccurred = true;
+        // WebKit fires a popstate event on document load
+        // Skip it using timeout
+        // For Tizen 2.x
+        // https://stackoverflow.com/a/12214354
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                window.addEventListener('popstate', () => {
+                    this.popstateOccurred = true;
+                });
+            }, 0);
         });
 
         document.addEventListener('viewshow', () => {
@@ -341,7 +351,9 @@ class AppRouter {
             this.sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
 
-        if (route.controller) {
+        if (route.pageComponent) {
+            onInitComplete(reactControllerFactory);
+        } else if (route.controller) {
             import('../controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
@@ -373,6 +385,7 @@ class AppRouter {
             fullscreen: route.fullscreen,
             controllerFactory: controllerFactory,
             options: {
+                pageComponent: route.pageComponent,
                 supportsThemeMedia: route.supportsThemeMedia || false,
                 enableMediaControl: route.enableMediaControl !== false
             },
@@ -621,8 +634,13 @@ class AppRouter {
     getHandler(route) {
         return (ctx, next) => {
             ctx.isBack = this.popstateOccurred;
-            this.handleRoute(ctx, next, route);
             this.popstateOccurred = false;
+
+            const ignore = route.dummyRoute === true || this.previousRoute.dummyRoute === true;
+            this.previousRoute = route;
+            if (ignore) return;
+
+            this.handleRoute(ctx, next, route);
         };
     }
 

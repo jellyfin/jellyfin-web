@@ -52,8 +52,6 @@
     z-index: 1;
     margin: 0 !important;
     top: 6.9em !important;
-    -webkit-transition: -webkit-transform 0.2s ease-out;
-    -o-transition: transform 0.2s ease-out;
     transition: transform 0.2s ease-out;
 }
 
@@ -62,17 +60,14 @@
 }
 
 .headerUserImage {
-    -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
-    -webkit-border-radius: 100em;
     border-radius: 100em;
     display: inline-block;
 }
 
 .headerUserButtonRound div {
-    -webkit-border-radius: 100em;
     border-radius: 100em;
     background-size: cover;
     background-repeat: no-repeat;
@@ -80,7 +75,6 @@
 }
 
 .headerButton {
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
@@ -90,23 +84,15 @@
 
 .headerLeft {
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     overflow: hidden;
     justify-content: flex-start;
 }
 
 .headerRight {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
     justify-content: flex-end;
 }
 
@@ -116,15 +102,10 @@
 }
 
 .pageTitle {
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
     display: inline-flex;
     margin: 0 0 0 0.5em;
     height: 1.7em;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-shrink: 1;
     flex-shrink: 1;
 }
 
@@ -134,21 +115,16 @@
 
 .headerLeft,
 .skinHeader {
-    display: -webkit-box;
-    display: -webkit-flex;
+    display: flex;
 }
 
 .detailButton,
 .skinHeader {
     flex-direction: column;
-    -webkit-flex-direction: column;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
 }
 
 .pageTitleWithLogo {
     background-position: left center;
-    -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
     width: 13.2em;
@@ -194,27 +170,19 @@
 }
 
 .navMenuOption {
-    display: -webkit-box !important;
-    display: -webkit-flex !important;
     display: flex !important;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     text-decoration: none;
     color: inherit;
     padding: 0.9em 0 0.9em 2.4em !important;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     font-weight: 400 !important;
     margin: 0 !important;
-    -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
 }
 
 .navMenuOptionIcon {
     margin-right: 1.2em;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
@@ -229,8 +197,6 @@
 }
 
 .dashboardDocument .skinBody {
-    -webkit-transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
-    -o-transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
     transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
     position: absolute;
     top: 0;
@@ -250,26 +216,6 @@
     padding-bottom: 10vh;
 }
 
-.primaryImageWrapper {
-    display: none;
-}
-
-.primaryImageWrapper > img {
-    display: block;
-    margin: 0 auto;
-    max-width: 80vw;
-    max-height: 50vh;
-}
-
-.primaryImageWrapper > img.aspect-square {
-    max-height: 45vh;
-}
-
-.layout-mobile .primaryImageWrapper {
-    display: block;
-    flex: 1 0 auto;
-}
-
 @media all and (min-width: 40em) {
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
@@ -280,9 +226,7 @@
         z-index: inherit !important;
         left: 0 !important;
         top: 0 !important;
-        -webkit-transform: none !important;
         transform: none !important;
-        -webkit-box-shadow: none !important;
         box-shadow: none !important;
         width: 20.205em !important;
         font-size: 94%;
@@ -317,14 +261,9 @@
     }
 
     .headerTabs {
-        -webkit-align-self: center;
         align-self: center;
         width: auto;
-        -webkit-box-align: center;
-        -webkit-align-items: center;
         align-items: center;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
         justify-content: center;
         position: relative;
         margin-top: -4.3em;
@@ -381,8 +320,6 @@
 }
 
 .flexPageTabContent.is-active {
-    display: -webkit-box !important;
-    display: -webkit-flex !important;
     display: flex !important;
 }
 
@@ -403,13 +340,17 @@
     margin: 1.5em 0;
     background: #222;
     padding: 0.8em 0.8em 0.8em 3em;
-    -webkit-border-radius: 0.3em;
     border-radius: 0.3em;
     position: relative;
 }
 
-.detailLogo,
-.itemBackdrop {
+.detailLogo {
+    width: 25vw;
+    height: 16vh;
+    position: absolute;
+    top: 10vh;
+    right: 25vw;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
 }
@@ -462,30 +403,33 @@
 }
 
 .itemBackdrop {
-    -webkit-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center 0;
     background-attachment: fixed;
     height: 40vh;
     position: relative;
     animation: backdrop-fadein 800ms ease-in normal both;
+
+    .layout-mobile & {
+        background-attachment: initial;
+        margin-top: 3rem;
+
+        @media all and (orientation: portrait) and (max-width: 40em) {
+            height: 30vh;
+        }
+    }
+
+    .layout-desktop &::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.65);
+        display: block;
+    }
 }
 
-.layout-mobile .itemBackdrop {
-    display: none;
-}
-
-.layout-desktop .itemBackdrop::after {
-    content: "";
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.65);
-    display: block;
-}
-
-.layout-tv .itemBackdrop,
-.layout-desktop .noBackdrop .itemBackdrop {
+.layout-tv .itemBackdrop {
     display: none;
 }
 
@@ -494,26 +438,18 @@
     flex-direction: column;
     padding-left: 32.45vw;
     padding-right: 2%;
-}
 
-.layout-mobile .detailPageContent {
-    padding-left: 5%;
-    padding-right: 5%;
-}
+    .layout-mobile & {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
 
-.layout-desktop .detailPageContent .emby-scroller,
-.layout-tv .detailPageContent .emby-scroller {
-    margin-left: 0;
-}
-
-.layout-desktop .noBackdrop .detailPageContent,
-.layout-tv .noBackdrop .detailPageContent {
-    margin-top: 2.5em;
-}
-
-.layout-desktop .noBackdrop .detailImageContainer img,
-.layout-tv .noBackdrop .detailImageContainer img {
-    margin-top: 0;
+    .layout-desktop &,
+    .layout-tv & {
+        .emby-scroller {
+            margin-left: 0;
+        }
+    }
 }
 
 .detailSectionContent a {
@@ -559,8 +495,6 @@
 
 .mainDetailButtons {
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     margin: 1em 0;
 }
@@ -568,13 +502,19 @@
 .detailButton,
 .mainDetailButtons {
     display: flex;
-    display: -webkit-box;
-    display: -webkit-flex;
 }
 
 .itemName {
     margin: 0.5em 0;
     font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    .layout-mobile & {
+        white-space: normal;
+        overflow: visible;
+    }
 }
 
 .itemName.originalTitle {
@@ -613,14 +553,19 @@
 }
 
 .itemMiscInfo {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
+
+    .layout-mobile & {
+        @media all and (orientation: portrait) and (max-width: 40em) {
+            margin-bottom: 0 !important;
+
+            .mediaInfoItem {
+                margin-top: 0.5em;
+            }
+        }
+    }
 }
 
 .layout-mobile .parentName,
@@ -633,9 +578,14 @@
 }
 
 .layout-mobile .mainDetailButtons {
-    flex: 2 0 70%;
-    margin-top: 0.5em;
+    margin-top: 1em;
     margin-bottom: 0.5em;
+    margin-left: 37.5%;
+
+    @media all and (max-width: 32em) {
+        margin-bottom: 0;
+        margin-left: 0;
+    }
 }
 
 .subtitle {
@@ -651,23 +601,22 @@
     align-items: center;
     align-content: center;
     z-index: 2;
-}
 
-.layout-tv .detailPagePrimaryContainer {
-    display: block;
-}
+    .layout-mobile & {
+        display: block;
+        position: relative;
+        padding: 0.5rem 5%;
+    }
 
-.layout-mobile .detailPagePrimaryContainer {
-    flex-wrap: wrap;
-    position: relative;
-    padding: 4.5rem 3.3% 0.5rem;
-}
+    .layout-desktop & {
+        position: relative;
+        padding-left: 32.45vw;
+    }
 
-.layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
-.layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
-    position: relative;
-    top: 0;
-    padding-left: 32.45vw;
+    .layout-tv & {
+        display: block;
+        padding-left: 32.45vw;
+    }
 }
 
 .layout-desktop .detailRibbon {
@@ -680,30 +629,24 @@
     height: inherit;
 }
 
-.layout-desktop .noBackdrop .detailRibbon,
-.layout-tv .noBackdrop .detailRibbon {
-    margin-top: 0;
-}
-
 .infoWrapper {
+    min-width: 0;
+    max-width: 100%;
     flex: 1 0 0;
-}
 
-.layout-mobile .infoWrapper {
-    flex: 2 0 70%;
+    .layout-mobile & {
+        padding-left: 37.5%;
+
+        @media all and (max-width: 32em) {
+            position: relative;
+        }
+    }
 }
 
 .infoText {
-    white-space: nowrap;
-    text-overflow: ellipsis;
     text-align: left;
     min-width: 0;
     max-width: 100%;
-    overflow: hidden;
-}
-
-.layout-mobile .infoText {
-    white-space: normal;
 }
 
 .detailPageSecondaryContainer {
@@ -714,46 +657,63 @@
     margin: 1em 0;
 }
 
-.layout-mobile .detailImageContainer {
-    display: none;
-}
-
 .detailImageContainer .card {
-    position: absolute;
-    top: 50%;
-    float: left;
-    width: 25vw;
+    // important is needed here to override :focus setting
+    // the position to relative in the tv layout
+    position: absolute !important;
+    top: 20%;
+    max-width: 25vw;
+    max-height: 80vh;
     z-index: 3;
-    transform: translateY(-50%);
-}
 
-.detailImageContainer .card.backdropCard {
-    top: 35%;
-}
+    .cardBox {
+        margin: 0;
+    }
 
-.detailImageContainer .card.squareCard {
-    top: 40%;
-}
+    &.backdropCard {
+        top: 35%;
+    }
 
-.layout-desktop .noBackdrop .detailImageContainer,
-.layout-tv .noBackdrop .detailImageContainer {
-    margin-top: 0;
+    &.squareCard {
+        top: 40%;
+    }
+
+    .layout-mobile & {
+        left: 5%;
+        bottom: 1rem;
+        max-width: 30vw;
+        filter: drop-shadow(0 0 0.5rem #000);
+
+        @media all and (max-width: 32em) {
+            left: 0;
+            bottom: 0;
+        }
+
+        &,
+        &.backdropCard,
+        &.squareCard {
+            top: auto;
+        }
+    }
+
+    .layout-desktop & {
+        left: 3.3%;
+        top: -80%;
+        width: 25vw;
+    }
+
+    .layout-tv & {
+        left: 5%;
+        top: 50%;
+        width: 25vw;
+        transform: translateY(-50%);
+    }
 }
 
 .detailPagePrimaryContent {
     position: relative;
 }
 
-.detailLogo {
-    width: 25vw;
-    height: 16vh;
-    position: absolute;
-    top: 10vh;
-    right: 25vw;
-    background-size: contain;
-}
-
-.noBackdrop .detailLogo,
 .layout-mobile .detailLogo {
     display: none;
 }
@@ -766,7 +726,6 @@
 
 .itemDetailImage {
     width: 100% !important;
-    -webkit-box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
     box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
 }
 
@@ -873,7 +832,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .recordingFields button {
     margin-left: 0;
     margin-right: 0.5em;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
@@ -884,11 +842,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .detailButton {
     display: flex;
     flex-direction: column;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     margin: 0 !important;
     padding: 0.7em 0.7em !important;
@@ -916,18 +870,9 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .detailButton-content {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
 }
 
@@ -984,8 +929,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 @media all and (max-width: 31.25em) {
     .mobileDetails .itemMiscInfo {
         text-align: center;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
         justify-content: center;
     }
 
@@ -1005,11 +948,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
-}
-
-.layout-desktop .noBackdrop .detailPageWrapperContainer,
-.layout-tv .noBackdrop .detailPageWrapperContainer {
-    margin-top: 3.8em;
 }
 
 .mediaInfoStream {
@@ -1071,14 +1009,9 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .mediaInfoIcons {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     margin: 1em 0;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 
@@ -1126,7 +1059,6 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .sectionTitleButton {
     margin-left: 1.5em !important;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
@@ -1136,22 +1068,17 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .sectionTitleIconButton {
     margin-left: 1.5em !important;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
     font-size: 84% !important;
     padding: 0.5em !important;
 }
 
 .horizontalItemsContainer {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
 }
 
 .sectionTitleTextButton {
     margin: 0 !important;
-    display: -webkit-inline-box !important;
-    display: -webkit-inline-flex !important;
     display: inline-flex !important;
     color: inherit !important;
 }
@@ -1219,8 +1146,6 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .itemsViewSettingsContainer {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
 }
 
@@ -1245,7 +1170,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .itemDetailsGroup {
-    margin-bottom: 1.5em;
+    margin-top: 1.5em;
 }
 
 .trackSelections {

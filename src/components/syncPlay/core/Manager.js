@@ -47,12 +47,8 @@ class Manager {
      * @param {Object} apiClient The ApiClient.
      */
     init(apiClient) {
-        if (!apiClient) {
-            throw new Error('ApiClient is null!');
-        }
-
         // Set ApiClient.
-        this.apiClient = apiClient;
+        this.updateApiClient(apiClient);
 
         // Get default player wrapper.
         this.playerWrapper = this.playerFactory.getDefaultWrapper(this);
@@ -71,6 +67,18 @@ class Manager {
                 });
             }
         });
+    }
+
+    /**
+     * Update active ApiClient.
+     * @param {Object} apiClient The ApiClient.
+     */
+    updateApiClient(apiClient) {
+        if (!apiClient) {
+            throw new Error('ApiClient is null!');
+        }
+
+        this.apiClient = apiClient;
     }
 
     /**

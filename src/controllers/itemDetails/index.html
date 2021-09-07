@@ -1,15 +1,12 @@
 <div id="itemDetailPage" data-role="page" class="page libraryPage itemDetailPage noSecondaryNavPage selfBackdropPage" data-backbutton="true">
-    <div id="itemBackdrop" class="itemBackdrop">
-    </div>
+    <div id="itemBackdrop" class="itemBackdrop"></div>
 
     <div class="detailLogo"></div>
+
     <div class="detailPageWrapperContainer padded-bottom-page">
         <div class="detailPagePrimaryContainer padded-left padded-right">
-            <div class="primaryImageWrapper hide">
-                <img id="primaryImage" />
-            </div>
-
-            <div class="infoWrapper infoText">
+            <div class="infoWrapper">
+                <div class="detailImageContainer padded-left"></div>
                 <div class="nameContainer"></div>
                 <div class="itemMiscInfo itemMiscInfo-primary" style="margin-bottom: 0.6em;"></div>
                 <div class="itemMiscInfo itemMiscInfo-secondary" style="margin-bottom: 0.6em;"></div>
@@ -90,28 +87,10 @@
             </div>
         </div>
         <div class="detailPageSecondaryContainer">
-            <div class="detailImageContainer padded-left"></div>
             <div class="detailPageContent">
                 <div class="detailPagePrimaryContent padded-right">
                     <div class="detailSection">
                         <div class="itemMiscInfo nativeName hide"></div>
-
-                        <div class="itemDetailsGroup">
-                            <div class="detailsGroupItem genresGroup hide">
-                                <div class="genresLabel label"></div>
-                                <div class="genres content focuscontainer-x"></div>
-                            </div>
-
-                            <div class="detailsGroupItem directorsGroup hide">
-                                <div class="directorsLabel label"></div>
-                                <div class="directors content focuscontainer-x"></div>
-                            </div>
-
-                            <div class="detailsGroupItem writersGroup hide">
-                                <div class="writersLabel label"></div>
-                                <div class="writers content focuscontainer-x"></div>
-                            </div>
-                        </div>
 
                         <form class="trackSelections hide focuscontainer-x">
                             <div class="selectContainer selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero">
@@ -129,6 +108,7 @@
                         </form>
 
                         <div class="recordingFields hide" style="margin: 0.5em 0 1.5em;"></div>
+
                         <div class="detailSectionContent">
                             <div class="itemLastPlayed hide"></div>
 
@@ -146,6 +126,23 @@
                             <div class="itemTags focuscontainer-x hide" style="margin: 0.7em 0; font-size: 92%;"></div>
                             <div class="itemExternalLinks focuscontainer-x hide" style="margin: 0.7em 0; font-size: 92%;"></div>
                             <div class="seriesRecordingEditor"></div>
+                        </div>
+
+                        <div class="itemDetailsGroup">
+                            <div class="detailsGroupItem genresGroup hide">
+                                <div class="genresLabel label"></div>
+                                <div class="genres content focuscontainer-x"></div>
+                            </div>
+
+                            <div class="detailsGroupItem directorsGroup hide">
+                                <div class="directorsLabel label"></div>
+                                <div class="directors content focuscontainer-x"></div>
+                            </div>
+
+                            <div class="detailsGroupItem writersGroup hide">
+                                <div class="writersLabel label"></div>
+                                <div class="writers content focuscontainer-x"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

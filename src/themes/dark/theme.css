@@ -127,6 +127,10 @@ html {
     background-color: #202020;
 }
 
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+}
+
 .defaultCardBackground1 {
     background-color: #00455c;
 }
@@ -224,10 +228,6 @@ html {
 
 .layout-tv .detailRibbon {
     background: none;
-}
-
-.noBackdrop .detailRibbon {
-    background: #202020;
 }
 
 .listItem-border {

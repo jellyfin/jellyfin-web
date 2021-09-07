@@ -26,8 +26,13 @@ export async function serverAddress() {
     // Use servers specified in config.json
     const urls = await webSettings.getServers();
 
-    // Otherwise use computed base URL
-    if (urls.length == 0) {
+    if (urls.length === 0) {
+        // Don't use app URL as server URL
+        if (window.NativeShell) {
+            return Promise.resolve();
+        }
+
+        // Otherwise use computed base URL
         const index = window.location.href.toLowerCase().lastIndexOf('/web');
         if (index != -1) {
             urls.push(window.location.href.substring(0, index));

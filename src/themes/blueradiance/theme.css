@@ -139,6 +139,10 @@ html {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+}
+
 .defaultCardBackground1 {
     background-color: #213440;
 }
