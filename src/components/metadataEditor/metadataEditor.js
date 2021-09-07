@@ -694,7 +694,7 @@ import template from './metadataEditor.template.html';
             showElement('#fldDisplayOrder', context);
             showElement('.seriesDisplayOrderDescription', context);
 
-            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="">' + globalize.translate('Aired') + '</option><option value="absolute">' + globalize.translate('Absolute') + '</option><option value="dvd">Dvd</option>';
+            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="">' + globalize.translate('Aired') + '</option><option value="absolute">' + globalize.translate('Absolute') + '</option><option value="dvd">DVD</option>' + '</option><option value="production">' + globalize.translate('Production') + '</option><option value="tv">TV</option>';
         } else {
             context.querySelector('#selectDisplayOrder').innerHTML = '';
             hideElement('#fldDisplayOrder', context);
