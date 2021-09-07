@@ -1549,5 +1549,20 @@
     "Lyricist": "作詞",
     "Engineer": "工程師",
     "Conductor": "指揮",
-    "Arranger": "編曲"
+    "Arranger": "編曲",
+    "LabelSyncPlaySettingsMinDelaySkipToSync": "SkipToSync 最低延遲:",
+    "LabelSyncPlaySettingsSpeedToSyncDurationHelp": "使用SpeedToSync來校正播放位置所需的時間。",
+    "LabelSyncPlaySettingsSpeedToSyncDuration": "SpeedToSync長度:",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "在最大值的播放延遲後將SpeedToSync轉為採用SkipToSync。",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSync": "SpeedToSync最大延遲:",
+    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "在SpeedToSync嘗試校正播放位置後的最低播放延遲。",
+    "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync最低延遲:",
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "透過加速媒體或透過尋找大概位置來啓用播放的主動同步。在嚴重卡頓時請不要開啟這個功能。",
+    "LabelSyncPlaySettingsSyncCorrection": "同步校正",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "手動調整與所選的時間同步裝置的時間偏移。小心調整。",
+    "LabelSyncPlaySettingsExtraTimeOffset": "額外時間偏移:",
+    "LabelSyncPlaySettingsDescription": "變更SyncPlay設定",
+    "HeaderSyncPlayTimeSyncSettings": "時間同步",
+    "HeaderSyncPlayPlaybackSettings": "回放",
+    "HeaderSyncPlaySettings": "SyncPlay設定"
 }
