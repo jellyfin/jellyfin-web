@@ -181,6 +181,14 @@ import { appRouter } from '../../../components/appRouter';
             } else {
                 view.querySelector('.btnAudio').classList.add('hide');
             }
+
+            if (currentItem.Chapters.length > 1) {
+                view.querySelector('.btnPreviousChapter').classList.remove('hide');
+                view.querySelector('.btnNextChapter').classList.remove('hide');
+            } else {
+                view.querySelector('.btnPreviousChapter').classList.add('hide');
+                view.querySelector('.btnNextChapter').classList.add('hide');
+            }
         }
 
         function setTitle(item, parentName) {
@@ -1513,8 +1521,14 @@ import { appRouter } from '../../../components/appRouter';
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
             playbackManager.previousTrack(currentPlayer);
         });
+        view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
+            playbackManager.previousChapter(currentPlayer);
+        });
         view.querySelector('.btnPause').addEventListener('click', function () {
             playbackManager.playPause(currentPlayer);
+        });
+        view.querySelector('.btnNextChapter').addEventListener('click', function () {
+            playbackManager.nextChapter(currentPlayer);
         });
         view.querySelector('.btnNextTrack').addEventListener('click', function () {
             playbackManager.nextTrack(currentPlayer);
