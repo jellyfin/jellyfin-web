@@ -1,5 +1,7 @@
-import * as userSettings from './settings/userSettings';
 import { Events } from 'jellyfin-apiclient';
+import isEmpty from 'lodash-es/isEmpty';
+
+import * as userSettings from './settings/userSettings';
 
 /* eslint-disable indent */
 
@@ -189,7 +191,11 @@ import { Events } from 'jellyfin-apiclient';
             dictionary = getDictionary(module, fallbackCulture);
         }
         if (!dictionary || !dictionary[key]) {
-            console.error(`Translation key is missing from dictionary: ${key}`);
+            if (dictionary && isEmpty(dictionary)) {
+                console.warn('Translation dictionary is empty.');
+            } else {
+                console.error(`Translation key is missing from dictionary: ${key}`);
+            }
             return key;
         }
         return dictionary[key];
