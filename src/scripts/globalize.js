@@ -187,18 +187,22 @@ import * as userSettings from './settings/userSettings';
 
     function translateKeyFromModule(key, module) {
         let dictionary = getDictionary(module, getCurrentLocale());
-        if (!dictionary || !dictionary[key]) {
-            dictionary = getDictionary(module, fallbackCulture);
+        if (dictionary && dictionary[key]) {
+            return dictionary[key];
         }
-        if (!dictionary || !dictionary[key]) {
-            if (dictionary && isEmpty(dictionary)) {
-                console.warn('Translation dictionary is empty.');
-            } else {
-                console.error(`Translation key is missing from dictionary: ${key}`);
-            }
-            return key;
+
+        dictionary = getDictionary(module, fallbackCulture);
+        if (dictionary && dictionary[key]) {
+            return dictionary[key];
         }
-        return dictionary[key];
+
+        if (!dictionary || isEmpty(dictionary)) {
+            console.warn('Translation dictionary is empty.');
+        } else {
+            console.error(`Translation key is missing from dictionary: ${key}`);
+        }
+
+        return key;
     }
 
     function replaceAll(str, find, replace) {
