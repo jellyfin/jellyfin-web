@@ -263,9 +263,7 @@ import '../../elements/emby-button/emby-button';
                 if (totalHours > 0) {
                     result.push(`${totalHours}h`);
                 }
-                if (totalMinutes > 0) {
-                    result.push(`${remainderMinutes}m`);
-                }
+                result.push(`${remainderMinutes}m`);
                 miscInfo.push(result.join(' '));
             }
         }
