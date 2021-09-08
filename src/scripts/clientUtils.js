@@ -6,6 +6,10 @@ import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
 import * as webSettings from './settings/webSettings';
+import datetime from '../scripts/datetime';
+import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
+import dialogHelper from '../components/dialogHelper/dialogHelper';
+import itemIdentifier from '../components/itemidentifier/itemidentifier';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -92,6 +96,12 @@ export function logout() {
 
 export function getPluginUrl(name) {
     return 'configurationpage?name=' + encodeURIComponent(name);
+}
+
+export function getConfigurationResourceUrl(name) {
+    return ApiClient.getUrl('web/ConfigurationPage', {
+        name: name
+    });
 }
 
 export function navigate(url, preserveQueryString) {
@@ -204,6 +214,7 @@ const Dashboard = {
     capabilities,
     confirm,
     getPluginUrl,
+    getConfigurationResourceUrl,
     getCurrentUser,
     getCurrentUserId,
     hideLoadingMsg,
@@ -215,7 +226,11 @@ const Dashboard = {
     processServerConfigurationUpdateResult,
     selectServer,
     serverAddress,
-    showLoadingMsg
+    showLoadingMsg,
+    datetime,
+    DirectoryBrowser,
+    dialogHelper,
+    itemIdentifier
 };
 
 // This is used in plugins and templates, so keep it defined for now.

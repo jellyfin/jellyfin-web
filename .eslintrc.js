@@ -100,6 +100,7 @@ module.exports = {
                 'jQuery': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'writable',
+                'Events': 'writable',
                 'chrome': 'writable',
                 'DlnaProfilePage': 'writable',
                 'DashboardPage': 'writable',
@@ -115,6 +116,8 @@ module.exports = {
                 'Loading': 'writable',
                 'MetadataEditor': 'writable',
                 'PlaylistViewer': 'writable',
+                'ServerNotifications': 'writable',
+                'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'
             },
