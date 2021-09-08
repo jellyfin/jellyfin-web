@@ -1550,5 +1550,10 @@
     "Engineer": "Ingénieur",
     "Conductor": "Conducteur",
     "Arranger": "Organisateur",
-    "HeaderSyncPlaySettings": "Paramètres SyncPlay"
+    "HeaderSyncPlaySettings": "Paramètres SyncPlay",
+    "NextChapter": "Chapitre suivant",
+    "PreviousChapter": "Chapitre précédent",
+    "LabelSyncPlaySettingsDescription": "Modifier les paramètres SyncPlay",
+    "HeaderSyncPlayPlaybackSettings": "Lecture",
+    "ErrorPlayerNotFound": "Aucun lecteur trouvé pour le média sélectionné."
 }
