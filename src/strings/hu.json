@@ -1569,5 +1569,10 @@
     "LabelSyncPlaySettingsDescription": "A SyncPlay beállításainak módosítása",
     "HeaderSyncPlayTimeSyncSettings": "Idő szinkron",
     "HeaderSyncPlayPlaybackSettings": "Lejátszás",
-    "HeaderSyncPlaySettings": "SyncPlay beállítások"
+    "HeaderSyncPlaySettings": "SyncPlay beállítások",
+    "SetUsingLastTracksHelp": "Próbálja meg a felirat/audio sávot az utolsó videóhoz legközelebb eső értékre állítani.",
+    "SetUsingLastTracks": "Állítsa be a felirat-/hanganyagokat az előző tétellel",
+    "PreviousChapter": "Előző fejezet",
+    "NextChapter": "Következő fejezet",
+    "ErrorPlayerNotFound": "Nem található lejátszó a kért médiához."
 }
