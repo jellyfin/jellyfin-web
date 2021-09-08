@@ -172,6 +172,8 @@ export default function (options) {
 
             html += '<div class="topActionButtons">';
             if (actionButtonsOnTop) {
+                html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
+
                 if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
