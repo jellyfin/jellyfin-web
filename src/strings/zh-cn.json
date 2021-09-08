@@ -1569,5 +1569,10 @@
     "HeaderSyncPlayPlaybackSettings": "回放",
     "HeaderSyncPlaySettings": "SyncPlay设置",
     "Engineer": "工程师",
-    "Conductor": "指挥"
+    "Conductor": "指挥",
+    "SetUsingLastTracksHelp": "尝试将字幕/音轨设置为与上一个视频最接近的匹配。",
+    "SetUsingLastTracks": "根据上次使用的选项设置字幕/音轨",
+    "PreviousChapter": "上一章",
+    "NextChapter": "下一章",
+    "ErrorPlayerNotFound": "未找到所请求媒体的播放器。"
 }
