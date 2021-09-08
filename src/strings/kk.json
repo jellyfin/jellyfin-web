@@ -1562,5 +1562,18 @@
     "LabelSyncPlaySettingsDescription": "SyncPlay baptaularyn özgertu",
     "HeaderSyncPlayTimeSyncSettings": "Uaqyt ündestıru",
     "HeaderSyncPlayPlaybackSettings": "Oinatu",
-    "HeaderSyncPlaySettings": "SyncPlay parametrlerı"
+    "HeaderSyncPlaySettings": "SyncPlay parametrlerı",
+    "SetUsingLastTracksHelp": "Subtitr/dybys jolşyqty soñğy beinege eñ jaqyn säikestıkke ornatudy äreketteu.",
+    "SetUsingLastTracks": "Aldyñğy tarmaq arqyly subtitr/dybys jolşyqtardy ornaty",
+    "PreviousChapter": "Aldynğy sahna",
+    "NextChapter": "Kelesı sahna",
+    "LabelSyncPlaySettingsSkipToSyncHelp": "Boljamdy jaiğasymdy ızdeuden tūratyn ündestırudı tüzetu ädısı. Ündestırudy tüzetu qosyluy qajet.",
+    "LabelSyncPlaySettingsSpeedToSyncHelp": "Oinatudy jyldamdatudan tūratyn ündestırudı tüzetu ädısı. Ündestırudı tüzetu qosyluy qajet.",
+    "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "Eñ az oinatu kıdırısı, sodan keiın SkipToSync oinatu jaiğasymyn tüzetuge tyrysady.",
+    "LabelSyncPlaySettingsSpeedToSyncDurationHelp": "Oinatu jaiğasymyn tüzetu üşın SpeedToSync qoldanatyn uaqyt mölşerı.",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Eñ köp oinatu kıdırısı, sodan keiın SpeedToSync ornyna SkipToSync paidalanylady.",
+    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "Eñ az oinatu kıdırısı, sodan keiın SpeedToSync oinatu jaiğasymyn tüzetuge tyrysady.",
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "Tasyğyşderekterdı jyldamdatu nemese boljamdy jaiğasymdy ızdeu arqyly oinatudy belsendı ündetsıruın qosu. Auyr tūtyğu jağdaiynda ony öşırıñız.",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Uaqyt ündestıru üşın tañdalğan qūrylğy arqyly uaqyt yğysuyn qolmen laiyqtau. Mūqiat qadağalap retteñız.",
+    "ErrorPlayerNotFound": "Saual salynğan tasyğyşderekter üşın oinatqyş tabylmady."
 }
