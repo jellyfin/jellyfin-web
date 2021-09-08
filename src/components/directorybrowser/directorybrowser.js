@@ -244,7 +244,6 @@ function getDefaultPath(options) {
 let systemInfo;
 class DirectoryBrowser {
         currentDialog;
-        constructor() {}
 
         show = options => {
             options = options || {};
