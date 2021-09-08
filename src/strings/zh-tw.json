@@ -1570,5 +1570,9 @@
     "ErrorPlayerNotFound": "找不到這個媒體所需的播放器。",
     "LabelSyncPlaySettingsSkipToSyncHelp": "同步校正方法包括尋找估計位置。必須啓用同步校正。",
     "LabelSyncPlaySettingsSkipToSync": "啟用SkipToSync",
-    "LabelSyncPlaySettingsSpeedToSyncHelp": "同步校正方法包括加快播放速度。必須啓用同步校正。"
+    "LabelSyncPlaySettingsSpeedToSyncHelp": "同步校正方法包括加快播放速度。必須啓用同步校正。",
+    "SetUsingLastTracksHelp": "嘗試用最接近前一個影片的設定去設定字幕與音軌。",
+    "SetUsingLastTracks": "以前一個項目設定字幕/音軌",
+    "PreviousChapter": "前一章節",
+    "NextChapter": "下一章節"
 }
