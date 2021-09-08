@@ -349,7 +349,7 @@ export default function (options) {
                 minRatio: 1,
                 toggle: true
             },
-            autoplay: !options.interactive,
+            autoplay: !options.interactive || !!options.autoplay,
             keyboard: {
                 enabled: true
             },
@@ -378,6 +378,8 @@ export default function (options) {
         if (useFakeZoomImage) {
             swiperInstance.on('zoomChange', onZoomChange);
         }
+
+        if (swiperInstance.autoplay?.running) onAutoplayStart();
     }
 
     /**
