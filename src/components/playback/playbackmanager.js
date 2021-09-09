@@ -1823,6 +1823,15 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
                 });
+            } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+                    ParentId: firstItem.Id,
+                    Filters: 'IsNotFolder',
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    MediaTypes: 'Photo,Video',
+                    Limit: 1000
+                }, queryOptions));
             } else if (firstItem.IsFolder) {
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
