@@ -618,21 +618,6 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
             } else {
                 return isHostReachable(mediaSource, apiClient);
             }
-        } else if (mediaSource.Protocol === 'File') {
-            return new Promise(function (resolve) {
-                // Determine if the file can be accessed directly
-                import('../../scripts/filesystem').then((filesystem) => {
-                    const method = isFolderRip ?
-                        'directoryExists' :
-                        'fileExists';
-
-                    filesystem[method](mediaSource.Path).then(function () {
-                        resolve(true);
-                    }, function () {
-                        resolve(false);
-                    });
-                });
-            });
         }
     }
 
@@ -2481,7 +2466,7 @@ class PlaybackManager {
                     // Only used for audio
                     playMethod = 'Transcode';
                     mediaUrl = mediaSource.StreamUrl;
-                } else if (mediaSource.SupportsDirectStream) {
+                } else if (mediaSource.SupportsDirectPlay || mediaSource.SupportsDirectStream) {
                     directOptions = {
                         Static: true,
                         mediaSourceId: mediaSource.Id,
@@ -2500,7 +2485,7 @@ class PlaybackManager {
                     const prefix = type === 'Video' ? 'Videos' : 'Audio';
                     mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
 
-                    playMethod = 'DirectStream';
+                    playMethod = mediaSource.SupportsDirectPlay ? 'DirectPlay' : 'DirectStream';
                 } else if (mediaSource.SupportsTranscoding) {
                     mediaUrl = apiClient.getUrl(mediaSource.TranscodingUrl);
 
