@@ -618,21 +618,6 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
             } else {
                 return isHostReachable(mediaSource, apiClient);
             }
-        } else if (mediaSource.Protocol === 'File') {
-            return new Promise(function (resolve) {
-                // Determine if the file can be accessed directly
-                import('../../scripts/filesystem').then((filesystem) => {
-                    const method = isFolderRip ?
-                        'directoryExists' :
-                        'fileExists';
-
-                    filesystem[method](mediaSource.Path).then(function () {
-                        resolve(true);
-                    }, function () {
-                        resolve(false);
-                    });
-                });
-            });
         }
     }
 
