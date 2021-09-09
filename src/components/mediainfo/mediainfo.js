@@ -108,7 +108,7 @@ import '../../elements/emby-button/emby-button';
         let date;
         let count;
 
-        const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
+        const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.Type === 'Playlist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
 
         if (showFolderRuntime) {
             count = item.SongCount || item.ChildCount;
