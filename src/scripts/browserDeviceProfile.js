@@ -387,7 +387,7 @@ import browser from './browser';
             videoAudioCodecs.push('mp2');
         }
 
-        let supportsDts = browser.tizen || browser.web0s || options.supportsDts || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
+        let supportsDts = browser.tizen || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
         // DTS audio not supported in 2018 models (Tizen 4.0)
         if (browser.tizenVersion >= 4) {
