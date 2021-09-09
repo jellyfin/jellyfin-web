@@ -666,12 +666,14 @@ class ItemsView {
 
             if (currentItem && !self.hasFilters) {
                 playbackManager.play({
-                    items: [currentItem]
+                    items: [currentItem],
+                    autoplay: true
                 });
             } else {
                 getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
                     playbackManager.play({
-                        items: result.Items
+                        items: result.Items,
+                        autoplay: true
                     });
                 });
             }
@@ -701,7 +703,8 @@ class ItemsView {
             } else {
                 getItems(self, self.params, currentItem, 'Random', null, 300).then(function (result) {
                     playbackManager.play({
-                        items: result.Items
+                        items: result.Items,
+                        autoplay: true
                     });
                 });
             }

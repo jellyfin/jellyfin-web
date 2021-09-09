@@ -22,6 +22,8 @@ export default class PhotoPlayer {
                         startIndex: index,
                         interval: 11000,
                         interactive: true,
+                        // playbackManager.shuffle has no options. So treat 'shuffle' as a 'play' action
+                        autoplay: options.autoplay || options.shuffle,
                         user: result
                     });
 
