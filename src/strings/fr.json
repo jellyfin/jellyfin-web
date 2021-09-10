@@ -1572,5 +1572,8 @@
     "LabelSyncPlaySettingsSyncCorrection": "Correction temporelle",
     "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Ajuster manuellement le décalage temporel avec l'appareil sélectionné pour la synchronisation temporelle. À utiliser avec précaution.",
     "LabelSyncPlaySettingsExtraTimeOffset": "Décalage temporel supplémentaire :",
-    "HeaderSyncPlayTimeSyncSettings": "Synchronisation temporelle"
+    "HeaderSyncPlayTimeSyncSettings": "Synchronisation temporelle",
+    "LabelSortName": "Nom de tri :",
+    "LabelOriginalName": "Nom original :",
+    "AgeValue": "({0} ans)"
 }
