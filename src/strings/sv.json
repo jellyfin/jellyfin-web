@@ -1540,5 +1540,18 @@
     "LabelLocalCustomCss": "Unik CSS styling som enbart appliceras på denna klienten. Det rekommenderas att inaktivera server unik CSS.",
     "LabelDisableCustomCss": "Inaktivera unikt CSS tema försedd av servern.",
     "DisableCustomCss": "Inaktivera Server-försedd Custom CSS",
-    "LabelHardwareEncoding": "Hårdvaraomkodning:"
+    "LabelHardwareEncoding": "Hårdvaraomkodning:",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Justera tidsförskjutning manuellt med vald enhet for tidssynkronisering.",
+    "LabelSyncPlaySettingsExtraTimeOffset": "Extra tidsförskjutning:",
+    "LabelSyncPlaySettingsDescription": "Ändra SyncPlayinställningar",
+    "LabelSortName": "Sortera namn:",
+    "LabelOriginalName": "Originaltitel:",
+    "HeaderSyncPlayTimeSyncSettings": "Tidssynkronisering",
+    "HeaderSyncPlayPlaybackSettings": "Uppspelning",
+    "HeaderSyncPlaySettings": "SyncPlayinställningar",
+    "ErrorPlayerNotFound": "Ingen spelare hittad för det efterfrågade mediet.",
+    "Engineer": "Ingenjör",
+    "Conductor": "Dirigent",
+    "Arranger": "Arrangör",
+    "AgeValue": "år gammal"
 }
