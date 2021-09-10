@@ -1575,5 +1575,8 @@
     "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "Eñ az oinatu kıdırısı, sodan keiın SpeedToSync oinatu jaiğasymyn tüzetuge tyrysady.",
     "LabelSyncPlaySettingsSyncCorrectionHelp": "Tasyğyşderekterdı jyldamdatu nemese boljamdy jaiğasymdy ızdeu arqyly oinatudy belsendı ündetsıruın qosu. Auyr tūtyğu jağdaiynda ony öşırıñız.",
     "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Uaqyt ündestıru üşın tañdalğan qūrylğy arqyly uaqyt yğysuyn qolmen laiyqtau. Mūqiat qadağalap retteñız.",
-    "ErrorPlayerNotFound": "Saual salynğan tasyğyşderekter üşın oinatqyş tabylmady."
+    "ErrorPlayerNotFound": "Saual salynğan tasyğyşderekter üşın oinatqyş tabylmady.",
+    "LabelSortName": "Sūryptalatyn aty:",
+    "LabelOriginalName": "Tüpnūsqa aty:",
+    "AgeValue": "({0} jasynda)"
 }
