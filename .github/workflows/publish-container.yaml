@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - release-*
   release:
     types:
       - published
@@ -99,7 +100,7 @@ jobs:
           tags: ${{ steps.build-image.outputs.tags }}
           registry: ghcr.io/${{ github.repository_owner }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ secrets.JF_BOT_TOKEN }}
 
       - name: Publish standalone web image to quay.io
         uses: redhat-actions/push-to-registry@v2
@@ -107,8 +108,8 @@ jobs:
           image: ${{ steps.build-image.outputs.image }}
           tags: ${{ steps.build-image.outputs.tags }}
           registry: quay.io/jellyfin
-          username: jellyfin+github_actions
-          password: ${{ secrets.RH_TOKEN }}
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Publish standalone web image to docker.io
         uses: redhat-actions/push-to-registry@v2
@@ -116,5 +117,34 @@ jobs:
           image: ${{ steps.build-image.outputs.image }}
           tags: ${{ steps.build-image.outputs.tags }}
           registry: docker.io/jellyfin
-          username: jellyfin
-          password: ${{ secrets.DH_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  trigger-meta-container:
+    name: Triger Meta Package builds
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'release' }}
+    needs:
+      - setup-vars
+      - container-image
+
+    env:
+      STAGE: ${{ needs.setup-vars.outputs.stage }}
+      SHORT_SHA: ${{ needs.setup-vars.outputs.short-sha }}
+      SEMVER: ${{ needs.setup-vars.outputs.version }}
+
+    steps:
+      - name: Trigger Metacontainer image build
+        uses: peter-evans/repository-dispatch@v1
+        continue-on-error: true
+        with:
+          token: ${{ secrets.JF_BOT_TOKEN }}
+          repository: jellyfin/jellyfin-metapackages
+          event-type: trigger-meta-container
+          client-payload: |-
+            {
+              "type": "web",
+              "version": "${{ env.SEMVER }}",
+              "server-sha": "${{ env.SHORT_SHA }}",
+              "unstable": ${{ env.STAGE != 'stable' }}
+            }

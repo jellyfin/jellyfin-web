@@ -1,12 +1,12 @@
-FROM nginx:alpine
+FROM nginx:1.21-alpine
 
-ARG JELLYFIN_WEB_VERSION
+ARG JELLYFIN_WEB_VERSION=x.y.z
 
 # Default environment variables for the Jellyfin invocation
 ENV LC_ALL="en_US.UTF-8" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
-    JELLYFIN_WEB_VERSION="${JELLYFIN_WEB_VERSION:-10.8.0}"
+    JELLYFIN_WEB_VERSION="${JELLYFIN_WEB_VERSION}"
 
 # Open Container Initiative metadata labels
 LABEL \
