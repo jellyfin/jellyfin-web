@@ -27,7 +27,6 @@ const UserProfilesPage: FunctionComponent = () => {
     const loadData = () => {
         loading.show();
         window.ApiClient.getUsers().then(function (result) {
-            console.log('users', result);
             setUsers(result);
             loading.hide();
         });
@@ -122,7 +121,7 @@ const UserProfilesPage: FunctionComponent = () => {
                     ref={localUsersRef}
                     className='localUsers itemsContainer vertical-wrap'
                 >
-                    {users.map((user )=> (
+                    {users.map(user=> (
                         <UserCardBox key={user.Id} user={user} />
                     ))}
                 </div>

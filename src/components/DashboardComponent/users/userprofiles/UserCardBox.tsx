@@ -33,8 +33,8 @@ const createButtonElement = () => ({
 });
 
 interface UserCardBoxProps {
-    user: object;
-  }
+    user: Record<string, any>;
+}
 
 const getLastSeenText = (lastActivityDate) => {
     if (lastActivityDate) {
@@ -44,7 +44,7 @@ const getLastSeenText = (lastActivityDate) => {
     return '';
 };
 
-const UserCardBox: FunctionComponent<UserCardBoxProps> = ({ user }) => {
+const UserCardBox: FunctionComponent<UserCardBoxProps> = ({ user }: UserCardBoxProps) => {
     let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
     if (user.Policy.IsDisabled) {
