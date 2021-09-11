@@ -1378,8 +1378,9 @@ function tryRemoveElement(elem) {
                                 });
                             }
 
-                            return videoElement;
                         }
+
+                        return videoElement;
                     });
                 } else {
                     // we need to hide scrollbar when starting playback from page with animated background
