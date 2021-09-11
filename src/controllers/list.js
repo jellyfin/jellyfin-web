@@ -320,7 +320,7 @@ import { appRouter } from '../components/appRouter';
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName,Path',
+            Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount',
             ImageTypeLimit: 1,
             ParentId: item.Id,
             SortBy: sortBy
