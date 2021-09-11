@@ -105,8 +105,6 @@ class HtmlAudioPlayer {
         };
 
         function setCurrentSrc(elem, options) {
-            elem.removeEventListener('error', onError);
-
             unBindEvents(elem);
             bindEvents(elem);
 
@@ -184,6 +182,7 @@ class HtmlAudioPlayer {
             elem.removeEventListener('playing', onPlaying);
             elem.removeEventListener('play', onPlay);
             elem.removeEventListener('waiting', onWaiting);
+            elem.removeEventListener('error', onError); // bound in htmlMediaHelper
         }
 
         self.stop = function (destroyPlayer) {

@@ -708,6 +708,7 @@ function tryRemoveElement(elem) {
                 videoElement.removeEventListener('click', this.onClick);
                 videoElement.removeEventListener('dblclick', this.onDblClick);
                 videoElement.removeEventListener('waiting', this.onWaiting);
+                videoElement.removeEventListener('error', this.onError); // bound in htmlMediaHelper
 
                 videoElement.parentNode.removeChild(videoElement);
             }
