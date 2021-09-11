@@ -1566,5 +1566,11 @@
     "LabelSyncPlaySettingsSpeedToSyncDuration": "Durée de SpeedToSync :",
     "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Délai maximum avant que SkipToSync ne remplace SpeedToSync.",
     "LabelSyncPlaySettingsMaxDelaySpeedToSync": "Délai maximum de SpeedToSync :",
-    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "Délai minimum avant que SpeedToSync ne tente de corriger la position de lecture."
+    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "Délai minimum avant que SpeedToSync ne tente de corriger la position de lecture.",
+    "LabelSyncPlaySettingsMinDelaySpeedToSync": "Décalage minimal pour SpeedToSync :",
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "Activer la synchronisation active de la lecture soit en accélérant le média soit en se déplaçant à la position estimée. À désactiver en cas de latence.",
+    "LabelSyncPlaySettingsSyncCorrection": "Correction temporelle",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Ajuster manuellement le décalage temporel avec l'appareil sélectionné pour la synchronisation temporelle. À utiliser avec précaution.",
+    "LabelSyncPlaySettingsExtraTimeOffset": "Décalage temporel supplémentaire :",
+    "HeaderSyncPlayTimeSyncSettings": "Synchronisation temporelle"
 }
