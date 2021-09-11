@@ -3064,7 +3064,9 @@ class PlaybackManager {
             const data = getPlayerData(player);
             const streamInfo = data.streamInfo;
 
-            const nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
+            const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
+
+            const nextItem = self._playNextAfterEnded && !errorOccurred ? self._playQueueManager.getNextItemInfo() : null;
 
             const nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3105,7 +3107,7 @@ class PlaybackManager {
                 removeCurrentPlayer(player);
             }
 
-            if (displayErrorCode && typeof (displayErrorCode) === 'string') {
+            if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
                 self.nextTrack();
