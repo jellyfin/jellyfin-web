@@ -1539,7 +1539,7 @@
     "AudioBitrateNotSupported": "Le débit de l’audio n’est pas pris en charge",
     "LabelLocalCustomCss": "Style CSS personnalisé s’appliquant à ce client seul. Selon les cas, désactiver le CSS du serveur peut s'avérer nécessaire.",
     "LabelHardwareEncoding": "Encodage matériel :",
-    "LabelDisableCustomCss": "Désactiver le thème CSS fourni par le serveur.",
+    "LabelDisableCustomCss": "Cette option permet d'ignorer d'éventuelles retouches CSS configurées sur le serveur.",
     "AudioBitDepthNotSupported": "La profondeur de bits de l’audio n’est pas prise en charge",
     "Track": "Piste",
     "Remixer": "Remixeur",
@@ -1555,5 +1555,16 @@
     "PreviousChapter": "Chapitre précédent",
     "LabelSyncPlaySettingsDescription": "Modifier les paramètres SyncPlay",
     "HeaderSyncPlayPlaybackSettings": "Lecture",
-    "ErrorPlayerNotFound": "Aucun lecteur trouvé pour le média sélectionné."
+    "ErrorPlayerNotFound": "Aucun lecteur trouvé pour le média sélectionné.",
+    "LabelSyncPlaySettingsSpeedToSyncHelp": "Méthode de correction de synchro consistant à accélérer la lecture. La correction de la synchro doit être activée.",
+    "LabelSyncPlaySettingsSkipToSyncHelp": "Méthode de correction de synchro consistant à changer la position de lecture. La correction de la synchro doit être activée.",
+    "LabelSyncPlaySettingsSkipToSync": "Activer SkipToSync",
+    "LabelSyncPlaySettingsSpeedToSync": "Activer SpeedToSync",
+    "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "Délai minimum avant que SkipToSync tente de corriger la position de lecture.",
+    "LabelSyncPlaySettingsMinDelaySkipToSync": "Délai minimum de SkipToSync :",
+    "LabelSyncPlaySettingsSpeedToSyncDurationHelp": "Durée utilisée par SpeedToSync pour corriger la position de lecture.",
+    "LabelSyncPlaySettingsSpeedToSyncDuration": "Durée de SpeedToSync :",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Délai maximum avant que SkipToSync ne remplace SpeedToSync.",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSync": "Délai maximum de SpeedToSync :",
+    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "Délai minimum avant que SpeedToSync ne tente de corriger la position de lecture."
 }
