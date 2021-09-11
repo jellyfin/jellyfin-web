@@ -403,11 +403,12 @@ import { appRouter } from '../../../components/appRouter';
         }
 
         function onFullscreenChanged() {
-            if (!layoutManager.tv) {
-                updateFullscreenIcon();
-            } else if (!playbackManager.isFullscreen(currentPlayer)) {
+            if (!playbackManager.isFullscreen(currentPlayer)) {
                 appRouter.back();
+                return;
             }
+
+            updateFullscreenIcon();
         }
 
         function updateFullscreenIcon() {
