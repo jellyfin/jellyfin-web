@@ -3103,6 +3103,7 @@ class PlaybackManager {
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
+                data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
             }
@@ -3111,9 +3112,6 @@ class PlaybackManager {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
                 self.nextTrack();
-            } else {
-                // Nothing more to play - clear data
-                data.streamInfo = null;
             }
         }
 
