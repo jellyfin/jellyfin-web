@@ -182,7 +182,7 @@ import { appRouter } from '../../../components/appRouter';
                 view.querySelector('.btnAudio').classList.add('hide');
             }
 
-            if (currentItem.Chapters.length > 1) {
+            if (currentItem.Chapters?.length > 1) {
                 view.querySelector('.btnPreviousChapter').classList.remove('hide');
                 view.querySelector('.btnNextChapter').classList.remove('hide');
             } else {
