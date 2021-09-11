@@ -1367,7 +1367,7 @@ function tryRemoveElement(elem) {
                         }
 
                         if (options.fullscreen) {
-                            if (browser.tv && Screenfull.isEnabled) {
+                            if (!window.NativeShell && browser.web0s && Screenfull.isEnabled) {
                                 Screenfull.request();
                                 return videoElement;
                             }
