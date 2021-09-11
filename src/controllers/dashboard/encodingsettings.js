@@ -21,7 +21,13 @@ import alert from '../../components/alert';
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
         page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
-        page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
+        // if EncoderAppPath is empty that means the path hasn't been set by the user
+        if (config.EncoderAppPath) {
+            page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
+        } else {
+            page.querySelector('.txtEncoderPath').placeholder = config.EncoderAppPathDisplay || '';
+        }
+        
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
         page.querySelector('#txtFallbackFontPath').value = config.FallbackFontPath || '';
         page.querySelector('#chkEnableFallbackFont').checked = config.EnableFallbackFont;
