@@ -1575,5 +1575,7 @@
     "HeaderSyncPlayTimeSyncSettings": "Synchronisation temporelle",
     "LabelSortName": "Nom de tri :",
     "LabelOriginalName": "Nom original :",
-    "AgeValue": "({0} ans)"
+    "AgeValue": "({0} ans)",
+    "SetUsingLastTracksHelp": "Essayer de définir les sous-titres/pistes audios au plus près de la dernière vidéo.",
+    "SetUsingLastTracks": "Définir les sous-titres/pistes audios avec l'élément précédent"
 }
