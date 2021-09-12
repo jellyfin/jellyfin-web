@@ -19,7 +19,7 @@
     "AllLibraries": "Alle Bibliotheken",
     "AllowHWTranscodingHelp": "Dem Tuner erlauben, Streams in Echtzeit zu transkodieren. Das hilft eventuell, die Transkodierung durch den Jellyfin Server zu reduzieren.",
     "AllowMediaConversion": "Medienkonvertierung zulassen",
-    "AllowMediaConversionHelp": "Aktiviere oder unterbinde den Zugriff auf die Medienkonvertierung.",
+    "AllowMediaConversionHelp": "Aktivieren oder unterbinden Sie den Zugriff auf die Medienkonvertierung.",
     "AllowOnTheFlySubtitleExtraction": "Untertitelextraktion \"on-the-fly\" zulassen",
     "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und als Klartext an Clients gesendet werden, um eine Videotranskodierung zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und deswegen währenddessen die Videowiedergabe stoppen. Deaktiviere diese Option, um eingebettete Untertitel während des Videotranskodierens einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
     "AllowRemoteAccess": "Externe Verbindungen zu diesem Server zulassen.",
@@ -1551,5 +1551,11 @@
     "HeaderSyncPlaySettings": "SyncPlay Einstellungen",
     "Engineer": "Toningenieur",
     "Conductor": "Dirigent",
-    "Arranger": "Arrangeur"
+    "Arranger": "Arrangeur",
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "Aktivieren Sie die aktive Synchronisierung der Wiedergabe, indem Sie entweder die Abspielgeschwindigkeit der Medien erhöhen oder zur geschätzte Position vorspulen. Deaktivieren Sie dies im Falle von starkem Stottern.",
+    "LabelSyncPlaySettingsSyncCorrection": "Synchronisationskorrektur",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Stellen Sie den Zeitversatz manuell mit dem ausgewählten Gerät für die Zeitsynchronisation ein. Passen Sie die Einstellung mit Bedacht an.",
+    "LabelOriginalName": "Original Name:",
+    "HeaderSyncPlayTimeSyncSettings": "Zeitsynchronisierung",
+    "AgeValue": "({0} Jahre alt)"
 }
