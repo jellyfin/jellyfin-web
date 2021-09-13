@@ -1578,5 +1578,6 @@
     "ErrorPlayerNotFound": "Saual salynğan tasyğyşderekter üşın oinatqyş tabylmady.",
     "LabelSortName": "Sūryptalatyn aty:",
     "LabelOriginalName": "Tüpnūsqa aty:",
-    "AgeValue": "({0} jasynda)"
+    "AgeValue": "({0} jasynda)",
+    "PlaybackErrorPlaceHolder": "Būl Jellyfin oinata almaityn fizikalyq tasyğyştyñ toltyrğyşy. Oinatu üşın diskını salyñyz."
 }
