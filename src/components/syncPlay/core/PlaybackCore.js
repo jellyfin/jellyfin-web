@@ -22,7 +22,7 @@ class PlaybackCore {
         this.syncAttempts = 0;
         this.lastSyncTime = new Date();
         // User setting to disable sync during playback.
-        this.enableSyncCorrection = !(browser.mobile || browser.iOS);
+        this.enableSyncCorrection = false;
 
         this.playerIsBuffering = false;
 
