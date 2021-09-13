@@ -1829,7 +1829,8 @@ class PlaybackManager {
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Photo,Video',
+                    // Only include Photos because we do not handle mixed queues currently
+                    MediaTypes: 'Photo',
                     Limit: 1000
                 }, queryOptions));
             } else if (firstItem.IsFolder) {
