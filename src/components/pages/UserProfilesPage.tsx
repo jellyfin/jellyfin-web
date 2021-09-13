@@ -13,7 +13,7 @@ import '../../elements/emby-button/emby-button';
 import '../../components/indicators/indicators.scss';
 import '../../assets/css/flexstyles.scss';
 
-interface MenuEntry {
+type MenuEntry = {
     name: string;
     id: string;
     icon: string;
@@ -121,8 +121,8 @@ const UserProfilesPage: FunctionComponent = () => {
                     ref={localUsersRef}
                     className='localUsers itemsContainer vertical-wrap'
                 >
-                    {users.map(user=> (
-                        <UserCardBox key={user.Id} user={user} />
+                    {users.map((user, index: number)=> (
+                        <UserCardBox key={index} user={user} />
                     ))}
                 </div>
             </div>

@@ -5,20 +5,13 @@ import cardBuilder from '../../../cardbuilder/cardBuilder';
 
 import React, { FunctionComponent } from 'react';
 
-const createLinkElement = ({ user, imgUrl, imageClass }) => ({
+const createLinkElement = ({ user, renderImgUrl }) => ({
     __html: `<a
     is="emby-linkbutton"
     class="cardContent"
     href="#!/useredit.html?userId=${user.Id}"
     >
-    ${imgUrl ? (
-        `<div class='${imageClass}' style='background-image:url(${imgUrl})'>`
-    ) : (
-        `<div class='${imageClass} ${cardBuilder.getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
-            <span class='material-icons cardImageIcon person'></span>
-        </div>`
-    )}
-    </div>
+    ${renderImgUrl}
     </a>`
 });
 
@@ -32,7 +25,7 @@ const createButtonElement = () => ({
     </button>`
 });
 
-interface UserCardBoxProps {
+type UserCardBoxProps = {
     user: Record<string, any>;
 }
 
@@ -69,6 +62,12 @@ const UserCardBox: FunctionComponent<UserCardBoxProps> = ({ user }: UserCardBoxP
 
     const lastSeen = getLastSeenText(user.LastActivityDate);
 
+    const renderImgUrl = imgUrl ?
+        `<div class='${imageClass}' style='background-image:url(${imgUrl})'></div>` :
+        `<div class='${imageClass} ${cardBuilder.getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
+            <span class='material-icons cardImageIcon person'></span>
+        </div>`;
+
     return (
         <div data-userid={user.Id} className={cssClass}>
             <div className='cardBox visualCardBox'>
@@ -77,14 +76,13 @@ const UserCardBox: FunctionComponent<UserCardBoxProps> = ({ user }: UserCardBoxP
                     <div
                         dangerouslySetInnerHTML={createLinkElement({
                             user: user,
-                            imgUrl: imgUrl,
-                            imageClass: imageClass
+                            renderImgUrl: renderImgUrl
                         })}
                     />
                 </div>
                 <div className='cardFooter visualCardBox-cardFooter'>
                     <div className='cardText flex align-items-center'>
-                        <div className='flex-grow' style={{overflow: 'hidden', textoverflow: 'ellipsis'}}>
+                        <div className='flex-grow' style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>
                             {user.Name}
                         </div>
                         <div
