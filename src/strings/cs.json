@@ -1577,5 +1577,6 @@
     "NextChapter": "Další kapitola",
     "LabelSortName": "Název pro řazení:",
     "LabelOriginalName": "Původní název:",
-    "AgeValue": "({0} let)"
+    "AgeValue": "({0} let)",
+    "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk."
 }
