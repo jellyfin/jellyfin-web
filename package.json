@@ -55,7 +55,7 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.1.0",
     "webpack-merge": "^5.8.0",
-    "workbox-webpack-plugin": "^6.2.4",
+    "workbox-webpack-plugin": "^6.3.0",
     "worker-plugin": "^5.0.1"
   },
   "dependencies": {
@@ -67,7 +67,7 @@
     "blurhash": "^1.1.4",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "^2.3.1",
-    "core-js": "^3.17.2",
+    "core-js": "^3.17.3",
     "date-fns": "^2.23.0",
     "dompurify": "^2.3.1",
     "epubjs": "^0.3.85",
