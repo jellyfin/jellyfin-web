@@ -109,6 +109,39 @@ function iOSversion() {
     return [];
 }
 
+function web0sVersion(browser) {
+    // Detect webOS version by web engine version
+
+    if (browser.chrome) {
+        if (browser.versionMajor >= 79) {
+            return 6;
+        } else if (browser.versionMajor >= 68) {
+            return 5;
+        } else if (browser.versionMajor >= 53) {
+            return 4;
+        } else if (browser.versionMajor >= 38) {
+            return 3;
+        } else if (browser.versionMajor >= 34) {
+            // webOS 2 browser
+            return 2;
+        } else if (browser.versionMajor >= 26) {
+            // webOS 1 browser
+            return 1;
+        }
+    } else if (browser.versionMajor >= 538) {
+        // webOS 2 app
+        return 2;
+    } else if (browser.versionMajor >= 537) {
+        // webOS 1 app
+        return 1;
+    }
+
+    console.error('Unable to detect webOS version - assume 1');
+
+    // Let's assume that we have 1.
+    return 1;
+}
+
 let _supportsCssAnimation;
 let _supportsCssAnimationWithPrefix;
 function supportsCssAnimation(allowPrefix) {
@@ -251,14 +284,16 @@ browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.tizen 
 browser.web0s = isWeb0s();
 browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 
-if (!browser.tizen) {
-    browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
-} else {
+if (browser.web0s) {
+    browser.web0sVersion = web0sVersion(browser);
+} else if (browser.tizen) {
     // UserAgent string contains 'Safari' and 'safari' is set by matched browser, but we only want 'tizen' to be true
     delete browser.safari;
 
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
     browser.tizenVersion = parseInt(v[1]);
+} else {
+    browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }
 
 if (browser.edgeUwp) {
