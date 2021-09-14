@@ -1577,5 +1577,6 @@
     "ErrorPlayerNotFound": "未找到所请求媒体的播放器。",
     "LabelSortName": "排序名称：",
     "LabelOriginalName": "原名：",
-    "AgeValue": "（{0} 岁）"
+    "AgeValue": "（{0} 岁）",
+    "PlaybackErrorPlaceHolder": "这是 Jellyfin 无法播放的物理媒体的占位符。 请插入光盘播放。"
 }
