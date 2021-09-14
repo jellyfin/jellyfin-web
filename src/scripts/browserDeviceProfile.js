@@ -389,8 +389,8 @@ import browser from './browser';
 
         let supportsDts = browser.tizen || browser.web0s || options.supportsDts || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
-        // DTS audio not supported in 2018 models (Tizen 4.0)
-        if (browser.tizenVersion >= 4) {
+        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020+ (webOS 5.0+) models
+        if (browser.tizenVersion >= 4 || browser.web0sVersion >= 5) {
             supportsDts = false;
         }
 
