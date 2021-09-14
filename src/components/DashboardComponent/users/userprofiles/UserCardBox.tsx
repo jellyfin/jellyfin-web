@@ -90,7 +90,7 @@ const UserCardBox: FunctionComponent<UserCardBoxProps> = ({ user }: UserCardBoxP
                         />
                     </div>
                     <div className='cardText cardText-secondary'>
-                        {lastSeen != '' ? lastSeen : '&nbsp'}
+                        {lastSeen != '' ? lastSeen : ''}
                     </div>
                 </div>
             </div>
