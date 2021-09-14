@@ -608,7 +608,7 @@ import ServerConnections from '../ServerConnections';
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false,
                 DisableFirstEpisode: false,
-                NextUpDateCutoff: oldestDateForNextUp.toUTCString()
+                NextUpDateCutoff: oldestDateForNextUp.toISOString()
             });
         };
     }
