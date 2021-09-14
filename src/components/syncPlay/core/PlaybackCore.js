@@ -21,8 +21,6 @@ class PlaybackCore {
         this.playbackDiffMillis = 0; // Used for stats and remote time sync.
         this.syncAttempts = 0;
         this.lastSyncTime = new Date();
-        // User setting to disable sync during playback.
-        this.enableSyncCorrection = false;
 
         this.playerIsBuffering = false;
 
