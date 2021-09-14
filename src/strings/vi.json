@@ -1576,5 +1576,6 @@
     "Engineer": "Kỹ sư",
     "Conductor": "Nhạc trưởng",
     "Arranger": "Người sắp đặt",
-    "AgeValue": "({0} tuổi)"
+    "AgeValue": "({0} tuổi)",
+    "PlaybackErrorPlaceHolder": "Đây là trình giữ chỗ cho phương tiện vật lý mà Jellyfin không thể phát. Vui lòng cho đĩa vào để chơi."
 }
