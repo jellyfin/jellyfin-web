@@ -1361,24 +1361,28 @@ function tryRemoveElement(elem) {
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
 
+                        delete this.forcedFullscreen;
+
                         if (options.fullscreen) {
                             // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
                             document.body.classList.add('hide-scroll');
-                        }
 
-                        if (options.fullscreen) {
+                            // Enter fullscreen in the webOS browser to hide the top bar
                             if (!window.NativeShell && browser.web0s && Screenfull.isEnabled) {
-                                Screenfull.request();
+                                Screenfull.request().then(() => {
+                                    this.forcedFullscreen = true;
+                                });
                                 return videoElement;
                             }
+
                             // don't animate on smart tv's, too slow
                             if (!browser.slow && browser.supportsCssAnimation()) {
                                 return zoomIn(dlg).then(function () {
                                     return videoElement;
                                 });
                             }
-
                         }
+
 
                         return videoElement;
                     });

@@ -403,7 +403,7 @@ import { appRouter } from '../../../components/appRouter';
         }
 
         function onFullscreenChanged() {
-            if (!playbackManager.isFullscreen(currentPlayer)) {
+            if (currentPlayer.forcedFullscreen && !playbackManager.isFullscreen(currentPlayer)) {
                 appRouter.back();
                 return;
             }
