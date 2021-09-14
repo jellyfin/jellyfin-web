@@ -1812,7 +1812,8 @@ class PlaybackManager {
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Photo,Video',
+                    // Only include Photos because we do not handle mixed queues currently
+                    MediaTypes: 'Photo',
                     Limit: 1000
                 });
             } else if (firstItem.Type === 'MusicGenre') {
