@@ -4,7 +4,7 @@
     "Actor": "Acteur(trice)",
     "Add": "Ajouter",
     "AddToCollection": "Ajouter à la collection",
-    "AddToPlayQueue": "Ajouter à la file d'attente",
+    "AddToPlayQueue": "Ajouter à la liste de lecture",
     "AddToPlaylist": "Ajouter à la liste de lecture",
     "AddedOnValue": "Ajouté le {0}",
     "AdditionalNotificationServices": "Visitez le catalogue d'extensions pour installer des services de notifications supplémentaires.",
@@ -923,7 +923,7 @@
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "Nécessaire pour certains appareils qui ne sont pas capables d'effectuer une recherche dans le temps correctement.",
     "OptionRequirePerfectSubtitleMatch": "Télécharger uniquement les sous-titres qui correspondent parfaitement à mes fichiers vidéo",
     "OptionRequirePerfectSubtitleMatchHelp": "En activant cette option, seuls les sous-titres ayant été testés et vérifiés avec votre fichier vidéo seront téléchargés. En désactivant cette option, vous aurez plus de chance que des sous-titres soient téléchargés, mais ils risquent d'être décalés ou incorrects.",
-    "OptionResElement": "Résolution d'élément",
+    "OptionResElement": "Résolution de l'élément",
     "OptionResumable": "Reprise possible",
     "OptionSaveMetadataAsHidden": "Enregistrer les métadonnées et les images en tant que fichier cachés",
     "OptionSaveMetadataAsHiddenHelp": "La modification s'appliquera aux nouvelles métadonnées enregistrées à l'avenir. Les fichiers de métadonnées existants seront mis à jour la prochaine fois qu'ils seront enregistrés par le serveur.",
@@ -1575,7 +1575,8 @@
     "HeaderSyncPlayTimeSyncSettings": "Synchronisation temporelle",
     "LabelSortName": "Nom de tri :",
     "LabelOriginalName": "Nom original :",
-    "AgeValue": "({0} ans)",
+    "AgeValue": "(agé de {0} ans)",
     "SetUsingLastTracksHelp": "Essayer de définir les sous-titres/pistes audios au plus près de la dernière vidéo.",
-    "SetUsingLastTracks": "Définir les sous-titres/pistes audios avec l'élément précédent"
+    "SetUsingLastTracks": "Définir les sous-titres/pistes audios avec l'élément précédent",
+    "PlaybackErrorPlaceHolder": "Ceci est un emplacement pour les médias physiques que Jellyfin ne peut pas jouer. Merci d'insérer le disque pour lancer la lecture."
 }
