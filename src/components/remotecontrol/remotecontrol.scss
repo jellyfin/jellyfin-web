@@ -326,8 +326,12 @@
     }
 
     .nowPlayingPageImageContainer {
-        width: 100%;
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 25%;
         margin: auto auto 0.5em;
+        flex-shrink: 1;
     }
 
     .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
@@ -399,7 +403,8 @@
     }
 
     .nowPlayingPageImage.nowPlayingPageImageAudio {
-        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
     }
 
     .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
