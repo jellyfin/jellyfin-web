@@ -797,10 +797,10 @@ class ItemsView {
                     // Only Photo (homevideos) CollectionFolders are supported
                     && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
                 ) {
-                    // Hide Play All buttons
+                    // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
                 } else {
-                    // Show Play All buttons
+                    // Hide Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), true);
                 }
 
@@ -810,18 +810,18 @@ class ItemsView {
                     // Only Photo (homevideos) CollectionFolders are supported
                     && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
                 ) {
-                    // Hide Shuffle buttons
+                    // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);
                 } else {
-                    // Show Shuffle buttons
+                    // Hide Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), true);
                 }
 
                 if (item && playbackManager.canQueue(item)) {
-                    // Hide Queue button
+                    // Show Queue button
                     hideOrShowAll(view.querySelectorAll('.btnQueue'), false);
                 } else {
-                    // Show Queue button
+                    // Hide Queue button
                     hideOrShowAll(view.querySelectorAll('.btnQueue'), true);
                 }
             });
