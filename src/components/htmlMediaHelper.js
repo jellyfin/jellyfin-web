@@ -185,6 +185,12 @@ import { Events } from 'jellyfin-apiclient';
         return Promise.resolve();
     }
 
+    export function resetSrc(elem) {
+        elem.src = '';
+        elem.innerHTML = '';
+        elem.removeAttribute('src');
+    }
+
     function onSuccessfulPlay(elem, onErrorFn) {
         elem.addEventListener('error', onErrorFn);
     }
@@ -344,9 +350,7 @@ import { Events } from 'jellyfin-apiclient';
     export function onEndedInternal(instance, elem, onErrorFn) {
         elem.removeEventListener('error', onErrorFn);
 
-        elem.src = '';
-        elem.innerHTML = '';
-        elem.removeAttribute('src');
+        resetSrc(elem);
 
         destroyHlsPlayer(instance);
         destroyFlvPlayer(instance);

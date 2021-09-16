@@ -221,6 +221,7 @@ class HtmlAudioPlayer {
 
         self.destroy = function () {
             unBindEvents(self._mediaElement);
+            htmlMediaHelper.resetSrc(self._mediaElement);
         };
 
         function createMediaElement() {

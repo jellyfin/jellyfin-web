@@ -13,6 +13,7 @@ import {
     getCrossOriginValue,
     enableHlsJsPlayer,
     applySrc,
+    resetSrc,
     playWithPromise,
     onEndedInternal,
     saveVolume,
@@ -709,6 +710,8 @@ function tryRemoveElement(elem) {
                 videoElement.removeEventListener('dblclick', this.onDblClick);
                 videoElement.removeEventListener('waiting', this.onWaiting);
                 videoElement.removeEventListener('error', this.onError); // bound in htmlMediaHelper
+
+                resetSrc(videoElement);
 
                 videoElement.parentNode.removeChild(videoElement);
             }
