@@ -20,7 +20,7 @@
     "Absolute": "Absoluto",
     "Movies": "Películas",
     "HeaderContinueWatching": "Seguir mirando",
-    "HeaderAlbumArtists": "Artistas de Album",
+    "HeaderAlbumArtists": "Artistas do Album",
     "Genres": "Xéneros",
     "Folders": "Cartafoles",
     "Favorites": "Favoritos",
@@ -62,5 +62,6 @@
     "Actor": "Actor",
     "AccessRestrictedTryAgainLater": "O acceso está restrinxido actualmente. Por favor, intenteo máis tarde.",
     "AllowOnTheFlySubtitleExtraction": "Permitir extracción de subtítulos sobre a marcha",
-    "ValueSpecialEpisodeName": "Especial - {0}"
+    "ValueSpecialEpisodeName": "Especial - {0}",
+    "MusicVideos": "Vídeos Musicais"
 }
