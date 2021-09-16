@@ -1386,8 +1386,8 @@ function tryRemoveElement(elem) {
                         return videoElement;
                     });
                 } else {
-                    // we need to hide scrollbar when starting playback from page with animated background
                     if (options.fullscreen) {
+                        // we need to hide scrollbar when starting playback from page with animated background
                         document.body.classList.add('hide-scroll');
 
                         // Enter fullscreen in the webOS browser to hide the top bar
