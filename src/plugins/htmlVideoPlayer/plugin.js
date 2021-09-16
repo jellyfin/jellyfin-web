@@ -1383,7 +1383,6 @@ function tryRemoveElement(elem) {
                             }
                         }
 
-
                         return videoElement;
                     });
                 } else {

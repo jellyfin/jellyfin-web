@@ -23,6 +23,7 @@ function isTv() {
 
 function isWeb0s() {
     const userAgent = navigator.userAgent.toLowerCase();
+
     if (userAgent.indexOf('netcast') !== -1) {
         return true;
     }
