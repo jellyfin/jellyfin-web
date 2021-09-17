@@ -22,7 +22,7 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
 
     const element = useRef(null);
 
-    const loadUser = (params: IProps) => {
+    const loadUser = (params) => {
         const userId = params.userId;
         window.ApiClient.getUser(userId).then(function (user) {
             Dashboard.getCurrentUser().then(function (loggedInUser) {

@@ -5,8 +5,9 @@ import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import confirm from '../../components/confirm/confirm';
-import SectionTitleContainer from '../DashboardComponent/users/userprofiles/SectionTitleContainer';
 import UserCardBox from '../DashboardComponent/users/userprofiles/UserCardBox';
+import SectionTitleButtonElement from '../DashboardComponent/users/userprofiles/ElementWarpper/SectionTitle/SectionTitleButtonElement';
+import SectionTitleLinkElement from '../DashboardComponent/users/userprofiles/ElementWarpper/SectionTitle/SectionTitleLinkElement';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../components/cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';
@@ -22,7 +23,7 @@ type MenuEntry = {
 const UserProfilesPage: FunctionComponent = () => {
     const [ users, setUsers ] = useState([]);
 
-    const localUsersRef = useRef(null);
+    const element = useRef(null);
 
     const loadData = () => {
         loading.show();
@@ -104,30 +105,49 @@ const UserProfilesPage: FunctionComponent = () => {
             });
         };
 
-        localUsersRef?.current?.addEventListener('click', function (e) {
+        element?.current?.addEventListener('click', function (e) {
             const btnUserMenu = dom.parentWithClass(e.target, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
         });
+
+        element?.current?.querySelector('.btnAddUser').addEventListener('click', function() {
+            Dashboard.navigate('usernew.html');
+        });
     }, []);
 
     return (
-        <div className='content-primary'>
-            <div className='verticalSection verticalSection-extrabottompadding'>
-                <SectionTitleContainer />
-                <div
-                    ref={localUsersRef}
-                    className='localUsers itemsContainer vertical-wrap'
-                >
-                    {users.map((user, index: number)=> (
-                        <UserCardBox key={index} user={user} />
-                    ))}
+        <div ref={element}>
+            <div className='content-primary'>
+                <div className='verticalSection verticalSection-extrabottompadding'>
+                    <div
+                        className='sectionTitleContainer sectionTitleContainer-cards'
+                        style={{display: 'flex', alignItems: 'center', paddingBottom: '1em'}}
+                    >
+                        <h2 className='sectionTitle sectionTitle-cards'>
+                            {globalize.translate('HeaderUsers')}
+                        </h2>
+                        <SectionTitleButtonElement
+                            className='fab btnAddUser submit sectionTitleButton'
+                            title='ButtonAddUser'
+                            icon='add'
+                        />
+                        <SectionTitleLinkElement
+                            className='raised button-alt headerHelpButton'
+                            title='Help'
+                            url='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
+                        />
+                    </div>
+                    <div className='localUsers itemsContainer vertical-wrap'>
+                        {users.map((user, index: number)=> (
+                            <UserCardBox key={index} user={user} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
-
     );
 };
 
