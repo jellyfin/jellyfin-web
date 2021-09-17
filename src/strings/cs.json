@@ -1578,5 +1578,7 @@
     "LabelSortName": "Název pro řazení:",
     "LabelOriginalName": "Původní název:",
     "AgeValue": "({0} let)",
-    "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk."
+    "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk.",
+    "LabelMaxDaysForNextUp": "Omezení zobrazení dalších epizod",
+    "LabelMaxDaysForNextUpHelp": "Nastavit maximální počet dnů, po který zůstanou seriály v seznamu dalších epizod ke zhlédnutí."
 }
