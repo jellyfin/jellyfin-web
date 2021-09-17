@@ -113,6 +113,34 @@ function web0sVersion(browser) {
     // Detect webOS version by web engine version
 
     if (browser.chrome) {
+        const userAgent = navigator.userAgent.toLowerCase();
+
+        if (userAgent.indexOf('netcast') !== -1) {
+            // The built-in browser (NetCast) may have a version that doesn't correspond to the actual web engine
+
+            const match = /smarttv[ /]([\w.]+)/.exec(userAgent);
+
+            if (match?.length > 1) {
+                const version = parseInt(match[1].split('.')[0], 10);
+
+                // FIXME: Add webOS 5 and 6
+
+                if (version >= 10) {
+                    return 4;
+                } else if (version >= 6) {
+                    if (browser.versionMajor >= 38) {
+                        return 3;
+                    } else {
+                        return 2;
+                    }
+                } else if (version >= 5) {
+                    return 1;
+                }
+            }
+        }
+
+        // The next is only valid for the app, but may also work for the browser of older models
+
         if (browser.versionMajor >= 79) {
             return 6;
         } else if (browser.versionMajor >= 68) {
