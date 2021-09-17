@@ -1561,5 +1561,6 @@
     "LabelOriginalName": "Oryginalna nazwa:",
     "HeaderSyncPlayTimeSyncSettings": "Synchronizacja czasu",
     "HeaderSyncPlayPlaybackSettings": "Odtwarzanie",
-    "HeaderSyncPlaySettings": "Ustawienia SyncPlay"
+    "HeaderSyncPlaySettings": "Ustawienia SyncPlay",
+    "AgeValue": "({0} lat)"
 }
