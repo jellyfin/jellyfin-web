@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import Dashboard from '../../scripts/clientUtils';
-import { appRouter } from '../../components/appRouter';
 import LibraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
@@ -14,7 +13,8 @@ import CheckBoxElement from '../DashboardComponent/users/userprofiles/ElementWar
 import '../../elements/emby-button/emby-button';
 
 type IProps = {
-    params: string;
+    params?: Record<string, any>;
+    userId?: string;
 }
 
 const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
@@ -22,7 +22,7 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
 
     const element = useRef(null);
 
-    const loadUser = (params) => {
+    const loadUser = (params: IProps) => {
         const userId = params.userId;
         window.ApiClient.getUser(userId).then(function (user) {
             Dashboard.getCurrentUser().then(function (loggedInUser) {
@@ -36,11 +36,11 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
                     element.current?.querySelector('.localAccessSection').classList.add('hide');
                     showPasswordSection = false;
                 } else if (user.HasConfiguredPassword) {
-                    element.current?.querySelector('#btnResetPassword').classList.remove('hide');
+                    element.current?.querySelector('.btnResetPassword').classList.remove('hide');
                     element.current?.querySelector('#fldCurrentPassword').classList.remove('hide');
                     showLocalAccessSection = true;
                 } else {
-                    element.current?.querySelector('#btnResetPassword').classList.add('hide');
+                    element.current?.querySelector('.btnResetPassword').classList.add('hide');
                     element.current?.querySelector('#fldCurrentPassword').classList.add('hide');
                 }
 
@@ -61,11 +61,11 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
 
                 if (user.HasConfiguredEasyPassword) {
                     txtEasyPassword.placeholder = '******';
-                    element.current?.querySelector('#btnResetEasyPassword').classList.remove('hide');
+                    element.current?.querySelector('.btnResetEasyPassword').classList.remove('hide');
                 } else {
                     txtEasyPassword.removeAttribute('placeholder');
                     txtEasyPassword.placeholder = '';
-                    element.current?.querySelector('#btnResetEasyPassword').classList.add('hide');
+                    element.current?.querySelector('.btnResetEasyPassword').classList.add('hide');
                 }
 
                 element.current.querySelector('.chkEnableLocalEasyPassword').checked = user.Configuration.EnableLocalPassword;
@@ -99,7 +99,7 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
         };
 
         const savePassword = () => {
-            const userId = appRouter.param('userId');
+            const userId = params.userId;
             let currentPassword = element.current?.querySelector('#txtCurrentPassword').value;
             const newPassword = element.current?.querySelector('#txtNewPassword').value;
 
@@ -131,7 +131,7 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
         };
 
         const saveEasyPassword = () => {
-            const userId = appRouter.param('userId');
+            const userId = params.userId;
             const easyPassword = element.current?.querySelector('#txtEasyPassword').value;
 
             if (easyPassword) {
@@ -159,7 +159,7 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
             const msg = globalize.translate('PinCodeResetConfirmation');
 
             confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
-                const userId = appRouter.param('userId');
+                const userId = params.userId;
                 loading.show();
                 window.ApiClient.resetEasyPassword(userId).then(function () {
                     loading.hide();
@@ -175,7 +175,7 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
         const resetPassword = () => {
             const msg = globalize.translate('PasswordResetConfirmation');
             confirm(msg, globalize.translate('ResetPassword')).then(function () {
-                const userId = appRouter.param('userId');
+                const userId = params.userId;
                 loading.show();
                 window.ApiClient.resetUserPassword(userId).then(function () {
                     loading.hide();
@@ -191,8 +191,8 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
         element?.current?.querySelector('.updatePasswordForm').addEventListener('submit', onSubmit);
         element?.current?.querySelector('.localAccessForm').addEventListener('submit', onLocalAccessSubmit);
 
-        element?.current?.querySelector('#btnResetEasyPassword').addEventListener('click', resetEasyPassword);
-        element?.current?.querySelector('#btnResetPassword').addEventListener('click', resetPassword);
+        element?.current?.querySelector('.btnResetEasyPassword').addEventListener('click', resetEasyPassword);
+        element?.current?.querySelector('.btnResetPassword').addEventListener('click', resetPassword);
     }, [params]);
 
     return (
@@ -271,14 +271,12 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
                             <div>
                                 <ButtonElement
                                     type='submit'
-                                    id=''
                                     className='raised button-submit block'
                                     title='Save'
                                 />
                                 <ButtonElement
                                     type='button'
-                                    id='btnResetPassword'
-                                    className='raised button-cancel block hide'
+                                    className='raised btnResetPassword button-cancel block hide'
                                     title='ResetPassword'
                                 />
                             </div>
@@ -320,15 +318,13 @@ const UserPasswordPage: FunctionComponent<IProps> = (params: IProps) => {
                             <div>
                                 <ButtonElement
                                     type='submit'
-                                    id=''
                                     className='raised button-submit block'
                                     title='Save'
                                 />
 
                                 <ButtonElement
                                     type='button'
-                                    id='btnResetEasyPassword'
-                                    className='raised button-cancel block hide'
+                                    className='raised btnResetEasyPassword button-cancel block hide'
                                     title='ButtonResetEasyPassword'
                                 />
                             </div>
