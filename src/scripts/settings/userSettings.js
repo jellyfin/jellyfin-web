@@ -443,6 +443,25 @@ export class UserSettings {
     }
 
     /**
+     * Get or set max days for next up list.
+     * @param {number|undefined} val - Max days for next up.
+     * @return {number} Max days for a show to stay in next up without being watched.
+     */
+    maxDaysForNextUp(val) {
+        if (val !== undefined) {
+            return this.set('maxDaysForNextUp', parseInt(val, 10), false);
+        }
+
+        const maxDaysForNextUp = parseInt(this.get('maxDaysForNextUp', false), 10);
+        if (maxDaysForNextUp === 0) {
+            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
+            return 0;
+        } else {
+            return maxDaysForNextUp || 365;
+        }
+    }
+
+    /**
      * Get or set sound effects.
      * @param {string|undefined} val - Sound effects.
      * @return {string} Sound effects.
@@ -559,6 +578,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
+export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
