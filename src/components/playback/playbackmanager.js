@@ -1797,7 +1797,8 @@ class PlaybackManager {
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Photo,Video',
+                    // Only include Photos because we do not handle mixed queues currently
+                    MediaTypes: 'Photo',
                     Limit: 1000
                 });
             } else if (firstItem.Type === 'MusicGenre') {
@@ -1808,6 +1809,16 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
                 });
+            } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+                    ParentId: firstItem.Id,
+                    Filters: 'IsNotFolder',
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    // Only include Photos because we do not handle mixed queues currently
+                    MediaTypes: 'Photo',
+                    Limit: 1000
+                }, queryOptions));
             } else if (firstItem.IsFolder) {
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
