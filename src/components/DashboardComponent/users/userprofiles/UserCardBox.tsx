@@ -1,9 +1,9 @@
+import React, { FunctionComponent } from 'react';
+
 import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../../scripts/dfnshelper';
 import globalize from '../../../../scripts/globalize';
 import cardBuilder from '../../../cardbuilder/cardBuilder';
-
-import React, { FunctionComponent } from 'react';
 
 const createLinkElement = ({ user, renderImgUrl }) => ({
     __html: `<a
