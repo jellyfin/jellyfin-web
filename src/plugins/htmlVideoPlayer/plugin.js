@@ -1361,24 +1361,41 @@ function tryRemoveElement(elem) {
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
 
+                        delete this.forcedFullscreen;
+
                         if (options.fullscreen) {
                             // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
                             document.body.classList.add('hide-scroll');
+
+                            // Enter fullscreen in the webOS browser to hide the top bar
+                            if (!window.NativeShell && browser.web0s && Screenfull.isEnabled) {
+                                Screenfull.request().then(() => {
+                                    this.forcedFullscreen = true;
+                                });
+                                return videoElement;
+                            }
+
+                            // don't animate on smart tv's, too slow
+                            if (!browser.slow && browser.supportsCssAnimation()) {
+                                return zoomIn(dlg).then(function () {
+                                    return videoElement;
+                                });
+                            }
                         }
 
-                        // don't animate on smart tv's, too slow
-                        if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
-                            return zoomIn(dlg).then(function () {
-                                return videoElement;
-                            });
-                        } else {
-                            return videoElement;
-                        }
+                        return videoElement;
                     });
                 } else {
-                    // we need to hide scrollbar when starting playback from page with animated background
                     if (options.fullscreen) {
+                        // we need to hide scrollbar when starting playback from page with animated background
                         document.body.classList.add('hide-scroll');
+
+                        // Enter fullscreen in the webOS browser to hide the top bar
+                        if (!this.forcedFullscreen && !window.NativeShell && browser.web0s && Screenfull.isEnabled) {
+                            Screenfull.request().then(() => {
+                                this.forcedFullscreen = true;
+                            });
+                        }
                     }
 
                     return Promise.resolve(dlg.querySelector('video'));

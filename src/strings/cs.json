@@ -1574,5 +1574,9 @@
     "SetUsingLastTracks": "Nastavit titulky a zvuk podle předchozí položky",
     "ErrorPlayerNotFound": "Pro požadované médium nebyl nalezen žádný přehrávač.",
     "PreviousChapter": "Předchozí kapitola",
-    "NextChapter": "Další kapitola"
+    "NextChapter": "Další kapitola",
+    "LabelSortName": "Název pro řazení:",
+    "LabelOriginalName": "Původní název:",
+    "AgeValue": "({0} let)",
+    "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk."
 }

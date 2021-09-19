@@ -1568,5 +1568,14 @@
     "HeaderSyncPlayTimeSyncSettings": "Đồng bộ thời gian",
     "HeaderSyncPlayPlaybackSettings": "Phát lại",
     "HeaderSyncPlaySettings": "Cài đặt SyncPlay",
-    "ErrorPlayerNotFound": "Không tìm thấy trình phát nào cho phương tiện được yêu cầu."
+    "ErrorPlayerNotFound": "Không tìm thấy trình phát nào cho phương tiện được yêu cầu.",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Độ trễ phát lại tối đa sau đó SkipToSync được sử dụng thay vì SpeedToSync.",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSync": "Độ trễ tối đa của SpeedToSync:",
+    "LabelSortName": "Sắp xếp tên:",
+    "LabelOriginalName": "Tên gốc:",
+    "Engineer": "Kỹ sư",
+    "Conductor": "Nhạc trưởng",
+    "Arranger": "Người sắp đặt",
+    "AgeValue": "({0} tuổi)",
+    "PlaybackErrorPlaceHolder": "Đây là trình giữ chỗ cho phương tiện vật lý mà Jellyfin không thể phát. Vui lòng cho đĩa vào để chơi."
 }

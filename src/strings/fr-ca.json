@@ -710,5 +710,6 @@
     "LabelEmbedAlbumArtDidl": "Intégrer la couverture d'album dans le Didl",
     "DisableCustomCss": "Désactiver le CSS personnalisé fourni par le serveur",
     "LabelDisableCustomCss": "Désactiver le thème CSS personnalisé/l'image de marque fournie par le serveur.",
-    "HeaderContinueReading": "Continuer à lire"
+    "HeaderContinueReading": "Continuer à lire",
+    "MusicVideos": "Vidéos musicales"
 }

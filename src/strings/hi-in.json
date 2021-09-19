@@ -29,7 +29,7 @@
     "AdditionalNotificationServices": "अतिरिक्त सूचना सेवाओं को स्थापित करने के लिए प्लगइन सूची पर नज़र डालें।",
     "AddedOnValue": "जोड़ दिया",
     "AddToPlaylist": "प्लेलिस्ट में जोड़ें",
-    "AllowMediaConversionHelp": "मीडिया परिवर्तन के लिये अनुमति दें.",
+    "AllowMediaConversionHelp": "मीडिया परिवर्तन के लिये अनुमति दें या इनकार करें",
     "AllowMediaConversion": "मीडिया रूपांतरण की अनुमति दें",
     "ButtonOk": "ठीक",
     "ButtonNextTrack": "आगे धावन पथ",
@@ -112,7 +112,7 @@
     "ButtonSelectView": "दृश्य चुने",
     "ButtonSelectDirectory": "Directory चुने",
     "ButtonScanAllLibraries": "सभी लाईब्रेरी/भंडार खंगाले",
-    "ButtonRevoke": "हटाये",
+    "ButtonRevoke": "रद्द करें",
     "ButtonResume": "पुनः चालु करे",
     "ButtonResetEasyPassword": "'आसान पिन कोड' बदले",
     "ButtonRename": "नाम बदले",
@@ -120,5 +120,10 @@
     "ButtonPreviousTrack": "पिछला ट्रैक",
     "ButtonPlayer": "प्लेयर",
     "ButtonPause": "रोकें",
-    "ButtonParentalControl": "अभिभावक नियंत्रण"
+    "ButtonParentalControl": "अभिभावक नियंत्रण",
+    "ButtonSignIn": "साइन इन",
+    "ButtonShutdown": "बंद करें",
+    "ButtonSend": "भेजें",
+    "ButtonCast": "कलाकार",
+    "Arranger": "प्रबंधक"
 }

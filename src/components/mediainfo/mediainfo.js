@@ -108,7 +108,7 @@ import '../../elements/emby-button/emby-button';
         let date;
         let count;
 
-        const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
+        const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.Type === 'Playlist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
 
         if (showFolderRuntime) {
             count = item.SongCount || item.ChildCount;
@@ -118,7 +118,7 @@ import '../../elements/emby-button/emby-button';
             }
 
             if (item.RunTimeTicks) {
-                miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
+                miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
             }
         } else if (item.Type === 'PhotoAlbum' || item.Type === 'BoxSet') {
             count = item.ChildCount;
@@ -256,15 +256,7 @@ import '../../elements/emby-button/emby-button';
             if (item.Type === 'Audio') {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
-                const totalMinutes = Math.round(item.RunTimeTicks / 600000000) || 1;
-                const totalHours = Math.floor(totalMinutes / 60);
-                const remainderMinutes = totalMinutes % 60;
-                const result = [];
-                if (totalHours > 0) {
-                    result.push(`${totalHours}h`);
-                }
-                result.push(`${remainderMinutes}m`);
-                miscInfo.push(result.join(' '));
+                miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
             }
         }
 

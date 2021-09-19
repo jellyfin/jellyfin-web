@@ -48,7 +48,7 @@ class TimeSyncCore {
             Events.trigger(this, 'time-sync-server-update', [timeOffset, ping]);
         });
 
-        Events.on(appSettings, 'change', function (e, name) {
+        Events.on(appSettings, 'change', (e, name) => {
             if (name === 'extraTimeOffset') {
                 this.extraTimeOffset = toFloat(getSetting('extraTimeOffset'), 0.0);
             }

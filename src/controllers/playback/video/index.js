@@ -410,6 +410,15 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
+        function onFullscreenChanged() {
+            if (currentPlayer.forcedFullscreen && !playbackManager.isFullscreen(currentPlayer)) {
+                appRouter.back();
+                return;
+            }
+
+            updateFullscreenIcon();
+        }
+
         function updateFullscreenIcon() {
             const button = view.querySelector('.btnFullscreen');
             const icon = button.querySelector('.material-icons');
@@ -513,7 +522,7 @@ import { appRouter } from '../../../components/appRouter';
             Events.on(player, 'pause', onPlayPauseStateChanged);
             Events.on(player, 'unpause', onPlayPauseStateChanged);
             Events.on(player, 'timeupdate', onTimeUpdate);
-            Events.on(player, 'fullscreenchange', updateFullscreenIcon);
+            Events.on(player, 'fullscreenchange', onFullscreenChanged);
             Events.on(player, 'mediastreamschange', onMediaStreamsChanged);
             Events.on(player, 'beginFetch', onBeginFetch);
             Events.on(player, 'endFetch', onEndFetch);
@@ -537,7 +546,7 @@ import { appRouter } from '../../../components/appRouter';
                 Events.off(player, 'pause', onPlayPauseStateChanged);
                 Events.off(player, 'unpause', onPlayPauseStateChanged);
                 Events.off(player, 'timeupdate', onTimeUpdate);
-                Events.off(player, 'fullscreenchange', updateFullscreenIcon);
+                Events.off(player, 'fullscreenchange', onFullscreenChanged);
                 Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
                 currentPlayer = null;
             }
@@ -683,7 +692,7 @@ import { appRouter } from '../../../components/appRouter';
                 view.querySelector('.btnAirPlay').classList.remove('hide');
             }
 
-            updateFullscreenIcon();
+            onFullscreenChanged();
         }
 
         function getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs) {

@@ -1574,5 +1574,9 @@
     "SetUsingLastTracks": "Állítsa be a felirat-/hanganyagokat az előző tétellel",
     "PreviousChapter": "Előző fejezet",
     "NextChapter": "Következő fejezet",
-    "ErrorPlayerNotFound": "Nem található lejátszó a kért médiához."
+    "ErrorPlayerNotFound": "Nem található lejátszó a kért médiához.",
+    "LabelSortName": "Név rendezése:",
+    "LabelOriginalName": "Eredeti név:",
+    "AgeValue": "({0} éves)",
+    "PlaybackErrorPlaceHolder": "Ez egy hely a fizikai médiában, amelyet a Jellyfin nem tud lejátszani. Kérjük, helyezze be a lemezt a lejátszáshoz."
 }

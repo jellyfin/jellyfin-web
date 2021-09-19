@@ -425,6 +425,7 @@ a[data-role=button] {
 
 .countIndicator,
 .fullSyncIndicator,
+.mediaSourceIndicator,
 .playedIndicator {
     background: rgb(12, 232, 214);
 }
