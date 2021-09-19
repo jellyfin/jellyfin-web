@@ -31,7 +31,7 @@ jobs:
         with:
           yq-version: v4.9.8
 
-      - name: Setup sariables
+      - name: Setup variables
         id: variables
         run: |-
           if [[ "${GITHUB_REF}" =~ '^refs/tags/v.*$' ]]; then
