@@ -1578,5 +1578,7 @@
     "AgeValue": "(agé de {0} ans)",
     "SetUsingLastTracksHelp": "Essayer de définir les sous-titres/pistes audios au plus près de la dernière vidéo.",
     "SetUsingLastTracks": "Définir les sous-titres/pistes audios avec l'élément précédent",
-    "PlaybackErrorPlaceHolder": "Ceci est un emplacement pour les médias physiques que Jellyfin ne peut pas jouer. Merci d'insérer le disque pour lancer la lecture."
+    "PlaybackErrorPlaceHolder": "Ceci est un emplacement pour les médias physiques que Jellyfin ne peut pas jouer. Merci d'insérer le disque pour lancer la lecture.",
+    "LabelMaxDaysForNextUpHelp": "Définit le nombre maximal de jours avant qu'une emission ne soit retirée de la section \"À suivre\".",
+    "LabelMaxDaysForNextUp": "Expiration de la section \"À suivre\" :"
 }
