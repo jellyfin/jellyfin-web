@@ -1579,5 +1579,7 @@
     "LabelSortName": "Sūryptalatyn aty:",
     "LabelOriginalName": "Tüpnūsqa aty:",
     "AgeValue": "({0} jasynda)",
-    "PlaybackErrorPlaceHolder": "Būl Jellyfin oinata almaityn fizikalyq tasyğyştyñ toltyrğyşy. Oinatu üşın diskını salyñyz."
+    "PlaybackErrorPlaceHolder": "Būl Jellyfin oinata almaityn fizikalyq tasyğyştyñ toltyrğyşy. Oinatu üşın diskını salyñyz.",
+    "LabelMaxDaysForNextUp": "Kelesıdegi eñ köp künder:",
+    "LabelMaxDaysForNextUpHelp": "Körsetımdı körmei-aq \"Kelesı\" tızımınde qalatyn künderdıñ eñ köp sanyn ornatady."
 }
