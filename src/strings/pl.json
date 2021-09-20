@@ -1540,5 +1540,14 @@
     "LabelLocalCustomCss": "Niestandardowy styl CSS, który dotyczy tylko tego klienta. Możesz wyłączyć niestandardowy CSS serwera.",
     "LabelDisableCustomCss": "Wyłącz niestandardowe motywy/cechy CSS dostarczone z serwera.",
     "DisableCustomCss": "Wyłącz niestandardowe CSS dostarczane przez serwer",
-    "LabelHardwareEncoding": "Kodowanie sprzętowe:"
+    "LabelHardwareEncoding": "Kodowanie sprzętowe:",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Ręcznie dostosuj przesunięcie czasu z wybranym urządzeniem do synchronizacji czasu. Dostosuj ostrożnie.",
+    "LabelSyncPlaySettingsExtraTimeOffset": "Dodatkowy czas przesunięcia:",
+    "LabelSortName": "Nazwa sortowania:",
+    "LabelMaxDaysForNextUpHelp": "Ustawia maksymalną ilość dni, przez które program powinien pozostać na liście 'Następny w kolejności' bez oglądania go.",
+    "LabelMaxDaysForNextUp": "Maksimum dni w \"Następny w kolejności\":",
+    "ErrorPlayerNotFound": "Nie znaleziono odtwarzacza dla żądanego nośnika.",
+    "Engineer": "Inżynier",
+    "Conductor": "Przewodnik",
+    "Arranger": "Organizator"
 }
