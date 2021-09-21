@@ -1577,5 +1577,7 @@
     "Conductor": "Nhạc trưởng",
     "Arranger": "Người sắp đặt",
     "AgeValue": "({0} tuổi)",
-    "PlaybackErrorPlaceHolder": "Đây là trình giữ chỗ cho phương tiện vật lý mà Jellyfin không thể phát. Vui lòng cho đĩa vào để chơi."
+    "PlaybackErrorPlaceHolder": "Đây là trình giữ chỗ cho phương tiện vật lý mà Jellyfin không thể phát. Vui lòng cho đĩa vào để chơi.",
+    "LabelMaxDaysForNextUpHelp": "Đặt số ngày tối đa mà một chương trình sẽ ở trong danh sách 'Tiếp theo' mà không cần xem chương trình đó.",
+    "LabelMaxDaysForNextUp": "Số ngày tối đa trong 'Tiếp theo':"
 }
