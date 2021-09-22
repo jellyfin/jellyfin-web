@@ -1340,7 +1340,7 @@
     "LabelRepositoryUrl": "URL du dépôt",
     "HeaderNewRepository": "Nouveau dépôt",
     "MessageNoRepositories": "Pas de dépôts.",
-    "EnableFasterAnimationsHelp": "Utiliser des animations et des transitions plus rapides",
+    "EnableFasterAnimationsHelp": "Utiliser des animations et des transitions plus rapides.",
     "EnableFasterAnimations": "Animations plus rapides",
     "EnableDecodingColorDepth10Vp9": "Activer le décodage hardware 10-Bit pour VP9",
     "EnableDecodingColorDepth10Hevc": "Activer le décodage hardware 10-Bit pour HEVC",
@@ -1521,8 +1521,8 @@
     "SubtitleCodecNotSupported": "Le codec de sous-titre utilisé n'est pas supporté",
     "ContainerNotSupported": "Le container n'est pas supporté",
     "AudioCodecNotSupported": "Ce codec audio n'est pas supporté",
-    "UseEpisodeImagesInNextUpHelp": "Les sections \"À suivre\" et \"Continuez à regarder\" utiliseront les vignettes des épisodes plutôt que la vignette primaire de la série.",
-    "UseEpisodeImagesInNextUp": "Utilise l'image de l'épisode pour les sections \"À suivre\" et \"Continuez à regarder\"",
+    "UseEpisodeImagesInNextUpHelp": "Les sections 'À suivre' et 'Continuez à regarder' utiliseront les vignettes des épisodes plutôt que la vignette primaire de la série.",
+    "UseEpisodeImagesInNextUp": "Utilise l'image de l'épisode pour les sections 'À suivre' et 'Continuez à regarder'",
     "DisableCustomCss": "Désactive le CSS custom fourni par le serveur",
     "RefFramesNotSupported": "Les cadres de référence ne sont pas pris en charge",
     "VideoProfileNotSupported": "Le profil du codec vidéo n’est pas pris en charge",
@@ -1579,6 +1579,6 @@
     "SetUsingLastTracksHelp": "Essayer de définir les sous-titres/pistes audios au plus près de la dernière vidéo.",
     "SetUsingLastTracks": "Définir les sous-titres/pistes audios avec l'élément précédent",
     "PlaybackErrorPlaceHolder": "Ceci est un emplacement pour les médias physiques que Jellyfin ne peut pas jouer. Merci d'insérer le disque pour lancer la lecture.",
-    "LabelMaxDaysForNextUpHelp": "Définit le nombre maximal de jours avant qu'une emission ne soit retirée de la section \"À suivre\".",
-    "LabelMaxDaysForNextUp": "Expiration de la section \"À suivre\" :"
+    "LabelMaxDaysForNextUpHelp": "Définit le nombre maximal de jours avant qu'une émission ne soit retirée de la section 'À suivre'.",
+    "LabelMaxDaysForNextUp": "Expiration de la section 'À suivre' :"
 }
