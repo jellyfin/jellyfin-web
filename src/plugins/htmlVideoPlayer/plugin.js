@@ -675,13 +675,13 @@ function tryRemoveElement(elem) {
                 }
 
                 onEndedInternal(this, elem, this.onError);
-
-                if (destroyPlayer) {
-                    this.destroy();
-                }
             }
 
             this.destroyCustomTrack(elem);
+
+            if (destroyPlayer) {
+                this.destroy();
+            }
 
             return Promise.resolve();
         }
