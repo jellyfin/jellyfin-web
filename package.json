@@ -37,7 +37,7 @@
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
-    "postcss": "^8.3.6",
+    "postcss": "^8.3.7",
     "postcss-loader": "^6.1.1",
     "postcss-preset-env": "^6.7.0",
     "sass": "^1.39.2",
