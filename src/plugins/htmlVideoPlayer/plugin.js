@@ -1065,7 +1065,10 @@ function tryRemoveElement(elem) {
                     // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
                     htmlVideoPlayer.#currentSubtitlesOctopus = null;
 
-                    onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                    // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
+                    setTimeout(() => {
+                        onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                    }, 0);
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
