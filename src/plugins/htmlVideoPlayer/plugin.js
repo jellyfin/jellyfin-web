@@ -1062,6 +1062,9 @@ function tryRemoveElement(elem) {
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
+                    // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
+                    htmlVideoPlayer.#currentSubtitlesOctopus = null;
+
                     onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
