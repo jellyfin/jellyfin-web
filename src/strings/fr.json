@@ -1340,7 +1340,7 @@
     "LabelRepositoryUrl": "URL du dépôt",
     "HeaderNewRepository": "Nouveau dépôt",
     "MessageNoRepositories": "Pas de dépôts.",
-    "EnableFasterAnimationsHelp": "Utiliser des animations et des transitions plus rapides.",
+    "EnableFasterAnimationsHelp": "Utiliser des animations et transitions plus rapides.",
     "EnableFasterAnimations": "Animations plus rapides",
     "EnableDecodingColorDepth10Vp9": "Activer le décodage hardware 10-Bit pour VP9",
     "EnableDecodingColorDepth10Hevc": "Activer le décodage hardware 10-Bit pour HEVC",
