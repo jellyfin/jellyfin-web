@@ -1335,7 +1335,7 @@
     "LabelRepositoryUrl": "URL репозитория",
     "HeaderNewRepository": "Новый репозиторий",
     "MessageNoRepositories": "Репозитории отсутствуют.",
-    "EnableFasterAnimationsHelp": "Использовать ускоренную анимацию и переходы",
+    "EnableFasterAnimationsHelp": "Использовать ускоренную анимацию и переходы.",
     "EnableFasterAnimations": "Ускоренная анимация",
     "EnableDecodingColorDepth10Vp9": "Включить 10-битное аппаратное декодирование для VP9",
     "EnableDecodingColorDepth10Hevc": "Включить 10-битное аппаратное декодирование для HEVC",
