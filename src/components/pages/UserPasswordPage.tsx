@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import SectionTitleLinkElement from '../DashboardComponent/users/userprofiles/ElementWarpper/SectionTitle/SectionTitleLinkElement';
-import TabLinkElement from '../DashboardComponent/users/userprofiles/ElementWarpper/TabLinkElement';
-import UserPasswordForm from '../DashboardComponent/users/userprofiles/UserPasswordForm';
+import SectionTitleLinkElement from '../DashboardComponent/users/ElementWarpper/SectionTitle/SectionTitleLinkElement';
+import TabLinkElement from '../DashboardComponent/users/ElementWarpper/TabLinkElement';
+import UserPasswordForm from '../DashboardComponent/users/UserPasswordForm';
 
 type IProps = {
     userId?: string;
@@ -45,22 +45,22 @@ const UserPasswordPage: FunctionComponent<IProps> = ({userId}: IProps) => {
                     <TabLinkElement
                         className=''
                         tabTitle='Profile'
-                        navigateto='useredit.html'
+                        url='useredit.html'
                     />
                     <TabLinkElement
                         className=''
                         tabTitle='TabAccess'
-                        navigateto='userlibraryaccess.html'
+                        url='userlibraryaccess.html'
                     />
                     <TabLinkElement
                         className=''
                         tabTitle='TabParentalControl'
-                        navigateto='userparentalcontrol.html'
+                        url='userparentalcontrol.html'
                     />
                     <TabLinkElement
                         className='ui-btn-active'
                         tabTitle='HeaderPassword'
-                        navigateto='userpassword.html'
+                        url='userpassword.html'
                     />
                 </div>
                 <div className='readOnlyContent'>

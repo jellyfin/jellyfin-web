@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import globalize from '../../../../../scripts/globalize';
+import globalize from '../../../../scripts/globalize';
 
 type IProps = {
-    tabTitle: string;
+    tabTitle?: string;
     className?: string;
-    navigateto: string
+    url?: string
 }
 
-const createLinkElement = ({ className, tabTitle, url }) => ({
+const createLinkElement = ({ className, tabTitle, url }: IProps) => ({
     __html: `<a
     href="#"
     is="emby-linkbutton"
@@ -19,13 +19,13 @@ const createLinkElement = ({ className, tabTitle, url }) => ({
     </a>`
 });
 
-const TabLinkElement: FunctionComponent<IProps> = ({ className, tabTitle, navigateto }: IProps) => {
+const TabLinkElement: FunctionComponent<IProps> = ({ className, tabTitle, url }: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createLinkElement({
                 className: className,
                 tabTitle: tabTitle,
-                url: navigateto
+                url: url
             })}
         />
     );

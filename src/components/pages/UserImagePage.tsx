@@ -5,8 +5,8 @@ import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
 import { appHost } from '../apphost';
 import confirm from '../confirm/confirm';
-import ButtonElement from '../DashboardComponent/users/userprofiles/ElementWarpper/ButtonElement';
-import UserPasswordForm from '../DashboardComponent/users/userprofiles/UserPasswordForm';
+import ButtonElement from '../DashboardComponent/users/ElementWarpper/ButtonElement';
+import UserPasswordForm from '../DashboardComponent/users/UserPasswordForm';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 

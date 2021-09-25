@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
-import Dashboard from '../../../../scripts/clientUtils';
-import globalize from '../../../../scripts/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
-import confirm from '../../../confirm/confirm';
-import loading from '../../../loading/loading';
-import toast from '../../../toast/toast';
+import Dashboard from '../../../scripts/clientUtils';
+import globalize from '../../../scripts/globalize';
+import LibraryMenu from '../../../scripts/libraryMenu';
+import confirm from '../../confirm/confirm';
+import loading from '../../loading/loading';
+import toast from '../../toast/toast';
 import ButtonElement from './ElementWarpper/ButtonElement';
 import CheckBoxElement from './ElementWarpper/CheckBoxElement';
 import InputElement from './ElementWarpper/InputElement';
@@ -62,7 +62,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
 
                 element.current.querySelector('.chkEnableLocalEasyPassword').checked = user.Configuration.EnableLocalPassword;
 
-                import('../../../../components/autoFocuser').then(({default: autoFocuser}) => {
+                import('../../autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(element.current);
                 });
             });
@@ -194,7 +194,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                             type='password'
                             id='txtCurrentPassword'
                             label='LabelCurrentPassword'
-                            autoComplete='off'
+                            options={'autoComplete="off"'}
                         />
                     </div>
                     <div className='inputContainer'>
@@ -202,7 +202,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                             type='password'
                             id='txtNewPassword'
                             label='LabelNewPassword'
-                            autoComplete='off'
+                            options={'autoComplete="off"'}
                         />
                     </div>
                     <div className='inputContainer'>
@@ -210,7 +210,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                             type='password'
                             id='txtNewPasswordConfirm'
                             label='LabelNewPasswordConfirm'
-                            autoComplete='off'
+                            options={'autoComplete="off"'}
                         />
                     </div>
                     <br />
@@ -246,8 +246,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                             type='number'
                             id='txtEasyPassword'
                             label='LabelEasyPinCode'
-                            autoComplete='off'
-                            options={'pattern="[0-9]*" step="1" maxlength="5"'}
+                            options={'autoComplete="off" pattern="[0-9]*" step="1" maxlength="5"'}
                         />
                     </div>
                     <br />
