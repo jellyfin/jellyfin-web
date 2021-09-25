@@ -1,14 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { appRouter } from '../appRouter';
 
 import SectionTitleLinkElement from '../DashboardComponent/users/ElementWarpper/SectionTitle/SectionTitleLinkElement';
 import TabLinkElement from '../DashboardComponent/users/ElementWarpper/TabLinkElement';
 import UserPasswordForm from '../DashboardComponent/users/UserPasswordForm';
 
-type IProps = {
-    userId?: string;
-}
-
-const UserPasswordPage: FunctionComponent<IProps> = ({userId}: IProps) => {
+const UserPasswordPage: FunctionComponent = () => {
+    const userId = appRouter.param('userId');
     const [ userName, setUserName ] = useState('');
 
     const loadUser = (Id) => {
