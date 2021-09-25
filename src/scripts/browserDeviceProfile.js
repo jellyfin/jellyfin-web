@@ -387,11 +387,14 @@ import browser from './browser';
             videoAudioCodecs.push('mp2');
         }
 
-        let supportsDts = browser.tizen || browser.web0sVersion || options.supportsDts || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
+        let supportsDts = options.supportsDts;
+        if (supportsDts == null) {
+            supportsDts = browser.tizen || browser.web0sVersion || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
-        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020+ (webOS 5.0+) models
-        if (browser.tizenVersion >= 4 || browser.web0sVersion >= 5) {
-            supportsDts = false;
+            // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020+ (webOS 5.0+) models
+            if (browser.tizenVersion >= 4 || browser.web0sVersion >= 5) {
+                supportsDts = false;
+            }
         }
 
         if (supportsDts) {
