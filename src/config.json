@@ -4,23 +4,29 @@
   "themes": [
     {
       "name": "Apple TV",
-      "id": "appletv"
+      "id": "appletv",
+      "color": "#bcbcbc"
     }, {
       "name": "Blue Radiance",
-      "id": "blueradiance"
+      "id": "blueradiance",
+      "color": "#011432"
     }, {
       "name": "Dark",
       "id": "dark",
+      "color": "#202020",
       "default": true
     }, {
       "name": "Light",
-      "id": "light"
+      "id": "light",
+      "color": "#303030"
     }, {
       "name": "Purple Haze",
-      "id": "purplehaze"
+      "id": "purplehaze",
+      "color": "#000420"
     }, {
       "name": "WMC",
-      "id": "wmc"
+      "id": "wmc",
+      "color": "#0c2450"
     }
   ],
   "menuLinks": [],
