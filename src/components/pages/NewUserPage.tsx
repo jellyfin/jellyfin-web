@@ -18,18 +18,22 @@ const NewUserPage: FunctionComponent = () => {
     const element = useRef(null);
 
     useEffect(() => {
-        const loadMediaFolders = () => {
+        const loadMediaFolders = (mediaFoldersResult) => {
+            setMediaFolders(mediaFoldersResult);
+
             const folderAccess = element?.current?.querySelector('.folderAccess');
             folderAccess.dispatchEvent(new CustomEvent('create'));
 
             element.current.querySelector('.chkEnableAllFolders').checked = false;
         };
 
-        const loadChannels = (channels) => {
+        const loadChannels = (channelsResult) => {
+            setChannels(channelsResult);
+
             const channelAccess = element?.current?.querySelector('.channelAccess');
             channelAccess.dispatchEvent(new CustomEvent('create'));
 
-            if (channels.length) {
+            if (channelsResult.length) {
                 element?.current?.querySelector('.channelAccessContainer').classList.remove('hide');
             } else {
                 element?.current?.querySelector('.channelAccessContainer').classList.add('hide');
@@ -48,20 +52,17 @@ const NewUserPage: FunctionComponent = () => {
             const promiseChannels = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
             // eslint-disable-next-line compat/compat
             Promise.all([promiseFolders, promiseChannels]).then(function (responses) {
-                setMediaFolders(responses[0].Items);
-                setChannels(responses[1].Items);
-
-                loadMediaFolders();
+                loadMediaFolders(responses[0].Items);
                 loadChannels(responses[1].Items);
                 loading.hide();
             });
         };
 
         const saveUser = () => {
-            const user: any = {};
-            user.Name = element?.current?.querySelector('#txtUsername').value;
-            user.Password = element?.current?.querySelector('#txtPassword').value;
-            window.ApiClient.createUser(user).then(function (user) {
+            const userInput: any = {};
+            userInput.Name = element?.current?.querySelector('#txtUsername').value;
+            userInput.Password = element?.current?.querySelector('#txtPassword').value;
+            window.ApiClient.createUser(userInput).then(function (user) {
                 user.Policy.EnableAllFolders = element?.current?.querySelector('.chkEnableAllFolders').checked;
                 user.Policy.EnabledFolders = [];
 

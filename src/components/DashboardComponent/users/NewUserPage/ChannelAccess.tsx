@@ -18,9 +18,6 @@ const createCheckBoxElement = ({Name, Id}) => ({
 });
 
 const ChannelAccess: FunctionComponent<IProps> = ({Name, Id}: IProps) => {
-    console.log('ch', Name );
-    //console.log('ch', folder.Id );
-    //console.log('chda', folder.Name );
     return (
         <div
             dangerouslySetInnerHTML={createCheckBoxElement({
