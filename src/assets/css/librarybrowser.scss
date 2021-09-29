@@ -1,3 +1,37 @@
+// The padding of the header content on mobile needs to be adjusted
+// based on the size of the poster card (values from card.scss)
+@mixin header-poster-padding() {
+    padding-left: 37.5%;
+
+    @media all and (min-width: 43.75em) {
+        padding-left: 25%;
+    }
+
+    @media all and (min-width: 50em) {
+        padding-left: 20%;
+    }
+
+    @media all and (min-width: 75em) {
+        padding-left: 16.666666666666666666666666666667%;
+    }
+
+    @media all and (min-width: 87.5em) {
+        padding-left: 14.285714285714285714285714285714%;
+    }
+
+    @media all and (min-width: 100em) {
+        padding-left: 12.5%;
+    }
+
+    @media all and (min-width: 120em) {
+        padding-left: 11.111111111111111111111111111111%;
+    }
+
+    @media all and (min-width: 131.25em) {
+        padding-left: 10%;
+    }
+}
+
 .headerUserImage,
 .navMenuOption,
 .pageTitle {
@@ -580,11 +614,14 @@
 .layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
-    margin-left: 37.5%;
+    margin-left: 0;
 
+    @include header-poster-padding;
+
+    // The buttons row is full width on small screens
     @media all and (max-width: 32em) {
         margin-bottom: 0;
-        margin-left: 0;
+        padding-left: 0;
     }
 }
 
@@ -635,7 +672,7 @@
     flex: 1 0 0;
 
     .layout-mobile & {
-        padding-left: 37.5%;
+        @include header-poster-padding;
 
         @media all and (max-width: 32em) {
             position: relative;
