@@ -13,13 +13,13 @@ import ChannelAccess from '../DashboardComponent/users/NewUserPage/ChannelAccess
 import ButtonElement from '../DashboardComponent/users/ElementWarpper/ButtonElement';
 
 const NewUserPage: FunctionComponent = () => {
-    const [ channels, setChannels ] = useState([]);
-    const [ mediaFolders, setMediaFolders ] = useState([]);
+    const [ channelsResult, setChannelsResult ] = useState([]);
+    const [ mediaFoldersResult, setMediaFoldersResult ] = useState([]);
     const element = useRef(null);
 
     useEffect(() => {
-        const loadMediaFolders = (mediaFoldersResult) => {
-            setMediaFolders(mediaFoldersResult);
+        const loadMediaFolders = (mediaFolders) => {
+            setMediaFoldersResult(mediaFolders);
 
             const folderAccess = element?.current?.querySelector('.folderAccess');
             folderAccess.dispatchEvent(new CustomEvent('create'));
@@ -27,13 +27,13 @@ const NewUserPage: FunctionComponent = () => {
             element.current.querySelector('.chkEnableAllFolders').checked = false;
         };
 
-        const loadChannels = (channelsResult) => {
-            setChannels(channelsResult);
+        const loadChannels = (channels) => {
+            setChannelsResult(channels);
 
             const channelAccess = element?.current?.querySelector('.channelAccess');
             channelAccess.dispatchEvent(new CustomEvent('create'));
 
-            if (channelsResult.length) {
+            if (channels.length) {
                 element?.current?.querySelector('.channelAccessContainer').classList.remove('hide');
             } else {
                 element?.current?.querySelector('.channelAccessContainer').classList.add('hide');
@@ -136,55 +136,49 @@ const NewUserPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <form className='newUserProfileForm'>
-                    <div className='verticalSection'>
-                        <div className='sectionTitleContainer flex align-items-center'>
-                            <h2 className='sectionTitle'>
-                                {globalize.translate('ButtonAddUser')}
-                            </h2>
-                            <SectionTitleLinkElement
-                                className='raised button-alt headerHelpButton'
-                                title='Help'
-                                url='https://docs.jellyfin.org/general/server/users/'
-                            />
-                        </div>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='text'
-                                id='txtUsername'
-                                label='LabelName'
-                                options={'required'}
-                            />
-                        </div>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='password'
-                                id='txtPassword'
-                                label='LabelPassword'
-                            />
-                        </div>
-                    </div>
-                    <div className='folderAccessContainer verticalSection'>
+                <div className='verticalSection'>
+                    <div className='sectionTitleContainer flex align-items-center'>
                         <h2 className='sectionTitle'>
-                            {globalize.translate('HeaderLibraryAccess')}
+                            {globalize.translate('ButtonAddUser')}
                         </h2>
-                        <div className='checkboxContainer checkboxContainer-withDescription'>
-                            <CheckBoxElement
-                                type='checkbox'
-                                className='chkEnableAllFolders'
-                                title='OptionEnableAccessToAllLibraries'
-                            />
-                            <div className='fieldDescription checkboxFieldDescription'>
-                                {globalize.translate('LibraryAccessHelp')}
-                            </div>
-                        </div>
+                        <SectionTitleLinkElement
+                            className='raised button-alt headerHelpButton'
+                            title='Help'
+                            url='https://docs.jellyfin.org/general/server/users/'
+                        />
+                    </div>
+                </div>
+                <form className='newUserProfileForm'>
+                    <div className='inputContainer'>
+                        <InputElement
+                            type='text'
+                            id='txtUsername'
+                            label='LabelName'
+                            options={'required'}
+                        />
+                    </div>
+                    <div className='inputContainer'>
+                        <InputElement
+                            type='password'
+                            id='txtPassword'
+                            label='LabelPassword'
+                        />
+                    </div>
+
+                    <div className='folderAccessContainer'>
+                        <h2>{globalize.translate('HeaderLibraryAccess')}</h2>
+                        <CheckBoxElement
+                            type='checkbox'
+                            className='chkEnableAllFolders'
+                            title='OptionEnableAccessToAllLibraries'
+                        />
                         <div className='folderAccessListContainer'>
                             <div className='folderAccess'>
                                 <h3 className='checkboxListLabel'>
                                     {globalize.translate('HeaderLibraries')}
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {mediaFolders.map((folder, index: number)=> (
+                                    {mediaFoldersResult.map((folder, index: number)=> (
                                         <FolderAccess
                                             key={index}
                                             Id={folder.Id}
@@ -193,29 +187,25 @@ const NewUserPage: FunctionComponent = () => {
                                     ))}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className='channelAccessContainer verticalSection verticalSection-extrabottompadding hide'>
-                        <h2 className='sectionTitle'>
-                            {globalize.translate('HeaderChannelAccess')}
-                        </h2>
-                        <div className='checkboxContainer checkboxContainer-withDescription'>
-                            <CheckBoxElement
-                                type='checkbox'
-                                className='chkEnableAllChannels'
-                                title='OptionEnableAccessToAllChannels'
-                            />
-                            <div className='fieldDescription checkboxFieldDescription'>
-                                {globalize.translate('ChannelAccessHelp')}
+                            <div className='fieldDescription'>
+                                {globalize.translate('LibraryAccessHelp')}
                             </div>
                         </div>
+                    </div>
+                    <div className='channelAccessContainer verticalSection-extrabottompadding hide'>
+                        <h2>{globalize.translate('HeaderChannelAccess')}</h2>
+                        <CheckBoxElement
+                            type='checkbox'
+                            className='chkEnableAllChannels'
+                            title='OptionEnableAccessToAllChannels'
+                        />
                         <div className='channelAccessListContainer'>
                             <div className='channelAccess'>
                                 <h3 className='checkboxListLabel'>
                                     {globalize.translate('Channels')}
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {channels.map((folder, index: number)=> (
+                                    {channelsResult.map((folder, index: number)=> (
                                         <ChannelAccess
                                             key={index}
                                             Id={folder.Id}
@@ -223,6 +213,9 @@ const NewUserPage: FunctionComponent = () => {
                                         />
                                     ))}
                                 </div>
+                            </div>
+                            <div className='fieldDescription'>
+                                {globalize.translate('ChannelAccessHelp')}
                             </div>
                         </div>
                     </div>
