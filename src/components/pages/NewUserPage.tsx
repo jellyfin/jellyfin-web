@@ -179,9 +179,9 @@ const NewUserPage: FunctionComponent = () => {
                                     {globalize.translate('HeaderLibraries')}
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {mediaFoldersResult.map((folder, index: number)=> (
+                                    {mediaFoldersResult.map(folder => (
                                         <FolderAccess
-                                            key={index}
+                                            key={folder.Id}
                                             Id={folder.Id}
                                             Name={folder.Name}
                                         />
@@ -206,9 +206,9 @@ const NewUserPage: FunctionComponent = () => {
                                     {globalize.translate('Channels')}
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {channelsResult.map((folder, index: number)=> (
+                                    {channelsResult.map(folder => (
                                         <ChannelAccess
-                                            key={index}
+                                            key={folder.Id}
                                             Id={folder.Id}
                                             Name={folder.Name}
                                         />
