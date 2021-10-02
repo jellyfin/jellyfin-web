@@ -141,8 +141,8 @@ const UserProfilesPage: FunctionComponent = () => {
                         />
                     </div>
                     <div className='localUsers itemsContainer vertical-wrap'>
-                        {users.map((user, index: number)=> {
-                            return <UserCardBox key={index} user={user} />;
+                        {users.map(user => {
+                            return <UserCardBox key={user.Id} user={user} />;
                         })}
                     </div>
                 </div>
