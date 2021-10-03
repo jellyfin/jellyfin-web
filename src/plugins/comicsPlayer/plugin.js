@@ -30,9 +30,17 @@ export class ComicsPlayer {
         return this.setCurrentSrc(elem, options);
     }
 
+    destroy() {
+        // Nothing to do here
+    }
+
     stop() {
         this.unbindEvents();
+        const stopInfo = {
+            src: this.item
+        };
 
+        Events.trigger(this, 'stopped', [stopInfo]);
         this.archiveSource?.release();
 
         const elem = this.mediaElement;
@@ -42,6 +50,36 @@ export class ComicsPlayer {
         }
 
         loading.hide();
+    }
+
+    currentTime() {
+        // * 1000 is an arbitrary value copied over from the bookPlayer
+        return this.progress * 1000;
+    }
+
+    duration() {
+        // 1000 is an arbitrary value copied over from the bookPlayer
+        return 1000;
+    }
+
+    currentItem() {
+        return this.item;
+    }
+
+    volume() {
+        return 100;
+    }
+
+    isMuted() {
+        return false;
+    }
+
+    paused() {
+        return false;
+    }
+
+    seekable() {
+        return true;
     }
 
     onDialogClosed() {
@@ -60,8 +98,8 @@ export class ComicsPlayer {
     bindMediaElementEvents() {
         const elem = this.mediaElement;
 
-        elem?.addEventListener('close', this.onDialogClosed, {once: true});
-        elem?.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, {once: true});
+        elem?.addEventListener('close', this.onDialogClosed, { once: true });
+        elem?.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
     }
 
     bindEvents() {
@@ -118,7 +156,15 @@ export class ComicsPlayer {
 
     setCurrentSrc(elem, options) {
         const item = options.items[0];
-        this.currentItem = item;
+        this.item = item;
+        this.streamInfo = {
+            started: true,
+            ended: false,
+            item: this.item,
+            mediaSource: {
+                Id: item.Id
+            }
+        };
 
         loading.show();
 
@@ -134,6 +180,8 @@ export class ComicsPlayer {
 
         return this.archiveSource.load().then(() => {
             loading.hide();
+
+            this.progress = options.startPositionTicks / 10000000 || 0;
             this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                 direction: 'horizontal',
                 // loop is disabled due to the lack of Swiper support in virtual slides
@@ -150,7 +198,7 @@ export class ComicsPlayer {
                 preloadImages: true,
                 slidesPerView: 1,
                 slidesPerColumn: 1,
-                initialSlide: 0,
+                initialSlide: this.progress * this.archiveSource.urls.length,
                 // reduces memory consumption for large libraries while allowing preloading of images
                 virtual: {
                     slides: this.archiveSource.urls,
@@ -159,6 +207,12 @@ export class ComicsPlayer {
                     addSlidesBefore: 1,
                     addSlidesAfter: 1
                 }
+            });
+
+            // save current page ( a page is an image file inside the archive )
+            this.swiperInstance.on('slideChange', () => {
+                this.progress = this.swiperInstance.activeIndex / this.archiveSource.urls.length;
+                Events.trigger(this, 'pause');
             });
         });
     }
