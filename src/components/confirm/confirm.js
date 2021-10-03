@@ -1,3 +1,4 @@
+import { appRouter } from '../appRouter';
 import browser from '../../scripts/browser';
 import dialog from '../dialog/dialog';
 import globalize from '../../scripts/globalize';
@@ -6,7 +7,7 @@ function replaceAll(str, find, replace) {
     return str.split(find).join(replace);
 }
 
-function nativeConfirm(options) {
+async function nativeConfirm(options) {
     if (typeof options === 'string') {
         options = {
             title: '',
@@ -15,6 +16,7 @@ function nativeConfirm(options) {
     }
 
     const text = replaceAll(options.text || '', '<br/>', '\n');
+    await appRouter.ready();
     const result = window.confirm(text);
 
     if (result) {

@@ -24,6 +24,7 @@ class AppRouter {
     isDummyBackToHome;
     msgTimeout;
     popstateOccurred = false;
+    promiseShow;
     resolveOnNextShow;
     previousRoute = {};
     /**
@@ -122,11 +123,24 @@ class AppRouter {
         }
     }
 
-    back() {
-        page.back();
+    ready() {
+        return this.promiseShow || Promise.resolve();
     }
 
-    show(path, options) {
+    async back() {
+        if (this.promiseShow) await this.promiseShow;
+
+        this.promiseShow = new Promise((resolve) => {
+            this.resolveOnNextShow = resolve;
+            page.back();
+        });
+
+        return this.promiseShow;
+    }
+
+    async show(path, options) {
+        if (this.promiseShow) await this.promiseShow;
+
         // ensure the path does not start with '#!' since the router adds this
         if (path.startsWith('#!')) {
             path = path.substring(2);
@@ -146,17 +160,25 @@ class AppRouter {
             }
         }
 
-        return new Promise((resolve) => {
+        this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
-            page.show(path, options);
+            // Schedule a call to return the promise
+            setTimeout(() => page.show(path, options), 0);
         });
+
+        return this.promiseShow;
     }
 
-    showDirect(path) {
-        return new Promise(function(resolve) {
+    async showDirect(path) {
+        if (this.promiseShow) await this.promiseShow;
+
+        this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
-            page.show(this.baseUrl() + path);
+            // Schedule a call to return the promise
+            setTimeout(() => page.show(this.baseUrl() + path), 0);
         });
+
+        return this.promiseShow;
     }
 
     start(options) {
@@ -414,6 +436,7 @@ class AppRouter {
     onViewShow() {
         const resolve = this.resolveOnNextShow;
         if (resolve) {
+            this.promiseShow = null;
             this.resolveOnNextShow = null;
             resolve();
         }
