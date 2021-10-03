@@ -10,6 +10,15 @@ import globalize from '../scripts/globalize';
         return originalString.replace(reg, strWith);
     }
 
+    function useNativeAlert() {
+        // webOS seems to block modals
+        // Tizen 2.x seems to block modals
+        return !browser.web0s
+            && !(browser.tizenVersion && browser.tizenVersion < 3)
+            && browser.tv
+            && window.alert;
+    }
+
     export default async function (text, title) {
         let options;
         if (typeof text === 'string') {
@@ -21,7 +30,7 @@ import globalize from '../scripts/globalize';
             options = text;
         }
 
-        if (browser.tv && window.alert) {
+        if (useNativeAlert()) {
             await appRouter.ready();
             alert(replaceAll(options.text || '', '<br/>', '\n'));
             return Promise.resolve();
