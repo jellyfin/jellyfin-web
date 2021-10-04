@@ -675,13 +675,13 @@ function tryRemoveElement(elem) {
                 }
 
                 onEndedInternal(this, elem, this.onError);
-
-                if (destroyPlayer) {
-                    this.destroy();
-                }
             }
 
             this.destroyCustomTrack(elem);
+
+            if (destroyPlayer) {
+                this.destroy();
+            }
 
             return Promise.resolve();
         }
@@ -1062,7 +1062,13 @@ function tryRemoveElement(elem) {
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
-                    onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                    // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
+                    htmlVideoPlayer.#currentSubtitlesOctopus = null;
+
+                    // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
+                    setTimeout(() => {
+                        onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                    }, 0);
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
