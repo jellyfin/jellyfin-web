@@ -26,7 +26,7 @@ module.exports = merge(common, {
     },
     plugins: [
         new DefinePlugin({
-            'process.env.WEBPACK_SERVE': true
+            __WEBPACK_SERVE__: true
         })
     ],
     devServer: {
