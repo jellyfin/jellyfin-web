@@ -45,8 +45,8 @@ self.addEventListener('notificationclick', function (event) {
 }, false);
 
 // Do not precache files in development so live reload works as expected
-/* eslint-disable-next-line no-undef -- NODE_ENV is replaced by webpack */
-if (process.env.NODE_ENV === 'production') {
+/* eslint-disable-next-line no-undef -- WEBPACK_SERVE is replaced by webpack */
+if (process.env.WEBPACK_SERVE) {
     // this is needed by the webpack Workbox plugin
     /* eslint-disable-next-line no-restricted-globals,no-undef */
     precacheAndRoute(self.__WB_MANIFEST);

@@ -72,9 +72,11 @@ export function getIncludeCorsCredentials() {
 
 export function getMultiServer() {
     return getConfig().then(config => {
-        // Enable multi-server support in development environments
-        return process.env.NODE_ENV === 'development' // eslint-disable-line no-undef
-            || !!config.multiserver;
+        // Enable multi-server support when served by webpack
+        if (process.env.WEBPACK_SERVE) { // eslint-disable-line no-undef
+            return true;
+        }
+        return !!config.multiserver;
     }).catch(error => {
         console.log('cannot get web config:', error);
         return false;
