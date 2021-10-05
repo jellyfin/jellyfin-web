@@ -30,17 +30,15 @@ export class ComicsPlayer {
         return this.setCurrentSrc(elem, options);
     }
 
-    destroy() {
-        // Nothing to do here
-    }
-
     stop() {
         this.unbindEvents();
+
         const stopInfo = {
             src: this.item
         };
 
         Events.trigger(this, 'stopped', [stopInfo]);
+
         this.archiveSource?.release();
 
         const elem = this.mediaElement;
@@ -50,6 +48,10 @@ export class ComicsPlayer {
         }
 
         loading.hide();
+    }
+
+    destroy() {
+        // Nothing to do here
     }
 
     currentTime() {
