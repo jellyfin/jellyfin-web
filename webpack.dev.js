@@ -1,6 +1,5 @@
 const common = require('./webpack.common');
 const { merge } = require('webpack-merge');
-const { DefinePlugin } = require('webpack');
 
 module.exports = merge(common, {
     // In order for live reload to work we must use "web" as the target not "browserlist"
@@ -24,11 +23,6 @@ module.exports = merge(common, {
             }
         ]
     },
-    plugins: [
-        new DefinePlugin({
-            __WEBPACK_SERVE__: true
-        })
-    ],
     devServer: {
         compress: true,
         client: {
