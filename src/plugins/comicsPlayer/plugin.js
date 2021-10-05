@@ -24,7 +24,8 @@ export class ComicsPlayer {
     }
 
     play(options) {
-        this.progress = 0;
+        this.currentPage = 0;
+        this.pageCount = 0;
 
         const elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
@@ -55,13 +56,12 @@ export class ComicsPlayer {
     }
 
     currentTime() {
-        // * 1000 is an arbitrary value copied over from the bookPlayer
-        return this.progress * 1000;
+        return this.currentPage;
     }
 
     duration() {
         // 1000 is an arbitrary value copied over from the bookPlayer
-        return 1000;
+        return this.pageCount;
     }
 
     currentItem() {
@@ -183,7 +183,8 @@ export class ComicsPlayer {
         return this.archiveSource.load().then(() => {
             loading.hide();
 
-            this.progress = options.startPositionTicks / 10000000 || 0;
+            this.pageCount = this.archiveSource.urls.length;
+            this.currentPage = options.startPositionTicks / 10000 || 0;
             this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                 direction: 'horizontal',
                 // loop is disabled due to the lack of Swiper support in virtual slides
@@ -200,7 +201,7 @@ export class ComicsPlayer {
                 preloadImages: true,
                 slidesPerView: 1,
                 slidesPerColumn: 1,
-                initialSlide: this.progress * this.archiveSource.urls.length,
+                initialSlide: this.currentPage,
                 // reduces memory consumption for large libraries while allowing preloading of images
                 virtual: {
                     slides: this.archiveSource.urls,
@@ -213,7 +214,7 @@ export class ComicsPlayer {
 
             // save current page ( a page is an image file inside the archive )
             this.swiperInstance.on('slideChange', () => {
-                this.progress = this.swiperInstance.activeIndex / this.archiveSource.urls.length;
+                this.currentPage = this.swiperInstance.activeIndex;
                 Events.trigger(this, 'pause');
             });
         });
