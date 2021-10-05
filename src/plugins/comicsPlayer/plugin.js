@@ -60,7 +60,6 @@ export class ComicsPlayer {
     }
 
     duration() {
-        // 1000 is an arbitrary value copied over from the bookPlayer
         return this.pageCount;
     }
 
@@ -185,6 +184,7 @@ export class ComicsPlayer {
 
             this.pageCount = this.archiveSource.urls.length;
             this.currentPage = options.startPositionTicks / 10000 || 0;
+
             this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                 direction: 'horizontal',
                 // loop is disabled due to the lack of Swiper support in virtual slides
