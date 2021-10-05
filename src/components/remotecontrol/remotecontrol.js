@@ -718,11 +718,9 @@ export default function () {
             btnCommand[i].addEventListener('click', onBtnCommandClick);
         }
 
-        context.querySelector('.btnToggleFullscreen').addEventListener('click', function (e) {
+        context.querySelector('.btnToggleFullscreen').addEventListener('click', function () {
             if (currentPlayer) {
-                playbackManager.sendCommand({
-                    Name: e.target.getAttribute('data-command')
-                }, currentPlayer);
+                playbackManager.toggleFullscreen(currentPlayer);
             }
         });
         context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
