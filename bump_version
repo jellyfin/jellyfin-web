@@ -27,7 +27,8 @@ old_version="$( grep "version:" ${build_file} | sed -E 's/version: "([0-9\.]+[-a
 echo "Old version: ${old_version}"
 
 # Bump the NPM version
-npm --no-git-tag-version version v${new_version}
+new_version_sed="$( cut -f1 -d'-' <<<"${new_version}" )"
+npm --no-git-tag-version --allow-same-version version v${new_version_sed}
 
 # Set the build.yaml version to the specified new_version
 old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
