@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../scripts/globalize';
 
 const createLinkElement = ({ className, href, title }) => ({
     __html: `<a
