@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 
 const Assets = [
     'native-promise-only/npo.js',
@@ -30,6 +31,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new DefinePlugin({
+            __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
+        }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
