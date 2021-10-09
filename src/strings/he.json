@@ -949,5 +949,10 @@
     "DirectPlayHelp": "קובץ המקור תואם לחלוטין עם קליינט זה, הסשן מקבל את הקובץ ללא שינויים.",
     "DeviceAccessHelp": "זה חל רק על מכשירים הניתנים לזיהוי ייחודי ולא ימנעו גישה לדפדפן. סינון גישה למכשירי משתמש ימנע מהם להשתמש במכשירים חדשים עד לאישורם כאן.",
     "Conductor": "מנצח",
-    "Arranger": "מעבד מוזיקלי"
+    "Arranger": "מעבד מוזיקלי",
+    "LabelAllowedRemoteAddresses": "מסנן כתובות IP מרוחקות:",
+    "LabelAlbumArtPN": "תמונת אלבום PN:",
+    "LabelAlbumArtMaxResHelp": "הרזולוציה המקסימלית של תמונת האלבום חשופה בעזרת המאפיין upnp:albumArtURI.",
+    "HeaderRecordingPostProcessing": "מעבד הקלטה",
+    "AgeValue": "(בן {0} שנים)"
 }
