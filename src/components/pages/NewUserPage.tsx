@@ -45,17 +45,22 @@ const NewUserPage: FunctionComponent = () => {
 
         loadUser();
 
-        const loadMediaFolders = (mediaFolders) => {
+        const getItemsResult = items => {
             const itemsArr: ItemsArr[] = [];
 
-            for (const folder of mediaFolders) {
+            for (const item of items) {
                 itemsArr.push({
-                    Id: folder.Id,
-                    Name: folder.Name
+                    Id: item.Id,
+                    Name: item.Name
                 });
             }
+            return itemsArr;
+        };
 
-            setMediaFoldersItems(itemsArr);
+        const loadMediaFolders = (result) => {
+            const mediaFolders = getItemsResult(result);
+
+            setMediaFoldersItems(mediaFolders);
 
             const folderAccess = element?.current?.querySelector('.folderAccess');
             folderAccess.dispatchEvent(new CustomEvent('create'));
@@ -63,17 +68,10 @@ const NewUserPage: FunctionComponent = () => {
             element.current.querySelector('.chkEnableAllFolders').checked = false;
         };
 
-        const loadChannels = (channels) => {
-            const itemsArr: ItemsArr[] = [];
+        const loadChannels = (result) => {
+            const channels = getItemsResult(result);
 
-            for (const folder of channels) {
-                itemsArr.push({
-                    Id: folder.Id,
-                    Name: folder.Name
-                });
-            }
-
-            setChannelsItems(itemsArr);
+            setChannelsItems(channels);
 
             const channelAccess = element?.current?.querySelector('.channelAccess');
             channelAccess.dispatchEvent(new CustomEvent('create'));
