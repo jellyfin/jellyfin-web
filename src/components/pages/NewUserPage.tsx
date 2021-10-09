@@ -76,11 +76,8 @@ const NewUserPage: FunctionComponent = () => {
             const channelAccess = element?.current?.querySelector('.channelAccess');
             channelAccess.dispatchEvent(new CustomEvent('create'));
 
-            if (channels.length) {
-                element?.current?.querySelector('.channelAccessContainer').classList.remove('hide');
-            } else {
-                element?.current?.querySelector('.channelAccessContainer').classList.add('hide');
-            }
+            const channelAccessContainer = element?.current?.querySelector('.channelAccessContainer');
+            channels.length ? channelAccessContainer.classList.remove('hide') : channelAccessContainer.classList.add('hide');
 
             element.current.querySelector('.chkEnableAllChannels').checked = false;
         };
@@ -129,22 +126,14 @@ const NewUserPage: FunctionComponent = () => {
             return false;
         };
 
-        const chkEnableAllChannels = element?.current?.querySelector('.chkEnableAllChannels');
-        chkEnableAllChannels.addEventListener('change', function (this: HTMLInputElement) {
-            if (this.checked) {
-                element?.current?.querySelector('.channelAccessListContainer').classList.add('hide');
-            } else {
-                element?.current?.querySelector('.channelAccessListContainer').classList.remove('hide');
-            }
+        element?.current?.querySelector('.chkEnableAllChannels').addEventListener('change', function (this: HTMLInputElement) {
+            const channelAccessListContainer = element?.current?.querySelector('.channelAccessListContainer');
+            this.checked ? channelAccessListContainer.classList.add('hide') : channelAccessListContainer.classList.remove('hide');
         });
 
-        const chkEnableAllFolders = element?.current?.querySelector('.chkEnableAllFolders');
-        chkEnableAllFolders.addEventListener('change', function (this: HTMLInputElement) {
-            if (this.checked) {
-                element?.current?.querySelector('.folderAccessListContainer').classList.add('hide');
-            } else {
-                element?.current?.querySelector('.folderAccessListContainer').classList.remove('hide');
-            }
+        element?.current?.querySelector('.chkEnableAllFolders').addEventListener('change', function (this: HTMLInputElement) {
+            const folderAccessListContainer = element?.current?.querySelector('.folderAccessListContainer');
+            this.checked ? folderAccessListContainer.classList.add('hide') : folderAccessListContainer.classList.remove('hide');
         });
 
         element?.current?.querySelector('.newUserProfileForm').addEventListener('submit', onSubmit);
