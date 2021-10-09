@@ -8,8 +8,7 @@ import toast from '../toast/toast';
 import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import InputElement from '../dashboard/users/InputElement';
 import CheckBoxElement from '../dashboard/users/CheckBoxElement';
-import NewUserFolderAccessList from '../dashboard/users/NewUserFolderAccessList';
-import NewUserChannelAccessList from '../dashboard/users/NewUserChannelAccessList';
+import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/users/ButtonElement';
 
 type userInput = {
@@ -17,9 +16,14 @@ type userInput = {
     Password?: string;
 }
 
+type ItemsArr = {
+    Name?: string;
+    Id?: string;
+}
+
 const NewUserPage: FunctionComponent = () => {
-    const [ channelsResult, setChannelsResult ] = useState([]);
-    const [ mediaFoldersResult, setMediaFoldersResult ] = useState([]);
+    const [ channelsItems, setChannelsItems ] = useState([]);
+    const [ mediaFoldersItems, setMediaFoldersItems ] = useState([]);
     const element = useRef(null);
 
     useEffect(() => {
@@ -42,7 +46,16 @@ const NewUserPage: FunctionComponent = () => {
         loadUser();
 
         const loadMediaFolders = (mediaFolders) => {
-            setMediaFoldersResult(mediaFolders);
+            const itemsArr: ItemsArr[] = [];
+
+            for (const folder of mediaFolders) {
+                itemsArr.push({
+                    Id: folder.Id,
+                    Name: folder.Name
+                });
+            }
+
+            setMediaFoldersItems(itemsArr);
 
             const folderAccess = element?.current?.querySelector('.folderAccess');
             folderAccess.dispatchEvent(new CustomEvent('create'));
@@ -51,7 +64,16 @@ const NewUserPage: FunctionComponent = () => {
         };
 
         const loadChannels = (channels) => {
-            setChannelsResult(channels);
+            const itemsArr: ItemsArr[] = [];
+
+            for (const folder of channels) {
+                itemsArr.push({
+                    Id: folder.Id,
+                    Name: folder.Name
+                });
+            }
+
+            setChannelsItems(itemsArr);
 
             const channelAccess = element?.current?.querySelector('.channelAccess');
             channelAccess.dispatchEvent(new CustomEvent('create'));
@@ -179,11 +201,12 @@ const NewUserPage: FunctionComponent = () => {
                                     {globalize.translate('HeaderLibraries')}
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {mediaFoldersResult.map(folder => (
-                                        <NewUserFolderAccessList
-                                            key={folder.Id}
-                                            Id={folder.Id}
-                                            Name={folder.Name}
+                                    {mediaFoldersItems.map(Item => (
+                                        <CheckBoxListItem
+                                            key={Item.Id}
+                                            className='chkFolder'
+                                            Id={Item.Id}
+                                            Name={Item.Name}
                                         />
                                     ))}
                                 </div>
@@ -206,11 +229,12 @@ const NewUserPage: FunctionComponent = () => {
                                     {globalize.translate('Channels')}
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {channelsResult.map(folder => (
-                                        <NewUserChannelAccessList
-                                            key={folder.Id}
-                                            Id={folder.Id}
-                                            Name={folder.Name}
+                                    {channelsItems.map(Item => (
+                                        <CheckBoxListItem
+                                            key={Item.Id}
+                                            className='chkChannel'
+                                            Id={Item.Id}
+                                            Name={Item.Name}
                                         />
                                     ))}
                                 </div>
