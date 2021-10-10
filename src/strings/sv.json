@@ -1311,7 +1311,7 @@
     "LabelSyncPlayPlaybackDiff": "Uppspelnings tids skillnad:",
     "MillisecondsUnit": "ms",
     "LabelSyncPlayTimeOffset": "Tids skillnad med servern:",
-    "EnableFasterAnimationsHelp": "Använd snabbare animationer och övergångar",
+    "EnableFasterAnimationsHelp": "Använd snabbare animationer och övergångar.",
     "EnableFasterAnimations": "Snabbare animationer",
     "LabelRequireHttpsHelp": "Om valt, kommer servern automatiskt omdirigera all inkommande trafik över HTTP till HTTPS. Detta har ingen effekt om servern inte lyssnar på HTTPS.",
     "ClearQueue": "Töm kön",
