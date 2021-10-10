@@ -1327,7 +1327,7 @@
     "ButtonCast": "Přehrát v zařízení",
     "ButtonSyncPlay": "SyncPlay",
     "MessageNoGenresAvailable": "Povolit některým poskytovatelům metadat stahovat informace o žánrech z Internetu.",
-    "EnableFasterAnimationsHelp": "Použít rychlejší animace a přechody",
+    "EnableFasterAnimationsHelp": "Použít rychlejší animace a přechody.",
     "EnableFasterAnimations": "Rychlejší animace",
     "EnableDecodingColorDepth10Vp9": "Povolit 10bitové hardwarové dekódování formátu VP9",
     "EnableDecodingColorDepth10Hevc": "Povolit 10bitové hardwarové dekódování formátu HEVC",
@@ -1579,6 +1579,6 @@
     "LabelOriginalName": "Původní název:",
     "AgeValue": "({0} let)",
     "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk.",
-    "LabelMaxDaysForNextUp": "Omezení zobrazení dalších epizod",
-    "LabelMaxDaysForNextUpHelp": "Nastavit maximální počet dnů, po který zůstanou seriály v seznamu dalších epizod ke zhlédnutí."
+    "LabelMaxDaysForNextUp": "Omezení zobrazení dalších epizod:",
+    "LabelMaxDaysForNextUpHelp": "Nastavit maximální počet dnů, po který zůstane seriál v seznamu dalších epizod ke zhlédnutí."
 }
