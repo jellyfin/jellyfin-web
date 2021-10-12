@@ -1326,7 +1326,7 @@
     "ShowLess": "Mostra meno",
     "ButtonCast": "Cast",
     "ButtonSyncPlay": "SyncPlay",
-    "EnableFasterAnimationsHelp": "Utilizza animazioni e transizioni veloci",
+    "EnableFasterAnimationsHelp": "Utilizza animazioni e transizioni veloci.",
     "EnableFasterAnimations": "Animazioni veloci",
     "EnableDecodingColorDepth10Vp9": "Abilita la decodifica hardware 10-Bit per VP9",
     "EnableDecodingColorDepth10Hevc": "Abilita la decodifica hardware 10-Bit per HEVC",
@@ -1574,5 +1574,11 @@
     "HeaderSyncPlayPlaybackSettings": "Riproduzione",
     "Engineer": "Ingegnere",
     "Conductor": "Direttore",
-    "Arranger": "Arrangiatore"
+    "Arranger": "Arrangiatore",
+    "Track": "Traccia",
+    "LabelSyncPlaySettingsDescription": "Modifica le preferenze SyncPlay",
+    "LabelOriginalName": "Nome originale:",
+    "HeaderSyncPlaySettings": "Impostazioni SyncPlay",
+    "ErrorPlayerNotFound": "Nessun player trovato per il media richiesto.",
+    "AgeValue": "({0} anni)"
 }
