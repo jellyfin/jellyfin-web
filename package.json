@@ -17,7 +17,7 @@
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.33.0",
     "@uupaa/dynamic-import-polyfill": "^1.0.2",
-    "autoprefixer": "^10.3.6",
+    "autoprefixer": "^10.3.7",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-polyfill": "^1.0.0",
     "clean-webpack-plugin": "^4.0.0",
