@@ -338,7 +338,7 @@
     "LabelLocalHttpServerPortNumberHelp": "رقم منفذ TCP لخادم HTTP.",
     "LabelLoginDisclaimer": "إخلاء مسؤولية تسجيل الدخول:",
     "LabelLoginDisclaimerHelp": "رساله ستعرض أسفل صفحة تسجيل الدخول.",
-    "LabelLogs": "السجلات الكشفية:",
+    "LabelLogs": "السجلات الكشفية",
     "LabelManufacturer": "المصنّع:",
     "LabelManufacturerUrl": "رابط URL للمصنّع",
     "LabelMatchType": "وفّق النوع:",
@@ -1063,5 +1063,8 @@
     "AgeValue": "({0} سنة مضت)",
     "Large": "كبير",
     "Normal": "عادي",
-    "Small": "صغير"
+    "Small": "صغير",
+    "Screenshot": "لقطة الشاشة",
+    "None": "لا شيء",
+    "MusicVideos": "الفيديوهات الموسيقية"
 }
