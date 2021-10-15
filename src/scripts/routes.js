@@ -448,7 +448,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/userlibraryaccess.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/userlibraryaccess'
+        pageComponent: 'UserLibraryAccessPage'
     });
 
     defineRoute({
