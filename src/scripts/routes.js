@@ -440,7 +440,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/useredit.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/useredit'
+        pageComponent: 'UserEditPage'
     });
 
     defineRoute({
