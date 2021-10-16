@@ -1543,5 +1543,10 @@
     "HeaderSyncPlayPlaybackSettings": "Reproducció",
     "HeaderSyncPlaySettings": "SyncPlay Configuració",
     "Engineer": "Enginyer",
-    "AgeValue": "({0} anys)"
+    "AgeValue": "({0} anys)",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Ajusta manualment el temps de compensació amb el dispositiu seleccionat per la sincronització del temps. Adjusta amb cura",
+    "LabelSyncPlaySettingsDescription": "Canvia les preferències de SyncPlay",
+    "LabelMaxDaysForNextUp": "Màxims dies per \"A continuació\":",
+    "LabelHardwareEncoding": "Codificació per Hardware",
+    "ErrorPlayerNotFound": "No s'ha trobat cap reproductor per al fitxer multimèdia sol·licitat."
 }
