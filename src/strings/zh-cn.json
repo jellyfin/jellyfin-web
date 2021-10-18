@@ -1326,7 +1326,7 @@
     "MessageSyncPlayDisabled": "同步播放已关闭。",
     "MessageSyncPlayEnabled": "同步播放已开启。",
     "LabelSyncPlayPlaybackDiff": "播放时间差距：",
-    "EnableFasterAnimationsHelp": "使用更快的动画和转场效果",
+    "EnableFasterAnimationsHelp": "使用更快的动画和转场效果。",
     "EnableFasterAnimations": "更快的动画",
     "EnableDecodingColorDepth10Vp9": "启用 VP9 10-Bit 硬件解码",
     "EnableDecodingColorDepth10Hevc": "启用 HEVC 10-Bit 硬件解码",
