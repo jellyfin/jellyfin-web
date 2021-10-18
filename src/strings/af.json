@@ -783,5 +783,6 @@
     "LabelFriendlyName": "Vriendelike naam:",
     "LabelFormat": "Formaat:",
     "LabelForgotPasswordUsernameHelp": "Voeg in jou gebruikersnaam, as jy dit kan onthou.",
-    "LabelFont": "Lettertipe:"
+    "LabelFont": "Lettertipe:",
+    "AgeValue": "({0} jare oud)"
 }
