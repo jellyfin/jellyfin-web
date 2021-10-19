@@ -5,12 +5,12 @@ import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 
-import SectionTitleLinkElement from '../DashboardComponent/users/ElementComponent/SectionTitleLinkElement';
-import InputElement from '../DashboardComponent/users/ElementComponent/InputElement';
-import CheckBoxElement from '../DashboardComponent/users/ElementComponent/CheckBoxElement';
-import FolderAccess from '../DashboardComponent/users/NewUserPage/FolderAccess';
-import ChannelAccess from '../DashboardComponent/users/NewUserPage/ChannelAccess';
-import ButtonElement from '../DashboardComponent/users/ElementComponent/ButtonElement';
+import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
+import InputElement from '../dashboard/users/InputElement';
+import CheckBoxElement from '../dashboard/users/CheckBoxElement';
+import NewUserFolderAccessList from '../dashboard/users/NewUserFolderAccessList';
+import NewUserChannelAccessList from '../dashboard/users/NewUserChannelAccessList';
+import ButtonElement from '../dashboard/users/ButtonElement';
 
 type userInput = {
     Name?: string;
@@ -180,7 +180,7 @@ const NewUserPage: FunctionComponent = () => {
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                                     {mediaFoldersResult.map(folder => (
-                                        <FolderAccess
+                                        <NewUserFolderAccessList
                                             key={folder.Id}
                                             Id={folder.Id}
                                             Name={folder.Name}
@@ -207,7 +207,7 @@ const NewUserPage: FunctionComponent = () => {
                                 </h3>
                                 <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                                     {channelsResult.map(folder => (
-                                        <ChannelAccess
+                                        <NewUserChannelAccessList
                                             key={folder.Id}
                                             Id={folder.Id}
                                             Name={folder.Name}

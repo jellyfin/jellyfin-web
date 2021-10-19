@@ -5,7 +5,7 @@ const createCheckBoxElement = ({Name, Id}) => ({
         <input
         type="checkbox"
         is="emby-checkbox"
-        class="chkChannel"
+        class="chkFolder"
         data-id="${Id}"
         />
         <span>${Name}</span>
@@ -17,7 +17,7 @@ type IProps = {
     Id?: string;
 }
 
-const ChannelAccess: FunctionComponent<IProps> = ({Name, Id}: IProps) => {
+const NewUserFolderAccessList: FunctionComponent<IProps> = ({Name, Id}: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createCheckBoxElement({
@@ -28,5 +28,5 @@ const ChannelAccess: FunctionComponent<IProps> = ({Name, Id}: IProps) => {
     );
 };
 
-export default ChannelAccess;
+export default NewUserFolderAccessList;
 

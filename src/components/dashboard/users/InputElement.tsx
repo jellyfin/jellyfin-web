@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../scripts/globalize';
 
 const createInputElement = ({ type, id, label, options }) => ({
     __html: `<input
