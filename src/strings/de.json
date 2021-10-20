@@ -1328,7 +1328,7 @@
     "EnableDecodingColorDepth10Vp9": "10-Bit-Hardware-Dekodierung für VP9 aktivieren",
     "EnableDecodingColorDepth10Hevc": "10-Bit-Hardware-Dekodierung für HEVC aktivieren",
     "MessageNoGenresAvailable": "Aktiviere einige Metadaten-Anbieter um Genres aus dem Internet zu holen.",
-    "EnableFasterAnimationsHelp": "Benutze schnellere Animationen und Übergänge",
+    "EnableFasterAnimationsHelp": "Benutze schnellere Animationen und Übergänge.",
     "ButtonCast": "Wiedergabe auf Gerät",
     "ButtonSyncPlay": "SyncPlay",
     "TabRepositories": "Repositories",
