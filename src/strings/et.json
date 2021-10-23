@@ -777,5 +777,7 @@
     "VideoBitDepthNotSupported": "Video bitisügavust ei toetata",
     "RefFramesNotSupported": "Võrdluskaadreid ei toetata",
     "InterlacedVideoNotSupported": "Ülerealaotusega video pole toetatud",
-    "AnamorphicVideoNotSupported": "Anamorfset videot ei toetata"
+    "AnamorphicVideoNotSupported": "Anamorfset videot ei toetata",
+    "LabelParentalRating": "Vanusepiir:",
+    "LabelOverview": "Ülevaade:"
 }
