@@ -1172,5 +1172,6 @@
     "HeaderUsers": "Uzantoj",
     "HeaderUser": "Uzanto",
     "DeleteUser": "Forigi Uzanton",
-    "LabelOriginalMediaInfo": "Informo pri Originala Plurmedio"
+    "LabelOriginalMediaInfo": "Informo pri Originala Plurmedio",
+    "MovieLibraryHelp": "Revizii la {0}gvidilon pri filmnomi{1}."
 }
