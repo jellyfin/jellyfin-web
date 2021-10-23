@@ -802,5 +802,20 @@
     "LabelPlayMethod": "Esitusviis:",
     "LabelPlaylist": "Esitusloend:",
     "LabelPlayerDimensions": "Pleieri mõõdud:",
-    "LabelProfileCodecsHelp": "Eraldatud komaga. Selle võib jätta tühjaks, et rakendada kõik koodekid."
+    "LabelProfileCodecsHelp": "Eraldatud komaga. Selle võib jätta tühjaks, et rakendada kõik koodekid.",
+    "LabelRecord": "Salvesta:",
+    "LabelReasonForTranscoding": "Transkoodimise põhjus:",
+    "LabelQuickConnectCode": "Kiirühendumise kood:",
+    "LabelPublishedServerUriHelp": "Alistage Jellyfini kasutatav URI liidese või kliendi IP aadressi alusel.",
+    "LabelPublishedServerUri": "Avaldatud serveri URId:",
+    "LabelPublicHttpsPortHelp": "Avaliku pordi number, mis liidetakse kohaliku HTTPS pordiga.",
+    "LabelPublicHttpsPort": "Avaliku HTTPS pordi number:",
+    "LabelPublicHttpPort": "Avaliku HTTP pordi number:",
+    "LabelPublicHttpPortHelp": "Avaliku pordi number, mis liidetakse kohaliku HTTP pordiga.",
+    "LabelProtocolInfoHelp": "Väärtus, mida kasutatakse seadmelt GetProtocolInfo-päringutele vastamisel.",
+    "LabelProtocolInfo": "Protokolli teave:",
+    "LabelProtocol": "Protokoll:",
+    "LabelProfileVideoCodecs": "Video koodekid:",
+    "LabelProfileContainersHelp": "Eraldatud komaga. Selle võib tühjaks jätta, et rakendada kõikidele konteineritele.",
+    "LabelProfileContainer": "Konteiner:"
 }
