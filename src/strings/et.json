@@ -790,5 +790,16 @@
     "LabelPasswordRecoveryPinCode": "PIN-kood:",
     "LabelPasswordConfirm": "Parool (kinnita):",
     "LabelPassword": "Parool:",
-    "LabelParentNumber": "Algne number:"
+    "LabelParentNumber": "Algne number:",
+    "LabelProfileCodecs": "Koodekid:",
+    "LabelProfileAudioCodecs": "Helikoodekid:",
+    "LabelPreferredSubtitleLanguage": "Eelistatud subtiitrite keel:",
+    "LabelPreferredDisplayLanguage": "Eelistatud kuvamiskeel:",
+    "LabelPostProcessorArgumentsHelp": "Kasuta {path} salvestava faili rajana.",
+    "LabelPostProcessorArguments": "Järeltöötlusrakenduse käsurea argumendid:",
+    "LabelPostProcessor": "Järeltöötlusrakendus:",
+    "LabelPleaseRestart": "Muudatused jõustuvad pärast veebikliendi käsitsi uuesti laadimist.",
+    "LabelPlayMethod": "Esitusviis:",
+    "LabelPlaylist": "Esitusloend:",
+    "LabelPlayerDimensions": "Pleieri mõõdud:"
 }
