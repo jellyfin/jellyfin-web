@@ -817,5 +817,10 @@
     "LabelProtocol": "Protokoll:",
     "LabelProfileVideoCodecs": "Video koodekid:",
     "LabelProfileContainersHelp": "Eraldatud komaga. Selle võib tühjaks jätta, et rakendada kõikidele konteineritele.",
-    "LabelProfileContainer": "Konteiner:"
+    "LabelProfileContainer": "Konteiner:",
+    "LabelRemoteClientBitrateLimit": "Interneti voogesituse bitikiirus (Mbps):",
+    "LabelReleaseDate": "Väljalaske kuupäev:",
+    "LabelRefreshMode": "Värskendamisrežiim:",
+    "LabelRecordingPathHelp": "Määra salvestamiseks vaikimisi asukoht. Kui see tühjaks jätta, kasutatakse serveri andmete kausta.",
+    "LabelRecordingPath": "Salvestamise vaikerada:"
 }
