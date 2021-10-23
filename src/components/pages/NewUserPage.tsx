@@ -45,16 +45,13 @@ const NewUserPage: FunctionComponent = () => {
 
         loadUser();
 
-        const getItemsResult = items => {
-            const itemsArr: ItemsArr[] = [];
-
-            for (const item of items) {
-                itemsArr.push({
+        const getItemsResult = (items: ItemsArr[]) => {
+            return items.map(item =>
+                ({
                     Id: item.Id,
                     Name: item.Name
-                });
-            }
-            return itemsArr;
+                })
+            );
         };
 
         const loadMediaFolders = (result) => {

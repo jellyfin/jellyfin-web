@@ -18,14 +18,14 @@ type IProps = {
     options?: string
 }
 
-const InputElement: FunctionComponent<IProps> = ({ type, id, label, ...rest }: IProps) => {
+const InputElement: FunctionComponent<IProps> = ({ type, id, label, options }: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createInputElement({
                 type: type,
                 id: id,
                 label: globalize.translate(label),
-                options: rest.options ? rest.options : ''
+                options: options ? options : ''
             })}
         />
     );
