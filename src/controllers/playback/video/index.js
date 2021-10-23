@@ -1074,6 +1074,14 @@ import { appRouter } from '../../../components/appRouter';
                     playbackManager.rewind(currentPlayer);
                     showOsd();
                     break;
+                case ',':
+                    playbackManager.rewindOneFrame(currentPlayer);
+                    showOsd();
+                    break;
+                case '.':
+                    playbackManager.fastForwardOneFrame(currentPlayer);
+                    showOsd();
+                    break;
                 case 'f':
                     if (!e.ctrlKey && !e.metaKey) {
                         playbackManager.toggleFullscreen(currentPlayer);

@@ -3486,6 +3486,48 @@ class PlaybackManager {
         this.seekRelative(offsetTicks, player);
     }
 
+    calculateFrameInMs(player = this._currentPlayer) {
+        const source = this.currentMediaSource(player);
+        for (const stream of source.MediaStreams) {
+            if (stream.type === 'video') {
+                const frameRate = stream.RealFrameRate || stream.AverageFrameRate;
+
+                if (frameRate) {
+                    return 1000 / frameRate;
+                }
+            }
+        }
+
+        // Assume 30FPS
+        return 1000 / 30;
+    }
+
+    fastForwardOneFrame(player = this._currentPlayer) {
+        const timeToSkip = this.calculateFrameInMs(player);
+
+        if (player.rewind != null) {
+            player.rewind(timeToSkip);
+            return;
+        }
+
+        const offsetTicks = timeToSkip * 10000;
+
+        this.seekRelative(offsetTicks, player);
+    }
+
+    rewindOneFrame(player = this._currentPlayer) {
+        const timeToSkip = this.calculateFrameInMs(player);
+
+        if (player.rewind != null) {
+            player.rewind(timeToSkip);
+            return;
+        }
+
+        const offsetTicks = 0 - (timeToSkip * 10000);
+
+        this.seekRelative(offsetTicks, player);
+    }
+
     seekPercent(percent, player = this._currentPlayer) {
         let ticks = this.duration(player) || 0;
 
