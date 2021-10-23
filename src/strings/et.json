@@ -779,5 +779,16 @@
     "InterlacedVideoNotSupported": "Ülerealaotusega video pole toetatud",
     "AnamorphicVideoNotSupported": "Anamorfset videot ei toetata",
     "LabelParentalRating": "Vanusepiir:",
-    "LabelOverview": "Ülevaade:"
+    "LabelOverview": "Ülevaade:",
+    "LabelPlayer": "Pleier:",
+    "LabelPlayDefaultAudioTrack": "Esita vaikeheliriba olenemata keelest",
+    "LabelPlaceOfBirth": "Sünnikoht:",
+    "LabelPersonRoleHelp": "Näide: Veoautojuht",
+    "LabelPersonRole": "Roll:",
+    "LabelPath": "Rada:",
+    "LabelPasswordResetProvider": "Parooli lähtestamise pakkuja:",
+    "LabelPasswordRecoveryPinCode": "PIN-kood:",
+    "LabelPasswordConfirm": "Parool (kinnita):",
+    "LabelPassword": "Parool:",
+    "LabelParentNumber": "Algne number:"
 }
