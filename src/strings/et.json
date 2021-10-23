@@ -851,5 +851,6 @@
     "LabelRepositoryUrl": "Hoidla URL",
     "LabelRepositoryNameHelp": "Kohandatud nimi, mis eristab seda hoidlat teistest serverisse lisatud hoidlatest.",
     "LabelRepositoryName": "Hoidla nimi",
-    "LabelRemoteClientBitrateLimitHelp": "Valikuline bitikiiruse piirang kõigile seadmetele välisvõrgus. See on kasulik selleks, et seadmed ei nõuaks suuremat bitikiirust, kui internetiühendus võimaldab. See võib põhjustada serveri protsessori koormuse suurenemist, et videod madalamale bitikiirusele transkoodida."
+    "LabelRemoteClientBitrateLimitHelp": "Valikuline bitikiiruse piirang kõigile seadmetele välisvõrgus. See on kasulik selleks, et seadmed ei nõuaks suuremat bitikiirust, kui internetiühendus võimaldab. See võib põhjustada serveri protsessori koormuse suurenemist, et videod madalamale bitikiirusele transkoodida.",
+    "LabelLoginDisclaimerHelp": "Sõnum, mis kuvatakse sisselogimislehe allosas."
 }
