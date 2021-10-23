@@ -1015,8 +1015,8 @@
     "ButtonShutdown": "Ĉesigu",
     "ButtonSend": "Sendu",
     "HeaderInstantMix": "Tujmiksaĵo",
-    "HeaderIdentificationHeader": "Identiga Kapumo",
-    "HeaderHttpHeaders": "HTTP-kapumoj",
+    "HeaderIdentificationHeader": "Identiga Ĉapo",
+    "HeaderHttpHeaders": "HTTP-ĉapoj",
     "HeaderTypeImageFetchers": "{0} Bildaj Preniloj",
     "FetchingData": "Preni plian datenon",
     "HeaderEnabledFields": "Ebligitaj Kampoj",
@@ -1173,5 +1173,9 @@
     "HeaderUser": "Uzanto",
     "DeleteUser": "Forigi Uzanton",
     "LabelOriginalMediaInfo": "Informo pri Originala Plurmedio",
-    "MovieLibraryHelp": "Revizii la {0}gvidilon pri filmnomi{1}."
+    "MovieLibraryHelp": "Revizii la {0}gvidilon pri filmnomi{1}.",
+    "UserAgentHelp": "Provizi HTTP-ĉapon kun laŭmenda klienta aplikaĵo.",
+    "EnableFasterAnimationsHelp": "Uzi pli rapidajn animaciojn kaj transirojn.",
+    "TvLibraryHelp": "Revizii la {0}gvidilon pri serionomi{1}.",
+    "MusicLibraryHelp": "Revizii la {0}gvidilon pri muziknomi{1}."
 }
