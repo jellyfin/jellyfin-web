@@ -801,5 +801,6 @@
     "LabelPleaseRestart": "Muudatused jõustuvad pärast veebikliendi käsitsi uuesti laadimist.",
     "LabelPlayMethod": "Esitusviis:",
     "LabelPlaylist": "Esitusloend:",
-    "LabelPlayerDimensions": "Pleieri mõõdud:"
+    "LabelPlayerDimensions": "Pleieri mõõdud:",
+    "LabelProfileCodecsHelp": "Eraldatud komaga. Selle võib jätta tühjaks, et rakendada kõik koodekid."
 }
