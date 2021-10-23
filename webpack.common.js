@@ -153,17 +153,15 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif|svg)$/i,
-                use: ['file-loader']
+                type: 'asset/resource'
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: [
-                    'file-loader'
-                ]
+                type: 'asset/resource'
             },
             {
                 test: /\.(mp3)$/i,
-                use: ['file-loader']
+                type: 'asset/resource'
             },
             {
                 test: require.resolve('jquery'),

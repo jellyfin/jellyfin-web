@@ -34,7 +34,6 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "expose-loader": "^3.0.0",
-    "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.4.0",
     "postcss": "^8.3.9",
