@@ -42,7 +42,7 @@
     "sass": "^1.43.2",
     "sass-loader": "^12.2.0",
     "source-map-loader": "^3.0.0",
-    "style-loader": "^3.3.0",
+    "style-loader": "^3.3.1",
     "stylelint": "^13.13.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-no-browser-hacks": "^1.2.1",
