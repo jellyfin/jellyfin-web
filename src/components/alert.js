@@ -1,4 +1,4 @@
-
+import { appRouter } from './appRouter';
 import browser from '../scripts/browser';
 import dialog from './dialog/dialog';
 import globalize from '../scripts/globalize';
@@ -10,7 +10,7 @@ import globalize from '../scripts/globalize';
         return originalString.replace(reg, strWith);
     }
 
-    export default function (text, title) {
+    export default async function (text, title) {
         let options;
         if (typeof text === 'string') {
             options = {
@@ -22,7 +22,9 @@ import globalize from '../scripts/globalize';
         }
 
         if (browser.tv && window.alert) {
+            await appRouter.ready();
             alert(replaceAll(options.text || '', '<br/>', '\n'));
+            return Promise.resolve();
         } else {
             const items = [];
 
@@ -35,8 +37,6 @@ import globalize from '../scripts/globalize';
             options.buttons = items;
             return dialog.show(options);
         }
-
-        return Promise.resolve();
     }
 
 /* eslint-enable indent */

@@ -3064,7 +3064,9 @@ class PlaybackManager {
             const data = getPlayerData(player);
             const streamInfo = data.streamInfo;
 
-            const nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
+            const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
+
+            const nextItem = self._playNextAfterEnded && !errorOccurred ? self._playQueueManager.getNextItemInfo() : null;
 
             const nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3101,17 +3103,15 @@ class PlaybackManager {
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
+                data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
             }
 
-            if (displayErrorCode && typeof (displayErrorCode) === 'string') {
+            if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
                 self.nextTrack();
-            } else {
-                // Nothing more to play - clear data
-                data.streamInfo = null;
             }
         }
 
