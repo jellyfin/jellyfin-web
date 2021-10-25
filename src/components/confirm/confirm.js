@@ -7,6 +7,15 @@ function replaceAll(str, find, replace) {
     return str.split(find).join(replace);
 }
 
+function useNativeConfirm() {
+    // webOS seems to block modals
+    // Tizen 2.x seems to block modals
+    return !browser.web0s
+        && !(browser.tizenVersion && browser.tizenVersion < 3)
+        && browser.tv
+        && window.confirm;
+}
+
 async function nativeConfirm(options) {
     if (typeof options === 'string') {
         options = {
@@ -62,6 +71,6 @@ function customConfirm(text, title) {
     });
 }
 
-const confirm = browser.tv && window.confirm ? nativeConfirm : customConfirm;
+const confirm = useNativeConfirm() ? nativeConfirm : customConfirm;
 
 export default confirm;
