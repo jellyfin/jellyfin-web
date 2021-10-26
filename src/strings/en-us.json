@@ -1401,7 +1401,7 @@
     "Studios": "Studios",
     "Subtitle": "Subtitle",
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "These settings also apply to any Chromecast playback started by this device.",
-    "SubtitleAppearanceSettingsDisclaimer": "These settings will not apply to graphical subtitles (PGS, DVD, etc) or ASS/SSA subtitles that embed their own styles.",
+    "SubtitleAppearanceSettingsDisclaimer": "Following settings do not apply to the graphical subtitles mentioned above or ASS/SSA subtitles that embed their own styles.",
     "SubtitleDownloadersHelp": "Enable and rank your preferred subtitle downloaders in order of priority.",
     "SubtitleOffset": "Subtitle Offset",
     "Subtitles": "Subtitles",
