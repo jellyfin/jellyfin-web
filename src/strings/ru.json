@@ -1078,7 +1078,7 @@
     "StopRecording": "Остановить запись",
     "Studios": "Студии",
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Эти параметры также применимы к любому Chromecast-воспроизведению запущенному данным устройством.",
-    "SubtitleAppearanceSettingsDisclaimer": "Данные параметры не применяются к графическим субтитрам (PGS, DVD и т.д.) или субтитрам ASS/SSA, внедряющим свои собственные стили.",
+    "SubtitleAppearanceSettingsDisclaimer": "Следующие параметры не применимы к графическим субтитрам, упомянутым выше, или субтитрам ASS/SSA, которые внедряют собственные стили.",
     "SubtitleDownloadersHelp": "Включите и ранжируйте предпочитаемые загрузчики субтитров в порядке приоритета.",
     "Subtitles": "Субтитры",
     "Suggestions": "Предлагаемое",
