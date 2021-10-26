@@ -29,7 +29,7 @@
     "AlwaysPlaySubtitlesHelp": "Untertitel, die den Spracheinstellungen entsprechen, werden unabhängig von der Tonspursprache geladen.",
     "AnyLanguage": "Jede Sprache",
     "Anytime": "Jederzeit",
-    "AroundTime": "Um",
+    "AroundTime": "Um {0}",
     "Artists": "Interpreten",
     "AsManyAsPossible": "So viele wie möglich",
     "Ascending": "Aufsteigend",
