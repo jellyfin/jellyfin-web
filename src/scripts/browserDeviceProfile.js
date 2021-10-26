@@ -749,7 +749,8 @@ import browser from './browser';
         }
 
         // Support H264 Level 52 (Tizen 5.0) - app only
-        if (browser.tizenVersion >= 5 && window.NativeShell) {
+        if ((browser.tizenVersion >= 5 && window.NativeShell) ||
+            videoTestElement.canPlayType('video/mp4; codecs="avc1.640834"').replace(/no/, '')) {
             maxH264Level = 52;
         }
 
