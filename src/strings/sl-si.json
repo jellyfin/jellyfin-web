@@ -81,7 +81,7 @@
     "AlwaysPlaySubtitlesHelp": "Podnapisi, ki se ujemajo s prednostnim jezikom bodo naloženi ne glede na jezik zvoka.",
     "AnyLanguage": "Poljubni jezik",
     "Anytime": "Kadarkoli",
-    "AroundTime": "Okrog",
+    "AroundTime": "Okrog {0}",
     "Art": "Umetnost",
     "AsManyAsPossible": "Kolikor je mogoče",
     "Ascending": "Naraščajoče",
