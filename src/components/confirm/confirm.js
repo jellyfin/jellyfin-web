@@ -35,7 +35,7 @@ async function nativeConfirm(options) {
     }
 }
 
-function customConfirm(text, title) {
+async function customConfirm(text, title) {
     let options;
     if (typeof text === 'string') {
         options = {
@@ -61,6 +61,8 @@ function customConfirm(text, title) {
     });
 
     options.buttons = items;
+
+    await appRouter.ready();
 
     return dialog.show(options).then(result => {
         if (result === 'ok') {

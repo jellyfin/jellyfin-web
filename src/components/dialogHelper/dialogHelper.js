@@ -184,9 +184,7 @@ import '../../assets/css/scrollstyles.scss';
         return dlg.getAttribute('data-history') === 'true';
     }
 
-    export async function open(dlg) {
-        await appRouter.ready();
-
+    export function open(dlg) {
         if (globalOnOpenCallback) {
             globalOnOpenCallback(dlg);
         }
