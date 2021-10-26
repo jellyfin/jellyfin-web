@@ -69,7 +69,7 @@
     "core-js": "^3.19.0",
     "date-fns": "^2.25.0",
     "dompurify": "^2.3.3",
-    "epubjs": "^0.3.85",
+    "epubjs": "^0.3.90",
     "fast-text-encoding": "^1.0.3",
     "flv.js": "^1.6.2",
     "headroom.js": "^0.12.0",
