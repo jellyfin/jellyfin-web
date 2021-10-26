@@ -86,28 +86,7 @@ import * as userSettings from './settings/userSettings';
     }
 
     function normalizeLocaleName(culture) {
-        // TODO remove normalizations
-        culture = culture.replace('_', '-');
-
-        // convert de-DE to de
-        const parts = culture.split('-');
-        if (parts.length === 2) {
-            if (parts[0].toLowerCase() === parts[1].toLowerCase()) {
-                culture = parts[0].toLowerCase();
-            }
-        }
-
-        const lower = culture.toLowerCase();
-        if (lower === 'ca-es') {
-            return 'ca';
-        }
-
-        // normalize Swedish
-        if (lower === 'sv-se') {
-            return 'sv';
-        }
-
-        return lower;
+        return culture.replace('_', '-').toLowerCase();
     }
 
     function getDictionary(module, locale) {
@@ -147,14 +126,23 @@ import * as userSettings from './settings/userSettings';
 
     function loadTranslation(translations, lang) {
         lang = normalizeLocaleName(lang);
+
         let filtered = translations.filter(function (t) {
             return normalizeLocaleName(t.lang) === lang;
         });
 
         if (!filtered.length) {
+            lang = lang.replace(/-.*/, '');
+
             filtered = translations.filter(function (t) {
-                return normalizeLocaleName(t.lang) === fallbackCulture;
+                return normalizeLocaleName(t.lang) === lang;
             });
+
+            if (!filtered.length) {
+                filtered = translations.filter(function (t) {
+                    return normalizeLocaleName(t.lang) === fallbackCulture;
+                });
+            }
         }
 
         return new Promise(function (resolve) {
