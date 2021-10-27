@@ -22,7 +22,7 @@
     "AllowMediaConversionHelp": "Aktivieren oder unterbinden Sie den Zugriff auf die Medienkonvertierung.",
     "AllowOnTheFlySubtitleExtraction": "Untertitelextraktion \"on-the-fly\" zulassen",
     "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und als Klartext an Clients gesendet werden, um eine Videotranskodierung zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und deswegen währenddessen die Videowiedergabe stoppen. Deaktiviere diese Option, um eingebettete Untertitel während des Videotranskodierens einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
-    "AllowRemoteAccess": "Externe Verbindungen zu diesem Server zulassen.",
+    "AllowRemoteAccess": "Externe Verbindungen zu diesem Server zulassen",
     "AllowRemoteAccessHelp": "Wenn deaktiviert werden alle externen Verbindungen blockiert.",
     "AllowedRemoteAddressesHelp": "Kommagetrennte Liste von IP Adressen oder IP/Netzmasken für Netzwerke, für die externe Verbindungen erlaubt sind. Wenn leer, sind alle Adressen erlaubt.",
     "AlwaysPlaySubtitles": "Immer anzeigen",
