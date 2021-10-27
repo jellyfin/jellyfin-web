@@ -22,7 +22,7 @@
     "AllowMediaConversionHelp": "授予或拒绝访问媒体转换功能。",
     "AllowOnTheFlySubtitleExtraction": "允许实时提取字幕",
     "AllowOnTheFlySubtitleExtractionHelp": "为避免视频转码，可以从视频中提取内置的字幕，并以纯文本的形式发送给客户端。在某些系统中这个提取的进程可能会花费较长时间并导致视频播放出现卡顿。如果禁用这个选项，当内置字幕不能被客户端设备原生支持时，字幕将通过视频转码被烧录进视频中。",
-    "AllowRemoteAccess": "允许与此服务器进行远程连接。",
+    "AllowRemoteAccess": "允许与此服务器进行远程连接",
     "AllowRemoteAccessHelp": "如果取消勾选，所有的远程连接将会被阻止。",
     "AllowedRemoteAddressesHelp": "允许远程连接的 IP 地址或 IP/子网掩码 的列表，以逗号分隔。如果留空，则允许所有远程地址。",
     "AlwaysPlaySubtitles": "总是显示",
