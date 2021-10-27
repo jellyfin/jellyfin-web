@@ -30,8 +30,9 @@ import globalize from '../scripts/globalize';
             options = text;
         }
 
+        await appRouter.ready();
+
         if (useNativeAlert()) {
-            await appRouter.ready();
             alert(replaceAll(options.text || '', '<br/>', '\n'));
             return Promise.resolve();
         } else {
