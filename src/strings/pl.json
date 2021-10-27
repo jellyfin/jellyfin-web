@@ -23,7 +23,7 @@
     "AllowMediaConversionHelp": "Umożliwia dawanie lub odbieranie dostępu do funkcji konwersji mediów.",
     "AllowOnTheFlySubtitleExtraction": "Zezwalaj na wydobywanie napisów w locie",
     "AllowOnTheFlySubtitleExtractionHelp": "Napisy wbudowane mogą zostać wydobyte z plików wideo i dostarczone do klienta w postaci zwykłego tekstu, zapobiegając transkodowaniu wideo. Na niektórych systemach może to zabierać dużo czasu i powodować wstrzymywanie odtwarzania wideo podczas procesu ekstrakcji. Odznacz tę opcję, aby wbudowane napisy były wypalane w transkodowanym wideo, gdy nie są obsługiwane przez urządzenie klienta.",
-    "AllowRemoteAccess": "Zezwalaj na zdalne połączenia z tym serwerem.",
+    "AllowRemoteAccess": "Zezwalaj na zdalne połączenia z tym serwerem",
     "AllowRemoteAccessHelp": "Jeśli nieaktywne, wszelkie zdalne połączenia będą blokowane.",
     "AllowedRemoteAddressesHelp": "Lista rozdzielona przecinkiem w postaci adresów IP lub adresów IP z maską sieciową dla całych podsieci. W przypadku pozostawienia pustego pola, dopuszczalne będą połączenia ze wszystkich zdalnych adresów.",
     "AlwaysPlaySubtitles": "Zawsze wyświetlaj napisy",
