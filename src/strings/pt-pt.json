@@ -1249,7 +1249,7 @@
     "LabelSyncPlayPlaybackDiff": "Diferença no tempo de Reprodução:",
     "MillisecondsUnit": "ms",
     "LabelSyncPlayTimeOffset": "Diferença de tempo com o servidor:",
-    "EnableFasterAnimationsHelp": "Utilizar animações e transições mais rápidas",
+    "EnableFasterAnimationsHelp": "Utilizar animações e transições mais rápidas.",
     "EnableFasterAnimations": "Animações Rápidas",
     "LabelRequireHttpsHelp": "Se selecionado, o servidor irá automaticamente redirecionar todos os pedidos em HTTP para HTTPS. Isto não surte efeito caso o servidor não esteja configurado em HTTPS.",
     "LabelRequireHttps": "Exigir HTTPS",
