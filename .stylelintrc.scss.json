@@ -1,5 +1,6 @@
 {
   "extends": [ "./.stylelintrc.json" ],
+  "customSyntax": "postcss-scss",
   "plugins": [ "stylelint-scss" ],
   "rules": {
     "at-rule-no-unknown": null,
