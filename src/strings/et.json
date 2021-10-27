@@ -1125,5 +1125,22 @@
     "LabelUserMaxActiveSessions": "",
     "LabelUserLoginAttemptsBeforeLockout": "",
     "LabelUserLibraryHelp": "",
-    "LabelUserLibrary": ""
+    "LabelUserLibrary": "",
+    "OptionAllowContentDownload": "Luba meedia allalaadimine",
+    "OptionAllowBrowsingLiveTv": "Luba juurdepääs Otse TV-le",
+    "OptionAllowAudioPlaybackTranscoding": "Luba transkoodimist nõudva heli taasesitus",
+    "OptionAdminUsers": "Administraatorid",
+    "Option3D": "3D",
+    "OnWakeFromSleep": "Puhkeseisundist väljudes",
+    "OnlyImageFormats": "Ainult pildivormingud (VOBSUB, PGS, SUB)",
+    "OnlyForcedSubtitlesHelp": "Laaditakse ainult sunnitud subtiitrid.",
+    "OnlyForcedSubtitles": "Ainult sunnitud",
+    "OneChannel": "Üks kanal",
+    "OnApplicationStartup": "Rakenduse käivitamisel",
+    "Off": "Väljas",
+    "NumLocationsValue": "{0} kausta",
+    "NoSubtitlesHelp": "Subtiitreid vaikimisi ei laadita. Neid saab siiski taasesituse ajal käsitsi sisse lülitada.",
+    "NoSubtitleSearchResultsFound": "Vasteid ei leitud.",
+    "Normal": "Normaalne",
+    "NoNewDevicesFound": "Uusi seadmeid ei leitud. Uue tuuneri lisamiseks sulge see dialoog ja sisesta seadme teave käsitsi."
 }
