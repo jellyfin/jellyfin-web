@@ -22,7 +22,7 @@
     "AllowMediaConversionHelp": "Autoriser ou refuser l'accès à la fonctionnalité de conversion des médias.",
     "AllowOnTheFlySubtitleExtraction": "Autoriser l'extraction des sous-titres à la volée",
     "AllowOnTheFlySubtitleExtractionHelp": "Les sous-titres intégrés peuvent être extraits des vidéos et envoyés vers les clients au format texte afin d'éviter le transcodage vidéo. Sur certains systèmes, cela peut prendre du temps et arrêter la lecture de la vidéo pendant le processus d'extraction. Désactivez cette option pour conserver les sous-titres pendant le transcodage si l'appareil client ne les prend pas en charge nativement.",
-    "AllowRemoteAccess": "Autoriser les connexions distantes à ce serveur.",
+    "AllowRemoteAccess": "Autoriser les connexions distantes à ce serveur",
     "AllowRemoteAccessHelp": "Si l'option est désactivée, toutes les connexions distantes seront bloquées.",
     "AllowedRemoteAddressesHelp": "Liste d'adresses IP ou d'IP/masque de sous-réseau séparées par des virgules qui seront autorisées à se connecter à distance. Si la liste est vide, toutes les adresses distantes seront autorisées.",
     "AlwaysPlaySubtitles": "Toujours afficher",
