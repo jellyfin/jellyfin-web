@@ -63,7 +63,7 @@
     "AllowMediaConversion": "Leyfa umbreytingu á efni",
     "AllowMediaConversionHelp": "Leyfa aðgang að umbreytingu á efni.",
     "AllowOnTheFlySubtitleExtraction": "Leyfa að taka út texta á meðan það er í keyrslu",
-    "AllowRemoteAccess": "Leyfa fjartengingar í þennan Jellyfin þjón.",
+    "AllowRemoteAccess": "Leyfa fjartengingar í þennan Jellyfin þjón",
     "AllowRemoteAccessHelp": "Ef þetta er afhakað, allar fjartengingar, þ.e. í gegnum internetið, verða bannaðar.",
     "AlwaysPlaySubtitles": "Spila alltaf",
     "AnyLanguage": "Öll tungumál",
