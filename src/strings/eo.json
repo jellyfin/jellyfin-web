@@ -1470,7 +1470,7 @@
     "AskAdminToCreateLibrary": "Peti administranton krei plurmeditekon.",
     "ApiKeysCaption": "Listo de la nuntempe ebligitaj API-ŝlosiloj",
     "AlwaysPlaySubtitlesHelp": "Subtekstoj kongruaj al la lingva prefero estos ŝarĝitaj sendepende de la aŭdlingvo.",
-    "AllowRemoteAccess": "Permesi telekonektojn al ĉi tiu servilo.",
+    "AllowRemoteAccess": "Permesi telekonektojn al ĉi tiu servilo",
     "AllowOnTheFlySubtitleExtraction": "Permesi ekstraktadon de subtekstoj dinamike",
     "AllowMediaConversionHelp": "Doni aŭ rifuzi aliron al la konverta funkcio por plurmedio.",
     "AllowHWTranscodingHelp": "Permesi al la TV-kardo transkodi fluojn dinamike. Ĉi tio eble helpos redukti transkodadon bezonatan de la servilo.",
