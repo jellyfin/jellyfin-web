@@ -19,7 +19,7 @@
     "AllowHWTranscodingHelp": "Tillåt TV-mottagaren att omkoda strömmar. Det kan minska behovet av omkodning på Jellyfin-servern.",
     "AllowOnTheFlySubtitleExtraction": "Tillåt undertextsextrahering under uppspelning",
     "AllowOnTheFlySubtitleExtractionHelp": "Inbäddade undertexter kan extraheras ur videor och skickas till klienter i textformat för att förhindra omkodning. I vissa system kan detta ta en lång tid och förhindra videouppspelningen under extraheringsprocessen. Avaktivera detta för att bränna in inbäddade undertexter genom omkodning när de inte stöds av klienten.",
-    "AllowRemoteAccess": "Tillåt fjärranslutningar till denna server.",
+    "AllowRemoteAccess": "Tillåt fjärranslutningar till denna server",
     "AllowRemoteAccessHelp": "Om avaktiverat så blockeras alla fjärranslutningar.",
     "AlwaysPlaySubtitles": "Visa alltid",
     "AlwaysPlaySubtitlesHelp": "Undertexter på det önskade språket kommer att laddas oavsett ljudspårets språk.",
