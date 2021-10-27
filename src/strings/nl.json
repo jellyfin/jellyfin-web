@@ -22,7 +22,7 @@
     "AllowMediaConversionHelp": "Toegang verlenen of weigeren tot de mediaconversie functie.",
     "AllowOnTheFlySubtitleExtraction": "Directe ondertitel extractie toestaan",
     "AllowOnTheFlySubtitleExtractionHelp": "Ingebakken ondertitels kunnen uit de video's gehaald worden en als tekst bezorgd worden aan de clients om transcodering te helpen voorkomen. Op sommige systemen kan dit een lange tijd duren en dit er voor zorgen dat het afspelen van video stopt tijdens de extractie. Schakel dit uit om ingebakken ondertiteling in de video te laten branden met transcodering als deze niet standaard ondersteund worden door het afspeelapparaat.",
-    "AllowRemoteAccess": "Externe verbindingen met deze server toestaan.",
+    "AllowRemoteAccess": "Externe verbindingen met deze server toestaan",
     "AllowRemoteAccessHelp": "Indien niet aangevinkt worden alle externe verbindingen geblokkeerd.",
     "AllowedRemoteAddressesHelp": "Komma-gescheiden lijst van IP-adressen of IP/netmask adressen voor netwerken die op afstand verbinding mogen maken. Indien blanco, worden alle externe adressen toegestaan.",
     "AlwaysPlaySubtitles": "Altijd afspelen",
