@@ -64,7 +64,7 @@
     "AllowMediaConversionHelp": "Dovoli ali zavrni dostop do pretvarjanja predstavnosti.",
     "AllowOnTheFlySubtitleExtraction": "Dovoli sprotno izluščenje podnapisov",
     "AllowOnTheFlySubtitleExtractionHelp": "Vdelani podnapisi so lahko izluščeni iz videa in poslani odjemalcem kot navaden tekst, kar zmanjša potrebo po prekodiranju. Na nekaterih napravah lahko to traja dalj časa in povzroča zatikanje med predvajanjem. Onemogočite to možnost, za vžig vdelanih podnapisov v video s prekodiranjem, za naprave ki sicer ne podpirajo podnapisov.",
-    "AllowRemoteAccess": "Dovoli oddaljene povezave s tem strežnikom.",
+    "AllowRemoteAccess": "Dovoli oddaljene povezave s tem strežnikom",
     "AllowRemoteAccessHelp": "Če ni označeno, bodo vse oddaljene povezave blokirane.",
     "Artists": "Izvajalci",
     "Books": "Knjige",
