@@ -621,7 +621,7 @@
     "AlwaysPlaySubtitlesHelp": "Keele eelistusele vastavad subtiitrid laaditakse olenemata heli keelest.",
     "AlwaysPlaySubtitles": "Kuva alati",
     "AllowRemoteAccessHelp": "Kui see pole märgitud, blokeeritakse kõik kaugühendused.",
-    "AllowRemoteAccess": "Luba kaugühendused selle serveriga.",
+    "AllowRemoteAccess": "Luba kaugühendused selle serveriga",
     "AllowOnTheFlySubtitleExtractionHelp": "Manustatud subtiitreid saab videost eraldada ja klientidele lihttekstina edastada, et vältida video transkoodimist. Mõnes süsteemis võib see võtta kaua aega ja põhjustada video taasesituse seiskumise eraldamise ajal. Keela see, et manustatud subtiitrid põletataks video transkoodimisel sisse, kui klientseade ei toeta subtiitreid.",
     "AllowOnTheFlySubtitleExtraction": "Luba subtiitrite eraldamine lennult",
     "AllowMediaConversionHelp": "Luba või keela meedia teisendamine.",
