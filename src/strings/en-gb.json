@@ -68,7 +68,7 @@
     "AllowMediaConversionHelp": "Grant or deny access to the convert media feature.",
     "AllowOnTheFlySubtitleExtraction": "Allow subtitle extraction on the fly",
     "AllowOnTheFlySubtitleExtractionHelp": "Embedded subtitles can be extracted from videos and delivered to clients in plain text, in order to help prevent video transcoding. On some systems this can take a long time and cause video playback to stall during the extraction process. Disable this to have embedded subtitles burned in with video transcoding when they are not natively supported by the client device.",
-    "AllowRemoteAccess": "Allow remote connections to this server.",
+    "AllowRemoteAccess": "Allow remote connections to this server",
     "AllowRemoteAccessHelp": "If unchecked, all remote connections will be blocked.",
     "AllowedRemoteAddressesHelp": "Comma separated list of IP addresses or IP/netmask entries for networks that will be allowed to connect remotely. If left blank, all remote addresses will be allowed.",
     "AlwaysPlaySubtitles": "Always Play",
