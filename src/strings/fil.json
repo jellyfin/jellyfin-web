@@ -1,6 +1,6 @@
 {
     "AllowRemoteAccessHelp": "Kung hindi naka-check, lahat ng remote na koneksyon ay hindi papayagan.",
-    "AllowRemoteAccess": "Payagan ang mga malalayong koneksyon sa server na ito.",
+    "AllowRemoteAccess": "Payagan ang mga malalayong koneksyon sa server na ito",
     "AllowOnTheFlySubtitleExtractionHelp": "Ang mga naka-embed na subtitle ay maaaring i-extract mula sa mga video at maihatid sa mga kliyente sa simpleng teksto, upang makatulong na maiwasan ang transcoding ng video. Sa ilang mga system maaari itong magtagal at maging sanhi ng pag-playback ng video sa panahon ng proseso ng pag-extract. Huwag paganahin ito upang ma-burn in ang mga naka-embed na subtitle gamit ang video transcoding kapag hindi sila katutubong sinusuportahan ng client device.",
     "AllowOnTheFlySubtitleExtraction": "Payagan ang pag-extract ng subtitle on-the-fly",
     "AllowMediaConversionHelp": "Bigyan o tanggihan ang pag-access sa tampok na pag-convert ng media.",
