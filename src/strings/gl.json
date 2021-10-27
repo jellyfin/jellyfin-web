@@ -31,7 +31,7 @@
     "ApiKeysCaption": "Lista das claves API activadas neste momento",
     "Anytime": "Calquer Momento",
     "AnyLanguage": "Calquera Lingua",
-    "AllowRemoteAccess": "Permitir conexións remotas a este servidor.",
+    "AllowRemoteAccess": "Permitir conexións remotas a este servidor",
     "AllowMediaConversionHelp": "Permitir ou denegar aceso á función de conversión de medios.",
     "AllowFfmpegThrottling": "Acelerar Transcodificacións",
     "AllowedRemoteAddressesHelp": "Lista separada por comas das direcións IP ou entradas de máscara de rede para redes ás que se permitirá conectar remotamente. En branco, calquera direción remota será permitida.",
