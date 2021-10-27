@@ -22,7 +22,7 @@
     "AllowMediaConversionHelp": "Garante ou nega acesso à funcionalidade de conversão de mídia.",
     "AllowOnTheFlySubtitleExtraction": "Permitir a extração da legenda em tempo real",
     "AllowOnTheFlySubtitleExtractionHelp": "Legendas incorporadas podem ser extraídas dos vídeos e entregues aos clientes como texto simples para ajudar a evitar a transcodificação do vídeo. Em alguns sistemas isto pode levar bastante tempo e causar travamento na reprodução do vídeo durante o processo de extração. Desative isto para ter as legendas incorporadas com a transcodificação do vídeo quando não forem nativamente suportadas pelo dispositivo cliente.",
-    "AllowRemoteAccess": "Permitir conexões remotas a este servidor.",
+    "AllowRemoteAccess": "Permitir conexões remotas a este servidor",
     "AllowRemoteAccessHelp": "Se desmarcado, todas as conexões remotas serão bloqueadas.",
     "AllowedRemoteAddressesHelp": "Lista separada por vírgula de endereços IP ou entradas IP/netmask para redes que terão permissão para conectar-se remotamente. Se deixar em branco, todos os endereços remotos terão permissão.",
     "AlwaysPlaySubtitles": "Sempre reproduzir legendas",
