@@ -68,7 +68,7 @@
     "AlwaysPlaySubtitlesHelp": "ভাষার পছন্দের সাথে মিলিয়ে সাবটাইটেলগুলি লোড করা হবে।",
     "AlwaysPlaySubtitles": "সর্বদা চালান",
     "AllowRemoteAccessHelp": "যদি টিক না দেয়া হয়, সব রিমোট সংযোগ ব্লক করা হবে।",
-    "AllowRemoteAccess": "এই সার্ভারে দূরবর্তী সংযোগের অনুমতি দিন।",
+    "AllowRemoteAccess": "এই সার্ভারে দূরবর্তী সংযোগের অনুমতি দিন",
     "AllowFfmpegThrottling": "থ্রটল ট্রান্সকোড",
     "AllowOnTheFlySubtitleExtraction": "অনদাফ্লাই সাবটাইটেল বেরকরার অনুমতি",
     "AllowMediaConversion": "মিডিয়া কনভার্টের অনুমতি দিন",
