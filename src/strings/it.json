@@ -20,7 +20,7 @@
     "AllowHWTranscodingHelp": "Abilita il sintonizzatore per codificare i flussi al volo. Ciò potrebbe contribuire a ridurre la transcodifica richiesta dal server.",
     "AllowOnTheFlySubtitleExtraction": "Consenti l'estrazione sottotitoli al volo",
     "AllowOnTheFlySubtitleExtractionHelp": "I sottotitoli incorporati possono essere estratti dai video e consegnati ai client in testo semplice per evitare la transcodifica dei video. In alcuni sistemi questo può richiedere molto tempo e causare un rallentamento della riproduzione video durante il processo di estrazione. Disattivare questa opzione per avere i sottotitoli incorporati con la transcodifica video quando non sono supportati nativamente dal dispositivo client.",
-    "AllowRemoteAccess": "Abilita connessioni remote a questo server.",
+    "AllowRemoteAccess": "Abilita connessioni remote a questo server",
     "AllowRemoteAccessHelp": "Se deselezionato, tutte le connessioni remote saranno bloccate.",
     "AllowedRemoteAddressesHelp": "Elenco separato da virgola di indirizzi IP o voci IP / maschera di rete per reti che potranno connettersi da remoto. Se lasciato vuoto, saranno consentiti tutti gli indirizzi remoti.",
     "AlwaysPlaySubtitles": "Riproduci sempre",
