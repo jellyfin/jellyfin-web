@@ -449,7 +449,7 @@
     "AllComplexFormats": "Minden összetett formátum (ASS, SSA, VOBSUB, PGS, SUB, IDX, ...)",
     "AllowMediaConversion": "Média konvertálás engedélyezése",
     "AllowMediaConversionHelp": "Add meg vagy tiltsd le a média konvertálás funkcióhoz való hozzáférést.",
-    "AllowRemoteAccess": "Távoli kapcsolatok engedélyezése ehhez a szerverhez.",
+    "AllowRemoteAccess": "Távoli kapcsolatok engedélyezése ehhez a szerverhez",
     "AllowRemoteAccessHelp": "Ha nincs bekapcsolva, minden távoli kapcsolat blokkolva lesz.",
     "AlwaysPlaySubtitles": "Mindig jelenjen meg",
     "AnyLanguage": "Bármelyik nyelv",
