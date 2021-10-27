@@ -27,7 +27,7 @@
     "AllowedRemoteAddressesHelp": "Lista e dhënë me adresat IP ose IP/netmask të ndara me presje, për rrjetet që do lejohen te lidhen në distancë. Nëse lihet bosh, të gjitha adresat do të lejohen.",
     "Default": "Parazgjedhur",
     "AllowRemoteAccessHelp": "Nësë nuk zgjedhet, të gjitha lidhjet nga jashtë do të bllokohen.",
-    "AllowRemoteAccess": "Lejo qasje nga jashtë në këtë server.",
+    "AllowRemoteAccess": "Lejo qasje nga jashtë në këtë server",
     "ValueSpecialEpisodeName": "Speciale - {0}",
     "Sync": "Sinkronizo",
     "Songs": "Këngët",
