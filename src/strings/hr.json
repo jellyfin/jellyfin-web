@@ -871,7 +871,7 @@
     "AlwaysPlaySubtitlesHelp": "Titlovi koji odgovaraju odabranom jeziku bit će učitani bez obzira na jezik zvučnog zapisa.",
     "AlwaysPlaySubtitles": "Uvijek pokreni titlove",
     "AllowRemoteAccessHelp": "Ako je odznačeno, svi udaljeni pristupi će biti blokirani.",
-    "AllowRemoteAccess": "Dopusti udaljene pristupe na ovaj server.",
+    "AllowRemoteAccess": "Dopusti udaljene pristupe na ovaj server",
     "AllowOnTheFlySubtitleExtraction": "Dopusti izdvajanje titlova tokom reprodukcije",
     "AllowMediaConversion": "Dopusti konverziju medija",
     "AllLanguages": "Svi jezici",
