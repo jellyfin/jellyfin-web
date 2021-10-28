@@ -1142,5 +1142,9 @@
     "NoSubtitlesHelp": "Subtiitreid vaikimisi ei laadita. Neid saab siiski taasesituse ajal käsitsi sisse lülitada.",
     "NoSubtitleSearchResultsFound": "Vasteid ei leitud.",
     "Normal": "Normaalne",
-    "NoNewDevicesFound": "Uusi seadmeid ei leitud. Uue tuuneri lisamiseks sulge see dialoog ja sisesta seadme teave käsitsi."
+    "NoNewDevicesFound": "Uusi seadmeid ei leitud. Uue tuuneri lisamiseks sulge see dialoog ja sisesta seadme teave käsitsi.",
+    "OptionAllowMediaPlayback": "Luba meedia taasesitus",
+    "OptionAllowManageLiveTv": "Luba otse-tv salvestiste haldamine",
+    "OptionAllowLinkSharingHelp": "Jagatakse ainult meediateavet sisaldavaid veebilehti. Meediafaile ei jagata kunagi avalikult. Jagamised on ajaliselt piiratud ja aeguvad {0} päeva pärast.",
+    "OptionAllowLinkSharing": "Luba sotsiaalmeedias jagamine"
 }
