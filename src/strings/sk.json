@@ -1025,7 +1025,7 @@
     "SelectAdminUsername": "Prosím, vyberte si používateľské meno pre účet administrátora.",
     "RefreshQueued": "Obnovenie zaradené do fronty.",
     "RefreshDialogHelp": "Metadáta sa obnovujú na základe nastavení a internetových služieb, ktoré sú povolené v dashboarde.",
-    "MessageChangeRecordingPath": "Zmenou priečinku pre nahrávanie sa existujúce nahrávky automaticky nepresunú zo starej lokácie na na novú. Budete ich musieť presunúť ručne, pokiaľ budete chcieť.",
+    "MessageChangeRecordingPath": "Zmenou priečinku pre nahrávanie sa existujúce nahrávky automaticky nepresunú zo starej lokácie na novú. Budete ich musieť presunúť ručne, pokiaľ budete chcieť.",
     "RecordSeries": "Nahrať sériu",
     "Raised": "Vystupujúce",
     "Primary": "Primárna",
