@@ -173,7 +173,7 @@
     "LabelEnableDlnaServer": "Iespējot DLNA serveri",
     "LabelEnableDlnaPlayTo": "Iespējot DLNA atskaņošanu uz",
     "LabelEnableDlnaDebugLogging": "Iespējot DLNA atkļūdošanas logošanu",
-    "LabelEnableDlnaClientDiscoveryInterval": "Klientu meklēšanas intervāls",
+    "LabelEnableDlnaClientDiscoveryInterval": "Klientu meklēšanas intervāls:",
     "LabelEasyPinCode": "Vieglais pin kods:",
     "LabelDownloadLanguages": "Lejupielādēt valodas:",
     "LabelDisplayOrder": "Displeja kārtojums:",
