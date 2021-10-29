@@ -657,7 +657,7 @@
     "LabelCriticRating": "Évaluation de la critique :",
     "LabelCommunityRating": "Évaluation de la communauté :",
     "LabelCachePathHelp": "Spécifier une location personnalisée pour les fichiers cache du serveur, comme les images. Laissé vide pour utiliser la valeur par défaut.",
-    "LabelBlastMessageInterval": "Intervalle du message 'Alive'",
+    "LabelBlastMessageInterval": "Intervalle du message 'Alive':",
     "LabelBindToLocalNetworkAddressHelp": "Contourne l'adresse IP locale pour celle du serveur HTTP. Si laissé vide, le serveur va se lier à toutes les adresses disponibles. Changer cette valeur nécessite un redémarrage.",
     "LabelAlbumArtHelp": "PN utilisé pour les pochettes d'album, dans l’attribut dlna:profileID de upnp:albumArtURi. Certains appareils nécessitent une valeur spécifique, peu importe la taille de l'image.",
     "ServerNameIsRestarting": "Le serveur à {0} redémarre.",
