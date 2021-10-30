@@ -967,7 +967,7 @@
     "PleaseSelectTwoItems": "Veuillez sélectionner au moins deux éléments.",
     "MessagePluginInstalled": "Cette extension a été installée avec succès. Le serveur doit être redémarré afin que les modifications soient prises en compte.",
     "PreferEmbeddedTitlesOverFileNames": "Préférer les titres intégrés aux médias aux noms des fichiers",
-    "PreferEmbeddedTitlesOverFileNamesHelp": "Déterminer le titre à afficher lorsqu'aucune métadonnée en ligne ni locale n'est disponible.",
+    "PreferEmbeddedTitlesOverFileNamesHelp": "Déterminer le titre à afficher lorsqu'aucune métadonnée en ligne ou locale n'est disponible.",
     "Premieres": "Inédits",
     "Previous": "Précédent",
     "Primary": "Principal",
