@@ -446,6 +446,7 @@ import { appRouter } from '../../../components/appRouter';
                 updatePlayerStateInternal(event, player, state);
                 updatePlaylist();
                 enableStopOnBack(true);
+                updatePlaybackRate(player);
             }
         }
 
@@ -1250,6 +1251,14 @@ import { appRouter } from '../../../components/appRouter';
 
             if (enabled && playbackManager.isPlayingVideo(currentPlayer)) {
                 view.addEventListener('viewbeforehide', onViewHideStopPlayback);
+            }
+        }
+
+        function updatePlaybackRate(player) {
+            // Restore playback speed control, if it exists in the session.
+            const playbackRateSpeed = sessionStorage.getItem('playbackRateSpeed');
+            if (playbackRateSpeed !== null) {
+                player.setPlaybackRate(playbackRateSpeed);
             }
         }
 
