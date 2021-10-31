@@ -1410,7 +1410,7 @@
     "OptionAllowContentDownloadHelp": "کاربران می توانند رسانه را بارگیری کرده و آن را در دستگاه های خود ذخیره کنند. این همان ویژگی همگام سازی نیست. برای عملکرد صحیح کتابخانه های کتابخانه ، این مورد را باید فعال کنید.",
     "OptionAllowContentDownload": "بارگیری رسانه را مجاز کنید",
     "NextTrack": "رفتن به بعدی",
-    "MusicVideos": "نماهنگ",
+    "MusicVideos": "موزیک ویدیوها",
     "MessageSyncPlayIsDisabled": "اجازه استفاده از SyncPlay لازم است.",
     "MessagePluginInstallError": "هنگام نصب افزونه خطایی روی داد.",
     "MessageNoRepositories": "بدون مخزن.",
