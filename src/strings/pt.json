@@ -1243,7 +1243,7 @@
     "LabelSyncPlayAccessNone": "Desativado para este usuário",
     "LabelSyncPlayAccessJoinGroups": "Permitir que o usuário participe de grupos",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Permitir que o usuário crie e participe de grupos",
-    "LabelSyncPlayAccess": "Acesso SyncPlay",
+    "LabelSyncPlayAccess": "Acesso SyncPlay:",
     "LabelSubtitleVerticalPosition": "Posição vertical:",
     "LabelStable": "Estável",
     "LabelSSDPTracingFilterHelp": "Endereço IP opcional para filtrar o tráfego SSDP registrado.",
