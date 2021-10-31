@@ -1297,7 +1297,7 @@
     "MessageSyncPlayUserJoined": "{0} har blitt med i gruppen.",
     "MessageSyncPlayDisabled": "SyncPlay deaktivert.",
     "MessageSyncPlayEnabled": "SyncPlay aktivert.",
-    "LabelSyncPlayAccess": "SyncPlay-tilgang",
+    "LabelSyncPlayAccess": "SyncPlay-tilgang:",
     "LabelSyncPlayAccessNone": "Deaktivert for denne brukeren",
     "LabelSyncPlayAccessJoinGroups": "Tillat brukeren å bli med i grupper",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Tillat brukeren å lage og bli med i grupper",
@@ -1512,6 +1512,6 @@
     "Controls": "Kontroller",
     "TextSent": "Tekst sendt.",
     "MessageSent": "Melding sendt.",
-    "LabelSlowResponseTime": "Tid i millisekunder før responsen regnes som treg",
+    "LabelSlowResponseTime": "Tid i millisekunder før responsen regnes som treg:",
     "HeaderContinueReading": "Fortsett å lese"
 }
