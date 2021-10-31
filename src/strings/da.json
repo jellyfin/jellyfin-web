@@ -1384,7 +1384,7 @@
     "OptionAllowContentDownloadHelp": "Brugere kan hente media og gemme det på deres enheder. Dette er ikke det samme som en sync funktion. Bog biblioteker kræver dette aktiveres for at fungere ordentlig.",
     "OptionAllowContentDownload": "Tillad hentning af media",
     "NextTrack": "Spring til næste",
-    "MusicVideos": "Musik Videoer",
+    "MusicVideos": "Musik videoer",
     "MillisecondsUnit": "ms",
     "MessageSyncPlayUserLeft": "<b>{0}</b> har forladt gruppen.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> deltager i gruppen.",
