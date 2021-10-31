@@ -882,7 +882,7 @@
     "LabelSyncPlayLeaveGroupDescription": "Онемогући SyncPlay",
     "LabelSyncPlayHaltPlaybackDescription": "И занемарите тренутна ажурирања листе песама",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Дозволи кориснику да креира и да се придружи групама",
-    "LabelSyncPlayAccess": "SyncPlay приступ",
+    "LabelSyncPlayAccess": "SyncPlay приступ:",
     "LabelSupportedMediaTypes": "Подржани типови медија:",
     "LabelSubtitleVerticalPosition": "Вертикални положај:",
     "LabelSubtitlePlaybackMode": "Режим титлова:",
