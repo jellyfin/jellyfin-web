@@ -1574,5 +1574,8 @@
     "SetUsingLastTracksHelp": "嘗試用最接近前一個影片的設定去設定字幕與音軌。",
     "SetUsingLastTracks": "以前一個項目設定字幕/音軌",
     "PreviousChapter": "前一章節",
-    "NextChapter": "下一章節"
+    "NextChapter": "下一章節",
+    "AgeValue": "（{0} 歲）",
+    "LabelSortName": "排列名稱：",
+    "LabelOriginalName": "原始名稱："
 }
