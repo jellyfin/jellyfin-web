@@ -936,7 +936,7 @@
     "LabelTheme": "Tema:",
     "LabelTextSize": "Veličina teksta:",
     "LabelTextColor": "Boja teksta:",
-    "LabelSyncPlayAccess": "SyncPlay pristup",
+    "LabelSyncPlayAccess": "SyncPlay pristup:",
     "LabelSyncPlayAccessNone": "Onemogućeno za ovog korisnika",
     "LabelSyncPlayAccessJoinGroups": "Dozvoli korisniku da se pridruži grupama",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Dozvoli korisniku da kreira i pridruži se grupama",
