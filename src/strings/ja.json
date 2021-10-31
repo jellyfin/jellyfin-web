@@ -1056,7 +1056,7 @@
     "LabelTunerIpAddress": "チューナーIPアドレス:",
     "LabelTriggerType": "トリガータイプ:",
     "LabelTextBackgroundColor": "テキスト背景色:",
-    "LabelSyncPlayAccess": "SyncPlayアクセス",
+    "LabelSyncPlayAccess": "SyncPlayアクセス:",
     "LabelSyncPlayAccessNone": "このユーザーには無効",
     "LabelSyncPlayAccessJoinGroups": "ユーザーによるグループの参加を許可",
     "LabelSyncPlayAccessCreateAndJoinGroups": "ユーザーによるグループの作成/参加を許可",
