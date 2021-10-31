@@ -59,7 +59,7 @@
     "LabelAudioLanguagePreference": "首選音訊語言：",
     "LabelCache": "緩存：",
     "LabelCachePath": "緩存路徑：",
-    "LabelCachePathHelp": "選擇指定所需的緩存文件路徑，如圖像。保留空白以使用默認設定。",
+    "LabelCachePathHelp": "選擇指定所需的緩存文件路徑；如圖像。保留空白以使用默認設定。",
     "LabelCommunityRating": "討論區評分：",
     "LabelContentType": "內容類型：",
     "LabelCountry": "國家/地區：",
@@ -1043,5 +1043,7 @@
     "FastForward": "快轉",
     "Extras": "額外",
     "ExtraLarge": "特大",
-    "ExtractChapterImagesHelp": "擷取章節圖片將允許 Jellyfin 顯示圖片形式的章節選單，過程可能會非常緩慢、佔用大量 CPU 資源，並且可能需要幾 GB 的硬碟空間。擷取會在影片被偵測到時啟動，同時也可作為一個夜間計劃任務運行，這個任務可以在「計劃任務」選項中進行設定，不建議在尖峰使用時間進行這個任務。"
+    "ExtractChapterImagesHelp": "擷取章節圖片將允許 Jellyfin 顯示圖片形式的章節選單，過程可能會非常緩慢、佔用大量 CPU 資源，並且可能需要幾 GB 的硬碟空間。擷取會在影片被偵測到時啟動，同時也可作為一個夜間計劃任務運行，這個任務可以在「計劃任務」選項中進行設定，不建議在尖峰使用時間進行這個任務。",
+    "MusicVideos": "音樂影片",
+    "AgeValue": "（{0} 歲）"
 }
