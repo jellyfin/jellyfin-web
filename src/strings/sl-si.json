@@ -1048,7 +1048,7 @@
     "LabelTypeMetadataDownloaders": "{0} prenašalci metapodatkov:",
     "LabelType": "Vrsta:",
     "LabelTunerType": "Vrsta sprejemnika:",
-    "LabelSyncPlayAccess": "Dostop do SyncPlay",
+    "LabelSyncPlayAccess": "Dostop do SyncPlay:",
     "LabelSyncPlayAccessNone": "Onemogočeno za tega uporabnika",
     "LabelSyncPlayAccessJoinGroups": "Dovoli uporabniku pridružitev skupinam",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Dovoli uporabniku ustvarjanje in pridružitev skupinam",
