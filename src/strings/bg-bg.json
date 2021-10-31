@@ -1067,7 +1067,7 @@
     "LabelTextBackgroundColor": "Цвят на фона на текста:",
     "LabelTagline": "Ключова фраза:",
     "LabelTVHomeScreen": "Главна страница в режим ТВ:",
-    "LabelSyncPlayAccess": "Достъп до \"синхронизирано възпроизвеждане\"",
+    "LabelSyncPlayAccess": "Достъп до \"синхронизирано възпроизвеждане\":",
     "LabelSyncPlayAccessNone": "Изключено за този потребител",
     "LabelSyncPlayAccessJoinGroups": "Разрешаване на потребителя да се присъединява към групи",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Разрешаване на потребителя да създава и да се присъединява към групи",
