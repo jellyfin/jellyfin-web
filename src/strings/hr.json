@@ -1186,5 +1186,6 @@
     "DirectPlayHelp": "Izvorna datoteka je u potpunosti kompatibilna sa klijentom i sesija prihvaća datoteku bez modifikacija.",
     "Conductor": "Dirigent",
     "Arranger": "Aranžer",
-    "AgeValue": "(staro {0} godina)"
+    "AgeValue": "(staro {0} godina)",
+    "MusicVideos": "Glazbeni spotovi"
 }
