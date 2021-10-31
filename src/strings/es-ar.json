@@ -986,7 +986,7 @@
     "LabelTagline": "Lema:",
     "LabelTag": "Etiqueta:",
     "LabelTVHomeScreen": "Pantalla de inicio del modo TV:",
-    "LabelSyncPlayAccess": "Acceso SyncPlay",
+    "LabelSyncPlayAccess": "Acceso SyncPlay:",
     "LabelSyncPlayAccessNone": "Deshabilitado para este usuario",
     "LabelSyncPlayAccessJoinGroups": "Permitir al usuario unirse a grupos",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Permitir al usuario crear y unirse a grupos",
@@ -1515,7 +1515,7 @@
     "Controls": "Controles",
     "TextSent": "Texto enviado.",
     "MessageSent": "Mensaje enviado.",
-    "LabelSlowResponseTime": "Tiempo en ms después de lo cual una respuesta es considerada lenta",
+    "LabelSlowResponseTime": "Tiempo en ms después de lo cual una respuesta es considerada lenta:",
     "LabelSlowResponseEnabled": "Log de alarma si la respuesta del servidor fue lenta",
     "UseEpisodeImagesInNextUpHelp": "Las secciones Siguiente y Continuar viendo utilizaran imagenes del episodio como miniaturas en lugar de miniaturas del show.",
     "UseEpisodeImagesInNextUp": "Usar imágenes de los episodios en \"Siguiente\" y \"Continuar Viendo\""
