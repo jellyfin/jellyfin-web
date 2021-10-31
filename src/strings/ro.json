@@ -1305,7 +1305,7 @@
     "MessageSyncPlayUserJoined": "<b>{0}</b> s-a alăturat grupului.",
     "MessageSyncPlayDisabled": "SyncPlay dezactivat.",
     "MessageSyncPlayEnabled": "SyncPlay activat.",
-    "LabelSyncPlayAccess": "Acces SyncPlay",
+    "LabelSyncPlayAccess": "Acces SyncPlay:",
     "LabelSyncPlayAccessNone": "Dezactivat pentru acest utilizator",
     "LabelSyncPlayAccessJoinGroups": "Permiteți utilizatorului să se alăture grupurilor",
     "LabelSyncPlayAccessCreateAndJoinGroups": "Permiteți utilizatorului să creeze și să se alăture grupurilor",
