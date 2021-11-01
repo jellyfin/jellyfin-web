@@ -1150,5 +1150,21 @@
     "OptionEmbedSubtitles": "Manusta konteinerisse",
     "OptionDvd": "DVD",
     "OptionDisplayFolderViewHelp": "Kuva kaustu koos teiste meediakogudega. See võib olla kasulik, kui soovid kasutada tavalist kaustavaadet.",
-    "OptionDisplayFolderView": "Kasuta tavaliste meediumikaustade kuvamiseks kaustavaadet"
+    "OptionDisplayFolderView": "Kasuta tavaliste meediumikaustade kuvamiseks kaustavaadet",
+    "OptionHideUser": "Peida see kasutaja sisselogimiskuvadelt",
+    "OptionHasThemeSong": "Tunnusmeloodia",
+    "OptionHasThemeVideo": "Teemavideo",
+    "OptionExtractChapterImage": "Luba peatüki piltide loomine",
+    "OptionExternallyDownloaded": "Väline allalaadimine",
+    "OptionEveryday": "Iga päev",
+    "OptionEstimateContentLength": "Hinda transkoodimisel sisu kestust",
+    "OptionEquals": "Võrdub",
+    "OptionEnableM2tsModeHelp": "Luba m2ts režiim enkoodimisel mpegts vormingusse.",
+    "OptionEnableM2tsMode": "Luba M2ts režiim",
+    "OptionEnableForAllTuners": "Luba kõikidele tuuneritele",
+    "OptionEnableExternalContentInSuggestionsHelp": "Luba interneti treilerite ja otsesaadete lisamine soovitatud sisusse.",
+    "OptionEnableExternalContentInSuggestions": "Luba soovitustes väline sisu",
+    "OptionEnableAccessToAllLibraries": "Luba juurdepääs kõikidele meediakogudele",
+    "OptionEnableAccessToAllChannels": "Luba juurdepääs kõikidele kanalitele",
+    "OptionEnableAccessFromAllDevices": "Luba juurdepääs kõikidest seadmetest"
 }
