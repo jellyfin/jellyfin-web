@@ -1146,5 +1146,9 @@
     "OptionAllowMediaPlayback": "Luba meedia taasesitus",
     "OptionAllowManageLiveTv": "Luba otse-tv salvestiste haldamine",
     "OptionAllowLinkSharingHelp": "Jagatakse ainult meediateavet sisaldavaid veebilehti. Meediafaile ei jagata kunagi avalikult. Jagamised on ajaliselt piiratud ja aeguvad {0} päeva pärast.",
-    "OptionAllowLinkSharing": "Luba sotsiaalmeedias jagamine"
+    "OptionAllowLinkSharing": "Luba sotsiaalmeedias jagamine",
+    "OptionEmbedSubtitles": "Manusta konteinerisse",
+    "OptionDvd": "DVD",
+    "OptionDisplayFolderViewHelp": "Kuva kaustu koos teiste meediakogudega. See võib olla kasulik, kui soovid kasutada tavalist kaustavaadet.",
+    "OptionDisplayFolderView": "Kasuta tavaliste meediumikaustade kuvamiseks kaustavaadet"
 }
