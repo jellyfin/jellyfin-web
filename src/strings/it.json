@@ -1580,5 +1580,6 @@
     "LabelOriginalName": "Nome originale:",
     "HeaderSyncPlaySettings": "Impostazioni SyncPlay",
     "ErrorPlayerNotFound": "Nessun player trovato per il media richiesto.",
-    "AgeValue": "({0} anni)"
+    "AgeValue": "({0} anni)",
+    "MediaInfoTitle": "Titolo"
 }
