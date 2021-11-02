@@ -82,7 +82,7 @@
     "ButtonRemove": "Изъять",
     "ButtonRename": "Переименовать",
     "ButtonResetEasyPassword": "Сбросить простой PIN-код",
-    "ButtonResume": "Возобновить",
+    "ButtonResume": "Возобновление",
     "ButtonRevoke": "Отозвать",
     "ButtonScanAllLibraries": "Сканировать все медиатеки",
     "ButtonSelectDirectory": "Выбрать каталог",
@@ -1580,5 +1580,6 @@
     "AgeValue": "(в возрасте {0} лет)",
     "PlaybackErrorPlaceHolder": "Это заполнитель для физических носителей, которые Jellyfin не может воспроизводить. Вставьте диск для воспроизведения.",
     "LabelMaxDaysForNextUp": "Максимальные дни в Очередных:",
-    "LabelMaxDaysForNextUpHelp": "Задать максимальное количество дней, в течение которых сериал должен оставаться в списке «Очередное» без его просмотра ."
+    "LabelMaxDaysForNextUpHelp": "Задать максимальное количество дней, в течение которых сериал должен оставаться в списке «Очередное» без его просмотра .",
+    "MediaInfoTitle": "Название"
 }
