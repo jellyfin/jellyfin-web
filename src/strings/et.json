@@ -1166,5 +1166,11 @@
     "OptionEnableExternalContentInSuggestions": "Luba soovitustes väline sisu",
     "OptionEnableAccessToAllLibraries": "Luba juurdepääs kõikidele meediakogudele",
     "OptionEnableAccessToAllChannels": "Luba juurdepääs kõikidele kanalitele",
-    "OptionEnableAccessFromAllDevices": "Luba juurdepääs kõikidest seadmetest"
+    "OptionEnableAccessFromAllDevices": "Luba juurdepääs kõikidest seadmetest",
+    "OptionLoginAttemptsBeforeLockout": "Määra, mitu väärat sisselogimiskatset saab teha enne lukustumist.",
+    "OptionIsSD": "SD",
+    "OptionIsHD": "HD",
+    "OptionImdbRating": "IMDb hinne",
+    "OptionHlsSegmentedSubtitles": "HLS segmenteeritud subtiitrid",
+    "OptionHideUserFromLoginHelp": "Kasulik privaatsete või peidetud administraatorikontode jaoks. Kasutaja peab käsitsi sisse logima, sisestades oma kasutajanime ja parooli."
 }
