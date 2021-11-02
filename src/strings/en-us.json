@@ -1005,6 +1005,7 @@
     "MediaInfoSampleRate": "Sample rate",
     "MediaInfoSize": "Size",
     "MediaInfoTimestamp": "Timestamp",
+    "MediaInfoTitle": "Title",
     "MediaInfoVideoRange": "Video range",
     "MediaIsBeingConverted": "The media is being converted into a format that is compatible with the device that is playing the media.",
     "Menu": "Menu",
