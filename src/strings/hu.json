@@ -1580,5 +1580,6 @@
     "AgeValue": "({0} éves)",
     "PlaybackErrorPlaceHolder": "Ez egy hely a fizikai médiában, amelyet a Jellyfin nem tud lejátszani. Kérjük, helyezze be a lemezt a lejátszáshoz.",
     "LabelMaxDaysForNextUp": "Maximális napok száma a \"Következő\"-re:",
-    "LabelMaxDaysForNextUpHelp": "Beállítja, hogy a műsor hány napig maradjon a „Következő” listában anélkül, hogy megnézné."
+    "LabelMaxDaysForNextUpHelp": "Beállítja, hogy a műsor hány napig maradjon a „Következő” listában anélkül, hogy megnézné.",
+    "MediaInfoTitle": "Cím"
 }
