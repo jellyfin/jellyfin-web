@@ -1580,5 +1580,6 @@
     "AgeValue": "({0} let)",
     "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk.",
     "LabelMaxDaysForNextUp": "Omezení zobrazení dalších epizod:",
-    "LabelMaxDaysForNextUpHelp": "Maximální počet dnů, po který zůstane seriál v seznamu dalších epizod ke zhlédnutí."
+    "LabelMaxDaysForNextUpHelp": "Maximální počet dnů, po který zůstane seriál v seznamu dalších epizod ke zhlédnutí.",
+    "MediaInfoTitle": "Název"
 }

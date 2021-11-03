@@ -1236,8 +1236,8 @@
     "Premieres": "Công chiếu",
     "Premiere": "Công chiếu",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Ưu tiên thông tin tập được nhúng hơn tên tệp",
-    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Nó sử dụng thông tin tập phim từ dữ liệu mô tả được nhúng nếu có sẵn.",
-    "PreferEmbeddedTitlesOverFileNamesHelp": "Điều này xác định tiêu đề hiển thị mặc định khi không có dữ liệu mô tả từ internet hoặc cục bộ.",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Sử dụng thông tin tập từ dữ liệu mô tả được nhúng nếu sẵn có.",
+    "PreferEmbeddedTitlesOverFileNamesHelp": "Xác định tiêu đề hiển thị để sử dụng khi không có dữ liệu mô tả internet hoặc dữ liệu mô tả cục bộ.",
     "PreferEmbeddedTitlesOverFileNames": "Ưu tiên tiêu đề được nhúng hơn tên tệp",
     "MessageGetInstalledPluginsError": "Đã xảy ra lỗi khi nhận danh sách các plugin hiện được cài đặt.",
     "MessagePluginInstallError": "Đã xảy ra lỗi khi cài đặt plugin.",
@@ -1516,7 +1516,7 @@
     "TextSent": "Đã gửi văn bản.",
     "MessageSent": "Đã gửi tin nhắn.",
     "LabelSlowResponseTime": "Thời gian tính bằng mili giây sau đó phản hồi được coi là chậm:",
-    "LabelSlowResponseEnabled": "Cảnh báo ghi nhật ký nếu phản hồi của máy chủ chậm",
+    "LabelSlowResponseEnabled": "Ghi lại thông báo cảnh báo nếu máy chủ trả lời chậm",
     "UseEpisodeImagesInNextUpHelp": "Phần Tiếp Theo và Tiếp Tục Xem sẽ sử dụng hình ảnh của tập làm hình thu nhỏ thay vì hình thu nhỏ chính của chương trình.",
     "UseEpisodeImagesInNextUp": "Sử dụng hình ảnh của tập trong phần Tiếp theo và Tiếp tục Xem",
     "LabelLocalCustomCss": "Kiểu CSS tùy chỉnh chỉ áp dụng cho máy khách này. Bạn có thể muốn tắt CSS tùy chỉnh của máy chủ.",
@@ -1579,5 +1579,6 @@
     "AgeValue": "({0} tuổi)",
     "PlaybackErrorPlaceHolder": "Đây là trình giữ chỗ cho phương tiện vật lý mà Jellyfin không thể phát. Vui lòng cho đĩa vào để chơi.",
     "LabelMaxDaysForNextUpHelp": "Đặt số ngày tối đa mà một chương trình sẽ ở trong danh sách 'Tiếp theo' mà không cần xem chương trình đó.",
-    "LabelMaxDaysForNextUp": "Số ngày tối đa trong 'Tiếp theo':"
+    "LabelMaxDaysForNextUp": "Số ngày tối đa trong 'Tiếp theo':",
+    "MediaInfoTitle": "Tiêu đề"
 }
