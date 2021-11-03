@@ -1185,7 +1185,7 @@
     "OptionResumable": "Jätkatav",
     "OptionResElement": "res-element",
     "OptionRequirePerfectSubtitleMatchHelp": "Täieliku vaste nõudmine filtreerib subtiitrid, et hõlmataks ainult neid, mida on testitud ja kinnitatud täpselt sama videofailiga. Selle märke tühistamine suurendab subtiitrite allalaadimise tõenäosust, kuid suurendab valesti ajastatud või vale subtiitri laadimise võimalust.",
-    "OptionRequirePerfectSubtitleMatch": "Laadi alla ainult videofailile täielikult vastavad subtiitrid.",
+    "OptionRequirePerfectSubtitleMatch": "Laadi alla ainult videofailile täielikult vastavad subtiitrid",
     "OptionReleaseDate": "Väljalaske kuupäev",
     "OptionRegex": "Regex",
     "OptionRandom": "Juhuslik",
