@@ -1172,5 +1172,8 @@
     "OptionIsHD": "HD",
     "OptionImdbRating": "IMDb hinne",
     "OptionHlsSegmentedSubtitles": "HLS segmenteeritud subtiitrid",
-    "OptionHideUserFromLoginHelp": "Kasulik privaatsete või peidetud administraatorikontode jaoks. Kasutaja peab käsitsi sisse logima, sisestades oma kasutajanime ja parooli."
+    "OptionHideUserFromLoginHelp": "Kasulik privaatsete või peidetud administraatorikontode jaoks. Kasutaja peab käsitsi sisse logima, sisestades oma kasutajanime ja parooli.",
+    "OptionMaxActiveSessions": "Määra samaaegsete kasutajaseansside maksimaalne arv.",
+    "OptionMax": "Maks.",
+    "OptionLoginAttemptsBeforeLockoutHelp": "Väärtus '0' tähendab tavakasutajate puhul kolme ja administraatorite puhul viie katse pärimist.Väärtus '-1' keelab selle funktsiooni."
 }
