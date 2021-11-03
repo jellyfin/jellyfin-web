@@ -83,7 +83,7 @@
     "libass-wasm": "git+https://github.com/jellyfin/JavascriptSubtitlesOctopus.git#4.0.0-jf-4",
     "lodash-es": "^4.17.21",
     "marked": "^3.0.8",
-    "material-design-icons-iconfont": "^6.1.0",
+    "material-design-icons-iconfont": "^6.1.1",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.6",
     "pdfjs-dist": "2.6.347",
