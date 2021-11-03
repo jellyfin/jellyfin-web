@@ -161,5 +161,6 @@
     "AlwaysPlaySubtitlesHelp": "Titrat që përputhen me preferencën e gjuhës do të ngarkohen pavarësisht nga gjuha e audios.",
     "AlwaysPlaySubtitles": "Luaj Gjithmonë",
     "AllowFfmpegThrottling": "Limito Transkodimin",
-    "AgeValue": "({0} vjeç)"
+    "AgeValue": "({0} vjeç)",
+    "MusicVideos": "Video muzikore"
 }
