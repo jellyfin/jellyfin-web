@@ -1581,5 +1581,10 @@
     "PlaybackErrorPlaceHolder": "Ceci est un emplacement pour les médias physiques que Jellyfin ne peut pas jouer. Merci d'insérer le disque pour lancer la lecture.",
     "LabelMaxDaysForNextUpHelp": "Définir le nombre maximal de jours avant qu'une émission ne soit retirée de la section 'À suivre'.",
     "LabelMaxDaysForNextUp": "Expiration de la section 'À suivre' :",
-    "MediaInfoTitle": "Titre"
+    "MediaInfoTitle": "Titre",
+    "Typewriter": "Machine à écrire",
+    "Print": "Imprimé",
+    "Larger": "Plus grand",
+    "Console": "Console",
+    "Casual": "Décontracté"
 }
