@@ -1582,5 +1582,10 @@
     "PlaybackErrorPlaceHolder": "Būl Jellyfin oinata almaityn fizikalyq tasyğyştyñ toltyrğyşy. Oinatu üşın diskını salyñyz.",
     "LabelMaxDaysForNextUp": "Kelesıdegi eñ köp künder:",
     "LabelMaxDaysForNextUpHelp": "Körsetımdı körmei-aq \"Kelesı\" tızımınde qalatyn künderdıñ eñ köp sanyn ornatu.",
-    "MediaInfoTitle": "Atauy"
+    "MediaInfoTitle": "Atauy",
+    "Typewriter": "Jazu maşinasy",
+    "Print": "Baspalyq",
+    "Larger": "Irıleu",
+    "Console": "Konsöldik",
+    "Casual": "Ūqypsyz"
 }
