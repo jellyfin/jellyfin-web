@@ -1577,5 +1577,10 @@
     "LabelEnableAutomaticPortMapHelp": "Aŭtomate porti antaŭen publikajn pordojn de via enkursigilo al lokaj pordoj de via servilo per UPnP. Ĉi tio eble ne funkcias kun iuj enkursigiloj aŭ retaj agordoj. Ŝanĝoj ne aplikiĝos ĝis post relanĉo de servilo.",
     "BurnSubtitlesHelp": "Determini ĉu la servilo devus enbruligi subtekstojn dum transkodado de videoj. Eviti ĉi tion multe plibonigos rendimenton. Elekti Aŭtomate por enbruligi bildbazitajn formatojn (VOBSUB, PGS, SUB, IDX, ktp.) kaj iujn ASS aŭ SSA-subtekstojn.",
     "UnsupportedPlayback": "Jellyfin ne povas malĉifri enhavon protektitan de DRM sed ĉiu enhavo estos provita sendepende, inkluzive de protektitaj titoloj. Iuj dosieroj povas aperi tute nigraj pro ĉifrado aŭ aliaj nesubtenataj rimedoj, kiel ekzemple dialogaj titoloj.",
-    "MediaInfoTitle": "Titolo"
+    "MediaInfoTitle": "Titolo",
+    "Casual": "Neformala",
+    "Typewriter": "Tajpaĵa",
+    "Print": "Printaĵa",
+    "Larger": "Pli granda",
+    "Console": "Konzola"
 }
