@@ -1581,5 +1581,10 @@
     "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk.",
     "LabelMaxDaysForNextUp": "Omezení zobrazení dalších epizod:",
     "LabelMaxDaysForNextUpHelp": "Maximální počet dnů, po který zůstane seriál v seznamu dalších epizod ke zhlédnutí.",
-    "MediaInfoTitle": "Název"
+    "MediaInfoTitle": "Název",
+    "Typewriter": "Psací stroj",
+    "Print": "Tisk",
+    "Larger": "Větší",
+    "Console": "Příkazový řádek",
+    "Casual": "Ležérní"
 }
