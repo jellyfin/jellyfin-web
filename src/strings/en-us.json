@@ -470,7 +470,7 @@
     "HeaderTranscodingProfileHelp": "Add transcoding profiles to indicate which formats should be used when transcoding is required.",
     "HeaderTunerDevices": "Tuner Devices",
     "HeaderTuners": "Tuners",
-    "HeaderTypeImageFetchers": "{0} - Image fetchers",
+    "HeaderTypeImageFetchers": "{0} - Image fetchers:",
     "HeaderTypeText": "Enter Text",
     "HeaderUninstallPlugin": "Uninstall Plugin",
     "HeaderUpcomingOnTV": "Upcoming On TV",
