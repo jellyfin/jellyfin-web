@@ -921,9 +921,9 @@
     "PleaseSelectTwoItems": "Bitte wähle mindestens zwei Elemente aus.",
     "MessagePluginInstalled": "Das Plugin wurde erfolgreich installiert. Der Server muss neu gestartet werden, um die Änderungen zu übernehmen.",
     "PreferEmbeddedTitlesOverFileNames": "Eingebettete Titel vor Dateinamen bevorzugen",
-    "PreferEmbeddedTitlesOverFileNamesHelp": "Das bestimmt den Standard Displaytitel wenn keine lokale oder Internetmetadaten verfügbar sind.",
+    "PreferEmbeddedTitlesOverFileNamesHelp": "Bestimmen Sie den Anzeigetitel, der verwendet werden soll, wenn keine Internet-Metadaten oder lokalen Metadaten verfügbar sind.",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Eingebettete Episodeninformationen vor Dateinamen bevorzugen",
-    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Bevorzugt die in den Metadaten eingebetteten Episodeninformationen.",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Verwenden Sie die Episodeninformationen aus den eingebetteten Metadaten, falls vorhanden.",
     "Premieres": "Premieren",
     "Previous": "Vorheriges",
     "Primary": "Primär",
@@ -1515,7 +1515,7 @@
     "Controls": "Steuerung",
     "TextSent": "Text gesendet.",
     "MessageSent": "Nachricht gesendet.",
-    "LabelSlowResponseEnabled": "Warnung loggen, falls die Serverantwort langsam war",
+    "LabelSlowResponseEnabled": "Protokollierung einer Warnmeldung, wenn der Server nur langsam antwortet",
     "LabelSlowResponseTime": "Zeit in ms, nachdem eine Antwort als langsam eingestuft wird:",
     "UseEpisodeImagesInNextUpHelp": "Die Abschnitte \"Als Nächstes\" und \"Weiterschauen\" verwenden Episodenbilder als Vorschaubilder anstelle des primären Vorschaubilds der Sendung.",
     "UseEpisodeImagesInNextUp": "Verwenden Sie Episodenbilder in den Bereichen \"Als Nächstes\" und \"Weiterschauen\"",
@@ -1580,5 +1580,10 @@
     "LabelSortName": "Sortieren nach Name:",
     "LabelMaxDaysForNextUpHelp": "Legen Sie fest, wie viele Tage eine Sendung maximal in der Liste \"Nächste Sendung\" bleiben soll, ohne dass sie angesehen wird.",
     "LabelMaxDaysForNextUp": "Max. Tage für 'als Nächstes':",
-    "ErrorPlayerNotFound": "Für den angeforderten Medientyp wurde kein Player gefunden."
+    "ErrorPlayerNotFound": "Für den angeforderten Medientyp wurde kein Player gefunden.",
+    "Typewriter": "Schreibmaschine",
+    "Print": "Drucken",
+    "MediaInfoTitle": "Titel",
+    "Larger": "Größer",
+    "Console": "Konsole"
 }
