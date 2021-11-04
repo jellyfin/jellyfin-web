@@ -1,6 +1,12 @@
 import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { decode, isBlurhashValid } from 'blurhash';
+import { wrap } from 'comlink';
+const getPixels = wrap(
+    new Worker(
+        // eslint-disable-next-line compat/compat
+        new URL('./blurhash.worker.ts', import.meta.url)
+    )
+);
 import './style.scss';
 /* eslint-disable indent */
 
@@ -12,21 +18,18 @@ import './style.scss';
         fillImageElement(elem, source);
     }
 
-    function itemBlurhashing(target, blurhashstr) {
-        if (isBlurhashValid(blurhashstr)) {
+    async function itemBlurhashing(target, hash) {
+        try {
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
-            const width = 18;
-            const height = 18;
-            let pixels;
-            try {
-                pixels = decode(blurhashstr, width, height);
-            } catch (err) {
-                console.error('Blurhash decode error: ', err);
-                target.classList.add('non-blurhashable');
-                return;
-            }
+            const width = 32;
+            const height = 32;
+            const pixels = await getPixels({
+                hash,
+                width,
+                height
+            });
             const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
@@ -48,6 +51,10 @@ import './style.scss';
                 target.classList.add('blurhashed');
                 target.removeAttribute('data-blurhash');
             });
+        } catch (err) {
+            console.log(err);
+            target.classList.add('non-blurhashable');
+            return;
         }
     }
 
@@ -142,7 +149,7 @@ import './style.scss';
             for (const lazyElem of elem.querySelectorAll('.lazy')) {
                 const blurhashstr = lazyElem.getAttribute('data-blurhash');
                 if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
-                    itemBlurhashing(lazyElem, blurhashstr);
+                    Promise.resolve(itemBlurhashing(lazyElem, blurhashstr));
                 } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
                     lazyElem.classList.add('non-blurhashable');
                 }
