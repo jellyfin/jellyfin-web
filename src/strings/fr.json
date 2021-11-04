@@ -1320,7 +1320,7 @@
     "LabelSyncPlayAccess": "Accès SyncPlay :",
     "LabelSyncPlayAccessNone": "Désactivé pour cet utilisateur",
     "LabelSyncPlayAccessJoinGroups": "Autoriser l'utilisateur à rejoindre un groupe",
-    "SyncPlayAccessHelp": "Sélectionner le niveau d'accès de cet utilisateur pour la fonctionnalité SyncPlay. SyncPlay permet de synchroniser la lecture avec d'autres appareils.",
+    "SyncPlayAccessHelp": "Sélectionner le niveau d'accès de cet utilisateur à la fonctionnalité SyncPlay permettant la synchronisation de la lecture avec d'autres appareils.",
     "MessageSyncPlayErrorMedia": "Impossible d'activer SyncPlay ! Erreur média.",
     "MessageSyncPlayErrorMissingSession": "Impossible d'activer SyncPlay ! Session manquante.",
     "MessageSyncPlayErrorNoActivePlayer": "Aucun lecteur actif trouvé. SyncPlay a été désactivé.",
