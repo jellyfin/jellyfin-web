@@ -1460,7 +1460,7 @@
     "ConfirmEndPlayerSession": "Ĉu vi ŝatus malŝalti Jellyfin sur {0}?",
     "ConfirmDeleteItems": "Forigi ĉi tiujn aĵojn forigos ilin kaj de la dosiersistemo kaj de via plurmediteko. Ĉu vi certas, ke vi volas daŭrigi?",
     "ConfirmDeleteItem": "Forigi ĉi tiun aĵon forigos ĝin kaj de la dosiersistemo kaj de via plurmediteko. Ĉu vi certas, ke vi volas daŭrigi?",
-    "ConfigureDateAdded": "Agordi kiel la dato aldonita estas determinita en la Panelo sub la tekaj parametroj",
+    "ConfigureDateAdded": "Agordi kiel la dato aldonita estas determinita en la Panelo sub la plurmeditekaj parametroj",
     "CinemaModeConfigurationHelp": "Kinejreĝimo alportas la teatran sperton rekte al via salono kun la kapablo ludi filmanoncojn kaj laŭmendajn antaŭfilmetojn antaŭ la ĉefa filmo.",
     "ChannelAccessHelp": "Elekti la kanalojn por komunigi kun ĉi tiu uzanto. Administrantoj povos redakti ĉiujn kanalojn per la administrado de metadatenoj.",
     "ButtonEditOtherUserPreferences": "Redakti la profilon, bildon kaj personajn preferojn de ĉi tiu uzanto.",
