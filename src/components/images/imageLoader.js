@@ -106,11 +106,23 @@ import './style.scss';
                     elem.classList.add('lazy-image-fadein');
                 }
 
-                const canvas = elem.previousSibling;
-                if (elem.classList.contains('blurhashed') && canvas && canvas.tagName === 'CANVAS') {
-                    canvas.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
-                    canvas.classList.add('lazy-hidden');
-                }
+                elem.addEventListener('transitionend', () => {
+                    requestIdleCallback(() => {
+                        const canvas = elem.previousSibling;
+                        if (
+                            elem.classList.contains('blurhashed') &&
+                            canvas &&
+                            canvas.tagName === 'CANVAS'
+                        ) {
+                            canvas.classList.remove(
+                                'lazy-image-fadein-fast',
+                                'lazy-image-fadein'
+                            );
+                            canvas.classList.add('lazy-hidden');
+                        }
+                    });
+                    // Run the event listener only once after being added
+                }, false);
             });
         });
     }
