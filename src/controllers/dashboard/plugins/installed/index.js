@@ -70,7 +70,8 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     }
 
     if (plugin.HasImage) {
-        html += `<img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%" />`;
+        const imageUrl = ApiClient.getUrl(`/Plugins/${plugin.Id}/${plugin.Version}/Image`);
+        html += `<img src="${imageUrl}" style="width:100%" />`;
     } else {
         html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
         html += '<span class="cardImageIcon material-icons extension"></span>';
