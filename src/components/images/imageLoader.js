@@ -109,6 +109,9 @@ import './style.scss';
     }
 
     function emptyImageElement(elem) {
+        // block repeated call - requestAnimationFrame twice for one image
+        if (elem.getAttribute('data-src')) return;
+
         let url;
 
         if (elem.tagName !== 'IMG') {
