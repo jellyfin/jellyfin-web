@@ -1580,5 +1580,10 @@
     "PlaybackErrorPlaceHolder": "Đây là trình giữ chỗ cho phương tiện vật lý mà Jellyfin không thể phát. Vui lòng cho đĩa vào để chơi.",
     "LabelMaxDaysForNextUpHelp": "Đặt số ngày tối đa mà một chương trình sẽ ở trong danh sách 'Tiếp theo' mà không cần xem chương trình đó.",
     "LabelMaxDaysForNextUp": "Số ngày tối đa trong 'Tiếp theo':",
-    "MediaInfoTitle": "Tiêu đề"
+    "MediaInfoTitle": "Tiêu đề",
+    "Console": "Dòng lệnh",
+    "Casual": "Giản dị",
+    "Typewriter": "Máy đánh chữ",
+    "Print": "In",
+    "Larger": "Lớn hơn"
 }
