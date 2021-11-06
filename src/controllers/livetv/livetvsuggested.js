@@ -288,10 +288,6 @@ export default function (view, params) {
 
                 if (index === 0) {
                     controller = self;
-                } else if (index === 6) {
-                    controller = new controllerFactory(view, tabContent, {
-                        collectionType: 'livetv'
-                    });
                 } else {
                     controller = new controllerFactory(view, params, tabContent);
                 }
