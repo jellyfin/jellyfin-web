@@ -1198,5 +1198,20 @@
     "OptionParentalRating": "Vanusepiirang",
     "OptionNew": "Uus…",
     "OptionMissingEpisode": "Puuduvad episoodid",
-    "OptionMaxActiveSessionsHelp": "Väärtus '0' keelab selle funktsiooni."
+    "OptionMaxActiveSessionsHelp": "Väärtus '0' keelab selle funktsiooni.",
+    "PasswordResetConfirmation": "Kas soovid parooli lähtestada?",
+    "PasswordResetComplete": "Parool lähtestati.",
+    "PasswordMatchError": "Parool ja parooli kinnitus peavad ühtima.",
+    "ParentalRating": "Vanusepiirang",
+    "PackageInstallFailed": "{0} (versioon {1}) paigaldamine nurjus.",
+    "PackageInstallCompleted": "{0} (versioon {1}) paigaldati.",
+    "PackageInstallCancelled": "{0} (versioon {1}) paigaldamine tühistati.",
+    "Overview": "Ülevaade",
+    "OtherArtist": "Teine esitaja",
+    "Other": "Muu",
+    "OriginalAirDateValue": "Algne eetrikuupäev: {0}",
+    "OptionWeekly": "Kord nädalas",
+    "OptionWeekends": "Nädalavahetused",
+    "OptionWeekdays": "Tööpäevad",
+    "OptionWakeFromSleep": "Ärata puhkeseisundist"
 }
