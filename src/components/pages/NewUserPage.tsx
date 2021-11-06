@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
@@ -26,58 +26,58 @@ const NewUserPage: FunctionComponent = () => {
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState([]);
     const element = useRef(null);
 
+    const getItemsResult = (items: ItemsArr[]) => {
+        return items.map(item =>
+            ({
+                Id: item.Id,
+                Name: item.Name
+            })
+        );
+    };
+
+    const loadMediaFolders = useCallback((result) => {
+        const mediaFolders = getItemsResult(result);
+
+        setMediaFoldersItems(mediaFolders);
+
+        const folderAccess = element?.current?.querySelector('.folderAccess');
+        folderAccess.dispatchEvent(new CustomEvent('create'));
+
+        element.current.querySelector('.chkEnableAllFolders').checked = false;
+    }, []);
+
+    const loadChannels = useCallback((result) => {
+        const channels = getItemsResult(result);
+
+        setChannelsItems(channels);
+
+        const channelAccess = element?.current?.querySelector('.channelAccess');
+        channelAccess.dispatchEvent(new CustomEvent('create'));
+
+        const channelAccessContainer = element?.current?.querySelector('.channelAccessContainer');
+        channels.length ? channelAccessContainer.classList.remove('hide') : channelAccessContainer.classList.add('hide');
+
+        element.current.querySelector('.chkEnableAllChannels').checked = false;
+    }, []);
+
+    const loadUser = useCallback(() => {
+        element.current.querySelector('#txtUsername').value = '';
+        element.current.querySelector('#txtPassword').value = '';
+        loading.show();
+        const promiseFolders = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
+            IsHidden: false
+        }));
+        const promiseChannels = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
+        // eslint-disable-next-line compat/compat
+        Promise.all([promiseFolders, promiseChannels]).then(function (responses) {
+            loadMediaFolders(responses[0].Items);
+            loadChannels(responses[1].Items);
+            loading.hide();
+        });
+    }, [loadChannels, loadMediaFolders]);
+
     useEffect(() => {
-        const loadUser = () => {
-            element.current.querySelector('#txtUsername').value = '';
-            element.current.querySelector('#txtPassword').value = '';
-            loading.show();
-            const promiseFolders = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-                IsHidden: false
-            }));
-            const promiseChannels = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-            // eslint-disable-next-line compat/compat
-            Promise.all([promiseFolders, promiseChannels]).then(function (responses) {
-                loadMediaFolders(responses[0].Items);
-                loadChannels(responses[1].Items);
-                loading.hide();
-            });
-        };
-
         loadUser();
-
-        const getItemsResult = (items: ItemsArr[]) => {
-            return items.map(item =>
-                ({
-                    Id: item.Id,
-                    Name: item.Name
-                })
-            );
-        };
-
-        const loadMediaFolders = (result) => {
-            const mediaFolders = getItemsResult(result);
-
-            setMediaFoldersItems(mediaFolders);
-
-            const folderAccess = element?.current?.querySelector('.folderAccess');
-            folderAccess.dispatchEvent(new CustomEvent('create'));
-
-            element.current.querySelector('.chkEnableAllFolders').checked = false;
-        };
-
-        const loadChannels = (result) => {
-            const channels = getItemsResult(result);
-
-            setChannelsItems(channels);
-
-            const channelAccess = element?.current?.querySelector('.channelAccess');
-            channelAccess.dispatchEvent(new CustomEvent('create'));
-
-            const channelAccessContainer = element?.current?.querySelector('.channelAccessContainer');
-            channels.length ? channelAccessContainer.classList.remove('hide') : channelAccessContainer.classList.add('hide');
-
-            element.current.querySelector('.chkEnableAllChannels').checked = false;
-        };
 
         const saveUser = () => {
             const userInput: userInput = {};
@@ -138,7 +138,7 @@ const NewUserPage: FunctionComponent = () => {
         element?.current?.querySelector('.button-cancel').addEventListener('click', function() {
             window.history.back();
         });
-    }, []);
+    }, [loadUser]);
 
     return (
         <div ref={element}>
