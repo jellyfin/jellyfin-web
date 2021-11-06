@@ -1466,8 +1466,8 @@
     "TV": "TV",
     "TvLibraryHelp": "Review the {0}TV naming guide{1}.",
     "TypeOptionPluralAudio": "Audios",
-    "TypeOptionPluralBook": "Books"
-    "TypeOptionPluralBoxSet": "Box Sets"
+    "TypeOptionPluralBook": "Books",
+    "TypeOptionPluralBoxSet": "Box Sets",
     "TypeOptionPluralEpisode": "Episodes",
     "TypeOptionPluralMovie": "Movies",
     "TypeOptionPluralMusicAlbum": "Music Albums",
