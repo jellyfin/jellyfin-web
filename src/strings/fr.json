@@ -1562,7 +1562,7 @@
     "LabelSyncPlaySettingsSpeedToSync": "Activer SpeedToSync",
     "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "Délai minimal (en ms) avant que SkipToSync ne tente de corriger la position de lecture.",
     "LabelSyncPlaySettingsMinDelaySkipToSync": "Délai minimal de SkipToSync :",
-    "LabelSyncPlaySettingsSpeedToSyncDurationHelp": "Nombre de millisecondes utilisée par SpeedToSync pour corriger la position de lecture.",
+    "LabelSyncPlaySettingsSpeedToSyncDurationHelp": "Durée en millisecondes utilisée par SpeedToSync pour corriger la position de lecture.",
     "LabelSyncPlaySettingsSpeedToSyncDuration": "Durée de SpeedToSync :",
     "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Délai maximal (en ms) avant que SkipToSync ne remplace SpeedToSync.",
     "LabelSyncPlaySettingsMaxDelaySpeedToSync": "Délai maximal de SpeedToSync :",
