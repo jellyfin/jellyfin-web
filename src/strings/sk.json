@@ -1581,5 +1581,10 @@
     "LabelOriginalName": "Pôvodný názov:",
     "LabelMaxDaysForNextUp": "Maximálny počet dní v sekcií \"Nasleduje\":",
     "LabelMaxDaysForNextUpHelp": "Určuje maximálny počet dní, po ktoré zostane seriál v sekcií \"Nasleduje\".",
-    "AgeValue": "({0} rokov)"
+    "AgeValue": "({0} rokov)",
+    "Typewriter": "Písací stroj",
+    "Print": "Tlačiť",
+    "Larger": "Väčšie",
+    "Console": "Konzola",
+    "Casual": "Neformálne"
 }
