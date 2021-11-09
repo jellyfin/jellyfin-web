@@ -1581,5 +1581,10 @@
     "HeaderSyncPlaySettings": "Impostazioni SyncPlay",
     "ErrorPlayerNotFound": "Nessun player trovato per il media richiesto.",
     "AgeValue": "({0} anni)",
-    "MediaInfoTitle": "Titolo"
+    "MediaInfoTitle": "Titolo",
+    "Typewriter": "Macchina da scrivere",
+    "Print": "Stampa",
+    "Larger": "Più grande",
+    "Console": "Console",
+    "Casual": "Casuale"
 }
