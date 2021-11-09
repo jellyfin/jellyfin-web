@@ -456,7 +456,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/usernew.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/usernew'
+        pageComponent: 'NewUserPage'
     });
 
     defineRoute({
