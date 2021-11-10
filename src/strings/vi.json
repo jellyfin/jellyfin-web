@@ -541,7 +541,7 @@
     "HeaderUploadImage": "Tải Lên Hình Ảnh",
     "HeaderUpcomingOnTV": "Sắp Phát Sóng Trên TV",
     "HeaderTypeText": "Nhập nội dung",
-    "HeaderTypeImageFetchers": "{0} Trình Tải Ảnh",
+    "HeaderTypeImageFetchers": "Trình tìm nạp hình ảnh ({0})",
     "HeaderTuners": "Bộ Điều Khiển Thu Phát Sóng",
     "HeaderTunerDevices": "Thiết Bị Dò",
     "HeaderTranscodingProfileHelp": "Thêm hồ sơ chuyển mã để chỉ ra những định dạng nên dùng khi cần chuyển mã.",
@@ -989,7 +989,7 @@
     "LabelUser": "Người dùng:",
     "LabelUseNotificationServices": "Sử dụng các dịch vụ sau:",
     "LabelTypeText": "Văn bản",
-    "LabelTypeMetadataDownloaders": "{0} trình tải xuống dữ liệu mô tả thông tin:",
+    "LabelTypeMetadataDownloaders": "Trình tải xuống dữ liệu mô tả ({0}):",
     "LabelType": "Kiểu:",
     "LabelTunerType": "Loại bộ dò:",
     "LabelTunerIpAddress": "Địa chỉ IP của bộ dò:",
@@ -1585,5 +1585,14 @@
     "Casual": "Giản dị",
     "Typewriter": "Máy đánh chữ",
     "Print": "In",
-    "Larger": "Lớn hơn"
+    "Larger": "Lớn hơn",
+    "TypeOptionPluralSeries": "Chương Trình TV",
+    "TypeOptionPluralSeason": "Mùa",
+    "TypeOptionPluralMusicVideo": "Video Âm Nhạc",
+    "TypeOptionPluralMusicArtist": "Nghệ Sĩ Nhạc",
+    "TypeOptionPluralMusicAlbum": "Album Nhạc",
+    "TypeOptionPluralMovie": "Phim",
+    "TypeOptionPluralEpisode": "Tập phim",
+    "TypeOptionPluralBook": "Sách",
+    "TypeOptionPluralAudio": "Âm thanh"
 }
