@@ -56,7 +56,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 2. Install build dependencies in the project directory.
 
    ```sh
-   npm install
+   SKIP_PREPARE="true" npm install
    ```
 
 3. Run the web client with webpack for local development.
