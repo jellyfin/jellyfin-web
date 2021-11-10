@@ -5,7 +5,7 @@ import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../../components/ServerConnections';
-import * as Screenfull from 'screenfull';
+import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
 import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
