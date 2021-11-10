@@ -8,7 +8,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
-import * as Screenfull from 'screenfull';
+import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 
