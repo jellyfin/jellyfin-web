@@ -17,8 +17,9 @@ const createScroller = ({ title = '' }) => ({
 
 type SearchResultsRowProps = {
     title?: string;
-    items?: Array<any>; // TODO: Should be Array<BaseItemDto> once we have a typed API client
-    cardOptions?: Record<string, any>;
+    // TODO: Should be Array<BaseItemDto> once we have a typed API client
+    items?: Array<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+    cardOptions?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {

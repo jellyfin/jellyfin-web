@@ -25,7 +25,7 @@ const createButtonElement = () => ({
 });
 
 type IProps = {
-    user?: Record<string, any>;
+    user?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const getLastSeenText = (lastActivityDate) => {

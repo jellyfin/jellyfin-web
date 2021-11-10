@@ -28,7 +28,7 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId
 
     useEffect(() => {
         // TODO: Remove type casting once we're using a properly typed API client
-        const apiClient = (ServerConnections as any).getApiClient(serverId);
+        const apiClient = (ServerConnections as any).getApiClient(serverId); // eslint-disable-line @typescript-eslint/no-explicit-any
 
         apiClient.getItems(apiClient.getCurrentUserId(), {
             SortBy: 'IsFavoriteOrLiked,Random',
