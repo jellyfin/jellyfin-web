@@ -3602,6 +3602,9 @@ class PlaybackManager {
     setPlaybackRate(value, player = this._currentPlayer) {
         if (player && player.setPlaybackRate) {
             player.setPlaybackRate(value);
+
+            // Save the new playback rate in the browser session, to restore when playing a new video.
+            sessionStorage.setItem('playbackRateSpeed', value);
         }
     }
 
