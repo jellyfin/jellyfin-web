@@ -1263,7 +1263,7 @@
     "LabelLibraryPageSize": "Размер страницы медиатеки:",
     "Episode": "Эпизод",
     "ClientSettings": "Параметры клиента",
-    "BoxSet": "Коллекционный",
+    "BoxSet": "Киносерийный",
     "Artist": "Исполнитель",
     "AlbumArtist": "Исполнитель альбома",
     "Album": "Альбом",
@@ -1595,7 +1595,7 @@
     "TypeOptionPluralMusicAlbum": "Музыкальные альбомы",
     "TypeOptionPluralMovie": "Фильмы",
     "TypeOptionPluralEpisode": "Эпизоды",
-    "TypeOptionPluralBoxSet": "Коллекции",
+    "TypeOptionPluralBoxSet": "Киносерии",
     "TypeOptionPluralBook": "Книги",
     "TypeOptionPluralAudio": "Аудио элементы"
 }
