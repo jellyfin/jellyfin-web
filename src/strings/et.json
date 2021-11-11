@@ -1302,5 +1302,22 @@
     "OptionAllowRemoteControlOthers": "Luba teiste kasutajate kaugjuhtimine",
     "OptionAllowMediaPlaybackTranscodingHelp": "Transkoodimisele juurdepääsu piiramine võib toetamata meediavormingute tõttu põhjustada klientidel tõrkeid taasesitusel.",
     "OptionAllowContentDownloadHelp": "Kasutajad saavad meediat alla laadida ja oma seadmetesse salvestada. See ei ole sama mis sünkroonimine. Selle õigeks toimimiseks lubamist peavad meediakogud olema lubatud.",
-    "Larger": "Suurem"
+    "Larger": "Suurem",
+    "OptionForceRemoteSourceTranscoding": "Kaugmeedia allikate (nt otsetelevisiooni) sund transkoodimine",
+    "OptionDislikes": "Ei meeldi",
+    "OptionDisableUserHelp": "Server ei luba sellelt kasutajalt mingeid ühendusi. Olemasolevad ühendused katkestatakse.",
+    "OptionDisableUser": "Keela see kasutaja",
+    "OptionDatePlayed": "Esitamise kuupäev",
+    "OptionDateAddedImportTime": "Kasuta kogusse skaneerimise kuupäeva",
+    "OptionDateAddedFileTime": "Kasuta faili loomise kuupäeva",
+    "OptionDateAdded": "Lisatud",
+    "OptionDaily": "Kord päevas",
+    "OptionCustomUsers": "Kohandatud",
+    "OptionCriticRating": "Kriitikute hinne",
+    "OptionCommunityRating": "Kogukonna hinne",
+    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
+    "OptionBluray": "Blu-ray",
+    "OptionAllUsers": "Kõik kasutajad",
+    "OptionAllowVideoPlaybackTranscoding": "Luba video taasesitamine, mis nõuab transkoodimist",
+    "OptionAllowVideoPlaybackRemuxing": "Luba video taasesitus, mis nõuab teisendamist ilma uuesti kodeerimiseta"
 }
