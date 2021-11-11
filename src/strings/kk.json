@@ -175,7 +175,7 @@
     "EnableHardwareEncoding": "Aparattyq kodtaudy qosu",
     "EnableNextVideoInfoOverlay": "Oinatu kezınde kelesı beine turaly aqparatty körsetu",
     "EnableNextVideoInfoOverlayHelp": "Beine soñynda ağymdağy oinatu tızımındegı kelesı beine turaly aqparatty körsetu.",
-    "EnablePhotos": "Fotosuretter",
+    "EnablePhotos": "Fotolardy beineleu",
     "EnablePhotosHelp": "Suretter basqa tasyğyş faildarymen qatar anyqtalady jäne beinelenedı.",
     "EnableStreamLooping": "Taratulardy avtomatty tūiyqtau",
     "EnableStreamLoopingHelp": "Eger taratu derekterınde tek qana azyn-aulaq sekund bar bolsa jäne ony üzdıksız sūratyp alu qajet bolsa, ony qosyñyz. Būl qajet bolmağan jağdaida qosylsa, qiyndyqtar tudyruy mümkın.",
@@ -1266,7 +1266,7 @@
     "Episode": "Telebölım",
     "ClientSettings": "Tutynuşy parametrlerı",
     "ButtonTogglePlaylist": "Ounatu tızımı",
-    "BoxSet": "Jiyntyqtyñ",
+    "BoxSet": "Filmder jiyntyğynyñ",
     "Artist": "Oryndauşy",
     "AlbumArtist": "Älbom oryndauşysy",
     "MessageSyncPlayDisabled": "SyncPlay öşırulı.",
@@ -1596,7 +1596,7 @@
     "TypeOptionPluralMusicAlbum": "Muzykalyq älbomdar",
     "TypeOptionPluralMovie": "Filmder",
     "TypeOptionPluralEpisode": "Telebölımder",
-    "TypeOptionPluralBoxSet": "Jiyntyqtar",
+    "TypeOptionPluralBoxSet": "Filmder jiyntyqtary",
     "TypeOptionPluralBook": "Kıtaptar",
     "TypeOptionPluralAudio": "Dybystar"
 }
