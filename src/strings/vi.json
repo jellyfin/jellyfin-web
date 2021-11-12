@@ -206,7 +206,7 @@
     "BoxSet": "Tuyển tập",
     "Box": "Hộp",
     "Banner": "Ảnh bìa",
-    "Art": "Nghệ thuật",
+    "Art": "",
     "Artist": "Ca Sĩ",
     "AllowFfmpegThrottlingHelp": "Tạm dừng quá trình chuyển mã hoặc chuyển đổi định dạng để tiết kiệm tài nguyên máy chủ khi việc này đã đủ để phát so với vị trí hiện tại. Nó hữu ích khi xem mà không cần tua. Tắt nó đi nếu trình phát gặp sự cố.",
     "AllowFfmpegThrottling": "Điều tiết sự chuyển mã",
@@ -241,7 +241,7 @@
     "Down": "Xuống",
     "DoNotRecord": "Không ghi lại",
     "EnableCinemaMode": "Chế độ rạp phim",
-    "EnableBackdropsHelp": "Hiển thị phông nền phía sau một số trang khi xem thư viện.",
+    "EnableBackdropsHelp": "Hiển thị phông nền trong nền của một số trang trong khi duyệt thư viện.",
     "EditSubtitles": "Chỉnh sửa phụ đề",
     "EditMetadata": "Chỉnh sửa thông tin",
     "EditImages": "Chỉnh sửa hình ảnh",
@@ -339,7 +339,7 @@
     "EnableStreamLoopingHelp": "Cho phép tính năng này nếu live streams chỉ dài một vài giây và cần được lặp lại liên tục. Bật tính năng này khi không cần thiết có thể gây ra nhiều vấn đề khác.",
     "EnableStreamLooping": "Tự động phát lại live streams",
     "EnablePhotosHelp": "Hình ảnh sẽ được nhận diện và hiển thị bên cạnh những nội dung media.",
-    "EnablePhotos": "Hiển thị hình ảnh",
+    "EnablePhotos": "Hiển thị các bức ảnh",
     "EnableNextVideoInfoOverlayHelp": "Lúc cuối video, hiển thị thông tin video sắp phát tiếp theo trong danh sách phát hiện tại.",
     "EnableNextVideoInfoOverlay": "Hiển thị thông tin video kế tiếp ở phần cuối video",
     "EnableHardwareEncoding": "Bật dùng phần cứng để mã hóa",
@@ -1594,5 +1594,6 @@
     "TypeOptionPluralMovie": "Phim",
     "TypeOptionPluralEpisode": "Tập phim",
     "TypeOptionPluralBook": "Sách",
-    "TypeOptionPluralAudio": "Âm thanh"
+    "TypeOptionPluralAudio": "Âm thanh",
+    "TypeOptionPluralBoxSet": "Bộ Đóng Hộp"
 }
