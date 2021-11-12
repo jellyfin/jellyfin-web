@@ -1347,5 +1347,22 @@
     "LabelSyncPlaySettingsExtraTimeOffset": "Täiendav aja nihe:",
     "LabelSortTitle": "Järjestamise pealkiri:",
     "LabelSortOrder": "Järjestus:",
-    "AudioSampleRateNotSupported": ""
+    "AudioSampleRateNotSupported": "",
+    "ServerNameIsRestarting": "Server seadmes{0} taaskäivitub.",
+    "SeriesDisplayOrderHelp": "Järjesta episoodid eetrikuupäeva, DVD-järjestuse või absoluutse numeratsiooni järgi.",
+    "SendMessage": "Saada sõnum",
+    "SelectServer": "Vali server",
+    "SelectAdminUsername": "Vali administraatorikonto jaoks kasutajanimi.",
+    "Season": "Hooaeg",
+    "SearchResults": "Vasted",
+    "SearchForSubtitles": "Otsi subtiitreid",
+    "SearchForMissingMetadata": "Otsi puuduvaid metaandmeid",
+    "Search": "Otsi",
+    "Screenshots": "Ekraanipildid",
+    "Screenshot": "Ekraanipilt",
+    "Schedule": "Ajasta",
+    "ScanLibrary": "Skanni meediakogu",
+    "ScanForNewAndUpdatedFiles": "Otsi uusi ja värskendatud faile",
+    "SaveSubtitlesIntoMediaFoldersHelp": "Subtiitrite salvestamine videofailide kõrvale võimaldab neid hõlpsamini hallata.",
+    "SaveSubtitlesIntoMediaFolders": "Salvesta subtiitrid meediakaustadesse"
 }
