@@ -1154,7 +1154,7 @@
     "LabelSonyAggregationFlagsHelp": "Determina el contingut de l'element aggregationFlags al urn: schemas-sonycom: av espai de noms.",
     "LabelSonyAggregationFlags": "Banderes d'agregació de Sony:",
     "Remuxing": "Recodificació",
-    "MusicVideos": "Vídeos musicals",
+    "MusicVideos": "Vídeos Musicals",
     "Trailers": "Tràilers",
     "LabelGroupMoviesIntoCollectionsHelp": "Quan es mostren llistes de pel·lícules, les pel·lícules d'una col·lecció es mostraran com un element agrupat.",
     "LabelffmpegPathHelp": "La ruta d'accés a l'arxiu d'aplicació o carpeta que conté ffmpeg.",
