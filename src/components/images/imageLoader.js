@@ -1,13 +1,18 @@
 import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { wrap } from 'comlink';
-const getPixels = wrap(
-    new Worker(
-        // eslint-disable-next-line compat/compat
-        new URL('./blurhash.worker.ts', import.meta.url)
-    )
-);
 import './style.scss';
+// eslint-disable-next-line compat/compat
+const worker = new Worker(new URL('./blurhash.worker.ts', import.meta.url));
+const targetDic = {};
+worker.addEventListener(
+    'message',
+    ({ data: { pixels, hsh, width, height } }) => {
+        if (targetDic[hsh]) {
+            drawBlurhash(targetDic[hsh], pixels, width, height);
+            delete targetDic[hsh];
+        }
+    }
+);
 /* eslint-disable indent */
 
     export function lazyImage(elem, source = elem.getAttribute('data-src')) {
@@ -18,41 +23,46 @@ import './style.scss';
         fillImageElement(elem, source);
     }
 
-    async function itemBlurhashing(target, hash) {
+    function drawBlurhash(target, pixels, width, height) {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        const imgData = ctx.createImageData(width, height);
+
+        imgData.data.set(pixels);
+        ctx.putImageData(imgData, 0, 0);
+
+        requestAnimationFrame(() => {
+            canvas.classList.add('blurhash-canvas');
+            if (userSettings.enableFastFadein()) {
+                canvas.classList.add('lazy-blurhash-fadein-fast');
+            } else {
+                canvas.classList.add('lazy-blurhash-fadein');
+            }
+
+            target.parentNode.insertBefore(canvas, target);
+            target.classList.add('blurhashed');
+            target.removeAttribute('data-blurhash');
+        });
+    }
+
+    function itemBlurhashing(target, hash) {
         try {
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
             const width = 20;
             const height = 20;
-            const pixels = await getPixels({
+            targetDic[hash] = target;
+
+            worker.postMessage({
                 hash,
                 width,
                 height
             });
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            const imgData = ctx.createImageData(width, height);
-
-            imgData.data.set(pixels);
-            ctx.putImageData(imgData, 0, 0);
-
-            requestAnimationFrame(() => {
-                canvas.classList.add('blurhash-canvas');
-                if (userSettings.enableFastFadein()) {
-                    canvas.classList.add('lazy-blurhash-fadein-fast');
-                } else {
-                    canvas.classList.add('lazy-blurhash-fadein');
-                }
-
-                target.parentNode.insertBefore(canvas, target);
-                target.classList.add('blurhashed');
-                target.removeAttribute('data-blurhash');
-            });
         } catch (err) {
-            console.log(err);
+            console.error(err);
             target.classList.add('non-blurhashable');
             return;
         }
@@ -71,13 +81,24 @@ import './style.scss';
             source = entry;
         }
 
-        if (entry.intersectionRatio > 0) {
-            if (source) fillImageElement(target, source);
+        if (entry.isIntersecting) {
+            if (source) {
+                fillImageElement(target, source);
+            }
         } else if (!source) {
-            requestAnimationFrame(() => {
-                emptyImageElement(target);
-            });
+            emptyImageElement(target);
         }
+    }
+
+    function onTransitionEnd(event) {
+        const elem = event.target;
+        requestAnimationFrame(() => {
+            const canvas = elem.previousSibling;
+            if (elem.classList.contains('blurhashed') && canvas && canvas.tagName === 'CANVAS') {
+                canvas.classList.add('lazy-hidden');
+            }
+        });
+        elem.removeEventListener('transitionend', onTransitionEnd);
     }
 
     function fillImageElement(elem, url) {
@@ -89,6 +110,7 @@ import './style.scss';
         preloaderImg.src = url;
 
         elem.classList.add('lazy-hidden');
+        elem.addEventListener('transitionend', onTransitionEnd);
 
         preloaderImg.addEventListener('load', () => {
             requestAnimationFrame(() => {
@@ -105,31 +127,16 @@ import './style.scss';
                 } else {
                     elem.classList.add('lazy-image-fadein');
                 }
-
-                elem.addEventListener('transitionend', () => {
-                    requestIdleCallback(() => {
-                        const canvas = elem.previousSibling;
-                        if (
-                            elem.classList.contains('blurhashed') &&
-                            canvas &&
-                            canvas.tagName === 'CANVAS'
-                        ) {
-                            canvas.classList.remove(
-                                'lazy-image-fadein-fast',
-                                'lazy-image-fadein'
-                            );
-                            canvas.classList.add('lazy-hidden');
-                        }
-                    });
-                    // Run the event listener only once after being added
-                }, false);
             });
         });
     }
 
     function emptyImageElement(elem) {
-        // block repeated call - requestAnimationFrame twice for one image
-        if (elem.getAttribute('data-src')) return;
+        elem.removeEventListener('transitionend', onTransitionEnd);
+        const canvas = elem.previousSibling;
+        if (canvas && canvas.tagName === 'CANVAS') {
+            canvas.classList.remove('lazy-hidden');
+        }
 
         let url;
 
@@ -144,16 +151,6 @@ import './style.scss';
 
         elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
         elem.classList.add('lazy-hidden');
-
-        const canvas = elem.previousSibling;
-        if (canvas && canvas.tagName === 'CANVAS') {
-            canvas.classList.remove('lazy-hidden');
-            if (userSettings.enableFastFadein()) {
-                canvas.classList.add('lazy-image-fadein-fast');
-            } else {
-                canvas.classList.add('lazy-image-fadein');
-            }
-        }
     }
 
     export function lazyChildren(elem) {
@@ -161,7 +158,7 @@ import './style.scss';
             for (const lazyElem of elem.querySelectorAll('.lazy')) {
                 const blurhashstr = lazyElem.getAttribute('data-blurhash');
                 if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
-                    Promise.resolve(itemBlurhashing(lazyElem, blurhashstr));
+                    itemBlurhashing(lazyElem, blurhashstr);
                 } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
                     lazyElem.classList.add('non-blurhashable');
                 }
