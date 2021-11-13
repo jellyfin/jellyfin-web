@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
 import loading from '../loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
@@ -27,115 +27,115 @@ const UserLibraryAccessPage: FunctionComponent = () => {
 
     const element = useRef(null);
 
-    useEffect(() => {
-        const loadData = () => {
-            loading.show();
-            const userId = appRouter.param('userId');
-            // eslint-disable-next-line compat/compat
-            const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
-            const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-                IsHidden: false
-            }));
-            const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-            const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
-            // eslint-disable-next-line compat/compat
-            Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
-                loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
+    const triggerChange = (select) => {
+        const evt = document.createEvent('HTMLEvents');
+        evt.initEvent('change', false, true);
+        select.dispatchEvent(evt);
+    };
+
+    const loadMediaFolders = useCallback((user, mediaFolders) => {
+        const itemsArr: ItemsArr[] = [];
+
+        for (const folder of mediaFolders) {
+            console.log('EnableAllFolders', user.Policy.EnableAllFolders);
+            const isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
+            const checkedAttribute = isChecked ? ' checked="checked"' : '';
+            itemsArr.push({
+                Id: folder.Id,
+                Name: folder.Name,
+                checkedAttribute: checkedAttribute
             });
-        };
+        }
 
+        setMediaFoldersItems(itemsArr);
+
+        const chkEnableAllFolders = element.current.querySelector('.chkEnableAllFolders');
+        chkEnableAllFolders.checked = user.Policy.EnableAllFolders;
+        triggerChange(chkEnableAllFolders);
+    }, []);
+
+    const loadChannels = useCallback((user, channels) => {
+        const itemsArr: ItemsArr[] = [];
+
+        for (const folder of channels) {
+            console.log('EnableAllChannels', user.Policy.EnableAllChannels);
+            const isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
+            const checkedAttribute = isChecked ? ' checked="checked"' : '';
+            itemsArr.push({
+                Id: folder.Id,
+                Name: folder.Name,
+                checkedAttribute: checkedAttribute
+            });
+        }
+
+        setChannelsItems(itemsArr);
+
+        if (channels.length) {
+            element?.current?.querySelector('.channelAccessContainer').classList.remove('hide');
+        } else {
+            element?.current?.querySelector('.channelAccessContainer').classList.add('hide');
+        }
+
+        const chkEnableAllChannels = element.current.querySelector('.chkEnableAllChannels');
+        chkEnableAllChannels.checked = user.Policy.EnableAllChannels;
+        triggerChange(chkEnableAllChannels);
+    }, []);
+
+    const loadDevices = useCallback((user, devices) => {
+        const itemsArr: ItemsArr[] = [];
+
+        for (const device of devices) {
+            console.log('EnableAllDevices', user.Policy.EnableAllDevices);
+            const isChecked = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1;
+            const checkedAttribute = isChecked ? ' checked="checked"' : '';
+            itemsArr.push({
+                Id: device.Id,
+                Name: device.Name,
+                AppName : device.AppName,
+                checkedAttribute: checkedAttribute
+            });
+        }
+
+        setDevicesItems(itemsArr);
+
+        const chkEnableAllDevices = element.current.querySelector('.chkEnableAllDevices');
+        chkEnableAllDevices.checked = user.Policy.EnableAllDevices;
+        triggerChange(chkEnableAllDevices);
+
+        if (user.Policy.IsAdministrator) {
+            element?.current?.querySelector('.deviceAccessContainer').classList.add('hide');
+        } else {
+            element?.current?.querySelector('.deviceAccessContainer').classList.remove('hide');
+        }
+    }, []);
+
+    const loadUser = useCallback((user, mediaFolders, channels, devices) => {
+        setUserName(user.Name);
+        libraryMenu.setTitle(user.Name);
+        loadChannels(user, channels);
+        loadMediaFolders(user, mediaFolders);
+        loadDevices(user, devices);
+        loading.hide();
+    }, [loadChannels, loadDevices, loadMediaFolders]);
+
+    const loadData = useCallback(() => {
+        loading.show();
+        const userId = appRouter.param('userId');
+        // eslint-disable-next-line compat/compat
+        const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
+        const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
+            IsHidden: false
+        }));
+        const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
+        const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
+        // eslint-disable-next-line compat/compat
+        Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
+            loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
+        });
+    }, [loadUser]);
+
+    useEffect(() => {
         loadData();
-
-        const loadUser = (user, mediaFolders, channels, devices) => {
-            setUserName(user.Name);
-            libraryMenu.setTitle(user.Name);
-            loadChannels(user, channels);
-            loadMediaFolders(user, mediaFolders);
-            loadDevices(user, devices);
-            loading.hide();
-        };
-
-        const loadMediaFolders = (user, mediaFolders) => {
-            const itemsArr: ItemsArr[] = [];
-
-            for (const folder of mediaFolders) {
-                console.log('EnableAllFolders', user.Policy.EnableAllFolders);
-                const isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
-                const checkedAttribute = isChecked ? ' checked="checked"' : '';
-                itemsArr.push({
-                    Id: folder.Id,
-                    Name: folder.Name,
-                    checkedAttribute: checkedAttribute
-                });
-            }
-
-            setMediaFoldersItems(itemsArr);
-
-            const chkEnableAllFolders = element.current.querySelector('.chkEnableAllFolders');
-            chkEnableAllFolders.checked = user.Policy.EnableAllFolders;
-            triggerChange(chkEnableAllFolders);
-        };
-
-        const loadChannels = (user, channels) => {
-            const itemsArr: ItemsArr[] = [];
-
-            for (const folder of channels) {
-                console.log('EnableAllChannels', user.Policy.EnableAllChannels);
-                const isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
-                const checkedAttribute = isChecked ? ' checked="checked"' : '';
-                itemsArr.push({
-                    Id: folder.Id,
-                    Name: folder.Name,
-                    checkedAttribute: checkedAttribute
-                });
-            }
-
-            setChannelsItems(itemsArr);
-
-            if (channels.length) {
-                element?.current?.querySelector('.channelAccessContainer').classList.remove('hide');
-            } else {
-                element?.current?.querySelector('.channelAccessContainer').classList.add('hide');
-            }
-
-            const chkEnableAllChannels = element.current.querySelector('.chkEnableAllChannels');
-            chkEnableAllChannels.checked = user.Policy.EnableAllChannels;
-            triggerChange(chkEnableAllChannels);
-        };
-
-        const loadDevices = (user, devices) => {
-            const itemsArr: ItemsArr[] = [];
-
-            for (const device of devices) {
-                console.log('EnableAllDevices', user.Policy.EnableAllDevices);
-                const isChecked = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1;
-                const checkedAttribute = isChecked ? ' checked="checked"' : '';
-                itemsArr.push({
-                    Id: device.Id,
-                    Name: device.Name,
-                    AppName : device.AppName,
-                    checkedAttribute: checkedAttribute
-                });
-            }
-
-            setDevicesItems(itemsArr);
-
-            const chkEnableAllDevices = element.current.querySelector('.chkEnableAllDevices');
-            chkEnableAllDevices.checked = user.Policy.EnableAllDevices;
-            triggerChange(chkEnableAllDevices);
-
-            if (user.Policy.IsAdministrator) {
-                element?.current?.querySelector('.deviceAccessContainer').classList.add('hide');
-            } else {
-                element?.current?.querySelector('.deviceAccessContainer').classList.remove('hide');
-            }
-        };
-
-        const triggerChange = (select) => {
-            const evt = document.createEvent('HTMLEvents');
-            evt.initEvent('change', false, true);
-            select.dispatchEvent(evt);
-        };
 
         const onSubmit = (e) => {
             loading.show();
@@ -204,7 +204,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
         });
 
         element?.current?.querySelector('.userLibraryAccessForm').addEventListener('submit', onSubmit);
-    }, []);
+    }, [loadData]);
 
     return (
         <div ref={element}>
