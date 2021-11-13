@@ -1576,7 +1576,7 @@
     "LabelSortName": "Nom de tri :",
     "LabelOriginalName": "Nom original :",
     "AgeValue": "(agé de {0} ans)",
-    "SetUsingLastTracksHelp": "Tenter de configurer les pistes de sous-titres et audio les plus proches de la dernière vidéo.",
+    "SetUsingLastTracksHelp": "Choisir la piste audio et les sous-titres les plus proches de la dernière vidéo lue.",
     "SetUsingLastTracks": "Utiliser les pistes de sous-titres et audio de l'élément précédent",
     "PlaybackErrorPlaceHolder": "Ceci est un emplacement pour les médias physiques que Jellyfin ne peut pas jouer. Merci d'insérer le disque pour lancer la lecture.",
     "LabelMaxDaysForNextUpHelp": "Définir le nombre maximal de jours avant qu'une émission ne soit retirée de la section 'À suivre'.",
