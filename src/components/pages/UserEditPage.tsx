@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
@@ -32,130 +32,130 @@ const UserEditPage: FunctionComponent = () => {
 
     const element = useRef(null);
 
-    useEffect(() => {
-        const getUser = () => {
-            const userId = appRouter.param('userId');
-            return window.ApiClient.getUser(userId);
-        };
+    const triggerChange = (select) => {
+        const evt = document.createEvent('HTMLEvents');
+        evt.initEvent('change', false, true);
+        select.dispatchEvent(evt);
+    };
 
-        const loadData = () => {
-            loading.show();
-            getUser().then(function (user) {
-                loadUser(user);
-            });
-        };
+    const getUser = () => {
+        const userId = appRouter.param('userId');
+        return window.ApiClient.getUser(userId);
+    };
 
-        loadData();
+    const loadAuthProviders = useCallback((user, providers) => {
+        const fldSelectLoginProvider = element?.current?.querySelector('.fldSelectLoginProvider');
+        providers.length > 1 ? fldSelectLoginProvider.classList.remove('hide') : fldSelectLoginProvider.classList.add('hide');
 
-        const loadAuthProviders = (user, providers) => {
-            const fldSelectLoginProvider = element?.current?.querySelector('.fldSelectLoginProvider');
-            providers.length > 1 ? fldSelectLoginProvider.classList.remove('hide') : fldSelectLoginProvider.classList.add('hide');
+        setAuthProviders(providers);
 
-            setAuthProviders(providers);
+        const currentProviderId = user.Policy.AuthenticationProviderId;
+        setAuthenticationProviderId(currentProviderId);
+    }, []);
 
-            const currentProviderId = user.Policy.AuthenticationProviderId;
-            setAuthenticationProviderId(currentProviderId);
-        };
+    const loadPasswordResetProviders = useCallback((user, providers) => {
+        const fldSelectPasswordResetProvider = element?.current?.querySelector('.fldSelectPasswordResetProvider');
+        providers.length > 1 ? fldSelectPasswordResetProvider.classList.remove('hide') : fldSelectPasswordResetProvider.classList.add('hide');
 
-        const loadPasswordResetProviders = (user, providers) => {
-            const fldSelectPasswordResetProvider = element?.current?.querySelector('.fldSelectPasswordResetProvider');
-            providers.length > 1 ? fldSelectPasswordResetProvider.classList.remove('hide') : fldSelectPasswordResetProvider.classList.add('hide');
+        setPasswordResetProviders(providers);
 
-            setPasswordResetProviders(providers);
+        const currentProviderId = user.Policy.PasswordResetProviderId;
+        setPasswordResetProviderId(currentProviderId);
+    }, []);
 
-            const currentProviderId = user.Policy.PasswordResetProviderId;
-            setPasswordResetProviderId(currentProviderId);
-        };
+    const loadDeleteFolders = useCallback((user, mediaFolders) => {
+        window.ApiClient.getJSON(window.ApiClient.getUrl('Channels', {
+            SupportsMediaDeletion: true
+        })).then(function (channelsResult) {
+            let isChecked;
+            let checkedAttribute;
+            const itemsArr: ItemsArr[] = [];
 
-        const loadDeleteFolders = (user, mediaFolders) => {
-            window.ApiClient.getJSON(window.ApiClient.getUrl('Channels', {
-                SupportsMediaDeletion: true
-            })).then(function (channelsResult) {
-                let isChecked;
-                let checkedAttribute;
-                const itemsArr: ItemsArr[] = [];
-
-                for (const folder of mediaFolders) {
-                    isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
-                    checkedAttribute = isChecked ? ' checked="checked"' : '';
-                    itemsArr.push({
-                        Id: folder.Id,
-                        Name: folder.Name,
-                        checkedAttribute: checkedAttribute
-                    });
-                }
-
-                for (const folder of channelsResult.Items) {
-                    isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
-                    checkedAttribute = isChecked ? ' checked="checked"' : '';
-                    itemsArr.push({
-                        Id: folder.Id,
-                        Name: folder.Name,
-                        checkedAttribute: checkedAttribute
-                    });
-                }
-
-                setDeleteFoldersAccess(itemsArr);
-
-                const chkEnableDeleteAllFolders = element.current.querySelector('.chkEnableDeleteAllFolders');
-                chkEnableDeleteAllFolders.checked = user.Policy.EnableContentDeletion;
-                triggerChange(chkEnableDeleteAllFolders);
-            });
-        };
-
-        const triggerChange = (select) => {
-            const evt = document.createEvent('HTMLEvents');
-            evt.initEvent('change', false, true);
-            select.dispatchEvent(evt);
-        };
-
-        const loadUser = (user) => {
-            window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/Providers')).then(function (providers) {
-                loadAuthProviders(user, providers);
-            });
-            window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/PasswordResetProviders')).then(function (providers) {
-                loadPasswordResetProviders(user, providers);
-            });
-            window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-                IsHidden: false
-            })).then(function (folders) {
-                loadDeleteFolders(user, folders.Items);
-            });
-
-            const disabledUserBanner = element?.current?.querySelector('.disabledUserBanner');
-            user.Policy.IsDisabled ? disabledUserBanner.classList.remove('hide') : disabledUserBanner.classList.add('hide');
-
-            const txtUserName = element?.current?.querySelector('#txtUserName');
-            txtUserName.disabled = '';
-            txtUserName.removeAttribute('disabled');
-
-            const lnkEditUserPreferences = element?.current?.querySelector('.lnkEditUserPreferences');
-            lnkEditUserPreferences.setAttribute('href', 'mypreferencesmenu.html?userId=' + user.Id);
-            LibraryMenu.setTitle(user.Name);
-            setUserName(user.Name);
-            element.current.querySelector('#txtUserName').value = user.Name;
-            element.current.querySelector('.chkIsAdmin').checked = user.Policy.IsAdministrator;
-            element.current.querySelector('.chkDisabled').checked = user.Policy.IsDisabled;
-            element.current.querySelector('.chkIsHidden').checked = user.Policy.IsHidden;
-            element.current.querySelector('.chkRemoteControlSharedDevices').checked = user.Policy.EnableSharedDeviceControl;
-            element.current.querySelector('.chkEnableRemoteControlOtherUsers').checked = user.Policy.EnableRemoteControlOfOtherUsers;
-            element.current.querySelector('.chkEnableDownloading').checked = user.Policy.EnableContentDownloading;
-            element.current.querySelector('.chkManageLiveTv').checked = user.Policy.EnableLiveTvManagement;
-            element.current.querySelector('.chkEnableLiveTvAccess').checked = user.Policy.EnableLiveTvAccess;
-            element.current.querySelector('.chkEnableMediaPlayback').checked = user.Policy.EnableMediaPlayback;
-            element.current.querySelector('.chkEnableAudioPlaybackTranscoding').checked = user.Policy.EnableAudioPlaybackTranscoding;
-            element.current.querySelector('.chkEnableVideoPlaybackTranscoding').checked = user.Policy.EnableVideoPlaybackTranscoding;
-            element.current.querySelector('.chkEnableVideoPlaybackRemuxing').checked = user.Policy.EnablePlaybackRemuxing;
-            element.current.querySelector('.chkForceRemoteSourceTranscoding').checked = user.Policy.ForceRemoteSourceTranscoding;
-            element.current.querySelector('.chkRemoteAccess').checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
-            element.current.querySelector('#txtRemoteClientBitrateLimit').value = user.Policy.RemoteClientBitrateLimit / 1e6 || '';
-            element.current.querySelector('#txtLoginAttemptsBeforeLockout').value = user.Policy.LoginAttemptsBeforeLockout || '0';
-            element.current.querySelector('#txtMaxActiveSessions').value = user.Policy.MaxActiveSessions || '0';
-            if (window.ApiClient.isMinServerVersion('10.6.0')) {
-                element.current.querySelector('#selectSyncPlayAccess').value = user.Policy.SyncPlayAccess;
+            for (const folder of mediaFolders) {
+                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
+                checkedAttribute = isChecked ? ' checked="checked"' : '';
+                itemsArr.push({
+                    Id: folder.Id,
+                    Name: folder.Name,
+                    checkedAttribute: checkedAttribute
+                });
             }
-            loading.hide();
-        };
+
+            for (const folder of channelsResult.Items) {
+                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
+                checkedAttribute = isChecked ? ' checked="checked"' : '';
+                itemsArr.push({
+                    Id: folder.Id,
+                    Name: folder.Name,
+                    checkedAttribute: checkedAttribute
+                });
+            }
+
+            setDeleteFoldersAccess(itemsArr);
+
+            const chkEnableDeleteAllFolders = element.current.querySelector('.chkEnableDeleteAllFolders');
+            chkEnableDeleteAllFolders.checked = user.Policy.EnableContentDeletion;
+            triggerChange(chkEnableDeleteAllFolders);
+        });
+    }, []);
+
+    const loadUser = useCallback((user) => {
+        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/Providers')).then(function (providers) {
+            loadAuthProviders(user, providers);
+        });
+        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/PasswordResetProviders')).then(function (providers) {
+            loadPasswordResetProviders(user, providers);
+        });
+        window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
+            IsHidden: false
+        })).then(function (folders) {
+            loadDeleteFolders(user, folders.Items);
+        });
+
+        const disabledUserBanner = element?.current?.querySelector('.disabledUserBanner');
+        user.Policy.IsDisabled ? disabledUserBanner.classList.remove('hide') : disabledUserBanner.classList.add('hide');
+
+        const txtUserName = element?.current?.querySelector('#txtUserName');
+        txtUserName.disabled = '';
+        txtUserName.removeAttribute('disabled');
+
+        const lnkEditUserPreferences = element?.current?.querySelector('.lnkEditUserPreferences');
+        lnkEditUserPreferences.setAttribute('href', 'mypreferencesmenu.html?userId=' + user.Id);
+        LibraryMenu.setTitle(user.Name);
+        setUserName(user.Name);
+        element.current.querySelector('#txtUserName').value = user.Name;
+        element.current.querySelector('.chkIsAdmin').checked = user.Policy.IsAdministrator;
+        element.current.querySelector('.chkDisabled').checked = user.Policy.IsDisabled;
+        element.current.querySelector('.chkIsHidden').checked = user.Policy.IsHidden;
+        element.current.querySelector('.chkRemoteControlSharedDevices').checked = user.Policy.EnableSharedDeviceControl;
+        element.current.querySelector('.chkEnableRemoteControlOtherUsers').checked = user.Policy.EnableRemoteControlOfOtherUsers;
+        element.current.querySelector('.chkEnableDownloading').checked = user.Policy.EnableContentDownloading;
+        element.current.querySelector('.chkManageLiveTv').checked = user.Policy.EnableLiveTvManagement;
+        element.current.querySelector('.chkEnableLiveTvAccess').checked = user.Policy.EnableLiveTvAccess;
+        element.current.querySelector('.chkEnableMediaPlayback').checked = user.Policy.EnableMediaPlayback;
+        element.current.querySelector('.chkEnableAudioPlaybackTranscoding').checked = user.Policy.EnableAudioPlaybackTranscoding;
+        element.current.querySelector('.chkEnableVideoPlaybackTranscoding').checked = user.Policy.EnableVideoPlaybackTranscoding;
+        element.current.querySelector('.chkEnableVideoPlaybackRemuxing').checked = user.Policy.EnablePlaybackRemuxing;
+        element.current.querySelector('.chkForceRemoteSourceTranscoding').checked = user.Policy.ForceRemoteSourceTranscoding;
+        element.current.querySelector('.chkRemoteAccess').checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
+        element.current.querySelector('#txtRemoteClientBitrateLimit').value = user.Policy.RemoteClientBitrateLimit / 1e6 || '';
+        element.current.querySelector('#txtLoginAttemptsBeforeLockout').value = user.Policy.LoginAttemptsBeforeLockout || '0';
+        element.current.querySelector('#txtMaxActiveSessions').value = user.Policy.MaxActiveSessions || '0';
+        if (window.ApiClient.isMinServerVersion('10.6.0')) {
+            element.current.querySelector('#selectSyncPlayAccess').value = user.Policy.SyncPlayAccess;
+        }
+        loading.hide();
+    }, [loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
+
+    const loadData = useCallback(() => {
+        loading.show();
+        getUser().then(function (user) {
+            loadUser(user);
+        });
+    }, [loadUser]);
+
+    useEffect(() => {
+        loadData();
 
         function onSaveComplete() {
             Dashboard.navigate('userprofiles.html');
@@ -228,7 +228,7 @@ const UserEditPage: FunctionComponent = () => {
         element?.current?.querySelector('.button-cancel').addEventListener('click', function() {
             window.history.back();
         });
-    }, []);
+    }, [loadData]);
 
     return (
         <div ref={element}>
