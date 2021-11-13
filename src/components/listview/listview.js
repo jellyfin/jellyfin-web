@@ -133,21 +133,28 @@ import ServerConnections from '../ServerConnections';
                 continue;
             }
 
+            let elem;
+
             if (i === 0) {
                 if (isLargeStyle) {
-                    html += `<${largeTitleTagName} class="listItemBodyText">`;
+                    elem = document.createElement(largeTitleTagName);
                 } else {
-                    html += '<div class="listItemBodyText">';
+                    elem = document.createElement('div');
                 }
             } else {
-                html += '<div class="secondary listItemBodyText">';
+                elem = document.createElement('div');
+                elem.classList.add('secondary');
             }
-            html += (textlines[i] || '&nbsp;');
-            if (i === 0 && isLargeStyle) {
-                html += `</${largeTitleTagName}>`;
+
+            elem.classList.add('listItemBodyText');
+
+            if (textlines[i]) {
+                elem.innerText = textlines[i];
             } else {
-                html += '</div>';
+                elem.innerHTML = '&nbsp;';
             }
+
+            html += elem.outerHTML;
         }
 
         return html;
