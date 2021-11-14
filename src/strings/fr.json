@@ -169,7 +169,7 @@
     "EnableExternalVideoPlayersHelp": "Une liste des lecteurs externes sera affichée au lancement de la lecture d'une vidéo.",
     "EnableHardwareEncoding": "Activer l'encodage matériel",
     "EnableNextVideoInfoOverlay": "Voir les informations de la vidéo suivante pendant la lecture",
-    "EnableNextVideoInfoOverlayHelp": "À la fin d'une vidéo, afficher les informations sur la vidéo suivante dans la file d'attente.",
+    "EnableNextVideoInfoOverlayHelp": "À la fin d'une vidéo, afficher les informations de la suivante en file d'attente.",
     "EnablePhotos": "Voir les photos",
     "EnablePhotosHelp": "Les images seront détectées et affichées avec les autres fichiers multimédia.",
     "EnableStreamLooping": "Reboucler les streaming en direct",
