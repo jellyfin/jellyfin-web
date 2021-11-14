@@ -1222,7 +1222,7 @@
     "LabelLoginDisclaimerHelp": "Mesaĝo montrota malsupre de la ensaluta paĝo.",
     "LabelEnableSingleImageInDidlLimitHelp": "Iuj aparatoj ne bildigos ĝuste se pluraj bildoj estas enigitaj en Didl.",
     "LabelEnableDlnaPlayToHelp": "Detekti aparatojn en via reto kaj oferti la kapablon teleregi ilin.",
-    "LabelDownMixAudioScaleHelp": "Plifortigi audio dum subenmiksado. Valoro de unu konservos la originalan laŭtecon.",
+    "LabelDownMixAudioScaleHelp": "Plifortigi aŭdio dum subenmiksado. Valoro de unu konservos la originalan laŭtecon.",
     "LabelAutoDiscoveryTracingHelp": "Kiam ĝi estas ebligita, datenpakaĵoj ricevitaj sur la aŭtomate malkovrita pordo estos ĵurnalitaj.",
     "LabelSkipIfAudioTrackPresentHelp": "Malmarki ĉi tion por certigi, ke ĉiuj videoj havas subtekstojn, sendepende de aŭdia lingvo.",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Ebligi serĉvojan anstataŭigon de la bildaj serĉvojoj uzante la servilajn parametrojn pri serĉvoja anstataŭigo .",
