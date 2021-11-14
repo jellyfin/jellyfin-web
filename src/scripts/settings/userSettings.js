@@ -299,10 +299,10 @@ export class UserSettings {
      */
     useEpisodeImagesInNextUpAndResume(val) {
         if (val !== undefined) {
-            return this.set('useEpisodeImagesInNextUpAndResume', val.toString(), true);
+            return this.set('useEpisodeImagesInNextUpAndResume', val.toString(), false);
         }
 
-        val = this.get('useEpisodeImagesInNextUpAndResume', true);
+        val = this.get('useEpisodeImagesInNextUpAndResume', false);
         return val === 'true';
     }
 
