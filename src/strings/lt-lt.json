@@ -726,7 +726,7 @@
     "LabelDropImageHere": "Nuvilkite atvaizdą čia arba spustelėkite norėdami naršyti.",
     "LabelEmbedAlbumArtDidlHelp": "Kai kurie įrenginiai renkasi šį būdą albumo iliustracijai gauti. Kiti gali nepaleisti įrašą, jei šis nustatymas įjungtas.",
     "LabelLogs": "Žurnalai:",
-    "LabelOptionalNetworkPath": "(Nebūtina) Tinklo aplankas:",
+    "LabelOptionalNetworkPath": "Tinklo aplankas:",
     "LabelMessageText": "Pranešimo tekstas:",
     "LabelPasswordResetProvider": "Slaptažodžio atstatymo teikėjas:",
     "LabelPasswordRecoveryPinCode": "PIN kodas:",
