@@ -77,5 +77,14 @@
     "ButtonPause": "पॉझ",
     "ButtonSyncPlay": "SyncPlay",
     "Collections": "संग्रह",
-    "Absolute": "पूर्ण"
+    "Absolute": "पूर्ण",
+    "ValueSpecialEpisodeName": "विशेष - {0}",
+    "Songs": "गाणी",
+    "Shows": "कार्यक्रम",
+    "Playlists": "प्लेलिस्ट",
+    "Photos": "चित्र",
+    "Movies": "चित्रपट",
+    "Genres": "जाँनरे",
+    "Folders": "फोल्डर",
+    "Favorites": "आवडीचे"
 }
