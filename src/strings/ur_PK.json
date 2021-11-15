@@ -15,5 +15,12 @@
     "Artists": "فنکار",
     "Movies": "فلمیں",
     "HeaderContinueWatching": "دیکھنا جاری رکھیں",
-    "Genres": "انواع"
+    "Genres": "انواع",
+    "ValueSpecialEpisodeName": "خاص - {0}",
+    "Sync": "مطابقت",
+    "Songs": "گانے",
+    "Shows": "شوز",
+    "Playlists": "پلے لسٹس",
+    "Photos": "تصوریں",
+    "MusicVideos": "ویڈیو موسیقی"
 }
