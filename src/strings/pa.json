@@ -1,4 +1,20 @@
 {
     "Artist": "ਕਲਾਕਾਰ",
-    "Albums": "ਐਲਬਮਾਂ"
+    "Albums": "ਐਲਬਮਾਂ",
+    "ValueSpecialEpisodeName": "ਵਿਸ਼ੇਸ਼ - {0}",
+    "Sync": "ਸਿੰਕ",
+    "Songs": "ਗਾਣੇ",
+    "Shows": "ਸ਼ੋਅਜ਼",
+    "Playlists": "ਪਲੇਲਿਸਟਸ",
+    "Photos": "ਫੋਟੋਆਂ",
+    "Movies": "ਫਿਲਮਾਂ",
+    "HeaderContinueWatching": "ਵੇਖਣਾ ਜਾਰੀ ਰੱਖੋ",
+    "Genres": "ਸ਼ੈਲੀਆਂ",
+    "Folders": "ਫੋਲਡਰ",
+    "Favorites": "ਮਨਪਸੰਦ",
+    "Default": "ਮੂਲ",
+    "Collections": "ਸੰਗ੍ਰਹਿ",
+    "Channels": "ਚੈਨਲ",
+    "Books": "ਕਿਤਾਬਾਂ",
+    "Artists": "ਕਲਾਕਾਰ"
 }
