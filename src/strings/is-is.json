@@ -438,5 +438,7 @@
     "ButtonStart": "Byrja",
     "BoxSet": "Kassasett",
     "ButtonSyncPlay": "SyncPlay",
-    "MusicVideos": "Tónlistarmyndbönd"
+    "MusicVideos": "Tónlistarmyndbönd",
+    "Name": "Nafn:",
+    "MusicVideo": "Tónlistarmyndbönd"
 }
