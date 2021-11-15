@@ -1,3 +1,16 @@
 {
-    "Albums": "एल्बमहरू"
+    "Albums": "एल्बमहरू",
+    "Songs": "गीतहरू",
+    "Shows": "शोहरू",
+    "Playlists": "प्लेलिस्टहरू",
+    "Photos": "तस्बिरहरु",
+    "Movies": "चलचित्रहरू",
+    "HeaderContinueWatching": "हेर्न जारी राख्नुहोस्",
+    "Genres": "विधाहरू",
+    "Folders": "फोल्डरहरू",
+    "Favorites": "मनपर्ने",
+    "Collections": "संग्रह",
+    "Channels": "च्यानलहरू",
+    "Books": "पुस्तकहरु",
+    "Artists": "कलाकारहरू"
 }
