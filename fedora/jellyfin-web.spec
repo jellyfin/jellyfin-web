@@ -27,7 +27,6 @@ Jellyfin is a free software media system that puts you in control of managing an
 %build
 
 %install
-chown root:root -R .
 npm ci --no-audit --unsafe-perm
 %{__mkdir} -p %{buildroot}%{_datadir}
 mv dist %{buildroot}%{_datadir}/jellyfin-web
