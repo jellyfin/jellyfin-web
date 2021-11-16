@@ -784,5 +784,9 @@
     "LabelFormat": "Formaat:",
     "LabelForgotPasswordUsernameHelp": "Voeg in jou gebruikersnaam, as jy dit kan onthou.",
     "LabelFont": "Lettertipe:",
-    "AgeValue": "({0} jare oud)"
+    "AgeValue": "({0} jare oud)",
+    "Small": "Klein",
+    "Screenshot": "Skermskoot",
+    "Normal": "Normaal",
+    "Large": "Groot"
 }
