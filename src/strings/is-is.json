@@ -48,7 +48,7 @@
     "OptionSpecialEpisode": "Sérstakt",
     "OptionTvdbRating": "TVDB einkunn",
     "OptionWakeFromSleep": "Vekja frá svefni",
-    "PackageInstallCancelled": "{0} hætt við uppsetningu.",
+    "PackageInstallCancelled": "{0} (útgáfa {1}) hætt við uppsetningu.",
     "AddToPlayQueue": "Bæta í spilunarlista",
     "AddedOnValue": "Bætti við {0}",
     "AirDate": "Frumsýningardagur",
@@ -94,7 +94,7 @@
     "OptionUnairedEpisode": "Ófrumsýndir þættir",
     "OptionWeekdays": "Vikudagar",
     "OptionWeekends": "Helgar",
-    "PackageInstallFailed": "{0} tókst ekki að setja upp.",
+    "PackageInstallFailed": "{0} (útgáfa {1}) tókst ekki að setja upp.",
     "PasswordSaved": "Lykilorð vistað.",
     "OptionBluray": "Blu-ray",
     "Yesterday": "Í gær",
@@ -108,7 +108,7 @@
     "OptionWeekly": "Vikulega",
     "OriginalAirDateValue": "Upprunalegur frumsýningardagur: {0}",
     "Overview": "Yfirlit",
-    "PackageInstallCompleted": "{0} lokið við uppsetningu.",
+    "PackageInstallCompleted": "{0} (útgáfa {1}) lokið við uppsetningu.",
     "PasswordResetComplete": "Lykilorðið hefur verið endurstillt.",
     "PasswordResetProviderHelp": "Veldu þjónustu til þess að endurstilla lykilorð þegar notandi biður um það.",
     "PictureInPicture": "Brot úr ramma",
@@ -440,5 +440,7 @@
     "ButtonSyncPlay": "SyncPlay",
     "MusicVideos": "Tónlistarmyndbönd",
     "Name": "Nafn",
-    "MusicVideo": "Tónlistarmyndbönd"
+    "MusicVideo": "Tónlistarmyndbönd",
+    "No": "Nei",
+    "News": "Nýtt"
 }
