@@ -995,6 +995,8 @@
     "LabelBirthYear": "Birth year:",
     "LabelBirthDate": "Birth date:",
     "LabelBindToLocalNetworkAddress": "Bind to local network address:",
+    "LabelAutoCollection": "Auto create collection",
+    "LabelAutoCollectionHelp": "When at least 2 movies in the library have the same collection name, the collection will be automatically created",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Automatically refresh metadata from the internet:",
     "LabelAuthProvider": "Authentication Provider:",
     "LabelAudioLanguagePreference": "Preferred audio language:",
