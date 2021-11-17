@@ -410,11 +410,8 @@ import template from './libraryoptionseditor.template.html';
         } else {
             parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
         }
-        if (contentType === 'movies') {
-            parent.querySelector('.chkAutoCollectionContainer').classList.remove('hide');
-        } else {
-            parent.querySelector('.chkAutoCollectionContainer').classList.add('hide');
-        }
+
+        parent.querySelector('.chkAutoCollectionContainer').classList.toggle('hide', contentType !== 'movies');
 
         return populateMetadataSettings(parent, contentType);
     }
