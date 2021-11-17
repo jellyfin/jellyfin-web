@@ -1,1 +1,13 @@
-{}
+{
+    "HeaderContinueWatching": "Үргэлжлүүлэн үзэх",
+    "Songs": "Дуунууд",
+    "Playlists": "Тоглуулах жагсаалт",
+    "Movies": "Кино",
+    "Genres": "Төрөл зүйл",
+    "Favorites": "Дуртай",
+    "Collections": "Багц",
+    "Artists": "Жүжигчин",
+    "ButtonCancel": "Цуцлах",
+    "Artist": "Жүжигчин",
+    "Album": "Цомог"
+}
