@@ -1404,5 +1404,17 @@
     "LabelColorPrimaries": "Barvni prostor:",
     "AllowTonemappingHelp": "Preslikava barv lahko preslika dinamični razpon videa HDR v SDR, pri tem pa ohranja podrobnosti in barve, kar je zelo pomembno za predstavitev izvorne scene. Trenutno deluje zgolj pri prekodiranju videa z vdelanimi HDR10 ali HLG metapodatki. Če predvajanje ne deluje ali pa ni tekoče izklopite strojno dekodiranje za ustrezen format.",
     "MediaInfoVideoRange": "Barvni razpon",
-    "LabelVideoRange": "Barvni razpon:"
+    "LabelVideoRange": "Barvni razpon:",
+    "LabelSonyAggregationFlags": "Sonyjeve agregacijske oznake:",
+    "LabelSlowResponseEnabled": "Zabeleži opozorilno sporočilo, če je strežnik prepozno odgovoril",
+    "LabelParentNumber": "Številka starša:",
+    "LabelOriginalName": "Izvirno ime:",
+    "LabelHardwareEncoding": "Strojno kodiranje:",
+    "LabelColorTransfer": "Prenos barve:",
+    "HeaderSyncPlaySettings": "Nastavitve SyncPlay",
+    "ErrorPlayerNotFound": "Ni bilo mogoče najti predvajalnika za zahtevani medij.",
+    "Engineer": "Inženir",
+    "Conductor": "Dirigent",
+    "Arranger": "Aranžer",
+    "AgeValue": "({0} let)"
 }
