@@ -45,7 +45,7 @@
     "HeaderVideos": "Видеонууд",
     "People": "Хүмүүс",
     "Watched": "Үзсэн",
-    "TabUpcoming": "Удахгүй болох гэж байна",
+    "TabUpcoming": "Дээшээ ирж байна",
     "TypeOptionPluralSeason": "Үе",
     "HeaderSeasons": "Үе",
     "Series": "Цуврал",
@@ -64,5 +64,9 @@
     "General": "Ерөнхий",
     "Settings": "Тохиргоо",
     "TitlePlayback": "Тоглуулах",
-    "HeaderSyncPlayPlaybackSettings": "Тоглуулах"
+    "HeaderSyncPlayPlaybackSettings": "Тоглуулах",
+    "MessageSyncPlayDisabled": "SyncPlay идэвхгүй.",
+    "None": "Байхгүй",
+    "LabelChromecastVersion": "Chromecast Хувилбар",
+    "HeaderCancelRecording": "Бичлэгийг цуцлах"
 }
