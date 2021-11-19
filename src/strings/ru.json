@@ -1287,7 +1287,7 @@
     "HeaderServerAddressSettings": "Параметры адреса сервера",
     "HeaderRemoteAccessSettings": "Параметры удалённого доступа",
     "HeaderHttpsSettings": "Параметры HTTPS",
-    "HeaderDVR": "DVR",
+    "HeaderDVR": "Цифровая запись",
     "MessageSyncPlayJoinGroupDenied": "Невозможно присоединиться к группе.",
     "MessageSyncPlayDisabled": "SyncPlay отключен.",
     "MessageSyncPlayEnabled": "SyncPlay включён.",
