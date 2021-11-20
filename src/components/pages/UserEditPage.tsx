@@ -7,7 +7,7 @@ import ButtonElement from '../dashboard/users/ButtonElement';
 import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import InputElement from '../dashboard/users/InputElement';
-import LnkEditUserPreferences from '../dashboard/users/LnkEditUserPreferences';
+import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences';
 import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import SelectElement from '../dashboard/users/SelectElement';
 import SelectSyncPlayAccessElement from '../dashboard/users/SelectSyncPlayAccessElement';
@@ -274,7 +274,7 @@ const UserEditPage: FunctionComponent = () => {
                     className='lnkEditUserPreferencesContainer'
                     style={{paddingBottom: '1em'}}
                 >
-                    <LnkEditUserPreferences
+                    <LinkEditUserPreferences
                         className= 'lnkEditUserPreferences button-link'
                         title= 'ButtonEditOtherUserPreferences'
                     />

@@ -16,7 +16,7 @@ const createLinkElement = ({ className, title }) => ({
     </a>`
 });
 
-const LnkEditUserPreferences: FunctionComponent<IProps> = ({ className, title }: IProps) => {
+const LinkEditUserPreferences: FunctionComponent<IProps> = ({ className, title }: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createLinkElement({
@@ -27,4 +27,4 @@ const LnkEditUserPreferences: FunctionComponent<IProps> = ({ className, title }:
     );
 };
 
-export default LnkEditUserPreferences;
+export default LinkEditUserPreferences;

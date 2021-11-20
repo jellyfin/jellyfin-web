@@ -11,11 +11,16 @@ const createSelectElement = ({ className, label, option }) => ({
     </select>`
 });
 
+type ProvidersArr = {
+    Name?: string;
+    Id?: string;
+}
+
 type IProps = {
     className?: string;
     label?: string;
     currentProviderId: string;
-    providers: any
+    providers: ProvidersArr[]
 }
 
 const SelectElement: FunctionComponent<IProps> = ({ className, label, currentProviderId, providers }: IProps) => {
