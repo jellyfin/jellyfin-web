@@ -335,7 +335,7 @@
     "HeaderYears": "Roky",
     "Help": "Nápověda",
     "Hide": "Skrýt",
-    "HideWatchedContentFromLatestMedia": "Skrýt přehrané položky ze seznamu nejnovějších médií",
+    "HideWatchedContentFromLatestMedia": "Skrýt zhlédnuté položky v seznamu Nejnovější média",
     "Home": "Domů",
     "Identify": "Identifikovat",
     "Images": "Obrázky",
@@ -1040,7 +1040,7 @@
     "DirectStreamHelp2": "Výkon potřebný pro přímé streamování záleží na zvukovém profilu. Pouze video stopa je bezztrátová.",
     "Directors": "Režiséři",
     "DisplayInMyMedia": "Zobrazit na domovské obrazovce",
-    "DisplayInOtherHomeScreenSections": "Zobrazení v sekcích domovské obrazovky, jako jsou nejnovější média, a pokračování ve sledování",
+    "DisplayInOtherHomeScreenSections": "Zobrazit v sekcích domovské obrazovky, např. v sekcích Nejnovější média nebo Pokračování ve sledování",
     "DownloadsValue": "{0} ke stažení",
     "EditMetadata": "Upravit metadata",
     "EnableExternalVideoPlayersHelp": "Při spuštění přehrávání videa se zobrazí nabídka externího přehrávače.",
@@ -1579,7 +1579,7 @@
     "LabelOriginalName": "Původní název:",
     "AgeValue": "({0} let)",
     "PlaybackErrorPlaceHolder": "Toto je zástupce pro fyzické médium, které Jellyfin nedokáže přehrát. Chcete-li médium přehrát, vložte disk.",
-    "LabelMaxDaysForNextUp": "Omezení zobrazení dalších epizod:",
+    "LabelMaxDaysForNextUp": "Maximální počet dní v sekci Další:",
     "LabelMaxDaysForNextUpHelp": "Maximální počet dnů, po který zůstane seriál v seznamu dalších epizod ke zhlédnutí.",
     "MediaInfoTitle": "Název",
     "Typewriter": "Psací stroj",
@@ -1597,5 +1597,7 @@
     "TypeOptionPluralMusicAlbum": "Hudební alba",
     "TypeOptionPluralMovie": "Filmy",
     "TypeOptionPluralEpisode": "Díly",
-    "TypeOptionPluralBoxSet": "Kolekce"
+    "TypeOptionPluralBoxSet": "Kolekce",
+    "LabelAutomaticallyAddToCollectionHelp": "Pokud mají alespoň 2 filmy stejný název kolekce, budou automaticky přidány do kolekce.",
+    "LabelAutomaticallyAddToCollection": "Automaticky přidat to kolekce"
 }
