@@ -151,7 +151,7 @@
     "Disconnect": "Ajyratu",
     "Display": "Beineleu",
     "DisplayInMyMedia": "Basqy ekranda beinelenedı",
-    "DisplayInOtherHomeScreenSections": "Basqy ekran bölımderınde beineleu (mys. Eñ soñğy tasyğyşderekter jäne Körudı jalğastyru)",
+    "DisplayInOtherHomeScreenSections": "Basqy ekran bölımderınde beineleu (mys. \"Eñ soñğy tasyğyşderekter\" jäne \"Körudı jalğastyru\")",
     "DisplayMissingEpisodesWithinSeasons": "Joq telebölımderdı mausym ışınde beineleu",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Būl sondai-aq server teñşelımderındegı TD‐tasyğyşhanalary üşın qosuluy qajet.",
     "DisplayModeHelp": "İnterfeis üşın laiyqty ornalasu mänerın tañdañyz.",
@@ -405,7 +405,7 @@
     "HeaderYears": "Jyldar",
     "Help": "Anyqtama",
     "Hide": "Jasyru",
-    "HideWatchedContentFromLatestMedia": "Eñ keiıngı tasyğyşderekterden qaralğan mazmūndy jasyru",
+    "HideWatchedContentFromLatestMedia": "\"Eñ keiıngı tasyğyşderekter\" ışınen qaralğan mazmūndy jasyru",
     "Home": "Basqy",
     "Horizontal": "Köldeneñ",
     "HttpsRequiresCert": "Qauıpsız qosylymdar qosu üşın Letʼs Encrypt siaqty senımdı SSL-kuälıgın jetkızuıñız qajet. Kuälıktı jetkızıñız nemese qauıpsız qosylymdardy ajyratyñyz.",
@@ -1580,7 +1580,7 @@
     "LabelOriginalName": "Tüpnūsqa aty:",
     "AgeValue": "({0} jasynda)",
     "PlaybackErrorPlaceHolder": "Būl Jellyfin oinata almaityn fizikalyq tasyğyştyñ toltyrğyşy. Oinatu üşın diskını salyñyz.",
-    "LabelMaxDaysForNextUp": "Kelesıdegi eñ köp künder:",
+    "LabelMaxDaysForNextUp": "\"Kelesı\" ışındegı eñ köp künder:",
     "LabelMaxDaysForNextUpHelp": "Körsetımdı körmei-aq \"Kelesı\" tızımınde qalatyn künderdıñ eñ köp sanyn ornatu.",
     "MediaInfoTitle": "Atauy",
     "Typewriter": "Jazu maşinasy",
@@ -1598,5 +1598,7 @@
     "TypeOptionPluralEpisode": "Telebölımder",
     "TypeOptionPluralBoxSet": "Filmder jiyntyqtary",
     "TypeOptionPluralBook": "Kıtaptar",
-    "TypeOptionPluralAudio": "Dybystar"
+    "TypeOptionPluralAudio": "Dybystar",
+    "LabelAutomaticallyAddToCollectionHelp": "Kem degende 2 filmnıñ jiyntyq atauy birdey bolğanda, olar jiyntyqqa avtomatty üstelınedı.",
+    "LabelAutomaticallyAddToCollection": "Jiyntyqqa avtomatty üsteu"
 }
