@@ -1579,7 +1579,7 @@
     "SetUsingLastTracksHelp": "Choisir la piste audio et les sous-titres les plus proches de la dernière vidéo lue.",
     "SetUsingLastTracks": "Utiliser les pistes de sous-titres et audio de l'élément précédent",
     "PlaybackErrorPlaceHolder": "Ceci est un emplacement pour les médias physiques que Jellyfin ne peut pas jouer. Merci d'insérer le disque pour lancer la lecture.",
-    "LabelMaxDaysForNextUpHelp": "Définir le nombre maximal de jours avant qu'une émission ne soit retirée de la section 'À suivre'.",
+    "LabelMaxDaysForNextUpHelp": "Définir le nombre de jours d'inactivité avant qu'une émission ne soit ôtée de la section 'À suivre'.",
     "LabelMaxDaysForNextUp": "Expiration de la section 'À suivre' :",
     "MediaInfoTitle": "Titre",
     "Typewriter": "Machine à écrire",
@@ -1597,5 +1597,7 @@
     "TypeOptionPluralEpisode": "Épisodes",
     "TypeOptionPluralBoxSet": "Coffrets",
     "TypeOptionPluralBook": "Livres",
-    "TypeOptionPluralAudio": "Audio"
+    "TypeOptionPluralAudio": "Audio",
+    "LabelAutomaticallyAddToCollectionHelp": "Quand au moins 2 films possèdent le même nom de collection, les y ajouter automatiquement .",
+    "LabelAutomaticallyAddToCollection": "Ajouter automatiquement à la collection"
 }
