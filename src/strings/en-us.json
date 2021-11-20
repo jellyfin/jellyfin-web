@@ -533,6 +533,8 @@
     "LabelAudioLanguagePreference": "Preferred audio language:",
     "LabelAudioSampleRate": "Audio sample rate:",
     "LabelAuthProvider": "Authentication Provider:",
+    "LabelAutomaticallyAddToCollection": "Automatically add to collection",
+    "LabelAutomaticallyAddToCollectionHelp": "When at least 2 movies have the same collection name, they will be automatically added to the collection",
     "LabelAutoDiscoveryTracing": "Enable Auto Discovery tracing.",
     "LabelAutoDiscoveryTracingHelp": "When enabled, packets received on the auto discovery port will be logged.",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Automatically refresh metadata from the internet:",

@@ -402,6 +402,8 @@
     "LabelArtists": "艺术家：",
     "LabelArtistsHelp": "将多个艺术家用分号分隔。",
     "LabelAudioLanguagePreference": "首选音频语言：",
+    "LabelAutomaticallyAddToCollection": "自动添加到合集",
+    "LabelAutomaticallyAddToCollectionHelp": "当至少有2个电影拥有相同的合集名称时，它们将会自动添加到合集中",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "自动从互联网获取元数据并刷新：",
     "LabelBindToLocalNetworkAddress": "监听的本地网络地址：",
     "LabelBindToLocalNetworkAddressHelp": "覆盖 HTTP 服务器绑定的本地 IP 地址。如果留空，服务器将会监听所有可用的地址。重启后生效。",

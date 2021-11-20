@@ -411,6 +411,8 @@ import template from './libraryoptionseditor.template.html';
             parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
         }
 
+        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies');
+
         return populateMetadataSettings(parent, contentType);
     }
 
@@ -511,6 +513,7 @@ import template from './libraryoptionseditor.template.html';
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector('#chkSkipIfAudioTrackPresent').checked,
             SaveSubtitlesWithMedia: parent.querySelector('#chkSaveSubtitlesLocally').checked,
             RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
+            AutomaticallyAddToCollection: parent.querySelector('#chkAutomaticallyAddToCollection').checked,
             MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
                 return elem.checked;
             }), elem => {
@@ -562,6 +565,7 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
         parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
         parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
+        parent.querySelector('#chkAutomaticallyAddToCollection').checked = options.AutomaticallyAddToCollection;
         Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
             elem.checked = options.MetadataSavers ? options.MetadataSavers.includes(elem.getAttribute('data-pluginname')) : elem.getAttribute('data-defaultenabled') === 'true';
         });
