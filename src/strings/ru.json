@@ -152,7 +152,7 @@
     "Disconnect": "Разъединиться",
     "Display": "Отображение",
     "DisplayInMyMedia": "Показывать на главном экране",
-    "DisplayInOtherHomeScreenSections": "Показывать в разделах главного экрана (нпр., крайние медиаданные, продолжение просмотра и т.п.)",
+    "DisplayInOtherHomeScreenSections": "Показывать в разделах главного экрана как \"Крайние медиаданные\", \"Продолжение просмотра\"",
     "DisplayMissingEpisodesWithinSeasons": "Отображать отсутствующие эпизоды в пределах сезонов",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Это также должно быть включено для ТВ-медиатек в конфигурации сервера.",
     "DisplayModeHelp": "Выберите желательный стиль разметки для интерфейса.",
@@ -406,7 +406,7 @@
     "HeaderYears": "Годы",
     "Help": "Справка...",
     "Hide": "Скрыть",
-    "HideWatchedContentFromLatestMedia": "Скрыть просмотренное содержание из Крайних медиаданных",
+    "HideWatchedContentFromLatestMedia": "Скрыть просмотренное содержание в разделе \"Крайние медиаданные\"",
     "Home": "Главное",
     "Horizontal": "Горизонтально",
     "HttpsRequiresCert": "Чтобы включить HTTPS для внешних подключений, вам нужно будет предоставить доверенный SSL-cертификат, например, Let's Encrypt. Предоставьте сертификат или отключите защищенные соединения.",
@@ -1579,7 +1579,7 @@
     "LabelOriginalName": "Оригинальное имя:",
     "AgeValue": "(в возрасте {0} лет)",
     "PlaybackErrorPlaceHolder": "Это заполнитель для физических носителей, которые Jellyfin не может воспроизводить. Вставьте диск для воспроизведения.",
-    "LabelMaxDaysForNextUp": "Максимальные дни в Очередных:",
+    "LabelMaxDaysForNextUp": "Максимум дней в разделе \"Очередные\":",
     "LabelMaxDaysForNextUpHelp": "Задать максимальное количество дней, в течение которых сериал должен оставаться в списке «Очередное» без его просмотра .",
     "MediaInfoTitle": "Название",
     "Typewriter": "Машинописный",
@@ -1597,5 +1597,7 @@
     "TypeOptionPluralEpisode": "Эпизоды",
     "TypeOptionPluralBoxSet": "Киносерии",
     "TypeOptionPluralBook": "Книги",
-    "TypeOptionPluralAudio": "Аудио элементы"
+    "TypeOptionPluralAudio": "Аудио элементы",
+    "LabelAutomaticallyAddToCollectionHelp": "Если хотя бы два фильма имеют одинаковое название коллекции, они будут автоматически добавлены в коллекцию.",
+    "LabelAutomaticallyAddToCollection": "Автоматически добавлять в коллекцию"
 }
