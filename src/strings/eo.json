@@ -1199,7 +1199,7 @@
     "OptionEnableM2tsMode": "Ebligi M2ts-reĝimon",
     "OptionEmbedSubtitles": "Enigi enen de ujo",
     "LabelCustomDeviceDisplayNameHelp": "Provizi laŭmendan montratan nomon aŭ lasu malplena por uzi la nomon raportitan de la aparato.",
-    "DisplayInOtherHomeScreenSections": "Montri en hejmekranaj sekcioj kiel ekzemple \"Plej novaj plurmedioj\" kaj \"Daŭrigi spektadon\"",
+    "DisplayInOtherHomeScreenSections": "Montri en hejmekranaj sekcioj kiel ekzemple \"Plej Novaj Plurmedioj\" kaj \"Daŭrigi Spektadon\"",
     "OptionDisplayFolderView": "Montri dosierujan vidon por montri simplajn plurmedian dosierujojn",
     "OptionPlainVideoItems": "Montri ĉiujn videojn kiel simplajn videaĵojn",
     "DisplayInMyMedia": "Montri sur la hejmekrano",
@@ -1405,7 +1405,7 @@
     "MessageSyncPlayPlaybackPermissionRequired": "Ludada permeso bezonata.",
     "MessageSyncPlayNoGroupsAvailable": "Neniuj grupoj disponeblaj. Komenci ludi ion unue.",
     "MessageSyncPlayLibraryAccessDenied": "Aliro al ĉi tiu enhavo estas limigita.",
-    "LabelMaxDaysForNextUpHelp": "Starigi la maksimuman kvanton da tagoj, kiam serio devas resti en la listo 'Next up' sen spekti ĝin.",
+    "LabelMaxDaysForNextUpHelp": "Starigi la maksimuman kvanton da tagoj, kiam serio devas resti en la listo de \"Sekva Plue\" sen spekti ĝin.",
     "LabelLibraryPageSizeHelp": "Starigi la kvanton de aĵoj por montri en plurmediteka paĝo. Starigi al 0 por malebligi paĝigon.",
     "LabelDefaultUserHelp": "Determini, kiu uzanta plurmediteko devas esti montrata sur konektitaj aparatoj. Ĉi tio povas esti anstataŭata por ĉiu aparato uzante profilojn.",
     "LabelLocalCustomCss": "Laŭmenda CSS-stilo, kiu validas nur por ĉi tiu kliento. Eble vi volas malebligi servilan laŭmendan CSS.",
@@ -1418,7 +1418,7 @@
     "LabelAlbumArtHelp": "PN uzata por albumarto, ene de la atributo \"dlna:profileID\" sur \"upnp:albumArtURI\". Iuj aparatoj bezonas specifan valoron, sendepende de la grandeco de la bildo.",
     "InstallingPackage": "Instalado de {0} (versio {1})",
     "ImportFavoriteChannelsHelp": "Nur kanaloj markitaj kiel favorataj sur la eteraparato estos importitaj.",
-    "HideWatchedContentFromLatestMedia": "Kaŝi spektitan enhavon de Plej novaj plurmedioj",
+    "HideWatchedContentFromLatestMedia": "Kaŝi spektitan enhavon de \"Plej Novaj Plurmedioj\"",
     "FileReadCancelled": "La dosiera legado estas rezignita.",
     "EveryXMinutes": "Ĉiun {0} minutojn",
     "EveryXHours": "Ĉiujn {0} horojn",
@@ -1593,5 +1593,7 @@
     "TypeOptionPluralEpisode": "Epizodoj",
     "TypeOptionPluralBoxSet": "Filmaj Kolektoj",
     "TypeOptionPluralBook": "Libroj",
-    "TypeOptionPluralAudio": "Aŭdioj"
+    "TypeOptionPluralAudio": "Aŭdioj",
+    "LabelAutomaticallyAddToCollectionHelp": "Kiam almenaŭ 2 filmoj havas la saman kolektonomon, ili estos aŭtomate aldonitaj al la kolekto.",
+    "LabelAutomaticallyAddToCollection": "Aldoni aŭtomate al kolekto"
 }
