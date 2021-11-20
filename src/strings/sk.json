@@ -1597,5 +1597,7 @@
     "TypeOptionPluralEpisode": "Epizódy",
     "TypeOptionPluralBoxSet": "Box sety",
     "TypeOptionPluralBook": "Knihy",
-    "TypeOptionPluralAudio": "Audiá"
+    "TypeOptionPluralAudio": "Audiá",
+    "LabelAutomaticallyAddToCollectionHelp": "Pokiaľ majú aspoň 2 filmy rovnaký nazov kolekcie, budú automaticky pridané do kolekcie.",
+    "LabelAutomaticallyAddToCollection": "Automaticky pridať do kolekcie"
 }
