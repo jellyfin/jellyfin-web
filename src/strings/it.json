@@ -137,7 +137,7 @@
     "Disconnect": "Disconnetti",
     "Display": "Schermo",
     "DisplayInMyMedia": "Visualizza nella schermata di home",
-    "DisplayInOtherHomeScreenSections": "Mostra le sezioni della schermata home come gli ultimi media e continua a guardare",
+    "DisplayInOtherHomeScreenSections": "Mostra le sezioni della schermata home come 'Ultimi media' e 'Continua a guardare'",
     "DisplayMissingEpisodesWithinSeasons": "Visualizza gli episodi mancanti nelle stagioni",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Questo deve anche essere abilitato per le librerie TV nella configurazione del server.",
     "DisplayModeHelp": "Seleziona lo stile del layout che vuoi per l'interfaccia.",
@@ -379,7 +379,7 @@
     "HeaderYears": "Anni",
     "Help": "Aiuto",
     "Hide": "Nascondi",
-    "HideWatchedContentFromLatestMedia": "Nascondi i contenuti già visti dagli Ultimi Media",
+    "HideWatchedContentFromLatestMedia": "Nascondi i contenuti già visti da 'Ultimi Media'",
     "Horizontal": "Orizzontale",
     "HttpsRequiresCert": "Per abilitare le connessioni sicure, dovrai fornire un certificato SSL affidabile, come Let's Encrypt. Per favore o fornisci un certificato, o disabilita le connessioni sicure.",
     "Identify": "Identifica",
@@ -1597,5 +1597,7 @@
     "TypeOptionPluralBook": "Libri",
     "TypeOptionPluralMovie": "Film",
     "TypeOptionPluralEpisode": "Episodi",
-    "TypeOptionPluralBoxSet": "Cofanetti"
+    "TypeOptionPluralBoxSet": "Cofanetti",
+    "LabelAutomaticallyAddToCollectionHelp": "Quando almeno 2 film hanno lo stesso nome collezione, saranno automaticamente aggiunti alla collezione.",
+    "LabelAutomaticallyAddToCollection": "Aggiungi automaticamente alla collezione"
 }
