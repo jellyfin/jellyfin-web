@@ -1407,5 +1407,7 @@
     "LabelXDlnaDocHelp": "Määrittää X_DLNADOC elementin sisällön nimiavaruudessa urn:schemas-dlna-org:device-1-0.",
     "LabelXDlnaCapHelp": "Määrittää X_DLNACAP elementin sisällön nimiavaruudessa urn:schemas-dlna-org:device-1-0.",
     "LabelMaxAudiobookResumeHelp": "Raidat oletetaan täysin toistetuiksi jos toisto pysäytetään, kun jäljellä oleva kesto on vähemmän kuin tämä arvo.",
-    "LabelMaxAudiobookResume": "Äänikirjan jäljellä olevat minuutit toiston palautukseen:"
+    "LabelMaxAudiobookResume": "Äänikirjan jäljellä olevat minuutit toiston palautukseen:",
+    "Arranger": "Järjestäjä",
+    "AgeValue": "({0} vuotta vanha)"
 }
