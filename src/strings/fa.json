@@ -1322,7 +1322,7 @@
     "TvLibraryHelp": "Review the {0}TV naming guide{1}.",
     "UserAgentHelp": "Supply a custom user-agent HTTP header.",
     "ValueContainer": "Container: {0}",
-    "EnableBlurHash": "Enable blurred placeholders for images",
+    "EnableBlurHash": "",
     "EnableBlurHashHelp": "Images that are still being loaded will be displayed with a blurred placeholder.",
     "ButtonSyncPlay": "SyncPlay",
     "ButtonActivate": "فعال‌سازی",
