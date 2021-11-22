@@ -788,5 +788,7 @@
     "Small": "Klein",
     "Screenshot": "Skermskoot",
     "Normal": "Normaal",
-    "Large": "Groot"
+    "Large": "Groot",
+    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
+    "OptionBluray": "BD"
 }
