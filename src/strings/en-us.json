@@ -809,7 +809,7 @@
     "LabelRecordingPathHelp": "Specify the default location to save recordings. If left empty, the server's program data folder will be used.",
     "LabelRefreshMode": "Refresh mode:",
     "LabelReleaseDate": "Release date:",
-    "LabelRemoteClientBitrateLimit": "Internet streaming bitrate limit (Mibit/s):",
+    "LabelRemoteClientBitrateLimit": "Internet streaming bitrate limit (Mbps):",
     "LabelRemoteClientBitrateLimitHelp": "An optional per-stream bitrate limit for all out of network devices. This is useful to prevent devices from requesting a higher bitrate than your internet connection can handle. This may result in increased CPU load on your server in order to transcode videos on the fly to a lower bitrate.",
     "LabelRepositoryName": "Repository Name",
     "LabelRepositoryNameHelp": "A custom name to distinguish this repository from any others added to your server.",
