@@ -50,7 +50,7 @@
     "Alerts": "Hälytykset",
     "All": "Kaikki",
     "AllChannels": "Kaikki kanavat",
-    "AllComplexFormats": "Kaikki monimutkaiset tiedostomuodot (ASS, SSA, VOBSUB, PGS, SUB/IDX, jne.)",
+    "AllComplexFormats": "Kaikki monimutkaiset tiedostomuodot (ASS, SSA, VobSub, PGS, SUB/IDX, jne.)",
     "AllEpisodes": "Kaikki jaksot",
     "AllLanguages": "Kaikki kielet",
     "AllLibraries": "Kaikki kirjastot",
@@ -176,7 +176,7 @@
     "Disc": "Levy",
     "Disconnect": "Katkaise yhteys",
     "DisplayInMyMedia": "Näytä aloitusnäytöllä",
-    "DisplayInOtherHomeScreenSections": "Näytä aloitusnäytöllä osastoja kuten viimeisin media ja jatka katselua",
+    "DisplayInOtherHomeScreenSections": "Näytä aloitusnäytöllä osastoja kuten \"viimeisin media\" ja \"jatka katselua\"",
     "DisplayMissingEpisodesWithinSeasons": "Näytä puuttuvat jaksot tuotantokausissa",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Tämä pitää aktivoida TV-kirjastoille myös palvelimen asetuksissa.",
     "DisplayModeHelp": "Valitse ulkonäkö, jonka haluat käyttöliittymälle.",
@@ -1409,5 +1409,10 @@
     "LabelMaxAudiobookResumeHelp": "Raidat oletetaan täysin toistetuiksi jos toisto pysäytetään, kun jäljellä oleva kesto on vähemmän kuin tämä arvo.",
     "LabelMaxAudiobookResume": "Äänikirjan jäljellä olevat minuutit toiston palautukseen:",
     "Arranger": "Järjestäjä",
-    "AgeValue": "({0} vuotta vanha)"
+    "AgeValue": "({0} vuotta vanha)",
+    "LabelOriginalName": "Alkuperäinen nimi:",
+    "LabelAutomaticallyAddToCollection": "Lisää automaattisesti kokoelmaan",
+    "HeaderSyncPlayPlaybackSettings": "Toisto",
+    "HeaderSyncPlaySettings": "SyncPlayn asetukset",
+    "Engineer": "Ääniteknikko"
 }
