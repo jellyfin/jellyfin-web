@@ -1147,5 +1147,7 @@
     "LabelBlastMessageIntervalHelp": "Acil tanı mesajları arasındaki saniye cinsinden süreyi belirtir.",
     "HeaderContinueReading": "Okumaya devam et",
     "DisableCustomCss": "Sunucuyu Devre Dışı Bırak- Özel CSS Dosyası Sağlanmış",
-    "DirectPlayHelp": "Kaynak dosyası bu istemci ile tamamen uyumlu ve oturum dosyayı değişiklik yapmadan alıyor."
+    "DirectPlayHelp": "Kaynak dosyası bu istemci ile tamamen uyumlu ve oturum dosyayı değişiklik yapmadan alıyor.",
+    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
+    "OptionBluray": "BD"
 }
