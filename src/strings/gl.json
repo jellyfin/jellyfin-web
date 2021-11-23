@@ -63,5 +63,6 @@
     "AccessRestrictedTryAgainLater": "O acceso está restrinxido actualmente. Por favor, intenteo máis tarde.",
     "AllowOnTheFlySubtitleExtraction": "Permitir extracción de subtítulos sobre a marcha",
     "ValueSpecialEpisodeName": "Especial - {0}",
-    "MusicVideos": "Vídeos Musicais"
+    "MusicVideos": "Vídeos Musicais",
+    "OptionBluray": "BD"
 }
