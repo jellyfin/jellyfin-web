@@ -291,7 +291,7 @@
     "LabelExtractChaptersDuringLibraryScan": "Eltiri ĉapitrajn bildojn dum la plurmediteka skanado",
     "LabelDisplaySpecialsWithinSeasons": "Montri specialaĵojn ene de sezonoj en kiuj ili eteritaj",
     "LabelUserMaxActiveSessions": "Maksimuma nombro de samtempaj uzantaj seancoj:",
-    "LabelRemoteClientBitrateLimit": "Bitrapida limo de Interreta elsendfluo (Mibit/s):",
+    "LabelRemoteClientBitrateLimit": "Bitrapida limo de Interreta elsendfluo (Mbit/s):",
     "LabelDirectStreamingInfo": "Informo pri Rekta Elsendfluo",
     "OptionProtocolHls": "Etera HTTP-elsendfluo (HLS)",
     "LabelMaxStreamingBitrate": "Maksimuma elsendflua kvalito:",
