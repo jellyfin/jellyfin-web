@@ -162,5 +162,6 @@
     "AlwaysPlaySubtitles": "Luaj Gjithmonë",
     "AllowFfmpegThrottling": "Limito Transkodimin",
     "AgeValue": "({0} vjeç)",
-    "MusicVideos": "Video Muzikore"
+    "MusicVideos": "Video Muzikore",
+    "OptionBluray": "BD"
 }
