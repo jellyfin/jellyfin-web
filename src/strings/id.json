@@ -1113,5 +1113,6 @@
     "NewCollectionHelp": "Koleksi memungkinkan Anda membuat pengelompokan film dan konten perpustakaan lainnya yang dipersonalisasi.",
     "MovieLibraryHelp": "Tinjau {0} panduan penamaan film {1}.",
     "MessageNoMovieSuggestionsAvailable": "Tidak ada saran film yang tersedia saat ini. Mulailah menonton dan menilai film Anda, lalu kembali untuk melihat rekomendasi Anda.",
-    "LabelPlaybackInfo": "Informasi Pemutaran"
+    "LabelPlaybackInfo": "Informasi Pemutaran",
+    "OptionBluray": "BD"
 }
