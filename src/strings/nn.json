@@ -754,5 +754,6 @@
     "BoxSet": "Samleboks",
     "AllowTonemappingHelp": "Tonekartlegging kan forvandla det dynamiske området til ein video frå HDR til SDR samtidig som bildedetaljar og fargar blir tatt vare på, noko som er veldig viktig informasjon for å representera den originale scena. Fungerer for augneblinken berre når du omkodar videoar med innebygd HDR10- eller HLG-metadata. Viss avspelinga ikkje er jamn eller mislykkast, bør du vurdera å slå av den tilsvarande maskinvaredekodaren.",
     "AllowOnTheFlySubtitleExtractionHelp": "Integrerte undertekstar kan hentast ut frå videoar og bli leverte til klientar i klartekst for å unngå omkoding av video. På nokre system kan dette ta lang tid og føra til opphald i avspelinga samtidig som prosessen pågår. Deaktiver innstillinga for å brenna inn underteksten i videoen ved hjelp av omkoding når undertekstformatet ikkje er støtta av klienten.",
-    "AllowHWTranscodingHelp": "Tillat at tuneren omkodar strøymer fortløpande. Dette kan bidra til å redusera mengda omkoding som må utførast av tenaren."
+    "AllowHWTranscodingHelp": "Tillat at tuneren omkodar strøymer fortløpande. Dette kan bidra til å redusera mengda omkoding som må utførast av tenaren.",
+    "OptionBluray": "BD"
 }
