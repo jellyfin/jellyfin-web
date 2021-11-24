@@ -700,7 +700,7 @@
     "LabelSaveLocalMetadataHelp": "Saving artwork into media folders will put them in a place where they can be easily edited.",
     "LabelRuntimeMinutes": "Runtime:",
     "LabelRemoteClientBitrateLimitHelp": "An optional per-stream bitrate limit for all out of network devices. This is useful to prevent devices from requesting a higher bitrate than your internet connection can handle. This may result in increased CPU load on your server in order to transcode videos on the fly to a lower bitrate.",
-    "LabelRemoteClientBitrateLimit": "Internet streaming bitrate limit (Mibit/s):",
+    "LabelRemoteClientBitrateLimit": "Internet streaming bitrate limit (Mbit/s):",
     "LabelReleaseDate": "Release date:",
     "LabelRefreshMode": "Refresh mode:",
     "LabelRecord": "Record:",
