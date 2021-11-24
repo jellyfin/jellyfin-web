@@ -965,7 +965,7 @@
     "LabelEnableBlastAliveMessagesHelp": "Enable this if the server is not detected reliably by other UPnP devices on your network.",
     "LabelEnableBlastAliveMessages": "Blast alive messages",
     "LabelEnableAutomaticPortMap": "Enable automatic port mapping",
-    "LabelEmbedAlbumArtDidlHelp": "Some devices prefer this method for obtaining album art. Others may fail to play with this option enabled.",
+    "LabelEmbedAlbumArtDidlHelp": "Some devices prefer this method for obtaining the album art. Others may fail to play with this option enabled.",
     "LabelEmbedAlbumArtDidl": "Embed album art in DIDL",
     "LabelEasyPinCode": "Easy PIN code:",
     "LabelDynamicExternalId": "{0} Id:",
