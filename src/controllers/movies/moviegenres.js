@@ -17,7 +17,7 @@ import '../../elements/emby-button/emby-button';
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
-                        SortBy: 'Random',
+                        SortBy: 'SortName',
                         SortOrder: 'Ascending',
                         IncludeItemTypes: 'Movie',
                         Recursive: true,
