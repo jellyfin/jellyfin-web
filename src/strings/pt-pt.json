@@ -1525,5 +1525,7 @@
     "DirectPlayHelp": "O arquivo de origem é totalmente compatível com este cliente e a sessão está a receber o arquivo sem modificações.",
     "Conductor": "Maestro",
     "Arranger": "Arranjador",
-    "AgeValue": "({0} anos de idade)"
+    "AgeValue": "({0} anos de idade)",
+    "LabelSyncPlaySettingsSpeedToSync": "Ativar SpeedToSync",
+    "LabelAutomaticallyAddToCollection": "Adicionar automaticamente à coleção"
 }
