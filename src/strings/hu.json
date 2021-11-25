@@ -208,7 +208,7 @@
     "LabelMetadataPath": "Metaadat útvonal:",
     "LabelMetadataReaders": "Metaadat olvasók:",
     "LabelMetadataSavers": "Metaadat mentés:",
-    "LabelMetadataSaversHelp": "A metaadatok mentési fájlformátuma.",
+    "LabelMetadataSaversHelp": "Válaszd ki a metaadatok mentésekor használni kívánt fájlformátumokat.",
     "LabelName": "Név:",
     "LabelNewPassword": "Új jelszó:",
     "LabelNewPasswordConfirm": "Új jelszó megerősítése:",
