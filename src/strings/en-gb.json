@@ -943,7 +943,7 @@
     "LabelHardwareAccelerationType": "Hardware acceleration:",
     "LabelEncoderPreset": "Encoding preset:",
     "LabelH264Crf": "H264 encoding CRF:",
-    "LabelGroupMoviesIntoCollectionsHelp": "When displaying movie lists, movies in a collection will be displayed as one grouped item.",
+    "LabelGroupMoviesIntoCollectionsHelp": "When displaying movie lists, then movies in a collection will be displayed as one grouped item.",
     "LabelGroupMoviesIntoCollections": "Group movies into collections",
     "LabelServerNameHelp": "This name will be used to identify the server and will default to the server's hostname.",
     "LabelFriendlyName": "Friendly name:",
