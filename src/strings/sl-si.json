@@ -674,7 +674,7 @@
     "LiveTV": "TV v živo",
     "LabelTranscodingThreadCountHelp": "Izberi največje število niti za uporabo pri prekodiranju. Zmanjšanje števila niti bo zmanjšalo uporabo CPU-ja, vendar prekodiranje morda ne bo dovolj hitro za nemoteno predvajanje.",
     "MessageNoCollectionsAvailable": "Zbirke vam omogočajo uživanje v prilagojenih skupinah filmov, serij in albumov. Kliknite gumb +, da začnete ustvarjati zbirke.",
-    "None": "Brez",
+    "None": "Nič",
     "OptionAllowBrowsingLiveTv": "Dovoli dostop do TV v živo",
     "OptionAllowManageLiveTv": "Dovoli upravljanje snemanja TV v živo",
     "MessagePlayAccessRestricted": "Predvajanje te vsebine je trenutno omejeno. Za več informacij se obrnite na skrbnika strežnika.",
