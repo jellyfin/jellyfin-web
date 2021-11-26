@@ -1393,7 +1393,7 @@
     "TabAccess": "Juurdepääs",
     "SystemDlnaProfilesHelp": "Süsteemiprofiilid on kirjutuskaitstud. Süsteemiprofiili muudatused salvestatakse uude kohandatud profiili.",
     "SyncPlayGroupDefaultTitle": "{0} rühm",
-    "SyncPlayAccessHelp": "Vali selle kasutaja juurdepääsutase funktsioonile SyncPlay. SyncPlay võimaldab taasesitust teiste seadmetega sünkroonida.",
+    "SyncPlayAccessHelp": "Vali selle kasutaja juurdepääsutase funktsioonile SyncPlay. Funktsioon SyncPlay võimaldab taasesitust teiste seadmetega sünkroonida.",
     "Sunday": "Pühapäev",
     "Suggestions": "Soovitused",
     "SubtitleVerticalPositionHelp": "Rea number, kus tekst kuvatakse. Positiivsed numbrid tähendavad ülalt alla. Negatiivsed numbrid tähendavad alt üles.",
