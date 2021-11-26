@@ -43,7 +43,7 @@
     "BoxRear": "Omslag (baksida)",
     "Browse": "Bläddra",
     "MessageBrowsePluginCatalog": "Besök katalogen för att se tillgängliga tillägg.",
-    "BurnSubtitlesHelp": "Avgör ifall servern ska \"bränna in\" undertexterna under transkodning. Att undvika detta förbättrar prestandan avsevärt. Välj \"Automatisk\" för att bränna bild-baserade format (ex. VOBSUB, PGS, SUB/IDX, ...) och vissa ASS/SSA-undertexter.",
+    "BurnSubtitlesHelp": "Avgör ifall servern ska \"bränna in\" undertexterna under omkodning. Att undvika detta förbättrar prestandan avsevärt. Välj \"Automatisk\" för att bränna bildbaserade format (t.ex. VobSub, PGS, SUB/IDX, mm.) och vissa ASS/SSA-undertexter.",
     "ButtonAddMediaLibrary": "Lägg till mediabibliotek",
     "ButtonAddScheduledTaskTrigger": "Lägg till utlösare",
     "ButtonAddServer": "Lägg till server",
@@ -96,7 +96,7 @@
     "Collections": "Samlingar",
     "CommunityRating": "Användaromdöme",
     "Composer": "Kompositör",
-    "ConfigureDateAdded": "Konfigurera hur tillagt datum bestäms under Biblioteksinställningar",
+    "ConfigureDateAdded": "Konfigurera hur tillagt datum bestäms under biblioteksinställningar hos instrumentbrädan",
     "ConfirmDeleteImage": "Ta bort bild?",
     "ConfirmDeleteItem": "Tar du bort det här objeketet så tas det bort från både ditt filsystem och mediabibliotek. Är du säker på att du vill fortsätta?",
     "ConfirmDeleteItems": "Tar du bort dessa objekt tas dom också bort ifrån både ditt filsystem och mediabibliotek. Är du säker på att du vill fortsätta?",
@@ -134,7 +134,7 @@
     "Disconnect": "Koppla bort",
     "Display": "Visning",
     "DisplayInMyMedia": "Visa på hemskärmen",
-    "DisplayInOtherHomeScreenSections": "Visa sektioner på hemskärmen som till exempel senast media och fortsätt kolla på",
+    "DisplayInOtherHomeScreenSections": "Visa sektioner på hemskärmen som till exempel senast media och fortsätt titta på",
     "DisplayMissingEpisodesWithinSeasons": "Visa saknade avsnitt i säsonger",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Detta måste också vara aktiverat för TV-bibliotek i serverkonfigurationen.",
     "DisplayModeHelp": "Välj vilken layout du vill använda i gränssnittet.",
@@ -1561,5 +1561,6 @@
     "LabelMaxDaysForNextUp": "Max antal dagar i \"Nästa\":",
     "LabelAutomaticallyAddToCollectionHelp": "När minst 2 filmer har samma samlingsnamn läggs de automatiskt till i samlingen.",
     "LabelAutomaticallyAddToCollection": "Lägg automatiskt till i samlingen",
-    "Console": "Konsol"
+    "Console": "Konsol",
+    "Casual": "Ledig"
 }
