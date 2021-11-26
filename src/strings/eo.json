@@ -1208,7 +1208,7 @@
     "LabelSelectFolderGroups": "Aŭtomate grupigi enhavon de la sekvaj dosierujoj enen vidojn kiel ekzemple Filmoj, Muziko kaj TV:",
     "LabelMinResumeDurationHelp": "La plej mallonga videolongo, kiu savos ludadan lokon kaj lasos vin daŭrigi, en sekundoj.",
     "LabelKodiMetadataSaveImagePathsHelp": "Ĉi tio estas rekomendita se vi havas bildajn dosiernomojn kiuj ne konformas al Kodi-gvidilo.",
-    "LabelGroupMoviesIntoCollectionsHelp": "Kiam oni montras filmlistojn, filmoj en kolekto estos montrataj kiel unu grupigita aĵo.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Kiam oni montras filmlistojn, tiam filmoj en kolekto estos montrataj kiel unu grupigita aĵo.",
     "LabelPublishedServerUriHelp": "Anstataŭigi la URI uzatan de Jellyfin, surbaze de la interfaco aŭ klienta IP-adreso.",
     "LabelEnableSSDPTracingHelp": "Ebligi ĵurnalitajn detalojn de SSDP-reto-spurado.<br/><b>AVERTO:</b> Ĉi tio kaŭzos signifan malpliigon por rendimento.",
     "LabelRepositoryNameHelp": "Propra nomo por distingi ĉi tiun deponejon de iuj aliaj aldonitaj al via servilo.",
