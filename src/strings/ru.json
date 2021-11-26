@@ -529,7 +529,7 @@
     "LabelFriendlyName": "Понятное имя:",
     "LabelServerNameHelp": "Это имя используется для распознавания сервера и будет по умолчанию именем хоста сервера.",
     "LabelGroupMoviesIntoCollections": "Группировать фильмы в коллекции",
-    "LabelGroupMoviesIntoCollectionsHelp": "При отображении списков фильмов, фильмы из коллекции будут отображаться как единый группированный элемент.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Когда отображаются списки фильмов, тогда фильмы из коллекции будут отображены как один группированный элемент.",
     "LabelH264Crf": "Значение CRF H.264-кодирования:",
     "LabelEncoderPreset": "Предустановка кодирования:",
     "LabelHardwareAccelerationType": "Аппаратное ускорение:",
