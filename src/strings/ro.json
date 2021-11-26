@@ -1289,7 +1289,7 @@
     "HeaderHttpsSettings": "Setări https",
     "SaveChanges": "Salvează modificările",
     "HeaderDVR": "DVR",
-    "SyncPlayAccessHelp": "Selectați nivelul de acces pe care îl are acest utilizator la funcția SyncPlay. SyncPlay permite sincronizarea redării cu alte dispozitive.",
+    "SyncPlayAccessHelp": "Selectați nivelul de acces pe care îl are acest utilizator la funcția SyncPlay. La SyncPlay permite sincronizarea redării cu alte dispozitive.",
     "MessageSyncPlayErrorMedia": "Eroare la activarea SyncPlay! Eroare media.",
     "MessageSyncPlayErrorMissingSession": "Eroare la activarea SyncPlay! Sesiune lipsă.",
     "MessageSyncPlayErrorNoActivePlayer": "Nu a fost găsit niciun soft de redare activ. SyncPlay a fost dezactivat.",
