@@ -1517,5 +1517,6 @@
     "HeaderSyncPlaySettings": "SyncPlay подешавања",
     "HeaderContinueReading": "Наставите читати",
     "ErrorPlayerNotFound": "Плејер није пронађен за тражени медиј.",
-    "AgeValue": "({0} година старо)"
+    "AgeValue": "({0} година старо)",
+    "TypeOptionPluralMusicVideo": "Музички видео"
 }
