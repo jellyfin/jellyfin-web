@@ -1288,7 +1288,7 @@
     "HeaderHttpsSettings": "Opciones HTTPS",
     "HeaderDVR": "DVR",
     "ApiKeysCaption": "Lista de claves API actualmente habilitadas",
-    "SyncPlayAccessHelp": "Selecciona el nivel de acceso que este usuario tiene en la función SyncPlay. SyncPlay permite sincronizar la reproducción con otros dispositivos.",
+    "SyncPlayAccessHelp": "Selecciona el nivel de acceso que este usuario tiene en la función SyncPlay. La SyncPlay permite sincronizar la reproducción con otros dispositivos.",
     "MessageSyncPlayErrorMedia": "¡Fallo al activar SyncPlay! Error en el archivo de medios.",
     "MessageSyncPlayErrorMissingSession": "¡Fallo al activar SyncPlay! Falta la sesión.",
     "MessageSyncPlayErrorNoActivePlayer": "No se ha encontrado ningún reproductor activo. SyncPlay ha sido desactivado.",
