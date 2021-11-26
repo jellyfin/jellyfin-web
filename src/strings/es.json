@@ -1293,7 +1293,7 @@
     "EnableBlurHash": "Mostrar una representación de las imágenes mientras cargan",
     "EnableBlurHashHelp": "Las imágenes que aún se están cargando se mostrarán con un marcador de posición único.",
     "HeaderDVR": "DVR",
-    "SyncPlayAccessHelp": "Selecciona el nivel de acceso que tiene este usuario para utilizar SyncPlay. SyncPlay permite sincronizar la reproducción con otros dispositivos.",
+    "SyncPlayAccessHelp": "Selecciona el nivel de acceso que tiene este usuario para utilizar SyncPlay. La SyncPlay permite sincronizar la reproducción con otros dispositivos.",
     "MessageSyncPlayErrorMedia": "¡No se pudo activar SyncPlay! Error de medio.",
     "MessageSyncPlayErrorMissingSession": "¡No se pudo activar SyncPlay! Sesión desconectada.",
     "MessageSyncPlayErrorNoActivePlayer": "No hay reproductor activo. SyncPlay ha sido desactivado.",
