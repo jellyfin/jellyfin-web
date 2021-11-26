@@ -922,7 +922,7 @@
     "TabLogs": "Registres",
     "SystemDlnaProfilesHelp": "Perfils de el sistema són de només lectura. Els canvis en un perfil de sistema seran emmagatzemades a un nou perfil personalitzat.",
     "SyncPlayGroupDefaultTitle": "Grup {0}'s",
-    "SyncPlayAccessHelp": "Seleccioneu el nivell d'accés a aquest usuari ha de la característica SyncPlay. SyncPlay permet la sincronització de reproducció amb altres dispositius.",
+    "SyncPlayAccessHelp": "Seleccioneu el nivell d'accés a aquest usuari ha de la característica SyncPlay. La SyncPlay permet la sincronització de reproducció amb altres dispositius.",
     "SubtitleVerticalPositionHelp": "Número de línia on apareix el text. Els nombres positius indiquen dalt a baix. Els nombres negatius indiquen dalt a baix.",
     "SubtitleOffset": "Subtítol Offset",
     "SubtitleDownloadersHelp": "Activa i classificar les seves descarregadors de subtítols preferits en ordre de prioritat.",
