@@ -724,7 +724,7 @@
     "HeaderUploadImage": "Laai Foto",
     "HeaderUpcomingOnTV": "Opkomend op TV",
     "HeaderTypeText": "Voer teks",
-    "HeaderTypeImageFetchers": "{0} Beeld gaanhaalers",
+    "HeaderTypeImageFetchers": "Beeld gaanhaalers ({0})",
     "HeaderTuners": "Ontvangers",
     "HeaderTunerDevices": "Ontvanger Toestele",
     "HeaderTranscodingProfileHelp": "Las by transkodering profiele om aan te dui watter formate gebruik moet word as transkodering nodig is.",
