@@ -656,7 +656,7 @@
     "HeaderTranscodingProfileHelp": "Add meg az átkódolási profilokat arra vonatkozóan, hogy milyen formátumokat kell használni az átkódoláshoz.",
     "HeaderTunerDevices": "Tuner eszközök",
     "HeaderTuners": "Tunerek",
-    "HeaderTypeImageFetchers": "{0} képgyűjtők",
+    "HeaderTypeImageFetchers": "Képgyűjtők ({0})",
     "HeaderTypeText": "Írd be a szöveget",
     "HeaderVideoQuality": "Videóminőség",
     "HeaderVideoTypes": "Videó típusok",
