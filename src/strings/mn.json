@@ -6,7 +6,7 @@
     "Genres": "Төрөл зүйл",
     "Favorites": "Дуртай",
     "Collections": "Багц",
-    "Artists": "Жүжигчин",
+    "Artists": "Зураачуд",
     "ButtonCancel": "Цуцлах",
     "Artist": "Жүжигчин",
     "Album": "Цомог",
@@ -92,5 +92,6 @@
     "DisablePlugin": "Идэвхгүй болгох",
     "Bwdif": "BWDIF",
     "OptionBluray": "BD",
-    "Option3D": "3D"
+    "Option3D": "3D",
+    "Albums": "Цомгууд"
 }
