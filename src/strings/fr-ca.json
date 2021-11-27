@@ -427,7 +427,7 @@
     "HeaderVideoType": "Type de vidéo",
     "HeaderVideoQuality": "Qualité vidéo",
     "HeaderTypeText": "Entrer le texte",
-    "HeaderTypeImageFetchers": "{0} récupérateurs d'images",
+    "HeaderTypeImageFetchers": "Récupérateurs d'images ({0})",
     "HeaderTuners": "Syntoniseurs",
     "HeaderTracks": "Pistes",
     "HeaderThisUserIsCurrentlyDisabled": "Cet utilisateur est actuellement désactivé",
