@@ -329,7 +329,7 @@
     "HeaderTranscodingProfileHelp": "Añade los diferentes parámetros de conversión para este dispositivo, de manera que el servidor convierta automáticamente el contenido en un formato compatible para él.",
     "HeaderTunerDevices": "Sintonizadores",
     "HeaderTuners": "Sintonizadores",
-    "HeaderTypeImageFetchers": "{0} capturadores de imágenes",
+    "HeaderTypeImageFetchers": "Capturadores de imágenes ({0})",
     "HeaderTypeText": "Introducir texto",
     "HeaderUpcomingOnTV": "Próximamente en la televisión",
     "HeaderUploadImage": "Subir imagen",
