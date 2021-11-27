@@ -1236,7 +1236,7 @@
     "LabelUserLoginAttemptsBeforeLockout": "Felaktiga inloggnings försök innan användare blir utelåst:",
     "LabelUserAgent": "Användar agent:",
     "LabelTypeText": "Text",
-    "LabelTypeMetadataDownloaders": "{0} metadata nerladdare:",
+    "LabelTypeMetadataDownloaders": "Metadata nerladdare ({0}):",
     "LabelTranscodingProgress": "Omkodning progress:",
     "LabelTranscodingFramerate": "Omkodning framerate:",
     "LabelTranscodes": "Omkodningar:",
