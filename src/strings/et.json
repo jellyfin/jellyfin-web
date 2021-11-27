@@ -503,7 +503,7 @@
     "HeaderUploadImage": "Lae pilt üles",
     "HeaderUninstallPlugin": "Eemalda plugin",
     "HeaderTypeText": "Sisesta tekst",
-    "HeaderTypeImageFetchers": "{0} piltide toojat",
+    "HeaderTypeImageFetchers": "Piltide toojat ({0})",
     "HeaderTuners": "Tuunerid",
     "HeaderTunerDevices": "Tuuneri seadmed",
     "HeaderTranscodingProfileHelp": "Lisa transkoodimisprofiile, et näidata, milliseid vorminguid tuleks kasutada, kui transkoodimine on vajalik.",
