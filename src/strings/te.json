@@ -995,7 +995,7 @@
     "HeaderApiKey": "API కీ",
     "HeaderAllowMediaDeletionFrom": "నుండి మీడియా తొలగింపును అనుమతించండి",
     "HeaderAlert": "హెచ్చరిక",
-    "HeaderAlbumArtists": "ఆల్బమ్ ఆర్టిస్ట్స్",
+    "HeaderAlbumArtists": "ఆల్బమ్ కళాకారులు",
     "HeaderAdmin": "అడ్మిన్",
     "HeaderAddUser": "వినియోగదారుని జోడించండి",
     "HeaderAddUpdateSubtitle": "ఉపశీర్షికను జోడించండి / నవీకరించండి",
@@ -1497,5 +1497,9 @@
     "Albums": "ఆల్బమ్‌లు",
     "AlbumArtist": "ఆల్బమ్ ఆర్టిస్ట్",
     "Album": "ఆల్బమ్",
-    "Aired": "ప్రసారం చేయబడింది"
+    "Aired": "ప్రసారం చేయబడింది",
+    "TypeOptionPluralSeason": "ఋతువులు",
+    "TypeOptionPluralMusicVideo": "మ్యూజిక్ వీడియోలు",
+    "TypeOptionPluralMovie": "సినిమాలు",
+    "TypeOptionPluralBook": "పుస్తకాలు"
 }
