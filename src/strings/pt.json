@@ -1,5 +1,5 @@
 {
-    "HeaderTypeImageFetchers": "{0} Pesquisadores de Imagens",
+    "HeaderTypeImageFetchers": "Pesquisadores de Imagens ({0})",
     "HeaderSubtitleDownloads": "Transferências de Legendas",
     "HeaderKodiMetadataHelp": "Para ativar ou desativar metadados, edite uma biblioteca e localize a seção dos metadados.",
     "HeaderFetcherSettings": "Definições do Pesquisador",
@@ -1039,7 +1039,7 @@
     "MediaInfoContainer": "Recipiente",
     "MediaInfoAnamorphic": "Anamórfico",
     "LabelVideoResolution": "Resolução do vídeo:",
-    "LabelTypeMetadataDownloaders": "{0} download de metadados:",
+    "LabelTypeMetadataDownloaders": "Download de metadados ({0}):",
     "LabelTranscodePath": "Caminho da transcodificação:",
     "OnlyImageFormats": "Somente formatos de imagem (VOBSUB, PGS, SUB)",
     "OnlyForcedSubtitlesHelp": "Apenas as legendas marcadas como forçadas serão carregadas.",
