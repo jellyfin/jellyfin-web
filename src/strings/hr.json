@@ -1098,7 +1098,7 @@
     "HeaderVideoType": "Vrsta videa",
     "HeaderVideoQuality": "Kvaliteta videa",
     "HeaderUploadSubtitle": "Dodaj titl",
-    "HeaderTypeImageFetchers": "{0} Hvatatelja slika",
+    "HeaderTypeImageFetchers": "Hvatatelja slika ({0})",
     "HeaderTracks": "Zapisi",
     "HeaderStartNow": "Počni sada",
     "HeaderServerAddressSettings": "Postavke adrese servera",
