@@ -353,7 +353,7 @@
     "HeaderTranscodingProfileHelp": "添加转码配置文件标明哪些媒体格式需要转码处理。",
     "HeaderTunerDevices": "调谐器设备",
     "HeaderTuners": "调谐器",
-    "HeaderTypeImageFetchers": "图片获取程序 {0}",
+    "HeaderTypeImageFetchers": "图片获取程序 ({0})",
     "HeaderTypeText": "输入文本",
     "HeaderUpcomingOnTV": "即将在电视上播放",
     "HeaderUploadImage": "上传图片",
