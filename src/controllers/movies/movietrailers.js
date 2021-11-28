@@ -11,7 +11,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
-    export default function (view, params, tabContent) {
+    export default function (topParentId, tabContent) {
         function getPageData(context) {
             const key = getSavedQueryKey(context);
             let pageData = data[key];
@@ -210,7 +210,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return getPageData(tabContent).view;
         };
 
-        const initPage = (tabContent) => {
+        const initPage = () => {
             const alphaPickerElement = tabContent.querySelector('.alphaPicker');
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
@@ -266,7 +266,11 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             });
         };
 
-        initPage(tabContent);
+        this.initTab = function () {
+            initPage(tabContent);
+        };
+
+        //initPage(tabContent);
 
         this.renderTab = function () {
             reloadItems();

@@ -9,7 +9,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
-    export default function (view, params, tabContent) {
+    export default function (topParentId, tabContent) {
         function getPageData(context) {
             const key = getSavedQueryKey(context);
             let pageData = data[key];
@@ -33,7 +33,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     pageData.query['Limit'] = userSettings.libraryPageSize();
                 }
 
-                pageData.query.ParentId = params.topParentId;
+                pageData.query.ParentId = topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
 

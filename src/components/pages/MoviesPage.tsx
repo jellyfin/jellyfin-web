@@ -4,11 +4,10 @@ import globalize from '../../scripts/globalize';
 import * as mainTabsManager from '../maintabsmanager';
 import ButtonPaperElement from '../dashboard/users/ButtonPaperElement';
 import ItemsContainerElement from '../dashboard/users/ItemsContainerElement';
-import viewManager from '../viewManager/viewManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import libraryMenu from '../../scripts/libraryMenu';
-import { playbackManager } from '../playback/playbackmanager';
-import { Events } from 'jellyfin-apiclient';
+//import { playbackManager } from '../playback/playbackmanager';
+//import { Events } from 'jellyfin-apiclient';
 
 type MenuEntry = {
     name?: string;
@@ -96,14 +95,14 @@ const MoviesPage: FunctionComponent = ({ topParentId, enableOnServer, tab }) => 
             let tabContent;
             let controller = tabControllers[index];
             if (!controller) {
-                tabContent = element?.current?.querySelector(".pageTabContent[data-index='" + index + "']");
+                tabContent = page.querySelector(".pageTabContent[data-index='" + index + "']");
 
                 if (index == 0 || index == 3) {
-                    controller = new controllerFactory(element?.current, topParentId, tabContent, {
+                    controller = new controllerFactory(topParentId, tabContent, {
                         mode: index ? 'favorites' : 'movies'
                     });
                 } else {
-                    controller = new controllerFactory(element?.current, topParentId, tabContent);
+                    controller = new controllerFactory(topParentId, tabContent);
                 }
 
                 tabControllers[index] = controller;

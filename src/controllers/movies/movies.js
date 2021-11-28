@@ -10,7 +10,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
-    export default function (view, topParentId, tabContent, options) {
+    export default function (topParentId, tabContent, options) {
         const onViewStyleChange = () => {
             if (this.getCurrentViewStyle() == 'List') {
                 itemsContainer.classList.add('vertical-list');
@@ -164,7 +164,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return html;
         };
 
-        const initPage = (tabContent) => {
+        const initPage = () => {
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
@@ -297,7 +297,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         };
 
         this.initTab = function () {
-            initPage(tabContent);
+            initPage();
             onViewStyleChange();
         };
 
