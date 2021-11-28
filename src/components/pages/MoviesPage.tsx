@@ -15,8 +15,8 @@ type MenuEntry = {
     icon?: string;
 }
 
-const getDefaultTabIndex = (folderId, enableOnServer) => {
-    switch (userSettings.get('landing-' + folderId, enableOnServer)) {
+const getDefaultTabIndex = (folderId) => {
+    switch (userSettings.get('landing-' + folderId, false)) {
         case 'suggestions':
             return 1;
 
@@ -34,8 +34,8 @@ const getDefaultTabIndex = (folderId, enableOnServer) => {
     }
 };
 
-const MoviesPage: FunctionComponent = ({ topParentId, enableOnServer, tab }) => {
-    let currentTabIndex = parseInt(tab || getDefaultTabIndex(topParentId, enableOnServer));
+const MoviesPage: FunctionComponent = ({ topParentId, tab }) => {
+    let currentTabIndex = parseInt(tab || getDefaultTabIndex(topParentId));
     //const initialTabIndex = currentTabIndex;
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const tabControllers: any = [];
