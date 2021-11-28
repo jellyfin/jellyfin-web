@@ -46,7 +46,7 @@
     "BoxRear": "Hoes (achterkant)",
     "Browse": "Bladeren",
     "MessageBrowsePluginCatalog": "Bekijk de Plugin catalogus voor beschikbare Plug-ins.",
-    "BurnSubtitlesHelp": "Bepaalt of de server ondertitels moet inbranden wanneer video's op basis van het ondertitel formaat geconverteerd moeten worden. Inbranden van ondertitels hebben een negatief effect op de server performance. Selecteer Automatisch om op afbeelding gebaseerde formaten (VOBSUB, PGS, SUB/IDX etc.) en bepaalde ASS/SSA ondertitels in te branden.",
+    "BurnSubtitlesHelp": "Bepaalt of de server ondertitels moet inbranden wanneer video's op basis van het ondertitel formaat geconverteerd moeten worden. Inbranden van ondertitels hebben een negatief effect op de server performance. Selecteer Automatisch om op afbeelding gebaseerde formaten (VobSub, PGS, SUB/IDX etc.) en bepaalde ASS/SSA ondertitels in te branden.",
     "ButtonAddMediaLibrary": "Voeg Media Bibliotheek toe",
     "ButtonAddScheduledTaskTrigger": "Trigger Toevoegen",
     "ButtonAddServer": "Voeg server toe",
@@ -100,7 +100,7 @@
     "ColorTransfer": "Kleuroverdracht",
     "CommunityRating": "Community-beoordeling",
     "Composer": "Componist",
-    "ConfigureDateAdded": "Configureer hoe de datum van toevoeging wordt bepaald in het dashboard onder de bibliotheekinstellingen",
+    "ConfigureDateAdded": "Configureer hoe de datum van toevoeging wordt bepaald in het Dashboard onder de Bibliotheekinstellingen",
     "ConfirmDeleteImage": "Afbeelding verwijderen?",
     "ConfirmDeleteItem": "Verwijderen van dit item zal het verwijderen uit zowel het bestandssysteem als de Media Bibliotheek. Weet u zeker dat u wilt doorgaan?",
     "ConfirmDeleteItems": "Het verwijderen van deze items verwijdert ze van het bestandssysteem en uit uw bibliotheek. Weet u zeker dat u verder wilt gaan?",
@@ -366,7 +366,7 @@
     "HeaderTranscodingProfile": "Direct Afspelen Profiel",
     "HeaderTranscodingProfileHelp": "Transcoding profielen toevoegen om aan te geven welke indelingen moeten worden gebruikt wanneer transcoding vereist is.",
     "HeaderTunerDevices": "Tuner apparaten",
-    "HeaderTypeImageFetchers": "{0} Afbeelding downloaders",
+    "HeaderTypeImageFetchers": "Afbeelding downloaders ({0})",
     "HeaderTypeText": "Voer tekst in",
     "HeaderUpcomingOnTV": "Binnenkort op TV",
     "HeaderUploadImage": "Afbeelding Uploaden",
@@ -1156,7 +1156,7 @@
     "OptionDvd": "DVD",
     "OptionResElement": "res element",
     "TV": "TV",
-    "LabelTypeMetadataDownloaders": "{0} metadata downloaders:",
+    "LabelTypeMetadataDownloaders": "Metadata downloaders ({0}):",
     "OptionLoginAttemptsBeforeLockout": "Bepaald hoeveel foutieve login pogingen plaats kunnen vinden voor dat de gebruiker buitengesloten wordt.",
     "Premiere": "Première",
     "TabPlugins": "Plug-ins",
@@ -1579,5 +1579,6 @@
     "LabelSyncPlaySettingsMinDelaySkipToSync": "SpeedToSync minimum vertraging:",
     "LabelSyncPlaySettingsSpeedToSyncDurationHelp": "Hoeveelheid tijd die SpeedToSync gebruikt om de playback positie te verbeteren.",
     "LabelSyncPlaySettingsSpeedToSyncDuration": "SpeedToSync duur:",
-    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Maximale playback vertraging waarna SkipToSync gebruikt wordt in plaats van SpeedToSync."
+    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Maximale playback vertraging waarna SkipToSync gebruikt wordt in plaats van SpeedToSync.",
+    "Console": "Console"
 }

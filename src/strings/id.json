@@ -290,7 +290,7 @@
     "LabelHardwareAccelerationType": "Akselerasi perangkat keras :",
     "LabelEncoderPreset": "Preset pengkodean:",
     "LabelH264Crf": "H264 encoding CRF:",
-    "LabelGroupMoviesIntoCollectionsHelp": "Saat menampilkan daftar film, film dalam sebuah koleksi akan ditampilkan sebagai satu item yang dikelompokkan.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Saat menampilkan daftar film, maka film dalam sebuah koleksi akan ditampilkan sebagai satu item yang dikelompokkan.",
     "LabelGroupMoviesIntoCollections": "Kelompokkan film ke dalam koleksi",
     "LabelFriendlyName": "Nama ramah :",
     "LabelFormat": "Format :",
@@ -484,7 +484,7 @@
     "HeaderUploadImage": "Unggah Gambar",
     "HeaderUpcomingOnTV": "Yang Akan Datang Di TV",
     "HeaderTypeText": "Masukkan teks",
-    "HeaderTypeImageFetchers": "{0} Pengambil Gambar",
+    "HeaderTypeImageFetchers": "Pengambil Gambar ({0})",
     "HeaderTuners": "Tuner",
     "HeaderTunerDevices": "Perangkat Tuner",
     "HeaderTranscodingProfileHelp": "Tambahkan profil transcoding untuk menunjukkan format mana yang harus digunakan saat transcoding diperlukan.",
@@ -825,7 +825,7 @@
     "LabelUser": "Pengguna :",
     "LabelUseNotificationServices": "Gunakan layanan berikut :",
     "LabelTypeText": "Teks",
-    "LabelTypeMetadataDownloaders": "{0} pengunduh metadata :",
+    "LabelTypeMetadataDownloaders": "Pengunduh metadata ({0}):",
     "LabelType": "Tipe :",
     "LabelTunerType": "Jenis tuner :",
     "LabelTunerIpAddress": "Alamat IP Tuner :",
@@ -1113,5 +1113,6 @@
     "NewCollectionHelp": "Koleksi memungkinkan Anda membuat pengelompokan film dan konten perpustakaan lainnya yang dipersonalisasi.",
     "MovieLibraryHelp": "Tinjau {0} panduan penamaan film {1}.",
     "MessageNoMovieSuggestionsAvailable": "Tidak ada saran film yang tersedia saat ini. Mulailah menonton dan menilai film Anda, lalu kembali untuk melihat rekomendasi Anda.",
-    "LabelPlaybackInfo": "Informasi Pemutaran"
+    "LabelPlaybackInfo": "Informasi Pemutaran",
+    "OptionBluray": "BD"
 }

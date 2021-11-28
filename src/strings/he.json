@@ -918,7 +918,7 @@
     "HeaderXmlDocumentAttribute": "תכונת מסמך Xml",
     "HeaderUploadSubtitle": "העלה כתוביות",
     "HeaderUpcomingOnTV": "בקרוב בטלוויזיה",
-    "HeaderTypeImageFetchers": "{0} אוספי תמונות",
+    "HeaderTypeImageFetchers": "אוספי תמונות ({0})",
     "HeaderSyncPlayTimeSyncSettings": "סנכרון זמן",
     "HeaderSyncPlaySettings": "הגדרות SyncPlay",
     "HeaderSelectTranscodingPathHelp": "עיין או הזן את הנתיב לשימוש עבור קבצי קידוד. התיקייה חייבת להיות עם הרשאות כתיבה.",

@@ -7,7 +7,7 @@
     "Photos": "Фотографије",
     "Movies": "Филмови",
     "HeaderContinueWatching": "Настави гледање",
-    "HeaderAlbumArtists": "Албум извођача",
+    "HeaderAlbumArtists": "Извођачи албума",
     "Genres": "Жанрови",
     "Folders": "Фасцикле",
     "Favorites": "Омиљено",
@@ -613,7 +613,7 @@
     "HeaderUpcomingOnTV": "Следеће на ТВ-у",
     "HeaderUninstallPlugin": "Деинсталирај додатак",
     "HeaderTypeText": "Унесите текст",
-    "HeaderTypeImageFetchers": "{0} Преузимачи слика",
+    "HeaderTypeImageFetchers": "Преузимачи слика ({0})",
     "HeaderTuners": "Тјунери",
     "HeaderTunerDevices": "Уређаји тјунера",
     "HeaderTranscodingProfileHelp": "Додајте профиле за транскодирање да бисте назначили које формате треба користити када је потребно транскодирање.",
@@ -847,7 +847,7 @@
     "LabelUserAgent": "Кориснички агент:",
     "LabelUDPPortRangeHelp": "Ограничите Jellyfin да користи овај опсег порта приликом успостављања UDP веза. (Подразумевано је 1024 - 645535). <br/> Напомена: Одређене функције захтевају фиксне портове који могу бити изван овог опсега.",
     "LabelUDPPortRange": "Опсег UDP комуникације:",
-    "LabelTypeMetadataDownloaders": "{0} преузимачи метаподатака:",
+    "LabelTypeMetadataDownloaders": "Преузимачи метаподатака ({0}):",
     "LabelType": "Тип:",
     "LabelTVHomeScreen": "Почетни екран ТВ режима:",
     "LabelTunerType": "Тип тјунера:",
@@ -1150,7 +1150,7 @@
     "TabCodecs": "Кодеци",
     "SystemDlnaProfilesHelp": "Системски профили су само за читање. Промене на системском профилу биће сачуване у новом прилагођеном профилу.",
     "SyncPlayGroupDefaultTitle": "група корисника {0}",
-    "SyncPlayAccessHelp": "Изаберите ниво приступа који овај корисник има функцији SyncPlay. SyncPlay омогућава синхронизацију репродукције са другим уређајима.",
+    "SyncPlayAccessHelp": "Изаберите ниво приступа који овај корисник има функцији SyncPlay. Функцијa SyncPlay омогућава синхронизацију репродукције са другим уређајима.",
     "SubtitleVerticalPositionHelp": "Број реда на којем се појављује текст. Позитивни бројеви означавају одозго надоле. Негативни бројеви означавају одоздо према горе.",
     "SubtitleOffset": "Помак титла",
     "SubtitleDownloadersHelp": "Омогућите и рангирајте жељене преузимаче титлова по приоритету.",
@@ -1517,5 +1517,6 @@
     "HeaderSyncPlaySettings": "SyncPlay подешавања",
     "HeaderContinueReading": "Наставите читати",
     "ErrorPlayerNotFound": "Плејер није пронађен за тражени медиј.",
-    "AgeValue": "({0} година старо)"
+    "AgeValue": "({0} година старо)",
+    "TypeOptionPluralMusicVideo": "Музички видео"
 }

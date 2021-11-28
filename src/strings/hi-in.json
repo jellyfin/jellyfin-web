@@ -21,7 +21,7 @@
     "AllowHWTranscodingHelp": "ट्यूनर को निरंतर रूप से धाराओं को ट्रांसकोड करने दें। यह सर्वर द्वारा ट्रांसकोडिंग को कम करने में मदद कर सकता है।",
     "AllLanguages": "सभी भाषाएं",
     "AllEpisodes": "सभी प्रकरण",
-    "AllComplexFormats": "सभी जटिल प्रारूप (ASS, SSA, VOBSUB, PGS, SUB, IDX,…)",
+    "AllComplexFormats": "सभी जटिल प्रारूप (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
     "AllChannels": "सभी चैनल्स",
     "Alerts": "चेतावनियां",
     "Albums": "एल्बम",
@@ -126,5 +126,6 @@
     "ButtonSend": "भेजें",
     "ButtonCast": "कलाकार",
     "Arranger": "प्रबंधक",
-    "MusicVideos": "संगीत वीडियो"
+    "MusicVideos": "संगीत वीडियो",
+    "OptionBluray": "BD"
 }

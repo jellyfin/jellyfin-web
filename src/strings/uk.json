@@ -600,7 +600,7 @@
     "HeaderUpcomingOnTV": "Напередодні на ТБ",
     "HeaderUninstallPlugin": "Видалити додаток",
     "HeaderTypeText": "Введіть текст",
-    "HeaderTypeImageFetchers": "{0} Засіб збору зображень",
+    "HeaderTypeImageFetchers": "Засіб збору зображень ({0})",
     "HeaderTuners": "ТБ-пристрої",
     "HeaderTunerDevices": "Пристрої ТБ",
     "HeaderTranscodingProfile": "Профілі перекодування",
@@ -943,7 +943,7 @@
     "LabelUDPPortRangeHelp": "Обмежте Jellyfin, щоб використовувати цей діапазон портів під час встановлення UDP-з’єднань. (За умовчанням – 1024 – 645535).<br/> Примітка. Для деяких функцій потрібні фіксовані порти, які можуть бути за межами цього діапазону.",
     "LabelUDPPortRange": "Діапазон зв'язку UDP:",
     "LabelTypeText": "Текст",
-    "LabelTypeMetadataDownloaders": "Завантажувачів метаданих: {0}:",
+    "LabelTypeMetadataDownloaders": "Завантажувачів метаданих ({0}):",
     "LabelType": "Тип:",
     "LabelTVHomeScreen": "Головний екран режиму ТБ:",
     "LabelTunerType": "Тип тюнера:",
@@ -1097,5 +1097,6 @@
     "LabelOriginalName": "Оригінальна назва:",
     "LabelOriginalAspectRatio": "Оригінальне співвідношення сторін:",
     "Console": "Консоль",
-    "Casual": "Звичайний"
+    "Casual": "Звичайний",
+    "OptionBluray": "BD"
 }

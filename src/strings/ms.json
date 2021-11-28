@@ -23,7 +23,7 @@
     "Albums": "Album-album",
     "Alerts": "Amaran",
     "AllChannels": "Semua saluran",
-    "AllComplexFormats": "Semua format kompleks (ASS, SSA, VOBSUB, PGS, SUB/IDX, dll.)",
+    "AllComplexFormats": "Semua format kompleks (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
     "AllEpisodes": "Semua episod",
     "AllLanguages": "Semua bahasa",
     "AllowOnTheFlySubtitleExtraction": "Membolehkan pengekstrakan sarikata serta-merta",
@@ -164,5 +164,7 @@
     "ButtonResume": "Sambung semula",
     "ButtonResetEasyPassword": "Tetapkan semula kod pin mudah",
     "Sync": "Sync",
-    "Shows": "Series"
+    "Shows": "Series",
+    "OptionBluray": "BD",
+    "MusicVideos": ""
 }
