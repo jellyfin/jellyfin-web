@@ -917,7 +917,7 @@
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Bu ayarlar, bu cihaz tarafından başlatılan herhangi bir Chromecast oynatma için de geçerlidir.",
     "StopPlayback": "Oynatmayı durdur",
     "SyncPlayAccessHelp": "Bu kullanıcının SyncPlay özelliğine sahip olduğu erişim düzeyini seçin. SyncPlay, oynatmayı diğer cihazlarla senkronize etmeyi sağlar.",
-    "TitlePlayback": "Oynatıcı",
+    "TitlePlayback": "Oynatma",
     "UnsupportedPlayback": "Jellyfin, DRM tarafından korunan içeriğin şifresini çözemez, ancak korumalı başlıklar dahil olmak üzere tüm içerik ne olursa olsun denenecektir. Şifreleme veya etkileşimli başlıklar gibi diğer desteklenmeyen özellikler nedeniyle bazı dosyalar tamamen siyah görünebilir.",
     "ViewPlaybackInfo": "Oynatma bilgilerini görüntüleyin",
     "LabelPlaybackInfo": "Oynatma Bilgileri",
