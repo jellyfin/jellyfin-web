@@ -1280,7 +1280,7 @@
     "Writers": "Scenariusz",
     "ViewAlbumArtist": "Zobacz wykonawcę albumu",
     "TabRepositories": "Repozytoria",
-    "SyncPlayAccessHelp": "Wybierz poziom dostępu do funkcji SyncPlay jaki posiada ten użytkownik. SyncPlay pozwala na synchronizację odtwarzania z innymi urządzeniami.",
+    "SyncPlayAccessHelp": "SyncPlay pozwala na synchronizację odtwarzania z innymi urządzeniami. Wybierz poziom dostępu do funkcji SyncPlay jaki posiada ten użytkownik.",
     "Filter": "Filtruj",
     "New": "Nowy",
     "ShowMore": "Pokaż więcej",
