@@ -1303,7 +1303,7 @@
     "MillisecondsUnit": "ms",
     "HeaderSyncPlayEnabled": "SyncPlay engedélyezve",
     "HeaderSyncPlaySelectGroup": "Csatlakozás csoporthoz",
-    "SyncPlayAccessHelp": "Válaszd ki, hogy ez a felhasználó milyen szinten férhet hozzá a SyncPlay funkcióhoz. A SyncPlay lehetőséget biztosít a lejátszások közötti szinkronizációra.",
+    "SyncPlayAccessHelp": "A SyncPlay funkcióhoz lehetőséget biztosít a lejátszások közötti szinkronizációra. Válaszd ki, hogy ez a felhasználó milyen szinten férhet hozzá a SyncPlay.",
     "MessageSyncPlayErrorMedia": "Nem sikerült a SyncPlay engedélyezése! Média hiba.",
     "MessageSyncPlayErrorMissingSession": "A SyncPlay lejátszása sikertelen! Hiányzó munkamenet.",
     "MessageSyncPlayErrorNoActivePlayer": "Nem található aktív lejátszó. A SyncPlay letiltásra került.",
