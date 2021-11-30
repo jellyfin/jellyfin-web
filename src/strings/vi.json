@@ -1309,7 +1309,7 @@
     "LabelSubtitleVerticalPosition": "Vị trí dọc:",
     "LabelMaxMuxingQueueSize": "Kích cỡ hàng đợi phát ngẫu nhiên tối đa:",
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Các cài đặt này áp dụng cho mỗi lần bắt đầu phát lại Chromecast trên thiết bị này.",
-    "SyncPlayAccessHelp": "Chọn cấp độ truy cập mà người dùng này có đối với tính năng SyncPlay. SyncPlay cho phép đồng bộ phát lại với các thiết bị khác.",
+    "SyncPlayAccessHelp": "SyncPlay cho phép đồng bộ phát lại với các thiết bị khác. Chọn cấp độ truy cập mà người dùng này có đối với tính năng SyncPlay.",
     "TabDirectPlay": "Phát Trực Tiếp",
     "TitlePlayback": "Phát lại",
     "Unplayed": "Chưa Phát",
