@@ -1415,7 +1415,7 @@
     "QuickConnect": "Connexion Rapide",
     "LabelQuickConnectCode": "Code de connexion rapide :",
     "LabelCurrentStatus": "Statut actuel :",
-    "EnableQuickConnect": "Activer la connexion rapide sur ce serveur",
+    "EnableQuickConnect": "Activer la fonctionnalité 'Quick Connect' sur ce serveur",
     "ButtonUseQuickConnect": "Utiliser la Connexion Rapide",
     "ButtonActivate": "Activer",
     "Authorize": "Autoriser",
