@@ -1266,7 +1266,7 @@
     "PlaceFavoriteChannelsAtBeginning": "Place favorite channels at the beginning",
     "Play": "Play",
     "PlayAllFromHere": "Play all from here",
-    "PlaybackData": "Playback Data",
+    "PlaybackData": "Playback Info",
     "PlaybackErrorNoCompatibleStream": "This client isn't compatible with the media and the server isn't sending a compatible media format.",
     "PlaybackErrorPlaceHolder": "This is a placeholder for physical media that Jellyfin cannot play. Please insert the disc to play.",
     "PlaybackRate": "Playback Rate",
