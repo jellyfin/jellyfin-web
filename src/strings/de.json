@@ -1288,7 +1288,7 @@
     "HeaderServerAddressSettings": "Server-Adresseinstellungen",
     "HeaderRemoteAccessSettings": "Fernzugriffs-Einstellungen",
     "HeaderHttpsSettings": "HTTPS-Einstellungen",
-    "SyncPlayAccessHelp": "Wähle die Berechtigungsstufe, die dieser Benutzer auf das SyncPlay-Feature hat. Das SyncPlay ermöglicht die Synchronisierung der Wiedergabe mit anderen Geräten.",
+    "SyncPlayAccessHelp": "Das SyncPlay-Feature ermöglicht die Synchronisierung der Wiedergabe mit anderen Geräten. Wähle die Berechtigungsstufe, die dieser Benutzer auf das SyncPlay hat.",
     "MessageSyncPlayErrorMedia": "SyncPlay konnte nicht aktiviert werden! Medienfehler.",
     "MessageSyncPlayErrorMissingSession": "SyncPlay konnte nicht aktiviert werden! Fehlende Sitzung.",
     "MessageSyncPlayErrorNoActivePlayer": "Keine aktive Wiedergabe gefunden. SyncPlay wurde deaktiviert.",
