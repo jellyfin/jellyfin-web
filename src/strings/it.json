@@ -164,7 +164,7 @@
     "EnablePhotosHelp": "Le immagini saranno rilevate e visualizzate accanto ad altri file multimediali.",
     "EnableStreamLooping": "Auto-loop streaming in diretta",
     "EnableStreamLoopingHelp": "Abilita questo se gli streaming in diretta contengono solo pochi secondi di dati e devono essere costantemente richiesti. L'abilitazione di questa funzione quando non è servita può causare problemi.",
-    "EnableThemeSongsHelp": "Le canzoni a tema saranno riprodotte mentre visualizzi la tua libreria.",
+    "EnableThemeSongsHelp": "Riproduci le sigle in sottofondo durante la visualizzazione della libreria.",
     "EnableThemeVideosHelp": "Riproduzione dei video a tema sullo sfondo mentre visualizzi la tua libreria.",
     "Ended": "Finito",
     "EndsAtValue": "Finirà alle {0}",
