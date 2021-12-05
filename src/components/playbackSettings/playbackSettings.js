@@ -157,15 +157,6 @@ import template from './playbackSettings.template.html';
             context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
         });
 
-        // hide cinema mode options if disabled at server level
-        apiClient.getNamedConfiguration('cinemamode').then(cinemaConfig => {
-            if (cinemaConfig.EnableIntrosForMovies || cinemaConfig.EnableIntrosForEpisodes) {
-                context.querySelector('.cinemaModeOptions').classList.remove('hide');
-            } else {
-                context.querySelector('.cinemaModeOptions').classList.add('hide');
-            }
-        });
-
         if (appHost.supports('externalplayerintent') && userId === loggedInUserId) {
             context.querySelector('.fldExternalPlayer').classList.remove('hide');
         } else {
