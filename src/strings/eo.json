@@ -1434,7 +1434,7 @@
     "ErrorAddingMediaPathToVirtualFolder": "Okazis eraro aldonante la plurmedia serĉvojo. Certigi, ke la serĉvojo estas valida kaj Jellyfin havas aliron al tiu loko.",
     "EncoderPresetHelp": "Elekti pli rapidan valoron por plibonigi rendimenton, aŭ pli malrapidan valoron por plibonigi kvaliton.",
     "EnableThemeVideosHelp": "Ludi temajn videojn en la fono dum foliumas la plurmeditekon.",
-    "EnableThemeSongsHelp": "Ludi temajn kantojn en la fono dum foliumas la plurmeditekon.",
+    "EnableThemeSongsHelp": "Ludi la temajn kantojn en fono dum foliumas la plurmeditekon.",
     "EnableQuickConnect": "Ebligi Rapidan Konekton sur ĉi tiu servilo",
     "EnablePhotosHelp": "Bildoj estos detektitaj kaj montrataj kune kun aliaj plurmedidosieroj.",
     "EnableNextVideoInfoOverlayHelp": "Ĉe la fino de video, montri informojn pri la sekva video venonta en la kuranta ludlisto.",
