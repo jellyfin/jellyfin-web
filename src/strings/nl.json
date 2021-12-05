@@ -1592,5 +1592,12 @@
     "TypeOptionPluralEpisode": "Afleveringen",
     "TypeOptionPluralBoxSet": "Collecties",
     "TypeOptionPluralBook": "Boeken",
-    "Casual": "Informeel"
+    "Casual": "Informeel",
+    "Typewriter": "Typemachine",
+    "TypeOptionPluralAudio": "Audio's",
+    "ReleaseGroup": "Uitgave Groep",
+    "Print": "Afdrukken",
+    "MediaInfoTitle": "Titel",
+    "Larger": "Groter",
+    "LabelAutomaticallyAddToCollectionHelp": "Wanneer op zijn minst 2 films een identieke collectie naam hebben, zullen ze automatisch toegevoegd worden aan de collectie."
 }
