@@ -1594,5 +1594,6 @@
     "LabelAutomaticallyAddToCollection": "Añadir a la colección automáticamente",
     "HeaderSyncPlayTimeSyncSettings": "Sincronización temporal",
     "HeaderSyncPlayPlaybackSettings": "Reproducción",
-    "Casual": "Casual"
+    "Casual": "Casual",
+    "AgeValue": "({0} años)"
 }
