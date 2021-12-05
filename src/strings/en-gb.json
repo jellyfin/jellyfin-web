@@ -215,7 +215,7 @@
     "EnablePhotosHelp": "Images will be detected and displayed alongside other media files.",
     "EnableStreamLooping": "Auto-loop live streams",
     "EnableStreamLoopingHelp": "Enable this if live streams only contain a few seconds of data and need to be continuously requested. Enabling this when not needed may cause problems.",
-    "EnableThemeSongsHelp": "Play theme songs in the background while browsing the library.",
+    "EnableThemeSongsHelp": "Play the theme songs in background while browsing the library.",
     "EnableThemeVideosHelp": "Play theme videos in the background while browsing the library.",
     "Ended": "Ended",
     "EndsAtValue": "Ends at {0}",
