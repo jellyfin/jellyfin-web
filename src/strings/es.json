@@ -518,11 +518,11 @@
     "LabelMetadataReaders": "Lectores de metadatos:",
     "LabelMetadataReadersHelp": "Ordena los proveedores de metadatos locales por prioridad. Se leerá el primer archivo encontrado.",
     "LabelMetadataSavers": "Formato de metadatos:",
-    "LabelMetadataSaversHelp": "Elija los formatos de archivo que desea utilizar al guardar los metadatos.",
+    "LabelMetadataSaversHelp": "Elige los formatos de archivo que desea utilizar al guardar los metadatos.",
     "LabelMethod": "Método:",
     "LabelMinBackdropDownloadWidth": "Anchura mínima de descarga de imágenes de fondo:",
     "LabelMinResumeDuration": "Duración mínima de reanudación:",
-    "LabelMinResumeDurationHelp": "La duración de video mínima en segundos que guardará la ubicación de reproducción y le permitirá reanudar.",
+    "LabelMinResumeDurationHelp": "La duración de video mínima en segundos que guardará la ubicación de reproducción y te permitirá reanudar.",
     "LabelMinResumePercentage": "Porcentaje mínimo para reanudación:",
     "LabelMinResumePercentageHelp": "Los títulos se asumirán como no reproducidos si se paran antes de este momento.",
     "LabelMinScreenshotDownloadWidth": "Anchura mínima de descarga de capturas de pantalla:",
@@ -1112,7 +1112,7 @@
     "Home": "Inicio",
     "Horizontal": "Horizontal",
     "LabelBurnSubtitles": "Incrustar subtítulos:",
-    "LabelDashboardTheme": "Tema para la interfaz del servidor:",
+    "LabelDashboardTheme": "Tema para el Panel de Control del servidor:",
     "LabelDateTimeLocale": "Fecha y hora local:",
     "LabelDefaultScreen": "Pantalla por defecto:",
     "LabelDisplayLanguage": "Idioma:",
@@ -1595,5 +1595,9 @@
     "HeaderSyncPlayTimeSyncSettings": "Sincronización temporal",
     "HeaderSyncPlayPlaybackSettings": "Reproducción",
     "Casual": "Casual",
-    "AgeValue": "({0} años)"
+    "AgeValue": "({0} años)",
+    "LabelSyncPlaySettingsExtraTimeOffset": "Ajuste de tiempo extra:",
+    "TypeOptionPluralBoxSet": "Colecciones",
+    "ReleaseGroup": "Grupo de lanzamiento",
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "Activar la sincronización activa de la reproducción acelerando o moviéndose a la posición estimada. Desactivar esto en caso de cortes frecuentes en la reproducción."
 }
