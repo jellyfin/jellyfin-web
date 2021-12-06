@@ -82,7 +82,7 @@
     "Collections": "Koleksi",
     "Channels": "Saluran",
     "ButtonSyncPlay": "Segerak Main",
-    "Movies": "Filem",
+    "Movies": "Filem-filem",
     "HeaderAlbumArtists": "Album Artis-artis",
     "Folders": "Fail-fail",
     "Favorites": "Kegemaran",
@@ -163,8 +163,9 @@
     "ButtonRevoke": "Membatalkan",
     "ButtonResume": "Sambung semula",
     "ButtonResetEasyPassword": "Tetapkan semula kod pin mudah",
-    "Sync": "Sync",
-    "Shows": "Series",
+    "Sync": "",
+    "Shows": "Tayangan",
     "OptionBluray": "BD",
-    "MusicVideos": ""
+    "MusicVideos": "",
+    "TypeOptionPluralMovie": "Filem-filem"
 }
