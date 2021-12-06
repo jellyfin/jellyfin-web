@@ -717,7 +717,7 @@
     "MessageForgotPasswordInNetworkRequired": "Por favor, inténtalo de nuevo desde tu red de casa para iniciar el proceso de restablecimiento de la contraseña.",
     "MessageInvalidForgotPasswordPin": "Has introducido un código PIN inválido o expirado. Por favor, inténtalo de nuevo.",
     "MessageInvalidUser": "Usuario o contraseña inválidos. Por favor, inténtalo otra vez.",
-    "MessageItemSaved": "Elemento grabado.",
+    "MessageItemSaved": "Elemento guardado.",
     "MessageItemsAdded": "Ítems añadidos.",
     "MessageLeaveEmptyToInherit": "Dejar en blanco para heredar la configuración del elemento padre, o el valor global por defecto.",
     "MessageNoAvailablePlugins": "No hay complementos disponibles.",
