@@ -110,7 +110,7 @@
     "ColorTransfer": "Transfer kolorów",
     "CommunityRating": "Ocena społeczności",
     "Composer": "Kompozytor",
-    "ConfigureDateAdded": "Skonfiguruj sposób określania dodanej daty na pulpicie nawigacyjnym w ustawieniach biblioteki",
+    "ConfigureDateAdded": "Ustaw sposób określania daty dodania w ustawieniach biblioteki w kokpicie",
     "ConfirmDeleteImage": "Usunąć obraz?",
     "ConfirmDeleteItem": "Usunięcie tej pozycji usunie ją zarówno z systemu plików jak i z biblioteki mediów. Czy chcesz kontynuować?",
     "ConfirmDeleteItems": "Usunięcie tej pozycji usunie ją zarówno z systemu plików jak i z biblioteki mediów. Czy chcesz kontynuować?",
@@ -220,7 +220,7 @@
     "GuideProviderLogin": "Logowanie",
     "GuideProviderSelectListings": "Pokazuj oferty",
     "H264CrfHelp": "Constant Rate Factor (CRF) to domyślna jakość kodowania x264 i x265. Możesz ją ustawić w zakresie 0-51, gdzie niższe wartości zwiększają jakość (kosztem większego rozmiaru pliku). Rozsądne wartości to zakres 18-28. Domyślne wartości to 23 dla x264 oraz 28 dla x265 - możesz jej użyć jako wartości początkowej.",
-    "EncoderPresetHelp": "Wybierz wartość faster, żeby zwiększyć wydajność, albo slower, żeby zwiększyć jakość.",
+    "EncoderPresetHelp": "Wybierz szybszą wartość aby zwiększyć wydajność lub wolniejszą aby zwiększyć jakość.",
     "HDPrograms": "Programy w jakości HD",
     "HardwareAccelerationWarning": "Aktywacja akceleracji sprzętowej może powodować niestabilność na niektórych środowiskach. Upewnij się, że system operacyjny i sterowniki karty graficznej są aktualne. Jeżeli masz problemy z odtwarzaniem wideo po aktywacji, przywróć to ustawienie do wartości Brak.",
     "HeaderAccessSchedule": "Harmonogram dostępu",
@@ -300,7 +300,7 @@
     "HeaderInstantMix": "Szybki remiks",
     "HeaderKeepRecording": "Zachowaj nagranie",
     "HeaderKeepSeries": "Zachowaj nagranie serialu",
-    "HeaderKodiMetadataHelp": "W celu aktywowania lub dezaktywowania metadanych NFO, należy zmodyfikować ustawienia biblioteki w sekcji menadżerów metadanych.",
+    "HeaderKodiMetadataHelp": "By aktywować lub dezaktywować metadane NFO, edytuj ustawienia biblioteki w sekcji dostawców metadanych.",
     "HeaderLatestEpisodes": "Odcinki ostatnio dodane",
     "HeaderLatestMedia": "Media ostatnio dodane",
     "HeaderLatestMovies": "Filmy ostatnio dodane",
@@ -1598,5 +1598,6 @@
     "TypeOptionPluralBook": "Książki",
     "TypeOptionPluralAudio": "Pliki audio",
     "LabelAutomaticallyAddToCollectionHelp": "Gdy co najmniej 2 filmy mają tą samą nazwę kolekcji, zostaną automatycznie dodane do kolekcji.",
-    "LabelAutomaticallyAddToCollection": "Automatycznie dodaj do kolekcji"
+    "LabelAutomaticallyAddToCollection": "Automatycznie dodaj do kolekcji",
+    "TypeOptionPluralBoxSet": "Kolekcje"
 }
