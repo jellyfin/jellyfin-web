@@ -1595,5 +1595,6 @@
     "TypeOptionPluralBook": "Libroj",
     "TypeOptionPluralAudio": "Aŭdioj",
     "LabelAutomaticallyAddToCollectionHelp": "Kiam almenaŭ 2 filmoj havas la saman kolektonomon, ili estos aŭtomate aldonitaj al la kolekto.",
-    "LabelAutomaticallyAddToCollection": "Aldoni aŭtomate al kolekto"
+    "LabelAutomaticallyAddToCollection": "Aldoni aŭtomate al kolekto",
+    "Cursive": "Kursiva"
 }
