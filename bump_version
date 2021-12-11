@@ -32,19 +32,21 @@ npm --no-git-tag-version --allow-same-version version v${new_version_sed}
 
 # Set the build.yaml version to the specified new_version
 old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
-sed -i "s/${old_version_sed}/${new_version}/g" ${build_file}
+sed -i "s/${old_version_sed}/${new_version_sed}/g" ${build_file}
 
 if [[ ${new_version} == *"-"* ]]; then
-    new_version_deb="$( sed 's/-/~/g' <<<"${new_version}" )"
+    new_version_pkg="$( sed 's/-/~/g' <<<"${new_version}" )"
+    new_version_deb_sup=""
 else
-    new_version_deb="${new_version}-1"
+    new_version_pkg="${new_version}"
+    new_version_deb_sup="-1"
 fi
 
 # Write out a temporary Debian changelog with our new stuff appended and some templated formatting
 debian_changelog_file="debian/changelog"
 debian_changelog_temp="$( mktemp )"
 # Create new temp file with our changelog
-echo -e "jellyfin-web (${new_version_deb}) unstable; urgency=medium
+echo -e "jellyfin-web (${new_version_pkg}${new_version_deb_sup}) unstable; urgency=medium
 
   * New upstream version ${new_version}; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v${new_version}
 
@@ -66,7 +68,7 @@ pushd ${fedora_spec_temp_dir}
 csplit jellyfin-web.spec  "/^%changelog/" # produces xx00 xx01
 # Update the version in xx00
 new_version_sed="$( sed 's/\./\\./g' <<<"${new_version}" )" # Escape the '.' chars
-sed -i "s/${old_version_sed}/${new_version_sed}/g" xx00
+sed -i "s/${old_version_sed}/${new_version_pkg}/g" xx00
 # Remove the header from xx01
 sed -i '/^%changelog/d' xx01
 # Create new temp file with our changelog
@@ -83,5 +85,5 @@ mv ${fedora_spec_temp} ${fedora_spec_file}
 rm -rf ${fedora_changelog_temp} ${fedora_spec_temp_dir}
 
 # Stage the changed files for commit
-git add ${build_file} ${debian_changelog_file} ${fedora_spec_file} ${package_file}
-git status
+git add .
+git status -v

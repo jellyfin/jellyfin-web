@@ -17,6 +17,14 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
+  - script: echo "##vso[task.setvariable variable=JellyfinVersion]$( awk -F '/' '{ print $NF }' <<<'$(Build.SourceBranch)' | sed 's/^v//' )"
+    displayName: Set release version (stable)
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+
+  - script: './bump-version $(JellyfinVersion)'
+    displayName: Bump internal version (stable)
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+
   - script: 'docker build -f deployment/Dockerfile.$(BuildConfiguration) -t jellyfin-web-$(BuildConfiguration) deployment'
     displayName: 'Build Dockerfile'
     condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -66,7 +74,11 @@ jobs:
   steps:
   - script: echo "##vso[task.setvariable variable=JellyfinVersion]$( awk -F '/' '{ print $NF }' <<<'$(Build.SourceBranch)' | sed 's/^v//' )"
     displayName: Set release version (stable)
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')  
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+
+  - script: './bump-version $(JellyfinVersion)'
+    displayName: Bump internal version (stable)
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
 
   - task: Docker@2
     displayName: 'Push Unstable Image'
