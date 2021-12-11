@@ -1599,5 +1599,6 @@
     "TypeOptionPluralBook": "Книги",
     "TypeOptionPluralAudio": "Аудио элементы",
     "LabelAutomaticallyAddToCollectionHelp": "Если хотя бы два фильма имеют одинаковое название коллекции, они будут автоматически добавлены в коллекцию.",
-    "LabelAutomaticallyAddToCollection": "Автоматически добавлять в коллекцию"
+    "LabelAutomaticallyAddToCollection": "Автоматически добавлять в коллекцию",
+    "Cursive": "Курсивный"
 }
