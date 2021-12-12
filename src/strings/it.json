@@ -1599,5 +1599,6 @@
     "TypeOptionPluralEpisode": "Episodi",
     "TypeOptionPluralBoxSet": "Cofanetti",
     "LabelAutomaticallyAddToCollectionHelp": "Quando almeno 2 film hanno lo stesso nome collezione, saranno automaticamente aggiunti alla collezione.",
-    "LabelAutomaticallyAddToCollection": "Aggiungi automaticamente alla collezione"
+    "LabelAutomaticallyAddToCollection": "Aggiungi automaticamente alla collezione",
+    "Cursive": "Corsivo"
 }
