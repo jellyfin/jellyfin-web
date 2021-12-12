@@ -307,7 +307,7 @@
     "LabelFormat": "Formát:",
     "LabelServerNameHelp": "Tento názov bude použitý na identifikáciu servera. Ak ostane prázdny, bude použitý názov hostiteľa serveru.",
     "LabelGroupMoviesIntoCollections": "Zoskupiť filmy do kolekcií",
-    "LabelGroupMoviesIntoCollectionsHelp": "Pri zobrazení zoznamu filmov budú filmy v kolekcií zobrazené ako jedna položka.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Pri zobrazení zoznamu filmov budú filmy v box setoch zobrazené ako jedna položka.",
     "LabelHardwareAccelerationType": "Hardvérová akcelerácia:",
     "LabelHardwareAccelerationTypeHelp": "Hardvérová akcelerácia vyžaduje dodatočnú konfiguráciu.",
     "LabelHomeScreenSectionValue": "Sekcia domácej obrazovky {0}:",
@@ -922,7 +922,7 @@
     "HeaderPlayOn": "Prehrať na",
     "HeaderOnNow": "Práve teraz",
     "HeaderLiveTvTunerSetup": "Nastavenie TV tuneru pre živé vysielanie",
-    "HeaderKodiMetadataHelp": "Pokiaľ chcete povoliť alebo zakázať NFO metadáta, upravte knižnicu v sekcii ukladania metadát.",
+    "HeaderKodiMetadataHelp": "Pokiaľ chcete povoliť alebo zakázať NFO metadáta, upravte knižnicu a nájdite sekciu ukladania metadát.",
     "HeaderKeepSeries": "Zachovať seriál",
     "HeaderKeepRecording": "Zachovať nahrávanie",
     "HeaderImageOptions": "Možnosti obrázkov",
@@ -1317,7 +1317,7 @@
     "LabelSyncPlayTimeOffset": "Časový rozdiel so serverom:",
     "HeaderSyncPlayEnabled": "SyncPlay je povolené",
     "HeaderSyncPlaySelectGroup": "Pripojiť sa k skupine",
-    "SyncPlayAccessHelp": "Vyberte úroveň prístupu pre tohto používateľa k funkcií SyncPlay. Funkce SyncPlay umožňuje zosynchronizovať prehrávanie s ostatnými zariadeniami.",
+    "SyncPlayAccessHelp": "Funkcia SyncPlay umožňuje zosynchronizovať prehrávanie s inými zariadeniami. Vyberte úroveň prístupu pre tohto používateľa k funkcií SyncPlay.",
     "EnableDetailsBannerHelp": "Zobrazí banner na vrchnej časti detailu položky.",
     "EnableDetailsBanner": "Detail banneru",
     "EnableBlurHashHelp": "Obrázky, ktoré sa stále načítavajú budú zobrazené ako dočasný obrázok s rozmazaným pozadím.",
@@ -1599,5 +1599,6 @@
     "TypeOptionPluralBook": "Knihy",
     "TypeOptionPluralAudio": "Audiá",
     "LabelAutomaticallyAddToCollectionHelp": "Pokiaľ majú aspoň 2 filmy rovnaký nazov kolekcie, budú automaticky pridané do kolekcie.",
-    "LabelAutomaticallyAddToCollection": "Automaticky pridať do kolekcie"
+    "LabelAutomaticallyAddToCollection": "Automaticky pridať do kolekcie",
+    "Cursive": "Kurzíva"
 }
