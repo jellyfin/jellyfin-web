@@ -1599,5 +1599,6 @@
     "TypeOptionPluralBook": "Livres",
     "TypeOptionPluralAudio": "Audio",
     "LabelAutomaticallyAddToCollectionHelp": "Quand au moins 2 films possèdent le même nom de collection, les y ajouter automatiquement.",
-    "LabelAutomaticallyAddToCollection": "Ajouter automatiquement à la collection"
+    "LabelAutomaticallyAddToCollection": "Ajouter automatiquement à la collection",
+    "Cursive": "Cursive"
 }
