@@ -84,7 +84,7 @@
     "Collections": "Kolekce",
     "CommunityRating": "Hodnocení komunity",
     "Composer": "Skladatel",
-    "ConfigureDateAdded": "Konfigurace přidání data je definována v nastavení knihovny na nástěnce",
+    "ConfigureDateAdded": "Nastavení způsobu, jakým je určeno datum přidání v nastavení knihovny v sekci Nástěnka",
     "ConfirmDeleteImage": "Odstranit obrázek?",
     "ConfirmDeleteItem": "Smazáním položky odstraníte soubor jak z knihovny médií tak ze souborového systému. Jste si jisti, že chcete pokračovat?",
     "ConfirmDeleteItems": "Odstraněním těchto položek odstraníte vaše média jak z knihovny médií, tak i ze souborového systému. Jste si jisti, že chcete pokračovat?",
@@ -172,7 +172,7 @@
     "GuideProviderLogin": "Přihlášení",
     "GuideProviderSelectListings": "Výběr zobrazení",
     "H264CrfHelp": "Konstantní faktor toku (CRF) je výchozím nastavení kvality pro enkodér x264 a x265. Hodnoty mohou být v rozmezí 0-51, kde nižší hodnoty znamenají vyšší kvalitu na úkor větší velikosti souborů. Rozumné hodnoty jsou 18-28. Výchozí hodnoty jsou 23 pro x264 a 28 pro x265, které můžete použít jako výchozí body.",
-    "EncoderPresetHelp": "Vyber hodnotu faster ke zvýšení výkonu, nebo slower ke zvýšení kvality.",
+    "EncoderPresetHelp": "Vyber rychlejší hodnoty ke zvýšení výkonu, nebo pomalejší ke zvýšení kvality.",
     "HDPrograms": "HD programy",
     "HardwareAccelerationWarning": "Zapnutí hardwarové akcelerace může způsobit nestabilitu v některých prostředích. Ujistěte se, že váš operační systém a grafické ovladače jsou aktuální. Máte-li potíže s přehráváním videa po zapnutí této funkce, budete muset změnit nastavení zpět na Žádné.",
     "HeaderAccessSchedule": "Přístup k naplánované úloze",
@@ -386,7 +386,7 @@
     "LabelCustomCssHelp": "Aplikovat vaše vlastní styly webového rozhraní.",
     "LabelCustomDeviceDisplayNameHelp": "Nahradit vlastním názvem zobrazení nebo ponechte prázdné, aby název byl určen zařízením.",
     "LabelCustomRating": "Vlastní hodnocení:",
-    "LabelDashboardTheme": "Téma nástěnky serveru:",
+    "LabelDashboardTheme": "Motiv nástěnky serveru:",
     "LabelDateAdded": "Datum přidání:",
     "LabelDateAddedBehavior": "Nový obsah řadit dle data:",
     "LabelDateAddedBehaviorHelp": "Pokud je hodnota metadat přítomna, bude vždy použita před některou z těchto možností.",
@@ -1289,7 +1289,7 @@
     "HeaderDVR": "Nahrávání",
     "SaveChanges": "Uložit změny",
     "LabelSyncPlayPlaybackDiff": "Rozdíl v době přehrávání:",
-    "SyncPlayAccessHelp": "Určuje úroveň přístupu k synchronizaci přehrávání, kterou tento uživatel bude mít. Tato funkce umožňuje synchronizovat přehrávání s dalšími zařízeními.",
+    "SyncPlayAccessHelp": "Funkce SyncPlay umožňuje synchronizovat přehrávání s dalšími zařízeními. Vyberte úroveň přístupu k funkci SyncPlay, kterou tento uživatel bude mít.",
     "MessageSyncPlayErrorMedia": "Zapnutí synchronizace přehrávání se nezdařilo. Chyba média.",
     "MessageSyncPlayErrorMissingSession": "Zapnutí synchronizace přehrávání se nezdařilo. Nebyla nalezena relace.",
     "MessageSyncPlayErrorNoActivePlayer": "Nebyl nalezen žádný aktivní přehrávač. Synchronizace přehrávání byla vypnuta.",
@@ -1599,5 +1599,6 @@
     "TypeOptionPluralEpisode": "Díly",
     "TypeOptionPluralBoxSet": "Kolekce",
     "LabelAutomaticallyAddToCollectionHelp": "Pokud mají alespoň 2 filmy stejný název kolekce, budou automaticky přidány do kolekce.",
-    "LabelAutomaticallyAddToCollection": "Automaticky přidat to kolekce"
+    "LabelAutomaticallyAddToCollection": "Automaticky přidat to kolekce",
+    "Cursive": "Kurzíva"
 }
