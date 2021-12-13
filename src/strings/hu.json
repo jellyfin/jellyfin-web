@@ -1599,5 +1599,6 @@
     "TypeOptionPluralBook": "Könyvek",
     "TypeOptionPluralAudio": "Hangok",
     "LabelAutomaticallyAddToCollectionHelp": "Ha legalább 2 filmnek ugyanaz a gyűjteményneve, a rendszer automatikusan hozzáadja őket a gyűjteményhez.",
-    "LabelAutomaticallyAddToCollection": "Automatikus hozzáadás a gyűjteményhez"
+    "LabelAutomaticallyAddToCollection": "Automatikus hozzáadás a gyűjteményhez",
+    "Cursive": "Kurzív"
 }
