@@ -22,7 +22,7 @@
     "babel-plugin-dynamic-import-polyfill": "^1.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "confusing-browser-globals": "^1.0.10",
-    "copy-webpack-plugin": "^9.1.0",
+    "copy-webpack-plugin": "^10.1.0",
     "css-loader": "^6.5.1",
     "cssnano": "^5.0.10",
     "eslint": "^7.32.0",
