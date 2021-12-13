@@ -10,9 +10,8 @@ URL:            https://jellyfin.org
 Source0:        jellyfin-web-%{version}.tar.gz
 
 BuildArch:		noarch
-%if 0%{?fedora} >= 33
-BuildRequires: nodejs
-%endif
+BuildRequires:	git
+BuildRequires:	npm
 
 # Disable Automatic Dependency Processing
 AutoReqProv:    no
