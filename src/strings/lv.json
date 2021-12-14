@@ -705,7 +705,7 @@
     "LabelKidsCategories": "Bērnu kategorijas:",
     "LabelIconMaxHeight": "Ikonas maksimālais augstums:",
     "LabelHttpsPortHelp": "TCP porta numurs HTTPS serverim.",
-    "LabelH264Crf": "H264 kodēšanas CRF:",
+    "LabelH264Crf": "H.264 kodēšanas CRF:",
     "LabelGroupMoviesIntoCollections": "Grupēt filmas kolekcijās",
     "LabelEnableRealtimeMonitor": "Iespējot reāllaika uzraudzību",
     "LabelEnableDlnaServerHelp": "Ļauj UPnP ierīcēm tavā tīklā pārlūkot un atskaņot vienumus.",
