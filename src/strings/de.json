@@ -1599,5 +1599,6 @@
     "TypeOptionPluralSeries": "Serien",
     "Casual": "Casual",
     "LabelAutomaticallyAddToCollectionHelp": "Wenn mindestens 2 Filme den gleichen Sammlungsnamen haben, werden sie automatisch zur Sammlung hinzugefügt.",
-    "LabelAutomaticallyAddToCollection": "Automatisch zu Sammlung hinzufügen"
+    "LabelAutomaticallyAddToCollection": "Automatisch zu Sammlung hinzufügen",
+    "Cursive": "Kursivschrift"
 }
