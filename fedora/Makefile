@@ -8,7 +8,7 @@ GIT_VER := $(shell set -x; git describe --tags | sed -e 's/^v//' -e 's/-[0-9]*-g
 SRPM    := jellyfin-web-$(subst -,~,$(GIT_VER))-$(RELEASE)$(shell rpm --eval %dist).src.rpm
 TARBALL :=$(NAME)-$(subst -,~,$(GIT_VER)).tar.gz
 
-epel-8-x86_64_repos := https://rpm.nodesource.com/pub_16.x/el/\$$releasever/\$$basearch/
+epel-7-x86_64_repos := https://rpm.nodesource.com/pub_16.x/el/\$$releasever/\$$basearch/
 
 outdir  ?= $(PWD)/$(DIR)/
 TARGET  ?= fedora-35-x86_64
