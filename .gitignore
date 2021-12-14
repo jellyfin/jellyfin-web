@@ -12,3 +12,10 @@ config.json
 
 # log
 yarn-error.log
+
+# vim
+*.sw?
+
+# build artifacts
+fedora/jellyfin-web-*.src.rpm
+fedora/jellyfin-web-*.tar.gz
