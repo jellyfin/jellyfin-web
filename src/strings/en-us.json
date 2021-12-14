@@ -689,7 +689,7 @@
     "LabelKodiMetadataSaveImagePaths": "Save image paths within NFO files",
     "LabelKodiMetadataSaveImagePathsHelp": "This is recommended if you have image file names that don't conform to Kodi guidelines.",
     "LabelKodiMetadataUser": "Save user watch data to NFO files for:",
-    "LabelKodiMetadataUserHelp": "Save watch data to NFO files for other applications to using.",
+    "LabelKodiMetadataUserHelp": "Save watch data to NFO files for other applications to use.",
     "LabelLanguage": "Language:",
     "LabelLanNetworks": "LAN networks:",
     "LabelLibraryPageSize": "Library page size:",
