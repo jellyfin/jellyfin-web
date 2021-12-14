@@ -349,7 +349,7 @@
     "LabelServerNameHelp": "Ovo ime će se koristiti za identifikaciju servera. Ako ostavite prazno, ime računala će se koristi kao identifikator.",
     "LabelGroupMoviesIntoCollections": "Grupiraj filmove u kolekciju",
     "LabelGroupMoviesIntoCollectionsHelp": "Kada se prikazuje lista filmova, filmovi koji pripadaju kolekciji biti će prikazani kao jedna stavka.",
-    "LabelH264Crf": "H264 kodiranje CRF:",
+    "LabelH264Crf": "H.264 kodiranje CRF:",
     "LabelEncoderPreset": "H264 unaprijed kodiranje:",
     "LabelHardwareAccelerationType": "Hardversko ubrzanje:",
     "LabelHardwareAccelerationTypeHelp": "Dostupno samo na podržanim sustavima.",
