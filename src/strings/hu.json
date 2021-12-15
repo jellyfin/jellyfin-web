@@ -1142,7 +1142,7 @@
     "LabelIdentificationFieldHelp": "Kis-és nagybetű különbséget figyelmen kívül hagyó szöveg vagy reguláris kifejezés.",
     "LabelKeepUpTo": "Őrizd meg:",
     "LabelKodiMetadataUser": "Mentsd el a következő felhasználó megtekintési adatát az NFO-ba:",
-    "LabelKodiMetadataUserHelp": "A kiválasztott felhasználó megtekintési adata elmentésre kerül az NFO fájlokba, melyet azután más alkalmazások használhatnak.",
+    "LabelKodiMetadataUserHelp": "Mentse az időadatokat NFO-fájlokba, hogy más alkalmazások is használhatják.",
     "LabelLocalHttpServerPortNumberHelp": "A TCP port száma, melyen a HTTP szerver figyel.",
     "UserAgentHelp": "Adj meg egy egyedi HTTP user-agent fejlécet.",
     "XmlDocumentAttributeListHelp": "Ezek a tulajdonságok minden XML válaszüzenet gyökér elemére alkalmazásra kerülnek.",
