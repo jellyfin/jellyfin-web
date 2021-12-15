@@ -1599,5 +1599,6 @@
     "TypeOptionPluralAudio": "Pliki audio",
     "LabelAutomaticallyAddToCollectionHelp": "Gdy co najmniej 2 filmy mają tą samą nazwę kolekcji, zostaną automatycznie dodane do kolekcji.",
     "LabelAutomaticallyAddToCollection": "Automatycznie dodaj do kolekcji",
-    "TypeOptionPluralBoxSet": "Kolekcje"
+    "TypeOptionPluralBoxSet": "Kolekcje",
+    "Cursive": "Kursywa"
 }
