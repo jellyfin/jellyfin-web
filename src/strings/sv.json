@@ -1599,5 +1599,6 @@
     "LabelSyncPlaySettingsSpeedToSyncDuration": "SpeedToSync varaktighet:",
     "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Högsta uppspelningsfördröjning (i ms) efter vilket då SkipToSync används istället för SpeedToSync.",
     "LabelSyncPlaySettingsMaxDelaySpeedToSync": "SpeedToSync högsta fördröjning:",
-    "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync minsta fördröjning:"
+    "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync minsta fördröjning:",
+    "Cursive": "Kursivt"
 }
