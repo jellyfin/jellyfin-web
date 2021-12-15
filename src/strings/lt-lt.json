@@ -523,7 +523,7 @@
     "EnablePhotosHelp": "Nuotraukos bus rodomos šalia kitų medijos failų.",
     "AspectRatio": "Vaizdo Santykis",
     "Ascending": "Didėjančia tvarka",
-    "AllComplexFormats": "Visi Sudėtingi Formatai (ASS, SSA, VOBSUB, PGS, SUB/IDX, t.t.)",
+    "AllComplexFormats": "Visi Sudėtingi Formatai (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
     "AllowHWTranscodingHelp": "Leisti imtuvui perkoduoti srautus grojant. Tai gali sumažinti perkodavimus reikalingus serveriui.",
     "AuthProviderHelp": "Pasirinkite autentifikavimo paslaugos teikėją šio vartotojo slaptažodžio autentifikavimui.",
     "AllowedRemoteAddressesHelp": "IP adresų atskirtų kableliais sąrašas ar IP/netmask įrašai tinklams, kurie turės teisę prisijungti nuotoliniu būdu. Visi adresai bus leidžiami, jei įrašas tuščias.",
