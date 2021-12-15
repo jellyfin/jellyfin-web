@@ -279,7 +279,7 @@
     "AllowHWTranscodingHelp": "允許調諧器即時轉碼。 這可減少使用伺服器轉碼。",
     "AllLibraries": "所有媒體庫",
     "AllEpisodes": "所有劇集",
-    "AllComplexFormats": "所有格式（ASS，SSA，VOBSUB，PGS，SUB，IDX等）",
+    "AllComplexFormats": "所有格式（ASS，SSA，VobSub，PGS，SUB，IDX等）",
     "AllChannels": "所有頻道",
     "Alerts": "警報",
     "AlbumArtist": "專輯歌手",
