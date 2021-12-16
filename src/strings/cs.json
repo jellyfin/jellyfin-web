@@ -1097,7 +1097,7 @@
     "LabelHomeNetworkQuality": "Kvalita na domácí síti:",
     "LabelInternetQuality": "Kvalita na internetu:",
     "LabelKodiMetadataUser": "Uložit data sledování uživatele do NFO souboru pro:",
-    "LabelKodiMetadataUserHelp": "Uložit sledovaná data o přehrávání pro využití dalšími aplikacemi.",
+    "LabelKodiMetadataUserHelp": "Uložit data o sledování do souboru NFO pro využití dalšími aplikacemi.",
     "LabelLanNetworks": "Sítě LAN:",
     "LabelMaxStreamingBitrate": "Maximální kvalita streamování:",
     "LabelMetadata": "Metadata:",
