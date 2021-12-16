@@ -130,7 +130,7 @@
     "TabNotifications": "Kennisgewings",
     "TabNfoSettings": "NFO Instellings",
     "TabNetworking": "Netwerking",
-    "TabNetworks": "Netwerke",
+    "TabNetworks": "TV Netwerke",
     "TabMusic": "Musiek",
     "TabLogs": "Logs",
     "Channels": "Kanale",
@@ -790,5 +790,7 @@
     "Normal": "Normaal",
     "Large": "Groot",
     "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
-    "OptionBluray": "BD"
+    "OptionBluray": "BD",
+    "TypeOptionPluralSeries": "TV Programme",
+    "LiveTV": "Lewendige TV"
 }
