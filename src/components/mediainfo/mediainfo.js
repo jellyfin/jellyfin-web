@@ -131,7 +131,8 @@ import '../../elements/emby-button/emby-button';
         if ((item.Type === 'Episode' || item.MediaType === 'Photo') && options.originalAirDate !== false) {
             if (item.PremiereDate) {
                 try {
-                    date = datetime.parseISO8601Date(item.PremiereDate);
+                    //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
+                    date = datetime.parseISO8601Date(item.PremiereDate, item.Type !== 'Episode');
 
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
