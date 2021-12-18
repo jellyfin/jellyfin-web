@@ -1422,5 +1422,6 @@
     "Casual": "Rento",
     "ErrorPlayerNotFound": "Pyydetylle medialle sopivaa soitinta ei löytynyt.",
     "Cursive": "Kursivointi",
-    "WizardCompleted": "Siinä kaikki tällä erää tarvittava. Jellyfin on aloittanut kirjastosi tietojen keräyksen. Tutustu sovelluksiimme ja paina lopuksi <b>Valmis</b> avataksesi <b>hallintapaneelin</b>."
+    "WizardCompleted": "Siinä kaikki tällä erää tarvittava. Jellyfin on aloittanut kirjastosi tietojen keräyksen. Tutustu sovelluksiimme ja paina lopuksi <b>Valmis</b> avataksesi <b>hallintapaneelin</b>.",
+    "HeaderSyncPlayTimeSyncSettings": "Ajan synkronointi"
 }
