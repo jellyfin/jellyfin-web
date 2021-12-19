@@ -626,7 +626,7 @@
     "LabelCustomCertificatePath": "Spesiale SSL sertifikaatpad:",
     "LabelCurrentStatus": "Huidige toestand:",
     "LabelCurrentPassword": "Huidige Sleutelwoord:",
-    "LabelCriticRating": "Kritiek gradering:",
+    "LabelCriticRating": "Filkritiek gradering:",
     "LabelCreateHttpPortMapHelp": "Laat outomatiese poortkartering toe om 'n reël vir http verkeer te skep, benewens https verkeer.",
     "LabelCreateHttpPortMap": "Aktiveer outomatiese poortkartering vir http verkeer sowel as https.",
     "LabelCountry": "Land:",
@@ -792,5 +792,6 @@
     "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
     "OptionBluray": "BD",
     "TypeOptionPluralSeries": "TV Programme",
-    "LiveTV": "Lewendige TV"
+    "LiveTV": "Lewendige TV",
+    "OptionCriticRating": "Filkritiek Gradering"
 }
