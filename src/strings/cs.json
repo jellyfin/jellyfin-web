@@ -416,7 +416,7 @@
     "LabelEnableBlastAliveMessages": "Vytroubit zprávu do světa",
     "LabelEnableBlastAliveMessagesHelp": "Tuto možnost povolte, pokud není server zjistitelný jinými UPnP zařízeními v síti.",
     "LabelEnableDlnaClientDiscoveryInterval": "Interval pro vyhledání klienta:",
-    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Určuje interval mezi vyhledáváním SSDP.",
+    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Určuje interval mezi dvěma vyhledáváními SSDP.",
     "LabelEnableDlnaDebugLogging": "Povolit DLNA protokolování (pro ladění)",
     "LabelEnableDlnaDebugLoggingHelp": "Vytváří velké soubory se záznamy a doporučuje se používat pouze pro potřeby odstraňování problémů.",
     "LabelEnableDlnaPlayTo": "Povolit DLNA přehrávání",
