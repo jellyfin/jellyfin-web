@@ -640,7 +640,7 @@
     "LabelDisplayLanguageHelp": "תרגום Jellyfin הוא פרויקט מתמשך.",
     "LabelDisplayLanguage": "שפת תצוגה:",
     "LabelDidlMode": "מצב DIDL:",
-    "LabelDeviceDescription": "תיאור מכשיר",
+    "LabelDeviceDescription": "תיאור מכשיר:",
     "LabelDefaultScreen": "מסך ברירת-מחדל:",
     "LabelImageType": "סוג תמונה:",
     "LabelHttpsPortHelp": "מספר פורט ה-TCP עבור שרת ה-HTTPS.",
