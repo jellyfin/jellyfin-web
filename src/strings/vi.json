@@ -594,7 +594,7 @@
     "LabelEnableDlnaPlayToHelp": "Phát hiện các thiết bị trong mạng của bạn và cung cấp khả năng điều khiển chúng từ xa.",
     "LabelEnableDlnaDebugLoggingHelp": "Tạo những tập tin gỡ lỗi lớn và chỉ nên được sử dụng khi cần thiết để xử lý sự cố.",
     "LabelEnableDlnaDebugLogging": "Bật tính năng gỡ lỗi DLNA",
-    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Xác định thời gian tính bằng giây giữa các lần tìm kiếm SSDP thực hiện bởi Jellyfin.",
+    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Xác định thời lượng tính bằng giây giữa hai lần tìm kiếm SSDP.",
     "LabelEnableDlnaClientDiscoveryInterval": "Thời gian dò tìm máy khách:",
     "LabelEnableBlastAliveMessagesHelp": "Bật cái này nếu máy chủ không được các thiết bị UPnP khác trên mạng của bạn tìm ra một cách đáng tin cậy.",
     "LabelEnableBlastAliveMessages": "Phát tin nhắn trực tiếp",
