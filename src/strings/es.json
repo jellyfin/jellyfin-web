@@ -1599,5 +1599,6 @@
     "LabelSyncPlaySettingsExtraTimeOffset": "Ajuste de tiempo extra:",
     "TypeOptionPluralBoxSet": "Colecciones",
     "ReleaseGroup": "Grupo de lanzamiento",
-    "LabelSyncPlaySettingsSyncCorrectionHelp": "Activar la sincronización activa de la reproducción acelerando o moviéndose a la posición estimada. Desactivar esto en caso de cortes frecuentes en la reproducción."
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "Activar la sincronización activa de la reproducción acelerando o moviéndose a la posición estimada. Desactivar esto en caso de cortes frecuentes en la reproducción.",
+    "Cursive": "Cursiva"
 }
