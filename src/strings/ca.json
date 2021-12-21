@@ -675,7 +675,7 @@
     "DatePlayed": "Data reproduït",
     "DateAdded": "Data d'afegit",
     "CustomDlnaProfilesHelp": "Crear un perfil personalitzat per a un nou dispositiu o substitueix un perfil de sistema.",
-    "HeaderAdmin": "Administrador",
+    "HeaderAdmin": "Administració",
     "HeaderAccessScheduleHelp": "Creeu un horari d'accés per limitar l'accés a determinades hores.",
     "HardwareAccelerationWarning": "Habilitar l'acceleració del maquinari pot causar inestabilitat en alguns entorns. Assegureu-vos que el sistema operatiu i els controladors de vídeo estiguin totalment actualitzats. Si teniu dificultats per reproduir el vídeo després d’activar-lo, haureu de tornar a canviar la configuració a Cap.",
     "EncoderPresetHelp": "Trieu un valor més ràpid per millorar el rendiment o un valor més lent per millorar la qualitat.",
