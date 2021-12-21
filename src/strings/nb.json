@@ -980,7 +980,7 @@
     "DisplayInOtherHomeScreenSections": "Vis i seksjoner på hjemskjermen, som f.eks. siste spilte media og fortsett å se",
     "EnableThemeSongsHelp": "Spill av temamusikk i bakgrunnen mens du blar i biblioteket.",
     "EnableThemeVideosHelp": "Spill av temavideoer i bakgrunnen mens du blar i biblioteket.",
-    "HeaderAdmin": "Administrator",
+    "HeaderAdmin": "Administrasjon",
     "LabelEnableHardwareDecodingFor": "Aktiver maskinvaredekoding for:",
     "LabelMetadata": "Metadata:",
     "LabelAlbumArtHelp": "PN brukt som albumomslag innen dlna:profileID-attributten på upnp:albumArtURI. Noen enheter krever en spesifikk verdi, uavhengig av størrelsen på bildet.",
