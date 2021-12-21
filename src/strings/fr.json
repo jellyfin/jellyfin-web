@@ -519,7 +519,7 @@
     "LabelFriendlyName": "Nom d'affichage :",
     "LabelServerNameHelp": "Ce nom sera utilisé pour identifier le serveur. La valeur par défaut est le nom d'hôte du serveur.",
     "LabelGroupMoviesIntoCollections": "Grouper les films en collections",
-    "LabelGroupMoviesIntoCollectionsHelp": "Lors de l'affichage des listes de films, regrouper les films d'une même collection dans un seul élément.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Lors de l'affichage des listes de films, les films d'une même collection sont affichés comme éléments d'un groupe de films.",
     "LabelH264Crf": "CRF d'encodage H.264 :",
     "LabelEncoderPreset": "Profil d'encodage :",
     "LabelHardwareAccelerationType": "Accélération matérielle :",
