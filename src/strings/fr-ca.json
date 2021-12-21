@@ -272,7 +272,7 @@
     "HeaderApiKeysHelp": "Les applications externes ont besoin d'une clé API pour communiquer avec le serveur. Les clés sont distribuées lors d'une connexion avec un compte normal ou en accordant manuellement une clé à une application.",
     "HeaderAllowMediaDeletionFrom": "Autoriser la suppression de médias à partir de",
     "HeaderAlert": "Alerte",
-    "HeaderAdmin": "Administrateur",
+    "HeaderAdmin": "L’administration",
     "HeaderAddUser": "Ajouter un utilisateur",
     "HeaderAddUpdateSubtitle": "Ajouter/Mettre à jour des sous-titres",
     "HeaderAddUpdateImage": "Ajouter/Mettre à jour une image",
