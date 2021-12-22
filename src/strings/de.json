@@ -669,7 +669,7 @@
     "LabelTranscodingTempPathHelp": "Wähle einen eigenen Pfad für transkodierte Dateien. Lasse das Feld frei, um den Standardspeicherort zu nutzen.",
     "LabelTranscodingThreadCount": "Anzahl Transkodierungs-Threads:",
     "LabelTranscodingThreadCountHelp": "Lege die maximale Anzahl von Transkodierungs-Threads fest. Das Reduzieren der Thread-Anzahl verringert die CPU Auslastung, wird aber möglicherweise die Transkodierung nicht schnell genug für eine störungsfrei Wiedergabe ermöglichen.",
-    "LabelTriggerType": "Auslöser Typ:",
+    "LabelTriggerType": "Auslöser typ:",
     "LabelTunerIpAddress": "Tuner IP Adresse:",
     "LabelTunerType": "Tuner Typ:",
     "LabelType": "Typ:",
