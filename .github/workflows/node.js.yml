@@ -29,10 +29,12 @@ jobs:
         
     - run: npm install
     
+    - run: npx browserslist@latest --update-db
+    
     - run: npm run build:production
     
     - name: Zip artifact for deployment
-      run: 7z a Jellyfin-web.7z ./* -r
+      run: 7z a Jellyfin-web.7z ./dist/* -r
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
