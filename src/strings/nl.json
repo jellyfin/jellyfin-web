@@ -1138,7 +1138,7 @@
     "OptionMax": "Max",
     "LabelBaseUrl": "Basis URL:",
     "LabelTranscodingProgress": "Transcoderen voortgang:",
-    "LabelTriggerType": "Signaal Type:",
+    "LabelTriggerType": "Signaal type:",
     "MediaInfoBitrate": "Bitrate",
     "MediaInfoInterlaced": "Interlaced",
     "ValueSeriesCount": "{0} series",
