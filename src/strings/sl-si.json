@@ -511,7 +511,7 @@
     "LabelCollection": "Zbirka:",
     "LabelCustomCertificatePath": "Lokacija SSL certifikata po meri:",
     "LabelDidlMode": "DIDL način:",
-    "LabelDay": "Dan:",
+    "LabelDay": "Dan v tednu:",
     "LabelDeathDate": "Datum smrti:",
     "LabelBitrate": "Bitna hitrost:",
     "LabelBlastMessageInterval": "Interval sporočila o dostopnosti:",
