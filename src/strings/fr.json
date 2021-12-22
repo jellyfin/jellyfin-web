@@ -656,7 +656,7 @@
     "LabelScheduledTaskLastRan": "Dernière exécution {0}, durée {1}.",
     "LabelScreensaver": "Économiseur d'écran :",
     "LabelSeasonNumber": "Numéro de saison :",
-    "LabelSelectFolderGroups": "Grouper automatiquement le contenu des dossiers suivants dans des catégories telles que Films, Musique et TV :",
+    "LabelSelectFolderGroups": "Grouper automatiquement le contenu des dossiers suivants par catégories telles que Films, Musiques et Séries TV :",
     "LabelSelectFolderGroupsHelp": "Les dossiers non cochés seront affichés individuellement dans leur vue propre.",
     "LabelSelectUsers": "Sélectionner des utilisateurs :",
     "LabelSelectVersionToInstall": "Sélectionner la version à installer :",
