@@ -467,7 +467,7 @@
     "LabelEnableBlastAliveMessages": "爆发活动信号",
     "LabelEnableBlastAliveMessagesHelp": "如果该服务器不能被网络中的其他UPnP设备检测到，请启用此选项。",
     "LabelEnableDlnaClientDiscoveryInterval": "客户端搜寻时间间隔:",
-    "LabelEnableDlnaClientDiscoveryIntervalHelp": "确定SSDP 搜索之间的持续时间 (以秒为单位)。",
+    "LabelEnableDlnaClientDiscoveryIntervalHelp": "确定两次 SSDP 搜索之间的持续时间（以秒为单位）。",
     "LabelEnableDlnaDebugLogging": "启用 DLNA 调试日志",
     "LabelEnableDlnaDebugLoggingHelp": "创建一个很大的日志文件，仅应在排除故障时使用。",
     "LabelEnableDlnaPlayTo": "启用 DLNA 播放",
