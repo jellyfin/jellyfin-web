@@ -14,8 +14,8 @@ import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';
 // eslint-disable-next-line import/named, import/namespace
-import { Swiper } from 'swiper/swiper-bundle.esm';
-import 'swiper/swiper-bundle.css';
+import { Swiper } from 'swiper/bundle';
+import 'swiper/css/bundle';
 import screenfull from 'screenfull';
 
 /**

@@ -6,8 +6,8 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/appRouter';
 import ServerConnections from '../../components/ServerConnections';
 // eslint-disable-next-line import/named, import/namespace
-import { Swiper } from 'swiper/swiper-bundle.esm';
-import 'swiper/swiper-bundle.css';
+import { Swiper } from 'swiper/bundle';
+import 'swiper/css/bundle';
 
 import './style.scss';
 
