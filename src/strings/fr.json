@@ -463,7 +463,7 @@
     "LabelDateAddedBehavior": "Choix de la date d'ajout pour le nouveau contenu :",
     "LabelDateAddedBehaviorHelp": "Si une métadonnée est présente, elle sera toujours utilisée avant ces options.",
     "LabelDateTimeLocale": "Date et heure locale :",
-    "LabelDay": "Jour :",
+    "LabelDay": "Jour de la semaine :",
     "LabelDeathDate": "Date de décès :",
     "LabelDefaultScreen": "Vue par défaut :",
     "LabelDefaultUser": "Utilisateur par défaut :",
