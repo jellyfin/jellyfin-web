@@ -29,8 +29,6 @@ jobs:
         
     - run: npm install
     
-    - run: npx browserslist@latest --update-db
-    
     - run: npm run build:production
     
     - name: Zip artifact for deployment
