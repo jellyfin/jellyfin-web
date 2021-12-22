@@ -667,7 +667,7 @@
     "OptionHideUserFromLoginHelp": "שימושי עבור חשבונות פרטיים או חשבונות מנהל מוסתרים. המשתמש יצטרך להזין את שם המשתמש והסיסמה ידנית על מנת להתחבר.",
     "MessagePlayAccessRestricted": "התוכן הזה לא ניתן לניגון כרגע. למידע נוסף, נא ליצור קשר עם מנהל המערכת שלך.",
     "MessageContactAdminToResetPassword": "נא ליצור קשר עם מנהל המערכת שלך על מנת לאפס את הסיסמה שלך.",
-    "HeaderAdmin": "מנהל",
+    "HeaderAdmin": "ניהול",
     "Suggestions": "המלצות",
     "MessageSyncPlayNoGroupsAvailable": "אין קבוצות זמינות. התחל לנגן משהו קודם.",
     "Home": "בית",
