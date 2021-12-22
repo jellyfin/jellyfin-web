@@ -438,7 +438,7 @@
     "LabelDateAddedBehavior": "新内容加入的日期：",
     "LabelDateAddedBehaviorHelp": "如果一个媒体资料的值存在，它总是优先于这些选项前使用。",
     "LabelDateTimeLocale": "时区设置：",
-    "LabelDay": "日：",
+    "LabelDay": "一周中的何时：",
     "LabelDeathDate": "去世日期：",
     "LabelDefaultScreen": "默认分页：",
     "LabelDefaultUser": "默认用户：",
