@@ -1225,7 +1225,7 @@
     "LabelEnableAutomaticPortMapHelp": "Automatické namapovanie verejného portu na lokálny port serveru cez UPnP. Toto nemusí fungovať so všetkými modelmi routerov alebo sieťových konfigurácií. Zmeny sa vykonajú až po reštarte servera.",
     "LabelEmbedAlbumArtDidlHelp": "Niektoré zariadenia preferujú túto metódu pre získavanie obrázku albumu. Ostatným môže zlyhať prehrávanie pokiaľ je táto možnosť povolená.",
     "LabelBlastMessageIntervalHelp": "Určuje dobu v sekundách medzi vysielaniami správ o serveri.",
-    "LabelBindToLocalNetworkAddressHelp": "Prepísať lokálnu IP adresu http serveru. Pokiaľ zostane prázdna, server sa naviaže na všetky dostupné adresy. Pri zmene tejto hodnoty sa vyžaduje reštart.",
+    "LabelBindToLocalNetworkAddressHelp": "Prepísať lokálnu IP adresu HTTP serveru. Pokiaľ zostane prázdna, server sa naviaže na všetky dostupné adresy. Pri zmene tejto hodnoty sa vyžaduje reštart.",
     "LabelAlbumArtPN": "Obrázok albumu PN:",
     "LabelAlbumArtHelp": "PN používa obrázok albumu, vrámci dlna:profileID atribútu upnp:albumArtURI. Niektoré zariadenia vyžadujú špecifickú hodnotu, bez ohľadu na veľkosť obrázku.",
     "HeaderDirectPlayProfileHelp": "Pridať profil priameho prehrávania pre definovanie, ktorý formát môže zariadenie natívne zvládnuť.",
