@@ -69,7 +69,7 @@
     "AnyLanguage": "Öll tungumál",
     "AroundTime": "Um {0}",
     "Art": "List",
-    "AllComplexFormats": "Öll flókin form (ASS, SSA, VOBSUB, PGS, SUB/IDX, ofl.)",
+    "AllComplexFormats": "Öll flókin form (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
     "Artists": "Listamaður",
     "AsManyAsPossible": "Eins margir og mögulegt er",
     "Ascending": "Í vaxandi röð",
@@ -131,7 +131,7 @@
     "HeaderDownloadSync": "Sækja og Samstilla",
     "HeaderDeleteDevice": "Eyða Tæki",
     "HeaderCastAndCrew": "Leikarar og Áhöfn",
-    "HeaderAdmin": "Stjórnandi",
+    "HeaderAdmin": "Stjórnun",
     "GuideProviderLogin": "Innskrá",
     "General": "Almennt",
     "Friday": "Föstudagur",
@@ -423,7 +423,7 @@
     "LabelEnableHardwareDecodingFor": "Gera vélbúnaðarafkóðun virka fyrir:",
     "LabelDroppedFrames": "Felldir rammar:",
     "LabelDiscNumber": "Númer disks:",
-    "LabelDeviceDescription": "Lýsing tækis",
+    "LabelDeviceDescription": "Lýsing tækis:",
     "LabelDashboardTheme": "Þema mælaborðs:",
     "LabelCustomCss": "Sérsniðin CSS:",
     "LabelCriticRating": "Einkunn gagnrýnanda:",
@@ -442,5 +442,9 @@
     "Name": "Nafn",
     "MusicVideo": "Tónlistarmyndbönd",
     "No": "Nei",
-    "News": "Nýtt"
+    "News": "Nýtt",
+    "Never": "Aldrei",
+    "Mute": "Þagga",
+    "MusicArtist": "Tónlistarmaður",
+    "MusicAlbum": "Tónlistaralbúm"
 }

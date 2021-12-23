@@ -3,7 +3,7 @@
     "Sync": "Синхронизација",
     "Songs": "Песни",
     "Shows": "Серии",
-    "Playlists": "Листи",
+    "Playlists": "Плејлисти",
     "Photos": "Слики",
     "Movies": "Филмови",
     "HeaderContinueWatching": "Продолжи со Гледање",
@@ -16,5 +16,6 @@
     "Artists": "Изведувач",
     "Albums": "Албуми",
     "MusicVideos": "Музички видеа",
-    "HeaderAlbumArtists": "Изведувачи од Албуми"
+    "HeaderAlbumArtists": "Изведувачи од Албуми",
+    "Default": "Зададено"
 }

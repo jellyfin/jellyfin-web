@@ -399,6 +399,15 @@ import { appRouter } from '../../../components/appRouter';
 
                 case 'togglestats':
                     toggleStats();
+                    break;
+
+                case 'back':
+                    // Ignore command when some dialog is opened
+                    if (currentVisibleMenu === 'osd' && !getOpenedDialog()) {
+                        hideOsd();
+                        e.preventDefault();
+                    }
+                    break;
             }
         }
 
