@@ -74,7 +74,7 @@
     "ButtonRefreshGuideData": "Gidsgegevens Vernieuwen",
     "ButtonRemove": "Verwijderen",
     "ButtonRename": "Naam wijzigen",
-    "ButtonResetEasyPassword": "Reset eenvoudige pincode",
+    "ButtonResetEasyPassword": "Reset Eenvoudige Pincode",
     "ButtonResume": "Hervatten",
     "ButtonRevoke": "Herroepen",
     "ButtonScanAllLibraries": "Scan alle bibliotheken",
@@ -205,7 +205,7 @@
     "Guide": "Gids",
     "GuideProviderLogin": "Log in",
     "GuideProviderSelectListings": "Selecteer lijst",
-    "H264CrfHelp": "De Constant Rate Factor (CRF) is de standaard kwaliteit instelling voor de x264 en x265 encoder. U kunt de waarden tussen 0 en 51, in voorkomend lagere waarden zou resulteren in een betere kwaliteit (ten koste van hogere bestandsgrootte). aanbevolen zijn waarden tussen de 18 en 28. De standaard is 23 voor x264 en 28 voor x265. U kunt deze waardes gebruiken als beginpunt.",
+    "H264CrfHelp": "De 'Constant Rate Factor' (CRF) is de standaard kwaliteit instelling voor de x264 en x265 encoder. U kunt de waarden tussen 0 en 51, in voorkomend lagere waarden zou resulteren in een betere kwaliteit (ten koste van hogere bestandsgrootte). aanbevolen zijn waarden tussen de 18 en 28. De standaard is 23 voor x264 en 28 voor x265. U kunt deze waardes gebruiken als beginpunt.",
     "EncoderPresetHelp": "Kies een hogere waarde om de prestaties te verbeteren, of een tragere waarde om de kwaliteit te verbeteren.",
     "HDPrograms": "HD Programma's",
     "HardwareAccelerationWarning": "Hardwareversnelling inschakelen kan instabiliteit veroorzaken in sommige omgevingen. Zorg ervoor dat uw besturingssysteem en videostuurprogramma's volledig up-to-date zijn. Als u problemen ondervindt bij het afspelen van video, nadat u dit hebt ingeschakeld, moet u de instelling terugzetten naar geen.",
@@ -218,7 +218,7 @@
     "HeaderAddToPlaylist": "Toevoegen aan Afspeellijst",
     "HeaderAddUpdateImage": "Afbeelding Toevoegen/Bijwerken",
     "HeaderAdditionalParts": "Extra onderdelen",
-    "HeaderAdmin": "Beheerder",
+    "HeaderAdmin": "Administrator",
     "HeaderAlbumArtists": "Album Artiesten",
     "HeaderAlert": "Waarschuwing",
     "HeaderAllowMediaDeletionFrom": "Wissen van media toestaan van",
@@ -1385,7 +1385,7 @@
     "QuickConnectActivationSuccessful": "Succesvol geactiveerd",
     "LabelKnownProxies": "Bekende proxies:",
     "LabelCurrentStatus": "Huidige status:",
-    "KnownProxiesHelp": "Een door komma gescheiden lijst van IP adressen of hostnamen van proxies, die gebruikt worden bij het verbinden met je Jellyfin instantie. Dit is nodig om goed gebruik te maken van X-Forwarded-For headers. Reboot nodig na opslaan.",
+    "KnownProxiesHelp": "Een door komma gescheiden lijst van IP adressen of hostnamen van proxies, die gebruikt worden bij het verbinden met je Jellyfin instantie. Dit is nodig om goed gebruik te maken van 'X-Forwarded-For' headers. Reboot nodig na opslaan.",
     "EnableQuickConnect": "Schakel Quick Connect in op deze server",
     "ButtonUseQuickConnect": "Gebruik Quick Connect",
     "LabelMaxMuxingQueueSizeHelp": "Maximaal aantal pakketten dat kan worden gebufferd terwijl wordt gewacht tot alle streams zijn geïnitialiseerd. Probeer het te verhogen als u nog steeds de fout \"Te veel pakketten gebufferd voor uitvoerstroom\" tegenkomt in FFmpeg-logboeken. De aanbevolen waarde is 2048.",
@@ -1599,5 +1599,6 @@
     "Print": "Afdrukken",
     "MediaInfoTitle": "Titel",
     "Larger": "Groter",
-    "LabelAutomaticallyAddToCollectionHelp": "Wanneer op zijn minst 2 films een identieke collectie naam hebben, zullen ze automatisch toegevoegd worden aan de collectie."
+    "LabelAutomaticallyAddToCollectionHelp": "Wanneer op zijn minst 2 films een identieke collectie naam hebben, zullen ze automatisch toegevoegd worden aan de collectie.",
+    "Cursive": "Cursief"
 }
