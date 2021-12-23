@@ -378,7 +378,7 @@
     "Help": "Hilfe",
     "Hide": "Verstecke",
     "HideWatchedContentFromLatestMedia": "Gesehene Inhalte in 'Neueste Medien' verbergen",
-    "HttpsRequiresCert": "Um https für externe Verbindungen zu erzwingen, benötigst du ein vertrauenswürdiges SSL-Zertifikat, z.B. von Let's Encrypt. Bitte stelle entweder ein Zertifikat bereit, oder deaktiviere sichere Verbindungen.",
+    "HttpsRequiresCert": "Um HTTPS für externe Verbindungen zu erzwingen, benötigst du ein vertrauenswürdiges SSL-Zertifikat, z.B. von Let's Encrypt. Bitte stelle entweder ein Zertifikat bereit, oder deaktiviere sichere Verbindungen.",
     "Identify": "Identifizieren",
     "Images": "Bilder",
     "ImportFavoriteChannelsHelp": "Nur auf dem Tuner favorisierte Kanäle werden importiert.",
