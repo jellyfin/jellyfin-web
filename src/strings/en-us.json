@@ -1458,7 +1458,7 @@
     "TitleHardwareAcceleration": "Hardware Acceleration",
     "TitleHostingSettings": "Hosting Settings",
     "TitlePlayback": "Playback",
-    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default. The recommended value is Hable.",
+    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default. The recommended value is BT.2390.",
     "TonemappingRangeHelp": "Select the output color range. Auto is the same as the input range.",
     "Track": "Track",
     "TrackCount": "{0} tracks",
@@ -1595,5 +1595,11 @@
     "VideoFramerateNotSupported": "The video's framerate is not supported",
     "VideoLevelNotSupported": "The video codec's level is not supported",
     "VideoProfileNotSupported": "The video codec's profile is not supported",
-    "AudioBitDepthNotSupported": "The audio's bit depth is not supported"
+    "AudioBitDepthNotSupported": "The audio's bit depth is not supported",
+    "ContainerBitrateExceedsLimit": "The video's bitrate exceeds the limit",
+    "PreferSystemNativeHwDecoder": "Prefer OS native DXVA or VAAPI hardware decoder",
+    "EnableIntelLowPowerH264HwEncoder": "Enable Intel Low-Power H264 hardware encoder",
+    "EnableIntelLowPowerHevcHwEncoder": "Enable Intel Low-Power HEVC hardware encoder",
+    "IntelLowPowerEncHelp": "Low-Power Encoding can save unnecessary CPU-GPU sync. On Linux they must be disabled if the i915 Huc firmware is not configured.",
+    "LabelHardwareEncodingOptions": "Hardware encoding options:"
 }
