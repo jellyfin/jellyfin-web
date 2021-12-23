@@ -432,7 +432,7 @@
     "LabelEnableBlastAliveMessages": "Explotar mensajes en vivo",
     "LabelEnableBlastAliveMessagesHelp": "Active aquí si el servidor no es detectado correctamente por otros dispositivos UPnP en su red.",
     "LabelEnableDlnaClientDiscoveryInterval": "Intervalo de detección de cliente:",
-    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Determina la duración en segundos entre la búsqueda SSDP.",
+    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Determina la duración en segundos entre dos búsquedas SSDP.",
     "LabelEnableDlnaDebugLogging": "Activar el registro de depuración de DLNA",
     "LabelEnableDlnaDebugLoggingHelp": "Crear archivos de registro de gran tamaño. Solo debe ser utilizado cuando sea necesario para solucionar problemas.",
     "LabelEnableDlnaPlayTo": "Activar la reproducción en DLNAi",
