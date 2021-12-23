@@ -501,7 +501,7 @@
     "AlwaysPlaySubtitles": "Visada rodyti subtitrus",
     "BookLibraryHelp": "Garso ir tekstinės knygos yra palaikomos. Peržiūrėkite {0} knygų vardinimo gidą {1}.",
     "ButtonEditOtherUserPreferences": "Keisti šio vartotojo profilį, paveikslą ir asmeninius nustatymus.",
-    "ButtonResetEasyPassword": "Atstatyti pin kodą",
+    "ButtonResetEasyPassword": "Atstatyti PIN kodą",
     "ColorPrimaries": "Pirminės spalvos",
     "ConfirmEndPlayerSession": "Ar norite išjungti Jellyfin ant {0}?",
     "Descending": "Mažėjančia tvarka",
