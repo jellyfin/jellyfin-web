@@ -240,7 +240,7 @@
     "LabelFailed": "Wedi methu",
     "LabelEveryXMinutes": "Bob:",
     "LabelEvent": "Digwyddiad:",
-    "LabelDay": "Diwrnod:",
+    "LabelDay": "Diwrnod yr wythnos:",
     "LabelCountry": "Gwlad:",
     "LabelCollection": "Casgliad:",
     "LabelChannels": "Sianeli:",
@@ -446,5 +446,6 @@
     "CommunityRating": "Sgôr gymunedol",
     "ColorTransfer": "Trosglwyddo lliw",
     "ColorSpace": "Gofod lliw",
-    "ColorPrimaries": "Sylfaenol lliwiau"
+    "ColorPrimaries": "Sylfaenol lliwiau",
+    "LabelAccessDay": "Diwrnod yr wythnos:"
 }

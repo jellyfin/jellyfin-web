@@ -730,7 +730,7 @@
     "Authorize": "Yetkilendir",
     "LabelTunerType": "Tuner türü:",
     "LabelTunerIpAddress": "Ayarlayıcı IP Adresi:",
-    "LabelTriggerType": "Tetik Türü:",
+    "LabelTriggerType": "Tetik türü:",
     "LabelTranscodingThreadCountHelp": "Kod dönüştürme sırasında kullanılacak maksimum iş parçacığı sayısını seçin. İş parçacığı sayısının azaltılması CPU kullanımını azaltacaktır, ancak sorunsuz bir oynatma deneyimi için yeterince hızlı dönüştüremeyebilir.",
     "LabelTranscodingThreadCount": "Kodek dönüştürme iş parçacığı sayısı:",
     "LabelTranscodingProgress": "Kod dönüştürme ilerlemesi:",

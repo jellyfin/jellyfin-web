@@ -429,7 +429,7 @@
     "LabelDateAddedBehavior": "Hantering av datum för nytt innehåll:",
     "LabelDateAddedBehaviorHelp": "Om ett metadatavärde finns kommer det alltid att användas i stället för dessa alternativ.",
     "LabelDateTimeLocale": "Språktidsformat:",
-    "LabelDay": "Dag:",
+    "LabelDay": "Veckodag:",
     "LabelDeathDate": "Död:",
     "LabelDefaultScreen": "Förvald sektion:",
     "LabelDefaultUser": "Förvald användare:",

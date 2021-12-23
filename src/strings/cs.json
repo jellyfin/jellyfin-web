@@ -390,7 +390,7 @@
     "LabelDateAdded": "Datum přidání:",
     "LabelDateAddedBehavior": "Nový obsah řadit dle data:",
     "LabelDateAddedBehaviorHelp": "Pokud je hodnota metadat přítomna, bude vždy použita před některou z těchto možností.",
-    "LabelDay": "Den:",
+    "LabelDay": "Den týdne:",
     "LabelDeathDate": "Datum úmrtí:",
     "LabelDefaultUser": "Výchozí uživatel:",
     "LabelDefaultUserHelp": "Uživatelská knihovna, která by měla být zobrazena na připojených zařízení. Nastavení může být přepsáno pomocí profilů pro každé zařízení.",

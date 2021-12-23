@@ -385,7 +385,7 @@
     "LabelDefaultUser": "Utilisateur par défaut :",
     "LabelDefaultScreen": "Écran par défaut :",
     "LabelDeathDate": "Date de décès :",
-    "LabelDay": "Jour :",
+    "LabelDay": "Jour de la semaine :",
     "LabelDateAdded": "Date d'ajout :",
     "LabelCustomDeviceDisplayNameHelp": "Entrez un nom d'affichage personnalisé ou laissez vide pour utiliser le nom rapporté par l'appareil.",
     "LabelCustomCssHelp": "Appliquer votre propre style personnalisé à l'interface web.",

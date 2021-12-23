@@ -233,7 +233,7 @@
     "LabelDateAdded": "추가한 날짜:",
     "LabelDateAddedBehavior": "새 콘텐츠에 대한 날짜 추가 동작:",
     "LabelDateAddedBehaviorHelp": "메타데이터 값이 있는 경우 항상 먼저 사용됩니다.",
-    "LabelDay": "날짜:",
+    "LabelDay": "요일:",
     "LabelDeathDate": "사망일:",
     "LabelDefaultUser": "기본 사용자:",
     "LabelDefaultUserHelp": "연결된 장치에 어떤 사용자 라이브러리를 표시할 지 결정합니다. 이 설정은 각 장치의 사용중인 프로필을 대체합니다.",
