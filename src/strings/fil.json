@@ -308,7 +308,7 @@
     "OptionSaveMetadataAsHiddenHelp": "Malalapat ang pagbabago nito sa bagong metadata na naka-save sa hinaharap. Ang mga kasalukuyang metadata file ay ia-update sa susunod na oras na ma-save ang mga ito ng server.",
     "OptionSaveMetadataAsHidden": "I-save ang metadata at mga larawan bilang mga nakatagong file",
     "OptionResumable": "Pwedeng i-resume",
-    "OptionResElement": "res element",
+    "OptionResElement": "'res' element",
     "OptionRequirePerfectSubtitleMatch": "Mag-download lang ng mga subtitle na tugma sa aking mga video file",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "Kinakailangan ito para sa ilang device na hindi masyadong naghahanap ng oras.",
     "OptionReportByteRangeSeekingWhenTranscoding": "Iulat na sinusuportahan ng server ang byte seeking kapag nag-transcoding",
