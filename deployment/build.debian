@@ -9,7 +9,7 @@ pushd ${SOURCE_DIR}
 cp -a package-lock.json /tmp/package-lock.json
 
 # modify changelog to unstable configuration if IS_UNSTABLE
-if [[ ${IS_UNSTABLE} == 'yes' ]]; then
+if ${IS_UNSTABLE:-false}; then
     pushd debian
 
     PR_ID=$( git log --grep 'Merge pull request' --oneline --single-worktree --first-parent | head -1 | grep --color=none -Eo '#[0-9]+' | tr -d '#' )
@@ -27,13 +27,8 @@ fi
 # build deb
 dpkg-buildpackage -us -uc --pre-clean --post-clean
 
-mkdir -p ${ARTIFACT_DIR}
 mv ../jellyfin*.{deb,dsc,tar.gz,buildinfo,changes} ${ARTIFACT_DIR}
 
 cp -a /tmp/package-lock.json package-lock.json
-
-if [[ ${IS_DOCKER} == YES ]]; then
-    chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
-fi
 
 popd

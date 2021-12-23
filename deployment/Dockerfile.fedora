@@ -1,23 +1,29 @@
 FROM fedora:33
 
+# Prepare Fedora environment
+RUN dnf update -y \
+  && dnf install -y rpm-build git make nodejs \
+  && dnf clean all
+
+# User to build as
+ARG UID=1000
+
+# Add build user
+RUN useradd --uid $UID --user-group --create-home --shell /bin/bash \
+            --home /home/user user
+
 # Docker build arguments
-ARG SOURCE_DIR=/jellyfin
+ARG SOURCE_DIR=/home/user/jellyfin
 ARG ARTIFACT_DIR=/dist
 
 # Docker run environment
-ENV SOURCE_DIR=/jellyfin
+ENV SOURCE_DIR=/home/user/jellyfin
 ENV ARTIFACT_DIR=/dist
-ENV IS_DOCKER=YES
-
-# Prepare Fedora environment
-RUN dnf update -y \
-  && dnf install -y @buildsys-build rpmdevtools git dnf-plugins-core nodejs autoconf automake glibc-devel
+ENV IS_DOCKER=true
 
 # Link to build script
 RUN ln -sf ${SOURCE_DIR}/deployment/build.fedora /build.sh
 
-VOLUME ${SOURCE_DIR}
-
-VOLUME ${ARTIFACT_DIR}
+USER user:user
 
 ENTRYPOINT ["/build.sh"]

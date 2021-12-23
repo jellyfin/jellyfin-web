@@ -21,19 +21,23 @@ jobs:
     displayName: Set release version (stable)
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
 
+  - script: 'mkdir -p deployment/dist'
+    displayName: Create deployment/dist directory
+    condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
+
   - script: './bump-version $(JellyfinVersion)'
     displayName: Bump internal version (stable)
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
 
-  - script: 'docker build -f deployment/Dockerfile.$(BuildConfiguration) -t jellyfin-web-$(BuildConfiguration) deployment'
+  - script: 'docker build --build-arg UID=$(id -u) -f deployment/Dockerfile.$(BuildConfiguration) -t jellyfin-web-$(BuildConfiguration) deployment'
     displayName: 'Build Dockerfile'
-    condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
 
-  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e IS_UNSTABLE="yes" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
+  - script: 'docker image ls -a && docker run --user $(id -u):$(id -g) -v $(pwd)/deployment/dist:/dist -v $(pwd):/home/user/jellyfin -e IS_UNSTABLE="true" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
     displayName: 'Run Dockerfile (unstable)'
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/master')
+    condition: or(startsWith(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
 
-  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e IS_UNSTABLE="no" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
+  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/home/user/jellyfin -e IS_UNSTABLE="false" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
     displayName: 'Run Dockerfile (stable)'
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
 
@@ -74,7 +78,7 @@ jobs:
   steps:
   - script: echo "##vso[task.setvariable variable=JellyfinVersion]$( awk -F '/' '{ print $NF }' <<<'$(Build.SourceBranch)' | sed 's/^v//' )"
     displayName: Set release version (stable)
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')  
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
 
   - script: './bump-version $(JellyfinVersion)'
     displayName: Bump internal version (stable)

@@ -7,7 +7,7 @@ set -o xtrace
 pushd ${SOURCE_DIR}
 
 # get version
-if [[ ${IS_UNSTABLE} == 'yes' ]]; then
+if ${IS_UNSTABLE:-false}; then
     version="${BUILD_ID}"
 else
     version="$( grep "version:" ./build.yaml | sed -E 's/version: "([0-9\.]+.*)"/\1/' )"
@@ -17,14 +17,8 @@ fi
 npm ci --no-audit --unsafe-perm
 mv dist jellyfin-web_${version}
 tar -czf jellyfin-web_${version}_portable.tar.gz jellyfin-web_${version}
-rm -rf dist
 
 # move the artifacts
-mkdir -p ${ARTIFACT_DIR}
 mv jellyfin[-_]*.tar.gz ${ARTIFACT_DIR}
-
-if [[ ${IS_DOCKER} == YES ]]; then
-    chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
-fi
 
 popd

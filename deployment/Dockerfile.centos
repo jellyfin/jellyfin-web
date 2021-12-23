@@ -1,26 +1,31 @@
 FROM centos:7
 
+# Prepare CentOS environment
+RUN yum update -y \
+  && yum install -y rpm-build git make \
+  && curl -fsSL https://rpm.nodesource.com/setup_12.x | bash - \
+  && yum install -y nodejs \
+  && yum clean all
+
+# User to build as
+ARG UID=1000
+
+# Add build user
+RUN useradd --uid $UID --user-group --create-home --shell /bin/bash \
+            --home /home/user user
+
 # Docker build arguments
-ARG SOURCE_DIR=/jellyfin
+ARG SOURCE_DIR=/home/user/jellyfin
 ARG ARTIFACT_DIR=/dist
 
 # Docker run environment
-ENV SOURCE_DIR=/jellyfin
+ENV SOURCE_DIR=/home/user/jellyfin
 ENV ARTIFACT_DIR=/dist
-ENV IS_DOCKER=YES
-
-# Prepare CentOS environment
-RUN yum update -y \
-  && yum install -y epel-release \
-  && yum install -y @buildsys-build rpmdevtools git yum-plugins-core autoconf automake glibc-devel gcc-c++ make \
-  && curl -fsSL https://rpm.nodesource.com/setup_12.x | bash - \
-  && yum install -y nodejs
+ENV IS_DOCKER=true
 
 # Link to build script
 RUN ln -sf ${SOURCE_DIR}/deployment/build.centos /build.sh
 
-VOLUME ${SOURCE_DIR}
-
-VOLUME ${ARTIFACT_DIR}
+USER user:user
 
 ENTRYPOINT ["/build.sh"]

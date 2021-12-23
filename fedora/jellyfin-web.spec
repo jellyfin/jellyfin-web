@@ -30,10 +30,6 @@ Jellyfin is a free software media system that puts you in control of managing an
 %build
 
 %install
-%if 0%{?rhel} > 0 && 0%{?rhel} < 8
-# Required for CentOS build
-chown root:root -R .
-%endif
 npm ci --no-audit --unsafe-perm
 %{__mkdir} -p %{buildroot}%{_datadir}
 mv dist %{buildroot}%{_datadir}/jellyfin-web
@@ -45,9 +41,7 @@ mv dist %{buildroot}%{_datadir}/jellyfin-web
 %{_datadir}/licenses/jellyfin/LICENSE
 
 %changelog
-* Fri Dec 04 2020 Jellyfin Packaging Team <packaging@jellyfin.org>
-- Forthcoming stable release
-* Mon Jul 27 2020 Jellyfin Packaging Team <packaging@jellyfin.org>
-- Forthcoming stable release
-* Mon Mar 23 2020 Jellyfin Packaging Team <packaging@jellyfin.org>
-- Forthcoming stable release
+* Fri Dec 24 2021 Jellyfin Packaging Team <packaging@jellyfin.org>
+- New upstream version 10.8.0-alpha3; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v10.8.0-alpha3
+* Fri Dec 24 2021 Jellyfin Packaging Team <packaging@jellyfin.org>
+- Jellyfin Web unstable build 20211223.3 for merged PR #
