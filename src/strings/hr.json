@@ -567,7 +567,7 @@
     "MessageFileReadError": "Došlo je do greške prilikom učitavanja datoteke. Pokušajte ponovno.",
     "MessageForgotPasswordFileCreated": "Sljedeća datoteka je stvorena na vašem poslužitelju i sadrži upute o tome kako postupiti:",
     "MessageForgotPasswordInNetworkRequired": "Molim pokušajte ponovno unutar kućne mreže za pokretanje postupka za poništavanje zaporke.",
-    "MessageInvalidForgotPasswordPin": "Upisan je neispravan ili zastarjele pin. Molim, pokušajte ponovno.",
+    "MessageInvalidForgotPasswordPin": "Upisan je neispravan ili zastarjele PIN. Molim, pokušajte ponovno.",
     "MessageInvalidUser": "Pogrešno korisničko ime ili lozinka. Molim, pokušajte ponovo.",
     "MessageItemSaved": "Stavka je snimljena.",
     "MessageItemsAdded": "Stavke su dodane.",
