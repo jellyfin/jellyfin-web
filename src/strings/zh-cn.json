@@ -893,7 +893,7 @@
     "OptionPlainVideoItemsHelp": "所有视频在DIDL中显示为 \"object.item.videoItem\" ，而不是一个更具体的类型，如 \"object.item.videoItem.movie\" 。",
     "OptionPlayCount": "播放次数",
     "OptionPremiereDate": "首映日期",
-    "OptionProtocolHls": "HTTP 直播串流",
+    "OptionProtocolHls": "HTTP 直播串流 (HLS)",
     "OptionProtocolHttp": "HTTP",
     "OptionRegex": "正则表达式",
     "OptionReleaseDate": "发行日期",
