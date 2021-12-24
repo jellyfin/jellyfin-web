@@ -917,7 +917,7 @@
     "OptionPlainVideoItemsHelp": "Toutes les vidéos seront affichées dans le DIDL en tant que 'object.item.videoItem' au lieu de formats plus spécifiques comme, par exemple 'object.item.videoItem.movie'.",
     "OptionPlayCount": "Nombre de lectures",
     "OptionPremiereDate": "Date de la première",
-    "OptionProtocolHls": "Streaming Http en direct",
+    "OptionProtocolHls": "Streaming HTTP en direct (HLS)",
     "OptionReleaseDate": "Date de sortie",
     "OptionReportByteRangeSeekingWhenTranscoding": "Signaler que le serveur prend en charge la recherche d'octets lors du transcodage",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "Nécessaire pour certains appareils qui ne sont pas capables d'effectuer une recherche dans le temps correctement.",
