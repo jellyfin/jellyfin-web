@@ -221,7 +221,7 @@
     "Guide": "Telegid",
     "GuideProviderLogin": "Kıru",
     "GuideProviderSelectListings": "Tızbelerdı tañdau",
-    "H264CrfHelp": "\"Bağalaudyñ tūraqty mänı\" (CRF) x264 men x265 kodtauyşy üşın ädepkı sapa parametrı bolyp tabylady. Sız 0 jäne 51 arasyndağy mänderın belgılei alasyz, onda tömen mänder (joğary fail ölşemderı esebınen) nätijesınde jaqsy sapağa keltıredı. Tağylyp mänder 18 jäne 28 arasynda bolady. Ädepkısı x264 üşın 23 jäne x265 üşın 28 bolyp tabylady, sondyqtan bastau nüktesı retınde osyny paidalanuyñyzğa bolady.",
+    "H264CrfHelp": "\"Tūraqty bağalau faktory\" (CRF) x264 men x265 kodtauyşy üşın ädepkı sapa parametrı bolyp tabylady. Sız 0 jäne 51 arasyndağy mänderın belgılei alasyz, onda tömen mänder (joğary fail ölşemderı esebınen) nätijesınde jaqsy sapağa keltıredı. Tağylyp mänder 18 jäne 28 arasynda bolady. Ädepkısı x264 üşın 23 jäne x265 üşın 28 bolyp tabylady, sondyqtan bastau nüktesı retınde osyny paidalanuyñyzğa bolady.",
     "EncoderPresetHelp": "Önımdılıktı jaqsartu üşın jyldam mänın, nemese sapasyn jaqsartu üşın baiau mänın tañdañyz.",
     "HDPrograms": "HD-berılimder",
     "HardwareAccelerationWarning": "Aparattyq jedeldetudı qosu keibır ortalarda tūraqsyzdyq tudyruy mümkın. Operasialyq jüieñız ben beine draiverlerıñız tolyq jañartylğanyna köz jetkızıñız. Eger osyny qosqannan keiın beine oinatuda qiyndyq bolsa, parametrdı qaita Eşqanadai dep özgertuıñız qajet.",
