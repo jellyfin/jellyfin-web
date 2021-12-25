@@ -17,5 +17,12 @@
     "ButtonSyncPlay": "SyncPlay",
     "Sync": "Сінхранізацыя",
     "Playlists": "Плэйліст",
-    "OptionBluray": "BD"
+    "OptionBluray": "BD",
+    "AddToCollection": "Дадаць у калекцыю",
+    "AdditionalNotificationServices": "Праглядзіце каталог убудоў, каб усталяваць дадатковыя службы апавяшчэнняў.",
+    "AddedOnValue": "Дададзены {0}",
+    "Add": "Дадаць",
+    "Actor": "Акцёр",
+    "AccessRestrictedTryAgainLater": "У цяперашні час доступ абмежаваны. Калі ласка паспрабуйце зноў пазней.",
+    "Absolute": "Абсалютны"
 }

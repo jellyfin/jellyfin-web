@@ -1154,7 +1154,7 @@
     "MessageDeleteTaskTrigger": "Сигурни ли сте ,че искате да изтриете \"пусковият механизъм\" за задачи?",
     "MessageCreateAccountAt": "Създай акаунт в {0}",
     "MessageContactAdminToResetPassword": "Моля, свържете се със системния си администратор, за да нулирате паролата си.",
-    "MessageConfirmRevokeApiKey": "Сигурни ли сте ,че искате да оттеглите api ключа?Връзката на приложението със сървъра ще бъде прекратена незабавно.",
+    "MessageConfirmRevokeApiKey": "Сигурни ли сте ,че искате да оттеглите API ключа?Връзката на приложението със сървъра ще бъде прекратена незабавно.",
     "MessageSyncPlayGroupDoesNotExist": "Неуспешно присъединяване към групата, защото не съществува.",
     "MessageSyncPlayPlaybackPermissionRequired": "Необходимо е разрешение за възпроизвеждане.",
     "MessageSyncPlayNoGroupsAvailable": "Няма налични групи.Пуснете нещо да се възпроизвежда.",
