@@ -905,7 +905,7 @@
     "MessageEnablingOptionLongerScans": "Bật tùy chọn này có thể dẫn đến việc quét thư viện lâu hơn đáng kể.",
     "MessageDownloadQueued": "Tải xuống đã được xếp hàng đợi.",
     "MessageDirectoryPickerLinuxInstruction": "Đối với Linux trên Arch Linux, CentOS, Debian, Fedora, openSUSE hoặc Ubuntu, bạn phải cấp cho người dùng dịch vụ ít nhất quyền truy cập đọc vào các vị trí lưu trữ của bạn.",
-    "MessageDirectoryPickerBSDInstruction": "Với BSD, bạn có thể cần cài đặt bộ nhớ  'FreeNAS Jail' để Jellyfin có thể truy cập phương tiện của bạn.",
+    "MessageDirectoryPickerBSDInstruction": "Với BSD, bạn có thể cần cài đặt bộ nhớ 'FreeNAS Jail' để Jellyfin có thể truy cập phương tiện của bạn.",
     "MessageDeleteTaskTrigger": "Bạn có chắc chắn muốn xóa trình kích hoạt tác vụ này không?",
     "MessageCreateAccountAt": "Tạo tài khoản tại {0}",
     "MessageContactAdminToResetPassword": "Vui lòng liên hệ với quản trị viên hệ thống của bạn để đặt lại mật khẩu của bạn.",
