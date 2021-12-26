@@ -411,6 +411,12 @@ import template from './libraryoptionseditor.template.html';
             parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
         }
 
+        if (contentType !== 'tvshows' || contentType !== 'movies' || contentType !== 'musicvideos' || contentType !== 'mixed') {
+            parent.querySelector('.chkDisableEmbeddedSubtitlesContainer').classList.remove('hide');
+        } else {
+            parent.querySelector('.chkDisableEmbeddedSubtitlesContainer').classList.add('hide');
+        }
+
         parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies');
 
         return populateMetadataSettings(parent, contentType);
@@ -509,6 +515,7 @@ import template from './libraryoptionseditor.template.html';
             AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value),
             EnableEmbeddedTitles: parent.querySelector('#chkEnableEmbeddedTitles').checked,
             EnableEmbeddedEpisodeInfos: parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked,
+            DisableEmbeddedSubtitles: parent.querySelector('#chkDisableEmbeddedSubtitles').checked,
             SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked,
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector('#chkSkipIfAudioTrackPresent').checked,
             SaveSubtitlesWithMedia: parent.querySelector('#chkSaveSubtitlesLocally').checked,
@@ -561,6 +568,7 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
         parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked = options.EnableEmbeddedEpisodeInfos;
+        parent.querySelector('#chkDisableEmbeddedSubtitles').checked = options.DisableEmbeddedSubtitles;
         parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
         parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
         parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;

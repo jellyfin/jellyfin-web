@@ -1266,6 +1266,8 @@
     "Season": "Series",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Prefer embedded episode information over filenames",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Use the episode information from the embedded metadata if available.",
+    "DisableEmbeddedSubtitles": "Disable embedded subtitles",
+    "DisableEmbeddedSubtitlesHelp": "Disable subtitles that are packaged within video files.",
     "Person": "Person",
     "Movie": "Film",
     "LabelLibraryPageSizeHelp": "Set the amount of items to show on a library page. Set to 0 in order to disable paging.",
