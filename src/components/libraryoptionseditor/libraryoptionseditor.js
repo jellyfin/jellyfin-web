@@ -411,7 +411,7 @@ import template from './libraryoptionseditor.template.html';
             parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
         }
 
-        if (contentType !== 'tvshows' || contentType !== 'movies' || contentType !== 'musicvideos' || contentType !== 'mixed') {
+        if (contentType === 'tvshows' || contentType === 'movies' || contentType === 'musicvideos' || contentType === 'mixed') {
             parent.querySelector('.chkDisableEmbeddedSubtitlesContainer').classList.remove('hide');
         } else {
             parent.querySelector('.chkDisableEmbeddedSubtitlesContainer').classList.add('hide');
