@@ -975,7 +975,7 @@
     "OptionSaveMetadataAsHidden": "Saglabāt metadatus un attēlus kā paslēptas datnes",
     "OptionRequirePerfectSubtitleMatch": "Lejupielādēt tikai subtitrus, kas perfekti sakrīt ar manām video datnēm",
     "OptionRegex": "Regex",
-    "OptionProtocolHls": "HTTP Tiešraides Straumes",
+    "OptionProtocolHls": "HTTP Tiešraides Straumes (HLS)",
     "OptionPremiereDate": "Pirmizrādes Datums",
     "OptionPlayCount": "Atskaņošanas Skaits",
     "OptionMissingEpisode": "Trūkstošās Epizodes",
