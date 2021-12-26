@@ -1289,7 +1289,7 @@
     "PreferEmbeddedTitlesOverFileNames": "Prefer embedded titles over filenames",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Determine the display title to use when no internet metadata or local metadata is available.",
     "DisableEmbeddedSubtitles": "Disable embedded subtitles",
-    "DisableEmbeddedSubtitlesHelp": "Disable subtitles that are packaged within video files.",
+    "DisableEmbeddedSubtitlesHelp": "Disable subtitles that are packaged within media containers.",
     "Premiere": "Premiere",
     "Premieres": "Premieres",
     "Preview": "Preview",
