@@ -1177,7 +1177,7 @@
     "TabDirectPlay": "Neposredno predvajanje",
     "TabCodecs": "Kodeki",
     "OptionRegex": "Regex",
-    "OptionProtocolHls": "HTTP pretakanje v živo",
+    "OptionProtocolHls": "HTTP pretakanje v živo (HLS)",
     "ThemeSongs": "Glavne pesmi",
     "TabStreaming": "Pretakanje",
     "TabServer": "Strežnik",
