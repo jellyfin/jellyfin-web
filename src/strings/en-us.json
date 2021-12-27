@@ -576,7 +576,7 @@
     "LabelCustomCertificatePath": "Custom SSL certificate path:",
     "LabelCustomCertificatePathHelp": "Path to a PKCS #12 file containing a certificate and private key to enable TLS support on a custom domain.",
     "LabelCustomCss": "Custom CSS:",
-    "LabelCustomCssHelp": "Apply your own custom styles on the web interface.",
+    "LabelCustomCssHelp": "Apply your custom CSS code on the web interface.",
     "LabelCustomDeviceDisplayNameHelp": "Supply a custom display name or leave empty to use the name reported by the device.",
     "LabelCustomRating": "Custom rating:",
     "LabelDashboardTheme": "Server Dashboard theme:",
