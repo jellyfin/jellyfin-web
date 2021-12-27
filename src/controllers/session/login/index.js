@@ -27,7 +27,6 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
             onLoginSuccessful(user.Id, result.AccessToken, apiClient);
         }, function (response) {
-            page.querySelector('#txtManualName').value = '';
             page.querySelector('#txtManualPassword').value = '';
             loading.hide();
 
