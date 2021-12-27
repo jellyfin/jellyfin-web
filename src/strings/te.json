@@ -323,7 +323,7 @@
     "OptionRegex": "రెగెక్స్",
     "OptionRandom": "యాదృచ్ఛికం",
     "OptionProtocolHttp": "HTTP",
-    "OptionProtocolHls": "HTTP లైవ్ స్ట్రీమింగ్",
+    "OptionProtocolHls": "HTTP లైవ్ స్ట్రీమింగ్ (HLS)",
     "OptionPremiereDate": "ప్రీమియర్ తేదీ",
     "OptionPlayCount": "ప్లే కౌంట్",
     "OptionPlainVideoItemsHelp": "అన్ని వీడియోలు DIDL లో \"object.item.videoItem\" గా సూచించబడతాయి, \"object.item.videoItem.movie\" వంటి మరింత నిర్దిష్ట రకానికి బదులుగా.",
