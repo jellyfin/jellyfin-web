@@ -841,7 +841,7 @@
     "LabelRecordingPathHelp": "Specify the default location to save recordings. If left empty, the server's program data folder will be used.",
     "LabelRecordingPath": "Default recording path:",
     "LabelAlbumArtMaxWidth": "Album art max width:",
-    "LabelCustomCssHelp": "Apply your own custom styles on the web interface.",
+    "LabelCustomCssHelp": "Apply your custom CSS code on the web interface.",
     "LabelBlastMessageIntervalHelp": "Determine the duration in seconds between blast alive messages.",
     "LabelBlastMessageInterval": "Alive message interval:",
     "LabelBitrate": "Bitrate:",
