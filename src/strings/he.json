@@ -938,7 +938,7 @@
     "HeaderCodecProfileHelp": "פרופילי קידוד מציינים את המגבלות של מכשיר בעת הפעלת קידודים ספציפיים. אם חלה מגבלה אז המדיה תוקנה מחדש, גם אם הקידוד מוגדר להפעלה ישירה.",
     "HardwareAccelerationWarning": "הפעלת האצת חומרה עלולה לגרום לחוסר יציבות בסביבות מסוימות. ודא שמערכת ההפעלה ומנהלי הווידאו שלך מעודכנים לחלוטין. אם אתה מתקשה בהפעלת וידאו לאחר הפעלת זה, יהיה עליך לשנות את ההגדרה בחזרה ללא.",
     "GuideProviderSelectListings": "בחר רישומים",
-    "Framerate": "קצב הפריימים",
+    "Framerate": "קצב תמונות",
     "ErrorPlayerNotFound": "לא נמצא נגן עבור המדיה המבוקשת.",
     "ErrorAddingListingsToSchedulesDirect": "אירעה שגיאה בהוספת המערך לחשבונך Direct Schedules .אתר Schedules Direct מאפשר רק מספר מצומצם של מערכים לכל חשבון. ייתכן שיהיה עליך להיכנס לאתר Schedules Direct ולהסיר רישומים אחרים מחשבונך לפני שתמשיך.",
     "Engineer": "מהנדס",
@@ -954,5 +954,13 @@
     "LabelAlbumArtPN": "תמונת אלבום PN:",
     "LabelAlbumArtMaxResHelp": "הרזולוציה המקסימלית של תמונת האלבום חשופה בעזרת המאפיין upnp:albumArtURI.",
     "HeaderRecordingPostProcessing": "מעבד הקלטה",
-    "AgeValue": "(בן {0} שנים)"
+    "AgeValue": "(בן {0} שנים)",
+    "Profile": "פרופיל",
+    "MediaInfoProfile": "פרופיל",
+    "MediaInfoPath": "‏‏נתיב",
+    "MediaInfoLevel": "רמה",
+    "MediaInfoLayout": "פריסה",
+    "MediaInfoLanguage": "שפה",
+    "MediaInfoInterlaced": "שזור",
+    "MediaInfoFramerate": "קצב תמונות"
 }
