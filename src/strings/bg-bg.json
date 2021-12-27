@@ -1259,7 +1259,7 @@
     "OptionRegex": "Регуларен",
     "OptionRandom": "Случаен",
     "OptionProtocolHttp": "HTTP",
-    "OptionProtocolHls": "Директно предаване по HTTP",
+    "OptionProtocolHls": "Директно предаване по HTTP (HLS)",
     "OptionPlainVideoItemsHelp": "Всички видеофайлове са представени в DIDL като \"object.item.videoItem\" вместо по-конкретен тип, като например \"object.item.videoItem.movie\".",
     "OptionPlainStorageFoldersHelp": "Всички папки са представени в DIDL като \"object.container.storageFolder\" вместо по-конкретен тип, като например \"object.container.person.musicArtist\".",
     "OptionMax": "Максимално",
