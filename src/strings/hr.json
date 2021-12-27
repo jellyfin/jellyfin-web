@@ -671,7 +671,7 @@
     "OptionPlainVideoItemsHelp": "Ako je omogućeno, sav video se prezentira u DIDL-u kao \"objekt.stavka.videoStavka\" umjesto više specijaliziranog tipa kao \"objekt.stavka.videoStavka.film\".",
     "OptionPlayCount": "Broju izvođenja",
     "OptionPremiereDate": "Datum premijere",
-    "OptionProtocolHls": "HTTP strujanje uživo",
+    "OptionProtocolHls": "HTTP strujanje uživo (HLS)",
     "OptionReleaseDate": "Datum izdavanja",
     "OptionReportByteRangeSeekingWhenTranscoding": "Izvješće da li poslužitelj podržava bajt traženja kada se konvertira",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "To je potrebno za neke uređaje koji ne mogu dobro koristiti pretraživanje vremena.",
