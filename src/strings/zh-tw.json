@@ -1049,7 +1049,7 @@
     "OptionPlainStorageFolders": "顯示所有資料夾作為一般存儲資料夾",
     "OptionPlainVideoItems": "顯示所有影片為一般影片項目",
     "OptionPlainVideoItemsHelp": "所有影片在 DIDL 中顯示為「object.item.videoItem」，而不是一個更具體的類型，如「object.item.videoItem.movie」。",
-    "OptionProtocolHls": "HTTP 直播串流",
+    "OptionProtocolHls": "HTTP 直播串流 (HLS)",
     "OptionReportByteRangeSeekingWhenTranscoding": "轉檔時，回報伺服器支持的位元組查詢",
     "OptionSaveMetadataAsHidden": "儲存中繼資料和圖片為隱藏文件",
     "OptionSubstring": "子串",
