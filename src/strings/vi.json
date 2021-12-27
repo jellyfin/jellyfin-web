@@ -758,7 +758,7 @@
     "OptionPlainVideoItemsHelp": "Tất cả các video được trình bày trong DIDL dưới dạng 'object.item.videoItem' thay vì một loại cụ thể hơn, chẳng hạn như 'object.item.videoItem.movie'.",
     "OptionPlainVideoItems": "Hiển thị tất cả video dưới dạng các mục video đơn giản",
     "OptionPremiereDate": "Ngày công chiếu",
-    "OptionProtocolHls": "Luồng Trực Tiếp HTTP(HLS)",
+    "OptionProtocolHls": "Luồng Trực Tiếp HTTP (HLS)",
     "OptionRandom": "Ngẫu Nhiên",
     "OptionRegex": "Biểu thức chính quy",
     "OptionRequirePerfectSubtitleMatch": "Chỉ tải xuống phụ đề phù hợp nhất với tệp video",
