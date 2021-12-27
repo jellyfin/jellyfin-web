@@ -1355,7 +1355,7 @@
     "EnableTonemapping": "启用色调映射",
     "AllowTonemappingHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅在转码内嵌 HDR10 或 HLG 元数据的视频时生效。如果播放不顺畅或失败，请考虑关闭对应的硬件解码器。",
     "LabelTonemappingAlgorithm": "选择要使用的色调映射算法：",
-    "TonemappingAlgorithmHelp": "色调映射可以微调。如果你不是很熟悉这些选项，保持默认即可。建议值为 BT.2390。",
+    "TonemappingAlgorithmHelp": "色调映射可以微调。如果你不是很熟悉这些选项，保持默认即可。建议值为 'BT.2390'。",
     "LabelTonemappingRange": "色调映射范围：",
     "TonemappingRangeHelp": "选择输出颜色范围。选自动则与输入范围相同。",
     "LabelTonemappingDesat": "色调映射去饱和：",
@@ -1602,9 +1602,9 @@
     "Casual": "休闲",
     "Cursive": "草书",
     "ContainerBitrateExceedsLimit": "视频比特率超过限制",
-    "PreferSystemNativeHwDecoder": "首选系统原生的 DXVA 或 VAAPI 硬件解码器",
-    "EnableIntelLowPowerH264HwEncoder": "启用低电压模式的 Intel H264 硬件编码器",
+    "PreferSystemNativeHwDecoder": "首选系统原生的 DXVA 或 VA-API 硬件解码器",
+    "EnableIntelLowPowerH264HwEncoder": "启用低电压模式的 Intel H.264 硬件编码器",
     "EnableIntelLowPowerHevcHwEncoder": "启用低电压模式的 Intel HEVC 硬件编码器",
-    "IntelLowPowerEncHelp": "低电压模式编码能节省不必要的 CPU-GPU 同步。Linux 中使用前必须配置好 i915 Huc 固件。",
+    "IntelLowPowerEncHelp": "低电压模式编码能节省不必要的 CPU-GPU 同步。Linux 中使用前必须配置好 i915 HuC 固件。",
     "LabelHardwareEncodingOptions": "硬件编码选项："
 }
