@@ -1382,7 +1382,7 @@
     "LabelTonemappingDesat": "Désaturation tonale :",
     "TonemappingRangeHelp": "Sélectionnez la gamme de couleur de sortie. Auto représente la même gamme qu'en entrée.",
     "LabelTonemappingRange": "Gamme de mappage tonal :",
-    "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces options, gardez les valeurs par défaut. La valeur recommandée est Hable.",
+    "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces options, gardez les valeurs par défaut. La valeur recommandée est 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Sélectionner l'algorithme de mappage tonal à utiliser :",
     "AllowTonemappingHelp": "Le mappage tonal peut transformer la gamme dynamique d'une vidéo de HDR à SDR tout en maintenant les détails et les couleurs d'image qui sont des informations importantes pour représenter la scène originale. Actuellement, ne fonctionne uniquement lorsque des vidéos avec des métadonnées HDR10 ou HLG sont transcodées. Si la lecture n'est pas fluide ou échoue, envisagez de désactiver le décodeur matériel correspondant.",
     "EnableTonemapping": "Activer le mappage tonal",
@@ -1600,5 +1600,11 @@
     "TypeOptionPluralAudio": "Audio",
     "LabelAutomaticallyAddToCollectionHelp": "Quand au moins 2 films possèdent le même nom de collection, les y ajouter automatiquement.",
     "LabelAutomaticallyAddToCollection": "Ajouter automatiquement à la collection",
-    "Cursive": "Cursive"
+    "Cursive": "Cursive",
+    "LabelHardwareEncodingOptions": "Options d'encodage matériel :",
+    "IntelLowPowerEncHelp": "L'encodage basse consommation permet d'éviter d'inutiles synchronisations CPU-GPU. Sur Linux La fonctionnalité doit être désactivée si le micrologiciel HuC du i915 n'a pas été configuré.",
+    "EnableIntelLowPowerHevcHwEncoder": "Activer l'encodeur matériel HEVC basse consommation de Intel",
+    "EnableIntelLowPowerH264HwEncoder": "Activer l'encodeur matériel H.264 basse consommation de Intel",
+    "PreferSystemNativeHwDecoder": "Préférer les décodeurs matériels DXVA et VA-API du système",
+    "ContainerBitrateExceedsLimit": "Le débit binaire de la vidéo dépasse la limite"
 }
