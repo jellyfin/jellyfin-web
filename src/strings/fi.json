@@ -262,7 +262,7 @@
     "OptionRegex": "Säännöllinen lausekse",
     "OptionRandom": "Satunnainen",
     "OptionProtocolHttp": "HTTP",
-    "OptionProtocolHls": "HTTP Suoratoisto",
+    "OptionProtocolHls": "HTTP Suoratoisto (HLS)",
     "OptionPremiereDate": "Ensi-iltapäivä",
     "OptionPlayCount": "Toistokerrat",
     "OptionNew": "Uusi…",
