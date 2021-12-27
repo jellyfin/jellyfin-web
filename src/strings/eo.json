@@ -630,7 +630,7 @@
     "LabelRepositoryUrlHelp": "La loko de la deponeja manifesto, kiun vi volas inkluzivi.",
     "LabelUserRemoteClientBitrateLimitHelp": "Anstataŭigi la defaŭltan ĝeneralan valoron kiu agordita en servilaj parametroj, vidu Panelo > Ludado > Elsendfluo. .",
     "LabelSkipIfAudioTrackPresent": "Preterpasi se la defaŭlta aŭdiotrako kongruas kun la elŝuta lingvo",
-    "LabelCustomCssHelp": "Apliki viajn proprajn laŭmendajn stilojn al la ŭeb-interfaco.",
+    "LabelCustomCssHelp": "Apliki viajn laŭmendajn CSS-kodojn al la ŭeb-interfaco.",
     "LabelPleaseRestart": "Ŝanĝoj efektiviĝos post mane reŝargado de la ŭeb-kliento.",
     "LabelMetadataSaversHelp": "Elekti la dosieraj formatojn por uzi dum savado de viaj metadatenoj.",
     "LabelMaxResumePercentageHelp": "Titoloj estas supozataj plene luditaj se haltigitaj post ĉi tiu tempo.",
