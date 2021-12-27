@@ -266,7 +266,7 @@
     "LabelHttpsPortHelp": "La TCP-pordnumero por la HTTPS-servilo.",
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Determini la intervalon inter du SSDP-serĉoj, en sekundoj.",
     "LabelSlowResponseEnabled": "Ĵurnali avertan mesaĝon se la servilo malrapidis respondi",
-    "TonemappingAlgorithmHelp": "Tonmapado povas esti traagordata. Se vi ne plenkonas ĉi tiujn opciojn, simple konservi la defaŭltojn. La rekomendinda valoro estas \"Hable\".",
+    "TonemappingAlgorithmHelp": "Tonmapado povas esti traagordata. Se vi ne plenkonas ĉi tiujn opciojn, simple konservi la defaŭltojn. La rekomendinda valoro estas \"BT.2390\".",
     "AllowVppTonemappingHelp": "Plena aparataro bazita tonmapado sen uzi OpenCL-filtrilon. Nuntempe funkcias nur dum transkodado de videoj kun enmetitaj HDR10-metadatenoj.",
     "LabelCreateHttpPortMapHelp": "Permesi aŭtomatan pordmapadon por krei regulon por HTTP-trafiko aldone al HTTPS-trafiko.",
     "LabelTonemappingParamHelp": "Agordi la tonmapadan algoritmon. La rekomenditaj kaj defaŭltaj valoroj estas \"NaN\". Ĝenerale lasu ĝin malplena.",
@@ -1596,5 +1596,11 @@
     "TypeOptionPluralAudio": "Aŭdioj",
     "LabelAutomaticallyAddToCollectionHelp": "Kiam almenaŭ 2 filmoj havas la saman kolektonomon, ili estos aŭtomate aldonitaj al la kolekto.",
     "LabelAutomaticallyAddToCollection": "Aldoni aŭtomate al kolekto",
-    "Cursive": "Kursiva"
+    "Cursive": "Kursiva",
+    "LabelHardwareEncodingOptions": "Opcioj de aparatara kodado:",
+    "IntelLowPowerEncHelp": "Energiŝpariga Kodado povas konservi nenecesan sinkronadon de CPU-GPU. En Linux ili devas esti malŝaltitaj se la i915 HuC-firmvaro ne estas agordita.",
+    "EnableIntelLowPowerHevcHwEncoder": "Ebligi aparataran kodilon de energiŝpariga Intel HEVC",
+    "EnableIntelLowPowerH264HwEncoder": "Ebligi aparataran kodilon de energiŝpariga Intel H.264",
+    "PreferSystemNativeHwDecoder": "Preferi operaciuman DXVA aŭ VA-API aparataran malkodilojn",
+    "ContainerBitrateExceedsLimit": "La bitrapideco de la video superas la limon"
 }
