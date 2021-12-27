@@ -1183,7 +1183,7 @@
     "OptionDownloadImagesInAdvanceHelp": "Som standard vil de fleste bilder kun lastes ned når de blir forespurt av en klient. Aktiver denne innstillingen for å laste ned alle bilder på forhånd når ny media oppdages. Dette kan føre til at skanning av biblioteket tar betydelig lenger tid.",
     "OptionIsSD": "SD",
     "OptionLoginAttemptsBeforeLockout": "Bestemmer hvor mange mislykkede innloggingsførsøk som kan finne sted før brukeren blir utestengt.",
-    "OptionProtocolHls": "HTTP-direktestrømming",
+    "OptionProtocolHls": "HTTP-direktestrømming (HLS)",
     "OptionProtocolHttp": "HTTP",
     "PasswordResetProviderHelp": "Velg hvilken metode for tilbakestilling av passord som skal benyttes når denne brukeren ber om å tilbakestille passordet.",
     "PerfectMatch": "Perfekt match",
