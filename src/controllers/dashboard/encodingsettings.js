@@ -15,6 +15,9 @@ import alert from '../../components/alert';
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
         page.querySelector('#chkEnhancedNvdecDecoder').checked = config.EnableEnhancedNvdecDecoder;
+        page.querySelector('#chkSystemNativeHwDecoder').checked = config.PreferSystemNativeHwDecoder;
+        page.querySelector('#chkIntelLpH264HwEncoder').checked = config.EnableIntelLowPowerH264HwEncoder;
+        page.querySelector('#chkIntelLpHevcHwEncoder').checked = config.EnableIntelLowPowerHevcHwEncoder;
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
         page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
@@ -28,7 +31,6 @@ import alert from '../../components/alert';
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
         page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
         page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
-        page.querySelector('#txtOpenclDevice').value = config.OpenclDevice || '';
         page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
         page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
         page.querySelector('#txtTonemappingDesat').value = config.TonemappingDesat;
@@ -81,7 +83,6 @@ import alert from '../../components/alert';
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
-                config.OpenclDevice = form.querySelector('#txtOpenclDevice').value;
                 config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
                 config.EnableVppTonemapping = form.querySelector('#chkVppTonemapping').checked;
                 config.TonemappingAlgorithm = form.querySelector('#selectTonemappingAlgorithm').value;
@@ -105,6 +106,9 @@ import alert from '../../components/alert';
                 config.EnableDecodingColorDepth10Hevc = form.querySelector('#chkDecodingColorDepth10Hevc').checked;
                 config.EnableDecodingColorDepth10Vp9 = form.querySelector('#chkDecodingColorDepth10Vp9').checked;
                 config.EnableEnhancedNvdecDecoder = form.querySelector('#chkEnhancedNvdecDecoder').checked;
+                config.PreferSystemNativeHwDecoder = form.querySelector('#chkSystemNativeHwDecoder').checked;
+                config.EnableIntelLowPowerH264HwEncoder = form.querySelector('#chkIntelLpH264HwEncoder').checked;
+                config.EnableIntelLowPowerHevcHwEncoder = form.querySelector('#chkIntelLpHevcHwEncoder').checked;
                 config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
                 config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
@@ -182,30 +186,40 @@ import alert from '../../components/alert';
                 page.querySelector('#txtVaapiDevice').removeAttribute('required');
             }
 
-            if (this.value == 'nvenc' || this.value == 'amf') {
-                page.querySelector('.fldOpenclDevice').classList.remove('hide');
-                page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
-                page.querySelector('.tonemappingOptions').classList.remove('hide');
-            } else if (this.value == 'vaapi') {
-                page.querySelector('.fldOpenclDevice').classList.add('hide');
-                page.querySelector('#txtOpenclDevice').removeAttribute('required');
+            if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'videotoolbox') {
+                page.querySelector('.fld10bitHevcVp9HwDecoding').classList.remove('hide');
+            } else {
+                page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
+            }
+
+            if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi') {
                 page.querySelector('.tonemappingOptions').classList.remove('hide');
             } else {
-                page.querySelector('.fldOpenclDevice').classList.add('hide');
-                page.querySelector('#txtOpenclDevice').removeAttribute('required');
                 page.querySelector('.tonemappingOptions').classList.add('hide');
+            }
+
+            if (this.value == 'qsv' || this.value == 'vaapi') {
+                page.querySelector('.fldIntelLp').classList.remove('hide');
+            } else {
+                page.querySelector('.fldIntelLp').classList.add('hide');
+            }
+
+            if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {
+                page.querySelector('.fldVppTonemapping').classList.remove('hide');
+            } else {
+                page.querySelector('.fldVppTonemapping').classList.add('hide');
+            }
+
+            if (this.value == 'qsv') {
+                page.querySelector('.fldSysNativeHwDecoder').classList.remove('hide');
+            } else {
+                page.querySelector('.fldSysNativeHwDecoder').classList.add('hide');
             }
 
             if (this.value == 'nvenc') {
                 page.querySelector('.fldEnhancedNvdec').classList.remove('hide');
             } else {
                 page.querySelector('.fldEnhancedNvdec').classList.add('hide');
-            }
-
-            if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'vaapi' || this.value == 'qsv')) {
-                page.querySelector('.fldVppTonemapping').classList.remove('hide');
-            } else {
-                page.querySelector('.fldVppTonemapping').classList.add('hide');
             }
 
             if (this.value) {
