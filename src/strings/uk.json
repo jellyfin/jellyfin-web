@@ -1200,7 +1200,7 @@
     "LabelAutomaticallyAddToCollectionHelp": "Якщо принаймні 2 фільми мають однакову назву колекції, вони будуть автоматично додані до колекції.",
     "LabelAutomaticallyAddToCollection": "Автоматично додати до колекції",
     "Cursive": "Курсив",
-    "OptionProtocolHls": "HTTP Live Streaming",
+    "OptionProtocolHls": "HTTP Live Streaming (HLS)",
     "RepeatOne": "Повторіть одне",
     "RepeatMode": "Режим повторення",
     "RepeatEpisodes": "Повторювати епізоди",

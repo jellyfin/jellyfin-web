@@ -558,7 +558,7 @@
     "OptionRegex": "Expresión regular",
     "OptionRandom": "Aleatorio",
     "OptionProtocolHttp": "HTTP",
-    "OptionProtocolHls": "Transmisión en vivo por HTTP",
+    "OptionProtocolHls": "Transmisión en vivo por HTTP (HLS)",
     "OptionPremiereDate": "Fecha de estreno",
     "LabelSize": "Tamaño:",
     "LabelSimultaneousConnectionLimit": "Límite de transmisiones simultáneas:",

@@ -130,7 +130,7 @@
     "TrackCount": "{0} mga track",
     "Track": "Track",
     "TonemappingRangeHelp": "Piliin ang hanay ng kulay ng output. Ang auto ay pareho sa range input.",
-    "TonemappingAlgorithmHelp": "Maaaring maayos ang tone mapping. Kung hindi ka pamilyar sa mga opsyong ito, panatilihin lamang ang default. Ang inirerekomendang halaga ay Hable.",
+    "TonemappingAlgorithmHelp": "Maaaring maayos ang tone mapping. Kung hindi ka pamilyar sa mga opsyong ito, panatilihin lamang ang default. Ang inirerekomendang value ay 'BT.2390'.",
     "TitlePlayback": "Pag-playback",
     "TitleHostingSettings": "Mga Setting ng Pagho-host",
     "TitleHardwareAcceleration": "Hardware Acceleration",
@@ -1596,5 +1596,11 @@
     "Anytime": "Kahit kailan",
     "AnyLanguage": "Anumang wika",
     "AllowTonemappingHelp": "Maaaring baguhin ng tone mapping ang dynamic range isang video mula sa HDR patungong SDR habang pinapanatili ang mga detalye at kulay ng larawan, na napakahalagang impormasyon para kumatawan sa orihinal na scene. Kasalukuyang gumagana lang kapag nag-transcode ng mga video na may naka-embed na HDR10 o HLG metadata. Kung ang pag-playback ay hindi maayos o nabigo, mangyaring isaalang-alang ang pag-off sa kaukulang hardware decoder.",
-    "AgeValue": "({0} taong gulang)"
+    "AgeValue": "({0} taong gulang)",
+    "LabelHardwareEncodingOptions": "Mga opsyon sa hardware encoding:",
+    "IntelLowPowerEncHelp": "Maaaring panatilihin ng Low-Power Encoding ang hindi kinakailangang pag-sync ng CPU at GPU. Sa Linux dapat ito ay naka-disable kung ang i915 HuC firmware ay hindi na-configure.",
+    "EnableIntelLowPowerHevcHwEncoder": "I-enable ang Intel Low-Power HEVC hardware encoder",
+    "EnableIntelLowPowerH264HwEncoder": "I-enable ang Intel Low-Power H.264 hardware encoder",
+    "PreferSystemNativeHwDecoder": "I-prefer ang OS native DXVA o VA-API hardware decoder",
+    "ContainerBitrateExceedsLimit": "Lampas sa limitasyon ang bitrate ng video"
 }

@@ -1268,7 +1268,7 @@
     "OptionReleaseDate": "Датум изласка",
     "OptionRandom": "Насумично",
     "OptionProtocolHttp": "HTTP",
-    "OptionProtocolHls": "HTTP пренос уживо",
+    "OptionProtocolHls": "HTTP пренос уживо (HLS)",
     "OptionPlayCount": "Број репродукција",
     "OptionPlainVideoItemsHelp": "Сви видео записи су у DIDL -у представљени као „object.item.videoItem“ уместо као одређенији тип, као што је „object.item.videoItem.movie“.",
     "OptionPlainVideoItems": "Прикажите све видео записе као обичне видео ставке",
