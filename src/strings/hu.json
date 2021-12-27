@@ -967,7 +967,7 @@
     "OptionPlainStorageFolders": "Az összes mappa megjelenítése egyszerű tároló mappaként",
     "OptionPlainVideoItems": "Az összes videó megjelenítése egyszerű videófelvételként",
     "OptionPremiereDate": "Premier dátuma",
-    "OptionProtocolHls": "HTTP Live Streamelés(HLS)",
+    "OptionProtocolHls": "HTTP Live Streamelés (HLS)",
     "OptionProtocolHttp": "HTTP",
     "OptionRegex": "Reguláris kifejezések",
     "OptionReportByteRangeSeekingWhenTranscoding": "Jelentse, hogy a szerver támogatja az átkódolás során a bájt keresését",
