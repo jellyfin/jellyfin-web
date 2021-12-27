@@ -1382,7 +1382,7 @@
     "LabelTonemappingDesat": "Tone mapping desat:",
     "TonemappingRangeHelp": "Select the output colour range. Auto is the same as the input range.",
     "LabelTonemappingRange": "Tone mapping range:",
-    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default. The recommended value is Hable.",
+    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default. The recommended value is 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Select the Tone mapping algorithm to use:",
     "AllowTonemappingHelp": "Tone mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only when transcoding videos with embedded HDR10 or HLG metadata. If the playback is not smooth or fails, please consider turning off the corresponding hardware decoder.",
     "EnableTonemapping": "Enable Tone mapping",
@@ -1600,5 +1600,11 @@
     "Larger": "Larger",
     "TypeOptionPluralSeries": "TV Programmes",
     "TypeOptionPluralSeason": "Series",
-    "Cursive": "Cursive"
+    "Cursive": "Cursive",
+    "LabelHardwareEncodingOptions": "Hardware encoding options:",
+    "IntelLowPowerEncHelp": "Low-Power Encoding can keep unnecessary CPU-GPU sync. On Linux they must be disabled if the i915 HuC firmware is not configured.",
+    "EnableIntelLowPowerHevcHwEncoder": "Enable Intel Low-Power HEVC hardware encoder",
+    "EnableIntelLowPowerH264HwEncoder": "Enable Intel Low-Power H.264 hardware encoder",
+    "PreferSystemNativeHwDecoder": "Prefer OS native DXVA or VA-API hardware decoders",
+    "ContainerBitrateExceedsLimit": "The video's bitrate exceeds the limit"
 }
