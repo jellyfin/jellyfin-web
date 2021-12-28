@@ -430,7 +430,7 @@
     "LabelCustomCertificatePath": "自定义 SSL 证书路径：",
     "LabelCustomCertificatePathHelp": "提供一个包含了证书和私钥的 PKCS #12 文件的路径以在一个自定义域名上启动 TLS 支持。",
     "LabelCustomCss": "自定义CSS：",
-    "LabelCustomCssHelp": "应用你的自定义样式到网页。",
+    "LabelCustomCssHelp": "在web界面上应用您的自定义CSS代码。",
     "LabelCustomDeviceDisplayNameHelp": "自定义设备显示名称或留空则使用设备报告名称。",
     "LabelCustomRating": "自定义分级：",
     "LabelDashboardTheme": "控制台主题：",
