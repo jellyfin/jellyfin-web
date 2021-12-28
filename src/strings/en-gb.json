@@ -1354,7 +1354,7 @@
     "PreviousTrack": "Skip to previous",
     "MessageGetInstalledPluginsError": "An error occurred while getting the list of currently installed plugins.",
     "MessagePluginInstallError": "An error occurred while installing the plugin.",
-    "PlaybackRate": "Playback Rate",
+    "PlaybackRate": "Playback Speed",
     "NextTrack": "Skip to next",
     "LabelUnstable": "Unstable",
     "Video": "Video",
