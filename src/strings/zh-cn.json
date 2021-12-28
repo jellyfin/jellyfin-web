@@ -834,7 +834,7 @@
     "OptionAllowRemoteSharedDevices": "允许远程控制共享的设备",
     "OptionAllowRemoteSharedDevicesHelp": "DLNA 设备在用户对他们进行控制前都被视为是共享的。",
     "OptionAllowSyncTranscoding": "允许需要转码的媒体下载和同步",
-    "OptionAllowUserToManageServer": "运行此用户管理服务器",
+    "OptionAllowUserToManageServer": "允许此用户管理服务器",
     "OptionAllowVideoPlaybackRemuxing": "允许播放需转换但无需重新编码的视频",
     "OptionAllowVideoPlaybackTranscoding": "允许播放需要转码的视频",
     "OptionAutomaticallyGroupSeries": "自动合并分布在不同文件夹的电视剧",
