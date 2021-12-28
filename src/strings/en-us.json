@@ -1270,7 +1270,7 @@
     "PlaybackData": "Playback Info",
     "PlaybackErrorNoCompatibleStream": "This client isn't compatible with the media and the server isn't sending a compatible media format.",
     "PlaybackErrorPlaceHolder": "This is a placeholder for physical media that Jellyfin cannot play. Please insert the disc to play.",
-    "PlaybackRate": "Playback Rate",
+    "PlaybackRate": "Playback Speed",
     "PlayCount": "Play count",
     "Played": "Played",
     "PlayFromBeginning": "Play from beginning",
