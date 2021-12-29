@@ -1519,7 +1519,7 @@
     "LabelSlowResponseEnabled": "Ghi lại thông báo cảnh báo nếu máy chủ trả lời chậm",
     "UseEpisodeImagesInNextUpHelp": "Phần 'Tiếp theo' và 'Tiếp tục Xem' sẽ dùng ảnh của tập làm ảnh thu nhỏ thay vì ảnh thu nhỏ chính thức của chương trình.",
     "UseEpisodeImagesInNextUp": "Sử dụng hình ảnh tập trong phần 'Tiếp theo' và 'Tiếp tục Xem'",
-    "LabelLocalCustomCss": "Mã CSS tùy chỉnh để tạo kiểu chỉ áp dụng cho ứng dụng khách này. Bạn có thể muốn tắt mã CSS tùy chỉnh của máy chủ",
+    "LabelLocalCustomCss": "Mã CSS tùy chỉnh để tạo kiểu chỉ áp dụng cho ứng dụng khách này. Bạn có thể muốn tắt mã CSS tùy chỉnh của máy chủ.",
     "LabelDisableCustomCss": "Tắt mã CSS tùy chỉnh cho chủ đề/nhãn hiệu được cung cấp từ máy chủ.",
     "DisableCustomCss": "Tắt CSS tùy chỉnh do máy chủ cung cấp",
     "AudioBitDepthNotSupported": "Độ sâu bit của âm thanh không được hỗ trợ",
