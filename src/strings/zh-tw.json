@@ -255,7 +255,7 @@
     "BookLibraryHelp": "支援有聲書和電子書。請瀏覽 {0}書籍命名指南{1}。",
     "Box": "盒子",
     "BoxRear": "盒子（背面）",
-    "BurnSubtitlesHelp": "根據字幕格式決定伺服器在影片轉檔時是否燒錄字幕。避免燒錄字幕時消耗過多伺服器資源。選擇「自動」以燒錄圖片格式的字幕（如 VOBSUB、PGS 或 SUB/IDX 等）與複雜的 ASS/SSA 字幕。",
+    "BurnSubtitlesHelp": "根據已選擇字幕格式決定伺服器在影片轉檔時是否燒錄字幕。燒錄字幕將會增加伺服器負荷。選擇「自動」以燒錄圖片格式的字幕（如 VOBSUB、PGS 或 SUB/IDX 等）與複雜的 ASS/SSA 字幕。",
     "ButtonEditOtherUserPreferences": "編輯使用者個人檔案、大頭貼和個人設定。",
     "ButtonFullscreen": "全螢幕",
     "ButtonInfo": "詳細資料",
@@ -269,7 +269,7 @@
     "ButtonPause": "暫停",
     "ButtonPreviousTrack": "上一首",
     "ButtonRename": "重新命名",
-    "ButtonResetEasyPassword": "重設簡單 PIN 碼",
+    "ButtonResetEasyPassword": "重設 PIN 碼",
     "ButtonResume": "繼續播放",
     "ButtonRevoke": "撤銷",
     "ButtonScanAllLibraries": "掃描所有媒體庫",
@@ -320,7 +320,7 @@
     "DetectingDevices": "正在偵測裝置",
     "DeviceAccessHelp": "只適用於用唯一辨識方法的裝置，並不會阻止瀏覽器存取。已過濾的使用者裝置會被拒絕存取，直到他們被批准。",
     "DirectPlaying": "直接播放",
-    "DirectStreamHelp1": "裝置相容於影片播放，但音訊格式(DTS、TRUEHD等)或音訊頻道無法相容。再傳送之前，影音串流將被無損地重新包裝。而僅會對音訊轉碼。",
+    "DirectStreamHelp1": "裝置支援播放影片的格式，但不支援某試或所有音軌的音訊格式（DTS, Dolby, TrueHD, etc）。音訊將被轉換至無損格式並連同視訊一同串流至裝置。",
     "DirectStreamHelp2": "直接串流的資源消耗通常取決於音頻配置文件。 僅有視頻是無損的。",
     "DirectStreaming": "直接串流",
     "Director": "導演",
@@ -341,7 +341,7 @@
     "EasyPasswordHelp": "你的簡易 PIN 碼將會用於在支援的 Jellyfin 應用上進行離線存取，同時也可被用於區域網路的登入。",
     "EditMetadata": "編輯中繼資料",
     "EditSubtitles": "編輯字幕",
-    "EnableBackdropsHelp": "瀏覽媒體庫時背景圖將作為頁面的背景。",
+    "EnableBackdropsHelp": "瀏覽媒體庫時，背景圖將作為頁面的背景。",
     "EnableCinemaMode": "影院模式",
     "EnableColorCodedBackgrounds": "色彩背景",
     "EnableDisplayMirroring": "鏡像顯示器",
@@ -1577,5 +1577,6 @@
     "NextChapter": "下一章節",
     "AgeValue": "（{0} 歲）",
     "LabelSortName": "排列名稱：",
-    "LabelOriginalName": "原始名稱："
+    "LabelOriginalName": "原始名稱：",
+    "Console": "控制台"
 }
