@@ -1601,5 +1601,10 @@
     "EnableIntelLowPowerH264HwEncoder": "Enable Intel Low-Power H.264 hardware encoder",
     "EnableIntelLowPowerHevcHwEncoder": "Enable Intel Low-Power HEVC hardware encoder",
     "IntelLowPowerEncHelp": "Low-Power Encoding can keep unnecessary CPU-GPU sync. On Linux they must be disabled if the i915 HuC firmware is not configured.",
-    "LabelHardwareEncodingOptions": "Hardware encoding options:"
+    "LabelHardwareEncodingOptions": "Hardware encoding options:",
+    "AudioIsExternal": "The audio stream is external",
+    "VideoBitrateNotSupported": "The video's bitrate is not supported",
+    "UnknownVideoStreamInfo": "The video stream info is unknown",
+    "UnknownAudioStreamInfo": "The audio stream info is unknown",
+    "DirectPlayError": "There was an error starting direct playback"
 }
