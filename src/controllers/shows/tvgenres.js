@@ -70,7 +70,7 @@ import '../../elements/emby-button/emby-button';
 
             const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
             const query = {
-                SortBy: 'SortName',
+                SortBy: 'Random',
                 SortOrder: 'Ascending',
                 IncludeItemTypes: 'Series',
                 Recursive: true,
