@@ -1606,5 +1606,10 @@
     "IntelLowPowerEncHelp": "Энергосберегающее кодирование может оставить ненужную синхронизацию CPU-GPU. В Linux они должны быть отключены, если микропрограмма i915 HuC не настроена.",
     "EnableIntelLowPowerHevcHwEncoder": "Включить энергосберегающий аппаратный кодёр Intel HEVC",
     "EnableIntelLowPowerH264HwEncoder": "Включить энергосберегающий аппаратный кодёр Intel H.264",
-    "ContainerBitrateExceedsLimit": "Потоковая скорость видео превысила лимит"
+    "ContainerBitrateExceedsLimit": "Потоковая скорость видео превысила лимит",
+    "DirectPlayError": "При запуске прямого воспроизведения произошла ошибка",
+    "UnknownAudioStreamInfo": "Информация об аудио потоке неизвестна",
+    "UnknownVideoStreamInfo": "Информация о видео потоке неизвестна",
+    "VideoBitrateNotSupported": "Потоковая скорость видео не поддерживается",
+    "AudioIsExternal": "Аудио поток является внешним"
 }
