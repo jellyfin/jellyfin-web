@@ -1606,5 +1606,10 @@
     "EnableIntelLowPowerHevcHwEncoder": "Povolit nízkoenergetický hardwarový dekodér Intel HEVC",
     "EnableIntelLowPowerH264HwEncoder": "Povolit nízkoenergetický hardwarový dekodér Intel H.264",
     "PreferSystemNativeHwDecoder": "Preferovat hardwarové dekodéry DXVA nebo VA-API nativní pro daný OS",
-    "ContainerBitrateExceedsLimit": "Bitový tok videa překračuje nastavenou mez"
+    "ContainerBitrateExceedsLimit": "Bitový tok videa překračuje nastavenou mez",
+    "DirectPlayError": "Při spuštění přímého přehrávání došlo k chybě",
+    "UnknownAudioStreamInfo": "Informace o zvukové stopě jsou neznámé",
+    "UnknownVideoStreamInfo": "Informace o video stopě jsou neznámé",
+    "VideoBitrateNotSupported": "Bitový tok videa není podporovaný",
+    "AudioIsExternal": "Zvuková stopa je externí"
 }
