@@ -1602,5 +1602,10 @@
     "EnableIntelLowPowerHevcHwEncoder": "Ebligi aparataran kodilon de energiŝpariga Intel HEVC",
     "EnableIntelLowPowerH264HwEncoder": "Ebligi aparataran kodilon de energiŝpariga Intel H.264",
     "PreferSystemNativeHwDecoder": "Preferi operaciuman DXVA aŭ VA-API aparataran malkodilojn",
-    "ContainerBitrateExceedsLimit": "La bitrapideco de la video superas la limon"
+    "ContainerBitrateExceedsLimit": "La bitrapideco de la video superas la limon",
+    "DirectPlayError": "Okazis eraro dum la rektludado",
+    "UnknownAudioStreamInfo": "La informo pri aŭdia fluo nekonatas",
+    "UnknownVideoStreamInfo": "La informo pri videa fluo nekonatas",
+    "VideoBitrateNotSupported": "La bitrapido de la video ne subtenatas",
+    "AudioIsExternal": "La aŭdia fluo estas ekstera"
 }
