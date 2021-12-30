@@ -1606,5 +1606,10 @@
     "EnableIntelLowPowerHevcHwEncoder": "Activer l'encodeur matériel HEVC basse consommation de Intel",
     "EnableIntelLowPowerH264HwEncoder": "Activer l'encodeur matériel H.264 basse consommation de Intel",
     "PreferSystemNativeHwDecoder": "Préférer les décodeurs matériels DXVA et VA-API du système",
-    "ContainerBitrateExceedsLimit": "Le débit binaire de la vidéo dépasse la limite"
+    "ContainerBitrateExceedsLimit": "Le débit binaire de la vidéo dépasse la limite",
+    "DirectPlayError": "Une erreur s'est produite lors du démarrage de la lecture directe",
+    "UnknownAudioStreamInfo": "Pas d'information sur le flux audio",
+    "VideoBitrateNotSupported": "Le débit de la vidéo n'est pas pris en charge",
+    "UnknownVideoStreamInfo": "Pas d'information sur le flux vidéo",
+    "AudioIsExternal": "Le flux audio est externe"
 }
