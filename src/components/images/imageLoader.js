@@ -54,7 +54,8 @@ worker.addEventListener(
             // Lower values had more visible pixelation
             const width = 20;
             const height = 20;
-            targetDic[hash] = target;
+            targetDic[hash] = (targetDic[hash] || []).filter(item => item !== target);
+            targetDic[hash].push(target);
 
             worker.postMessage({
                 hash,
