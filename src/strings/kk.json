@@ -1607,5 +1607,10 @@
     "IntelLowPowerEncHelp": "Tömenquatty kodtau qajet emes CPU-GPU ündestırudı ūstai alady. i915 HuC mikrobağdarlamasy rettelmegen bolsa, olar Linux jüyesınde öşırıluı qajet.",
     "EnableIntelLowPowerH264HwEncoder": "Tömenquatty Intel H.264 apparattıq kodtağışın qosu",
     "EnableIntelLowPowerHevcHwEncoder": "Tömenquatty Intel HEVC aparattyq kodtağyşyn qosu",
-    "ContainerBitrateExceedsLimit": "Beinenıñ qarqyny şekten asyp kettı"
+    "ContainerBitrateExceedsLimit": "Beinenıñ qarqyny şekten asyp kettı",
+    "AudioIsExternal": "Dybys ağyny syrtqy bolyp tabylady",
+    "DirectPlayError": "Tıkeley oinatudy bastau kezınde qate oryn aldy",
+    "UnknownAudioStreamInfo": "Dybys ağyny turaly aqparat belgısız",
+    "UnknownVideoStreamInfo": "Beine ağyny turaly aqparat belgısız",
+    "VideoBitrateNotSupported": "Beinenıñ qarqyna qoldau körsetılmeidı"
 }
