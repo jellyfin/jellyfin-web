@@ -1233,5 +1233,6 @@
     "Profile": "Profil",
     "LabelProfileContainersHelp": "Virgüle ile ayrılır. Tüm konteynerlere uygulamak için boş bırakılabilir.",
     "LabelProfileContainer": "Konteyner:",
-    "TabDirectPlay": "Doğrudan oynatma"
+    "TabDirectPlay": "Doğrudan oynatma",
+    "TV": "Televizyon alıcısı"
 }
