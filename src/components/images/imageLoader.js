@@ -7,8 +7,11 @@ const targetDic = {};
 worker.addEventListener(
     'message',
     ({ data: { pixels, hsh, width, height } }) => {
-        if (targetDic[hsh]) {
-            drawBlurhash(targetDic[hsh], pixels, width, height);
+        const elems = targetDic[hsh];
+        if (elems && elems.length) {
+            for (const elem of elems) {
+                drawBlurhash(elem, pixels, width, height);
+            }
             delete targetDic[hsh];
         }
     }
@@ -34,12 +37,8 @@ worker.addEventListener(
         ctx.putImageData(imgData, 0, 0);
 
         requestAnimationFrame(() => {
+            // This class is just an utility class, so users can customize the canvas using their own CSS.
             canvas.classList.add('blurhash-canvas');
-            if (userSettings.enableFastFadein()) {
-                canvas.classList.add('lazy-blurhash-fadein-fast');
-            } else {
-                canvas.classList.add('lazy-blurhash-fadein');
-            }
 
             target.parentNode.insertBefore(canvas, target);
             target.classList.add('blurhashed');
@@ -82,7 +81,7 @@ worker.addEventListener(
             source = entry;
         }
 
-        if (entry.isIntersecting) {
+        if (entry.intersectionRatio > 0) {
             if (source) {
                 fillImageElement(target, source);
             }
@@ -91,7 +90,7 @@ worker.addEventListener(
         }
     }
 
-    function onTransitionEnd(event) {
+    function onAnimationEnd(event) {
         const elem = event.target;
         requestAnimationFrame(() => {
             const canvas = elem.previousSibling;
@@ -99,7 +98,7 @@ worker.addEventListener(
                 canvas.classList.add('lazy-hidden');
             }
         });
-        elem.removeEventListener('transitionend', onTransitionEnd);
+        elem.removeEventListener('animationend', onAnimationEnd);
     }
 
     function fillImageElement(elem, url) {
@@ -111,7 +110,7 @@ worker.addEventListener(
         preloaderImg.src = url;
 
         elem.classList.add('lazy-hidden');
-        elem.addEventListener('transitionend', onTransitionEnd);
+        elem.addEventListener('animationend', onAnimationEnd);
 
         preloaderImg.addEventListener('load', () => {
             requestAnimationFrame(() => {
@@ -122,18 +121,18 @@ worker.addEventListener(
                 }
                 elem.removeAttribute('data-src');
 
-                elem.classList.remove('lazy-hidden');
                 if (userSettings.enableFastFadein()) {
                     elem.classList.add('lazy-image-fadein-fast');
                 } else {
                     elem.classList.add('lazy-image-fadein');
                 }
+                elem.classList.remove('lazy-hidden');
             });
         });
     }
 
     function emptyImageElement(elem) {
-        elem.removeEventListener('transitionend', onTransitionEnd);
+        elem.removeEventListener('animationend', onAnimationEnd);
         const canvas = elem.previousSibling;
         if (canvas && canvas.tagName === 'CANVAS') {
             canvas.classList.remove('lazy-hidden');
