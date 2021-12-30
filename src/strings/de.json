@@ -1600,5 +1600,15 @@
     "Casual": "Casual",
     "LabelAutomaticallyAddToCollectionHelp": "Wenn mindestens 2 Filme den gleichen Sammlungsnamen haben, werden sie automatisch zur Sammlung hinzugefügt.",
     "LabelAutomaticallyAddToCollection": "Automatisch zu Sammlung hinzufügen",
-    "Cursive": "Kursivschrift"
+    "Cursive": "Kursivschrift",
+    "AudioIsExternal": "Der Audiostrom ist extern",
+    "LabelHardwareEncodingOptions": "Hardware-encoding Optionen:",
+    "IntelLowPowerEncHelp": "Low-Power Encoding kann zu unnötiger CPU-GPU last führen. Bei Linux muss sie deaktiviert werden, wenn die I915-HUC-Firmware nicht konfiguriert ist.",
+    "EnableIntelLowPowerHevcHwEncoder": "Aktivieren Sie Intel Low-Power HEVC Hardware-Encoder",
+    "EnableIntelLowPowerH264HwEncoder": "Aktiviere Intel Low-Power H.264 Hardware-Encoder",
+    "DirectPlayError": "Es gab einen Fehler beim start der direkt Wiedergabe",
+    "VideoBitrateNotSupported": "Die Bitrate des Videos wird nicht unterstützt",
+    "UnknownVideoStreamInfo": "Die Video-Stream-Info ist unbekannt",
+    "UnknownAudioStreamInfo": "Die Audio-Stream-Info ist unbekannt",
+    "ContainerBitrateExceedsLimit": "Die Bitrate des Videos übersteigt das Limit"
 }
