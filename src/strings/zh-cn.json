@@ -1606,5 +1606,10 @@
     "EnableIntelLowPowerH264HwEncoder": "启用低电压模式的 Intel H.264 硬件编码器",
     "EnableIntelLowPowerHevcHwEncoder": "启用低电压模式的 Intel HEVC 硬件编码器",
     "IntelLowPowerEncHelp": "低电压模式编码能节省不必要的 CPU-GPU 同步。Linux 中使用前必须配置好 i915 HuC 固件。",
-    "LabelHardwareEncodingOptions": "硬件编码选项："
+    "LabelHardwareEncodingOptions": "硬件编码选项：",
+    "DirectPlayError": "启动直接播放时出错",
+    "UnknownAudioStreamInfo": "音频流信息未知",
+    "UnknownVideoStreamInfo": "视频流信息未知",
+    "VideoBitrateNotSupported": "视频的比特率不受支持",
+    "AudioIsExternal": "音频流是外部的"
 }
