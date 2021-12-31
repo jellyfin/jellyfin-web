@@ -1538,5 +1538,15 @@
     "Console": "コンソール",
     "Conductor": "指揮者",
     "Casual": "カジュアル",
-    "Arranger": "アレンジ"
+    "Arranger": "アレンジ",
+    "AudioProfileNotSupported": "音声のコーデックのプロファイルはサポートされていません",
+    "VideoFramerateNotSupported": "映像のフレームレートはサポートされていません",
+    "AudioSampleRateNotSupported": "音声のサンプリングレートはサポートされていません",
+    "AudioCodecNotSupported": "音声のコーデックがサポートされていません",
+    "SubtitleCodecNotSupported": "字幕のコーデックがサポートされていません",
+    "VideoResolutionNotSupported": "映像の解像度はサポートされていません",
+    "VideoCodecNotSupported": "映像のコーデックがサポートされていません",
+    "YoutubeNotFound": "ビデオが見つかりません。",
+    "EnableIntelLowPowerHevcHwEncoder": "Intel の HEVC ハードウェアエンコードを有効にする",
+    "EnableIntelLowPowerH264HwEncoder": "Intel の H.264 ハードウェアエンコードを有効にする"
 }
