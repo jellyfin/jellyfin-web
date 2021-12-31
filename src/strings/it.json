@@ -1606,5 +1606,10 @@
     "EnableIntelLowPowerHevcHwEncoder": "Abilita l'encoder hardware Intel Low-Power HEVC",
     "PreferSystemNativeHwDecoder": "Preferisci i decoder hardware DXVA o VA-API nativi del Sistema Operativo",
     "EnableIntelLowPowerH264HwEncoder": "Abilita l'encoder hardware Intel Low-Power H.264",
-    "ContainerBitrateExceedsLimit": "Il bitrate video eccede il limite"
+    "ContainerBitrateExceedsLimit": "Il bitrate video eccede il limite",
+    "DirectPlayError": "C'è stato un errore nell'avvio della riproduzione",
+    "UnknownAudioStreamInfo": "Le informazioni del flusso audio non sono disponibili",
+    "UnknownVideoStreamInfo": "Le informazioni del flusso video non sono disponibili",
+    "VideoBitrateNotSupported": "Il bitrate video non è supportato",
+    "AudioIsExternal": "Il flusso audio è esterno"
 }
