@@ -1604,5 +1604,10 @@
     "EnableIntelLowPowerHevcHwEncoder": "Bật bộ mã hóa phần cứng Intel HEVC công suất thấp",
     "EnableIntelLowPowerH264HwEncoder": "Bật bộ mã hóa phần cứng H.264 công suất thấp của Intel",
     "PreferSystemNativeHwDecoder": "Ưu tiên bộ giải mã phần cứng DXVA hoặc VA-API gốc của hệ điều hành",
-    "ContainerBitrateExceedsLimit": "Tốc độ bit của video vượt quá giới hạn"
+    "ContainerBitrateExceedsLimit": "Tốc độ bit của video vượt quá giới hạn",
+    "DirectPlayError": "Đã xảy ra lỗi khi bắt đầu phát lại trực tiếp",
+    "UnknownAudioStreamInfo": "Thông tin luồng âm thanh không xác định",
+    "UnknownVideoStreamInfo": "Thông tin luồng video không xác định",
+    "VideoBitrateNotSupported": "Tốc độ bit của video không được hỗ trợ",
+    "AudioIsExternal": "Luồng âm thanh bên ngoài"
 }
