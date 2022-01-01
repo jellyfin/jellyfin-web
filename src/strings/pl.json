@@ -1396,7 +1396,7 @@
     "HeaderAddUser": "Dodaj użytkownika",
     "HeaderAddUpdateSubtitle": "Dodaj/Zaktualizuj napisy",
     "EnableTonemapping": "Włącz Tone mapping",
-    "AllowTonemappingHelp": "Mapowanie tonów potrafi przetworzyć obraz z HDR do SDR przy zachowaniu szczegółów i kolorów, które są istotne przy odtwarzaniu oryginalnej sceny. Obecnie działa tylko przy przetwarzaniu wideo z metadanymi HDR10 lub HLG. Jeśli odtwarzanie nie jest płynne lub nie działa, rozważ wyłączenie odpowiedniego dekodera sprzętowego.",
+    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z filmami HDR10 lub HLG. Wymaga to odpowiedniego środowiska uruchomieniowego OpenCL lub CUDA.",
     "TonemappingAlgorithmHelp": "Mapowanie tonów może zostać dostrojone. Jeśli nie znasz tych opcji, pozostaw domyślne wartości. Domyślna wartość to 'BT.2390'.",
     "PreferFmp4HlsContainerHelp": "Preferuj fMP4 jako domyślny format dla HLS, pozwalając na bezpośrednie odtwarzanie zawartości HEVC na wspieranych urządzeniach.",
     "PreferFmp4HlsContainer": "Preferuj format fMP4-HLS",
@@ -1502,7 +1502,7 @@
     "RemuxHelp1": "Nośnik znajduje się w niekompatybilnym kontenerze plików (MKV, AVI, WMV, itp.), ale zarówno strumień wideo, jak i strumień audio są zgodne z urządzeniem. Nośnik zostanie bezstratnie przepakowany w locie przed wysłaniem do urządzenia.",
     "UseDoubleRateDeinterlacingHelp": "To ustawienie wykorzystuje szybkość pola podczas usuwania przeplotu, często określaną jako usuwanie przeplotu typu bob, która podwaja liczbę klatek na sekundę, aby zapewnić pełny ruch, taki jaki można zobaczyć podczas oglądania wideo z przeplotem na telewizorze.",
     "LabelH265Crf": "CRF kodowania H.265:",
-    "AllowVppTonemappingHelp": "W pełni sprzętowe mapowanie tonów bez użycia filtra OpenCL. Aktualnie działa wyłącznie w trakcie transkodowania wideo z wbudowanymi metadanymi HDR10.",
+    "AllowVppTonemappingHelp": "Pełne mapowanie tonów oparte na sterownikach firmy Intel. Obecnie działa tylko na określonym sprzęcie z filmami HDR10. Ma to wyższy priorytet w porównaniu z inną implementacją OpenCL.",
     "EnableVppTonemapping": "Włącz mapowanie tonów VPP",
     "EnableEnhancedNvdecDecoder": "Włącz ulepszony dekoder NVDEC",
     "Framerate": "Częstotliwość wyświetlania klatek",
@@ -1606,5 +1606,10 @@
     "EnableIntelLowPowerHevcHwEncoder": "Włącz sprzętowy dekoder Intel Low-Power HEVC",
     "EnableIntelLowPowerH264HwEncoder": "Włącz sprzętowy dekoder Intel Low-Power H.264",
     "PreferSystemNativeHwDecoder": "Preferuj sprzętowe dekodery DXVA lub VA-API natywne dla systemu",
-    "ContainerBitrateExceedsLimit": "Bitrate wideo przekracza limit"
+    "ContainerBitrateExceedsLimit": "Bitrate wideo przekracza limit",
+    "DirectPlayError": "Wystąpił błąd podczas uruchamiania bezpośredniego odtwarzania",
+    "UnknownAudioStreamInfo": "Informacje o strumieniu audio są nieznane",
+    "UnknownVideoStreamInfo": "Informacje o strumieniu wideo są nieznane",
+    "VideoBitrateNotSupported": "Szybkość transmisji wideo nie jest obsługiwana",
+    "AudioIsExternal": "Strumień audio jest zewnętrzny"
 }
