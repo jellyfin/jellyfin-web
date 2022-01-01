@@ -11,7 +11,7 @@ import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences'
 import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import SelectElement from '../dashboard/users/SelectElement';
 import SelectSyncPlayAccessElement from '../dashboard/users/SelectSyncPlayAccessElement';
-import TabLinkElement from '../dashboard/users/TabLinkElement';
+import SectionTabs from '../dashboard/users/SectionTabs';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 
@@ -212,9 +212,9 @@ const UserEditPage: FunctionComponent = () => {
 
         element?.current?.querySelector('.chkEnableDeleteAllFolders').addEventListener('change', function (this: HTMLInputElement) {
             if (this.checked) {
-                element?.current?.querySelector('.deleteAccessListContainer').classList.add('hide');
+                element?.current?.querySelector('.deleteAccess').classList.add('hide');
             } else {
-                element?.current?.querySelector('.deleteAccessListContainer').classList.remove('hide');
+                element?.current?.querySelector('.deleteAccess').classList.remove('hide');
             }
         });
 
@@ -245,31 +245,7 @@ const UserEditPage: FunctionComponent = () => {
                         />
                     </div>
                 </div>
-                <div
-                    data-role='controlgroup'
-                    data-type='horizontal'
-                    className='localnav'
-                    id='userProfileNavigation'
-                    style={{display: 'flex'}}
-                >
-                    <TabLinkElement
-                        activeTab={true}
-                        tabTitle='Profile'
-                        onClick={() => Dashboard.navigate('useredit.html', true)}
-                    />
-                    <TabLinkElement
-                        tabTitle='TabAccess'
-                        onClick={() => Dashboard.navigate('userlibraryaccess.html', true)}
-                    />
-                    <TabLinkElement
-                        tabTitle='TabParentalControl'
-                        onClick={() => Dashboard.navigate('userparentalcontrol.html', true)}
-                    />
-                    <TabLinkElement
-                        tabTitle='HeaderPassword'
-                        onClick={() => Dashboard.navigate('userpassword.html', true)}
-                    />
-                </div>
+                <SectionTabs activeTab='useredit'/>
                 <div
                     className='lnkEditUserPreferencesContainer'
                     style={{paddingBottom: '1em'}}
@@ -331,6 +307,7 @@ const UserEditPage: FunctionComponent = () => {
                         </div>
                     </div>
                     <CheckBoxElement
+                        labelClassName='checkboxContainer'
                         type='checkbox'
                         className='chkIsAdmin'
                         title='OptionAllowUserToManageServer'
@@ -416,32 +393,27 @@ const UserEditPage: FunctionComponent = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='verticalSection verticalSection-extrabottompadding'>
-                        <h2>{globalize.translate('HeaderAllowMediaDeletionFrom')}</h2>
-                        <CheckBoxElement
-                            type='checkbox'
-                            className='chkEnableDeleteAllFolders'
-                            title='AllLibraries'
-                        />
-                        <div className='deleteAccessListContainer'>
+                    <div className='verticalSection'>
+                        <h2 className='checkboxListLabel' style={{marginBottom: '1em'}}>
+                            {globalize.translate('HeaderAllowMediaDeletionFrom')}
+                        </h2>
+                        <div className='checkboxList paperList checkboxList-paperList'>
+                            <CheckBoxElement
+                                labelClassName='checkboxContainer'
+                                type='checkbox'
+                                className='chkEnableDeleteAllFolders'
+                                title='AllLibraries'
+                            />
                             <div className='deleteAccess'>
-                                <h3 className='checkboxListLabel'>
-                                    {globalize.translate('DeleteFoldersAccess')}
-                                </h3>
-                                <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {deleteFoldersAccess.map(Item => (
-                                        <CheckBoxListItem
-                                            key={Item.Id}
-                                            className='chkFolder'
-                                            Id={Item.Id}
-                                            Name={Item.Name}
-                                            checkedAttribute={Item.checkedAttribute}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='fieldDescription'>
-                                {globalize.translate('DeleteFoldersAccessHelp')}
+                                {deleteFoldersAccess.map(Item => (
+                                    <CheckBoxListItem
+                                        key={Item.Id}
+                                        className='chkFolder'
+                                        Id={Item.Id}
+                                        Name={Item.Name}
+                                        checkedAttribute={Item.checkedAttribute}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>

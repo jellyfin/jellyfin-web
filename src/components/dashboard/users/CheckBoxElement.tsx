@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createCheckBoxElement = ({ type, className, title }) => ({
-    __html: `<label>
+const createCheckBoxElement = ({ labelClassName, type, className, title }) => ({
+    __html: `<label class="${labelClassName}">
         <input
             is="emby-checkbox"
             type="${type}"
@@ -13,15 +13,18 @@ const createCheckBoxElement = ({ type, className, title }) => ({
 });
 
 type IProps = {
+    labelClassName?: string;
     type?: string;
     className?: string;
     title?: string
 }
 
-const CheckBoxElement: FunctionComponent<IProps> = ({ type, className, title }: IProps) => {
+const CheckBoxElement: FunctionComponent<IProps> = ({ labelClassName, type, className, title }: IProps) => {
     return (
         <div
+            className='sectioncheckbox'
             dangerouslySetInnerHTML={createCheckBoxElement({
+                labelClassName: labelClassName ? labelClassName : '',
                 type: type,
                 className: className,
                 title: globalize.translate(title)
