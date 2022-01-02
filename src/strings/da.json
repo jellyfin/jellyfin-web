@@ -1528,5 +1528,8 @@
     "Engineer": "Ingeniør",
     "Conductor": "Dirigent",
     "Arranger": "Arrangør",
-    "AgeValue": "({0} år gammel)"
+    "AgeValue": "({0} år gammel)",
+    "LabelAutomaticallyAddToCollection": "Automatisk tilføj til samling",
+    "Cursive": "Kursiv",
+    "Console": "Konsol"
 }
