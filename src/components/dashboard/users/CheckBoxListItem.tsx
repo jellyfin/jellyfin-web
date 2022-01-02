@@ -23,6 +23,7 @@ const createCheckBoxElement = ({className, Name, Id, AppName, checkedAttribute})
 const CheckBoxListItem: FunctionComponent<IProps> = ({className, Name, Id, AppName, checkedAttribute}: IProps) => {
     return (
         <div
+            className='sectioncheckbox'
             dangerouslySetInnerHTML={createCheckBoxElement({
                 className: className,
                 Name: Name,
