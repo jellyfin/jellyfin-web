@@ -6,11 +6,10 @@ import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
 import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
-import TabLinkElement from '../dashboard/users/TabLinkElement';
+import SectionTabs from '../dashboard/users/SectionTabs';
 import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/users/ButtonElement';
-import Dashboard from '../../scripts/clientUtils';
 
 type ItemsArr = {
     Name?: string;
@@ -221,34 +220,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                         />
                     </div>
                 </div>
-                <div
-                    data-role='controlgroup'
-                    data-type='horizontal'
-                    className='localnav'
-                    style={{ display: 'flex' }}
-                >
-                    <TabLinkElement
-                        tabTitle='Profile'
-                        onClick={() => Dashboard.navigate('useredit.html', true)}
-                    />
-                    <TabLinkElement
-                        activeTab={true}
-                        tabTitle='TabAccess'
-                        onClick={() => Dashboard.navigate('userlibraryaccess.html', true)}
-                    />
-                    <TabLinkElement
-                        tabTitle='TabParentalControl'
-                        onClick={() => Dashboard.navigate('userparentalcontrol.html', true)}
-                    />
-                    <TabLinkElement
-                        tabTitle='HeaderPassword'
-                        onClick={() => Dashboard.navigate('userpassword.html', true)}
-                    />
-                </div>
+                <SectionTabs activeTab='userlibraryaccess'/>
                 <form className='userLibraryAccessForm'>
                     <div className='folderAccessContainer'>
                         <h2>{globalize.translate('HeaderLibraryAccess')}</h2>
                         <CheckBoxElement
+                            labelClassName='checkboxContainer'
                             type='checkbox'
                             className='chkEnableAllFolders'
                             title='OptionEnableAccessToAllLibraries'
@@ -258,7 +235,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                                 <h3 className='checkboxListLabel'>
                                     {globalize.translate('HeaderLibraries')}
                                 </h3>
-                                <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
+                                <div className='checkboxList paperList checkboxList-paperList'>
                                     {mediaFoldersItems.map(Item => {
                                         return (
                                             <CheckBoxListItem
@@ -280,6 +257,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                     <div className='channelAccessContainer hide'>
                         <h2>{globalize.translate('HeaderChannelAccess')}</h2>
                         <CheckBoxElement
+                            labelClassName='checkboxContainer'
                             type='checkbox'
                             className='chkEnableAllChannels'
                             title='OptionEnableAccessToAllChannels'
@@ -310,6 +288,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                     <div className='deviceAccessContainer hide'>
                         <h2>{globalize.translate('HeaderDeviceAccess')}</h2>
                         <CheckBoxElement
+                            labelClassName='checkboxContainer'
                             type='checkbox'
                             className='chkEnableAllDevices'
                             title='OptionEnableAccessFromAllDevices'
