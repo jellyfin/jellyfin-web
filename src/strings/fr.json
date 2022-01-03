@@ -465,7 +465,7 @@
     "LabelDateTimeLocale": "Date et heure locale :",
     "LabelDay": "Jour de la semaine :",
     "LabelDeathDate": "Date de décès :",
-    "LabelDefaultScreen": "Vue par défaut :",
+    "LabelDefaultScreen": "Écran par défaut :",
     "LabelDefaultUser": "Utilisateur par défaut :",
     "LabelDefaultUserHelp": "Définir quelle médiathèque doit être affichée sur les appareils connectés. Ce paramètre peut être remplacé pour chaque appareil dans les configurations de profils.",
     "LabelDeviceDescription": "Description de l'appareil :",
