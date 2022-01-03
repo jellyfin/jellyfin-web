@@ -386,7 +386,7 @@
     "LabelAirsAfterSeason": "Sänds efter säsong:",
     "LabelAirsBeforeEpisode": "Sänds före avsnitt:",
     "LabelAirsBeforeSeason": "Sänds före säsong:",
-    "LabelAlbumArtHelp": "PN som används för omslagsbilder, inom attributet dlna:profileID hos upnp:albumArtURI. Vissa enheter kräver ett specifikt värde, oavsett bildens storlek.",
+    "LabelAlbumArtHelp": "PN som används för omslagsbilder, inom attributet \"dlna:profileID\" hos \"upnp:albumArtURI\". Vissa enheter kräver ett specifikt värde, oavsett bildens storlek.",
     "LabelAlbumArtMaxHeight": "Skivomslagens maxhöjd:",
     "LabelAlbumArtMaxWidth": "Maximal bredd för omslagsbilder:",
     "LabelAlbumArtPN": "PN för omslagsbilder:",
@@ -1485,7 +1485,7 @@
     "LabelFallbackFontPath": "Sökväg till reservmapp för typsnitt:",
     "HeaderSelectFallbackFontPath": "Välj reservmapp för typsnitt",
     "HeaderSelectFallbackFontPathHelp": "Bläddra till eller mata in sökvägen till reservmappen för typsnitt att använda i framställningen av ASS/SSA-undertexter.",
-    "AllowTonemappingHelp": "Tonmappning kan förvandla en videos dynamisk omfång från HDR till SDR (standard dynamiskt omfång) när den bibehåller bildens detaljer och färger, som är mycket viktig information för att representera originalscenen. Fungerar för närvarande bara under omkodning av videor med inbäddad HDR10 eller HLG-metadata. Om uppspelning är inte jämn eller misslyckas, vänligen överväg att avsluta den korresponderande hårdvaruavkodaren.",
+    "AllowTonemappingHelp": "Tonmappning kan förvandla en videos dynamiska omfång från HDR till SDR medans den bibehåller bildens detaljer och färger, som är mycket viktig information för att representera originalscenen. Fungerar för närvarande bara med HDR10 eller HLG-videos. Det här kräver motsvarande körning av OpenCL eller CUDA.",
     "AllowVppTonemappingHelp": "Helt hårdvarubaserad tonmappning utan att använda OpenCL-filtret. Fungerar för närvarande endast när videor omkodas med inbäddad HDR10-metadata.",
     "EnableVppTonemapping": "Aktivera VPP tonmappning",
     "EnableEnhancedNvdecDecoder": "Aktivera förbättrad NVDEC-avkodare",
@@ -1600,5 +1600,6 @@
     "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Högsta uppspelningsfördröjning (i ms) efter vilket då SkipToSync används istället för SpeedToSync.",
     "LabelSyncPlaySettingsMaxDelaySpeedToSync": "SpeedToSync högsta fördröjning:",
     "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync minsta fördröjning:",
-    "Cursive": "Kursivt"
+    "Cursive": "Kursivt",
+    "ContainerBitrateExceedsLimit": "Videons bittakt (bitrate) överskrider begränsningen"
 }
