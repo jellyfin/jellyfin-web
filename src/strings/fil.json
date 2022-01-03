@@ -454,7 +454,7 @@
     "Yadif": "YADIF",
     "LabelEnableGamepad": "I-enable ang gampad",
     "Controls": "Mga kontrol",
-    "AllowVppTonemappingHelp": "Full hardware based tone mapping nang hindi gumagamit ng OpenCL filter. Kasalukuyang gumagana lang kapag nag-transcode ng mga video na may naka-embed na HDR10 metadata.",
+    "AllowVppTonemappingHelp": "Full Intel driver based tone-mapping. Kasalukuyang gumagana lamang sa ilang partikular na hardware na may mga HDR10 na video. Ito ay may mas mataas na priyoridad kumpara sa isa pang implementation ng OpenCL.",
     "EnableVppTonemapping": "Paganahin ang VPP Tone mapping",
     "EnableEnhancedNvdecDecoder": "I-enable ang enhanced NVDEC decoder",
     "MessagePlaybackError": "Nagkaroon ng error sa pag-play ng file na ito sa iyong Google Cast receiver.",
@@ -1595,12 +1595,17 @@
     "ApiKeysCaption": "Listahan ng mga kasalukuyang naka-enable na API key",
     "Anytime": "Kahit kailan",
     "AnyLanguage": "Anumang wika",
-    "AllowTonemappingHelp": "Maaaring baguhin ng tone mapping ang dynamic range isang video mula sa HDR patungong SDR habang pinapanatili ang mga detalye at kulay ng larawan, na napakahalagang impormasyon para kumatawan sa orihinal na scene. Kasalukuyang gumagana lang kapag nag-transcode ng mga video na may naka-embed na HDR10 o HLG metadata. Kung ang pag-playback ay hindi maayos o nabigo, mangyaring isaalang-alang ang pag-off sa kaukulang hardware decoder.",
+    "AllowTonemappingHelp": "Maaaring baguhin ng tone-mapping ang dynamic range ng isang video mula sa HDR patungong SDR habang pinapanatili ang mga detalye at kulay ng larawan, na napakahalagang impormasyon para sa kumakatawan sa original scene. Kasalukuyang gumagana lang sa mga HDR10 o HLG na video. Nangangailangan ito ng kaukulang OpenCL o CUDA runtime.",
     "AgeValue": "({0} taong gulang)",
     "LabelHardwareEncodingOptions": "Mga opsyon sa hardware encoding:",
     "IntelLowPowerEncHelp": "Maaaring panatilihin ng Low-Power Encoding ang hindi kinakailangang pag-sync ng CPU at GPU. Sa Linux dapat ito ay naka-disable kung ang i915 HuC firmware ay hindi na-configure.",
     "EnableIntelLowPowerHevcHwEncoder": "I-enable ang Intel Low-Power HEVC hardware encoder",
     "EnableIntelLowPowerH264HwEncoder": "I-enable ang Intel Low-Power H.264 hardware encoder",
     "PreferSystemNativeHwDecoder": "I-prefer ang OS native DXVA o VA-API hardware decoder",
-    "ContainerBitrateExceedsLimit": "Lampas sa limitasyon ang bitrate ng video"
+    "ContainerBitrateExceedsLimit": "Lampas sa limitasyon ang bitrate ng video",
+    "DirectPlayError": "Nagkaroon ng error sa pagsisimula ng direktang pag-playback",
+    "UnknownAudioStreamInfo": "Hindi alam ang impormasyon ng audio stream",
+    "UnknownVideoStreamInfo": "Hindi alam ang impormasyon ng video stream",
+    "VideoBitrateNotSupported": "Hindi suportado ang bitrate ng video",
+    "AudioIsExternal": "Ang audio stream ay external"
 }
