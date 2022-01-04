@@ -191,6 +191,7 @@ const NewUserPage: FunctionComponent = () => {
                                             className='chkFolder'
                                             Id={Item.Id}
                                             Name={Item.Name}
+                                            checkedAttribute=''
                                         />
                                     ))}
                                 </div>
@@ -219,6 +220,7 @@ const NewUserPage: FunctionComponent = () => {
                                             className='chkChannel'
                                             Id={Item.Id}
                                             Name={Item.Name}
+                                            checkedAttribute=''
                                         />
                                     ))}
                                 </div>
