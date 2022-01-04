@@ -99,7 +99,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 }
 
                 window.scrollTo(0, 0);
-                updateFilterControls(page);
+                this.alphaPicker?.updateControls(query);
                 let html;
                 const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
@@ -167,11 +167,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             });
         };
 
-        const updateFilterControls = (tabContent) => {
-            const query = getQuery(tabContent);
-            this.alphaPicker.value(query.NameStartsWith);
-        };
-
         const data = {};
         let isLoading = false;
 
@@ -201,7 +196,13 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
                 const query = getQuery(tabContent);
-                query.NameStartsWith = newValue;
+                if (newValue === '#') {
+                    query.NameLessThan = 'A';
+                    delete query.NameStartsWith;
+                } else {
+                    query.NameStartsWith = newValue;
+                    delete query.NameLessThan;
+                }
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
@@ -234,9 +235,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         initPage(tabContent);
         onViewStyleChange();
 
-        this.renderTab = function () {
+        this.renderTab = () => {
             reloadItems(tabContent);
-            updateFilterControls(tabContent);
+            this.alphaPicker?.updateControls(getQuery(tabContent));
         };
 
         this.destroy = function () {};

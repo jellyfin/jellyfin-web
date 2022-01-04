@@ -112,7 +112,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 }
 
                 window.scrollTo(0, 0);
-                updateFilterControls();
+                this.alphaPicker?.updateControls(query);
                 let html;
                 const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
@@ -185,20 +185,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             });
         };
 
-        const updateFilterControls = () => {
-            const query = getQuery();
-
-            if (this.alphaPicker) {
-                this.alphaPicker.value(query.NameStartsWith);
-
-                if (query.SortBy.indexOf('SortName') === 0) {
-                    this.alphaPicker.visible(true);
-                } else {
-                    this.alphaPicker.visible(false);
-                }
-            }
-        };
-
         let savedQueryKey;
         let pageData;
         let isLoading = false;
@@ -230,7 +216,13 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
                 const query = getQuery();
-                query.NameStartsWith = newValue;
+                if (newValue === '#') {
+                    query.NameLessThan = 'A';
+                    delete query.NameStartsWith;
+                } else {
+                    query.NameStartsWith = newValue;
+                    delete query.NameLessThan;
+                }
                 query.StartIndex = 0;
                 reloadItems();
             });
@@ -302,9 +294,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         initPage(tabContent);
         onViewStyleChange();
 
-        this.renderTab = function () {
+        this.renderTab = () => {
             reloadItems();
-            updateFilterControls();
+            this.alphaPicker?.updateControls(getQuery());
         };
 
         this.destroy = function () {};
