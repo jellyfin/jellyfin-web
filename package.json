@@ -48,7 +48,7 @@
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-no-browser-hacks": "^1.2.1",
     "stylelint-order": "^5.0.0",
-    "stylelint-scss": "^4.0.0",
+    "stylelint-scss": "^4.1.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
     "webpack": "^5.65.0",
