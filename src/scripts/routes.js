@@ -81,7 +81,7 @@ import { appRouter } from '../components/appRouter';
         alias: '/myprofile.html',
         path: 'user/profile/index.html',
         autoFocus: false,
-        controller: 'user/profile/index'
+        pageComponent: 'UserImagePage'
     });
 
     defineRoute({
@@ -471,7 +471,7 @@ import { appRouter } from '../components/appRouter';
         alias: '/userpassword.html',
         path: 'dashboard/users/userpassword.html',
         autoFocus: false,
-        controller: 'dashboard/users/userpasswordpage'
+        pageComponent: 'UserPasswordPage'
     });
 
     defineRoute({
