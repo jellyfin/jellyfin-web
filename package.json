@@ -86,7 +86,7 @@
     "material-design-icons-iconfont": "^6.1.1",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.6",
-    "pdfjs-dist": "2.6.347",
+    "pdfjs-dist": "2.12.313",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "resize-observer-polyfill": "^1.5.1",
