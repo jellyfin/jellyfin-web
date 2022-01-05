@@ -4,8 +4,7 @@ import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
-
-import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
+import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
 import InputElement from '../dashboard/users/InputElement';
 import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
@@ -178,18 +177,7 @@ const NewUserPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <div className='verticalSection'>
-                    <div className='sectionTitleContainer flex align-items-center'>
-                        <h2 className='sectionTitle'>
-                            {globalize.translate('ButtonAddUser')}
-                        </h2>
-                        <SectionTitleLinkElement
-                            className='raised button-alt headerHelpButton'
-                            title='Help'
-                            url='https://docs.jellyfin.org/general/server/users/'
-                        />
-                    </div>
-                </div>
+                <SectionTitleContainer title={globalize.translate('ButtonAddUser')}/>
                 <form className='newUserProfileForm'>
                     <div className='inputContainer'>
                         <InputElement

@@ -5,12 +5,12 @@ import loading from '../loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
-import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/users/ButtonElement';
 import { getParameterByName } from '../../utils/url';
+import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
 
 type ItemsArr = {
     Name?: string;
@@ -109,7 +109,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
             itemsArr.push({
                 Id: device.Id,
                 Name: device.Name,
-                AppName : device.AppName,
+                AppName: device.AppName,
                 checkedAttribute: checkedAttribute
             });
         }
@@ -228,18 +228,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <div className='verticalSection'>
-                    <div className='sectionTitleContainer flex align-items-center'>
-                        <h2 className='sectionTitle username'>
-                            {userName}
-                        </h2>
-                        <SectionTitleLinkElement
-                            className='raised button-alt headerHelpButton'
-                            title='Help'
-                            url='https://docs.jellyfin.org/general/server/users/'
-                        />
-                    </div>
-                </div>
+                <SectionTitleContainer title={userName}/>
                 <SectionTabs activeTab='userlibraryaccess'/>
                 <form className='userLibraryAccessForm'>
                     <div className='folderAccessContainer'>
