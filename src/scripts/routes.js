@@ -464,7 +464,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/userparentalcontrol.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/userparentalcontrol'
+        pageComponent: 'UserParentalControl'
     });
 
     defineRoute({
