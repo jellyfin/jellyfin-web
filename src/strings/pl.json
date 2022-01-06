@@ -1372,7 +1372,7 @@
     "Photo": "Zdjęcie",
     "LabelIconMaxResHelp": "Maksymalna rozdzielczość ikon udostępnianych przez 'upnp:icon'.",
     "LabelAlbumArtMaxResHelp": "Maksymalna rozdzielczość okładki albumu udostępnianej przez 'upnp:albumArtURI'.",
-    "Other": "Inne:",
+    "Other": "Inne",
     "QuickConnectActivationSuccessful": "Aktywowano pomyślnie",
     "LabelCurrentStatus": "Bieżący status:",
     "EnableAutoCast": "Ustaw jako Domyślny",
