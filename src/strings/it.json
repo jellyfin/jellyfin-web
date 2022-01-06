@@ -1367,7 +1367,7 @@
     "LabelIconMaxResHelp": "Massima risoluzione delle icone esposte dalla proprietà 'upnp:icon'.",
     "LabelAlbumArtMaxResHelp": "Massima risoluzione dell'album art esposto dalla proprietà 'upnp:albumArtURI'.",
     "Image": "Immagine",
-    "Other": "Altro:",
+    "Other": "Altro",
     "Data": "Dati",
     "Bwdif": "BWDIF",
     "UseDoubleRateDeinterlacing": "Raddoppia il frame rate durante il deinterlacciamento",
