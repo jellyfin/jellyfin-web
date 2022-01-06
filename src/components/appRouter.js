@@ -3,7 +3,7 @@ import appSettings from '../scripts/settings/appSettings';
 import backdrop from './backdrop/backdrop';
 import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
-import globalize from '../scripts/globalize';
+import globalize, { setServerCulture, updateCurrentCulture } from '../scripts/globalize';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
 import page from 'page';
@@ -550,7 +550,14 @@ class AppRouter {
                 }).then(data => {
                     if (data !== null && data.StartupWizardCompleted === false) {
                         ServerConnections.setLocalApiClient(firstResult.ApiClient);
-                        Dashboard.navigate('wizardstart.html');
+                        firstResult.ApiClient.getJSON(firstResult.ApiClient.getUrl('Startup/Configuration'))
+                            .then(config => {
+                                // Update the default server language
+                                setServerCulture(config.UICulture);
+                                updateCurrentCulture();
+                                // Start the wizard
+                                Dashboard.navigate('wizardstart.html');
+                            });
                     } else {
                         this.handleConnectionResult(firstResult);
                     }

@@ -3,6 +3,7 @@ import loading from '../../../components/loading/loading';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
 import Dashboard from '../../../scripts/clientUtils';
+import { setServerCulture, updateCurrentCulture } from '../../../scripts/globalize';
 
 function loadPage(page, config, languageOptions) {
     $('#selectLocalizationLanguage', page).html(languageOptions.map(function (l) {
@@ -16,6 +17,10 @@ function save(page) {
     const apiClient = ApiClient;
     apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
         config.UICulture = $('#selectLocalizationLanguage', page).val();
+        // Update the current UI language
+        setServerCulture(config.UICulture);
+        updateCurrentCulture();
+        // Save the configuration
         apiClient.ajax({
             type: 'POST',
             data: JSON.stringify(config),

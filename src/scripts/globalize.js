@@ -9,6 +9,7 @@ import * as userSettings from './settings/userSettings';
 
     const allTranslations = {};
     let currentCulture;
+    let serverCulture;
     let currentDateTimeCulture;
 
     export function getCurrentLocale() {
@@ -38,6 +39,10 @@ import * as userSettings from './settings/userSettings';
         return fallbackCulture;
     }
 
+    export function setServerCulture(culture) {
+        serverCulture = culture;
+    }
+
     export function updateCurrentCulture() {
         let culture;
         try {
@@ -45,7 +50,7 @@ import * as userSettings from './settings/userSettings';
         } catch (err) {
             console.error('no language set in user settings');
         }
-        culture = culture || getDefaultLanguage();
+        culture = culture || serverCulture || getDefaultLanguage();
 
         currentCulture = normalizeLocaleName(culture);
 
@@ -249,6 +254,8 @@ import * as userSettings from './settings/userSettings';
         }
     });
 
+/* eslint-enable indent */
+
 export default {
     translate,
     translateHtml,
@@ -259,5 +266,3 @@ export default {
     register,
     updateCurrentCulture
 };
-
-/* eslint-enable indent */
