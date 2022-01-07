@@ -875,7 +875,7 @@
     "LabelMovieRecordingPath": "Đường dẫn quay phim:",
     "LabelCurrentStatus": "Tình trạng hiện tại:",
     "LabelAlbumArtMaxResHelp": "Độ phân giải tối đa của ảnh bìa tuyển tập hiển thị qua thuộc tính 'upnp:albumArtURI'.",
-    "Other": "Khác:",
+    "Other": "Khác",
     "EnableQuickConnect": "Bật Kết Nối Nhanh trên máy chủ này",
     "EnableDecodingColorDepth10Vp9": "Bật giải mã phần cứng 10 bit cho VP9",
     "EnableDecodingColorDepth10Hevc": "Bật giải mã phần cứng 10-bit cho HEVC",
@@ -1609,5 +1609,6 @@
     "UnknownAudioStreamInfo": "Thông tin luồng âm thanh không xác định",
     "UnknownVideoStreamInfo": "Thông tin luồng video không xác định",
     "VideoBitrateNotSupported": "Tốc độ bit của video không được hỗ trợ",
-    "AudioIsExternal": "Luồng âm thanh bên ngoài"
+    "AudioIsExternal": "Luồng âm thanh bên ngoài",
+    "SelectAll": "Chọn Tất Cả"
 }
