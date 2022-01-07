@@ -36,7 +36,6 @@ const UserLibraryAccessPage: FunctionComponent = () => {
         const itemsArr: ItemsArr[] = [];
 
         for (const folder of mediaFolders) {
-            console.log('EnableAllFolders', user.Policy.EnableAllFolders);
             const isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
@@ -57,7 +56,6 @@ const UserLibraryAccessPage: FunctionComponent = () => {
         const itemsArr: ItemsArr[] = [];
 
         for (const folder of channels) {
-            console.log('EnableAllChannels', user.Policy.EnableAllChannels);
             const isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
@@ -84,7 +82,6 @@ const UserLibraryAccessPage: FunctionComponent = () => {
         const itemsArr: ItemsArr[] = [];
 
         for (const device of devices) {
-            console.log('EnableAllDevices', user.Policy.EnableAllDevices);
             const isChecked = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
@@ -179,27 +176,15 @@ const UserLibraryAccessPage: FunctionComponent = () => {
         };
 
         element?.current?.querySelector('.chkEnableAllDevices').addEventListener('change', function (this: HTMLInputElement) {
-            if (this.checked) {
-                element?.current?.querySelector('.deviceAccessListContainer').classList.add('hide');
-            } else {
-                element?.current?.querySelector('.deviceAccessListContainer').classList.remove('hide');
-            }
+            element?.current?.querySelector('.deviceAccessListContainer').classList.toggle('hide', this.checked);
         });
 
         element?.current?.querySelector('.chkEnableAllChannels').addEventListener('change', function (this: HTMLInputElement) {
-            if (this.checked) {
-                element?.current?.querySelector('.channelAccessListContainer').classList.add('hide');
-            } else {
-                element?.current?.querySelector('.channelAccessListContainer').classList.remove('hide');
-            }
+            element?.current?.querySelector('.channelAccessListContainer').classList.toggle('hide', this.checked);
         });
 
         element?.current?.querySelector('.chkEnableAllFolders').addEventListener('change', function (this: HTMLInputElement) {
-            if (this.checked) {
-                element?.current?.querySelector('.folderAccessListContainer').classList.add('hide');
-            } else {
-                element?.current?.querySelector('.folderAccessListContainer').classList.remove('hide');
-            }
+            element?.current?.querySelector('.folderAccessListContainer').classList.toggle('hide', this.checked);
         });
 
         element?.current?.querySelector('.userLibraryAccessForm').addEventListener('submit', onSubmit);
