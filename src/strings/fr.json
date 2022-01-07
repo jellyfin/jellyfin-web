@@ -1611,5 +1611,6 @@
     "UnknownAudioStreamInfo": "Pas d'information sur le flux audio",
     "VideoBitrateNotSupported": "Le débit de la vidéo n'est pas pris en charge",
     "UnknownVideoStreamInfo": "Pas d'information sur le flux vidéo",
-    "AudioIsExternal": "Le flux audio est externe"
+    "AudioIsExternal": "Le flux audio est externe",
+    "SelectAll": "Tout sélectionner"
 }
