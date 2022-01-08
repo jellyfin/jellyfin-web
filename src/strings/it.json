@@ -1611,5 +1611,6 @@
     "UnknownAudioStreamInfo": "Le informazioni del flusso audio non sono disponibili",
     "UnknownVideoStreamInfo": "Le informazioni del flusso video non sono disponibili",
     "VideoBitrateNotSupported": "Il bitrate video non è supportato",
-    "AudioIsExternal": "Il flusso audio è esterno"
+    "AudioIsExternal": "Il flusso audio è esterno",
+    "SelectAll": "Seleziona Tutto"
 }
