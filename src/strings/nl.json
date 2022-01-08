@@ -1250,7 +1250,7 @@
     "Season": "Seizoen",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Verkies ingeladen afleveringsinformatie boven bestandsnaam",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Dit gebruikt de afleveringsinformatie van de ingeladen metadata als deze aanwezig is.",
-    "PlaybackErrorNoCompatibleStream": "Dit apparaat ondersteund de afgespeelde media niet en de server verstuurd geen ondersteund formaat.",
+    "PlaybackErrorNoCompatibleStream": "Dit apparaat ondersteunt de afgespeelde media niet en de server verstuurt geen compatibel mediaformaat.",
     "Person": "Persoon",
     "OptionForceRemoteSourceTranscoding": "Forceer het transcoderen van op afstand bediende media bronnen (zoals LiveTV)",
     "NoCreatedLibraries": "Het lijkt erop dat er geen bibliotheek is gecreëerd. {0}Wilt u er nu een aanmaken?{1}",
