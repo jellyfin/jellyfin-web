@@ -1607,5 +1607,6 @@
     "UnknownAudioStreamInfo": "Hindi alam ang impormasyon ng audio stream",
     "UnknownVideoStreamInfo": "Hindi alam ang impormasyon ng video stream",
     "VideoBitrateNotSupported": "Hindi suportado ang bitrate ng video",
-    "AudioIsExternal": "Ang audio stream ay external"
+    "AudioIsExternal": "Ang audio stream ay external",
+    "SelectAll": "Piliin lahat"
 }
