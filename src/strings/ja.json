@@ -1548,5 +1548,7 @@
     "VideoCodecNotSupported": "映像のコーデックがサポートされていません",
     "YoutubeNotFound": "ビデオが見つかりません。",
     "EnableIntelLowPowerHevcHwEncoder": "Intel の HEVC ハードウェアエンコードを有効にする",
-    "EnableIntelLowPowerH264HwEncoder": "Intel の H.264 ハードウェアエンコードを有効にする"
+    "EnableIntelLowPowerH264HwEncoder": "Intel の H.264 ハードウェアエンコードを有効にする",
+    "DirectPlayError": "ダイレクト再生の開始時にエラーが発生しました",
+    "SelectAll": "すべて選択"
 }
