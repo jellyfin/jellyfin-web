@@ -1611,5 +1611,6 @@
     "EnableIntelLowPowerHevcHwEncoder": "Engedélyezze az Intel alacsony fogyasztású HEVC hardveres kódolóját",
     "EnableIntelLowPowerH264HwEncoder": "Engedélyezze az Intel Low-Power H.264 hardveres kódolót",
     "PreferSystemNativeHwDecoder": "Előnyben részesítse az operációs rendszer natív DXVA vagy VA-API hardveres dekódereit",
-    "ContainerBitrateExceedsLimit": "A videó bitrátája meghaladja a limitet"
+    "ContainerBitrateExceedsLimit": "A videó bitrátája meghaladja a limitet",
+    "SelectAll": "Összes kiválasztása"
 }
