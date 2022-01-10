@@ -1611,6 +1611,6 @@
     "UnknownAudioStreamInfo": "音频流信息未知",
     "UnknownVideoStreamInfo": "视频流信息未知",
     "VideoBitrateNotSupported": "视频的比特率不受支持",
-    "AudioIsExternal": "音频流是外部的",
+    "AudioIsExternal": "外部音频流",
     "SelectAll": "全选"
 }
