@@ -117,14 +117,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
     const loadData = useCallback(() => {
         loading.show();
         const userId = appRouter.param('userId');
-        // eslint-disable-next-line compat/compat
         const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
         const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
         }));
         const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
         const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
-        // eslint-disable-next-line compat/compat
         Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
             loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
         });
