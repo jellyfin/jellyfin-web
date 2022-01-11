@@ -475,7 +475,6 @@ html {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-
 .layout-desktop ::-webkit-scrollbar,
 .layout-tv ::-webkit-scrollbar {
     width: 0.4em;
