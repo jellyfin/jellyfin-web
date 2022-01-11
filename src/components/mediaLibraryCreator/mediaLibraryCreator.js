@@ -73,7 +73,7 @@ import template from './mediaLibraryCreator.template.html';
         $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
             const value = this.value;
             const dlg = $(this).parents('.dialog')[0];
-            libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value == 'mixed' ? '' : value);
+            libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);
 
             if (value) {
                 dlg.querySelector('.libraryOptions').classList.remove('hide');
