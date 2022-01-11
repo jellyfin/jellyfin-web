@@ -706,7 +706,7 @@
     "LanNetworksHelp": "在强制带宽限制时，认作本地网络上的 IP 地址或 IP/网络掩码条目的逗号分隔列表。如果设置此项，所有其它 IP 地址将被视为在外部网络上，并且将受到外部带宽限制。如果保留为空，则只将服务器的子网视为本地网络。",
     "Large": "大",
     "LatestFromLibrary": "最新的{0}",
-    "LearnHowYouCanContribute": "学习如何构建。",
+    "LearnHowYouCanContribute": "了解如何贡献。",
     "LibraryAccessHelp": "选择共享给此用户的媒体库。管理员有权使用媒体资料管理器来编辑所有文件夹。",
     "List": "列表",
     "Live": "直播",
