@@ -134,6 +134,7 @@
     "ButtonShutdown": "Shutdown",
     "ButtonSignIn": "Sign In",
     "ButtonSignOut": "Sign Out",
+    "ButtonQuitApp": "Quit Application",
     "ButtonStart": "Start",
     "ButtonStop": "Stop",
     "ButtonSubmit": "Submit",

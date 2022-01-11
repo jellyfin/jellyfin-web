@@ -302,6 +302,11 @@ import Headroom from 'headroom.js';
 
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSignOut') + '</span></a>';
+
+            if (appHost.supports('quitapp')) {
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder quitApp" data-itemid="quitapp" href="#"><span class="material-icons navMenuOptionIcon close"></span><span class="navMenuOptionText">' + globalize.translate('ButtonQuitApp') + '</span></a>';
+            }
+
             html += '</div>';
         }
 
