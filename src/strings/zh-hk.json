@@ -1060,5 +1060,14 @@
     "MarkUnplayed": "標示為未觀看",
     "MarkPlayed": "標示為已觀看",
     "ManageRecording": "管理錄影",
-    "LabelAccessDay": "星期："
+    "LabelAccessDay": "星期：",
+    "HeaderSyncPlayPlaybackSettings": "重播",
+    "HeaderSyncPlaySettings": "同步播放設定",
+    "ErrorPlayerNotFound": "找不到相關人員。",
+    "Engineer": "聲音工程師",
+    "Arranger": "編曲",
+    "LabelAutomaticallyAddToCollectionHelp": "當至少有 2 部電影具有相同的名稱時，它們將自動加入到合輯中。",
+    "LabelAutomaticallyAddToCollection": "自動加入合輯",
+    "LabelAirsBeforeEpisode": "預告：",
+    "HeaderSyncPlayTimeSyncSettings": "時間同步"
 }
