@@ -17,8 +17,8 @@ export default function (view, params) {
         window.NativeShell.openClientSettings();
     });
 
-    view.querySelector('.quitApp').addEventListener('click', function () {
-        window.NativeShell.quitApp();
+    view.querySelector('.exitApp').addEventListener('click', function () {
+        appHost.exit();
     });
 
     view.addEventListener('viewshow', function () {
@@ -37,8 +37,8 @@ export default function (view, params) {
         const supportsClientSettings = appHost.supports('clientsettings');
         page.querySelector('.clientSettings').classList.toggle('hide', !supportsClientSettings);
 
-        const supportsQuitApp = appHost.supports('quitapp');
-        page.querySelector('.quitApp').classList.toggle('hide', !supportsQuitApp);
+        const supportsExitMenu = appHost.supports('exitmenu');
+        page.querySelector('.exitApp').classList.toggle('hide', !supportsExitMenu);
 
         const supportsMultiServer = appHost.supports('multiserver');
         page.querySelector('.selectServer').classList.toggle('hide', !supportsMultiServer);

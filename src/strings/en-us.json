@@ -106,7 +106,7 @@
     "ButtonShutdown": "Shutdown",
     "ButtonSignIn": "Sign In",
     "ButtonSignOut": "Sign Out",
-    "ButtonQuitApp": "Quit Application",
+    "ButtonExitApp": "Exit Application",
     "ButtonSplit": "Split",
     "ButtonStart": "Start",
     "ButtonStop": "Stop",
