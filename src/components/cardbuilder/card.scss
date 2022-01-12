@@ -333,6 +333,7 @@ button::-moz-focus-inner {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: left;
 }
 
 .innerCardFooter > .cardText {
@@ -355,7 +356,8 @@ button::-moz-focus-inner {
     background-position: center center;
 }
 
-.cardTextCentered {
+.cardTextCentered,
+.cardTextCentered > .textActionButton {
     text-align: center;
 }
 
