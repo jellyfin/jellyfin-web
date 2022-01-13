@@ -532,6 +532,11 @@ import ServerConnections from '../ServerConnections';
                     section: 'guide'
                 }) + '" class="raised"><span>' + globalize.translate('Guide') + '</span></a>';
 
+                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                    serverId: apiClient.serverId(),
+                    section: 'channels'
+                }) + '" class="raised"><span>' + globalize.translate('Channels') + '</span></a>';
+
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
                     serverId: apiClient.serverId()
                 }) + '" class="raised"><span>' + globalize.translate('Recordings') + '</span></a>';
