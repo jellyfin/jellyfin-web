@@ -61,7 +61,7 @@ function renderActiveRecordings(context, promise) {
             defaultShape: getBackdropShape(),
             showParentTitle: false,
             showParentTitleOrTitle: true,
-            showTitle: false,
+            showTitle: true,
             showAirTime: true,
             showAirEndTime: true,
             showChannelName: true,
