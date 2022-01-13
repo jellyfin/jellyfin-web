@@ -830,7 +830,7 @@
     "OptionAllowManageLiveTv": "允许电视直播录制管理",
     "OptionAllowMediaPlayback": "允许播放媒体",
     "OptionAllowMediaPlaybackTranscodingHelp": "限制对转码的访问可能会由于不支持的媒体格式导致客户端中播放失败。",
-    "OptionAllowRemoteControlOthers": "允许其他用户全程控制",
+    "OptionAllowRemoteControlOthers": "允许远程控制其他用户",
     "OptionAllowRemoteSharedDevices": "允许远程控制共享的设备",
     "OptionAllowRemoteSharedDevicesHelp": "DLNA 设备在用户对他们进行控制前都被视为是共享的。",
     "OptionAllowSyncTranscoding": "允许需要转码的媒体下载和同步",
