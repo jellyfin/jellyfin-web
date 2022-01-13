@@ -280,6 +280,16 @@ import 'material-design-icons-iconfont';
             element.removeEventListener(name, fn);
         }
 
+        updateControls(query) {
+            if (query.NameLessThan) {
+                this.value('#');
+            } else {
+                this.value(query.NameStartsWith);
+            }
+
+            this.visible(query.SortBy.indexOf('SortName') === 0);
+        }
+
         visible(visible) {
             const element = this.options.element;
             element.style.visibility = visible ? 'visible' : 'hidden';
