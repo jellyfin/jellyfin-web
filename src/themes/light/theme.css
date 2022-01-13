@@ -1,3 +1,7 @@
+* {
+    scrollbar-width: thin;
+}
+
 .skinHeader,
 html {
     color: #222;
@@ -463,6 +467,28 @@ html {
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #00a4dc !important;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
+    width: 0.4em;
+    height: 0.4em;
+}
+
+::-webkit-scrollbar-thumb:horizontal,
+::-webkit-scrollbar-thumb:vertical {
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    background: center no-repeat #999;
+}
+
+.timeslotHeaders-desktop::-webkit-scrollbar {
+    height: 0.7em;
 }
 
 .metadataSidebarIcon {
