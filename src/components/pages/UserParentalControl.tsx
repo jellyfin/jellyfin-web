@@ -168,7 +168,6 @@ const UserParentalControl: FunctionComponent = () => {
         const userId = appRouter.param('userId');
         const promise1 = window.ApiClient.getUser(userId);
         const promise2 = window.ApiClient.getParentalRatings();
-        // eslint-disable-next-line compat/compat
         Promise.all([promise1, promise2]).then(function (responses) {
             loadUser(responses[0], responses[1]);
         });
