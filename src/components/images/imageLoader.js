@@ -48,7 +48,7 @@ worker.addEventListener(
 
     function itemBlurhashing(target, hash) {
         try {
-            // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
+            // Although the default values recommended by Blurhash developers is 32x32, a size of 20x20 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
             const width = 20;
