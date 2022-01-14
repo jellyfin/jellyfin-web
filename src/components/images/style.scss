@@ -1,17 +1,3 @@
-.lazy-image-fadein {
-    opacity: 1;
-    transition: opacity 0.5s;
-}
-
-.lazy-image-fadein-fast {
-    opacity: 1;
-    transition: opacity 0.1s;
-}
-
-.lazy-hidden {
-    opacity: 0;
-}
-
 @keyframes fadein {
     from {
         opacity: 0;
@@ -22,12 +8,18 @@
     }
 }
 
-.lazy-blurhash-fadein-fast {
+.lazy-image-fadein {
+    opacity: 1;
+    animation: fadein 0.5s;
+}
+
+.lazy-image-fadein-fast {
+    opacity: 1;
     animation: fadein 0.1s;
 }
 
-.lazy-blurhash-fadein {
-    animation: fadein 0.4s;
+.lazy-hidden {
+    opacity: 0;
 }
 
 .blurhash-canvas {

@@ -13,7 +13,10 @@
                         callback(entry);
                     });
                 },
-                {rootMargin: '25%'});
+                {
+                    rootMargin: '50%',
+                    threshold: 0
+                });
 
             this.observer = observer;
         }
