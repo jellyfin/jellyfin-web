@@ -39,7 +39,7 @@
     "postcss": "^8.4.5",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.2.0",
-    "postcss-scss": "^4.0.2",
+    "postcss-scss": "^4.0.3",
     "sass": "^1.45.2",
     "sass-loader": "^12.4.0",
     "source-map-loader": "^3.0.1",
