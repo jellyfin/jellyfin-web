@@ -374,12 +374,12 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle');
     }
 
-    const btnResume = page.querySelector('.mainDetailButtons .btnResume');
-    const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
-    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
-        btnResume.classList.add('fab');
-    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
-        btnPlay.classList.add('fab');
+    if (layoutManager.tv) {
+        const btnResume = page.querySelector('.mainDetailButtons .btnResume');
+        const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
+        const resumeHidden = btnResume.classList.contains('hide');
+        btnResume.classList.toggle('fab', !resumeHidden);
+        btnPlay.classList.toggle('fab', resumeHidden);
     }
 
     return canPlay;
