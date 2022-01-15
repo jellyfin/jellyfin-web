@@ -1611,5 +1611,6 @@
     "UnknownAudioStreamInfo": "Informacje o strumieniu audio są nieznane",
     "UnknownVideoStreamInfo": "Informacje o strumieniu wideo są nieznane",
     "VideoBitrateNotSupported": "Szybkość transmisji wideo nie jest obsługiwana",
-    "AudioIsExternal": "Strumień audio jest zewnętrzny"
+    "AudioIsExternal": "Strumień audio jest zewnętrzny",
+    "SelectAll": "Wybierz wszystkie"
 }
