@@ -165,7 +165,14 @@ import { appRouter } from '../components/appRouter';
         instance.setFilterStatus(hasFilters);
 
         if (instance.alphaPicker) {
-            query.NameStartsWith = instance.alphaPicker.value();
+            const newValue = instance.alphaPicker.value();
+            if (newValue === '#') {
+                query.NameLessThan = 'A';
+                delete query.NameStartsWith;
+            } else {
+                query.NameStartsWith = newValue;
+                delete query.NameLessThan;
+            }
         }
 
         return query;
