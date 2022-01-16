@@ -50,7 +50,9 @@ export default function (view, params, tabContent) {
             if (userSettings.libraryPageSize() > 0) {
                 query.StartIndex += query.Limit;
             }
-            reloadItems(context);
+            reloadItems(context).then(() => {
+                window.scrollTo(0, 0);
+            });
         }
 
         function onPreviousPageClick() {
@@ -61,7 +63,9 @@ export default function (view, params, tabContent) {
             if (userSettings.libraryPageSize() > 0) {
                 query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
             }
-            reloadItems(context);
+            reloadItems(context).then(() => {
+                window.scrollTo(0, 0);
+            });
         }
 
         const query = getQuery();
@@ -114,7 +118,7 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         const apiClient = ApiClient;
         query.UserId = apiClient.getCurrentUserId();
-        apiClient.getLiveTvChannels(query).then(function (result) {
+        return apiClient.getLiveTvChannels(query).then(function (result) {
             renderChannels(context, result);
             loading.hide();
             isLoading = false;
