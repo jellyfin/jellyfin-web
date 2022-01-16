@@ -199,7 +199,6 @@ const supportedFeatures = function () {
     if (browser.operaTv || browser.tizen || browser.orsay || browser.web0s) {
         features.push('exit');
     } else {
-        features.push('exitmenu');
         features.push('plugins');
     }
 
