@@ -1,11 +1,11 @@
 import globalize from '../scripts/globalize';
 import listView from '../components/listview/listview';
-import layoutManager from '../components/layoutManager';
 import * as userSettings from '../scripts/settings/userSettings';
 import focusManager from '../components/focusManager';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import loading from '../components/loading/loading';
 import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
+import libraryBrowser from '../scripts/libraryBrowser';
 import { playbackManager } from '../components/playback/playbackmanager';
 import AlphaPicker from '../components/alphaPicker/alphaPicker';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
@@ -423,14 +423,75 @@ import { appRouter } from '../components/appRouter';
 
 class ItemsView {
     constructor(view, params) {
+        const query = {
+            StartIndex: 0,
+            Limit: undefined
+        };
+
+        if (userSettings.libraryPageSize() > 0) {
+            query['Limit'] = userSettings.libraryPageSize();
+        }
+
+        let isLoading = false;
+
+        function onNextPageClick() {
+            if (!isLoading && query.Limit > 0) {
+                query.StartIndex += query.Limit;
+                self.itemsContainer.refreshItems().then(() => {
+                    window.scrollTo(0, 0);
+                    autoFocus();
+                });
+            }
+        }
+
+        function onPreviousPageClick() {
+            if (!isLoading && query.Limit > 0) {
+                query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                self.itemsContainer.refreshItems().then(() => {
+                    window.scrollTo(0, 0);
+                    autoFocus();
+                });
+            }
+        }
+
+        function updatePaging(startIndex, totalRecordCount, limit) {
+            const pagingHtml = libraryBrowser.getQueryPagingHtml({
+                startIndex,
+                limit,
+                totalRecordCount,
+                showLimit: false,
+                updatePageSizeSetting: false,
+                addLayoutButton: false,
+                sortButton: false,
+                filterButton: false
+            });
+
+            for (const elem of view.querySelectorAll('.paging')) {
+                elem.innerHTML = pagingHtml;
+            }
+
+            for (const elem of view.querySelectorAll('.btnNextPage')) {
+                elem.addEventListener('click', onNextPageClick);
+            }
+
+            for (const elem of view.querySelectorAll('.btnPreviousPage')) {
+                elem.addEventListener('click', onPreviousPageClick);
+            }
+        }
+
         function fetchData() {
-            return getItems(self, params, self.currentItem).then(function (result) {
+            isLoading = true;
+
+            return getItems(self, params, self.currentItem, null, query.StartIndex, query.Limit).then(function (result) {
                 if (self.totalItemCount == null) {
                     self.totalItemCount = result.Items ? result.Items.length : result.length;
                 }
 
                 updateAlphaPickerState(self, self.totalItemCount);
+                updatePaging(result.StartIndex, result.TotalRecordCount, query.Limit);
                 return result;
+            }).finally(() => {
+                isLoading = false;
             });
         }
 
@@ -559,15 +620,13 @@ class ItemsView {
 
             self.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
-                itemsContainer: layoutManager.tv ? self.itemsContainer : null,
-                itemClass: 'card',
-                valueChangeEvent: layoutManager.tv ? null : 'click'
+                valueChangeEvent: 'click'
             });
             self.alphaPicker.on('alphavaluechanged', onAlphaPickerValueChanged);
         }
 
         function onAlphaPickerValueChanged() {
-            self.alphaPicker.value();
+            query.StartIndex = 0;
             self.itemsContainer.refreshItems();
         }
 
@@ -708,6 +767,12 @@ class ItemsView {
                     });
                 });
             }
+        }
+
+        function autoFocus() {
+            import('../components/autoFocuser').then(({default: autoFocuser}) => {
+                autoFocuser.autoFocus(view);
+            });
         }
 
         const self = this;
