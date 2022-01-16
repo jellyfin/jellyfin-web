@@ -120,7 +120,7 @@ export default function (view, params, tabContent) {
             isLoading = false;
 
             import('../../components/autoFocuser').then(({default: autoFocuser}) => {
-                autoFocuser.autoFocus(view);
+                autoFocuser.autoFocus(context);
             });
         });
     }
