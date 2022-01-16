@@ -1,5 +1,5 @@
 import 'jquery';
-import marked from 'marked';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import loading from '../../../../components/loading/loading';
 import globalize from '../../../../scripts/globalize';

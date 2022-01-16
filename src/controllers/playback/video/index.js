@@ -182,7 +182,7 @@ import { appRouter } from '../../../components/appRouter';
                 view.querySelector('.btnAudio').classList.add('hide');
             }
 
-            if (currentItem.Chapters.length > 1) {
+            if (currentItem.Chapters?.length > 1) {
                 view.querySelector('.btnPreviousChapter').classList.remove('hide');
                 view.querySelector('.btnNextChapter').classList.remove('hide');
             } else {
@@ -399,6 +399,15 @@ import { appRouter } from '../../../components/appRouter';
 
                 case 'togglestats':
                     toggleStats();
+                    break;
+
+                case 'back':
+                    // Ignore command when some dialog is opened
+                    if (currentVisibleMenu === 'osd' && !getOpenedDialog()) {
+                        hideOsd();
+                        e.preventDefault();
+                    }
+                    break;
             }
         }
 
@@ -408,6 +417,15 @@ import { appRouter } from '../../../components/appRouter';
             if (!btnRecord.classList.contains('hide')) {
                 btnRecord.click();
             }
+        }
+
+        function onFullscreenChanged() {
+            if (currentPlayer.forcedFullscreen && !playbackManager.isFullscreen(currentPlayer)) {
+                appRouter.back();
+                return;
+            }
+
+            updateFullscreenIcon();
         }
 
         function updateFullscreenIcon() {
@@ -437,6 +455,7 @@ import { appRouter } from '../../../components/appRouter';
                 updatePlayerStateInternal(event, player, state);
                 updatePlaylist();
                 enableStopOnBack(true);
+                updatePlaybackRate(player);
             }
         }
 
@@ -513,7 +532,7 @@ import { appRouter } from '../../../components/appRouter';
             Events.on(player, 'pause', onPlayPauseStateChanged);
             Events.on(player, 'unpause', onPlayPauseStateChanged);
             Events.on(player, 'timeupdate', onTimeUpdate);
-            Events.on(player, 'fullscreenchange', updateFullscreenIcon);
+            Events.on(player, 'fullscreenchange', onFullscreenChanged);
             Events.on(player, 'mediastreamschange', onMediaStreamsChanged);
             Events.on(player, 'beginFetch', onBeginFetch);
             Events.on(player, 'endFetch', onEndFetch);
@@ -537,7 +556,7 @@ import { appRouter } from '../../../components/appRouter';
                 Events.off(player, 'pause', onPlayPauseStateChanged);
                 Events.off(player, 'unpause', onPlayPauseStateChanged);
                 Events.off(player, 'timeupdate', onTimeUpdate);
-                Events.off(player, 'fullscreenchange', updateFullscreenIcon);
+                Events.off(player, 'fullscreenchange', onFullscreenChanged);
                 Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
                 currentPlayer = null;
             }
@@ -683,7 +702,7 @@ import { appRouter } from '../../../components/appRouter';
                 view.querySelector('.btnAirPlay').classList.remove('hide');
             }
 
-            updateFullscreenIcon();
+            onFullscreenChanged();
         }
 
         function getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs) {
@@ -1241,6 +1260,14 @@ import { appRouter } from '../../../components/appRouter';
 
             if (enabled && playbackManager.isPlayingVideo(currentPlayer)) {
                 view.addEventListener('viewbeforehide', onViewHideStopPlayback);
+            }
+        }
+
+        function updatePlaybackRate(player) {
+            // Restore playback speed control, if it exists in the session.
+            const playbackRateSpeed = sessionStorage.getItem('playbackRateSpeed');
+            if (playbackRateSpeed !== null) {
+                player.setPlaybackRate(playbackRateSpeed);
             }
         }
 

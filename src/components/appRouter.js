@@ -24,6 +24,7 @@ class AppRouter {
     isDummyBackToHome;
     msgTimeout;
     popstateOccurred = false;
+    promiseShow;
     resolveOnNextShow;
     previousRoute = {};
     /**
@@ -44,13 +45,7 @@ class AppRouter {
             }, 0);
         });
 
-        document.addEventListener('viewshow', () => {
-            const resolve = this.resolveOnNextShow;
-            if (resolve) {
-                this.resolveOnNextShow = null;
-                resolve();
-            }
-        });
+        document.addEventListener('viewshow', () => this.onViewShow());
 
         this.baseRoute = window.location.href.split('?')[0].replace(this.getRequestFile(), '');
         // support hashbang
@@ -128,11 +123,24 @@ class AppRouter {
         }
     }
 
-    back() {
-        page.back();
+    ready() {
+        return this.promiseShow || Promise.resolve();
     }
 
-    show(path, options) {
+    async back() {
+        if (this.promiseShow) await this.promiseShow;
+
+        this.promiseShow = new Promise((resolve) => {
+            this.resolveOnNextShow = resolve;
+            page.back();
+        });
+
+        return this.promiseShow;
+    }
+
+    async show(path, options) {
+        if (this.promiseShow) await this.promiseShow;
+
         // ensure the path does not start with '#!' since the router adds this
         if (path.startsWith('#!')) {
             path = path.substring(2);
@@ -152,17 +160,25 @@ class AppRouter {
             }
         }
 
-        return new Promise((resolve) => {
+        this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
-            page.show(path, options);
+            // Schedule a call to return the promise
+            setTimeout(() => page.show(path, options), 0);
         });
+
+        return this.promiseShow;
     }
 
-    showDirect(path) {
-        return new Promise(function(resolve) {
+    async showDirect(path) {
+        if (this.promiseShow) await this.promiseShow;
+
+        this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
-            page.show(this.baseUrl() + path);
+            // Schedule a call to return the promise
+            setTimeout(() => page.show(this.baseUrl() + path), 0);
         });
+
+        return this.promiseShow;
     }
 
     start(options) {
@@ -417,6 +433,15 @@ class AppRouter {
         });
     }
 
+    onViewShow() {
+        const resolve = this.resolveOnNextShow;
+        if (resolve) {
+            this.promiseShow = null;
+            this.resolveOnNextShow = null;
+            resolve();
+        }
+    }
+
     onForcedLogoutMessageTimeout() {
         const msg = this.forcedLogoutMsg;
         this.forcedLogoutMsg = null;
@@ -638,7 +663,11 @@ class AppRouter {
 
             const ignore = route.dummyRoute === true || this.previousRoute.dummyRoute === true;
             this.previousRoute = route;
-            if (ignore) return;
+            if (ignore) {
+                // Resolve 'show' promise
+                this.onViewShow();
+                return;
+            }
 
             this.handleRoute(ctx, next, route);
         };
@@ -766,6 +795,10 @@ class AppRouter {
 
             if (options.section === 'onnow') {
                 return '#!/list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'channels') {
+                return '#!/livetv.html?tab=2&serverId=' + options.serverId;
             }
 
             if (options.section === 'dvrschedule') {

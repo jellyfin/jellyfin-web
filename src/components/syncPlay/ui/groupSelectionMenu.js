@@ -7,6 +7,7 @@ import actionsheet from '../../actionSheet/actionSheet';
 import globalize from '../../../scripts/globalize';
 import playbackPermissionManager from './playbackPermissionManager';
 import ServerConnections from '../../ServerConnections';
+import './groupSelectionMenu.scss';
 
 /**
  * Class that manages the SyncPlay group selection menu.
@@ -63,7 +64,8 @@ class GroupSelectionMenu {
                     title: globalize.translate('HeaderSyncPlaySelectGroup'),
                     items: menuItems,
                     positionTo: button,
-                    border: true
+                    border: true,
+                    dialogClass: 'syncPlayGroupMenu'
                 };
 
                 actionsheet.show(menuOptions).then(function (id) {
@@ -139,6 +141,8 @@ class GroupSelectionMenu {
 
         const menuOptions = {
             title: groupInfo.GroupName,
+            text: groupInfo.Participants.join(', '),
+            dialogClass: 'syncPlayGroupMenu',
             items: menuItems,
             positionTo: button,
             border: true

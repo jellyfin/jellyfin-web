@@ -440,7 +440,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/useredit.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/useredit'
+        pageComponent: 'UserEditPage'
     });
 
     defineRoute({
@@ -448,7 +448,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/userlibraryaccess.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/userlibraryaccess'
+        pageComponent: 'UserLibraryAccessPage'
     });
 
     defineRoute({
@@ -456,7 +456,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/usernew.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/usernew'
+        pageComponent: 'NewUserPage'
     });
 
     defineRoute({
@@ -479,7 +479,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/users/userprofiles.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/users/userprofilespage'
+        pageComponent: 'UserProfilesPage'
     });
 
     defineRoute({

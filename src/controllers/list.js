@@ -320,7 +320,7 @@ import { appRouter } from '../components/appRouter';
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName,Path',
+            Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount',
             ImageTypeLimit: 1,
             ParentId: item.Id,
             SortBy: sortBy
@@ -666,12 +666,14 @@ class ItemsView {
 
             if (currentItem && !self.hasFilters) {
                 playbackManager.play({
-                    items: [currentItem]
+                    items: [currentItem],
+                    autoplay: true
                 });
             } else {
                 getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
                     playbackManager.play({
-                        items: result.Items
+                        items: result.Items,
+                        autoplay: true
                     });
                 });
             }
@@ -701,7 +703,8 @@ class ItemsView {
             } else {
                 getItems(self, self.params, currentItem, 'Random', null, 300).then(function (result) {
                     playbackManager.play({
-                        items: result.Items
+                        items: result.Items,
+                        autoplay: true
                     });
                 });
             }
@@ -788,21 +791,37 @@ class ItemsView {
 
                 const itemType = item ? item.Type : null;
 
-                if (itemType === 'MusicGenre' || params.type !== 'Programs' && itemType !== 'Channel') {
+                if ((itemType === 'MusicGenre' || params.type !== 'Programs' && itemType !== 'Channel')
+                    // Folder, Playlist views
+                    && itemType !== 'UserView'
+                    // Only Photo (homevideos) CollectionFolders are supported
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                ) {
+                    // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
                 } else {
+                    // Hide Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), true);
                 }
 
-                if (itemType === 'MusicGenre' || params.type !== 'Programs' && params.type !== 'nextup' && itemType !== 'Channel') {
+                if ((itemType === 'MusicGenre' || params.type !== 'Programs' && params.type !== 'nextup' && itemType !== 'Channel')
+                    // Folder, Playlist views
+                    && itemType !== 'UserView'
+                    // Only Photo (homevideos) CollectionFolders are supported
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                ) {
+                    // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);
                 } else {
+                    // Hide Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), true);
                 }
 
                 if (item && playbackManager.canQueue(item)) {
+                    // Show Queue button
                     hideOrShowAll(view.querySelectorAll('.btnQueue'), false);
                 } else {
+                    // Hide Queue button
                     hideOrShowAll(view.querySelectorAll('.btnQueue'), true);
                 }
             });

@@ -104,11 +104,6 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             icon: 'folder'
         });
         menuItems.push({
-            name: globalize.translate('ButtonRemove'),
-            id: 'delete',
-            icon: 'delete'
-        });
-        menuItems.push({
             name: globalize.translate('ButtonRename'),
             id: 'rename',
             icon: 'mode_edit'
@@ -117,6 +112,11 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             name: globalize.translate('ScanLibrary'),
             id: 'refresh',
             icon: 'refresh'
+        });
+        menuItems.push({
+            name: globalize.translate('ButtonRemove'),
+            id: 'delete',
+            icon: 'delete'
         });
 
         import('../../components/actionSheet/actionSheet').then((actionsheet) => {

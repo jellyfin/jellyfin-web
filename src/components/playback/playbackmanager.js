@@ -8,7 +8,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
-import * as Screenfull from 'screenfull';
+import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 
@@ -618,21 +618,6 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
             } else {
                 return isHostReachable(mediaSource, apiClient);
             }
-        } else if (mediaSource.Protocol === 'File') {
-            return new Promise(function (resolve) {
-                // Determine if the file can be accessed directly
-                import('../../scripts/filesystem').then((filesystem) => {
-                    const method = isFolderRip ?
-                        'directoryExists' :
-                        'fileExists';
-
-                    filesystem[method](mediaSource.Path).then(function () {
-                        resolve(true);
-                    }, function () {
-                        resolve(false);
-                    });
-                });
-            });
         }
     }
 
@@ -1812,7 +1797,8 @@ class PlaybackManager {
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Photo,Video',
+                    // Only include Photos because we do not handle mixed queues currently
+                    MediaTypes: 'Photo',
                     Limit: 1000
                 });
             } else if (firstItem.Type === 'MusicGenre') {
@@ -1823,6 +1809,16 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
                 });
+            } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+                    ParentId: firstItem.Id,
+                    Filters: 'IsNotFolder',
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    // Only include Photos because we do not handle mixed queues currently
+                    MediaTypes: 'Photo',
+                    Limit: 1000
+                }, queryOptions));
             } else if (firstItem.IsFolder) {
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
@@ -2481,7 +2477,7 @@ class PlaybackManager {
                     // Only used for audio
                     playMethod = 'Transcode';
                     mediaUrl = mediaSource.StreamUrl;
-                } else if (mediaSource.SupportsDirectStream) {
+                } else if (mediaSource.SupportsDirectPlay || mediaSource.SupportsDirectStream) {
                     directOptions = {
                         Static: true,
                         mediaSourceId: mediaSource.Id,
@@ -2500,7 +2496,7 @@ class PlaybackManager {
                     const prefix = type === 'Video' ? 'Videos' : 'Audio';
                     mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
 
-                    playMethod = 'DirectStream';
+                    playMethod = mediaSource.SupportsDirectPlay ? 'DirectPlay' : 'DirectStream';
                 } else if (mediaSource.SupportsTranscoding) {
                     mediaUrl = apiClient.getUrl(mediaSource.TranscodingUrl);
 
@@ -3068,7 +3064,9 @@ class PlaybackManager {
             const data = getPlayerData(player);
             const streamInfo = data.streamInfo;
 
-            const nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
+            const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
+
+            const nextItem = self._playNextAfterEnded && !errorOccurred ? self._playQueueManager.getNextItemInfo() : null;
 
             const nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3105,17 +3103,15 @@ class PlaybackManager {
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
+                data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
             }
 
-            if (displayErrorCode && typeof (displayErrorCode) === 'string') {
+            if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
                 self.nextTrack();
-            } else {
-                // Nothing more to play - clear data
-                data.streamInfo = null;
             }
         }
 
@@ -3503,7 +3499,7 @@ class PlaybackManager {
         this.seek(ticks, player);
     }
 
-    playTrailers(item) {
+    async playTrailers(item) {
         const player = this._currentPlayer;
 
         if (player && player.playTrailers) {
@@ -3512,33 +3508,31 @@ class PlaybackManager {
 
         const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-        const instance = this;
+        let items;
 
         if (item.LocalTrailerCount) {
-            return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (result) {
-                return instance.play({
-                    items: result
-                });
-            });
-        } else {
-            const remoteTrailers = item.RemoteTrailers || [];
+            items = await apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id);
+        }
 
-            if (!remoteTrailers.length) {
-                return Promise.reject();
-            }
-
-            return this.play({
-                items: remoteTrailers.map(function (t) {
-                    return {
-                        Name: t.Name || (item.Name + ' Trailer'),
-                        Url: t.Url,
-                        MediaType: 'Video',
-                        Type: 'Trailer',
-                        ServerId: apiClient.serverId()
-                    };
-                })
+        if (!items || !items.length) {
+            items = (item.RemoteTrailers || []).map((t) => {
+                return {
+                    Name: t.Name || (item.Name + ' Trailer'),
+                    Url: t.Url,
+                    MediaType: 'Video',
+                    Type: 'Trailer',
+                    ServerId: apiClient.serverId()
+                };
             });
         }
+
+        if (items.length) {
+            return this.play({
+                items
+            });
+        }
+
+        return Promise.reject();
     }
 
     getSubtitleUrl(textStream, serverId) {
@@ -3606,6 +3600,9 @@ class PlaybackManager {
     setPlaybackRate(value, player = this._currentPlayer) {
         if (player && player.setPlaybackRate) {
             player.setPlaybackRate(value);
+
+            // Save the new playback rate in the browser session, to restore when playing a new video.
+            sessionStorage.setItem('playbackRateSpeed', value);
         }
     }
 

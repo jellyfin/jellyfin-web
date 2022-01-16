@@ -67,10 +67,10 @@ import alert from '../../components/alert';
                     config.EnableIPV6 = form.querySelector('#chkEnableIP6').checked;
                     config.EnableIPV4 = form.querySelector('#chkEnableIP4').checked;
                     config.UPnPCreateHttpPortMap = form.querySelector('#chkCreateHttpPortMap').checked;
-                    config.UDPPortRange = form.querySelector('#txtUDPPortRange').value || null;
-                    config.HDHomerunPortRange = form.querySelector('#txtHDHomerunPortRange').checked || null;
+                    config.UDPPortRange = form.querySelector('#txtUDPPortRange').value;
+                    config.HDHomerunPortRange = form.querySelector('#txtHDHomerunPortRange').value;
                     config.EnableSSDPTracing = form.querySelector('#chkEnableSSDPTracing').checked;
-                    config.SSDPTracingFilter = form.querySelector('#txtSSDPTracingFilter').value || null;
+                    config.SSDPTracingFilter = form.querySelector('#txtSSDPTracingFilter').value;
                     ApiClient.updateNamedConfiguration('network', config).then(Dashboard.processServerConfigurationUpdateResult, Dashboard.processErrorResponse);
                 });
             });
@@ -157,10 +157,10 @@ import alert from '../../components/alert';
             page.querySelector('#chkEnableIP6').checked = config.EnableIPV6;
             page.querySelector('#chkEnableIP4').checked = config.EnableIPV4;
             page.querySelector('#chkCreateHttpPortMap').checked = config.UPnPCreateHttpPortMap;
-            page.querySelector('#txtUDPPortRange').value = config.UDPPortRange;
-            page.querySelector('#txtHDHomerunPortRange').checked = config.HDHomerunPortRange;
+            page.querySelector('#txtUDPPortRange').value = config.UDPPortRange || '';
+            page.querySelector('#txtHDHomerunPortRange').checked = config.HDHomerunPortRange || '';
             page.querySelector('#chkEnableSSDPTracing').checked = config.EnableSSDPTracing;
-            page.querySelector('#txtSSDPTracingFilter').value = config.SSDPTracingFilter;
+            page.querySelector('#txtSSDPTracingFilter').value = config.SSDPTracingFilter || '';
             page.querySelector('#txtPublishedServer').value = (config.PublishedServerUriBySubnet || []).join(', ');
             loading.hide();
         }
@@ -181,8 +181,8 @@ import alert from '../../components/alert';
             }
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+                const picker = new DirectoryBrowser();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,

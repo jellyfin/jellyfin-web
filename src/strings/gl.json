@@ -1,6 +1,6 @@
 {
     "AllowMediaConversion": "Permitir a conversión dos medios",
-    "AllComplexFormats": "Todos os formatos complexos (ASS, SSA, VOBSUB, PGS, SUB/IDX, etc.)",
+    "AllComplexFormats": "Todos os formatos complexos (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
     "AllLibraries": "Todas as bibliotecas",
     "AllLanguages": "Todas as linguas",
     "AllEpisodes": "Todos os episodios",
@@ -20,7 +20,7 @@
     "Absolute": "Absoluto",
     "Movies": "Películas",
     "HeaderContinueWatching": "Seguir mirando",
-    "HeaderAlbumArtists": "Artistas de Album",
+    "HeaderAlbumArtists": "Artistas do Album",
     "Genres": "Xéneros",
     "Folders": "Cartafoles",
     "Favorites": "Favoritos",
@@ -31,7 +31,7 @@
     "ApiKeysCaption": "Lista das claves API activadas neste momento",
     "Anytime": "Calquer Momento",
     "AnyLanguage": "Calquera Lingua",
-    "AllowRemoteAccess": "Permitir conexións remotas a este servidor.",
+    "AllowRemoteAccess": "Permitir conexións remotas a este servidor",
     "AllowMediaConversionHelp": "Permitir ou denegar aceso á función de conversión de medios.",
     "AllowFfmpegThrottling": "Acelerar Transcodificacións",
     "AllowedRemoteAddressesHelp": "Lista separada por comas das direcións IP ou entradas de máscara de rede para redes ás que se permitirá conectar remotamente. En branco, calquera direción remota será permitida.",
@@ -62,5 +62,7 @@
     "Actor": "Actor",
     "AccessRestrictedTryAgainLater": "O acceso está restrinxido actualmente. Por favor, intenteo máis tarde.",
     "AllowOnTheFlySubtitleExtraction": "Permitir extracción de subtítulos sobre a marcha",
-    "ValueSpecialEpisodeName": "Especial - {0}"
+    "ValueSpecialEpisodeName": "Especial - {0}",
+    "MusicVideos": "Vídeos Musicais",
+    "OptionBluray": "BD"
 }

@@ -1,4 +1,4 @@
-
+import { appRouter } from './appRouter';
 import browser from '../scripts/browser';
 import dialog from './dialog/dialog';
 import globalize from '../scripts/globalize';
@@ -10,7 +10,16 @@ import globalize from '../scripts/globalize';
         return originalString.replace(reg, strWith);
     }
 
-    export default function (text, title) {
+    function useNativeAlert() {
+        // webOS seems to block modals
+        // Tizen 2.x seems to block modals
+        return !browser.web0s
+            && !(browser.tizenVersion && browser.tizenVersion < 3)
+            && browser.tv
+            && window.alert;
+    }
+
+    export default async function (text, title) {
         let options;
         if (typeof text === 'string') {
             options = {
@@ -21,8 +30,11 @@ import globalize from '../scripts/globalize';
             options = text;
         }
 
-        if (browser.tv && window.alert) {
+        await appRouter.ready();
+
+        if (useNativeAlert()) {
             alert(replaceAll(options.text || '', '<br/>', '\n'));
+            return Promise.resolve();
         } else {
             const items = [];
 
@@ -35,8 +47,6 @@ import globalize from '../scripts/globalize';
             options.buttons = items;
             return dialog.show(options);
         }
-
-        return Promise.resolve();
     }
 
 /* eslint-enable indent */

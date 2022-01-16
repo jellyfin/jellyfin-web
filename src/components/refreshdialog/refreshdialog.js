@@ -24,9 +24,9 @@ function getEditorHtml() {
 
     html += '<div class="fldSelectPlaylist selectContainer">';
     html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
-    html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
+    html += '<option value="scan" selected>' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
     html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
-    html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
+    html += '<option value="all">' + globalize.translate('ReplaceAllMetadata') + '</option>';
     html += '</select>';
     html += '</div>';
 

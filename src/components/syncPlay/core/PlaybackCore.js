@@ -2,8 +2,9 @@
  * Module that manages the playback of SyncPlay.
  * @module components/syncPlay/core/PlaybackCore
  */
-
 import { Events } from 'jellyfin-apiclient';
+
+import browser from '../../../scripts/browser';
 import { toBoolean, toFloat } from '../../../scripts/stringUtils';
 import * as Helper from './Helper';
 import { getSetting } from './Settings';
@@ -20,7 +21,6 @@ class PlaybackCore {
         this.playbackDiffMillis = 0; // Used for stats and remote time sync.
         this.syncAttempts = 0;
         this.lastSyncTime = new Date();
-        this.enableSyncCorrection = true; // User setting to disable sync during playback.
 
         this.playerIsBuffering = false;
 
@@ -67,7 +67,7 @@ class PlaybackCore {
         this.useSkipToSync = toBoolean(getSetting('useSkipToSync'), true);
 
         // Whether sync correction during playback is active.
-        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), true);
+        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), !(browser.mobile || browser.iOS));
     }
 
     /**

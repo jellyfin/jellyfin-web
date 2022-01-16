@@ -31,7 +31,8 @@ function getThemeStylesheetInfo(id) {
 
         return {
             stylesheetPath: 'themes/' + theme.id + '/theme.css',
-            themeId: theme.id
+            themeId: theme.id,
+            color: theme.color
         };
     });
 }
@@ -74,6 +75,8 @@ function setTheme(id) {
             link.setAttribute('href', linkUrl);
             themeStyleElement = link;
             currentThemeId = info.themeId;
+
+            document.getElementById('themeColor').content = info.color;
         });
     });
 }
