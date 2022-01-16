@@ -323,6 +323,11 @@ import Headroom from 'headroom.js';
             btnSettings.addEventListener('click', onSettingsClick);
         }
 
+        const btnExit = navDrawerScrollContainer.querySelector('.exitApp');
+        if (btnExit) {
+            btnExit.addEventListener('click', onExitAppClick);
+        }
+
         const btnLogout = navDrawerScrollContainer.querySelector('.btnLogout');
         if (btnLogout) {
             btnLogout.addEventListener('click', onLogoutClick);
@@ -709,6 +714,10 @@ import Headroom from 'headroom.js';
 
     function onSettingsClick() {
         Dashboard.navigate('mypreferencesmenu.html');
+    }
+
+    function onExitAppClick() {
+        appHost.exit();
     }
 
     function onLogoutClick() {
