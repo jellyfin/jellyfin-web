@@ -45,9 +45,11 @@
  - [Camc314](https://github.com/camc314)
  - [danieladov](https://github.com/danieladov)
  - [Stephane Senart](https://github.com/ssenart)
+ - [imchasingshadows](https://github.com/imchasingshadows)
  - [Ömer Erdinç Yağmurlu](https://github.com/omeryagmurlu)
  - [Keegan Dahm](https://github.com/keegandahm)
  - [GodTamIt](https://github.com/GodTamIt)
+ - [MinecraftPlaye](https://github.com/MinecraftPlaye)
 
 # Emby Contributors
 
@@ -111,3 +113,4 @@
  - [tikuf](https://github.com/tikuf/)
  - [Tim Hobbs](https://github.com/timhobbs)
  - [SvenVandenbrande](https://github.com/SvenVandenbrande)
+ - [jomp16](https://github.com/jomp16)

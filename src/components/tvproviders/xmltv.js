@@ -145,8 +145,8 @@ export default function (page, providerId, options) {
     function onSelectPathClick(e) {
         const page = $(e.target).parents('.xmltvForm')[0];
 
-        import('../directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-            const picker = new directoryBrowser();
+        import('../directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            const picker = new DirectoryBrowser();
             picker.show({
                 includeFiles: true,
                 callback: function (path) {

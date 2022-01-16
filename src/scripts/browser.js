@@ -2,6 +2,11 @@ function isTv() {
     // This is going to be really difficult to get right
     const userAgent = navigator.userAgent.toLowerCase();
 
+    // The OculusBrowsers userAgent also has the samsungbrowser defined but is not a tv.
+    if (userAgent.indexOf('oculusbrowser') !== -1) {
+        return false;
+    }
+
     if (userAgent.indexOf('tv') !== -1) {
         return true;
     }
@@ -11,6 +16,20 @@ function isTv() {
     }
 
     if (userAgent.indexOf('viera') !== -1) {
+        return true;
+    }
+
+    if (isWeb0s()) {
+        return true;
+    }
+
+    return false;
+}
+
+function isWeb0s() {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf('netcast') !== -1) {
         return true;
     }
 
@@ -93,6 +112,51 @@ function iOSversion() {
         }
     }
     return [];
+}
+
+function web0sVersion(browser) {
+    // Detect webOS version by web engine version
+
+    if (browser.chrome) {
+        const userAgent = navigator.userAgent.toLowerCase();
+
+        if (userAgent.indexOf('netcast') !== -1) {
+            // The built-in browser (NetCast) may have a version that doesn't correspond to the actual web engine
+            // Since there is no reliable way to detect webOS version, we return an undefined version
+
+            console.warn('Unable to detect webOS version - NetCast');
+
+            return undefined;
+        }
+
+        // The next is only valid for the app
+
+        if (browser.versionMajor >= 79) {
+            return 6;
+        } else if (browser.versionMajor >= 68) {
+            return 5;
+        } else if (browser.versionMajor >= 53) {
+            return 4;
+        } else if (browser.versionMajor >= 38) {
+            return 3;
+        } else if (browser.versionMajor >= 34) {
+            // webOS 2 browser
+            return 2;
+        } else if (browser.versionMajor >= 26) {
+            // webOS 1 browser
+            return 1;
+        }
+    } else if (browser.versionMajor >= 538) {
+        // webOS 2 app
+        return 2;
+    } else if (browser.versionMajor >= 537) {
+        // webOS 1 app
+        return 1;
+    }
+
+    console.error('Unable to detect webOS version');
+
+    return undefined;
 }
 
 let _supportsCssAnimation;
@@ -234,17 +298,19 @@ if (userAgent.toLowerCase().indexOf('xbox') !== -1) {
 }
 browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
 browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.tizen != null;
-browser.web0s = userAgent.toLowerCase().indexOf('Web0S'.toLowerCase()) !== -1;
+browser.web0s = isWeb0s();
 browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 
-if (!browser.tizen) {
-    browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
-} else {
+if (browser.web0s) {
+    browser.web0sVersion = web0sVersion(browser);
+} else if (browser.tizen) {
     // UserAgent string contains 'Safari' and 'safari' is set by matched browser, but we only want 'tizen' to be true
     delete browser.safari;
 
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
     browser.tizenVersion = parseInt(v[1]);
+} else {
+    browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }
 
 if (browser.edgeUwp) {

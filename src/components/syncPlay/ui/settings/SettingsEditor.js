@@ -5,13 +5,12 @@
 
 import { Events } from 'jellyfin-apiclient';
 import SyncPlay from '../../core';
-import { getSetting, setSetting } from '../../core/Settings';
+import { setSetting } from '../../core/Settings';
 import dialogHelper from '../../../dialogHelper/dialogHelper';
 import layoutManager from '../../../layoutManager';
 import loading from '../../../loading/loading';
 import toast from '../../../toast/toast';
 import globalize from '../../../../scripts/globalize';
-import { toBoolean, toFloat } from '../../../../scripts/stringUtils';
 
 import 'material-design-icons-iconfont';
 import '../../../../elements/emby-input/emby-input';
@@ -96,14 +95,14 @@ class SettingsEditor {
     async initEditor() {
         const { context } = this;
 
-        context.querySelector('#txtExtraTimeOffset').value = toFloat(getSetting('extraTimeOffset'), 0.0);
-        context.querySelector('#chkSyncCorrection').checked = toBoolean(getSetting('enableSyncCorrection'), true);
-        context.querySelector('#txtMinDelaySpeedToSync').value = toFloat(getSetting('minDelaySpeedToSync'), 60.0);
-        context.querySelector('#txtMaxDelaySpeedToSync').value = toFloat(getSetting('maxDelaySpeedToSync'), 3000.0);
-        context.querySelector('#txtSpeedToSyncDuration').value = toFloat(getSetting('speedToSyncDuration'), 1000.0);
-        context.querySelector('#txtMinDelaySkipToSync').value = toFloat(getSetting('minDelaySkipToSync'), 400.0);
-        context.querySelector('#chkSpeedToSync').checked = toBoolean(getSetting('useSpeedToSync'), true);
-        context.querySelector('#chkSkipToSync').checked = toBoolean(getSetting('useSkipToSync'), true);
+        context.querySelector('#txtExtraTimeOffset').value = SyncPlay.Manager.timeSyncCore.extraTimeOffset;
+        context.querySelector('#chkSyncCorrection').checked = SyncPlay.Manager.playbackCore.enableSyncCorrection;
+        context.querySelector('#txtMinDelaySpeedToSync').value = SyncPlay.Manager.playbackCore.minDelaySpeedToSync;
+        context.querySelector('#txtMaxDelaySpeedToSync').value = SyncPlay.Manager.playbackCore.maxDelaySpeedToSync;
+        context.querySelector('#txtSpeedToSyncDuration').value = SyncPlay.Manager.playbackCore.speedToSyncDuration;
+        context.querySelector('#txtMinDelaySkipToSync').value = SyncPlay.Manager.playbackCore.minDelaySkipToSync;
+        context.querySelector('#chkSpeedToSync').checked = SyncPlay.Manager.playbackCore.useSpeedToSync;
+        context.querySelector('#chkSkipToSync').checked = SyncPlay.Manager.playbackCore.useSkipToSync;
     }
 
     onSubmit() {

@@ -57,6 +57,22 @@ import globalize from './globalize';
         return new Date(ms);
     }
 
+    /**
+     * Return a string in '{}h {}m' format for duration.
+     * @param {number} ticks - Duration in ticks.
+     */
+    export function getDisplayDuration(ticks) {
+        const totalMinutes = Math.round(ticks / 600000000) || 1;
+        const totalHours = Math.floor(totalMinutes / 60);
+        const remainderMinutes = totalMinutes % 60;
+        const result = [];
+        if (totalHours > 0) {
+            result.push(`${totalHours}h`);
+        }
+        result.push(`${remainderMinutes}m`);
+        return result.join(' ');
+    }
+
     export function getDisplayRunningTime(ticks) {
         const ticksPerHour = 36000000000;
         const ticksPerMinute = 600000000;
@@ -255,6 +271,7 @@ import globalize from './globalize';
     export default {
         parseISO8601Date: parseISO8601Date,
         getDisplayRunningTime: getDisplayRunningTime,
+        getDisplayDuration,
         toLocaleDateString: toLocaleDateString,
         toLocaleString: toLocaleString,
         getDisplayTime: getDisplayTime,

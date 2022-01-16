@@ -200,11 +200,20 @@ function setScrollClasses(elem, scrollX) {
 }
 
 function getDefaultTabIndex(folderId) {
-    if (userSettings.get('landing-' + folderId) === 'guide') {
-        return 1;
+    switch (userSettings.get('landing-' + folderId)) {
+        case 'guide':
+            return 1;
+        case 'channels':
+            return 2;
+        case 'recordings':
+            return 3;
+        case 'schedule':
+            return 4;
+        case 'series':
+            return 5;
+        default:
+            return 0;
     }
-
-    return 0;
 }
 
 export default function (view, params) {
@@ -279,10 +288,6 @@ export default function (view, params) {
 
                 if (index === 0) {
                     controller = self;
-                } else if (index === 6) {
-                    controller = new controllerFactory(view, tabContent, {
-                        collectionType: 'livetv'
-                    });
                 } else {
                     controller = new controllerFactory(view, params, tabContent);
                 }

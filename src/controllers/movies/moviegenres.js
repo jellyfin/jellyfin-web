@@ -17,7 +17,7 @@ import '../../elements/emby-button/emby-button';
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
-                        SortBy: 'Random',
+                        SortBy: 'SortName',
                         SortOrder: 'Ascending',
                         IncludeItemTypes: 'Movie',
                         Recursive: true,
@@ -70,7 +70,7 @@ import '../../elements/emby-button/emby-button';
 
             const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
             const query = {
-                SortBy: 'SortName',
+                SortBy: 'Random',
                 SortOrder: 'Ascending',
                 IncludeItemTypes: 'Movie',
                 Recursive: true,

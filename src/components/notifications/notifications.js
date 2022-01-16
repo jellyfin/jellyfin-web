@@ -3,6 +3,8 @@ import { playbackManager } from '../playback/playbackmanager';
 import { Events } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 
+import NotificationIcon from './notificationicon.png';
+
 function onOneDocumentClick() {
     document.removeEventListener('click', onOneDocumentClick);
     document.removeEventListener('keydown', onOneDocumentClick);
@@ -71,8 +73,8 @@ function showNotification(options, timeoutMs, apiClient) {
 
     options.data = options.data || {};
     options.data.serverId = apiClient.serverInfo().Id;
-    options.icon = options.icon || getIconUrl();
-    options.badge = options.badge || getIconUrl('badge.png');
+    options.icon = options.icon || NotificationIcon;
+    options.badge = options.badge || NotificationIcon;
 
     resetRegistration();
 
@@ -148,11 +150,6 @@ function onLibraryChanged(data, apiClient) {
     });
 }
 
-function getIconUrl(name) {
-    name = name || 'notificationicon.png';
-    return './components/notifications/' + name;
-}
-
 function showPackageInstallNotification(apiClient, installation, status) {
     apiClient.getCurrentUser().then(function (user) {
         if (!user.Policy.IsAdministrator) {
@@ -180,7 +177,7 @@ function showPackageInstallNotification(apiClient, installation, status) {
                     {
                         action: 'cancel-install',
                         title: globalize.translate('ButtonCancel'),
-                        icon: getIconUrl()
+                        icon: NotificationIcon
                     }
                 ];
 
@@ -249,7 +246,7 @@ Events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
             {
                 action: 'restart',
                 title: globalize.translate('Restart'),
-                icon: getIconUrl()
+                icon: NotificationIcon
             }
         ];
 

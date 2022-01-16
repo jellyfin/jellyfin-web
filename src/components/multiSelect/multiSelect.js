@@ -8,6 +8,7 @@ import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import playlistEditor from '../playlisteditor/playlisteditor';
 import confirm from '../confirm/confirm';
+import itemHelper from '../itemHelper';
 
 /* eslint-disable indent */
 
@@ -170,129 +171,155 @@ import confirm from '../confirm/confirm';
         const apiClient = ServerConnections.currentApiClient();
 
         apiClient.getCurrentUser().then(user => {
-            const menuItems = [];
+            // get first selected item to perform metadata refresh permission check
+            apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then(firstItem => {
+                const menuItems = [];
 
-            menuItems.push({
-                name: globalize.translate('AddToCollection'),
-                id: 'addtocollection',
-                icon: 'add'
-            });
-
-            menuItems.push({
-                name: globalize.translate('AddToPlaylist'),
-                id: 'playlist',
-                icon: 'playlist_add'
-            });
-
-            // TODO: Be more dynamic based on what is selected
-            if (user.Policy.EnableContentDeletion) {
                 menuItems.push({
-                    name: globalize.translate('Delete'),
-                    id: 'delete',
-                    icon: 'delete'
+                    name: globalize.translate('SelectAll'),
+                    id: 'selectall',
+                    icon: 'select_all'
                 });
-            }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
-                // Disabled because there is no callback for this item
-                /*
                 menuItems.push({
-                    name: globalize.translate('Download'),
-                    id: 'download',
-                    icon: 'file_download'
+                    name: globalize.translate('AddToCollection'),
+                    id: 'addtocollection',
+                    icon: 'add'
                 });
-                */
-            }
 
-            if (user.Policy.IsAdministrator) {
                 menuItems.push({
-                    name: globalize.translate('GroupVersions'),
-                    id: 'groupvideos',
-                    icon: 'call_merge'
+                    name: globalize.translate('AddToPlaylist'),
+                    id: 'playlist',
+                    icon: 'playlist_add'
                 });
-            }
 
-            menuItems.push({
-                name: globalize.translate('MarkPlayed'),
-                id: 'markplayed',
-                icon: 'check_box'
-            });
+                // TODO: Be more dynamic based on what is selected
+                if (user.Policy.EnableContentDeletion) {
+                    menuItems.push({
+                        name: globalize.translate('Delete'),
+                        id: 'delete',
+                        icon: 'delete'
+                    });
+                }
 
-            menuItems.push({
-                name: globalize.translate('MarkUnplayed'),
-                id: 'markunplayed',
-                icon: 'check_box_outline_blank'
-            });
+                if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
+                    // Disabled because there is no callback for this item
+                    /*
+                    menuItems.push({
+                        name: globalize.translate('Download'),
+                        id: 'download',
+                        icon: 'file_download'
+                    });
+                    */
+                }
 
-            menuItems.push({
-                name: globalize.translate('RefreshMetadata'),
-                id: 'refresh',
-                icon: 'refresh'
-            });
+                if (user.Policy.IsAdministrator) {
+                    menuItems.push({
+                        name: globalize.translate('GroupVersions'),
+                        id: 'groupvideos',
+                        icon: 'call_merge'
+                    });
+                }
 
-            import('../actionSheet/actionSheet').then((actionsheet) => {
-                actionsheet.show({
-                    items: menuItems,
-                    positionTo: e.target,
-                    callback: function (id) {
-                        const items = selectedItems.slice(0);
-                        const serverId = apiClient.serverInfo().Id;
+                menuItems.push({
+                    name: globalize.translate('MarkPlayed'),
+                    id: 'markplayed',
+                    icon: 'check_box'
+                });
 
-                        switch (id) {
-                            case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
-                                    new collectionEditor({
+                menuItems.push({
+                    name: globalize.translate('MarkUnplayed'),
+                    id: 'markunplayed',
+                    icon: 'check_box_outline_blank'
+                });
+
+                // this assues that if the user can refresh metadata for the first item
+                // they can refresh metadata for all items
+                if (itemHelper.canRefreshMetadata(firstItem, user)) {
+                    menuItems.push({
+                        name: globalize.translate('RefreshMetadata'),
+                        id: 'refresh',
+                        icon: 'refresh'
+                    });
+                }
+
+                import('../actionSheet/actionSheet').then((actionsheet) => {
+                    actionsheet.show({
+                        items: menuItems,
+                        positionTo: e.target,
+                        callback: function (id) {
+                            const items = selectedItems.slice(0);
+                            const serverId = apiClient.serverInfo().Id;
+
+                            switch (id) {
+                                case 'selectall':
+                                    {
+                                        const elems = document.querySelectorAll('.itemSelectionPanel');
+                                        for (let i = 0, length = elems.length; i < length; i++) {
+                                            const chkItemSelect = elems[i].querySelector('.chkItemSelect');
+
+                                            if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
+                                                chkItemSelect.checked = true;
+                                                updateItemSelection(chkItemSelect, true);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 'addtocollection':
+                                    import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
+                                        new collectionEditor({
+                                            items: items,
+                                            serverId: serverId
+                                        });
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'playlist':
+                                    new playlistEditor({
                                         items: items,
                                         serverId: serverId
                                     });
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'playlist':
-                                new playlistEditor({
-                                    items: items,
-                                    serverId: serverId
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'delete':
-                                deleteItems(apiClient, items).then(dispatchNeedsRefresh);
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'groupvideos':
-                                combineVersions(apiClient, items);
-                                break;
-                            case 'markplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'markunplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'refresh':
-                                import('../refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
-                                    new refreshDialog({
-                                        itemIds: items,
-                                        serverId: serverId
-                                    }).show();
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            default:
-                                break;
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'delete':
+                                    deleteItems(apiClient, items).then(dispatchNeedsRefresh);
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'groupvideos':
+                                    combineVersions(apiClient, items);
+                                    break;
+                                case 'markplayed':
+                                    items.forEach(itemId => {
+                                        apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'markunplayed':
+                                    items.forEach(itemId => {
+                                        apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'refresh':
+                                    import('../refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
+                                        new refreshDialog({
+                                            itemIds: items,
+                                            serverId: serverId
+                                        }).show();
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
+                    });
                 });
             });
         });

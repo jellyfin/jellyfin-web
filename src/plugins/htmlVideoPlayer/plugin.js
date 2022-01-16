@@ -13,6 +13,7 @@ import {
     getCrossOriginValue,
     enableHlsJsPlayer,
     applySrc,
+    resetSrc,
     playWithPromise,
     onEndedInternal,
     saveVolume,
@@ -675,13 +676,13 @@ function tryRemoveElement(elem) {
                 }
 
                 onEndedInternal(this, elem, this.onError);
-
-                if (destroyPlayer) {
-                    this.destroy();
-                }
             }
 
             this.destroyCustomTrack(elem);
+
+            if (destroyPlayer) {
+                this.destroy();
+            }
 
             return Promise.resolve();
         }
@@ -708,6 +709,9 @@ function tryRemoveElement(elem) {
                 videoElement.removeEventListener('click', this.onClick);
                 videoElement.removeEventListener('dblclick', this.onDblClick);
                 videoElement.removeEventListener('waiting', this.onWaiting);
+                videoElement.removeEventListener('error', this.onError); // bound in htmlMediaHelper
+
+                resetSrc(videoElement);
 
                 videoElement.parentNode.removeChild(videoElement);
             }
@@ -1044,12 +1048,16 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
+            const supportedFonts = ['application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
             const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
             const apiClient = ServerConnections.getApiClient(item);
-            attachments.map(function (i) {
-                // embedded font url
-                return avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+            attachments.forEach(i => {
+                // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
+                if (supportedFonts.includes(i.MimeType)) {
+                    // embedded font url
+                    avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                }
             });
             const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
                 api_key: apiClient.accessToken()
@@ -1062,7 +1070,13 @@ function tryRemoveElement(elem) {
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
-                    onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                    // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
+                    htmlVideoPlayer.#currentSubtitlesOctopus = null;
+
+                    // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
+                    setTimeout(() => {
+                        onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                    }, 0);
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
@@ -1361,24 +1375,41 @@ function tryRemoveElement(elem) {
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
 
+                        delete this.forcedFullscreen;
+
                         if (options.fullscreen) {
                             // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
                             document.body.classList.add('hide-scroll');
+
+                            // Enter fullscreen in the webOS browser to hide the top bar
+                            if (!window.NativeShell && browser.web0s && Screenfull.isEnabled) {
+                                Screenfull.request().then(() => {
+                                    this.forcedFullscreen = true;
+                                });
+                                return videoElement;
+                            }
+
+                            // don't animate on smart tv's, too slow
+                            if (!browser.slow && browser.supportsCssAnimation()) {
+                                return zoomIn(dlg).then(function () {
+                                    return videoElement;
+                                });
+                            }
                         }
 
-                        // don't animate on smart tv's, too slow
-                        if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
-                            return zoomIn(dlg).then(function () {
-                                return videoElement;
-                            });
-                        } else {
-                            return videoElement;
-                        }
+                        return videoElement;
                     });
                 } else {
-                    // we need to hide scrollbar when starting playback from page with animated background
                     if (options.fullscreen) {
+                        // we need to hide scrollbar when starting playback from page with animated background
                         document.body.classList.add('hide-scroll');
+
+                        // Enter fullscreen in the webOS browser to hide the top bar
+                        if (!this.forcedFullscreen && !window.NativeShell && browser.web0s && Screenfull.isEnabled) {
+                            Screenfull.request().then(() => {
+                                this.forcedFullscreen = true;
+                            });
+                        }
                     }
 
                     return Promise.resolve(dlg.querySelector('video'));

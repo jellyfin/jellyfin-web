@@ -72,7 +72,7 @@ import template from './itemMediaInfo.template.html';
             html += `<h2 class="mediaInfoStreamType">${displayType}</h2>`;
             const attributes = [];
             if (stream.DisplayTitle) {
-                attributes.push(createAttribute('Title', stream.DisplayTitle));
+                attributes.push(createAttribute(globalize.translate('MediaInfoTitle'), stream.DisplayTitle));
             }
             if (stream.Language && stream.Type !== 'Video') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoLanguage'), stream.Language));

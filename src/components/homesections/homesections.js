@@ -532,6 +532,11 @@ import ServerConnections from '../ServerConnections';
                     section: 'guide'
                 }) + '" class="raised"><span>' + globalize.translate('Guide') + '</span></a>';
 
+                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                    serverId: apiClient.serverId(),
+                    section: 'channels'
+                }) + '" class="raised"><span>' + globalize.translate('Channels') + '</span></a>';
+
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
                     serverId: apiClient.serverId()
                 }) + '" class="raised"><span>' + globalize.translate('Recordings') + '</span></a>';
@@ -595,9 +600,11 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function getNextUpFetchFn(serverId) {
+    function getNextUpFetchFn(serverId, userSettings) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
+            const oldestDateForNextUp = new Date();
+            oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
                 Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path',
@@ -605,7 +612,8 @@ import ServerConnections from '../ServerConnections';
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false,
-                DisableFirstEpisode: true
+                DisableFirstEpisode: false,
+                NextUpDateCutoff: oldestDateForNextUp.toISOString()
             });
         };
     }
@@ -665,7 +673,7 @@ import ServerConnections from '../ServerConnections';
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId());
+        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings);
         itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume());
         itemsContainer.parentContainer = elem;
     }

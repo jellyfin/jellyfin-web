@@ -37,6 +37,7 @@ import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePl
 import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
 import { currentSettings } from './settings/userSettings';
+import taskButton from '../scripts/taskbutton';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -83,6 +84,10 @@ function loadCoreDictionary() {
 }
 
 function init() {
+    // This is used in plugins
+    window.Events = Events;
+    window.TaskButton = taskButton;
+
     serverAddress().then(server => {
         if (server) {
             ServerConnections.initApiClient(server);

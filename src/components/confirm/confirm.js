@@ -1,3 +1,4 @@
+import { appRouter } from '../appRouter';
 import browser from '../../scripts/browser';
 import dialog from '../dialog/dialog';
 import globalize from '../../scripts/globalize';
@@ -6,7 +7,16 @@ function replaceAll(str, find, replace) {
     return str.split(find).join(replace);
 }
 
-function nativeConfirm(options) {
+function useNativeConfirm() {
+    // webOS seems to block modals
+    // Tizen 2.x seems to block modals
+    return !browser.web0s
+        && !(browser.tizenVersion && browser.tizenVersion < 3)
+        && browser.tv
+        && window.confirm;
+}
+
+async function nativeConfirm(options) {
     if (typeof options === 'string') {
         options = {
             title: '',
@@ -15,6 +25,7 @@ function nativeConfirm(options) {
     }
 
     const text = replaceAll(options.text || '', '<br/>', '\n');
+    await appRouter.ready();
     const result = window.confirm(text);
 
     if (result) {
@@ -24,7 +35,7 @@ function nativeConfirm(options) {
     }
 }
 
-function customConfirm(text, title) {
+async function customConfirm(text, title) {
     let options;
     if (typeof text === 'string') {
         options = {
@@ -51,6 +62,8 @@ function customConfirm(text, title) {
 
     options.buttons = items;
 
+    await appRouter.ready();
+
     return dialog.show(options).then(result => {
         if (result === 'ok') {
             return Promise.resolve();
@@ -60,6 +73,6 @@ function customConfirm(text, title) {
     });
 }
 
-const confirm = browser.tv && window.confirm ? nativeConfirm : customConfirm;
+const confirm = useNativeConfirm() ? nativeConfirm : customConfirm;
 
 export default confirm;

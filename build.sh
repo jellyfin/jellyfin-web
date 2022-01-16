@@ -39,7 +39,7 @@ do_build_native() {
 }
 
 do_build_docker() {
-    if ! dpkg --print-architecture | grep -q 'amd64'; then
+    if ! [ $(uname -m) = "x86_64" ]; then
         echo "Docker-based builds only support amd64-based cross-building; use a 'native' build instead."
         exit 1
     fi

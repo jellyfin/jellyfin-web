@@ -6,6 +6,10 @@ import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
 import * as webSettings from './settings/webSettings';
+import datetime from '../scripts/datetime';
+import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
+import dialogHelper from '../components/dialogHelper/dialogHelper';
+import itemIdentifier from '../components/itemidentifier/itemidentifier';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -23,19 +27,22 @@ export async function serverAddress() {
     const urls = await webSettings.getServers();
 
     if (urls.length === 0) {
-        // Don't use app URL as server URL
-        if (window.NativeShell) {
+        // Otherwise use computed base URL
+        let url;
+        const index = window.location.href.toLowerCase().lastIndexOf('/web');
+        if (index != -1) {
+            url = window.location.href.substring(0, index);
+        } else {
+            // fallback to location without path
+            url = window.location.origin;
+        }
+
+        // Don't use bundled app URL (file:) as server URL
+        if (url.startsWith('file:')) {
             return Promise.resolve();
         }
 
-        // Otherwise use computed base URL
-        const index = window.location.href.toLowerCase().lastIndexOf('/web');
-        if (index != -1) {
-            urls.push(window.location.href.substring(0, index));
-        } else {
-            // fallback to location without path
-            urls.push(window.location.origin);
-        }
+        urls.push(url);
     }
 
     console.debug('URL candidates:', urls);
@@ -92,6 +99,12 @@ export function logout() {
 
 export function getPluginUrl(name) {
     return 'configurationpage?name=' + encodeURIComponent(name);
+}
+
+export function getConfigurationResourceUrl(name) {
+    return ApiClient.getUrl('web/ConfigurationPage', {
+        name: name
+    });
 }
 
 export function navigate(url, preserveQueryString) {
@@ -204,6 +217,7 @@ const Dashboard = {
     capabilities,
     confirm,
     getPluginUrl,
+    getConfigurationResourceUrl,
     getCurrentUser,
     getCurrentUserId,
     hideLoadingMsg,
@@ -215,7 +229,11 @@ const Dashboard = {
     processServerConfigurationUpdateResult,
     selectServer,
     serverAddress,
-    showLoadingMsg
+    showLoadingMsg,
+    datetime,
+    DirectoryBrowser,
+    dialogHelper,
+    itemIdentifier
 };
 
 // This is used in plugins and templates, so keep it defined for now.

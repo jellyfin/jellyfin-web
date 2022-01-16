@@ -118,7 +118,7 @@ import template from './libraryoptionseditor.template.html';
         if (!plugins.length) return html;
 
         html += '<div class="metadataFetcher" data-type="' + availableTypeOptions.Type + '">';
-        html += '<h3 class="checkboxListLabel">' + globalize.translate('LabelTypeMetadataDownloaders', globalize.translate(availableTypeOptions.Type)) + '</h3>';
+        html += '<h3 class="checkboxListLabel">' + globalize.translate('LabelTypeMetadataDownloaders', globalize.translate('TypeOptionPlural' + availableTypeOptions.Type)) + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         plugins.forEach((plugin, index) => {
@@ -218,7 +218,7 @@ import template from './libraryoptionseditor.template.html';
 
         html += '<div class="imageFetcher" data-type="' + availableTypeOptions.Type + '">';
         html += '<div class="flex align-items-center" style="margin:1.5em 0 .5em;">';
-        html += '<h3 class="checkboxListLabel" style="margin:0;">' + globalize.translate('HeaderTypeImageFetchers', availableTypeOptions.Type) + '</h3>';
+        html += '<h3 class="checkboxListLabel" style="margin:0;">' + globalize.translate('HeaderTypeImageFetchers', globalize.translate('TypeOptionPlural' + availableTypeOptions.Type)) + '</h3>';
         const supportedImageTypes = availableTypeOptions.SupportedImageTypes || [];
         if (supportedImageTypes.length > 1 || supportedImageTypes.length === 1 && supportedImageTypes[0] !== 'Primary') {
             html += '<button is="emby-button" class="raised btnImageOptionsForType" type="button" style="margin-left:1.5em;font-size:90%;"><span>' + globalize.translate('HeaderFetcherSettings') + '</span></button>';
@@ -411,6 +411,8 @@ import template from './libraryoptionseditor.template.html';
             parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
         }
 
+        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies');
+
         return populateMetadataSettings(parent, contentType);
     }
 
@@ -511,6 +513,7 @@ import template from './libraryoptionseditor.template.html';
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector('#chkSkipIfAudioTrackPresent').checked,
             SaveSubtitlesWithMedia: parent.querySelector('#chkSaveSubtitlesLocally').checked,
             RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
+            AutomaticallyAddToCollection: parent.querySelector('#chkAutomaticallyAddToCollection').checked,
             MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
                 return elem.checked;
             }), elem => {
@@ -562,6 +565,7 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
         parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
         parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
+        parent.querySelector('#chkAutomaticallyAddToCollection').checked = options.AutomaticallyAddToCollection;
         Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
             elem.checked = options.MetadataSavers ? options.MetadataSavers.includes(elem.getAttribute('data-pluginname')) : elem.getAttribute('data-defaultenabled') === 'true';
         });

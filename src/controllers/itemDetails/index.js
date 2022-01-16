@@ -1,3 +1,4 @@
+import { intervalToDuration } from 'date-fns';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import { appRouter } from '../../components/appRouter';
@@ -668,10 +669,16 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.PremiereDate) {
         try {
-            const birthday = datetime.parseISO8601Date(item.PremiereDate, true).toDateString();
+            const birthday = datetime.parseISO8601Date(item.PremiereDate, true);
+            const durationSinceBorn = intervalToDuration({ start: birthday, end: Date.now() });
             itemBirthday.classList.remove('hide');
-            itemBirthday.innerHTML = globalize.translate('BirthDateValue', birthday);
+            if (item.EndDate) {
+                itemBirthday.innerHTML = globalize.translate('BirthDateValue', birthday.toLocaleDateString());
+            } else {
+                itemBirthday.innerHTML = `${globalize.translate('BirthDateValue', birthday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
+            }
         } catch (err) {
+            console.error(err);
             itemBirthday.classList.add('hide');
         }
     } else {
@@ -682,10 +689,18 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.EndDate) {
         try {
-            const deathday = datetime.parseISO8601Date(item.EndDate, true).toDateString();
+            const deathday = datetime.parseISO8601Date(item.EndDate, true);
             itemDeathDate.classList.remove('hide');
-            itemDeathDate.innerHTML = globalize.translate('DeathDateValue', deathday);
+            if (item.PremiereDate) {
+                const birthday = datetime.parseISO8601Date(item.PremiereDate, true);
+                const durationSinceBorn = intervalToDuration({ start: birthday, end: deathday });
+
+                itemDeathDate.innerHTML = `${globalize.translate('DeathDateValue', deathday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
+            } else {
+                itemDeathDate.innerHTML = globalize.translate('DeathDateValue', deathday.toLocaleDateString());
+            }
         } catch (err) {
+            console.error(err);
             itemDeathDate.classList.add('hide');
         }
     } else {

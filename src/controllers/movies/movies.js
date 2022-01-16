@@ -23,24 +23,13 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             itemsContainer.innerHTML = '';
         };
 
-        const updateFilterControls = () => {
-            if (this.alphaPicker) {
-                this.alphaPicker.value(query.NameStartsWith);
-                if (query.SortBy.indexOf('SortName') === 0) {
-                    this.alphaPicker.visible(true);
-                } else {
-                    this.alphaPicker.visible(false);
-                }
-            }
-        };
-
         function fetchData() {
             isLoading = true;
             loading.show();
             return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
         }
 
-        function afterRefresh(result) {
+        const afterRefresh = (result) => {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -64,7 +53,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             }
 
             window.scrollTo(0, 0);
-            updateFilterControls();
+            this.alphaPicker?.updateControls(query);
             const pagingHtml = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
@@ -94,7 +83,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(tabContent);
             });
-        }
+        };
 
         const getItemsHtml = (items) => {
             let html;
@@ -173,7 +162,13 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                     const newValue = e.detail.value;
-                    query.NameStartsWith = newValue;
+                    if (newValue === '#') {
+                        query.NameLessThan = 'A';
+                        delete query.NameStartsWith;
+                    } else {
+                        query.NameStartsWith = newValue;
+                        delete query.NameLessThan;
+                    }
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
@@ -301,9 +296,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             onViewStyleChange();
         };
 
-        this.renderTab = function () {
+        this.renderTab = () => {
             itemsContainer.refreshItems();
-            updateFilterControls();
+            this.alphaPicker?.updateControls(query);
         };
 
         this.destroy = function () {

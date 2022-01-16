@@ -106,10 +106,9 @@ import '../../elements/emby-button/emby-button';
         const miscInfo = [];
         let text;
         let date;
-        let minutes;
         let count;
 
-        const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
+        const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.Type === 'Playlist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
 
         if (showFolderRuntime) {
             count = item.SongCount || item.ChildCount;
@@ -119,7 +118,7 @@ import '../../elements/emby-button/emby-button';
             }
 
             if (item.RunTimeTicks) {
-                miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
+                miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
             }
         } else if (item.Type === 'PhotoAlbum' || item.Type === 'BoxSet') {
             count = item.ChildCount;
@@ -132,7 +131,8 @@ import '../../elements/emby-button/emby-button';
         if ((item.Type === 'Episode' || item.MediaType === 'Photo') && options.originalAirDate !== false) {
             if (item.PremiereDate) {
                 try {
-                    date = datetime.parseISO8601Date(item.PremiereDate);
+                    //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
+                    date = datetime.parseISO8601Date(item.PremiereDate, item.Type !== 'Episode');
 
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
@@ -257,11 +257,7 @@ import '../../elements/emby-button/emby-button';
             if (item.Type === 'Audio') {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
-                minutes = item.RunTimeTicks / 600000000;
-
-                minutes = minutes || 1;
-
-                miscInfo.push(`${Math.round(minutes)} mins`);
+                miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
             }
         }
 
