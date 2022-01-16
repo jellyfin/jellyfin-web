@@ -65,14 +65,18 @@ export default function (view, params, tabContent) {
         }
 
         const query = getQuery();
-        context.querySelector('.paging').innerHTML = libraryBrowser.getQueryPagingHtml({
-            startIndex: query.StartIndex,
-            limit: query.Limit,
-            totalRecordCount: result.TotalRecordCount,
-            showLimit: false,
-            updatePageSizeSetting: false,
-            filterButton: false
-        });
+
+        for (const elem of context.querySelectorAll('.paging')) {
+            elem.innerHTML = libraryBrowser.getQueryPagingHtml({
+                startIndex: query.StartIndex,
+                limit: query.Limit,
+                totalRecordCount: result.TotalRecordCount,
+                showLimit: false,
+                updatePageSizeSetting: false,
+                filterButton: false
+            });
+        }
+
         const html = getChannelsHtml(result.Items);
         const elem = context.querySelector('#items');
         elem.innerHTML = html;
