@@ -262,6 +262,17 @@
 
 /* eslint-enable indent */
 
+/**
+ * Sets title and ARIA-label of element.
+ * @param {HTMLElement} elem - Element to set the title and ARIA-label.
+ * @param {string} title - Title.
+ * @param {string?} [ariaLabel] - ARIA-label.
+ */
+export function setElementTitle(elem, title, ariaLabel) {
+    elem.setAttribute('title', title);
+    elem.setAttribute('aria-label', ariaLabel);
+}
+
 export default {
     parentWithAttribute: parentWithAttribute,
     parentWithClass: parentWithClass,
@@ -270,6 +281,7 @@ export default {
     removeEventListener: removeEventListener,
     getWindowSize: getWindowSize,
     getScreenWidth: getScreenWidth,
+    setElementTitle,
     whichTransitionEvent: whichTransitionEvent,
     whichAnimationEvent: whichAnimationEvent,
     whichAnimationCancelEvent: whichAnimationCancelEvent

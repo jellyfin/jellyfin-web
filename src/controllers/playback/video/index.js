@@ -643,13 +643,19 @@ import { appRouter } from '../../../components/appRouter';
 
             btnPlayPauseIcon.classList.remove('play_arrow', 'pause');
 
+            let icon;
+            let title;
+
             if (isPaused) {
-                btnPlayPauseIcon.classList.add('play_arrow');
-                btnPlayPause.setAttribute('title', globalize.translate('Play') + ' (k)');
+                icon = 'play_arrow';
+                title = globalize.translate('Play');
             } else {
-                btnPlayPauseIcon.classList.add('pause');
-                btnPlayPause.setAttribute('title', globalize.translate('ButtonPause') + ' (k)');
+                icon = 'pause';
+                title = globalize.translate('ButtonPause');
             }
+
+            btnPlayPauseIcon.classList.add(icon);
+            dom.setElementTitle(btnPlayPause, title + ' (k)', title);
         }
 
         function updatePlayerStateInternal(event, player, state) {
