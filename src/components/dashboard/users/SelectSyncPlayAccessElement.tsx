@@ -3,7 +3,7 @@ import globalize from '../../../scripts/globalize';
 
 const createSelectElement = ({ className, id, label }) => ({
     __html: `<select
-        className="${className}"
+        class="${className}"
         is="emby-select"
         id="${id}"
         label="${label}"
