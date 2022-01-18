@@ -696,7 +696,17 @@ import template from './metadataEditor.template.html';
             showElement('#fldDisplayOrder', context);
             showElement('.seriesDisplayOrderDescription', context);
 
-            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="">' + globalize.translate('Aired') + '</option><option value="absolute">' + globalize.translate('Absolute') + '</option><option value="dvd">DVD</option>' + '</option><option value="production">' + globalize.translate('Production') + '</option><option value="tv">TV</option>';
+            let html = '';
+            html += '<option value="">' + globalize.translate('Aired') + '</option>';
+            html += '<option value="originalAirDate">' + globalize.translate('OriginalAirDate') + '</option>';
+            html += '<option value="absolute">' + globalize.translate('Absolute') + '</option>';
+            html += '<option value="dvd">DVD</option></option>';
+            html += '<option value="digital">' + globalize.translate('Digital') + '</option>';
+            html += '<option value="storyArc">' + globalize.translate('StoryArc') + '</option>';
+            html += '<option value="production">' + globalize.translate('Production') + '</option>';
+            html += '<option value="tv">TV</option>';
+
+            context.querySelector('#selectDisplayOrder').innerHTML = html;
         } else {
             context.querySelector('#selectDisplayOrder').innerHTML = '';
             hideElement('#fldDisplayOrder', context);
