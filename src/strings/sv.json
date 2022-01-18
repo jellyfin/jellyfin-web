@@ -1601,5 +1601,16 @@
     "LabelSyncPlaySettingsMaxDelaySpeedToSync": "SpeedToSync högsta fördröjning:",
     "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync minsta fördröjning:",
     "Cursive": "Kursivt",
-    "ContainerBitrateExceedsLimit": "Videons bittakt (bitrate) överskrider begränsningen"
+    "ContainerBitrateExceedsLimit": "Videons bittakt (bitrate) överskrider begränsningen",
+    "SelectAll": "Välja alla",
+    "DirectPlayError": "Det blev ett fel när direkt uppspelning startades",
+    "UnknownAudioStreamInfo": "Ljud-ström-infon är okänd",
+    "UnknownVideoStreamInfo": "Video-ström-infon är okänd",
+    "VideoBitrateNotSupported": "Det finns inte stöd för videons bithastighet",
+    "AudioIsExternal": "Ljudströmmen är extern",
+    "LabelHardwareEncodingOptions": "Inställningar för hårdvarukodaren:",
+    "IntelLowPowerEncHelp": "Low-Power-Kodning kan fortfarande ha onödig CPU-GPU-Synkronisering. På Linux måste det avaktiveras om i915-HuC-firmware inte är konfigurerat.",
+    "EnableIntelLowPowerHevcHwEncoder": "Aktivera Intel Low-Power-hårdvarukodare för HEVC",
+    "EnableIntelLowPowerH264HwEncoder": "Aktivera Intel Low-Power-hårdvarukodare för H.264",
+    "PreferSystemNativeHwDecoder": "Föredra operativsystemets inbyggda DXVA eller VA-API hårdvaruavkodare"
 }
