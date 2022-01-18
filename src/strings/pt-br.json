@@ -1390,7 +1390,7 @@
     "LabelTonemappingRange": "Range do mapeamento de tons:",
     "TonemappingAlgorithmHelp": "O Tonemapping pode ser ajustado. Se você não esta familiarizado com essas opções, mantenha o valor padrão. O valor recomendado é Hable.",
     "LabelTonemappingAlgorithm": "Selecione o algoritmo de mapeamento de tons a ser usado:",
-    "AllowTonemappingHelp": "O Tonemapping pode transformar o range dinâmico de um video HDR em SDR enquanto mantém os detalhes e cores da imagem, que são informações importantes na representação da cena original. Atualmente funciona apenas durante à transcodificação de vídeos com metadados HDR10 ou HGL embutidos. Se a reprodução falhar ou não estiver suave, por favor considere desativar o decodificador de hardware correspondente.",
+    "AllowTonemappingHelp": "O mapeamento de tons pode transformar a faixa dinâmica de um vídeo de HDR para SDR, mantendo detalhes e cores da imagem, informações muito importantes para representar a cena original. Atualmente, funciona apenas ao transcodificar vídeos com metadados HDR10 ou HLG incorporados. Se a reprodução não for suave ou falhar, considere desativar os vídeos HDR10 ou HLG de decodificadores de hardware correspondentes. Isso requer o tempo de execução correspondente do OpenCL ou CUDA.",
     "EnableTonemapping": "Ativar mapeamento de tons",
     "LabelOpenclDeviceHelp": "Dispositivo OpenCL usado para a mapeação de tons. Os números ao lado esquerdo do ponto (.) são referentes ao número da plataforma, os números a direita representam o número do dispositivo dentro da plataforma. O valor padrão é 0.0. O arquivo da aplicação ffmpeg contendo o método de aceleraçao de hardware OpenCL é obrigatório.",
     "LabelOpenclDevice": "Dispositivo OpenCL:",
@@ -1600,5 +1600,17 @@
     "Cursive": "Cursiva",
     "LabelAutomaticallyAddToCollection": "Adicionar automaticamente à coleção",
     "Console": "Console",
-    "Casual": "Casual"
+    "Casual": "Casual",
+    "SelectAll": "Selecionar Tudo",
+    "DirectPlayError": "Ocorreu um erro ao iniciar a reprodução direta",
+    "UnknownAudioStreamInfo": "As informações do stream de audio são desconhecidas",
+    "UnknownVideoStreamInfo": "As informações do stream de vídeo são desconhecidas",
+    "VideoBitrateNotSupported": "A taxa de bits (Bitrate) do vídeo não é compatível",
+    "AudioIsExternal": "O fluxo de áudio é externo",
+    "LabelHardwareEncodingOptions": "Opções de codificação de hardware:",
+    "IntelLowPowerEncHelp": "A codificação de baixa potência pode manter a sincronização CPU-GPU desnecessária. No Linux, eles devem ser desabilitados se o firmware i915 HuC não estiver configurado.",
+    "EnableIntelLowPowerHevcHwEncoder": "Ativar o codificador de hardware Intel HECV de baixo processamento",
+    "EnableIntelLowPowerH264HwEncoder": "Ativar o codificador de hardware Intel H.264 de baixo processamento",
+    "PreferSystemNativeHwDecoder": "Prefira os decodificadores de hardware DXVA ou VA-API nativos do sistema operacional",
+    "ContainerBitrateExceedsLimit": "A taxa de bits do vídeo excede o limite"
 }
