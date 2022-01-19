@@ -1600,5 +1600,6 @@
     "TypeOptionPluralBoxSet": "Colecciones",
     "ReleaseGroup": "Grupo de lanzamiento",
     "LabelSyncPlaySettingsSyncCorrectionHelp": "Activar la sincronización activa de la reproducción acelerando o moviéndose a la posición estimada. Desactivar esto en caso de cortes frecuentes en la reproducción.",
-    "Cursive": "Cursiva"
+    "Cursive": "Cursiva",
+    "ContainerBitrateExceedsLimit": "La tasa de bits del video supera el límite"
 }
