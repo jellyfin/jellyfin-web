@@ -1598,5 +1598,19 @@
     "LabelMaxDaysForNextUpHelp": "Establece la cantidad máxima de días que un programa debe permanecer en la lista 'Siguiente' sin verlo.",
     "LabelHardwareEncoding": "Codificación de hardware:",
     "LabelDisableCustomCss": "Deshabilitar el código CSS personalizado para temas/marcas proporcionados desde el servidor.",
-    "LabelAutomaticallyAddToCollectionHelp": "Cuando al menos 2 películas tengan el mismo nombre de colección, se agregarán automáticamente a la colección."
+    "LabelAutomaticallyAddToCollectionHelp": "Cuando al menos 2 películas tengan el mismo nombre de colección, se agregarán automáticamente a la colección.",
+    "LabelMaxDaysForNextUp": "Máx. días en 'Siguiente':",
+    "AgeValue": "({0} años)",
+    "SelectAll": "Seleccionar todo",
+    "DirectPlayError": "Hubo un error al iniciar la reproducción directa",
+    "UnknownAudioStreamInfo": "La información de la transmisión de audio es desconocida",
+    "UnknownVideoStreamInfo": "La información de transmisión de video es desconocida",
+    "VideoBitrateNotSupported": "La tasa de bits del video no es compatible",
+    "AudioIsExternal": "La transmisión de audio es externa",
+    "LabelHardwareEncodingOptions": "Opciones de codificación de hardware:",
+    "IntelLowPowerEncHelp": "La codificación de bajo consumo puede mantener una sincronización CPU-GPU innecesaria. En Linux, deben deshabilitarse si el firmware i915 HuC no está configurado.",
+    "EnableIntelLowPowerHevcHwEncoder": "Habilitar el codificador de hardware Intel Low-Power HEVC",
+    "EnableIntelLowPowerH264HwEncoder": "Habilitar el codificador de hardware Intel Low-Power H.264",
+    "PreferSystemNativeHwDecoder": "Preferir decodificadores de hardware DXVA o VA-API nativos del sistema operativo",
+    "ContainerBitrateExceedsLimit": "La tasa de bits del video excede el límite"
 }
