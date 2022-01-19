@@ -312,7 +312,7 @@ export class BookPlayer {
                         epubElem.style.display = 'block';
                         rendition.on('relocated', (locations) => {
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
-                            Events.trigger(this, 'timeupdate');
+                            Events.trigger(this, 'pause');
                         });
 
                         loading.hide();
