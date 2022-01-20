@@ -27,8 +27,6 @@ html {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, 0.87);
-    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .osdHeader {
@@ -44,6 +42,7 @@ html {
 
 .layout-tv .skinHeader.semiTransparent {
     background: none;
+    color: inherit;
 }
 
 .pageTitleWithDefaultLogo {
@@ -253,12 +252,11 @@ html {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, 0.87);
-    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .layout-tv .detailRibbon {
     background: none;
+    color: inherit;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
