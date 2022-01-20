@@ -36,6 +36,12 @@ export class PdfPlayer {
     stop() {
         this.unbindEvents();
 
+        const stopInfo = {
+            src: this.item
+        };
+
+        Events.trigger(this, 'stopped', [stopInfo]);
+
         const elem = this.mediaElement;
         if (elem) {
             dialogHelper.close(elem);
@@ -47,6 +53,10 @@ export class PdfPlayer {
 
         // cancel page render
         this.cancellationToken = true;
+    }
+
+    destroy() {
+        // Nothing to do here
     }
 
     currentItem() {
@@ -114,8 +124,8 @@ export class PdfPlayer {
     bindMediaElementEvents() {
         const elem = this.mediaElement;
 
-        elem.addEventListener('close', this.onDialogClosed, {once: true});
-        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, {once: true});
+        elem.addEventListener('close', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
     }
 
     bindEvents() {
@@ -181,6 +191,7 @@ export class PdfPlayer {
         this.streamInfo = {
             started: true,
             ended: false,
+            item: this.item,
             mediaSource: {
                 Id: item.Id
             }
@@ -218,12 +229,16 @@ export class PdfPlayer {
         if (this.progress === this.duration() - 1) return;
         this.loadPage(this.progress + 2);
         this.progress = this.progress + 1;
+
+        Events.trigger(this, 'pause');
     }
 
     previous() {
         if (this.progress === 0) return;
         this.loadPage(this.progress);
         this.progress = this.progress - 1;
+
+        Events.trigger(this, 'pause');
     }
 
     replaceCanvas(canvas) {
@@ -265,8 +280,6 @@ export class PdfPlayer {
 
     renderPage(canvas, number) {
         this.book.getPage(number).then(page => {
-            Events.trigger(this, 'timeupdate');
-
             const original = page.getViewport({ scale: 1 });
             const context = canvas.getContext('2d');
 
