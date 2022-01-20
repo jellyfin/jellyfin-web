@@ -44,6 +44,12 @@ export class BookPlayer {
     stop() {
         this.unbindEvents();
 
+        const stopInfo = {
+            src: this.item
+        };
+
+        Events.trigger(this, 'stopped', [stopInfo]);
+
         const elem = this.mediaElement;
         const tocElement = this.tocElement;
         const rendition = this.rendition;
@@ -65,6 +71,10 @@ export class BookPlayer {
         // hide loader in case player was not fully loaded yet
         loading.hide();
         this.cancellationToken = true;
+    }
+
+    destroy() {
+        // Nothing to do here
     }
 
     currentItem() {
@@ -149,8 +159,8 @@ export class BookPlayer {
     bindMediaElementEvents() {
         const elem = this.mediaElement;
 
-        elem.addEventListener('close', this.onDialogClosed, {once: true});
-        elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
+        elem.addEventListener('close', this.onDialogClosed, { once: true });
+        elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, { once: true });
         elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
         elem.querySelector('#btnBookplayerFullscreen').addEventListener('click', this.toggleFullscreen);
         elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.previous);
@@ -250,6 +260,7 @@ export class BookPlayer {
         this.streamInfo = {
             started: true,
             ended: false,
+            item: this.item,
             mediaSource: {
                 Id: item.Id
             }
@@ -263,9 +274,9 @@ export class BookPlayer {
         }
 
         return new Promise((resolve, reject) => {
-            import('epubjs').then(({default: epubjs}) => {
+            import('epubjs').then(({ default: epubjs }) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
-                const book = epubjs(downloadHref, {openAs: 'epub'});
+                const book = epubjs(downloadHref, { openAs: 'epub' });
 
                 // We need to calculate the height of the window beforehand because using 100% is not accurate when the dialog is opening.
                 // In addition we don't render to the full height so that we have space for the top buttons.
@@ -301,7 +312,7 @@ export class BookPlayer {
                         epubElem.style.display = 'block';
                         rendition.on('relocated', (locations) => {
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
-                            Events.trigger(this, 'timeupdate');
+                            Events.trigger(this, 'pause');
                         });
 
                         loading.hide();
