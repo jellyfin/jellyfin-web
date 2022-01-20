@@ -378,8 +378,8 @@ function reloadPlayButtons(page, item) {
         const btnResume = page.querySelector('.mainDetailButtons .btnResume');
         const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
         const resumeHidden = btnResume.classList.contains('hide');
-        btnResume.classList.toggle('fab', !resumeHidden);
-        btnPlay.classList.toggle('fab', resumeHidden);
+        btnResume.classList.toggle('raised', !resumeHidden);
+        btnPlay.classList.toggle('raised', resumeHidden);
     }
 
     return canPlay;
