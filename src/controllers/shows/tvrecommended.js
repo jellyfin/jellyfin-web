@@ -178,7 +178,7 @@ import autoFocuser from '../../components/autoFocuser';
         const query = {
             userId: userId,
             Limit: 24,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
             ParentId: parentId,
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
