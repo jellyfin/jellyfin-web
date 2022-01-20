@@ -1609,5 +1609,6 @@
     "EnableIntelLowPowerHevcHwEncoder": "Увімкнути апаратний кодер Intel HEVC з низьким енергоспоживанням",
     "EnableIntelLowPowerH264HwEncoder": "Увімкнути апаратний кодер Intel Low-Power H.264",
     "PreferSystemNativeHwDecoder": "Віддавайте перевагу апаратним декодерам DXVA або VA-API на основі ОС",
-    "ContainerBitrateExceedsLimit": "Бітрейт відео перевищує ліміт"
+    "ContainerBitrateExceedsLimit": "Бітрейт відео перевищує ліміт",
+    "SelectAll": "Вибрати все"
 }
