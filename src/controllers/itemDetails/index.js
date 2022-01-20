@@ -634,12 +634,6 @@ function reloadFromItem(instance, page, params, item, user) {
     setInitialCollapsibleState(page, item, apiClient, params.context, user);
     const canPlay = reloadPlayButtons(page, item);
 
-    if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
-        hideAll(page, 'btnPlayTrailer', true);
-    } else {
-        hideAll(page, 'btnPlayTrailer');
-    }
-
     setTrailerButtonVisibility(page, item);
 
     if (item.Type !== 'Program' || canPlay) {
