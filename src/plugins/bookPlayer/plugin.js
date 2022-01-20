@@ -295,7 +295,7 @@ export class BookPlayer {
 
                 return rendition.display().then(() => {
                     const epubElem = document.querySelector('.epub-container');
-                    epubElem.style.display = 'none';
+                    epubElem.style.opacity = '0';
 
                     this.bindEvents();
 
@@ -309,7 +309,7 @@ export class BookPlayer {
                         }
 
                         this.loaded = true;
-                        epubElem.style.display = 'block';
+                        epubElem.style.opacity = '';
                         rendition.on('relocated', (locations) => {
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
                             Events.trigger(this, 'pause');
