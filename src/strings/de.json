@@ -536,7 +536,7 @@
     "LabelManufacturerUrl": "Hersteller-URL:",
     "LabelMatchType": "Übereinstimmungstyp:",
     "LabelMaxBackdropsPerItem": "Maximale Anzahl von Hintergründen pro Element:",
-    "LabelMaxChromecastBitrate": "Max Chromcast Datenrate:",
+    "LabelMaxChromecastBitrate": "Chromecast Streaming-Qualität:",
     "LabelMaxParentalRating": "Maximal erlaubte Altersfreigabe:",
     "LabelMaxResumePercentage": "Maximale Prozent für Wiederaufnahme:",
     "LabelMaxResumePercentageHelp": "Titel werden als vollständig gesehen markiert, wenn sie nach dieser Zeit gestoppt werden.",
