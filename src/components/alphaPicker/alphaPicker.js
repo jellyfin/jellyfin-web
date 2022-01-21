@@ -287,7 +287,7 @@ import 'material-design-icons-iconfont';
                 this.value(query.NameStartsWith);
             }
 
-            this.visible(query.SortBy.indexOf('SortName') === 0);
+            this.visible(query.SortBy.indexOf('SortName') !== -1);
         }
 
         visible(visible) {
