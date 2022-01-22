@@ -12,7 +12,7 @@ const createButtonElement = ({tag}) => ({
 });
 
 type IProps = {
-    tag: any;
+    tag?: string;
 }
 
 const BlockedTagList: FunctionComponent<IProps> = ({tag}: IProps) => {

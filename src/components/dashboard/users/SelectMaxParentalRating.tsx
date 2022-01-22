@@ -12,16 +12,21 @@ const createSelectElement = ({ className, label, option }) => ({
     </select>`
 });
 
+type RatingsArr = {
+    Name: string;
+    Value: number;
+}
+
 type IProps = {
     className?: string;
     label?: string;
-    parentalRatings: any
+    parentalRatings: RatingsArr[];
 }
 
 const SelectMaxParentalRating: FunctionComponent<IProps> = ({ className, label, parentalRatings }: IProps) => {
-    const renderOption = ratings => {
+    const renderOption = () => {
         let content = '';
-        for (const rating of ratings) {
+        for (const rating of parentalRatings) {
             content += `<option value='${rating.Value}'>${rating.Name}</option>`;
         }
         return content;
@@ -32,7 +37,7 @@ const SelectMaxParentalRating: FunctionComponent<IProps> = ({ className, label, 
             dangerouslySetInnerHTML={createSelectElement({
                 className: className,
                 label: globalize.translate(label),
-                option: renderOption(parentalRatings)
+                option: renderOption()
             })}
         />
     );

@@ -13,9 +13,9 @@ import SectionTabs from '../dashboard/users/SectionTabs';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 
-type Ratings = {
+type RatingsArr = {
     Name: string;
-    Value: string;
+    Value: number;
 }
 
 type ItemsArr = {
@@ -35,7 +35,7 @@ const UserParentalControl: FunctionComponent = () => {
 
     const populateRatings = useCallback((allParentalRatings) => {
         let rating;
-        const ratings: Ratings[] = [];
+        const ratings: RatingsArr[] = [];
 
         for (let i = 0, length = allParentalRatings.length; i < length; i++) {
             rating = allParentalRatings[i];
@@ -186,7 +186,7 @@ const UserParentalControl: FunctionComponent = () => {
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(element?.current?.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
-                return i.getAttribute('data-id');
+                return i.getAttribute('data-itemtype');
             });
             user.Policy.AccessSchedules = getSchedulesFromPage();
             user.Policy.BlockedTags = getBlockedTagsFromPage();
@@ -303,7 +303,7 @@ const UserParentalControl: FunctionComponent = () => {
                                     return <CheckBoxListItem
                                         key={Item.value}
                                         className='chkUnratedItem'
-                                        Id={Item.value}
+                                        ItemType={Item.value}
                                         Name={Item.name}
                                         checkedAttribute={Item.checkedAttribute}
                                     />;
