@@ -259,7 +259,15 @@ class ArchiveSource {
         this.raw = await this.archive.getFilesArray();
         await this.archive.extractFiles();
 
-        const files = await this.archive.getFilesArray();
+        // the comic book archive supports any kind of image format as it's just a zip archive
+        const supportedFormats = ['jpg', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif'];
+
+        let files = await this.archive.getFilesArray();
+        files = files.filter((file) => {
+            const name = file.file.name;
+            const index = name.lastIndexOf('.');
+            return supportedFormats.includes(name.substr(index + 1));
+        });
         files.sort((a, b) => {
             if (a.file.name < b.file.name) {
                 return -1;
