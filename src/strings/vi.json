@@ -1516,7 +1516,7 @@
     "TextSent": "Đã gửi văn bản.",
     "MessageSent": "Đã gửi tin nhắn.",
     "LabelSlowResponseTime": "Thời gian tính bằng mili giây sau đó phản hồi được coi là chậm:",
-    "LabelSlowResponseEnabled": "Ghi lại thông báo cảnh báo nếu máy chủ trả lời chậm",
+    "LabelSlowResponseEnabled": "Ghi lại thông báo cảnh báo nếu máy chủ hồi đáp chậm",
     "UseEpisodeImagesInNextUpHelp": "Phần 'Tiếp theo' và 'Tiếp tục Xem' sẽ dùng ảnh của tập làm ảnh thu nhỏ thay vì ảnh thu nhỏ chính thức của chương trình.",
     "UseEpisodeImagesInNextUp": "Sử dụng hình ảnh tập trong phần 'Tiếp theo' và 'Tiếp tục Xem'",
     "LabelLocalCustomCss": "Mã CSS tùy chỉnh để tạo kiểu chỉ áp dụng cho ứng dụng khách này. Bạn có thể muốn tắt mã CSS tùy chỉnh của máy chủ.",
