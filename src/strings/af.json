@@ -793,5 +793,15 @@
     "OptionBluray": "BD",
     "TypeOptionPluralSeries": "TV Programme",
     "LiveTV": "Lewendige TV",
-    "OptionCriticRating": "Filkritiek Gradering"
+    "OptionCriticRating": "Filkritiek Gradering",
+    "HeaderSyncPlayTimeSyncSettings": "Tydsinkronisering",
+    "HeaderSyncPlayPlaybackSettings": "Afspeel",
+    "HeaderSyncPlaySettings": "SyncPlay Konfigurasie",
+    "ErrorPlayerNotFound": "Geen speler vir die gevraagde media gevind nie.",
+    "Engineer": "Klankingenieur",
+    "Cursive": "Kursief",
+    "Console": "Konsole",
+    "Conductor": "Kondukteur",
+    "Casual": "Informeel",
+    "Arranger": "Organiseerder"
 }
