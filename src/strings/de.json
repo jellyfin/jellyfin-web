@@ -618,7 +618,7 @@
     "LabelRecordingPathHelp": "Legt das Verzeichnis für Aufnahmen fest. Wird es leer gelassen, wird das Daten-Verzeichnis des Servers verwendet.",
     "LabelRefreshMode": "Aktualisierungsmodus:",
     "LabelReleaseDate": "Veröffentlichungsdatum:",
-    "LabelRemoteClientBitrateLimit": "Limit der  Internet Streaming bitrate (Mbps):",
+    "LabelRemoteClientBitrateLimit": "Limit der Internet Streaming bitrate (Mbps):",
     "LabelRemoteClientBitrateLimitHelp": "Ein optionales Bitratenlimit pro Stream für alle Geräte außerhalb des Netzwerkes. Dies ist nützlich, um zu verhindern, dass Geräte eine höhere Datenrate verwenden, als die Internetverbindung erlaubt. Es kann zu erhöhter CPU-Last auf deinem Server kommen, da ggf. Videos in Echtzeit in eine niedrigere Bitrate transkodiert werden müssen.",
     "LabelRuntimeMinutes": "Laufzeit:",
     "LabelSaveLocalMetadata": "Bildmaterial in den Medienverzeichnissen speichern",
