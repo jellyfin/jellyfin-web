@@ -1104,7 +1104,7 @@
     "LabelUDPPortRange": "UDP komunikāciju diapazons:",
     "LabelTranscodingThreadCountHelp": "Atlasiet maksimālo pārkodēšanai izmantojamo pavedienu skaitu. Samazinot pavedienu skaitu, tiks samazināts CPU lietojums, taču konvertēšana var nebūt pietiekami ātra, lai atskaņošana būtu vienmērīga.",
     "LabelTranscodingTempPathHelp": "Norādiet pielāgotu ceļu pārkodēšanas failiem, kas tiek nodrošināti klientiem. Atstājiet tukšu, lai izmantotu servera noklusējuma iestatījumu.",
-    "LabelTonemappingThresholdHelp": "Toņu kartēšanas algoritma parametri tiek precīzi noregulēti katrai ainai. Un tiek izmantots slieksnis, lai noteiktu, vai aina ir mainījusies vai nav. Ja attālums starp pašreizējo kadra vidējo spilgtumu un pašreizējo vidējo vidējo spilgtumu pārsniedz sliekšņa vērtību, mēs pārrēķinām ainas vidējo un maksimālo spilgtumu. Ieteicamās un noklusējuma vērtības ir 0.8 un 0.2 .",
+    "LabelTonemappingThresholdHelp": "Toņu kartēšanas algoritma parametri tiek precīzi noregulēti katrai ainai. Un tiek izmantots slieksnis, lai noteiktu, vai aina ir mainījusies vai nav. Ja attālums starp pašreizējo kadra vidējo spilgtumu un pašreizējo vidējo spilgtumu pārsniedz sliekšņa vērtību, mēs pārrēķinām ainas vidējo un maksimālo spilgtumu. Ieteicamās un noklusējuma vērtības ir 0.8 un 0.2 .",
     "LabelTonemappingThreshold": "Toņu kartēšanas slieksnis:",
     "LabelTonemappingRange": "Toņu kartēšanas diapazons:",
     "LabelTonemappingPeakHelp": "Ignorēt signālu/nominālo/atsauces maksimumu ar šo vērtību. Noderīga, ja displeja metadatos iegultā maksimālā informācija nav uzticama vai arī notiek toņu kartēšana no zemāka diapazona uz augstāku diapazonu. Ieteicamās un noklusējuma vērtības ir 100 un 0.",
