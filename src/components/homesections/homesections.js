@@ -694,7 +694,6 @@ import ServerConnections from '../ServerConnections';
         elem.classList.remove('verticalSection');
 
         for (let i = 0; i <= 1; i++) {
-
             const frag = document.createElement('div');
             frag.classList.add('verticalSection');
             frag.classList.add('hide');
