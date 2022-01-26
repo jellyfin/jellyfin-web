@@ -752,7 +752,7 @@ class AppRouter {
         }
 
         if (item === 'nextup') {
-            let url = '#!/list.html?type=nextup&serverId=' + options.serverId;
+            url = '#!/list.html?type=nextup&serverId=' + options.serverId;
 
             if (options.rewatching) {
                 url += '&rewatching=' + options.rewatching;
