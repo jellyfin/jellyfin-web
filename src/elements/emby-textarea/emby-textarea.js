@@ -107,7 +107,7 @@ import '../emby-input/emby-input';
 
         const parentNode = this.parentNode;
         const label = this.ownerDocument.createElement('label');
-        label.innerHTML = this.getAttribute('label') || '';
+        label.innerText = this.getAttribute('label') || '';
         label.classList.add('textareaLabel');
 
         label.htmlFor = this.id;
@@ -123,7 +123,7 @@ import '../emby-input/emby-input';
         });
 
         this.label = function (text) {
-            label.innerHTML = text;
+            label.innerText = text;
         };
 
         new autoGrow(this);

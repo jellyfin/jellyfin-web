@@ -1,4 +1,5 @@
 import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import escapeHtml from 'escape-html';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { appRouter } from '../appRouter';
@@ -16,7 +17,7 @@ const createSuggestionLink = ({ name, href }: { name: string, href: string }) =>
     class='button-link'
     style='display: inline-block; padding: 0.5em 1em;'
     href='${href}'
->${name}</a>`
+>${escapeHtml(name)}</a>`
 });
 
 type SearchSuggestionsProps = {

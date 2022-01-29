@@ -5,6 +5,7 @@
  * @module components/mediaLibraryCreator/mediaLibraryCreator
  */
 
+import escapeHtml from 'escape-html';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
@@ -120,10 +121,10 @@ import template from './mediaLibraryCreator.template.html';
         let html = '';
         html += '<div class="listItem listItem-border lnkPath" style="padding-left:.5em;">';
         html += `<div class="${pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody'}">`;
-        html += `<div class="listItemBodyText">${pathInfo.Path}</div>`;
+        html += `<div class="listItemBodyText">${escapeHtml(pathInfo.Path)}</div>`;
 
         if (pathInfo.NetworkPath) {
-            html += `<div class="listItemBodyText secondary">${pathInfo.NetworkPath}</div>`;
+            html += `<div class="listItemBodyText secondary">${escapeHtml(pathInfo.NetworkPath)}</div>`;
         }
 
         html += '</div>';

@@ -5,6 +5,7 @@
  * @module components/itemMediaInfo/itemMediaInfo
  */
 
+import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import toast from '../toast/toast';
@@ -55,7 +56,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
     function getMediaSourceHtml(user, item, version) {
         let html = '<div class="mediaInfoSource">';
         if (version.Name) {
-            html += `<div><h2 class="mediaInfoStreamType">${version.Name}${copyButtonHtml}</h2></div>\n`;
+            html += `<div><h2 class="mediaInfoStreamType">${escapeHtml(version.Name)}${copyButtonHtml}</h2></div>\n`;
         }
         if (version.Container) {
             html += `${createAttribute(globalize.translate('MediaInfoContainer'), version.Container)}<br/>`;
@@ -181,7 +182,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
     }
 
     function createAttribute(label, value) {
-        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute">${value}</span>\n`;
+        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute">${escapeHtml(value)}</span>\n`;
     }
 
     function loadMediaInfo(itemId, serverId) {

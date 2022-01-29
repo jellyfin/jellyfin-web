@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
@@ -33,13 +34,13 @@ import alert from './alert';
 
         html += '<div class="listItemBody three-line">';
         html += '<div class="listItemBodyText">';
-        html += entry.Name;
+        html += escapeHtml(entry.Name);
         html += '</div>';
         html += '<div class="listItemBodyText secondary">';
         html += datefns.formatRelative(Date.parse(entry.Date), Date.parse(new Date()), { locale: dfnshelper.getLocale() });
         html += '</div>';
         html += '<div class="listItemBodyText secondary listItemBodyText-nowrap">';
-        html += entry.ShortOverview || '';
+        html += escapeHtml(entry.ShortOverview || '');
         html += '</div>';
         html += '</div>';
 

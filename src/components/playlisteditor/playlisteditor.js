@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
@@ -126,7 +127,7 @@ import ServerConnections from '../ServerConnections';
             html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
             html += result.Items.map(i => {
-                return `<option value="${i.Id}">${i.Name}</option>`;
+                return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
             });
 
             select.innerHTML = html;

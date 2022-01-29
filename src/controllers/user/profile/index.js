@@ -12,7 +12,7 @@ function reloadUser(page) {
     const userId = getParameterByName('userId');
     loading.show();
     ApiClient.getUser(userId).then(function (user) {
-        page.querySelector('.username').innerHTML = user.Name;
+        page.querySelector('.username').innerText = user.Name;
         libraryMenu.setTitle(user.Name);
 
         let imageUrl = 'assets/img/avatar.png';

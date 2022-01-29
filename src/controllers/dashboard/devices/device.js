@@ -8,7 +8,7 @@ import Dashboard from '../../../scripts/clientUtils';
 
     function load(page, device, deviceOptions) {
         page.querySelector('#txtCustomName', page).value = deviceOptions.CustomName || '';
-        page.querySelector('.reportedName', page).innerHTML = device.Name || '';
+        page.querySelector('.reportedName', page).innerText = device.Name || '';
     }
 
     function loadData() {

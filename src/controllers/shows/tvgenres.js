@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
 import libraryBrowser from '../../scripts/libraryBrowser';
@@ -148,7 +149,7 @@ import '../../elements/emby-button/emby-button';
                         parentId: params.topParentId
                     }) + '" class="more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre' + item.Id + '">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
-                    html += item.Name;
+                    html += escapeHtml(item.Name);
                     html += '</h2>';
                     html += '<span class="material-icons hide chevron_right" aria-hidden="true"></span>';
                     html += '</a>';

@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import dom from '../../scripts/dom';
 import focusManager from '../focusManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
@@ -37,7 +38,7 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
         const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
         itemHtml += '<label>';
         itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter.Id + '" class="' + cssClass + '"/>';
-        itemHtml += '<span>' + filter.Name + '</span>';
+        itemHtml += '<span>' + escapeHtml(filter.Name) + '</span>';
         itemHtml += '</label>';
 
         return itemHtml;

@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import { appHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
@@ -103,11 +104,11 @@ function fillSubtitleList(context, item) {
             itemHtml += '<div class="listItemBody two-line">';
 
             itemHtml += '<div>';
-            itemHtml += s.DisplayTitle || '';
+            itemHtml += escapeHtml(s.DisplayTitle || '');
             itemHtml += '</div>';
 
             if (s.Path) {
-                itemHtml += '<div class="secondary listItemBodyText">' + (s.Path) + '</div>';
+                itemHtml += '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
             }
 
             itemHtml += '</a>';
@@ -199,7 +200,7 @@ function renderSearchResults(context, results) {
 
         html += '<div class="listItemBody ' + bodyClass + '">';
 
-        html += '<div>' + (result.Name) + '</div>';
+        html += '<div>' + escapeHtml(result.Name) + '</div>';
         html += '<div class="secondary listItemBodyText">';
 
         if (result.Format) {
@@ -212,7 +213,7 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (result.Comment) {
-            html += '<div class="secondary listItemBodyText">' + (result.Comment) + '</div>';
+            html += '<div class="secondary listItemBodyText">' + escapeHtml(result.Comment) + '</div>';
         }
 
         if (result.IsHashMatch) {
@@ -265,7 +266,7 @@ function reload(context, apiClient, itemId) {
         }
 
         if (file) {
-            context.querySelector('.pathValue').innerHTML = file;
+            context.querySelector('.pathValue').innerText = file;
             context.querySelector('.originalFile').classList.remove('hide');
         } else {
             context.querySelector('.pathValue').innerHTML = '';

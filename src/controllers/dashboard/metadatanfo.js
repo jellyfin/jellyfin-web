@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import loading from '../../components/loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
@@ -10,7 +11,7 @@ import alert from '../../components/alert';
     function loadPage(page, config, users) {
         let html = '<option value="" selected="selected">' + globalize.translate('None') + '</option>';
         html += users.map(function (user) {
-            return '<option value="' + user.Id + '">' + user.Name + '</option>';
+            return '<option value="' + user.Id + '">' + escapeHtml(user.Name) + '</option>';
         }).join('');
         $('#selectUser', page).html(html).val(config.UserId || '');
         $('#selectReleaseDateFormat', page).val(config.ReleaseDateFormat);

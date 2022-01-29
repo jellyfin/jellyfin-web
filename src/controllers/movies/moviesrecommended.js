@@ -1,4 +1,4 @@
-
+import escapeHtml from 'escape-html';
 import { Events } from 'jellyfin-apiclient';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
@@ -127,7 +127,7 @@ import Dashboard from '../../scripts/clientUtils';
         }
 
         html += '<div class="verticalSection">';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + escapeHtml(title) + '</h2>';
         const allowBottomPadding = true;
 
         if (enableScrollX()) {

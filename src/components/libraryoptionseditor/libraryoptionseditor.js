@@ -5,6 +5,7 @@
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
+import escapeHtml from 'escape-html';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -68,11 +69,11 @@ import template from './libraryoptionseditor.template.html';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < plugins.length; i++) {
             const plugin = plugins[i];
-            html += `<div class="listItem localReaderOption sortableOption" data-pluginname="${plugin.Name}">`;
+            html += `<div class="listItem localReaderOption sortableOption" data-pluginname="${escapeHtml(plugin.Name)}">`;
             html += '<span class="listItemIcon material-icons live_tv" aria-hidden="true"></span>';
             html += '<div class="listItemBody">';
             html += '<h3 class="listItemBodyText">';
-            html += plugin.Name;
+            html += escapeHtml(plugin.Name);
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
@@ -101,7 +102,7 @@ import template from './libraryoptionseditor.template.html';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < metadataSavers.length; i++) {
             const plugin = metadataSavers[i];
-            html += `<label><input type="checkbox" data-defaultenabled="${plugin.DefaultEnabled}" is="emby-checkbox" class="chkMetadataSaver" data-pluginname="${plugin.Name}" ${false}><span>${plugin.Name}</span></label>`;
+            html += `<label><input type="checkbox" data-defaultenabled="${plugin.DefaultEnabled}" is="emby-checkbox" class="chkMetadataSaver" data-pluginname="${escapeHtml(plugin.Name)}" ${false}><span>${escapeHtml(plugin.Name)}</span></label>`;
         }
         html += '</div>';
         html += `<div class="fieldDescription" style="margin-top:.25em;">${globalize.translate('LabelMetadataSaversHelp')}</div>`;
@@ -122,13 +123,13 @@ import template from './libraryoptionseditor.template.html';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         plugins.forEach((plugin, index) => {
-            html += '<div class="listItem metadataFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
+            html += '<div class="listItem metadataFetcherItem sortableOption" data-pluginname="' + escapeHtml(plugin.Name) + '">';
             const isChecked = libraryOptionsForType.MetadataFetchers ? libraryOptionsForType.MetadataFetchers.includes(plugin.Name) : plugin.DefaultEnabled;
             const checkedHtml = isChecked ? ' checked="checked"' : '';
-            html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkMetadataFetcher" data-pluginname="' + plugin.Name + '" ' + checkedHtml + '><span></span></label>';
+            html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkMetadataFetcher" data-pluginname="' + escapeHtml(plugin.Name) + '" ' + checkedHtml + '><span></span></label>';
             html += '<div class="listItemBody">';
             html += '<h3 class="listItemBodyText">';
-            html += plugin.Name;
+            html += escapeHtml(plugin.Name);
             html += '</h3>';
             html += '</div>';
             if (index > 0) {
@@ -188,13 +189,13 @@ import template from './libraryoptionseditor.template.html';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < plugins.length; i++) {
             const plugin = plugins[i];
-            html += `<div class="listItem subtitleFetcherItem sortableOption" data-pluginname="${plugin.Name}">`;
+            html += `<div class="listItem subtitleFetcherItem sortableOption" data-pluginname="${escapeHtml(plugin.Name)}">`;
             const isChecked = libraryOptions.DisabledSubtitleFetchers ? !libraryOptions.DisabledSubtitleFetchers.includes(plugin.Name) : plugin.DefaultEnabled;
             const checkedHtml = isChecked ? ' checked="checked"' : '';
-            html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkSubtitleFetcher" data-pluginname="${plugin.Name}" ${checkedHtml}><span></span></label>`;
+            html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkSubtitleFetcher" data-pluginname="${escapeHtml(plugin.Name)}" ${checkedHtml}><span></span></label>`;
             html += '<div class="listItemBody">';
             html += '<h3 class="listItemBodyText">';
-            html += plugin.Name;
+            html += escapeHtml(plugin.Name);
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
@@ -227,13 +228,13 @@ import template from './libraryoptionseditor.template.html';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < plugins.length; i++) {
             const plugin = plugins[i];
-            html += '<div class="listItem imageFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
+            html += '<div class="listItem imageFetcherItem sortableOption" data-pluginname="' + escapeHtml(plugin.Name) + '">';
             const isChecked = libraryOptionsForType.ImageFetchers ? libraryOptionsForType.ImageFetchers.includes(plugin.Name) : plugin.DefaultEnabled;
             const checkedHtml = isChecked ? ' checked="checked"' : '';
-            html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkImageFetcher" data-pluginname="' + plugin.Name + '" ' + checkedHtml + '><span></span></label>';
+            html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkImageFetcher" data-pluginname="' + escapeHtml(plugin.Name) + '" ' + checkedHtml + '><span></span></label>';
             html += '<div class="listItemBody">';
             html += '<h3 class="listItemBodyText">';
-            html += plugin.Name;
+            html += escapeHtml(plugin.Name);
             html += '</h3>';
             html += '</div>';
             if (i > 0) {

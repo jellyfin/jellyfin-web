@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
 import backdrop from '../backdrop/backdrop';
 import listView from '../listview/listview';
@@ -139,13 +140,13 @@ function updateNowPlayingInfo(context, state, serverId) {
     if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
         if (item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
-            const songName = item.Name;
+            const songName = escapeHtml(item.Name);
             let artistsSeries = '';
             let albumName = '';
             if (item.Artists != null) {
                 if (item.ArtistItems != null) {
                     for (const artist of item.ArtistItems) {
-                        const artistName = artist.Name;
+                        const artistName = escapeHtml(artist.Name);
                         const artistId = artist.Id;
                         artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=${artistId}&serverId=${nowPlayingServerId}">${artistName}</a>`;
                         if (artist !== item.ArtistItems.slice(-1)[0]) {
@@ -157,7 +158,7 @@ function updateNowPlayingInfo(context, state, serverId) {
                     // to normal item.Artists item.
                     // TODO: Normalise fields returned by all the players
                     for (const artist of item.Artists) {
-                        artistsSeries += `<a>${artist}</a>`;
+                        artistsSeries += `<a>${escapeHtml(artist)}</a>`;
                         if (artist !== item.Artists.slice(-1)[0]) {
                             artistsSeries += ', ';
                         }
@@ -165,27 +166,27 @@ function updateNowPlayingInfo(context, state, serverId) {
                 }
             }
             if (item.Album != null) {
-                albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + item.Album + '</a>';
+                albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + escapeHtml(item.Album) + '</a>';
             }
-            context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
-            context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
-            context.querySelector('.nowPlayingSongName').innerHTML = songName;
+            context.querySelector('.nowPlayingAlbum').innerText = albumName;
+            context.querySelector('.nowPlayingArtist').innerText = artistsSeries;
+            context.querySelector('.nowPlayingSongName').innerText = songName;
         } else if (item.Type == 'Episode') {
             if (item.SeasonName != null) {
                 const seasonName = item.SeasonName;
-                context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${seasonName}</a>`;
+                context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${escapeHtml(seasonName)}</a>`;
             }
             if (item.SeriesName != null) {
                 const seriesName = item.SeriesName;
                 if (item.SeriesId != null) {
-                    context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${seriesName}</a>`;
+                    context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="#!/details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${escapeHtml(seriesName)}</a>`;
                 } else {
-                    context.querySelector('.nowPlayingSerie').innerHTML = seriesName;
+                    context.querySelector('.nowPlayingSerie').innerText = seriesName;
                 }
             }
-            context.querySelector('.nowPlayingEpisode').innerHTML = item.Name;
+            context.querySelector('.nowPlayingEpisode').innerText = item.Name;
         } else {
-            context.querySelector('.nowPlayingPageTitle').innerHTML = displayName;
+            context.querySelector('.nowPlayingPageTitle').innerText = displayName;
         }
 
         if (displayName.length > 0 && item.Type != 'Audio' && item.Type != 'Episode') {

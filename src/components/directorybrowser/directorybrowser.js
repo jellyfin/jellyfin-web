@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
@@ -71,10 +72,10 @@ function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
 
 function getItem(cssClass, type, path, name) {
     let html = '';
-    html += `<div class="listItem listItem-border ${cssClass}" data-type="${type}" data-path="${path}">`;
+    html += `<div class="listItem listItem-border ${cssClass}" data-type="${type}" data-path="${escapeHtml(path)}">`;
     html += '<div class="listItemBody" style="padding-left:0;padding-top:.5em;padding-bottom:.5em;">';
     html += '<div class="listItemBodyText">';
-    html += name;
+    html += escapeHtml(name);
     html += '</div>';
     html += '</div>';
     html += '<span class="material-icons arrow_forward" aria-hidden="true" style="font-size:inherit;"></span>';
@@ -87,7 +88,7 @@ function getEditorHtml(options, systemInfo) {
     html += '<div class="formDialogContent scrollY">';
     html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
     if (!options.pathReadOnly) {
-        const instruction = options.instruction ? `${options.instruction}<br/><br/>` : '';
+        const instruction = options.instruction ? `${escapeHtml(options.instruction)}<br/><br/>` : '';
         html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
         html += instruction;
         if (systemInfo.OperatingSystem.toLowerCase() === 'bsd') {
@@ -266,7 +267,7 @@ class DirectoryBrowser {
                 html += '<div class="formDialogHeader">';
                 html += `<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1" title="${globalize.translate('ButtonBack')}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
                 html += '<h3 class="formDialogHeaderTitle">';
-                html += options.header || globalize.translate('HeaderSelectPath');
+                html += escapeHtml(options.header) || globalize.translate('HeaderSelectPath');
                 html += '</h3>';
                 html += '</div>';
                 html += getEditorHtml(options, systemInfo);

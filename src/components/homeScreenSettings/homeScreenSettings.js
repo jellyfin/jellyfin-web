@@ -1,4 +1,5 @@
 
+import escapeHtml from 'escape-html';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
@@ -32,7 +33,7 @@ import template from './homeScreenSettings.template.html';
 
             currentHtml += '<label>';
             currentHtml += `<input type="checkbox" is="emby-checkbox" class="chkGroupFolder" data-folderid="${i.Id}" id="${id}"${checkedHtml}/>`;
-            currentHtml += `<span>${i.Name}</span>`;
+            currentHtml += `<span>${escapeHtml(i.Name)}</span>`;
             currentHtml += '</label>';
 
             return currentHtml;
@@ -165,7 +166,7 @@ import template from './homeScreenSettings.template.html';
             const selectedHtml = selected ? ' selected' : '';
             const optionValue = o.isDefault ? '' : o.value;
 
-            return `<option value="${optionValue}"${selectedHtml}>${o.name}</option>`;
+            return `<option value="${optionValue}"${selectedHtml}>${escapeHtml(o.name)}</option>`;
         }).join('');
     }
 
@@ -182,7 +183,7 @@ import template from './homeScreenSettings.template.html';
             currentHtml += '<div class="listItemBody">';
 
             currentHtml += '<div>';
-            currentHtml += view.Name;
+            currentHtml += escapeHtml(view.Name);
             currentHtml += '</div>';
 
             currentHtml += '</div>';
@@ -265,7 +266,7 @@ import template from './homeScreenSettings.template.html';
             prefix += '<div class="verticalSection">';
 
             prefix += '<h2 class="sectionTitle">';
-            prefix += item.Name;
+            prefix += escapeHtml(item.Name);
             prefix += '</h2>';
 
             html = prefix + html;

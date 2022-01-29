@@ -154,7 +154,7 @@ import '../emby-input/emby-input';
 
         if (topContainer && this.getAttribute('label')) {
             const label = this.ownerDocument.createElement('label');
-            label.innerHTML = this.getAttribute('label');
+            label.innerText = this.getAttribute('label');
             label.classList.add('sliderLabel');
             label.htmlFor = this.id;
             topContainer.insertBefore(label, topContainer.firstChild);

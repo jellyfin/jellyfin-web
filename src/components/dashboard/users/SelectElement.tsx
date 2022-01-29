@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
@@ -26,7 +27,7 @@ type IProps = {
 const SelectElement: FunctionComponent<IProps> = ({ className, label, currentProviderId, providers }: IProps) => {
     const renderOption = providers.map((provider) => {
         const selected = provider.Id === currentProviderId || providers.length < 2 ? ' selected' : '';
-        return '<option value="' + provider.Id + '"' + selected + '>' + provider.Name + '</option>';
+        return '<option value="' + provider.Id + '"' + selected + '>' + escapeHtml(provider.Name) + '</option>';
     });
 
     return (

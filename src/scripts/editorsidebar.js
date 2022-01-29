@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import globalize from './globalize';
 import 'material-design-icons-iconfont';
@@ -62,7 +63,7 @@ import Dashboard from './clientUtils';
         if (item.LockData) {
             htmlName += '<span class="material-icons metadataSidebarIcon lock" aria-hidden="true"></span>';
         }
-        htmlName += name;
+        htmlName += escapeHtml(name);
         htmlName += '</div>';
         return htmlName;
     }

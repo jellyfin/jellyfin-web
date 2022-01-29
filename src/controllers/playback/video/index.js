@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import SyncPlay from '../../../components/syncPlay/core';
 import browser from '../../../scripts/browser';
@@ -1236,7 +1237,7 @@ import { appRouter } from '../../../components/appRouter';
                 html += '<img class="chapterThumb" src="' + src + '" />';
                 html += '<div class="chapterThumbTextContainer">';
                 html += '<div class="chapterThumbText chapterThumbText-dim">';
-                html += chapter.Name;
+                html += escapeHtml(chapter.Name);
                 html += '</div>';
                 html += '<h2 class="chapterThumbText">';
                 html += datetime.getDisplayRunningTime(positionTicks);

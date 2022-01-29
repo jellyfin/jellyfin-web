@@ -55,7 +55,7 @@ export default function (view, params) {
                 console.debug('Failed to get QuickConnect status');
             });
         ApiClient.getUser(userId).then(function (user) {
-            page.querySelector('.headerUsername').innerHTML = user.Name;
+            page.querySelector('.headerUsername').innerText = user.Name;
             if (user.Policy.IsAdministrator && !layoutManager.tv) {
                 page.querySelector('.adminSection').classList.remove('hide');
             }

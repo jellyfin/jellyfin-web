@@ -5,6 +5,7 @@
  * @module components/cardBuilder/chaptercardbuilder
  */
 
+import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
@@ -98,7 +99,7 @@ import ServerConnections from '../ServerConnections';
         }
 
         let nameHtml = '';
-        nameHtml += `<div class="cardText">${chapter.Name}</div>`;
+        nameHtml += `<div class="cardText">${escapeHtml(chapter.Name)}</div>`;
         nameHtml += `<div class="cardText">${datetime.getDisplayRunningTime(chapter.StartPositionTicks)}</div>`;
 
         const cardBoxCssClass = 'cardBox';
