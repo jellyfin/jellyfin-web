@@ -898,33 +898,39 @@ function toggleLineClamp(clampTarget, e) {
 }
 
 function renderOverview(page, item) {
-    for (const overviewElemnt of page.querySelectorAll('.overview')) {
+    const overviewElements = page.querySelectorAll('.overview');
+
+    if (overviewElements.length > 0) {
         const overview = item.Overview || '';
 
         if (overview) {
-            overviewElemnt.innerHTML = overview;
-            overviewElemnt.classList.remove('hide');
-            overviewElemnt.classList.add('detail-clamp-text');
+            for (const overviewElemnt of overviewElements) {
+                overviewElemnt.innerHTML = overview;
+                overviewElemnt.classList.remove('hide');
+                overviewElemnt.classList.add('detail-clamp-text');
 
-            // Grab the sibling element to control the expand state
-            const expandButton = overviewElemnt.parentElement.querySelector('.overview-expand');
+                // Grab the sibling element to control the expand state
+                const expandButton = overviewElemnt.parentElement.querySelector('.overview-expand');
 
-            // Detect if we have overflow of text. Based on this StackOverflow answer
-            // https://stackoverflow.com/a/35157976
-            if (Math.abs(overviewElemnt.scrollHeight - overviewElemnt.offsetHeight) > 2) {
-                expandButton.classList.remove('hide');
-            } else {
-                expandButton.classList.add('hide');
-            }
+                // Detect if we have overflow of text. Based on this StackOverflow answer
+                // https://stackoverflow.com/a/35157976
+                if (Math.abs(overviewElemnt.scrollHeight - overviewElemnt.offsetHeight) > 2) {
+                    expandButton.classList.remove('hide');
+                } else {
+                    expandButton.classList.add('hide');
+                }
 
-            expandButton.addEventListener('click', toggleLineClamp.bind(null, overviewElemnt));
+                expandButton.addEventListener('click', toggleLineClamp.bind(null, overviewElemnt));
 
-            for (const anchor of overviewElemnt.querySelectorAll('a')) {
-                anchor.setAttribute('target', '_blank');
+                for (const anchor of overviewElemnt.querySelectorAll('a')) {
+                    anchor.setAttribute('target', '_blank');
+                }
             }
         } else {
-            overviewElemnt.innerHTML = '';
-            overviewElemnt.classList.add('hide');
+            for (const overviewElemnt of overviewElements) {
+                overviewElemnt.innerHTML = '';
+                overviewElemnt.classList.add('hide');
+            }
         }
     }
 }
