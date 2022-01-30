@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
@@ -54,7 +55,7 @@ import template from './dialog.template.html';
         }
 
         const displayText = options.html || options.text || '';
-        dlg.querySelector('.text').innerHTML = displayText;
+        dlg.querySelector('.text').innerHTML = DOMPurify.sanitize(displayText);
 
         if (!displayText) {
             dlg.querySelector('.dialogContentInner').classList.add('hide');

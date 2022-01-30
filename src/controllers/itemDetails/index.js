@@ -1,4 +1,5 @@
 import { intervalToDuration } from 'date-fns';
+import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
@@ -902,7 +903,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = item.Overview || '';
+        const overview = DOMPurify.sanitize(item.Overview || '');
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
