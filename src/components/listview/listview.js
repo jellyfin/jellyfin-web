@@ -148,11 +148,7 @@ import ServerConnections from '../ServerConnections';
 
             elem.classList.add('listItemBodyText');
 
-            if (textlines[i]) {
-                elem.innerText = textlines[i];
-            } else {
-                elem.innerHTML = '&nbsp;';
-            }
+            elem.innerText = text;
 
             html += elem.outerHTML;
         }
