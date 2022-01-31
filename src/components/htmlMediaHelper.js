@@ -200,17 +200,22 @@ import { Events } from 'jellyfin-apiclient';
             const promise = elem.play();
             if (promise && promise.then) {
                 // Chrome now returns a promise
-                return promise.catch(function (e) {
-                    const errorName = (e.name || '').toLowerCase();
-                    // safari uses aborterror
-                    if (errorName === 'notallowederror' ||
-                        errorName === 'aborterror') {
-                        // swallow this error because the user can still click the play button on the video element
+                return promise
+                    .then(() => {
                         onSuccessfulPlay(elem, onErrorFn);
                         return Promise.resolve();
-                    }
-                    return Promise.reject();
-                });
+                    })
+                    .catch((e) => {
+                        const errorName = (e.name || '').toLowerCase();
+                        // safari uses aborterror
+                        if (errorName === 'notallowederror' ||
+                            errorName === 'aborterror') {
+                            // swallow this error because the user can still click the play button on the video element
+                            onSuccessfulPlay(elem, onErrorFn);
+                            return Promise.resolve();
+                        }
+                        return Promise.reject();
+                    });
             } else {
                 onSuccessfulPlay(elem, onErrorFn);
                 return Promise.resolve();
