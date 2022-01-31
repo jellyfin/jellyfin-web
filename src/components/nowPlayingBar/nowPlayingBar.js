@@ -658,6 +658,11 @@ import { appRouter } from '../appRouter';
     }
 
     function onStateChanged(event, state) {
+        if (event.type === 'init') {
+            // skip non-ready state
+            return;
+        }
+
         console.debug('nowplaying event: ' + event.type);
         const player = this;
 
