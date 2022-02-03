@@ -137,11 +137,11 @@ function loadPlugins() {
     return getPlugins().then(function (list) {
         if (!appHost.supports('remotecontrol')) {
             // Disable remote player plugins if not supported
-            list.splice(list.indexOf('sessionPlayer'), 1);
-            list.splice(list.indexOf('chromecastPlayer'), 1);
+            list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
+                && !plugin.startsWith('chromecastPlayer'));
         } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
             // Disable chromecast player in unsupported browsers
-            list.splice(list.indexOf('chromecastPlayer'), 1);
+            list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
         }
 
         // add any native plugins
