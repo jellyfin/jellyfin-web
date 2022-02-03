@@ -143,10 +143,8 @@ import template from './itemMediaInfo.template.html';
             if (stream.NalLengthSize) {
                 attributes.push(createAttribute('NAL', stream.NalLengthSize));
             }
-            if (stream.Type !== 'Video') {
+            if (stream.Type === 'Subtitle' || stream.Type === 'Audio') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), (stream.IsDefault ? 'Yes' : 'No')));
-            }
-            if (stream.Type === 'Subtitle') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoForced'), (stream.IsForced ? 'Yes' : 'No')));
                 attributes.push(createAttribute(globalize.translate('MediaInfoExternal'), (stream.IsExternal ? 'Yes' : 'No')));
             }
