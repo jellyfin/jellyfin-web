@@ -1509,5 +1509,7 @@
     "Framerate": "Rata frame-urilor",
     "DisablePlugin": "Dezactivează",
     "EnablePlugin": "Activați",
-    "DirectPlayHelp": "Fișierul sursă este pe deplin compatibil cu acest client, iar sesiunea primește fișierul fără modificări."
+    "DirectPlayHelp": "Fișierul sursă este pe deplin compatibil cu acest client, iar sesiunea primește fișierul fără modificări.",
+    "Arranger": "Aranjor",
+    "AgeValue": "({0} ani)"
 }
