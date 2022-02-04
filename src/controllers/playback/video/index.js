@@ -223,9 +223,11 @@ import { appRouter } from '../../../components/appRouter';
         }
 
         function hideOsd() {
-            slideUpToHide(headerElement);
-            hideMainOsdControls();
-            mouseManager.hideCursor();
+            if (playbackManager.isFullscreen(currentPlayer)) {
+                slideUpToHide(headerElement);
+                hideMainOsdControls();
+                mouseManager.hideCursor();
+            }
         }
 
         function toggleOsd() {
