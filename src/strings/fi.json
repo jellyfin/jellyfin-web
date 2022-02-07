@@ -1423,5 +1423,8 @@
     "ErrorPlayerNotFound": "Pyydetylle medialle sopivaa soitinta ei löytynyt.",
     "Cursive": "Kursivointi",
     "WizardCompleted": "Siinä kaikki tällä erää tarvittava. Jellyfin on aloittanut kirjastosi tietojen keräyksen. Tutustu sovelluksiimme ja paina lopuksi <b>Valmis</b> avataksesi <b>hallintapaneelin</b>.",
-    "HeaderSyncPlayTimeSyncSettings": "Ajan synkronointi"
+    "HeaderSyncPlayTimeSyncSettings": "Ajan synkronointi",
+    "LabelMaxDaysForNextUpHelp": "Määritä maksimimäärä päiviä jonka ohjelman tulisi pysyä \"Seuraavaksi\"-listassa katsomatta sitä.",
+    "LabelMaxDaysForNextUp": "Päivien maksimimäärä \"Seuraavaksi\"-listassa:",
+    "LabelHardwareEncoding": "Laitteistoenkoodaus:"
 }
