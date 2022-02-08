@@ -174,7 +174,7 @@
     "EditMetadata": "Sunting metadata",
     "EditImages": "Edit Gambar",
     "Edit": "Sunting",
-    "EasyPasswordHelp": "Kode PIN mudah Anda digunakan untuk akses offline di klien yang didukung dan juga dapat digunakan untuk masuk ke jaringan dengan mudah.",
+    "EasyPasswordHelp": "Kode PIN Mudah Anda akan digunakan untuk akses offline di klien terdukung dan untuk masuk ke jaringan dengan mudah.",
     "DropShadow": "Drop Shadow",
     "DrmChannelsNotImported": "Saluran dengan DRM tidak akan diimpor.",
     "DownloadsValue": "{0} unduhan",
@@ -1121,5 +1121,7 @@
     "Conductor": "Konduktor",
     "Casual": "Kasual",
     "Arranger": "Penyusun",
-    "AgeValue": "({0} tahun)"
+    "AgeValue": "({0} tahun)",
+    "DisablePlugin": "Matikan",
+    "EnablePlugin": "Nyalakan"
 }
