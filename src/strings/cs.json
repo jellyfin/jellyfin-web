@@ -782,7 +782,7 @@
     "OptionEveryday": "Každý den",
     "OptionExternallyDownloaded": "Externí stažení",
     "OptionExtractChapterImage": "Povolit extrakci obrázků z videa",
-    "OptionHasThemeSong": "Tematická hudba",
+    "OptionHasThemeSong": "Znělka",
     "OptionHasThemeVideo": "Tematické video",
     "OptionHideUser": "Skrýt tohoto uživatele z přihlašovacích obrazovek",
     "OptionHideUserFromLoginHelp": "Vhodné pro soukromé a administrátorské účty. Pro přihlášení musí uživatel manuálně zadat uživatelské jméno a heslo.",
@@ -1186,7 +1186,7 @@
     "TabDirectPlay": "Přímé přehrávání",
     "TabServer": "Server",
     "TagsValue": "Tagy: {0}",
-    "ThemeSongs": "Tematická hudba",
+    "ThemeSongs": "Znělky",
     "ThemeVideos": "Tematická videa",
     "Trailers": "Upoutávky",
     "TvLibraryHelp": "Podívejte se na {0}průvodce pojmenováním TV pořadů{1}.",
@@ -1613,5 +1613,14 @@
     "VideoBitrateNotSupported": "Bitový tok videa není podporovaný",
     "AudioIsExternal": "Zvuková stopa je externí",
     "SelectAll": "Vybrat vše",
-    "ButtonExitApp": "Ukončit aplikaci"
+    "ButtonExitApp": "Ukončit aplikaci",
+    "ThemeVideo": "Úvodní video",
+    "ThemeSong": "Znělka",
+    "Sample": "Ukázka",
+    "Scene": "Scéna",
+    "Interview": "Rozhovor",
+    "DeletedScene": "Vymazaná scéna",
+    "BehindTheScenes": "Z natáčení",
+    "Trailer": "Upoutávka",
+    "Clip": "Krátký film"
 }
