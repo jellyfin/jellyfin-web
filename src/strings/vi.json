@@ -137,8 +137,8 @@
     "AllowRemoteAccessHelp": "Nếu bỏ chọn, tất cả các kết nối từ xa sẽ bị chặn.",
     "AllowRemoteAccess": "Cho phép kết nối từ xa với máy chủ này",
     "AllowOnTheFlySubtitleExtractionHelp": "Phụ đề nhúng có thể được trích xuất từ video và dùng như văn bản thuần túy để giúp ngăn chặn chuyển mã video. Trên một số hệ thống, việc này có thể mất nhiều thời gian và khiến quá trình phát video bị đình trệ trong quá trình trích xuất. Tắt tùy chọn này để ghi phụ đề nhúng bằng tính năng chuyển mã video khi chúng không được thiết bị khách hỗ trợ nguyên bản.",
-    "AllowOnTheFlySubtitleExtraction": "Cho phép trích xuất phụ đề một cách nhanh chóng",
-    "AllowMediaConversionHelp": "Cấp hoặc từ chối quyền truy cập vào tính năng chuyển đổi phương tiện.",
+    "AllowOnTheFlySubtitleExtraction": "Cho phép trích xuất phụ đề nhanh",
+    "AllowMediaConversionHelp": "Cấp phép hoặc từ chối truy cập tính năng chuyển đổi phương tiện.",
     "AllowMediaConversion": "Cho phép chuyển đổi phương tiện",
     "AllowHWTranscodingHelp": "Cho phép bộ dò chuyển mã phát trực tiếp. Nó có thể giúp giảm tải của máy chủ khi chuyển mã.",
     "AllLibraries": "Tất cả thư viện",
@@ -1610,5 +1610,6 @@
     "UnknownVideoStreamInfo": "Thông tin luồng video không xác định",
     "VideoBitrateNotSupported": "Tốc độ bit của video không được hỗ trợ",
     "AudioIsExternal": "Luồng âm thanh bên ngoài",
-    "SelectAll": "Chọn Tất Cả"
+    "SelectAll": "Chọn Tất Cả",
+    "ButtonExitApp": "Thoát Ứng Dụng"
 }
