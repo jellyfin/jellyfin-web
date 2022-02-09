@@ -1613,5 +1613,14 @@
     "UnknownVideoStreamInfo": "Pas d'information sur le flux vidéo",
     "AudioIsExternal": "Le flux audio est externe",
     "SelectAll": "Tout sélectionner",
-    "ButtonExitApp": "Quitter l'application"
+    "ButtonExitApp": "Quitter l'application",
+    "Clip": "Court-métrage",
+    "ThemeVideo": "Vidéo thématique",
+    "ThemeSong": "Chanson du thème",
+    "Sample": "Échantillon",
+    "Scene": "Scène",
+    "Interview": "Entrevue",
+    "DeletedScene": "Scène supprimée",
+    "BehindTheScenes": "Dans les coulisses",
+    "Trailer": "Bande-annonce"
 }
