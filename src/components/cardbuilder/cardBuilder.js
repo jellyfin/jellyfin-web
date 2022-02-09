@@ -856,6 +856,10 @@ import ServerConnections from '../ServerConnections';
                     }
                 }
 
+                if (item.ExtraType && item.ExtraType !== 'Unknown') {
+                    lines.push(globalize.translate(item.ExtraType));
+                }
+
                 if (options.showItemCounts) {
                     lines.push(getItemCountsHtml(options, item));
                 }

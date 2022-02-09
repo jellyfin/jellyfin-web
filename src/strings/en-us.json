@@ -1608,5 +1608,14 @@
     "UnknownVideoStreamInfo": "The video stream info is unknown",
     "UnknownAudioStreamInfo": "The audio stream info is unknown",
     "DirectPlayError": "There was an error starting direct playback",
-    "SelectAll": "Select All"
+    "SelectAll": "Select All",
+    "Clip": "Featurette",
+    "Trailer": "Trailer",
+    "BehindTheScenes": "Behind the Scenes",
+    "DeletedScene": "Deleted Scene",
+    "Interview": "Interview",
+    "Scene": "Scene",
+    "Sample": "Sample",
+    "ThemeSong": "Theme Song",
+    "ThemeVideo": "Theme Video"
 }
