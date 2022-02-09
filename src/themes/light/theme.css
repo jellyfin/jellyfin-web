@@ -99,6 +99,10 @@ html {
     background: #ccc;
 }
 
+a[data-role=button] {
+    background: #d8d8d8 !important;
+}
+
 .button-submit {
     background: #00a4dc;
     color: #fff;

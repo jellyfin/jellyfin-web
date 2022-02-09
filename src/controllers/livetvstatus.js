@@ -2,6 +2,7 @@ import 'jquery';
 import globalize from '../scripts/globalize';
 import taskButton from '../scripts/taskbutton';
 import dom from '../scripts/dom';
+import cardBuilder from '../components/cardbuilder/cardBuilder';
 import layoutManager from '../components/layoutManager';
 import loading from '../components/loading/loading';
 import browser from '../scripts/browser';
@@ -37,7 +38,7 @@ function getDeviceHtml(device) {
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="' + padderClass + '"></div>';
     html += '<div class="cardContent searchImage">';
-    html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr"></span></div>';
+    html += `<div class="cardImageContainer coveredImage ${cardBuilder.getDefaultBackgroundClass()}"><span class="cardImageIcon material-icons dvr"></span></div>`;
     html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';
