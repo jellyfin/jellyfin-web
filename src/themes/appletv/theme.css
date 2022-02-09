@@ -271,6 +271,14 @@ html {
     background: rgba(0, 0, 0, 0.2);
 }
 
+.listItem:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.actionSheetMenuItem:hover {
+    background-color: #ddd;
+}
+
 .progressring-spiner {
     border-color: #00a4dc;
 }
