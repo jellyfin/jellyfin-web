@@ -1612,5 +1612,6 @@
     "UnknownVideoStreamInfo": "Informace o video stopě jsou neznámé",
     "VideoBitrateNotSupported": "Bitový tok videa není podporovaný",
     "AudioIsExternal": "Zvuková stopa je externí",
-    "SelectAll": "Vybrat vše"
+    "SelectAll": "Vybrat vše",
+    "ButtonExitApp": "Ukončit aplikaci"
 }
