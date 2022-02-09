@@ -1612,5 +1612,15 @@
     "UnknownVideoStreamInfo": "Информация о видео потоке неизвестна",
     "VideoBitrateNotSupported": "Потоковая скорость видео не поддерживается",
     "AudioIsExternal": "Аудио поток является внешним",
-    "SelectAll": "Выбрать все"
+    "SelectAll": "Выбрать все",
+    "ThemeVideo": "Тематическое видео",
+    "ThemeSong": "Тематическая композиция",
+    "Sample": "Пример",
+    "Scene": "Сцена",
+    "Interview": "Интервью",
+    "DeletedScene": "Удалённая сцена",
+    "BehindTheScenes": "За кулисами",
+    "Trailer": "Трейлер",
+    "Clip": "Отрывок",
+    "ButtonExitApp": "Выход из приложения"
 }
