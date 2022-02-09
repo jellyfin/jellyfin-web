@@ -1608,5 +1608,15 @@
     "UnknownVideoStreamInfo": "La informo pri videa fluo nekonatas",
     "VideoBitrateNotSupported": "La bitrapido de la video ne subtenatas",
     "AudioIsExternal": "La aŭdia fluo estas ekstera",
-    "SelectAll": "Elekti Ĉiujn"
+    "SelectAll": "Elekti Ĉiujn",
+    "BehindTheScenes": "Malantaŭ la Kulisoj",
+    "ThemeVideo": "Tema Video",
+    "ThemeSong": "Tema Kanto",
+    "Sample": "Ekzemplo",
+    "Scene": "Sceno",
+    "Interview": "Intervjuo",
+    "DeletedScene": "Forigita Sceno",
+    "Trailer": "Filmanonco",
+    "Clip": "Rimedeto",
+    "ButtonExitApp": "Eliri Aplikon"
 }
