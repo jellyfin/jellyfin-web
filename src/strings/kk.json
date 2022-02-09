@@ -1613,5 +1613,15 @@
     "UnknownAudioStreamInfo": "Dybys ağyny turaly aqparat belgısız",
     "UnknownVideoStreamInfo": "Beine ağyny turaly aqparat belgısız",
     "VideoBitrateNotSupported": "Beinenıñ qarqyna qoldau körsetılmeidı",
-    "SelectAll": "Bärin bölekteu"
+    "SelectAll": "Bärin bölekteu",
+    "ThemeVideo": "Taqyryptyq beine",
+    "ThemeSong": "Taqyryptyq äuen",
+    "Sample": "Irıkteme",
+    "Scene": "Sahna",
+    "Interview": "Sūhbat",
+    "DeletedScene": "Joiylğan sahna",
+    "BehindTheScenes": "Sahna artynda",
+    "Trailer": "Treiler",
+    "Clip": "Üzındı",
+    "ButtonExitApp": "Qoldabadan şyğu"
 }
