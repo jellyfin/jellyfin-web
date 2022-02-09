@@ -1610,5 +1610,15 @@
     "UnknownAudioStreamInfo": "معلومات دفق الصوت غير معروفة",
     "UnknownVideoStreamInfo": "معلومات دفق الفيديو غير معروفة",
     "VideoBitrateNotSupported": "معدل بت الفيديو غير مدعوم",
-    "AudioIsExternal": "دفق الصوت خارجي"
+    "AudioIsExternal": "دفق الصوت خارجي",
+    "ThemeVideo": "فيديو الشارة",
+    "ThemeSong": "أغنية الشارة",
+    "Sample": "عيّنة",
+    "Scene": "المشاهد",
+    "Interview": "مقابلة",
+    "DeletedScene": "مشاهد محذوفة",
+    "BehindTheScenes": "وراء الكواليس",
+    "Trailer": "العرض الإعلاني",
+    "Clip": "ميزة",
+    "ButtonExitApp": "أغلق التطبيق"
 }
