@@ -1627,5 +1627,15 @@
     "EnableIntelLowPowerHevcHwEncoder": "Intel லோ-பவர் HEVC வன்பொருள் குறியாக்கியை இயக்கவும்",
     "EnableIntelLowPowerH264HwEncoder": "Intel லோ-பவர் H.264 வன்பொருள் குறியாக்கியை இயக்கவும்",
     "PreferSystemNativeHwDecoder": "OS நேட்டிவ் DXVA அல்லது VA-API ஹார்டுவேர் டிகோடர்களை விரும்பவும்",
-    "ContainerBitrateExceedsLimit": "வீடியோவின் பிட்ரேட் வரம்பை மீறுகிறது"
+    "ContainerBitrateExceedsLimit": "வீடியோவின் பிட்ரேட் வரம்பை மீறுகிறது",
+    "ThemeVideo": "தீம் வீடியோ",
+    "ThemeSong": "தீம் பாடல்",
+    "Sample": "மாதிரி",
+    "Scene": "காட்சி",
+    "Interview": "நேர்காணல்",
+    "DeletedScene": "நீக்கப்பட்ட காட்சி",
+    "BehindTheScenes": "காட்சிகளுக்கு பின்னால்",
+    "Trailer": "டிரெய்லர்",
+    "Clip": "அம்சம்",
+    "ButtonExitApp": "பயன்பாட்டிலிருந்து வெளியேறு"
 }
