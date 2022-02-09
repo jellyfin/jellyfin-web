@@ -1613,5 +1613,14 @@
     "UnknownVideoStreamInfo": "The video stream info is unknown",
     "VideoBitrateNotSupported": "The video's bitrate is not supported",
     "AudioIsExternal": "The audio stream is external",
-    "SelectAll": "Select All"
+    "SelectAll": "Select All",
+    "ThemeVideo": "Theme Video",
+    "ThemeSong": "Theme Song",
+    "Sample": "Sample",
+    "Scene": "Scene",
+    "Interview": "Interview",
+    "DeletedScene": "Deleted Scene",
+    "BehindTheScenes": "Behind the Scenes",
+    "Trailer": "Trailer",
+    "Clip": "Featurette"
 }
