@@ -15,12 +15,12 @@ import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */
 
-    function getInitialLiveTvQuery(instance, params) {
+    function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
         const query = {
             UserId: ServerConnections.getApiClient(params.serverId).getCurrentUserId(),
-            StartIndex: 0,
+            StartIndex: startIndex,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
-            Limit: 300
+            Limit: limit
         };
 
         if (params.type === 'Recordings') {
@@ -244,15 +244,15 @@ import { appRouter } from '../components/appRouter';
 
         instance.queryRecursive = false;
         if (params.type === 'Recordings') {
-            return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params));
+            return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params, startIndex, limit));
         }
 
         if (params.type === 'Programs') {
             if (params.IsAiring === 'true') {
-                return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params));
+                return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
             }
 
-            return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params));
+            return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
         }
 
         if (params.type === 'nextup') {
