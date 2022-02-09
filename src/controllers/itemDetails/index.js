@@ -459,7 +459,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(item.Name);
     }
@@ -474,7 +474,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
         parentRoute = appRouter.getRouteUrl({
             Id: item.SeasonId,
@@ -485,7 +485,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
@@ -498,7 +498,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
     } else if (item.Album) {
         parentNameHtml.push(item.Album);
     }
@@ -514,10 +514,10 @@ function renderName(item, container, context) {
             if (layoutManager.mobile) {
                 html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
             } else {
-                html = '<h3 class="parentName musicParentName">' + parentNameHtml.join(' - ') + '</h3>';
+                html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
         } else {
-            html = '<h1 class="parentName">' + tvShowHtml + '</h1>';
+            html = '<h1 class="parentName focuscontainer-x">' + tvShowHtml + '</h1>';
         }
     }
 
@@ -527,7 +527,7 @@ function renderName(item, container, context) {
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle">' + tvSeasonHtml + ' - ' + name + '</h3>';
+            html += '<h3 class="itemName infoText subtitle focuscontainer-x">' + tvSeasonHtml + ' - ' + name + '</h3>';
         } else {
             html += '<h3 class="itemName infoText subtitle">' + name + '</h3>';
         }
