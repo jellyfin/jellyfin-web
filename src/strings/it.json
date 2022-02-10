@@ -1612,5 +1612,13 @@
     "UnknownVideoStreamInfo": "Le informazioni della traccia video non sono disponibili",
     "VideoBitrateNotSupported": "Il bitrate video non è supportato",
     "AudioIsExternal": "Il flusso audio è esterno",
-    "SelectAll": "Seleziona Tutto"
+    "SelectAll": "Seleziona Tutto",
+    "ThemeVideo": "Video tematico",
+    "ThemeSong": "Colonna sonora",
+    "Scene": "Scena",
+    "Interview": "Intervista",
+    "DeletedScene": "Scena rimossa",
+    "BehindTheScenes": "Dietro le quinte",
+    "Clip": "Corto metraggio",
+    "ButtonExitApp": "Esci dall'Applicazione"
 }
