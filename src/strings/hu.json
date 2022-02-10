@@ -1613,5 +1613,14 @@
     "PreferSystemNativeHwDecoder": "Előnyben részesítse az operációs rendszer natív DXVA vagy VA-API hardveres dekódereit",
     "ContainerBitrateExceedsLimit": "A videó bitrátája meghaladja a limitet",
     "SelectAll": "Összes kiválasztása",
-    "ButtonExitApp": "Kilépés az alkalmazásból"
+    "ButtonExitApp": "Kilépés az alkalmazásból",
+    "Clip": "Rövidfilm",
+    "ThemeVideo": "Téma Videó",
+    "ThemeSong": "Főcímdal",
+    "Sample": "Minta",
+    "Scene": "Jelenet",
+    "Interview": "Interjú",
+    "DeletedScene": "Törölt jelenet",
+    "BehindTheScenes": "A színfalak mögött",
+    "Trailer": "Filmelőzetes"
 }
