@@ -1869,9 +1869,10 @@ function tryRemoveElement(elem) {
         };
         categories.push(videoCategory);
 
+        const devicePixelRatio = window.devicePixelRatio || 1;
         const rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
-        let height = parseInt(rect.height);
-        let width = parseInt(rect.width);
+        let height = Math.round(rect.height * devicePixelRatio);
+        let width = Math.round(rect.width * devicePixelRatio);
 
         // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {
