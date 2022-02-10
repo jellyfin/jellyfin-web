@@ -1285,7 +1285,7 @@
     "ButtonTogglePlaylist": "Playlist",
     "HeaderDVR": "Digital Recorder",
     "ApiKeysCaption": "List of the currently enabled API keys",
-    "ButtonCast": "Cast",
+    "ButtonCast": "Cast the media",
     "ButtonSyncPlay": "SyncPlay",
     "EnableBlurHashHelp": "Images that are still being loaded will be displayed with a blurred placeholder.",
     "EnableBlurHash": "Enable blurred placeholders for images",
