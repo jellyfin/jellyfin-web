@@ -189,10 +189,6 @@ html {
     color: #fff;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: #ddd;
-}
-
 .toast {
     background: #303030;
     color: rgba(255, 255, 255, 0.87);
