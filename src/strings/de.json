@@ -1613,5 +1613,13 @@
     "ContainerBitrateExceedsLimit": "Die Bitrate des Videos übersteigt das Limit",
     "PreferSystemNativeHwDecoder": "Präferiere Betriebssystem-native DXVA- oder VA-API-Hardware-Dekoder",
     "SelectAll": "Alles auswählen",
-    "ButtonExitApp": "Anwendung schließen"
+    "ButtonExitApp": "Anwendung schließen",
+    "ThemeSong": "Titellied",
+    "Sample": "Ausschnitt",
+    "Scene": "Szene",
+    "Interview": "Interview",
+    "DeletedScene": "Gelöschte Scene",
+    "BehindTheScenes": "Hinder den Kulissen",
+    "Trailer": "Vorschau",
+    "Clip": "Hinder den Kulissen"
 }
