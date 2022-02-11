@@ -1313,7 +1313,7 @@
     "EnableDetailsBannerHelp": "在项目详细信息页面的顶部显示横幅图片。",
     "LabelSyncPlayLeaveGroupDescription": "关闭同步播放",
     "EnableDetailsBanner": "详细信息页面的横幅",
-    "ButtonCast": "投射",
+    "ButtonCast": "投屏",
     "ButtonSyncPlay": "同步播放",
     "EnableBlurHashHelp": "仍在加载的图片将以独特的的占位符显示。",
     "EnableBlurHash": "为图片启用模糊的占位符",
@@ -1612,5 +1612,15 @@
     "UnknownVideoStreamInfo": "视频流信息未知",
     "VideoBitrateNotSupported": "视频的比特率不受支持",
     "AudioIsExternal": "外部音频流",
-    "SelectAll": "全选"
+    "SelectAll": "全选",
+    "ThemeVideo": "主题视频",
+    "ThemeSong": "主题曲",
+    "Sample": "样本",
+    "Scene": "场景",
+    "Interview": "面试",
+    "DeletedScene": "删减场景",
+    "BehindTheScenes": "幕后花絮",
+    "Trailer": "预告片",
+    "Clip": "花絮",
+    "ButtonExitApp": "退出应用"
 }
