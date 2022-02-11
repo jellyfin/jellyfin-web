@@ -15,12 +15,12 @@ import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */
 
-    function getInitialLiveTvQuery(instance, params) {
+    function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
         const query = {
             UserId: ServerConnections.getApiClient(params.serverId).getCurrentUserId(),
-            StartIndex: 0,
+            StartIndex: startIndex,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
-            Limit: 300
+            Limit: limit
         };
 
         if (params.type === 'Recordings') {
@@ -244,15 +244,15 @@ import { appRouter } from '../components/appRouter';
 
         instance.queryRecursive = false;
         if (params.type === 'Recordings') {
-            return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params));
+            return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params, startIndex, limit));
         }
 
         if (params.type === 'Programs') {
             if (params.IsAiring === 'true') {
-                return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params));
+                return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
             }
 
-            return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params));
+            return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
         }
 
         if (params.type === 'nextup') {
@@ -736,7 +736,7 @@ class ItemsView {
                     autoplay: true
                 });
             } else {
-                getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
@@ -753,7 +753,7 @@ class ItemsView {
                     items: [currentItem]
                 });
             } else {
-                getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
                     playbackManager.queue({
                         items: result.Items
                     });
@@ -767,7 +767,7 @@ class ItemsView {
             if (currentItem && !self.hasFilters) {
                 playbackManager.shuffle(currentItem);
             } else {
-                getItems(self, self.params, currentItem, 'Random', null, 300).then(function (result) {
+                getItems(self, self.params, currentItem, 'Random', 0, 300).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
