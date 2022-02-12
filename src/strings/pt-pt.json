@@ -1302,7 +1302,7 @@
     "MediaInfoColorSpace": "Espaço de cor",
     "MediaInfoVideoRange": "Intervalo do vídeo",
     "ButtonPlayer": "Reprodutor",
-    "ButtonCast": "Elenco",
+    "ButtonCast": "Transmitir suporte de dados para o dispositivo",
     "EnableBlurHashHelp": "Imagens que ainda estão a ser descarregadas serão apresentadas num espaço reservado.",
     "EnableBlurHash": "Ativar espaço desfocado para imagens",
     "UnsupportedPlayback": "O Jellyfin não consegue descodificar conteúdo protegido por DRM, mas tentará de qualquer forma, incluindo títulos protegidos. Alguns ficheiros reproduziram um ecrã preto devido à encriptação ou a outras funcionalidades não suportadas, como títulos interativos.",
