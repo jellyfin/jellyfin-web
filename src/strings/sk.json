@@ -1324,7 +1324,7 @@
     "EnableBlurHash": "Povoliť obrázok s rozmazaným pozadím pre chýbajúce obrázky",
     "ShowMore": "Zobraziť viac",
     "ShowLess": "Zobraziť menej",
-    "ButtonCast": "Prenášať",
+    "ButtonCast": "Prenášať médiá",
     "ButtonSyncPlay": "SyncPlay",
     "MessageNoGenresAvailable": "Povoliť vybraným metadáta poskytovateľom stiahnuť žánre z internetu.",
     "EnableFasterAnimationsHelp": "Použiť rýchlejšiu animáciu a prechody.",
@@ -1612,5 +1612,15 @@
     "EnableIntelLowPowerHevcHwEncoder": "Povoliť nízkoenergetický hardvérový kóder Intel HEVC",
     "EnableIntelLowPowerH264HwEncoder": "Povoliť nízkoenergetický hardvérový kóder Intel H.264",
     "PreferSystemNativeHwDecoder": "Preferovať hardvérové dekódery DXVA alebo VA-API pre daný OS",
-    "ContainerBitrateExceedsLimit": "Dátový tok videa prekračuje limit"
+    "ContainerBitrateExceedsLimit": "Dátový tok videa prekračuje limit",
+    "ThemeVideo": "Tématické video",
+    "ThemeSong": "Tématická zvučka",
+    "Sample": "Ukážka",
+    "Scene": "Scéna",
+    "Interview": "Rozhovor",
+    "DeletedScene": "Vystrihnutá scéna",
+    "BehindTheScenes": "Zo zákulisia",
+    "Trailer": "Trailer",
+    "Clip": "Krátky film",
+    "ButtonExitApp": "Ukončiť aplikáciu"
 }
