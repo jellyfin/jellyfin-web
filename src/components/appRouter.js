@@ -797,6 +797,10 @@ class AppRouter {
                 return '#!/list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
             }
 
+            if (options.section === 'channels') {
+                return '#!/livetv.html?tab=2&serverId=' + options.serverId;
+            }
+
             if (options.section === 'dvrschedule') {
                 return '#!/livetv.html?tab=4&serverId=' + options.serverId;
             }

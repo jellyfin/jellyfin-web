@@ -71,7 +71,7 @@
     "HeaderCancelRecording": "Бичлэгийг цуцлах",
     "Books": "Номууд",
     "TypeOptionPluralBook": "Номууд",
-    "TV": "ТВ",
+    "TV": "ТВ-ийн багц",
     "Tuesday": "Мягмар гараг",
     "Thursday": "Пүрэв гараг",
     "Sunday": "Ням гараг",
@@ -93,5 +93,7 @@
     "Bwdif": "BWDIF",
     "OptionBluray": "BD",
     "Option3D": "3D",
-    "Albums": "Цомгууд"
+    "Albums": "Цомгууд",
+    "Mobile": "Үүрэн",
+    "Desktop": "Компьютер"
 }

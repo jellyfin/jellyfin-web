@@ -108,6 +108,11 @@
     width: 12em;
 }
 
+.checkboxList > .sectioncheckbox > .emby-checkbox-label {
+    display: flex;
+    margin: 0.5em 0;
+}
+
 .checkboxList-paperList {
     padding: 1em !important;
 }

@@ -33,6 +33,12 @@ import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';
 
+function autoFocus(container) {
+    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
+        autoFocuser.autoFocus(container);
+    });
+}
+
 function getPromise(apiClient, params) {
     const id = params.id;
 
@@ -368,12 +374,12 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle');
     }
 
-    const btnResume = page.querySelector('.mainDetailButtons .btnResume');
-    const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
-    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
-        btnResume.classList.add('fab');
-    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
-        btnPlay.classList.add('fab');
+    if (layoutManager.tv) {
+        const btnResume = page.querySelector('.mainDetailButtons .btnResume');
+        const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
+        const resumeHidden = btnResume.classList.contains('hide');
+        btnResume.classList.toggle('raised', !resumeHidden);
+        btnPlay.classList.toggle('raised', resumeHidden);
     }
 
     return canPlay;
@@ -634,12 +640,6 @@ function reloadFromItem(instance, page, params, item, user) {
     setInitialCollapsibleState(page, item, apiClient, params.context, user);
     const canPlay = reloadPlayButtons(page, item);
 
-    if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
-        hideAll(page, 'btnPlayTrailer', true);
-    } else {
-        hideAll(page, 'btnPlayTrailer');
-    }
-
     setTrailerButtonVisibility(page, item);
 
     if (item.Type !== 'Program' || canPlay) {
@@ -727,9 +727,7 @@ function reloadFromItem(instance, page, params, item, user) {
         hideAll(page, 'btnDownload', true);
     }
 
-    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-        autoFocuser.autoFocus(page);
-    });
+    autoFocus(page);
 }
 
 function logoImageUrl(item, apiClient, options) {
@@ -921,7 +919,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
 
     renderScenes(page, item);
 
-    if (item.SpecialFeatureCount && item.SpecialFeatureCount != 0 && item.Type != 'Series') {
+    if (item.SpecialFeatureCount > 0) {
         page.querySelector('#specialsCollapsible').classList.remove('hide');
         renderSpecials(page, item, user);
     } else {
@@ -1756,9 +1754,7 @@ function renderCollectionItems(page, parentItem, types, items) {
 
     // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
     // FIXME: Sometimes focus does not move until all (?) sections are loaded
-    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-        autoFocuser.autoFocus(page);
-    });
+    autoFocus(page);
 }
 
 function renderCollectionItemType(page, parentItem, type, items) {
@@ -2060,6 +2056,7 @@ export default function (view, params) {
                 currentItem.UserData = userData;
                 reloadPlayButtons(view, currentItem);
                 refreshImage(view, currentItem);
+                autoFocus(view);
             }
         }
     }

@@ -20,7 +20,7 @@ export function getDisplayName(item, options = {}) {
     }
     if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
         name = globalize.translate('ValueSpecialEpisodeName', name);
-    } else if ((item.Type === 'Episode' || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
+    } else if ((item.Type === 'Episode' || item.Type === 'Program' || item.Type === 'Recording') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
         let displayIndexNumber = item.IndexNumber;
 
         let number = displayIndexNumber;

@@ -59,6 +59,9 @@ import layoutManager from './layoutManager';
                 candidates.push(container.querySelector('.btnPreviousPage'));
             } else if (activeElement.classList.contains('btnSelectView')) {
                 candidates.push(container.querySelector('.btnSelectView'));
+            } else if (activeElement.classList.contains('btnPlay')) {
+                // Resume has priority over Play
+                candidates = candidates.concat(Array.from(container.querySelectorAll('.btnResume')));
             }
 
             candidates.push(activeElement);

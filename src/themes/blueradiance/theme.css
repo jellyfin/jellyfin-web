@@ -93,6 +93,10 @@ html {
     background: rgba(0, 0, 0, 0.7);
 }
 
+a[data-role=button] {
+    background: rgba(0, 0, 0, 0.5) !important;
+}
+
 .button-submit {
     background: #00a4dc;
     color: #fff;
@@ -184,10 +188,6 @@ html {
     opacity: 0.5;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .toast {
     background: #303030;
     color: #fff;
@@ -259,6 +259,14 @@ html {
 
 .listItem:focus {
     background: rgba(0, 0, 0, 0.3);
+}
+
+.listItem:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.actionSheetMenuItem:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .progressring-spiner {

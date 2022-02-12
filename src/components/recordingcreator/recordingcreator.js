@@ -20,6 +20,8 @@ import ServerConnections from '../ServerConnections';
 import { playbackManager } from '../playback/playbackmanager';
 import template from './recordingcreator.template.html';
 
+import PlaceholderImage from './empty.png';
+
 let currentDialog;
 let closeAction;
 let currentRecordingFields;
@@ -70,7 +72,7 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
         const imageContainer = context.querySelector('.recordingDialog-imageContainer');
 
         if (imgUrl) {
-            imageContainer.innerHTML = '<img src="./empty.png" data-src="' + imgUrl + '" class="recordingDialog-img lazy" />';
+            imageContainer.innerHTML = `<img src="${PlaceholderImage}" data-src="${imgUrl}" class="recordingDialog-img lazy" />`;
             imageContainer.classList.remove('hide');
 
             imageLoader.lazyChildren(imageContainer);

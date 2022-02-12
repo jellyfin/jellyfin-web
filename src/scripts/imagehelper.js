@@ -16,6 +16,8 @@
             case 'AndroidTV':
             case 'Android TV':
                 return baseUrl + 'android.svg';
+            case 'Jellyfin Mobile (iOS)':
+                return baseUrl + 'apple.svg';
             case 'Jellyfin Web':
                 switch (device.Name || device.DeviceName) {
                     case 'Opera':

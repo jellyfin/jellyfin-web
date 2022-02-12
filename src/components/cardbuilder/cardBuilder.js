@@ -771,6 +771,7 @@ import ServerConnections from '../ServerConnections';
          * @returns {string} HTML markup of the card's footer text element.
          */
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
+            item = item.ProgramInfo || item;
             let html = '';
 
             if (logoUrl) {
@@ -853,6 +854,10 @@ import ServerConnections from '../ServerConnections';
                     } else {
                         lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ''));
                     }
+                }
+
+                if (item.ExtraType && item.ExtraType !== 'Unknown') {
+                    lines.push(globalize.translate(item.ExtraType));
                 }
 
                 if (options.showItemCounts) {

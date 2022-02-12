@@ -416,8 +416,8 @@ import template from './libraryoptionseditor.template.html';
         } else {
             parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
         }
-
-        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies');
+        
+        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
 
         return populateMetadataSettings(parent, contentType);
     }

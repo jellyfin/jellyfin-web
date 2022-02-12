@@ -4,27 +4,33 @@ type IProps = {
     className?: string;
     Name?: string;
     Id?: string;
+    ItemType?: string;
+    AppName?: string;
+    checkedAttribute?: string;
 }
 
-const createCheckBoxElement = ({className, Name, Id}) => ({
+const createCheckBoxElement = ({className, Name, dataAttributes, AppName, checkedAttribute}) => ({
     __html: `<label>
         <input
             type="checkbox"
             is="emby-checkbox"
             class="${className}"
-            data-id="${Id}"
+            ${dataAttributes} ${checkedAttribute}
         />
-        <span>${Name}</span>
+        <span>${Name} ${AppName}</span>
     </label>`
 });
 
-const CheckBoxListItem: FunctionComponent<IProps> = ({className, Name, Id}: IProps) => {
+const CheckBoxListItem: FunctionComponent<IProps> = ({className, Name, Id, ItemType, AppName, checkedAttribute}: IProps) => {
     return (
         <div
+            className='sectioncheckbox'
             dangerouslySetInnerHTML={createCheckBoxElement({
                 className: className,
                 Name: Name,
-                Id: Id
+                dataAttributes: ItemType ? `data-itemtype='${ItemType}'` : `data-id='${Id}'`,
+                AppName: AppName ? `- ${AppName}` : '',
+                checkedAttribute: checkedAttribute
             })}
         />
     );

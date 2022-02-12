@@ -68,7 +68,6 @@ const NewUserPage: FunctionComponent = () => {
             IsHidden: false
         }));
         const promiseChannels = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-        // eslint-disable-next-line compat/compat
         Promise.all([promiseFolders, promiseChannels]).then(function (responses) {
             loadMediaFolders(responses[0].Items);
             loadChannels(responses[1].Items);
@@ -191,6 +190,7 @@ const NewUserPage: FunctionComponent = () => {
                                             className='chkFolder'
                                             Id={Item.Id}
                                             Name={Item.Name}
+                                            checkedAttribute=''
                                         />
                                     ))}
                                 </div>
@@ -219,6 +219,7 @@ const NewUserPage: FunctionComponent = () => {
                                             className='chkChannel'
                                             Id={Item.Id}
                                             Name={Item.Name}
+                                            checkedAttribute=''
                                         />
                                     ))}
                                 </div>

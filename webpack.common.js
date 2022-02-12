@@ -102,6 +102,14 @@ module.exports = {
                 }]
             },
             {
+                test: /\.worker\.ts$/,
+                exclude: /node_modules/,
+                use: [
+                    'worker-loader',
+                    'ts-loader'
+                ]
+            },
+            {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
                 use: [{

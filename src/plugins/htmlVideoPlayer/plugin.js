@@ -1048,12 +1048,16 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
+            const supportedFonts = ['application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
             const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
             const apiClient = ServerConnections.getApiClient(item);
-            attachments.map(function (i) {
-                // embedded font url
-                return avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+            attachments.forEach(i => {
+                // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
+                if (supportedFonts.includes(i.MimeType)) {
+                    // embedded font url
+                    avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                }
             });
             const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
                 api_key: apiClient.accessToken()
@@ -1865,9 +1869,10 @@ function tryRemoveElement(elem) {
         };
         categories.push(videoCategory);
 
+        const devicePixelRatio = window.devicePixelRatio || 1;
         const rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
-        let height = parseInt(rect.height);
-        let width = parseInt(rect.width);
+        let height = Math.round(rect.height * devicePixelRatio);
+        let width = Math.round(rect.width * devicePixelRatio);
 
         // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {

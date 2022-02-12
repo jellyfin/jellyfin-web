@@ -164,6 +164,10 @@
     padding: 0.2em;
 }
 
+.listItemImage .cardImageIcon {
+    font-size: 3em;
+}
+
 @media all and (max-width: 64em) {
     .listItemImage-large {
         width: 22vw;

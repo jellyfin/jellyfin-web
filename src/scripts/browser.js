@@ -2,6 +2,11 @@ function isTv() {
     // This is going to be really difficult to get right
     const userAgent = navigator.userAgent.toLowerCase();
 
+    // The OculusBrowsers userAgent also has the samsungbrowser defined but is not a tv.
+    if (userAgent.indexOf('oculusbrowser') !== -1) {
+        return false;
+    }
+
     if (userAgent.indexOf('tv') !== -1) {
         return true;
     }
