@@ -188,10 +188,6 @@ a[data-role=button] {
     opacity: 0.5;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .toast {
     background: #303030;
     color: #fff;
@@ -263,6 +259,14 @@ a[data-role=button] {
 
 .listItem:focus {
     background: rgba(0, 0, 0, 0.3);
+}
+
+.listItem:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.actionSheetMenuItem:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .progressring-spiner {

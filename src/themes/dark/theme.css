@@ -172,10 +172,6 @@ html {
     opacity: 0.5;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: #242424;
-}
-
 .toast {
     background: #303030;
     color: #fff;
@@ -236,6 +232,10 @@ html {
 
 .listItem:focus {
     background: #333;
+}
+
+.listItem:hover {
+    background: #242424;
 }
 
 .progressring-spiner {
