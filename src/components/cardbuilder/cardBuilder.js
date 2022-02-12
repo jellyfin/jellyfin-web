@@ -1780,5 +1780,10 @@ export default {
     onUserDataChanged: onUserDataChanged,
     onTimerCreated: onTimerCreated,
     onTimerCancelled: onTimerCancelled,
-    onSeriesTimerCancelled: onSeriesTimerCancelled
+    onSeriesTimerCancelled: onSeriesTimerCancelled,
+    getCardImageUrl, // until moved to React
+    setCardData, // until moved to React
+    isUsingLiveTvNaming, // until moved to React
+    getItemCountsHtml, // until moved to React
+    getAirTimeText // until moved to React
 };

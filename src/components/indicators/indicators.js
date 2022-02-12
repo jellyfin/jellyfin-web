@@ -139,15 +139,19 @@ export function getSyncIndicator(item) {
     return '';
 }
 
-export function getTypeIndicator(item) {
-    const iconT = {
-        'Video' : 'videocam',
-        'Folder' : 'folder',
-        'PhotoAlbum' : 'photo_album',
-        'Photo' : 'photo'
-    };
+const iconT = {
+    'Video' : 'videocam',
+    'Folder' : 'folder',
+    'PhotoAlbum' : 'photo_album',
+    'Photo' : 'photo'
+};
 
-    const icon = iconT[item.Type];
+export function getTypeIcon(item) {
+    return iconT[item.Type];
+}
+
+export function getTypeIndicator(item) {
+    const icon = getTypeIcon(item.Type);
     return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' + icon + '" aria-hidden="true"></span></div>' : '';
 }
 
