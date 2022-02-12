@@ -1400,7 +1400,7 @@
     "LabelTonemappingDesat": "Desaturación del mapa de tonos:",
     "TonemappingRangeHelp": "Seleccione la gama de colores de salida. Auto es el mismo que el rango de entrada.",
     "TonemappingAlgorithmHelp": "El mapeo de tonos se puede ajustar con precisión. Si no está familiarizado con estas opciones, mantenga las predeterminadas. El valor recomendado es Hable.",
-    "AllowTonemappingHelp": "El mapeo de tonos puede transformar el rango dinámico de un video de HDR a SDR mientras mantiene los detalles y colores de la imagen, que son información muy importante para representar la escena original. Actualmente solo funciona cuando se transcodifican videos con metadatos HDR10 o HLG integrados. Si la reproducción no es fluida o falla, considere apagar el decodificador de hardware correspondiente.",
+    "AllowTonemappingHelp": "El mapeo de tonos puede transformar el rango dinámico de un video de HDR a SDR mientras mantiene los detalles y colores de la imagen, que son información muy importante para representar la escena original. Actualmente solo funciona con videos HDR10 o HLG. Esto requiere el OpenCL o CUDA runtime correspondiente.",
     "QuickConnectNotActive": "La conexión rápida no está activa en este servidor",
     "QuickConnectNotAvailable": "Pida al administrador del servidor que habilite la conexión rápida",
     "QuickConnectInvalidCode": "Código de conexión rápida no válido",
