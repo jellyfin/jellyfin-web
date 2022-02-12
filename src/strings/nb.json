@@ -1335,7 +1335,7 @@
     "EnableDecodingColorDepth10Vp9": "Aktiver 10-biters maskinvaredekoding for VP9",
     "EnableDecodingColorDepth10Hevc": "Aktiver 10-biters maskinvaredekoding for HEVC",
     "ButtonPlayer": "Spiller",
-    "ButtonCast": "Rollebesetning",
+    "ButtonCast": "Strøm mediet til enhet",
     "Writers": "Forfattere",
     "TabRepositories": "Kilder",
     "MessageNoGenresAvailable": "Aktiver noen metadata-kilder for å hente sjangre fra internett.",
