@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -6,6 +8,7 @@ import isEqual from 'lodash-es/isEqual';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import { appRouter } from '../../components/appRouter';
+import ItemCard from '../../components/cardbuilder/ItemCard.tsx';
 import layoutManager from '../../components/layoutManager';
 import { Events } from 'jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -772,22 +775,16 @@ function renderLinks(page, item) {
 }
 
 function renderDetailImage(elem, item, imageLoader) {
-    const itemArray = [];
-    itemArray.push(item);
-    const cardHtml = cardBuilder.getCardsHtml(itemArray, {
-        shape: 'auto',
-        showTitle: false,
-        centerText: true,
-        overlayText: false,
-        transition: false,
-        disableHoverMenu: true,
-        disableIndicators: true,
+    const posterCard = React.createElement(ItemCard, {
+        item,
+        showProgressBar: true,
         overlayPlayButton: layoutManager.desktop,
         action: layoutManager.desktop ? 'resume' : 'none',
         width: dom.getWindowSize().innerWidth * 0.25
-    });
+    }, null);
 
-    elem.innerHTML = cardHtml;
+    ReactDOM.render(posterCard, elem);
+
     imageLoader.lazyChildren(elem);
 
     // Avoid breaking the design by preventing focus of the poster using the keyboard.
@@ -2085,6 +2082,8 @@ export default function (view, params) {
             libraryMenu.setTransparentMenu(false);
         });
         view.addEventListener('viewdestroy', function () {
+            ReactDOM.unmountComponentAtNode(view.querySelector('.detailImageContainer'));
+
             currentItem = null;
             self._currentPlaybackMediaSources = null;
             self.currentRecordingFields = null;
