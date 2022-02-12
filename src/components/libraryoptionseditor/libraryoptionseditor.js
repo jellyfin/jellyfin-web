@@ -416,7 +416,7 @@ import template from './libraryoptionseditor.template.html';
         } else {
             parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
         }
-        
+
         parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
 
         return populateMetadataSettings(parent, contentType);
@@ -568,7 +568,7 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
         parent.querySelector('#chkEnableEmbeddedEpisodeInfos').value = options.EnableEmbeddedEpisodeInfos;
-        parent.querySelector("#selectAllowEmbeddedSubtitles").value = options.AllowEmbeddedSubtitles;
+        parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
         parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
         parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
         parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
