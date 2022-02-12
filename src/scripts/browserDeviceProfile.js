@@ -173,7 +173,7 @@ import browser from './browser';
     function testCanPlayAv1(videoTestElement) {
         if (browser.tizenVersion >= 5.5) {
             return true;
-        } else if (browser.web0sVersion >= 5 && window.outerHeight >= 2160) {
+        } else if (browser.web0sVersion >= 5) {
             return true;
         }
 
