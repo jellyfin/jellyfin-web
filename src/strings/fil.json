@@ -1555,7 +1555,7 @@
     "ButtonForgotPassword": "Nakalimutan ang password",
     "ButtonEditOtherUserPreferences": "I-edit ang profile, larawan at personal na kagustuhan ng user na ito.",
     "ButtonChangeServer": "Baguhin ang Server",
-    "ButtonCast": "I-cast",
+    "ButtonCast": "I-cast ang media",
     "ButtonCancel": "Kanselahin",
     "ButtonBack": "Bumalik",
     "ButtonAudioTracks": "Mga Audio Track",
@@ -1608,5 +1608,15 @@
     "UnknownVideoStreamInfo": "Hindi alam ang impormasyon ng video stream",
     "VideoBitrateNotSupported": "Hindi suportado ang bitrate ng video",
     "AudioIsExternal": "Ang audio stream ay external",
-    "SelectAll": "Piliin lahat"
+    "SelectAll": "Piliin lahat",
+    "ThemeVideo": "Theme Video",
+    "ThemeSong": "Theme Song",
+    "Sample": "Sample",
+    "Scene": "Eksena",
+    "Interview": "Panayam",
+    "DeletedScene": "Tinanggal na Eksena",
+    "BehindTheScenes": "Sa likod ng kamera",
+    "Trailer": "Trailer",
+    "Clip": "Featurette",
+    "ButtonExitApp": "Lumabas sa Application"
 }
