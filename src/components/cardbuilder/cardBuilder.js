@@ -145,7 +145,7 @@ import ServerConnections from '../ServerConnections';
                         return 100 / 14.2857142857;
                     }
                     if (screenWidth >= 1200) {
-                        return 100 / 16.666666666666666666;
+                        return 100 / 16.66666667;
                     }
                     if (screenWidth >= 1000) {
                         return 5;
