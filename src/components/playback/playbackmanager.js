@@ -2385,8 +2385,11 @@ class PlaybackManager {
 
                     streamInfo.fullscreen = playOptions.fullscreen;
 
-                    getPlayerData(player).isChangingStream = false;
-                    getPlayerData(player).maxStreamingBitrate = maxBitrate;
+                    const playerData = getPlayerData(player);
+
+                    playerData.isChangingStream = false;
+                    playerData.maxStreamingBitrate = maxBitrate;
+                    playerData.streamInfo = streamInfo;
 
                     return player.play(streamInfo).then(function () {
                         loading.hide();
