@@ -217,18 +217,14 @@ import { appRouter } from '../components/appRouter';
         }
     }
 
-    function updateAlphaPickerState(instance, numItems) {
+    function updateAlphaPickerState(instance) {
         if (instance.alphaPicker) {
             const alphaPicker = instance.alphaPickerElement;
 
             if (alphaPicker) {
                 const values = instance.getSortValues();
 
-                if (numItems == null) {
-                    numItems = 100;
-                }
-
-                if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending' && numItems > 40) {
+                if (values.sortBy.indexOf('SortName') !== -1) {
                     alphaPicker.classList.remove('hide');
                     instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
                 } else {
@@ -494,7 +490,7 @@ class ItemsView {
                     self.totalItemCount = result.Items ? result.Items.length : result.length;
                 }
 
-                updateAlphaPickerState(self, self.totalItemCount);
+                updateAlphaPickerState(self);
                 updatePaging(result.StartIndex, result.TotalRecordCount, query.Limit);
                 return result;
             }).finally(() => {
