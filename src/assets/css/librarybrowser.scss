@@ -627,10 +627,15 @@
 
 .subtitle {
     margin: 0.15em 0 0.2em;
+
+    // Leave room for a focused button
+    margin-left: -1em;
+    padding-left: 1em;
 }
 
 .layout-mobile .subtitle {
     margin: 0.2em 0 0.2em;
+    padding-left: 0; // Reset padding for focused button since 'margin-left' is 0
 }
 
 .detailPagePrimaryContainer {
