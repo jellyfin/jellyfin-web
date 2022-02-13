@@ -1578,5 +1578,6 @@
     "AgeValue": "（{0} 歲）",
     "LabelSortName": "排列名稱：",
     "LabelOriginalName": "原始名稱：",
-    "Console": "控制台"
+    "Console": "控制台",
+    "ButtonExitApp": "離開應用程式"
 }
