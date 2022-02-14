@@ -50,6 +50,7 @@
  - [Keegan Dahm](https://github.com/keegandahm)
  - [GodTamIt](https://github.com/GodTamIt)
  - [MinecraftPlaye](https://github.com/MinecraftPlaye)
+ - [Matthew Jones](https://github.com/matthew-jones-uk)
 
 # Emby Contributors
 

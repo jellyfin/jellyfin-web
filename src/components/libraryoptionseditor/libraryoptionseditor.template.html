@@ -30,6 +30,15 @@
     </label>
     <div class="fieldDescription checkboxFieldDescription">${PreferEmbeddedEpisodeInfosOverFileNamesHelp}</div>
 </div>
+<div class="selectContainer fldAllowEmbeddedSubtitlesContainer hide advanced" style="margin: 2em 0;">
+    <select is="emby-select" id="selectAllowEmbeddedSubtitles" label="${AllowEmbeddedSubtitles}">
+        <option value="AllowAll">${AllowEmbeddedSubtitlesAllowAllOption}</option>
+        <option value="AllowText">${AllowEmbeddedSubtitlesAllowTextOption}</option>
+        <option value="AllowImage">${AllowEmbeddedSubtitlesAllowImageOption}</option>
+        <option value="AllowNone">${AllowEmbeddedSubtitlesAllowNoneOption}</option>
+    </select>
+    <div class="fieldDescription">${AllowEmbeddedSubtitlesHelp}</div>
+</div>
 
 <div class="checkboxContainer checkboxContainer-withDescription advanced">
     <label>
