@@ -89,7 +89,7 @@
     "LabelDashboardTheme": "Serveri juhtpaneeli teema:",
     "LabelCustomRating": "Kohandatud hinne:",
     "LabelCustomDeviceDisplayNameHelp": "Sisesta kohandatud kuvatav nimi või jäta tühjaks, et kasutada seadme teatatud nime.",
-    "LabelCustomCssHelp": "Kasuta veebiliideses oma kohandatud stiile.",
+    "LabelCustomCssHelp": "Kasuta veebiliideses oma CSS koodi selleks, et välimust muuta.",
     "LabelCustomCss": "Kohandatud CSS kood:",
     "LabelCustomCertificatePathHelp": "Rada PKCS # 12 failini, mis sisaldab sertifikaati ja privaatvõtit kohandatud domeenile TLS toe lubamiseks.",
     "LabelCustomCertificatePath": "Kohandatud SSL sertifikaadi rada:",
@@ -285,7 +285,7 @@
     "CustomDlnaProfilesHelp": "Loo kohandatud profiil uue seadme jaoks või tühista süsteemi profiil.",
     "ConfigureDateAdded": "Seadista, kuidas lisamise kuupäev kuvatakse juhtpaneeli meediakogu seadetes",
     "Banner": "Bänner",
-    "AllowTonemappingHelp": "Värvikaardistus võib muuta video dünaamilise ulatuse HDR -st SDR -ks, säilitades samal ajal pildi üksikasjad ja värvid, mis on algse stseeni kujutamisel väga oluline teave. Praegu töötab ainult HDR10 või HLG metaandmetega videote transkoodimisel. Kui taasesitus ei ole sujuv või ebaõnnestub, kaalu vastava riistvaralise dekoodri väljalülitamist.",
+    "AllowTonemappingHelp": "Värvikaardistus võib muuta video dünaamilise ulatuse HDR -st SDR -ks, säilitades samal ajal pildi üksikasjad ja värvid, mis on algse stseeni kujutamisel väga oluline teave. Praegu töötab ainult HDR10 või HLG videotega. See vajab vastavat OpenGL või CUDA käitusaega.",
     "HeaderDirectPlayProfile": "Otse-esituse profiil",
     "HeaderContainerProfileHelp": "Konteineri profiilid näitavad seadme piiranguid teatud vormingute esitamisel. Kui kehtib piirang, meedium transkooditakse, isegi kui vorming on seadistatud otse-esituseks.",
     "HeaderCodecProfileHelp": "Koodeki profiilid näitavad seadme piiranguid konkreetsete koodekite esitamisel. Kui kehtivad piirangud, transkooditakse meedia, isegi kui koodek on seadistatud otse-esituseks.",
@@ -1586,5 +1586,7 @@
     "LabelAutomaticallyAddToCollection": "Lisa automaatselt kogumikku",
     "H264CrfHelp": "'Constant Rate Factor' (CRF) on x264 ja x265 kodeerija vaikekvaliteediseade. Võimalikud on väärtused vahemikus 0 kuni 51, kus madalamad väärtused tooksid kaasa parema kvaliteedi (suurema failimahu arvelt). Mõistlikud väärtused on vahemikus 18 kuni 28. Vaikeväärtus x264 jaoks on 23 ja x265 jaoks 28, nii et seda saab kasutada lähtepunktina.",
     "Cursive": "Kursiiv",
-    "ButtonCast": "Esita meediumiüksused seadmes"
+    "ButtonCast": "Esita meediumiüksused seadmes",
+    "ButtonExitApp": "Lahku rakendusest",
+    "Arranger": "Korraldaja"
 }
