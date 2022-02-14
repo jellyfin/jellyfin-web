@@ -2096,6 +2096,7 @@ export default function (view, params) {
                 if (currentItem) {
                     appRouter.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
+                    renderBackdrop(currentItem);
                 }
             } else {
                 reload(self, page, params);
