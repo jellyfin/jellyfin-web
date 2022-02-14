@@ -1247,5 +1247,7 @@
     "OptionNew": "Yeni…",
     "OptionProtocolHttp": "HTTP",
     "OptionSaveMetadataAsHidden": "Metadataları ve görüntüleri gizli dosyalar olarak kaydedin",
-    "OptionWeekends": "Haftasonları"
+    "OptionWeekends": "Haftasonları",
+    "Normal": "Normal",
+    "Small": "Küçük"
 }
