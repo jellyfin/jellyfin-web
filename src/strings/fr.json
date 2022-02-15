@@ -1622,5 +1622,11 @@
     "Interview": "Entrevue",
     "DeletedScene": "Scène supprimée",
     "BehindTheScenes": "Dans les coulisses",
-    "Trailer": "Bande-annonce"
+    "Trailer": "Bande-annonce",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Permettre le type Texte",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Permettre les types Image",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Ne rien accepter",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Tout accepter",
+    "AllowEmbeddedSubtitlesHelp": "Désactiver les sous-titres intégrés aux fichiers média. Nécessite un rafraichissement complet de la librairie.",
+    "AllowEmbeddedSubtitles": "Désactiver les sous-titres intégrés"
 }
