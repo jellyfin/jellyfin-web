@@ -1622,5 +1622,11 @@
     "DeletedScene": "Vymazaná scéna",
     "BehindTheScenes": "Z natáčení",
     "Trailer": "Upoutávka",
-    "Clip": "Krátký film"
+    "Clip": "Krátký film",
+    "AllowEmbeddedSubtitlesHelp": "Zakázat titulky, které jsou vložené v kontejneru média. Vyžaduje kompletní obnovení knihovny.",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Povolit textové titulky",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Povolit grafické titulky",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Povolit všechny",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Zakázat všechny",
+    "AllowEmbeddedSubtitles": "Zakázat určité typy vložených titulků"
 }
