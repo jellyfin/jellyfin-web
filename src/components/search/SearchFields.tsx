@@ -36,7 +36,7 @@ type SearchFieldsProps = {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }: SearchFieldsProps) => {
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     const getSearchInput = () => element?.current?.querySelector('.searchfields-txtSearch');
 

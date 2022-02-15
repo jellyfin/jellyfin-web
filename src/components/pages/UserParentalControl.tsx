@@ -32,7 +32,7 @@ const UserParentalControl: FunctionComponent = () => {
     const [ accessSchedules, setAccessSchedules ] = useState([]);
     const [ blockedTags, setBlockedTags ] = useState([]);
 
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     const populateRatings = useCallback((allParentalRatings) => {
         let rating;

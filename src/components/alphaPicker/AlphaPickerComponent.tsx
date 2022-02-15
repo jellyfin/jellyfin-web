@@ -10,7 +10,7 @@ type AlphaPickerProps = {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const AlphaPickerComponent: FunctionComponent<AlphaPickerProps> = ({ onAlphaPicked = () => {} }: AlphaPickerProps) => {
     const [ alphaPicker, setAlphaPicker ] = useState(null);
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setAlphaPicker(new AlphaPicker({

@@ -23,7 +23,7 @@ type SearchResultsRowProps = {
 }
 
 const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         cardBuilder.buildCards(items, {

@@ -23,7 +23,7 @@ type MenuEntry = {
 const UserProfilesPage: FunctionComponent = () => {
     const [ users, setUsers ] = useState([]);
 
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     const loadData = () => {
         loading.show();
