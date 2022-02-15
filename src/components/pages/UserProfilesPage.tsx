@@ -113,7 +113,7 @@ const UserProfilesPage: FunctionComponent = () => {
         };
 
         page.addEventListener('click', function (e) {
-            const btnUserMenu = dom.parentWithClass(e.target, 'btnUserMenu');
+            const btnUserMenu = dom.parentWithClass(e.target as HTMLElement, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);

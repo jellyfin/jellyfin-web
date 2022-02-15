@@ -44,7 +44,7 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
 
     useEffect(() => {
         getSearchInput()?.addEventListener('input', e => {
-            debouncedOnSearch(normalizeInput(e.target?.value));
+            debouncedOnSearch(normalizeInput((e.target as HTMLInputElement).value));
         });
         getSearchInput()?.focus();
 
