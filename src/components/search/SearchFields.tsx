@@ -31,7 +31,7 @@ const createInputElement = () => ({
 const normalizeInput = (value = '') => value.trim();
 
 type SearchFieldsProps = {
-    onSearch?: () => void
+    onSearch?: (query: string) => void
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function

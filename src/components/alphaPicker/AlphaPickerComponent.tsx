@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import AlphaPicker from './alphaPicker';
 
 type AlphaPickerProps = {
-    onAlphaPicked?: () => void
+    onAlphaPicked?: (e: Event) => void
 };
 
 // React compatibility wrapper component for alphaPicker.js
