@@ -1614,5 +1614,6 @@
     "ButtonExitApp": "Thoát Ứng Dụng",
     "Scene": "Bối cảnh",
     "DeletedScene": "Cảnh Đã Xóa",
-    "BehindTheScenes": "Hậu Trường"
+    "BehindTheScenes": "Hậu Trường",
+    "AllowEmbeddedSubtitles": "Tắt các loại phụ đề nhúng khác nhau"
 }
