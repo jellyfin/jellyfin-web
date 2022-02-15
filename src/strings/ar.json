@@ -1620,5 +1620,11 @@
     "BehindTheScenes": "وراء الكواليس",
     "Trailer": "العرض الإعلاني",
     "Clip": "ميزة",
-    "ButtonExitApp": "أغلق التطبيق"
+    "ButtonExitApp": "أغلق التطبيق",
+    "AllowEmbeddedSubtitlesAllowTextOption": "السماح بالنص",
+    "AllowEmbeddedSubtitlesAllowImageOption": "السماح بالصورة",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "لا تسمح",
+    "AllowEmbeddedSubtitlesAllowAllOption": "السماح للجميع",
+    "AllowEmbeddedSubtitlesHelp": "تعطيل الترجمات التي تم حزمها داخل حاويات الوسائط. يتطلب تحديثًا كاملاً للمكتبة.",
+    "AllowEmbeddedSubtitles": "تعطيل أنواع مختلفة من الترجمات المضمنة"
 }
