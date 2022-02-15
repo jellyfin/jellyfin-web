@@ -36,33 +36,54 @@ const NewUserPage: FunctionComponent = () => {
     };
 
     const loadMediaFolders = useCallback((result) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         const mediaFolders = getItemsResult(result);
 
         setMediaFoldersItems(mediaFolders);
 
-        const folderAccess = element?.current?.querySelector('.folderAccess');
+        const folderAccess = page.querySelector('.folderAccess');
         folderAccess.dispatchEvent(new CustomEvent('create'));
 
-        element.current.querySelector('.chkEnableAllFolders').checked = false;
+        page.querySelector('.chkEnableAllFolders').checked = false;
     }, []);
 
     const loadChannels = useCallback((result) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         const channels = getItemsResult(result);
 
         setChannelsItems(channels);
 
-        const channelAccess = element?.current?.querySelector('.channelAccess');
+        const channelAccess = page.querySelector('.channelAccess');
         channelAccess.dispatchEvent(new CustomEvent('create'));
 
-        const channelAccessContainer = element?.current?.querySelector('.channelAccessContainer');
+        const channelAccessContainer = page.querySelector('.channelAccessContainer');
         channels.length ? channelAccessContainer.classList.remove('hide') : channelAccessContainer.classList.add('hide');
 
-        element.current.querySelector('.chkEnableAllChannels').checked = false;
+        page.querySelector('.chkEnableAllChannels').checked = false;
     }, []);
 
     const loadUser = useCallback(() => {
-        element.current.querySelector('#txtUsername').value = '';
-        element.current.querySelector('#txtPassword').value = '';
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
+        page.querySelector('#txtUsername').value = '';
+        page.querySelector('#txtPassword').value = '';
         loading.show();
         const promiseFolders = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -76,29 +97,36 @@ const NewUserPage: FunctionComponent = () => {
     }, [loadChannels, loadMediaFolders]);
 
     useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         loadUser();
 
         const saveUser = () => {
             const userInput: userInput = {};
-            userInput.Name = element?.current?.querySelector('#txtUsername').value;
-            userInput.Password = element?.current?.querySelector('#txtPassword').value;
+            userInput.Name = page.querySelector('#txtUsername').value;
+            userInput.Password = page.querySelector('#txtPassword').value;
             window.ApiClient.createUser(userInput).then(function (user) {
-                user.Policy.EnableAllFolders = element?.current?.querySelector('.chkEnableAllFolders').checked;
+                user.Policy.EnableAllFolders = page.querySelector('.chkEnableAllFolders').checked;
                 user.Policy.EnabledFolders = [];
 
                 if (!user.Policy.EnableAllFolders) {
-                    user.Policy.EnabledFolders = Array.prototype.filter.call(element?.current?.querySelectorAll('.chkFolder'), function (i) {
+                    user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
                         return i.checked;
                     }).map(function (i) {
                         return i.getAttribute('data-id');
                     });
                 }
 
-                user.Policy.EnableAllChannels = element?.current?.querySelector('.chkEnableAllChannels').checked;
+                user.Policy.EnableAllChannels = page.querySelector('.chkEnableAllChannels').checked;
                 user.Policy.EnabledChannels = [];
 
                 if (!user.Policy.EnableAllChannels) {
-                    user.Policy.EnabledChannels = Array.prototype.filter.call(element?.current?.querySelectorAll('.chkChannel'), function (i) {
+                    user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
                         return i.checked;
                     }).map(function (i) {
                         return i.getAttribute('data-id');
@@ -122,19 +150,19 @@ const NewUserPage: FunctionComponent = () => {
             return false;
         };
 
-        element?.current?.querySelector('.chkEnableAllChannels').addEventListener('change', function (this: HTMLInputElement) {
-            const channelAccessListContainer = element?.current?.querySelector('.channelAccessListContainer');
+        page.querySelector('.chkEnableAllChannels').addEventListener('change', function (this: HTMLInputElement) {
+            const channelAccessListContainer = page.querySelector('.channelAccessListContainer');
             this.checked ? channelAccessListContainer.classList.add('hide') : channelAccessListContainer.classList.remove('hide');
         });
 
-        element?.current?.querySelector('.chkEnableAllFolders').addEventListener('change', function (this: HTMLInputElement) {
-            const folderAccessListContainer = element?.current?.querySelector('.folderAccessListContainer');
+        page.querySelector('.chkEnableAllFolders').addEventListener('change', function (this: HTMLInputElement) {
+            const folderAccessListContainer = page.querySelector('.folderAccessListContainer');
             this.checked ? folderAccessListContainer.classList.add('hide') : folderAccessListContainer.classList.remove('hide');
         });
 
-        element?.current?.querySelector('.newUserProfileForm').addEventListener('submit', onSubmit);
+        page.querySelector('.newUserProfileForm').addEventListener('submit', onSubmit);
 
-        element?.current?.querySelector('.button-cancel').addEventListener('click', function() {
+        page.querySelector('.button-cancel').addEventListener('click', function() {
             window.history.back();
         });
     }, [loadUser]);

@@ -34,6 +34,13 @@ const UserProfilesPage: FunctionComponent = () => {
     };
 
     useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         loadData();
 
         const showUserMenu = (elem: HTMLElement) => {
@@ -105,7 +112,7 @@ const UserProfilesPage: FunctionComponent = () => {
             });
         };
 
-        element?.current?.addEventListener('click', function (e) {
+        page.addEventListener('click', function (e) {
             const btnUserMenu = dom.parentWithClass(e.target, 'btnUserMenu');
 
             if (btnUserMenu) {
@@ -113,7 +120,7 @@ const UserProfilesPage: FunctionComponent = () => {
             }
         });
 
-        element?.current?.querySelector('.btnAddUser').addEventListener('click', function() {
+        page.querySelector('.btnAddUser').addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
     }, []);
