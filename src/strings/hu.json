@@ -1622,5 +1622,11 @@
     "Interview": "Interjú",
     "DeletedScene": "Törölt jelenet",
     "BehindTheScenes": "A színfalak mögött",
-    "Trailer": "Filmelőzetes"
+    "Trailer": "Filmelőzetes",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Szöveg engedélyezése",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Kép engedélyezése",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Összes tiltása",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Összes engedélyezése",
+    "AllowEmbeddedSubtitlesHelp": "Tiltsa le a médiatárolókba csomagolt feliratokat. Teljes könyvtárfrissítést igényel.",
+    "AllowEmbeddedSubtitles": "Különféle típusú beágyazott feliratok letiltása"
 }
