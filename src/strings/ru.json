@@ -1622,5 +1622,11 @@
     "BehindTheScenes": "За кулисами",
     "Trailer": "Трейлер",
     "Clip": "Отрывок",
-    "ButtonExitApp": "Выход из приложения"
+    "ButtonExitApp": "Выход из приложения",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Разрешить текст",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Разрешить рисунок",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Ничего не разрешать",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Разрешить все",
+    "AllowEmbeddedSubtitles": "Отключает различные типы встроенных субтитров",
+    "AllowEmbeddedSubtitlesHelp": "Отключает субтитры, упакованные в медиаконтейнеры. Требуется полное обновление медиатеки."
 }
