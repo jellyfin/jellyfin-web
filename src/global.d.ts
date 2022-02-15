@@ -1,5 +1,8 @@
 export declare global {
+    import { ApiClient, Events } from 'jellyfin-apiclient';
+
     interface Window {
-        ApiClient: any;
+        ApiClient: ApiClient;
+        Events: Events;
     }
 }
