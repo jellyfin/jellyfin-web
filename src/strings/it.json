@@ -1324,7 +1324,7 @@
     "EnableBlurHash": "Abilita i segnaposto sfocati per le immagini",
     "ShowMore": "Mostra di più",
     "ShowLess": "Mostra meno",
-    "ButtonCast": "Cast",
+    "ButtonCast": "Trasmetti media",
     "ButtonSyncPlay": "SyncPlay",
     "EnableFasterAnimationsHelp": "Utilizza animazioni e transizioni veloci.",
     "EnableFasterAnimations": "Animazioni veloci",
@@ -1620,5 +1620,11 @@
     "DeletedScene": "Scena rimossa",
     "BehindTheScenes": "Dietro le quinte",
     "Clip": "Corto metraggio",
-    "ButtonExitApp": "Esci dall'Applicazione"
+    "ButtonExitApp": "Esci dall'Applicazione",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Testo",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Immagine",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Tutti",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Nessuno",
+    "AllowEmbeddedSubtitlesHelp": "Disabilita i sottotitoli contenuti all'interno dei media. Richiede una nuova scansione della libreria.",
+    "AllowEmbeddedSubtitles": "Disabilita i sottotitoli integrati"
 }
