@@ -145,7 +145,7 @@ const UserParentalControl: FunctionComponent = () => {
 
         for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
             btnDelete.addEventListener('click', function () {
-                const index = parseInt(btnDelete.getAttribute('data-index'));
+                const index = parseInt(btnDelete.getAttribute('data-index') || '0', 10);
                 schedules.splice(index, 1);
                 const newindex = schedules.filter(function (i: number) {
                     return i != index;
