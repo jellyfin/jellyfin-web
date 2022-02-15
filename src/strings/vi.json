@@ -1615,5 +1615,7 @@
     "Scene": "Bối cảnh",
     "DeletedScene": "Cảnh Đã Xóa",
     "BehindTheScenes": "Hậu Trường",
-    "AllowEmbeddedSubtitles": "Tắt các loại phụ đề nhúng khác nhau"
+    "AllowEmbeddedSubtitles": "Tắt các loại phụ đề nhúng khác nhau",
+    "ThemeSong": "Nhạc Chủ Đề",
+    "ThemeVideo": "Video Chủ Đề"
 }
