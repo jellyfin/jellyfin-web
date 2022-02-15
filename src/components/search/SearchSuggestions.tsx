@@ -1,3 +1,4 @@
+import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { appRouter } from '../appRouter';
@@ -24,7 +25,7 @@ type SearchSuggestionsProps = {
 }
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId = window.ApiClient.serverId(), parentId }: SearchSuggestionsProps) => {
-    const [ suggestions, setSuggestions ] = useState([]);
+    const [ suggestions, setSuggestions ] = useState<BaseItemDto[]>([]);
 
     useEffect(() => {
         const apiClient = ServerConnections.getApiClient(serverId);
@@ -38,7 +39,7 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId
             EnableImages: false,
             ParentId: parentId,
             EnableTotalRecordCount: false
-        }).then(result => setSuggestions(result.Items));
+        }).then(result => setSuggestions(result.Items || []));
     }, [parentId, serverId]);
 
     return (

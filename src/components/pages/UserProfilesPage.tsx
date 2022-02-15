@@ -1,4 +1,4 @@
-
+import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, {FunctionComponent, useEffect, useState, useRef} from 'react';
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
@@ -21,7 +21,7 @@ type MenuEntry = {
 }
 
 const UserProfilesPage: FunctionComponent = () => {
-    const [ users, setUsers ] = useState([]);
+    const [ users, setUsers ] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
 

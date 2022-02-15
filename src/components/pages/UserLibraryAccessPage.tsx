@@ -21,9 +21,9 @@ type ItemsArr = {
 
 const UserLibraryAccessPage: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [channelsItems, setChannelsItems] = useState([]);
-    const [mediaFoldersItems, setMediaFoldersItems] = useState([]);
-    const [devicesItems, setDevicesItems] = useState([]);
+    const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
+    const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
+    const [devicesItems, setDevicesItems] = useState<ItemsArr[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
 

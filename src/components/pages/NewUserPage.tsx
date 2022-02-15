@@ -22,8 +22,8 @@ type ItemsArr = {
 }
 
 const NewUserPage: FunctionComponent = () => {
-    const [ channelsItems, setChannelsItems ] = useState([]);
-    const [ mediaFoldersItems, setMediaFoldersItems ] = useState([]);
+    const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
+    const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const element = useRef<HTMLDivElement>(null);
 
     const getItemsResult = (items: ItemsArr[]) => {

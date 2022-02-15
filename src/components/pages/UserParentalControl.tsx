@@ -27,9 +27,9 @@ type ItemsArr = {
 
 const UserParentalControl: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [ parentalRatings, setParentalRatings ] = useState([]);
-    const [ unratedItems, setUnratedItems ] = useState([]);
-    const [ accessSchedules, setAccessSchedules ] = useState([]);
+    const [ parentalRatings, setParentalRatings ] = useState<RatingsArr[]>([]);
+    const [ unratedItems, setUnratedItems ] = useState<ItemsArr[]>([]);
+    const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ blockedTags, setBlockedTags ] = useState([]);
 
     const element = useRef<HTMLDivElement>(null);

@@ -24,7 +24,7 @@ type ItemsArr = {
 
 const UserEditPage: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState([]);
+    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ItemsArr[]>([]);
     const [ authProviders, setAuthProviders ] = useState([]);
     const [ passwordResetProviders, setPasswordResetProviders ] = useState([]);
 
