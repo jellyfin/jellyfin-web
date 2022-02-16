@@ -57,6 +57,11 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
         const value = (e as CustomEvent).detail.value;
         const searchInput = getSearchInput();
 
+        if (!searchInput) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         if (value === 'backspace') {
             const currentValue = searchInput.value;
             searchInput.value = currentValue.length ? currentValue.substring(0, currentValue.length - 1) : '';
