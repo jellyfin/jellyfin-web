@@ -260,7 +260,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                         id: 'DateCreated,SortName'
                     }, {
                         name: globalize.translate('OptionDatePlayed'),
-                        id: 'DatePlayed,SortName'
+                        id: 'SeriesDatePlayed,SortName'
                     }, {
                         name: globalize.translate('OptionParentalRating'),
                         id: 'OfficialRating,SortName'
