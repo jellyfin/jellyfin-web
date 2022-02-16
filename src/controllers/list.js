@@ -254,7 +254,7 @@ import { appRouter } from '../components/appRouter';
         if (params.type === 'nextup') {
             return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
                 Limit: limit,
-                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo',
+                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -323,7 +323,7 @@ import { appRouter } from '../components/appRouter';
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount',
+            Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount,MediaSourceCount',
             ImageTypeLimit: 1,
             ParentId: item.Id,
             SortBy: sortBy

@@ -607,7 +607,7 @@ import ServerConnections from '../ServerConnections';
             oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path',
+                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path,MediaSourceCount',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',

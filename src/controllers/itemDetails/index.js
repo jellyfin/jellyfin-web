@@ -868,7 +868,8 @@ function renderNextUp(page, item, user) {
 
     ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
         SeriesId: item.Id,
-        UserId: user.Id
+        UserId: user.Id,
+        Fields: 'MediaSourceCount'
     }).then(function (result) {
         if (result.Items.length) {
             section.classList.remove('hide');

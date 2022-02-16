@@ -282,6 +282,11 @@ import ServerConnections from '../ServerConnections';
                     html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
                 }
 
+                const mediaSourceCount = item.MediaSourceCount || 1;
+                if (mediaSourceCount > 1 && options.disableIndicators !== true) {
+                    html += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
+                }
+
                 let indicatorsHtml = '';
                 indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
 
