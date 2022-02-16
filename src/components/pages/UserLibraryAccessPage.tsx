@@ -55,7 +55,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
 
         setMediaFoldersItems(itemsArr);
 
-        const chkEnableAllFolders = page.querySelector('.chkEnableAllFolders');
+        const chkEnableAllFolders = page.querySelector('.chkEnableAllFolders') as HTMLInputElement;
         chkEnableAllFolders.checked = user.Policy.EnableAllFolders;
         triggerChange(chkEnableAllFolders);
     }, []);
@@ -83,12 +83,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
         setChannelsItems(itemsArr);
 
         if (channels.length) {
-            page.querySelector('.channelAccessContainer').classList.remove('hide');
+            (page.querySelector('.channelAccessContainer') as HTMLDivElement).classList.remove('hide');
         } else {
-            page.querySelector('.channelAccessContainer').classList.add('hide');
+            (page.querySelector('.channelAccessContainer') as HTMLDivElement).classList.add('hide');
         }
 
-        const chkEnableAllChannels = page.querySelector('.chkEnableAllChannels');
+        const chkEnableAllChannels = page.querySelector('.chkEnableAllChannels') as HTMLInputElement;
         chkEnableAllChannels.checked = user.Policy.EnableAllChannels;
         triggerChange(chkEnableAllChannels);
     }, []);
@@ -116,14 +116,14 @@ const UserLibraryAccessPage: FunctionComponent = () => {
 
         setDevicesItems(itemsArr);
 
-        const chkEnableAllDevices = page.querySelector('.chkEnableAllDevices');
+        const chkEnableAllDevices = page.querySelector('.chkEnableAllDevices') as HTMLInputElement;
         chkEnableAllDevices.checked = user.Policy.EnableAllDevices;
         triggerChange(chkEnableAllDevices);
 
         if (user.Policy.IsAdministrator) {
-            page.querySelector('.deviceAccessContainer').classList.add('hide');
+            (page.querySelector('.deviceAccessContainer') as HTMLDivElement).classList.add('hide');
         } else {
-            page.querySelector('.deviceAccessContainer').classList.remove('hide');
+            (page.querySelector('.deviceAccessContainer') as HTMLDivElement).classList.remove('hide');
         }
     }, []);
 
@@ -180,19 +180,19 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            user.Policy.EnableAllFolders = page.querySelector('.chkEnableAllFolders').checked;
+            user.Policy.EnableAllFolders = (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked;
             user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
                 return c.checked;
             }).map(function (c) {
                 return c.getAttribute('data-id');
             });
-            user.Policy.EnableAllChannels = page.querySelector('.chkEnableAllChannels').checked;
+            user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
             user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
                 return c.checked;
             }).map(function (c) {
                 return c.getAttribute('data-id');
             });
-            user.Policy.EnableAllDevices = page.querySelector('.chkEnableAllDevices').checked;
+            user.Policy.EnableAllDevices = (page.querySelector('.chkEnableAllDevices') as HTMLInputElement).checked;
             user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkDevice'), function (c) {
                 return c.checked;
             }).map(function (c) {
@@ -210,19 +210,19 @@ const UserLibraryAccessPage: FunctionComponent = () => {
             toast(globalize.translate('SettingsSaved'));
         };
 
-        page.querySelector('.chkEnableAllDevices').addEventListener('change', function (this: HTMLInputElement) {
-            page.querySelector('.deviceAccessListContainer').classList.toggle('hide', this.checked);
+        (page.querySelector('.chkEnableAllDevices') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
+            (page.querySelector('.deviceAccessListContainer') as HTMLDivElement).classList.toggle('hide', this.checked);
         });
 
-        page.querySelector('.chkEnableAllChannels').addEventListener('change', function (this: HTMLInputElement) {
-            page.querySelector('.channelAccessListContainer').classList.toggle('hide', this.checked);
+        (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
+            (page.querySelector('.channelAccessListContainer') as HTMLDivElement).classList.toggle('hide', this.checked);
         });
 
-        page.querySelector('.chkEnableAllFolders').addEventListener('change', function (this: HTMLInputElement) {
-            page.querySelector('.folderAccessListContainer').classList.toggle('hide', this.checked);
+        (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
+            (page.querySelector('.folderAccessListContainer') as HTMLDivElement).classList.toggle('hide', this.checked);
         });
 
-        page.querySelector('.userLibraryAccessForm').addEventListener('submit', onSubmit);
+        (page.querySelector('.userLibraryAccessForm') as HTMLFormElement).addEventListener('submit', onSubmit);
     }, [loadData]);
 
     return (

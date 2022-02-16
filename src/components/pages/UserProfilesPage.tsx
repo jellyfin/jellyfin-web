@@ -120,7 +120,7 @@ const UserProfilesPage: FunctionComponent = () => {
             }
         });
 
-        page.querySelector('.btnAddUser').addEventListener('click', function() {
+        (page.querySelector('.btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
     }, []);

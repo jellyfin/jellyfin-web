@@ -38,7 +38,7 @@ type SearchFieldsProps = {
 const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }: SearchFieldsProps) => {
     const element = useRef<HTMLDivElement>(null);
 
-    const getSearchInput = () => element?.current?.querySelector('.searchfields-txtSearch');
+    const getSearchInput = () => element?.current?.querySelector<HTMLInputElement>('.searchfields-txtSearch');
 
     const debouncedOnSearch = useMemo(() => debounce(onSearch, 400), [onSearch]);
 

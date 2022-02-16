@@ -47,10 +47,10 @@ const NewUserPage: FunctionComponent = () => {
 
         setMediaFoldersItems(mediaFolders);
 
-        const folderAccess = page.querySelector('.folderAccess');
+        const folderAccess = page.querySelector('.folderAccess') as HTMLDivElement;
         folderAccess.dispatchEvent(new CustomEvent('create'));
 
-        page.querySelector('.chkEnableAllFolders').checked = false;
+        (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked = false;
     }, []);
 
     const loadChannels = useCallback((result) => {
@@ -65,13 +65,13 @@ const NewUserPage: FunctionComponent = () => {
 
         setChannelsItems(channels);
 
-        const channelAccess = page.querySelector('.channelAccess');
+        const channelAccess = page.querySelector('.channelAccess') as HTMLDivElement;
         channelAccess.dispatchEvent(new CustomEvent('create'));
 
-        const channelAccessContainer = page.querySelector('.channelAccessContainer');
+        const channelAccessContainer = page.querySelector('.channelAccessContainer') as HTMLDivElement;
         channels.length ? channelAccessContainer.classList.remove('hide') : channelAccessContainer.classList.add('hide');
 
-        page.querySelector('.chkEnableAllChannels').checked = false;
+        (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked = false;
     }, []);
 
     const loadUser = useCallback(() => {
@@ -82,8 +82,8 @@ const NewUserPage: FunctionComponent = () => {
             return;
         }
 
-        page.querySelector('#txtUsername').value = '';
-        page.querySelector('#txtPassword').value = '';
+        (page.querySelector('#txtUsername') as HTMLInputElement).value = '';
+        (page.querySelector('#txtPassword') as HTMLInputElement).value = '';
         loading.show();
         const promiseFolders = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -108,10 +108,10 @@ const NewUserPage: FunctionComponent = () => {
 
         const saveUser = () => {
             const userInput: userInput = {};
-            userInput.Name = page.querySelector('#txtUsername').value;
-            userInput.Password = page.querySelector('#txtPassword').value;
+            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+            userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
             window.ApiClient.createUser(userInput).then(function (user) {
-                user.Policy.EnableAllFolders = page.querySelector('.chkEnableAllFolders').checked;
+                user.Policy.EnableAllFolders = (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked;
                 user.Policy.EnabledFolders = [];
 
                 if (!user.Policy.EnableAllFolders) {
@@ -122,7 +122,7 @@ const NewUserPage: FunctionComponent = () => {
                     });
                 }
 
-                user.Policy.EnableAllChannels = page.querySelector('.chkEnableAllChannels').checked;
+                user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
                 user.Policy.EnabledChannels = [];
 
                 if (!user.Policy.EnableAllChannels) {
@@ -150,19 +150,19 @@ const NewUserPage: FunctionComponent = () => {
             return false;
         };
 
-        page.querySelector('.chkEnableAllChannels').addEventListener('change', function (this: HTMLInputElement) {
-            const channelAccessListContainer = page.querySelector('.channelAccessListContainer');
+        (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
+            const channelAccessListContainer = page.querySelector('.channelAccessListContainer') as HTMLDivElement;
             this.checked ? channelAccessListContainer.classList.add('hide') : channelAccessListContainer.classList.remove('hide');
         });
 
-        page.querySelector('.chkEnableAllFolders').addEventListener('change', function (this: HTMLInputElement) {
-            const folderAccessListContainer = page.querySelector('.folderAccessListContainer');
+        (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
+            const folderAccessListContainer = page.querySelector('.folderAccessListContainer') as HTMLDivElement;
             this.checked ? folderAccessListContainer.classList.add('hide') : folderAccessListContainer.classList.remove('hide');
         });
 
-        page.querySelector('.newUserProfileForm').addEventListener('submit', onSubmit);
+        (page.querySelector('.newUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        page.querySelector('.button-cancel').addEventListener('click', function() {
+        (page.querySelector('.button-cancel') as HTMLButtonElement).addEventListener('click', function() {
             window.history.back();
         });
     }, [loadUser]);

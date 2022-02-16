@@ -104,7 +104,7 @@ const UserParentalControl: FunctionComponent = () => {
 
         setUnratedItems(itemsArr);
 
-        const blockUnratedItems = page.querySelector('.blockUnratedItems');
+        const blockUnratedItems = page.querySelector('.blockUnratedItems') as HTMLDivElement;
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
     }, []);
 
@@ -118,7 +118,7 @@ const UserParentalControl: FunctionComponent = () => {
 
         setBlockedTags(tags);
 
-        const blockedTagsElem = page.querySelector('.blockedTags');
+        const blockedTagsElem = page.querySelector('.blockedTags') as HTMLDivElement;
 
         for (const btnDeleteTag of blockedTagsElem.querySelectorAll('.btnDeleteTag')) {
             btnDeleteTag.addEventListener('click', function () {
@@ -141,7 +141,7 @@ const UserParentalControl: FunctionComponent = () => {
 
         setAccessSchedules(schedules);
 
-        const accessScheduleList = page.querySelector('.accessScheduleList');
+        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
 
         for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
             btnDelete.addEventListener('click', function () {
@@ -181,12 +181,12 @@ const UserParentalControl: FunctionComponent = () => {
             }
         }
 
-        page.querySelector('.selectMaxParentalRating').value = ratingValue;
+        (page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value = ratingValue;
 
         if (user.Policy.IsAdministrator) {
-            page.querySelector('.accessScheduleSection').classList.add('hide');
+            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
         } else {
-            page.querySelector('.accessScheduleSection').classList.remove('hide');
+            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
         renderAccessSchedule(user.Policy.AccessSchedules || []);
         loading.hide();
@@ -226,7 +226,7 @@ const UserParentalControl: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            user.Policy.MaxParentalRating = page.querySelector('.selectMaxParentalRating').value || null;
+            user.Policy.MaxParentalRating = (page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value || null;
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
@@ -299,15 +299,15 @@ const UserParentalControl: FunctionComponent = () => {
             return false;
         };
 
-        page.querySelector('.btnAddSchedule').addEventListener('click', function () {
+        (page.querySelector('.btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
             showSchedulePopup({}, -1);
         });
 
-        page.querySelector('.btnAddBlockedTag').addEventListener('click', function () {
+        (page.querySelector('.btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
             showBlockedTagPopup();
         });
 
-        page.querySelector('.userParentalControlForm').addEventListener('submit', onSubmit);
+        (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
     }, [loadBlockedTags, loadData, renderAccessSchedule]);
 
     return (
