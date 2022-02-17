@@ -1624,5 +1624,6 @@
     "AllowEmbeddedSubtitlesAllowNoneOption": "Permesi Nenion",
     "AllowEmbeddedSubtitlesAllowAllOption": "Permesi Ĉion",
     "AllowEmbeddedSubtitlesHelp": "Malebligi subtekstojn, kiuj estas pakitaj en plurmediaj ujoj. Postulas plenan plurmediatekan refreŝigon.",
-    "AllowEmbeddedSubtitles": "Malebligi malsamajn specojn de enigitaj subtekstoj"
+    "AllowEmbeddedSubtitles": "Malebligi malsamajn specojn de enigitaj subtekstoj",
+    "ShowParentImages": "Montri seriajn bildojn"
 }
