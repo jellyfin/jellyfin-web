@@ -1629,5 +1629,6 @@
     "AllowEmbeddedSubtitlesAllowNoneOption": "Eşteñege rūqsat joq",
     "AllowEmbeddedSubtitlesAllowAllOption": "Bärıne rūqsat",
     "AllowEmbeddedSubtitlesHelp": "Tasyğyşderek konteinerlerınde qaptalğan subtitrlerdı öşıredı. Tolyq tasyğyşderekhanany jañartudy qajet etedı.",
-    "AllowEmbeddedSubtitles": "Endırılgen subtitrlerdıñ ärtürlı türlerın öşıru"
+    "AllowEmbeddedSubtitles": "Endırılgen subtitrlerdıñ ärtürlı türlerın öşıru",
+    "ShowParentImages": "Telehikaia suretterın körsetu"
 }
