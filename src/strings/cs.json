@@ -1628,5 +1628,6 @@
     "AllowEmbeddedSubtitlesAllowImageOption": "Povolit grafické titulky",
     "AllowEmbeddedSubtitlesAllowAllOption": "Povolit všechny",
     "AllowEmbeddedSubtitlesAllowNoneOption": "Zakázat všechny",
-    "AllowEmbeddedSubtitles": "Zakázat určité typy vložených titulků"
+    "AllowEmbeddedSubtitles": "Zakázat určité typy vložených titulků",
+    "ShowParentImages": "Zobrazit obrázky řady"
 }
