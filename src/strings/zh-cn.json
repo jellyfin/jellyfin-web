@@ -1622,5 +1622,12 @@
     "BehindTheScenes": "幕后花絮",
     "Trailer": "预告片",
     "Clip": "花絮",
-    "ButtonExitApp": "退出应用"
+    "ButtonExitApp": "退出应用",
+    "ShowParentImages": "显示系列图片",
+    "AllowEmbeddedSubtitlesAllowTextOption": "允许文本",
+    "AllowEmbeddedSubtitlesAllowImageOption": "允许图像",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "允许无",
+    "AllowEmbeddedSubtitlesAllowAllOption": "允许全部",
+    "AllowEmbeddedSubtitlesHelp": "禁用媒体容器中打包的字幕。 需全部刷新媒体库。",
+    "AllowEmbeddedSubtitles": "禁用不同类型的嵌入字幕"
 }
