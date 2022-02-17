@@ -1622,5 +1622,12 @@
     "BehindTheScenes": "Zo zákulisia",
     "Trailer": "Trailer",
     "Clip": "Krátky film",
-    "ButtonExitApp": "Ukončiť aplikáciu"
+    "ButtonExitApp": "Ukončiť aplikáciu",
+    "ShowParentImages": "Zobraziť obrázky série",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Povoliť textové titulky",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Povoliť obrázkové titulky",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Zakázať všetko",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Povoliť všetko",
+    "AllowEmbeddedSubtitlesHelp": "Zakáže titulky, ktoré sú vložené v kontajneri média. Vyžaduje kompletné obnovenie knižnice.",
+    "AllowEmbeddedSubtitles": "Zakázať určité typy vložených titulkov"
 }
