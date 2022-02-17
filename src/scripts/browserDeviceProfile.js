@@ -123,12 +123,7 @@ import browser from './browser';
                 return true;
             }
         } else if (format === 'opus') {
-            if (!browser.web0s) {
-                typeString = 'audio/ogg; codecs="opus"';
-                return !!document.createElement('audio').canPlayType(typeString).replace(/no/, '');
-            }
-
-            return false;
+            typeString = 'audio/ogg; codecs="opus"';
         } else if (format === 'alac') {
             if (browser.iOS || browser.osx) {
                 return true;
@@ -142,7 +137,7 @@ import browser from './browser';
             typeString = 'audio/webm';
         } else if (format === 'mp2') {
             typeString = 'audio/mpeg';
-        } else {
+        } else if (!typeString) {
             typeString = 'audio/' + format;
         }
 
