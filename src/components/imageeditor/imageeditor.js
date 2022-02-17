@@ -280,7 +280,13 @@ import template from './imageeditor.template.html';
 
     function showImageDownloader(page, imageType) {
         import('../imageDownloader/imageDownloader').then((ImageDownloader) => {
-            ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
+            ImageDownloader.show(
+                currentItem.Id,
+                currentItem.ServerId,
+                currentItem.Type,
+                imageType,
+                currentItem.Type == 'Season' ? currentItem.ParentId : null
+            ).then(function () {
                 hasChanges = true;
                 reload(page);
             });
