@@ -263,10 +263,12 @@ class ArchiveSource {
         await this.archive.extractFiles();
 
         let files = await this.archive.getFilesArray();
+
+        // metadata files and files without a file extension should not be considered as a page
         files = files.filter((file) => {
             const name = file.file.name;
             const index = name.lastIndexOf('.');
-            return index !== 1 && supportedFormats.includes(name.slice(index + 1));
+            return index !== -1 && supportedFormats.includes(name.slice(index + 1));
         });
         files.sort((a, b) => {
             if (a.file.name < b.file.name) {
