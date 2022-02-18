@@ -47,6 +47,11 @@ const UserProfilesPage: FunctionComponent = () => {
             const card = dom.parentWithClass(elem, 'card');
             const userId = card.getAttribute('data-userid');
 
+            if (!userId) {
+                console.error('Unexpected null user id');
+                return;
+            }
+
             const menuItems: MenuEntry[] = [];
 
             menuItems.push({
