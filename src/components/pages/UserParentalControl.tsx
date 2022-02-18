@@ -1,4 +1,4 @@
-import { AccessSchedule, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import { AccessSchedule, DynamicDayOfWeek, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
@@ -300,7 +300,13 @@ const UserParentalControl: FunctionComponent = () => {
         };
 
         (page.querySelector('.btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
-            showSchedulePopup({}, -1);
+            showSchedulePopup({
+                Id: 0,
+                UserId: '',
+                DayOfWeek: DynamicDayOfWeek.Sunday,
+                StartHour: 0,
+                EndHour: 0
+            }, -1);
         });
 
         (page.querySelector('.btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
