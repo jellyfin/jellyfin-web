@@ -1617,5 +1617,11 @@
     "BehindTheScenes": "Hậu Trường",
     "AllowEmbeddedSubtitles": "Tắt các loại phụ đề nhúng khác nhau",
     "ThemeSong": "Nhạc Chủ Đề",
-    "ThemeVideo": "Video Chủ Đề"
+    "ThemeVideo": "Video Chủ Đề",
+    "ShowParentImages": "Hiển thị hình ảnh loạt phim",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Cho Phép Văn Bản",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Cho Phép Hình Ảnh",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Không Chấp Nhận",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Chấp Nhận Tất Cả",
+    "AllowEmbeddedSubtitlesHelp": "Tắt phụ đề được đóng gói trong vùng chứa phương tiện. Yêu cầu làm mới toàn bộ thư viện."
 }
