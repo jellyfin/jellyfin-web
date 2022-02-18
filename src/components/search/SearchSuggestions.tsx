@@ -27,8 +27,7 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId
     const [ suggestions, setSuggestions ] = useState([]);
 
     useEffect(() => {
-        // TODO: Remove type casting once we're using a properly typed API client
-        const apiClient = (ServerConnections as any).getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         apiClient.getItems(apiClient.getCurrentUserId(), {
             SortBy: 'IsFavoriteOrLiked,Random',

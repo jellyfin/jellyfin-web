@@ -72,8 +72,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
         setChannels([]);
 
         if (query && collectionType === 'livetv') {
-            // TODO: Remove type casting once we're using a properly typed API client
-            const apiClient = (ServerConnections as any).getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
 
             // Movies row
             fetchItems(apiClient, {
