@@ -1,4 +1,4 @@
-import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import { SyncPlayUserAccessType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
@@ -236,7 +236,7 @@ const UserEditPage: FunctionComponent = () => {
                 return c.getAttribute('data-id');
             });
             if (window.ApiClient.isMinServerVersion('10.6.0')) {
-                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value;
+                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value as SyncPlayUserAccessType;
             }
             window.ApiClient.updateUser(user).then(function () {
                 window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
