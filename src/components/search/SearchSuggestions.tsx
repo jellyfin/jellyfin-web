@@ -9,7 +9,7 @@ import '../../elements/emby-button/emby-button';
 // There seems to be some compatibility issues here between
 // React and our legacy web components, so we need to inject
 // them as an html string for now =/
-const createSuggestionLink = ({name, href}) => ({
+const createSuggestionLink = ({ name, href }: { name: string, href: string }) => ({
     __html: `<a
     is='emby-linkbutton'
     class='button-link'
@@ -57,7 +57,7 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId
                     <div
                         key={`suggestion-${item.Id}`}
                         dangerouslySetInnerHTML={createSuggestionLink({
-                            name: item.Name,
+                            name: item.Name || '',
                             href: appRouter.getRouteUrl(item)
                         })}
                     />

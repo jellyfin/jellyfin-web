@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { ApiClient } from 'jellyfin-apiclient';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
@@ -53,7 +54,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
         });
 
         // FIXME: This query does not support Live TV filters
-        const fetchItems = (apiClient, params = {}) => apiClient?.getItems(
+        const fetchItems = (apiClient: ApiClient, params = {}) => apiClient?.getItems(
             apiClient?.getCurrentUserId(),
             {
                 ...getDefaultParameters(),

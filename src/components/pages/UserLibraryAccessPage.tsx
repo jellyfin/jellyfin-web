@@ -1,3 +1,4 @@
+import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
 import loading from '../loading/loading';
@@ -26,7 +27,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
 
     const element = useRef(null);
 
-    const triggerChange = (select) => {
+    const triggerChange = (select: HTMLInputElement) => {
         const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
@@ -131,7 +132,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
     useEffect(() => {
         loadData();
 
-        const onSubmit = (e) => {
+        const onSubmit = (e: Event) => {
             loading.show();
             const userId = appRouter.param('userId');
             window.ApiClient.getUser(userId).then(function (result) {
@@ -142,7 +143,15 @@ const UserLibraryAccessPage: FunctionComponent = () => {
             return false;
         };
 
-        const saveUser = (user) => {
+        const saveUser = (user: UserDto) => {
+            if (!user.Id) {
+                throw new Error('Unexpected null user.Id');
+            }
+
+            if (!user.Policy) {
+                throw new Error('Unexpected null user.Policy');
+            }
+
             user.Policy.EnableAllFolders = element?.current?.querySelector('.chkEnableAllFolders').checked;
             user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(element?.current?.querySelectorAll('.chkFolder'), function (c) {
                 return c.checked;

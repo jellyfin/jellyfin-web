@@ -53,8 +53,8 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
         };
     }, [debouncedOnSearch]);
 
-    const onAlphaPicked = e => {
-        const value = e.detail.value;
+    const onAlphaPicked = (e: Event) => {
+        const value = (e as CustomEvent).detail.value;
         const searchInput = getSearchInput();
 
         if (value === 'backspace') {

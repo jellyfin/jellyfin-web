@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { ApiClient } from 'jellyfin-apiclient';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
@@ -48,7 +49,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
             IncludeArtists: false
         });
 
-        const fetchArtists = (apiClient, params = {}) => apiClient?.getArtists(
+        const fetchArtists = (apiClient: ApiClient, params = {}) => apiClient?.getArtists(
             apiClient?.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
@@ -57,7 +58,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
             }
         );
 
-        const fetchItems = (apiClient, params = {}) => apiClient?.getItems(
+        const fetchItems = (apiClient: ApiClient, params = {}) => apiClient?.getItems(
             apiClient?.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
@@ -66,7 +67,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
             }
         );
 
-        const fetchPeople = (apiClient, params = {}) => apiClient?.getPeople(
+        const fetchPeople = (apiClient: ApiClient, params = {}) => apiClient?.getPeople(
             apiClient?.getCurrentUserId(),
             {
                 ...getDefaultParameters(),

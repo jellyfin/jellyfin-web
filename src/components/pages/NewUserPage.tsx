@@ -114,7 +114,7 @@ const NewUserPage: FunctionComponent = () => {
             });
         };
 
-        const onSubmit = (e) => {
+        const onSubmit = (e: Event) => {
             loading.show();
             saveUser();
             e.preventDefault();

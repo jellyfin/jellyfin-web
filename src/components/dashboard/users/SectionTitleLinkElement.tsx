@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createLinkElement = ({ className, title, href }) => ({
+const createLinkElement = ({ className, title, href }: { className?: string, title?: string, href?: string }) => ({
     __html: `<a
         is="emby-linkbutton"
         rel="noopener noreferrer"

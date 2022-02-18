@@ -36,7 +36,7 @@ const UserProfilesPage: FunctionComponent = () => {
     useEffect(() => {
         loadData();
 
-        const showUserMenu = (elem) => {
+        const showUserMenu = (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
             const userId = card.getAttribute('data-userid');
 
@@ -67,7 +67,7 @@ const UserProfilesPage: FunctionComponent = () => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: card,
-                    callback: function (id) {
+                    callback: function (id: string) {
                         switch (id) {
                             case 'open':
                                 Dashboard.navigate('useredit.html?userId=' + userId);
@@ -89,7 +89,7 @@ const UserProfilesPage: FunctionComponent = () => {
             });
         };
 
-        const deleteUser = (id) => {
+        const deleteUser = (id: string) => {
             const msg = globalize.translate('DeleteUserConfirmation');
 
             confirm({

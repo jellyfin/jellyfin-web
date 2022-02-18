@@ -1,10 +1,11 @@
+import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import globalize from '../../../scripts/globalize';
 import cardBuilder from '../../cardbuilder/cardBuilder';
 
-const createLinkElement = ({ user, renderImgUrl }) => ({
+const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl: string }) => ({
     __html: `<a
         is="emby-linkbutton"
         class="cardContent"
@@ -28,7 +29,7 @@ type IProps = {
     user?: Record<string, any>;
 }
 
-const getLastSeenText = (lastActivityDate) => {
+const getLastSeenText = (lastActivityDate?: string) => {
     if (lastActivityDate) {
         return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), localeWithSuffix));
     }

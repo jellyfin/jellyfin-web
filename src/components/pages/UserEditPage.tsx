@@ -1,3 +1,4 @@
+import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
@@ -32,7 +33,7 @@ const UserEditPage: FunctionComponent = () => {
 
     const element = useRef(null);
 
-    const triggerChange = (select) => {
+    const triggerChange = (select: HTMLInputElement) => {
         const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
@@ -163,7 +164,15 @@ const UserEditPage: FunctionComponent = () => {
             toast(globalize.translate('SettingsSaved'));
         }
 
-        const saveUser = (user) => {
+        const saveUser = (user: UserDto) => {
+            if (!user.Id) {
+                throw new Error('Unexpected null user.Id');
+            }
+
+            if (!user.Policy) {
+                throw new Error('Unexpected null user.Policy');
+            }
+
             user.Name = element?.current?.querySelector('#txtUserName').value;
             user.Policy.IsAdministrator = element?.current?.querySelector('.chkIsAdmin').checked;
             user.Policy.IsHidden = element?.current?.querySelector('.chkIsHidden').checked;
@@ -200,7 +209,7 @@ const UserEditPage: FunctionComponent = () => {
             });
         };
 
-        const onSubmit = (e) => {
+        const onSubmit = (e: Event) => {
             loading.show();
             getUser().then(function (result) {
                 saveUser(result);
