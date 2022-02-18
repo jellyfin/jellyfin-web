@@ -15,7 +15,7 @@ type SearchResultsProps = {
 /*
  * React component to display search result rows for global search and non-live tv library search
  */
-const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parentId, collectionType, query }: SearchResultsProps) => {
+const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = window.ApiClient.serverId(), parentId, collectionType, query }: SearchResultsProps) => {
     const [ movies, setMovies ] = useState([]);
     const [ shows, setShows ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);

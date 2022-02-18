@@ -23,7 +23,7 @@ type SearchSuggestionsProps = {
     parentId?: string;
 }
 
-const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId, parentId }: SearchSuggestionsProps) => {
+const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId = window.ApiClient.serverId(), parentId }: SearchSuggestionsProps) => {
     const [ suggestions, setSuggestions ] = useState([]);
 
     useEffect(() => {

@@ -27,7 +27,7 @@ type LiveTVSearchResultsProps = {
 /*
  * React component to display search result rows for live tv library search
  */
-const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serverId, parentId, collectionType, query }: LiveTVSearchResultsProps) => {
+const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serverId = window.ApiClient.serverId(), parentId, collectionType, query }: LiveTVSearchResultsProps) => {
     const [ movies, setMovies ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);
     const [ sports, setSports ] = useState([]);
