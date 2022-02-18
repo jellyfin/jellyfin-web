@@ -241,6 +241,9 @@ export class ComicsPlayer {
     }
 }
 
+// the comic book archive supports any kind of image format as it's just a zip archive
+const supportedFormats = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif'];
+
 class ArchiveSource {
     constructor(url) {
         this.url = url;
@@ -259,7 +262,14 @@ class ArchiveSource {
         this.raw = await this.archive.getFilesArray();
         await this.archive.extractFiles();
 
-        const files = await this.archive.getFilesArray();
+        let files = await this.archive.getFilesArray();
+
+        // metadata files and files without a file extension should not be considered as a page
+        files = files.filter((file) => {
+            const name = file.file.name;
+            const index = name.lastIndexOf('.');
+            return index !== -1 && supportedFormats.includes(name.slice(index + 1));
+        });
         files.sort((a, b) => {
             if (a.file.name < b.file.name) {
                 return -1;
