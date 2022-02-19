@@ -399,7 +399,10 @@ import browser from './browser';
                 hlsInTsVideoAudioCodecs.push('mp3');
             }
 
-            hlsInFmp4VideoAudioCodecs.push('mp3');
+            // Safari fails to load HLS.mp4 with mp3 audio
+            if (!browser.safari) {
+                hlsInFmp4VideoAudioCodecs.push('mp3');
+            }
         }
 
         // For AC3/EAC3 remuxing.
@@ -679,8 +682,22 @@ import browser from './browser';
         }
 
         if (canPlayHls() && options.enableHls !== false) {
-            if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && userSettings.preferFmp4HlsContainer() && (browser.safari || browser.tizen || browser.web0s)) {
-                profile.TranscodingProfiles.push({
+            const hlsProfiles = [];
+            if (hlsInTsVideoCodecs.length && hlsInTsVideoAudioCodecs.length) {
+                hlsProfiles.push({
+                    Container: 'ts',
+                    Type: 'Video',
+                    AudioCodec: hlsInTsVideoAudioCodecs.join(','),
+                    VideoCodec: hlsInTsVideoCodecs.join(','),
+                    Context: 'Streaming',
+                    Protocol: 'hls',
+                    MaxAudioChannels: physicalAudioChannels.toString(),
+                    MinSegments: browser.iOS || browser.osx ? '2' : '1',
+                    BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                });
+            }
+            if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length) {
+                hlsProfiles[userSettings.preferFmp4HlsContainer() ? 'unshift' : 'push']({
                     Container: 'mp4',
                     Type: 'Video',
                     AudioCodec: hlsInFmp4VideoAudioCodecs.join(','),
@@ -693,28 +710,21 @@ import browser from './browser';
                 });
             }
 
-            if (hlsInTsVideoCodecs.length && hlsInTsVideoAudioCodecs.length) {
-                profile.TranscodingProfiles.push({
-                    Container: 'ts',
-                    Type: 'Video',
-                    AudioCodec: hlsInTsVideoAudioCodecs.join(','),
-                    VideoCodec: hlsInTsVideoCodecs.join(','),
-                    Context: 'Streaming',
-                    Protocol: 'hls',
-                    MaxAudioChannels: physicalAudioChannels.toString(),
-                    MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                    BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
-                });
-            }
+            profile.TranscodingProfiles.splice(profile.TranscodingProfiles.length, 0, ...hlsProfiles);
         }
 
         if (webmAudioCodecs.length && webmVideoCodecs.length) {
+            let videoCodecs = webmVideoCodecs;
+            // safari does not support how streaming webm video is served by the server
+            if (browser.safari) {
+                videoCodecs = videoCodecs.filter(codec => codec !== 'vp9');
+            }
             profile.TranscodingProfiles.push({
                 Container: 'webm',
                 Type: 'Video',
                 AudioCodec: webmAudioCodecs.join(','),
                 // TODO: Remove workaround when servers migrate away from 'vpx' for transcoding profiles.
-                VideoCodec: (canPlayVp8 ? webmVideoCodecs.concat('vpx') : webmVideoCodecs).join(','),
+                VideoCodec: (canPlayVp8 ? videoCodecs.concat('vpx') : videoCodecs).join(','),
                 Context: 'Streaming',
                 Protocol: 'http',
                 // If audio transcoding is needed, limit channels to number of physical audio channels
