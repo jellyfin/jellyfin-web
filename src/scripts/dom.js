@@ -9,7 +9,7 @@
      * Returns parent of element with specified attribute value.
      * @param {HTMLElement} elem - Element whose parent need to find.
      * @param {string} name - Attribute name.
-     * @param {mixed} value - Attribute value.
+     * @param {mixed} [value] - Attribute value.
      * @returns {HTMLElement} Parent with specified attribute value.
      */
     export function parentWithAttribute(elem, name, value) {
