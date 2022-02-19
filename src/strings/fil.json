@@ -1618,5 +1618,12 @@
     "BehindTheScenes": "Sa likod ng kamera",
     "Trailer": "Trailer",
     "Clip": "Featurette",
-    "ButtonExitApp": "Lumabas sa Application"
+    "ButtonExitApp": "Lumabas sa Application",
+    "ShowParentImages": "Larawan ng mga serye ng palabas",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Payagan ang Teksto",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Payagan ang Larawan",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Walang papayagan",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Payagan ang Lahat",
+    "AllowEmbeddedSubtitlesHelp": "I-disable ang mga subtitle na naka-package sa loob ng mga media container. Nangangailangan ng pag-refresh ng buong library.",
+    "AllowEmbeddedSubtitles": "I-disable ang iba't ibang uri ng mga naka-embed na subtitle"
 }
