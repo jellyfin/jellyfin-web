@@ -2044,7 +2044,6 @@ export default function (view, params) {
     function init() {
         const apiClient = getApiClient();
 
-        view.querySelectorAll('.btnPlay');
         bindAll(view, '.btnPlay', 'click', onPlayClick);
         bindAll(view, '.btnReplay', 'click', onPlayClick);
         bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
