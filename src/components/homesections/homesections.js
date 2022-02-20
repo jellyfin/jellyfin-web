@@ -1,4 +1,6 @@
 import escapeHtml from 'escape-html';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
@@ -8,6 +10,7 @@ import { appRouter } from '../appRouter';
 import imageHelper from '../../scripts/imagehelper';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import ItemsContainer from '../../elements/emby-itemscontainer/ItemsContainer.tsx';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
 import './homesections.scss';
@@ -102,6 +105,10 @@ import ServerConnections from '../ServerConnections';
     }
 
     export function destroySections(elem) {
+        for (const reactTarget of elem.querySelectorAll('._reactTarget')) {
+            ReactDOM.unmountComponentAtNode(reactTarget);
+        }
+
         const elems = elem.querySelectorAll('.itemsContainer');
         for (let i = 0; i < elems.length; i++) {
             elems[i].fetchData = null;
@@ -340,21 +347,10 @@ import ServerConnections from '../ServerConnections';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
             if (enableScrollX()) {
                 html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+                html += '<div class="_reactTarget scrollSlider">';
             } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
+                html += '<div class="_reactTarget">';
             }
-
-            html += cardBuilder.getCardsHtml({
-                items: userViews,
-                shape: getThumbShape(),
-                showTitle: true,
-                centerText: true,
-                overlayText: false,
-                lazy: true,
-                transition: false,
-                allowBottomPadding: !enableScrollX()
-            });
 
             if (enableScrollX()) {
                 html += '</div>';
@@ -363,7 +359,27 @@ import ServerConnections from '../ServerConnections';
         }
 
         elem.innerHTML = html;
-        imageLoader.lazyChildren(elem);
+
+        const container = elem.querySelector('._reactTarget');
+
+        const reactContainer = React.createElement(ItemsContainer, {
+            className: enableScrollX() ? 'scrollSlider focuscontainer-x' : 'padded-left padded-right focuscontainer-x vertical-wrap',
+            items: userViews,
+            cardOptions: {
+                shape: getThumbShape(),
+                showTitle: true,
+                centerText: true,
+                overlayText: false,
+                lazy: true,
+                transition: false,
+                allowBottomPadding: !enableScrollX(),
+                overlayMoreButton: true
+            }
+        }, null);
+
+        ReactDOM.render(reactContainer, container);
+
+        imageLoader.lazyChildren(container);
     }
 
     const dataMonitorHints = {
