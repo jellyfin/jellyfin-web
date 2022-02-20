@@ -1973,7 +1973,7 @@ export default function (view, params) {
     }
 
     function onPlayClick() {
-        playCurrentItem(this, this.getAttribute('data-mode'));
+        playCurrentItem(this, this.getAttribute('data-action'));
     }
 
     function onPosterClick(e) {
