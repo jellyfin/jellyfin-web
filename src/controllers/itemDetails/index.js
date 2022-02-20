@@ -343,7 +343,7 @@ function reloadPlayButtons(page, item) {
             hideAll(page, 'btnPlay');
         }
 
-        hideAll(page, 'btnResume');
+        hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
     } else if (playbackManager.canPlay(item)) {
@@ -355,30 +355,20 @@ function reloadPlayButtons(page, item) {
         canPlay = true;
 
         const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
-        hideAll(page, 'btnResume', isResumable);
+        hideAll(page, 'btnReplay', isResumable);
 
-        for (const elem of page.querySelectorAll('.btnPlay')) {
-            const btnPlay = elem.querySelector('.detailButton-icon');
-
+        for (const btnPlay of page.querySelectorAll('.btnPlay')) {
             if (isResumable) {
-                btnPlay.classList.replace('play_arrow', 'replay');
+                btnPlay.title = globalize.translate('ButtonResume');
             } else {
-                btnPlay.classList.replace('replay', 'play_arrow');
+                btnPlay.title = globalize.translate('Play');
             }
         }
     } else {
         hideAll(page, 'btnPlay');
-        hideAll(page, 'btnResume');
+        hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
-    }
-
-    if (layoutManager.tv) {
-        const btnResume = page.querySelector('.mainDetailButtons .btnResume');
-        const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
-        const resumeHidden = btnResume.classList.contains('hide');
-        btnResume.classList.toggle('raised', !resumeHidden);
-        btnPlay.classList.toggle('raised', resumeHidden);
     }
 
     return canPlay;
@@ -2056,7 +2046,7 @@ export default function (view, params) {
 
         view.querySelectorAll('.btnPlay');
         bindAll(view, '.btnPlay', 'click', onPlayClick);
-        bindAll(view, '.btnResume', 'click', onPlayClick);
+        bindAll(view, '.btnReplay', 'click', onPlayClick);
         bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
         bindAll(view, '.btnShuffle', 'click', onShuffleClick);
         bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
