@@ -818,8 +818,8 @@ function renderDetailImage(elem, item, imageLoader) {
         overlayText: false,
         transition: false,
         disableIndicators: true,
-        overlayPlayButton: layoutManager.mobile ? false : true,
-        action: layoutManager.mobile ? 'none' : 'play',
+        overlayPlayButton: layoutManager.desktop,
+        action: layoutManager.desktop ? 'play' : 'none',
         width: dom.getWindowSize().innerWidth * 0.25
     });
 
