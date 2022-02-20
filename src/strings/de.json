@@ -1621,5 +1621,12 @@
     "DeletedScene": "Gelöschte Scene",
     "BehindTheScenes": "Hinder den Kulissen",
     "Trailer": "Vorschau",
-    "Clip": "Hinder den Kulissen"
+    "Clip": "Hinder den Kulissen",
+    "ShowParentImages": "Serienbilder anzeigen",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Text erlauben",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Bilder erlauben",
+    "AllowEmbeddedSubtitles": "Verschiedene Arten eingebetteter Untertitel deaktivieren",
+    "AllowEmbeddedSubtitlesHelp": "In Mediencontainern enthaltene Untertitel deaktivieren. Erfordert Aktualisierung der gesamten Bibliothek.",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Keine erlauben",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Alle erlauben"
 }
