@@ -13,7 +13,6 @@ import listView from '../../components/listview/listview';
 import itemContextMenu from '../../components/itemContextMenu';
 import itemHelper from '../../components/itemHelper';
 import dom from '../../scripts/dom';
-import indicators from '../../components/indicators/indicators';
 import imageLoader from '../../components/images/imageLoader';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
@@ -837,18 +836,6 @@ function renderImage(page, item) {
         item,
         imageLoader
     );
-}
-
-function refreshDetailImageUserData(elem, item) {
-    const container = elem.querySelector('.detailImageProgressContainer');
-
-    if (container) {
-        container.innerHTML = indicators.getProgressBarHtml(item);
-    }
-}
-
-function refreshImage(page, item) {
-    refreshDetailImageUserData(page.querySelector('.detailImageContainer'), item);
 }
 
 function setPeopleHeader(page, item) {
@@ -2056,7 +2043,6 @@ export default function (view, params) {
             if (userData) {
                 currentItem.UserData = userData;
                 reloadPlayButtons(view, currentItem);
-                refreshImage(view, currentItem);
                 autoFocus(view);
             }
         }
