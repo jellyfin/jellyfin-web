@@ -733,10 +733,10 @@ import { appRouter } from '../appRouter';
         updatePlayerVolumeState(player.isMuted(), player.getVolume());
     }
 
-    function refreshFromPlayer(player) {
+    function refreshFromPlayer(player, type) {
         const state = playbackManager.getPlayerState(player);
 
-        onStateChanged.call(player, { type: 'init' }, state);
+        onStateChanged.call(player, { type }, state);
     }
 
     function bindToPlayer(player) {
@@ -752,7 +752,7 @@ import { appRouter } from '../appRouter';
             return;
         }
 
-        refreshFromPlayer(player);
+        refreshFromPlayer(player, 'init');
 
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'statechange', onPlaybackStart);
@@ -780,7 +780,7 @@ import { appRouter } from '../appRouter';
         } else if (!isVisibilityAllowed) {
             isVisibilityAllowed = true;
             if (currentPlayer) {
-                refreshFromPlayer(currentPlayer);
+                refreshFromPlayer(currentPlayer, 'refresh');
             } else {
                 hideNowPlayingBar();
             }
