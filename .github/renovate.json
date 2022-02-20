@@ -1,6 +1,10 @@
 {
   "packageRules": [
     {
+      "matchManagers": ["npm"],
+      "addLabels": ["javascript"]
+    },
+    {
       "matchDepTypes": ["devDependencies"],
       "groupName": "development dependencies",
       "groupSlug": "dev-deps"
@@ -12,6 +16,7 @@
     },
     {
       "matchDepTypes": ["action"],
+      "addLabels": ["github_actions"],
       "groupName": "CI dependencies",
       "groupSlug": "ci-deps"
     },
@@ -21,6 +26,9 @@
       "enabled": false
     }
   ],
+  "vulnerabilityAlerts": {
+    "addLabels": ["security"]
+  },
   "dependencyDashboard": false,
   "ignoreDeps": ["npm", "node"],
   "lockFileMaintenance": {
@@ -28,6 +36,7 @@
   },
   "enabledManagers": ["npm", "github-actions"],
   "labels": ["dependencies"],
-  "rebaseWhen": "behind-base-branch",
+  "prHourlyLimit": 2,
+  "rebaseWhen": "conflicted",
   "rangeStrategy": "pin"
 }
