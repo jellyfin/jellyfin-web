@@ -819,7 +819,7 @@ function renderDetailImage(elem, item, imageLoader) {
         transition: false,
         disableIndicators: true,
         overlayPlayButton: layoutManager.desktop,
-        action: layoutManager.desktop ? 'play' : 'none',
+        action: layoutManager.desktop ? 'resume' : 'none',
         width: dom.getWindowSize().innerWidth * 0.25
     });
 
