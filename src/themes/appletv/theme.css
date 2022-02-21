@@ -481,6 +481,10 @@ a[data-role=button] {
     color: #00a4dc !important;
 }
 
+.cardPadder .cardImageIcon {
+    color: rgba(0, 0, 0, 0.1);
+}
+
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-radius: 0.5rem;

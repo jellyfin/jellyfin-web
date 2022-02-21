@@ -1344,7 +1344,13 @@ import ServerConnections from '../ServerConnections';
 
             const cardScalableClass = 'cardScalable';
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
+            let cardPadderIcon = '';
+
+            if (imgUrl) {
+                cardPadderIcon = getDefaultText(item, options);
+            }
+
+            cardImageContainerOpen = `<div class="${cardBoxClass}"><div class="${cardScalableClass}"><div class="cardPadder cardPadder-${shape}">${cardPadderIcon}</div>${cardImageContainerOpen}`;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
@@ -1497,6 +1503,7 @@ import ServerConnections from '../ServerConnections';
                     return '<span class="cardImageIcon material-icons audiotrack"></span>';
                 case 'Movie':
                     return '<span class="cardImageIcon material-icons movie"></span>';
+                case 'Episode':
                 case 'Series':
                     return '<span class="cardImageIcon material-icons tv"></span>';
                 case 'Book':

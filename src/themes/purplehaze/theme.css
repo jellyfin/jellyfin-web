@@ -577,6 +577,10 @@ a[data-role=button] {
     border-radius: 0.8em;
 }
 
+.cardPadder .cardImageIcon {
+    color: rgba(0, 0, 0, 0.5);
+}
+
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #ff77f1 !important;
