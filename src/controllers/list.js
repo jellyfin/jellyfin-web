@@ -259,7 +259,8 @@ import { appRouter } from '../components/appRouter';
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false,
-                SortBy: sortBy
+                SortBy: sortBy,
+                Rewatching: params.rewatching
             }));
         }
 
@@ -677,6 +678,9 @@ class ItemsView {
             }
 
             if (params.type === 'nextup') {
+                if (params.rewatching === 'true') {
+                    return globalize.translate('NextUpRewatching');
+                }
                 return globalize.translate('NextUp');
             }
 

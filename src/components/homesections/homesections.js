@@ -596,7 +596,7 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function getNextUpFetchFn(serverId, userSettings) {
+    function getNextUpFetchFn(serverId, userSettings, rewatching) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
             const oldestDateForNextUp = new Date();
@@ -609,7 +609,8 @@ import ServerConnections from '../ServerConnections';
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false,
                 DisableFirstEpisode: false,
-                NextUpDateCutoff: oldestDateForNextUp.toISOString()
+                NextUpDateCutoff: oldestDateForNextUp.toISOString(),
+                Rewatching: rewatching
             });
         };
     }
@@ -635,21 +636,32 @@ import ServerConnections from '../ServerConnections';
         };
     }
 
-    function loadNextUp(elem, apiClient, userSettings) {
+    function renderNextUpSection(elem, apiClient, userSettings, rewatching) {
         let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
-                serverId: apiClient.serverId()
+                serverId: apiClient.serverId(),
+                rewatching: rewatching
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('NextUp');
+            if (rewatching) {
+                html += globalize.translate('NextUpRewatching');
+            } else {
+                html += globalize.translate('NextUp');
+            }
             html += '</h2>';
             html += '<span class="material-icons chevron_right"></span>';
             html += '</a>';
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('NextUp') + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            if (rewatching) {
+                html += globalize.translate('NextUpRewatching');
+            } else {
+                html += globalize.translate('NextUp');
+            }
+            html += '</h2>';
         }
         html += '</div>';
 
@@ -669,9 +681,24 @@ import ServerConnections from '../ServerConnections';
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings);
+        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings, rewatching);
         itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume());
         itemsContainer.parentContainer = elem;
+    }
+
+    function loadNextUp(elem, apiClient, userSettings) {
+        elem.classList.remove('verticalSection');
+
+        for (let i = 0; i <= 1; i++) {
+            const frag = document.createElement('div');
+            frag.classList.add('verticalSection');
+            frag.classList.add('hide');
+            elem.appendChild(frag);
+
+            // 0 pass is regular next up
+            // 1 pass is rewatching next up
+            renderNextUpSection(frag, apiClient, userSettings, i == 1);
+        }
     }
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
