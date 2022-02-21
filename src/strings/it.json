@@ -671,7 +671,7 @@
     "LabelTrackNumber": "Numero traccia:",
     "LabelTranscodingTempPathHelp": "Specifica un percorso personalizzato per la transcodifica dei files utilizzati dai client. Lasciare vuoto per utilizzare l'impostazione predefinita dal server.",
     "LabelTranscodingThreadCount": "Transcodifica numero di thread:",
-    "LabelTranscodingThreadCountHelp": "Selezionare il numero massimo di thread da utilizzare durante la transcodifica. Ridurre il numero di thread si abbasserà l'utilizzo della CPU, ma può non convertire abbastanza veloce per un'esperienza di riproduzione fluida.",
+    "LabelTranscodingThreadCountHelp": "Seleziona il numero massimo di thread da utilizzare per la transcodifica. Ridurre il numero di thread abbasserà l'utilizzo della CPU ma potrebbe non essere sufficiente per un'esperienza di riproduzione fluida.",
     "LabelTriggerType": "Tipo evento:",
     "LabelTunerIpAddress": "Tuner Indirizzo IP:",
     "LabelTunerType": "Tipo sintonizzatore:",
