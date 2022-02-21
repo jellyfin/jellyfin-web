@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
@@ -14,6 +16,7 @@ import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
 import cardBuilder from '../../../components/cardbuilder/cardBuilder';
+import './login.scss';
 
 /* eslint-disable indent */
 
@@ -281,7 +284,20 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                 loading.hide();
             });
             apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
-                view.querySelector('.disclaimer').textContent = options.LoginDisclaimer || '';
+                const disclaimer = view.querySelector('.disclaimer');
+
+                disclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
+
+                for (const elem of disclaimer.querySelectorAll('a')) {
+                    elem.target = '_blank';
+                    elem.classList.add('button-link');
+                    elem.setAttribute('is', 'emby-linkbutton');
+
+                    if (layoutManager.tv) {
+                        // Disable links navigation on TV
+                        elem.tabIndex = -1;
+                    }
+                }
             });
         });
         view.addEventListener('viewhide', function () {

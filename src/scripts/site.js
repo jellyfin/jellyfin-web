@@ -29,6 +29,7 @@ import { pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
+import '../legacy/domParserTextHtml';
 import '../legacy/focusPreventScroll';
 import '../legacy/vendorStyles';
 import SyncPlay from '../components/syncPlay/core';
