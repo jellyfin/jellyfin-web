@@ -1503,6 +1503,7 @@ import ServerConnections from '../ServerConnections';
                     return '<span class="cardImageIcon material-icons audiotrack"></span>';
                 case 'Movie':
                     return '<span class="cardImageIcon material-icons movie"></span>';
+                case 'Episode':
                 case 'Series':
                     return '<span class="cardImageIcon material-icons tv"></span>';
                 case 'Book':
