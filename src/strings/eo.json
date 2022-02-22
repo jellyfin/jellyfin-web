@@ -1143,7 +1143,7 @@
     "ButtonOk": "Ek",
     "ButtonMore": "Pli",
     "ButtonFullscreen": "Plenekranen",
-    "ButtonCast": "Elsendfluo",
+    "ButtonCast": "Elsendfluado",
     "ButtonBack": "Reen",
     "ButtonArrowRight": "Dekstren",
     "ButtonArrowLeft": "Maldekstren",
@@ -1625,5 +1625,6 @@
     "AllowEmbeddedSubtitlesAllowAllOption": "Permesi Ĉion",
     "AllowEmbeddedSubtitlesHelp": "Malebligi subtekstojn, kiuj estas pakitaj en plurmediaj ujoj. Postulas plenan plurmediatekan refreŝigon.",
     "AllowEmbeddedSubtitles": "Malebligi malsamajn specojn de enigitaj subtekstoj",
-    "ShowParentImages": "Montri seriajn bildojn"
+    "ShowParentImages": "Montri seriajn bildojn",
+    "NextUpRewatching": "Respektado"
 }
