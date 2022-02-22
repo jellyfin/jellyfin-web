@@ -1328,7 +1328,7 @@
     "ShowMore": "Ver más",
     "ShowLess": "Ver menos",
     "ButtonSyncPlay": "SyncPlay",
-    "ButtonCast": "Transmitir contenido en un dispositivo",
+    "ButtonCast": "Transmitir contenido",
     "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos extraer géneros de Internet.",
     "EnableDecodingColorDepth10Vp9": "Habilitar la decodificación por hardware de 10 bits para VP9",
     "EnableDecodingColorDepth10Hevc": "Habilitar la decodificación por hardware de 10 bits para HEVC",
