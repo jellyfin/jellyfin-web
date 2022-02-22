@@ -1629,5 +1629,6 @@
     "AllowEmbeddedSubtitlesAllowAllOption": "Povolit všechny",
     "AllowEmbeddedSubtitlesAllowNoneOption": "Zakázat všechny",
     "AllowEmbeddedSubtitles": "Zakázat určité typy vložených titulků",
-    "ShowParentImages": "Zobrazit obrázky řady"
+    "ShowParentImages": "Zobrazit obrázky řady",
+    "NextUpRewatching": "Dívejte se znovu"
 }
