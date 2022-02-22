@@ -1629,5 +1629,6 @@
     "AllowEmbeddedSubtitlesAllowAllOption": "Összes engedélyezése",
     "AllowEmbeddedSubtitlesHelp": "Tiltsa le a médiatárolókba csomagolt feliratokat. Teljes könyvtárfrissítést igényel.",
     "AllowEmbeddedSubtitles": "Különféle típusú beágyazott feliratok letiltása",
-    "ShowParentImages": "Sorozatképek megjelenítése"
+    "ShowParentImages": "Sorozatképek megjelenítése",
+    "NextUpRewatching": "Újranézés"
 }
