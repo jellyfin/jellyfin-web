@@ -242,7 +242,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             name: globalize.translate('MusicVideos'),
             value: 'musicvideos'
         }, {
-            name: globalize.translate('Other'),
+            name: globalize.translate('MixedMoviesShows'),
             value: 'mixed',
             message: globalize.translate('MessageUnsetContentHelp')
         }];
