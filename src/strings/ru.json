@@ -1629,5 +1629,6 @@
     "AllowEmbeddedSubtitlesAllowAllOption": "Разрешить все",
     "AllowEmbeddedSubtitles": "Отключает различные типы встроенных субтитров",
     "AllowEmbeddedSubtitlesHelp": "Отключает субтитры, упакованные в медиаконтейнеры. Требуется полное обновление медиатеки.",
-    "ShowParentImages": "Показывать рисунки сериала"
+    "ShowParentImages": "Показывать рисунки сериала",
+    "NextUpRewatching": "Пересматривание"
 }
