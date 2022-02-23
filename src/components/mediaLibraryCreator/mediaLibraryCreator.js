@@ -87,12 +87,11 @@ import template from './mediaLibraryCreator.template.html';
                 if (index != -1) {
                     const name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
                     $('#txtValue', dlg).val(name);
-                    const folderOption = collectionTypeOptions.filter(i => {
-                        return i.value == value;
-                    })[0];
-                    $('.collectionTypeFieldDescription', dlg).html(folderOption.message || '');
                 }
             }
+
+            const folderOption = collectionTypeOptions.find(i => i.value === value);
+            $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
         });
         page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
         page.querySelector('.btnSubmit').addEventListener('click', onAddLibrary);
