@@ -1630,5 +1630,6 @@
     "AllowEmbeddedSubtitlesHelp": "Désactiver les sous-titres intégrés aux fichiers média. Nécessite un rafraichissement complet de la librairie.",
     "AllowEmbeddedSubtitles": "Désactiver les sous-titres intégrés",
     "ShowParentImages": "Afficher les images de la série",
-    "NextUpRewatching": "Revoir"
+    "NextUpRewatching": "Revoir",
+    "MixedMoviesShows": "Films et émissions"
 }
