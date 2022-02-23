@@ -1625,5 +1625,6 @@
     "AllowEmbeddedSubtitlesAllowNoneOption": "Walang papayagan",
     "AllowEmbeddedSubtitlesAllowAllOption": "Payagan ang Lahat",
     "AllowEmbeddedSubtitlesHelp": "I-disable ang mga subtitle na naka-package sa loob ng mga media container. Nangangailangan ng pag-refresh ng buong library.",
-    "AllowEmbeddedSubtitles": "I-disable ang iba't ibang uri ng mga naka-embed na subtitle"
+    "AllowEmbeddedSubtitles": "I-disable ang iba't ibang uri ng mga naka-embed na subtitle",
+    "NextUpRewatching": "Muling pinapanood"
 }
