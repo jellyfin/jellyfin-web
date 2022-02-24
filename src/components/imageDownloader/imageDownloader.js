@@ -129,8 +129,8 @@ import template from './imageDownloader.template.html';
         if (showControls) {
             html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><span class="material-icons arrow_back"></span></button>';
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><span class="material-icons arrow_forward"></span></button>';
+            html += `<button is="paper-icon-button-light" title="${globalize.translate('Previous')}" class="btnPreviousPage autoSize" ${(startIndex ? '' : 'disabled')}><span class="material-icons arrow_back"></span></button>`;
+            html += `<button is="paper-icon-button-light" title="${globalize.translate('Next')}" class="btnNextPage autoSize" ${(startIndex + limit >= totalRecordCount ? 'disabled' : '')}><span class="material-icons arrow_forward"></span></button>`;
             html += '</div>';
         }
 
@@ -264,7 +264,7 @@ import template from './imageDownloader.template.html';
         if (enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
-            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><span class="material-icons cloud_download"></span></button>';
+            html += `<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="${globalize.translate('Download')}"><span class="material-icons cloud_download"></span></button>`;
             html += '</div>';
         }
 
