@@ -117,7 +117,7 @@ export default function(view) {
         let html = '';
 
         html += '<div class="formDialogHeader">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
+        html += `<button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${globalize.translate('ButtonBack')}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
         html += `<h3 class="formDialogHeaderTitle">${globalize.translate('HeaderNewRepository')}</h3>`;
         html += '</div>';
         html += '<form class="newPluginForm" style="margin:4em">';
