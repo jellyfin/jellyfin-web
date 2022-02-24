@@ -43,15 +43,10 @@ class MultiSelect {
     touchStartX;
     touchStartY;
 
-    // TODO: Remove bindOnClick (always false)
-    constructor({ container, bindOnClick }) {
+    constructor({ container }) {
         this.container = container;
 
         this.initEventListeners();
-
-        if (bindOnClick !== false) {
-            container.addEventListener('click', this.onContainerClick.bind(this));
-        }
 
         document.addEventListener('viewbeforehide', this.hideSelections.bind(this));
     }
@@ -107,7 +102,6 @@ class MultiSelect {
     }
 
     destroy() {
-        this.container.removeEventListener('click', this.onContainerClick.bind(this));
         this.container.removeEventListener('contextmenu', this.onTapHold.bind(this));
 
         dom.removeEventListener(
@@ -446,45 +440,6 @@ class MultiSelect {
         } else {
             this.hideSelections();
         }
-    }
-
-    onContainerClick(e) {
-        const target = e.target;
-
-        if (this.selectedItems.length) {
-            const card = dom.parentWithClass(target, 'card');
-            if (card) {
-                const itemSelectionPanel = card.querySelector('.itemSelectionPanel');
-                if (itemSelectionPanel) {
-                    return this.onItemSelectionPanelClick(e, itemSelectionPanel);
-                }
-            }
-
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-    }
-
-    onItemSelectionPanelClick(e, itemSelectionPanel) {
-        // toggle the checkbox, if it wasn't clicked on
-        if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
-            const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
-
-            if (chkItemSelect) {
-                if (chkItemSelect.classList.contains('checkedInitial')) {
-                    chkItemSelect.classList.remove('checkedInitial');
-                } else {
-                    const newValue = !chkItemSelect.checked;
-                    chkItemSelect.checked = newValue;
-                    this.updateItemSelection(chkItemSelect, newValue);
-                }
-            }
-        }
-
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
     }
 
     onTapHold(e) {
