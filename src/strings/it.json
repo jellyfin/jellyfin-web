@@ -1626,5 +1626,8 @@
     "AllowEmbeddedSubtitlesAllowAllOption": "Tutti",
     "AllowEmbeddedSubtitlesAllowNoneOption": "Nessuno",
     "AllowEmbeddedSubtitlesHelp": "Disabilita i sottotitoli contenuti all'interno dei media. Richiede una nuova scansione della libreria.",
-    "AllowEmbeddedSubtitles": "Disabilita i sottotitoli integrati"
+    "AllowEmbeddedSubtitles": "Disabilita i sottotitoli integrati",
+    "NextUpRewatching": "Riguarda",
+    "ShowParentImages": "Visualizza le immagini",
+    "MixedMoviesShows": "Film e Serie TV"
 }
