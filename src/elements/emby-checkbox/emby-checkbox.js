@@ -61,8 +61,8 @@ import 'webcomponents.js/webcomponents-lite';
 
         const checkedIcon = this.getAttribute('data-checkedicon') || 'check';
         const uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
-        const checkHtml = '<span class="material-icons checkboxIcon checkboxIcon-checked ' + checkedIcon + '"></span>';
-        const uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '"></span>';
+        const checkHtml = '<span class="material-icons checkboxIcon checkboxIcon-checked ' + checkedIcon + '" aria-hidden="true"></span>';
+        const uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '" aria-hidden="true"></span>';
         labelElement.insertAdjacentHTML('beforeend', '<span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');
 
         labelTextElement.classList.add('checkboxLabel');

@@ -35,7 +35,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
 
     iconCssClass += 'material-icons';
 
-    return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><span class="' + iconCssClass + ' ' + icon + '"></span></button>';
+    return `<button title="${tooltip}" data-itemid="${itemId}" data-serverid="${serverId}" is="${is}" data-method="${method}" class="${className}"><span class="${iconCssClass} ${icon}" aria-hidden="true"></span></button>`;
 }
 
 function onContainerClick(e) {

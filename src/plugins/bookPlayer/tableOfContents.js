@@ -63,7 +63,7 @@ export default class TableOfContents {
         elem.id = 'dialogToc';
 
         let tocHtml = '<div class="topRightActionButtons">';
-        tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close"></span></button>';
+        tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close" aria-hidden="true"></span></button>';
         tocHtml += '</div>';
         tocHtml += '<ul class="toc">';
         rendition.book.navigation.forEach((chapter) => {

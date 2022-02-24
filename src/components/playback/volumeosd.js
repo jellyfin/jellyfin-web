@@ -16,7 +16,7 @@ let enableAnimation;
 function getOsdElementHtml() {
     let html = '';
 
-    html += '<span class="material-icons iconOsdIcon volume_up"></span>';
+    html += '<span class="material-icons iconOsdIcon volume_up" aria-hidden="true"></span>';
 
     html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
 

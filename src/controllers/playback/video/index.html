@@ -1,8 +1,8 @@
 <div id="videoOsdPage" data-role="page" class="page libraryPage" data-backbutton="true">
     <div class="syncPlayContainer">
         <div id="syncPlayIcon" class="syncPlayIconCircle">
-            <span class="primary-icon material-icons play"></span>
-            <span class="secondary-icon material-icons play"></span>
+            <span class="primary-icon material-icons play" aria-hidden="true"></span>
+            <span class="secondary-icon material-icons play" aria-hidden="true"></span>
         </div>
     </div>
     <div class="upNextContainer hide"></div>
@@ -11,7 +11,7 @@
             <div class="osdTextContainer osdMainTextContainer">
                 <h3 class="osdTitle"></h3>
                 <div class="osdMediaStatus hide">
-                    <span class="material-icons animate autorenew"></span>
+                    <span class="material-icons animate autorenew" aria-hidden="true"></span>
                     <span>${FetchingData}</span>
                 </div>
             </div>
@@ -28,35 +28,35 @@
 
             <div class="buttons focuscontainer-x">
                 <button is="paper-icon-button-light" class="btnRecord autoSize hide">
-                    <span class="xlargePaperIconButton material-icons fiber_manual_record"></span>
+                    <span class="xlargePaperIconButton material-icons fiber_manual_record" aria-hidden="true"></span>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnPreviousTrack autoSize hide" title="${PreviousTrack}">
-                    <span class="xlargePaperIconButton material-icons skip_previous"></span>
+                    <span class="xlargePaperIconButton material-icons skip_previous" aria-hidden="true"></span>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnPreviousChapter autoSize hide" title="${PreviousChapter}">
-                    <span class="xlargePaperIconButton material-icons undo"></span>
+                    <span class="xlargePaperIconButton material-icons undo" aria-hidden="true"></span>
                 </button>
 
-                <button is="paper-icon-button-light" class="btnRewind" title="${Rewind} (j)">
-                    <span class="xlargePaperIconButton material-icons fast_rewind"></span>
+                <button is="paper-icon-button-light" class="btnRewind" title="${Rewind} (j)" aria-label="${Rewind}">
+                    <span class="xlargePaperIconButton material-icons fast_rewind" aria-hidden="true"></span>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnPause autoSize">
-                    <span class="xlargePaperIconButton material-icons pause"></span>
+                    <span class="xlargePaperIconButton material-icons pause" aria-hidden="true"></span>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnFastForward" title="${FastForward} (l)">
-                    <span class="xlargePaperIconButton material-icons fast_forward"></span>
+                    <span class="xlargePaperIconButton material-icons fast_forward" aria-hidden="true"></span>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnNextChapter autoSize hide" title="${NextChapter}">
-                    <span class="xlargePaperIconButton material-icons redo"></span>
+                    <span class="xlargePaperIconButton material-icons redo" aria-hidden="true"></span>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnNextTrack autoSize hide" title="${NextTrack}">
-                    <span class="xlargePaperIconButton material-icons skip_next"></span>
+                    <span class="xlargePaperIconButton material-icons skip_next" aria-hidden="true"></span>
                 </button>
 
                 <div class="osdTimeText">
@@ -64,30 +64,30 @@
                 </div>
 
                 <button is="paper-icon-button-light" class="btnSubtitles hide autoSize" title="${Subtitles}">
-                    <span class="xlargePaperIconButton material-icons closed_caption"></span>
+                    <span class="xlargePaperIconButton material-icons closed_caption" aria-hidden="true"></span>
                 </button>
                 <button is="paper-icon-button-light" class="btnAudio hide autoSize" title="${Audio}">
-                    <span class="xlargePaperIconButton material-icons audiotrack"></span>
+                    <span class="xlargePaperIconButton material-icons audiotrack" aria-hidden="true"></span>
                 </button>
                 <div class="volumeButtons hide-mouse-idle-tv">
                     <button is="paper-icon-button-light" class="buttonMute autoSize" title="${Mute} (m)">
-                        <span class="xlargePaperIconButton material-icons volume_up"></span>
+                        <span class="xlargePaperIconButton material-icons volume_up" aria-hidden="true"></span>
                     </button>
                     <div class="sliderContainer osdVolumeSliderContainer">
                         <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="osdVolumeSlider" />
                     </div>
                 </div>
                 <button is="paper-icon-button-light" class="btnVideoOsdSettings hide autoSize" title="${Settings}">
-                    <span class="largePaperIconButton material-icons settings"></span>
+                    <span class="largePaperIconButton material-icons settings" aria-hidden="true"></span>
                 </button>
                 <button is="paper-icon-button-light" class="btnAirPlay hide autoSize" title="${AirPlay}">
-                    <span class="xlargePaperIconButton material-icons airplay"></span>
+                    <span class="xlargePaperIconButton material-icons airplay" aria-hidden="true"></span>
                 </button>
                 <button is="paper-icon-button-light" class="btnPip hide autoSize" title="${PictureInPicture}">
-                    <span class="xlargePaperIconButton material-icons picture_in_picture_alt"></span>
+                    <span class="xlargePaperIconButton material-icons picture_in_picture_alt" aria-hidden="true"></span>
                 </button>
                 <button is="paper-icon-button-light" class="btnFullscreen hide autoSize" title="${Fullscreen} (f)">
-                    <span class="xlargePaperIconButton material-icons fullscreen"></span>
+                    <span class="xlargePaperIconButton material-icons fullscreen" aria-hidden="true"></span>
                 </button>
             </div>
         </div>

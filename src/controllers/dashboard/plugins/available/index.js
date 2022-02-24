@@ -110,7 +110,7 @@ function getPluginHtml(plugin, options, installedPlugins) {
         html += `<img src="${plugin.imageUrl}" style="width:100%" />`;
     } else {
         html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
-        html += '<span class="cardImageIcon material-icons extension"></span>';
+        html += '<span class="cardImageIcon material-icons extension" aria-hidden="true"></span>';
         html += '</div>';
     }
 

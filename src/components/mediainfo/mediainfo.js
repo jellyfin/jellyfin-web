@@ -13,7 +13,7 @@ import '../../elements/emby-button/emby-button';
         let status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
+            return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record" aria-hidden="true"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -24,13 +24,13 @@ import '../../elements/emby-button/emby-button';
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
+                return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record" aria-hidden="true"></span>';
             }
 
-            return '<span class="material-icons mediaInfoItem mediaInfoIconItem fiber_smart_record"></span>';
+            return '<span class="material-icons mediaInfoItem mediaInfoIconItem fiber_smart_record" aria-hidden="true"></span>';
         }
 
-        return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_manual_record"></span>';
+        return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_manual_record" aria-hidden="true"></span>';
     }
 
     function getProgramInfoHtml(item, options) {
@@ -358,7 +358,7 @@ import '../../elements/emby-button/emby-button';
         if (item.CommunityRating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
-            html += '<span class="material-icons starIcon star"></span>';
+            html += '<span class="material-icons starIcon star" aria-hidden="true"></span>';
             html += item.CommunityRating.toFixed(1);
             html += '</div>';
         }

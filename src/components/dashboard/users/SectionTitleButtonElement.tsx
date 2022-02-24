@@ -15,7 +15,7 @@ const createButtonElement = ({ className, title, icon }) => ({
         style="margin-left:1em;"
         title="${title}"
     >
-        <span class="material-icons ${icon}"></span>
+        <span class="material-icons ${icon}" aria-hidden="true"></span>
     </button>`
 });
 

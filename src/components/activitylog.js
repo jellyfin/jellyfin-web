@@ -23,12 +23,12 @@ import alert from './alert';
         }
 
         if (entry.UserId && entry.UserPrimaryImageTag) {
-            html += '<span class="listItemIcon material-icons dvr" style="width:2em!important;height:2em!important;padding:0;color:transparent;background-color:' + color + ";background-image:url('" + apiClient.getUserImageUrl(entry.UserId, {
+            html += '<span class="listItemIcon material-icons dvr" aria-hidden="true" style="width:2em!important;height:2em!important;padding:0;color:transparent;background-color:' + color + ";background-image:url('" + apiClient.getUserImageUrl(entry.UserId, {
                 type: 'Primary',
                 tag: entry.UserPrimaryImageTag
             }) + "');background-repeat:no-repeat;background-position:center center;background-size: cover;\"></span>";
         } else {
-            html += '<span class="listItemIcon material-icons ' + icon + '" style="background-color:' + color + '"></span>';
+            html += '<span class="listItemIcon material-icons ' + icon + '" aria-hidden="true" style="background-color:' + color + '"></span>';
         }
 
         html += '<div class="listItemBody three-line">';
@@ -45,7 +45,7 @@ import alert from './alert';
 
         if (entry.Overview) {
             html += `<button type="button" is="paper-icon-button-light" class="btnEntryInfo" data-id="${entry.Id}" title="${globalize.translate('Info')}">
-                       <span class="material-icons info"></span>
+                       <span class="material-icons info" aria-hidden="true"></span>
                     </button>`;
         }
 

@@ -782,7 +782,7 @@ import ServerConnections from '../ServerConnections';
 
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><span class="material-icons more_vert"></span></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
                 }
             }
 
@@ -1301,15 +1301,15 @@ import ServerConnections from '../ServerConnections';
                 const btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon more_vert"></span></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon more_vert" aria-hidden="true"></span></button>';
                 }
             }
 
@@ -1454,7 +1454,7 @@ import ServerConnections from '../ServerConnections';
             const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></span></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>';
             }
 
             html += '<div class="cardOverlayButton-br flex">';
@@ -1464,7 +1464,7 @@ import ServerConnections from '../ServerConnections';
             if (itemHelper.canMarkPlayed(item)) {
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
                 import('../../elements/emby-playstatebutton/emby-playstatebutton');
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check" aria-hidden="true"></span></button>';
             }
 
             if (itemHelper.canRate(item)) {
@@ -1472,10 +1472,10 @@ import ServerConnections from '../ServerConnections';
 
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
                 import('../../elements/emby-ratingbutton/emby-ratingbutton');
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite" aria-hidden="true"></span></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert" aria-hidden="true"></span></button>';
             html += '</div>';
             html += '</div>';
 
@@ -1490,36 +1490,36 @@ import ServerConnections from '../ServerConnections';
          */
         export function getDefaultText(item, options) {
             if (item.CollectionType) {
-                return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></span>';
+                return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '" aria-hidden="true"></span>';
             }
 
             switch (item.Type) {
                 case 'MusicAlbum':
-                    return '<span class="cardImageIcon material-icons album"></span>';
+                    return '<span class="cardImageIcon material-icons album" aria-hidden="true"></span>';
                 case 'MusicArtist':
                 case 'Person':
-                    return '<span class="cardImageIcon material-icons person"></span>';
+                    return '<span class="cardImageIcon material-icons person" aria-hidden="true"></span>';
                 case 'Audio':
-                    return '<span class="cardImageIcon material-icons audiotrack"></span>';
+                    return '<span class="cardImageIcon material-icons audiotrack" aria-hidden="true"></span>';
                 case 'Movie':
-                    return '<span class="cardImageIcon material-icons movie"></span>';
+                    return '<span class="cardImageIcon material-icons movie" aria-hidden="true"></span>';
                 case 'Episode':
                 case 'Series':
-                    return '<span class="cardImageIcon material-icons tv"></span>';
+                    return '<span class="cardImageIcon material-icons tv" aria-hidden="true"></span>';
                 case 'Book':
-                    return '<span class="cardImageIcon material-icons book"></span>';
+                    return '<span class="cardImageIcon material-icons book" aria-hidden="true"></span>';
                 case 'Folder':
-                    return '<span class="cardImageIcon material-icons folder"></span>';
+                    return '<span class="cardImageIcon material-icons folder" aria-hidden="true"></span>';
                 case 'BoxSet':
-                    return '<span class="cardImageIcon material-icons collections"></span>';
+                    return '<span class="cardImageIcon material-icons collections" aria-hidden="true"></span>';
                 case 'Playlist':
-                    return '<span class="cardImageIcon material-icons view_list"></span>';
+                    return '<span class="cardImageIcon material-icons view_list" aria-hidden="true"></span>';
                 case 'PhotoAlbum':
-                    return '<span class="cardImageIcon material-icons photo_album"></span>';
+                    return '<span class="cardImageIcon material-icons photo_album" aria-hidden="true"></span>';
             }
 
             if (options && options.defaultCardImageIcon) {
-                return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '"></span>';
+                return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '" aria-hidden="true"></span>';
             }
 
             const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
@@ -1616,7 +1616,7 @@ import ServerConnections from '../ServerConnections';
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<span class="material-icons indicatorIcon check"></span>';
+                playedIndicator.innerHTML = '<span class="material-icons indicatorIcon check" aria-hidden="true"></span>';
             } else {
                 playedIndicator = card.querySelector('.playedIndicator');
                 if (playedIndicator) {
@@ -1699,7 +1699,7 @@ import ServerConnections from '../ServerConnections';
                 const icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     const indicatorsElem = ensureIndicators(cell);
-                    indicatorsElem.insertAdjacentHTML('beforeend', '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record"></span>');
+                    indicatorsElem.insertAdjacentHTML('beforeend', '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record" aria-hidden="true"></span>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
             }

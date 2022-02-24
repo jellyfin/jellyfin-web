@@ -171,7 +171,7 @@ export class PdfPlayer {
             let html = '';
             html += '<canvas id="canvas"></canvas>';
             html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
             html += '</div>';
 
             elem.id = 'pdfPlayer';
