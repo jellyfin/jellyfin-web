@@ -150,7 +150,7 @@ class MultiSelect {
 
     showSelections(initialCard) {
         import('../../elements/emby-checkbox/emby-checkbox').then(() => {
-            Array.from(document.querySelectorAll('.card'))
+            Array.from(this.container.querySelectorAll('.card'))
                 .forEach(card => {
                     this.showSelection(card, initialCard === card);
                 });
@@ -300,18 +300,15 @@ class MultiSelect {
 
                             switch (id) {
                                 case 'selectall':
-                                    {
-                                        // FIXME: Only work on items in container
-                                        Array.from(document.querySelectorAll('.itemSelectionPanel'))
-                                            .forEach(element => {
-                                                const chkItemSelect = element.querySelector('.chkItemSelect');
+                                    Array.from(this.container.querySelectorAll('.itemSelectionPanel'))
+                                        .forEach(element => {
+                                            const chkItemSelect = element.querySelector('.chkItemSelect');
 
-                                                if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
-                                                    chkItemSelect.checked = true;
-                                                    this.updateItemSelection(chkItemSelect, true);
-                                                }
-                                            });
-                                    }
+                                            if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked) {
+                                                chkItemSelect.checked = true;
+                                                this.updateItemSelection(chkItemSelect, true);
+                                            }
+                                        });
                                     break;
                                 case 'addtocollection':
                                     import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
