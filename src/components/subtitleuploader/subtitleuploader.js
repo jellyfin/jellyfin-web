@@ -61,7 +61,7 @@ function setFiles(page, files) {
     reader.onload = (function (theFile) {
         return function () {
             // Render file.
-            const html = '<a><i class="material-icons" style="transform: translateY(25%);">subtitles</i><span>' + escape(theFile.name) + '</span><a/>';
+            const html = '<a><span class="material-icons subtitles" style="transform: translateY(25%);"></span><span>' + escape(theFile.name) + '</span><a/>';
 
             page.querySelector('#subtitleOutput').innerHTML = html;
             page.querySelector('#fldUpload').classList.remove('hide');

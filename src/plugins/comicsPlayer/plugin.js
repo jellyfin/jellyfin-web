@@ -144,7 +144,7 @@ export class ComicsPlayer {
 
             elem.innerHTML = `<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>
 <div class="actionButtons">
-    <button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><i class="material-icons actionButtonIcon close"></i></button>
+    <button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close"></span></button>
 </div>`;
 
             dialogHelper.open(elem);
