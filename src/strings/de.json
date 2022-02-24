@@ -1628,5 +1628,7 @@
     "AllowEmbeddedSubtitles": "Verschiedene Arten eingebetteter Untertitel deaktivieren",
     "AllowEmbeddedSubtitlesHelp": "In Mediencontainern enthaltene Untertitel deaktivieren. Erfordert Aktualisierung der gesamten Bibliothek.",
     "AllowEmbeddedSubtitlesAllowNoneOption": "Keine erlauben",
-    "AllowEmbeddedSubtitlesAllowAllOption": "Alle erlauben"
+    "AllowEmbeddedSubtitlesAllowAllOption": "Alle erlauben",
+    "ThemeVideo": "Titelvideo",
+    "NextUpRewatching": "Erneut ansehen"
 }
