@@ -248,13 +248,9 @@ function setImageUrl(context, state, url) {
 
     if (url) {
         imgContainer.innerHTML = '<img class="nowPlayingPageImage" src="' + url + '" />';
-        if (item.Type == 'Audio') {
-            context.querySelector('.nowPlayingPageImage').classList.add('nowPlayingPageImageAudio');
-            context.querySelector('.nowPlayingPageImageContainer').classList.remove('nowPlayingPageImageAudio');
-        } else {
-            context.querySelector('.nowPlayingPageImageContainer').classList.add('nowPlayingPageImagePoster');
-            context.querySelector('.nowPlayingPageImage').classList.remove('nowPlayingPageImageAudio');
-        }
+
+        context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImageAudio', item.Type === 'Audio');
+        context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImagePoster', item.Type !== 'Audio');
     } else {
         imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album"></span></button></div>';
     }

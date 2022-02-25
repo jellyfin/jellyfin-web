@@ -145,7 +145,7 @@
     width: 100%;
     -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    border: 0.1em solid #222;
+    border-radius: 0.2em;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
@@ -321,7 +321,6 @@
         -webkit-justify-content: center;
         justify-content: center;
         font-size: 1.5em;
-        height: 100%;
     }
 
     .nowPlayingPageImageContainer {
@@ -403,18 +402,13 @@
         overflow-y: hidden;
         overflow: hidden;
         margin: 0 auto;
-    }
 
-    .nowPlayingPageImage.nowPlayingPageImageAudio,
-    .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
-        width: auto;
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    .nowPlayingPageImageContainer.nowPlayingPageImagePoster img {
-        height: 100%;
-        width: auto;
+        &.nowPlayingPageImageAudio,
+        &.nowPlayingPageImagePoster {
+            width: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
     }
 
     .playlistSectionButton .volumecontrol {
