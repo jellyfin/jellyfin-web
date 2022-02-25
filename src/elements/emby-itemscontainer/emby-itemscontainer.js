@@ -19,12 +19,9 @@ import Sortable from 'sortablejs';
 
     function onClick(e) {
         const itemsContainer = this;
-        const multiSelect = itemsContainer.multiSelect;
 
-        if (multiSelect) {
-            if (multiSelect.onContainerClick.call(itemsContainer, e) === false) {
-                return;
-            }
+        if (itemsContainer.multiSelect?.onContainerClick.call(itemsContainer, e) === false) {
+            return;
         }
 
         itemShortcuts.onClick.call(itemsContainer, e);

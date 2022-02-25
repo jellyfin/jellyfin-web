@@ -388,6 +388,45 @@ class MultiSelect {
         }
     }
 
+    onContainerClick(e) {
+        const target = e.target;
+
+        if (this.selectedItems?.length) {
+            const card = dom.parentWithClass(target, 'card');
+            if (card) {
+                const itemSelectionPanel = card.querySelector('.itemSelectionPanel');
+                if (itemSelectionPanel) {
+                    return this.onItemSelectionPanelClick(e, itemSelectionPanel);
+                }
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }
+
+    onItemSelectionPanelClick(e, itemSelectionPanel) {
+        // toggle the checkbox, if it wasn't clicked on
+        if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
+            const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
+
+            if (chkItemSelect) {
+                if (chkItemSelect.classList.contains('checkedInitial')) {
+                    chkItemSelect.classList.remove('checkedInitial');
+                } else {
+                    const newValue = !chkItemSelect.checked;
+                    chkItemSelect.checked = newValue;
+                    this.updateItemSelection(chkItemSelect, newValue);
+                }
+            }
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
     onTapHold(e) {
         const card = dom.parentWithClass(e.target, 'card');
 
