@@ -322,7 +322,7 @@
     "HeaderRecentlyPlayed": "Zuletzt gesehen",
     "HeaderRecordingOptions": "Aufnahmeeinstellungen",
     "HeaderRecordingPostProcessing": "Nachbearbeitung von Aufnahmen",
-    "HeaderRemoteControl": "Fernsteuerung:",
+    "HeaderRemoteControl": "Fernsteuerung",
     "HeaderRemoveMediaFolder": "Medienordner entfernen",
     "HeaderRemoveMediaLocation": "Medienquelle entfernen",
     "HeaderResponseProfile": "Antwort-Profil",
@@ -1631,5 +1631,6 @@
     "AllowEmbeddedSubtitlesAllowAllOption": "Alle erlauben",
     "ThemeVideo": "Titelvideo",
     "NextUpRewatching": "Erneut ansehen",
-    "MixedMoviesShows": "Gemischte Filme und Serien"
+    "MixedMoviesShows": "Gemischte Filme und Serien",
+    "AddToFavorites": "Zu Favoriten hinzufügen"
 }
