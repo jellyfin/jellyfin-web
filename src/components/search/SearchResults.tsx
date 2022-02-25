@@ -1,4 +1,6 @@
+import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import classNames from 'classnames';
+import { ApiClient } from 'jellyfin-apiclient';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
@@ -15,22 +17,22 @@ type SearchResultsProps = {
 /*
  * React component to display search result rows for global search and non-live tv library search
  */
-const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parentId, collectionType, query }: SearchResultsProps) => {
-    const [ movies, setMovies ] = useState([]);
-    const [ shows, setShows ] = useState([]);
-    const [ episodes, setEpisodes ] = useState([]);
-    const [ videos, setVideos ] = useState([]);
-    const [ programs, setPrograms ] = useState([]);
-    const [ channels, setChannels ] = useState([]);
-    const [ playlists, setPlaylists ] = useState([]);
-    const [ artists, setArtists ] = useState([]);
-    const [ albums, setAlbums ] = useState([]);
-    const [ songs, setSongs ] = useState([]);
-    const [ photoAlbums, setPhotoAlbums ] = useState([]);
-    const [ photos, setPhotos ] = useState([]);
-    const [ audioBooks, setAudioBooks ] = useState([]);
-    const [ books, setBooks ] = useState([]);
-    const [ people, setPeople ] = useState([]);
+const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = window.ApiClient.serverId(), parentId, collectionType, query }: SearchResultsProps) => {
+    const [ movies, setMovies ] = useState<BaseItemDto[]>([]);
+    const [ shows, setShows ] = useState<BaseItemDto[]>([]);
+    const [ episodes, setEpisodes ] = useState<BaseItemDto[]>([]);
+    const [ videos, setVideos ] = useState<BaseItemDto[]>([]);
+    const [ programs, setPrograms ] = useState<BaseItemDto[]>([]);
+    const [ channels, setChannels ] = useState<BaseItemDto[]>([]);
+    const [ playlists, setPlaylists ] = useState<BaseItemDto[]>([]);
+    const [ artists, setArtists ] = useState<BaseItemDto[]>([]);
+    const [ albums, setAlbums ] = useState<BaseItemDto[]>([]);
+    const [ songs, setSongs ] = useState<BaseItemDto[]>([]);
+    const [ photoAlbums, setPhotoAlbums ] = useState<BaseItemDto[]>([]);
+    const [ photos, setPhotos ] = useState<BaseItemDto[]>([]);
+    const [ audioBooks, setAudioBooks ] = useState<BaseItemDto[]>([]);
+    const [ books, setBooks ] = useState<BaseItemDto[]>([]);
+    const [ people, setPeople ] = useState<BaseItemDto[]>([]);
 
     useEffect(() => {
         const getDefaultParameters = () => ({
@@ -48,7 +50,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parent
             IncludeArtists: false
         });
 
-        const fetchArtists = (apiClient, params = {}) => apiClient?.getArtists(
+        const fetchArtists = (apiClient: ApiClient, params = {}) => apiClient?.getArtists(
             apiClient?.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
@@ -57,7 +59,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parent
             }
         );
 
-        const fetchItems = (apiClient, params = {}) => apiClient?.getItems(
+        const fetchItems = (apiClient: ApiClient, params = {}) => apiClient?.getItems(
             apiClient?.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
@@ -66,7 +68,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parent
             }
         );
 
-        const fetchPeople = (apiClient, params = {}) => apiClient?.getPeople(
+        const fetchPeople = (apiClient: ApiClient, params = {}) => apiClient?.getPeople(
             apiClient?.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
@@ -99,45 +101,44 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parent
         setPeople([]);
 
         if (query) {
-            // TODO: Remove type casting once we're using a properly typed API client
-            const apiClient = (ServerConnections as any).getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
 
             // Movie libraries
             if (!collectionType || isMovies()) {
                 // Movies row
                 fetchItems(apiClient, { IncludeItemTypes: 'Movie' })
-                    .then(result => setMovies(result.Items));
+                    .then(result => setMovies(result.Items || []));
             }
 
             // TV Show libraries
             if (!collectionType || isTVShows()) {
                 // Shows row
                 fetchItems(apiClient, { IncludeItemTypes: 'Series' })
-                    .then(result => setShows(result.Items));
+                    .then(result => setShows(result.Items || []));
                 // Episodes row
                 fetchItems(apiClient, { IncludeItemTypes: 'Episode' })
-                    .then(result => setEpisodes(result.Items));
+                    .then(result => setEpisodes(result.Items || []));
             }
 
             // People are included for Movies and TV Shows
             if (!collectionType || isMovies() || isTVShows()) {
                 // People row
-                fetchPeople(apiClient).then(result => setPeople(result.Items));
+                fetchPeople(apiClient).then(result => setPeople(result.Items || []));
             }
 
             // Music libraries
             if (!collectionType || isMusic()) {
                 // Playlists row
                 fetchItems(apiClient, { IncludeItemTypes: 'Playlist' })
-                    .then(results => setPlaylists(results.Items));
+                    .then(results => setPlaylists(results.Items || []));
                 // Artists row
-                fetchArtists(apiClient).then(result => setArtists(result.Items));
+                fetchArtists(apiClient).then(result => setArtists(result.Items || []));
                 // Albums row
                 fetchItems(apiClient, { IncludeItemTypes: 'MusicAlbum' })
-                    .then(result => setAlbums(result.Items));
+                    .then(result => setAlbums(result.Items || []));
                 // Songs row
                 fetchItems(apiClient, { IncludeItemTypes: 'Audio' })
-                    .then(result => setSongs(result.Items));
+                    .then(result => setSongs(result.Items || []));
             }
 
             // Other libraries do not support in-library search currently
@@ -146,25 +147,25 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parent
                 fetchItems(apiClient, {
                     MediaTypes: 'Video',
                     ExcludeItemTypes: 'Movie,Episode,TvChannel'
-                }).then(result => setVideos(result.Items));
+                }).then(result => setVideos(result.Items || []));
                 // Programs row
                 fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
-                    .then(result => setPrograms(result.Items));
+                    .then(result => setPrograms(result.Items || []));
                 // Channels row
                 fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
-                    .then(result => setChannels(result.Items));
+                    .then(result => setChannels(result.Items || []));
                 // Photo Albums row
                 fetchItems(apiClient, { IncludeItemTypes: 'PhotoAlbum' })
-                    .then(results => setPhotoAlbums(results.Items));
+                    .then(results => setPhotoAlbums(results.Items || []));
                 // Photos row
                 fetchItems(apiClient, { IncludeItemTypes: 'Photo' })
-                    .then(results => setPhotos(results.Items));
+                    .then(results => setPhotos(results.Items || []));
                 // Audio Books row
                 fetchItems(apiClient, { IncludeItemTypes: 'AudioBook' })
-                    .then(results => setAudioBooks(results.Items));
+                    .then(results => setAudioBooks(results.Items || []));
                 // Books row
                 fetchItems(apiClient, { IncludeItemTypes: 'Book' })
-                    .then(results => setBooks(results.Items));
+                    .then(results => setBooks(results.Items || []));
             }
         }
     }, [collectionType, parentId, query, serverId]);

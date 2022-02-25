@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createInputElement = ({ type, id, label, options }) => ({
+const createInputElement = ({ type, id, label, options }: { type?: string, id?: string, label?: string, options?: string }) => ({
     __html: `<input
         is="emby-input"
         type="${type}"

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createSelectElement = ({ className, label, option }) => ({
+const createSelectElement = ({ className, label, option }: { className?: string, label: string, option: string }) => ({
     __html: `<select
         class="${className}"
         is="emby-select"

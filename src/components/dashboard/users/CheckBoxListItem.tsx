@@ -9,7 +9,7 @@ type IProps = {
     checkedAttribute?: string;
 }
 
-const createCheckBoxElement = ({className, Name, dataAttributes, AppName, checkedAttribute}) => ({
+const createCheckBoxElement = ({className, Name, dataAttributes, AppName, checkedAttribute}: {className?: string, Name?: string, dataAttributes?: string, AppName?: string, checkedAttribute?: string}) => ({
     __html: `<label>
         <input
             type="checkbox"

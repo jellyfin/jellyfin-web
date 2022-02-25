@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import datetime from '../../../scripts/datetime';
 import globalize from '../../../scripts/globalize';
 
-const createButtonElement = ({index}) => ({
+const createButtonElement = (index: number) => ({
     __html: `<button
         type='button'
         is='paper-icon-button-light'
@@ -21,7 +21,7 @@ type IProps = {
     EndHour?: number;
 }
 
-function getDisplayTime(hours) {
+function getDisplayTime(hours = 0) {
     let minutes = 0;
     const pct = hours % 1;
 
@@ -49,9 +49,7 @@ const AccessScheduleList: FunctionComponent<IProps> = ({index, DayOfWeek, StartH
                 </div>
             </div>
             <div
-                dangerouslySetInnerHTML={createButtonElement({
-                    index: index
-                })}
+                dangerouslySetInnerHTML={createButtonElement(index)}
             />
         </div>
     );

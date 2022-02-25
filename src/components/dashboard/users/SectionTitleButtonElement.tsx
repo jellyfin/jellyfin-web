@@ -7,7 +7,7 @@ type IProps = {
     icon: string,
 }
 
-const createButtonElement = ({ className, title, icon }) => ({
+const createButtonElement = ({ className, title, icon }: { className?: string, title: string, icon: string }) => ({
     __html: `<button
         is="emby-button"
         type="button"

@@ -3,14 +3,14 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import AlphaPicker from './alphaPicker';
 
 type AlphaPickerProps = {
-    onAlphaPicked?: () => void
+    onAlphaPicked?: (e: Event) => void
 };
 
 // React compatibility wrapper component for alphaPicker.js
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const AlphaPickerComponent: FunctionComponent<AlphaPickerProps> = ({ onAlphaPicked = () => {} }: AlphaPickerProps) => {
-    const [ alphaPicker, setAlphaPicker ] = useState(null);
-    const element = useRef(null);
+    const [ alphaPicker, setAlphaPicker ] = useState<AlphaPicker>();
+    const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setAlphaPicker(new AlphaPicker({

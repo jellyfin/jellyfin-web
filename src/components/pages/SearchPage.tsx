@@ -12,7 +12,7 @@ type SearchProps = {
 };
 
 const SearchPage: FunctionComponent<SearchProps> = ({ serverId, parentId, collectionType }: SearchProps) => {
-    const [ query, setQuery ] = useState(null);
+    const [ query, setQuery ] = useState<string>();
 
     return (
         <>

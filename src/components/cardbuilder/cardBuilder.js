@@ -481,12 +481,20 @@ import ServerConnections from '../ServerConnections';
             return null;
         }
 
+        /**
+         * @typedef {Object} CardImageUrl
+         * @property {string} imgUrl - Image URL.
+         * @property {string} blurhash - Image blurhash.
+         * @property {boolean} forceName - Force name.
+         * @property {boolean} coverImage - Use cover style.
+         */
+
         /** Get the URL of the card's image.
          * @param {Object} item - Item for which to generate a card.
          * @param {Object} apiClient - API client object.
          * @param {Object} options - Options of the card.
          * @param {string} shape - Shape of the desired image.
-         * @returns {Object} Object representing the URL of the card's image.
+         * @returns {CardImageUrl} Object representing the URL of the card's image.
          */
         function getCardImageUrl(item, apiClient, options, shape) {
             item = item.ProgramInfo || item;
@@ -639,7 +647,7 @@ import ServerConnections from '../ServerConnections';
 
         /**
          * Generates an index used to select the default color of a card based on a string.
-         * @param {string} str - String to use for generating the index.
+         * @param {?string} [str] - String to use for generating the index.
          * @returns {number} Index of the color.
          */
         function getDefaultColorIndex(str) {
@@ -726,8 +734,8 @@ import ServerConnections from '../ServerConnections';
         /**
          * Returns the air time text for the item based on the given times.
          * @param {object} item - Item used to generate the air time text.
-         * @param {string} showAirDateTime - ISO8601 date for the start of the show.
-         * @param {string} showAirEndTime - ISO8601 date for the end of the show.
+         * @param {boolean} showAirDateTime - ISO8601 date for the start of the show.
+         * @param {boolean} showAirEndTime - ISO8601 date for the end of the show.
          * @returns {string} The air time text for the item based on the given dates.
          */
         function getAirTimeText(item, showAirDateTime, showAirEndTime) {
@@ -1129,7 +1137,7 @@ import ServerConnections from '../ServerConnections';
 
         /**
          * Returns the default background class for a card based on a string.
-         * @param {string} str - Text used to generate the background class.
+         * @param {?string} [str] - Text used to generate the background class.
          * @returns {string} CSS classes for default card backgrounds.
          */
         export function getDefaultBackgroundClass(str) {

@@ -1,3 +1,4 @@
+import { AccessSchedule, DynamicDayOfWeek, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
@@ -26,12 +27,12 @@ type ItemsArr = {
 
 const UserParentalControl: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [ parentalRatings, setParentalRatings ] = useState([]);
-    const [ unratedItems, setUnratedItems ] = useState([]);
-    const [ accessSchedules, setAccessSchedules ] = useState([]);
+    const [ parentalRatings, setParentalRatings ] = useState<RatingsArr[]>([]);
+    const [ unratedItems, setUnratedItems ] = useState<ItemsArr[]>([]);
+    const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ blockedTags, setBlockedTags ] = useState([]);
 
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     const populateRatings = useCallback((allParentalRatings) => {
         let rating;
@@ -59,6 +60,13 @@ const UserParentalControl: FunctionComponent = () => {
     }, []);
 
     const loadUnratedItems = useCallback((user) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         const items = [{
             name: globalize.translate('Books'),
             value: 'Book'
@@ -96,19 +104,26 @@ const UserParentalControl: FunctionComponent = () => {
 
         setUnratedItems(itemsArr);
 
-        const blockUnratedItems = element?.current?.querySelector('.blockUnratedItems');
+        const blockUnratedItems = page.querySelector('.blockUnratedItems') as HTMLDivElement;
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
     }, []);
 
     const loadBlockedTags = useCallback((tags) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         setBlockedTags(tags);
 
-        const blockedTagsElem = element?.current?.querySelector('.blockedTags');
+        const blockedTagsElem = page.querySelector('.blockedTags') as HTMLDivElement;
 
         for (const btnDeleteTag of blockedTagsElem.querySelectorAll('.btnDeleteTag')) {
             btnDeleteTag.addEventListener('click', function () {
                 const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(function (t) {
+                const newTags = tags.filter(function (t: string) {
                     return t != tag;
                 });
                 loadBlockedTags(newTags);
@@ -117,15 +132,22 @@ const UserParentalControl: FunctionComponent = () => {
     }, []);
 
     const renderAccessSchedule = useCallback((schedules) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         setAccessSchedules(schedules);
 
-        const accessScheduleList = element?.current?.querySelector('.accessScheduleList');
+        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
 
         for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
             btnDelete.addEventListener('click', function () {
-                const index = parseInt(btnDelete.getAttribute('data-index'));
+                const index = parseInt(btnDelete.getAttribute('data-index') || '0', 10);
                 schedules.splice(index, 1);
-                const newindex = schedules.filter(function (i) {
+                const newindex = schedules.filter(function (i: number) {
                     return i != index;
                 });
                 renderAccessSchedule(newindex);
@@ -134,6 +156,13 @@ const UserParentalControl: FunctionComponent = () => {
     }, []);
 
     const loadUser = useCallback((user, allParentalRatings) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         setUserName(user.Name);
         LibraryMenu.setTitle(user.Name);
         loadUnratedItems(user);
@@ -152,12 +181,12 @@ const UserParentalControl: FunctionComponent = () => {
             }
         }
 
-        element.current.querySelector('.selectMaxParentalRating').value = ratingValue;
+        (page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value = ratingValue;
 
         if (user.Policy.IsAdministrator) {
-            element?.current?.querySelector('.accessScheduleSection').classList.add('hide');
+            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
         } else {
-            element?.current?.querySelector('.accessScheduleSection').classList.remove('hide');
+            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
         renderAccessSchedule(user.Policy.AccessSchedules || []);
         loading.hide();
@@ -174,6 +203,13 @@ const UserParentalControl: FunctionComponent = () => {
     }, [loadUser]);
 
     useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         loadData();
 
         const onSaveComplete = () => {
@@ -181,9 +217,17 @@ const UserParentalControl: FunctionComponent = () => {
             toast(globalize.translate('SettingsSaved'));
         };
 
-        const saveUser = (user) => {
-            user.Policy.MaxParentalRating = element?.current?.querySelector('.selectMaxParentalRating').value || null;
-            user.Policy.BlockUnratedItems = Array.prototype.filter.call(element?.current?.querySelectorAll('.chkUnratedItem'), function (i) {
+        const saveUser = (user: UserDto) => {
+            if (!user.Id) {
+                throw new Error('Unexpected null user.Id');
+            }
+
+            if (!user.Policy) {
+                throw new Error('Unexpected null user.Policy');
+            }
+
+            user.Policy.MaxParentalRating = parseInt((page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value || '0', 10) || null;
+            user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
                 return i.getAttribute('data-itemtype');
@@ -195,7 +239,7 @@ const UserParentalControl: FunctionComponent = () => {
             });
         };
 
-        const showSchedulePopup = (schedule, index) => {
+        const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
             import('../../components/accessSchedule/accessSchedule').then(({default: accessschedule}) => {
                 accessschedule.show({
@@ -214,19 +258,19 @@ const UserParentalControl: FunctionComponent = () => {
         };
 
         const getSchedulesFromPage = () => {
-            return Array.prototype.map.call(element?.current?.querySelectorAll('.liSchedule'), function (elem) {
+            return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
                 return {
                     DayOfWeek: elem.getAttribute('data-day'),
                     StartHour: elem.getAttribute('data-start'),
                     EndHour: elem.getAttribute('data-end')
                 };
-            });
+            }) as AccessSchedule[];
         };
 
         const getBlockedTagsFromPage = () => {
-            return Array.prototype.map.call(element?.current?.querySelectorAll('.blockedTag'), function (elem) {
+            return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), function (elem) {
                 return elem.getAttribute('data-tag');
-            });
+            }) as string[];
         };
 
         const showBlockedTagPopup = () => {
@@ -244,7 +288,7 @@ const UserParentalControl: FunctionComponent = () => {
             });
         };
 
-        const onSubmit = (e) => {
+        const onSubmit = (e: Event) => {
             loading.show();
             const userId = appRouter.param('userId');
             window.ApiClient.getUser(userId).then(function (result) {
@@ -255,15 +299,21 @@ const UserParentalControl: FunctionComponent = () => {
             return false;
         };
 
-        element?.current?.querySelector('.btnAddSchedule').addEventListener('click', function () {
-            showSchedulePopup({}, -1);
+        (page.querySelector('.btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
+            showSchedulePopup({
+                Id: 0,
+                UserId: '',
+                DayOfWeek: DynamicDayOfWeek.Sunday,
+                StartHour: 0,
+                EndHour: 0
+            }, -1);
         });
 
-        element?.current?.querySelector('.btnAddBlockedTag').addEventListener('click', function () {
+        (page.querySelector('.btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
             showBlockedTagPopup();
         });
 
-        element?.current?.querySelector('.userParentalControlForm').addEventListener('submit', onSubmit);
+        (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
     }, [loadBlockedTags, loadData, renderAccessSchedule]);
 
     return (
@@ -355,6 +405,7 @@ const UserParentalControl: FunctionComponent = () => {
                                 return <AccessScheduleList
                                     key={index}
                                     index={index}
+                                    Id={accessSchedule.Id}
                                     DayOfWeek={accessSchedule.DayOfWeek}
                                     StartHour={accessSchedule.StartHour}
                                     EndHour={accessSchedule.EndHour}

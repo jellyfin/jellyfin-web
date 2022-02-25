@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-const createButtonElement = ({tag}) => ({
+const createButtonElement = (tag?: string) => ({
     __html: `<button
         type='button'
         is='paper-icon-button-light'
@@ -25,9 +25,7 @@ const BlockedTagList: FunctionComponent<IProps> = ({tag}: IProps) => {
                     </h3>
                 </div>
                 <div
-                    dangerouslySetInnerHTML={createButtonElement({
-                        tag: tag
-                    })}
+                    dangerouslySetInnerHTML={createButtonElement(tag)}
                 />
             </div>
 
