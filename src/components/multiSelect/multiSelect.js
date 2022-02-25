@@ -46,100 +46,46 @@ class MultiSelect {
     constructor({ container }) {
         this.container = container;
 
+        this.hideSelections = this.hideSelections.bind(this);
+        this.onTouchStartTimerFired = this.onTouchStartTimerFired.bind(this);
+        this.showMenuForSelectedItems = this.showMenuForSelectedItems.bind(this);
+
+        this.onTapHold = this.onTapHold.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+        this.onTouchEnd = this.onTouchEnd.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
+
         this.initEventListeners();
 
-        document.addEventListener('viewbeforehide', this.hideSelections.bind(this));
+        document.addEventListener('viewbeforehide', this.hideSelections);
     }
 
     initEventListeners() {
         // mobile safari doesn't allow contextmenu override
         if (browser.touch && !browser.safari) {
-            this.container.addEventListener('contextmenu', this.onTapHold.bind(this));
+            this.container.addEventListener('contextmenu', this.onTapHold);
         } else {
-            dom.addEventListener(
-                this.container,
-                'touchstart',
-                this.onTouchStart.bind(this),
-                { passive: true }
-            );
-            dom.addEventListener(
-                this.container,
-                'touchmove',
-                this.onTouchMove.bind(this),
-                { passive: true }
-            );
-            dom.addEventListener(
-                this.container,
-                'touchend',
-                this.onTouchEnd.bind(this),
-                { passive: true }
-            );
-            dom.addEventListener(
-                this.container,
-                'touchcancel',
-                this.onTouchEnd.bind(this),
-                { passive: true }
-            );
-            dom.addEventListener(
-                this.container,
-                'mousedown',
-                this.onMouseDown.bind(this),
-                { passive: true }
-            );
-            dom.addEventListener(
-                this.container,
-                'mouseleave',
-                this.onMouseOut.bind(this),
-                { passive: true }
-            );
-            dom.addEventListener(
-                this.container,
-                'mouseup',
-                this.onMouseOut.bind(this),
-                { passive: true }
-            );
+            dom.addEventListener(this.container, 'touchstart', this.onTouchStart, { passive: true });
+            dom.addEventListener(this.container, 'touchmove', this.onTouchMove, { passive: true });
+            dom.addEventListener(this.container, 'touchend', this.onTouchEnd, { passive: true });
+            dom.addEventListener(this.container, 'touchcancel', this.onTouchEnd, { passive: true });
+            dom.addEventListener(this.container, 'mousedown', this.onMouseDown, { passive: true });
+            dom.addEventListener(this.container, 'mouseleave', this.onMouseOut, { passive: true });
+            dom.addEventListener(this.container, 'mouseup', this.onMouseOut, { passive: true });
         }
     }
 
     destroy() {
-        this.container.removeEventListener('contextmenu', this.onTapHold.bind(this));
+        this.container.removeEventListener('contextmenu', this.onTapHold);
 
-        dom.removeEventListener(
-            this.container,
-            'touchstart',
-            this.onTouchStart.bind(this),
-            { passive: true }
-        );
-        dom.removeEventListener(
-            this.container,
-            'touchmove',
-            this.onTouchMove.bind(this),
-            { passive: true }
-        );
-        dom.removeEventListener(
-            this.container,
-            'touchend',
-            this.onTouchEnd.bind(this),
-            { passive: true }
-        );
-        dom.removeEventListener(
-            this.container,
-            'mousedown',
-            this.onMouseDown.bind(this),
-            { passive: true }
-        );
-        dom.removeEventListener(
-            this.container,
-            'mouseleave',
-            this.onMouseOut.bind(this),
-            { passive: true }
-        );
-        dom.removeEventListener(
-            this.container,
-            'mouseup',
-            this.onMouseOut.bind(this),
-            { passive: true }
-        );
+        dom.removeEventListener(this.container, 'touchstart', this.onTouchStart, { passive: true });
+        dom.removeEventListener(this.container, 'touchmove', this.onTouchMove, { passive: true });
+        dom.removeEventListener(this.container, 'touchend', this.onTouchEnd, { passive: true });
+        dom.removeEventListener(this.container, 'mousedown', this.onMouseDown, { passive: true });
+        dom.removeEventListener(this.container, 'mouseleave', this.onMouseOut, { passive: true });
+        dom.removeEventListener(this.container, 'mouseup', this.onMouseOut, { passive: true });
     }
 
     showSelections(initialCard) {
@@ -197,12 +143,12 @@ class MultiSelect {
 
             selectionCommandsPanel.innerHTML = html;
 
-            selectionCommandsPanel.querySelector('.btnCloseSelectionPanel').addEventListener('click', this.hideSelections.bind(this));
+            selectionCommandsPanel.querySelector('.btnCloseSelectionPanel').addEventListener('click', this.hideSelections);
 
             dom.addEventListener(
                 selectionCommandsPanel.querySelector('.btnSelectionPanelOptions'),
                 'click',
-                this.showMenuForSelectedItems.bind(this),
+                this.showMenuForSelectedItems,
                 { passive: true }
             );
         }
@@ -478,7 +424,7 @@ class MultiSelect {
                     }
 
                     this.touchTarget = card;
-                    this.touchStartTimeout = setTimeout(this.onTouchStartTimerFired.bind(this), 550);
+                    this.touchStartTimeout = setTimeout(this.onTouchStartTimerFired, 550);
                 }
             }
         }
@@ -516,7 +462,7 @@ class MultiSelect {
         }
 
         this.touchTarget = e.target;
-        this.touchStartTimeout = setTimeout(this.onTouchStartTimerFired.bind(this), 550);
+        this.touchStartTimeout = setTimeout(this.onTouchStartTimerFired, 550);
     }
 
     onMouseOut() {
