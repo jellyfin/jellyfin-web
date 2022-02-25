@@ -338,7 +338,7 @@
     "HeaderRecentlyPlayed": "Lus récemment",
     "HeaderRecordingOptions": "Options d'enregistrement",
     "HeaderRecordingPostProcessing": "Traitement des enregistrements",
-    "HeaderRemoteControl": "Contrôle à distance :",
+    "HeaderRemoteControl": "Contrôle à distance",
     "HeaderRemoveMediaFolder": "Supprimer le dossier multimédia",
     "HeaderRemoveMediaLocation": "Supprimer l'emplacement de média",
     "HeaderResponseProfile": "Profil de réponse",
@@ -1631,5 +1631,6 @@
     "AllowEmbeddedSubtitles": "Désactiver les sous-titres intégrés",
     "ShowParentImages": "Afficher les images de la série",
     "NextUpRewatching": "Revoir",
-    "MixedMoviesShows": "Films et émissions"
+    "MixedMoviesShows": "Films et émissions",
+    "AddToFavorites": "Ajouter aux favoris"
 }
