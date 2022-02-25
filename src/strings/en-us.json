@@ -150,6 +150,7 @@
     "Continuing": "Continuing",
     "Copied": "Copied",
     "Copy": "Copy",
+    "CopyFailed": "Could not copy",
     "CopyStreamURL": "Copy Stream URL",
     "CopyStreamURLSuccess": "URL copied successfully.",
     "CriticRating": "Critics rating",

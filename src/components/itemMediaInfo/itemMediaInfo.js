@@ -46,6 +46,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
                     toast(globalize.translate('Copied'));
                 }).catch(() => {
                     console.error('Could not copy text');
+                    toast(globalize.translate('CopyFailed'));
                 });
             });
         }
