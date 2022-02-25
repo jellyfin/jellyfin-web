@@ -282,7 +282,7 @@
     "HeaderRecentlyPlayed": "Naposledy přehráváno",
     "HeaderRecordingOptions": "Nastavení nahrávání",
     "HeaderRecordingPostProcessing": "Následné zpracování nahrávek",
-    "HeaderRemoteControl": "Dálkový ovladač:",
+    "HeaderRemoteControl": "Vzdálené ovládání",
     "HeaderRemoveMediaFolder": "Odebrat složku médií",
     "HeaderRemoveMediaLocation": "Odebrat umístění media",
     "HeaderResponseProfile": "Profil pro odezvy",
@@ -1631,5 +1631,6 @@
     "AllowEmbeddedSubtitles": "Zakázat určité typy vložených titulků",
     "ShowParentImages": "Zobrazit obrázky řady",
     "NextUpRewatching": "Dívejte se znovu",
-    "MixedMoviesShows": "Mix filmů a seriálů"
+    "MixedMoviesShows": "Mix filmů a seriálů",
+    "AddToFavorites": "Přidat do oblíbených"
 }
