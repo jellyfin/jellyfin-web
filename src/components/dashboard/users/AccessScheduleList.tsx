@@ -9,7 +9,7 @@ const createButtonElement = ({index}) => ({
         class='btnDelete listItemButton'
         data-index='${index}'
     >
-        <span class='material-icons delete' />
+        <span class='material-icons delete' aria-hidden='true' />
     </button>`
 });
 

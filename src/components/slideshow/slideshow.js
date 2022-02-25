@@ -114,7 +114,7 @@ function getImgUrl(item, user) {
 function getIcon(icon, cssClass, canFocus, autoFocus) {
     const tabIndex = canFocus ? '' : ' tabindex="-1"';
     autoFocus = autoFocus ? ' autofocus' : '';
-    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
+    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '" aria-hidden="true"></span></button>';
 }
 
 /**

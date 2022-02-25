@@ -3,7 +3,7 @@
         <div class="ui-corner-all ui-shadow wizardContent">
             <div>
                 <h1 style="display:inline-block;">${HeaderSetupLibrary}</h1>
-                <a href="https://docs.jellyfin.org/general/server/libraries.html" rel="noopener noreferrer" target="_blank" class="clearLink" style="margin-top:-10px;display:inline-block;vertical-align:middle;margin-left:2em;"><button is="emby-button" type="button" class="raised"><span class="material-icons info"></span><span>${Help}</span></button></a>
+                <a href="https://docs.jellyfin.org/general/server/libraries.html" rel="noopener noreferrer" target="_blank" class="clearLink" style="margin-top:-10px;display:inline-block;vertical-align:middle;margin-left:2em;"><button is="emby-button" type="button" class="raised"><span class="material-icons info" aria-hidden="true"></span><span>${Help}</span></button></a>
             </div>
             <br />
             <div id="divVirtualFolders"></div>
@@ -11,12 +11,12 @@
             <br />
             <div class="wizardNavigation">
                 <button is="emby-button" type="button" class="raised button-cancel" onclick="history.back();">
-                    <span class="material-icons arrow_back"></span>
+                    <span class="material-icons arrow_back" aria-hidden="true"></span>
                     <span>${Previous}</span>
                 </button>
                 <button is="emby-button" type="button" class="raised button-submit" onclick="WizardLibraryPage.next();">
                     <span>${Next}</span>
-                    <span class="material-icons arrow_forward"></span>
+                    <span class="material-icons arrow_forward" aria-hidden="true"></span>
                 </button>
             </div>
         </div>

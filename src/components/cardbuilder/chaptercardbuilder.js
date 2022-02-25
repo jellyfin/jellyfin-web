@@ -94,7 +94,7 @@ import ServerConnections from '../ServerConnections';
         let cardImageContainer = imgUrl ? (`<div class="${cardImageContainerClass} lazy" data-src="${imgUrl}">`) : (`<div class="${cardImageContainerClass}">`);
 
         if (!imgUrl) {
-            cardImageContainer += '<span class="material-icons cardImageIcon local_movies"></span>';
+            cardImageContainer += '<span class="material-icons cardImageIcon local_movies" aria-hidden="true"></span>';
         }
 
         let nameHtml = '';

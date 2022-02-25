@@ -73,7 +73,7 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
             ref={element}
         >
             <div className='searchFieldsInner flex align-items-center justify-content-center'>
-                <span className='searchfields-icon material-icons search' />
+                <span className='searchfields-icon material-icons search' aria-hidden='true' />
                 <div
                     className='inputContainer flex-grow'
                     style={{ marginBottom: 0 }}

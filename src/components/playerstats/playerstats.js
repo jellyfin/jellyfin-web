@@ -26,7 +26,7 @@ import ServerConnections from '../ServerConnections';
         if (layoutManager.tv) {
             button = '';
         } else {
-            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close"></span></button>';
+            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close" aria-hidden="true"></span></button>';
         }
 
         const contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';

@@ -20,7 +20,7 @@ const createButtonElement = () => ({
         type="button"
         class="btnUserMenu flex-shrink-zero"
         >
-        <span class="material-icons more_vert"></span>
+        <span class="material-icons more_vert" aria-hidden="true"></span>
     </button>`
 });
 
@@ -64,7 +64,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = [] }: IProps) => {
     const renderImgUrl = imgUrl ?
         `<div class='${imageClass}' style='background-image:url(${imgUrl})'></div>` :
         `<div class='${imageClass} ${cardBuilder.getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
-            <span class='material-icons cardImageIcon person'></span>
+            <span class='material-icons cardImageIcon person' aria-hidden='true'></span>
         </div>`;
 
     return (

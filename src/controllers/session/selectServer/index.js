@@ -38,7 +38,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             let cardImageContainer;
 
             if (item.showIcon) {
-                cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '"></span>';
+                cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';
             } else {
                 cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
             }

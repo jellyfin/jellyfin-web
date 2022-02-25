@@ -65,13 +65,13 @@ function getRepositoryHtml(repository) {
 
     html += '<div class="listItem listItem-border">';
     html += `<a is="emby-linkbutton" style="margin:0;padding:0" class="clearLink listItemIconContainer" href="${repository.Url}" rel="noopener noreferrer" target="_blank">`;
-    html += '<span class="material-icons listItemIcon open_in_new"></span>';
+    html += '<span class="material-icons listItemIcon open_in_new" aria-hidden="true"></span>';
     html += '</a>';
     html += '<div class="listItemBody two-line">';
     html += `<h3 class="listItemBodyText">${repository.Name}</h3>`;
     html += `<div class="listItemBodyText secondary">${repository.Url}</div>`;
     html += '</div>';
-    html += `<button type="button" is="paper-icon-button-light" id="${repository.Url}" class="btnDelete" title="${globalize.translate('Delete')}"><span class="material-icons delete"></span></button>`;
+    html += `<button type="button" is="paper-icon-button-light" id="${repository.Url}" class="btnDelete" title="${globalize.translate('Delete')}"><span class="material-icons delete" aria-hidden="true"></span></button>`;
     html += '</div>';
 
     return html;
@@ -117,7 +117,7 @@ export default function(view) {
         let html = '';
 
         html += '<div class="formDialogHeader">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
         html += `<h3 class="formDialogHeaderTitle">${globalize.translate('HeaderNewRepository')}</h3>`;
         html += '</div>';
         html += '<form class="newPluginForm" style="margin:4em">';

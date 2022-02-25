@@ -233,8 +233,8 @@ function updateNowPlayingInfo(context, state, serverId) {
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             const userData = fullItem.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
-            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
-            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
         });
     } else {
         backdrop.clearBackdrop();
@@ -256,7 +256,7 @@ function setImageUrl(context, state, url) {
             context.querySelector('.nowPlayingPageImage').classList.remove('nowPlayingPageImageAudio');
         }
     } else {
-        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album"></span></button></div>';
+        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
     }
 }
 
@@ -385,14 +385,14 @@ export default function () {
         const context = dlg;
         const toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
         const cssClass = 'buttonActive';
-        let innHtml = '<span class="material-icons repeat"></span>';
+        let innHtml = '<span class="material-icons repeat" aria-hidden="true"></span>';
         let repeatOn = true;
 
         switch (repeatMode) {
             case 'RepeatAll':
                 break;
             case 'RepeatOne':
-                innHtml = '<span class="material-icons repeat_one"></span>';
+                innHtml = '<span class="material-icons repeat_one" aria-hidden="true"></span>';
                 break;
             case 'RepeatNone':
             default:
@@ -889,7 +889,7 @@ export default function () {
 
     function init(ownerView, context) {
         let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
-        volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
+        volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up" aria-hidden="true"></span></button>`;
         volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
         volumecontrolHtml += '</div>';
         const optionsSection = context.querySelector('.playlistSectionButton');

@@ -78,7 +78,7 @@ class ViewSettings {
             let html = '';
 
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">${Settings}</h3>';
 
             html += '</div>';

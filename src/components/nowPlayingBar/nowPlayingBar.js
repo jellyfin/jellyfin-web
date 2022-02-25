@@ -59,13 +59,13 @@ import { appRouter } from '../appRouter';
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous"></span></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous" aria-hidden="true"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause" aria-hidden="true"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
+        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop" aria-hidden="true"></span></button>';
         if (!layoutManager.mobile) {
-            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next" aria-hidden="true"></span></button>';
         }
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
@@ -73,23 +73,23 @@ import { appRouter } from '../appRouter';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up" aria-hidden="true"></span></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
-        html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle"></span></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat" aria-hidden="true"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle" aria-hidden="true"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause" aria-hidden="true"></span></button>';
         if (layoutManager.mobile) {
-            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next" aria-hidden="true"></span></button>';
         } else {
-            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
         }
 
         html += '</div>';
@@ -569,7 +569,7 @@ import { appRouter } from '../appRouter';
                             });
                         });
                     }
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
                 });
             }
         } else {

@@ -152,7 +152,7 @@ import '../../elements/emby-button/emby-button';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += item.Name;
                     html += '</h2>';
-                    html += '<span class="material-icons hide chevron_right"></span>';
+                    html += '<span class="material-icons hide chevron_right" aria-hidden="true"></span>';
                     html += '</a>';
                     html += '</div>';
                     if (enableScrollX()) {

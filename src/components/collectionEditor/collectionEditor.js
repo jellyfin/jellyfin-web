@@ -229,7 +229,7 @@ import toast from '../toast/toast';
             const title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
 
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += '</h3>';

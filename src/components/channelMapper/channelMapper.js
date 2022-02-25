@@ -72,7 +72,7 @@ export default class channelMapper {
         function getTunerChannelHtml(channel, providerName) {
             let html = '';
             html += '<div class="listItem">';
-            html += '<span class="material-icons listItemIcon dvr"></span>';
+            html += '<span class="material-icons listItemIcon dvr" aria-hidden="true"></span>';
             html += '<div class="listItemBody two-line">';
             html += '<h3 class="listItemBodyText">';
             html += channel.Name;
@@ -85,7 +85,7 @@ export default class channelMapper {
 
             html += '</div>';
             html += '</div>';
-            html += `<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="${channel.Id}" data-providerid="${channel.ProviderChannelId}"><span class="material-icons mode_edit"></span></button>`;
+            html += `<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="${channel.Id}" data-providerid="${channel.ProviderChannelId}"><span class="material-icons mode_edit" aria-hidden="true"></span></button>`;
             return html += '</div>';
         }
 
@@ -127,7 +127,7 @@ export default class channelMapper {
             let html = '';
             const title = globalize.translate('MapChannels');
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += '</h3>';

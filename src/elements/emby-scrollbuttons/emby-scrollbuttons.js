@@ -13,7 +13,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         const icon = direction === 'left' ? 'chevron_left' : 'chevron_right';
 
         html += '<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="' + direction + '" class="emby-scrollbuttons-button">';
-        html += '<span class="material-icons ' + icon + '"></span>';
+        html += '<span class="material-icons ' + icon + '" aria-hidden="true"></span>';
         html += '</button>';
 
         return html;

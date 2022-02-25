@@ -169,7 +169,7 @@ import './login.scss';
                 html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
                 html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
-                html += '<span class="material-icons cardImageIcon person"></span>';
+                html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
                 html += '</div>';
             }
 

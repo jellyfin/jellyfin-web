@@ -142,7 +142,7 @@ export function show(options) {
 
     if (layoutManager.tv) {
         html += `<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1">
-                     <span class="material-icons arrow_back"></span>
+                     <span class="material-icons arrow_back" aria-hidden="true"></span>
                  </button>`;
     }
 
@@ -204,9 +204,9 @@ export function show(options) {
         itemIcon = icons[i];
 
         if (itemIcon) {
-            html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}"></span>`;
+            html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}" aria-hidden="true"></span>`;
         } else if (renderIcon && !center) {
-            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" style="visibility:hidden;"></span>';
+            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" aria-hidden="true" style="visibility:hidden;"></span>';
         }
 
         html += '<div class="listItemBody actionsheetListItemBody">';

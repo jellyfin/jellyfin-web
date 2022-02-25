@@ -7,7 +7,7 @@ const createButtonElement = ({tag}) => ({
         class='blockedTag btnDeleteTag listItemButton'
         data-tag='${tag}'
     >
-        <span class='material-icons delete' />
+        <span class='material-icons delete' aria-hidden='true' />
     </button>`
 });
 

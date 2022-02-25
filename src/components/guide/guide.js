@@ -409,7 +409,7 @@ function Guide(options) {
         let status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
+            return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record" aria-hidden="true"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -420,13 +420,13 @@ function Guide(options) {
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
+                return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record" aria-hidden="true"></span>';
             }
 
-            return '<span class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record"></span>';
+            return '<span class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record" aria-hidden="true"></span>';
         }
 
-        return '<span class="material-icons programIcon timerIcon fiber_manual_record"></span>';
+        return '<span class="material-icons programIcon timerIcon fiber_manual_record" aria-hidden="true"></span>';
     }
 
     function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
@@ -537,7 +537,7 @@ function Guide(options) {
 
                 html += '<div class="' + guideProgramNameClass + '">';
 
-                html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></span></div>';
+                html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left" aria-hidden="true"></span></div>';
 
                 html += '<div class="guideProgramNameText">' + program.Name;
 

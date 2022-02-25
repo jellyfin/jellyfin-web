@@ -39,7 +39,7 @@ import confirm from '../../../components/confirm/confirm';
         for (let i = 0, length = profiles.length; i < length; i++) {
             const profile = profiles[i];
             html += '<div class="listItem listItem-border">';
-            html += '<span class="listItemIcon material-icons live_tv"></span>';
+            html += '<span class="listItemIcon material-icons live_tv" aria-hidden="true"></span>';
             html += '<div class="listItemBody two-line">';
             html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#!/dlnaprofile.html?id=" + profile.Id + "'>";
             html += '<div>' + profile.Name + '</div>';
@@ -47,7 +47,7 @@ import confirm from '../../../components/confirm/confirm';
             html += '</div>';
 
             if (profile.Type == 'User') {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('Delete') + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             }
 
             html += '</div>';

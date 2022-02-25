@@ -119,7 +119,7 @@ import template from './mediaLibraryEditor.template.html';
         }
 
         html += '</div>';
-        html += `<button type="button" is="paper-icon-button-light" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle" aria-hidden="true"></span></button>`;
         html += '</div>';
         return html;
     }

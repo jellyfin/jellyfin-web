@@ -242,7 +242,7 @@ import ServerConnections from '../ServerConnections';
             const title = globalize.translate('HeaderAddToPlaylist');
 
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += '</h3>';

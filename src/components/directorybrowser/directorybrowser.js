@@ -77,7 +77,7 @@ function getItem(cssClass, type, path, name) {
     html += name;
     html += '</div>';
     html += '</div>';
-    html += '<span class="material-icons arrow_forward" style="font-size:inherit;"></span>';
+    html += '<span class="material-icons arrow_forward" aria-hidden="true" style="font-size:inherit;"></span>';
     html += '</div>';
     return html;
 }
@@ -116,7 +116,7 @@ function getEditorHtml(options, systemInfo) {
     html += `<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ${readOnlyAttribute} label="${globalize.translate(labelKey)}"/>`;
     html += '</div>';
     if (!readOnlyAttribute) {
-        html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search" aria-hidden="true"></span></button>`;
     }
     html += '</div>';
     if (!readOnlyAttribute) {
@@ -264,7 +264,7 @@ class DirectoryBrowser {
 
                 let html = '';
                 html += '<div class="formDialogHeader">';
-                html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+                html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
                 html += '<h3 class="formDialogHeaderTitle">';
                 html += options.header || globalize.translate('HeaderSelectPath');
                 html += '</h3>';

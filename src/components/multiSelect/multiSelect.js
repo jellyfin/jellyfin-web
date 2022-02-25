@@ -125,11 +125,11 @@ import itemHelper from '../itemHelper';
 
             let html = '';
 
-            html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close" aria-hidden="true"></span></button>';
             html += '<h1 class="itemSelectionCount"></h1>';
 
             const moreIcon = 'more_vert';
-            html += `<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><span class="material-icons ${moreIcon}"></span></button>`;
+            html += `<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><span class="material-icons ${moreIcon}" aria-hidden="true"></span></button>`;
 
             selectionCommandsPanel.innerHTML = html;
 
