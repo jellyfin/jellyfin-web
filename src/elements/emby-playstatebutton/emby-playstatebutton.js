@@ -66,13 +66,15 @@ import ServerConnections from '../../components/ServerConnections';
         if (updateAttribute !== false) {
             button.setAttribute('data-played', played);
         }
+
+        setTitle(button, button.getAttribute('data-type'), played);
     }
 
-    function setTitle(button, itemType) {
+    function setTitle(button, itemType, played) {
         if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
-            button.title = globalize.translate('Watched');
+            button.title = played ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
         } else {
-            button.title = globalize.translate('Played');
+            button.title = played ? globalize.translate('Played') : globalize.translate('MarkPlayed');
         }
 
         const text = button.querySelector('.button-text');
@@ -113,7 +115,6 @@ import ServerConnections from '../../components/ServerConnections';
         if (itemId && serverId) {
             setState(this, this.getAttribute('data-played') === 'true', false);
             bindEvents(this);
-            setTitle(this, this.getAttribute('data-type'));
         }
     };
 
@@ -131,15 +132,15 @@ import ServerConnections from '../../components/ServerConnections';
         if (item) {
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
+            this.setAttribute('data-type', item.Type);
 
             const played = item.UserData && item.UserData.Played;
             setState(this, played);
             bindEvents(this);
-
-            setTitle(this, item.Type);
         } else {
             this.removeAttribute('data-id');
             this.removeAttribute('data-serverid');
+            this.removeAttribute('data-type');
             this.removeAttribute('data-played');
             clearEvents(this);
         }
