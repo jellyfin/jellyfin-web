@@ -356,7 +356,7 @@
     "HeaderResponseProfile": "பதில் சுயவிவரம்",
     "HeaderRemoveMediaLocation": "மீடியா இருப்பிடத்தை அகற்று",
     "HeaderRemoveMediaFolder": "மீடியா கோப்புறையை அகற்று",
-    "HeaderRemoteControl": "தொலையியக்கி:",
+    "HeaderRemoteControl": "தொலையியக்கி",
     "HeaderRemoteAccessSettings": "தொலைநிலை அணுகல் அமைப்புகள்",
     "HeaderRecordingPostProcessing": "பதிவு செயலாக்கம் பதிவு செய்தல்",
     "HeaderRecordingOptions": "பதிவு செய்தல் விருப்பங்கள்",
@@ -1641,5 +1641,10 @@
     "AllowEmbeddedSubtitlesHelp": "மீடியா கொள்கலன்களில் தொகுக்கப்பட்ட வசனங்களை முடக்கவும். முழு நூலகத்தைப் புதுப்பிக்க வேண்டும்.",
     "AllowEmbeddedSubtitles": "பல்வேறு வகையான உட்பொதிக்கப்பட்ட வசனங்களை முடக்கவும்",
     "NextUpRewatching": "மீண்டும் பார்க்க",
-    "MixedMoviesShows": "திரைப்படங்கள் மற்றும் நிகழ்ச்சிகள் கலவை"
+    "MixedMoviesShows": "திரைப்படங்கள் மற்றும் நிகழ்ச்சிகள் கலவை",
+    "AllowEmbeddedSubtitlesAllowTextOption": "உரையை அனுமதிக்கவும்",
+    "AllowEmbeddedSubtitlesAllowImageOption": "படத்தை அனுமதிக்கவும்",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "எதையும் அனுமதிக்க வேண்டாம்",
+    "AllowEmbeddedSubtitlesAllowAllOption": "அனைத்தையும் அனுமதிக்கவும்",
+    "ShowParentImages": "தொடர் படங்களைக் காட்டு"
 }
