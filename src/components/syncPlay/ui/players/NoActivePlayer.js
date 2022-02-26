@@ -239,7 +239,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
      */
     playRequest(options) {
         const controller = syncPlayManager.getController();
-        controller.play(options);
+        return controller.play(options);
     }
 
     /**
