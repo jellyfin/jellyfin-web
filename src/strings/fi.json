@@ -1470,5 +1470,6 @@
     "LabelSyncPlaySettingsMinDelaySpeedToSync": "SkipToSync-vähimmäisviive:",
     "ButtonExitApp": "Sulje sovellus",
     "MessageChromecastConnectionError": "Google Cast -vastaanotin ei saa yhteyttä Jellyfin-palvelimeen. Tarkista yhteys ja yritä uudelleen.",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Nämä asetukset koskevat myös kaikkia tämän laitteen käynnistämiin Chromecast-toistoihin."
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Nämä asetukset koskevat myös kaikkia tämän laitteen käynnistämiin Chromecast-toistoihin.",
+    "AddToFavorites": "Lisää suosikkeihin"
 }
