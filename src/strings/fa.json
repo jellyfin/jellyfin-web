@@ -1525,5 +1525,7 @@
     "Mixer": "ترکیب کننده",
     "Lyricist": "سراینده اشعار",
     "Conductor": "رهبر ارکستر",
-    "Controls": "کنترل ها"
+    "Controls": "کنترل ها",
+    "AddToFavorites": "افزودن به مورد علاقه ها",
+    "AgeValue": "({0} سال سن)"
 }
