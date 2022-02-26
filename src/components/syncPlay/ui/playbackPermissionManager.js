@@ -39,16 +39,12 @@ class PlaybackPermissionManager {
             return Promise.resolve(true);
         }
 
-        return new Promise((resolve, reject) => {
-            const media = createTestMediaElement();
-            media.play().then(() => {
-                resolve();
-            }).catch((error) => {
-                reject(error);
-            }).finally(() => {
+        const media = createTestMediaElement();
+
+        return media.play()
+            .finally(() => {
                 destroyTestMediaElement(media);
             });
-        });
     }
 }
 
