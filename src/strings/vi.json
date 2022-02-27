@@ -443,7 +443,7 @@
     "HeaderResponseProfile": "Hồ Sơ Phản Hồi",
     "HeaderRemoveMediaLocation": "Xoá Đường Dẫn Nội Dung",
     "HeaderRemoveMediaFolder": "Xoá Thư Mục Phương Tiện",
-    "HeaderRemoteControl": "Điều khiển từ xa:",
+    "HeaderRemoteControl": "Điều Khiển Từ Xa:",
     "HeaderRecordingPostProcessing": "Xử Lý Sau Khi Ghi Âm/Ghi Hình",
     "HeaderSortOrder": "Thứ tự Sắp xếp",
     "HeaderSortBy": "Sắp xếp theo",
@@ -1623,5 +1623,7 @@
     "AllowEmbeddedSubtitlesAllowImageOption": "Cho Phép Hình Ảnh",
     "AllowEmbeddedSubtitlesAllowNoneOption": "Không Chấp Nhận",
     "AllowEmbeddedSubtitlesAllowAllOption": "Chấp Nhận Tất Cả",
-    "AllowEmbeddedSubtitlesHelp": "Tắt phụ đề được đóng gói trong vùng chứa phương tiện. Yêu cầu làm mới toàn bộ thư viện."
+    "AllowEmbeddedSubtitlesHelp": "Tắt phụ đề được đóng gói trong vùng chứa phương tiện. Yêu cầu làm mới toàn bộ thư viện.",
+    "MixedMoviesShows": "Phim và Chương Trình hỗn hợp",
+    "AddToFavorites": "Thêm vào yêu thích"
 }
