@@ -347,7 +347,7 @@
     "HeaderRecentlyPlayed": "Juyqta oinatylğan",
     "HeaderRecordingOptions": "Jazu opsialary",
     "HeaderRecordingPostProcessing": "Jazbany keiın öñdeu",
-    "HeaderRemoteControl": "Qaşyqtan basqaru:",
+    "HeaderRemoteControl": "Qaşyqtan basqaru",
     "HeaderRemoveMediaFolder": "Tasyğyş qaltasyn alastau",
     "HeaderRemoveMediaLocation": "Tasyğyşderekter ornalasuyn alastau",
     "HeaderResponseProfile": "Ün qatu profaily",
@@ -1632,5 +1632,6 @@
     "AllowEmbeddedSubtitles": "Endırılgen subtitrlerdıñ ärtürlı türlerın öşıru",
     "ShowParentImages": "Telehikaia suretterın körsetu",
     "NextUpRewatching": "Qaita qarau",
-    "MixedMoviesShows": "Aralas filmder men körsetımder"
+    "MixedMoviesShows": "Aralas filmder men körsetımder",
+    "AddToFavorites": "Tañdaulylarğa qosu"
 }
