@@ -1217,7 +1217,7 @@
     "HeaderResponseProfile": "Response Profile",
     "HeaderRemoveMediaLocation": "Remove Media Location",
     "HeaderRemoveMediaFolder": "Remove Media Folder",
-    "HeaderRemoteControl": "Remote control:",
+    "HeaderRemoteControl": "Remote Control",
     "HeaderRecordingPostProcessing": "Recording Post Processing",
     "HeaderRecordingOptions": "Recording Options",
     "HeaderRecentlyPlayed": "Recently Played",
@@ -1630,5 +1630,7 @@
     "Trailer": "Trailer",
     "Clip": "Featurette",
     "ShowParentImages": "Show programme images",
-    "NextUpRewatching": "Rewatching"
+    "NextUpRewatching": "Rewatching",
+    "MixedMoviesShows": "Mixed Films and Programmes",
+    "AddToFavorites": "Add to Favourites"
 }
