@@ -70,7 +70,7 @@
     "ButtonRefreshGuideData": "Ανανέωση Δεδομένων Οδηγού",
     "ButtonRemove": "Κατάργηση",
     "ButtonRename": "Μετονομασία",
-    "ButtonResetEasyPassword": "Επαναφορά εύκολου κωδικού PIN",
+    "ButtonResetEasyPassword": "Επαναφορά Εύκολου Κωδικού PIN",
     "ButtonResume": "Συνέχιση",
     "ButtonRevoke": "Ανακαλώ",
     "ButtonScanAllLibraries": "Σάρωση όλων των βιβλιοθηκών",
@@ -83,7 +83,7 @@
     "ButtonStart": "Έναρξη",
     "ButtonStop": "Διακοπή",
     "ButtonSubmit": "Yποβολή",
-    "ButtonTrailer": "Τρέϊλερ",
+    "ButtonTrailer": "Τρέιλερ",
     "ButtonUninstall": "Απεγκατάσταση",
     "ButtonWebsite": "Ιστοσελίδα",
     "CancelRecording": "Ακύρωση Εγγραφής",
@@ -1057,7 +1057,7 @@
     "EnableDecodingColorDepth10Vp9": "Ενεργοποίηση αποκωδικοποίησης υλικού 10-bit για το VP9",
     "EnableDecodingColorDepth10Hevc": "Ενεργοποίηση αποκωδικοποίησης υλικού 10-bit για HEVC",
     "EnableAutoCast": "Ορίσετε ως προεπιλογή",
-    "ButtonUseQuickConnect": "Χρήση γρήγορης σύνδεσης",
+    "ButtonUseQuickConnect": "Χρήση Γρήγορης Σύνδεσης",
     "EnableDetailsBanner": "Πανό Λεπτομερειών",
     "DeleteAll": "Διαγραφή Ολων",
     "DeleteDevicesConfirmation": "Είστε βέβαιοι ότι θέλετε να διαγράψετε όλες τις συσκευές; Όλες οι άλλες συνεδρίες θα αποσυνδεθούν. Οι συσκευές θα ξαναεμφανιστούν την επόμενη φορά που ένας χρήστης θα συνδεθεί με αυτές.",
@@ -1121,5 +1121,9 @@
     "LabelDateAddedBehaviorHelp": "Αν υπάρχει τιμή στα μεταδεδομένα, θα εμφανίζεται πάντα πριν από οποιαδήποτε από αυτές τις επιλογές.",
     "LabelBlastMessageIntervalHelp": "Καθορίστε τη διάρκεια σε δευτερόλεπτα μετάξυ ζωντανών μηνυμάτων.",
     "LabelAbortedByServerShutdown": "(Ματαιώθηκε λόγω τερματισμού λειτουργίας του διακοσμητή)",
-    "Console": "Κονσόλα"
+    "Console": "Κονσόλα",
+    "EnableStreamLooping": "Αυτόματη επανάληψη ζωντανών ροών",
+    "DisableCustomCss": "Απενεργοποίηση προσαρμοσμένου κώδικα CSS που παρέχεται από τον διακομιστή",
+    "ButtonExitApp": "Έξοδος από την Εφαρμογή",
+    "AddToFavorites": "Προσθήκη στα αγαπημένα"
 }
