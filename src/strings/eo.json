@@ -704,7 +704,7 @@
     "HeaderRevisionHistory": "Revizia Historio",
     "LabelAllowedRemoteAddressesMode": "Reĝimo de filtrilo por extera IP-adreso:",
     "HeaderConfigureRemoteAccess": "Agordi Telealiron",
-    "HeaderRemoteControl": "Teleregilo:",
+    "HeaderRemoteControl": "Teleregilo",
     "HeaderRecentlyPlayed": "Lastatempe Ludita",
     "HeaderPlaybackError": "Ludada Eraro",
     "HeaderParentalRatings": "Gepatraj taksadoj",
@@ -1627,5 +1627,6 @@
     "AllowEmbeddedSubtitles": "Malebligi malsamajn specojn de enigitaj subtekstoj",
     "ShowParentImages": "Montri seriajn bildojn",
     "NextUpRewatching": "Respektado",
-    "MixedMoviesShows": "Miksitaj Filmoj kaj Serioj"
+    "MixedMoviesShows": "Miksitaj Filmoj kaj Serioj",
+    "AddToFavorites": "Aldoni al Favorataj"
 }
