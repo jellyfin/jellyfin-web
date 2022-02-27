@@ -348,7 +348,7 @@
     "HeaderRecentlyPlayed": "Воспроизведённые недавно",
     "HeaderRecordingOptions": "Опции записи",
     "HeaderRecordingPostProcessing": "Последующая обработка записи",
-    "HeaderRemoteControl": "Удалённое управление:",
+    "HeaderRemoteControl": "Удалённое управление",
     "HeaderRemoveMediaFolder": "Изъятие медиапапки",
     "HeaderRemoveMediaLocation": "Изъятие расположения медиаданных",
     "HeaderResponseProfile": "Профиль отклика",
@@ -1631,5 +1631,6 @@
     "AllowEmbeddedSubtitlesHelp": "Отключает субтитры, упакованные в медиаконтейнеры. Требуется полное обновление медиатеки.",
     "ShowParentImages": "Показывать рисунки сериала",
     "NextUpRewatching": "Пересматривание",
-    "MixedMoviesShows": "Смешанные фильмы и передачи"
+    "MixedMoviesShows": "Смешанные фильмы и передачи",
+    "AddToFavorites": "Добавить в Избранное"
 }
