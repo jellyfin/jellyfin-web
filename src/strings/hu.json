@@ -135,7 +135,7 @@
     "HeaderPluginInstallation": "Bővítmény telepítése",
     "HeaderPreferredMetadataLanguage": "Előnyben részesített metaadatnyelv",
     "HeaderRecentlyPlayed": "Nemrég játszott",
-    "HeaderRemoteControl": "Távirányítás:",
+    "HeaderRemoteControl": "Távirányítás",
     "HeaderRevisionHistory": "Módosítási előzmények",
     "HeaderRunningTasks": "Futó folyamatok",
     "HeaderScenes": "Jelenetek",
@@ -1631,5 +1631,6 @@
     "AllowEmbeddedSubtitles": "Különféle típusú beágyazott feliratok letiltása",
     "ShowParentImages": "Sorozatképek megjelenítése",
     "NextUpRewatching": "Újranézés",
-    "MixedMoviesShows": "Vegyes Filmek és Műsorok"
+    "MixedMoviesShows": "Vegyes Filmek és Műsorok",
+    "AddToFavorites": "Hozzáadás a kedvencekhez"
 }
