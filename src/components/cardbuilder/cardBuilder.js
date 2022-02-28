@@ -1354,8 +1354,13 @@ import ServerConnections from '../ServerConnections';
 
             let cardPadderIcon = '';
 
-            if (imgUrl) {
-                cardPadderIcon = getDefaultText(item, options);
+            // TV Channel logos are transparent so skip the placeholder to avoid overlapping
+            if (imgUrl && item.Type !== 'TvChannel') {
+                cardPadderIcon = getDefaultText(item, {
+                    // Always use an icon
+                    defaultCardImageIcon: 'folder',
+                    ...options
+                });
             }
 
             cardImageContainerOpen = `<div class="${cardBoxClass}"><div class="${cardScalableClass}"><div class="cardPadder cardPadder-${shape}">${cardPadderIcon}</div>${cardImageContainerOpen}`;
@@ -1514,6 +1519,8 @@ import ServerConnections from '../ServerConnections';
                 case 'Episode':
                 case 'Series':
                     return '<span class="cardImageIcon material-icons tv" aria-hidden="true"></span>';
+                case 'Program':
+                    return '<span class="cardImageIcon material-icons live_tv" aria-hidden="true"></span>';
                 case 'Book':
                     return '<span class="cardImageIcon material-icons book" aria-hidden="true"></span>';
                 case 'Folder':
@@ -1522,11 +1529,13 @@ import ServerConnections from '../ServerConnections';
                     return '<span class="cardImageIcon material-icons collections" aria-hidden="true"></span>';
                 case 'Playlist':
                     return '<span class="cardImageIcon material-icons view_list" aria-hidden="true"></span>';
+                case 'Photo':
+                    return '<span class="cardImageIcon material-icons photo" aria-hidden="true"></span>';
                 case 'PhotoAlbum':
                     return '<span class="cardImageIcon material-icons photo_album" aria-hidden="true"></span>';
             }
 
-            if (options && options.defaultCardImageIcon) {
+            if (options?.defaultCardImageIcon) {
                 return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '" aria-hidden="true"></span>';
             }
 
