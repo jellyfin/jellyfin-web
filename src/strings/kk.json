@@ -1633,5 +1633,8 @@
     "ShowParentImages": "Telehikaia suretterın körsetu",
     "NextUpRewatching": "Qaita qarau",
     "MixedMoviesShows": "Aralas filmder men körsetımder",
-    "AddToFavorites": "Tañdaulylarğa qosu"
+    "AddToFavorites": "Tañdaulylarğa qosu",
+    "CopyFailed": "Köşıru mümkın bolmady",
+    "Copy": "Köşıru",
+    "Copied": "Köşırılgen"
 }
