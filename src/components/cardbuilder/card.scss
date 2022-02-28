@@ -389,6 +389,10 @@ button::-moz-focus-inner {
     transform: translate(-50%, -50%);
 }
 
+.cardImageContainer .cardImageIcon {
+    margin: auto; /* 'justify-content: center' doesn't work in Safari 10 */
+}
+
 .cardIndicators {
     right: 0.225em;
     top: 0.225em;
