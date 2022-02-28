@@ -1628,5 +1628,8 @@
     "ShowParentImages": "Montri seriajn bildojn",
     "NextUpRewatching": "Respektado",
     "MixedMoviesShows": "Miksitaj Filmoj kaj Serioj",
-    "AddToFavorites": "Aldoni al Favorataj"
+    "AddToFavorites": "Aldoni al Favorataj",
+    "Copy": "Kopii",
+    "Copied": "Kopiita",
+    "CopyFailed": "Ne eblis kopii"
 }
