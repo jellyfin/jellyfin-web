@@ -1629,5 +1629,11 @@
     "AllowEmbeddedSubtitlesAllowNoneOption": "Zakázať všetko",
     "AllowEmbeddedSubtitlesAllowAllOption": "Povoliť všetko",
     "AllowEmbeddedSubtitlesHelp": "Zakáže titulky, ktoré sú vložené v kontajneri média. Vyžaduje kompletné obnovenie knižnice.",
-    "AllowEmbeddedSubtitles": "Zakázať určité typy vložených titulkov"
+    "AllowEmbeddedSubtitles": "Zakázať určité typy vložených titulkov",
+    "NextUpRewatching": "Opätovné pozeranie",
+    "MixedMoviesShows": "Mix filmov a seriálov",
+    "CopyFailed": "Nedá sa skopírovať",
+    "Copy": "Kopírovať",
+    "Copied": "Skopírované",
+    "AddToFavorites": "Pridať do obľúbených"
 }
