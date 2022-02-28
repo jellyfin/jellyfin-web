@@ -1632,5 +1632,8 @@
     "ShowParentImages": "Afficher les images de la série",
     "NextUpRewatching": "Revoir",
     "MixedMoviesShows": "Films et émissions",
-    "AddToFavorites": "Ajouter aux favoris"
+    "AddToFavorites": "Ajouter aux favoris",
+    "CopyFailed": "Impossible de copier",
+    "Copy": "Copier",
+    "Copied": "Copié"
 }
