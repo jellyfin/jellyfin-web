@@ -145,7 +145,7 @@
     width: 100%;
     -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    border: 0.1em solid #222;
+    border-radius: 0.2em;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
@@ -297,7 +297,6 @@
     }
 
     .nowPlayingPageTitle {
-        /* text-align: center; */
         margin: 0;
     }
 
@@ -318,17 +317,22 @@
     }
 
     .nowPlayingInfoButtons {
-        /* margin: 1.5em 0 0 0; */
         -webkit-box-pack: center;
         -webkit-justify-content: center;
         justify-content: center;
         font-size: 1.5em;
-        height: 100%;
     }
 
     .nowPlayingPageImageContainer {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 1;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        margin: auto auto 0.5em;
+        min-height: 0;
+        margin: 0 auto 0.5em;
     }
 
     .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
@@ -337,7 +341,9 @@
     }
 
     .nowPlayingInfoControls {
-        margin: 0.5em 0 1em 0;
+        flex-grow: 0;
+        flex-shrink: 1;
+        margin: 0.5em 0 0;
         width: 100%;
         -webkit-box-pack: start !important;
         -webkit-justify-content: start !important;
@@ -392,25 +398,11 @@
         font-size: 2em;
     }
 
-    .nowPlayingPageImage {
-        /* width: inherit; */
-        overflow-y: hidden;
-        overflow: hidden;
-        margin: 0 auto;
-    }
-
-    .nowPlayingPageImage.nowPlayingPageImageAudio {
-        width: 100%;
-    }
-
-    .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
-        height: 50%;
-        overflow: hidden;
-    }
-
-    .nowPlayingPageImageContainer.nowPlayingPageImagePoster img {
-        height: 100%;
+    .nowPlayingPageImage.nowPlayingPageImageAudio,
+    .nowPlayingPageImage.nowPlayingPageImagePoster {
         width: auto;
+        max-width: 100%;
+        max-height: 100%;
     }
 
     .playlistSectionButton .volumecontrol {
