@@ -26,10 +26,10 @@ const createButtonElement = () => ({
 });
 
 type IProps = {
-    user?: Record<string, any>;
+    user?: UserDto;
 }
 
-const getLastSeenText = (lastActivityDate?: string) => {
+const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
         return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), localeWithSuffix));
     }
@@ -37,16 +37,16 @@ const getLastSeenText = (lastActivityDate?: string) => {
     return '';
 };
 
-const UserCardBox: FunctionComponent<IProps> = ({ user = [] }: IProps) => {
+const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
     let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
-    if (user.Policy.IsDisabled) {
+    if (user.Policy?.IsDisabled) {
         cssClass += ' grayscale';
     }
 
     let imgUrl;
 
-    if (user.PrimaryImageTag) {
+    if (user.PrimaryImageTag && user.Id) {
         imgUrl = window.ApiClient.getUserImageUrl(user.Id, {
             width: 300,
             tag: user.PrimaryImageTag,
@@ -56,7 +56,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = [] }: IProps) => {
 
     let imageClass = 'cardImage';
 
-    if (user.Policy.IsDisabled) {
+    if (user.Policy?.IsDisabled) {
         imageClass += ' disabledUser';
     }
 
