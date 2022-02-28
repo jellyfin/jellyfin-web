@@ -1600,5 +1600,6 @@
     "ErrorPlayerNotFound": "No se encontró ningún reproductor para los medios solicitados.",
     "Engineer": "Ingeniero de sonido",
     "Conductor": "Conductor",
-    "Cursive": "Cursiva"
+    "Cursive": "Cursiva",
+    "AddToFavorites": "añadir a favoritos"
 }
