@@ -1632,5 +1632,8 @@
     "ShowParentImages": "Zobrazit obrázky řady",
     "NextUpRewatching": "Dívejte se znovu",
     "MixedMoviesShows": "Mix filmů a seriálů",
-    "AddToFavorites": "Přidat do oblíbených"
+    "AddToFavorites": "Přidat do oblíbených",
+    "CopyFailed": "Kopírování se nezdařilo",
+    "Copy": "Kopírovat",
+    "Copied": "Zkopírováno"
 }
