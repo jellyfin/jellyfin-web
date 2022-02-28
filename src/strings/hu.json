@@ -1632,5 +1632,8 @@
     "ShowParentImages": "Sorozatképek megjelenítése",
     "NextUpRewatching": "Újranézés",
     "MixedMoviesShows": "Vegyes Filmek és Műsorok",
-    "AddToFavorites": "Hozzáadás a kedvencekhez"
+    "AddToFavorites": "Hozzáadás a kedvencekhez",
+    "CopyFailed": "Nem sikerült másolni",
+    "Copy": "Másol",
+    "Copied": "Másolva"
 }
