@@ -1,4 +1,5 @@
 import browser from '../scripts/browser';
+import { copy } from '../scripts/clipboard';
 import globalize from '../scripts/globalize';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
@@ -366,32 +367,11 @@ import toast from './toast/toast';
                     break;
                 case 'copy-stream': {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
-                    const textAreaCopy = function () {
-                        const textArea = document.createElement('textarea');
-                        textArea.value = downloadHref;
-                        document.body.appendChild(textArea);
-                        textArea.focus();
-                        textArea.select();
-
-                        if (document.execCommand('copy')) {
-                            toast(globalize.translate('CopyStreamURLSuccess'));
-                        } else {
-                            prompt(globalize.translate('CopyStreamURL'), downloadHref);
-                        }
-                        document.body.removeChild(textArea);
-                    };
-
-                    /* eslint-disable-next-line compat/compat */
-                    if (navigator.clipboard === undefined) {
-                        textAreaCopy();
-                    } else {
-                        /* eslint-disable-next-line compat/compat */
-                        navigator.clipboard.writeText(downloadHref).then(function () {
-                            toast(globalize.translate('CopyStreamURLSuccess'));
-                        }).catch(function () {
-                            textAreaCopy();
-                        });
-                    }
+                    copy(downloadHref).then(() => {
+                        toast(globalize.translate('CopyStreamURLSuccess'));
+                    }).catch(() => {
+                        prompt(globalize.translate('CopyStreamURL'), downloadHref);
+                    });
                     getResolveFunction(resolve, id)();
                     break;
                 }
