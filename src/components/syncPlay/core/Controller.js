@@ -71,7 +71,7 @@ class Controller {
         const apiClient = this.manager.getApiClient();
         const sendPlayRequest = (items) => {
             const queue = items.map(item => item.Id);
-            apiClient.requestSyncPlaySetNewQueue({
+            return apiClient.requestSyncPlaySetNewQueue({
                 PlayingQueue: queue,
                 PlayingItemPosition: options.startIndex ? options.startIndex : 0,
                 StartPositionTicks: options.startPositionTicks ? options.startPositionTicks : 0
@@ -79,12 +79,12 @@ class Controller {
         };
 
         if (options.items) {
-            Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendPlayRequest);
+            return Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendPlayRequest);
         } else {
-            Helper.getItemsForPlayback(apiClient, {
+            return Helper.getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')
             }).then(function (result) {
-                Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest);
+                return Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest);
             });
         }
     }
