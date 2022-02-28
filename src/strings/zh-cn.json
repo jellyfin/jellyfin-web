@@ -313,7 +313,7 @@
     "HeaderRecentlyPlayed": "最近播放",
     "HeaderRecordingOptions": "录制选项",
     "HeaderRecordingPostProcessing": "记录后处理",
-    "HeaderRemoteControl": "远程控制：",
+    "HeaderRemoteControl": "远程控制",
     "HeaderRemoveMediaFolder": "移除媒体文件夹",
     "HeaderRemoveMediaLocation": "移除媒体位置",
     "HeaderResponseProfile": "响应配置",
@@ -1629,5 +1629,8 @@
     "AllowEmbeddedSubtitlesAllowNoneOption": "允许无",
     "AllowEmbeddedSubtitlesAllowAllOption": "允许全部",
     "AllowEmbeddedSubtitlesHelp": "禁用媒体容器中打包的字幕。 需全部刷新媒体库。",
-    "AllowEmbeddedSubtitles": "禁用不同类型的嵌入字幕"
+    "AllowEmbeddedSubtitles": "禁用不同类型的嵌入字幕",
+    "NextUpRewatching": "重新观看",
+    "MixedMoviesShows": "混合电影和电视剧",
+    "AddToFavorites": "加入收藏"
 }
