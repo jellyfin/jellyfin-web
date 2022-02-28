@@ -1357,9 +1357,9 @@ import ServerConnections from '../ServerConnections';
             // TV Channel logos are transparent so skip the placeholder to avoid overlapping
             if (imgUrl && item.Type !== 'TvChannel') {
                 cardPadderIcon = getDefaultText(item, {
-                    ...options,
                     // Always use an icon
-                    defaultCardImageIcon: 'folder'
+                    defaultCardImageIcon: 'folder',
+                    ...options
                 });
             }
 
@@ -1529,6 +1529,8 @@ import ServerConnections from '../ServerConnections';
                     return '<span class="cardImageIcon material-icons collections" aria-hidden="true"></span>';
                 case 'Playlist':
                     return '<span class="cardImageIcon material-icons view_list" aria-hidden="true"></span>';
+                case 'Photo':
+                    return '<span class="cardImageIcon material-icons photo" aria-hidden="true"></span>';
                 case 'PhotoAlbum':
                     return '<span class="cardImageIcon material-icons photo_album" aria-hidden="true"></span>';
             }
