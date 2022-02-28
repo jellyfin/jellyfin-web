@@ -1,4 +1,5 @@
 // TODO: Move to jellyfin-apiclient
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'jellyfin-apiclient' {
     import {
         AllThemeMediaResult,
@@ -348,3 +349,4 @@ declare module 'jellyfin-apiclient' {
         trigger(obj: any, eventName: string, ...args: any[]): void;
     };
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

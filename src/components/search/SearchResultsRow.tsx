@@ -16,10 +16,31 @@ const createScroller = ({ title = '' }) => ({
 </div>`
 });
 
+type CardOptions = {
+    itemsContainer?: HTMLElement,
+    parentContainer?: HTMLElement,
+    allowBottomPadding?: boolean,
+    centerText?: boolean,
+    coverImage?: boolean,
+    inheritThumb?: boolean,
+    overlayMoreButton?: boolean,
+    overlayText?: boolean,
+    preferThumb?: boolean,
+    scalable?: boolean,
+    shape?: string,
+    showParentTitle?: boolean,
+    showParentTitleOrTitle?: boolean,
+    showAirTime?: boolean,
+    showAirDateTime?: boolean,
+    showChannelName?: boolean,
+    showTitle?: boolean,
+    showYear?: boolean
+}
+
 type SearchResultsRowProps = {
     title?: string;
     items?: BaseItemDto[];
-    cardOptions?: Record<string, any>;
+    cardOptions?: CardOptions;
 }
 
 const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {
