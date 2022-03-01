@@ -1646,5 +1646,9 @@
     "AllowEmbeddedSubtitlesAllowImageOption": "படத்தை அனுமதிக்கவும்",
     "AllowEmbeddedSubtitlesAllowNoneOption": "எதையும் அனுமதிக்க வேண்டாம்",
     "AllowEmbeddedSubtitlesAllowAllOption": "அனைத்தையும் அனுமதிக்கவும்",
-    "ShowParentImages": "தொடர் படங்களைக் காட்டு"
+    "ShowParentImages": "தொடர் படங்களைக் காட்டு",
+    "CopyFailed": "நகலெடுக்க முடியவில்லை",
+    "Copy": "நகலெடுக்கவும்",
+    "Copied": "நகலெடுக்கப்பட்டது",
+    "AddToFavorites": "பிடித்தவையில் சேர்"
 }
