@@ -263,7 +263,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             reloadItems(tabContent);
         };
 
-        this.destroy = function () {};
+        this.destroy = function () {
+            // TODO: Remove if unused
+        };
     }
 
 /* eslint-enable indent */

@@ -24,7 +24,7 @@ function onViewDestroy() {
 }
 
 function onBeforeTabChange() {
-
+    // no-op
 }
 
 class TabbedView {

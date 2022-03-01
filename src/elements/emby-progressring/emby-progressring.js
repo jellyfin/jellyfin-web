@@ -74,7 +74,7 @@ import template from './emby-progressring.template.html';
     };
 
     EmbyProgressRing.attachedCallback = function () {
-
+        // no-op
     };
 
     EmbyProgressRing.detachedCallback = function () {

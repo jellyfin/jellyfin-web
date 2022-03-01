@@ -274,7 +274,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             this.alphaPicker?.updateControls(getQuery(tabContent));
         };
 
-        this.destroy = function () {};
+        this.destroy = function () {
+            // TODO: Remove if unused
+        };
     }
 
 /* eslint-enable indent */

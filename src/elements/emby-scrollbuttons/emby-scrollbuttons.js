@@ -6,7 +6,9 @@ import '../emby-button/paper-icon-button-light';
 
 const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
 
-    EmbyScrollButtonsPrototype.createdCallback = function () {};
+    EmbyScrollButtonsPrototype.createdCallback = function () {
+        // no-op
+    };
 
     function getScrollButtonHtml(direction) {
         let html = '';

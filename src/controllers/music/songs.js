@@ -200,7 +200,9 @@ import Dashboard from '../../scripts/clientUtils';
             reloadItems(tabContent);
         };
 
-        self.destroy = function () {};
+        self.destroy = function () {
+            // TODO: Remove if unused
+        };
     }
 
 /* eslint-enable indent */

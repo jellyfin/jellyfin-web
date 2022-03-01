@@ -183,14 +183,14 @@ class GenericPlayer {
      * Unpauses the player.
      */
     localUnpause() {
-
+        // Override
     }
 
     /**
      * Pauses the player.
      */
     localPause() {
-
+        // Override
     }
 
     /**
@@ -199,14 +199,14 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localSeek(positionTicks) {
-
+        // Override
     }
 
     /**
      * Stops the player.
      */
     localStop() {
-
+        // Override
     }
 
     /**
@@ -215,7 +215,7 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localSendCommand(command) {
-
+        // Override
     }
 
     /**
@@ -224,7 +224,7 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localPlay(options) {
-
+        // Override
     }
 
     /**
@@ -233,7 +233,7 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localSetCurrentPlaylistItem(playlistItemId) {
-
+        // Override
     }
 
     /**
@@ -242,7 +242,7 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localRemoveFromPlaylist(playlistItemIds) {
-
+        // Override
     }
 
     /**
@@ -252,7 +252,7 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localMovePlaylistItem(playlistItemId, newIndex) {
-
+        // Override
     }
 
     /**
@@ -261,7 +261,7 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localQueue(options) {
-
+        // Override
     }
 
     /**
@@ -270,21 +270,21 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localQueueNext(options) {
-
+        // Override
     }
 
     /**
      * Picks next item in playlist.
      */
     localNextItem() {
-
+        // Override
     }
 
     /**
      * Picks previous item in playlist.
      */
     localPreviousItem() {
-
+        // Override
     }
 
     /**
@@ -293,7 +293,7 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localSetRepeatMode(value) {
-
+        // Override
     }
 
     /**
@@ -302,14 +302,14 @@ class GenericPlayer {
      */
     // eslint-disable-next-line no-unused-vars
     localSetQueueShuffleMode(value) {
-
+        // Override
     }
 
     /**
      * Toggles shuffle mode.
      */
     localToggleQueueShuffleMode() {
-
+        // Override
     }
 }
 
