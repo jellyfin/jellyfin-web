@@ -757,13 +757,7 @@ class AppRouter {
         }
 
         if (item === 'nextup') {
-            url = '#!/list.html?type=nextup&serverId=' + options.serverId;
-
-            if (options.rewatching) {
-                url += '&rewatching=' + options.rewatching;
-            }
-
-            return url;
+            return '#!/list.html?type=nextup&serverId=' + options.serverId;
         }
 
         if (item === 'list') {
