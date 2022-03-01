@@ -1632,5 +1632,8 @@
     "ShowParentImages": "Show programme images",
     "NextUpRewatching": "Rewatching",
     "MixedMoviesShows": "Mixed Films and Programmes",
-    "AddToFavorites": "Add to Favourites"
+    "AddToFavorites": "Add to Favourites",
+    "CopyFailed": "Could not copy",
+    "Copy": "Copy",
+    "Copied": "Copied"
 }
