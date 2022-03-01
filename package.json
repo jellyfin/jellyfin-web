@@ -28,7 +28,7 @@
     "confusing-browser-globals": "1.0.11",
     "copy-webpack-plugin": "10.2.4",
     "css-loader": "6.6.0",
-    "cssnano": "5.0.17",
+    "cssnano": "5.1.0",
     "eslint": "8.10.0",
     "eslint-plugin-compat": "4.0.2",
     "eslint-plugin-eslint-comments": "3.2.0",
