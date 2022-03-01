@@ -12,6 +12,8 @@ import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 
+const UNLIMITED_ITEMS = -1;
+
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
         return false;
@@ -119,7 +121,11 @@ function getItemsForPlayback(serverId, query) {
             };
         });
     } else {
-        query.Limit = query.Limit || 300;
+        if (query.Limit === UNLIMITED_ITEMS) {
+            delete query.Limit;
+        } else {
+            query.Limit = query.Limit || 300;
+        }
         query.Fields = 'Chapters';
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
@@ -1774,7 +1780,8 @@ class PlaybackManager {
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Photo,Video'
+                    MediaTypes: 'Photo,Video',
+                    Limit: UNLIMITED_ITEMS
                 }).then(function (result) {
                     const items = result.Items;
 
@@ -1799,7 +1806,7 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
-                    Limit: 1000
+                    Limit: UNLIMITED_ITEMS
                 });
             } else if (firstItem.Type === 'MusicGenre') {
                 promise = getItemsForPlayback(serverId, {
@@ -1817,7 +1824,7 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
-                    Limit: 1000
+                    Limit: UNLIMITED_ITEMS
                 }, queryOptions));
             } else if (firstItem.IsFolder) {
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
