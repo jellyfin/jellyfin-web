@@ -297,10 +297,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             reloadItems(tabContent);
             this.alphaPicker?.updateControls(getQuery(tabContent));
         };
-
-        this.destroy = function () {
-            // TODO: Remove if unused
-        };
     }
 
 /* eslint-enable indent */

@@ -262,10 +262,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         this.renderTab = function () {
             reloadItems(tabContent);
         };
-
-        this.destroy = function () {
-            // TODO: Remove if unused
-        };
     }
 
 /* eslint-enable indent */

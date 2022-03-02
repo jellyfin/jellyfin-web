@@ -298,10 +298,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             reloadItems();
             this.alphaPicker?.updateControls(getQuery());
         };
-
-        this.destroy = function () {
-            // TODO: Remove if unused
-        };
     }
 
 /* eslint-enable indent */
