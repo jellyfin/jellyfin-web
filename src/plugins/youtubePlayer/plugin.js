@@ -256,11 +256,13 @@ class YoutubePlayer {
         return this._currentSrc;
     }
     setSubtitleStreamIndex() {
+        // not supported
     }
     canSetAudioStreamIndex() {
         return false;
     }
     setAudioStreamIndex() {
+        // not supported
     }
     // Save this for when playback stops, because querying the time at that point might return 0
     currentTime(val) {

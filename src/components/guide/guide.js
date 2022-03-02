@@ -166,7 +166,6 @@ function Guide(options) {
         stopAutoRefresh();
 
         Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-        Events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
         Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
         Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
@@ -1057,9 +1056,6 @@ function Guide(options) {
         }
     }
 
-    function onSeriesTimerCreated() {
-    }
-
     function onTimerCancelled(e, apiClient, data) {
         const id = data.Id;
         // find guide cells by timer id, remove timer icon
@@ -1186,7 +1182,6 @@ function Guide(options) {
     Events.trigger(self, 'load');
 
     Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-    Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
     Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
     Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 

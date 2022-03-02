@@ -20,9 +20,6 @@ const defaultSubtitleAppearanceSettings = {
 };
 
 export class UserSettings {
-    constructor() {
-    }
-
     /**
      * Bind UserSettings instance to user.
      * @param {string} - User identifier.

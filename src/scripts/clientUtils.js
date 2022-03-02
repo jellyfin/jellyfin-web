@@ -155,7 +155,7 @@ export function alert(options) {
         baseAlert({
             title: options.title || globalize.translate('HeaderAlert'),
             text: options.message
-        }).then(options.callback || function () {});
+        }).then(options.callback || function () { /* no-op */ });
     }
 }
 

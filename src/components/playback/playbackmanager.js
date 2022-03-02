@@ -3322,6 +3322,7 @@ class PlaybackManager {
                 mediaSource.MediaStreams = info.MediaStreams;
                 Events.trigger(player, 'mediastreamschange');
             }, function () {
+                // Swallow errors
             });
         }
 

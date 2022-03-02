@@ -56,8 +56,6 @@ function showIfAllowed(context, selector, visible) {
 }
 
 class ViewSettings {
-    constructor() {
-    }
     show(options) {
         return new Promise(function (resolve, reject) {
             const dialogOptions = {
