@@ -479,7 +479,7 @@
     "LabelManufacturerUrl": "Web výrobce:",
     "LabelMatchType": "Typ spárování:",
     "LabelMaxBackdropsPerItem": "Maximální počet obrázků pro pozadí na položku:",
-    "LabelMaxChromecastBitrate": "Maximální datový tok pro Chromecast:",
+    "LabelMaxChromecastBitrate": "Maximální datový tok pro Google Cast:",
     "LabelMaxParentalRating": "Maximální povolené rodičovské hodnocení:",
     "LabelMaxResumePercentage": "Maximální procento pro pokračování:",
     "LabelMaxResumePercentageHelp": "Tituly se považují za plně přehrané, pokud jsou po této době zastaveny.",
@@ -1179,7 +1179,7 @@
     "SmallCaps": "Malá písmena",
     "Smaller": "Menší",
     "Sort": "Třídit",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Tato nastavení platí také pro jakékoli přehrávání na Chromecastu spuštěné tímto zařízením.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Tato nastavení platí také pro jakékoli přehrávání Google Cast spuštěné tímto zařízením.",
     "SubtitleAppearanceSettingsDisclaimer": "Následující nastavení se nevztahují na grafické titulky zmíněné výše nebo ASS/SSA titulky, které mají vlastní vložené styly.",
     "SubtitleDownloadersHelp": "Povolte a zařaďte preferované stahovače titulků v pořadí podle priority.",
     "TV": "TV",
@@ -1277,7 +1277,7 @@
     "New": "Nový",
     "ButtonTogglePlaylist": "Playlist",
     "LabelStable": "Stabilní",
-    "LabelChromecastVersion": "Verze Chromecastu",
+    "LabelChromecastVersion": "Verze Google Cast",
     "ApiKeysCaption": "Seznam povolených klíčů k API",
     "LabelEnableHttpsHelp": "Naslouchání na uvedeném portu HTTPS. K fungování je nutné nakonfigurovat i platný certifikát.",
     "LabelEnableHttps": "Povolit HTTPS",
@@ -1635,5 +1635,6 @@
     "AddToFavorites": "Přidat do oblíbených",
     "CopyFailed": "Kopírování se nezdařilo",
     "Copy": "Kopírovat",
-    "Copied": "Zkopírováno"
+    "Copied": "Zkopírováno",
+    "GoogleCastUnsupported": "Google Cast není podporován"
 }
