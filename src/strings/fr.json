@@ -563,7 +563,7 @@
     "LabelManufacturerUrl": "URL du constructeur :",
     "LabelMatchType": "Type recherché :",
     "LabelMaxBackdropsPerItem": "Nombre maximal d'images d'arrière-plan par élément :",
-    "LabelMaxChromecastBitrate": "Qualité maximale pour Chromecast :",
+    "LabelMaxChromecastBitrate": "Qualité maximale pour Google Cast :",
     "LabelMaxParentalRating": "Classification parentale maximale :",
     "LabelMaxResumePercentage": "Pourcentage maximal pour reprendre :",
     "LabelMaxResumePercentageHelp": "Les médias interrompus au-delà de ce délai sont considérés comme entièrement lus.",
@@ -1055,7 +1055,7 @@
     "SortChannelsBy": "Trier les chaînes par :",
     "SortName": "Trier par nom",
     "StopRecording": "Arrêter l'enregistrement",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ces paramètres s'appliquent également à toute lecture Chromecast démarrée par cet appareil.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ces paramètres s'appliquent également à toute lecture Google Cast démarrée par cet appareil.",
     "SubtitleAppearanceSettingsDisclaimer": "Les paramètres suivant ne s'appliquent pas aux sous-titres graphiques mentionnés plus haut ni aux formats ASS/SSA qui incorporent leurs propres styles.",
     "SubtitleDownloadersHelp": "Activer et ranger vos outils de téléchargement de sous-titres favoris par ordre de priorité.",
     "Subtitles": "Sous-titres",
@@ -1281,7 +1281,7 @@
     "ButtonTogglePlaylist": "Liste de lecture",
     "Filter": "Filtre",
     "New": "Nouveau",
-    "LabelChromecastVersion": "Version de Chromecast",
+    "LabelChromecastVersion": "Version de Google Cast",
     "LabelEnableHttpsHelp": "Écouter les requêtes sur le port HTTPS configuré. Un certificat valide doit être fourni pour activer ce mode.",
     "LabelEnableHttps": "Activer HTTPS",
     "HeaderServerAddressSettings": "Paramètres adresses serveur",
@@ -1329,7 +1329,7 @@
     "ShowLess": "Voir moins",
     "EnableBlurHashHelp": "Les images en cours de chargement seront remplacées par une image générique floue.",
     "EnableBlurHash": "Images floues de substitution",
-    "ButtonCast": "Diffuser",
+    "ButtonCast": "Diffuser sur l'appareil",
     "ButtonSyncPlay": "SyncPlay",
     "TabRepositories": "Dépôts",
     "MessageNoGenresAvailable": "Utiliser des fournisseurs de métadonnées pour récupérer les genres depuis internet.",
@@ -1635,5 +1635,6 @@
     "AddToFavorites": "Ajouter aux favoris",
     "CopyFailed": "Impossible de copier",
     "Copy": "Copier",
-    "Copied": "Copié"
+    "Copied": "Copié",
+    "GoogleCastUnsupported": "Google Cast non pris en charge"
 }
