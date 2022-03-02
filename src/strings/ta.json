@@ -588,7 +588,7 @@
     "LabelNewName": "புதிய பெயர்:",
     "LabelUnstable": "நிலையற்றது",
     "LabelStable": "நிலையானது",
-    "LabelChromecastVersion": "Chromecast பதிப்பு",
+    "LabelChromecastVersion": "Google Cast பதிப்பு",
     "LabelName": "பெயர்:",
     "LabelMusicStreamingTranscodingBitrateHelp": "இசையை ஸ்ட்ரீமிங் செய்யும் போது அதிகபட்ச பிட்ரேட்டைக் குறிப்பிடவும்.",
     "LabelMusicStreamingTranscodingBitrate": "இசை டிரான்ஸ்கோடிங் பிட்ரேட்:",
@@ -625,7 +625,7 @@
     "LabelMaxResumePercentageHelp": "இந்த நேரத்திற்குப் பிறகு நிறுத்தப்பட்டால் தலைப்புகள் முழுமையாக விளையாடப்படும் என்று கருதப்படுகிறது.",
     "LabelMaxResumePercentage": "அதிகபட்ச மறுதொடக்கம் சதவீதம்:",
     "LabelMaxParentalRating": "அனுமதிக்கப்பட்ட அதிகபட்ச பெற்றோர் மதிப்பீடு:",
-    "LabelMaxChromecastBitrate": "Chromecast ஸ்ட்ரீமிங் தரம்:",
+    "LabelMaxChromecastBitrate": "Google Cast ஸ்ட்ரீமிங் தரம்:",
     "LabelMaxBackdropsPerItem": "ஒரு உருப்படிக்கு அதிகபட்ச பின்னணி எண்ணிக்கை:",
     "LabelMatchType": "பொருந்தும் வகை:",
     "LabelManufacturerUrl": "உற்பத்தியாளர் URL:",
@@ -1342,7 +1342,7 @@
     "SubtitleOffset": "வசன ஆஃப்செட்",
     "SubtitleDownloadersHelp": "முன்னுரிமைக்கு ஏற்ப உங்களுக்கு விருப்பமான வசன பதிவிறக்கிகளை இயக்கவும் தரவரிசைப்படுத்தவும்.",
     "SubtitleAppearanceSettingsDisclaimer": "பின்வரும் அமைப்புகள் மேலே குறிப்பிட்டுள்ள வரைகலை வசனங்கள் அல்லது அவற்றின் சொந்த பாணிகளை உட்பொதிக்கும் ASS/SSA வசனங்களுக்குப் பொருந்தாது.",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "இந்தச் சாதனத்தால் தொடங்கப்பட்ட எந்த Chromecast இயக்கத்திற்கும் இந்த அமைப்புகள் பொருந்தும்.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "இந்தச் சாதனம் தொடங்கும் எந்த Google Cast பிளேபேக்கிற்கும் இந்த அமைப்புகள் பொருந்தும்.",
     "Studios": "ஸ்டுடியோக்கள்",
     "PathNotFound": "பாதை கண்டுபிடிக்க முடியவில்லை. பாதை செல்லுபடியாகும் என்பதை உறுதிசெய்து மீண்டும் முயற்சிக்கவும்.",
     "SubtitleVerticalPositionHelp": "உரை தோன்றும் வரி எண். நேர்மறை எண்கள் மேல் கீழே குறிக்கின்றன. எதிர்மறை எண்கள் கீழே மேலே குறிக்கின்றன.",
@@ -1350,7 +1350,7 @@
     "ClearQueue": "வரிசையை அழிக்கவும்",
     "StopPlayback": "பிளேபேக்கை நிறுத்துங்கள்",
     "ButtonPlayer": "பிளேயர்",
-    "ButtonCast": "மீடியாவை சாதனத்திற்கு அனுப்பு",
+    "ButtonCast": "சாதனத்திற்கு அனுப்பவும்",
     "ButtonSyncPlay": "ஒத்திசைவு",
     "EnableBlurHashHelp": "இன்னும் ஏற்றப்படும் படங்கள் தனித்துவமான ஒதுக்கிடத்துடன் காண்பிக்கப்படும்.",
     "EnableBlurHash": "படங்களுக்கு மங்கலான ஒதுக்கிடங்களை இயக்கவும்",
@@ -1650,5 +1650,6 @@
     "CopyFailed": "நகலெடுக்க முடியவில்லை",
     "Copy": "நகலெடுக்கவும்",
     "Copied": "நகலெடுக்கப்பட்டது",
-    "AddToFavorites": "பிடித்தவையில் சேர்"
+    "AddToFavorites": "பிடித்தவையில் சேர்",
+    "GoogleCastUnsupported": "Google Cast ஆதரிக்கப்படவில்லை"
 }
