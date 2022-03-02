@@ -770,6 +770,7 @@ function renderDetailImage(elem, item, imageLoader) {
         centerText: true,
         overlayText: false,
         transition: false,
+        disableHoverMenu: true,
         disableIndicators: true,
         overlayPlayButton: layoutManager.desktop,
         action: layoutManager.desktop ? 'resume' : 'none',
@@ -1916,10 +1917,6 @@ export default function (view, params) {
         playCurrentItem(this, this.getAttribute('data-action'));
     }
 
-    function onPosterClick(e) {
-        itemShortcuts.onClick.call(view.querySelector('.detailImageContainer'), e);
-    }
-
     function onInstantMixClick() {
         playbackManager.instantMix(currentItem);
     }
@@ -2015,7 +2012,7 @@ export default function (view, params) {
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
-        view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
+        view.querySelector('.detailImageContainer').addEventListener('click', onPlayClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
