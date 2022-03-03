@@ -1328,7 +1328,7 @@
     "ShowMore": "Ver más",
     "ShowLess": "Ver menos",
     "ButtonSyncPlay": "SyncPlay",
-    "ButtonCast": "Enviar",
+    "ButtonCast": "Transmitir contenido",
     "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos extraer géneros de Internet.",
     "EnableDecodingColorDepth10Vp9": "Habilitar la decodificación por hardware de 10 bits para VP9",
     "EnableDecodingColorDepth10Hevc": "Habilitar la decodificación por hardware de 10 bits para HEVC",
@@ -1601,8 +1601,5 @@
     "ReleaseGroup": "Grupo de lanzamiento",
     "LabelSyncPlaySettingsSyncCorrectionHelp": "Activar la sincronización activa de la reproducción acelerando o moviéndose a la posición estimada. Desactivar esto en caso de cortes frecuentes en la reproducción.",
     "Cursive": "Cursiva",
-    "Production": "Producción",
-    "OriginalAirDate": "Fecha de emisión original",
-    "Digital": "Digital",
-    "StoryArc": "Arco argumental"
+    "ContainerBitrateExceedsLimit": "La tasa de bits del video supera el límite"
 }

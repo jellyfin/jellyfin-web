@@ -451,6 +451,7 @@ class SessionPlayer {
     }
 
     getRepeatMode() {
+        // not supported?
     }
 
     setQueueShuffleMode(mode) {
@@ -460,6 +461,7 @@ class SessionPlayer {
     }
 
     getQueueShuffleMode() {
+        // not supported?
     }
 
     displayContent(options) {
@@ -488,6 +490,7 @@ class SessionPlayer {
     }
 
     getCurrentPlaylistItemId() {
+        // not supported?
     }
 
     setCurrentPlaylistItem() {

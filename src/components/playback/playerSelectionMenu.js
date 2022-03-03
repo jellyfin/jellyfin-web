@@ -3,6 +3,7 @@ import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
+import { pluginManager } from '../pluginManager';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import { appHost } from '../apphost';
@@ -128,6 +129,13 @@ export function show(button) {
             // Might be able to solve this in the future by moving the dialogs to hashbangs
             if (!(!browser.chrome && !browser.edgeChromium || appHost.supports('castmenuhashchange'))) {
                 menuOptions.enableHistory = false;
+            }
+
+            // Add message when Google Cast is not supported
+            const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
+            // TODO: Add other checks for support (Android app, secure context, etc)
+            if (!isChromecastPluginLoaded) {
+                menuOptions.text = `(${globalize.translate('GoogleCastUnsupported')})`;
             }
 
             actionsheet.show(menuOptions).then(function (id) {

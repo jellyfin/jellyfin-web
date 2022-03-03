@@ -1,3 +1,4 @@
+import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import loading from '../../../components/loading/loading';
 import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
@@ -96,14 +97,14 @@ import confirm from '../../../components/confirm/confirm';
             deviceHtml += '<div class="cardBox visualCardBox">';
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
-            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#!/device.html?id=' + device.Id : '#'}" class="cardContent cardImageContainer">`;
+            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#!/device.html?id=' + device.Id : '#'}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
             const iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
                 deviceHtml += '</div>';
             } else {
-                deviceHtml += '<span class="cardImageIcon material-icons tablet_android"></span>';
+                deviceHtml += '<span class="cardImageIcon material-icons tablet_android" aria-hidden="true"></span>';
             }
 
             deviceHtml += '</a>';
@@ -112,7 +113,7 @@ import confirm from '../../../components/confirm/confirm';
 
             if (canEdit || canDelete(device.Id)) {
                 deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
-                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert"></span></button>';
+                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
                 deviceHtml += '</div>';
             }
 

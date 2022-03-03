@@ -88,10 +88,12 @@ import ServerConnections from '../../components/ServerConnections';
 
             button.setAttribute('data-likes', (likes === null ? '' : likes));
         }
+
+        setTitle(button, isFavorite);
     }
 
-    function setTitle(button) {
-        button.title = globalize.translate('Favorite');
+    function setTitle(button, isFavorite) {
+        button.title = isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites');
 
         const text = button.querySelector('.button-text');
         if (text) {
@@ -141,9 +143,9 @@ import ServerConnections from '../../components/ServerConnections';
 
             setState(this, likes, isFavorite, false);
             bindEvents(this);
+        } else {
+            setTitle(this);
         }
-
-        setTitle(this);
     };
 
     EmbyRatingButtonPrototype.detachedCallback = function () {

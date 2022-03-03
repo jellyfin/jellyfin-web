@@ -1,3 +1,4 @@
+import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
 import cardBuilder from '../cardbuilder/cardBuilder';
@@ -15,14 +16,35 @@ const createScroller = ({ title = '' }) => ({
 </div>`
 });
 
+type CardOptions = {
+    itemsContainer?: HTMLElement,
+    parentContainer?: HTMLElement,
+    allowBottomPadding?: boolean,
+    centerText?: boolean,
+    coverImage?: boolean,
+    inheritThumb?: boolean,
+    overlayMoreButton?: boolean,
+    overlayText?: boolean,
+    preferThumb?: boolean,
+    scalable?: boolean,
+    shape?: string,
+    showParentTitle?: boolean,
+    showParentTitleOrTitle?: boolean,
+    showAirTime?: boolean,
+    showAirDateTime?: boolean,
+    showChannelName?: boolean,
+    showTitle?: boolean,
+    showYear?: boolean
+}
+
 type SearchResultsRowProps = {
     title?: string;
-    items?: Array<any>; // TODO: Should be Array<BaseItemDto> once we have a typed API client
-    cardOptions?: Record<string, any>;
+    items?: BaseItemDto[];
+    cardOptions?: CardOptions;
 }
 
 const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         cardBuilder.buildCards(items, {

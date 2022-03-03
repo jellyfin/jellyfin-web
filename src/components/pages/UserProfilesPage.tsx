@@ -1,4 +1,4 @@
-
+import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, {FunctionComponent, useEffect, useState, useRef} from 'react';
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
@@ -21,9 +21,9 @@ type MenuEntry = {
 }
 
 const UserProfilesPage: FunctionComponent = () => {
-    const [ users, setUsers ] = useState([]);
+    const [ users, setUsers ] = useState<UserDto[]>([]);
 
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
     const loadData = () => {
         loading.show();
@@ -34,11 +34,23 @@ const UserProfilesPage: FunctionComponent = () => {
     };
 
     useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         loadData();
 
-        const showUserMenu = (elem) => {
+        const showUserMenu = (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
             const userId = card.getAttribute('data-userid');
+
+            if (!userId) {
+                console.error('Unexpected null user id');
+                return;
+            }
 
             const menuItems: MenuEntry[] = [];
 
@@ -67,7 +79,7 @@ const UserProfilesPage: FunctionComponent = () => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: card,
-                    callback: function (id) {
+                    callback: function (id: string) {
                         switch (id) {
                             case 'open':
                                 Dashboard.navigate('useredit.html?userId=' + userId);
@@ -89,7 +101,7 @@ const UserProfilesPage: FunctionComponent = () => {
             });
         };
 
-        const deleteUser = (id) => {
+        const deleteUser = (id: string) => {
             const msg = globalize.translate('DeleteUserConfirmation');
 
             confirm({
@@ -105,15 +117,15 @@ const UserProfilesPage: FunctionComponent = () => {
             });
         };
 
-        element?.current?.addEventListener('click', function (e) {
-            const btnUserMenu = dom.parentWithClass(e.target, 'btnUserMenu');
+        page.addEventListener('click', function (e) {
+            const btnUserMenu = dom.parentWithClass(e.target as HTMLElement, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
         });
 
-        element?.current?.querySelector('.btnAddUser').addEventListener('click', function() {
+        (page.querySelector('.btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
     }, []);

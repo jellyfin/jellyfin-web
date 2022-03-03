@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createButtonElement = ({ type, className, title }) => ({
+const createButtonElement = ({ type, className, title }: { type?: string, className?: string, title?: string }) => ({
     __html: `<button
         is="emby-button"
         type="${type}"

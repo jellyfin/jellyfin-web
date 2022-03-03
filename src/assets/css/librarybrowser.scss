@@ -627,10 +627,15 @@
 
 .subtitle {
     margin: 0.15em 0 0.2em;
+
+    // Leave room for a focused button
+    margin-left: -1em;
+    padding-left: 1em;
 }
 
 .layout-mobile .subtitle {
     margin: 0.2em 0 0.2em;
+    padding-left: 0; // Reset padding for focused button since 'margin-left' is 0
 }
 
 .detailPagePrimaryContainer {
@@ -987,6 +992,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
     border-collapse: collapse;
 }
 
+.mediaInfoContent .btnCopy .material-icons {
+    font-size: inherit;
+}
+
 .mediaInfoStream {
     margin: 0 3em 0 0;
     display: inline-block;
@@ -995,6 +1004,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
 .mediaInfoStreamType {
     display: block;
+    margin: 0.622em 0; /* copy button height compensation */
+}
+
+.layout-tv .mediaInfoStreamType {
     margin: 1em 0;
 }
 

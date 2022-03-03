@@ -1212,8 +1212,8 @@
     "PerfectMatch": "정확히 일치",
     "ButtonSyncPlay": "SyncPlay",
     "HeaderDVR": "DVR",
-    "EnableDecodingColorDepth10Vp9": "10비트 VP9하드웨어 디코딩 사용합니다",
-    "EnableDecodingColorDepth10Hevc": "10비트 HEVC하드웨어 디코딩 사용합니다",
+    "EnableDecodingColorDepth10Vp9": "10비트 VP9하드웨어 디코딩 활성화",
+    "EnableDecodingColorDepth10Hevc": "10비트 HEVC하드웨어 디코딩 활성화",
     "QuickConnectNotAvailable": "퀵커넥트를 활성화하려면 서버 관리자에게 문의하십시오",
     "QuickConnectInvalidCode": "잘못된 퀵커넥트 코드",
     "QuickConnectDescription": "퀵커넥트로 로그인하려면 로그인중인 장치에서 퀵커넥트 버튼을 선택하고 아래 표시된 코드를 입력하십시오.",
@@ -1315,7 +1315,7 @@
     "Other": "기타",
     "EnableDetailsBannerHelp": "항목 디테일 페이지 상단에 배너 이미지를 표시합니다.",
     "EnableDetailsBanner": "디테일 배너",
-    "EnableQuickConnect": "이 서버에 퀵커넥트 사용",
+    "EnableQuickConnect": "서버에서 퀵커넥트 활성화",
     "Data": "데이터",
     "ButtonUseQuickConnect": "퀵커넥트 사용",
     "ButtonActivate": "활성화",
@@ -1558,5 +1558,7 @@
     "ErrorPlayerNotFound": "요청된 미디어에 대한 재생기를 찾을 수 없음.",
     "Engineer": "엔지니어",
     "Arranger": "각색가",
-    "AgeValue": "({0} 세)"
+    "AgeValue": "({0} 세)",
+    "Console": "콘솔",
+    "ButtonExitApp": "어플리케이션 종료"
 }

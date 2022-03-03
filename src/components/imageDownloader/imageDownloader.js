@@ -31,11 +31,16 @@ import template from './imageDownloader.template.html';
     let browsableImageStartIndex = 0;
     let browsableImageType = 'Primary';
     let selectedProvider;
+    let browsableParentId;
 
-    function getBaseRemoteOptions() {
+    function getBaseRemoteOptions(page) {
         const options = {};
 
-        options.itemId = currentItemId;
+        if (page.querySelector('#chkShowParentImages').checked && browsableParentId) {
+            options.itemId = browsableParentId;
+        } else {
+            options.itemId = currentItemId;
+        }
 
         return options;
     }
@@ -43,7 +48,7 @@ import template from './imageDownloader.template.html';
     function reloadBrowsableImages(page, apiClient) {
         loading.show();
 
-        const options = getBaseRemoteOptions();
+        const options = getBaseRemoteOptions(page);
 
         options.type = browsableImageType;
         options.startIndex = browsableImageStartIndex;
@@ -124,8 +129,8 @@ import template from './imageDownloader.template.html';
         if (showControls) {
             html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><span class="material-icons arrow_back"></span></button>';
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><span class="material-icons arrow_forward"></span></button>';
+            html += `<button is="paper-icon-button-light" title="${globalize.translate('Previous')}" class="btnPreviousPage autoSize" ${(startIndex ? '' : 'disabled')}><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
+            html += `<button is="paper-icon-button-light" title="${globalize.translate('Next')}" class="btnNextPage autoSize" ${(startIndex + limit >= totalRecordCount ? 'disabled' : '')}><span class="material-icons arrow_forward" aria-hidden="true"></span></button>`;
             html += '</div>';
         }
 
@@ -135,7 +140,7 @@ import template from './imageDownloader.template.html';
     }
 
     function downloadRemoteImage(page, apiClient, url, type, provider) {
-        const options = getBaseRemoteOptions();
+        const options = getBaseRemoteOptions(page);
 
         options.Type = type;
         options.ImageUrl = url;
@@ -259,7 +264,7 @@ import template from './imageDownloader.template.html';
         if (enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
-            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><span class="material-icons cloud_download"></span></button>';
+            html += `<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="${globalize.translate('Download')}"><span class="material-icons cloud_download" aria-hidden="true"></span></button>`;
             html += '</div>';
         }
 
@@ -273,26 +278,31 @@ import template from './imageDownloader.template.html';
         return html;
     }
 
+    function reloadBrowsableImagesFirstPage(page, apiClient) {
+        browsableImageStartIndex = 0;
+        reloadBrowsableImages(page, apiClient);
+    }
+
     function initEditor(page, apiClient) {
         page.querySelector('#selectBrowsableImageType').addEventListener('change', function () {
             browsableImageType = this.value;
-            browsableImageStartIndex = 0;
             selectedProvider = null;
 
-            reloadBrowsableImages(page, apiClient);
+            reloadBrowsableImagesFirstPage(page, apiClient);
         });
 
         page.querySelector('#selectImageProvider').addEventListener('change', function () {
-            browsableImageStartIndex = 0;
             selectedProvider = this.value;
 
-            reloadBrowsableImages(page, apiClient);
+            reloadBrowsableImagesFirstPage(page, apiClient);
         });
 
         page.querySelector('#chkAllLanguages').addEventListener('change', function () {
-            browsableImageStartIndex = 0;
+            reloadBrowsableImagesFirstPage(page, apiClient);
+        });
 
-            reloadBrowsableImages(page, apiClient);
+        page.querySelector('#chkShowParentImages').addEventListener('change', function () {
+            reloadBrowsableImagesFirstPage(page, apiClient);
         });
 
         page.addEventListener('click', function (e) {
@@ -336,6 +346,10 @@ import template from './imageDownloader.template.html';
             scrollHelper.centerFocus.on(dlg, false);
         }
 
+        if (browsableParentId) {
+            dlg.querySelector('#lblShowParentImages').classList.remove('hide');
+        }
+
         // Has to be assigned a z-index after the call to .open()
         dlg.addEventListener('close', onDialogClosed);
 
@@ -366,7 +380,7 @@ import template from './imageDownloader.template.html';
         }
     }
 
-export function show(itemId, serverId, itemType, imageType) {
+export function show(itemId, serverId, itemType, imageType, parentId) {
     return new Promise(function (resolve, reject) {
         currentResolve = resolve;
         currentReject = reject;
@@ -374,6 +388,7 @@ export function show(itemId, serverId, itemType, imageType) {
         browsableImageStartIndex = 0;
         browsableImageType = imageType || 'Primary';
         selectedProvider = null;
+        browsableParentId = parentId;
         showEditor(itemId, serverId, itemType);
     });
 }

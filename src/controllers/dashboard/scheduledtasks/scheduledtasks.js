@@ -49,7 +49,7 @@ import '../../../elements/emby-button/emby-button';
             }
             html += '<div class="listItem listItem-border scheduledTaskPaperIconItem" data-status="' + task.State + '">';
             html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
-            html += '<span class="material-icons listItemIcon schedule"></span>';
+            html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
             html += '</a>';
             html += '<div class="listItemBody two-line">';
             html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
@@ -58,9 +58,9 @@ import '../../../elements/emby-button/emby-button';
             html += '</a>';
             html += '</div>';
             if (task.State === 'Running') {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStop') + '"><span class="material-icons stop"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStop') + '"><span class="material-icons stop" aria-hidden="true"></span></button>';
             } else if (task.State === 'Idle') {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStart') + '"><span class="material-icons play_arrow"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStart') + '"><span class="material-icons play_arrow" aria-hidden="true"></span></button>';
             }
             html += '</div>';
         }

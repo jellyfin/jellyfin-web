@@ -100,16 +100,6 @@ import template from './displaySettings.template.html';
             context.querySelector('.fldDateTimeLocale').classList.add('hide');
         }
 
-        if (!browser.tizen && !browser.web0s) {
-            context.querySelector('.fldBackdrops').classList.remove('hide');
-            context.querySelector('.fldThemeSong').classList.remove('hide');
-            context.querySelector('.fldThemeVideo').classList.remove('hide');
-        } else {
-            context.querySelector('.fldBackdrops').classList.add('hide');
-            context.querySelector('.fldThemeSong').classList.add('hide');
-            context.querySelector('.fldThemeVideo').classList.add('hide');
-        }
-
         fillThemes(context.querySelector('#selectTheme'), userSettings.theme());
         fillThemes(context.querySelector('#selectDashboardTheme'), userSettings.dashboardTheme());
 

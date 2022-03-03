@@ -1,5 +1,17 @@
 import './toast.scss';
 
+let toastContainer;
+
+function getToastContainer() {
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.classList.add('toastContainer');
+        document.body.appendChild(toastContainer);
+    }
+
+    return toastContainer;
+}
+
 function remove(elem) {
     setTimeout(function () {
         elem.parentNode.removeChild(elem);
@@ -8,7 +20,7 @@ function remove(elem) {
 
 function animateRemove(elem) {
     setTimeout(function () {
-        elem.classList.remove('toastVisible');
+        elem.classList.add('toastHide');
         remove(elem);
     }, 3300);
 }
@@ -24,7 +36,7 @@ export default function (options) {
     elem.classList.add('toast');
     elem.textContent = options.text;
 
-    document.body.appendChild(elem);
+    getToastContainer().appendChild(elem);
 
     setTimeout(function () {
         elem.classList.add('toastVisible');

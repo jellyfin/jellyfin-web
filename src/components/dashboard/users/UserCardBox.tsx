@@ -1,10 +1,11 @@
+import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import globalize from '../../../scripts/globalize';
 import cardBuilder from '../../cardbuilder/cardBuilder';
 
-const createLinkElement = ({ user, renderImgUrl }) => ({
+const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl: string }) => ({
     __html: `<a
         is="emby-linkbutton"
         class="cardContent"
@@ -20,15 +21,15 @@ const createButtonElement = () => ({
         type="button"
         class="btnUserMenu flex-shrink-zero"
         >
-        <span class="material-icons more_vert"></span>
+        <span class="material-icons more_vert" aria-hidden="true"></span>
     </button>`
 });
 
 type IProps = {
-    user?: Record<string, any>;
+    user?: UserDto;
 }
 
-const getLastSeenText = (lastActivityDate) => {
+const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
         return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), localeWithSuffix));
     }
@@ -36,16 +37,16 @@ const getLastSeenText = (lastActivityDate) => {
     return '';
 };
 
-const UserCardBox: FunctionComponent<IProps> = ({ user = [] }: IProps) => {
+const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
     let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
-    if (user.Policy.IsDisabled) {
+    if (user.Policy?.IsDisabled) {
         cssClass += ' grayscale';
     }
 
     let imgUrl;
 
-    if (user.PrimaryImageTag) {
+    if (user.PrimaryImageTag && user.Id) {
         imgUrl = window.ApiClient.getUserImageUrl(user.Id, {
             width: 300,
             tag: user.PrimaryImageTag,
@@ -55,7 +56,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = [] }: IProps) => {
 
     let imageClass = 'cardImage';
 
-    if (user.Policy.IsDisabled) {
+    if (user.Policy?.IsDisabled) {
         imageClass += ' disabledUser';
     }
 
@@ -64,7 +65,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = [] }: IProps) => {
     const renderImgUrl = imgUrl ?
         `<div class='${imageClass}' style='background-image:url(${imgUrl})'></div>` :
         `<div class='${imageClass} ${cardBuilder.getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
-            <span class='material-icons cardImageIcon person'></span>
+            <span class='material-icons cardImageIcon person' aria-hidden='true'></span>
         </div>`;
 
     return (

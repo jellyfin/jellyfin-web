@@ -23,10 +23,6 @@ function onViewDestroy() {
     this.initialTabIndex = null;
 }
 
-function onBeforeTabChange() {
-
-}
-
 class TabbedView {
     constructor(view, params) {
         this.tabControllers = [];
@@ -79,7 +75,7 @@ class TabbedView {
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', function () {
-            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, false);
+            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, null, onTabChange, false);
         });
 
         view.addEventListener('viewshow', function (e) {

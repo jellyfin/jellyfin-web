@@ -13,7 +13,6 @@ import listView from '../../components/listview/listview';
 import itemContextMenu from '../../components/itemContextMenu';
 import itemHelper from '../../components/itemHelper';
 import dom from '../../scripts/dom';
-import indicators from '../../components/indicators/indicators';
 import imageLoader from '../../components/images/imageLoader';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
@@ -32,6 +31,12 @@ import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';
+
+function autoFocus(container) {
+    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
+        autoFocuser.autoFocus(container);
+    });
+}
 
 function getPromise(apiClient, params) {
     const id = params.id;
@@ -338,7 +343,7 @@ function reloadPlayButtons(page, item) {
             hideAll(page, 'btnPlay');
         }
 
-        hideAll(page, 'btnResume');
+        hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
     } else if (playbackManager.canPlay(item)) {
@@ -350,30 +355,20 @@ function reloadPlayButtons(page, item) {
         canPlay = true;
 
         const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
-        hideAll(page, 'btnResume', isResumable);
+        hideAll(page, 'btnReplay', isResumable);
 
-        for (const elem of page.querySelectorAll('.btnPlay')) {
-            const btnPlay = elem.querySelector('.detailButton-icon');
-
+        for (const btnPlay of page.querySelectorAll('.btnPlay')) {
             if (isResumable) {
-                btnPlay.classList.replace('play_arrow', 'replay');
+                btnPlay.title = globalize.translate('ButtonResume');
             } else {
-                btnPlay.classList.replace('replay', 'play_arrow');
+                btnPlay.title = globalize.translate('Play');
             }
         }
     } else {
         hideAll(page, 'btnPlay');
-        hideAll(page, 'btnResume');
+        hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
-    }
-
-    const btnResume = page.querySelector('.mainDetailButtons .btnResume');
-    const btnPlay = page.querySelector('.mainDetailButtons .btnPlay');
-    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
-        btnResume.classList.add('fab');
-    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
-        btnPlay.classList.add('fab');
     }
 
     return canPlay;
@@ -433,7 +428,6 @@ function getArtistLinksHtml(artists, serverId, context) {
  * @param {Object} context - Application context.
  */
 function renderName(item, container, context) {
-    let parentRoute;
     const parentNameHtml = [];
     let parentNameLast = false;
 
@@ -444,55 +438,19 @@ function renderName(item, container, context) {
         parentNameHtml.push(getArtistLinksHtml(item.ArtistItems, item.ServerId, context));
         parentNameLast = true;
     } else if (item.SeriesName && item.Type === 'Episode') {
-        parentRoute = appRouter.getRouteUrl({
-            Id: item.SeriesId,
-            Name: item.SeriesName,
-            Type: 'Series',
-            IsFolder: true,
-            ServerId: item.ServerId
-        }, {
-            context: context
-        });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${item.SeriesName}</a>`);
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(item.Name);
     }
 
     if (item.SeriesName && item.Type === 'Season') {
-        parentRoute = appRouter.getRouteUrl({
-            Id: item.SeriesId,
-            Name: item.SeriesName,
-            Type: 'Series',
-            IsFolder: true,
-            ServerId: item.ServerId
-        }, {
-            context: context
-        });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${item.SeriesName}</a>`);
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
-        parentRoute = appRouter.getRouteUrl({
-            Id: item.SeasonId,
-            Name: item.SeasonName,
-            Type: 'Season',
-            IsFolder: true,
-            ServerId: item.ServerId
-        }, {
-            context: context
-        });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${item.SeasonName}</a>`);
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
-        parentRoute = appRouter.getRouteUrl({
-            Id: item.AlbumId,
-            Name: item.Album,
-            Type: 'MusicAlbum',
-            IsFolder: true,
-            ServerId: item.ServerId
-        }, {
-            context: context
-        });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${item.Album}</a>`);
     } else if (item.Album) {
         parentNameHtml.push(item.Album);
     }
@@ -508,10 +466,10 @@ function renderName(item, container, context) {
             if (layoutManager.mobile) {
                 html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
             } else {
-                html = '<h3 class="parentName musicParentName">' + parentNameHtml.join(' - ') + '</h3>';
+                html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
         } else {
-            html = '<h1 class="parentName">' + tvShowHtml + '</h1>';
+            html = '<h1 class="parentName focuscontainer-x">' + tvShowHtml + '</h1>';
         }
     }
 
@@ -521,7 +479,7 @@ function renderName(item, container, context) {
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle">' + tvSeasonHtml + ' - ' + name + '</h3>';
+            html += '<h3 class="itemName infoText subtitle focuscontainer-x">' + tvSeasonHtml + ' - ' + name + '</h3>';
         } else {
             html += '<h3 class="itemName infoText subtitle">' + name + '</h3>';
         }
@@ -634,12 +592,6 @@ function reloadFromItem(instance, page, params, item, user) {
     setInitialCollapsibleState(page, item, apiClient, params.context, user);
     const canPlay = reloadPlayButtons(page, item);
 
-    if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
-        hideAll(page, 'btnPlayTrailer', true);
-    } else {
-        hideAll(page, 'btnPlayTrailer');
-    }
-
     setTrailerButtonVisibility(page, item);
 
     if (item.Type !== 'Program' || canPlay) {
@@ -727,9 +679,7 @@ function reloadFromItem(instance, page, params, item, user) {
         hideAll(page, 'btnDownload', true);
     }
 
-    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-        autoFocuser.autoFocus(page);
-    });
+    autoFocus(page);
 }
 
 function logoImageUrl(item, apiClient, options) {
@@ -820,9 +770,10 @@ function renderDetailImage(elem, item, imageLoader) {
         centerText: true,
         overlayText: false,
         transition: false,
+        disableHoverMenu: true,
         disableIndicators: true,
-        overlayPlayButton: layoutManager.mobile ? false : true,
-        action: layoutManager.mobile ? 'none' : 'play',
+        overlayPlayButton: layoutManager.desktop,
+        action: layoutManager.desktop ? 'resume' : 'none',
         width: dom.getWindowSize().innerWidth * 0.25
     });
 
@@ -839,18 +790,6 @@ function renderImage(page, item) {
         item,
         imageLoader
     );
-}
-
-function refreshDetailImageUserData(elem, item) {
-    const container = elem.querySelector('.detailImageProgressContainer');
-
-    if (container) {
-        container.innerHTML = indicators.getProgressBarHtml(item);
-    }
-}
-
-function refreshImage(page, item) {
-    refreshDetailImageUserData(page.querySelector('.detailImageContainer'), item);
 }
 
 function setPeopleHeader(page, item) {
@@ -870,7 +809,8 @@ function renderNextUp(page, item, user) {
 
     ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
         SeriesId: item.Id,
-        UserId: user.Id
+        UserId: user.Id,
+        Fields: 'MediaSourceCount'
     }).then(function (result) {
         if (result.Items.length) {
             section.classList.remove('hide');
@@ -921,7 +861,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
 
     renderScenes(page, item);
 
-    if (item.SpecialFeatureCount && item.SpecialFeatureCount != 0 && item.Type != 'Series') {
+    if (item.SpecialFeatureCount > 0) {
         page.querySelector('#specialsCollapsible').classList.remove('hide');
         renderSpecials(page, item, user);
     } else {
@@ -1756,9 +1696,7 @@ function renderCollectionItems(page, parentItem, types, items) {
 
     // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
     // FIXME: Sometimes focus does not move until all (?) sections are loaded
-    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-        autoFocuser.autoFocus(page);
-    });
+    autoFocus(page);
 }
 
 function renderCollectionItemType(page, parentItem, type, items) {
@@ -1976,11 +1914,7 @@ export default function (view, params) {
     }
 
     function onPlayClick() {
-        playCurrentItem(this, this.getAttribute('data-mode'));
-    }
-
-    function onPosterClick(e) {
-        itemShortcuts.onClick.call(view.querySelector('.detailImageContainer'), e);
+        playCurrentItem(this, this.getAttribute('data-action'));
     }
 
     function onInstantMixClick() {
@@ -2059,7 +1993,7 @@ export default function (view, params) {
             if (userData) {
                 currentItem.UserData = userData;
                 reloadPlayButtons(view, currentItem);
-                refreshImage(view, currentItem);
+                autoFocus(view);
             }
         }
     }
@@ -2070,16 +2004,15 @@ export default function (view, params) {
     function init() {
         const apiClient = getApiClient();
 
-        view.querySelectorAll('.btnPlay');
         bindAll(view, '.btnPlay', 'click', onPlayClick);
-        bindAll(view, '.btnResume', 'click', onPlayClick);
+        bindAll(view, '.btnReplay', 'click', onPlayClick);
         bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
         bindAll(view, '.btnShuffle', 'click', onShuffleClick);
         bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
-        view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
+        view.querySelector('.detailImageContainer').addEventListener('click', onPlayClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
@@ -2099,6 +2032,7 @@ export default function (view, params) {
                 if (currentItem) {
                     appRouter.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
+                    renderBackdrop(currentItem);
                 }
             } else {
                 reload(self, page, params);
@@ -2106,8 +2040,11 @@ export default function (view, params) {
 
             Events.on(apiClient, 'message', onWebSocketMessage);
             Events.on(playbackManager, 'playerchange', onPlayerChange);
+
+            itemShortcuts.on(view.querySelector('.nameContainer'));
         });
         view.addEventListener('viewbeforehide', function () {
+            itemShortcuts.off(view.querySelector('.nameContainer'));
             Events.off(apiClient, 'message', onWebSocketMessage);
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);

@@ -5,7 +5,7 @@ type IProps = {
     activeTab: string;
 }
 
-const createLinkElement = ({ activeTab }) => ({
+const createLinkElement = (activeTab: string) => ({
     __html: `<a href="#"
         is="emby-linkbutton"
         data-role="button"
@@ -42,9 +42,7 @@ const SectionTabs: FunctionComponent<IProps> = ({activeTab}: IProps) => {
             data-role='controlgroup'
             data-type='horizontal'
             className='localnav'
-            dangerouslySetInnerHTML={createLinkElement({
-                activeTab: activeTab
-            })}
+            dangerouslySetInnerHTML={createLinkElement(activeTab)}
         />
     );
 };

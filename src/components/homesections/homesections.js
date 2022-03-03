@@ -73,8 +73,7 @@ import ServerConnections from '../ServerConnections';
 
                 return Promise.all(promises).then(function () {
                     return resume(elem, {
-                        refresh: true,
-                        returnPromise: false
+                        refresh: true
                     });
                 });
             } else {
@@ -127,10 +126,7 @@ import ServerConnections from '../ServerConnections';
             promises.push(elems[i].resume(options));
         }
 
-        const promise = Promise.all(promises);
-        if (!options || options.returnPromise !== false) {
-            return promise;
-        }
+        return Promise.all(promises);
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
@@ -151,6 +147,8 @@ import ServerConnections from '../ServerConnections';
             loadLatestLiveTvRecordings(elem, true, apiClient);
         } else if (section === 'nextup') {
             loadNextUp(elem, apiClient, userSettings);
+        } else if (section === 'rewatching') {
+            loadNextUp(elem, apiClient, userSettings, true);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         } else if (section === 'resumebook') {
@@ -196,7 +194,7 @@ import ServerConnections from '../ServerConnections';
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];
             const icon = imageHelper.getLibraryIcon(item.CollectionType);
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '" aria-hidden="true"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
 
         html += '</div>';
@@ -287,7 +285,7 @@ import ServerConnections from '../ServerConnections';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('LatestFromLibrary', parent.Name);
             html += '</h2>';
-            html += '<span class="material-icons chevron_right"></span>';
+            html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
@@ -569,7 +567,7 @@ import ServerConnections from '../ServerConnections';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate('HeaderOnNow');
                     html += '</h2>';
-                    html += '<span class="material-icons chevron_right"></span>';
+                    html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
                     html += '</a>';
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
@@ -600,20 +598,21 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function getNextUpFetchFn(serverId, userSettings) {
+    function getNextUpFetchFn(serverId, userSettings, rewatching) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
             const oldestDateForNextUp = new Date();
             oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path',
+                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path,MediaSourceCount',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false,
                 DisableFirstEpisode: false,
-                NextUpDateCutoff: oldestDateForNextUp.toISOString()
+                NextUpDateCutoff: oldestDateForNextUp.toISOString(),
+                Rewatching: rewatching
             });
         };
     }
@@ -639,21 +638,32 @@ import ServerConnections from '../ServerConnections';
         };
     }
 
-    function loadNextUp(elem, apiClient, userSettings) {
+    function loadNextUp(elem, apiClient, userSettings, rewatching = false) {
         let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
-                serverId: apiClient.serverId()
+                serverId: apiClient.serverId(),
+                rewatching: rewatching
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('NextUp');
+            if (rewatching) {
+                html += globalize.translate('NextUpRewatching');
+            } else {
+                html += globalize.translate('NextUp');
+            }
             html += '</h2>';
-            html += '<span class="material-icons chevron_right"></span>';
+            html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
             html += '</a>';
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('NextUp') + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            if (rewatching) {
+                html += globalize.translate('NextUpRewatching');
+            } else {
+                html += globalize.translate('NextUp');
+            }
+            html += '</h2>';
         }
         html += '</div>';
 
@@ -673,7 +683,7 @@ import ServerConnections from '../ServerConnections';
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings);
+        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings, rewatching);
         itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume());
         itemsContainer.parentContainer = elem;
     }

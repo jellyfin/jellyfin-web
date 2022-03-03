@@ -32,7 +32,7 @@
                             <div style="flex-grow:1;">
                                 <input is="emby-input" id="txtCachePath" label="${LabelCachePath}" autocomplete="off" />
                             </div>
-                            <button type="button" is="paper-icon-button-light" id="btnSelectCachePath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><span class="material-icons search"></span></button>
+                            <button type="button" is="paper-icon-button-light" id="btnSelectCachePath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><span class="material-icons search" aria-hidden="true"></span></button>
                         </div>
                         <div class="fieldDescription">${LabelCachePathHelp}</div>
                     </div>
@@ -42,7 +42,7 @@
                             <div style="flex-grow:1;">
                                 <input is="emby-input" id="txtMetadataPath" label="${LabelMetadataPath}" autocomplete="off" />
                             </div>
-                            <button type="button" is="paper-icon-button-light" id="btnSelectMetadataPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><span class="material-icons search"></span></button>
+                            <button type="button" is="paper-icon-button-light" id="btnSelectMetadataPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><span class="material-icons search" aria-hidden="true"></span></button>
                         </div>
                         <div class="fieldDescription">${LabelMetadataPathHelp}</div>
                         <input type="hidden" id="txtMetadataNetworkPath" />
@@ -65,7 +65,7 @@
                 <div class="verticalSection">
                     <h2>${HeaderBranding}</h2>
                     <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtLoginDisclaimer" label="${LabelLoginDisclaimer}" />
+                        <textarea is="emby-textarea" id="txtLoginDisclaimer" label="${LabelLoginDisclaimer}" class="textarea-mono"></textarea>
                         <div class="fieldDescription">${LabelLoginDisclaimerHelp}</div>
                     </div>
                     <div class="inputContainer customCssContainer">

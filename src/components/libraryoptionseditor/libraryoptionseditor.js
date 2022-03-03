@@ -69,16 +69,16 @@ import template from './libraryoptionseditor.template.html';
         for (let i = 0; i < plugins.length; i++) {
             const plugin = plugins[i];
             html += `<div class="listItem localReaderOption sortableOption" data-pluginname="${plugin.Name}">`;
-            html += '<span class="listItemIcon material-icons live_tv"></span>';
+            html += '<span class="listItemIcon material-icons live_tv" aria-hidden="true"></span>';
             html += '<div class="listItemBody">';
             html += '<h3 class="listItemBodyText">';
             html += plugin.Name;
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up"></span></button>`;
+                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>`;
             } else if (plugins.length > 1) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down"></span></button>`;
+                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>`;
             }
             html += '</div>';
         }
@@ -132,9 +132,9 @@ import template from './libraryoptionseditor.template.html';
             html += '</h3>';
             html += '</div>';
             if (index > 0) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>';
             } else if (plugins.length > 1) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>';
             }
             html += '</div>';
         });
@@ -198,9 +198,9 @@ import template from './libraryoptionseditor.template.html';
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up"></span></button>`;
+                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>`;
             } else if (plugins.length > 1) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down"></span></button>`;
+                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>`;
             }
             html += '</div>';
         }
@@ -237,9 +237,9 @@ import template from './libraryoptionseditor.template.html';
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_up"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>';
             } else if (plugins.length > 1) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_down"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>';
             }
             html += '</div>';
         }
@@ -411,7 +411,13 @@ import template from './libraryoptionseditor.template.html';
             parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
         }
 
-        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies');
+        if (contentType === 'tvshows' || contentType === 'movies' || contentType === 'musicvideos' || contentType === 'mixed') {
+            parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.remove('hide');
+        } else {
+            parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
+        }
+
+        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
 
         return populateMetadataSettings(parent, contentType);
     }
@@ -509,6 +515,7 @@ import template from './libraryoptionseditor.template.html';
             AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value),
             EnableEmbeddedTitles: parent.querySelector('#chkEnableEmbeddedTitles').checked,
             EnableEmbeddedEpisodeInfos: parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked,
+            AllowEmbeddedSubtitles: parent.querySelector('#selectAllowEmbeddedSubtitles').value,
             SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked,
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector('#chkSkipIfAudioTrackPresent').checked,
             SaveSubtitlesWithMedia: parent.querySelector('#chkSaveSubtitlesLocally').checked,
@@ -560,7 +567,8 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
-        parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked = options.EnableEmbeddedEpisodeInfos;
+        parent.querySelector('#chkEnableEmbeddedEpisodeInfos').value = options.EnableEmbeddedEpisodeInfos;
+        parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
         parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
         parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
         parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;

@@ -227,6 +227,10 @@ button::-moz-focus-inner {
     background-color: transparent;
 }
 
+.cardPadder {
+    position: relative; // For centering the cardImageIcon
+}
+
 .cardBox:not(.visualCardBox) .cardPadder {
     border-radius: 0.2em;
     background-color: #242424;
@@ -375,6 +379,18 @@ button::-moz-focus-inner {
 .cardImageIcon {
     font-size: 5em;
     color: inherit;
+}
+
+.cardPadder .cardImageIcon {
+    color: #111;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cardImageContainer .cardImageIcon {
+    margin: auto; /* 'justify-content: center' doesn't work in Safari 10 */
 }
 
 .cardIndicators {

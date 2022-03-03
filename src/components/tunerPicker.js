@@ -50,7 +50,7 @@ function getDeviceHtml(device) {
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="' + padderClass + '"></div>';
     html += '<div class="cardContent searchImage">';
-    html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr"></span></div>';
+    html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>';
     html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';
@@ -135,7 +135,7 @@ function tunerPicker() {
         dlg.classList.add('formDialog');
         let html = '';
         html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
         html += '<h3 class="formDialogHeaderTitle">';
         html += globalize.translate('HeaderLiveTvTunerSetup');
         html += '</h3>';

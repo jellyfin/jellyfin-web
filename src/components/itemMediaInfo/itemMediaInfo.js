@@ -7,6 +7,9 @@
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
+import toast from '../toast/toast';
+import { copy } from '../../scripts/clipboard';
+import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
@@ -19,6 +22,12 @@ import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './itemMediaInfo.template.html';
 
+// Do not add extra spaces between tags - they will be copied into the result
+const copyButtonHtml = layoutManager.tv ? '' :
+    `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('Copy')}" aria-label="${globalize.translate('Copy')}"
+        ><span class="material-icons content_copy" aria-hidden="true"></span></button>`;
+const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </span>';
+
     function setMediaInfo(user, page, item) {
         let html = item.MediaSources.map(version => {
             return getMediaSourceHtml(user, item, version);
@@ -28,12 +37,25 @@ import template from './itemMediaInfo.template.html';
         }
         const mediaInfoContent = page.querySelector('#mediaInfoContent');
         mediaInfoContent.innerHTML = html;
+
+        for (const btn of mediaInfoContent.querySelectorAll('.btnCopy')) {
+            btn.addEventListener('click', () => {
+                const infoBlock = dom.parentWithClass(btn, 'mediaInfoStream') || dom.parentWithClass(btn, 'mediaInfoSource') || mediaInfoContent;
+
+                copy(infoBlock.textContent).then(() => {
+                    toast(globalize.translate('Copied'));
+                }).catch(() => {
+                    console.error('Could not copy text');
+                    toast(globalize.translate('CopyFailed'));
+                });
+            });
+        }
     }
 
     function getMediaSourceHtml(user, item, version) {
-        let html = '';
+        let html = '<div class="mediaInfoSource">';
         if (version.Name) {
-            html += `<div><h2 class="mediaInfoStreamType">${version.Name}</h2></div>`;
+            html += `<div><h2 class="mediaInfoStreamType">${version.Name}${copyButtonHtml}</h2></div>\n`;
         }
         if (version.Container) {
             html += `${createAttribute(globalize.translate('MediaInfoContainer'), version.Container)}<br/>`;
@@ -69,7 +91,7 @@ import template from './itemMediaInfo.template.html';
             }
 
             const displayType = globalize.translate(translateString);
-            html += `<h2 class="mediaInfoStreamType">${displayType}</h2>`;
+            html += `\n<h2 class="mediaInfoStreamType">${displayType}${copyButtonHtml}</h2>\n`;
             const attributes = [];
             if (stream.DisplayTitle) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoTitle'), stream.DisplayTitle));
@@ -143,10 +165,8 @@ import template from './itemMediaInfo.template.html';
             if (stream.NalLengthSize) {
                 attributes.push(createAttribute('NAL', stream.NalLengthSize));
             }
-            if (stream.Type !== 'Video') {
+            if (stream.Type === 'Subtitle' || stream.Type === 'Audio') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), (stream.IsDefault ? 'Yes' : 'No')));
-            }
-            if (stream.Type === 'Subtitle') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoForced'), (stream.IsForced ? 'Yes' : 'No')));
                 attributes.push(createAttribute(globalize.translate('MediaInfoExternal'), (stream.IsExternal ? 'Yes' : 'No')));
             }
@@ -156,11 +176,12 @@ import template from './itemMediaInfo.template.html';
             html += attributes.join('<br/>');
             html += '</div>';
         }
+        html += '</div>';
         return html;
     }
 
     function createAttribute(label, value) {
-        return `<span class="mediaInfoLabel">${label}</span><span class="mediaInfoAttribute">${value}</span>`;
+        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute">${value}</span>\n`;
     }
 
     function loadMediaInfo(itemId, serverId) {

@@ -260,7 +260,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                         id: 'DateCreated,SortName'
                     }, {
                         name: globalize.translate('OptionDatePlayed'),
-                        id: 'DatePlayed,SortName'
+                        id: 'SeriesDatePlayed,SortName'
                     }, {
                         name: globalize.translate('OptionParentalRating'),
                         id: 'OfficialRating,SortName'
@@ -297,8 +297,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             reloadItems(tabContent);
             this.alphaPicker?.updateControls(getQuery(tabContent));
         };
-
-        this.destroy = function () {};
     }
 
 /* eslint-enable indent */

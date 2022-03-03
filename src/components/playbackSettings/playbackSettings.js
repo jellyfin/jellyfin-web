@@ -176,12 +176,6 @@ import template from './playbackSettings.template.html';
             context.querySelector('.fldChromecastQuality').classList.add('hide');
         }
 
-        if (browser.tizen || browser.web0s) {
-            context.querySelector('.fldEnableNextVideoOverlay').classList.add('hide');
-        } else {
-            context.querySelector('.fldEnableNextVideoOverlay').classList.remove('hide');
-        }
-
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
         context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();

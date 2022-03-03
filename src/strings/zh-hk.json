@@ -262,7 +262,7 @@
     "Absolute": "絕對",
     "AuthProviderHelp": "選擇用於驗證該用戶密碼的身份驗證程式。",
     "AspectRatio": "長寬比",
-    "AskAdminToCreateLibrary": "要求管理員創建一個庫。",
+    "AskAdminToCreateLibrary": "要求管理員創建一個媒體庫。",
     "Ascending": "上升",
     "Artist": "藝人",
     "Art": "藝術",
@@ -366,7 +366,7 @@
     "Download": "下載",
     "DisplayInMyMedia": "在主頁顯示",
     "ButtonSyncPlay": "SyncPlay",
-    "BurnSubtitlesHelp": "確定若服務器對視頻進行轉碼時是否嵌入字幕。 關閉這功能將使用更少時間。 選擇'自動'可嵌入基於圖像的格式字幕（VOBSUB，PGS，SUB，IDX等）和某些ASS或SSA字幕。",
+    "BurnSubtitlesHelp": "根據已選擇字幕格式決定伺服器在影片轉檔時是否燒錄字幕。燒錄字幕將會增加伺服器負荷。選擇「自動」以燒錄圖片格式的字幕（如 VoBSuB、PGS 或 SUB/IDX 等）與複雜的 ASS/SSA 字幕。",
     "MessageBrowsePluginCatalog": "瀏覽我們的插件目錄以查看可用的插件。",
     "BoxRear": "盒裝(背面)",
     "BoxSet": "套裝",
@@ -1069,5 +1069,6 @@
     "LabelAutomaticallyAddToCollectionHelp": "當至少有 2 部電影具有相同的名稱時，它們將自動加入到合輯中。",
     "LabelAutomaticallyAddToCollection": "自動加入合輯",
     "LabelAirsBeforeEpisode": "預告：",
-    "HeaderSyncPlayTimeSyncSettings": "時間同步"
+    "HeaderSyncPlayTimeSyncSettings": "時間同步",
+    "ButtonExitApp": "離開應用程式"
 }

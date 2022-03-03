@@ -1,3 +1,4 @@
+import { SyncPlayUserAccessType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
@@ -23,16 +24,16 @@ type ItemsArr = {
 
 const UserEditPage: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState([]);
+    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ItemsArr[]>([]);
     const [ authProviders, setAuthProviders ] = useState([]);
     const [ passwordResetProviders, setPasswordResetProviders ] = useState([]);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
 
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
-    const triggerChange = (select) => {
+    const triggerChange = (select: HTMLInputElement) => {
         const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
@@ -44,7 +45,14 @@ const UserEditPage: FunctionComponent = () => {
     };
 
     const loadAuthProviders = useCallback((user, providers) => {
-        const fldSelectLoginProvider = element?.current?.querySelector('.fldSelectLoginProvider');
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
+        const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider') as HTMLDivElement;
         providers.length > 1 ? fldSelectLoginProvider.classList.remove('hide') : fldSelectLoginProvider.classList.add('hide');
 
         setAuthProviders(providers);
@@ -54,7 +62,14 @@ const UserEditPage: FunctionComponent = () => {
     }, []);
 
     const loadPasswordResetProviders = useCallback((user, providers) => {
-        const fldSelectPasswordResetProvider = element?.current?.querySelector('.fldSelectPasswordResetProvider');
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
+        const fldSelectPasswordResetProvider = page.querySelector('.fldSelectPasswordResetProvider') as HTMLDivElement;
         providers.length > 1 ? fldSelectPasswordResetProvider.classList.remove('hide') : fldSelectPasswordResetProvider.classList.add('hide');
 
         setPasswordResetProviders(providers);
@@ -64,6 +79,13 @@ const UserEditPage: FunctionComponent = () => {
     }, []);
 
     const loadDeleteFolders = useCallback((user, mediaFolders) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         window.ApiClient.getJSON(window.ApiClient.getUrl('Channels', {
             SupportsMediaDeletion: true
         })).then(function (channelsResult) {
@@ -93,13 +115,20 @@ const UserEditPage: FunctionComponent = () => {
 
             setDeleteFoldersAccess(itemsArr);
 
-            const chkEnableDeleteAllFolders = element.current.querySelector('.chkEnableDeleteAllFolders');
+            const chkEnableDeleteAllFolders = page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement;
             chkEnableDeleteAllFolders.checked = user.Policy.EnableContentDeletion;
             triggerChange(chkEnableDeleteAllFolders);
         });
     }, []);
 
     const loadUser = useCallback((user) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/Providers')).then(function (providers) {
             loadAuthProviders(user, providers);
         });
@@ -112,37 +141,38 @@ const UserEditPage: FunctionComponent = () => {
             loadDeleteFolders(user, folders.Items);
         });
 
-        const disabledUserBanner = element?.current?.querySelector('.disabledUserBanner');
+        const disabledUserBanner = page.querySelector('.disabledUserBanner') as HTMLDivElement;
         user.Policy.IsDisabled ? disabledUserBanner.classList.remove('hide') : disabledUserBanner.classList.add('hide');
 
-        const txtUserName = element?.current?.querySelector('#txtUserName');
-        txtUserName.disabled = '';
+        const txtUserName = page.querySelector('#txtUserName') as HTMLInputElement;
+        txtUserName.disabled = false;
         txtUserName.removeAttribute('disabled');
 
-        const lnkEditUserPreferences = element?.current?.querySelector('.lnkEditUserPreferences');
+        const lnkEditUserPreferences = page.querySelector('.lnkEditUserPreferences') as HTMLDivElement;
         lnkEditUserPreferences.setAttribute('href', 'mypreferencesmenu.html?userId=' + user.Id);
         LibraryMenu.setTitle(user.Name);
         setUserName(user.Name);
-        element.current.querySelector('#txtUserName').value = user.Name;
-        element.current.querySelector('.chkIsAdmin').checked = user.Policy.IsAdministrator;
-        element.current.querySelector('.chkDisabled').checked = user.Policy.IsDisabled;
-        element.current.querySelector('.chkIsHidden').checked = user.Policy.IsHidden;
-        element.current.querySelector('.chkRemoteControlSharedDevices').checked = user.Policy.EnableSharedDeviceControl;
-        element.current.querySelector('.chkEnableRemoteControlOtherUsers').checked = user.Policy.EnableRemoteControlOfOtherUsers;
-        element.current.querySelector('.chkEnableDownloading').checked = user.Policy.EnableContentDownloading;
-        element.current.querySelector('.chkManageLiveTv').checked = user.Policy.EnableLiveTvManagement;
-        element.current.querySelector('.chkEnableLiveTvAccess').checked = user.Policy.EnableLiveTvAccess;
-        element.current.querySelector('.chkEnableMediaPlayback').checked = user.Policy.EnableMediaPlayback;
-        element.current.querySelector('.chkEnableAudioPlaybackTranscoding').checked = user.Policy.EnableAudioPlaybackTranscoding;
-        element.current.querySelector('.chkEnableVideoPlaybackTranscoding').checked = user.Policy.EnableVideoPlaybackTranscoding;
-        element.current.querySelector('.chkEnableVideoPlaybackRemuxing').checked = user.Policy.EnablePlaybackRemuxing;
-        element.current.querySelector('.chkForceRemoteSourceTranscoding').checked = user.Policy.ForceRemoteSourceTranscoding;
-        element.current.querySelector('.chkRemoteAccess').checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
-        element.current.querySelector('#txtRemoteClientBitrateLimit').value = user.Policy.RemoteClientBitrateLimit / 1e6 || '';
-        element.current.querySelector('#txtLoginAttemptsBeforeLockout').value = user.Policy.LoginAttemptsBeforeLockout || '0';
-        element.current.querySelector('#txtMaxActiveSessions').value = user.Policy.MaxActiveSessions || '0';
+        (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name;
+        (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = user.Policy.IsAdministrator;
+        (page.querySelector('.chkDisabled') as HTMLInputElement).checked = user.Policy.IsDisabled;
+        (page.querySelector('.chkIsHidden') as HTMLInputElement).checked = user.Policy.IsHidden;
+        (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = user.Policy.EnableSharedDeviceControl;
+        (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked = user.Policy.EnableRemoteControlOfOtherUsers;
+        (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = user.Policy.EnableContentDownloading;
+        (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked = user.Policy.EnableLiveTvManagement;
+        (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked = user.Policy.EnableLiveTvAccess;
+        (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked = user.Policy.EnableMediaPlayback;
+        (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked = user.Policy.EnableAudioPlaybackTranscoding;
+        (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked = user.Policy.EnableVideoPlaybackTranscoding;
+        (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked = user.Policy.EnablePlaybackRemuxing;
+        (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = user.Policy.ForceRemoteSourceTranscoding;
+        (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
+        (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy.RemoteClientBitrateLimit > 0 ?
+            (user.Policy.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, {maximumFractionDigits: 6}) : '';
+        (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = user.Policy.LoginAttemptsBeforeLockout || '0';
+        (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = user.Policy.MaxActiveSessions || '0';
         if (window.ApiClient.isMinServerVersion('10.6.0')) {
-            element.current.querySelector('#selectSyncPlayAccess').value = user.Policy.SyncPlayAccess;
+            (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value = user.Policy.SyncPlayAccess;
         }
         loading.hide();
     }, [loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
@@ -155,6 +185,13 @@ const UserEditPage: FunctionComponent = () => {
     }, [loadUser]);
 
     useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         loadData();
 
         function onSaveComplete() {
@@ -163,44 +200,52 @@ const UserEditPage: FunctionComponent = () => {
             toast(globalize.translate('SettingsSaved'));
         }
 
-        const saveUser = (user) => {
-            user.Name = element?.current?.querySelector('#txtUserName').value;
-            user.Policy.IsAdministrator = element?.current?.querySelector('.chkIsAdmin').checked;
-            user.Policy.IsHidden = element?.current?.querySelector('.chkIsHidden').checked;
-            user.Policy.IsDisabled = element?.current?.querySelector('.chkDisabled').checked;
-            user.Policy.EnableRemoteControlOfOtherUsers = element?.current?.querySelector('.chkEnableRemoteControlOtherUsers').checked;
-            user.Policy.EnableLiveTvManagement = element?.current?.querySelector('.chkManageLiveTv').checked;
-            user.Policy.EnableLiveTvAccess = element?.current?.querySelector('.chkEnableLiveTvAccess').checked;
-            user.Policy.EnableSharedDeviceControl = element?.current?.querySelector('.chkRemoteControlSharedDevices').checked;
-            user.Policy.EnableMediaPlayback = element?.current?.querySelector('.chkEnableMediaPlayback').checked;
-            user.Policy.EnableAudioPlaybackTranscoding = element?.current?.querySelector('.chkEnableAudioPlaybackTranscoding').checked;
-            user.Policy.EnableVideoPlaybackTranscoding = element?.current?.querySelector('.chkEnableVideoPlaybackTranscoding').checked;
-            user.Policy.EnablePlaybackRemuxing = element?.current?.querySelector('.chkEnableVideoPlaybackRemuxing').checked;
-            user.Policy.ForceRemoteSourceTranscoding = element?.current?.querySelector('.chkForceRemoteSourceTranscoding').checked;
-            user.Policy.EnableContentDownloading = element?.current?.querySelector('.chkEnableDownloading').checked;
-            user.Policy.EnableRemoteAccess = element?.current?.querySelector('.chkRemoteAccess').checked;
-            user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat(element?.current?.querySelector('#txtRemoteClientBitrateLimit').value || '0'));
-            user.Policy.LoginAttemptsBeforeLockout = parseInt(element?.current?.querySelector('#txtLoginAttemptsBeforeLockout').value || '0');
-            user.Policy.MaxActiveSessions = parseInt(element?.current?.querySelector('#txtMaxActiveSessions').value || '0');
-            user.Policy.AuthenticationProviderId = element?.current?.querySelector('.selectLoginProvider').value;
-            user.Policy.PasswordResetProviderId = element?.current?.querySelector('.selectPasswordResetProvider').value;
-            user.Policy.EnableContentDeletion = element?.current?.querySelector('.chkEnableDeleteAllFolders').checked;
-            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(element?.current?.querySelectorAll('.chkFolder'), function (c) {
+        const saveUser = (user: UserDto) => {
+            if (!user.Id) {
+                throw new Error('Unexpected null user.Id');
+            }
+
+            if (!user.Policy) {
+                throw new Error('Unexpected null user.Policy');
+            }
+
+            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value;
+            user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
+            user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
+            user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
+            user.Policy.EnableRemoteControlOfOtherUsers = (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked;
+            user.Policy.EnableLiveTvManagement = (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked;
+            user.Policy.EnableLiveTvAccess = (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked;
+            user.Policy.EnableSharedDeviceControl = (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked;
+            user.Policy.EnableMediaPlayback = (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked;
+            user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked;
+            user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked;
+            user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
+            user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
+            user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
+            user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
+            user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
+            user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0');
+            user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0');
+            user.Policy.AuthenticationProviderId = (page.querySelector('.selectLoginProvider') as HTMLInputElement).value;
+            user.Policy.PasswordResetProviderId = (page.querySelector('.selectPasswordResetProvider') as HTMLInputElement).value;
+            user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
+            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
                 return c.checked;
             }).map(function (c) {
                 return c.getAttribute('data-id');
             });
             if (window.ApiClient.isMinServerVersion('10.6.0')) {
-                user.Policy.SyncPlayAccess = element?.current?.querySelector('#selectSyncPlayAccess').value;
+                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value as SyncPlayUserAccessType;
             }
             window.ApiClient.updateUser(user).then(function () {
-                window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
+                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {}).then(function () {
                     onSaveComplete();
                 });
             });
         };
 
-        const onSubmit = (e) => {
+        const onSubmit = (e: Event) => {
             loading.show();
             getUser().then(function (result) {
                 saveUser(result);
@@ -210,22 +255,22 @@ const UserEditPage: FunctionComponent = () => {
             return false;
         };
 
-        element?.current?.querySelector('.chkEnableDeleteAllFolders').addEventListener('change', function (this: HTMLInputElement) {
+        (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
             if (this.checked) {
-                element?.current?.querySelector('.deleteAccess').classList.add('hide');
+                (page.querySelector('.deleteAccess') as HTMLDivElement).classList.add('hide');
             } else {
-                element?.current?.querySelector('.deleteAccess').classList.remove('hide');
+                (page.querySelector('.deleteAccess') as HTMLDivElement).classList.remove('hide');
             }
         });
 
         window.ApiClient.getServerConfiguration().then(function (config) {
-            const fldRemoteAccess = element?.current?.querySelector('.fldRemoteAccess');
+            const fldRemoteAccess = page.querySelector('.fldRemoteAccess') as HTMLDivElement;
             config.EnableRemoteAccess ? fldRemoteAccess.classList.remove('hide') : fldRemoteAccess.classList.add('hide');
         });
 
-        element?.current?.querySelector('.editUserProfileForm').addEventListener('submit', onSubmit);
+        (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        element?.current?.querySelector('.button-cancel').addEventListener('click', function() {
+        (page.querySelector('.button-cancel') as HTMLButtonElement).addEventListener('click', function() {
             window.history.back();
         });
     }, [loadData]);

@@ -114,7 +114,7 @@ function getImgUrl(item, user) {
 function getIcon(icon, cssClass, canFocus, autoFocus) {
     const tabIndex = canFocus ? '' : ' tabindex="-1"';
     autoFocus = autoFocus ? ' autofocus' : '';
-    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
+    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '" aria-hidden="true"></span></button>';
 }
 
 /**
@@ -216,29 +216,32 @@ export default function (options) {
                 dialogHelper.close(dialog);
             });
 
+            dialog.querySelector('.btnSlideshowPrevious')?.addEventListener('click', getClickHandler(null));
+            dialog.querySelector('.btnSlideshowNext')?.addEventListener('click', getClickHandler(null));
+
             const btnPause = dialog.querySelector('.btnSlideshowPause');
             if (btnPause) {
-                btnPause.addEventListener('click', playPause);
+                btnPause.addEventListener('click', getClickHandler(playPause));
             }
 
             const btnDownload = dialog.querySelector('.btnDownload');
             if (btnDownload) {
-                btnDownload.addEventListener('click', download);
+                btnDownload.addEventListener('click', getClickHandler(download));
             }
 
             const btnShare = dialog.querySelector('.btnShare');
             if (btnShare) {
-                btnShare.addEventListener('click', share);
+                btnShare.addEventListener('click', getClickHandler(share));
             }
 
             const btnFullscreen = dialog.querySelector('.btnFullscreen');
             if (btnFullscreen) {
-                btnFullscreen.addEventListener('click', fullscreen);
+                btnFullscreen.addEventListener('click', getClickHandler(fullscreen));
             }
 
             const btnFullscreenExit = dialog.querySelector('.btnFullscreenExit');
             if (btnFullscreenExit) {
-                btnFullscreenExit.addEventListener('click', fullscreenExit);
+                btnFullscreenExit.addEventListener('click', getClickHandler(fullscreenExit));
             }
 
             if (screenfull.isEnabled) {
@@ -754,6 +757,17 @@ export default function (options) {
             default:
                 break;
         }
+    }
+
+    /**
+     * Constructs click event handler.
+     * @param {function|null|undefined} callback - Click event handler.
+     */
+    function getClickHandler(callback) {
+        return (e) => {
+            showOsd();
+            callback?.(e);
+        };
     }
 
     /**

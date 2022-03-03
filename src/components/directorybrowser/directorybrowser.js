@@ -77,7 +77,7 @@ function getItem(cssClass, type, path, name) {
     html += name;
     html += '</div>';
     html += '</div>';
-    html += '<span class="material-icons arrow_forward" style="font-size:inherit;"></span>';
+    html += '<span class="material-icons arrow_forward" aria-hidden="true" style="font-size:inherit;"></span>';
     html += '</div>';
     return html;
 }
@@ -116,7 +116,7 @@ function getEditorHtml(options, systemInfo) {
     html += `<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ${readOnlyAttribute} label="${globalize.translate(labelKey)}"/>`;
     html += '</div>';
     if (!readOnlyAttribute) {
-        html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search" aria-hidden="true"></span></button>`;
     }
     html += '</div>';
     if (!readOnlyAttribute) {
@@ -235,66 +235,66 @@ function getDefaultPath(options) {
 
 let systemInfo;
 class DirectoryBrowser {
-        currentDialog;
+    currentDialog;
 
-        show = options => {
-            options = options || {};
-            const fileOptions = {
-                includeDirectories: true
-            };
-            if (options.includeDirectories != null) {
-                fileOptions.includeDirectories = options.includeDirectories;
-            }
-            if (options.includeFiles != null) {
-                fileOptions.includeFiles = options.includeFiles;
-            }
-            Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
-                responses => {
-                    const systemInfo = responses[0];
-                    const initialPath = responses[1];
-                    const dlg = dialogHelper.createDialog({
-                        size: 'small',
-                        removeOnClose: true,
-                        scrollY: false
-                    });
-                    dlg.classList.add('ui-body-a');
-                    dlg.classList.add('background-theme-a');
-                    dlg.classList.add('directoryPicker');
-                    dlg.classList.add('formDialog');
+    show = options => {
+        options = options || {};
+        const fileOptions = {
+            includeDirectories: true
+        };
+        if (options.includeDirectories != null) {
+            fileOptions.includeDirectories = options.includeDirectories;
+        }
+        if (options.includeFiles != null) {
+            fileOptions.includeFiles = options.includeFiles;
+        }
+        Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
+            responses => {
+                const systemInfo = responses[0];
+                const initialPath = responses[1];
+                const dlg = dialogHelper.createDialog({
+                    size: 'small',
+                    removeOnClose: true,
+                    scrollY: false
+                });
+                dlg.classList.add('ui-body-a');
+                dlg.classList.add('background-theme-a');
+                dlg.classList.add('directoryPicker');
+                dlg.classList.add('formDialog');
 
-                    let html = '';
-                    html += '<div class="formDialogHeader">';
-                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
-                    html += '<h3 class="formDialogHeaderTitle">';
-                    html += options.header || globalize.translate('HeaderSelectPath');
-                    html += '</h3>';
-                    html += '</div>';
-                    html += getEditorHtml(options, systemInfo);
-                    dlg.innerHTML = html;
-                    initEditor(dlg, options, fileOptions);
-                    dlg.addEventListener('close', onDialogClosed);
-                    dialogHelper.open(dlg);
-                    dlg.querySelector('.btnCloseDialog').addEventListener('click', () => {
-                        dialogHelper.close(dlg);
-                    });
-                    this.currentDialog = dlg;
-                    dlg.querySelector('#txtDirectoryPickerPath').value = initialPath;
-                    const txtNetworkPath = dlg.querySelector('#txtNetworkPath');
-                    if (txtNetworkPath) {
-                        txtNetworkPath.value = options.networkSharePath || '';
-                    }
-                    if (!options.pathReadOnly) {
-                        refreshDirectoryBrowser(dlg, initialPath, fileOptions, true);
-                    }
+                let html = '';
+                html += '<div class="formDialogHeader">';
+                html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
+                html += '<h3 class="formDialogHeaderTitle">';
+                html += options.header || globalize.translate('HeaderSelectPath');
+                html += '</h3>';
+                html += '</div>';
+                html += getEditorHtml(options, systemInfo);
+                dlg.innerHTML = html;
+                initEditor(dlg, options, fileOptions);
+                dlg.addEventListener('close', onDialogClosed);
+                dialogHelper.open(dlg);
+                dlg.querySelector('.btnCloseDialog').addEventListener('click', () => {
+                    dialogHelper.close(dlg);
+                });
+                this.currentDialog = dlg;
+                dlg.querySelector('#txtDirectoryPickerPath').value = initialPath;
+                const txtNetworkPath = dlg.querySelector('#txtNetworkPath');
+                if (txtNetworkPath) {
+                    txtNetworkPath.value = options.networkSharePath || '';
                 }
-            );
-        };
-
-        close = () => {
-            if (this.currentDialog) {
-                dialogHelper.close(this.currentDialog);
+                if (!options.pathReadOnly) {
+                    refreshDirectoryBrowser(dlg, initialPath, fileOptions, true);
+                }
             }
-        };
+        );
+    };
+
+    close = () => {
+        if (this.currentDialog) {
+            dialogHelper.close(this.currentDialog);
+        }
+    };
 }
 
 export default DirectoryBrowser;

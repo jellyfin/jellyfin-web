@@ -64,5 +64,6 @@
     "AllowOnTheFlySubtitleExtraction": "Permitir extracción de subtítulos sobre a marcha",
     "ValueSpecialEpisodeName": "Especial - {0}",
     "MusicVideos": "Vídeos Musicais",
-    "OptionBluray": "BD"
+    "OptionBluray": "BD",
+    "ButtonCast": "Transmitir contido multimedia a un dispositivo"
 }

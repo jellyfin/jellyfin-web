@@ -511,7 +511,7 @@
     "ColorPrimaries": "Kleur primêre",
     "ClearQueue": "Maak waglys skoon",
     "ButtonPlayer": "Speler",
-    "ButtonCast": "Rolverdeling",
+    "ButtonCast": "Plaas media",
     "HeaderSubtitleProfilesHelp": "Ondertitelprofiel beskryf die ondertitel formaat.",
     "HeaderSubtitleProfiles": "Ondertitelprofiel",
     "HeaderSubtitleProfile": "Ondertitelprofiel",
@@ -793,5 +793,15 @@
     "OptionBluray": "BD",
     "TypeOptionPluralSeries": "TV Programme",
     "LiveTV": "Lewendige TV",
-    "OptionCriticRating": "Filkritiek Gradering"
+    "OptionCriticRating": "Filkritiek Gradering",
+    "HeaderSyncPlayTimeSyncSettings": "Tydsinkronisering",
+    "HeaderSyncPlayPlaybackSettings": "Afspeel",
+    "HeaderSyncPlaySettings": "SyncPlay Konfigurasie",
+    "ErrorPlayerNotFound": "Geen speler vir die gevraagde media gevind nie.",
+    "Engineer": "Klankingenieur",
+    "Cursive": "Kursief",
+    "Console": "Konsole",
+    "Conductor": "Kondukteur",
+    "Casual": "Informeel",
+    "Arranger": "Organiseerder"
 }

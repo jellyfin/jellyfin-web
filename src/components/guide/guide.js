@@ -166,7 +166,6 @@ function Guide(options) {
         stopAutoRefresh();
 
         Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-        Events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
         Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
         Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
@@ -409,7 +408,7 @@ function Guide(options) {
         let status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
+            return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record" aria-hidden="true"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -420,13 +419,13 @@ function Guide(options) {
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
+                return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record" aria-hidden="true"></span>';
             }
 
-            return '<span class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record"></span>';
+            return '<span class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record" aria-hidden="true"></span>';
         }
 
-        return '<span class="material-icons programIcon timerIcon fiber_manual_record"></span>';
+        return '<span class="material-icons programIcon timerIcon fiber_manual_record" aria-hidden="true"></span>';
     }
 
     function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
@@ -537,7 +536,7 @@ function Guide(options) {
 
                 html += '<div class="' + guideProgramNameClass + '">';
 
-                html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></span></div>';
+                html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left" aria-hidden="true"></span></div>';
 
                 html += '<div class="guideProgramNameText">' + program.Name;
 
@@ -1057,9 +1056,6 @@ function Guide(options) {
         }
     }
 
-    function onSeriesTimerCreated() {
-    }
-
     function onTimerCancelled(e, apiClient, data) {
         const id = data.Id;
         // find guide cells by timer id, remove timer icon
@@ -1186,7 +1182,6 @@ function Guide(options) {
     Events.trigger(self, 'load');
 
     Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-    Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
     Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
     Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 

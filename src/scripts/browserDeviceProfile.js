@@ -123,12 +123,7 @@ import browser from './browser';
                 return true;
             }
         } else if (format === 'opus') {
-            if (!browser.web0s) {
-                typeString = 'audio/ogg; codecs="opus"';
-                return !!document.createElement('audio').canPlayType(typeString).replace(/no/, '');
-            }
-
-            return false;
+            typeString = 'audio/ogg; codecs="opus"';
         } else if (format === 'alac') {
             if (browser.iOS || browser.osx) {
                 return true;
@@ -142,7 +137,7 @@ import browser from './browser';
             typeString = 'audio/webm';
         } else if (format === 'mp2') {
             typeString = 'audio/mpeg';
-        } else {
+        } else if (!typeString) {
             typeString = 'audio/' + format;
         }
 
@@ -173,7 +168,7 @@ import browser from './browser';
     function testCanPlayAv1(videoTestElement) {
         if (browser.tizenVersion >= 5.5) {
             return true;
-        } else if (browser.web0sVersion >= 5 && window.outerHeight >= 2160) {
+        } else if (browser.web0sVersion >= 5) {
             return true;
         }
 
@@ -294,12 +289,55 @@ import browser from './browser';
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
+    function getSpeakerCount() {
+        const AudioContext = window.AudioContext || window.webkitAudioContext || false; /* eslint-disable-line compat/compat */
+
+        if (AudioContext) {
+            const audioCtx = new AudioContext();
+
+            return audioCtx.destination.maxChannelCount;
+        }
+
+        return -1;
+    }
+
+    function getPhysicalAudioChannels(options) {
+        const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels(), 10);
+
+        if (allowedAudioChannels > 0) {
+            return allowedAudioChannels;
+        }
+
+        if (options.audioChannels) {
+            return options.audioChannels;
+        }
+
+        const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.tv || browser.ps4 || browser.xboxOne;
+        const speakerCount = getSpeakerCount();
+
+        if (speakerCount > 2) {
+            if (isSurroundSoundSupportedBrowser) {
+                return speakerCount;
+            }
+
+            return 2;
+        }
+
+        if (speakerCount > 0) {
+            return speakerCount;
+        }
+
+        if (isSurroundSoundSupportedBrowser) {
+            return 6;
+        }
+
+        return 2;
+    }
+
     export default function (options) {
         options = options || {};
 
-        const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox;
-        const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels() || '-1');
-        const physicalAudioChannels = (allowedAudioChannels > 0 ? allowedAudioChannels : null) || options.audioChannels || (isSurroundSoundSupportedBrowser || browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
+        const physicalAudioChannels = getPhysicalAudioChannels(options);
 
         const bitrateSetting = getMaxBitrate();
 

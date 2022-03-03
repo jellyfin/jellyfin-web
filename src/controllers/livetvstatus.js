@@ -2,6 +2,7 @@ import 'jquery';
 import globalize from '../scripts/globalize';
 import taskButton from '../scripts/taskbutton';
 import dom from '../scripts/dom';
+import cardBuilder from '../components/cardbuilder/cardBuilder';
 import layoutManager from '../components/layoutManager';
 import loading from '../components/loading/loading';
 import browser from '../scripts/browser';
@@ -37,11 +38,11 @@ function getDeviceHtml(device) {
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="' + padderClass + '"></div>';
     html += '<div class="cardContent searchImage">';
-    html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr"></span></div>';
+    html += `<div class="cardImageContainer coveredImage ${cardBuilder.getDefaultBackgroundClass()}"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>`;
     html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';
-    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><span class="material-icons more_vert"></span></button>';
+    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
     html += '<div class="cardText">' + (device.FriendlyName || getTunerName(device.Type)) + '</div>';
     html += '<div class="cardText cardText-secondary">';
     html += device.Url || '&nbsp;';
@@ -109,7 +110,7 @@ function renderProviders(page, providers) {
         for (let i = 0, length = providers.length; i < length; i++) {
             const provider = providers[i];
             html += '<div class="listItem">';
-            html += '<span class="listItemIcon material-icons dvr"></span>';
+            html += '<span class="listItemIcon material-icons dvr" aria-hidden="true"></span>';
             html += '<div class="listItemBody two-line">';
             html += '<a is="emby-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + '&id=' + provider.Id + '">';
             html += '<h3 class="listItemBodyText">';
@@ -120,7 +121,7 @@ function renderProviders(page, providers) {
             html += '</div>';
             html += '</a>';
             html += '</div>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><span class="material-icons listItemAside more_vert"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><span class="material-icons listItemAside more_vert" aria-hidden="true"></span></button>';
             html += '</div>';
         }
 

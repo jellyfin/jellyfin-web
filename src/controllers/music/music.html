@@ -8,14 +8,14 @@
             }
         }
     </style>
-    <div class="pageTabContent pageTabContent" id="albumsTab" data-index="0">
+    <div class="pageTabContent" id="albumsTab" data-index="0">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
             <div class="paging"></div>
-            <button is="paper-icon-button-light" class="btnPlayAll musicglobalButton" title="${HeaderPlayAll}"><span class="material-icons play_arrow"></span></button>
-            <button is="paper-icon-button-light" class="btnShuffle musicglobalButton" title="${Shuffle}"><span class="material-icons shuffle"></span></button>
-            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
-            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha"></span></button>
-            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list"></span></button>
+            <button is="paper-icon-button-light" class="btnPlayAll musicglobalButton" title="${HeaderPlayAll}"><span class="material-icons play_arrow" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnShuffle musicglobalButton" title="${Shuffle}"><span class="material-icons shuffle" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list" aria-hidden="true"></span></button>
         </div>
 
         <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
@@ -27,7 +27,7 @@
             <div class="paging"></div>
         </div>
     </div>
-    <div class="pageTabContent pageTabContent" id="suggestionsTab" data-index="1">
+    <div class="pageTabContent" id="suggestionsTab" data-index="1">
 
         <div class="verticalSection">
 
@@ -56,8 +56,8 @@
     <div class="pageTabContent" id="albumArtistsTab" data-index="2">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
             <div class="paging"></div>
-            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
-            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list"></span></button>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list" aria-hidden="true"></span></button>
         </div>
 
         <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
@@ -72,8 +72,8 @@
     <div class="pageTabContent" id="artistsTab" data-index="3">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
             <div class="paging"></div>
-            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
-            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list"></span></button>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list" aria-hidden="true"></span></button>
         </div>
 
         <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
@@ -92,8 +92,8 @@
     <div class="pageTabContent" id="songsTab" data-index="5">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
             <div class="paging"></div>
-            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha"></span></button>
-            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list"></span></button>
+            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list" aria-hidden="true"></span></button>
         </div>
 
         <div is="emby-itemscontainer" id="items" class="itemsContainer vertical-list" style="max-width:67.5em;margin: 0 auto;"></div>

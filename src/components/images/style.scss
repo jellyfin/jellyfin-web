@@ -18,7 +18,8 @@
     animation: fadein 0.1s;
 }
 
-.lazy-hidden {
+.lazy-hidden,
+.lazy-hidden-children * {
     opacity: 0;
 }
 

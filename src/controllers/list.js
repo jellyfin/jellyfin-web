@@ -1,11 +1,11 @@
 import globalize from '../scripts/globalize';
 import listView from '../components/listview/listview';
-import layoutManager from '../components/layoutManager';
 import * as userSettings from '../scripts/settings/userSettings';
 import focusManager from '../components/focusManager';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import loading from '../components/loading/loading';
 import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
+import libraryBrowser from '../scripts/libraryBrowser';
 import { playbackManager } from '../components/playback/playbackmanager';
 import AlphaPicker from '../components/alphaPicker/alphaPicker';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
@@ -15,12 +15,12 @@ import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */
 
-    function getInitialLiveTvQuery(instance, params) {
+    function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
         const query = {
             UserId: ServerConnections.getApiClient(params.serverId).getCurrentUserId(),
-            StartIndex: 0,
+            StartIndex: startIndex,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
-            Limit: 300
+            Limit: limit
         };
 
         if (params.type === 'Recordings') {
@@ -165,7 +165,14 @@ import { appRouter } from '../components/appRouter';
         instance.setFilterStatus(hasFilters);
 
         if (instance.alphaPicker) {
-            query.NameStartsWith = instance.alphaPicker.value();
+            const newValue = instance.alphaPicker.value();
+            if (newValue === '#') {
+                query.NameLessThan = 'A';
+                delete query.NameStartsWith;
+            } else {
+                query.NameStartsWith = newValue;
+                delete query.NameLessThan;
+            }
         }
 
         return query;
@@ -210,18 +217,14 @@ import { appRouter } from '../components/appRouter';
         }
     }
 
-    function updateAlphaPickerState(instance, numItems) {
+    function updateAlphaPickerState(instance) {
         if (instance.alphaPicker) {
             const alphaPicker = instance.alphaPickerElement;
 
             if (alphaPicker) {
                 const values = instance.getSortValues();
 
-                if (numItems == null) {
-                    numItems = 100;
-                }
-
-                if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending' && numItems > 40) {
+                if (values.sortBy.indexOf('SortName') !== -1) {
                     alphaPicker.classList.remove('hide');
                     instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
                 } else {
@@ -237,26 +240,27 @@ import { appRouter } from '../components/appRouter';
 
         instance.queryRecursive = false;
         if (params.type === 'Recordings') {
-            return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params));
+            return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params, startIndex, limit));
         }
 
         if (params.type === 'Programs') {
             if (params.IsAiring === 'true') {
-                return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params));
+                return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
             }
 
-            return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params));
+            return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
         }
 
         if (params.type === 'nextup') {
             return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
                 Limit: limit,
-                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo',
+                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false,
-                SortBy: sortBy
+                SortBy: sortBy,
+                Rewatching: params.rewatching
             }));
         }
 
@@ -320,7 +324,7 @@ import { appRouter } from '../components/appRouter';
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount',
+            Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount,MediaSourceCount',
             ImageTypeLimit: 1,
             ParentId: item.Id,
             SortBy: sortBy
@@ -423,14 +427,75 @@ import { appRouter } from '../components/appRouter';
 
 class ItemsView {
     constructor(view, params) {
+        const query = {
+            StartIndex: 0,
+            Limit: undefined
+        };
+
+        if (userSettings.libraryPageSize() > 0) {
+            query['Limit'] = userSettings.libraryPageSize();
+        }
+
+        let isLoading = false;
+
+        function onNextPageClick() {
+            if (!isLoading && query.Limit > 0) {
+                query.StartIndex += query.Limit;
+                self.itemsContainer.refreshItems().then(() => {
+                    window.scrollTo(0, 0);
+                    autoFocus();
+                });
+            }
+        }
+
+        function onPreviousPageClick() {
+            if (!isLoading && query.Limit > 0) {
+                query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                self.itemsContainer.refreshItems().then(() => {
+                    window.scrollTo(0, 0);
+                    autoFocus();
+                });
+            }
+        }
+
+        function updatePaging(startIndex, totalRecordCount, limit) {
+            const pagingHtml = libraryBrowser.getQueryPagingHtml({
+                startIndex,
+                limit,
+                totalRecordCount,
+                showLimit: false,
+                updatePageSizeSetting: false,
+                addLayoutButton: false,
+                sortButton: false,
+                filterButton: false
+            });
+
+            for (const elem of view.querySelectorAll('.paging')) {
+                elem.innerHTML = pagingHtml;
+            }
+
+            for (const elem of view.querySelectorAll('.btnNextPage')) {
+                elem.addEventListener('click', onNextPageClick);
+            }
+
+            for (const elem of view.querySelectorAll('.btnPreviousPage')) {
+                elem.addEventListener('click', onPreviousPageClick);
+            }
+        }
+
         function fetchData() {
-            return getItems(self, params, self.currentItem).then(function (result) {
+            isLoading = true;
+
+            return getItems(self, params, self.currentItem, null, query.StartIndex, query.Limit).then(function (result) {
                 if (self.totalItemCount == null) {
                     self.totalItemCount = result.Items ? result.Items.length : result.length;
                 }
 
-                updateAlphaPickerState(self, self.totalItemCount);
+                updateAlphaPickerState(self);
+                updatePaging(result.StartIndex, result.TotalRecordCount, query.Limit);
                 return result;
+            }).finally(() => {
+                isLoading = false;
             });
         }
 
@@ -559,15 +624,13 @@ class ItemsView {
 
             self.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
-                itemsContainer: layoutManager.tv ? self.itemsContainer : null,
-                itemClass: 'card',
-                valueChangeEvent: layoutManager.tv ? null : 'click'
+                valueChangeEvent: 'click'
             });
             self.alphaPicker.on('alphavaluechanged', onAlphaPickerValueChanged);
         }
 
         function onAlphaPickerValueChanged() {
-            self.alphaPicker.value();
+            query.StartIndex = 0;
             self.itemsContainer.refreshItems();
         }
 
@@ -615,6 +678,9 @@ class ItemsView {
             }
 
             if (params.type === 'nextup') {
+                if (params.rewatching === 'true') {
+                    return globalize.translate('NextUpRewatching');
+                }
                 return globalize.translate('NextUp');
             }
 
@@ -670,7 +736,7 @@ class ItemsView {
                     autoplay: true
                 });
             } else {
-                getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
@@ -687,7 +753,7 @@ class ItemsView {
                     items: [currentItem]
                 });
             } else {
-                getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
                     playbackManager.queue({
                         items: result.Items
                     });
@@ -701,13 +767,19 @@ class ItemsView {
             if (currentItem && !self.hasFilters) {
                 playbackManager.shuffle(currentItem);
             } else {
-                getItems(self, self.params, currentItem, 'Random', null, 300).then(function (result) {
+                getItems(self, self.params, currentItem, 'Random', 0, 300).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
                     });
                 });
             }
+        }
+
+        function autoFocus() {
+            import('../components/autoFocuser').then(({default: autoFocuser}) => {
+                autoFocuser.autoFocus(view);
+            });
         }
 
         const self = this;

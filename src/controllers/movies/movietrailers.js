@@ -273,8 +273,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             reloadItems();
             this.alphaPicker?.updateControls(getQuery(tabContent));
         };
-
-        this.destroy = function () {};
     }
 
 /* eslint-enable indent */

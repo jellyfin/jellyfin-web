@@ -1056,6 +1056,7 @@ class ChromecastPlayer {
     }
 
     getCurrentPlaylistItemId() {
+        // not supported?
     }
 
     setCurrentPlaylistItem() {

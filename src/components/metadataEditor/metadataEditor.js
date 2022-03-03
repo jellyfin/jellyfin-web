@@ -460,7 +460,7 @@ import template from './metadataEditor.template.html';
             html += '</div>';
 
             if (formatString) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser" aria-hidden="true"></span></button>';
             }
             html += '</div>';
 
@@ -898,7 +898,7 @@ import template from './metadataEditor.template.html';
         for (let i = 0; i < items.length; i++) {
             html += '<div class="listItem">';
 
-            html += '<span class="material-icons listItemIcon live_tv" style="background-color:#333;"></span>';
+            html += '<span class="material-icons listItemIcon live_tv" aria-hidden="true" style="background-color:#333;"></span>';
 
             html += '<div class="listItemBody">';
 
@@ -908,7 +908,7 @@ import template from './metadataEditor.template.html';
 
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
 
             html += '</div>';
         }
@@ -945,7 +945,7 @@ import template from './metadataEditor.template.html';
             html += '</button>';
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
 
             html += '</div>';
         }

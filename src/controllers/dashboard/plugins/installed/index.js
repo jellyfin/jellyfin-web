@@ -74,7 +74,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
         html += `<img src="${imageUrl}" style="width:100%" />`;
     } else {
         html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
-        html += '<span class="cardImageIcon material-icons extension"></span>';
+        html += '<span class="cardImageIcon material-icons extension" aria-hidden="true"></span>';
         html += '</div>';
     }
     html += configPageUrl ? '</a>' : '</div>';
@@ -84,7 +84,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
 
     if (configPage || plugin.CanUninstall) {
         html += '<div style="text-align:right; float:right;padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
         html += '</div>';
     }
 

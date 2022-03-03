@@ -17,6 +17,10 @@ export default function (view, params) {
         window.NativeShell.openClientSettings();
     });
 
+    view.querySelector('.exitApp').addEventListener('click', function () {
+        appHost.exit();
+    });
+
     view.addEventListener('viewshow', function () {
         // this page can also be used by admins to change user preferences from the user edit page
         const userId = params.userId || Dashboard.getCurrentUserId();
@@ -32,6 +36,9 @@ export default function (view, params) {
 
         const supportsClientSettings = appHost.supports('clientsettings');
         page.querySelector('.clientSettings').classList.toggle('hide', !supportsClientSettings);
+
+        const supportsExitMenu = appHost.supports('exitmenu');
+        page.querySelector('.exitApp').classList.toggle('hide', !supportsExitMenu);
 
         const supportsMultiServer = appHost.supports('multiserver');
         page.querySelector('.selectServer').classList.toggle('hide', !supportsMultiServer);

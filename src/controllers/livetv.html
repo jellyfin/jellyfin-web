@@ -5,7 +5,7 @@
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="#!/list.html?type=Programs&IsAiring=true" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
                         <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${HeaderOnNow}</h2>
-                        <span class="material-icons chevron_right"></span>
+                        <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div is="emby-itemscontainer" class="activeProgramItems itemsContainer padded-left padded-right"></div>
@@ -14,7 +14,7 @@
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="#!/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
                         <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${Shows}</h2>
-                        <span class="material-icons chevron_right"></span>
+                        <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div is="emby-itemscontainer" class="upcomingEpisodeItems itemsContainer padded-left padded-right"></div>
@@ -23,7 +23,7 @@
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="#!/list.html?type=Programs&IsMovie=true" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
                         <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${Movies}</h2>
-                        <span class="material-icons chevron_right"></span>
+                        <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div is="emby-itemscontainer" class="upcomingTvMovieItems itemsContainer padded-left padded-right"></div>
@@ -32,7 +32,7 @@
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="#!/list.html?type=Programs&IsSports=true" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
                         <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${Sports}</h2>
-                        <span class="material-icons chevron_right"></span>
+                        <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div is="emby-itemscontainer" class="upcomingSportsItems itemsContainer padded-left padded-right"></div>
@@ -41,7 +41,7 @@
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="#!/list.html?type=Programs&IsKids=true" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
                         <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${HeaderForKids}</h2>
-                        <span class="material-icons chevron_right"></span>
+                        <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div is="emby-itemscontainer" class="upcomingKidsItems itemsContainer padded-left padded-right"></div>
@@ -50,7 +50,7 @@
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="#!/list.html?type=Programs&IsNews=true" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
                         <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${News}</h2>
-                        <span class="material-icons chevron_right"></span>
+                        <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div is="emby-itemscontainer" class="upcomingNewsItems itemsContainer padded-left padded-right"></div>
@@ -61,16 +61,19 @@
         <div class="pageTabContent" id="channelsTab" data-index="2">
             <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
                 <div class="paging"></div>
-                <button is="paper-icon-button-light" class="btnFilter sectionTitleButton" title="${Filter}"><span class="material-icons filter_list"></span></button>
+                <button is="paper-icon-button-light" class="btnFilter sectionTitleButton" title="${Filter}"><span class="material-icons filter_list" aria-hidden="true"></span></button>
             </div>
             <div is="emby-itemscontainer" id="items" class="itemsContainer vertical-wrap padded-left padded-right"></div>
+            <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+                <div class="paging"></div>
+            </div>
         </div>
         <div class="pageTabContent" id="recordingsTab" data-index="3">
             <div id="latestRecordings" class="verticalSection hide">
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <button type="button" is="emby-button" class="button-flat button-flat-mini sectionTitleTextButton more" data-type="latest">
                         <h2 class="sectionTitle sectionTitle-cards">${HeaderLatestRecordings}</h2>
-                        <span class="material-icons chevron_right"></span>
+                        <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </button>
                 </div>
                 <div is="emby-itemscontainer" class="recordingItems itemsContainer padded-left padded-right"></div>

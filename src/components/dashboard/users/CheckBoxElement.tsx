@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createCheckBoxElement = ({ labelClassName, type, className, title }) => ({
+const createCheckBoxElement = ({ labelClassName, type, className, title }: { labelClassName?: string, type?: string, className?: string, title?: string }) => ({
     __html: `<label class="${labelClassName}">
         <input
             is="emby-checkbox"

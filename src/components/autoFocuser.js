@@ -64,7 +64,6 @@ import layoutManager from './layoutManager';
             candidates.push(activeElement);
         }
 
-        candidates = candidates.concat(Array.from(container.querySelectorAll('.btnResume')));
         candidates = candidates.concat(Array.from(container.querySelectorAll('.btnPlay')));
 
         let focusedElement;

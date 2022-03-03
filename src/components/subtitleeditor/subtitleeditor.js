@@ -98,7 +98,7 @@ function fillSubtitleList(context, item) {
 
             itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-            itemHtml += '<span class="listItemIcon material-icons closed_caption"></span>';
+            itemHtml += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
             itemHtml += '<div class="listItemBody two-line">';
 
@@ -115,7 +115,7 @@ function fillSubtitleList(context, item) {
 
             if (!layoutManager.tv) {
                 if (s.Path) {
-                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete"></span></button>';
+                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
                 }
             }
 
@@ -193,7 +193,7 @@ function renderSearchResults(context, results) {
 
         html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
-        html += '<span class="listItemIcon material-icons closed_caption"></span>';
+        html += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
         const bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 
@@ -222,7 +222,7 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
         }
 
         html += '</' + tagName + '>';

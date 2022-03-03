@@ -749,7 +749,7 @@
     "CinemaModeConfigurationHelp": "Kino-modus bringar kinoopplevinga direkte til stova di med moglegheita til å spela trailerar og tilpassa introer før filmen byrjar.",
     "ChannelAccessHelp": "Vel kanalar som skal delast med denne brukaren. Administratorar kan redigera alle kanalar som nyttar metadatabehandlaren.",
     "ChangingMetadataImageSettingsNewContent": "Endringar gjort i innstillingar for metadata eller omslagsbilde vil berre gjelda nytt innhald i biblioteket ditt. For å endra eksisterande innhald, må du oppdatera dets metadata manuelt.",
-    "ButtonCast": "Cast",
+    "ButtonCast": "Strøym medium til eining",
     "BurnSubtitlesHelp": "Angir om tenaren skal brenna inn teksting når videoar blir konvertert, basert på tekstformatet. Ytinga på tenaren vil forbetrast dersom tekstinga ikkje blir brunnen inn. Vel Automatisk for å brenna inn bildebaserte format (VOBSUB, PGS, SUB, IDX, ...) og enkelte ASS eller SSA-undertekster.",
     "BoxSet": "Samleboks",
     "AllowTonemappingHelp": "Tonekartlegging kan forvandla det dynamiske området til ein video frå HDR til SDR samtidig som bildedetaljar og fargar blir tatt vare på, noko som er veldig viktig informasjon for å representera den originale scena. Fungerer for augneblinken berre når du omkodar videoar med innebygd HDR10- eller HLG-metadata. Viss avspelinga ikkje er jamn eller mislykkast, bør du vurdera å slå av den tilsvarande maskinvaredekodaren.",

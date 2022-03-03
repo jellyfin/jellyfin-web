@@ -73,7 +73,7 @@ import template from './mediaLibraryCreator.template.html';
         $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
             const value = this.value;
             const dlg = $(this).parents('.dialog')[0];
-            libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value == 'mixed' ? '' : value);
+            libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);
 
             if (value) {
                 dlg.querySelector('.libraryOptions').classList.remove('hide');
@@ -87,12 +87,11 @@ import template from './mediaLibraryCreator.template.html';
                 if (index != -1) {
                     const name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
                     $('#txtValue', dlg).val(name);
-                    const folderOption = collectionTypeOptions.filter(i => {
-                        return i.value == value;
-                    })[0];
-                    $('.collectionTypeFieldDescription', dlg).html(folderOption.message || '');
                 }
             }
+
+            const folderOption = collectionTypeOptions.find(i => i.value === value);
+            $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
         });
         page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
         page.querySelector('.btnSubmit').addEventListener('click', onAddLibrary);
@@ -128,7 +127,7 @@ import template from './mediaLibraryCreator.template.html';
         }
 
         html += '</div>';
-        html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle" aria-hidden="true"></span></button>`;
         html += '</div>';
         return html;
     }

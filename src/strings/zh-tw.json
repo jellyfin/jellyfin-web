@@ -214,7 +214,7 @@
     "AllChannels": "所有節目",
     "AllComplexFormats": "所有複雜字幕格式 (ASS、SSA、 VobSub、PGS 、 SUB、IDX 等)",
     "AllLanguages": "所有語言",
-    "AllLibraries": "所有媒體",
+    "AllLibraries": "所有媒體庫",
     "AllowMediaConversion": "允許媒體轉檔",
     "AllowMediaConversionHelp": "授予或拒絕存取媒體轉檔功能。",
     "AllowRemoteAccess": "允許遠端存取伺服器",
@@ -849,7 +849,7 @@
     "Screenshot": "截圖",
     "Suggestions": "建議",
     "TabCodecs": "編碼",
-    "TabContainers": "影片容器",
+    "TabContainers": "影片格式",
     "TabDashboard": "控制台",
     "TabLogs": "日誌",
     "TabNotifications": "通知",
@@ -1578,5 +1578,7 @@
     "AgeValue": "（{0} 歲）",
     "LabelSortName": "排列名稱：",
     "LabelOriginalName": "原始名稱：",
-    "Console": "控制台"
+    "Console": "控制台",
+    "ButtonExitApp": "離開應用程式",
+    "MediaInfoTitle": "標題"
 }
