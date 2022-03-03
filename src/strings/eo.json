@@ -295,7 +295,7 @@
     "LabelDirectStreamingInfo": "Informo pri Rekta Elsendfluo",
     "OptionProtocolHls": "Etera HTTP-elsendfluo (HLS)",
     "LabelMaxStreamingBitrate": "Maksimuma elsendflua kvalito:",
-    "LabelMaxChromecastBitrate": "Kvalito de Chromecast elsendfluo:",
+    "LabelMaxChromecastBitrate": "Kvalito de Google Cast elsendfluo:",
     "DirectStreaming": "Rekta elsendfluo",
     "TabStreaming": "Elsendfluo",
     "LabelMaxScreenshotsPerItem": "Maksimuma nombro de ekrankopioj por aĵo:",
@@ -937,7 +937,7 @@
     "LabelDashboardTheme": "Temo de servila Panelo:",
     "LabelAppName": "Apa nomo",
     "HeaderApp": "Apo",
-    "LabelChromecastVersion": "Versio de Chromecast",
+    "LabelChromecastVersion": "Versio de Google Cast",
     "HeaderCastAndCrew": "Roluloj kaj Skipanoj",
     "TabPlugins": "Kromprogramoj",
     "TabMyPlugins": "Miaj Kromprogramoj",
@@ -1143,7 +1143,7 @@
     "ButtonOk": "Ek",
     "ButtonMore": "Pli",
     "ButtonFullscreen": "Plenekranen",
-    "ButtonCast": "Elsendfluado",
+    "ButtonCast": "Elsendi al Aparato",
     "ButtonBack": "Reen",
     "ButtonArrowRight": "Dekstren",
     "ButtonArrowLeft": "Maldekstren",
@@ -1301,7 +1301,7 @@
     "SyncPlayAccessHelp": "La SyncPlay-funkcio ebligas sinkronigi ludadon kun aliaj aparatoj. Elekti la nivelon de aliro, kiun ĉi tiu uzanto havas al la SyncPlay.",
     "SubtitleVerticalPositionHelp": "Linia numero, kie teksto aperas. Pozitivaj nombroj indikas de supre malsupren. Negativaj nombroj indikas sube supren.",
     "SubtitleDownloadersHelp": "Ebligi kaj rangi viajn preferatajn subtekstajn elŝutilojn laŭ prioritato.",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ĉi tiuj agordoj validas ankaŭ por iu ajn Chromecast-ludado lanĉita de ĉi tiu aparato.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ĉi tiuj agordoj validas ankaŭ por iu ajn Google Cast ludado lanĉita de ĉi tiu aparato.",
     "SortChannelsBy": "Ordigi kanalojn laŭ:",
     "SortByValue": "Ordigi laŭ {0}",
     "SmartSubtitlesHelp": "Subtekstoj kongruantaj kun la lingva prefero estos ŝarĝitaj kiam la sono estas en fremda lingvo.",
@@ -1631,5 +1631,6 @@
     "AddToFavorites": "Aldoni al Favorataj",
     "Copy": "Kopii",
     "Copied": "Kopiita",
-    "CopyFailed": "Ne eblis kopii"
+    "CopyFailed": "Ne eblis kopii",
+    "GoogleCastUnsupported": "Google Cast Nesubtenata"
 }
