@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
 
 import Dashboard from '../../scripts/clientUtils';
 import globalize from '../../scripts/globalize';
@@ -11,17 +11,32 @@ import loading from '../loading/loading';
 import toast from '../toast/toast';
 
 type IProps = {
-    userId?: string;
+    userId: string;
 }
 
 const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
     const [ userName, setUserName ] = useState('');
 
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
-    const reloadUser = (Id) => {
+    const reloadUser = useCallback(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
         loading.show();
-        window.ApiClient.getUser(Id).then(function (user) {
+        window.ApiClient.getUser(userId).then(function (user) {
+            if (!user.Name) {
+                throw new Error('Unexpected null user.Name');
+            }
+
+            if (!user.Id) {
+                throw new Error('Unexpected null user.Id');
+            }
+
             setUserName(user.Name);
             LibraryMenu.setTitle(user.Name);
 
@@ -32,27 +47,37 @@ const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
                     type: 'Primary'
                 });
             }
-
-            const userImage = element.current?.querySelector('#image');
+            const userImage = (page.querySelector('#image') as HTMLDivElement);
             userImage.style.backgroundImage = 'url(' + imageUrl + ')';
 
-            Dashboard.getCurrentUser().then(function (loggedInUser) {
+            Dashboard.getCurrentUser().then(function (loggedInUser: { Policy: { IsAdministrator: boolean; }; }) {
+                if (!user.Policy) {
+                    throw new Error('Unexpected null user.Policy');
+                }
+
                 if (user.PrimaryImageTag) {
-                    element.current?.querySelector('.btnAddImage').classList.add('hide');
-                    element.current?.querySelector('.btnDeleteImage').classList.remove('hide');
+                    (page.querySelector('.btnAddImage') as HTMLButtonElement).classList.add('hide');
+                    (page.querySelector('.btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
                 } else if (appHost.supports('fileinput') && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                    element.current?.querySelector('.btnDeleteImage').classList.add('hide');
-                    element.current?.querySelector('.btnAddImage').classList.remove('hide');
+                    (page.querySelector('.btnDeleteImage') as HTMLButtonElement).classList.add('hide');
+                    (page.querySelector('.btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }
             });
             loading.hide();
         });
-    };
+    }, [userId]);
 
     useEffect(() => {
-        reloadUser(userId);
+        const page = element.current;
 
-        const onFileReaderError = (evt) => {
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
+        reloadUser();
+
+        const onFileReaderError = (evt: any) => {
             loading.hide();
             switch (evt.target.error.code) {
                 case evt.target.error.NOT_FOUND_ERR:
@@ -72,9 +97,10 @@ const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
             toast(globalize.translate('FileReadCancelled'));
         };
 
-        const setFiles = (evt) => {
-            const userImage = element?.current?.querySelector('#image');
-            const file = evt.target.files[0];
+        const setFiles = (evt: Event) => {
+            const userImage = (page.querySelector('#image') as HTMLDivElement);
+            const target = evt.target as HTMLInputElement;
+            const file = (target.files as FileList)[0];
 
             if (!file || !file.type.match('image.*')) {
                 return false;
@@ -87,34 +113,34 @@ const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
                 window.ApiClient.uploadUserImage(userId, 'Primary', file).then(function () {
                     loading.hide();
-                    reloadUser(userId);
+                    reloadUser();
                 });
             };
 
             reader.readAsDataURL(file);
         };
 
-        element?.current?.querySelector('.btnDeleteImage').addEventListener('click', function () {
+        (page.querySelector('.btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
             ).then(function () {
                 loading.show();
-                window.ApiClient.deleteUserImage(userId, 'primary').then(function () {
+                window.ApiClient.deleteUserImage(userId, 'Primary').then(function () {
                     loading.hide();
-                    reloadUser(userId);
+                    reloadUser();
                 });
             });
         });
 
-        element?.current?.querySelector('.btnAddImage').addEventListener('click', function () {
-            element?.current?.querySelector('#uploadImage').click();
+        (page.querySelector('.btnAddImage') as HTMLButtonElement).addEventListener('click', function () {
+            (page.querySelector('#uploadImage') as HTMLInputElement).click();
         });
 
-        element?.current?.querySelector('#uploadImage').addEventListener('change', function (evt) {
+        (page.querySelector('#uploadImage') as HTMLInputElement).addEventListener('change', function (evt: Event) {
             setFiles(evt);
         });
-    }, [userId]);
+    }, [reloadUser, userId]);
 
     return (
         <div ref={element}>

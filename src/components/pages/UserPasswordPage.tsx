@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { appRouter } from '../appRouter';
 import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import SectionTabs from '../dashboard/users/SectionTabs';
@@ -8,15 +8,17 @@ const UserPasswordPage: FunctionComponent = () => {
     const userId = appRouter.param('userId');
     const [ userName, setUserName ] = useState('');
 
-    const loadUser = (Id) => {
-        window.ApiClient.getUser(Id).then(function (user) {
+    const loadUser = useCallback(() => {
+        window.ApiClient.getUser(userId).then(function (user) {
+            if (!user.Name) {
+                throw new Error('Unexpected null user.Name');
+            }
             setUserName(user.Name);
         });
-    };
-
-    useEffect(() => {
-        loadUser(userId);
     }, [userId]);
+    useEffect(() => {
+        loadUser();
+    }, [loadUser]);
 
     return (
         <div>
