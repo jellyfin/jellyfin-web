@@ -575,7 +575,7 @@
     "LabelManufacturerUrl": "URL производителя:",
     "LabelMatchType": "Тип соответствия:",
     "LabelMaxBackdropsPerItem": "Максимальное число задников на элемент:",
-    "LabelMaxChromecastBitrate": "Качество трансляции Chromecast:",
+    "LabelMaxChromecastBitrate": "Качество трансляции Google Cast:",
     "LabelMaxParentalRating": "Максимально допустимая возрастная категория:",
     "LabelMaxResumePercentage": "Макс. доля для возобновления, %:",
     "LabelMaxResumePercentageHelp": "Произведения предполагаются воспроизведёнными полностью, при остановке с данного момента.",
@@ -1080,7 +1080,7 @@
     "Sports": "Спорт",
     "StopRecording": "Остановить запись",
     "Studios": "Студии",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Эти параметры также применимы к любому Chromecast-воспроизведению запущенному данным устройством.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Эти параметры также применимы к любому воспроизведению Google Cast запущенному данным устройством.",
     "SubtitleAppearanceSettingsDisclaimer": "Следующие параметры не применимы к графическим субтитрам, упомянутым выше, или субтитрам ASS/SSA, которые внедряют собственные стили.",
     "SubtitleDownloadersHelp": "Включить и выстроить предпочитаемые загрузчики субтитров в порядке приоритета.",
     "Subtitles": "Субтитры",
@@ -1285,7 +1285,7 @@
     "SaveChanges": "Изменить",
     "LabelRequireHttps": "Требуется HTTPS",
     "LabelStable": "Стабильная",
-    "LabelChromecastVersion": "Версия Chromecast",
+    "LabelChromecastVersion": "Версия Google Cast",
     "LabelEnableHttps": "Включить HTTPS",
     "HeaderServerAddressSettings": "Параметры адреса сервера",
     "HeaderRemoteAccessSettings": "Параметры удалённого доступа",
@@ -1328,7 +1328,7 @@
     "EnableBlurHashHelp": "Рисунки, которые всё ещё загружаются, будут отображаться с уникальным заполнением.",
     "EnableBlurHash": "Включить размытые заполнители для изображений",
     "ButtonSyncPlay": "SyncPlay",
-    "ButtonCast": "Трансляция",
+    "ButtonCast": "Трансляция на устройство",
     "TabRepositories": "Репозитории",
     "MessageNoGenresAvailable": "Включаются какие-либо поставщики метаданных для получения жанров из интернета.",
     "MessageAddRepository": "Если вы хотите добавить репозиторий, нажмите кнопку рядом с заголовком и заполните необходимую информацию.",
@@ -1635,5 +1635,6 @@
     "ShowParentImages": "Показывать рисунки сериала",
     "NextUpRewatching": "Пересматривание",
     "MixedMoviesShows": "Смешанные фильмы и передачи",
-    "AddToFavorites": "Добавить в Избранное"
+    "AddToFavorites": "Добавить в Избранное",
+    "GoogleCastUnsupported": "Google Cast не поддерживается"
 }
