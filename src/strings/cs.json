@@ -1636,5 +1636,8 @@
     "CopyFailed": "Kopírování se nezdařilo",
     "Copy": "Kopírovat",
     "Copied": "Zkopírováno",
-    "GoogleCastUnsupported": "Google Cast není podporován"
+    "GoogleCastUnsupported": "Google Cast není podporován",
+    "ButtonBackspace": "Backspace",
+    "ButtonSpace": "Mezerník",
+    "ButtonClose": "Zavřít"
 }
