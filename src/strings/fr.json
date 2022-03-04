@@ -1636,5 +1636,8 @@
     "CopyFailed": "Impossible de copier",
     "Copy": "Copier",
     "Copied": "Copié",
-    "GoogleCastUnsupported": "Google Cast non pris en charge"
+    "GoogleCastUnsupported": "Google Cast non pris en charge",
+    "ButtonSpace": "Espace",
+    "ButtonClose": "Fermer",
+    "ButtonBackspace": "Retour arrière"
 }
