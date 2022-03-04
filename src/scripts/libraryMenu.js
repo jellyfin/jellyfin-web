@@ -80,6 +80,18 @@ import Headroom from 'headroom.js';
     }
 
     function retranslateUi() {
+        if (headerBackButton) {
+            headerBackButton.title = globalize.translate('ButtonBack');
+        }
+
+        if (headerHomeButton) {
+            headerHomeButton.title = globalize.translate('Home');
+        }
+
+        if (mainDrawerButton) {
+            mainDrawerButton.title = globalize.translate('Menu');
+        }
+
         if (headerSyncButton) {
             headerSyncButton.title = globalize.translate('ButtonSyncPlay');
         }
@@ -94,6 +106,10 @@ import Headroom from 'headroom.js';
 
         if (headerSearchButton) {
             headerSearchButton.title = globalize.translate('Search');
+        }
+
+        if (headerUserButton) {
+            headerUserButton.title = globalize.translate('Settings');
         }
     }
 
