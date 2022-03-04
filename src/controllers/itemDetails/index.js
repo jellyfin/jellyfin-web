@@ -1319,7 +1319,9 @@ function renderChildren(page, item) {
         Fields: fields
     };
 
-    if (item.Type !== 'BoxSet') {
+    if (item.Type == 'MusicAlbum') {
+        query.SortBy = 'ParentIndexNumber,IndexNumber,SortName';
+    } else if (item.Type !== 'BoxSet') {
         query.SortBy = 'SortName';
     }
 
