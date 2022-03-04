@@ -1310,7 +1310,7 @@
     "ClearQueue": "清空佇列",
     "StopPlayback": "停止播放",
     "ButtonPlayer": "播放器",
-    "ButtonCast": "投放",
+    "ButtonCast": "投放到設備",
     "Writers": "作者",
     "ViewAlbumArtist": "檢視專輯演出者",
     "TabRepositories": "儲存庫",
@@ -1538,7 +1538,7 @@
     "LabelDisableCustomCss": "停用由伺服器提供的自訂CSS標籤或品牌。",
     "LabelCreateHttpPortMapHelp": "允許自動端口映射為除了HTTPS之外的HTTP流量創建規則。",
     "HeaderContinueReading": "繼續閱讀",
-    "DisableCustomCss": "停用伺服器提供的自訂CSS",
+    "DisableCustomCss": "停用伺服器提供的自訂CSS樣式",
     "DirectPlayHelp": "原始檔完全相容於此客戶端，且工作階段正在接收檔案並未作任何修改。",
     "LabelHardwareEncoding": "硬體編碼器:",
     "Track": "音軌",
@@ -1580,5 +1580,11 @@
     "LabelOriginalName": "原始名稱：",
     "Console": "控制台",
     "ButtonExitApp": "離開應用程式",
-    "MediaInfoTitle": "標題"
+    "MediaInfoTitle": "標題",
+    "Cursive": "銳度",
+    "CopyFailed": "無法複製",
+    "Copy": "複製",
+    "Copied": "複製",
+    "Casual": "休閒",
+    "AddToFavorites": "添加到收藏"
 }
