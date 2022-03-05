@@ -1651,5 +1651,8 @@
     "Copy": "நகலெடுக்கவும்",
     "Copied": "நகலெடுக்கப்பட்டது",
     "AddToFavorites": "பிடித்தவையில் சேர்",
-    "GoogleCastUnsupported": "Google Cast ஆதரிக்கப்படவில்லை"
+    "GoogleCastUnsupported": "Google Cast ஆதரிக்கப்படவில்லை",
+    "ButtonSpace": "ஸ்பேஸ்",
+    "ButtonClose": "மூடவும்",
+    "ButtonBackspace": "பின்னிடம்"
 }
