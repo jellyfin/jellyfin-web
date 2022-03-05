@@ -1634,5 +1634,8 @@
     "GoogleCastUnsupported": "Google Cast non supportato",
     "CopyFailed": "Impossibile copiare",
     "Copy": "Copia",
-    "Copied": "Copiato"
+    "Copied": "Copiato",
+    "ButtonBackspace": "Indietro",
+    "ButtonSpace": "Spazio",
+    "ButtonClose": "Chiudi"
 }
