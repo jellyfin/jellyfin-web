@@ -1637,5 +1637,10 @@
     "CopyFailed": "Köşıru mümkın bolmady",
     "Copy": "Köşıru",
     "Copied": "Köşırılgen",
-    "GoogleCastUnsupported": "Google Cast üşın qoldau körsetılmeidı"
+    "GoogleCastUnsupported": "Google Cast üşın qoldau körsetılmeidı",
+    "EnableRewatchingNextUpHelp": "Būrynnan qaralğan telebölımderdı \"Kelesi\" bölımderınde körsetudı qosu.",
+    "EnableRewatchingNextUp": "Qaita qaraudy \"Kelesılerde\" qosu",
+    "ButtonSpace": "Bosoryn",
+    "ButtonClose": "Jabu",
+    "ButtonBackspace": "Qaitaru"
 }
