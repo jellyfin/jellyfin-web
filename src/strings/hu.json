@@ -1636,5 +1636,8 @@
     "CopyFailed": "Nem sikerült másolni",
     "Copy": "Másol",
     "Copied": "Másolva",
-    "GoogleCastUnsupported": "A Google Cast nem támogatott"
+    "GoogleCastUnsupported": "A Google Cast nem támogatott",
+    "ButtonBackspace": "Törlés",
+    "ButtonSpace": "Szóköz",
+    "ButtonClose": "Bezárás"
 }
