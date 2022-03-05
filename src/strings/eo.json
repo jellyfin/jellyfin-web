@@ -1632,5 +1632,8 @@
     "Copy": "Kopii",
     "Copied": "Kopiita",
     "CopyFailed": "Ne eblis kopii",
-    "GoogleCastUnsupported": "Google Cast Nesubtenata"
+    "GoogleCastUnsupported": "Google Cast Nesubtenata",
+    "ButtonSpace": "Spaco",
+    "ButtonClose": "Fermi",
+    "ButtonBackspace": "Retroirado"
 }
