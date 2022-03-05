@@ -459,6 +459,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set rewatching in next up.
+     * @param {boolean|undefined} val - If rewatching items should be included in next up.
+     * @returns {boolean} Rewatching in next up state.
+     */
+    enableRewatchingInNextUp(val) {
+        if (val !== undefined) {
+            return this.set('enableRewatchingInNextUp', val, false);
+        }
+
+        return this.get('enableRewatchingInNextUp', false);
+    }
+
+    /**
      * Get or set sound effects.
      * @param {string|undefined} val - Sound effects.
      * @return {string} Sound effects.
@@ -576,6 +589,7 @@ export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
+export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);

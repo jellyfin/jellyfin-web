@@ -147,8 +147,6 @@ import ServerConnections from '../ServerConnections';
             loadLatestLiveTvRecordings(elem, true, apiClient);
         } else if (section === 'nextup') {
             loadNextUp(elem, apiClient, userSettings);
-        } else if (section === 'rewatching') {
-            loadNextUp(elem, apiClient, userSettings, true);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         } else if (section === 'resumebook') {
@@ -598,7 +596,7 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function getNextUpFetchFn(serverId, userSettings, rewatching) {
+    function getNextUpFetchFn(serverId, userSettings) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
             const oldestDateForNextUp = new Date();
@@ -612,7 +610,7 @@ import ServerConnections from '../ServerConnections';
                 EnableTotalRecordCount: false,
                 DisableFirstEpisode: false,
                 NextUpDateCutoff: oldestDateForNextUp.toISOString(),
-                Rewatching: rewatching
+                EnableRewatching: userSettings.enableRewatchingInNextUp()
             });
         };
     }
@@ -638,31 +636,22 @@ import ServerConnections from '../ServerConnections';
         };
     }
 
-    function loadNextUp(elem, apiClient, userSettings, rewatching = false) {
+    function loadNextUp(elem, apiClient, userSettings) {
         let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
-                serverId: apiClient.serverId(),
-                rewatching: rewatching
+                serverId: apiClient.serverId()
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            if (rewatching) {
-                html += globalize.translate('NextUpRewatching');
-            } else {
-                html += globalize.translate('NextUp');
-            }
+            html += globalize.translate('NextUp');
             html += '</h2>';
             html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            if (rewatching) {
-                html += globalize.translate('NextUpRewatching');
-            } else {
-                html += globalize.translate('NextUp');
-            }
+            html += globalize.translate('NextUp');
             html += '</h2>';
         }
         html += '</div>';
@@ -683,7 +672,7 @@ import ServerConnections from '../ServerConnections';
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings, rewatching);
+        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings);
         itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume());
         itemsContainer.parentContainer = elem;
     }
