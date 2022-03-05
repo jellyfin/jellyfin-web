@@ -29,6 +29,7 @@ worker.addEventListener(
 
     function drawBlurhash(target, pixels, width, height) {
         const canvas = document.createElement('canvas');
+        canvas.setAttribute('aria-hidden', 'true');
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');

@@ -1,6 +1,7 @@
 import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -13,8 +14,9 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
     function getScrollButtonHtml(direction) {
         let html = '';
         const icon = direction === 'left' ? 'chevron_left' : 'chevron_right';
+        const title = direction === 'left' ? globalize.translate('Previous') : globalize.translate('Next') ;
 
-        html += '<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="' + direction + '" class="emby-scrollbuttons-button">';
+        html += `<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="${direction}" title="${title}" class="emby-scrollbuttons-button">`;
         html += '<span class="material-icons ' + icon + '" aria-hidden="true"></span>';
         html += '</button>';
 
