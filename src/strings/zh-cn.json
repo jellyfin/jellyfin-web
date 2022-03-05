@@ -1636,5 +1636,8 @@
     "CopyFailed": "无法复制",
     "Copy": "复制",
     "Copied": "已复制",
-    "GoogleCastUnsupported": "不支持Google Cast"
+    "GoogleCastUnsupported": "不支持Google Cast",
+    "ButtonSpace": "空格",
+    "ButtonClose": "关闭",
+    "ButtonBackspace": "退格"
 }
