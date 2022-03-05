@@ -1636,5 +1636,8 @@
     "NextUpRewatching": "Пересматривание",
     "MixedMoviesShows": "Смешанные фильмы и передачи",
     "AddToFavorites": "Добавить в Избранное",
-    "GoogleCastUnsupported": "Google Cast не поддерживается"
+    "GoogleCastUnsupported": "Google Cast не поддерживается",
+    "ButtonBackspace": "Откатить",
+    "ButtonSpace": "Пробел",
+    "ButtonClose": "Закрыть"
 }
