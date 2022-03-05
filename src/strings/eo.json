@@ -1635,5 +1635,7 @@
     "GoogleCastUnsupported": "Google Cast Nesubtenata",
     "ButtonSpace": "Spaco",
     "ButtonClose": "Fermi",
-    "ButtonBackspace": "Retroirado"
+    "ButtonBackspace": "Retroirado",
+    "EnableRewatchingNextUp": "Ebligi Respektadon en \"Sekva Plue\"",
+    "EnableRewatchingNextUpHelp": "Ebligi montradon jam spektitajn epizodojn en sekcioj \"Sekva Plue\"."
 }
