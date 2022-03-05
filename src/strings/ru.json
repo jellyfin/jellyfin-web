@@ -1639,5 +1639,7 @@
     "GoogleCastUnsupported": "Google Cast не поддерживается",
     "ButtonBackspace": "Откатить",
     "ButtonSpace": "Пробел",
-    "ButtonClose": "Закрыть"
+    "ButtonClose": "Закрыть",
+    "EnableRewatchingNextUpHelp": "Включить показ уже просмотренных эпизодов в разделах \"Очередное\".",
+    "EnableRewatchingNextUp": "Включить повторный просмотр в разделе \"Очередное\""
 }
