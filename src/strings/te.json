@@ -1501,5 +1501,7 @@
     "TypeOptionPluralSeason": "ఋతువులు",
     "TypeOptionPluralMusicVideo": "మ్యూజిక్ వీడియోలు",
     "TypeOptionPluralMovie": "సినిమాలు",
-    "TypeOptionPluralBook": "పుస్తకాలు"
+    "TypeOptionPluralBook": "పుస్తకాలు",
+    "AgeValue": "({0} ఏళ్ళ వయసు)",
+    "AddToFavorites": "ఇష్టమైన వాటికి జోడించండి"
 }
