@@ -1632,5 +1632,11 @@
     "ThemeVideo": "Titelvideo",
     "NextUpRewatching": "Erneut ansehen",
     "MixedMoviesShows": "Gemischte Filme und Serien",
-    "AddToFavorites": "Zu Favoriten hinzufügen"
+    "AddToFavorites": "Zu Favoriten hinzufügen",
+    "GoogleCastUnsupported": "Google Cast nicht unterstützt",
+    "CopyFailed": "kopieren fehlgeschlagen",
+    "Copy": "kopieren",
+    "Copied": "kopiert",
+    "ButtonClose": "Schließen",
+    "ButtonBackspace": "Rücktaste"
 }
