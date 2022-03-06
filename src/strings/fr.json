@@ -1640,6 +1640,6 @@
     "ButtonSpace": "Espace",
     "ButtonClose": "Fermer",
     "ButtonBackspace": "Retour arrière",
-    "EnableRewatchingNextUpHelp": "Autoriser l'affichage des épisodes déjà lus dans la section 'À suivre'.",
-    "EnableRewatchingNextUp": "Autoriser les éléments lus dans 'À suivre'"
+    "EnableRewatchingNextUpHelp": "Inclure les épisodes déjà vus à la section 'À suivre'.",
+    "EnableRewatchingNextUp": "Autoriser le contenu déjà vu dans 'À suivre'"
 }
