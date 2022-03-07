@@ -1639,5 +1639,7 @@
     "GoogleCastUnsupported": "A Google Cast nem támogatott",
     "ButtonBackspace": "Törlés",
     "ButtonSpace": "Szóköz",
-    "ButtonClose": "Bezárás"
+    "ButtonClose": "Bezárás",
+    "EnableRewatchingNextUpHelp": "Engedélyezze a már megtekintett epizódok megjelenítését a „Következő” panelen.",
+    "EnableRewatchingNextUp": "Engedélyezze az Újranézést a \"Következő rész\"-ben"
 }
