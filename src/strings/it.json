@@ -1570,7 +1570,7 @@
     "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Cambia manualmente l'offset temporale (in ms) con il dispositivo selezionato per la sincronizzazione temporale. Modificare con cautela.",
     "LabelSortName": "Nome per ordinamento:",
     "LabelMaxDaysForNextUpHelp": "Imposta il numero massimo di giorni che uno spettacolo può rimanere nella lista 'Prossimo' senza essere guardato.",
-    "LabelMaxDaysForNextUp": "Max giorni in 'Prossimo':",
+    "LabelMaxDaysForNextUp": "Numero massimo di giorni per 'Prossimo':",
     "HeaderSyncPlayPlaybackSettings": "Riproduzione",
     "Engineer": "Ingegnere del suono",
     "Conductor": "Direttore",
