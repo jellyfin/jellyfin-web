@@ -1639,5 +1639,6 @@
     "GoogleCastUnsupported": "不支持Google Cast",
     "ButtonSpace": "空格",
     "ButtonClose": "关闭",
-    "ButtonBackspace": "退格"
+    "ButtonBackspace": "退格",
+    "EnableRewatchingNextUpHelp": "启用在“接下来”模块中显示已观看的剧集。"
 }
