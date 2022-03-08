@@ -1612,5 +1612,19 @@
     "IntelLowPowerEncHelp": "Low-Power-Kodning kan fortfarande ha onödig CPU-GPU-Synkronisering. På Linux måste det avaktiveras om i915-HuC-firmware inte är konfigurerat.",
     "EnableIntelLowPowerHevcHwEncoder": "Aktivera Intel Low-Power-hårdvarukodare för HEVC",
     "EnableIntelLowPowerH264HwEncoder": "Aktivera Intel Low-Power-hårdvarukodare för H.264",
-    "PreferSystemNativeHwDecoder": "Föredra operativsystemets inbyggda DXVA eller VA-API hårdvaruavkodare"
+    "PreferSystemNativeHwDecoder": "Föredra operativsystemets inbyggda DXVA eller VA-API hårdvaruavkodare",
+    "BehindTheScenes": "Bakom kulisserna",
+    "ShowParentImages": "Visa seriebilder",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Tillåt Text",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Tillåt bilder",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Tillåt inget",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Tillåt alla",
+    "MixedMoviesShows": "Blandade filmer och program",
+    "GoogleCastUnsupported": "Google Cast stöds inte",
+    "CopyFailed": "Kunde inte kopiera",
+    "Copy": "Kopiera",
+    "Copied": "Kopierad",
+    "ButtonExitApp": "Avsluta applikationen",
+    "ButtonClose": "Stäng",
+    "AddToFavorites": "Lägg till i favoriter"
 }
