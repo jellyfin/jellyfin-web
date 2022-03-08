@@ -135,7 +135,7 @@ import 'webcomponents.js/webcomponents-lite';
         this.classList.add('emby-select');
 
         const label = this.ownerDocument.createElement('label');
-        label.innerHTML = this.getAttribute('label') || '';
+        label.innerText = this.getAttribute('label') || '';
         label.classList.add('selectLabel');
         label.htmlFor = this.id;
         this.parentNode?.insertBefore(label, this);
@@ -148,7 +148,7 @@ import 'webcomponents.js/webcomponents-lite';
     EmbySelectPrototype.setLabel = function (text) {
         const label = this.parentNode?.querySelector('label');
 
-        label.innerHTML = text;
+        label.innerText = text;
     };
 
     document.registerElement('emby-select', {

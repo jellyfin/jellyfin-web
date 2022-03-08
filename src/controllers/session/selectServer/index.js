@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import loading from '../../../components/loading/loading';
 import { appRouter } from '../../../components/appRouter';
 import layoutManager from '../../../components/layoutManager';
@@ -71,7 +72,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             cardContainer += '</div>';
             cardContainer += '</div>';
             cardContainer += '<div class="cardFooter">';
-            cardContainer += '<div class="cardText cardTextCentered">' + item.name + '</div>';
+            cardContainer += '<div class="cardText cardTextCentered">' + escapeHtml(item.name) + '</div>';
             cardContainer += '</div></div></button>';
             return cardContainer;
         }).join('');

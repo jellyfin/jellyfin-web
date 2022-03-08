@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
 import { appRouter } from '../appRouter';
@@ -77,10 +78,10 @@ import '../../elements/emby-button/emby-button';
                         Name: item.ChannelName,
                         Id: item.ChannelId
 
-                    })}">${item.ChannelName}</a>`
+                    })}">${escapeHtml(item.ChannelName)}</a>`
                 });
             } else {
-                miscInfo.push(item.ChannelName);
+                miscInfo.push(escapeHtml(item.ChannelName));
             }
         }
 
@@ -221,7 +222,7 @@ import '../../elements/emby-button/emby-button';
                 });
 
                 if (text) {
-                    miscInfo.push(text);
+                    miscInfo.push(escapeHtml(text));
                 }
             } else if (item.IsMovie && item.ProductionYear && options.originalAirDate !== false) {
                 miscInfo.push(item.ProductionYear);

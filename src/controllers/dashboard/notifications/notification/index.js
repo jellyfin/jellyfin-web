@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import '../../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../../scripts/clientUtils';
@@ -7,7 +8,7 @@ function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) 
     html += items.map(function (u) {
         const isChecked = isEnabledList ? currentList.indexOf(u.Id) != -1 : currentList.indexOf(u.Id) == -1;
         const checkedHtml = isChecked ? ' checked="checked"' : '';
-        return '<label><input is="emby-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + '/><span>' + u.Name + '</span></label>';
+        return '<label><input is="emby-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + '/><span>' + escapeHtml(u.Name) + '</span></label>';
     }).join('');
     html += '</div>';
     elem.html(html).trigger('create');
@@ -37,7 +38,7 @@ function reload(page) {
             $('.monitorUsers', page).hide();
         }
 
-        $('.notificationType', page).html(typeInfo.Name || 'Unknown Notification');
+        $('.notificationType', page).html(escapeHtml(typeInfo.Name) || 'Unknown Notification');
 
         if (!notificationConfig) {
             notificationConfig = {

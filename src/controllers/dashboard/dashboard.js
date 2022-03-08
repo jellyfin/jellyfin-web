@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
 import { Events } from 'jellyfin-apiclient';
 import itemHelper from '../../components/itemHelper';
@@ -199,10 +200,10 @@ import confirm from '../../components/confirm/confirm';
 
     function reloadSystemInfo(view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
-            view.querySelector('#serverName').innerHTML = globalize.translate('DashboardServerName', systemInfo.ServerName);
-            view.querySelector('#versionNumber').innerHTML = globalize.translate('DashboardVersionNumber', systemInfo.Version);
-            view.querySelector('#operatingSystem').innerHTML = globalize.translate('DashboardOperatingSystem', systemInfo.OperatingSystem);
-            view.querySelector('#architecture').innerHTML = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
+            view.querySelector('#serverName').innerText = globalize.translate('DashboardServerName', systemInfo.ServerName);
+            view.querySelector('#versionNumber').innerText = globalize.translate('DashboardVersionNumber', systemInfo.Version);
+            view.querySelector('#operatingSystem').innerText = globalize.translate('DashboardOperatingSystem', systemInfo.OperatingSystem);
+            view.querySelector('#architecture').innerText = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
 
             if (systemInfo.CanSelfRestart) {
                 view.querySelector('#btnRestartServer').classList.remove('hide');
@@ -210,11 +211,11 @@ import confirm from '../../components/confirm/confirm';
                 view.querySelector('#btnRestartServer').classList.add('hide');
             }
 
-            view.querySelector('#cachePath').innerHTML = systemInfo.CachePath;
-            view.querySelector('#logPath').innerHTML = systemInfo.LogPath;
-            view.querySelector('#transcodePath').innerHTML = systemInfo.TranscodingTempPath;
-            view.querySelector('#metadataPath').innerHTML = systemInfo.InternalMetadataPath;
-            view.querySelector('#webPath').innerHTML = systemInfo.WebPath;
+            view.querySelector('#cachePath').innerText = systemInfo.CachePath;
+            view.querySelector('#logPath').innerText = systemInfo.LogPath;
+            view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
+            view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
+            view.querySelector('#webPath').innerText = systemInfo.WebPath;
         });
     }
 
@@ -279,8 +280,8 @@ import confirm from '../../components/confirm/confirm';
                 }
 
                 html += '<div class="sessionAppName" style="display:inline-block;">';
-                html += '<div class="sessionDeviceName">' + session.DeviceName + '</div>';
-                html += '<div class="sessionAppSecondaryText">' + DashboardPage.getAppSecondaryText(session) + '</div>';
+                html += '<div class="sessionDeviceName">' + escapeHtml(session.DeviceName) + '</div>';
+                html += '<div class="sessionAppSecondaryText">' + escapeHtml(DashboardPage.getAppSecondaryText(session)) + '</div>';
                 html += '</div>';
                 html += '</div>';
 
@@ -289,7 +290,7 @@ import confirm from '../../components/confirm/confirm';
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
                 html += nowPlayingName.html;
                 html += '</div>';
-                html += '<div class="sessionNowPlayingTime">' + DashboardPage.getSessionNowPlayingTime(session) + '</div>';
+                html += '<div class="sessionNowPlayingTime">' + escapeHtml(DashboardPage.getSessionNowPlayingTime(session)) + '</div>';
                 html += '</div>';
 
                 let percent = 100 * session?.PlayState?.PositionTicks / nowPlayingItem?.RunTimeTicks;
@@ -480,16 +481,16 @@ import confirm from '../../components/confirm/confirm';
                 };
             }
 
-            let topText = itemHelper.getDisplayName(nowPlayingItem);
+            let topText = escapeHtml(itemHelper.getDisplayName(nowPlayingItem));
             let bottomText = '';
 
             if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
                 bottomText = topText;
-                topText = nowPlayingItem.Artists[0];
+                topText = escapeHtml(nowPlayingItem.Artists[0]);
             } else {
                 if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
                     bottomText = topText;
-                    topText = nowPlayingItem.SeriesName || nowPlayingItem.Album;
+                    topText = escapeHtml(nowPlayingItem.SeriesName || nowPlayingItem.Album);
                 } else if (nowPlayingItem.ProductionYear) {
                     bottomText = nowPlayingItem.ProductionYear;
                 }
@@ -575,9 +576,9 @@ import confirm from '../../components/confirm/confirm';
             btnSessionPlayPauseIcon.classList.remove('play_arrow', 'pause');
             btnSessionPlayPauseIcon.classList.add(session.PlayState && session.PlayState.IsPaused ? 'play_arrow' : 'pause');
 
-            row.querySelector('.sessionNowPlayingTime').innerHTML = DashboardPage.getSessionNowPlayingTime(session);
-            row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
-            row.querySelector('.sessionAppSecondaryText').innerHTML = DashboardPage.getAppSecondaryText(session);
+            row.querySelector('.sessionNowPlayingTime').innerText = DashboardPage.getSessionNowPlayingTime(session);
+            row.querySelector('.sessionUserName').innerText = DashboardPage.getUsersHtml(session);
+            row.querySelector('.sessionAppSecondaryText').innerText = DashboardPage.getAppSecondaryText(session);
             const nowPlayingName = DashboardPage.getNowPlayingName(session);
             const nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');
 

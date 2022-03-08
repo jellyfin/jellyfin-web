@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import loading from '../../../components/loading/loading';
 import dom from '../../../scripts/dom';
@@ -118,15 +119,15 @@ import confirm from '../../../components/confirm/confirm';
             }
 
             deviceHtml += "<div class='cardText'>";
-            deviceHtml += device.Name;
+            deviceHtml += escapeHtml(device.Name);
             deviceHtml += '</div>';
             deviceHtml += "<div class='cardText cardText-secondary'>";
-            deviceHtml += device.AppName + ' ' + device.AppVersion;
+            deviceHtml += escapeHtml(device.AppName + ' ' + device.AppVersion);
             deviceHtml += '</div>';
             deviceHtml += "<div class='cardText cardText-secondary'>";
 
             if (device.LastUserName) {
-                deviceHtml += device.LastUserName;
+                deviceHtml += escapeHtml(device.LastUserName);
                 deviceHtml += ', ' + formatDistanceToNow(Date.parse(device.DateLastActivity), localeWithSuffix);
             }
 

@@ -5,6 +5,7 @@
  * @module components/listview/listview
  */
 
+import escapeHtml from 'escape-html';
 import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
@@ -148,11 +149,7 @@ import ServerConnections from '../ServerConnections';
 
             elem.classList.add('listItemBodyText');
 
-            if (textlines[i]) {
-                elem.innerText = textlines[i];
-            } else {
-                elem.innerHTML = '&nbsp;';
-            }
+            elem.innerText = text;
 
             html += elem.outerHTML;
         }
@@ -207,7 +204,7 @@ import ServerConnections from '../ServerConnections';
                     } else {
                         html += '<h2 class="listGroupHeader">';
                     }
-                    html += itemGroupTitle;
+                    html += escapeHtml(itemGroupTitle);
                     html += '</h2>';
 
                     html += '<div>';

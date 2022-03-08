@@ -5,6 +5,7 @@
  * @module components/itemidentifier/itemidentifier
  */
 
+import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import globalize from '../../scripts/globalize';
@@ -162,7 +163,7 @@ import template from './itemidentifier.template.html';
         currentSearchResult = identifyResult;
 
         const lines = [];
-        lines.push(identifyResult.Name);
+        lines.push(escapeHtml(identifyResult.Name));
 
         if (identifyResult.ProductionYear) {
             lines.push(identifyResult.ProductionYear);
@@ -218,7 +219,7 @@ import template from './itemidentifier.template.html';
         if (result.ImageUrl) {
             html += `<div class="cardImageContainer coveredImage" style="background-image:url('${result.ImageUrl}');"></div>`;
         } else {
-            html += `<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">${result.Name}</div></div>`;
+            html += `<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">${escapeHtml(result.Name)}</div></div>`;
         }
         html += '</div>';
         html += '</div>';
@@ -245,7 +246,7 @@ import template from './itemidentifier.template.html';
             } else {
                 html += '<div class="cardText cardText-secondary cardTextCentered">';
             }
-            html += lines[i] || '&nbsp;';
+            html += escapeHtml(lines[i]) || '&nbsp;';
             html += '</div>';
         }
 
@@ -299,7 +300,7 @@ import template from './itemidentifier.template.html';
                     fullName = `${idInfo.Name} ${globalize.translate(idInfo.Type)}`;
                 }
 
-                const idLabel = globalize.translate('LabelDynamicExternalId', fullName);
+                const idLabel = globalize.translate('LabelDynamicExternalId', escapeHtml(fullName));
 
                 html += `<input is="emby-input" class="txtLookupId" data-providerkey="${idInfo.Key}" id="${id}" label="${idLabel}"/>`;
 
@@ -364,7 +365,7 @@ import template from './itemidentifier.template.html';
                 dlg.querySelector('.fldPath').classList.add('hide');
             }
 
-            dlg.querySelector('.txtPath').innerHTML = item.Path || '';
+            dlg.querySelector('.txtPath').innerText = item.Path || '';
 
             dialogHelper.open(dlg);
 

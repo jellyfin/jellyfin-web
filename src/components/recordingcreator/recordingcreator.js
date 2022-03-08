@@ -81,10 +81,10 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
             imageContainer.classList.add('hide');
         }
 
-        context.querySelector('.recordingDialog-itemName').innerHTML = program.Name;
-        context.querySelector('.formDialogHeaderTitle').innerHTML = program.Name;
-        context.querySelector('.itemGenres').innerHTML = (program.Genres || []).join(' / ');
-        context.querySelector('.itemOverview').innerHTML = program.Overview || '';
+        context.querySelector('.recordingDialog-itemName').innerText = program.Name;
+        context.querySelector('.formDialogHeaderTitle').innerText = program.Name;
+        context.querySelector('.itemGenres').innerText = (program.Genres || []).join(' / ');
+        context.querySelector('.itemOverview').innerText = program.Overview || '';
 
         const formDialogFooter = context.querySelector('.formDialogFooter');
         const now = new Date();

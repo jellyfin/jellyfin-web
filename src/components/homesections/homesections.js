@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
@@ -192,7 +193,7 @@ import ServerConnections from '../ServerConnections';
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];
             const icon = imageHelper.getLibraryIcon(item.CollectionType);
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '" aria-hidden="true"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '" aria-hidden="true"></span><span class="homeLibraryText">' + escapeHtml(item.Name) + '</span></a>';
         }
 
         html += '</div>';
@@ -281,12 +282,12 @@ import ServerConnections from '../ServerConnections';
                 section: 'latest'
             }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('LatestFromLibrary', parent.Name);
+            html += globalize.translate('LatestFromLibrary', escapeHtml(parent.Name));
             html += '</h2>';
             html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
             html += '</a>';
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', escapeHtml(parent.Name)) + '</h2>';
         }
         html += '</div>';
 

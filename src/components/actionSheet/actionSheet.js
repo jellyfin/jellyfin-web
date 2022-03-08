@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
@@ -156,10 +157,10 @@ export function show(options) {
     }
 
     if (options.title) {
-        html += '<h1 class="actionSheetTitle">' + options.title + '</h1>';
+        html += '<h1 class="actionSheetTitle">' + escapeHtml(options.title) + '</h1>';
     }
     if (options.text) {
-        html += '<p class="actionSheetText">' + options.text + '</p>';
+        html += '<p class="actionSheetText">' + escapeHtml(options.text) + '</p>';
     }
 
     let scrollerClassName = 'actionSheetScroller';
@@ -212,17 +213,17 @@ export function show(options) {
         html += '<div class="listItemBody actionsheetListItemBody">';
 
         html += '<div class="listItemBodyText actionSheetItemText">';
-        html += (item.name || item.textContent || item.innerText);
+        html += escapeHtml(item.name || item.textContent || item.innerText);
         html += '</div>';
 
         if (item.secondaryText) {
-            html += `<div class="listItemBodyText secondary">${item.secondaryText}</div>`;
+            html += `<div class="listItemBodyText secondary">${escapeHtml(item.secondaryText)}</div>`;
         }
 
         html += '</div>';
 
         if (item.asideText) {
-            html += `<div class="listItemAside actionSheetItemAsideText">${item.asideText}</div>`;
+            html += `<div class="listItemAside actionSheetItemAsideText">${escapeHtml(item.asideText)}</div>`;
         }
 
         html += '</button>';

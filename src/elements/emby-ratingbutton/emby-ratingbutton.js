@@ -97,7 +97,7 @@ import ServerConnections from '../../components/ServerConnections';
 
         const text = button.querySelector('.button-text');
         if (text) {
-            text.innerHTML = button.title;
+            text.innerText = button.title;
         }
     }
 

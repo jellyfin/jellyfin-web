@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
@@ -47,13 +49,13 @@ import template from './dialog.template.html';
         }
 
         if (options.title) {
-            dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title || '';
+            dlg.querySelector('.formDialogHeaderTitle').innerText = options.title || '';
         } else {
             dlg.querySelector('.formDialogHeaderTitle').classList.add('hide');
         }
 
         const displayText = options.html || options.text || '';
-        dlg.querySelector('.text').innerHTML = displayText;
+        dlg.querySelector('.text').innerHTML = DOMPurify.sanitize(displayText);
 
         if (!displayText) {
             dlg.querySelector('.dialogContentInner').classList.add('hide');
@@ -82,7 +84,7 @@ import template from './dialog.template.html';
                 buttonClass += ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
             }
 
-            html += `<button is="emby-button" type="button" class="${buttonClass}" data-id="${item.id}"${autoFocus}>${item.name}</button>`;
+            html += `<button is="emby-button" type="button" class="${buttonClass}" data-id="${item.id}"${autoFocus}>${escapeHtml(item.name)}</button>`;
 
             if (item.description) {
                 html += `<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">${item.description}</div>`;

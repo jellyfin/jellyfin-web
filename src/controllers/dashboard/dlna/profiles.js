@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import globalize from '../../../scripts/globalize';
 import loading from '../../../components/loading/loading';
@@ -42,7 +43,7 @@ import confirm from '../../../components/confirm/confirm';
             html += '<span class="listItemIcon material-icons live_tv" aria-hidden="true"></span>';
             html += '<div class="listItemBody two-line">';
             html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#!/dlnaprofile.html?id=" + profile.Id + "'>";
-            html += '<div>' + profile.Name + '</div>';
+            html += '<div>' + escapeHtml(profile.Name) + '</div>';
             html += '</a>';
             html += '</div>';
 

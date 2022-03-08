@@ -45,7 +45,7 @@ import 'webcomponents.js/webcomponents-lite';
         const parentNode = this.parentNode;
         const document = this.ownerDocument;
         const label = document.createElement('label');
-        label.innerHTML = this.getAttribute('label') || '';
+        label.innerText = this.getAttribute('label') || '';
         label.classList.add('inputLabel');
         label.classList.add('inputLabelUnfocused');
 
@@ -114,7 +114,7 @@ import 'webcomponents.js/webcomponents-lite';
     };
 
     EmbyInputPrototype.label = function (text) {
-        this.labelElement.innerHTML = text;
+        this.labelElement.innerText = text;
     };
 
     document.registerElement('emby-input', {

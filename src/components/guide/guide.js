@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../scripts/globalize';
@@ -538,7 +539,7 @@ function Guide(options) {
 
                 html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left" aria-hidden="true"></span></div>';
 
-                html += '<div class="guideProgramNameText">' + program.Name;
+                html += '<div class="guideProgramNameText">' + escapeHtml(program.Name);
 
                 let indicatorHtml = null;
                 if (program.IsLive && options.showLiveIndicator) {
@@ -556,7 +557,7 @@ function Guide(options) {
                     html += '<div class="guideProgramSecondaryInfo">';
 
                     if (program.EpisodeTitle && options.showEpisodeTitle) {
-                        html += '<span class="programSecondaryTitle">' + program.EpisodeTitle + '</span>';
+                        html += '<span class="programSecondaryTitle">' + escapeHtml(program.EpisodeTitle) + '</span>';
                     }
                     html += '</div>';
                 }
@@ -604,7 +605,7 @@ function Guide(options) {
                 title.push(channel.Name);
             }
 
-            html += '<button title="' + title.join(' ') + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
+            html += '<button title="' + escapeHtml(title.join(' ')) + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
             if (hasChannelImage) {
                 const url = apiClient.getScaledImageUrl(channel.Id, {
@@ -621,7 +622,7 @@ function Guide(options) {
             }
 
             if (!hasChannelImage && channel.Name) {
-                html += '<div class="guideChannelName">' + channel.Name + '</div>';
+                html += '<div class="guideChannelName">' + escapeHtml(channel.Name) + '</div>';
             }
 
             html += '</button>';

@@ -5,6 +5,7 @@
  * @module components/mediaLibraryEditor/mediaLibraryEditor
  */
 
+import escapeHtml from 'escape-html';
 import 'jquery';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
@@ -111,11 +112,11 @@ import template from './mediaLibraryEditor.template.html';
         html += `<div class="listItem listItem-border lnkPath" data-index="${index}" style="padding-left:.5em;">`;
         html += `<div class="${pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody'}">`;
         html += '<h3 class="listItemBodyText">';
-        html += pathInfo.Path;
+        html += escapeHtml(pathInfo.Path);
         html += '</h3>';
 
         if (pathInfo.NetworkPath) {
-            html += `<div class="listItemBodyText secondary">${pathInfo.NetworkPath}</div>`;
+            html += `<div class="listItemBodyText secondary">${escapeHtml(pathInfo.NetworkPath)}</div>`;
         }
 
         html += '</div>';
@@ -213,7 +214,7 @@ export class showEditor {
         dlg.classList.add('background-theme-a');
         dlg.classList.add('formDialog');
         dlg.innerHTML = globalize.translateHtml(template);
-        dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.library.Name;
+        dlg.querySelector('.formDialogHeaderTitle').innerText = options.library.Name;
         initEditor(dlg, options);
         dlg.addEventListener('close', onDialogClosed);
         dialogHelper.open(dlg);

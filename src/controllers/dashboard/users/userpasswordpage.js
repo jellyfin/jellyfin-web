@@ -13,7 +13,7 @@ import confirm from '../../../components/confirm/confirm';
         ApiClient.getUser(userid).then(function (user) {
             Dashboard.getCurrentUser().then(function (loggedInUser) {
                 libraryMenu.setTitle(user.Name);
-                page.querySelector('.username').innerHTML = user.Name;
+                page.querySelector('.username').innerText = user.Name;
                 let showPasswordSection = true;
                 let showLocalAccessSection = false;
 

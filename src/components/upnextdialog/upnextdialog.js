@@ -80,7 +80,7 @@ import '../../assets/css/flexstyles.scss';
             title = item.SeriesName + ' - ' + title;
         }
 
-        elem.querySelector('.upNextDialog-title').innerHTML = title || '';
+        elem.querySelector('.upNextDialog-title').innerText = title || '';
 
         instance.itemType = item.Type;
 
