@@ -1602,7 +1602,7 @@
     "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync minsta fördröjning:",
     "Cursive": "Kursivt",
     "ContainerBitrateExceedsLimit": "Videons bittakt (bitrate) överskrider begränsningen",
-    "SelectAll": "Välja alla",
+    "SelectAll": "Välj alla",
     "DirectPlayError": "Det blev ett fel när direkt uppspelning startades",
     "UnknownAudioStreamInfo": "Ljud-ström-infon är okänd",
     "UnknownVideoStreamInfo": "Video-ström-infon är okänd",
@@ -1626,5 +1626,10 @@
     "Copied": "Kopierad",
     "ButtonExitApp": "Avsluta applikationen",
     "ButtonClose": "Stäng",
-    "AddToFavorites": "Lägg till i favoriter"
+    "AddToFavorites": "Lägg till i favoriter",
+    "ThemeSong": "Signaturmelodi",
+    "Sample": "Prov",
+    "Scene": "Scen",
+    "Interview": "Intervju",
+    "DeletedScene": "Borttagen scen"
 }
