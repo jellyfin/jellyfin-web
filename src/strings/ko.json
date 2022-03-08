@@ -1575,5 +1575,12 @@
     "ButtonSpace": "공간",
     "ButtonClose": "닫기",
     "ButtonBackspace": "뒤로가기",
-    "AddToFavorites": "즐겨찾기에 추가"
+    "AddToFavorites": "즐겨찾기에 추가",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "SpeedToSync 대신 SkipToSync가 사용되는 최대 재생 지연 시간(ms)입니다.",
+    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "SpeedToSync가 재생 위치를 수정하기 위한 최소 재생 지연 시간(ms).",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "시간 동기화를 위해 선택된 장치로 시간 오프셋(ms)을 수동으로 조정합니다. 조심해서 조정할것.",
+    "Cursive": "이탤릭체",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSync": "SpeedToSync 최대 딜레이:",
+    "LabelSyncPlaySettingsMinDelaySpeedToSync": "SpeedToSync 최소 딜레이:",
+    "LabelMaxDaysForNextUp": "'다음' 에 나타나는 최대 일수"
 }
