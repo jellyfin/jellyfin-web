@@ -5,7 +5,7 @@
       "addLabels": ["javascript"]
     },
     {
-      "description": "add label to dev dependency updates",
+      "description": "Adds label to dev dependency updates",
       "matchDepTypes": ["devDependencies"],
       "addLabels": ["dev-deps"]
     },
