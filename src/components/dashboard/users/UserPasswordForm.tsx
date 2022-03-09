@@ -1,3 +1,4 @@
+import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
 import Dashboard from '../../../scripts/clientUtils';
 import globalize from '../../../scripts/globalize';
@@ -25,7 +26,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
         }
 
         window.ApiClient.getUser(userId).then(function (user) {
-            Dashboard.getCurrentUser().then(function (loggedInUser: { Policy: { IsAdministrator: boolean; }; }) {
+            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
                 if (!user.Policy) {
                     throw new Error('Unexpected null user.Policy');
                 }
@@ -47,13 +48,13 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                     (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
                 }
 
-                if (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess) {
+                if (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess) {
                     (page.querySelector('.passwordSection') as HTMLDivElement).classList.remove('hide');
                 } else {
                     (page.querySelector('.passwordSection') as HTMLDivElement).classList.add('hide');
                 }
 
-                if (showLocalAccessSection && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                if (showLocalAccessSection && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     (page.querySelector('.localAccessSection') as HTMLDivElement).classList.remove('hide');
                 } else {
                     (page.querySelector('.localAccessSection') as HTMLDivElement).classList.add('hide');

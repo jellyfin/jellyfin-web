@@ -1,4 +1,4 @@
-import { ImageType } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import { ImageType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
 
 import Dashboard from '../../scripts/clientUtils';
@@ -51,7 +51,7 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
             const userImage = (page.querySelector('#image') as HTMLDivElement);
             userImage.style.backgroundImage = 'url(' + imageUrl + ')';
 
-            Dashboard.getCurrentUser().then(function (loggedInUser: { Policy: { IsAdministrator: boolean; }; }) {
+            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
                 if (!user.Policy) {
                     throw new Error('Unexpected null user.Policy');
                 }
@@ -59,7 +59,7 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
                 if (user.PrimaryImageTag) {
                     (page.querySelector('.btnAddImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('.btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-                } else if (appHost.supports('fileinput') && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                } else if (appHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     (page.querySelector('.btnDeleteImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('.btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }
