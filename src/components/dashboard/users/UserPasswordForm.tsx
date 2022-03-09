@@ -26,16 +26,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
 
         window.ApiClient.getUser(userId).then(function (user) {
             Dashboard.getCurrentUser().then(function (loggedInUser: { Policy: { IsAdministrator: boolean; }; }) {
-                if (!user.Id) {
-                    throw new Error('Unexpected null user.Id');
-                }
-
                 if (!user.Policy) {
                     throw new Error('Unexpected null user.Policy');
-                }
-
-                if (!user.Id) {
-                    throw new Error('Unexpected null user.Id');
                 }
 
                 if (!user.Configuration) {
@@ -44,7 +36,6 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
 
                 LibraryMenu.setTitle(user.Name);
 
-                const showPasswordSection = true;
                 let showLocalAccessSection = false;
 
                 if (user.HasConfiguredPassword) {
@@ -56,7 +47,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                     (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
                 }
 
-                if (showPasswordSection && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                if (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess) {
                     (page.querySelector('.passwordSection') as HTMLDivElement).classList.remove('hide');
                 } else {
                     (page.querySelector('.passwordSection') as HTMLDivElement).classList.add('hide');

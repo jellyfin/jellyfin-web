@@ -1,3 +1,4 @@
+import { ImageType } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
 
 import Dashboard from '../../scripts/clientUtils';
@@ -14,7 +15,7 @@ type IProps = {
     userId: string;
 }
 
-const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
+const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
     const [ userName, setUserName ] = useState('');
 
     const element = useRef<HTMLDivElement>(null);
@@ -111,7 +112,7 @@ const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
             reader.onabort = onFileReaderAbort;
             reader.onload = () => {
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, 'Primary', file).then(function () {
+                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
                     loading.hide();
                     reloadUser();
                 });
@@ -126,7 +127,7 @@ const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
                 globalize.translate('DeleteImage')
             ).then(function () {
                 loading.show();
-                window.ApiClient.deleteUserImage(userId, 'Primary').then(function () {
+                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
                     loading.hide();
                     reloadUser();
                 });
@@ -188,4 +189,4 @@ const UserImagePage: FunctionComponent<IProps> = ({userId}: IProps) => {
     );
 };
 
-export default UserImagePage;
+export default UserProfilePage;

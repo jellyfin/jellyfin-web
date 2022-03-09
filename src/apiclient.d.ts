@@ -93,7 +93,7 @@ declare module 'jellyfin-apiclient' {
         deleteItemImage(itemId: string, imageType: ImageType, imageIndex?: number): Promise<void>;
         deleteItem(itemId: string): Promise<void>;
         deleteLiveTvRecording(id: string): Promise<void>;
-        deleteUserImage(userId: string, imageType: string, imageIndex?: number): Promise<void>;
+        deleteUserImage(userId: string, imageType: ImageType, imageIndex?: number): Promise<void>;
         deleteUser(userId: string): Promise<void>;
         detectBitrate(force: boolean): Promise<number>;
         deviceId(): string;
@@ -299,7 +299,7 @@ declare module 'jellyfin-apiclient' {
         updateVirtualFolderOptions(id: string, libraryOptions?: any): Promise<void>;
         uploadItemImage(itemId: string, imageType: ImageType, file: File): Promise<void>;
         uploadItemSubtitle(itemId: string, language: string, isForced: boolean, file: File): Promise<void>;
-        uploadUserImage(userId: string, imageType: string, file: File): Promise<void>;
+        uploadUserImage(userId: string, imageType: ImageType, file: File): Promise<void>;
     }
 
     class AppStore {
