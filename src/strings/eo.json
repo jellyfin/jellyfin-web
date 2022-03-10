@@ -1637,5 +1637,7 @@
     "ButtonClose": "Fermi",
     "ButtonBackspace": "Retroirado",
     "EnableRewatchingNextUp": "Ebligi Respektadon en \"Sekva Plue\"",
-    "EnableRewatchingNextUpHelp": "Ebligi montradon jam spektitajn epizodojn en sekcioj \"Sekva Plue\"."
+    "EnableRewatchingNextUpHelp": "Ebligi montradon jam spektitajn epizodojn en sekcioj \"Sekva Plue\".",
+    "Localization": "Lokigo",
+    "ItemDetails": "Aĵa Detaloj"
 }
