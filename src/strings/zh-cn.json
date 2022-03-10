@@ -1640,5 +1640,8 @@
     "ButtonSpace": "空格",
     "ButtonClose": "关闭",
     "ButtonBackspace": "退格",
-    "EnableRewatchingNextUpHelp": "启用在“接下来”模块中显示已观看的剧集。"
+    "EnableRewatchingNextUpHelp": "启用在“接下来”模块中显示已观看的剧集。",
+    "Localization": "本地化",
+    "ItemDetails": "文件详情",
+    "EnableRewatchingNextUp": "在接下中界面中启用重新播放"
 }
