@@ -22,8 +22,8 @@ function getTextStyles(settings, preview) {
         case 'large':
             list.push({ name: 'font-size', value: '1.72em' });
             break;
-        default:
         case 'medium':
+        default:
             list.push({ name: 'font-size', value: '1.36em' });
             break;
     }
@@ -41,8 +41,8 @@ function getTextStyles(settings, preview) {
         case 'none':
             list.push({ name: 'text-shadow', value: 'none' });
             break;
-        default:
         case 'dropshadow':
+        default:
             list.push({ name: 'text-shadow', value: '#000000 0px 0px 7px' });
             break;
     }
