@@ -1641,5 +1641,7 @@
     "ButtonSpace": "Пробел",
     "ButtonClose": "Закрыть",
     "EnableRewatchingNextUpHelp": "Включить показ уже просмотренных эпизодов в разделах \"Очередное\".",
-    "EnableRewatchingNextUp": "Включить повторный просмотр в разделе \"Очередное\""
+    "EnableRewatchingNextUp": "Включить повторный просмотр в разделе \"Очередное\"",
+    "Localization": "Локализация",
+    "ItemDetails": "Подробности элемента"
 }
