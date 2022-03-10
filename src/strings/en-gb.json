@@ -1641,5 +1641,7 @@
     "EnableRewatchingNextUp": "Enable Rewatching in Next Up",
     "ButtonSpace": "Space",
     "ButtonClose": "Close",
-    "ButtonBackspace": "Backspace"
+    "ButtonBackspace": "Backspace",
+    "Localization": "Localization",
+    "ItemDetails": "Item Details"
 }
