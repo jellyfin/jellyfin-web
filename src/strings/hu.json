@@ -1641,5 +1641,7 @@
     "ButtonSpace": "Szóköz",
     "ButtonClose": "Bezárás",
     "EnableRewatchingNextUpHelp": "Engedélyezze a már megtekintett epizódok megjelenítését a „Következő” panelen.",
-    "EnableRewatchingNextUp": "Engedélyezze az Újranézést a \"Következő rész\"-ben"
+    "EnableRewatchingNextUp": "Engedélyezze az Újranézést a \"Következő rész\"-ben",
+    "Localization": "Lokalizáció",
+    "ItemDetails": "Fájl részletei"
 }
