@@ -1,6 +1,6 @@
 <form style="margin: 0 auto;">
     <h2 class="sectionTitle">
-        ${Display}
+        ${Localization}
     </h2>
 
     <div class="selectContainer languageSection hide">
@@ -161,6 +161,10 @@
         </select>
     </div>
 
+    <h2 class="sectionTitle">
+        ${Display}
+    </h2>
+
     <div class="selectContainer fldDisplayMode hide">
         <select is="emby-select" class="selectLayout" label="${LabelDisplayMode}">
             <option value="">${Auto}</option>
@@ -197,24 +201,6 @@
         <select is="emby-select" class="selectScreensaver" label="${LabelScreensaver}"></select>
     </div>
 
-    <div class="inputContainer inputContainer-withDescription">
-        <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
-        <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
-    </div>
-
-    <div class="inputContainer inputContainer-withDescription">
-        <input is="emby-input" type="number" id="txtMaxDaysForNextUp" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelMaxDaysForNextUp}" />
-        <div class="fieldDescription">${LabelMaxDaysForNextUpHelp}</div>
-    </div>
-
-    <div class="checkboxContainer checkboxContainer-withDescription">
-        <label>
-            <input type="checkbox" is="emby-checkbox" id="chkRewatchingNextUp" />
-            <span>${EnableRewatchingNextUp}</span>
-        </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableRewatchingNextUpHelp}</div>
-    </div>
-
     <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkFadein" />
@@ -231,12 +217,13 @@
         <div class="fieldDescription checkboxFieldDescription">${EnableBlurHashHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription">
-        <label>
-            <input type="checkbox" is="emby-checkbox" id="chkDetailsBanner" />
-            <span>${EnableDetailsBanner}</span>
-        </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableDetailsBannerHelp}</div>
+    <h2 class="sectionTitle">
+        ${HeaderLibraries}
+    </h2>
+
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
+        <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription fldBackdrops">
@@ -271,12 +258,41 @@
         <div class="fieldDescription checkboxFieldDescription">${DisplayMissingEpisodesWithinSeasonsHelp}</div>
     </div>
 
+    <h2 class="sectionTitle">
+        ${NextUp}
+    </h2>
+
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="number" id="txtMaxDaysForNextUp" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelMaxDaysForNextUp}" />
+        <div class="fieldDescription">${LabelMaxDaysForNextUpHelp}</div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkRewatchingNextUp" />
+            <span>${EnableRewatchingNextUp}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${EnableRewatchingNextUpHelp}</div>
+    </div>
+
     <div class="checkboxContainer checkboxContainer-withDescription fldUseEpisodeImagesInNextUp">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkUseEpisodeImagesInNextUp" />
             <span>${UseEpisodeImagesInNextUp}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${UseEpisodeImagesInNextUpHelp}</div>
+    </div>
+
+    <h2 class="sectionTitle">
+        ${ItemDetails}
+    </h2>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkDetailsBanner" />
+            <span>${EnableDetailsBanner}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${EnableDetailsBannerHelp}</div>
     </div>
 
     <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
