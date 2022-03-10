@@ -1641,5 +1641,7 @@
     "ButtonClose": "Fermer",
     "ButtonBackspace": "Retour arrière",
     "EnableRewatchingNextUpHelp": "Inclure les épisodes déjà vus à la section 'À suivre'.",
-    "EnableRewatchingNextUp": "Autoriser le contenu déjà vu dans 'À suivre'"
+    "EnableRewatchingNextUp": "Autoriser le contenu déjà vu dans 'À suivre'",
+    "Localization": "Localisation",
+    "ItemDetails": "Détails de l'élément"
 }
