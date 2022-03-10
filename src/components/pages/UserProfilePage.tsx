@@ -78,16 +78,15 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
 
         reloadUser();
 
-        const onFileReaderError = (evt: any) => {
+        const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
             loading.hide();
-            switch (evt.target.error.code) {
-                case evt.target.error.NOT_FOUND_ERR:
+            switch (evt.target?.error?.code) {
+                case DOMException.NOT_FOUND_ERR:
                     toast(globalize.translate('FileNotFound'));
                     break;
-                case evt.target.error.ABORT_ERR:
+                case DOMException.ABORT_ERR:
                     onFileReaderAbort();
                     break;
-                case evt.target.error.NOT_READABLE_ERR:
                 default:
                     toast(globalize.translate('FileReadError'));
             }
