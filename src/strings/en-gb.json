@@ -1643,5 +1643,9 @@
     "ButtonClose": "Close",
     "ButtonBackspace": "Backspace",
     "Localization": "Localization",
-    "ItemDetails": "Item Details"
+    "ItemDetails": "Item Details",
+    "StoryArc": "Story Arc",
+    "Production": "Production",
+    "OriginalAirDate": "Original Air Date",
+    "Digital": "Digital"
 }
