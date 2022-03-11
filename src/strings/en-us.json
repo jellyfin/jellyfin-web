@@ -1100,6 +1100,7 @@
     "MessageSyncPlayUserLeft": "{0} has left the group.",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "The following media locations will be removed from your library:",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
+    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
     "MessageUnsetContentHelp": "Content will be displayed as plain folders. For best results use the metadata manager to set the content types of sub-folders.",
     "MessageYouHaveVersionInstalled": "You currently have version {0} installed.",
     "Metadata": "Metadata",
