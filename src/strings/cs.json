@@ -1643,5 +1643,9 @@
     "EnableRewatchingNextUpHelp": "Povolit zobrazení již zhlédnutých dílů v sekci 'Další díly'.",
     "EnableRewatchingNextUp": "Povolit Sledujte znovu v sekci Další díly",
     "Localization": "Lokalizace",
-    "ItemDetails": "Podrobnosti"
+    "ItemDetails": "Podrobnosti",
+    "StoryArc": "Příběhová část",
+    "Production": "Produkce",
+    "OriginalAirDate": "Původní datum vysílání",
+    "Digital": "Digitální"
 }
