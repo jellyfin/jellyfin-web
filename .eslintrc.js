@@ -58,7 +58,16 @@ module.exports = {
         'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        'yoda': 'error'
+        'yoda': 'error',
+        'no-void': ['error'],
+        'no-redeclare':['error'],
+        'no-sequences':['error'],
+        'no-nested-ternary':['error'],
+        'max-params':['error', {'max':7}],
+        'no-throw-literal': ['error'],
+        'no-return-await': ['error'],
+        'no-unused-vars':['error'],
+        'no-duplicate-imports':['error']
     },
     settings: {
         react: {
