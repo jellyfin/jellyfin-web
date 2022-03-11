@@ -1643,5 +1643,9 @@
     "EnableRewatchingNextUpHelp": "Включить показ уже просмотренных эпизодов в разделах \"Очередное\".",
     "EnableRewatchingNextUp": "Включить повторный просмотр в разделе \"Очередное\"",
     "Localization": "Локализация",
-    "ItemDetails": "Подробности элемента"
+    "ItemDetails": "Подробности элемента",
+    "OriginalAirDate": "Исходный эфир",
+    "StoryArc": "Сюжетная арка",
+    "Production": "Производственный",
+    "Digital": "Цифровой"
 }
