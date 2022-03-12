@@ -1643,5 +1643,10 @@
     "EnableRewatchingNextUpHelp": "Inclure les épisodes déjà vus à la section 'À suivre'.",
     "EnableRewatchingNextUp": "Autoriser le contenu déjà vu dans 'À suivre'",
     "Localization": "Localisation",
-    "ItemDetails": "Détails de l'élément"
+    "ItemDetails": "Détails de l'élément",
+    "StoryArc": "Arc narratif",
+    "Production": "Production",
+    "OriginalAirDate": "Date de diffusion originale",
+    "MessageUnauthorizedUser": "Vous n'êtes pas autorisé à accéder au serveur pour le moment. Veuillez contacter votre administrateur de serveur pour plus d'informations.",
+    "Digital": "Numérique"
 }
