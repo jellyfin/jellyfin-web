@@ -22,6 +22,13 @@ function playThemeMedia(items, ownerId) {
             return i.Id;
         });
 
+        currentThemeItems.forEach((i) => {
+            i.playOptions = {
+                fullscreen: false,
+                enableRemotePlayers: false
+            };
+        });
+
         playbackManager.play({
             items: currentThemeItems,
             fullscreen: false,
