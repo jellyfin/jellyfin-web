@@ -1151,7 +1151,7 @@
     "Photo": "Hình Ảnh",
     "Person": "Người",
     "PerfectMatch": "Trùng khớp hoàn hảo",
-    "People": "Mọi người",
+    "People": "Diễn Viên",
     "PasswordResetProviderHelp": "Chọn một cách đặt lại mật khẩu sẽ được sử dụng khi người dùng này yêu cầu đặt lại mật khẩu.",
     "PackageInstallFailed": "Cài đặt {0} (phiên bản {1}) không thành công.",
     "PackageInstallCompleted": "Đã hoàn tất cài đặt {0} (phiên bản {1}).",
@@ -1635,5 +1635,9 @@
     "ItemDetails": "Chi Tiết Mục",
     "EnableRewatchingNextUpHelp": "Bật hiển thị các tập đã xem trong phần 'Kế Tiếp'.",
     "EnableRewatchingNextUp": "Bật Xem Lại trong Kế Tiếp",
-    "Track": "Bản ghi"
+    "Track": "Bản ghi",
+    "Production": "Sản Xuất",
+    "OriginalAirDate": "Ngày Phát Sóng Gốc",
+    "Digital": "Kỹ thuật số",
+    "MessageUnauthorizedUser": "Bạn không được phép truy cập vào máy chủ tại thời điểm này. Vui lòng liên hệ với quản trị viên máy chủ của bạn để biết thêm thông tin."
 }
