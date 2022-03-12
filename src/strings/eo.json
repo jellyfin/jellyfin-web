@@ -1643,5 +1643,6 @@
     "StoryArc": "Rakonta Arko",
     "Production": "Produktada",
     "Digital": "Cifereca",
-    "OriginalAirDate": "Originala Etero"
+    "OriginalAirDate": "Originala Etero",
+    "MessageUnauthorizedUser": "Vi ne estas rajtigita aliri la servilon nuntempe. Kontaktu vian servilan administranton por pliaj informoj."
 }
