@@ -1647,5 +1647,6 @@
     "StoryArc": "Story Arc",
     "Production": "Production",
     "OriginalAirDate": "Original Air Date",
-    "Digital": "Digital"
+    "Digital": "Digital",
+    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information."
 }
