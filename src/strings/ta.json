@@ -1654,5 +1654,14 @@
     "GoogleCastUnsupported": "Google Cast ஆதரிக்கப்படவில்லை",
     "ButtonSpace": "ஸ்பேஸ்",
     "ButtonClose": "மூடவும்",
-    "ButtonBackspace": "பின்னிடம்"
+    "ButtonBackspace": "பின்னிடம்",
+    "StoryArc": "ஸ்டோரி ஆர்க்",
+    "Production": "தயாரிப்பு",
+    "OriginalAirDate": "அசல் ஒளிபரப்பப்பட்ட தேதி",
+    "MessageUnauthorizedUser": "இந்த நேரத்தில் சேவையகத்தை அணுக உங்களுக்கு அங்கீகாரம் இல்லை. மேலும் தகவலுக்கு உங்கள் சர்வர் நிர்வாகியைத் தொடர்பு கொள்ளவும்.",
+    "Localization": "உள்ளூர்மயமாக்கல்",
+    "ItemDetails": "பொருள் விவரங்கள்",
+    "EnableRewatchingNextUpHelp": "ஏற்கனவே பார்த்த எபிசோட்களை 'அடுத்து' பிரிவில் காட்டுவதை இயக்கவும்.",
+    "EnableRewatchingNextUp": "அடுத்ததில் மீண்டும் பார்ப்பதை இயக்கவும்",
+    "Digital": "டிஜிட்டல்"
 }
