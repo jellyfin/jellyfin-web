@@ -1643,5 +1643,10 @@
     "EnableRewatchingNextUpHelp": "Engedélyezze a már megtekintett epizódok megjelenítését a „Következő” panelen.",
     "EnableRewatchingNextUp": "Engedélyezze az Újranézést a \"Következő rész\"-ben",
     "Localization": "Lokalizáció",
-    "ItemDetails": "Fájl részletei"
+    "ItemDetails": "Fájl részletei",
+    "StoryArc": "Sztori Arc",
+    "Production": "Produkció",
+    "OriginalAirDate": "Eredeti megjelenési dátum",
+    "MessageUnauthorizedUser": "Jelenleg nincs jogosultsága a szerver elérésére. További információért fordulj a szerver rendszergazdájához.",
+    "Digital": "Digitális"
 }
