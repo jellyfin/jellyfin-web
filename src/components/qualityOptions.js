@@ -1,3 +1,4 @@
+import { appHost } from '../components/apphost';
 import globalize from '../scripts/globalize';
 
 export function getVideoQualityOptions(options) {
@@ -11,7 +12,8 @@ export function getVideoQualityOptions(options) {
         videoWidth = videoHeight * (16 / 9);
     }
 
-    const maxAllowedWidth = videoWidth || 4096;
+    const hostScreenWidth = appHost.screen()?.maxAllowedWidth || 4096;
+    const maxAllowedWidth = Math.min(videoWidth || hostScreenWidth, hostScreenWidth);
 
     const qualityOptions = [];
 
