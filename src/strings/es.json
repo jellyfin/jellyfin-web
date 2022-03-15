@@ -171,7 +171,7 @@
     "GuestStar": "Estrella invitada",
     "Guide": "Guía",
     "GuideProviderSelectListings": "Seleccionar listados",
-    "H264CrfHelp": "El factor de velocidad constante (CRF) es el ajuste de calidad predeterminado para los codificadores x264 y x265. Puede establecer los valores entre 0 y 51, donde valores más bajos resultarían en una mejor calidad (a expensas de tamaños de archivo más altos). Los valores sanos están entre 18 y 28. El valor predeterminado para x264 es 23, y para x265 es 28, por lo que puede utilizar esto como punto de partida.",
+    "H264CrfHelp": "El 'Factor de Velocidad Constante' (CRF) es el ajuste de calidad predeterminado para los codificadores x264 y x265. Puede establecer los valores entre 0 y 51, donde valores más bajos resultarían en una mejor calidad (a expensas de tamaños de archivo más altos). Los valores sanos están entre 18 y 28. El valor predeterminado para x264 es 23, y para x265 es 28, por lo que puede utilizar esto como punto de partida.",
     "EncoderPresetHelp": "Elige un valor más rápido para mejorar el rendimiento o un valor más lento para mejorar la calidad.",
     "HDPrograms": "Programas en HD",
     "HardwareAccelerationWarning": "Activar la aceleración por hardware puede producir inestabilidades en algunos entornos. Asegúrate de que tu sistema operativo y tus controladores de vídeo están actualizados. Si tienes dificultades para reproducir los vídeos después de activar esto, tendrás que volver a poner este ajuste en None.",
@@ -397,7 +397,7 @@
     "LabelCommunityRating": "Puntuación de la comunidad:",
     "LabelContentType": "Tipo de contenido:",
     "LabelCountry": "País:",
-    "LabelCriticRating": "Valoración de la crítica:",
+    "LabelCriticRating": "Valoración de las críticas:",
     "LabelCurrentPassword": "Contraseña actual:",
     "LabelCustomCertificatePath": "Ruta del certificado SSL personalizado:",
     "LabelCustomCertificatePathHelp": "Ruta a un archivo PKCS # 12 que contiene un certificado y una clave privada para habilitar el soporte de TLS en un dominio personalizado.",
@@ -1624,5 +1624,9 @@
     "ButtonExitApp": "Salir de la Aplicación",
     "ButtonClose": "Cerrar",
     "ButtonBackspace": "Retroceso",
-    "AddToFavorites": "Añadir a favoritos"
+    "AddToFavorites": "Añadir a favoritos",
+    "ItemDetails": "Detalles del objeto",
+    "EnableRewatchingNextUpHelp": "Mostrar episodios vistos en la sección 'Volver a ver'.",
+    "EnableRewatchingNextUp": "Activar Volver a ver",
+    "Digital": "Digital"
 }
