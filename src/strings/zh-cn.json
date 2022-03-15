@@ -410,7 +410,7 @@
     "LabelBirthDate": "出生日期：",
     "LabelBirthYear": "出生年份：",
     "LabelBlastMessageInterval": "活动信号的时间间隔:",
-    "LabelBlastMessageIntervalHelp": "确定爆炸活动消息之间的持续时间（以秒为单位）。",
+    "LabelBlastMessageIntervalHelp": "确定爆发活动消息之间的持续时间（以秒为单位）。",
     "LabelBlockContentWithTags": "通过标签锁定内容：",
     "LabelBurnSubtitles": "烧录字幕：",
     "LabelCache": "缓存：",
@@ -1290,7 +1290,7 @@
     "LabelEnableHttpsHelp": "监听已配置的 HTTPS 端口。必须配置有效的证书才会生效。",
     "LabelEnableHttps": "启用 HTTPS",
     "LabelChromecastVersion": "Google Cast 版本",
-    "HeaderDVR": "数字录音机",
+    "HeaderDVR": "数字录像机",
     "MessageSyncPlayErrorAccessingGroups": "访问群组列表时发生错误。",
     "MessageSyncPlayLibraryAccessDenied": "对此内容的访问受到限制。",
     "MessageSyncPlayCreateGroupDenied": "需要权限以创建群组。",
@@ -1643,5 +1643,10 @@
     "EnableRewatchingNextUpHelp": "启用在“接下来”模块中显示已观看的剧集。",
     "Localization": "本地化",
     "ItemDetails": "文件详情",
-    "EnableRewatchingNextUp": "在接下中界面中启用重新播放"
+    "EnableRewatchingNextUp": "在接下中界面中启用重新播放",
+    "Production": "作品",
+    "StoryArc": "故事线",
+    "OriginalAirDate": "原始播出日期",
+    "Digital": "数字的",
+    "MessageUnauthorizedUser": "您目前无权访问服务器。请联系您的服务器管理员以获取更多信息。"
 }
