@@ -650,5 +650,21 @@
     "SelectAll": "सर्व निवडा",
     "UnknownAudioStreamInfo": "ऑडियो स्ट्रीम माहिती अज्ञात आहे",
     "UnknownVideoStreamInfo": "व्हिडियो स्ट्रीम माहिती अज्ञात आहे",
-    "VideoBitrateNotSupported": "व्हिडियोचा बिटरेट असमर्थित आहे"
+    "VideoBitrateNotSupported": "व्हिडियोचा बिटरेट असमर्थित आहे",
+    "Quality": "गुणवत्ता",
+    "LabelMaxStreamingBitrate": "सर्वोत्तम स्ट्रीमिंग गुणवत्ता:",
+    "LabelMaxChromecastBitrate": "गुगल कास्ट स्ट्रीमिंग गुणवत्ता:",
+    "LabelInternetQuality": "इन्टरनेट गुणवत्ता:",
+    "LabelHomeNetworkQuality": "घरच्या नेटवर्कची गुणवत्ता:",
+    "HeaderVideoQuality": "व्हिडियो गुणवत्ता",
+    "HeaderMusicQuality": "संगीत गुणवत्ता",
+    "AllowHevcEncoding": "HEVC स्वरूपात एन्कोडिंग करण्यास अनुमती द्या",
+    "WizardCompleted": "सध्यासाठी तेवढेच पुरे. आपल्या मिडिया संग्रहाविषयी माहिती गोळा करायला जेलिफिनने सुरूवात केली आहे. आमचे काही अ‍ॅप आजमावून पाहा, आणि मग <b>डॅशबोर्ड</b> पाहण्यासाठी <b>पूर्ण करा</b> वर क्लिक करा.",
+    "OnlyImageFormats": "केवळ चित्र स्वरूप (VobSub, PGS, SUB)",
+    "MediaInfoPixelFormat": "पिक्सेल स्वरूप",
+    "LabelSubtitleFormatHelp": "उदाहरण: srt",
+    "LabelMetadataSaversHelp": "मेटाडॅटा सेव्ह करताना वापरले जाणारे फाईल स्वरूप निवडा.",
+    "LabelFormat": "स्वरूप:",
+    "Label3DFormat": "थ्री.डी. स्वरूप:",
+    "InstallingPackage": "{0} (आवृत्ती {1}) इन्स्टॉल करत आहे"
 }
