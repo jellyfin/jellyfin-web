@@ -1637,5 +1637,7 @@
     "Copied": "Copiato",
     "ButtonBackspace": "Indietro",
     "ButtonSpace": "Spazio",
-    "ButtonClose": "Chiudi"
+    "ButtonClose": "Chiudi",
+    "Production": "Produzione",
+    "MessageUnauthorizedUser": "Non sei autorizzato ad accedere al server in questo momento. Contatta l'amministratore del server per ulteriori dettagli."
 }
