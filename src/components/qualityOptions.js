@@ -13,7 +13,7 @@ export function getVideoQualityOptions(options) {
     }
 
     const hostScreenWidth = appHost.screen()?.maxAllowedWidth || 4096;
-    const maxAllowedWidth = Math.min(videoWidth || hostScreenWidth, hostScreenWidth);
+    const maxAllowedWidth = videoWidth || 4096;
 
     const qualityOptions = [];
 
@@ -28,19 +28,19 @@ export function getVideoQualityOptions(options) {
     }
 
     // Quality options are indexed by bitrate. If you must duplicate them, make sure each of them are unique (by making the last digit a 1)
-    if (maxAllowedWidth >= 3800) {
+    if (maxAllowedWidth >= 3800 && hostScreenWidth >= 1930) {
         qualityOptions.push({ name: '4K - 120 Mbps', maxHeight: 2160, bitrate: 120000000 });
         qualityOptions.push({ name: '4K - 80 Mbps', maxHeight: 2160, bitrate: 80000000 });
     }
     // Some 1080- videos are reported as 1912?
-    if (maxAllowedWidth >= 1900) {
+    if (maxAllowedWidth >= 1900 && hostScreenWidth >= 1290) {
         qualityOptions.push({ name: '1080p - 60 Mbps', maxHeight: 1080, bitrate: 60000000 });
         qualityOptions.push({ name: '1080p - 40 Mbps', maxHeight: 1080, bitrate: 40000000 });
         qualityOptions.push({ name: '1080p - 20 Mbps', maxHeight: 1080, bitrate: 20000000 });
         qualityOptions.push({ name: '1080p - 15 Mbps', maxHeight: 1080, bitrate: 15000000 });
         qualityOptions.push({ name: '1080p - 10 Mbps', maxHeight: 1080, bitrate: 10000000 });
     }
-    if (maxAllowedWidth >= 1260) {
+    if (maxAllowedWidth >= 1260 && hostScreenWidth >= 650) {
         qualityOptions.push({ name: '720p - 8 Mbps', maxHeight: 720, bitrate: 8000000 });
         qualityOptions.push({ name: '720p - 6 Mbps', maxHeight: 720, bitrate: 6000000 });
         qualityOptions.push({ name: '720p - 4 Mbps', maxHeight: 720, bitrate: 4000000 });
