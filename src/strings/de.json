@@ -1643,5 +1643,8 @@
     "ItemDetails": "Details",
     "EnableRewatchingNextUpHelp": "Schon angeschaute Folgen in 'Weiterschauen' anzeigen.",
     "EnableRewatchingNextUp": "Erneut Anschauen in Weiterschauen aktivieren",
-    "ButtonSpace": "Leertaste"
+    "ButtonSpace": "Leertaste",
+    "Production": "Produktion",
+    "OriginalAirDate": "Erstausstrahlung",
+    "MessageUnauthorizedUser": "Du bist aktuell nicht berechtigt, auf den Server zuzugreifen. Bitte kontaktiere den Serveradministrator für weitere Informationen."
 }
