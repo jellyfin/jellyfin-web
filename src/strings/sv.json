@@ -1558,7 +1558,7 @@
     "LabelSyncPlaySettingsSyncCorrectionHelp": "Aktivera aktiv synkronisering av uppspelning genom snabbspolning eller genom söka till den beräknade positionen. Avaktivera detta om uppspelningen hackar.",
     "LabelSyncPlaySettingsSyncCorrection": "Synkroniseringskorrigering",
     "LabelMaxDaysForNextUpHelp": "Bestäm antal dagar en serie ska vara i \"Nästa\"-listan utan att någon ser den.",
-    "LabelMaxDaysForNextUp": "Max antal dagar i \"Nästa\":",
+    "LabelMaxDaysForNextUp": "Max antal dagar i \"Nästa på tur\":",
     "LabelAutomaticallyAddToCollectionHelp": "När minst 2 filmer har samma samlingsnamn läggs de automatiskt till i samlingen.",
     "LabelAutomaticallyAddToCollection": "Lägg automatiskt till i samlingen",
     "Console": "Konsol",
