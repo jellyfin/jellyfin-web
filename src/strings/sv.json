@@ -1646,5 +1646,6 @@
     "Production": "Produktion",
     "AllowEmbeddedSubtitlesHelp": "Avaktivera inbäddade undertexter. Kräver fullständig uppdatering av biblioteket.",
     "EnableRewatchingNextUpHelp": "Visa redan sedda avsnitt i \"Nästa på tur\".",
-    "EnableRewatchingNextUp": "Aktivera 'se om' i \"Nästa på tur\""
+    "EnableRewatchingNextUp": "Aktivera 'se om' i \"Nästa på tur\"",
+    "ThemeVideo": "Temavideo"
 }
