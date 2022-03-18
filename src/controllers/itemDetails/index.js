@@ -666,10 +666,12 @@ function reloadFromItem(instance, page, params, item, user) {
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
         let location = item.ProductionLocations[0];
         if (!layoutManager.tv && appHost.supports('externallinks')) {
-            location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
+            itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}"></a>`);
+            page.querySelector('#itemBirthLocation > a').innerText = `${location}`;
+        } else {
+            itemBirthLocation.innerText = globalize.translate('BirthPlaceValue', `${location}`);
         }
         itemBirthLocation.classList.remove('hide');
-        itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', location);
     } else {
         itemBirthLocation.classList.add('hide');
     }
