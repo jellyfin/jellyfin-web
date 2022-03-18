@@ -123,6 +123,11 @@ import browser from './browser';
                 return true;
             }
         } else if (format === 'opus') {
+            if (browser.web0s) {
+                // canPlayType lies about OPUS support
+                return browser.web0sVersion >= 3.5;
+            }
+
             typeString = 'audio/ogg; codecs="opus"';
         } else if (format === 'alac') {
             if (browser.iOS || browser.osx) {
