@@ -1721,17 +1721,17 @@ class PlaybackManager {
         }
 
         function setSrcIntoPlayer(apiClient, player, streamInfo) {
-            return player.play(streamInfo).then(function () {
-                const playerData = getPlayerData(player);
+            const playerData = getPlayerData(player);
 
+            playerData.streamInfo = streamInfo;
+
+            return player.play(streamInfo).then(function () {
                 playerData.isChangingStream = false;
-                playerData.streamInfo = streamInfo;
                 streamInfo.started = true;
                 streamInfo.ended = false;
 
                 sendProgressUpdate(player, 'timeupdate');
             }, function (e) {
-                const playerData = getPlayerData(player);
                 playerData.isChangingStream = false;
 
                 onPlaybackError.call(player, e, {
