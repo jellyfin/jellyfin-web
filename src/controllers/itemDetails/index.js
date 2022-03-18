@@ -669,7 +669,7 @@ function reloadFromItem(instance, page, params, item, user) {
             location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
         }
         itemBirthLocation.classList.remove('hide');
-        itemBirthLocation.innerText = globalize.translate('BirthPlaceValue', location);
+        itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', location);
     } else {
         itemBirthLocation.classList.add('hide');
     }
