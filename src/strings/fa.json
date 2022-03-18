@@ -1118,7 +1118,7 @@
     "LabelTranscodes": "تغییر کدگذار ها:",
     "LabelTranscodingFramerate": "نرخ فریم نغییر کدگذاری:",
     "LabelTranscodingProgress": "پیشرفت تغییرکدگذاری:",
-    "LabelTranscodingThreadCount": "",
+    "LabelTranscodingThreadCount": "تعداد نخ های تغییرکدگذاری:",
     "LabelTranscodingThreadCountHelp": "",
     "LabelTriggerType": "",
     "LabelTunerIpAddress": "",
