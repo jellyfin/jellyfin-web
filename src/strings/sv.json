@@ -589,7 +589,7 @@
     "LabelPreferredDisplayLanguage": "Föredraget visningsspråk:",
     "LabelPreferredSubtitleLanguage": "Önskat språk för undertexter:",
     "LabelProfileAudioCodecs": "Kodning av ljud:",
-    "LabelProfileCodecs": "Videokodningar:",
+    "LabelProfileCodecs": "Kodecs:",
     "LabelProfileCodecsHelp": "Åtskilda med kommatecken, detta kan lämnas tomt för att gälla för alla kodningsformat.",
     "LabelProfileContainer": "Behållare:",
     "LabelProfileContainersHelp": "Åtskilda med kommatecken, detta kan lämnas tomt för att gälla för alla behållare.",
