@@ -10,12 +10,14 @@ function showQualityMenu(player, btn) {
     })[0];
     const videoWidth = videoStream ? videoStream.Width : null;
     const videoHeight = videoStream ? videoStream.Height : null;
+    const videoBitRate = videoStream ? videoStream.BitRate : null;
 
     const options = qualityoptions.getVideoQualityOptions({
         currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
         isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
         videoWidth: videoWidth,
         videoHeight: videoHeight,
+        videoBitRate: videoBitRate,
         enableAuto: true
     });
 
@@ -94,12 +96,14 @@ function getQualitySecondaryText(player) {
 
     const videoWidth = videoStream ? videoStream.Width : null;
     const videoHeight = videoStream ? videoStream.Height : null;
+    const videoBitRate = videoStream ? videoStream.BitRate : null;
 
     const options = qualityoptions.getVideoQualityOptions({
         currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
         isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
         videoWidth: videoWidth,
         videoHeight: videoHeight,
+        videoBitRate: videoBitRate,
         enableAuto: true
     });
 
