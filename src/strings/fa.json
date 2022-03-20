@@ -1573,5 +1573,6 @@
     "LabelSyncPlaySettingsMinDelaySpeedToSync": "حداقل تأخیر SpeedToSync:",
     "LabelSyncPlaySettingsSyncCorrection": "تصحیح همگام سازی",
     "LabelSyncPlaySettingsExtraTimeOffset": "زمان اضافی جبرانی:",
-    "LabelSyncPlaySettingsDescription": "تغییر تنظیمات اجرای همگام"
+    "LabelSyncPlaySettingsDescription": "تغییر تنظیمات اجرای همگام",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "تنظیم دستی تأخیر زمان (بر حسب میلی ثانیه) با دستگاه انتخابی برای همگام سازی زمان. با احتیاط دستکاری کنید."
 }
