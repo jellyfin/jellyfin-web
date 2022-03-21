@@ -971,7 +971,7 @@
     "LabelMaxStreamingBitrateHelp": "حداکثر نرخ جریان را برای زمان پخش جاری مشخص کنید.",
     "LabelMessageText": "متن پیام:",
     "LabelMessageTitle": "عنوان پیام:",
-    "LabelMetadata": "ابرداده",
+    "LabelMetadata": "ابرداده:",
     "LabelMetadataDownloadLanguage": "زبان ترحیجی برای بارگیری:",
     "LabelMetadataDownloadersHelp": "فعالسازی و رتبه بندی بارگیری کننده ابرداده به ترتیب الویت. بارگیری کننده های با الویت پایین تر فقط برای پر کردن اطلاعات گم شده استفاده میشوند.",
     "LabelMetadataPath": "مسیر فراداده:",
