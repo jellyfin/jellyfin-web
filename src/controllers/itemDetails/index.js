@@ -666,10 +666,12 @@ function reloadFromItem(instance, page, params, item, user) {
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
         let location = item.ProductionLocations[0];
         if (!layoutManager.tv && appHost.supports('externallinks')) {
-            location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
+            location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${escapeHtml(location)}</a>`;
+        } else {
+            location = escapeHtml(location);
         }
         itemBirthLocation.classList.remove('hide');
-        itemBirthLocation.innerText = globalize.translate('BirthPlaceValue', location);
+        itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', location);
     } else {
         itemBirthLocation.classList.add('hide');
     }
@@ -745,7 +747,7 @@ function renderLinks(page, item) {
 
     if (item.ExternalUrls) {
         for (const url of item.ExternalUrls) {
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${url.Name}</a>`);
+            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${escapeHtml(url.Name)}</a>`);
         }
     }
 
