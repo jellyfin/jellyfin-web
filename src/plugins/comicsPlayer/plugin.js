@@ -233,11 +233,11 @@ export class ComicsPlayer {
     }
 
     canPlayItem(item) {
-        if (item.Path && (item.Path.endsWith('cbz') || item.Path.endsWith('cbr'))) {
-            return true;
-        }
+        const supportedFormats = ['cbz', 'zip', 'cbr', 'rar'];
 
-        return false;
+        const name = item.Path;
+        const index = name.lastIndexOf('.');
+        return index !== -1 && supportedFormats.includes(name.slice(index + 1));
     }
 }
 
