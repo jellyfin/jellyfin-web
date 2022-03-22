@@ -51,7 +51,7 @@ import template from './accessSchedule.template.html';
         };
 
         if (parseFloat(updatedSchedule.StartHour) >= parseFloat(updatedSchedule.EndHour)) {
-            return void alert(globalize.translate('ErrorStartHourGreaterThanEnd'));
+            return alert(globalize.translate('ErrorStartHourGreaterThanEnd'));
         }
 
         context.submitted = true;

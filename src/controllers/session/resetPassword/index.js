@@ -9,7 +9,7 @@ import Dashboard from '../../../scripts/clientUtils';
             msg += '<br/>';
             msg += '<br/>';
             msg += result.UsersReset.join('<br/>');
-            return void Dashboard.alert({
+            return Dashboard.alert({
                 message: msg,
                 title: globalize.translate('HeaderPasswordReset'),
                 callback: function () {
