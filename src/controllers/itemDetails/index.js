@@ -140,7 +140,7 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
 
 function renderTimerEditor(page, item, apiClient, user) {
     if (item.Type !== 'Recording' || !user.Policy.EnableLiveTvManagement || !item.TimerId || item.Status !== 'InProgress') {
-        return void hideAll(page, 'btnCancelTimer');
+        return hideAll(page, 'btnCancelTimer');
     }
 
     hideAll(page, 'btnCancelTimer', true);
@@ -148,7 +148,7 @@ function renderTimerEditor(page, item, apiClient, user) {
 
 function renderSeriesTimerEditor(page, item, apiClient, user) {
     if (item.Type !== 'SeriesTimer') {
-        return void hideAll(page, 'btnCancelSeriesTimer');
+        return hideAll(page, 'btnCancelSeriesTimer');
     }
 
     if (user.Policy.EnableLiveTvManagement) {
@@ -160,11 +160,11 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
 
         page.querySelector('.seriesTimerScheduleSection').classList.remove('hide');
         hideAll(page, 'btnCancelSeriesTimer', true);
-        return void renderSeriesTimerSchedule(page, apiClient, item.Id);
+        return renderSeriesTimerSchedule(page, apiClient, item.Id);
     }
 
     page.querySelector('.seriesTimerScheduleSection').classList.add('hide');
-    return void hideAll(page, 'btnCancelSeriesTimer');
+    return hideAll(page, 'btnCancelSeriesTimer');
 }
 
 function renderTrackSelections(page, instance, item, forceReload) {
@@ -804,7 +804,8 @@ function renderNextUp(page, item, user) {
     const section = page.querySelector('.nextUpSection');
 
     if (item.Type != 'Series') {
-        return void section.classList.add('hide');
+        section.classList.add('hide');
+        return undefined;
     }
 
     ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
@@ -1111,7 +1112,7 @@ function renderMoreFromSeason(view, item, apiClient) {
 
     if (section) {
         if (item.Type !== 'Episode' || !item.SeasonId || !item.SeriesId) {
-            return void section.classList.add('hide');
+            return section.classList.add('hide');
         }
 
         const userId = apiClient.getCurrentUserId();
@@ -1121,7 +1122,7 @@ function renderMoreFromSeason(view, item, apiClient) {
             Fields: 'ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount'
         }).then(function (result) {
             if (result.Items.length < 2) {
-                return void section.classList.add('hide');
+                return section.classList.add('hide');
             }
 
             section.classList.remove('hide');
@@ -1156,10 +1157,10 @@ function renderMoreFromArtist(view, item, apiClient) {
     if (section) {
         if (item.Type === 'MusicArtist') {
             if (!apiClient.isMinServerVersion('3.4.1.19')) {
-                return void section.classList.add('hide');
+                return section.classList.add('hide');
             }
         } else if (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length) {
-            return void section.classList.add('hide');
+            return section.classList.add('hide');
         }
 
         const query = {
@@ -1178,7 +1179,7 @@ function renderMoreFromArtist(view, item, apiClient) {
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
             if (!result.Items.length) {
-                return void section.classList.add('hide');
+                return section.classList.add('hide');
             }
 
             section.classList.remove('hide');
@@ -1212,7 +1213,7 @@ function renderSimilarItems(page, item, context) {
 
     if (similarCollapsible) {
         if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist') {
-            return void similarCollapsible.classList.add('hide');
+            return similarCollapsible.classList.add('hide');
         }
 
         similarCollapsible.classList.remove('hide');
@@ -1229,7 +1230,7 @@ function renderSimilarItems(page, item, context) {
 
         apiClient.getSimilarItems(item.Id, options).then(function (result) {
             if (!result.Items.length) {
-                return void similarCollapsible.classList.add('hide');
+                return similarCollapsible.classList.add('hide');
             }
 
             similarCollapsible.classList.remove('hide');
@@ -1816,7 +1817,8 @@ function renderCast(page, item) {
     });
 
     if (!people.length) {
-        return void page.querySelector('#castCollapsible').classList.add('hide');
+        page.querySelector('#castCollapsible').classList.add('hide');
+        return undefined;
     }
 
     page.querySelector('#castCollapsible').classList.remove('hide');
@@ -1911,7 +1913,7 @@ export default function (view, params) {
 
         if (item.Type === 'Program') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            return void apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
+            return apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
                 playbackManager.play({
                     items: [channel]
                 });

@@ -23,7 +23,7 @@ import ServerConnections from './ServerConnections';
         if (!actionableParent || actionableParent.classList.contains('cardContent')) {
             apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
                 if (items.length === 1) {
-                    return void appRouter.showItem(items[0]);
+                    return appRouter.showItem(items[0]);
                 }
 
                 const url = 'details?id=' + itemId + '&serverId=' + serverId;

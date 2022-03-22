@@ -5,14 +5,14 @@ import Dashboard from '../../../utils/dashboard';
 
     function processForgotPasswordResult(result) {
         if (result.Action == 'ContactAdmin') {
-            return void Dashboard.alert({
+            return Dashboard.alert({
                 message: globalize.translate('MessageContactAdminToResetPassword'),
                 title: globalize.translate('ButtonForgotPassword')
             });
         }
 
         if (result.Action == 'InNetworkRequired') {
-            return void Dashboard.alert({
+            return Dashboard.alert({
                 message: globalize.translate('MessageForgotPasswordInNetworkRequired'),
                 title: globalize.translate('ButtonForgotPassword')
             });
@@ -26,7 +26,7 @@ import Dashboard from '../../../utils/dashboard';
             msg += '<br/>';
             msg += result.PinFile;
             msg += '<br/>';
-            return void Dashboard.alert({
+            return Dashboard.alert({
                 message: msg,
                 title: globalize.translate('ButtonForgotPassword'),
                 callback: function () {

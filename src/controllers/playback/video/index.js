@@ -55,14 +55,14 @@ import LibraryMenu from '../../../scripts/libraryMenu';
                     recordingButtonManager = null;
                 }
 
-                return void view.querySelector('.btnRecord').classList.add('hide');
+                return view.querySelector('.btnRecord').classList.add('hide');
             }
 
             ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('../../../components/recordingcreator/recordingbutton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
-                            return void recordingButtonManager.refreshItem(item);
+                            return recordingButtonManager.refreshItem(item);
                         }
 
                         recordingButtonManager = new RecordingButton({
@@ -1450,7 +1450,7 @@ import LibraryMenu from '../../../scripts/libraryMenu';
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
             if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
-                return void showOsd();
+                return showOsd();
             }
 
             const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
