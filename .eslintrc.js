@@ -58,7 +58,8 @@ module.exports = {
         'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        'yoda': 'error'
+        'yoda': 'error',
+        'no-void': ['error', { "allowAsStatement": true }]
     },
     settings: {
         react: {
