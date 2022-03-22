@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify as seen
-        uses: peter-evans/create-or-update-comment@v1.4.5
+        uses: peter-evans/create-or-update-comment@v2.0.0
         with:
           token: ${{ secrets.JF_BOT_TOKEN }}
           comment-id: ${{ github.event.comment.id }}
