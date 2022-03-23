@@ -1574,5 +1574,17 @@
     "LabelSyncPlaySettingsSyncCorrection": "تصحیح همگام سازی",
     "LabelSyncPlaySettingsExtraTimeOffset": "زمان اضافی جبرانی:",
     "LabelSyncPlaySettingsDescription": "تغییر تنظیمات اجرای همگام",
-    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "تنظیم دستی تأخیر زمان (بر حسب میلی ثانیه) با دستگاه انتخابی برای همگام سازی زمان. با احتیاط دستکاری کنید."
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "تنظیم دستی تأخیر زمان (بر حسب میلی ثانیه) با دستگاه انتخابی برای همگام سازی زمان. با احتیاط دستکاری کنید.",
+    "LabelHardwareEncodingOptions": "گزینه های رمزگذاری سخت افزاری:",
+    "DirectPlayError": "خطایی در شروع پخش مستقیم وجود داشت",
+    "Scene": "صحنه",
+    "Interview": "مصاحبه",
+    "DeletedScene": "صحنه های حذف شده",
+    "BehindTheScenes": "پشت صحنه",
+    "Trailer": "پیش نمایش",
+    "Clip": "فیلم کوتاه",
+    "SelectAll": "انتخاب همه",
+    "ThemeSong": "آهنگ قالب",
+    "Sample": "نمونه",
+    "ThemeVideo": "ویدئوی قالب"
 }
