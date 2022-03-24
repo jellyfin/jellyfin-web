@@ -495,5 +495,19 @@
     "Trailer": "Trelar",
     "LabelOriginalName": "Enw gwreiddiol:",
     "LabelOpenclDevice": "Dyfais OpenCL:",
-    "ThemeVideo": "Fideo Thema"
+    "ThemeVideo": "Fideo Thema",
+    "ButtonEditOtherUserPreferences": "Golygu proffil, delwedd a dewisiadau personol y defnyddiwr hwn.",
+    "ButtonLibraryAccess": "Mynediad llyfrgell",
+    "ButtonClose": "Cau",
+    "ButtonAddMediaLibrary": "Ychwanegu Llyfrgell Cyfryngau",
+    "Art": "Clirlun",
+    "ButtonBackspace": "Olfwlch",
+    "ChannelNameOnly": "Siannel {0} yn unig",
+    "ButtonUseQuickConnect": "Defnyddio Quick Connect",
+    "ButtonSpace": "Bwlch",
+    "ButtonExitApp": "Gadael Rhaglen",
+    "ButtonScanAllLibraries": "Sganio Pob Llyfrgell",
+    "ButtonResetEasyPassword": "Ailosod cod PIN Rhwydd",
+    "ButtonRefreshGuideData": "Adnewyddu Data Canllaw",
+    "ButtonQuickStartGuide": "Canllaw Cychwyn Cyflym"
 }
