@@ -1646,5 +1646,7 @@
     "ButtonSpace": "Leertaste",
     "Production": "Produktion",
     "OriginalAirDate": "Erstausstrahlung",
-    "MessageUnauthorizedUser": "Du bist aktuell nicht berechtigt, auf den Server zuzugreifen. Bitte kontaktiere den Serveradministrator für weitere Informationen."
+    "MessageUnauthorizedUser": "Du bist aktuell nicht berechtigt, auf den Server zuzugreifen. Bitte kontaktiere den Serveradministrator für weitere Informationen.",
+    "StoryArc": "Handlungsstrang",
+    "Digital": "Digital"
 }
