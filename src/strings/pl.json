@@ -1639,5 +1639,10 @@
     "ShowParentImages": "Pokaż obrazy seriali",
     "AllowEmbeddedSubtitlesAllowAllOption": "Zezwól na wszystkie",
     "AllowEmbeddedSubtitles": "Wyłącz różne typy wbudowanych napisów",
-    "NextUpRewatching": "Oglądane ponownie"
+    "NextUpRewatching": "Oglądane ponownie",
+    "Production": "Produkcja",
+    "MessageUnauthorizedUser": "W tej chwili nie masz uprawnień dostępu do serwera. Aby uzyskać więcej informacji, skontaktuj się z administratorem serwera.",
+    "Localization": "Lokalizacja",
+    "ItemDetails": "Szczegóły pozycji",
+    "Digital": "Cyfrowy"
 }
