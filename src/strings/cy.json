@@ -492,5 +492,8 @@
     "AddToCollection": "Ychwanegu i gasgliad",
     "AdditionalNotificationServices": "Porwch y catalog ategion i ychwanedy gwasanaethau hysbysu ychwanegol.",
     "AccessRestrictedTryAgainLater": "Mae mynediad yn gyfyngedig ar hyn o bryd. Triwch eto wedyn.",
-    "Trailer": "Trelar"
+    "Trailer": "Trelar",
+    "LabelOriginalName": "Enw gwreiddiol:",
+    "LabelOpenclDevice": "Dyfais OpenCL:",
+    "ThemeVideo": "Fideo Thema"
 }
