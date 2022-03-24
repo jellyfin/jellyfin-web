@@ -68,8 +68,6 @@ export function getVideoQualityOptions(options) {
         qualityOptions.push(autoQualityOption);
     }
 
-    console.log("videoBitRate=" + videoBitRate);
-
     // Quality options are indexed by bitrate. If you must duplicate them, make sure each of them are unique (by making the last digit a 1)
     if (maxAllowedWidth >= 3800) {
         qualityOptions2160p.forEach(function(qualityOption) {
