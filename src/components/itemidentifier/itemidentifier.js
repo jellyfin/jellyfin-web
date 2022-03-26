@@ -246,7 +246,7 @@ import template from './itemidentifier.template.html';
             } else {
                 html += '<div class="cardText cardText-secondary cardTextCentered">';
             }
-            html += escapeHtml(lines[i]) || '&nbsp;';
+            html += escapeHtml(lines[i] || '') || '&nbsp;';
             html += '</div>';
         }
 

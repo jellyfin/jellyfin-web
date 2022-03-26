@@ -949,7 +949,7 @@ import ServerConnections from '../ServerConnections';
 
                         }, item.ChannelName));
                     } else {
-                        lines.push(escapeHtml(item.ChannelName) || '&nbsp;');
+                        lines.push(escapeHtml(item.ChannelName || '') || '&nbsp;');
                     }
                 }
 
@@ -981,7 +981,7 @@ import ServerConnections from '../ServerConnections';
                     if (item.RecordAnyChannel) {
                         lines.push(globalize.translate('AllChannels'));
                     } else {
-                        lines.push(escapeHtml(item.ChannelName) || globalize.translate('OneChannel'));
+                        lines.push(escapeHtml(item.ChannelName || '') || globalize.translate('OneChannel'));
                     }
                 }
 
