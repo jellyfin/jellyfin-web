@@ -49,10 +49,10 @@ import confirm from '../../components/confirm/confirm';
             text.push(globalize.translate('MediaIsBeingConverted'));
             text.push(DashboardPage.getSessionNowPlayingStreamInfo(session));
 
-            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+            if (session.TranscodingInfo?.TranscodeReason?.length) {
                 text.push('<br/>');
                 text.push(globalize.translate('LabelReasonForTranscoding'));
-                session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
+                session.TranscodingInfo.TranscodeReason.forEach(function (transcodeReason) {
                     text.push(globalize.translate(transcodeReason));
                 });
             }
@@ -92,7 +92,7 @@ import confirm from '../../components/confirm/confirm';
                 });
             }
 
-            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+            if (session.TranscodingInfo?.TranscodeReason?.length) {
                 menuItems.push({
                     name: globalize.translate('ViewPlaybackInfo'),
                     id: 'transcodinginfo'

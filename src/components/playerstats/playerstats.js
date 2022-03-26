@@ -167,10 +167,10 @@ import ServerConnections from '../ServerConnections';
                     value: session.TranscodingInfo.Framerate + ' fps'
                 });
             }
-            if (session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+            if (session.TranscodingInfo.TranscodeReason?.length) {
                 sessionStats.push({
                     label: globalize.translate('LabelReasonForTranscoding'),
-                    value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
+                    value: session.TranscodingInfo.TranscodeReason.map(translateReason).join('<br/>')
                 });
             }
             if (session.TranscodingInfo.HardwareAccelerationType) {
