@@ -403,7 +403,7 @@
     "ButtonNextTrack": "Trac Nesaf",
     "ButtonManualLogin": "Mewngofnodi â Llaw",
     "ButtonGotIt": "Dyna Fe",
-    "ButtonForgotPassword": "Anghofio Cyfrinair",
+    "ButtonForgotPassword": "Wedi anghofio Cyfrinair",
     "ButtonChangeServer": "Newid Gweinydd",
     "ButtonAudioTracks": "Traciau Sain",
     "ButtonAddUser": "Ychwanegu Defnyddiwr",
@@ -440,7 +440,7 @@
     "DashboardServerName": "Gweinydd: {0}",
     "DashboardArchitecture": "Pensaernïaeth: {0}",
     "CriticRating": "Sgôr beirniaid",
-    "ContinueWatching": "Parhewch i wylio",
+    "ContinueWatching": "Parhau i wylio",
     "ConfirmDeletion": "Cadarnhau Dileu",
     "ConfirmDeleteImage": "Dileu'r ddelwedd?",
     "CommunityRating": "Sgôr gymunedol",
@@ -509,5 +509,11 @@
     "ButtonScanAllLibraries": "Sganio Pob Llyfrgell",
     "ButtonResetEasyPassword": "Ailosod cod PIN Rhwydd",
     "ButtonRefreshGuideData": "Adnewyddu Data Canllaw",
-    "ButtonQuickStartGuide": "Canllaw Cychwyn Cyflym"
+    "ButtonQuickStartGuide": "Canllaw Cychwyn Cyflym",
+    "HeaderMyMedia": "Fy Cyfryngau",
+    "LabelForgotPasswordUsernameHelp": "Mewnbynnwch eich enw defnyddiwr, os ydych chi'n ei gofio.",
+    "RememberMe": "Cofiwch Fi",
+    "LabelNewPassword": "Cyfrinair newydd:",
+    "LabelCurrentPassword": "Cyfrinair presennol:",
+    "LabelCertificatePassword": "Cyfrinair tystysgrif:"
 }
