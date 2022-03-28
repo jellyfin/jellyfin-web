@@ -165,21 +165,6 @@ import alert from '../../components/alert';
             loading.hide();
         }
 
-        view.querySelector('#chkRemoteAccess').addEventListener('change', function () {
-            if (this.checked) {
-                view.querySelector('.fldExternalAddressFilter').classList.remove('hide');
-                view.querySelector('.fldExternalAddressFilterMode').classList.remove('hide');
-                view.querySelector('.fldPublicPort').classList.remove('hide');
-                view.querySelector('.fldPublicHttpsPort').classList.remove('hide');
-                view.querySelector('.fldEnableUpnp').classList.remove('hide');
-            } else {
-                view.querySelector('.fldExternalAddressFilter').classList.add('hide');
-                view.querySelector('.fldExternalAddressFilterMode').classList.add('hide');
-                view.querySelector('.fldPublicPort').classList.add('hide');
-                view.querySelector('.fldPublicHttpsPort').classList.add('hide');
-                view.querySelector('.fldEnableUpnp').classList.add('hide');
-            }
-        });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
             import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
                 const picker = new DirectoryBrowser();
