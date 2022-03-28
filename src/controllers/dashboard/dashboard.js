@@ -525,11 +525,11 @@ import confirm from '../../components/confirm/confirm';
             const html = [];
 
             if (session.UserId) {
-                html.push(session.UserName);
+                html.push(escapeHtml(session.UserName));
             }
 
             for (let i = 0, length = session.AdditionalUsers.length; i < length; i++) {
-                html.push(session.AdditionalUsers[i].UserName);
+                html.push(escapeHtml(session.AdditionalUsers[i].UserName));
             }
 
             return html.join(', ');
@@ -577,7 +577,7 @@ import confirm from '../../components/confirm/confirm';
             btnSessionPlayPauseIcon.classList.add(session.PlayState && session.PlayState.IsPaused ? 'play_arrow' : 'pause');
 
             row.querySelector('.sessionNowPlayingTime').innerText = DashboardPage.getSessionNowPlayingTime(session);
-            row.querySelector('.sessionUserName').innerText = DashboardPage.getUsersHtml(session);
+            row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
             row.querySelector('.sessionAppSecondaryText').innerText = DashboardPage.getAppSecondaryText(session);
             const nowPlayingName = DashboardPage.getNowPlayingName(session);
             const nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');

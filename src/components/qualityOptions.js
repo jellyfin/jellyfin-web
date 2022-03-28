@@ -1,3 +1,4 @@
+import { appHost } from '../components/apphost';
 import globalize from '../scripts/globalize';
 
 export function getVideoQualityOptions(options) {
@@ -12,6 +13,7 @@ export function getVideoQualityOptions(options) {
         videoWidth = videoHeight * (16 / 9);
     }
 
+    const hostScreenWidth = appHost.screen()?.maxAllowedWidth || 4096;
     const maxAllowedWidth = videoWidth || 4096;
 
     //When the streaming bitrate exceeds the source streaming bitrate multiplied by a multiplier, filter out
@@ -69,7 +71,7 @@ export function getVideoQualityOptions(options) {
     }
 
     // Quality options are indexed by bitrate. If you must duplicate them, make sure each of them are unique (by making the last digit a 1)
-    if (maxAllowedWidth >= 3800) {
+    if (maxAllowedWidth >= 3800 && hostScreenWidth >= 1930) {
         qualityOptions2160p.forEach(function(qualityOption) {
             if (videoBitRate) {
                 if (qualityOption.bitrate < videoBitRate * maxStreamingBitrateMultiplier) {
@@ -82,7 +84,7 @@ export function getVideoQualityOptions(options) {
     }
 
     // Some 1080- videos are reported as 1912?
-    if (maxAllowedWidth >= 1900) {
+    if (maxAllowedWidth >= 1900 && hostScreenWidth >= 1290) {
         qualityOptions1080p.forEach(function(qualityOption) {
             if (videoBitRate) {
                 if (qualityOption.bitrate < videoBitRate * maxStreamingBitrateMultiplier) {
@@ -94,7 +96,7 @@ export function getVideoQualityOptions(options) {
         });
     }
 
-    if (maxAllowedWidth >= 1260) {
+    if (maxAllowedWidth >= 1260 && hostScreenWidth >= 650) {
         qualityOptions720p.forEach(function(qualityOption) {
             if (videoBitRate) {
                 if (qualityOption.bitrate < videoBitRate * maxStreamingBitrateMultiplier) {

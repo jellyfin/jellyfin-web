@@ -1550,5 +1550,19 @@
     "EnableIntelLowPowerHevcHwEncoder": "Intel の HEVC ハードウェアエンコードを有効にする",
     "EnableIntelLowPowerH264HwEncoder": "Intel の H.264 ハードウェアエンコードを有効にする",
     "DirectPlayError": "ダイレクト再生の開始時にエラーが発生しました",
-    "SelectAll": "すべて選択"
+    "SelectAll": "すべて選択",
+    "MixedMoviesShows": "TV番組と映画を混ぜる",
+    "ItemDetails": "アイテム詳細",
+    "GoogleCastUnsupported": "Googleキャストはサポートされていません",
+    "EnableRewatchingNextUp": "次回に再視聴を許可する",
+    "Digital": "デジタル",
+    "Cursive": "筆記体",
+    "CopyFailed": "コピーできません",
+    "Copy": "コピー",
+    "Copied": "コピーしました",
+    "ButtonSpace": "スペース",
+    "ButtonExitApp": "アプリケーションを終了する",
+    "ButtonClose": "閉じる",
+    "ButtonBackspace": "バックスペース",
+    "AddToFavorites": "お気に入りに追加"
 }

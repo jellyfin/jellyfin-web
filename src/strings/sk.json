@@ -1639,5 +1639,14 @@
     "GoogleCastUnsupported": "Google Cast nie je podporovaný",
     "ButtonSpace": "Medzerník",
     "ButtonClose": "Zavrieť",
-    "ButtonBackspace": "Backspace"
+    "ButtonBackspace": "Backspace",
+    "StoryArc": "Dejová línia",
+    "Production": "Produkcia",
+    "OriginalAirDate": "Pôvodný dátum vysielania",
+    "MessageUnauthorizedUser": "Momentálne nemáte oprávnenie na prístup k serveru. Prosím, kontaktujte vášho správcu servera pre viac informácií.",
+    "Localization": "Lokalizácia",
+    "ItemDetails": "Podrobnosti položky",
+    "EnableRewatchingNextUpHelp": "Povolí zobrazenie už pozretých epizód v sekcií 'Nasleduje'.",
+    "EnableRewatchingNextUp": "Povoliť Opätovné pozeranie v sekcií Nasleduje",
+    "Digital": "Digitálne"
 }
