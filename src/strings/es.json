@@ -1628,5 +1628,6 @@
     "ItemDetails": "Detalles del objeto",
     "EnableRewatchingNextUpHelp": "Mostrar episodios vistos en la sección 'Volver a ver'.",
     "EnableRewatchingNextUp": "Activar Volver a ver",
-    "Digital": "Digital"
+    "Digital": "Digital",
+    "EnableEnhancedNvdecDecoderHelp": "Implementación experimental de NVDEC, no habilite esta opción a menos que encuentre errores de decodificación."
 }
