@@ -15,5 +15,7 @@
     "Artists": "कलाकारहरू",
     "MusicVideos": "सांगीतिक भिडियोहरू",
     "HeaderAlbumArtists": "एल्बमका कलाकारहरू",
-    "Default": "पूर्वनिर्धारित"
+    "Default": "पूर्वनिर्धारित",
+    "ValueSpecialEpisodeName": "विशेष - {0}",
+    "Sync": "समकालीन"
 }
