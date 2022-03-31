@@ -33,6 +33,7 @@ import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';
+import LibraryMenu from '../../scripts/libraryMenu';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -571,7 +572,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
 function reloadFromItem(instance, page, params, item, user) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    appRouter.setTitle('');
+    LibraryMenu.setTitle('');
 
     // Start rendering the artwork first
     renderImage(page, item);
@@ -2042,7 +2043,7 @@ export default function (view, params) {
 
             if (e.detail.isRestored) {
                 if (currentItem) {
-                    appRouter.setTitle('');
+                    LibraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                     renderBackdrop(currentItem);
                 }

@@ -196,7 +196,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         updatePageStyle(view, params);
         view.addEventListener('viewshow', function (e) {
             const isRestored = e.detail.isRestored;
-            appRouter.setTitle(null);
+            libraryMenu.setTitle(null);
             libraryMenu.setTransparentMenu(true);
 
             if (!isRestored) {

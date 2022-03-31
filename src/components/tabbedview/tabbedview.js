@@ -2,7 +2,7 @@ import backdrop from '../backdrop/backdrop';
 import * as mainTabsManager from '../maintabsmanager';
 import layoutManager from '../layoutManager';
 import '../../elements/emby-tabs/emby-tabs';
-import { appRouter } from '../appRouter';
+import LibraryMenu from '../../scripts/libraryMenu';
 
 function onViewDestroy() {
     const tabControllers = this.tabControllers;
@@ -105,8 +105,9 @@ class TabbedView {
             currentTabController.onPause();
         }
     }
+
     setTitle() {
-        appRouter.setTitle('');
+        LibraryMenu.setTitle('');
     }
 }
 
