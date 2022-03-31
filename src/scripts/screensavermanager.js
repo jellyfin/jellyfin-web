@@ -18,7 +18,7 @@ function getFunctionalEventIdleTime() {
     return new Date().getTime() - lastFunctionalEvent;
 }
 
-Events.on(playbackManager, 'playbackstop', function (e, stopInfo) {
+Events.on(playbackManager, 'playbackstop', function (_e, stopInfo) {
     const state = stopInfo.state;
     if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
         lastFunctionalEvent = new Date().getTime();
