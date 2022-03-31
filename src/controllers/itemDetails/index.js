@@ -450,7 +450,7 @@ function renderName(item, container, context) {
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
         parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${escapeHtml(item.SeasonName)}</a>`);
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
-        parentNameHtml.push(escapeHtml(item.SeasonName) || 'S' + item.ParentIndexNumber);
+        parentNameHtml.push(escapeHtml(item.SeasonName || 'S' + item.ParentIndexNumber));
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
         parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`);
     } else if (item.Album) {

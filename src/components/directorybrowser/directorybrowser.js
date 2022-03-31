@@ -267,7 +267,7 @@ class DirectoryBrowser {
                 html += '<div class="formDialogHeader">';
                 html += `<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1" title="${globalize.translate('ButtonBack')}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
                 html += '<h3 class="formDialogHeaderTitle">';
-                html += escapeHtml(options.header) || globalize.translate('HeaderSelectPath');
+                html += escapeHtml(options.header || '') || globalize.translate('HeaderSelectPath');
                 html += '</h3>';
                 html += '</div>';
                 html += getEditorHtml(options, systemInfo);

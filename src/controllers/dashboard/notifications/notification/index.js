@@ -39,7 +39,7 @@ function reload(page) {
             $('.monitorUsers', page).hide();
         }
 
-        $('.notificationType', page).html(escapeHtml(typeInfo.Name) || 'Unknown Notification');
+        $('.notificationType', page).html(escapeHtml(typeInfo.Name || '') || 'Unknown Notification');
 
         if (!notificationConfig) {
             notificationConfig = {
