@@ -26,7 +26,7 @@ import './routes';
 import '../components/themeMediaPlayer';
 import './autoBackdrops';
 import { pageClassOn, serverAddress } from './clientUtils';
-import '../libraries/screensavermanager';
+import './screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
 import '../legacy/domParserTextHtml';
@@ -39,7 +39,7 @@ import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePl
 import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
 import { currentSettings } from './settings/userSettings';
-import taskButton from '../scripts/taskbutton';
+import taskButton from './taskbutton';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
