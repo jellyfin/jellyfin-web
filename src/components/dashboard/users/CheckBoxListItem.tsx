@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import React, { FunctionComponent } from 'react';
 
 type IProps = {
@@ -17,7 +18,7 @@ const createCheckBoxElement = ({className, Name, dataAttributes, AppName, checke
             class="${className}"
             ${dataAttributes} ${checkedAttribute}
         />
-        <span>${Name} ${AppName}</span>
+        <span>${escapeHtml(Name || '')} ${AppName}</span>
     </label>`
 });
 
