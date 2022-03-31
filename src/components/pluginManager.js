@@ -29,21 +29,8 @@ import confirm from '../components/confirm/confirm';
             });
         }
 
-        #definePluginRoute(route, plugin) {
-            route.contentPath = this.mapPath(plugin, route.path);
-            route.path = this.#mapRoute(plugin, route);
-
-            Emby.App.defineRoute(route, plugin.id);
-        }
-
         async #registerPlugin(plugin) {
             this.#register(plugin);
-
-            if (plugin.getRoutes) {
-                plugin.getRoutes().forEach((route) => {
-                    this.#definePluginRoute(route, plugin);
-                });
-            }
 
             if (plugin.type === 'skin') {
                 // translations won't be loaded for skins until needed
