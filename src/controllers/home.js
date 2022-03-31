@@ -3,7 +3,7 @@ import globalize from '../scripts/globalize';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-scroller/emby-scroller';
-import { appRouter } from '../components/appRouter';
+import LibraryMenu from '../scripts/libraryMenu';
 
 class HomeView extends TabbedView {
     constructor(view, params) {
@@ -11,7 +11,7 @@ class HomeView extends TabbedView {
     }
 
     setTitle() {
-        appRouter.setTitle(null);
+        LibraryMenu.setTitle(null);
     }
 
     onPause() {
