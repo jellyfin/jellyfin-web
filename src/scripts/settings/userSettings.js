@@ -468,7 +468,7 @@ export class UserSettings {
             return this.set('enableRewatchingInNextUp', val, false);
         }
 
-        return this.get('enableRewatchingInNextUp', false);
+        return this.get('enableRewatchingInNextUp', false) === 'true';
     }
 
     /**
