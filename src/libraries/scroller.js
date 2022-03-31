@@ -1,5 +1,6 @@
-/* Cleaning this file properly is not neecessary, since it's an outdated library
- * and will be replaced soon by a Vue component.
+/**
+ * NOTE: This file should not be modified.
+ * It is a legacy library that should be replaced at some point.
  */
 
 import browser from '../scripts/browser';
