@@ -1,8 +1,8 @@
 import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
-import inputManager from '../scripts/inputManager';
-import * as userSettings from '../scripts/settings/userSettings';
+import inputManager from './inputManager';
+import * as userSettings from './settings/userSettings';
 import ServerConnections from '../components/ServerConnections';
 import './screensavermanager.scss';
 
@@ -18,7 +18,7 @@ function getFunctionalEventIdleTime() {
     return new Date().getTime() - lastFunctionalEvent;
 }
 
-Events.on(playbackManager, 'playbackstop', function (e, stopInfo) {
+Events.on(playbackManager, 'playbackstop', function (_e, stopInfo) {
     const state = stopInfo.state;
     if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
         lastFunctionalEvent = new Date().getTime();
