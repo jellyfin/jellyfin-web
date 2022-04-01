@@ -571,7 +571,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
 function reloadFromItem(instance, page, params, item, user) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    appRouter.setTitle('');
+    libraryMenu.setTitle('');
 
     // Start rendering the artwork first
     renderImage(page, item);
@@ -2042,7 +2042,7 @@ export default function (view, params) {
 
             if (e.detail.isRestored) {
                 if (currentItem) {
-                    appRouter.setTitle('');
+                    libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                     renderBackdrop(currentItem);
                 }

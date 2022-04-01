@@ -715,10 +715,6 @@ class AppRouter {
         Dashboard.navigate('home.html?tab=1');
     }
 
-    setTitle(title) {
-        LibraryMenu.setTitle(title);
-    }
-
     getRouteUrl(item, options) {
         if (!item) {
             throw new Error('item cannot be null');
