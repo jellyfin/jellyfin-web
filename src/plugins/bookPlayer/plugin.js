@@ -10,7 +10,6 @@ import TableOfContents from './tableOfContents';
 import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
 
-import '../../scripts/dom';
 import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';

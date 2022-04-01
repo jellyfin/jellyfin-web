@@ -43,6 +43,7 @@ module.exports = {
         'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
         'max-statements-per-line': ['error'],
+        'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
