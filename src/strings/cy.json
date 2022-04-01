@@ -515,5 +515,17 @@
     "RememberMe": "Cofiwch Fi",
     "LabelNewPassword": "Cyfrinair newydd:",
     "LabelCurrentPassword": "Cyfrinair presennol:",
-    "LabelCertificatePassword": "Cyfrinair tystysgrif:"
+    "LabelCertificatePassword": "Cyfrinair tystysgrif:",
+    "Digital": "Digidol",
+    "DeleteImageConfirmation": "Ydych chi'n siŵr eich bod am ddileu'r ddelwedd hon?",
+    "DeleteDeviceConfirmation": "Ydych chi'n siŵr eich bod am ddileu'r ddyfais hon? Bydd yn ailymddangos y tro nesaf y bydd defnyddiwr yn llofnodi i mewn arno.",
+    "DashboardOperatingSystem": "System Weithredu: {0}",
+    "DailyAt": "Yn ddyddiol am {0}",
+    "CopyStreamURLSuccess": "URL wedi'i gopïo'n llwyddiannus.",
+    "CopyStreamURL": "Copïo URL y Ffrwd",
+    "CopyFailed": "Methu copïo",
+    "Copy": "Copi",
+    "Copied": "Wedi'i gopïo",
+    "ConfirmEndPlayerSession": "Hoffech chi ddiffodd Jellyfin ar {0}?",
+    "ConfirmDeleteItem": "Bydd dileu'r eitem hon yn ei dileu o'r system ffeiliau a'ch llyfrgell gyfryngau. Ydych chi'n siŵr eich bod eisiau parhau?"
 }
