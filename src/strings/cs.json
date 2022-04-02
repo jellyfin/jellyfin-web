@@ -1647,5 +1647,6 @@
     "StoryArc": "Příběhová část",
     "Production": "Produkce",
     "OriginalAirDate": "Původní datum vysílání",
-    "Digital": "Digitální"
+    "Digital": "Digitální",
+    "MessageUnauthorizedUser": "Momentálně nemáte oprávnění k přístupu na server. Pro více informací kontaktujte Vašeho správce serveru."
 }
