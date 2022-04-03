@@ -176,7 +176,7 @@ import confirm from '../../components/confirm/confirm';
             if (!result.Items.length) {
                 view.querySelector('.activeRecordingsSection').classList.add('hide');
                 itemsContainer.innerHTML = '';
-                return undefined;
+                return;
             }
 
             view.querySelector('.activeRecordingsSection').classList.remove('hide');
