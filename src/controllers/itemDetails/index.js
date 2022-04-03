@@ -194,7 +194,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
     });
 
     resolutionNames.sort((a, b) => parseInt(b.Name, 10) - parseInt(a.Name, 10));
-    sourceNames.sort(function(a, b) {
+    sourceNames.sort((a, b) => {
         const nameA = a.Name.toUpperCase();
         const nameB = b.Name.toUpperCase();
         if (nameA < nameB) {
@@ -280,6 +280,7 @@ function renderAudioSelections(page, mediaSources) {
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Audio';
     });
+    tracks.sort((a, b) => itemHelper.sortTracks(a, b));
     const select = page.querySelector('.selectAudio');
     select.setLabel(globalize.translate('Audio'));
     const selectedId = mediaSource.DefaultAudioStreamIndex;
@@ -309,31 +310,26 @@ function renderSubtitleSelections(page, mediaSources) {
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Subtitle';
     });
+    tracks.sort((a, b) => itemHelper.sortTracks(a, b));
     const select = page.querySelector('.selectSubtitles');
     select.setLabel(globalize.translate('Subtitles'));
     const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
 
-    const videoTracks = mediaSource.MediaStreams.filter(function (m) {
-        return m.Type === 'Video';
-    });
+    let selected = selectedId === -1 ? ' selected' : '';
+    select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
+        selected = v.Index === selectedId ? ' selected' : '';
+        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+    }).join('');
 
-    // This only makes sense on Video items
-    if (videoTracks.length) {
-        let selected = selectedId === -1 ? ' selected' : '';
-        select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
-            selected = v.Index === selectedId ? ' selected' : '';
-            return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
-        }).join('');
+    if (tracks.length > 0) {
+        select.removeAttribute('disabled');
+    } else {
+        select.setAttribute('disabled', 'disabled');
+    }
 
-        if (tracks.length > 0) {
-            select.removeAttribute('disabled');
-        } else {
-            select.setAttribute('disabled', 'disabled');
-        }
-
+    if (tracks.length) {
         page.querySelector('.selectSubtitlesContainer').classList.remove('hide');
     } else {
-        select.innerHTML = '';
         page.querySelector('.selectSubtitlesContainer').classList.add('hide');
     }
 }
