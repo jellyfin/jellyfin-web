@@ -3,6 +3,7 @@ import 'jquery';
 import globalize from './globalize';
 import 'material-design-icons-iconfont';
 import Dashboard from './clientUtils';
+import { getParameterByName } from '../utils/url.ts';
 
 /* eslint-disable indent */
 
