@@ -36,7 +36,7 @@
     }
   ],
   "vulnerabilityAlerts": {
-    "addLabels": ["security"]
+    "enabled": false
   },
   "dependencyDashboard": false,
   "ignoreDeps": ["npm", "node"],
