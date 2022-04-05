@@ -10,6 +10,7 @@ import datetime from '../scripts/datetime';
 import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
+import { getWindowLocationSearch } from '../utils/url.ts';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
