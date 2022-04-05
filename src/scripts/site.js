@@ -26,6 +26,7 @@ import './routes';
 import '../components/themeMediaPlayer';
 import './autoBackdrops';
 import { pageClassOn, serverAddress } from './clientUtils';
+import { getWindowLocationSearch } from '../utils/url.ts';
 import './screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
@@ -40,21 +41,6 @@ import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideo
 import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
 import { currentSettings } from './settings/userSettings';
 import taskButton from './taskbutton';
-
-// TODO: Move this elsewhere
-window.getWindowLocationSearch = function(win) {
-    let search = (win || window).location.search;
-
-    if (!search) {
-        const index = window.location.href.indexOf('?');
-
-        if (index != -1) {
-            search = window.location.href.substring(index);
-        }
-    }
-
-    return search || '';
-};
 
 // TODO: Move this elsewhere
 window.getParameterByName = function(name, url) {

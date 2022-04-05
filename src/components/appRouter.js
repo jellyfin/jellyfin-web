@@ -12,6 +12,7 @@ import Dashboard from '../scripts/clientUtils';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
+import { getWindowLocationSearch } from '../utils/url.ts';
 
 class AppRouter {
     allRoutes = [];
@@ -676,19 +677,6 @@ class AppRouter {
 
             this.handleRoute(ctx, next, route);
         };
-    }
-
-    getWindowLocationSearch() {
-        const currentPath = this.currentRouteInfo ? (this.currentRouteInfo.path || '') : '';
-
-        const index = currentPath.indexOf('?');
-        let search = '';
-
-        if (index !== -1) {
-            search = currentPath.substring(index);
-        }
-
-        return search || '';
     }
 
     showGuide() {
