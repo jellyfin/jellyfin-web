@@ -193,7 +193,6 @@ module.exports = {
                 'DlnaProfilePage': 'writable',
                 'DashboardPage': 'writable',
                 'Emby': 'readonly',
-                'getParameterByName': 'writable',
                 'Globalize': 'writable',
                 'Hls': 'writable',
                 'dfnshelper': 'writable',
