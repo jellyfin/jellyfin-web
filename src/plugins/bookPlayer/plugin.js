@@ -287,7 +287,9 @@ export class BookPlayer {
                     width: '100%',
                     height: renderHeight,
                     // TODO: Add option for scrolled-doc
-                    flow: 'paginated'
+                    flow: 'paginated',
+                    // Scripted content is required to allow touch event passthrough in Safari
+                    allowScriptedContent: true
                 });
 
                 this.currentSrc = downloadHref;
