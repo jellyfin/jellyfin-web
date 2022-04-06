@@ -1474,7 +1474,7 @@ import { appRouter } from '../appRouter';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
             const url = appRouter.getRouteUrl(item);
-            html += '<a href="' + url + '" class="cardImageContainer"></a>'
+            html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
             const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
