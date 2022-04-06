@@ -12,6 +12,7 @@ import toast from '../toast/toast';
 import { copy } from '../../scripts/clipboard';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
+import itemHelper from '../../components/itemHelper';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
@@ -71,8 +72,8 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             const size = `${(version.Size / (1024 * 1024)).toFixed(0)} MB`;
             html += `${createAttribute(globalize.translate('MediaInfoSize'), size)}<br/>`;
         }
-        for (let i = 0, length = version.MediaStreams.length; i < length; i++) {
-            const stream = version.MediaStreams[i];
+        version.MediaStreams.sort(itemHelper.sortTracks);
+        for (const stream of version.MediaStreams) {
             if (stream.Type === 'Data') {
                 continue;
             }
