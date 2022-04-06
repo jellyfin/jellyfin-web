@@ -10,7 +10,6 @@ import datetime from '../scripts/datetime';
 import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
-import { getWindowLocationSearch } from '../utils/url.ts';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -113,7 +112,7 @@ export function navigate(url, preserveQueryString) {
         throw new Error('url cannot be null or empty');
     }
 
-    const queryString = getWindowLocationSearch();
+    const queryString = window.location.search;
 
     if (preserveQueryString && queryString) {
         url += queryString;

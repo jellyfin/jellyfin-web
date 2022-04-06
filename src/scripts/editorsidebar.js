@@ -300,9 +300,9 @@ import { getParameterByName } from '../utils/url.ts';
         if (itemId) {
             return itemId;
         }
-        const url = window.location.hash || window.location.href;
-        return getParameterByName('id', url);
+        return getParameterByName('id');
     }
+
     let nodesToLoad = [];
     let selectedNodeId;
     $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
