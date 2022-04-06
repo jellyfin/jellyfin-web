@@ -12,7 +12,6 @@ import Dashboard from '../scripts/clientUtils';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
-import { getWindowLocationSearch } from '../utils/url.ts';
 
 class AppRouter {
     allRoutes = [];
@@ -121,7 +120,7 @@ class AppRouter {
         const regexS = '[\\?&]' + name + '=([^&#]*)';
         const regex = new RegExp(regexS, 'i');
 
-        const results = regex.exec(url || getWindowLocationSearch());
+        const results = regex.exec(url || window.location.search);
         if (results == null) {
             return '';
         } else {
