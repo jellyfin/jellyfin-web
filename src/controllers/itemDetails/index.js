@@ -274,7 +274,7 @@ function renderAudioSelections(page, mediaSources) {
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Audio';
     });
-    tracks.sort((a, b) => itemHelper.sortTracks(a, b));
+    tracks.sort(itemHelper.sortTracks);
     const select = page.querySelector('.selectAudio');
     select.setLabel(globalize.translate('Audio'));
     const selectedId = mediaSource.DefaultAudioStreamIndex;
@@ -304,7 +304,7 @@ function renderSubtitleSelections(page, mediaSources) {
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Subtitle';
     });
-    tracks.sort((a, b) => itemHelper.sortTracks(a, b));
+    tracks.sort(itemHelper.sortTracks);
     const select = page.querySelector('.selectSubtitles');
     select.setLabel(globalize.translate('Subtitles'));
     const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
