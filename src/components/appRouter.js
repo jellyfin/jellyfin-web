@@ -120,7 +120,7 @@ class AppRouter {
         const regexS = '[\\?&]' + name + '=([^&#]*)';
         const regex = new RegExp(regexS, 'i');
 
-        const results = regex.exec(url || getWindowLocationSearch());
+        const results = regex.exec(url || window.location.search);
         if (results == null) {
             return '';
         } else {
@@ -676,19 +676,6 @@ class AppRouter {
 
             this.handleRoute(ctx, next, route);
         };
-    }
-
-    getWindowLocationSearch() {
-        const currentPath = this.currentRouteInfo ? (this.currentRouteInfo.path || '') : '';
-
-        const index = currentPath.indexOf('?');
-        let search = '';
-
-        if (index !== -1) {
-            search = currentPath.substring(index);
-        }
-
-        return search || '';
     }
 
     showGuide() {

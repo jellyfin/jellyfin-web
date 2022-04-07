@@ -3,6 +3,7 @@ import dom from '../../../scripts/dom';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
+import { getParameterByName } from '../../../utils/url.ts';
 
 /* eslint-disable indent */
 

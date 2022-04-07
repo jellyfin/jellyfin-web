@@ -112,7 +112,7 @@ export function navigate(url, preserveQueryString) {
         throw new Error('url cannot be null or empty');
     }
 
-    const queryString = getWindowLocationSearch();
+    const queryString = window.location.search;
 
     if (preserveQueryString && queryString) {
         url += queryString;
