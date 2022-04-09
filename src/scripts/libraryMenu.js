@@ -646,7 +646,8 @@ import { getParameterByName } from '../utils/url.ts';
         if (!user) {
             showBySelector('.libraryMenuDownloads', false);
             showBySelector('.lnkSyncToOtherDevices', false);
-            return showBySelector('.userMenuOptions', false);
+            showBySelector('.userMenuOptions', false);
+            return;
         }
 
         if (user.Policy.EnableContentDownloading) {
@@ -958,7 +959,8 @@ import { getParameterByName } from '../utils/url.ts';
 
     function setTitle (title) {
         if (title == null) {
-            return LibraryMenu.setDefaultTitle();
+            LibraryMenu.setDefaultTitle();
+            return;
         }
 
         if (title === '-') {

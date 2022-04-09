@@ -122,9 +122,10 @@ export default function (page, providerId, options) {
         const selectedListingsId = $('#selectListing', page).val();
 
         if (!selectedListingsId) {
-            return Dashboard.alert({
+            Dashboard.alert({
                 message: globalize.translate('ErrorPleaseSelectLineup')
             });
+            return;
         }
 
         loading.show();
@@ -168,7 +169,8 @@ export default function (page, providerId, options) {
 
     function refreshListings(value) {
         if (!value) {
-            return $('#selectListing', page).html('');
+            $('#selectListing', page).html('');
+            return;
         }
 
         loading.show();
