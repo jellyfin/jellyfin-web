@@ -721,7 +721,7 @@ class ItemsView {
                 return globalize.translate('Videos');
             }
 
-            return undefined;
+            return;
         }
 
         function play() {

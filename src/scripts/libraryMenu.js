@@ -645,7 +645,8 @@ import Headroom from 'headroom.js';
         if (!user) {
             showBySelector('.libraryMenuDownloads', false);
             showBySelector('.lnkSyncToOtherDevices', false);
-            return showBySelector('.userMenuOptions', false);
+            showBySelector('.userMenuOptions', false);
+            return;
         }
 
         if (user.Policy.EnableContentDownloading) {
@@ -957,7 +958,8 @@ import Headroom from 'headroom.js';
 
     function setTitle (title) {
         if (title == null) {
-            return LibraryMenu.setDefaultTitle();
+            LibraryMenu.setDefaultTitle();
+            return;
         }
 
         if (title === '-') {

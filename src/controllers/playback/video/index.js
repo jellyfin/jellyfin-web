@@ -54,14 +54,16 @@ import { appRouter } from '../../../components/appRouter';
                     recordingButtonManager = null;
                 }
 
-                return view.querySelector('.btnRecord').classList.add('hide');
+                view.querySelector('.btnRecord').classList.add('hide');
+                return;
             }
 
             ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('../../../components/recordingcreator/recordingbutton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
-                            return recordingButtonManager.refreshItem(item);
+                            recordingButtonManager.refreshItem(item);
+                            return;
                         }
 
                         recordingButtonManager = new RecordingButton({
@@ -1449,7 +1451,8 @@ import { appRouter } from '../../../components/appRouter';
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
             if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
-                return showOsd();
+                showOsd();
+                return;
             }
 
             const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
