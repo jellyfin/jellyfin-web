@@ -899,7 +899,7 @@ import { getParameterByName } from '../utils/url.ts';
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve) {
-            import('../libraries/navdrawer/navdrawer').then(({ NavigationDrawer }) => {
+            import('../libraries/navdrawer/navdrawer').then(({ default: NavigationDrawer }) => {
                 navDrawerInstance = new NavigationDrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
