@@ -4,7 +4,7 @@
  * @param {boolean} defaultValue The default value if the string is invalid.
  * @returns {boolean} The value.
  */
-export function toBoolean(value, defaultValue = false) {
+export function toBoolean(value: string | undefined | null, defaultValue = false) {
     if (value !== 'true' && value !== 'false') {
         return defaultValue;
     } else {
@@ -18,8 +18,8 @@ export function toBoolean(value, defaultValue = false) {
  * @param {number} defaultValue The default value if the string is invalid.
  * @returns {number} The value.
  */
-export function toFloat(value, defaultValue = 0) {
-    if (value === null || value === '' || isNaN(value)) {
+export function toFloat(value: string | null | undefined, defaultValue = 0) {
+    if (!value || isNaN(value as never)) {
         return defaultValue;
     } else {
         return parseFloat(value);
