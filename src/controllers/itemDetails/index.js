@@ -29,7 +29,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-select/emby-select';
 import itemShortcuts from '../../components/shortcuts';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';

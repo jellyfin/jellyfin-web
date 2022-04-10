@@ -6,7 +6,7 @@ import libraryBrowser from './libraryBrowser';
 import imageLoader from '../components/images/imageLoader';
 import * as userSettings from './settings/userSettings';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
-import Dashboard from './clientUtils';
+import Dashboard from '../utils/dashboard';
 
 export default function (view) {
     function getPageData(context) {

@@ -5,12 +5,12 @@ import { appRouter } from '../components/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
-import * as webSettings from './settings/webSettings';
+import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
 import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
-import { getLocationSearch } from '../utils/url.ts';
+import { getLocationSearch } from './url.ts';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);

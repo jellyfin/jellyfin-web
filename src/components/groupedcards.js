@@ -2,7 +2,7 @@
 
 import dom from '../scripts/dom';
 import { appRouter } from './appRouter';
-import Dashboard from '../scripts/clientUtils';
+import Dashboard from '../utils/dashboard';
 import ServerConnections from './ServerConnections';
 
     function onGroupedCardClick(e, card) {

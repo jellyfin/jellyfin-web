@@ -9,7 +9,7 @@ import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */

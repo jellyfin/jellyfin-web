@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 import 'jquery';
 import '../../../../elements/emby-checkbox/emby-checkbox';
-import Dashboard from '../../../../scripts/clientUtils';
+import Dashboard from '../../../../utils/dashboard';
 import { getParameterByName } from '../../../../utils/url.ts';
 
 function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) {
