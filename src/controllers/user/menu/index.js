@@ -2,7 +2,7 @@ import { appHost } from '../../../components/apphost';
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 import layoutManager from '../../../components/layoutManager';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 
 export default function (view, params) {
     view.querySelector('.btnLogout').addEventListener('click', function () {

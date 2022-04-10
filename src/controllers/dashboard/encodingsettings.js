@@ -3,7 +3,7 @@ import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import libraryMenu from '../../scripts/libraryMenu';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
 /* eslint-disable indent */

@@ -8,7 +8,7 @@ import itemHelper from './itemHelper';
 import loading from './loading/loading';
 import page from 'page';
 import viewManager from './viewManager/viewManager';
-import Dashboard from '../scripts/clientUtils';
+import Dashboard from '../utils/dashboard';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';

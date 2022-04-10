@@ -2,7 +2,7 @@ import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
 /* eslint-disable indent */

@@ -1,7 +1,7 @@
 import backdrop from '../components/backdrop/backdrop';
 import * as userSettings from './settings/userSettings';
 import libraryMenu from './libraryMenu';
-import { pageClassOn } from './clientUtils';
+import { pageClassOn } from '../utils/dashboard';
 
 const cache = {};
 

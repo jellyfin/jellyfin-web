@@ -6,7 +6,7 @@ import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
 /* eslint-disable indent */

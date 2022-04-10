@@ -7,7 +7,7 @@ import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import '../../../components/listview/listview.scss';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import toast from '../../../components/toast/toast';
 import { getParameterByName } from '../../../utils/url.ts';
 

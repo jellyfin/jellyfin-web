@@ -11,7 +11,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
 import './homesections.scss';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */

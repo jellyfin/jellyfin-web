@@ -16,7 +16,7 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
 import '../assets/css/flexstyles.scss';
-import Dashboard, { pageClassOn } from './clientUtils';
+import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
 import Headroom from 'headroom.js';
 import { getParameterByName } from '../utils/url.ts';

@@ -4,7 +4,7 @@ import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import confirm from '../../components/confirm/confirm';
-import { pageIdOn } from '../../scripts/clientUtils';
+import { pageIdOn } from '../../utils/dashboard';
 
 /* eslint-disable indent */
 

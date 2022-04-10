@@ -1,7 +1,7 @@
 import { ImageType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
 
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
 import { appHost } from '../apphost';
