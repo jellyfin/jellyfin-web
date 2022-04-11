@@ -86,7 +86,7 @@ export function getCurrentUserId() {
     return null;
 }
 
-export function onServerChanged(userId, accessToken, apiClient) {
+export function onServerChanged(_userId, _accessToken, apiClient) {
     ServerConnections.setLocalApiClient(apiClient);
 }
 
