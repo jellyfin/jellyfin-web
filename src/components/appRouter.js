@@ -12,7 +12,6 @@ import Dashboard from '../scripts/clientUtils';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
-import { getLocationSearch } from '../utils/url.ts';
 
 class AppRouter {
     allRoutes = [];
@@ -114,19 +113,6 @@ class AppRouter {
         }).then((result) => {
             this.handleConnectionResult(result);
         });
-    }
-
-    param(name, url) {
-        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-        const regexS = '[\\?&]' + name + '=([^&#]*)';
-        const regex = new RegExp(regexS, 'i');
-
-        const results = regex.exec(url || getLocationSearch());
-        if (results == null) {
-            return '';
-        } else {
-            return decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
     }
 
     ready() {
