@@ -1,6 +1,6 @@
 import { appHost } from './apphost';
 import appSettings from '../scripts/settings/appSettings';
-import backdrop, { setBackdropTransparency } from './backdrop/backdrop';
+import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
 import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
@@ -106,7 +106,7 @@ class AppRouter {
     }
 
     beginConnectionWizard() {
-        backdrop.clearBackdrop();
+        clearBackdrop();
         loading.show();
         ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()

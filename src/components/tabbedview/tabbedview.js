@@ -1,4 +1,4 @@
-import backdrop from '../backdrop/backdrop';
+import { clearBackdrop } from '../backdrop/backdrop';
 import * as mainTabsManager from '../maintabsmanager';
 import layoutManager from '../layoutManager';
 import '../../elements/emby-tabs/emby-tabs';
@@ -87,7 +87,7 @@ class TabbedView {
 
     onResume() {
         this.setTitle();
-        backdrop.clearBackdrop();
+        clearBackdrop();
 
         const currentTabController = this.currentTabController;
 

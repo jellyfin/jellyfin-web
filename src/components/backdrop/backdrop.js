@@ -329,10 +329,3 @@ export function setBackdropTransparency(level) {
         backdropElem.classList.remove('hide');
     }
 }
-
-export default {
-    setBackdrops: setBackdrops,
-    setBackdrop: setBackdrop,
-    clearBackdrop: clearBackdrop,
-    externalBackdrop: externalBackdrop
-};

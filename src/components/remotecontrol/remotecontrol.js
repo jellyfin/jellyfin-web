@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import backdrop from '../backdrop/backdrop';
+import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
@@ -229,7 +229,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             });
         });
         setImageUrl(context, state, url);
-        backdrop.setBackdrops([item]);
+        setBackdrops([item]);
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             const userData = fullItem.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
@@ -237,7 +237,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
         });
     } else {
-        backdrop.clearBackdrop();
+        clearBackdrop();
         context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
     }
 }
