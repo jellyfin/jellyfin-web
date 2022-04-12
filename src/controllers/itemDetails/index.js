@@ -1940,7 +1940,15 @@ export default function (view, params) {
     }
 
     function onPlayClick() {
-        playCurrentItem(this, this.getAttribute('data-action'));
+        let actionElem = this;
+        let action = actionElem.getAttribute('data-action');
+
+        if (!action) {
+            actionElem = actionElem.querySelector('[data-action]') || actionElem;
+            action = actionElem.getAttribute('data-action');
+        }
+
+        playCurrentItem(actionElem, action);
     }
 
     function onInstantMixClick() {
