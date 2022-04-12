@@ -5,12 +5,12 @@ import loading from '../loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
-import { appRouter } from '../appRouter';
 import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/users/ButtonElement';
+import { getParameterByName } from '../../utils/url';
 
 type ItemsArr = {
     Name?: string;
@@ -138,7 +138,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
 
     const loadData = useCallback(() => {
         loading.show();
-        const userId = appRouter.param('userId');
+        const userId = getParameterByName('userId');
         const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
         const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -162,7 +162,7 @@ const UserLibraryAccessPage: FunctionComponent = () => {
 
         const onSubmit = (e: Event) => {
             loading.show();
-            const userId = appRouter.param('userId');
+            const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
             });

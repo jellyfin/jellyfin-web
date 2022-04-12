@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { appRouter } from '../appRouter';
 import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import UserPasswordForm from '../dashboard/users/UserPasswordForm';
+import { getParameterByName } from '../../utils/url';
 
 const UserPasswordPage: FunctionComponent = () => {
-    const userId = appRouter.param('userId');
+    const userId = getParameterByName('userId');
     const [ userName, setUserName ] = useState('');
 
     const loadUser = useCallback(() => {
