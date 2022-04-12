@@ -1,5 +1,5 @@
-/* eslint-disable indent */
 import { AppStorage, Events } from 'jellyfin-apiclient';
+import { toBoolean } from '../../utils/string.ts';
 
 class AppSettings {
     #getKey(name, userId) {
@@ -15,7 +15,7 @@ class AppSettings {
             this.set('enableAutoLogin', val.toString());
         }
 
-        return this.get('enableAutoLogin') !== 'false';
+        return toBoolean(this.get('enableAutoLogin'), true);
     }
 
     /**
@@ -28,7 +28,7 @@ class AppSettings {
             return this.set('enableGamepad', val.toString());
         }
 
-        return this.get('enableGamepad') === 'true';
+        return toBoolean(this.get('enableGamepad'), false);
     }
 
     enableSystemExternalPlayers(val) {
@@ -36,7 +36,7 @@ class AppSettings {
             this.set('enableSystemExternalPlayers', val.toString());
         }
 
-        return this.get('enableSystemExternalPlayers') === 'true';
+        return toBoolean(this.get('enableSystemExternalPlayers'), false);
     }
 
     enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
@@ -52,7 +52,7 @@ class AppSettings {
         if (isInNetwork && mediaType === 'Audio') {
             return true;
         } else {
-            return this.get(key) !== 'false';
+            return toBoolean(this.get(key), true);
         }
     }
 
@@ -105,7 +105,5 @@ class AppSettings {
         return AppStorage.getItem(this.#getKey(name, userId));
     }
 }
-
-/* eslint-enable indent */
 
 export default new AppSettings();
