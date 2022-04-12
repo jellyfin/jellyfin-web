@@ -2,7 +2,7 @@ import appSettings from '../../../scripts/settings/appSettings';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import ServerConnections from '../../../components/ServerConnections';
 
 /* eslint-disable indent */

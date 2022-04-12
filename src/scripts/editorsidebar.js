@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 import 'jquery';
 import globalize from './globalize';
 import 'material-design-icons-iconfont';
-import Dashboard from './clientUtils';
+import Dashboard from '../utils/dashboard';
 import { getParameterByName } from '../utils/url.ts';
 
 /* eslint-disable indent */

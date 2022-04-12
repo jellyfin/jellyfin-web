@@ -2,7 +2,7 @@ import * as userSettings from './settings/userSettings';
 import skinManager from './themeManager';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
-import { pageClassOn } from '../scripts/clientUtils';
+import { pageClassOn } from '../utils/dashboard';
 
 // Set the default theme when loading
 skinManager.setTheme(userSettings.theme())

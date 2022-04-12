@@ -10,7 +10,7 @@ import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 
 function enableScrollX() {
     return !layoutManager.desktop;

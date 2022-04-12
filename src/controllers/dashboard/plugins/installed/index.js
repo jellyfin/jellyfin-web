@@ -5,7 +5,7 @@ import globalize from '../../../../scripts/globalize';
 import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
 import '../../../../components/cardbuilder/card.scss';
 import '../../../../elements/emby-button/emby-button';
-import Dashboard, { pageIdOn } from '../../../../scripts/clientUtils';
+import Dashboard, { pageIdOn } from '../../../../utils/dashboard';
 import confirm from '../../../../components/confirm/confirm';
 
 function deletePlugin(page, uniqueid, version, name) {

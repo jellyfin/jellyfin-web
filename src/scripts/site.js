@@ -25,7 +25,7 @@ import './libraryMenu';
 import './routes';
 import '../components/themeMediaPlayer';
 import './autoBackdrops';
-import { pageClassOn, serverAddress } from './clientUtils';
+import { pageClassOn, serverAddress } from '../utils/dashboard';
 import './screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';

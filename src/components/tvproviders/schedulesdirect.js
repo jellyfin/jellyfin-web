@@ -8,7 +8,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import { Events } from 'jellyfin-apiclient';
 
 export default function (page, providerId, options) {

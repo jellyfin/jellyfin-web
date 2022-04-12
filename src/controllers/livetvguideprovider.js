@@ -1,7 +1,7 @@
 import { Events } from 'jellyfin-apiclient';
 import loading from '../components/loading/loading';
 import globalize from '../scripts/globalize';
-import Dashboard, { pageIdOn } from '../scripts/clientUtils';
+import Dashboard, { pageIdOn } from '../utils/dashboard';
 import { getParameterByName } from '../utils/url.ts';
 
 function onListingsSubmitted() {

@@ -1,6 +1,6 @@
 import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.scss';
-import Dashboard from '../scripts/clientUtils';
+import Dashboard from '../utils/dashboard';
 
 /* eslint-disable indent */
 

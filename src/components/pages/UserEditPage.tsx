@@ -1,6 +1,6 @@
 import { SyncPlayUserAccessType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
 import ButtonElement from '../dashboard/users/ButtonElement';
