@@ -295,6 +295,41 @@ import './backdrop.scss';
 
 /* eslint-enable indent */
 
+/**
+ * @enum TransparencyLevel
+ */
+export const TRANSPARENCY_LEVEL = {
+    Full: 'full',
+    Backdrop: 'backdrop',
+    None: 'none'
+};
+
+/**
+ * Sets the backdrop, background, and document transparency
+ * @param {TransparencyLevel} level The level of transparency
+ */
+export function setBackdropTransparency(level) {
+    const backdropElem = getBackdropContainer();
+    const backgroundElem = getBackgroundContainer();
+
+    if (level === TRANSPARENCY_LEVEL.Full || level === 2) {
+        clearBackdrop(true);
+        document.documentElement.classList.add('transparentDocument');
+        backgroundElem.classList.add('backgroundContainer-transparent');
+        backdropElem.classList.add('hide');
+    } else if (level === TRANSPARENCY_LEVEL.Backdrop || level === 1) {
+        externalBackdrop(true);
+        document.documentElement.classList.add('transparentDocument');
+        backgroundElem.classList.add('backgroundContainer-transparent');
+        backdropElem.classList.add('hide');
+    } else {
+        externalBackdrop(false);
+        document.documentElement.classList.remove('transparentDocument');
+        backgroundElem.classList.remove('backgroundContainer-transparent');
+        backdropElem.classList.remove('hide');
+    }
+}
+
 export default {
     setBackdrops: setBackdrops,
     setBackdrop: setBackdrop,

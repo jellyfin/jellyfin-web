@@ -30,6 +30,7 @@ import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
+import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
 
 /* eslint-disable indent */
 
@@ -691,7 +692,7 @@ function tryRemoveElement(elem) {
             destroyHlsPlayer(this);
             destroyFlvPlayer(this);
 
-            appRouter.setTransparency('none');
+            setBackdropTransparency(TRANSPARENCY_LEVEL.None);
             document.body.classList.remove('hide-scroll');
 
             const videoElement = this.#mediaElement;
@@ -838,7 +839,7 @@ function tryRemoveElement(elem) {
                 if (this._currentPlayOptions.fullscreen) {
                     appRouter.showVideoOsd().then(this.onNavigatedToOsd);
                 } else {
-                    appRouter.setTransparency('backdrop');
+                    setBackdropTransparency(TRANSPARENCY_LEVEL.Backdrop);
                     this.#videoDialog.classList.remove('videoPlayerContainer-onTop');
 
                     this.onStartedAndNavigatedToOsd();
