@@ -1648,5 +1648,6 @@
     "ItemDetails": "Podrobnosti položky",
     "EnableRewatchingNextUpHelp": "Povolí zobrazenie už pozretých epizód v sekcií 'Nasleduje'.",
     "EnableRewatchingNextUp": "Povoliť Opätovné pozeranie v sekcií Nasleduje",
-    "Digital": "Digitálne"
+    "Digital": "Digitálne",
+    "EnableEnhancedNvdecDecoderHelp": "Experimentálna implementácia NVDEC, túto možnosť nepovoľujte, pokiaľ ste sa nestretli s chybami pri dekódovaní."
 }
