@@ -10,7 +10,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import datetime from '../../scripts/datetime';
 import mediaInfo from '../../components/mediainfo/mediainfo';
-import backdrop from '../../components/backdrop/backdrop';
+import { clearBackdrop, setBackdrops } from '../../components/backdrop/backdrop';
 import listView from '../../components/listview/listview';
 import itemContextMenu from '../../components/itemContextMenu';
 import itemHelper from '../../components/itemHelper';
@@ -514,9 +514,9 @@ function setTrailerButtonVisibility(page, item) {
 
 function renderBackdrop(item) {
     if (dom.getWindowSize().innerWidth >= 1000) {
-        backdrop.setBackdrops([item]);
+        setBackdrops([item]);
     } else {
-        backdrop.clearBackdrop();
+        clearBackdrop();
     }
 }
 
