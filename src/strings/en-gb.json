@@ -1648,5 +1648,6 @@
     "Production": "Production",
     "OriginalAirDate": "Original Air Date",
     "Digital": "Digital",
-    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information."
+    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
+    "EnableEnhancedNvdecDecoderHelp": "Experimental NVDEC implementation, do not enable this option unless you encounter decoding errors."
 }
