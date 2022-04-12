@@ -9,6 +9,7 @@ import '../elements/emby-button/emby-button';
 import './listview/listview.scss';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
+import { toBoolean } from '../utils/string.ts';
 
 /* eslint-disable indent */
 
@@ -68,7 +69,7 @@ import alert from './alert';
 
         limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7');
         const minDate = new Date();
-        const hasUserId = elem.getAttribute('data-useractivity') !== 'false';
+        const hasUserId = toBoolean(elem.getAttribute('data-useractivity'), true);
 
         // TODO: Use date-fns
         if (hasUserId) {
