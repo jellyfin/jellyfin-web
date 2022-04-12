@@ -1644,5 +1644,6 @@
     "Production": "Produktada",
     "Digital": "Cifereca",
     "OriginalAirDate": "Originala Etero",
-    "MessageUnauthorizedUser": "Vi ne estas rajtigita aliri la servilon nuntempe. Kontaktu vian servilan administranton por pliaj informoj."
+    "MessageUnauthorizedUser": "Vi ne estas rajtigita aliri la servilon nuntempe. Kontaktu vian servilan administranton por pliaj informoj.",
+    "EnableEnhancedNvdecDecoderHelp": "Eksperimenta NVDEC-efektivigo, ne ebligu ĉi tiun opcion krom se vi renkontas malkodajn erarojn."
 }
