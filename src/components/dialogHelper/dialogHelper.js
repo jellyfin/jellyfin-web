@@ -3,7 +3,9 @@ import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
+import { toBoolean } from '../../utils/string.ts';
 import dom from '../../scripts/dom';
+
 import './dialoghelper.scss';
 import '../../assets/css/scrollstyles.scss';
 
@@ -95,7 +97,7 @@ import '../../assets/css/scrollstyles.scss';
                 focusManager.focus(activeElement);
             }
 
-            if (dlg.getAttribute('data-removeonclose') !== 'false') {
+            if (toBoolean(dlg.getAttribute('data-removeonclose'), true)) {
                 removeCenterFocus(dlg);
 
                 const dialogContainer = dlg.dialogContainer;
