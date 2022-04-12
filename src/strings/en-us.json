@@ -1642,5 +1642,6 @@
     "Scene": "Scene",
     "Sample": "Sample",
     "ThemeSong": "Theme Song",
-    "ThemeVideo": "Theme Video"
+    "ThemeVideo": "Theme Video",
+    "EnableEnhancedNvdecDecoderHelp": "Experimental NVDEC implementation, do not enable this option unless you encounter decoding errors."
 }
