@@ -1,9 +1,11 @@
+import isEqual from 'lodash-es/isEqual';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../scripts/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
-import './backdrop.scss';
 import ServerConnections from '../ServerConnections';
+
+import './backdrop.scss';
 
 /* eslint-disable indent */
 
@@ -217,28 +219,6 @@ import ServerConnections from '../ServerConnections';
         return list;
     }
 
-    function arraysEqual(a, b) {
-        if (a === b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        if (a.length !== b.length) {
-            return false;
-        }
-
-        // If you don't care about the order of the elements inside
-        // the array, you should sort both arrays here.
-        for (let i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     function enabled() {
         return userSettings.enableBackdrops();
     }
@@ -259,7 +239,7 @@ import ServerConnections from '../ServerConnections';
     }
 
     function startRotation(images, enableImageRotation) {
-        if (arraysEqual(images, currentRotatingImages)) {
+        if (isEqual(images, currentRotatingImages)) {
             return;
         }
 
