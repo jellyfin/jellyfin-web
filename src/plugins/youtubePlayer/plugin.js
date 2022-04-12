@@ -2,6 +2,7 @@ import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { appRouter } from '../../components/appRouter';
 import loading from '../../components/loading/loading';
+import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
 
 /* globals YT */
 
@@ -127,7 +128,7 @@ function onPlaying(instance, playOptions, resolve) {
                 instance.videoDialog.classList.remove('onTop');
             });
         } else {
-            appRouter.setTransparency('backdrop');
+            setBackdropTransparency(TRANSPARENCY_LEVEL.Backdrop);
             instance.videoDialog.classList.remove('onTop');
         }
 
@@ -227,7 +228,7 @@ class YoutubePlayer {
         return Promise.resolve();
     }
     destroy() {
-        appRouter.setTransparency('none');
+        setBackdropTransparency(TRANSPARENCY_LEVEL.None);
         document.body.classList.remove('hide-scroll');
 
         const dlg = this.videoDialog;
