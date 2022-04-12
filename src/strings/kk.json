@@ -1649,5 +1649,6 @@
     "Production": "Öndırıstık",
     "OriginalAirDate": "Tüpnusqa efir",
     "Digital": "Sandyq",
-    "MessageUnauthorizedUser": "Qazırgı uaqytta serverge kıru üşın ruqsatyñyz joq. Qosymşa aqparat alu üşin server äkımşısımen xabarlasyñyz."
+    "MessageUnauthorizedUser": "Qazırgı uaqytta serverge kıru üşın ruqsatyñyz joq. Qosymşa aqparat alu üşin server äkımşısımen xabarlasyñyz.",
+    "EnableEnhancedNvdecDecoderHelp": "Eksperimenttık NVDEC ıske asyru, dekodtau qatelerıne tap bolmasañyz, bul opsiany qospañyz."
 }
