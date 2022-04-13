@@ -126,7 +126,7 @@
     "prepare": "node ./scripts/prepare.js",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "webpack --config webpack.prod.js",
-    "lint": "eslint \"src/\"",
+    "lint": "eslint \"./\"",
     "stylelint": "npm run stylelint:css && npm run stylelint:scss",
     "stylelint:css": "stylelint \"src/**/*.css\"",
     "stylelint:scss": "stylelint --config=\".stylelintrc.scss.json\" \"src/**/*.scss\""
