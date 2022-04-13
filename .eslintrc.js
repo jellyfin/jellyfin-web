@@ -51,6 +51,7 @@ module.exports = {
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        'no-void': ['error', { 'allowAsStatement': true }],
         'one-var': ['error', 'never'],
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', {'destructuring': 'all'}],
@@ -59,8 +60,7 @@ module.exports = {
         'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        'yoda': 'error',
-        'no-void': ['error', { "allowAsStatement": true }]
+        'yoda': 'error'
     },
     settings: {
         react: {
