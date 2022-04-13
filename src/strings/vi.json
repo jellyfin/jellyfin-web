@@ -1639,5 +1639,6 @@
     "Production": "Sản Xuất",
     "OriginalAirDate": "Ngày Phát Sóng Gốc",
     "Digital": "Kỹ thuật số",
-    "MessageUnauthorizedUser": "Bạn không được phép truy cập vào máy chủ tại thời điểm này. Vui lòng liên hệ với quản trị viên máy chủ của bạn để biết thêm thông tin."
+    "MessageUnauthorizedUser": "Bạn không được phép truy cập vào máy chủ tại thời điểm này. Vui lòng liên hệ với quản trị viên máy chủ của bạn để biết thêm thông tin.",
+    "EnableEnhancedNvdecDecoderHelp": "Triển khai NVDEC thử nghiệm, không bật tùy chọn này trừ khi bạn gặp lỗi giải mã."
 }
