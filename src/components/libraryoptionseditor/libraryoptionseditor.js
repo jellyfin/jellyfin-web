@@ -323,7 +323,8 @@ import template from './libraryoptionseditor.template.html';
     function onImageFetchersContainerClick(e) {
         const btnImageOptionsForType = dom.parentWithClass(e.target, 'btnImageOptionsForType');
         if (btnImageOptionsForType) {
-            return void showImageOptionsForType(dom.parentWithClass(btnImageOptionsForType, 'imageFetcher').getAttribute('data-type'));
+            showImageOptionsForType(dom.parentWithClass(btnImageOptionsForType, 'imageFetcher').getAttribute('data-type'));
+            return;
         }
         onSortableContainerClick.call(this, e);
     }

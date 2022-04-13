@@ -9,13 +9,14 @@ import Dashboard from '../../../utils/dashboard';
             msg += '<br/>';
             msg += '<br/>';
             msg += result.UsersReset.join('<br/>');
-            return void Dashboard.alert({
+            Dashboard.alert({
                 message: msg,
                 title: globalize.translate('HeaderPasswordReset'),
                 callback: function () {
                     window.location.href = 'index.html';
                 }
             });
+            return;
         }
 
         Dashboard.alert({
