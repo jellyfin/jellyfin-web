@@ -162,6 +162,17 @@ module.exports = {
         ]
     },
     overrides: [
+        // Config files and development scripts
+        {
+            files: [
+                './babel.config.js',
+                './.eslintrc.js',
+                './postcss.config.js',
+                './webpack.*.js',
+                './scripts/**/*.js'
+            ]
+        },
+        // JavaScript source files
         {
             files: [
                 './src/**/*.js',
@@ -211,6 +222,7 @@ module.exports = {
             rules: {
             }
         },
+        // TypeScript source files
         {
             files: [
                 './src/**/*.ts',
