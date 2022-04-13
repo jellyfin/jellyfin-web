@@ -17,7 +17,7 @@ function disableEvent(e) {
     e.stopPropagation();
 }
 
-class NavigationDrawer {
+class NavDrawer {
     mask;
     newPos = 0;
     currentPos = 0;
@@ -188,14 +188,6 @@ class NavigationDrawer {
         this.countStart = 0;
     };
 
-    onMaskTransitionEnd = () => {
-        const classList = this.mask.classList;
-
-        if (!classList.contains('backdrop')) {
-            classList.add('hide');
-        }
-    };
-
     initElements() {
         const options = this.options;
 
@@ -207,9 +199,6 @@ class NavigationDrawer {
             this.mask = document.createElement('div');
             this.mask.className = 'tmla-mask hide';
             document.body.appendChild(this.mask);
-            dom.addEventListener(this.mask, dom.whichTransitionEvent(), this.onMaskTransitionEnd, {
-                passive: true
-            });
         }
     }
 
@@ -372,5 +361,5 @@ class NavigationDrawer {
     }
 }
 
-export default NavigationDrawer;
+export default NavDrawer;
 
