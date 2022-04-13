@@ -1648,5 +1648,6 @@
     "Production": "Produkció",
     "OriginalAirDate": "Eredeti megjelenési dátum",
     "MessageUnauthorizedUser": "Jelenleg nincs jogosultsága a szerver elérésére. További információért fordulj a szerver rendszergazdájához.",
-    "Digital": "Digitális"
+    "Digital": "Digitális",
+    "EnableEnhancedNvdecDecoderHelp": "Kísérleti NVDEC implementáció, csak akkor engedélyezze ezt a lehetőséget, ha dekódolási hibákat észlel."
 }
