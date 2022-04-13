@@ -899,8 +899,8 @@ import { getParameterByName } from '../utils/url.ts';
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve) {
-            import('../libraries/navdrawer/navdrawer').then(({ default: NavigationDrawer }) => {
-                navDrawerInstance = new NavigationDrawer(getNavDrawerOptions());
+            import('../libraries/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
+                navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
                     navDrawerElement.classList.remove('hide');
