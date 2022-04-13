@@ -163,10 +163,7 @@ async function onAppReady() {
         import('../assets/css/ios.scss');
     }
 
-    appRouter.start({
-        click: false,
-        hashbang: true
-    });
+    appRouter.start();
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
         import('../components/nowPlayingBar/nowPlayingBar');
