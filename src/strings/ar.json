@@ -1638,5 +1638,13 @@
     "Copied": "نسخ",
     "ButtonSpace": "مساحة",
     "ButtonClose": "أغلق",
-    "AddToFavorites": "أضفه إلى المفضلة"
+    "AddToFavorites": "أضفه إلى المفضلة",
+    "EnableEnhancedNvdecDecoderHelp": "تنفيذ NVDEC التجريبي ، لا تقم بتمكين هذا الخيار إلا إذا واجهت أخطاء في فك التشفير.",
+    "StoryArc": "قصة القوس",
+    "Production": "إنتاج",
+    "OriginalAirDate": "تاريخ الهواء الأصلي",
+    "MessageUnauthorizedUser": "غير مصرح لك بالوصول إلى الخادم في هذا الوقت. يرجى الاتصال بمسؤول الخادم الخاص بك لمزيد من المعلومات.",
+    "Localization": "تحديد الموقع",
+    "ItemDetails": "تفاصيل العنصر",
+    "Digital": "رقمي"
 }
