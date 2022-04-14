@@ -9,8 +9,8 @@ import SearchResultsRow from './SearchResultsRow';
 
 type SearchResultsProps = {
     serverId?: string;
-    parentId?: string;
-    collectionType?: string;
+    parentId?: string | null;
+    collectionType?: string | null;
     query?: string;
 }
 

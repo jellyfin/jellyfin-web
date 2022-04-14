@@ -7,6 +7,8 @@ import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import '../assets/css/site.scss';
+import React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
 import globalize from './globalize';
@@ -18,7 +20,7 @@ import { appHost } from '../components/apphost';
 import { getPlugins } from './settings/webSettings';
 import { pluginManager } from '../components/pluginManager';
 import packageManager from '../components/packageManager';
-import { appRouter } from '../components/appRouter';
+import { appRouter, history } from '../components/appRouter';
 import '../elements/emby-button/emby-button';
 import './autoThemes';
 import './libraryMenu';
@@ -40,6 +42,8 @@ import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideo
 import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
 import { currentSettings } from './settings/userSettings';
 import taskButton from './taskbutton';
+import { HistoryRouter } from '../components/HistoryRouter.tsx';
+import AppRoutes from '../routes/index.tsx';
 
 function loadCoreDictionary() {
     const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es-419', 'es-ar', 'es_do', 'es-mx', 'et', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'lv', 'mr', 'ms', 'nb', 'nl', 'nn', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
@@ -167,7 +171,14 @@ async function onAppReady() {
         ServerConnections.currentApiClient()?.ensureWebSocket();
     });
 
-    appRouter.start();
+    await appRouter.start();
+
+    ReactDOM.render(
+        <HistoryRouter history={history}>
+            <AppRoutes />
+        </HistoryRouter>,
+        document.getElementById('reactRoot')
+    );
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
         import('../components/nowPlayingBar/nowPlayingBar');
