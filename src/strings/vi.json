@@ -981,7 +981,7 @@
     "LabelVaapiDeviceHelp": "Đây là điểm kết xuất được sử dụng để tăng tốc phần cứng.",
     "LabelVaapiDevice": "Thiết bị VA-API:",
     "LabelUsername": "Tên đăng nhập:",
-    "LabelUserRemoteClientBitrateLimitHelp": "Ghi đè giá trị chung mặc định được đặt trong cài đặt máy chủ, xem Trang tổng quan > Phát lại > Luồng phát",
+    "LabelUserRemoteClientBitrateLimitHelp": "Ghi đè giá trị chung mặc định được đặt trong cài đặt máy chủ, xem Trang tổng quan > Phát lại > Luồng phát.",
     "LabelUserLoginAttemptsBeforeLockout": "Lần thử đăng nhập thất bại trước khi người dùng bị khóa:",
     "LabelUserLibraryHelp": "Chọn thư viện người dùng để hiển thị trên thiết bị. Để trống để giữ nguyên cài đặt mặc định.",
     "LabelUserLibrary": "Thư viện người dùng:",
