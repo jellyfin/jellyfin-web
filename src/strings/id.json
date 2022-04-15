@@ -1647,5 +1647,6 @@
     "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "Penundaan pemutaran minimum (dalam ms) setelah itu SkipToSync mencoba memperbaiki posisi pemutaran.",
     "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Penundaan pemutaran maksimum (dalam ms) setelah itu SkipToSync digunakan sebagai ganti SpeedToSync.",
     "LabelSyncPlaySettingsSyncCorrectionHelp": "Aktifkan sinkronisasi pemutaran aktif dengan mempercepat media atau dengan mencari posisi yang diperkirakan. Nonaktifkan ini jika terjadi kegagapan yang parah.",
-    "LabelSyncPlaySettingsSyncCorrection": "Koreksi Sinkronisasi"
+    "LabelSyncPlaySettingsSyncCorrection": "Koreksi Sinkronisasi",
+    "EnableEnhancedNvdecDecoderHelp": "Ujicoba implementasi NVDEC, jangan aktifkan opsi ini kecuali mengalami masalah sewaktu decoding."
 }
