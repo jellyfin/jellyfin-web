@@ -236,7 +236,7 @@ import Dashboard from '../utils/dashboard';
     const mainAnimatedPages = document.querySelector('.mainAnimatedPages');
     let allPages = [];
     let currentUrls = [];
-    const pageContainerCount = 3;
+    const pageContainerCount = 1;
     let selectedPageIndex = -1;
     reset();
     mainAnimatedPages.classList.remove('hide');

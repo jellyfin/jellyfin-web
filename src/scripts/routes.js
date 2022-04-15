@@ -304,7 +304,7 @@ import { appRouter } from '../components/appRouter';
         alias: '/home.html',
         path: 'home.html',
         autoFocus: false,
-        controller: 'home',
+        pageComponent: 'HomeView',
         type: 'home'
     });
 
