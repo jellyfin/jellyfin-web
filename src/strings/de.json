@@ -1648,5 +1648,6 @@
     "OriginalAirDate": "Erstausstrahlung",
     "MessageUnauthorizedUser": "Du bist aktuell nicht berechtigt, auf den Server zuzugreifen. Bitte kontaktiere den Serveradministrator für weitere Informationen.",
     "StoryArc": "Handlungsstrang",
-    "Digital": "Digital"
+    "Digital": "Digital",
+    "EnableEnhancedNvdecDecoderHelp": "Experimentelle NVDEC-Implementierung, nur aktiviere, falls es zu Dekodierungsfehlern kommt."
 }
