@@ -12,10 +12,14 @@ type IProps = {
     tab?: string;
 }
 
+type OptionsProps = {
+    autoFocus?: boolean;
+    refresh?: boolean
+}
+
 type ControllerProps = {
     onResume: (
-        // eslint-disable-next-line no-empty-pattern
-        {}
+        options: OptionsProps
     ) => void;
     refreshed: boolean;
     onPause: () => void;
@@ -81,14 +85,7 @@ class HomeView extends Component <IProps> {
     };
 
     getTabContainers = () => {
-        const view = this.element.current;
-
-        if (!view) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        return view?.querySelectorAll('.tabContent');
+        return this.element.current?.querySelectorAll('.tabContent');
     };
 
     onTabChange = (e: { detail: { selectedTabIndex: string; previousIndex: number | null }; }) => {
