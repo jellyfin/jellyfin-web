@@ -11,7 +11,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
-    export default function (view, params, tabContent) {
+    export default function (view, topParentId, tabContent) {
         function getPageData(context) {
             const key = getSavedQueryKey(context);
             let pageData = data[key];

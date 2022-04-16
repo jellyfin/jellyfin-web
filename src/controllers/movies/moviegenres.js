@@ -10,7 +10,7 @@ import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
-    export default function (view, params, tabContent) {
+    export default function (view, topParentId, tabContent) {
         function getPageData() {
             const key = getSavedQueryKey();
             let pageData = data[key];
@@ -26,7 +26,7 @@ import '../../elements/emby-button/emby-button';
                     },
                     view: 'Poster'
                 };
-                pageData.query.ParentId = params.topParentId;
+                pageData.query.ParentId = topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
 
@@ -81,7 +81,7 @@ import '../../elements/emby-button/emby-button';
                 Limit: limit,
                 GenreIds: id,
                 EnableTotalRecordCount: false,
-                ParentId: params.topParentId
+                ParentId: topParentId
             };
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
                 if (viewStyle == 'Thumb') {
@@ -148,7 +148,7 @@ import '../../elements/emby-button/emby-button';
                     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
                     html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item, {
                         context: 'movies',
-                        parentId: params.topParentId
+                        parentId: topParentId
                     }) + '" class="more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre' + item.Id + '">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += escapeHtml(item.Name);

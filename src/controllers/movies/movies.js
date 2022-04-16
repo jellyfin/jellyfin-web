@@ -10,7 +10,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
-    export default function (view, params, tabContent, options) {
+    export default function (view, topParentId, tabContent, options) {
         const onViewStyleChange = () => {
             if (this.getCurrentViewStyle() == 'List') {
                 itemsContainer.classList.add('vertical-list');
@@ -246,7 +246,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         };
 
         let itemsContainer = tabContent.querySelector('.itemsContainer');
-        const savedQueryKey = params.topParentId + '-' + options.mode;
+        const savedQueryKey = topParentId + '-' + options.mode;
         const savedViewKey = savedQueryKey + '-view';
         let query = {
             SortBy: 'SortName,ProductionYear',
@@ -257,7 +257,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             StartIndex: 0,
-            ParentId: params.topParentId
+            ParentId: topParentId
         };
 
         if (userSettings.libraryPageSize() > 0) {
