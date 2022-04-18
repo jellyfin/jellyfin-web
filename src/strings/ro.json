@@ -1648,5 +1648,6 @@
     "EnableGamepadHelp": "Ascultați intrarea de la orice controler conectat.",
     "LabelEnableGamepad": "Activați Gamepad",
     "Controls": "Controale",
-    "UseEpisodeImagesInNextUpHelp": "Secțiunile „Următorul” și „Continuați vizionarea” vor folosi imagini ale episoadelor ca miniaturi în loc de miniatura principală a emisiunii."
+    "UseEpisodeImagesInNextUpHelp": "Secțiunile „Următorul” și „Continuați vizionarea” vor folosi imagini ale episoadelor ca miniaturi în loc de miniatura principală a emisiunii.",
+    "EnableEnhancedNvdecDecoderHelp": "Implementare experimentală a NVDEC. Activați această opțiune doar dacă întâmpinați erori de decodare."
 }
