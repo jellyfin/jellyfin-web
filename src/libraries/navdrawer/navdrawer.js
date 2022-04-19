@@ -3,358 +3,363 @@
  * It is a legacy library that should be replaced at some point.
  */
 
-/* eslint-disable no-var */
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './navdrawer.scss';
 import '../../assets/css/scrollstyles.scss';
 
-export function NavigationDrawer(options) {
-    function getTouches(e) {
-        return e.changedTouches || e.targetTouches || e.touches;
-    }
+function getTouches(e) {
+    return e.changedTouches || e.targetTouches || e.touches;
+}
 
-    function onMenuTouchStart(e) {
-        options.target.classList.remove('transition');
-        const touches = getTouches(e);
-        const touch = touches[0] || {};
-        menuTouchStartX = touch.clientX;
-        menuTouchStartY = touch.clientY;
-        menuTouchStartTime = new Date().getTime();
-    }
+function disableEvent(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
 
-    function setVelocity(deltaX) {
-        const time = new Date().getTime() - (menuTouchStartTime || 0);
-        velocity = Math.abs(deltaX) / time;
-    }
+class NavDrawer {
+    mask;
+    newPos = 0;
+    currentPos = 0;
+    startPoint = 0;
+    countStart = 0;
+    velocity = 0;
+    dragMode = 0;
+    menuTouchStartX;
+    menuTouchStartY;
+    menuTouchStartTime;
+    edgeContainer = document.querySelector('.mainDrawerHandle');
+    isPeeking = false;
+    backgroundTouchStartX;
+    backgroundTouchStartTime;
+    _edgeSwipeEnabled;
 
-    function onMenuTouchMove(e) {
-        const isOpen = self.visible;
-        const touches = getTouches(e);
-        const touch = touches[0] || {};
-        const endX = touch.clientX || 0;
-        const endY = touch.clientY || 0;
-        const deltaX = endX - (menuTouchStartX || 0);
-        const deltaY = endY - (menuTouchStartY || 0);
-        setVelocity(deltaX);
-
-        if (isOpen && dragMode !== 1 && deltaX > 0) {
-            dragMode = 2;
-        }
-
-        if (dragMode === 0 && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5) {
-            dragMode = 1;
-            scrollContainer.addEventListener('scroll', disableEvent);
-            self.showMask();
-        } else if (dragMode === 0 && Math.abs(deltaY) >= 5) {
-            dragMode = 2;
-        }
-
-        if (dragMode === 1) {
-            newPos = currentPos + deltaX;
-            self.changeMenuPos();
-        }
-    }
-
-    function onMenuTouchEnd(e) {
-        options.target.classList.add('transition');
-        scrollContainer.removeEventListener('scroll', disableEvent);
-        dragMode = 0;
-        const touches = getTouches(e);
-        const touch = touches[0] || {};
-        const endX = touch.clientX || 0;
-        const endY = touch.clientY || 0;
-        const deltaX = endX - (menuTouchStartX || 0);
-        const deltaY = endY - (menuTouchStartY || 0);
-        currentPos = deltaX;
-        self.checkMenuState(deltaX, deltaY);
-    }
-
-    function onEdgeTouchStart(e) {
-        if (isPeeking) {
-            onMenuTouchMove(e);
-        } else {
-            if (((getTouches(e)[0] || {}).clientX || 0) <= options.handleSize) {
-                isPeeking = true;
-
-                if (e.type === 'touchstart') {
-                    dom.removeEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
-                    dom.addEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
-                }
-
-                onMenuTouchStart(e);
-            }
-        }
-    }
-
-    function onEdgeTouchMove(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        onEdgeTouchStart(e);
-    }
-
-    function onEdgeTouchEnd(e) {
-        if (isPeeking) {
-            isPeeking = false;
-            dom.removeEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
-            onMenuTouchEnd(e);
-        }
-    }
-
-    function disableEvent(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    function onBackgroundTouchStart(e) {
-        const touches = getTouches(e);
-        const touch = touches[0] || {};
-        backgroundTouchStartX = touch.clientX;
-        backgroundTouchStartTime = new Date().getTime();
-    }
-
-    function onBackgroundTouchMove(e) {
-        const touches = getTouches(e);
-        const touch = touches[0] || {};
-        const endX = touch.clientX || 0;
-
-        if (endX <= options.width && self.isVisible) {
-            countStart++;
-            const deltaX = endX - (backgroundTouchStartX || 0);
-
-            if (countStart == 1) {
-                startPoint = deltaX;
-            }
-            if (deltaX < 0 && dragMode !== 2) {
-                dragMode = 1;
-                newPos = deltaX - startPoint + options.width;
-                self.changeMenuPos();
-                const time = new Date().getTime() - (backgroundTouchStartTime || 0);
-                velocity = Math.abs(deltaX) / time;
-            }
-        }
-
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    function onBackgroundTouchEnd(e) {
-        const touches = getTouches(e);
-        const touch = touches[0] || {};
-        const endX = touch.clientX || 0;
-        const deltaX = endX - (backgroundTouchStartX || 0);
-        self.checkMenuState(deltaX);
-        countStart = 0;
-    }
-
-    function onMaskTransitionEnd() {
-        const classList = mask.classList;
-
-        if (!classList.contains('backdrop')) {
-            classList.add('hide');
-        }
-    }
-
-    let self;
-    let defaults;
-    let mask;
-    var newPos = 0;
-    var currentPos = 0;
-    var startPoint = 0;
-    var countStart = 0;
-    var velocity = 0;
-    options.target.classList.add('transition');
-    var dragMode = 0;
-    var scrollContainer = options.target.querySelector('.mainDrawer-scrollContainer');
-    scrollContainer.classList.add('scrollY');
-
-    const TouchMenuLA = function () {
-        self = this;
-        defaults = {
+    constructor(options) {
+        this.options = options;
+        this.defaults = {
             width: 260,
             handleSize: 10,
             disableMask: false,
             maxMaskOpacity: 0.5
         };
+        options.target.classList.add('transition');
+        this.scrollContainer = options.target.querySelector('.mainDrawer-scrollContainer');
+        this.scrollContainer.classList.add('scrollY');
         this.isVisible = false;
         this.initialize();
+    }
+
+    setVelocity(deltaX) {
+        const time = new Date().getTime() - (this.menuTouchStartTime || 0);
+        this.velocity = Math.abs(deltaX) / time;
+    }
+
+    onMenuTouchStart = (e) => {
+        const options = this.options;
+
+        options.target.classList.remove('transition');
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        this.menuTouchStartX = touch.clientX;
+        this.menuTouchStartY = touch.clientY;
+        this.menuTouchStartTime = new Date().getTime();
     };
 
-    TouchMenuLA.prototype.initElements = function () {
+    onMenuTouchMove = (e) => {
+        const scrollContainer = this.scrollContainer;
+
+        const isOpen = this.visible;
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
+        const endY = touch.clientY || 0;
+        const deltaX = endX - (this.menuTouchStartX || 0);
+        const deltaY = endY - (this.menuTouchStartY || 0);
+        this.setVelocity(deltaX);
+
+        if (isOpen && this.dragMode !== 1 && deltaX > 0) {
+            this.dragMode = 2;
+        }
+
+        if (this.dragMode === 0 && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5) {
+            this.dragMode = 1;
+            scrollContainer.addEventListener('scroll', disableEvent);
+            this.showMask();
+        } else if (this.dragMode === 0 && Math.abs(deltaY) >= 5) {
+            this.dragMode = 2;
+        }
+
+        if (this.dragMode === 1) {
+            this.newPos = this.currentPos + deltaX;
+            this.changeMenuPos();
+        }
+    };
+
+    onMenuTouchEnd = (e) => {
+        const options = this.options;
+        const scrollContainer = this.scrollContainer;
+
+        options.target.classList.add('transition');
+        scrollContainer.removeEventListener('scroll', disableEvent);
+        this.dragMode = 0;
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
+        const endY = touch.clientY || 0;
+        const deltaX = endX - (this.menuTouchStartX || 0);
+        const deltaY = endY - (this.menuTouchStartY || 0);
+        this.currentPos = deltaX;
+        this.checkMenuState(deltaX, deltaY);
+    };
+
+    onEdgeTouchMove = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.onEdgeTouchStart(e);
+    };
+
+    onEdgeTouchStart = (e) => {
+        const options = this.options;
+
+        if (this.isPeeking) {
+            this.onMenuTouchMove(e);
+        } else {
+            if (((getTouches(e)[0] || {}).clientX || 0) <= options.handleSize) {
+                this.isPeeking = true;
+
+                if (e.type === 'touchstart') {
+                    dom.removeEventListener(this.edgeContainer, 'touchmove', this.onEdgeTouchMove, {});
+                    dom.addEventListener(this.edgeContainer, 'touchmove', this.onEdgeTouchMove, {});
+                }
+
+                this.onMenuTouchStart(e);
+            }
+        }
+    };
+
+    onEdgeTouchEnd = (e) => {
+        if (this.isPeeking) {
+            this.isPeeking = false;
+            dom.removeEventListener(this.edgeContainer, 'touchmove', this.onEdgeTouchMove, {});
+            this.onMenuTouchEnd(e);
+        }
+    };
+
+    onBackgroundTouchStart = (e) => {
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        this.backgroundTouchStartX = touch.clientX;
+        this.backgroundTouchStartTime = new Date().getTime();
+    };
+
+    onBackgroundTouchMove = (e) => {
+        const options = this.options;
+
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
+
+        if (endX <= options.width && this.isVisible) {
+            this.countStart++;
+            const deltaX = endX - (this.backgroundTouchStartX || 0);
+
+            if (this.countStart == 1) {
+                this.startPoint = deltaX;
+            }
+            if (deltaX < 0 && this.dragMode !== 2) {
+                this.dragMode = 1;
+                this.newPos = deltaX - this.startPoint + options.width;
+                this.changeMenuPos();
+                const time = new Date().getTime() - (this.backgroundTouchStartTime || 0);
+                this.velocity = Math.abs(deltaX) / time;
+            }
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    onBackgroundTouchEnd = (e) => {
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
+        const deltaX = endX - (this.backgroundTouchStartX || 0);
+        this.checkMenuState(deltaX);
+        this.countStart = 0;
+    };
+
+    initElements() {
+        const options = this.options;
+
         options.target.classList.add('touch-menu-la');
         options.target.style.width = options.width + 'px';
         options.target.style.left = -options.width + 'px';
 
         if (!options.disableMask) {
-            mask = document.createElement('div');
-            mask.className = 'tmla-mask hide';
-            document.body.appendChild(mask);
-            dom.addEventListener(mask, dom.whichTransitionEvent(), onMaskTransitionEnd, {
-                passive: true
-            });
+            this.mask = document.createElement('div');
+            this.mask.className = 'tmla-mask hide';
+            document.body.appendChild(this.mask);
         }
-    };
+    }
 
-    let menuTouchStartX;
-    let menuTouchStartY;
-    let menuTouchStartTime;
-    var edgeContainer = document.querySelector('.mainDrawerHandle');
-    var isPeeking = false;
-
-    TouchMenuLA.prototype.animateToPosition = function (pos) {
+    animateToPosition(pos) {
+        const options = this.options;
         requestAnimationFrame(function () {
             options.target.style.transform = pos ? 'translateX(' + pos + 'px)' : 'none';
         });
-    };
+    }
 
-    TouchMenuLA.prototype.changeMenuPos = function () {
-        if (newPos <= options.width) {
-            this.animateToPosition(newPos);
+    changeMenuPos() {
+        const options = this.options;
+        if (this.newPos <= options.width) {
+            this.animateToPosition(this.newPos);
         }
-    };
+    }
 
-    TouchMenuLA.prototype.clickMaskClose = function () {
-        mask.addEventListener('click', function () {
-            self.close();
+    clickMaskClose() {
+        this.mask.addEventListener('click', () => {
+            this.close();
         });
-    };
+    }
 
-    TouchMenuLA.prototype.checkMenuState = function (deltaX, deltaY) {
-        if (velocity >= 0.4) {
+    checkMenuState(deltaX, deltaY) {
+        if (this.velocity >= 0.4) {
             if (deltaX >= 0 || Math.abs(deltaY || 0) >= 70) {
-                self.open();
+                this.open();
             } else {
-                self.close();
+                this.close();
             }
         } else {
-            if (newPos >= 100) {
-                self.open();
+            if (this.newPos >= 100) {
+                this.open();
             } else {
-                if (newPos) {
-                    self.close();
+                if (this.newPos) {
+                    this.close();
                 }
             }
         }
-    };
+    }
 
-    TouchMenuLA.prototype.open = function () {
+    open() {
+        const options = this.options;
+
         this.animateToPosition(options.width);
-        currentPos = options.width;
+        this.currentPos = options.width;
         this.isVisible = true;
         options.target.classList.add('drawer-open');
-        self.showMask();
-        self.invoke(options.onChange);
-    };
+        this.showMask();
+        this.invoke(options.onChange);
+    }
 
-    TouchMenuLA.prototype.close = function () {
+    close() {
+        const options = this.options;
+
         this.animateToPosition(0);
-        currentPos = 0;
-        self.isVisible = false;
+        this.currentPos = 0;
+        this.isVisible = false;
         options.target.classList.remove('drawer-open');
-        self.hideMask();
-        self.invoke(options.onChange);
-    };
+        this.hideMask();
+        this.invoke(options.onChange);
+    }
 
-    TouchMenuLA.prototype.toggle = function () {
-        if (self.isVisible) {
-            self.close();
+    toggle() {
+        if (this.isVisible) {
+            this.close();
         } else {
-            self.open();
+            this.open();
         }
-    };
+    }
 
-    let backgroundTouchStartX;
-    let backgroundTouchStartTime;
+    showMask() {
+        this.mask.classList.remove('hide');
+        this.mask.classList.add('backdrop');
+    }
 
-    TouchMenuLA.prototype.showMask = function () {
-        mask.classList.remove('hide');
-        mask.classList.add('backdrop');
-    };
+    hideMask() {
+        this.mask.classList.add('hide');
+        this.mask.classList.remove('backdrop');
+    }
 
-    TouchMenuLA.prototype.hideMask = function () {
-        mask.classList.add('hide');
-        mask.classList.remove('backdrop');
-    };
-
-    TouchMenuLA.prototype.invoke = function (fn) {
+    invoke(fn) {
         if (fn) {
-            fn.apply(self);
+            fn.apply(this);
         }
-    };
+    }
 
-    let _edgeSwipeEnabled;
+    setEdgeSwipeEnabled(enabled) {
+        const options = this.options;
 
-    TouchMenuLA.prototype.setEdgeSwipeEnabled = function (enabled) {
         if (!options.disableEdgeSwipe) {
             if (browser.touch) {
                 if (enabled) {
-                    if (!_edgeSwipeEnabled) {
-                        _edgeSwipeEnabled = true;
-                        dom.addEventListener(edgeContainer, 'touchstart', onEdgeTouchStart, {
+                    if (!this._edgeSwipeEnabled) {
+                        this._edgeSwipeEnabled = true;
+                        dom.addEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
                             passive: true
                         });
-                        dom.addEventListener(edgeContainer, 'touchend', onEdgeTouchEnd, {
+                        dom.addEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
                             passive: true
                         });
-                        dom.addEventListener(edgeContainer, 'touchcancel', onEdgeTouchEnd, {
+                        dom.addEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
                             passive: true
                         });
                     }
                 } else {
-                    if (_edgeSwipeEnabled) {
-                        _edgeSwipeEnabled = false;
-                        dom.removeEventListener(edgeContainer, 'touchstart', onEdgeTouchStart, {
+                    if (this._edgeSwipeEnabled) {
+                        this._edgeSwipeEnabled = false;
+                        dom.removeEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
                             passive: true
                         });
-                        dom.removeEventListener(edgeContainer, 'touchend', onEdgeTouchEnd, {
+                        dom.removeEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
                             passive: true
                         });
-                        dom.removeEventListener(edgeContainer, 'touchcancel', onEdgeTouchEnd, {
+                        dom.removeEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
                             passive: true
                         });
                     }
                 }
             }
         }
-    };
+    }
 
-    TouchMenuLA.prototype.initialize = function () {
-        options = Object.assign(defaults, options || {});
+    initialize() {
+        const options = Object.assign({}, this.defaults, this.options || {});
+        this.options = options;
 
         if (browser.edge) {
             options.disableEdgeSwipe = true;
         }
 
-        self.initElements();
+        this.initElements();
 
         if (browser.touch) {
-            dom.addEventListener(options.target, 'touchstart', onMenuTouchStart, {
+            dom.addEventListener(options.target, 'touchstart', this.onMenuTouchStart, {
                 passive: true
             });
-            dom.addEventListener(options.target, 'touchmove', onMenuTouchMove, {
+            dom.addEventListener(options.target, 'touchmove', this.onMenuTouchMove, {
                 passive: true
             });
-            dom.addEventListener(options.target, 'touchend', onMenuTouchEnd, {
+            dom.addEventListener(options.target, 'touchend', this.onMenuTouchEnd, {
                 passive: true
             });
-            dom.addEventListener(options.target, 'touchcancel', onMenuTouchEnd, {
+            dom.addEventListener(options.target, 'touchcancel', this.onMenuTouchEnd, {
                 passive: true
             });
-            dom.addEventListener(mask, 'touchstart', onBackgroundTouchStart, {
+            dom.addEventListener(this.mask, 'touchstart', this.onBackgroundTouchStart, {
                 passive: true
             });
-            dom.addEventListener(mask, 'touchmove', onBackgroundTouchMove, {});
-            dom.addEventListener(mask, 'touchend', onBackgroundTouchEnd, {
+            dom.addEventListener(this.mask, 'touchmove', this.onBackgroundTouchMove, {});
+            dom.addEventListener(this.mask, 'touchend', this.onBackgroundTouchEnd, {
                 passive: true
             });
-            dom.addEventListener(mask, 'touchcancel', onBackgroundTouchEnd, {
+            dom.addEventListener(this.mask, 'touchcancel', this.onBackgroundTouchEnd, {
                 passive: true
             });
         }
 
-        self.clickMaskClose();
-    };
-
-    return new TouchMenuLA();
+        this.clickMaskClose();
+    }
 }
-/* eslint-enable no-var */
+
+export default NavDrawer;
+
