@@ -791,7 +791,7 @@ function renderDetailImage(elem, item, imageLoader) {
     imageLoader.lazyChildren(elem);
 
     // Avoid breaking the design by preventing focus of the poster using the keyboard.
-    elem.querySelector('button').tabIndex = -1;
+    elem.querySelector('a').tabIndex = -1;
 }
 
 function renderImage(page, item) {
