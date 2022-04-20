@@ -1,6 +1,6 @@
 import { appHost } from './apphost';
 import appSettings from '../scripts/settings/appSettings';
-import backdrop from './backdrop/backdrop';
+import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
 import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
@@ -106,7 +106,7 @@ class AppRouter {
     }
 
     beginConnectionWizard() {
-        backdrop.clearBackdrop();
+        clearBackdrop();
         loading.show();
         ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
@@ -252,30 +252,14 @@ class AppRouter {
         }
     }
 
+    /**
+     * Sets the backdrop, background, and document transparency
+     * @deprecated use Dashboard.setBackdropTransparency
+     */
     setTransparency(level) {
-        if (!this.backdropContainer) {
-            this.backdropContainer = document.querySelector('.backdropContainer');
-        }
-        if (!this.backgroundContainer) {
-            this.backgroundContainer = document.querySelector('.backgroundContainer');
-        }
-
-        if (level === 'full' || level === 2) {
-            backdrop.clearBackdrop(true);
-            document.documentElement.classList.add('transparentDocument');
-            this.backgroundContainer.classList.add('backgroundContainer-transparent');
-            this.backdropContainer.classList.add('hide');
-        } else if (level === 'backdrop' || level === 1) {
-            backdrop.externalBackdrop(true);
-            document.documentElement.classList.add('transparentDocument');
-            this.backgroundContainer.classList.add('backgroundContainer-transparent');
-            this.backdropContainer.classList.add('hide');
-        } else {
-            backdrop.externalBackdrop(false);
-            document.documentElement.classList.remove('transparentDocument');
-            this.backgroundContainer.classList.remove('backgroundContainer-transparent');
-            this.backdropContainer.classList.remove('hide');
-        }
+        // TODO: Remove this after JMP is updated to not use this function
+        console.warn('Deprecated! Use Dashboard.setBackdropTransparency');
+        setBackdropTransparency(level);
     }
 
     getRoutes() {

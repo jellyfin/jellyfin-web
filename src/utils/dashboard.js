@@ -7,6 +7,7 @@ import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
 import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
+import { setBackdropTransparency } from '../components/backdrop/backdrop';
 import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
@@ -234,7 +235,8 @@ const Dashboard = {
     datetime,
     DirectoryBrowser,
     dialogHelper,
-    itemIdentifier
+    itemIdentifier,
+    setBackdropTransparency
 };
 
 // This is used in plugins and templates, so keep it defined for now.
