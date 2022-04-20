@@ -370,8 +370,15 @@ import browser from './browser';
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '')
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp3"').replace(/no/, '');
 
-        // Not sure how to test for this
-        const supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+        let supportsMp2VideoAudio = options.supportsMp2VideoAudio;
+        if (supportsMp2VideoAudio == null) {
+            supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+
+            // If the browser supports MP3, it presumably supports MP2 as well
+            if (supportsMp3VideoAudio && (browser.chrome || browser.edgeChromium || (browser.firefox && browser.versionMajor >= 83))) {
+                supportsMp2VideoAudio = true;
+            }
+        }
 
         /* eslint-disable compat/compat */
         let maxVideoWidth = browser.xboxOne ?
@@ -428,6 +435,8 @@ import browser from './browser';
 
         if (supportsMp2VideoAudio) {
             videoAudioCodecs.push('mp2');
+            hlsInTsVideoAudioCodecs.push('mp2');
+            hlsInFmp4VideoAudioCodecs.push('mp2');
         }
 
         let supportsDts = options.supportsDts;
