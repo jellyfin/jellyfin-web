@@ -144,18 +144,18 @@ class AppRouter {
         // Strip the leading "!" if present
         const normalizedPath = location.pathname.replace(/^!/, '');
 
-        if (this.allRoutes.has(normalizedPath)) {
-            console.debug('[appRouter] "%s" route found', normalizedPath, location, this.allRoutes.get(normalizedPath));
-            this.allRoutes.get(normalizedPath)
-                .handler({
-                    // Recreate the default context used by page.js: https://github.com/visionmedia/page.js#context
-                    path: normalizedPath + location.search,
-                    pathname: normalizedPath,
-                    querystring: location.search.replace(/^\?/, ''),
-                    state: location.state,
-                    // Custom context variables
-                    isBack: action === Action.Pop
-                });
+        const route = this.allRoutes.get(normalizedPath);
+        if (route) {
+            console.debug('[appRouter] "%s" route found', normalizedPath, location, route);
+            route.handler({
+                // Recreate the default context used by page.js: https://github.com/visionmedia/page.js#context
+                path: normalizedPath + location.search,
+                pathname: normalizedPath,
+                querystring: location.search.replace(/^\?/, ''),
+                state: location.state,
+                // Custom context variables
+                isBack: action === Action.Pop
+            });
         } else {
             console.warn('[appRouter] "%s" route not found', normalizedPath, location);
         }
