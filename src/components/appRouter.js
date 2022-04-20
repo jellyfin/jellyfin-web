@@ -14,10 +14,40 @@ import reactControllerFactory from './reactControllerFactory';
 
 const history = createHashHistory();
 
+const normalizeImageOptions = options => {
+    let setQuality;
+    if (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight) {
+        setQuality = true;
+    }
+
+    if (setQuality && !options.quality) {
+        options.quality = 90;
+    }
+};
+
+const getMaxBandwidth = () => {
+    /* eslint-disable compat/compat */
+    if (navigator.connection) {
+        let max = navigator.connection.downlinkMax;
+        if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
+            max /= 8;
+            max *= 1000000;
+            max *= 0.7;
+            return parseInt(max, 10);
+        }
+    }
+    /* eslint-enable compat/compat */
+
+    return null;
+};
+
+/**
+ * Page types of "no return" (when "Go back" should behave differently, probably quitting the application).
+ */
+const START_PAGE_TYPES = ['home', 'login', 'selectserver'];
+
 class AppRouter {
     allRoutes = new Map();
-    backdropContainer;
-    backgroundContainer;
     currentRouteInfo;
     currentViewLoadRequest;
     firstConnectionResult;
@@ -26,17 +56,13 @@ class AppRouter {
     msgTimeout;
     promiseShow;
     resolveOnNextShow;
-    previousRoute = {};
-    /**
-     * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
-     */
-    startPages = ['home', 'login', 'selectserver'];
+    previousRoute;
 
     constructor() {
         document.addEventListener('viewshow', () => this.onViewShow());
 
         // TODO: Can this baseRoute logic be simplified?
-        this.baseRoute = window.location.href.split('?')[0].replace(this.getRequestFile(), '');
+        this.baseRoute = window.location.href.split('?')[0].replace(this.#getRequestFile(), '');
         // support hashbang
         this.baseRoute = this.baseRoute.split('#')[0];
         if (this.baseRoute.endsWith('/') && !this.baseRoute.endsWith('://')) {
@@ -51,13 +77,13 @@ class AppRouter {
         });
     }
 
-    beginConnectionWizard() {
+    #beginConnectionWizard() {
         clearBackdrop();
         loading.show();
         ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
-            this.handleConnectionResult(result);
+            this.#handleConnectionResult(result);
         });
     }
 
@@ -107,6 +133,7 @@ class AppRouter {
         return this.promiseShow;
     }
 
+    // TODO: Unused?
     async showDirect(path) {
         if (this.promiseShow) await this.promiseShow;
 
@@ -142,9 +169,9 @@ class AppRouter {
 
     start() {
         loading.show();
-        this.initApiClients();
+        this.#initApiClients();
 
-        Events.on(appHost, 'resume', this.onAppResume);
+        Events.on(appHost, 'resume', this.#onAppResume);
 
         ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
@@ -168,22 +195,19 @@ class AppRouter {
     }
 
     canGoBack() {
-        const curr = this.current();
+        const curr = this.currentRouteInfo?.route;
         if (!curr) {
             return false;
         }
 
-        if (!document.querySelector('.dialogContainer') && this.startPages.indexOf(curr.type) !== -1) {
+        if (!document.querySelector('.dialogContainer') && START_PAGE_TYPES.includes(curr.type)) {
             return false;
         }
 
         return window.history.length > 1;
     }
 
-    current() {
-        return this.currentRouteInfo ? this.currentRouteInfo.route : null;
-    }
-
+    // TODO: Unused?
     invokeShortcut(id) {
         if (id.indexOf('library-') === 0) {
             id = id.replace('library-', '');
@@ -231,7 +255,7 @@ class AppRouter {
         setBackdropTransparency(level);
     }
 
-    handleConnectionResult(result) {
+    #handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
@@ -262,7 +286,7 @@ class AppRouter {
         }
     }
 
-    loadContentUrl(ctx, next, route, request) {
+    #loadContentUrl(ctx, next, route, request) {
         let url;
         if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
@@ -284,19 +308,19 @@ class AppRouter {
         }
 
         promise.then((html) => {
-            this.loadContent(ctx, route, html, request);
+            this.#loadContent(ctx, route, html, request);
         });
     }
 
-    handleRoute(ctx, next, route) {
-        this.authenticate(ctx, route, () => {
-            this.initRoute(ctx, next, route);
+    #handleRoute(ctx, next, route) {
+        this.#authenticate(ctx, route, () => {
+            this.#initRoute(ctx, next, route);
         });
     }
 
-    initRoute(ctx, next, route) {
+    #initRoute(ctx, next, route) {
         const onInitComplete = (controllerFactory) => {
-            this.sendRouteToViewManager(ctx, next, route, controllerFactory);
+            this.#sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
 
         if (route.pageComponent) {
@@ -308,20 +332,21 @@ class AppRouter {
         }
     }
 
-    cancelCurrentLoadRequest() {
+    #cancelCurrentLoadRequest() {
         const currentRequest = this.currentViewLoadRequest;
         if (currentRequest) {
             currentRequest.cancel = true;
         }
     }
 
-    sendRouteToViewManager(ctx, next, route, controllerFactory) {
+    #sendRouteToViewManager(ctx, next, route, controllerFactory) {
+        // TODO: isDummyBackToHome is never true?
         if (this.isDummyBackToHome && route.type === 'home') {
             this.isDummyBackToHome = false;
             return;
         }
 
-        this.cancelCurrentLoadRequest();
+        this.#cancelCurrentLoadRequest();
         const isBackNav = ctx.isBack;
 
         const currentRequest = {
@@ -343,7 +368,7 @@ class AppRouter {
 
         const onNewViewNeeded = () => {
             if (typeof route.path === 'string') {
-                this.loadContentUrl(ctx, next, route, currentRequest);
+                this.#loadContentUrl(ctx, next, route, currentRequest);
             } else {
                 next();
             }
@@ -408,54 +433,27 @@ class AppRouter {
         }
     }
 
-    normalizeImageOptions(options) {
-        let setQuality;
-        if (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight) {
-            setQuality = true;
-        }
-
-        if (setQuality && !options.quality) {
-            options.quality = 90;
-        }
-    }
-
-    getMaxBandwidth() {
-        /* eslint-disable compat/compat */
-        if (navigator.connection) {
-            let max = navigator.connection.downlinkMax;
-            if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
-                max /= 8;
-                max *= 1000000;
-                max *= 0.7;
-                return parseInt(max, 10);
-            }
-        }
-        /* eslint-enable compat/compat */
-
-        return null;
-    }
-
     onApiClientCreated(e, newApiClient) {
-        newApiClient.normalizeImageOptions = this.normalizeImageOptions;
-        newApiClient.getMaxBandwidth = this.getMaxBandwidth;
+        newApiClient.normalizeImageOptions = normalizeImageOptions;
+        newApiClient.getMaxBandwidth = getMaxBandwidth;
 
         Events.off(newApiClient, 'requestfail', this.onRequestFail);
         Events.on(newApiClient, 'requestfail', this.onRequestFail);
     }
 
-    initApiClient(apiClient, instance) {
+    #initApiClient(apiClient, instance) {
         instance.onApiClientCreated({}, apiClient);
     }
 
-    initApiClients() {
+    #initApiClients() {
         ServerConnections.getApiClients().forEach((apiClient) => {
-            this.initApiClient(apiClient, this);
+            this.#initApiClient(apiClient, this);
         });
 
         Events.on(ServerConnections, 'apiclientcreated', this.onApiClientCreated);
     }
 
-    onAppResume() {
+    #onAppResume() {
         const apiClient = ServerConnections.currentApiClient();
 
         if (apiClient) {
@@ -463,7 +461,7 @@ class AppRouter {
         }
     }
 
-    authenticate(ctx, route, callback) {
+    #authenticate(ctx, route, callback) {
         const firstResult = this.firstConnectionResult;
 
         this.firstConnectionResult = null;
@@ -478,7 +476,7 @@ class AppRouter {
                         ServerConnections.setLocalApiClient(firstResult.ApiClient);
                         this.show('wizardstart.html');
                     } else {
-                        this.handleConnectionResult(firstResult);
+                        this.#handleConnectionResult(firstResult);
                     }
                 }).catch(error => {
                     console.error(error);
@@ -486,7 +484,7 @@ class AppRouter {
 
                 return;
             } else if (firstResult.State !== 'SignedIn') {
-                this.handleConnectionResult(firstResult);
+                this.#handleConnectionResult(firstResult);
                 return;
             }
         }
@@ -500,7 +498,7 @@ class AppRouter {
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
             console.debug('[appRouter] route does not allow anonymous access: redirecting to login');
-            this.beginConnectionWizard();
+            this.#beginConnectionWizard();
             return;
         }
 
@@ -520,9 +518,9 @@ class AppRouter {
                 this.goHome();
                 return;
             } else if (route.roles) {
-                this.validateRoles(apiClient, route.roles).then(() => {
+                this.#validateRoles(apiClient, route.roles).then(() => {
                     callback();
-                }, this.beginConnectionWizard);
+                }, this.#beginConnectionWizard);
                 return;
             }
         }
@@ -531,13 +529,13 @@ class AppRouter {
         callback();
     }
 
-    validateRoles(apiClient, roles) {
+    #validateRoles(apiClient, roles) {
         return Promise.all(roles.split(',').map((role) => {
-            return this.validateRole(apiClient, role);
+            return this.#validateRole(apiClient, role);
         }));
     }
 
-    validateRole(apiClient, role) {
+    #validateRole(apiClient, role) {
         if (role === 'admin') {
             return apiClient.getCurrentUser().then((user) => {
                 if (user.Policy.IsAdministrator) {
@@ -551,7 +549,7 @@ class AppRouter {
         return Promise.resolve();
     }
 
-    loadContent(ctx, route, html, request) {
+    #loadContent(ctx, route, html, request) {
         html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
@@ -565,7 +563,7 @@ class AppRouter {
         ctx.handled = true;
     }
 
-    getRequestFile() {
+    #getRequestFile() {
         let path = window.location.pathname || '';
 
         const index = path.lastIndexOf('/');
@@ -584,7 +582,7 @@ class AppRouter {
 
     #getHandler(route) {
         return (ctx, next) => {
-            const ignore = route.dummyRoute === true || this.previousRoute.dummyRoute === true;
+            const ignore = route.dummyRoute === true || this.previousRoute?.dummyRoute === true;
             this.previousRoute = route;
             if (ignore) {
                 // Resolve 'show' promise
@@ -592,7 +590,7 @@ class AppRouter {
                 return;
             }
 
-            this.handleRoute(ctx, next, route);
+            this.#handleRoute(ctx, next, route);
         };
     }
 
