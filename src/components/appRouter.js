@@ -8,7 +8,6 @@ import globalize from '../scripts/globalize';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
 import viewManager from './viewManager/viewManager';
-import Dashboard from '../utils/dashboard';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
@@ -50,26 +49,6 @@ class AppRouter {
             route,
             handler: this.#getHandler(route)
         });
-    }
-
-    showLocalLogin(serverId) {
-        Dashboard.navigate('login.html?serverid=' + serverId);
-    }
-
-    showVideoOsd() {
-        return Dashboard.navigate('video');
-    }
-
-    showSelectServer() {
-        Dashboard.navigate('selectserver.html');
-    }
-
-    showSettings() {
-        Dashboard.navigate('mypreferencesmenu.html');
-    }
-
-    showNowPlaying() {
-        this.show('queue');
     }
 
     beginConnectionWizard() {
@@ -497,7 +476,7 @@ class AppRouter {
                 }).then(data => {
                     if (data !== null && data.StartupWizardCompleted === false) {
                         ServerConnections.setLocalApiClient(firstResult.ApiClient);
-                        Dashboard.navigate('wizardstart.html');
+                        this.show('wizardstart.html');
                     } else {
                         this.handleConnectionResult(firstResult);
                     }
@@ -615,30 +594,6 @@ class AppRouter {
 
             this.handleRoute(ctx, next, route);
         };
-    }
-
-    showGuide() {
-        Dashboard.navigate('livetv.html?tab=1');
-    }
-
-    goHome() {
-        Dashboard.navigate('home.html');
-    }
-
-    showSearch() {
-        Dashboard.navigate('search.html');
-    }
-
-    showLiveTV() {
-        Dashboard.navigate('livetv.html');
-    }
-
-    showRecordedTV() {
-        Dashboard.navigate('livetv.html?tab=3');
-    }
-
-    showFavorites() {
-        Dashboard.navigate('home.html?tab=1');
     }
 
     getRouteUrl(item, options) {
@@ -835,10 +790,53 @@ class AppRouter {
 
         return '#!/details?id=' + id + '&serverId=' + serverId;
     }
+
+    showLocalLogin(serverId) {
+        return this.show('login.html?serverid=' + serverId);
+    }
+
+    showVideoOsd() {
+        return this.show('video');
+    }
+
+    showSelectServer() {
+        return this.show('selectserver.html');
+    }
+
+    showSettings() {
+        return this.show('mypreferencesmenu.html');
+    }
+
+    showNowPlaying() {
+        return this.show('queue');
+    }
+
+    showGuide() {
+        return this.show('livetv.html?tab=1');
+    }
+
+    goHome() {
+        return this.show('home.html');
+    }
+
+    showSearch() {
+        return this.show('search.html');
+    }
+
+    showLiveTV() {
+        return this.show('livetv.html');
+    }
+
+    showRecordedTV() {
+        return this.show('livetv.html?tab=3');
+    }
+
+    showFavorites() {
+        return this.show('home.html?tab=1');
+    }
 }
 
 export const appRouter = new AppRouter();
 
 window.Emby = window.Emby || {};
-
 window.Emby.Page = appRouter;
