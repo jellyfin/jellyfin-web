@@ -87,7 +87,7 @@ import template from './filterdialog.template.html';
         context.querySelector('.chk3DFilter').checked = query.Is3D === true;
         context.querySelector('.chkHDFilter').checked = query.IsHD === true;
         context.querySelector('.chk4KFilter').checked = query.Is4K === true;
-        context.querySelector('.chkSDFilter').checked = query.IsHD === true;
+        context.querySelector('.chkSDFilter').checked = query.IsHD === false;
         context.querySelector('#chkSubtitle').checked = query.HasSubtitles === true;
         context.querySelector('#chkTrailer').checked = query.HasTrailer === true;
         context.querySelector('#chkThemeSong').checked = query.HasThemeSong === true;
@@ -272,15 +272,25 @@ import template from './filterdialog.template.html';
                 triggerChange(this);
             });
             const chkHDFilter = context.querySelector('.chkHDFilter');
+            const chkSDFilter = context.querySelector('.chkSDFilter');
             chkHDFilter.addEventListener('change', () => {
                 query.StartIndex = 0;
-                query.IsHD = chkHDFilter.checked ? true : null;
+                if (chkHDFilter.checked) {
+                    chkSDFilter.checked = false;
+                    query.IsHD = true;
+                } else {
+                    query.IsHD = null;
+                }
                 triggerChange(this);
             });
-            const chkSDFilter = context.querySelector('.chkSDFilter');
             chkSDFilter.addEventListener('change', () => {
                 query.StartIndex = 0;
-                query.IsHD = chkSDFilter.checked ? false : null;
+                if (chkSDFilter.checked) {
+                    chkHDFilter.checked = false;
+                    query.IsHD = false;
+                } else {
+                    query.IsHD = null;
+                }
                 triggerChange(this);
             });
             for (const elem of context.querySelectorAll('.chkStatus')) {
