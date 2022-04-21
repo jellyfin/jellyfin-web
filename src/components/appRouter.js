@@ -1,20 +1,22 @@
+import { Events } from 'jellyfin-apiclient';
+import { Action, createHashHistory } from 'history';
+
 import { appHost } from './apphost';
 import appSettings from '../scripts/settings/appSettings';
 import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
-import browser from '../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
-import page from 'page';
 import viewManager from './viewManager/viewManager';
 import Dashboard from '../utils/dashboard';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
 
+const history = createHashHistory();
+
 class AppRouter {
-    allRoutes = [];
+    allRoutes = new Map();
     backdropContainer;
     backgroundContainer;
     currentRouteInfo;
@@ -23,7 +25,6 @@ class AppRouter {
     forcedLogoutMsg;
     isDummyBackToHome;
     msgTimeout;
-    popstateOccurred = false;
     promiseShow;
     resolveOnNextShow;
     previousRoute = {};
@@ -33,56 +34,22 @@ class AppRouter {
     startPages = ['home', 'login', 'selectserver'];
 
     constructor() {
-        // WebKit fires a popstate event on document load
-        // Skip it using boolean
-        // For Tizen 2.x
-        // See `page` node module
-        let loaded = document.readyState === 'complete';
-        if (!loaded) {
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    loaded = true;
-                }, 0);
-            });
-        }
-        window.addEventListener('popstate', () => {
-            if (!loaded) return;
-            this.popstateOccurred = true;
-        });
-
         document.addEventListener('viewshow', () => this.onViewShow());
 
+        // TODO: Can this baseRoute logic be simplified?
         this.baseRoute = window.location.href.split('?')[0].replace(this.getRequestFile(), '');
         // support hashbang
         this.baseRoute = this.baseRoute.split('#')[0];
         if (this.baseRoute.endsWith('/') && !this.baseRoute.endsWith('://')) {
             this.baseRoute = this.baseRoute.substring(0, this.baseRoute.length - 1);
         }
+    }
 
-        this.setBaseRoute();
-
-        // paths that start with a hashbang (i.e. /#!/page.html) get transformed to starting with //
-        // we need to strip one "/" for our routes to work
-        page('//*', (ctx) => {
-            page.redirect(ctx.path.substring(1));
+    addRoute(path, route) {
+        this.allRoutes.set(path, {
+            route,
+            handler: this.#getHandler(route)
         });
-    }
-
-    /**
-     * @private
-     */
-    setBaseRoute() {
-        let baseRoute = window.location.pathname.replace(this.getRequestFile(), '');
-        if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
-            baseRoute = baseRoute.substring(0, baseRoute.length - 1);
-        }
-        console.debug('setting page base to ' + baseRoute);
-        page.base(baseRoute);
-    }
-
-    addRoute(path, newRoute) {
-        page(path, this.getHandler(newRoute));
-        this.allRoutes.push(newRoute);
     }
 
     showLocalLogin(serverId) {
@@ -124,7 +91,7 @@ class AppRouter {
 
         this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
-            page.back();
+            history.back();
         });
 
         return this.promiseShow;
@@ -155,7 +122,7 @@ class AppRouter {
         this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
             // Schedule a call to return the promise
-            setTimeout(() => page.show(path, options), 0);
+            setTimeout(() => history.push(path, options), 0);
         });
 
         return this.promiseShow;
@@ -167,27 +134,50 @@ class AppRouter {
         this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
             // Schedule a call to return the promise
-            setTimeout(() => page.show(this.baseUrl() + path), 0);
+            setTimeout(() => history.push(this.baseUrl() + path), 0);
         });
 
         return this.promiseShow;
     }
 
-    start(options) {
+    #goToRoute({ location, action }) {
+        // Strip the leading "!" if present
+        const normalizedPath = location.pathname.replace(/^!/, '');
+
+        const route = this.allRoutes.get(normalizedPath);
+        if (route) {
+            console.debug('[appRouter] "%s" route found', normalizedPath, location, route);
+            route.handler({
+                // Recreate the default context used by page.js: https://github.com/visionmedia/page.js#context
+                path: normalizedPath + location.search,
+                pathname: normalizedPath,
+                querystring: location.search.replace(/^\?/, ''),
+                state: location.state,
+                // Custom context variables
+                isBack: action === Action.Pop
+            });
+        } else {
+            console.warn('[appRouter] "%s" route not found', normalizedPath, location);
+        }
+    }
+
+    start() {
         loading.show();
         this.initApiClients();
 
-        Events.on(appHost, 'beforeexit', this.onBeforeExit);
         Events.on(appHost, 'resume', this.onAppResume);
 
         ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.firstConnectionResult = result;
-            options = options || {};
-            page({
-                click: options.click !== false,
-                hashbang: options.hashbang !== false
+
+            // Handle the initial route
+            this.#goToRoute({ location: history.location });
+
+            // Handle route changes
+            history.listen(params => {
+                this.#goToRoute(params);
             });
         }).catch().then(() => {
             loading.hide();
@@ -260,19 +250,6 @@ class AppRouter {
         // TODO: Remove this after JMP is updated to not use this function
         console.warn('Deprecated! Use Dashboard.setBackdropTransparency');
         setBackdropTransparency(level);
-    }
-
-    getRoutes() {
-        return this.allRoutes;
-    }
-
-    pushState(state, title, url) {
-        state.navigate = false;
-        window.history.pushState(state, title, url);
-    }
-
-    enableNativeHistory() {
-        return false;
     }
 
     handleConnectionResult(result) {
@@ -452,12 +429,6 @@ class AppRouter {
         }
     }
 
-    onBeforeExit() {
-        if (browser.web0s) {
-            page.restorePreviousState();
-        }
-    }
-
     normalizeImageOptions(options) {
         let setQuality;
         if (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight) {
@@ -544,12 +515,12 @@ class AppRouter {
         const apiClient = ServerConnections.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
-        console.debug('processing path request: ' + pathname);
+        console.debug('[appRouter] processing path request: ' + pathname);
         const isCurrentRouteStartup = this.currentRouteInfo ? this.currentRouteInfo.route.startup : true;
         const shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
-            console.debug('route does not allow anonymous access: redirecting to login');
+            console.debug('[appRouter] route does not allow anonymous access: redirecting to login');
             this.beginConnectionWizard();
             return;
         }
@@ -563,10 +534,10 @@ class AppRouter {
         }
 
         if (apiClient && apiClient.isLoggedIn()) {
-            console.debug('user is authenticated');
+            console.debug('[appRouter] user is authenticated');
 
             if (route.isDefaultRoute) {
-                console.debug('loading home page');
+                console.debug('[appRouter] loading home page');
                 this.goHome();
                 return;
             } else if (route.roles) {
@@ -577,7 +548,7 @@ class AppRouter {
             }
         }
 
-        console.debug('proceeding to page: ' + pathname);
+        console.debug('[appRouter] proceeding to page: ' + pathname);
         callback();
     }
 
@@ -632,11 +603,8 @@ class AppRouter {
         return path;
     }
 
-    getHandler(route) {
+    #getHandler(route) {
         return (ctx, next) => {
-            ctx.isBack = this.popstateOccurred;
-            this.popstateOccurred = false;
-
             const ignore = route.dummyRoute === true || this.previousRoute.dummyRoute === true;
             this.previousRoute = route;
             if (ignore) {

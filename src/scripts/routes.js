@@ -566,13 +566,7 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        path: '',
-        isDefaultRoute: true,
-        autoFocus: false
-    });
-
-    defineRoute({
-        path: 'index.html',
+        path: '/',
         autoFocus: false,
         isDefaultRoute: true
     });
