@@ -2,7 +2,6 @@ import { Events } from 'jellyfin-apiclient';
 import { Action, createHashHistory } from 'history';
 
 import { appHost } from './apphost';
-import appSettings from '../scripts/settings/appSettings';
 import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
 import globalize from '../scripts/globalize';
 import itemHelper from './itemHelper';
@@ -13,33 +12,6 @@ import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
 
 const history = createHashHistory();
-
-const normalizeImageOptions = options => {
-    let setQuality;
-    if (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight) {
-        setQuality = true;
-    }
-
-    if (setQuality && !options.quality) {
-        options.quality = 90;
-    }
-};
-
-const getMaxBandwidth = () => {
-    /* eslint-disable compat/compat */
-    if (navigator.connection) {
-        let max = navigator.connection.downlinkMax;
-        if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
-            max /= 8;
-            max *= 1000000;
-            max *= 0.7;
-            return parseInt(max, 10);
-        }
-    }
-    /* eslint-enable compat/compat */
-
-    return null;
-};
 
 /**
  * Page types of "no return" (when "Go back" should behave differently, probably quitting the application).
@@ -80,9 +52,7 @@ class AppRouter {
     #beginConnectionWizard() {
         clearBackdrop();
         loading.show();
-        ServerConnections.connect({
-            enableAutoLogin: appSettings.enableAutoLogin()
-        }).then((result) => {
+        ServerConnections.connect().then(result => {
             this.#handleConnectionResult(result);
         });
     }
@@ -169,13 +139,18 @@ class AppRouter {
 
     start() {
         loading.show();
-        this.#initApiClients();
 
-        Events.on(appHost, 'resume', this.#onAppResume);
+        ServerConnections.getApiClients().forEach(apiClient => {
+            Events.off(apiClient, 'requestfail', this.onRequestFail);
+            Events.on(apiClient, 'requestfail', this.onRequestFail);
+        });
 
-        ServerConnections.connect({
-            enableAutoLogin: appSettings.enableAutoLogin()
-        }).then((result) => {
+        Events.on(ServerConnections, 'apiclientcreated', (_e, apiClient) => {
+            Events.off(apiClient, 'requestfail', this.onRequestFail);
+            Events.on(apiClient, 'requestfail', this.onRequestFail);
+        });
+
+        ServerConnections.connect().then(result => {
             this.firstConnectionResult = result;
 
             // Handle the initial route
@@ -239,9 +214,7 @@ class AppRouter {
             }
 
             const url = this.getRouteUrl(item, options);
-            this.show(url, {
-                item: item
-            });
+            this.show(url, { item });
         }
     }
 
@@ -417,7 +390,7 @@ class AppRouter {
         this.msgTimeout = setTimeout(this.onForcedLogoutMessageTimeout, 100);
     }
 
-    onRequestFail(e, data) {
+    onRequestFail(_e, data) {
         const apiClient = this;
 
         if (data.status === 403) {
@@ -430,34 +403,6 @@ class AppRouter {
                     appRouter.showLocalLogin(apiClient.serverId());
                 }
             }
-        }
-    }
-
-    onApiClientCreated(e, newApiClient) {
-        newApiClient.normalizeImageOptions = normalizeImageOptions;
-        newApiClient.getMaxBandwidth = getMaxBandwidth;
-
-        Events.off(newApiClient, 'requestfail', this.onRequestFail);
-        Events.on(newApiClient, 'requestfail', this.onRequestFail);
-    }
-
-    #initApiClient(apiClient, instance) {
-        instance.onApiClientCreated({}, apiClient);
-    }
-
-    #initApiClients() {
-        ServerConnections.getApiClients().forEach((apiClient) => {
-            this.#initApiClient(apiClient, this);
-        });
-
-        Events.on(ServerConnections, 'apiclientcreated', this.onApiClientCreated);
-    }
-
-    #onAppResume() {
-        const apiClient = ServerConnections.currentApiClient();
-
-        if (apiClient) {
-            apiClient.ensureWebSocket();
         }
     }
 
