@@ -103,19 +103,6 @@ class AppRouter {
         return this.promiseShow;
     }
 
-    // TODO: Unused?
-    async showDirect(path) {
-        if (this.promiseShow) await this.promiseShow;
-
-        this.promiseShow = new Promise((resolve) => {
-            this.resolveOnNextShow = resolve;
-            // Schedule a call to return the promise
-            setTimeout(() => history.push(this.baseUrl() + path), 0);
-        });
-
-        return this.promiseShow;
-    }
-
     #goToRoute({ location, action }) {
         // Strip the leading "!" if present
         const normalizedPath = location.pathname.replace(/^!/, '');
@@ -180,25 +167,6 @@ class AppRouter {
         }
 
         return window.history.length > 1;
-    }
-
-    // TODO: Unused?
-    invokeShortcut(id) {
-        if (id.indexOf('library-') === 0) {
-            id = id.replace('library-', '');
-            id = id.split('_');
-
-            this.showItem(id[0], id[1]);
-        } else if (id.indexOf('item-') === 0) {
-            id = id.replace('item-', '');
-            id = id.split('_');
-            this.showItem(id[0], id[1]);
-        } else {
-            id = id.split('_');
-            this.show(this.getRouteUrl(id[0], {
-                serverId: id[1]
-            }));
-        }
     }
 
     showItem(item, serverId, options) {
