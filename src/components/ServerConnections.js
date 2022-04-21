@@ -70,7 +70,7 @@ class ServerConnections extends ConnectionManager {
     connect(options) {
         return super.connect({
             enableAutoLogin: appSettings.enableAutoLogin(),
-            options
+            ...options
         });
     }
 
