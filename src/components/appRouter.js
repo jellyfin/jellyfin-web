@@ -24,7 +24,6 @@ class AppRouter {
     currentViewLoadRequest;
     firstConnectionResult;
     forcedLogoutMsg;
-    isDummyBackToHome;
     msgTimeout;
     promiseShow;
     resolveOnNextShow;
@@ -227,7 +226,7 @@ class AppRouter {
         }
     }
 
-    #loadContentUrl(ctx, next, route, request) {
+    #loadContentUrl(ctx, _next, route, request) {
         let url;
         if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
@@ -281,12 +280,6 @@ class AppRouter {
     }
 
     #sendRouteToViewManager(ctx, next, route, controllerFactory) {
-        // TODO: isDummyBackToHome is never true?
-        if (this.isDummyBackToHome && route.type === 'home') {
-            this.isDummyBackToHome = false;
-            return;
-        }
-
         this.#cancelCurrentLoadRequest();
         const isBackNav = ctx.isBack;
 
