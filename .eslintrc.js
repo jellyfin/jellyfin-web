@@ -60,7 +60,8 @@ module.exports = {
         'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        'yoda': 'error'
+        'yoda': 'error',
+        'no-redeclare': ['error', { 'builtinGlobals': true }]
     },
     settings: {
         react: {
