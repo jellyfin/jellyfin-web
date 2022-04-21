@@ -70,7 +70,7 @@ export default class TableOfContents {
             tocHtml += '<li>';
 
             // remove parent directory reference from href to fix certain books
-            const link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
+            const link = chapter.href.startsWith('../') ? chapter.href.slice(3) : chapter.href;
             tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
             tocHtml += '</li>';
         });

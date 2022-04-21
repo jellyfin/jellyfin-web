@@ -657,12 +657,12 @@ import { appRouter } from '../appRouter';
 
             if (str) {
                 const charIndex = Math.floor(str.length / 2);
-                const character = String(str.substr(charIndex, 1).charCodeAt());
+                const character = String(str.slice(charIndex, charIndex + 1).charCodeAt());
                 let sum = 0;
                 for (let i = 0; i < character.length; i++) {
                     sum += parseInt(character.charAt(i));
                 }
-                const index = String(sum).substr(-1);
+                const index = String(sum).slice(-1);
 
                 return (index % numRandomColors) + 1;
             } else {
