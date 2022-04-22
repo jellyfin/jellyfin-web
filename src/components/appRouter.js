@@ -426,7 +426,7 @@ class AppRouter {
             } else if (route.roles) {
                 this.#validateRoles(apiClient, route.roles).then(() => {
                     callback();
-                }, this.#beginConnectionWizard);
+                }, this.#beginConnectionWizard.bind(this));
                 return;
             }
         }
