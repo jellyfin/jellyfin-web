@@ -502,6 +502,7 @@
     "Hide": "Hide",
     "HideWatchedContentFromLatestMedia": "Hide watched content from 'Latest Media'",
     "Home": "Home",
+    "HomeVideosPhotos": "Home Videos and Photos",
     "Horizontal": "Horizontal",
     "HttpsRequiresCert": "To enable secure connections, you will need to supply a trusted SSL certificate, such as Let's Encrypt. Please either supply a certificate, or disable secure connections.",
     "Identify": "Identify",

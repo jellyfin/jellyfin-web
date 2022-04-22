@@ -237,7 +237,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             value: 'books',
             message: getLink('BookLibraryHelp', 'https://docs.jellyfin.org/general/server/media/books.html')
         }, {
-            name: globalize.translate('Photos'),
+            name: globalize.translate('HomeVideosPhotos'),
             value: 'homevideos'
         }, {
             name: globalize.translate('MusicVideos'),
