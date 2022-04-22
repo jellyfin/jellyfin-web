@@ -202,13 +202,7 @@ class AppRouter {
                 this.goHome();
                 break;
             case 'ServerSignIn':
-                result.ApiClient.getPublicUsers().then((users) => {
-                    if (users.length) {
-                        this.showLocalLogin(result.Servers[0].Id);
-                    } else {
-                        this.showLocalLogin(result.Servers[0].Id, true);
-                    }
-                });
+                this.showLocalLogin(result.ApiClient.serverId());
                 break;
             case 'ServerSelection':
                 this.showSelectServer();
