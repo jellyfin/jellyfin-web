@@ -1639,5 +1639,6 @@
     "ButtonSpace": "Spazio",
     "ButtonClose": "Chiudi",
     "Production": "Produzione",
-    "MessageUnauthorizedUser": "Non sei autorizzato ad accedere al server in questo momento. Contatta l'amministratore del server per ulteriori dettagli."
+    "MessageUnauthorizedUser": "Non sei autorizzato ad accedere al server in questo momento. Contatta l'amministratore del server per ulteriori dettagli.",
+    "EnableEnhancedNvdecDecoderHelp": "Implementazione sperimentale NVDEC, da abilitare solo se esistono errori di decodifica."
 }
