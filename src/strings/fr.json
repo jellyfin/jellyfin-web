@@ -1649,5 +1649,6 @@
     "OriginalAirDate": "Date de diffusion originale",
     "MessageUnauthorizedUser": "Vous n'êtes pas autorisé à accéder au serveur pour le moment. Veuillez contacter votre administrateur de serveur pour plus d'informations.",
     "Digital": "Numérique",
-    "EnableEnhancedNvdecDecoderHelp": "Implémentation expérimentale de NVDEC, à n'utiliser que si des erreurs apparaissent lors du décodage."
+    "EnableEnhancedNvdecDecoderHelp": "Implémentation expérimentale de NVDEC, à n'utiliser que si des erreurs apparaissent lors du décodage.",
+    "HomeVideosPhotos": "Vidéos et photos personnelles"
 }
