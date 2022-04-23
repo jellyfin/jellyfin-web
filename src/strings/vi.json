@@ -1640,5 +1640,6 @@
     "OriginalAirDate": "Ngày Phát Sóng Gốc",
     "Digital": "Kỹ thuật số",
     "MessageUnauthorizedUser": "Bạn không được phép truy cập máy chủ vào lúc này. Vui lòng liên hệ quản trị viên máy chủ để biết thêm thông tin.",
-    "EnableEnhancedNvdecDecoderHelp": "Triển khai NVDEC thử nghiệm, không bật tùy chọn này trừ khi bạn gặp lỗi giải mã."
+    "EnableEnhancedNvdecDecoderHelp": "Triển khai NVDEC thử nghiệm, không bật tùy chọn này trừ khi bạn gặp lỗi giải mã.",
+    "HomeVideosPhotos": "Videos và Ảnh Gia Đình"
 }
