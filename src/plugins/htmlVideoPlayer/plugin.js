@@ -1083,14 +1083,10 @@ function tryRemoveElement(elem) {
 
                 // new octopus options; override all, even defaults
                 renderMode: 'blend',
-                dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
                 targetFps: 24,
                 prescaleTradeoff: 0.8,
-                softHeightLimit: 1080,
-                hardHeightLimit: 2160,
-                resizeVariation: 0.2,
                 renderAhead: 90
             };
             import('libass-wasm').then(({default: SubtitlesOctopus}) => {
