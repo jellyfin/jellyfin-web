@@ -1082,12 +1082,10 @@ function tryRemoveElement(elem) {
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
-                renderMode: 'blend',
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
                 targetFps: 24,
-                prescaleTradeoff: 0.8,
-                renderAhead: 90
+                prescaleTradeoff: 0.8
             };
             import('libass-wasm').then(({default: SubtitlesOctopus}) => {
                 apiClient.getNamedConfiguration('encoding').then(config => {
