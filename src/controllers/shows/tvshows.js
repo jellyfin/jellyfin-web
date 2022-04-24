@@ -259,6 +259,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                         name: globalize.translate('OptionDateAdded'),
                         id: 'DateCreated,SortName'
                     }, {
+                        name: globalize.translate('OptionDateEpisodeAdded'),
+                        id: 'DateLastContentAdded,SortName'
+                    }, {
                         name: globalize.translate('OptionDatePlayed'),
                         id: 'SeriesDatePlayed,SortName'
                     }, {
