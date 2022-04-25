@@ -2,42 +2,38 @@ import { Events } from 'jellyfin-apiclient';
 import { Action, createHashHistory } from 'history';
 
 import { appHost } from './apphost';
-import appSettings from '../scripts/settings/appSettings';
 import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
 import globalize from '../scripts/globalize';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
 import viewManager from './viewManager/viewManager';
-import Dashboard from '../utils/dashboard';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
 
 const history = createHashHistory();
 
+/**
+ * Page types of "no return" (when "Go back" should behave differently, probably quitting the application).
+ */
+const START_PAGE_TYPES = ['home', 'login', 'selectserver'];
+
 class AppRouter {
     allRoutes = new Map();
-    backdropContainer;
-    backgroundContainer;
     currentRouteInfo;
     currentViewLoadRequest;
     firstConnectionResult;
     forcedLogoutMsg;
-    isDummyBackToHome;
     msgTimeout;
     promiseShow;
     resolveOnNextShow;
     previousRoute = {};
-    /**
-     * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
-     */
-    startPages = ['home', 'login', 'selectserver'];
 
     constructor() {
         document.addEventListener('viewshow', () => this.onViewShow());
 
         // TODO: Can this baseRoute logic be simplified?
-        this.baseRoute = window.location.href.split('?')[0].replace(this.getRequestFile(), '');
+        this.baseRoute = window.location.href.split('?')[0].replace(this.#getRequestFile(), '');
         // support hashbang
         this.baseRoute = this.baseRoute.split('#')[0];
         if (this.baseRoute.endsWith('/') && !this.baseRoute.endsWith('://')) {
@@ -52,33 +48,11 @@ class AppRouter {
         });
     }
 
-    showLocalLogin(serverId) {
-        Dashboard.navigate('login.html?serverid=' + serverId);
-    }
-
-    showVideoOsd() {
-        return Dashboard.navigate('video');
-    }
-
-    showSelectServer() {
-        Dashboard.navigate('selectserver.html');
-    }
-
-    showSettings() {
-        Dashboard.navigate('mypreferencesmenu.html');
-    }
-
-    showNowPlaying() {
-        this.show('queue');
-    }
-
-    beginConnectionWizard() {
+    #beginConnectionWizard() {
         clearBackdrop();
         loading.show();
-        ServerConnections.connect({
-            enableAutoLogin: appSettings.enableAutoLogin()
-        }).then((result) => {
-            this.handleConnectionResult(result);
+        ServerConnections.connect().then(result => {
+            this.#handleConnectionResult(result);
         });
     }
 
@@ -128,18 +102,6 @@ class AppRouter {
         return this.promiseShow;
     }
 
-    async showDirect(path) {
-        if (this.promiseShow) await this.promiseShow;
-
-        this.promiseShow = new Promise((resolve) => {
-            this.resolveOnNextShow = resolve;
-            // Schedule a call to return the promise
-            setTimeout(() => history.push(this.baseUrl() + path), 0);
-        });
-
-        return this.promiseShow;
-    }
-
     #goToRoute({ location, action }) {
         // Strip the leading "!" if present
         const normalizedPath = location.pathname.replace(/^!/, '');
@@ -163,13 +125,18 @@ class AppRouter {
 
     start() {
         loading.show();
-        this.initApiClients();
 
-        Events.on(appHost, 'resume', this.onAppResume);
+        ServerConnections.getApiClients().forEach(apiClient => {
+            Events.off(apiClient, 'requestfail', this.onRequestFail);
+            Events.on(apiClient, 'requestfail', this.onRequestFail);
+        });
 
-        ServerConnections.connect({
-            enableAutoLogin: appSettings.enableAutoLogin()
-        }).then((result) => {
+        Events.on(ServerConnections, 'apiclientcreated', (_e, apiClient) => {
+            Events.off(apiClient, 'requestfail', this.onRequestFail);
+            Events.on(apiClient, 'requestfail', this.onRequestFail);
+        });
+
+        ServerConnections.connect().then(result => {
             this.firstConnectionResult = result;
 
             // Handle the initial route
@@ -189,38 +156,16 @@ class AppRouter {
     }
 
     canGoBack() {
-        const curr = this.current();
+        const curr = this.currentRouteInfo?.route;
         if (!curr) {
             return false;
         }
 
-        if (!document.querySelector('.dialogContainer') && this.startPages.indexOf(curr.type) !== -1) {
+        if (!document.querySelector('.dialogContainer') && START_PAGE_TYPES.includes(curr.type)) {
             return false;
         }
 
         return window.history.length > 1;
-    }
-
-    current() {
-        return this.currentRouteInfo ? this.currentRouteInfo.route : null;
-    }
-
-    invokeShortcut(id) {
-        if (id.indexOf('library-') === 0) {
-            id = id.replace('library-', '');
-            id = id.split('_');
-
-            this.showItem(id[0], id[1]);
-        } else if (id.indexOf('item-') === 0) {
-            id = id.replace('item-', '');
-            id = id.split('_');
-            this.showItem(id[0], id[1]);
-        } else {
-            id = id.split('_');
-            this.show(this.getRouteUrl(id[0], {
-                serverId: id[1]
-            }));
-        }
     }
 
     showItem(item, serverId, options) {
@@ -236,9 +181,7 @@ class AppRouter {
             }
 
             const url = this.getRouteUrl(item, options);
-            this.show(url, {
-                item: item
-            });
+            this.show(url, { item });
         }
     }
 
@@ -252,20 +195,14 @@ class AppRouter {
         setBackdropTransparency(level);
     }
 
-    handleConnectionResult(result) {
+    #handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
                 this.goHome();
                 break;
             case 'ServerSignIn':
-                result.ApiClient.getPublicUsers().then((users) => {
-                    if (users.length) {
-                        this.showLocalLogin(result.Servers[0].Id);
-                    } else {
-                        this.showLocalLogin(result.Servers[0].Id, true);
-                    }
-                });
+                this.showLocalLogin(result.ApiClient.serverId());
                 break;
             case 'ServerSelection':
                 this.showSelectServer();
@@ -283,7 +220,7 @@ class AppRouter {
         }
     }
 
-    loadContentUrl(ctx, next, route, request) {
+    #loadContentUrl(ctx, _next, route, request) {
         let url;
         if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
@@ -305,19 +242,19 @@ class AppRouter {
         }
 
         promise.then((html) => {
-            this.loadContent(ctx, route, html, request);
+            this.#loadContent(ctx, route, html, request);
         });
     }
 
-    handleRoute(ctx, next, route) {
-        this.authenticate(ctx, route, () => {
-            this.initRoute(ctx, next, route);
+    #handleRoute(ctx, next, route) {
+        this.#authenticate(ctx, route, () => {
+            this.#initRoute(ctx, next, route);
         });
     }
 
-    initRoute(ctx, next, route) {
+    #initRoute(ctx, next, route) {
         const onInitComplete = (controllerFactory) => {
-            this.sendRouteToViewManager(ctx, next, route, controllerFactory);
+            this.#sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
 
         if (route.pageComponent) {
@@ -329,20 +266,15 @@ class AppRouter {
         }
     }
 
-    cancelCurrentLoadRequest() {
+    #cancelCurrentLoadRequest() {
         const currentRequest = this.currentViewLoadRequest;
         if (currentRequest) {
             currentRequest.cancel = true;
         }
     }
 
-    sendRouteToViewManager(ctx, next, route, controllerFactory) {
-        if (this.isDummyBackToHome && route.type === 'home') {
-            this.isDummyBackToHome = false;
-            return;
-        }
-
-        this.cancelCurrentLoadRequest();
+    #sendRouteToViewManager(ctx, next, route, controllerFactory) {
+        this.#cancelCurrentLoadRequest();
         const isBackNav = ctx.isBack;
 
         const currentRequest = {
@@ -364,7 +296,7 @@ class AppRouter {
 
         const onNewViewNeeded = () => {
             if (typeof route.path === 'string') {
-                this.loadContentUrl(ctx, next, route, currentRequest);
+                this.#loadContentUrl(ctx, next, route, currentRequest);
             } else {
                 next();
             }
@@ -413,7 +345,7 @@ class AppRouter {
         this.msgTimeout = setTimeout(this.onForcedLogoutMessageTimeout, 100);
     }
 
-    onRequestFail(e, data) {
+    onRequestFail(_e, data) {
         const apiClient = this;
 
         if (data.status === 403) {
@@ -429,62 +361,7 @@ class AppRouter {
         }
     }
 
-    normalizeImageOptions(options) {
-        let setQuality;
-        if (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight) {
-            setQuality = true;
-        }
-
-        if (setQuality && !options.quality) {
-            options.quality = 90;
-        }
-    }
-
-    getMaxBandwidth() {
-        /* eslint-disable compat/compat */
-        if (navigator.connection) {
-            let max = navigator.connection.downlinkMax;
-            if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
-                max /= 8;
-                max *= 1000000;
-                max *= 0.7;
-                return parseInt(max, 10);
-            }
-        }
-        /* eslint-enable compat/compat */
-
-        return null;
-    }
-
-    onApiClientCreated(e, newApiClient) {
-        newApiClient.normalizeImageOptions = this.normalizeImageOptions;
-        newApiClient.getMaxBandwidth = this.getMaxBandwidth;
-
-        Events.off(newApiClient, 'requestfail', this.onRequestFail);
-        Events.on(newApiClient, 'requestfail', this.onRequestFail);
-    }
-
-    initApiClient(apiClient, instance) {
-        instance.onApiClientCreated({}, apiClient);
-    }
-
-    initApiClients() {
-        ServerConnections.getApiClients().forEach((apiClient) => {
-            this.initApiClient(apiClient, this);
-        });
-
-        Events.on(ServerConnections, 'apiclientcreated', this.onApiClientCreated);
-    }
-
-    onAppResume() {
-        const apiClient = ServerConnections.currentApiClient();
-
-        if (apiClient) {
-            apiClient.ensureWebSocket();
-        }
-    }
-
-    authenticate(ctx, route, callback) {
+    #authenticate(ctx, route, callback) {
         const firstResult = this.firstConnectionResult;
 
         this.firstConnectionResult = null;
@@ -497,9 +374,9 @@ class AppRouter {
                 }).then(data => {
                     if (data !== null && data.StartupWizardCompleted === false) {
                         ServerConnections.setLocalApiClient(firstResult.ApiClient);
-                        Dashboard.navigate('wizardstart.html');
+                        this.show('wizardstart.html');
                     } else {
-                        this.handleConnectionResult(firstResult);
+                        this.#handleConnectionResult(firstResult);
                     }
                 }).catch(error => {
                     console.error(error);
@@ -507,7 +384,7 @@ class AppRouter {
 
                 return;
             } else if (firstResult.State !== 'SignedIn') {
-                this.handleConnectionResult(firstResult);
+                this.#handleConnectionResult(firstResult);
                 return;
             }
         }
@@ -521,7 +398,7 @@ class AppRouter {
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
             console.debug('[appRouter] route does not allow anonymous access: redirecting to login');
-            this.beginConnectionWizard();
+            this.#beginConnectionWizard();
             return;
         }
 
@@ -541,9 +418,9 @@ class AppRouter {
                 this.goHome();
                 return;
             } else if (route.roles) {
-                this.validateRoles(apiClient, route.roles).then(() => {
+                this.#validateRoles(apiClient, route.roles).then(() => {
                     callback();
-                }, this.beginConnectionWizard);
+                }, this.#beginConnectionWizard.bind(this));
                 return;
             }
         }
@@ -552,13 +429,13 @@ class AppRouter {
         callback();
     }
 
-    validateRoles(apiClient, roles) {
+    #validateRoles(apiClient, roles) {
         return Promise.all(roles.split(',').map((role) => {
-            return this.validateRole(apiClient, role);
+            return this.#validateRole(apiClient, role);
         }));
     }
 
-    validateRole(apiClient, role) {
+    #validateRole(apiClient, role) {
         if (role === 'admin') {
             return apiClient.getCurrentUser().then((user) => {
                 if (user.Policy.IsAdministrator) {
@@ -572,7 +449,7 @@ class AppRouter {
         return Promise.resolve();
     }
 
-    loadContent(ctx, route, html, request) {
+    #loadContent(ctx, route, html, request) {
         html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
@@ -586,7 +463,7 @@ class AppRouter {
         ctx.handled = true;
     }
 
-    getRequestFile() {
+    #getRequestFile() {
         let path = window.location.pathname || '';
 
         const index = path.lastIndexOf('/');
@@ -613,32 +490,8 @@ class AppRouter {
                 return;
             }
 
-            this.handleRoute(ctx, next, route);
+            this.#handleRoute(ctx, next, route);
         };
-    }
-
-    showGuide() {
-        Dashboard.navigate('livetv.html?tab=1');
-    }
-
-    goHome() {
-        Dashboard.navigate('home.html');
-    }
-
-    showSearch() {
-        Dashboard.navigate('search.html');
-    }
-
-    showLiveTV() {
-        Dashboard.navigate('livetv.html');
-    }
-
-    showRecordedTV() {
-        Dashboard.navigate('livetv.html?tab=3');
-    }
-
-    showFavorites() {
-        Dashboard.navigate('home.html?tab=1');
     }
 
     getRouteUrl(item, options) {
@@ -835,10 +688,53 @@ class AppRouter {
 
         return '#!/details?id=' + id + '&serverId=' + serverId;
     }
+
+    showLocalLogin(serverId) {
+        return this.show('login.html?serverid=' + serverId);
+    }
+
+    showVideoOsd() {
+        return this.show('video');
+    }
+
+    showSelectServer() {
+        return this.show('selectserver.html');
+    }
+
+    showSettings() {
+        return this.show('mypreferencesmenu.html');
+    }
+
+    showNowPlaying() {
+        return this.show('queue');
+    }
+
+    showGuide() {
+        return this.show('livetv.html?tab=1');
+    }
+
+    goHome() {
+        return this.show('home.html');
+    }
+
+    showSearch() {
+        return this.show('search.html');
+    }
+
+    showLiveTV() {
+        return this.show('livetv.html');
+    }
+
+    showRecordedTV() {
+        return this.show('livetv.html?tab=3');
+    }
+
+    showFavorites() {
+        return this.show('home.html?tab=1');
+    }
 }
 
 export const appRouter = new AppRouter();
 
 window.Emby = window.Emby || {};
-
 window.Emby.Page = appRouter;
