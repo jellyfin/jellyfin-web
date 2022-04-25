@@ -35,13 +35,13 @@ npm ci --no-audit --unsafe-perm
 
 
 %install
-%{__mkdir} -p %{buildroot}%{_datadir}/jellyfin-web
-%{__cp} -r dist/* %{buildroot}%{_datadir}/jellyfin-web
+%{__mkdir} -p %{buildroot}%{_libdir}/jellyfin/jellyfin-web
+%{__cp} -r dist/* %{buildroot}%{_libdir}/jellyfin/jellyfin-web
 
 
 %files
 %defattr(644,root,root,755)
-%{_datadir}/jellyfin-web
+%{_libdir}/jellyfin/jellyfin-web
 %license LICENSE
 
 
