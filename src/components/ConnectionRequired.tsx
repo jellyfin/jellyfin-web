@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import globalize from '../scripts/globalize';
 
 import alert from './alert';
 import { appRouter } from './appRouter';
 import loading from './loading/loading';
 import ServerConnections from './ServerConnections';
+import globalize from '../scripts/globalize';
 
-enum Routes {
+enum BounceRoutes {
     Home = '/home.html',
     Login = '/login.html',
     SelectServer = '/selectserver.html',
@@ -22,33 +22,38 @@ enum ConnectionState {
     ServerUpdateNeeded = 'ServerUpdateNeeded'
 }
 
-type ConnectedRouteProps = {
-    isAdminRoute?: boolean,
-    isUserRoute?: boolean,
-    roles?: string[]
+type ConnectionRequiredProps = {
+    isAdminRequired?: boolean,
+    isUserRequired?: boolean
 };
 
-const ConnectedRoute: FunctionComponent<ConnectedRouteProps> = ({
+/**
+ * A component that ensures a server connection has been established.
+ * Additional parameters exist to verify a user or admin have authenticated.
+ * If a condition fails, this component will navigate to the appropriate page.
+ */
+const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     children,
-    isAdminRoute = false,
-    isUserRoute = true
+    isAdminRequired = false,
+    isUserRequired = true
 }) => {
     const navigate = useNavigate();
 
     const [ isLoading, setIsLoading ] = useState(true);
 
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bounce = async (connectionResponse: any) => {
             switch (connectionResponse.State) {
                 case ConnectionState.SignedIn:
                     // Already logged in, bounce to the home page
-                    console.debug('[ConnectedRoute] already logged in, redirecting to home');
-                    navigate(Routes.Home);
+                    console.debug('[ConnectionRequired] already logged in, redirecting to home');
+                    navigate(BounceRoutes.Home);
                     return;
                 case ConnectionState.ServerSignIn:
                     // Bounce to the login page
-                    console.debug('[ConnectedRoute] not logged in, redirecting to login page');
-                    navigate(Routes.Login, {
+                    console.debug('[ConnectionRequired] not logged in, redirecting to login page');
+                    navigate(BounceRoutes.Login, {
                         state: {
                             serverid: connectionResponse.ApiClient.serverId()
                         }
@@ -56,8 +61,8 @@ const ConnectedRoute: FunctionComponent<ConnectedRouteProps> = ({
                     return;
                 case ConnectionState.ServerSelection:
                     // Bounce to select server page
-                    console.debug('[ConnectedRoute] redirecting to select server page');
-                    navigate(Routes.SelectServer);
+                    console.debug('[ConnectionRequired] redirecting to select server page');
+                    navigate(BounceRoutes.SelectServer);
                     return;
                 case ConnectionState.ServerUpdateNeeded:
                     // Show update needed message and bounce to select server page
@@ -67,14 +72,14 @@ const ConnectedRoute: FunctionComponent<ConnectedRouteProps> = ({
                             html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                         });
                     } catch (ex) {
-                        console.warn('[ConnectedRoute] failed to show alert', ex);
+                        console.warn('[ConnectionRequired] failed to show alert', ex);
                     }
-                    console.debug('[ConnectedRoute] server update required, redirecting to select server page');
-                    navigate(Routes.SelectServer);
+                    console.debug('[ConnectionRequired] server update required, redirecting to select server page');
+                    navigate(BounceRoutes.SelectServer);
                     return;
             }
 
-            console.warn('[ConnectedRoute] unhandled connection state', connectionResponse.State);
+            console.warn('[ConnectionRequired] unhandled connection state', connectionResponse.State);
         };
 
         const validateConnection = async () => {
@@ -93,12 +98,12 @@ const ConnectedRoute: FunctionComponent<ConnectedRouteProps> = ({
                         const systemInfo = await infoResponse.json();
                         if (!systemInfo.StartupWizardCompleted) {
                             // Bounce to the wizard
-                            console.info('[ConnectedRoute] startup wizard is not complete, redirecting there');
-                            navigate(Routes.StartWizard);
+                            console.info('[ConnectionRequired] startup wizard is not complete, redirecting there');
+                            navigate(BounceRoutes.StartWizard);
                             return;
                         }
                     } catch (ex) {
-                        console.error('[ConnectedRoute] checking wizard status failed', ex);
+                        console.error('[ConnectionRequired] checking wizard status failed', ex);
                     }
                 }
 
@@ -112,27 +117,27 @@ const ConnectedRoute: FunctionComponent<ConnectedRouteProps> = ({
             const client = ServerConnections.currentApiClient();
 
             // If this is a user route, ensure a user is logged in
-            if ((isAdminRoute || isUserRoute) && !client?.isLoggedIn()) {
+            if ((isAdminRequired || isUserRequired) && !client?.isLoggedIn()) {
                 try {
-                    console.warn('[ConnectedRoute] unauthenticated user attempted to access user route');
+                    console.warn('[ConnectionRequired] unauthenticated user attempted to access user route');
                     bounce(await ServerConnections.connect());
                 } catch (ex) {
-                    console.warn('[ConnectedRoute] error bouncing from user route', ex);
+                    console.warn('[ConnectionRequired] error bouncing from user route', ex);
                 }
                 return;
             }
 
             // If this is an admin route, ensure the user has access
-            if (isAdminRoute) {
+            if (isAdminRequired) {
                 try {
                     const user = await client.getCurrentUser();
                     if (!user.Policy.IsAdministrator) {
-                        console.warn('[ConnectedRoute] normal user attempted to access admin route');
+                        console.warn('[ConnectionRequired] normal user attempted to access admin route');
                         bounce(await ServerConnections.connect());
                         return;
                     }
                 } catch (ex) {
-                    console.warn('[ConnectedRoute] error bouncing from admin route', ex);
+                    console.warn('[ConnectionRequired] error bouncing from admin route', ex);
                     return;
                 }
             }
@@ -142,7 +147,7 @@ const ConnectedRoute: FunctionComponent<ConnectedRouteProps> = ({
 
         loading.show();
         validateConnection();
-    }, [ isAdminRoute, isUserRoute, navigate ]);
+    }, [ isAdminRequired, isUserRequired, navigate ]);
 
     useEffect(() => {
         if (!isLoading) {
@@ -159,4 +164,4 @@ const ConnectedRoute: FunctionComponent<ConnectedRouteProps> = ({
     );
 };
 
-export default ConnectedRoute;
+export default ConnectionRequired;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import ConnectedRoute from '../components/ConnectedRoute';
+import ConnectionRequired from '../components/ConnectionRequired';
 import SearchPage from './search';
 
 const AppRoutes = () => (
@@ -10,9 +10,9 @@ const AppRoutes = () => (
             <Route
                 path='search.html'
                 element={
-                    <ConnectedRoute>
+                    <ConnectionRequired>
                         <SearchPage />
-                    </ConnectedRoute>
+                    </ConnectionRequired>
                 }
             />
             {/* Suppress warnings for unhandled routes */}
