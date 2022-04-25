@@ -27,7 +27,7 @@ class AppRouter {
     msgTimeout;
     promiseShow;
     resolveOnNextShow;
-    previousRoute;
+    previousRoute = {};
 
     constructor() {
         document.addEventListener('viewshow', () => this.onViewShow());
@@ -482,7 +482,7 @@ class AppRouter {
 
     #getHandler(route) {
         return (ctx, next) => {
-            const ignore = route.dummyRoute === true || this.previousRoute?.dummyRoute === true;
+            const ignore = route.dummyRoute === true || this.previousRoute.dummyRoute === true;
             this.previousRoute = route;
             if (ignore) {
                 // Resolve 'show' promise
