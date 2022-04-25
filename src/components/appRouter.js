@@ -123,6 +123,10 @@ class AppRouter {
             });
         } else {
             console.info('[appRouter] "%s" route not found', normalizedPath, location);
+            this.currentRouteInfo = {
+                route: {},
+                path: normalizedPath + location.search
+            };
         }
     }
 
