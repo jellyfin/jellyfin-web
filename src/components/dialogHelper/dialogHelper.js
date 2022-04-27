@@ -1,4 +1,4 @@
-import { appRouter } from '../appRouter';
+import { history } from '../appRouter';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
@@ -49,17 +49,19 @@ import '../../assets/css/scrollstyles.scss';
         self.originalUrl = window.location.href;
         const activeElement = document.activeElement;
         let removeScrollLockOnClose = false;
+        let unlisten;
 
-        function onHashChange() {
-            const isBack = self.originalUrl === window.location.href;
+        function onHashChange({ location }) {
+            const dialogs = location.state?.dialogs || [];
+            const shouldClose = !dialogs.includes(hash);
 
-            if (isBack || !isOpened(dlg)) {
-                window.removeEventListener('popstate', onHashChange);
+            if ((shouldClose || !isOpened(dlg)) && unlisten) {
+                unlisten();
             }
 
-            if (isBack) {
+            if (shouldClose) {
                 self.closedByBack = true;
-                closeDialog(dlg);
+                close(dlg);
             }
         }
 
@@ -68,7 +70,7 @@ import '../../assets/css/scrollstyles.scss';
                 self.closedByBack = true;
                 e.preventDefault();
                 e.stopPropagation();
-                closeDialog(dlg);
+                close(dlg);
             }
         }
 
@@ -77,7 +79,9 @@ import '../../assets/css/scrollstyles.scss';
                 inputManager.off(dlg, onBackCommand);
             }
 
-            window.removeEventListener('popstate', onHashChange);
+            if (unlisten) {
+                unlisten();
+            }
 
             removeBackdrop(dlg);
             dlg.classList.remove('opened');
@@ -86,10 +90,10 @@ import '../../assets/css/scrollstyles.scss';
                 document.body.classList.remove('noScroll');
             }
 
-            if (!self.closedByBack && isHistoryEnabled(dlg)) {
-                const state = window.history.state || {};
-                if (state.dialogId === hash) {
-                    appRouter.back();
+            if (isHistoryEnabled(dlg)) {
+                const state = history.location.state || {};
+                if (state.dialogs?.length > 0 && state.dialogs[0] === hash) {
+                    history.back();
                 }
             }
 
@@ -144,9 +148,19 @@ import '../../assets/css/scrollstyles.scss';
         animateDialogOpen(dlg);
 
         if (isHistoryEnabled(dlg)) {
-            appRouter.show(`/dialog?dlg=${hash}`, { dialogId: hash });
+            const state = history.location.state || {};
+            const dialogs = state.dialogs || [];
+            dialogs.push(hash);
 
-            window.addEventListener('popstate', onHashChange);
+            history.push(
+                `${history.location.pathname}${history.location.search}`,
+                {
+                    ...state,
+                    dialogs
+                }
+            );
+
+            unlisten = history.listen(onHashChange);
         } else {
             inputManager.on(dlg, onBackCommand);
         }
@@ -213,16 +227,6 @@ import '../../assets/css/scrollstyles.scss';
     }
 
     export function close(dlg) {
-        if (isOpened(dlg)) {
-            if (isHistoryEnabled(dlg)) {
-                appRouter.back();
-            } else {
-                closeDialog(dlg);
-            }
-        }
-    }
-
-    function closeDialog(dlg) {
         if (!dlg.classList.contains('hide')) {
             dlg.dispatchEvent(new CustomEvent('closing', {
                 bubbles: false,
