@@ -587,7 +587,12 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 
         function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
             if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
-                const showAtSecondsLeft = runtimeTicks >= 3e10 ? 40 : runtimeTicks >= 24e9 ? 35 : 30;
+                let showAtSecondsLeft = 30;
+                if (runtimeTicks >= 3e10) {
+                    showAtSecondsLeft = 40;
+                } else if (runtimeTicks >= 2.4e10) {
+                    showAtSecondsLeft = 35;
+                }
                 const showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
                 const timeRemainingTicks = runtimeTicks - currentTimeTicks;
 

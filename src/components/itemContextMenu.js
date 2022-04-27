@@ -520,7 +520,14 @@ import toast from './toast/toast';
     }
 
     function play(item, resume, queue, queueNext) {
-        const method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
+        let method = 'play';
+        if (queue) {
+            if (queueNext) {
+                method = 'queueNext';
+            } else {
+                method = 'queue';
+            }
+        }
 
         let startPosition = 0;
         if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {

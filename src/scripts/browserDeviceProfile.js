@@ -288,10 +288,16 @@ import browser from './browser';
             }
         }
 
-        return browser.ps4 ? 8000000 :
-            (browser.xboxOne ? 12000000 :
-                (browser.edgeUwp ? null :
-                    (browser.tizen && isTizenFhd ? 20000000 : null)));
+        let bitrate = null;
+        if (browser.ps4) {
+            bitrate = 8000000;
+        } else if (browser.xboxOne) {
+            bitrate = 12000000;
+        } else if (browser.tizen && isTizenFhd) {
+            bitrate = 20000000;
+        }
+
+        return bitrate;
     }
 
     function getSpeakerCount() {
@@ -381,9 +387,7 @@ import browser from './browser';
         }
 
         /* eslint-disable compat/compat */
-        let maxVideoWidth = browser.xboxOne ?
-            (window.screen ? window.screen.width : null) :
-            null;
+        let maxVideoWidth = (browser.xboxOne && window.screen) ? window.screen.width : null;
 
         /* eslint-enable compat/compat */
         if (options.maxVideoWidth) {
