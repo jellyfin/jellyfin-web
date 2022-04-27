@@ -5,7 +5,7 @@
             <div>${QuickConnectDescription}</div>
             <br />
             <div class="inputContainer">
-                <input is="emby-input" type="text" inputmode="numeric" pattern="[0-9\s]*" required id="txtQuickConnectCode" label="${LabelQuickConnectCode}" autocomplete="off" />
+                <input is="emby-input" type="text" inputmode="numeric" pattern="[0-9\s]*" minlength="6" required id="txtQuickConnectCode" label="${LabelQuickConnectCode}" autocomplete="off" />
             </div>
             <button id="btnQuickConnectAuthorize" is="emby-button" type="submit" class="raised button-submit block">
                 <span>${Authorize}</span>
