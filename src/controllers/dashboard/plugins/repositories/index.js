@@ -42,39 +42,64 @@ function saveList(page) {
 }
 
 function populateList(options) {
-    let html = '';
+    const paperList = document.createElement('div');
+    paperList.className = 'paperList';
 
-    html += '<div class="paperList">';
-    for (let i = 0; i < options.repositories.length; i++) {
-        html += getRepositoryHtml(options.repositories[i]);
-    }
+    options.repositories.forEach(repo => {
+        paperList.appendChild(getRepositoryElement(repo));
+    });
 
-    html += '</div>';
     if (!options.repositories.length) {
         options.noneElement.classList.remove('hide');
     } else {
         options.noneElement.classList.add('hide');
     }
 
-    options.listElement.innerHTML = html;
+    options.listElement.innerHTML = '';
+    options.listElement.appendChild(paperList);
     loading.hide();
 }
 
-function getRepositoryHtml(repository) {
-    let html = '';
+function getRepositoryElement(repository) {
+    const listItem = document.createElement('div');
+    listItem.className = 'listItem listItem-border';
 
-    html += '<div class="listItem listItem-border">';
-    html += `<a is="emby-linkbutton" style="margin:0;padding:0" class="clearLink listItemIconContainer" href="${repository.Url}" rel="noopener noreferrer" target="_blank">`;
-    html += '<span class="material-icons listItemIcon open_in_new" aria-hidden="true"></span>';
-    html += '</a>';
-    html += '<div class="listItemBody two-line">';
-    html += `<h3 class="listItemBodyText">${repository.Name}</h3>`;
-    html += `<div class="listItemBodyText secondary">${repository.Url}</div>`;
-    html += '</div>';
-    html += `<button type="button" is="paper-icon-button-light" id="${repository.Url}" class="btnDelete" title="${globalize.translate('Delete')}"><span class="material-icons delete" aria-hidden="true"></span></button>`;
-    html += '</div>';
+    const repoLink = document.createElement('a');
+    repoLink.setAttribute('is', 'emby-linkbutton');
+    repoLink.className = 'clearLink listItemIconContainer';
+    repoLink.style.margin = '0';
+    repoLink.style.padding = '0';
+    repoLink.rel = 'noopener noreferrer';
+    repoLink.target = '_blank';
+    repoLink.href = repository.Url;
+    repoLink.innerHTML = '<span class="material-icons listItemIcon open_in_new" aria-hidden="true"></span>';
+    listItem.appendChild(repoLink);
 
-    return html;
+    const body = document.createElement('div');
+    body.className = 'listItemBody two-line';
+
+    const name = document.createElement('h3');
+    name.className = 'listItemBodyText';
+    name.innerText = repository.Name;
+    body.appendChild(name);
+
+    const url = document.createElement('div');
+    url.className = 'listItemBodyText secondary';
+    url.innerText = repository.Url;
+    body.appendChild(url);
+
+    listItem.appendChild(body);
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.setAttribute('is', 'paper-icon-button-light');
+    button.className = 'btnDelete';
+    button.id = repository.Url;
+    button.title = globalize.translate('Delete');
+    button.innerHTML = '<span class="material-icons delete" aria-hidden="true"></span>';
+    listItem.appendChild(button);
+
+    return listItem;
 }
 
 function getTabs() {
