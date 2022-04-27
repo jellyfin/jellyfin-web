@@ -265,10 +265,50 @@ function tryRemoveElement(elem) {
         #resizeObserver;
 
         constructor() {
+            this.onWindowResize = this.onWindowResize.bind(this);
             if (browser.edgeUwp) {
                 this.name = 'Windows Video Player';
             } else {
                 this.name = 'Html Video Player';
+            }
+        }
+
+        bindEvents() {
+            window.addEventListener('resize', this.onWindowResize);
+        }
+
+        unbindEvents() {
+            window.removeEventListener('resize', this.onWindowResize);
+        }
+
+        onWindowResize() {
+            if (!this.#mediaElement
+                || !this.#mediaElement.videoWidth
+                || !this.#mediaElement.videoHeight) return;
+            const subtitleCanvas = this.#currentSubtitlesOctopus
+                ? document.querySelector('.libassjs-canvas')
+                : undefined;
+            switch (this._currentAspectRatio) {
+                case 'fill': {
+                    this.#mediaElement.setAttribute('style', 'object-fit: fill');
+                    if (subtitleCanvas) subtitleCanvas.style.removeProperty('margin-left');
+                    break;
+                }
+                case 'cover': {
+                    const coverWidth = Math.round(window.innerHeight / this.#mediaElement.videoHeight * this.#mediaElement.videoWidth);
+                    const centerLeft = Math.round((coverWidth - window.innerWidth) / 2);
+                    this.#mediaElement.setAttribute('style', `margin-left: -${centerLeft}px !important; width: ${coverWidth}px`);
+                    if (subtitleCanvas) subtitleCanvas.style.marginLeft = `-${centerLeft}px`;
+                    break;
+                }
+                default: {
+                    this.#mediaElement.removeAttribute('style');
+                    if (subtitleCanvas) subtitleCanvas.style.removeProperty('margin-left');
+                    break;
+                }
+            }
+            if (this.#currentSubtitlesOctopus) {
+                this.#currentSubtitlesOctopus.resetRenderAheadCache(false);
             }
         }
 
@@ -698,6 +738,7 @@ function tryRemoveElement(elem) {
             const videoElement = this.#mediaElement;
 
             if (videoElement) {
+                this.unbindEvents();
                 this.#mediaElement = null;
 
                 this.destroyCustomTrack(videoElement);
@@ -1375,6 +1416,7 @@ function tryRemoveElement(elem) {
                         document.body.insertBefore(dlg, document.body.firstChild);
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
+                        this.bindEvents();
 
                         delete this.forcedFullscreen;
 
@@ -1772,15 +1814,8 @@ function tryRemoveElement(elem) {
     }
 
     setAspectRatio(val) {
-        const mediaElement = this.#mediaElement;
-        if (mediaElement) {
-            if (val === 'auto') {
-                mediaElement.style.removeProperty('object-fit');
-            } else {
-                mediaElement.style['object-fit'] = val;
-            }
-        }
         this._currentAspectRatio = val;
+        this.onWindowResize();
     }
 
     getAspectRatio() {
