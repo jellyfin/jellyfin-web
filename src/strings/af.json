@@ -803,5 +803,14 @@
     "Console": "Konsole",
     "Conductor": "Kondukteur",
     "Casual": "Informeel",
-    "Arranger": "Organiseerder"
+    "Arranger": "Organiseerder",
+    "Digital": "Digitaal",
+    "CopyFailed": "Kon nie kopieer nie",
+    "Copy": "Kopieer",
+    "Copied": "Gekopieer",
+    "ButtonSpace": "Spasie",
+    "ButtonExitApp": "Verlaat Program",
+    "ButtonClose": "Maak toe",
+    "ButtonBackspace": "Terug",
+    "AddToFavorites": "Voeg by gunstelinge"
 }
