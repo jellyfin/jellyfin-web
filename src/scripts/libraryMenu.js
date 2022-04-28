@@ -1,4 +1,6 @@
 import escapeHtml from 'escape-html';
+import Headroom from 'headroom.js';
+
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
@@ -12,7 +14,11 @@ import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
 import { getMenuLinks } from '../scripts/settings/webSettings';
+import Dashboard, { pageClassOn } from './clientUtils';
+import ServerConnections from '../components/ServerConnections';
+
 import '../elements/emby-button/paper-icon-button-light';
+
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
 import '../assets/css/flexstyles.scss';
@@ -669,9 +675,8 @@ import { getParameterByName } from '../utils/url.ts';
         if (customMenuOptions) {
             getMenuLinks().then(links => {
                 links.forEach(link => {
-                    const option = document.createElement('a');
-                    option.setAttribute('is', 'emby-linkbutton');
-                    option.className = 'navMenuOption lnkMediaFolder';
+                    const option = document.createElement('a', 'emby-linkbutton');
+                    option.classList.add('navMenuOption', 'lnkMediaFolder');
                     option.rel = 'noopener noreferrer';
                     option.target = '_blank';
                     option.href = link.url;
