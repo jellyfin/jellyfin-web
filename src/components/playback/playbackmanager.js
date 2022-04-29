@@ -3663,7 +3663,7 @@ class PlaybackManager {
         if (player.audioTracks) {
             const result = player.audioTracks();
             if (result) {
-                return result;
+                return result.sort(itemHelper.sortTracks);
             }
         }
 
@@ -3672,14 +3672,14 @@ class PlaybackManager {
         const mediaStreams = (mediaSource || {}).MediaStreams || [];
         return mediaStreams.filter(function (s) {
             return s.Type === 'Audio';
-        });
+        }).sort(itemHelper.sortTracks);
     }
 
     subtitleTracks(player = this._currentPlayer) {
         if (player.subtitleTracks) {
             const result = player.subtitleTracks();
             if (result) {
-                return result;
+                return result.sort(itemHelper.sortTracks);
             }
         }
 
@@ -3688,7 +3688,7 @@ class PlaybackManager {
         const mediaStreams = (mediaSource || {}).MediaStreams || [];
         return mediaStreams.filter(function (s) {
             return s.Type === 'Subtitle';
-        });
+        }).sort(itemHelper.sortTracks);
     }
 
     getSupportedCommands(player) {
