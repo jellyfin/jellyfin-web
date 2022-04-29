@@ -331,6 +331,17 @@ export function supportsMediaSourceSelection (item) {
     return true;
 }
 
+export function sortTracks (trackA, trackB) {
+    let cmp = trackA.IsExternal - trackB.IsExternal;
+    if (cmp != 0) return cmp;
+    cmp = trackB.IsForced - trackA.IsForced;
+    if (cmp != 0) return cmp;
+    cmp = trackB.IsDefault - trackA.IsDefault;
+    if (cmp != 0) return cmp;
+
+    return trackA.Index - trackB.Index;
+}
+
 export default {
     getDisplayName: getDisplayName,
     supportsAddingToCollection: supportsAddingToCollection,
@@ -346,5 +357,6 @@ export default {
     canRate: canRate,
     canConvert: canConvert,
     canRefreshMetadata: canRefreshMetadata,
-    supportsMediaSourceSelection: supportsMediaSourceSelection
+    supportsMediaSourceSelection: supportsMediaSourceSelection,
+    sortTracks: sortTracks
 };
