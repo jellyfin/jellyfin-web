@@ -1790,7 +1790,7 @@ function renderAdditionalParts(page, item, user) {
 function renderScenes(page, item) {
     let chapters = item.Chapters || [];
 
-    if (chapters.length && !chapters[0].ImageTag && (chapters = []), chapters.length) {
+    if ((chapters.length && !chapters[0].ImageTag && (chapters = []), chapters.length)) {
         page.querySelector('#scenesCollapsible').classList.remove('hide');
         const scenesContent = page.querySelector('#scenesContent');
 

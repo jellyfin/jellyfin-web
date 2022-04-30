@@ -75,7 +75,7 @@ function replaceAll(originalString, strReplace, strWith) {
 function generateDeviceId() {
     const keys = [];
 
-    if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), window.btoa) {
+    if ((keys.push(navigator.userAgent), keys.push(new Date().getTime()), window.btoa)) {
         const result = replaceAll(btoa(keys.join('|')), '=', '1');
         return result;
     }

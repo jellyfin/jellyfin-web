@@ -646,7 +646,7 @@ export default function () {
     }
 
     function bindToPlayer(context, player) {
-        if (releaseCurrentPlayer(), currentPlayer = player, player) {
+        if ((releaseCurrentPlayer(), currentPlayer = player, player)) {
             const state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
                 type: 'init'
