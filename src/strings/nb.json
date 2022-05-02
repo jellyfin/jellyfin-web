@@ -1519,7 +1519,7 @@
     "Arranger": "Arrangør",
     "DeletedScene": "Slettet scene",
     "Trailer": "Trailer",
-    "PreferSystemNativeHwDecoder": "Foretrekk operativsystemets egne DXVA eller VA-API maskinvare-dekodere.",
+    "PreferSystemNativeHwDecoder": "Foretrekk operativsystemets egne DXVA eller VA-API maskinvare-dekodere",
     "VideoProfileNotSupported": "Videoformatets profil støttes ikke",
     "VideoLevelNotSupported": "Videoformatets nivå støttes ikke",
     "VideoFramerateNotSupported": "Videoens bildefrekvens støttes ikke",
