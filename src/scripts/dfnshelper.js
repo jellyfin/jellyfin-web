@@ -1,4 +1,4 @@
-import { af, arDZ, be, bg, bn, ca, cs, da, de, el, enGB, enUS, eo, es, faIR, fi, fr, frCA, he, hi, hr, hu, gl, id, is, it, ja, kk, ko, lt, ms, nb,
+import { af, arDZ, be, bg, bn, ca, cs, cy, da, de, el, enGB, enUS, eo, es, faIR, fi, fr, frCA, he, hi, hr, hu, gl, id, is, it, ja, kk, ko, lt, ms, nb,
     nl, pl, ptBR, pt, ro, ru, sk, sl, sv, ta, th, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
 import globalize from './globalize';
 
@@ -10,6 +10,7 @@ const dateLocales = (locale) => ({
     'bn': bn,
     'ca': ca,
     'cs': cs,
+    'cy': cy,
     'da': da,
     'de': de,
     'el': el,
