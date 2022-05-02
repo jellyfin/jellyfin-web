@@ -527,5 +527,6 @@
     "Copy": "Copi",
     "Copied": "Wedi'i gopïo",
     "ConfirmEndPlayerSession": "Hoffech chi ddiffodd Jellyfin ar {0}?",
-    "ConfirmDeleteItem": "Bydd dileu'r eitem hon yn ei dileu o'r system ffeiliau a'ch llyfrgell gyfryngau. Ydych chi'n siŵr eich bod eisiau parhau?"
+    "ConfirmDeleteItem": "Bydd dileu'r eitem hon yn ei dileu o'r system ffeiliau a'ch llyfrgell gyfryngau. Ydych chi'n siŵr eich bod eisiau parhau?",
+    "LabelDisplayLanguage": "Iaith arddangos:"
 }
