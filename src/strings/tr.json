@@ -1467,5 +1467,20 @@
     "MediaInfoSampleRate": "Aynı oran",
     "MediaInfoInterlaced": "Geçmeli",
     "MediaInfoContainer": "Konteyner",
-    "HomeVideosPhotos": "Ev Videolar ve Fotoğraflar"
+    "HomeVideosPhotos": "Ev Videolar ve Fotoğraflar",
+    "MessageNoPluginConfiguration": "Bu eklentinin kurulacak ayarı yok.",
+    "MessageNoGenresAvailable": "Bazı meta veri sağlayıcılarının türleri internetten çekmesini sağlayın.",
+    "MessageLeaveEmptyToInherit": "Ayarları bir üst öğeden veya genel varsayılan değerden devralmak için boş bırakın.",
+    "MessageInvalidForgotPasswordPin": "Geçersiz veya süresi dolmuş bir PIN kodu girildi. Lütfen tekrar deneyin.",
+    "MessageImageTypeNotSelected": "Lütfen açılır menüden bir resim türü seçin.",
+    "MessageForgotPasswordInNetworkRequired": "Parola sıfırlama işlemini başlatmak için lütfen ev ağınızda tekrar deneyin.",
+    "MessageForgotPasswordFileCreated": "Aşağıdaki dosya sunucunuzda oluşturuldu ve nasıl devam edileceğine ilişkin talimatları içeriyor:",
+    "MessageFileReadError": "Dosya okunurken bir hata oluştu. Lütfen tekrar deneyin.",
+    "MessageDownloadQueued": "İndirme sıraya alındı.",
+    "MessageDirectoryPickerLinuxInstruction": "Linux için Arch Linux, CentOS, Debian, Fedora, openSUSE veya Ubuntu üzerinde, hizmet kullanıcısına en azından depolama konumlarınıza okuma erişimi vermelisiniz.",
+    "MessageDirectoryPickerBSDInstruction": "BSD için, Jellyfin'in medyanıza erişebilmesi için 'FreeNAS Jail' depolama kurmanız gerekebilir.",
+    "MessageDeleteTaskTrigger": "Bu görev tetikleyicisini silmek istediğinizden emin misiniz?",
+    "MessageCreateAccountAt": "{0} adresinde bir hesap oluşturun",
+    "MessageConfirmRevokeApiKey": "Bu API anahtarını iptal etmek istediğinizden emin misiniz? Uygulamanın bu sunucuyla bağlantısı aniden sonlandırılacak.",
+    "MessageConfirmRemoveMediaLocation": "Bu konumu kaldırmak istediğinizden emin misiniz?"
 }
