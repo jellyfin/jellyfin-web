@@ -1639,5 +1639,6 @@
     "ButtonExitApp": "Salir de la aplicación",
     "ButtonClose": "Cerrar",
     "ButtonBackspace": "Retroceso",
-    "AddToFavorites": "Añadir a favoritos"
+    "AddToFavorites": "Añadir a favoritos",
+    "EnableEnhancedNvdecDecoderHelp": "Implementación experimental de NVDEC, no habilite esta opción a menos que encuentre errores de decodificación."
 }
