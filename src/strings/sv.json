@@ -283,7 +283,7 @@
     "HeaderLoginFailure": "Misslyckad inloggning",
     "HeaderMediaFolders": "Mediamappar",
     "HeaderMetadataSettings": "Metadatainställningar",
-    "HeaderMoreLikeThis": "Mer som denna",
+    "HeaderMoreLikeThis": "Mer som detta",
     "HeaderMusicQuality": "Musikkvalitet",
     "HeaderMyDevice": "Min enhet",
     "HeaderMyMedia": "Min media",
@@ -1647,5 +1647,7 @@
     "AllowEmbeddedSubtitlesHelp": "Avaktivera inbäddade undertexter. Kräver fullständig uppdatering av biblioteket.",
     "EnableRewatchingNextUpHelp": "Visa redan sedda avsnitt i \"Nästa på tur\".",
     "EnableRewatchingNextUp": "Aktivera 'se om' i \"Nästa på tur\"",
-    "ThemeVideo": "Temavideo"
+    "ThemeVideo": "Temavideo",
+    "EnableEnhancedNvdecDecoderHelp": "Experimentellt NVDEC genomförande. Aktivera ej detta om du upplever avkodningsfel.",
+    "HomeVideosPhotos": "Hemvideor och bilder"
 }
