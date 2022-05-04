@@ -1507,13 +1507,13 @@ function renderChildren(page, item) {
 }
 
 function renderItemsByName(page, item) {
-    import('../../scripts/itembynamedetailpage').then(() => {
-        window.ItemsByName.renderItems(page, item);
+    import('../../scripts/itembynamedetailpage').then(({ default: ItemsByName }) => {
+        ItemsByName.renderItems(page, item);
     });
 }
 
 function renderPlaylistItems(page, item) {
-    import('../../scripts/playlistedit').then(() => {
+    import('../../scripts/playlistViewer').then(({ default: PlaylistViewer }) => {
         PlaylistViewer.render(page, item);
     });
 }

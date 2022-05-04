@@ -373,6 +373,8 @@ function getItemsFunction(options, item) {
     };
 }
 
-window.ItemsByName = {
+const ItemsByName = {
     renderItems: renderItems
 };
+
+export default ItemsByName;
