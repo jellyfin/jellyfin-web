@@ -1507,7 +1507,7 @@ function renderChildren(page, item) {
 }
 
 function renderItemsByName(page, item) {
-    import('../../scripts/itembynamedetailpage').then(({ default: ItemsByName }) => {
+    import('../../scripts/itemsByName').then(({ default: ItemsByName }) => {
         ItemsByName.renderItems(page, item);
     });
 }
