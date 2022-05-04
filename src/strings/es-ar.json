@@ -1640,5 +1640,6 @@
     "ButtonClose": "Cerrar",
     "ButtonBackspace": "Retroceso",
     "AddToFavorites": "Añadir a favoritos",
-    "EnableEnhancedNvdecDecoderHelp": "Implementación experimental de NVDEC, no habilite esta opción a menos que encuentre errores de decodificación."
+    "EnableEnhancedNvdecDecoderHelp": "Implementación experimental de NVDEC, no habilite esta opción a menos que encuentre errores de decodificación.",
+    "HomeVideosPhotos": "Videos y fotos caseros"
 }
