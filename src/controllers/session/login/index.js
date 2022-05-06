@@ -289,6 +289,7 @@ import './login.scss';
                 disclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
 
                 for (const elem of disclaimer.querySelectorAll('a')) {
+                    elem.rel = 'noopener noreferrer';
                     elem.target = '_blank';
                     elem.classList.add('button-link');
                     elem.setAttribute('is', 'emby-linkbutton');
