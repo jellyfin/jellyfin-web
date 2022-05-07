@@ -11,6 +11,7 @@ import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/users/ButtonElement';
 import { getParameterByName } from '../../utils/url';
 import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import AccessContainer from '../dashboard/users/AccessContainer';
 
 type ItemsArr = {
     Name?: string;
@@ -231,101 +232,69 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                 <SectionTitleContainer title={userName}/>
                 <SectionTabs activeTab='userlibraryaccess'/>
                 <form className='userLibraryAccessForm'>
-                    <div className='folderAccessContainer'>
-                        <h2>{globalize.translate('HeaderLibraryAccess')}</h2>
-                        <CheckBoxElement
-                            labelClassName='checkboxContainer'
-                            type='checkbox'
-                            className='chkEnableAllFolders'
-                            title='OptionEnableAccessToAllLibraries'
-                        />
-                        <div className='folderAccessListContainer'>
-                            <div className='folderAccess'>
-                                <h3 className='checkboxListLabel'>
-                                    {globalize.translate('HeaderLibraries')}
-                                </h3>
-                                <div className='checkboxList paperList checkboxList-paperList'>
-                                    {mediaFoldersItems.map(Item => {
-                                        return (
-                                            <CheckBoxListItem
-                                                key={Item.Id}
-                                                className='chkFolder'
-                                                Id={Item.Id}
-                                                Name={Item.Name}
-                                                checkedAttribute={Item.checkedAttribute}
-                                            />
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                            <div className='fieldDescription'>
-                                {globalize.translate('LibraryAccessHelp')}
-                            </div>
-                        </div>
-                    </div>
-                    <div className='channelAccessContainer hide'>
-                        <h2>{globalize.translate('HeaderChannelAccess')}</h2>
-                        <CheckBoxElement
-                            labelClassName='checkboxContainer'
-                            type='checkbox'
-                            className='chkEnableAllChannels'
-                            title='OptionEnableAccessToAllChannels'
-                        />
-                        <div className='channelAccessListContainer'>
-                            <div className='channelAccess'>
-                                <h3 className='checkboxListLabel'>
-                                    {globalize.translate('Channels')}
-                                </h3>
-                                <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {channelsItems.map(Item => (
-                                        <CheckBoxListItem
-                                            key={Item.Id}
-                                            className='chkChannel'
-                                            Id={Item.Id}
-                                            Name={Item.Name}
-                                            checkedAttribute={Item.checkedAttribute}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='fieldDescription'>
-                                {globalize.translate('ChannelAccessHelp')}
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div className='deviceAccessContainer hide'>
-                        <h2>{globalize.translate('HeaderDeviceAccess')}</h2>
-                        <CheckBoxElement
-                            labelClassName='checkboxContainer'
-                            type='checkbox'
-                            className='chkEnableAllDevices'
-                            title='OptionEnableAccessFromAllDevices'
-                        />
-                        <div className='deviceAccessListContainer'>
-                            <div className='deviceAccess'>
-                                <h3 className='checkboxListLabel'>
-                                    {globalize.translate('HeaderDevices')}
-                                </h3>
-                                <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
-                                    {devicesItems.map(Item => (
-                                        <CheckBoxListItem
-                                            key={Item.Id}
-                                            className='chkDevice'
-                                            Id={Item.Id}
-                                            Name={Item.Name}
-                                            AppName={Item.AppName}
-                                            checkedAttribute={Item.checkedAttribute}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='fieldDescription'>
-                                {globalize.translate('DeviceAccessHelp')}
-                            </div>
-                        </div>
-                        <br />
-                    </div>
+                    <AccessContainer
+                        ContainerClassName='folderAccessContainer'
+                        HeaderTitle='HeaderLibraryAccess'
+                        CheckBoxClassName='chkEnableAllFolders'
+                        CheckBoxTitle='OptionEnableAccessToAllLibraries'
+                        ListContainerClassName='folderAccessListContainer'
+                        AccessClassName='folderAccess'
+                        ListTitle='HeaderLibraries'
+                        Description='LibraryAccessHelp'
+                    >
+                        {mediaFoldersItems.map(Item => (
+                            <CheckBoxListItem
+                                key={Item.Id}
+                                className='chkFolder'
+                                Id={Item.Id}
+                                Name={Item.Name}
+                                checkedAttribute={Item.checkedAttribute}
+                            />
+                        ))}
+                    </AccessContainer>
+
+                    <AccessContainer
+                        ContainerClassName='channelAccessContainer hide'
+                        HeaderTitle='HeaderChannelAccess'
+                        CheckBoxClassName='chkEnableAllChannels'
+                        CheckBoxTitle='OptionEnableAccessToAllChannels'
+                        ListContainerClassName='channelAccessListContainer'
+                        AccessClassName='channelAccess'
+                        ListTitle='Channels'
+                        Description='ChannelAccessHelp'
+                    >
+                        {channelsItems.map(Item => (
+                            <CheckBoxListItem
+                                key={Item.Id}
+                                className='chkChannel'
+                                Id={Item.Id}
+                                Name={Item.Name}
+                                checkedAttribute={Item.checkedAttribute}
+                            />
+                        ))}
+                    </AccessContainer>
+
+                    <AccessContainer
+                        ContainerClassName='deviceAccessContainer hide'
+                        HeaderTitle='HeaderDeviceAccess'
+                        CheckBoxClassName='chkEnableAllDevices'
+                        CheckBoxTitle='OptionEnableAccessFromAllDevices'
+                        ListContainerClassName='deviceAccessListContainer'
+                        AccessClassName='deviceAccess'
+                        ListTitle='HeaderDevices'
+                        Description='DeviceAccessHelp'
+                    >
+                        {devicesItems.map(Item => (
+                            <CheckBoxListItem
+                                key={Item.Id}
+                                className='chkDevice'
+                                Id={Item.Id}
+                                Name={Item.Name}
+                                AppName={Item.AppName}
+                                checkedAttribute={Item.checkedAttribute}
+                            />
+                        ))}
+                    </AccessContainer>
                     <br />
                     <div>
                         <ButtonElement
