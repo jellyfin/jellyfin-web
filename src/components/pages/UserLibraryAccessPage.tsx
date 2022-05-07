@@ -6,7 +6,6 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
 import SectionTabs from '../dashboard/users/SectionTabs';
-import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/users/ButtonElement';
 import { getParameterByName } from '../../utils/url';

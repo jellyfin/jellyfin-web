@@ -6,7 +6,6 @@ import loading from '../loading/loading';
 import toast from '../toast/toast';
 import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
 import InputElement from '../dashboard/users/InputElement';
-import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/users/ButtonElement';
 import AccessContainer from '../dashboard/users/AccessContainer';
