@@ -228,7 +228,11 @@ const UserLibraryAccessPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer title={userName}/>
+                <SectionTitleContainer
+                    title={userName}
+                    isBtnVisible={false}
+                    titleLink='https://docs.jellyfin.org/general/server/users/'
+                />
                 <SectionTabs activeTab='userlibraryaccess'/>
                 <form className='userLibraryAccessForm'>
                     <AccessContainer
