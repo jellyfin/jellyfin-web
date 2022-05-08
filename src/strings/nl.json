@@ -1604,5 +1604,21 @@
     "ButtonExitApp": "Verlaat de applicatie",
     "Digital": "Digitaal",
     "ButtonClose": "Sluiten",
-    "AddToFavorites": "Toevoegen aan favorieten"
+    "AddToFavorites": "Toevoegen aan favorieten",
+    "ShowParentImages": "Laat serie-afbeeldingen zien",
+    "Production": "Productie",
+    "AllowEmbeddedSubtitlesAllowTextOption": "Text Toestaan",
+    "AllowEmbeddedSubtitlesAllowImageOption": "Afbeelding Toestaan",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Niks Toestaan",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Alles Toestaan",
+    "AllowEmbeddedSubtitlesHelp": "Schakel ondertitels uit die zijn verpakt in mediacontainers. Vereist een volledige library-vernieuwing.",
+    "AllowEmbeddedSubtitles": "Schakel verschillende soorten ingesloten ondertitels uit",
+    "OriginalAirDate": "Originele uitzenddatum",
+    "MixedMoviesShows": "Gemixte Films en Shows",
+    "MessageUnauthorizedUser": "U heeft op dit moment geen toegang tot de server. Neem contact op met uw serverbeheerder voor meer informatie.",
+    "Localization": "Lokalisatie",
+    "GoogleCastUnsupported": "Google Cast niet ondersteund",
+    "CopyFailed": "Kan niet kopiëren",
+    "Copy": "Kopieer",
+    "Copied": "Gekopieerd"
 }
