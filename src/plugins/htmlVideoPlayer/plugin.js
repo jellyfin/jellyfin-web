@@ -106,6 +106,9 @@ function tryRemoveElement(elem) {
 
     function requireHlsPlayer(callback) {
         import('hls.js').then(({default: hls}) => {
+            hls.DefaultConfig.lowLatencyMode = false;
+            hls.DefaultConfig.backBufferLength = Infinity;
+            hls.DefaultConfig.liveBackBufferLength = 90;
             window.Hls = hls;
             callback();
         });
