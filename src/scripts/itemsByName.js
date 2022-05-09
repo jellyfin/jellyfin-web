@@ -374,7 +374,7 @@ function getItemsFunction(options, item) {
 }
 
 const ItemsByName = {
-    renderItems: renderItems
+    renderItems
 };
 
 export default ItemsByName;

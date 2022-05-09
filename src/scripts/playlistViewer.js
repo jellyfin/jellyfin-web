@@ -46,7 +46,7 @@ function render(page, item) {
 }
 
 const PlaylistViewer = {
-    render: render
+    render
 };
 
 export default PlaylistViewer;
