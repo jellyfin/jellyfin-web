@@ -6,6 +6,7 @@ import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../scripts/globalize';
+import { playbackManager } from '../../components/playback/playbackmanager';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
@@ -52,6 +53,19 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 itemsContainer.refreshItems();
             }
 
+            function onShuffleClick() {
+                if (isLoading) {
+                    return;
+                }
+
+                ApiClient.getItem(
+                    ApiClient.getCurrentUserId(),
+                    params.topParentId
+                ).then(item => {
+                    playbackManager.shuffle(item);
+                });
+            }
+
             window.scrollTo(0, 0);
             this.alphaPicker?.updateControls(query);
             const pagingHtml = libraryBrowser.getQueryPagingHtml({
@@ -75,6 +89,10 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
             for (const elem of tabContent.querySelectorAll('.btnPreviousPage')) {
                 elem.addEventListener('click', onPreviousPageClick);
+            }
+
+            for (const elem of tabContent.querySelectorAll('.btnShuffle')) {
+                elem.addEventListener('click', onShuffleClick);
             }
 
             isLoading = false;
