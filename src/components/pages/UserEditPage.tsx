@@ -280,7 +280,6 @@ const UserEditPage: FunctionComponent = () => {
             <div className='content-primary'>
                 <SectionTitleContainer
                     title={userName}
-                    isBtnVisible={false}
                     titleLink='https://docs.jellyfin.org/general/server/users/'
                 />
                 <SectionTabs activeTab='useredit'/>

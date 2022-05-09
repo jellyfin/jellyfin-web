@@ -8,7 +8,7 @@ type IProps = {
     titleLink?: string;
 }
 
-const SectionTitleContainer: FunctionComponent<IProps> = ({title, isBtnVisible, titleLink}: IProps) => {
+const SectionTitleContainer: FunctionComponent<IProps> = ({title, isBtnVisible = false, titleLink}: IProps) => {
     return (
         <div className='verticalSection'>
             <div className='sectionTitleContainer flex align-items-center'>
