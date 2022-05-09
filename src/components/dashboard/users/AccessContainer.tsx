@@ -3,26 +3,26 @@ import globalize from '../../../scripts/globalize';
 import CheckBoxElement from './CheckBoxElement';
 
 type IProps = {
-    ContainerClassName?: string;
-    HeaderTitle?: string;
-    CheckBoxClassName?: string;
-    CheckBoxTitle?: string;
-    ListContainerClassName?: string;
-    AccessClassName?: string;
-    ListTitle?: string;
-    Description?: string;
+    containerClassName?: string;
+    headerTitle?: string;
+    checkBoxClassName?: string;
+    checkBoxTitle?: string;
+    listContainerClassName?: string;
+    accessClassName?: string;
+    listTitle?: string;
+    description?: string;
     children?: React.ReactNode
 }
 
-const AccessContainer: FunctionComponent<IProps> = ({ContainerClassName, HeaderTitle, CheckBoxClassName, CheckBoxTitle, ListContainerClassName, AccessClassName, ListTitle, Description, children }: IProps) => {
+const AccessContainer: FunctionComponent<IProps> = ({containerClassName, headerTitle, checkBoxClassName, checkBoxTitle, listContainerClassName, accessClassName, listTitle, description, children }: IProps) => {
     return (
-        <div className={ContainerClassName}>
-            <h2>{globalize.translate(HeaderTitle)}</h2>
-            <CheckBoxElement labelClassName='checkboxContainer' type='checkbox' className={CheckBoxClassName} title={CheckBoxTitle} />
-            <div className={ListContainerClassName}>
-                <div className={AccessClassName}>
+        <div className={containerClassName}>
+            <h2>{globalize.translate(headerTitle)}</h2>
+            <CheckBoxElement labelClassName='checkboxContainer' type='checkbox' className={checkBoxClassName} title={checkBoxTitle} />
+            <div className={listContainerClassName}>
+                <div className={accessClassName}>
                     <h3 className='checkboxListLabel'>
-                        {globalize.translate(ListTitle)}
+                        {globalize.translate(listTitle)}
                     </h3>
                     <div className='checkboxList paperList' style={{
                         padding: '.5em 1em'
@@ -31,7 +31,7 @@ const AccessContainer: FunctionComponent<IProps> = ({ContainerClassName, HeaderT
                     </div>
                 </div>
                 <div className='fieldDescription'>
-                    {globalize.translate(Description)}
+                    {globalize.translate(description)}
                 </div>
             </div>
         </div>

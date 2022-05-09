@@ -236,14 +236,14 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                 <SectionTabs activeTab='userlibraryaccess'/>
                 <form className='userLibraryAccessForm'>
                     <AccessContainer
-                        ContainerClassName='folderAccessContainer'
-                        HeaderTitle='HeaderLibraryAccess'
-                        CheckBoxClassName='chkEnableAllFolders'
-                        CheckBoxTitle='OptionEnableAccessToAllLibraries'
-                        ListContainerClassName='folderAccessListContainer'
-                        AccessClassName='folderAccess'
-                        ListTitle='HeaderLibraries'
-                        Description='LibraryAccessHelp'
+                        containerClassName='folderAccessContainer'
+                        headerTitle='HeaderLibraryAccess'
+                        checkBoxClassName='chkEnableAllFolders'
+                        checkBoxTitle='OptionEnableAccessToAllLibraries'
+                        listContainerClassName='folderAccessListContainer'
+                        accessClassName='folderAccess'
+                        listTitle='HeaderLibraries'
+                        description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
                             <CheckBoxListItem
@@ -257,14 +257,14 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                     </AccessContainer>
 
                     <AccessContainer
-                        ContainerClassName='channelAccessContainer hide'
-                        HeaderTitle='HeaderChannelAccess'
-                        CheckBoxClassName='chkEnableAllChannels'
-                        CheckBoxTitle='OptionEnableAccessToAllChannels'
-                        ListContainerClassName='channelAccessListContainer'
-                        AccessClassName='channelAccess'
-                        ListTitle='Channels'
-                        Description='ChannelAccessHelp'
+                        containerClassName='channelAccessContainer hide'
+                        headerTitle='HeaderChannelAccess'
+                        checkBoxClassName='chkEnableAllChannels'
+                        checkBoxTitle='OptionEnableAccessToAllChannels'
+                        listContainerClassName='channelAccessListContainer'
+                        accessClassName='channelAccess'
+                        listTitle='Channels'
+                        description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
                             <CheckBoxListItem
@@ -278,14 +278,14 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                     </AccessContainer>
 
                     <AccessContainer
-                        ContainerClassName='deviceAccessContainer hide'
-                        HeaderTitle='HeaderDeviceAccess'
-                        CheckBoxClassName='chkEnableAllDevices'
-                        CheckBoxTitle='OptionEnableAccessFromAllDevices'
-                        ListContainerClassName='deviceAccessListContainer'
-                        AccessClassName='deviceAccess'
-                        ListTitle='HeaderDevices'
-                        Description='DeviceAccessHelp'
+                        containerClassName='deviceAccessContainer hide'
+                        headerTitle='HeaderDeviceAccess'
+                        checkBoxClassName='chkEnableAllDevices'
+                        checkBoxTitle='OptionEnableAccessFromAllDevices'
+                        listContainerClassName='deviceAccessListContainer'
+                        accessClassName='deviceAccess'
+                        listTitle='HeaderDevices'
+                        description='DeviceAccessHelp'
                     >
                         {devicesItems.map(Item => (
                             <CheckBoxListItem

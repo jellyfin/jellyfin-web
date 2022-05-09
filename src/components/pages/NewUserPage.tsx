@@ -199,14 +199,14 @@ const NewUserPage: FunctionComponent = () => {
                         />
                     </div>
                     <AccessContainer
-                        ContainerClassName='folderAccessContainer'
-                        HeaderTitle='HeaderLibraryAccess'
-                        CheckBoxClassName='chkEnableAllFolders'
-                        CheckBoxTitle='OptionEnableAccessToAllLibraries'
-                        ListContainerClassName='folderAccessListContainer'
-                        AccessClassName='folderAccess'
-                        ListTitle='HeaderLibraries'
-                        Description='LibraryAccessHelp'
+                        containerClassName='folderAccessContainer'
+                        headerTitle='HeaderLibraryAccess'
+                        checkBoxClassName='chkEnableAllFolders'
+                        checkBoxTitle='OptionEnableAccessToAllLibraries'
+                        listContainerClassName='folderAccessListContainer'
+                        accessClassName='folderAccess'
+                        listTitle='HeaderLibraries'
+                        description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
                             <CheckBoxListItem
@@ -220,14 +220,14 @@ const NewUserPage: FunctionComponent = () => {
                     </AccessContainer>
 
                     <AccessContainer
-                        ContainerClassName='channelAccessContainer verticalSection-extrabottompadding hide'
-                        HeaderTitle='HeaderChannelAccess'
-                        CheckBoxClassName='chkEnableAllChannels'
-                        CheckBoxTitle='OptionEnableAccessToAllChannels'
-                        ListContainerClassName='channelAccessListContainer'
-                        AccessClassName='channelAccess'
-                        ListTitle='Channels'
-                        Description='ChannelAccessHelp'
+                        containerClassName='channelAccessContainer verticalSection-extrabottompadding hide'
+                        headerTitle='HeaderChannelAccess'
+                        checkBoxClassName='chkEnableAllChannels'
+                        checkBoxTitle='OptionEnableAccessToAllChannels'
+                        listContainerClassName='channelAccessListContainer'
+                        accessClassName='channelAccess'
+                        listTitle='Channels'
+                        description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
                             <CheckBoxListItem
