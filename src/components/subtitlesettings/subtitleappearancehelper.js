@@ -96,6 +96,7 @@ function getTextStyles(settings, preview) {
             break;
         default:
             list.push({ name: 'font-family', value: '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol' });
+            list.push({ name: 'font-weight', value: '600' });
             list.push({ name: 'font-variant', value: 'none' });
             break;
     }
