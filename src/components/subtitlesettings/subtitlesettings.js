@@ -66,9 +66,6 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         onAppearanceFieldChange({
             target: context.querySelector('#selectTextSize')
         });
-        onAppearanceFieldChange({
-            target: context.querySelector('#selectTextWeight')
-        });
 
         loading.hide();
     });
