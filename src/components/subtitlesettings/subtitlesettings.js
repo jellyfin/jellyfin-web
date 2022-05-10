@@ -28,6 +28,7 @@ function getSubtitleAppearanceObject(context) {
     const appearanceSettings = {};
 
     appearanceSettings.textSize = context.querySelector('#selectTextSize').value;
+    appearanceSettings.textWeight = context.querySelector('#selectTextWeight').value;
     appearanceSettings.dropShadow = context.querySelector('#selectDropShadow').value;
     appearanceSettings.font = context.querySelector('#selectFont').value;
     appearanceSettings.textBackground = context.querySelector('#inputTextBackground').value;
@@ -53,6 +54,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
+        context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || '';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
         context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
         context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
@@ -62,7 +64,8 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
 
         onAppearanceFieldChange({
-            target: context.querySelector('#selectTextSize')
+            target: context.querySelector('#selectTextSize'),
+            target: context.querySelector('#selectTextWeight')
         });
 
         loading.hide();
@@ -166,6 +169,7 @@ function embed(options, self) {
 
     options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
     options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
