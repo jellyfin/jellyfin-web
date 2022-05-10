@@ -64,7 +64,9 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
 
         onAppearanceFieldChange({
-            target: context.querySelector('#selectTextSize'),
+            target: context.querySelector('#selectTextSize')
+        });
+        onAppearanceFieldChange({
             target: context.querySelector('#selectTextWeight')
         });
 
