@@ -30,6 +30,15 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
         }
 
+        function shuffle() {
+            ApiClient.getItem(
+                ApiClient.getCurrentUserId(),
+                params.topParentId
+            ).then((item) => {
+                playbackManager.shuffle(item);
+            });
+        }
+
         const afterRefresh = (result) => {
             function onNextPageClick() {
                 if (isLoading) {
@@ -51,19 +60,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
                 }
                 itemsContainer.refreshItems();
-            }
-
-            function onShuffleClick() {
-                if (isLoading) {
-                    return;
-                }
-
-                ApiClient.getItem(
-                    ApiClient.getCurrentUserId(),
-                    params.topParentId
-                ).then(item => {
-                    playbackManager.shuffle(item);
-                });
             }
 
             window.scrollTo(0, 0);
@@ -89,10 +85,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
             for (const elem of tabContent.querySelectorAll('.btnPreviousPage')) {
                 elem.addEventListener('click', onPreviousPageClick);
-            }
-
-            for (const elem of tabContent.querySelectorAll('.btnShuffle')) {
-                elem.addEventListener('click', onShuffleClick);
             }
 
             isLoading = false;
@@ -261,6 +253,8 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 onViewStyleChange();
                 itemsContainer.refreshItems();
             });
+
+            tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
         };
 
         let itemsContainer = tabContent.querySelector('.itemsContainer');
