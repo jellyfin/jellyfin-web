@@ -60,14 +60,12 @@ import '../../assets/css/scrollstyles.scss';
             }
 
             if (shouldClose) {
-                self.closedByBack = true;
                 close(dlg);
             }
         }
 
         function onBackCommand(e) {
             if (e.detail.command === 'back') {
-                self.closedByBack = true;
                 e.preventDefault();
                 e.stopPropagation();
                 close(dlg);
@@ -121,8 +119,7 @@ import '../../assets/css/scrollstyles.scss';
             // if we just called history.back(), then use a timeout to allow the history events to fire first
             setTimeout(() => {
                 resolve({
-                    element: dlg,
-                    closedByBack: self.closedByBack
+                    element: dlg
                 });
             }, 1);
         }
