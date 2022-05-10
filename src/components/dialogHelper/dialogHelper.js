@@ -91,7 +91,7 @@ import '../../assets/css/scrollstyles.scss';
             if (isHistoryEnabled(dlg)) {
                 const state = history.location.state || {};
                 if (state.dialogs?.length > 0) {
-                    if (state.dialogs[0] === hash) {
+                    if (state.dialogs[state.dialogs.length - 1] === hash) {
                         history.back();
                     } else if (state.dialogs.includes(hash)) {
                         console.info('[dialogHelper] dialog "%s" was closed, but is not the last dialog opened', hash);
@@ -151,8 +151,8 @@ import '../../assets/css/scrollstyles.scss';
         if (isHistoryEnabled(dlg)) {
             const state = history.location.state || {};
             const dialogs = state.dialogs || [];
-            // Add new dialog to start of array
-            dialogs.unshift(hash);
+            // Add new dialog to the list of open dialogs
+            dialogs.push(hash);
 
             history.push(
                 `${history.location.pathname}${history.location.search}`,
