@@ -39,7 +39,7 @@ import '../../assets/css/scrollstyles.scss';
             try {
                 parentNode.removeChild(elem);
             } catch (err) {
-                console.error('error removing dialog element: ' + err);
+                console.error('[dialogHelper] error removing dialog element: ' + err);
             }
         }
     }
@@ -92,8 +92,12 @@ import '../../assets/css/scrollstyles.scss';
 
             if (isHistoryEnabled(dlg)) {
                 const state = history.location.state || {};
-                if (state.dialogs?.length > 0 && state.dialogs[0] === hash) {
-                    history.back();
+                if (state.dialogs?.length > 0) {
+                    if (state.dialogs[0] === hash) {
+                        history.back();
+                    } else if (state.dialogs.includes(hash)) {
+                        console.info('[dialogHelper] dialog "%s" was closed, but is not the last dialog opened', hash);
+                    }
                 }
             }
 
@@ -150,7 +154,8 @@ import '../../assets/css/scrollstyles.scss';
         if (isHistoryEnabled(dlg)) {
             const state = history.location.state || {};
             const dialogs = state.dialogs || [];
-            dialogs.push(hash);
+            // Add new dialog to start of array
+            dialogs.unshift(hash);
 
             history.push(
                 `${history.location.pathname}${history.location.search}`,
@@ -352,7 +357,7 @@ import '../../assets/css/scrollstyles.scss';
         if (enableAnimation()) {
             backdrop.classList.remove('dialogBackdropOpened');
 
-            // this is not firing animatonend
+            // this is not firing animationend
             setTimeout(onAnimationFinish, 300);
             return;
         }
