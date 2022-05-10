@@ -1586,7 +1586,7 @@
     "MediaInfoTitle": "Tytuł",
     "Larger": "Większy",
     "Console": "Konsola",
-    "Casual": "Zwykły",
+    "Casual": "Zwykłe",
     "TypeOptionPluralVideo": "Pliki wideo",
     "TypeOptionPluralSeries": "Seriale",
     "TypeOptionPluralSeason": "Sezony",
@@ -1644,5 +1644,11 @@
     "MessageUnauthorizedUser": "W tej chwili nie masz uprawnień dostępu do serwera. Aby uzyskać więcej informacji, skontaktuj się z administratorem serwera.",
     "Localization": "Lokalizacja",
     "ItemDetails": "Szczegóły pozycji",
-    "Digital": "Cyfrowy"
+    "Digital": "Cyfrowy",
+    "EnableEnhancedNvdecDecoderHelp": "Eksperymentalna implementacja NVDEC, nie używaj tej opcji, chyba że chcesz otrzymywaćsię z licznymi błędami dekodowania.",
+    "StoryArc": "Artykuł fabularny",
+    "OriginalAirDate": "Data pierwszej emisji",
+    "HomeVideosPhotos": "Filmy i zdjęcia",
+    "EnableRewatchingNextUpHelp": "Włącz pokazywanie już obejrzanych odcinków w sekcji 'Następne'.",
+    "EnableRewatchingNextUp": "Włącz odtwarzanie obejrzanych odcinków w 'Następnych'"
 }
