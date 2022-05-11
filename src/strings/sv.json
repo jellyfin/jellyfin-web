@@ -864,7 +864,7 @@
     "OptionPlainVideoItemsHelp": "Alla videor representeras i DIDL som 'object.item.videoItem' i stället för en mer specifik typ, t ex 'object.item.videoItem.movie'.",
     "OptionPlayCount": "Antal visningar",
     "OptionPremiereDate": "Premiärdatum",
-    "OptionProtocolHls": "Live-strömning via HTTP (HLS)",
+    "OptionProtocolHls": "Direktströmning via HTTP (HLS)",
     "OptionReleaseDate": "Premiärdatum",
     "OptionReportByteRangeSeekingWhenTranscoding": "Meddela att servern stödjer bytebaserad sökning vid omkodning",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "Detta krävs för vissa enheter som inte kan utföra tidssökning på ett tillfredsställande sätt.",
