@@ -28,6 +28,16 @@ function getTextStyles(settings, preview) {
             break;
     }
 
+    switch (settings.textWeight || '') {
+        case 'bold':
+            list.push({ name: 'font-weight', value: 'bold' });
+            break;
+        case 'normal':
+        default:
+            list.push({ name: 'font-weight', value: 'normal' });
+            break;
+    }
+
     switch (settings.dropShadow || '') {
         case 'raised':
             list.push({ name: 'text-shadow', value: '-1px -1px white, 0px -1px white, -1px 0px white, 1px 1px black, 0px 1px black, 1px 0px black' });
