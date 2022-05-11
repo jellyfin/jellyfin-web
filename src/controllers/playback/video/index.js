@@ -210,7 +210,18 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 itemName = parentName || '';
             }
 
-            LibraryMenu.setTitle(itemName);
+            // Display the item with its premiere date if it has one
+            let title = itemName;
+            if (item.PremiereDate) {
+                try {
+                    const year = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
+                    title += ` (${year})`;
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            LibraryMenu.setTitle(title);
 
             const documentTitle = parentName || (item ? item.Name : null);
 
