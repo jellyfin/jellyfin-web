@@ -87,6 +87,8 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 elem.addEventListener('click', onPreviousPageClick);
             }
 
+            tabContent.querySelector(".btnShuffle").classList.toggle("hide", result.TotalRecordCount < 1);
+
             isLoading = false;
             loading.hide();
 
