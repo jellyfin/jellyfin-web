@@ -1171,9 +1171,9 @@ function renderMoreFromArtist(view, item, apiClient) {
         };
 
         if (item.Type === 'MusicArtist') {
-            query.AlbumArtistIds = item.Id;
+            query.ContributingArtistIds = item.Id;
         } else {
-            query.AlbumArtistIds = item.AlbumArtists[0].Id;
+            query.ContributingArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
         }
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {

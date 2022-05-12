@@ -265,6 +265,12 @@ function renderSection(page, item, element, type) {
 function loadItems(element, item, type, query, listOptions) {
     query = getQuery(query, item);
     getItemsFunction(query, item)(query.StartIndex, query.Limit, query.Fields).then(function (result) {
+        // If results are empty, hide the section
+        if (!result.Items?.length) {
+            element.classList.add('hide');
+            return;
+        }
+
         let html = '';
 
         if (query.Limit && result.TotalRecordCount > query.Limit) {
@@ -327,7 +333,7 @@ function addCurrentItemToQuery(query, item) {
     } else if (item.Type === 'Studio') {
         query.StudioIds = item.Id;
     } else if (item.Type === 'MusicArtist') {
-        query.ArtistIds = item.Id;
+        query.AlbumArtistIds = item.Id;
     }
 }
 
