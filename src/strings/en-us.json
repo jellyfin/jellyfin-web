@@ -919,6 +919,7 @@
     "LabelTextColor": "Text color:",
     "LabelTextSize": "Text size:",
     "LabelTextWeight": "Text weight:",
+    "Bold": "Bold:",
     "LabelTheme": "Theme:",
     "LabelTime": "Time:",
     "LabelTimeLimitHours": "Time limit (hours):",
