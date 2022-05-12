@@ -54,7 +54,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
-        context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || '';
+        context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
         context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
         context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
