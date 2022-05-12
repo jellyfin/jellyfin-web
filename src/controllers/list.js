@@ -1076,17 +1076,6 @@ class ItemsView {
         }
 
         return {
-            name: globalize.translate('Random'),
-            value: 'Random,SortName'
-        };
-    }
-
-    getPlayCountSortOption() {
-        if (this.params.type === 'Programs') {
-            return null;
-        }
-
-        return {
             name: globalize.translate('PlayCount'),
             value: 'PlayCount,SortName'
         };

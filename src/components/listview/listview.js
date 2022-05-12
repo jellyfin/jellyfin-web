@@ -42,9 +42,6 @@ import ServerConnections from '../ServerConnections';
 
             return name.toUpperCase();
         }
-        if (sortBy.indexOf('random') === 0) {
-            return Math.random(item.Random);
-        }
         if (sortBy.indexOf('officialrating') === 0) {
             return item.OfficialRating || globalize.translate('Unrated');
         }
