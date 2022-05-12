@@ -198,6 +198,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                             name: globalize.translate('Name'),
                             id: 'SortName,ProductionYear'
                         }, {
+                            name: globalize.translate('Random'),
+                            id: 'Random'
+                        }, {
                             name: globalize.translate('OptionImdbRating'),
                             id: 'CommunityRating,SortName,ProductionYear'
                         }, {

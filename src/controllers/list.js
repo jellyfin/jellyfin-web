@@ -996,6 +996,12 @@ class ItemsView {
             sortBy.push(option);
         }
 
+        option = this.getRandomSortOption();
+
+        if (option) {
+            sortBy.push(option);
+        }
+
         option = this.getCommunityRatingSortOption();
 
         if (option) {
@@ -1061,6 +1067,17 @@ class ItemsView {
         return {
             name: globalize.translate('Name'),
             value: 'SortName'
+        };
+    }
+
+    getPlayCountSortOption() {
+        if (this.params.type === 'Programs') {
+            return null;
+        }
+
+        return {
+            name: globalize.translate('Random'),
+            value: 'Random,SortName'
         };
     }
 
