@@ -2,6 +2,7 @@ import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import dom from '../../../../scripts/dom';
 import globalize from '../../../../scripts/globalize';
+import { appRouter } from '../../../../components/appRouter';
 import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
 import '../../../../components/cardbuilder/card.scss';
 import '../../../../elements/emby-button/emby-button';
@@ -70,7 +71,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     }
 
     if (plugin.HasImage) {
-        const imageUrl = ApiClient.getUrl(`/Plugins/${plugin.Id}/${plugin.Version}/Image`);
+        const imageUrl = ApiClient.getUrl(`${appRouter.baseUrl()}/Plugins/${plugin.Id}/${plugin.Version}/Image`);
         html += `<img src="${imageUrl}" style="width:100%" />`;
     } else {
         html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
