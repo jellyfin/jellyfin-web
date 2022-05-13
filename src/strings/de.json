@@ -1650,5 +1650,7 @@
     "StoryArc": "Handlungsstrang",
     "Digital": "Digital",
     "EnableEnhancedNvdecDecoderHelp": "Experimentelle NVDEC-Implementierung, nur aktiviere, falls es zu Dekodierungsfehlern kommt.",
-    "HomeVideosPhotos": "Heimvideos und -bilder"
+    "HomeVideosPhotos": "Heimvideos und -bilder",
+    "Bold": "Fett",
+    "LabelTextWeight": "Schriftstärke:"
 }
