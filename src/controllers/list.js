@@ -996,12 +996,6 @@ class ItemsView {
             sortBy.push(option);
         }
 
-        option = this.getRandomSortOption();
-
-        if (option) {
-            sortBy.push(option);
-        }
-
         option = this.getCommunityRatingSortOption();
 
         if (option) {
