@@ -7,7 +7,7 @@ import BlockedTagList from '../dashboard/users/BlockedTagList';
 import ButtonElement from '../dashboard/users/ButtonElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import SectionTitleButtonElement from '../dashboard/users/SectionTitleButtonElement';
-import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
+import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
 import SelectMaxParentalRating from '../dashboard/users/SelectMaxParentalRating';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import loading from '../loading/loading';
@@ -319,18 +319,10 @@ const UserParentalControl: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <div className='verticalSection'>
-                    <div className='sectionTitleContainer flex align-items-center'>
-                        <h2 className='sectionTitle username'>
-                            {userName}
-                        </h2>
-                        <SectionTitleLinkElement
-                            className='raised button-alt headerHelpButton'
-                            title='Help'
-                            url='https://docs.jellyfin.org/general/server/users/'
-                        />
-                    </div>
-                </div>
+                <SectionTitleContainer
+                    title={userName}
+                    titleLink='https://docs.jellyfin.org/general/server/users/'
+                />
                 <SectionTabs activeTab='userparentalcontrol'/>
                 <form className='userParentalControlForm'>
                     <div className='selectContainer'>
