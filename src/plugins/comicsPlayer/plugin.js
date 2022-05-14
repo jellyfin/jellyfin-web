@@ -242,7 +242,7 @@ export class ComicsPlayer {
 }
 
 // the comic book archive supports any kind of image format as it's just a zip archive
-const supportedFormats = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif'];
+const supportedFormats = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif', 'webp'];
 
 class ArchiveSource {
     constructor(url) {
