@@ -3,7 +3,6 @@ import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import focusManager from '../../components/focusManager';
-import browser from '../../scripts/browser';
 import 'webcomponents.js/webcomponents-lite';
 import './emby-scroller.scss';
 
@@ -122,7 +121,7 @@ import './emby-scroller.scss';
 
         const options = {
             horizontal: horizontal,
-            forceHideScrollbars: enableScrollButtons,
+            forceHideScrollbars: enableScrollButtons
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
