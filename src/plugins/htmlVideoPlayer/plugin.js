@@ -1049,7 +1049,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
-            const supportedFonts = ['application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
+            const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
             const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
             const apiClient = ServerConnections.getApiClient(item);
