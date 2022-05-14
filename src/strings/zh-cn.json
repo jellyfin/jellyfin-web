@@ -1650,5 +1650,7 @@
     "Digital": "数字的",
     "MessageUnauthorizedUser": "您目前无权访问服务器。请联系您的服务器管理员以获取更多信息。",
     "EnableEnhancedNvdecDecoderHelp": "实验性的 NVDEC 实现，除非你遇到了解码错误，否则不要启用此选项。",
-    "HomeVideosPhotos": "主页视频及照片"
+    "HomeVideosPhotos": "主页视频及照片",
+    "Bold": "粗体",
+    "LabelTextWeight": "文字大小："
 }
