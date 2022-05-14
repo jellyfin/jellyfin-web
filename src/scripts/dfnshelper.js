@@ -1,5 +1,5 @@
-import { af, arDZ, be, bg, bn, ca, cs, da, de, el, enGB, enUS, eo, es, faIR, fi, fr, frCA, he, hi, hr, hu, gl, id, is, it, ja, kk, ko, lt, ms, nb,
-    nl, pl, ptBR, pt, ro, ru, sk, sl, sv, ta, th, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
+import { af, arDZ, be, bg, bn, ca, cs, cy, da, de, el, enGB, enUS, eo, es, et, faIR, fi, fr, frCA, gl, he, hi, hr, hu, id, is, it, ja, kk, ko, lt, lv, ms, nb,
+    nl, nn, pl, ptBR, pt, ro, ru, sk, sl, sv, ta, th, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
 import globalize from './globalize';
 
 const dateLocales = (locale) => ({
@@ -10,6 +10,7 @@ const dateLocales = (locale) => ({
     'bn': bn,
     'ca': ca,
     'cs': cs,
+    'cy': cy,
     'da': da,
     'de': de,
     'el': el,
@@ -20,6 +21,7 @@ const dateLocales = (locale) => ({
     'es-ar': es,
     'es-do': es,
     'es-mx': es,
+    'et': et,
     'fa': faIR,
     'fi': fi,
     'fr': fr,
@@ -37,9 +39,11 @@ const dateLocales = (locale) => ({
     'kk': kk,
     'ko': ko,
     'lt-lt': lt,
+    'lv': lv,
     'ms': ms,
     'nb': nb,
     'nl': nl,
+    'nn': nn,
     'pl': pl,
     'pt': pt,
     'pt-br': ptBR,
