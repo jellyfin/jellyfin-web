@@ -122,23 +122,7 @@ import './emby-scroller.scss';
 
         const options = {
             horizontal: horizontal,
-            mouseDragging: 1,
-            mouseWheel: this.getAttribute('data-mousewheel') !== 'false',
-            touchDragging: 1,
-            slidee: slider,
-            scrollBy: 200,
-            speed: horizontal ? 270 : 240,
-            elasticBounds: 1,
-            dragHandle: 1,
-            autoImmediate: true,
-            skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
-            dispatchScrollEvent: enableScrollButtons || this.getAttribute('data-scrollevent') === 'true',
-            hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
-            allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true' && !enableScrollButtons,
-            allowNativeScroll: !enableScrollButtons,
             forceHideScrollbars: enableScrollButtons,
-            // In edge, with the native scroll, the content jumps around when hovering over the buttons
-            requireAnimation: enableScrollButtons && browser.edge
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
