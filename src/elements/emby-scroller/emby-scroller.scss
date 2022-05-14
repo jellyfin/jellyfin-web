@@ -5,6 +5,15 @@
 .emby-scroller {
     margin-left: 3.3%;
     margin-right: 3.3%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.emby-scroller::-webkit-scrollbar {
+    display: none;
 }
 
 /* align first card in scroller to heading */
