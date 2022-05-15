@@ -7,12 +7,12 @@ const { DefinePlugin } = require('webpack');
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
-    'libass-wasm/dist/js/subtitles-octopus-worker.js',
-    'libass-wasm/dist/js/subtitles-octopus-worker.data',
-    'libass-wasm/dist/js/subtitles-octopus-worker.wasm',
-    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.data',
-    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.data',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.data',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem',
     'pdfjs-dist/build/pdf.worker.js'
 ];
 
