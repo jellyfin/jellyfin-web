@@ -1646,5 +1646,8 @@
     "MessageUnauthorizedUser": "غير مصرح لك بالوصول إلى الخادم في هذا الوقت. يرجى الاتصال بمسؤول الخادم الخاص بك لمزيد من المعلومات.",
     "Localization": "تحديد الموقع",
     "ItemDetails": "تفاصيل العنصر",
-    "Digital": "رقمي"
+    "Digital": "رقمي",
+    "Bold": "عريض",
+    "LabelTextWeight": "سمك الخط:",
+    "HomeVideosPhotos": "مقاطع الفيديو والصور"
 }
