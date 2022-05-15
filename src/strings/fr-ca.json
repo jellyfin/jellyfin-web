@@ -905,5 +905,7 @@
     "MessagePluginConfigurationRequiresLocalAccess": "Pour configurer ce plugin, Connectez-vous directement à votre serveur local.",
     "MessagePleaseWait": "Attendez. Ça peut prendre quelques minutes.",
     "MessagePleaseEnsureInternetMetadata": "Assurez-vous que le téléchargement des métadonnées sur Internet est activé.",
-    "MessagePlayAccessRestricted": "La lecture de ce contenu est restreinte. Contactez l'administrateur pour plus d'informations."
+    "MessagePlayAccessRestricted": "La lecture de ce contenu est restreinte. Contactez l'administrateur pour plus d'informations.",
+    "Arranger": "Arrangeur",
+    "AddToFavorites": "Ajouter aux favoris"
 }
