@@ -31,6 +31,26 @@ import ServerConnections from '../../components/ServerConnections';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 
+/**
+ * Returns resolved URL.
+ * @param {string} url - URL.
+ * @returns {string} Resolved URL or `url` if resolving failed.
+ */
+function resolveUrl(url) {
+    return new Promise((resolve) => {
+        var xhr = new XMLHttpRequest();
+        xhr.open('HEAD', url, true);
+        xhr.onload = function () {
+            resolve(xhr.responseURL || url);
+        };
+        xhr.onerror = function (e) {
+            console.error(e);
+            resolve(url);
+        };
+        xhr.send(null);
+    });
+}
+
 /* eslint-disable indent */
 
 function tryRemoveElement(elem) {
@@ -1093,7 +1113,15 @@ function tryRemoveElement(elem) {
                 renderAhead: 90
             };
             import('libass-wasm').then(({default: SubtitlesOctopus}) => {
-                apiClient.getNamedConfiguration('encoding').then(config => {
+                Promise.all([
+                    apiClient.getNamedConfiguration('encoding'),
+                    // Worker in Tizen 5 doesn't resolve relative path with async request
+                    resolveUrl(options.workerUrl),
+                    resolveUrl(options.legacyWorkerUrl)
+                ]).then(([config, workerUrl, legacyWorkerUrl]) => {
+                    options.workerUrl = workerUrl;
+                    options.legacyWorkerUrl = legacyWorkerUrl;
+
                     if (config.EnableFallbackFont) {
                         apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
                             fontFiles.forEach(font => {
