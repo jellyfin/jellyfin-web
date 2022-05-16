@@ -177,10 +177,13 @@ const NewUserPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={globalize.translate('HeaderAddUser')}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderAddUser')}
+                        titleLink='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
+
                 <form className='newUserProfileForm'>
                     <div className='inputContainer'>
                         <InputElement

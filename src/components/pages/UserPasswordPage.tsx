@@ -23,10 +23,12 @@ const UserPasswordPage: FunctionComponent = () => {
     return (
         <div>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        titleLink='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
                 <SectionTabs activeTab='userpassword'/>
                 <div className='readOnlyContent'>
                     <UserPasswordForm

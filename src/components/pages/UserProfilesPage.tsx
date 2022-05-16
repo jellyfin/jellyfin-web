@@ -124,7 +124,7 @@ const UserProfilesPage: FunctionComponent = () => {
             }
         });
 
-        (page.querySelector('.btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
     }, []);
@@ -132,11 +132,15 @@ const UserProfilesPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={globalize.translate('HeaderUsers')}
-                    isBtnVisible={true}
-                    titleLink='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderUsers')}
+                        isBtnVisible={true}
+                        btnId='btnAddUser'
+                        btnTitle='ButtonAddUser'
+                        titleLink='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
+                    />
+                </div>
 
                 <div className='localUsers itemsContainer vertical-wrap'>
                     {users.map(user => {

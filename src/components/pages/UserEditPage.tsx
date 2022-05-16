@@ -278,10 +278,13 @@ const UserEditPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        titleLink='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
+
                 <SectionTabs activeTab='useredit'/>
                 <div
                     className='lnkEditUserPreferencesContainer'
