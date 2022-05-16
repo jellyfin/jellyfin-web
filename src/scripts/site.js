@@ -246,11 +246,24 @@ async function onAppReady() {
             }
         };
 
-        Events.on(ServerConnections, 'localusersignedin', handleStyleChange);
-        Events.on(ServerConnections, 'localusersignedout', handleStyleChange);
+        const handleLanguageChange = () => {
+            const locale = globalize.getCurrentLocale();
+
+            document.documentElement.setAttribute('lang', locale);
+        };
+
+        const handleUserChange = () => {
+            handleStyleChange();
+            handleLanguageChange();
+        };
+
+        Events.on(ServerConnections, 'localusersignedin', handleUserChange);
+        Events.on(ServerConnections, 'localusersignedout', handleUserChange);
         Events.on(currentSettings, 'change', (e, prop) => {
             if (prop == 'disableCustomCss' || prop == 'customCss') {
                 handleStyleChange();
+            } else if (prop == 'language') {
+                handleLanguageChange();
             }
         });
 

@@ -51,6 +51,7 @@
  - [GodTamIt](https://github.com/GodTamIt)
  - [MinecraftPlaye](https://github.com/MinecraftPlaye)
  - [Matthew Jones](https://github.com/matthew-jones-uk)
+ - [taku0](https://github.com/taku0)
 
 # Emby Contributors
 
