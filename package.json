@@ -70,6 +70,7 @@
     "@fontsource/noto-sans-kr": "4.5.2",
     "@fontsource/noto-sans-sc": "4.5.2",
     "@jellyfin/libass-wasm": "4.1.0",
+    "@fontsource/noto-sans-tc": "4.5.2",
     "blurhash": "1.1.4",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.3.1",
