@@ -1,7 +1,7 @@
 import { Events } from 'jellyfin-apiclient';
 import isEmpty from 'lodash-es/isEmpty';
 
-import * as userSettings from './settings/userSettings';
+import { currentSettings as userSettings } from './settings/userSettings';
 
 /* eslint-disable indent */
 
