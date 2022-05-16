@@ -550,13 +550,9 @@ import template from './libraryoptionseditor.template.html';
     function getOrderedPlugins(plugins, configuredOrder) {
         plugins = plugins.slice(0);
         plugins.sort((a, b) => {
-            let order = 0;
-            if (a < b) {
-                order = -1;
-            } else if (a > b) {
-                order = 1;
-            }
-            return a = configuredOrder.indexOf(a.Name), b = configuredOrder.indexOf(b.Name), order;
+            a = configuredOrder.indexOf(a.Name);
+            b = configuredOrder.indexOf(b.Name);
+            return a - b;
         });
         return plugins;
     }

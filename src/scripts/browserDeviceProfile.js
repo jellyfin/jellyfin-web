@@ -387,7 +387,7 @@ import browser from './browser';
         }
 
         /* eslint-disable compat/compat */
-        let maxVideoWidth = (browser.xboxOne && window.screen) ? window.screen.width : null;
+        let maxVideoWidth = browser.xboxOne ? window.screen?.width : null;
 
         /* eslint-enable compat/compat */
         if (options.maxVideoWidth) {

@@ -27,6 +27,8 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 
 /* eslint-disable indent */
+    const TICKS_PER_MINUTE = 600000000;
+    const TICKS_PER_SECOND = 10000000;
 
     function getOpenedDialog() {
         return document.querySelector('.dialogContainer .dialog.opened');
@@ -588,15 +590,15 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
             if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
                 let showAtSecondsLeft = 30;
-                if (runtimeTicks >= 3e10) {
+                if (runtimeTicks >= 50 * TICKS_PER_MINUTE) {
                     showAtSecondsLeft = 40;
-                } else if (runtimeTicks >= 2.4e10) {
+                } else if (runtimeTicks >= 40 * TICKS_PER_MINUTE) {
                     showAtSecondsLeft = 35;
                 }
-                const showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
+                const showAtTicks = runtimeTicks - showAtSecondsLeft * TICKS_PER_SECOND;
                 const timeRemainingTicks = runtimeTicks - currentTimeTicks;
 
-                if (currentTimeTicks >= showAtTicks && runtimeTicks >= 6e9 && timeRemainingTicks >= 2e8) {
+                if (currentTimeTicks >= showAtTicks && runtimeTicks >= (10 * TICKS_PER_MINUTE) && timeRemainingTicks >= (20 * TICKS_PER_SECOND)) {
                     showComingUpNext(player);
                 }
             }
