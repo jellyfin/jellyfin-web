@@ -1101,18 +1101,18 @@ function tryRemoveElement(elem) {
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
-                renderMode: 'blend',
+                renderMode: 'wasm-blend',
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
                 targetFps: 24,
-                prescaleTradeoff: 0.8,
-                softHeightLimit: 1080,
-                hardHeightLimit: 2160,
+                prescaleFactor: 0.8,
+                prescaleHeightLimit: 1080,
+                maxRenderHeight: 2160,
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            import('libass-wasm').then(({default: SubtitlesOctopus}) => {
+            import('@jellyfin/libass-wasm').then(({default: SubtitlesOctopus}) => {
                 Promise.all([
                     apiClient.getNamedConfiguration('encoding'),
                     // Worker in Tizen 5 doesn't resolve relative path with async request
