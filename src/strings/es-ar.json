@@ -1643,5 +1643,7 @@
     "EnableEnhancedNvdecDecoderHelp": "Implementación experimental de NVDEC, no habilite esta opción a menos que encuentre errores de decodificación.",
     "HomeVideosPhotos": "Videos y fotos caseros",
     "EnableRewatchingNextUpHelp": "Habilite 'Mostrar episodios ya vistos' en las secciones 'Siguiente'.",
-    "EnableRewatchingNextUp": "Habilitar \"Volver a mirar\" en \"Siguiente\""
+    "EnableRewatchingNextUp": "Habilitar \"Volver a mirar\" en \"Siguiente\"",
+    "Bold": "Audaz",
+    "LabelTextWeight": "Peso del texto:"
 }
