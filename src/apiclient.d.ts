@@ -300,6 +300,7 @@ declare module 'jellyfin-apiclient' {
         uploadItemImage(itemId: string, imageType: ImageType, file: File): Promise<void>;
         uploadItemSubtitle(itemId: string, language: string, isForced: boolean, file: File): Promise<void>;
         uploadUserImage(userId: string, imageType: ImageType, file: File): Promise<void>;
+        ajax(arg0: { type: string; url: string; }): Promise<any>;
     }
 
     class AppStore {
