@@ -2,15 +2,17 @@ import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
 type IProps = {
-    title: string;
+    id?: string;
+    title?: string;
     className?: string;
-    icon: string,
+    icon?: string,
 }
 
-const createButtonElement = ({ className, title, icon }: { className?: string, title: string, icon: string }) => ({
+const createButtonElement = ({ id, className, title, icon }: { id?: string, className?: string, title?: string, icon?: string }) => ({
     __html: `<button
         is="emby-button"
         type="button"
+        id="${id}"
         class="${className}"
         style="margin-left:1em;"
         title="${title}"
@@ -19,10 +21,11 @@ const createButtonElement = ({ className, title, icon }: { className?: string, t
     </button>`
 });
 
-const SectionTitleButtonElement: FunctionComponent<IProps> = ({ className, title, icon }: IProps) => {
+const SectionTitleButtonElement: FunctionComponent<IProps> = ({ id, className, title, icon }: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createButtonElement({
+                id: id,
                 className: className,
                 title: globalize.translate(title),
                 icon: icon
