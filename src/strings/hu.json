@@ -1650,5 +1650,7 @@
     "MessageUnauthorizedUser": "Jelenleg nincs jogosultsága a szerver elérésére. További információért fordulj a szerver rendszergazdájához.",
     "Digital": "Digitális",
     "EnableEnhancedNvdecDecoderHelp": "Kísérleti NVDEC implementáció, csak akkor engedélyezze ezt a lehetőséget, ha dekódolási hibákat észlel.",
-    "HomeVideosPhotos": "Otthoni videók és fotók"
+    "HomeVideosPhotos": "Otthoni videók és fotók",
+    "Bold": "Félkövér",
+    "LabelTextWeight": "Betűvastagság:"
 }
