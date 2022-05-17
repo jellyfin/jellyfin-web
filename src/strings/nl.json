@@ -1469,7 +1469,7 @@
     "LabelEnableIP6Help": "Maak IPv6-functionaliteit mogelijk.",
     "LabelEnableIP4": "IPv4 inschakelen",
     "LabelEnableIP6": "IPv6 inschakelen",
-    "LabelEnableIP4Help": "Maak IPv4-functionaliteit mogelijk.",
+    "LabelEnableIP4Help": "Schakelt IPv4-functionaliteit in.",
     "LabelDropSubtitleHere": "Voeg ondertiteling hier toe, of klik op bladeren.",
     "LabelCreateHttpPortMap": "Automatische poort mapping voor HTTP en ook HTTPS verkeer toestaan.",
     "LabelAutomaticDiscoveryHelp": "Sta applicaties toe automatisch Jellyfin te ontdekken via UDP poort 7359.",
@@ -1620,5 +1620,7 @@
     "GoogleCastUnsupported": "Google Cast niet ondersteund",
     "CopyFailed": "Kan niet kopiëren",
     "Copy": "Kopieer",
-    "Copied": "Gekopieerd"
+    "Copied": "Gekopieerd",
+    "ButtonSpace": "Spatie",
+    "ButtonBackspace": "Backspace"
 }
