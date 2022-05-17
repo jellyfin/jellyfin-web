@@ -18,15 +18,15 @@ const DlnaSettingsPage: FunctionComponent = () => {
 
     const getTabs = () => {
         return [{
-            href: '#!/dlnasettings.html',
+            href: '#/dlnasettings.html',
             name: globalize.translate('Settings')
         }, {
-            href: '#!/dlnaprofiles.html',
+            href: '#/dlnaprofiles.html',
             name: globalize.translate('TabProfiles')
         }];
     };
 
-    const loadPage = useCallback((config, users) => {
+    const loadPage = useCallback((config, usersresult) => {
         const page = element.current;
 
         if (!page) {
@@ -39,7 +39,7 @@ const DlnaSettingsPage: FunctionComponent = () => {
         (page.querySelector('.chkEnableServer') as HTMLInputElement).checked = config.EnableServer;
         (page.querySelector('.chkBlastAliveMessages') as HTMLInputElement).checked = config.BlastAliveMessages;
         (page.querySelector('#txtBlastInterval') as HTMLInputElement).value = config.BlastAliveMessageIntervalSeconds;
-        setUsers(users);
+        setUsers(usersresult);
         (page.querySelector('#selectUser') as HTMLSelectElement).value = config.DefaultUserId || '';
         loading.hide();
     }, []);
