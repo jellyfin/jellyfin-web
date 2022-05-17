@@ -195,7 +195,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/dlna/settings.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/dlna/settings'
+        pageComponent: 'DlnaSettingsPage'
     });
 
     defineRoute({

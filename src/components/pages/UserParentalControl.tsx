@@ -181,7 +181,7 @@ const UserParentalControl: FunctionComponent = () => {
             }
         }
 
-        (page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value = ratingValue;
+        (page.querySelector('.selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
 
         if (user.Policy.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
@@ -226,7 +226,7 @@ const UserParentalControl: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            user.Policy.MaxParentalRating = parseInt((page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value || '0', 10) || null;
+            user.Policy.MaxParentalRating = parseInt((page.querySelector('.selectMaxParentalRating') as HTMLSelectElement).value || '0', 10) || null;
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
