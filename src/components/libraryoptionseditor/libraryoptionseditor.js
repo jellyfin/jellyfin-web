@@ -559,9 +559,9 @@ import template from './libraryoptionseditor.template.html';
     function getOrderedPlugins(plugins, configuredOrder) {
         plugins = plugins.slice(0);
         plugins.sort((a, b) => {
-          a = configuredOrder.indexOf(a.Name);
-          b = configuredOrder.indexOf(b.Name);
-          return a - b;
+            a = configuredOrder.indexOf(a.Name);
+            b = configuredOrder.indexOf(b.Name);
+            return a - b;
         });
         return plugins;
     }
