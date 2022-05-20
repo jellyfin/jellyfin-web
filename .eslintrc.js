@@ -61,7 +61,6 @@ module.exports = {
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
-        'no-redeclare': ['error', { 'builtinGlobals': true }],
         'no-sequences': ['error']
     },
     settings: {
