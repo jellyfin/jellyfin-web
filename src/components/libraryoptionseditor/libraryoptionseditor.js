@@ -64,7 +64,12 @@ import template from './libraryoptionseditor.template.html';
         let html = '';
         const elem = page.querySelector('.metadataReaders');
 
-        if (plugins.length < 1) return (elem.innerHTML = '', elem.classList.add('hide'), !1);
+        if (plugins.length < 1) {
+            elem.innerHTML = '';
+            elem.classList.add('hide')
+            return false;
+        }
+
         html += `<h3 class="checkboxListLabel">${globalize.translate('LabelMetadataReaders')}</h3>`;
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < plugins.length; i++) {
