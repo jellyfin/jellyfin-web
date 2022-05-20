@@ -1482,5 +1482,8 @@
     "MessageDeleteTaskTrigger": "Bu görev tetikleyicisini silmek istediğinizden emin misiniz?",
     "MessageCreateAccountAt": "{0} adresinde bir hesap oluşturun",
     "MessageConfirmRevokeApiKey": "Bu API anahtarını iptal etmek istediğinizden emin misiniz? Uygulamanın bu sunucuyla bağlantısı aniden sonlandırılacak.",
-    "MessageConfirmRemoveMediaLocation": "Bu konumu kaldırmak istediğinizden emin misiniz?"
+    "MessageConfirmRemoveMediaLocation": "Bu konumu kaldırmak istediğinizden emin misiniz?",
+    "LabelTextWeight": "Yazı Genişliği:",
+    "AudioSampleRateNotSupported": "Ses örnekleme hızı desteklenmiyor",
+    "Bold": "Kalın"
 }
