@@ -66,7 +66,7 @@ import template from './libraryoptionseditor.template.html';
 
         if (plugins.length < 1) {
             elem.innerHTML = '';
-            elem.classList.add('hide')
+            elem.classList.add('hide');
             return false;
         }
 
