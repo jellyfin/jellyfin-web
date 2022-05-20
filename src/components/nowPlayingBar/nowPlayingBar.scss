@@ -13,6 +13,7 @@
     will-change: transform;
     contain: layout style;
     transition: transform 200ms ease-out;
+    cursor: pointer;
 }
 
 .nowPlayingBar-hidden {

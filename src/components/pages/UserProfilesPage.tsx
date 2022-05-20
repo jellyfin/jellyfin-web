@@ -6,8 +6,7 @@ import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import confirm from '../../components/confirm/confirm';
 import UserCardBox from '../dashboard/users/UserCardBox';
-import SectionTitleButtonElement from '../dashboard/users/SectionTitleButtonElement';
-import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
+import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../components/cardbuilder/card.scss';
@@ -133,30 +132,16 @@ const UserProfilesPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <div className='verticalSection verticalSection-extrabottompadding'>
-                    <div
-                        className='sectionTitleContainer sectionTitleContainer-cards'
-                        style={{display: 'flex', alignItems: 'center', paddingBottom: '1em'}}
-                    >
-                        <h2 className='sectionTitle sectionTitle-cards'>
-                            {globalize.translate('HeaderUsers')}
-                        </h2>
-                        <SectionTitleButtonElement
-                            className='fab btnAddUser submit sectionTitleButton'
-                            title='ButtonAddUser'
-                            icon='add'
-                        />
-                        <SectionTitleLinkElement
-                            className='raised button-alt headerHelpButton'
-                            title='Help'
-                            url='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
-                        />
-                    </div>
-                    <div className='localUsers itemsContainer vertical-wrap'>
-                        {users.map(user => {
-                            return <UserCardBox key={user.Id} user={user} />;
-                        })}
-                    </div>
+                <SectionTitleContainer
+                    title={globalize.translate('HeaderUsers')}
+                    isBtnVisible={true}
+                    titleLink='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
+                />
+
+                <div className='localUsers itemsContainer vertical-wrap'>
+                    {users.map(user => {
+                        return <UserCardBox key={user.Id} user={user} />;
+                    })}
                 </div>
             </div>
         </div>

@@ -53,7 +53,12 @@ function disableOneEvent(event) {
  * @return {Number}
  */
 function within(number, min, max) {
-    return number < min ? min : number > max ? max : number;
+    if (number < min) {
+        return min;
+    } else if (number > max) {
+        return max;
+    }
+    return number;
 }
 
 // Other global values

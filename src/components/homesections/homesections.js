@@ -1,6 +1,5 @@
 import escapeHtml from 'escape-html';
 import cardBuilder from '../cardbuilder/cardBuilder';
-import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import imageLoader from '../images/imageLoader';
 import globalize from '../../scripts/globalize';
@@ -401,15 +400,8 @@ import ServerConnections from '../ServerConnections';
     function getItemsToResumeFn(mediaType, serverId) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
-            const screenWidth = dom.getWindowSize().innerWidth;
 
-            let limit;
-            if (enableScrollX()) {
-                limit = 12;
-            } else {
-                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-                limit = Math.min(limit, 5);
-            }
+            const limit = enableScrollX() ? 12 : 5;
 
             const options = {
                 Limit: limit,

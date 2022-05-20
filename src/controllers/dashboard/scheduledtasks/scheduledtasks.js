@@ -23,7 +23,13 @@ import '../../../elements/emby-button/emby-button';
         tasks = tasks.sort(function(a, b) {
             a = a.Category + ' ' + a.Name;
             b = b.Category + ' ' + b.Name;
-            return a == b ? 0 : a < b ? -1 : 1;
+            if (a > b) {
+                return 1;
+            } else if (a < b) {
+                return -1;
+            } else {
+                return 0;
+            }
         });
 
         let currentCategory;

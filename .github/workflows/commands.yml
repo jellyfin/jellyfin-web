@@ -18,11 +18,11 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
       - name: Checkout the latest code
-        uses: actions/checkout@v3.0.1
+        uses: actions/checkout@v3.0.2
         with:
           token: ${{ secrets.JF_BOT_TOKEN }}
           fetch-depth: 0
       - name: Automatic Rebase
-        uses: cirrus-actions/rebase@1.6
+        uses: cirrus-actions/rebase@1.7
         env:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}

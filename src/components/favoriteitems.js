@@ -121,10 +121,14 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
         }
 
         if (!isSingleSection) {
-            options.Limit = screenWidth >= 1920 ? 10 : screenWidth >= 1440 ? 8 : 6;
+            options.Limit = 6;
 
             if (enableScrollX()) {
                 options.Limit = 20;
+            } else if (screenWidth >= 1920) {
+                options.Limit = 10;
+            } else if (screenWidth >= 1440) {
+                options.Limit = 8;
             }
         }
 

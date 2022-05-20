@@ -288,10 +288,16 @@ import browser from './browser';
             }
         }
 
-        return browser.ps4 ? 8000000 :
-            (browser.xboxOne ? 12000000 :
-                (browser.edgeUwp ? null :
-                    (browser.tizen && isTizenFhd ? 20000000 : null)));
+        let bitrate = null;
+        if (browser.ps4) {
+            bitrate = 8000000;
+        } else if (browser.xboxOne) {
+            bitrate = 12000000;
+        } else if (browser.tizen && isTizenFhd) {
+            bitrate = 20000000;
+        }
+
+        return bitrate;
     }
 
     function getSpeakerCount() {
@@ -370,13 +376,18 @@ import browser from './browser';
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '')
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp3"').replace(/no/, '');
 
-        // Not sure how to test for this
-        const supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+        let supportsMp2VideoAudio = options.supportsMp2VideoAudio;
+        if (supportsMp2VideoAudio == null) {
+            supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+
+            // If the browser supports MP3, it presumably supports MP2 as well
+            if (supportsMp3VideoAudio && (browser.chrome || browser.edgeChromium || (browser.firefox && browser.versionMajor >= 83))) {
+                supportsMp2VideoAudio = true;
+            }
+        }
 
         /* eslint-disable compat/compat */
-        let maxVideoWidth = browser.xboxOne ?
-            (window.screen ? window.screen.width : null) :
-            null;
+        let maxVideoWidth = browser.xboxOne ? window.screen?.width : null;
 
         /* eslint-enable compat/compat */
         if (options.maxVideoWidth) {
@@ -428,6 +439,8 @@ import browser from './browser';
 
         if (supportsMp2VideoAudio) {
             videoAudioCodecs.push('mp2');
+            hlsInTsVideoAudioCodecs.push('mp2');
+            hlsInFmp4VideoAudioCodecs.push('mp2');
         }
 
         let supportsDts = options.supportsDts;

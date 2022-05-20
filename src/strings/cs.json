@@ -1649,5 +1649,8 @@
     "OriginalAirDate": "Původní datum vysílání",
     "Digital": "Digitální",
     "MessageUnauthorizedUser": "Momentálně nemáte oprávnění k přístupu na server. Pro více informací kontaktujte Vašeho správce serveru.",
-    "EnableEnhancedNvdecDecoderHelp": "Experimentální implementace NVDEC. Používejte jen v případě, že dochází při dekódování k chybám."
+    "EnableEnhancedNvdecDecoderHelp": "Experimentální implementace NVDEC. Používejte jen v případě, že dochází při dekódování k chybám.",
+    "HomeVideosPhotos": "Domácí videa a fotky",
+    "Bold": "Tučné",
+    "LabelTextWeight": "Tloušťka textu:"
 }

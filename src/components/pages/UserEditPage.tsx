@@ -8,7 +8,7 @@ import CheckBoxElement from '../dashboard/users/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import InputElement from '../dashboard/users/InputElement';
 import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences';
-import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
+import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
 import SelectElement from '../dashboard/users/SelectElement';
 import SelectSyncPlayAccessElement from '../dashboard/users/SelectSyncPlayAccessElement';
 import SectionTabs from '../dashboard/users/SectionTabs';
@@ -278,18 +278,10 @@ const UserEditPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <div className='verticalSection'>
-                    <div className='sectionTitleContainer flex align-items-center'>
-                        <h2 className='sectionTitle username'>
-                            {userName}
-                        </h2>
-                        <SectionTitleLinkElement
-                            className='raised button-alt headerHelpButton'
-                            title='Help'
-                            url='https://docs.jellyfin.org/general/server/users/'
-                        />
-                    </div>
-                </div>
+                <SectionTitleContainer
+                    title={userName}
+                    titleLink='https://docs.jellyfin.org/general/server/users/'
+                />
                 <SectionTabs activeTab='useredit'/>
                 <div
                     className='lnkEditUserPreferencesContainer'

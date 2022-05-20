@@ -688,7 +688,7 @@
     "LabelTranscodingTempPathHelp": "Define um local personalizado para os arquivos transcodificados enviados aos clientes. Deixe em branco para usar o local padrão do servidor.",
     "LabelTranscodingThreadCount": "Contagem de threads da transcodificação:",
     "LabelTranscodingThreadCountHelp": "Selecione o número máximo de threads a ser usado quando transcodificar. Reduzir o número de threads irá diminuir o uso da CPU, mas pode não converter rápido o suficiente para uma experiência de reprodução suave.",
-    "LabelTriggerType": "Tipo de Disparador:",
+    "LabelTriggerType": "Tipo de gatilho:",
     "LabelTunerIpAddress": "Endereço IP do Sintonizador:",
     "LabelTunerType": "Tipo de sintonizador:",
     "LabelType": "Tipo:",
@@ -1159,7 +1159,7 @@
     "LabelServerName": "Nome do servidor:",
     "LabelTranscodePath": "Local de transcodificação:",
     "LabelTranscodes": "Transcodificações:",
-    "LabelUserLoginAttemptsBeforeLockout": "Tentativas de login falhas antes do usuário ser bloqueado:",
+    "LabelUserLoginAttemptsBeforeLockout": "Tentativas de login com falha antes do usuário ser bloqueado:",
     "DashboardVersionNumber": "Versão: {0}",
     "DashboardServerName": "Servidor: {0}",
     "DashboardOperatingSystem": "Sistema Operacional: {0}",
@@ -1408,7 +1408,7 @@
     "LabelTonemappingParam": "Parâmetros de Mapeamento de tom:",
     "LabelTonemappingPeakHelp": "Sobrepor este valor ao pico de sinal/nominal/referência. Útil quando a informação de pico embutida nos metadados de visualização não é confiável ou quando o Tone mapping alterna de um intervalo pequeno para um maior. Os valores recomendado e padrão são 100 e 0, respectivamente.",
     "LabelTonemappingPeak": "Pico do Mapeamento de tom:",
-    "LabelTonemappingThresholdHelp": "Os parâmetros do algoritmo de mapeamento de tons: são afinados a cada cena. E é aplicado um limite para detectar se a cena mudou ou não. Caso a distancia entre o brilho médio atual do quadro e a média atual de execução excedam o valor do limite, o brilho médio e o pico de brilho da cena serão recalculados. Os valores recomendado e padrão são 0.8 e 0.2, respectivamente.",
+    "LabelTonemappingThresholdHelp": "Os parâmetros do algoritmo de mapeamento de tons são afinados a cada cena. E é aplicado um limite para detectar se a cena mudou ou não. Caso a distancia entre o brilho médio atual do quadro e a média atual de execução excedam o valor do limite, o brilho médio e o pico de brilho da cena serão recalculados. Os valores recomendado e padrão são 0.8 e 0.2, respectivamente.",
     "LabelTonemappingThreshold": "Limite do mapeamento de tons:",
     "LabelTonemappingDesatHelp": "Aplicar dessaturação em partes claras da imagem que excedam este nível de brilho. Quanto maior o parâmetro, mais informação de cor será preservada. Esta definição ajuda a prevenir cores excessivamente claras tornando-as (suavemente) em branco. Produz imagens mais naturais devido à redução de informação sobre cores fora do espectro. Os valores recomendado e padrão são 0 e 0.5, respectivamente.",
     "LabelColorTransfer": "Transferência de cor:",
@@ -1627,5 +1627,8 @@
     "ButtonSpace": "Espaço",
     "ButtonExitApp": "Sair da aplicação",
     "ButtonClose": "Fechar",
-    "AddToFavorites": "Add aos favoritos"
+    "AddToFavorites": "Add aos favoritos",
+    "HomeVideosPhotos": "Início dos vídeos e fotos",
+    "EnableRewatchingNextUp": "Ativar reassistir em \"A Seguir\"",
+    "ButtonBackspace": "Backspace"
 }

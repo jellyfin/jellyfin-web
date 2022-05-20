@@ -1649,5 +1649,8 @@
     "EnableRewatchingNextUpHelp": "Povolí zobrazenie už pozretých epizód v sekcií 'Nasleduje'.",
     "EnableRewatchingNextUp": "Povoliť Opätovné pozeranie v sekcií Nasleduje",
     "Digital": "Digitálne",
-    "EnableEnhancedNvdecDecoderHelp": "Experimentálna implementácia NVDEC, túto možnosť nepovoľujte, pokiaľ ste sa nestretli s chybami pri dekódovaní."
+    "EnableEnhancedNvdecDecoderHelp": "Experimentálna implementácia NVDEC, túto možnosť nepovoľujte, pokiaľ ste sa nestretli s chybami pri dekódovaní.",
+    "HomeVideosPhotos": "Domáce videá a fotky",
+    "Bold": "Tučné",
+    "LabelTextWeight": "Hrúbka textu:"
 }

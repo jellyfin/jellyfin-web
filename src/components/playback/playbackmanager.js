@@ -1827,12 +1827,18 @@ class PlaybackManager {
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
             } else if (firstItem.IsFolder) {
+                let sortBy = null;
+                if (options.shuffle) {
+                    sortBy = 'Random';
+                } else if (firstItem.Type !== 'BoxSet') {
+                    sortBy = 'SortName';
+                }
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     // These are pre-sorted
-                    SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null),
+                    SortBy: sortBy,
                     MediaTypes: 'Audio,Video'
                 }, queryOptions));
             } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
