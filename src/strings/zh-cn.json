@@ -494,7 +494,7 @@
     "LabelFriendlyName": "好记的名称：",
     "LabelServerNameHelp": "此名称将用做服务器名，默认使用服务器的主机名。",
     "LabelGroupMoviesIntoCollections": "批量添加电影到集合",
-    "LabelGroupMoviesIntoCollectionsHelp": "如果选择电影列表视图，集合中的电影将显示为一个分组项目。",
+    "LabelGroupMoviesIntoCollectionsHelp": "显示电影列表时，集合中的电影将作为一个分组项显示。",
     "LabelH264Crf": "H.264 CRF 编码质量等级：",
     "LabelH265Crf": "H.265 CRF 编码质量等级：",
     "LabelEncoderPreset": "编码预设：",
