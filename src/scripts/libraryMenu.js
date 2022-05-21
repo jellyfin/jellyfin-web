@@ -14,7 +14,7 @@ import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
 import { getMenuLinks } from '../scripts/settings/webSettings';
-import Dashboard, { pageClassOn } from './clientUtils';
+import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
 
 import '../elements/emby-button/paper-icon-button-light';
