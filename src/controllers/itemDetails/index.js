@@ -2,7 +2,6 @@ import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import isEqual from 'lodash-es/isEqual';
-
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import { appRouter } from '../../components/appRouter';
@@ -516,7 +515,7 @@ function setTrailerButtonVisibility(page, item) {
 
 function renderBackdrop(item) {
     if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
-        backdrop.setBackdrops([item]);
+        setBackdrops([item]);
     } else {
         clearBackdrop();
     }
