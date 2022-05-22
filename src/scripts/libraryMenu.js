@@ -1,5 +1,6 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
+
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
@@ -16,7 +17,9 @@ import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
 import { getParameterByName } from '../utils/url.ts';
+
 import '../elements/emby-button/paper-icon-button-light';
+
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
 import '../assets/css/flexstyles.scss';
