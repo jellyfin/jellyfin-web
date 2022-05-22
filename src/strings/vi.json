@@ -602,7 +602,7 @@
     "HeaderServerAddressSettings": "Cài Đặt Địa Chỉ Máy Chủ",
     "HeaderRemoteAccessSettings": "Cài Đặt Truy Cập Từ Xa",
     "HeaderHttpsSettings": "Cài Đặt HTTPS",
-    "HeaderDVR": "Máy Thu Kỹ Thuật Số",
+    "HeaderDVR": "DVR",
     "LabelExtractChaptersDuringLibraryScanHelp": "Tạo hình ảnh phân cảnh khi video được nhập trong quá trình quét thư viện. Nếu không chúng sẽ được trích xuất thông qua những tác vụ định kì, giúp cho quá trình quét thư viện diễn ra nhanh hơn.",
     "LabelExtractChaptersDuringLibraryScan": "Trích xuất hình ảnh phân đoạn khi quét thư viện",
     "LabelBaseUrlHelp": "Thêm một thư mục con tùy chỉnh vào đường dẫn máy chủ. Ví dụ: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
@@ -644,7 +644,7 @@
     "LabelHardwareAccelerationType": "Tăng tốc phần cứng:",
     "LabelEncoderPreset": "Mẫu cài đặt sẵn H264 và H265:",
     "LabelH264Crf": "CRF của mã H.264:",
-    "LabelGroupMoviesIntoCollectionsHelp": "Nếu chọn xem danh sách phim, các bộ hộp sẽ được hiển thị là các mục có các phim được nhóm lại.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Phim trong bộ sưu tập sẽ được hiển thị dưới dạng một mục được nhóm khi hiển thị danh sách phim.",
     "LabelGroupMoviesIntoCollections": "Nhóm các phim vào bộ sưu tập",
     "LabelServerNameHelp": "Tên này sẽ được dùng để phân biệt máy chủ và sẽ mặc định là tên của máy tính chủ.",
     "LabelFriendlyName": "Tên thân thiện:",
@@ -1641,5 +1641,7 @@
     "Digital": "Kỹ thuật số",
     "MessageUnauthorizedUser": "Bạn không được phép truy cập máy chủ vào lúc này. Vui lòng liên hệ quản trị viên máy chủ để biết thêm thông tin.",
     "EnableEnhancedNvdecDecoderHelp": "Triển khai NVDEC thử nghiệm, không bật tùy chọn này trừ khi bạn gặp lỗi giải mã.",
-    "HomeVideosPhotos": "Videos và Ảnh Gia Đình"
+    "HomeVideosPhotos": "Videos và Ảnh Gia Đình",
+    "Bold": "In đậm",
+    "LabelTextWeight": "Trọng lượng văn bản:"
 }
