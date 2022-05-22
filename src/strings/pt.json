@@ -1343,5 +1343,6 @@
     "DisableCustomCss": "Desativar código CSS personalizado fornecido pelo servidor",
     "Console": "Consola",
     "Conductor": "Condutor",
-    "Casual": "Casual"
+    "Casual": "Casual",
+    "ButtonBackspace": "Retrocesso"
 }
