@@ -38,7 +38,7 @@ import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
  */
 function resolveUrl(url) {
     return new Promise((resolve) => {
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open('HEAD', url, true);
         xhr.onload = function () {
             resolve(xhr.responseURL || url);
