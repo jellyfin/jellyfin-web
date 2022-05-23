@@ -16,6 +16,7 @@ import imageHelper from './imagehelper';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
+import { getParameterByName } from '../utils/url.ts';
 
 import '../elements/emby-button/paper-icon-button-light';
 

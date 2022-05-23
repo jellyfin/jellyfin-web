@@ -516,7 +516,7 @@ function setTrailerButtonVisibility(page, item) {
 
 function renderBackdrop(item) {
     if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
-        backdrop.setBackdrops([item]);
+        setBackdrops([item]);
     } else {
         clearBackdrop();
     }
