@@ -83,7 +83,11 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
             // Episodes row
             fetchItems(apiClient, {
                 IncludeItemTypes: 'LiveTvProgram',
-                IsSeries: true
+                IsMovie: false,
+                IsSeries: true,
+                IsSports: false,
+                IsKids: false,
+                IsNews: false
             }).then(result => setEpisodes(result.Items || []));
             // Sports row
             fetchItems(apiClient, {
@@ -101,8 +105,14 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
                 IsNews: true
             }).then(result => setNews(result.Items || []));
             // Programs row
-            fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
-                .then(result => setPrograms(result.Items || []));
+            fetchItems(apiClient, {
+                IncludeItemTypes: 'LiveTvProgram',
+                IsMovie: false,
+                IsSeries: false,
+                IsSports: false,
+                IsKids: false,
+                IsNews: false
+            }).then(result => setPrograms(result.Items || []));
             // Channels row
             fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
                 .then(result => setChannels(result.Items || []));
