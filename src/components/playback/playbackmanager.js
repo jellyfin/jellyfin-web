@@ -1409,13 +1409,22 @@ class PlaybackManager {
 
             const apiClient = ServerConnections.getApiClient(self.currentItem(player).ServerId);
 
-            apiClient.getEndpointInfo().then(function (endpointInfo) {
+            Promise.all([
+                apiClient.getEndpointInfo(),
+                apiClient.getCurrentUser()
+            ]).then(([endpointInfo, user]) => {
                 const playerData = getPlayerData(player);
                 const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
 
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
+                    promise = apiClient.detectBitrate(true);
+                } else if (user?.Policy
+                    && ((mediaType === 'Video' && !user.Policy.EnableVideoPlaybackTranscoding)
+                        || (mediaType === 'Audio' && !user.Policy.EnableAudioPlaybackTranscoding))) {
+                    // If transcoding is not allowed, we cannot use the specified bitrate - force bitrate detection
+                    console.warn('Transcoding is not allowed, cannot use the specified bitrate - force bitrate detection');
                     promise = apiClient.detectBitrate(true);
                 } else {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
@@ -2143,8 +2152,26 @@ class PlaybackManager {
                 }
 
                 const apiClient = ServerConnections.getApiClient(item.ServerId);
-                apiClient.getEndpointInfo().then(function (endpointInfo) {
-                    if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
+
+                Promise.all([
+                    apiClient.getEndpointInfo(),
+                    apiClient.getCurrentUser()
+                ]).then(([endpointInfo, user]) => {
+                    let enableAutomaticBitrateDetection = false;
+
+                    if (mediaType === 'Video' || mediaType === 'Audio') {
+                        enableAutomaticBitrateDetection = appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType);
+
+                        if (!enableAutomaticBitrateDetection && user?.Policy
+                            && ((mediaType === 'Video' && !user.Policy.EnableVideoPlaybackTranscoding)
+                                || (mediaType === 'Audio' && !user.Policy.EnableAudioPlaybackTranscoding))) {
+                            // If transcoding is not allowed, we cannot use the specified bitrate - force bitrate detection
+                            console.warn('Transcoding is not allowed, cannot use the specified bitrate - force bitrate detection');
+                            enableAutomaticBitrateDetection = true;
+                        }
+                    }
+
+                    if (enableAutomaticBitrateDetection) {
                         return apiClient.detectBitrate().then(function (bitrate) {
                             appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
 
