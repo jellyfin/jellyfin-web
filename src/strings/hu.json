@@ -733,7 +733,7 @@
     "LabelFormat": "Formátum:",
     "LabelFriendlyName": "Könnyen megjegyezhető név:",
     "LabelServerNameHelp": "Ez a név kerül a Szerver azonosítására és alapértelmezetten a hoszt neve kerül felhasználásra.",
-    "LabelGroupMoviesIntoCollectionsHelp": "Ha a filmlista nézetet választja, akkor a dobozos készletek csoportosított filmekkel rendelkező elemekként jelennek meg.",
+    "LabelGroupMoviesIntoCollectionsHelp": "A gyűjtemény filmjei egyetlen csoportos elemként jelennek meg a filmlisták megjelenítésekor.",
     "LabelH264Crf": "H.264 CRF kódolás:",
     "LabelHomeNetworkQuality": "Otthoni hálózat minősége:",
     "LabelHttpsPort": "Helyi HTTPS port száma:",
