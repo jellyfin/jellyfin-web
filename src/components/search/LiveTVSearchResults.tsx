@@ -54,7 +54,6 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
             IncludeArtists: false
         });
 
-        // FIXME: This query does not support Live TV filters
         const fetchItems = (apiClient: ApiClient, params = {}) => apiClient?.getItems(
             apiClient?.getCurrentUserId(),
             {
@@ -79,11 +78,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
             // Movies row
             fetchItems(apiClient, {
                 IncludeItemTypes: 'LiveTvProgram',
-                IsMovie: true,
-                IsSeries: false,
-                IsSports: false,
-                IsKids: false,
-                IsNews: false
+                IsMovie: true
             }).then(result => setMovies(result.Items || []));
             // Episodes row
             fetchItems(apiClient, {
@@ -97,28 +92,16 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
             // Sports row
             fetchItems(apiClient, {
                 IncludeItemTypes: 'LiveTvProgram',
-                IsMovie: false,
-                IsSeries: false,
-                IsSports: true,
-                IsKids: false,
-                IsNews: false
+                IsSports: true
             }).then(result => setSports(result.Items || []));
             // Kids row
             fetchItems(apiClient, {
                 IncludeItemTypes: 'LiveTvProgram',
-                IsMovie: false,
-                IsSeries: false,
-                IsSports: false,
-                IsKids: true,
-                IsNews: false
+                IsKids: true
             }).then(result => setKids(result.Items || []));
             // News row
             fetchItems(apiClient, {
                 IncludeItemTypes: 'LiveTvProgram',
-                IsMovie: false,
-                IsSeries: false,
-                IsSports: false,
-                IsKids: false,
                 IsNews: true
             }).then(result => setNews(result.Items || []));
             // Programs row
