@@ -307,7 +307,7 @@
     "LabelFormat": "Formát:",
     "LabelServerNameHelp": "Tento názov bude použitý na identifikáciu servera. Ak ostane prázdny, bude použitý názov hostiteľa serveru.",
     "LabelGroupMoviesIntoCollections": "Zoskupiť filmy do kolekcií",
-    "LabelGroupMoviesIntoCollectionsHelp": "Pri zobrazení zoznamu filmov budú filmy v box setoch zobrazené ako jedna položka.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Pri zobrazení zoznamu filmov budú filmy v kolekcií budú zobrazené ako jedna položka.",
     "LabelHardwareAccelerationType": "Hardvérová akcelerácia:",
     "LabelHardwareAccelerationTypeHelp": "Hardvérová akcelerácia vyžaduje dodatočnú konfiguráciu.",
     "LabelHomeScreenSectionValue": "Sekcia domácej obrazovky {0}:",
