@@ -1156,5 +1156,18 @@
     "Casual": "Χαλαρό",
     "ButtonSpace": "Space",
     "ButtonClose": "Κλείσιμο",
-    "ButtonBackspace": "Backspace"
+    "ButtonBackspace": "Backspace",
+    "HeaderResponseProfile": "Προφίλ απάντησης",
+    "HeaderRemoteAccessSettings": "Ρυθμίσεις απομακρυσμένης πρόσβασης",
+    "HeaderRecordingPostProcessing": "Μετεπεξεργασία Εγγραφών",
+    "HeaderPortRanges": "Ρυθμίσεις τείχους προστασίας και διακομιστή μεσολάβησης",
+    "HeaderNewRepository": "Νέο Αποθετήριο",
+    "HeaderNetworking": "IP πρωτόκολλα",
+    "HeaderNavigation": "Πλοήγηση",
+    "HeaderLiveTvTunerSetup": "Ρυθμίσεις δέκτη ζωντανής τηλεόρασης",
+    "HeaderKodiMetadataHelp": "Για να ενεργοποιήσετε ή απενεργοποιήσετε την χρήση των NFO μεταδεδομένων, ανοίξτε τις ρυθμίσεις μίας βιβλιοθήκης και βρείτε την ενότητα της αποθήκευσης μεταδεδομένων.",
+    "GuideProviderSelectListings": "Επιλογή Συλλογών",
+    "ErrorPleaseSelectLineup": "Παρακαλώ διαλέξτε μία συλλογή και ξαναπροσπαθήστε. Αν δεν υπάρχουν διαθέσιμες συλλογές, βεβαιωθείτε ότι το όνομα, ο κωδικός και η διεύθυνση ηλεκτρονικού ταχυδρομείου είναι σωστά.",
+    "ErrorAddingListingsToSchedulesDirect": "Εμφανίστηκε σφάλμα κατά την εισαγωγή της συλλογής στον Schedules Direct λογαριασμό σας. Η υπηρεσία Schedules Direct επιτρέπει περιορισμένο αριθμό συλλογών ανά λογαριασμό. Θα χρειαστεί να συνδεθείτε στην ιστοσελίδα της υπηρεσίας Schedules Direct και να διαγράψετε επί πλέον συλλογές για να συνεχίσετε.",
+    "Digital": "Ψηφιακός"
 }
