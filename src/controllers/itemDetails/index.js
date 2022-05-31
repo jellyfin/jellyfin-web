@@ -1791,7 +1791,7 @@ function renderScenes(page, item) {
     let chapters = item.Chapters || [];
 
     if (chapters.length && !chapters[0].ImageTag) {
-        chapters =  [];
+        chapters = [];
     }
 
     if (chapters.length) {
