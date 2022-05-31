@@ -48,7 +48,8 @@ import Dashboard from '../../utils/dashboard';
             config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
             config.MetadataCountryCode = form.querySelector('#selectCountry').value;
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
-        }), !1);
+        });
+        return false;
     }
 
     function getTabs() {
