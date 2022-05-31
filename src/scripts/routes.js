@@ -219,7 +219,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/librarydisplay.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/librarydisplay'
+        pageComponent: 'LibraryDisplayPage'
     });
 
     defineRoute({
