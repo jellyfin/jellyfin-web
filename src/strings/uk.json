@@ -393,7 +393,7 @@
     "HeaderError": "Помилка",
     "HeaderEditImages": "Редагувати зображення",
     "HeaderEasyPinCode": "Простий PIN-код",
-    "HeaderDVR": "Цифровий рекордер",
+    "HeaderDVR": "DVR",
     "HeaderDevices": "Пристрої",
     "HeaderDeveloperInfo": "Про розробника",
     "HeaderDetectMyDevices": "Знайти мої пристрої",
@@ -796,7 +796,7 @@
     "LabelHardwareAccelerationType": "Апаратне прискорення:",
     "LabelH265Crf": "H.265, що кодує CRF:",
     "LabelH264Crf": "H.264, що кодує CRF:",
-    "LabelGroupMoviesIntoCollectionsHelp": "Якщо вибрати перегляд списку фільмів, бокс-сети відображатимуться як елементи зі згрупованими фільмами.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Під час відображення списків фільмів фільми в колекції відображатимуться як один згрупований елемент.",
     "LabelGroupMoviesIntoCollections": "Групуйте фільми у колекції",
     "LabelFriendlyName": "Спрощене ім'я:",
     "LabelFormat": "Формат:",
@@ -1645,5 +1645,9 @@
     "ButtonSpace": "Пробіл",
     "ButtonClose": "Закрити",
     "ButtonBackspace": "Стерти",
-    "AddToFavorites": "Додати в обране"
+    "AddToFavorites": "Додати в обране",
+    "EnableEnhancedNvdecDecoderHelp": "Експериментальна реалізація NVDEC, не вмикайте цю опцію, якщо ви не зіткнетеся з помилками декодування.",
+    "Bold": "Жирний",
+    "LabelTextWeight": "Висота тексту:",
+    "HomeVideosPhotos": "Домашні відео та фото"
 }
