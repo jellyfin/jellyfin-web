@@ -1310,7 +1310,7 @@
     "LabelSyncPlayTimeOffset": "Tijd offset met de server:",
     "LabelRequireHttps": "HTTPS verplichten",
     "LabelStable": "Stabiel",
-    "LabelChromecastVersion": "Chromecast versie",
+    "LabelChromecastVersion": "Google Cast Versie",
     "LabelEnableHttpsHelp": "Luisteren op de geconfigureerde HTTPS-poort. Om dit te laten werken moet ook een geldig certificaat worden ingesteld.",
     "LabelEnableHttps": "HTTPS inschakelen",
     "HeaderSyncPlayEnabled": "SyncPlay ingeschakeld",
@@ -1356,7 +1356,7 @@
     "MusicVideos": "Muziekvideo's",
     "Preview": "Preview",
     "SubtitleVerticalPositionHelp": "Regelnummer waar tekst verschijnt. Positieve cijfers geven top-down aan. Negatieve getallen geven bottom-up aan.",
-    "ButtonCast": "Cast",
+    "ButtonCast": "Cast naar Apparaat",
     "Bwdif": "BWDIF",
     "VideoAudio": "Video Geluid",
     "Video": "Video",
@@ -1623,5 +1623,7 @@
     "Copied": "Gekopieerd",
     "ButtonSpace": "Spatie",
     "ButtonBackspace": "Backspace",
-    "StoryArc": "Verhaallijn"
+    "StoryArc": "Verhaallijn",
+    "ItemDetails": "Item Details",
+    "EnableRewatchingNextUp": "Opnieuw kijken inschakelen in Volgende"
 }
