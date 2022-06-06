@@ -5,7 +5,7 @@ import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import ButtonElement from '../dashboard/users/ButtonElement';
 import CheckBoxElement from '../dashboard/users/CheckBoxElement';
-import SelectDateAdded from '../dashboard/users/SelectDateAdded';
+import SelectDateAdded from '../dashboard/library/SelectDateAdded';
 import LibraryMenu from '../../scripts/libraryMenu';
 
 const LibraryDisplayPage: FunctionComponent = () => {

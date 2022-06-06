@@ -211,7 +211,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/library.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/library'
+        pageComponent: 'LibraryPage'
     });
 
     defineRoute({
@@ -503,7 +503,7 @@ import { appRouter } from '../components/appRouter';
         path: 'wizard/library.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'dashboard/library'
+        pageComponent: 'WizardLibraryPage'
     });
 
     defineRoute({
