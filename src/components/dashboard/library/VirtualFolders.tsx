@@ -67,6 +67,12 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
         }];
     }, []);
 
+    const reload = useCallback((hasChanges: boolean) => {
+        if (hasChanges) {
+            reloadLibrary();
+        }
+    }, [reloadLibrary]);
+
     const addVirtualFolder = useCallback(() => {
         import('../../mediaLibraryCreator/mediaLibraryCreator').then(({default: Medialibrarycreator}) => {
             new Medialibrarycreator().show({
@@ -75,25 +81,21 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
                 }),
                 refresh: shouldRefreshLibraryAfterChanges()
             }).then((hasChanges) => {
-                if (hasChanges) {
-                    reloadLibrary();
-                }
+                reload(hasChanges);
             });
         });
-    }, [getCollectionTypeOptions, reloadLibrary, shouldRefreshLibraryAfterChanges]);
+    }, [getCollectionTypeOptions, reload, shouldRefreshLibraryAfterChanges]);
 
     const editVirtualFolder = useCallback((virtualFolder) => {
-        import('../../mediaLibraryEditor/mediaLibraryEditor').then(({default: medialibraryeditor}) => {
-            new medialibraryeditor({
+        import('../../mediaLibraryEditor/mediaLibraryEditor').then(({default: Medialibraryeditor}) => {
+            new Medialibraryeditor().show({
                 refresh: shouldRefreshLibraryAfterChanges(),
                 library: virtualFolder
             }).then((hasChanges) => {
-                if (hasChanges) {
-                    reloadLibrary();
-                }
+                reload(hasChanges);
             });
         });
-    }, [reloadLibrary, shouldRefreshLibraryAfterChanges]);
+    }, [reload, shouldRefreshLibraryAfterChanges]);
 
     const deleteVirtualFolder = useCallback((virtualFolder) => {
         let msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
@@ -153,7 +155,7 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
         });
     }, [reloadLibrary]);
 
-    const showCardMenu = useCallback((elem, virtualFolders) => {
+    const showCardMenu = useCallback((elem) => {
         console.log('showCardMenu', elem);
         const card = dom.parentWithClass(elem, 'card');
         const index = parseInt(card.getAttribute('data-index') as string);
@@ -218,13 +220,13 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
                 console.log(err);
             }
         });
-    }, [deleteVirtualFolder, editImages, editVirtualFolder, refreshVirtualFolder, renameVirtualFolder]);
+    }, [deleteVirtualFolder, editImages, editVirtualFolder, refreshVirtualFolder, renameVirtualFolder, virtualFolders]);
 
     const getLink = (text: string, url: string) => {
         return globalize.translate(text, '<a is="emby-linkbutton" class="button-link" href="' + url + '" target="_blank" data-autohide="true">', '</a>');
     };
 
-    const renderVirtualFolders = useCallback((virtualFolders) => {
+    const renderVirtualFolders = useCallback(() => {
         element.current?.classList.add('itemsContainer');
         element.current?.classList.add('vertical-wrap');
 
@@ -238,7 +240,7 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
             const btnCardMenu = dom.parentWithClass(e.target as HTMLButtonElement, 'btnCardMenu');
 
             if (btnCardMenu) {
-                showCardMenu(btnCardMenu, virtualFolders);
+                showCardMenu(btnCardMenu);
             }
 
             const editLibrary = dom.parentWithClass(e.target as HTMLDivElement, 'editLibrary');
@@ -253,9 +255,9 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
                 }
             }
         });
-    }, [addVirtualFolder, editVirtualFolder, showCardMenu]);
+    }, [addVirtualFolder, editVirtualFolder, showCardMenu, virtualFolders]);
 
-    renderVirtualFolders(virtualFolders);
+    renderVirtualFolders();
 
     return (
         <div ref={element} id='divVirtualFolders'>

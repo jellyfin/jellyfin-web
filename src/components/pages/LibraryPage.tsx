@@ -50,8 +50,8 @@ const LibraryPage: FunctionComponent = () => {
         return page.id === 'mediaLibraryPage';
     };
 
-    const reloadVirtualFolders = useCallback((virtualFolders) => {
-        virtualFolders.push({
+    const reloadVirtualFolders = useCallback((result) => {
+        result.push({
             Name: globalize.translate('ButtonAddMediaLibrary'),
             icon: 'add_circle',
             Locations: [],
@@ -63,7 +63,7 @@ const LibraryPage: FunctionComponent = () => {
             elementId: 'addLibrary'
         });
 
-        setVirtualFolders(virtualFolders);
+        setVirtualFolders(result);
     }, []);
 
     const reloadLibrary = useCallback(() => {

@@ -37,8 +37,8 @@ const WizardLibraryPage: FunctionComponent = () => {
         Dashboard.navigate('wizardsettings.html');
     };
 
-    const reloadVirtualFolders = useCallback((virtualFolders) => {
-        virtualFolders.push({
+    const reloadVirtualFolders = useCallback((result) => {
+        result.push({
             Name: globalize.translate('ButtonAddMediaLibrary'),
             icon: 'add_circle',
             Locations: [],
@@ -50,7 +50,7 @@ const WizardLibraryPage: FunctionComponent = () => {
             elementId: 'addLibrary'
         });
 
-        setVirtualFolders(virtualFolders);
+        setVirtualFolders(result);
     }, []);
 
     const reloadLibrary = useCallback(() => {
