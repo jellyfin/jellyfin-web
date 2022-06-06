@@ -677,12 +677,6 @@ import { appRouter } from '../../../components/appRouter';
             updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
 
-            if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
-                view.querySelector('.btnVideoOsdSettings').classList.remove('hide');
-            } else {
-                view.querySelector('.btnVideoOsdSettings').classList.add('hide');
-            }
-
             const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
@@ -860,6 +854,8 @@ import { appRouter } from '../../../components/appRouter';
                 const player = currentPlayer;
 
                 if (player) {
+                    const state = playbackManager.getPlayerState(player);
+
                     // show subtitle offset feature only if player and media support it
                     const showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);
@@ -868,6 +864,7 @@ import { appRouter } from '../../../components/appRouter';
                         mediaType: 'Video',
                         player: player,
                         positionTo: btn,
+                        quality: state.MediaSource?.SupportsTranscoding,
                         stats: true,
                         suboffset: showSubOffset,
                         onOption: onSettingsOption

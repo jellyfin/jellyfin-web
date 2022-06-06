@@ -199,7 +199,8 @@ function showWithUser(options, player, user) {
         });
     }
 
-    if (user && user.Policy.EnableVideoPlaybackTranscoding) {
+    if (options.quality && supportedCommands.includes('SetMaxStreamingBitrate')
+            && user?.Policy?.EnableVideoPlaybackTranscoding) {
         const secondaryQualityText = getQualitySecondaryText(player);
 
         menuItems.push({
