@@ -68,8 +68,8 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
     }, []);
 
     const addVirtualFolder = useCallback(() => {
-        import('../../mediaLibraryCreator/mediaLibraryCreator').then(({default: medialibrarycreator}) => {
-            new medialibrarycreator({
+        import('../../mediaLibraryCreator/mediaLibraryCreator').then(({default: Medialibrarycreator}) => {
+            new Medialibrarycreator().show({
                 collectionTypeOptions: getCollectionTypeOptions().filter((f: CollectionType) => {
                     return !f.hidden;
                 }),
