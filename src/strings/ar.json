@@ -309,7 +309,7 @@
     "LabelFriendlyName": "اسم مخصوص لك:",
     "LabelServerNameHelp": "هذا الاسم سيستخدم للتعرف على هذا الخادم، اسم الحاسوب سوف يستخدم بشكل افتراضي.",
     "LabelGroupMoviesIntoCollections": "تجميع الأفلام إلى مجاميع",
-    "LabelGroupMoviesIntoCollectionsHelp": "عند استعراض قوائم الأفلام، مجموعة واحدة ستظهر كعنصر جامع.",
+    "LabelGroupMoviesIntoCollectionsHelp": "الأفلام الموجودة في مجموعات ستظهر موحدة عندما تظهر في قوائم الأفلام",
     "LabelH264Crf": "قيمة CRF لتشفير H264:",
     "LabelEncoderPreset": "إعداد التشفير:",
     "LabelHardwareAccelerationType": "التسريع بعتاد الحاسب:",
