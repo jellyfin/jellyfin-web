@@ -266,11 +266,12 @@ import itemHelper from '../itemHelper';
                                     }
                                     break;
                                 case 'addtocollection':
-                                    import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
-                                        new collectionEditor({
+                                    import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+                                        const collectionEditor = new CollectionEditor();
+                                        collectionEditor.show({
                                             items: items,
                                             serverId: serverId
-                                        });
+                                        })
                                     });
                                     hideSelections();
                                     dispatchNeedsRefresh();

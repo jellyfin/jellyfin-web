@@ -337,10 +337,11 @@ import toast from './toast/toast';
         return new Promise(function (resolve, reject) {
             switch (id) {
                 case 'addtocollection':
-                    import('./collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
-                        new collectionEditor({
-                            items: [itemId],
-                            serverId: serverId
+                    import('./collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+                        const collectionEditor = new CollectionEditor();
+                        collectionEditor.show({
+                            serverId: ApiClient.serverInfo().Id,
+                            providerId: providerId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -445,7 +446,7 @@ import toast from './toast/toast';
                     getResolveFunction(resolve, id)();
                     break;
                 case 'delete':
-                    deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
+                    deleteItem(item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
                     break;
                 case 'share':
                     navigator.share({
@@ -490,10 +491,10 @@ import toast from './toast/toast';
                     });
                     break;
                 case 'canceltimer':
-                    deleteTimer(apiClient, item, resolve, id);
+                    deleteTimer(item, resolve, id);
                     break;
                 case 'cancelseriestimer':
-                    deleteSeriesTimer(apiClient, item, resolve, id);
+                    deleteSeriesTimer(item, resolve, id);
                     break;
                 default:
                     reject();
@@ -502,7 +503,7 @@ import toast from './toast/toast';
         });
     }
 
-    function deleteTimer(apiClient, item, resolve, command) {
+    function deleteTimer(item, resolve, command) {
         import('./recordingcreator/recordinghelper').then(({default: recordingHelper}) => {
             const timerId = item.TimerId || item.Id;
             recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
@@ -511,7 +512,7 @@ import toast from './toast/toast';
         });
     }
 
-    function deleteSeriesTimer(apiClient, item, resolve, command) {
+    function deleteSeriesTimer(item, resolve, command) {
         import('./recordingcreator/recordinghelper').then(({default: recordingHelper}) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
@@ -568,7 +569,7 @@ import toast from './toast/toast';
         });
     }
 
-    function deleteItem(apiClient, item) {
+    function deleteItem(item) {
         return new Promise(function (resolve, reject) {
             import('../scripts/deleteHelper').then((deleteHelper) => {
                 deleteHelper.deleteItem({
