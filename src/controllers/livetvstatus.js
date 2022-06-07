@@ -49,7 +49,8 @@ function getDeviceHtml(device) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 function renderDevices(page, devices) {
@@ -157,18 +158,19 @@ function showProviderOptions(page, providerId, button) {
                     break;
 
                 case 'map':
-                    mapChannels(page, providerId);
+                    mapChannels(providerId);
             }
         });
     });
 }
 
-function mapChannels(page, providerId) {
-    import('../components/channelMapper/channelMapper').then(({default: channelMapper}) => {
-        new channelMapper({
+function mapChannels(providerId) {
+    import('../components/channelMapper/channelMapper').then(({default: ChannelMapper}) => {
+        const channelMapper = new ChannelMapper();
+        channelMapper.show({
             serverId: ApiClient.serverInfo().Id,
             providerId: providerId
-        }).show();
+        });
     });
 }
 
