@@ -189,9 +189,10 @@ export default function (view) {
         reloadItems();
     });
     view.querySelector('.btnNewPlaylist').addEventListener('click', function () {
-        import('../components/playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
+        import('../components/playlisteditor/playlisteditor').then(({default: PlaylistEditor}) => {
             const serverId = ApiClient.serverInfo().Id;
-            new playlistEditor({
+            const playlistEditor = new PlaylistEditor();
+            playlistEditor.show({
                 items: [],
                 serverId: serverId
             });

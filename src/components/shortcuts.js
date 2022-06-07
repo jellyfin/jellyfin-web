@@ -272,8 +272,9 @@ import toast from './toast/toast';
     }
 
     function addToPlaylist(item) {
-        import('./playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
-            new playlistEditor().show({
+        import('./playlisteditor/playlisteditor').then(({default: PlaylistEditor}) => {
+            const playlistEditor = new PlaylistEditor();
+            playlistEditor.show({
                 items: [item.Id],
                 serverId: item.ServerId
 

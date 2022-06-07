@@ -6,7 +6,6 @@ import dom from '../../scripts/dom';
 import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
-import playlistEditor from '../playlisteditor/playlisteditor';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
 
@@ -277,9 +276,12 @@ import itemHelper from '../itemHelper';
                                     dispatchNeedsRefresh();
                                     break;
                                 case 'playlist':
-                                    new playlistEditor({
-                                        items: items,
-                                        serverId: serverId
+                                    import('../playlisteditor/playlisteditor').then(({default: PlaylistEditor}) => {
+                                        const playlistEditor = new PlaylistEditor();
+                                        playlistEditor.show({
+                                            items: items,
+                                            serverId: serverId
+                                        });
                                     });
                                     hideSelections();
                                     dispatchNeedsRefresh();

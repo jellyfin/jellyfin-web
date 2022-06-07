@@ -346,8 +346,9 @@ import toast from './toast/toast';
                     });
                     break;
                 case 'addtoplaylist':
-                    import('./playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
-                        new playlistEditor({
+                    import('./playlisteditor/playlisteditor').then(({default: PlaylistEditor}) => {
+                        const playlistEditor = new PlaylistEditor();
+                        playlistEditor.show({
                             items: [itemId],
                             serverId: serverId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));

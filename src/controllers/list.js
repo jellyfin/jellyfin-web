@@ -401,8 +401,9 @@ import LibraryMenu from '../scripts/libraryMenu';
     function onNewItemClick() {
         const instance = this;
 
-        import('../components/playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
-            new playlistEditor({
+        import('../components/playlisteditor/playlisteditor').then(({default: PlaylistEditor}) => {
+            const playlistEditor = new PlaylistEditor();
+            playlistEditor.show({
                 items: [],
                 serverId: instance.params.serverId
             });

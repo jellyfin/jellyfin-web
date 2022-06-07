@@ -219,11 +219,10 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    export class showEditor {
-        constructor(options) {
-            const items = options.items || {};
+    class PlaylistEditor {
+        show(options) {
+            const items = this.options.items || {};
             currentServerId = options.serverId;
-
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -279,4 +278,4 @@ import ServerConnections from '../ServerConnections';
     }
 
 /* eslint-enable indent */
-export default showEditor;
+export default PlaylistEditor;
