@@ -123,5 +123,7 @@
     "AllowOnTheFlySubtitleExtraction": "Parallels extrahiere vo Untertitle erlaube",
     "AllowMediaConversionHelp": "Zuegriff zum kovertiere vo Media erlaube oder ablehne.",
     "AllowMediaConversion": "Mediäumwandlig erlaube",
-    "MusicVideos": "Musigvideos"
+    "MusicVideos": "Musigvideos",
+    "AgeValue": "({0} Jahr alt)",
+    "AddToFavorites": "Zu Favorite hinzufüege"
 }
