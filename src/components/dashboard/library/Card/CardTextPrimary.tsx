@@ -11,15 +11,13 @@ type IVirtualFolders = VirtualFolderInfo & {
     showType?: boolean;
     showLocations?: boolean;
     showMenu?: boolean;
-    showIndicators?: boolean;
     showNameWithIcon?: boolean;
-    elementId?: string;
 }
 
 const CardTextPrimary: FunctionComponent<IProps> = ({virtualFolder}: IProps) => {
     return (
         <div className='cardText'>
-            {virtualFolder.showNameWithIcon ? <span>&nbsp;</span> : <span>{escapeHTML(virtualFolder.Name)}</span>}
+            <span>{escapeHTML(virtualFolder.Name)}</span>
         </div>
     );
 };

@@ -26,9 +26,7 @@ type IVirtualFolders = VirtualFolderInfo & {
     showType?: boolean;
     showLocations?: boolean;
     showMenu?: boolean;
-    showIndicators?: boolean;
     showNameWithIcon?: boolean;
-    elementId?: string;
 }
 
 const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolders = [], shouldRefreshLibraryAfterChanges}: IProps) => {
@@ -74,8 +72,8 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
     }, [reloadLibrary]);
 
     const addVirtualFolder = useCallback(() => {
-        import('../../mediaLibraryCreator/mediaLibraryCreator').then(({default: Medialibrarycreator}) => {
-            new Medialibrarycreator().show({
+        import('../../mediaLibraryCreator/mediaLibraryCreator').then(({default: MediaLibraryCreator}) => {
+            new MediaLibraryCreator().show({
                 collectionTypeOptions: getCollectionTypeOptions().filter((f: CollectionType) => {
                     return !f.hidden;
                 }),
@@ -87,8 +85,8 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
     }, [getCollectionTypeOptions, reload, shouldRefreshLibraryAfterChanges]);
 
     const editVirtualFolder = useCallback((virtualFolder) => {
-        import('../../mediaLibraryEditor/mediaLibraryEditor').then(({default: Medialibraryeditor}) => {
-            new Medialibraryeditor().show({
+        import('../../mediaLibraryEditor/mediaLibraryEditor').then(({default: MediaLibraryEditor}) => {
+            new MediaLibraryEditor().show({
                 refresh: shouldRefreshLibraryAfterChanges(),
                 library: virtualFolder
             }).then((hasChanges) => {

@@ -14,9 +14,7 @@ type IVirtualFolders = VirtualFolderInfo & {
     showType?: boolean;
     showLocations?: boolean;
     showMenu?: boolean;
-    showIndicators?: boolean;
     showNameWithIcon?: boolean;
-    elementId?: string;
 }
 
 const LibraryPage: FunctionComponent = () => {
@@ -54,13 +52,10 @@ const LibraryPage: FunctionComponent = () => {
         result.push({
             Name: globalize.translate('ButtonAddMediaLibrary'),
             icon: 'add_circle',
-            Locations: [],
             showType: false,
             showLocations: false,
             showMenu: false,
-            showIndicators: false,
-            showNameWithIcon: false,
-            elementId: 'addLibrary'
+            showNameWithIcon: true
         });
 
         setVirtualFolders(result);
@@ -113,7 +108,7 @@ const LibraryPage: FunctionComponent = () => {
                         title='ButtonScanAllLibraries'
                     />
 
-                    <progress max='100' className='refreshProgress' style={{display: 'inline-block', verticalAlign: 'middle'}}></progress>
+                    <progress max='100' className='refreshProgress hide' style={{display: 'inline-block', verticalAlign: 'middle'}}></progress>
 
                     <SectionTitleLinkElement
                         className='raised button-alt'

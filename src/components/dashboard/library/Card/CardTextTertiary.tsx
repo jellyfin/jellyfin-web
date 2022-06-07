@@ -11,9 +11,7 @@ type IVirtualFolders = VirtualFolderInfo & {
     showType?: boolean;
     showLocations?: boolean;
     showMenu?: boolean;
-    showIndicators?: boolean;
     showNameWithIcon?: boolean;
-    elementId?: string;
 }
 
 const CardTextTertiary: FunctionComponent<IProps> = ({virtualFolder}: IProps) => {

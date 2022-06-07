@@ -22,9 +22,7 @@ type IVirtualFolders = VirtualFolderInfo & {
     showType?: boolean;
     showLocations?: boolean;
     showMenu?: boolean;
-    showIndicators?: boolean;
     showNameWithIcon?: boolean;
-    elementId?: string;
 }
 
 const Card: FunctionComponent<IProps> = ({ virtualFolder = {}, getCollectionTypeOptions, index }: IProps) => {
@@ -38,7 +36,7 @@ const Card: FunctionComponent<IProps> = ({ virtualFolder = {}, getCollectionType
     }
 
     return (
-        <div className={`card backdropCard scalableCard backdropCard-scalable ${virtualFolder.elementId ? virtualFolder.elementId : ''}`}
+        <div className='card backdropCard scalableCard backdropCard-scalable'
             data-index={index}
             data-id={virtualFolder.ItemId}
             style={{minWidth: '33.3%'}}

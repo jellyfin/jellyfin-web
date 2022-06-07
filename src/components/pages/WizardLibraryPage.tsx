@@ -13,9 +13,7 @@ type IVirtualFolders = VirtualFolderInfo & {
     showType?: boolean;
     showLocations?: boolean;
     showMenu?: boolean;
-    showIndicators?: boolean;
     showNameWithIcon?: boolean;
-    elementId?: string;
 }
 
 const WizardLibraryPage: FunctionComponent = () => {
@@ -45,9 +43,7 @@ const WizardLibraryPage: FunctionComponent = () => {
             showType: false,
             showLocations: false,
             showMenu: false,
-            showIndicators: false,
-            showNameWithIcon: false,
-            elementId: 'addLibrary'
+            showNameWithIcon: true
         });
 
         setVirtualFolders(result);
