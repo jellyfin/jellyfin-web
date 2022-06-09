@@ -94,7 +94,15 @@ import '../../assets/css/scrollstyles.scss';
                     if (state.dialogs[state.dialogs.length - 1] === hash) {
                         history.back();
                     } else if (state.dialogs.includes(hash)) {
-                        console.info('[dialogHelper] dialog "%s" was closed, but is not the last dialog opened', hash);
+                        console.warn('[dialogHelper] dialog "%s" was closed, but is not the last dialog opened', hash);
+                        // Remove the closed dialog hash from the history state
+                        history.replace(
+                            `${history.location.pathname}${history.location.search}`,
+                            {
+                                ...state,
+                                dialogs: state.dialogs.filter(dialog => dialog !== hash)
+                            }
+                        );
                     }
                 }
             }
