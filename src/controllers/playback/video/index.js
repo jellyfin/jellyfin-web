@@ -745,7 +745,9 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                         const currentTimeMs = (playbackStartTimeTicks + (positionTicks || 0)) / 1e4;
                         const programRuntimeMs = programEndDateMs - programStartDateMs;
 
-                        if (nowPlayingPositionSlider.value = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs), bufferedRanges.length) {
+                        nowPlayingPositionSlider.value = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs);
+
+                        if (bufferedRanges.length) {
                             const rangeStart = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].start || 0)) / 1e4);
                             const rangeEnd = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].end || 0)) / 1e4);
                             nowPlayingPositionSlider.setBufferedRanges([{

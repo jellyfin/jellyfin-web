@@ -61,7 +61,8 @@ module.exports = {
         'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        'yoda': 'error'
+        'yoda': 'error',
+        'no-sequences': ['error', { 'allowInParentheses': false }]
     },
     settings: {
         react: {

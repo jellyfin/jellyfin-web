@@ -86,7 +86,9 @@ export function getQueryPagingHtml (options) {
     const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
     const showControls = limit < totalRecordCount;
 
-    if (html += '<div class="listPaging">', showControls) {
+    html += '<div class="listPaging">';
+
+    if (showControls) {
         html += '<span style="vertical-align:middle;">';
         html += globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd, totalRecordCount);
         html += '</span>';
