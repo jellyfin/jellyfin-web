@@ -11,7 +11,7 @@ import ServerConnections from './ServerConnections';
 import alert from './alert';
 import reactControllerFactory from './reactControllerFactory';
 
-const history = createHashHistory();
+export const history = createHashHistory();
 
 /**
  * Page types of "no return" (when "Go back" should behave differently, probably quitting the application).
@@ -20,14 +20,13 @@ const START_PAGE_TYPES = ['home', 'login', 'selectserver'];
 
 class AppRouter {
     allRoutes = new Map();
-    currentRouteInfo;
+    currentRouteInfo = { route: {} };
     currentViewLoadRequest;
     firstConnectionResult;
     forcedLogoutMsg;
     msgTimeout;
     promiseShow;
     resolveOnNextShow;
-    previousRoute = {};
 
     constructor() {
         document.addEventListener('viewshow', () => this.onViewShow());
@@ -482,9 +481,9 @@ class AppRouter {
 
     #getHandler(route) {
         return (ctx, next) => {
-            const ignore = route.dummyRoute === true || this.previousRoute.dummyRoute === true;
-            this.previousRoute = route;
+            const ignore = ctx.path === this.currentRouteInfo.path;
             if (ignore) {
+                console.debug('[appRouter] path did not change, ignoring route change');
                 // Resolve 'show' promise
                 this.onViewShow();
                 return;
