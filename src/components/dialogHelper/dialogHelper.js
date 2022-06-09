@@ -118,13 +118,18 @@ import '../../assets/css/scrollstyles.scss';
             //resolve();
             // if we just called history.back(), then use a timeout to allow the history events to fire first
             setTimeout(() => {
+                dlg.dispatchEvent(new CustomEvent('close', {
+                    bubbles: false,
+                    cancelable: false
+                }));
+
                 resolve({
                     element: dlg
                 });
             }, 1);
         }
 
-        dlg.addEventListener('close', onDialogClosed);
+        dlg.addEventListener('_close', onDialogClosed);
 
         const center = !dlg.classList.contains('dialog-fixedSize');
         if (center) {
@@ -239,7 +244,7 @@ import '../../assets/css/scrollstyles.scss';
                 focusManager.popScope(dlg);
 
                 dlg.classList.add('hide');
-                dlg.dispatchEvent(new CustomEvent('close', {
+                dlg.dispatchEvent(new CustomEvent('_close', {
                     bubbles: false,
                     cancelable: false
                 }));

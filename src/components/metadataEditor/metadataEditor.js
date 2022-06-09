@@ -1087,9 +1087,7 @@ import template from './metadataEditor.template.html';
     }
 
     export default {
-        show: async function (itemId, serverId) {
-            const apiClient = ServerConnections.getApiClient(serverId);
-            await apiClient.getItem(apiClient.getCurrentUserId(), itemId);
+        show: function (itemId, serverId) {
             return new Promise(resolve => show(itemId, serverId, resolve));
         },
 
