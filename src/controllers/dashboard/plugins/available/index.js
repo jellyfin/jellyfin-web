@@ -92,7 +92,7 @@ function populateList(options) {
 
 function getPluginHtml(plugin, options, installedPlugins) {
     let html = '';
-    let href = plugin.externalUrl ? plugin.externalUrl : '#!/addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+    let href = plugin.externalUrl ? plugin.externalUrl : '#/addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
 
     if (options.context) {
         href += '&context=' + options.context;
@@ -134,13 +134,13 @@ function getPluginHtml(plugin, options, installedPlugins) {
 
 function getTabs() {
     return [{
-        href: '#!/installedplugins.html',
+        href: '#/installedplugins.html',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: '#!/availableplugins.html',
+        href: '#/availableplugins.html',
         name: globalize.translate('TabCatalog')
     }, {
-        href: '#!/repositories.html',
+        href: '#/repositories.html',
         name: globalize.translate('TabRepositories')
     }];
 }
