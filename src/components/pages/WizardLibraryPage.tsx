@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
-import ButtonElement from '../dashboard/users/ButtonElement';
-import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
 import VirtualFolders from '../dashboard/library/VirtualFolders';
 import Dashboard from '../../utils/dashboard';
 import loading from '../loading/loading';
 import { VirtualFolderInfo } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import ButtonElement from '../dashboard/users/ButtonElement';
 
 type IVirtualFolders = VirtualFolderInfo & {
     icon?: string;
@@ -79,16 +79,10 @@ const WizardLibraryPage: FunctionComponent = () => {
     return (
         <div ref={element} className='padded-left padded-right padded-top'>
             <div className='ui-corner-all ui-shadow wizardContent'>
-                <div>
-                    <h2 style={{display: 'inline-block'}}>
-                        {globalize.translate('HeaderSetupLibrary')}
-                    </h2>
-                    <SectionTitleLinkElement
-                        className='raised button-alt'
-                        title='Help'
-                        url='https://docs.jellyfin.org/general/server/libraries.html'
-                    />
-                </div>
+                <SectionTitleContainer
+                    title={globalize.translate('HeaderSetupLibrary')}
+                    titleLink='https://docs.jellyfin.org/general/server/libraries.html'
+                />
                 <br />
                 <VirtualFolders
                     reloadLibrary={reloadLibrary}
@@ -97,17 +91,21 @@ const WizardLibraryPage: FunctionComponent = () => {
                 />
                 <br />
                 <br />
-                <div className='wizardNavigation'>
-                    <ButtonElement
-                        type='button'
-                        className='raised btnPrevious button-cancel'
-                        title='Previous'
-                    />
-                    <ButtonElement
-                        type='button'
-                        className='raised btnNext button-submit'
-                        title='Next'
-                    />
+                <div className='wizardNavigation' style={{float: 'right'}}>
+                    <div className='flex align-items-center'>
+                        <ButtonElement
+                            type='button'
+                            className='raised btnPrevious button-cancel'
+                            leftIcon='arrow_back'
+                            title='Previous'
+                        />
+                        <ButtonElement
+                            type='button'
+                            className='raised btnNext button-submit'
+                            title='Next'
+                            rightIcon='arrow_forward'
+                        />
+                    </div>
                 </div>
             </div>
         </div>
