@@ -159,11 +159,21 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
         const index = parseInt(card.getAttribute('data-index') as string);
         const virtualFolder = virtualFolders[index];
         const menuItems: { name: string; id: string; icon: string; }[] = [];
-        menuItems.push({
-            name: globalize.translate('EditImages'),
-            id: 'editimages',
-            icon: 'photo'
-        });
+
+        if (virtualFolder.ItemId) {
+            menuItems.push({
+                name: globalize.translate('EditImages'),
+                id: 'editimages',
+                icon: 'photo'
+            });
+
+            menuItems.push({
+                name: globalize.translate('ScanLibrary'),
+                id: 'refresh',
+                icon: 'refresh'
+            });
+        }
+
         menuItems.push({
             name: globalize.translate('ManageLibrary'),
             id: 'edit',
@@ -174,11 +184,7 @@ const VirtualFolders: FunctionComponent<IProps> = ({reloadLibrary, virtualFolder
             id: 'rename',
             icon: 'mode_edit'
         });
-        menuItems.push({
-            name: globalize.translate('ScanLibrary'),
-            id: 'refresh',
-            icon: 'refresh'
-        });
+
         menuItems.push({
             name: globalize.translate('ButtonRemove'),
             id: 'delete',
