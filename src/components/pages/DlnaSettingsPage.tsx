@@ -3,12 +3,12 @@ import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import LibraryMenu from '../../scripts/libraryMenu';
-import CheckBoxElement from '../dashboard/users/CheckBoxElement';
-import InputElement from '../dashboard/users/InputElement';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
+import InputElement from '../dashboard/elements/InputElement';
 import SelectUserElement from '../dashboard/users/SelectUserElement';
-import ButtonElement from '../dashboard/users/ButtonElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
 import '../../components/listview/listview.scss';
 import '../../elements/emby-button/emby-button';
 

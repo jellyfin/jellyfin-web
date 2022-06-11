@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
-import CheckBoxElement from './CheckBoxElement';
+import CheckBoxElement from '../elements/CheckBoxElement';
 
 type IProps = {
     containerClassName?: string;

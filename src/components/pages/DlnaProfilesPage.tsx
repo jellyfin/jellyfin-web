@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback, useEffect, useState, useRef } fr
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import LibraryMenu from '../../scripts/libraryMenu';
 import confirm from '../confirm/confirm';
 import ListItem from '../dashboard/users/ListItem';

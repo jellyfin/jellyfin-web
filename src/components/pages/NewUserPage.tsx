@@ -4,10 +4,10 @@ import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
-import InputElement from '../dashboard/users/InputElement';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
+import InputElement from '../dashboard/elements/InputElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import ButtonElement from '../dashboard/users/ButtonElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
 import AccessContainer from '../dashboard/users/AccessContainer';
 
 type userInput = {

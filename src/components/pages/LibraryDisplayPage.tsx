@@ -3,8 +3,8 @@ import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react'
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import ButtonElement from '../dashboard/users/ButtonElement';
-import CheckBoxElement from '../dashboard/users/CheckBoxElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 import SelectDateAdded from '../dashboard/library/SelectDateAdded';
 import LibraryMenu from '../../scripts/libraryMenu';
 

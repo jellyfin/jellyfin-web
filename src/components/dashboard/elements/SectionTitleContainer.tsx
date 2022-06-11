@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import IconButtonElement from '../elements/IconButtonElement';
+import IconButtonElement from './IconButtonElement';
 import SectionTitleLinkElement from './SectionTitleLinkElement';
 
 type IProps = {

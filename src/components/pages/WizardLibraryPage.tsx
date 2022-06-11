@@ -5,8 +5,8 @@ import VirtualFolders from '../dashboard/library/VirtualFolders';
 import Dashboard from '../../utils/dashboard';
 import loading from '../loading/loading';
 import { VirtualFolderInfo } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
-import ButtonElement from '../dashboard/users/ButtonElement';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
+import ButtonElement from '../dashboard/elements/ButtonElement';
 
 type IVirtualFolders = VirtualFolderInfo & {
     icon?: string;

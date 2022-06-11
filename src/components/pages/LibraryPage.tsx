@@ -2,8 +2,8 @@ import React, { FunctionComponent, useCallback, useEffect, useRef, useState } fr
 
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../dashboard/users/ButtonElement';
-import SectionTitleLinkElement from '../dashboard/users/SectionTitleLinkElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
+import SectionTitleLinkElement from '../dashboard/elements/SectionTitleLinkElement';
 import taskbutton from '../../scripts/taskbutton';
 import VirtualFolders from '../dashboard/library/VirtualFolders';
 import { VirtualFolderInfo } from '@thornbill/jellyfin-sdk/dist/generated-client';

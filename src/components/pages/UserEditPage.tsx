@@ -3,12 +3,12 @@ import React, { FunctionComponent, useCallback, useEffect, useState, useRef } fr
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../dashboard/users/ButtonElement';
-import CheckBoxElement from '../dashboard/users/CheckBoxElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import InputElement from '../dashboard/users/InputElement';
+import InputElement from '../dashboard/elements/InputElement';
 import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import SelectElement from '../dashboard/users/SelectElement';
 import SelectSyncPlayAccessElement from '../dashboard/users/SelectSyncPlayAccessElement';
 import SectionTabs from '../dashboard/users/SectionTabs';

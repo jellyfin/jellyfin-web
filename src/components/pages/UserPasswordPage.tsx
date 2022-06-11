@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect, useState } from 'reac
 import SectionTabs from '../dashboard/users/SectionTabs';
 import UserPasswordForm from '../dashboard/users/UserPasswordForm';
 import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 
 const UserPasswordPage: FunctionComponent = () => {
     const userId = getParameterByName('userId');

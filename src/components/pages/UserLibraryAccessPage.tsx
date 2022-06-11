@@ -7,9 +7,9 @@ import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import ButtonElement from '../dashboard/users/ButtonElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
 import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import AccessContainer from '../dashboard/users/AccessContainer';
 
 type ItemsArr = {

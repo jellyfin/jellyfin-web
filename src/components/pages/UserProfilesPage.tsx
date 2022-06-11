@@ -6,7 +6,7 @@ import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import confirm from '../../components/confirm/confirm';
 import UserCardBox from '../dashboard/users/UserCardBox';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../components/cardbuilder/card.scss';
