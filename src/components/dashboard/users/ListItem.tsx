@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
-import globalize from '../../../scripts/globalize';
+import IconButtonElement from '../elements/IconButtonElement';
 
 type ProfileProps = {
     Id?: string,
@@ -20,18 +20,6 @@ const createLinkElement = ({ profile }: { profile: ProfileProps}) => ({
         >
         <div>${profile.Name}</div>
     </a>`
-});
-
-const createButtonElement = ({profile, title, icon}: { profile: ProfileProps, title: string, icon: string }) => ({
-    __html: `<button
-        type='button'
-        is='paper-icon-button-light'
-        class='btnDeleteProfile'
-        data-profileid='${profile.Id}'
-        title="${title}"
-    >
-    <span class="material-icons ${icon}" aria-hidden="true"></span>
-    </button>`
 });
 
 const ListItem: FunctionComponent<IProps> = ({ profile, deleteProfile }: IProps) => {
@@ -62,12 +50,13 @@ const ListItem: FunctionComponent<IProps> = ({ profile, deleteProfile }: IProps)
                 })}
             />
 
-            {profile.Type == 'User' && <div
-                dangerouslySetInnerHTML={createButtonElement({
-                    profile: profile,
-                    title: globalize.translate('Delete'),
-                    icon: 'delete'
-                })}
+            {profile.Type == 'User' && <IconButtonElement
+                is='paper-icon-button-light'
+                type='button'
+                className='btnDeleteProfile'
+                title='Delete'
+                icon='delete'
+                dataProfileid={profile.Id}
             />}
         </div>
     );

@@ -57,11 +57,11 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
                 }
 
                 if (user.PrimaryImageTag) {
-                    (page.querySelector('.btnAddImage') as HTMLButtonElement).classList.add('hide');
-                    (page.querySelector('.btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
+                    (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
+                    (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
                 } else if (appHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                    (page.querySelector('.btnDeleteImage') as HTMLButtonElement).classList.add('hide');
-                    (page.querySelector('.btnAddImage') as HTMLButtonElement).classList.remove('hide');
+                    (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
+                    (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }
             });
             loading.hide();
@@ -120,7 +120,7 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
             reader.readAsDataURL(file);
         };
 
-        (page.querySelector('.btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
@@ -133,7 +133,7 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
             });
         });
 
-        (page.querySelector('.btnAddImage') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnAddImage') as HTMLButtonElement).addEventListener('click', function () {
             const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
             uploadImage.value = '';
             uploadImage.click();
@@ -172,12 +172,14 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
                         <br />
                         <ButtonElement
                             type='button'
-                            className='raised btnAddImage hide'
+                            id='btnAddImage'
+                            className='raised button-submit hide'
                             title='ButtonAddImage'
                         />
                         <ButtonElement
                             type='button'
-                            className='raised btnDeleteImage hide'
+                            id='btnDeleteImage'
+                            className='raised button-delete hide'
                             title='DeleteImage'
                         />
                     </div>

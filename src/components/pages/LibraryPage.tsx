@@ -85,7 +85,7 @@ const LibraryPage: FunctionComponent = () => {
             mode: 'on',
             progressElem: page.querySelector('.refreshProgress'),
             taskKey: 'RefreshLibrary',
-            button: page.querySelector('.btnRefresh')
+            button: page.querySelector('#btnRefresh')
         });
 
         return () => {
@@ -93,7 +93,7 @@ const LibraryPage: FunctionComponent = () => {
                 mode: 'off',
                 progressElem: page.querySelector('.refreshProgress'),
                 taskKey: 'RefreshLibrary',
-                button: page.querySelector('.btnRefresh')
+                button: page.querySelector('#btnRefresh')
             });
         };
     }, [reloadLibrary]);
@@ -104,7 +104,8 @@ const LibraryPage: FunctionComponent = () => {
                 <div className='flex align-items-center padded-top padded-bottom'>
                     <ButtonElement
                         type='button'
-                        className='raised btnRefresh'
+                        id='btnRefresh'
+                        className='raised button-submit'
                         title='ButtonScanAllLibraries'
                     />
 

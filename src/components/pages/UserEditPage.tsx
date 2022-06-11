@@ -270,7 +270,7 @@ const UserEditPage: FunctionComponent = () => {
 
         (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        (page.querySelector('.button-cancel') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
             window.history.back();
         });
     }, [loadData]);
@@ -281,7 +281,7 @@ const UserEditPage: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
-                        titleLink='https://docs.jellyfin.org/general/server/users/'
+                        url='https://docs.jellyfin.org/general/server/users/'
                     />
                 </div>
 
@@ -553,7 +553,8 @@ const UserEditPage: FunctionComponent = () => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised button-cancel block btnCancel'
+                            id='btnCancel'
+                            className='raised button-cancel block'
                             title='ButtonCancel'
                         />
                     </div>

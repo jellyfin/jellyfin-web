@@ -137,8 +137,10 @@ const UserProfilesPage: FunctionComponent = () => {
                         title={globalize.translate('HeaderUsers')}
                         isBtnVisible={true}
                         btnId='btnAddUser'
+                        btnClassName='fab submit sectionTitleButton'
                         btnTitle='ButtonAddUser'
-                        titleLink='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
+                        btnIcon='add'
+                        url='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
                     />
                 </div>
 

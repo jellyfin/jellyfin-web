@@ -86,7 +86,7 @@ const DlnaSettingsPage: FunctionComponent = () => {
             <div className='verticalSection'>
                 <SectionTitleContainer
                     title={globalize.translate('Settings')}
-                    titleLink='https://docs.jellyfin.org/general/networking/dlna.html'
+                    url='https://docs.jellyfin.org/general/networking/dlna.html'
                 />
             </div>
             <form className='dlnaSettingsForm'>

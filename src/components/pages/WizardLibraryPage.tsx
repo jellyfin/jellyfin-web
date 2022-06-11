@@ -67,11 +67,11 @@ const WizardLibraryPage: FunctionComponent = () => {
 
         reloadLibrary();
 
-        (page.querySelector('.btnPrevious') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnPrevious') as HTMLButtonElement).addEventListener('click', function() {
             window.history.back();
         });
 
-        (page.querySelector('.btnNext') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnNext') as HTMLButtonElement).addEventListener('click', function() {
             next();
         });
     }, [reloadLibrary]);
@@ -79,10 +79,12 @@ const WizardLibraryPage: FunctionComponent = () => {
     return (
         <div ref={element} className='padded-left padded-right padded-top'>
             <div className='ui-corner-all ui-shadow wizardContent'>
-                <SectionTitleContainer
-                    title={globalize.translate('HeaderSetupLibrary')}
-                    titleLink='https://docs.jellyfin.org/general/server/libraries.html'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderSetupLibrary')}
+                        url='https://docs.jellyfin.org/general/server/libraries.html'
+                    />
+                </div>
                 <br />
                 <VirtualFolders
                     reloadLibrary={reloadLibrary}
@@ -95,13 +97,15 @@ const WizardLibraryPage: FunctionComponent = () => {
                     <div className='flex align-items-center'>
                         <ButtonElement
                             type='button'
-                            className='raised btnPrevious button-cancel'
+                            id='btnPrevious'
+                            className='raised button-cancel'
                             leftIcon='arrow_back'
                             title='Previous'
                         />
                         <ButtonElement
                             type='button'
-                            className='raised btnNext button-submit'
+                            id='btnNext'
+                            className='raised button-submit'
                             title='Next'
                             rightIcon='arrow_forward'
                         />

@@ -169,7 +169,7 @@ const NewUserPage: FunctionComponent = () => {
 
         (page.querySelector('.newUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        (page.querySelector('.button-cancel') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
             window.history.back();
         });
     }, [loadUser]);
@@ -180,7 +180,7 @@ const NewUserPage: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('HeaderAddUser')}
-                        titleLink='https://docs.jellyfin.org/general/server/users/'
+                        url='https://docs.jellyfin.org/general/server/users/'
                     />
                 </div>
 
@@ -249,7 +249,8 @@ const NewUserPage: FunctionComponent = () => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised button-cancel block btnCancel'
+                            id='btnCancel'
+                            className='raised button-cancel block'
                             title='ButtonCancel'
                         />
                     </div>

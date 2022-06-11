@@ -85,7 +85,9 @@ const DlnaProfilesPage: FunctionComponent = () => {
                         title={globalize.translate('HeaderCustomDlnaProfiles')}
                         isBtnVisible={true}
                         btnId='btnAddProfiles'
+                        btnClassName='fab submit sectionTitleButton'
                         btnTitle='ButtonAddProfiles'
+                        btnIcon='add'
                         isLinkVisible={false}
                     />
                     <p>{globalize.translate('CustomDlnaProfilesHelp')}</p>

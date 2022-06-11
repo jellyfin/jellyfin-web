@@ -206,8 +206,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
         (page.querySelector('.updatePasswordForm') as HTMLFormElement).addEventListener('submit', onSubmit);
         (page.querySelector('.localAccessForm') as HTMLFormElement).addEventListener('submit', onLocalAccessSubmit);
 
-        (page.querySelector('.btnResetEasyPassword') as HTMLButtonElement).addEventListener('click', resetEasyPassword);
-        (page.querySelector('.btnResetPassword') as HTMLButtonElement).addEventListener('click', resetPassword);
+        (page.querySelector('#btnResetEasyPassword') as HTMLButtonElement).addEventListener('click', resetEasyPassword);
+        (page.querySelector('#btnResetPassword') as HTMLButtonElement).addEventListener('click', resetPassword);
     }, [loadUser, userId]);
 
     return (
@@ -250,7 +250,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised btnResetPassword button-cancel block hide'
+                            id='btnResetPassword'
+                            className='raised button-cancel block hide'
                             title='ResetPassword'
                         />
                     </div>
@@ -297,7 +298,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised btnResetEasyPassword button-cancel block hide'
+                            id='btnResetEasyPassword'
+                            className='raised button-cancel block hide'
                             title='ButtonResetEasyPassword'
                         />
                     </div>

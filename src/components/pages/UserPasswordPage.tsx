@@ -26,7 +26,7 @@ const UserPasswordPage: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
-                        titleLink='https://docs.jellyfin.org/general/server/users/'
+                        url='https://docs.jellyfin.org/general/server/users/'
                     />
                 </div>
                 <SectionTabs activeTab='userpassword'/>

@@ -6,7 +6,6 @@ import AccessScheduleList from '../dashboard/users/AccessScheduleList';
 import BlockedTagList from '../dashboard/users/BlockedTagList';
 import ButtonElement from '../dashboard/users/ButtonElement';
 import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import SectionTitleButtonElement from '../dashboard/users/SectionTitleButtonElement';
 import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
 import SelectMaxParentalRating from '../dashboard/users/SelectMaxParentalRating';
 import SectionTabs from '../dashboard/users/SectionTabs';
@@ -299,7 +298,7 @@ const UserParentalControl: FunctionComponent = () => {
             return false;
         };
 
-        (page.querySelector('.btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
             showSchedulePopup({
                 Id: 0,
                 UserId: '',
@@ -309,7 +308,7 @@ const UserParentalControl: FunctionComponent = () => {
             }, -1);
         });
 
-        (page.querySelector('.btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
             showBlockedTagPopup();
         });
 
@@ -322,7 +321,7 @@ const UserParentalControl: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
-                        titleLink='https://docs.jellyfin.org/general/server/users/'
+                        url='https://docs.jellyfin.org/general/server/users/'
                     />
                 </div>
                 <SectionTabs activeTab='userparentalcontrol'/>
@@ -357,19 +356,16 @@ const UserParentalControl: FunctionComponent = () => {
                     </div>
                     <br />
                     <div className='verticalSection' style={{marginBottom: '2em'}}>
-                        <div
-                            className='detailSectionHeader sectionTitleContainer'
-                            style={{display: 'flex', alignItems: 'center', paddingBottom: '1em'}}
-                        >
-                            <h2 className='sectionTitle'>
-                                {globalize.translate('LabelBlockContentWithTags')}
-                            </h2>
-                            <SectionTitleButtonElement
-                                className='fab btnAddBlockedTag submit'
-                                title='Add'
-                                icon='add'
-                            />
-                        </div>
+                        <SectionTitleContainer
+                            SectionClassName='detailSectionHeader'
+                            title={globalize.translate('LabelBlockContentWithTags')}
+                            isBtnVisible={true}
+                            btnId='btnAddBlockedTag'
+                            btnClassName='fab submit sectionTitleButton'
+                            btnTitle='Add'
+                            btnIcon='add'
+                            isLinkVisible={false}
+                        />
                         <div className='blockedTags' style={{marginTop: '.5em'}}>
                             {blockedTags.map((tag, index) => {
                                 return <BlockedTagList
@@ -380,19 +376,15 @@ const UserParentalControl: FunctionComponent = () => {
                         </div>
                     </div>
                     <div className='accessScheduleSection verticalSection' style={{marginBottom: '2em'}}>
-                        <div
-                            className='sectionTitleContainer'
-                            style={{display: 'flex', alignItems: 'center', paddingBottom: '1em'}}
-                        >
-                            <h2 className='sectionTitle'>
-                                {globalize.translate('HeaderAccessSchedule')}
-                            </h2>
-                            <SectionTitleButtonElement
-                                className='fab btnAddSchedule submit'
-                                title='Add'
-                                icon='add'
-                            />
-                        </div>
+                        <SectionTitleContainer
+                            title={globalize.translate('HeaderAccessSchedule')}
+                            isBtnVisible={true}
+                            btnId='btnAddSchedule'
+                            btnClassName='fab submit sectionTitleButton'
+                            btnTitle='Add'
+                            btnIcon='add'
+                            isLinkVisible={false}
+                        />
                         <p>{globalize.translate('HeaderAccessScheduleHelp')}</p>
                         <div className='accessScheduleList paperList'>
                             {accessSchedules.map((accessSchedule, index) => {

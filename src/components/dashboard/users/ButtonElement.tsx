@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createButtonElement = ({ type, className, title, leftIcon, rightIcon }: { type?: string, className?: string, title?: string, leftIcon?: string, rightIcon?: string }) => ({
+const createButtonElement = ({ type, id, className, title, leftIcon, rightIcon }: IProps) => ({
     __html: `<button
         is="emby-button"
         type="${type}"
+        ${id}
         class="${className}"
         >
         ${leftIcon}
@@ -15,17 +16,19 @@ const createButtonElement = ({ type, className, title, leftIcon, rightIcon }: { 
 
 type IProps = {
     type?: string;
+    id?: string;
     className?: string;
     title?: string;
     leftIcon?: string;
     rightIcon?: string;
 }
 
-const ButtonElement: FunctionComponent<IProps> = ({ type, className, title, leftIcon, rightIcon }: IProps) => {
+const ButtonElement: FunctionComponent<IProps> = ({ type, id, className, title, leftIcon, rightIcon }: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createButtonElement({
                 type: type,
+                id: id ? `id="${id}"` : '',
                 className: className,
                 title: globalize.translate(title),
                 leftIcon: leftIcon ? `<span class="material-icons ${leftIcon}" aria-hidden="true"></span>` : '',

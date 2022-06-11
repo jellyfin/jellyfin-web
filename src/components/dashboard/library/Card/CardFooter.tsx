@@ -1,18 +1,9 @@
 import { VirtualFolderInfo } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent } from 'react';
+import IconButtonElement from '../../elements/IconButtonElement';
 import CardTextPrimary from './CardTextPrimary';
 import CardTextSecondary from './CardTextSecondary';
 import CardTextTertiary from './CardTextTertiary';
-
-const createButtonElement = () => ({
-    __html: `<button
-    type="button"
-    is="paper-icon-button-light"
-    class="btnCardMenu autoSize"
-    >
-    <span class="material-icons more_vert" aria-hidden="true"></span>
-    </button>`
-});
 
 type IProps = {
     virtualFolder: IVirtualFolders;
@@ -40,8 +31,14 @@ const CardFooter: FunctionComponent<IProps> = ({virtualFolder, getCollectionType
             {virtualFolder.showMenu !== false && (
                 <div
                     style={{textAlign: 'right', float: 'right', paddingTop: '5px'}}
-                    dangerouslySetInnerHTML={createButtonElement()}
-                />
+                >
+                    <IconButtonElement
+                        is='paper-icon-button-light'
+                        type='button'
+                        className='btnCardMenu autoSize'
+                        icon='more_vert'
+                    />
+                </div>
             )}
             <CardTextPrimary virtualFolder={virtualFolder} />
             <CardTextSecondary virtualFolder={virtualFolder} getCollectionTypeOptions={getCollectionTypeOptions}/>

@@ -1,34 +1,38 @@
 import React, { FunctionComponent } from 'react';
-import SectionTitleButtonElement from './SectionTitleButtonElement';
+import IconButtonElement from '../elements/IconButtonElement';
 import SectionTitleLinkElement from './SectionTitleLinkElement';
 
 type IProps = {
+    SectionClassName?: string;
     title?: string;
     isBtnVisible?: boolean;
-    btnTitle?: string;
     btnId?: string;
+    btnClassName?: string;
+    btnTitle?: string;
+    btnIcon?: string;
     isLinkVisible?: boolean;
-    titleLink?: string;
+    url?: string;
 }
-
-const SectionTitleContainer: FunctionComponent<IProps> = ({title, isBtnVisible = false, btnTitle, btnId, isLinkVisible = true, titleLink}: IProps) => {
+const SectionTitleContainer: FunctionComponent<IProps> = ({SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, isLinkVisible = true, url}: IProps) => {
     return (
-        <div className='sectionTitleContainer flex align-items-center'>
+        <div className={`${SectionClassName} sectionTitleContainer flex align-items-center`}>
             <h2 className='sectionTitle'>
                 {title}
             </h2>
 
-            {isBtnVisible && <SectionTitleButtonElement
+            {isBtnVisible && <IconButtonElement
+                is='emby-button'
+                type='button'
                 id={btnId}
-                className='fab submit sectionTitleButton'
+                className={btnClassName}
                 title={btnTitle}
-                icon='add'
+                icon={btnIcon}
             />}
 
             {isLinkVisible && <SectionTitleLinkElement
                 className='raised button-alt headerHelpButton'
                 title='Help'
-                url={titleLink}
+                url={url}
             />}
 
         </div>
