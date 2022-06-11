@@ -92,7 +92,6 @@ const DlnaSettingsPage: FunctionComponent = () => {
             <form className='dlnaSettingsForm'>
                 <div className='checkboxContainer checkboxContainer-withDescription'>
                     <CheckBoxElement
-                        type='checkbox'
                         className='chkEnablePlayTo'
                         title='LabelEnableDlnaPlayTo'
                     />
@@ -103,7 +102,6 @@ const DlnaSettingsPage: FunctionComponent = () => {
 
                 <div className='checkboxContainer checkboxContainer-withDescription'>
                     <CheckBoxElement
-                        type='checkbox'
                         className='chkEnableDlnaDebugLogging'
                         title='LabelEnableDlnaDebugLogging'
                     />
@@ -126,7 +124,6 @@ const DlnaSettingsPage: FunctionComponent = () => {
 
                 <div className='checkboxContainer checkboxContainer-withDescription'>
                     <CheckBoxElement
-                        type='checkbox'
                         className='chkEnableServer'
                         title='LabelEnableDlnaServer'
                     />
@@ -137,7 +134,6 @@ const DlnaSettingsPage: FunctionComponent = () => {
 
                 <div className='checkboxContainer checkboxContainer-withDescription'>
                     <CheckBoxElement
-                        type='checkbox'
                         className='chkBlastAliveMessages'
                         title='LabelEnableBlastAliveMessages'
                     />

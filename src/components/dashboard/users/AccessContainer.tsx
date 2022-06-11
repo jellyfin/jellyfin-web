@@ -18,7 +18,11 @@ const AccessContainer: FunctionComponent<IProps> = ({containerClassName, headerT
     return (
         <div className={containerClassName}>
             <h2>{globalize.translate(headerTitle)}</h2>
-            <CheckBoxElement labelClassName='checkboxContainer' type='checkbox' className={checkBoxClassName} title={checkBoxTitle} />
+            <CheckBoxElement
+                labelClassName='checkboxContainer'
+                className={checkBoxClassName}
+                title={checkBoxTitle}
+            />
             <div className={listContainerClassName}>
                 <div className={accessClassName}>
                     <h3 className='checkboxListLabel'>

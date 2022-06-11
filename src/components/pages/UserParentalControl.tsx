@@ -5,13 +5,13 @@ import LibraryMenu from '../../scripts/libraryMenu';
 import AccessScheduleList from '../dashboard/users/AccessScheduleList';
 import BlockedTagList from '../dashboard/users/BlockedTagList';
 import ButtonElement from '../dashboard/elements/ButtonElement';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import SelectMaxParentalRating from '../dashboard/users/SelectMaxParentalRating';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 import { getParameterByName } from '../../utils/url';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 
 type RatingsArr = {
     Name: string;
@@ -343,12 +343,12 @@ const UserParentalControl: FunctionComponent = () => {
                             </h3>
                             <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                                 {unratedItems.map(Item => {
-                                    return <CheckBoxListItem
+                                    return <CheckBoxElement
                                         key={Item.value}
                                         className='chkUnratedItem'
-                                        ItemType={Item.value}
-                                        Name={Item.name}
-                                        checkedAttribute={Item.checkedAttribute}
+                                        itemType={Item.value}
+                                        itemName={Item.name}
+                                        itemCheckedAttribute={Item.checkedAttribute}
                                     />;
                                 })}
                             </div>

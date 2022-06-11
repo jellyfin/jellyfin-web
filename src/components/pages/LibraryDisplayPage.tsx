@@ -113,7 +113,6 @@ const LibraryDisplayPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkFolderView'
                             title='OptionDisplayFolderView'
                         />
@@ -123,14 +122,12 @@ const LibraryDisplayPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkDisplaySpecialsWithinSeasons'
                             title='LabelDisplaySpecialsWithinSeasons'
                         />
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkGroupMoviesIntoCollections'
                             title='LabelGroupMoviesIntoCollections'
                         />
@@ -140,7 +137,6 @@ const LibraryDisplayPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkExternalContentInSuggestions'
                             title='OptionEnableExternalContentInSuggestions'
                         />
@@ -150,10 +146,9 @@ const LibraryDisplayPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription fldSaveMetadataHidden hide'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkAirDays'
-                            id='chkSaveMetadataHidden'
-                            datafilter='Sunday'
+                            elementId='chkSaveMetadataHidden'
+                            dataFilter='Sunday'
                             title='OptionSaveMetadataAsHidden'
                         />
                         <div className='fieldDescription checkboxFieldDescription'>

@@ -282,7 +282,6 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                     <br />
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkEnableLocalEasyPassword'
                             title='LabelInNetworkSignInWithEasyPassword'
                         />

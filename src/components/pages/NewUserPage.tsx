@@ -6,9 +6,9 @@ import loading from '../loading/loading';
 import toast from '../toast/toast';
 import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import InputElement from '../dashboard/elements/InputElement';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import ButtonElement from '../dashboard/elements/ButtonElement';
 import AccessContainer from '../dashboard/users/AccessContainer';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 
 type userInput = {
     Name?: string;
@@ -211,12 +211,11 @@ const NewUserPage: FunctionComponent = () => {
                         description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkFolder'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute=''
+                                itemId={Item.Id}
+                                itemName={Item.Name}
                             />
                         ))}
                     </AccessContainer>
@@ -232,12 +231,11 @@ const NewUserPage: FunctionComponent = () => {
                         description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkChannel'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute=''
+                                itemId={Item.Id}
+                                itemName={Item.Name}
                             />
                         ))}
                     </AccessContainer>

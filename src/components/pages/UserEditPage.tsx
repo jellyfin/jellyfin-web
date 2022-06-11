@@ -5,7 +5,6 @@ import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
 import ButtonElement from '../dashboard/elements/ButtonElement';
 import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
 import InputElement from '../dashboard/elements/InputElement';
 import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences';
 import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
@@ -338,7 +337,6 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription fldRemoteAccess hide'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkRemoteAccess'
                             title='AllowRemoteAccess'
                         />
@@ -348,7 +346,6 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <CheckBoxElement
                         labelClassName='checkboxContainer'
-                        type='checkbox'
                         className='chkIsAdmin'
                         title='OptionAllowUserToManageServer'
                     />
@@ -358,12 +355,10 @@ const UserEditPage: FunctionComponent = () => {
                         </h2>
                         <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableLiveTvAccess'
                                 title='OptionAllowBrowsingLiveTv'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkManageLiveTv'
                                 title='OptionAllowManageLiveTv'
                             />
@@ -375,27 +370,22 @@ const UserEditPage: FunctionComponent = () => {
                         </h2>
                         <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableMediaPlayback'
                                 title='OptionAllowMediaPlayback'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableAudioPlaybackTranscoding'
                                 title='OptionAllowAudioPlaybackTranscoding'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableVideoPlaybackTranscoding'
                                 title='OptionAllowVideoPlaybackTranscoding'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableVideoPlaybackRemuxing'
                                 title='OptionAllowVideoPlaybackRemuxing'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkForceRemoteSourceTranscoding'
                                 title='OptionForceRemoteSourceTranscoding'
                             />
@@ -440,18 +430,17 @@ const UserEditPage: FunctionComponent = () => {
                         <div className='checkboxList paperList checkboxList-paperList'>
                             <CheckBoxElement
                                 labelClassName='checkboxContainer'
-                                type='checkbox'
                                 className='chkEnableDeleteAllFolders'
                                 title='AllLibraries'
                             />
                             <div className='deleteAccess'>
                                 {deleteFoldersAccess.map(Item => (
-                                    <CheckBoxListItem
+                                    <CheckBoxElement
                                         key={Item.Id}
                                         className='chkFolder'
-                                        Id={Item.Id}
-                                        Name={Item.Name}
-                                        checkedAttribute={Item.checkedAttribute}
+                                        itemId={Item.Id}
+                                        itemName={Item.Name}
+                                        itemCheckedAttribute={Item.checkedAttribute}
                                     />
                                 ))}
                             </div>
@@ -463,12 +452,10 @@ const UserEditPage: FunctionComponent = () => {
                         </h2>
                         <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableRemoteControlOtherUsers'
                                 title='OptionAllowRemoteControlOthers'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkRemoteControlSharedDevices'
                                 title='OptionAllowRemoteSharedDevices'
                             />
@@ -482,7 +469,6 @@ const UserEditPage: FunctionComponent = () => {
                     </h2>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkEnableDownloading'
                             title='OptionAllowContentDownload'
                         />
@@ -492,7 +478,6 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsEnabled'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkDisabled'
                             title='OptionDisableUser'
                         />
@@ -502,7 +487,6 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsHidden'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkIsHidden'
                             title='OptionHideUser'
                         />

@@ -1,39 +1,53 @@
+import escapeHTML from 'escape-html';
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createCheckBoxElement = ({ labelClassName, type, className, id, datafilter, title }: { labelClassName?: string, type?: string, className?: string, id?: string, datafilter?: string, title?: string }) => ({
-    __html: `<label class="${labelClassName}">
+const createCheckBoxElement = ({ labelClassName, className, id, dataFilter, dataItemType, dataId, checkedAttribute, renderContent }: { labelClassName?: string, type?: string, className?: string, id?: string, dataFilter?: string, dataItemType?: string, dataId?: string, checkedAttribute?: string, renderContent?: string }) => ({
+    __html: `<label ${labelClassName}>
         <input
             is="emby-checkbox"
-            type="${type}"
+            type="checkbox"
             class="${className}"
             ${id}
-            ${datafilter}
+            ${dataFilter}
+            ${dataItemType}
+            ${dataId}
+            ${checkedAttribute}
         />
-        <span>${title}</span>
+        ${renderContent}
     </label>`
 });
 
 type IProps = {
     labelClassName?: string;
-    type?: string;
     className?: string;
-    id?: string;
-    datafilter?: string;
+    elementId?: string;
+    dataFilter?: string;
+    itemType?: string;
+    itemId?: string;
+    itemAppName?: string;
+    itemCheckedAttribute?: string;
+    itemName?: string
     title?: string
 }
 
-const CheckBoxElement: FunctionComponent<IProps> = ({ labelClassName, type, className, id, datafilter, title }: IProps) => {
+const CheckBoxElement: FunctionComponent<IProps> = ({ labelClassName, className, elementId, dataFilter, itemType, itemId, itemAppName, itemCheckedAttribute, itemName, title }: IProps) => {
+    const renderContent = itemName ?
+        `<span>${escapeHTML(itemName || '')} ${itemAppName ? `- ${itemAppName}` : ''}</span>` :
+        `<span>${globalize.translate(title)}</span>`;
+
     return (
         <div
             className='sectioncheckbox'
             dangerouslySetInnerHTML={createCheckBoxElement({
-                labelClassName: labelClassName ? labelClassName : '',
-                type: type,
+                labelClassName: labelClassName ? `class='${labelClassName}'` : '',
                 className: className,
-                id: id ? `id='${id}'` : '',
-                datafilter: datafilter ? `data-filter='${datafilter}'` : '',
-                title: globalize.translate(title)
+                id: elementId ? `id='${elementId}'` : '',
+                dataFilter: dataFilter ? `data-filter='${dataFilter}'` : '',
+                dataItemType: itemType ? `data-itemtype='${itemType}'` : '',
+                dataId: itemId ? `data-id='${itemId}'` : '',
+                checkedAttribute: itemCheckedAttribute ? itemCheckedAttribute : '',
+                renderContent: renderContent
             })}
         />
     );
