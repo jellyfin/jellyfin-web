@@ -42,6 +42,7 @@ const LibraryMetaDataConfigPage: FunctionComponent = () => {
     }, []);
 
     const loadPage = useCallback((page) => {
+        loading.show();
         const promises = [
             window.ApiClient.getServerConfiguration(),
             populateLanguages(),
@@ -64,7 +65,6 @@ const LibraryMetaDataConfigPage: FunctionComponent = () => {
         }
 
         LibraryMenu.setTabs('metadata', 2, getTabs);
-        loading.show();
         loadPage(page);
 
         const onSubmit = (e: Event) => {
@@ -89,16 +89,13 @@ const LibraryMetaDataConfigPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-
                 <form className='metadataImagesConfigurationForm'>
                     <h2 style={{marginTop: '0'}}>
                         {globalize.translate('HeaderPreferredMetadataLanguage')}
                     </h2>
-
-                    <p style={{margin: '1.5em 0;'}} >
+                    <p style={{margin: '1.5em 0'}}>
                         {globalize.translate('DefaultMetadataLangaugeDescription')}
                     </p>
-
                     <div className='selectContainer'>
                         <SelectLanguage
                             id='selectLanguage'
@@ -106,9 +103,7 @@ const LibraryMetaDataConfigPage: FunctionComponent = () => {
                             label='LabelLanguage'
                             languages={languages}
                         />
-
                     </div>
-
                     <div className='selectContainer'>
                         <SelectCountry
                             id='selectCountry'
@@ -116,16 +111,13 @@ const LibraryMetaDataConfigPage: FunctionComponent = () => {
                             label='LabelCountry'
                             countries={countries}
                         />
-
                     </div>
-
                     <br />
                     <ButtonElement
                         type='submit'
                         className='raised button-submit block'
                         title='Save'
                     />
-
                 </form>
             </div>
         </div>
