@@ -257,7 +257,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/metadatanfo.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/metadatanfo'
+        pageComponent: 'LibraryMetaDataNfoPage'
     });
 
     defineRoute({

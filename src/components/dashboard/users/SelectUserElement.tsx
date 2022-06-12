@@ -3,26 +3,28 @@ import escapeHtml from 'escape-html';
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
 
-const createSelectElement = ({ id, label, option }: { id?: string, label: string, option: string }) => ({
+const createSelectElement = ({ name, id, label, option }: { name?: string, id?: string, label: string, option: string }) => ({
     __html: `<select
-        id="${id}"
         is="emby-select"
+        ${name}
+        id="${id}"
         label="${label}"
     >
-    <option value=''></option>
         ${option}
     </select>`
 });
 
 type IProps = {
+    name?: string;
     id?: string;
     label?: string;
     users: UserDto[];
 }
 
-const SelectUserElement: FunctionComponent<IProps> = ({ id, label, users }: IProps) => {
+const SelectUserElement: FunctionComponent<IProps> = ({ name, id, label, users }: IProps) => {
     const renderOption = () => {
         let content = '';
+        content += `<option value='' selected='selected'>${globalize.translate('None')}</option>`;
         for (const user of users) {
             content += `<option value='${user.Id}'>${escapeHtml(user.Name)}</option>`;
         }
@@ -32,6 +34,7 @@ const SelectUserElement: FunctionComponent<IProps> = ({ id, label, users }: IPro
     return (
         <div
             dangerouslySetInnerHTML={createSelectElement({
+                name: name ? `name='${name}'` : '',
                 id: id,
                 label: globalize.translate(label),
                 option: renderOption()
