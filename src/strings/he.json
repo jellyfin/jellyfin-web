@@ -771,7 +771,7 @@
     "EnableNextVideoInfoOverlayHelp": "בסוף סרטון, הציגו מידע על הסרטון הבא שיופיע בפלייליסט הנוכחי.",
     "EnableDecodingColorDepth10Vp9": "אפשר פענוח חומרה של 10 סיביות עבור VP9",
     "EnableDecodingColorDepth10Hevc": "אפשר פענוח חומרה של 10 סיביות עבור HEVC",
-    "EnableBackdropsHelp": "הצג תפאורות ברקע של כמה דפים בעת גלישה בספרייה.",
+    "EnableBackdropsHelp": "הצג את התפאורות ברקע של כמה דפים בעת גלישה בספרייה.",
     "DisplayMissingEpisodesWithinSeasonsHelp": "יש להפעיל זאת גם עבור ספריות טלוויזיה בתצורת השרת.",
     "DisplayInOtherHomeScreenSections": "הצג בקטעי מסך הבית כגון המדיה העדכנית והמשיך בצפייה",
     "DeinterlaceMethodHelp": "בחר בשיטת deinterlacing לשימוש בהמרת תוכנה מקושרת לתוכן. כאשר מופעלת האצת חומרה התומכת בפירוק חומרה של חומרה, ישתמש במתקן החומרה במקום בהגדרה זו.",
@@ -976,5 +976,7 @@
     "Copy": "העתק",
     "ButtonSpace": "רווח",
     "ButtonClose": "סגור",
-    "AddToFavorites": "הוסף למועדפים"
+    "AddToFavorites": "הוסף למועדפים",
+    "EnableRewatchingNextUp": "אפשר צפייה חוזרת ב\"הבא בתור\"",
+    "Copied": "הועתק"
 }
