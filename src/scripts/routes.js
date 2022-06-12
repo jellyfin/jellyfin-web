@@ -249,7 +249,7 @@ import { appRouter } from '../components/appRouter';
         path: 'dashboard/metadataimages.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/metadataImages'
+        pageComponent: 'LibraryMetaDataConfigPage'
     });
 
     defineRoute({
