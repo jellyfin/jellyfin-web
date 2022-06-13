@@ -797,7 +797,7 @@
     "DatePlayed": "Reproduzido a",
     "DateAdded": "Adicionado a",
     "CustomDlnaProfilesHelp": "Crie um perfil personalizado para um novo dispositivo ou para sobrepor a um perfil de sistema.",
-    "CriticRating": "Avaliação da crítica",
+    "CriticRating": "Classificação dos críticos",
     "CopyStreamURLSuccess": "URL copiado com sucesso.",
     "CopyStreamURL": "Copiar URL da corrente",
     "Continuing": "A Continuar",
@@ -1219,7 +1219,7 @@
     "ClearQueue": "Limpar fila",
     "Bwdif": "BWDIF",
     "ButtonPlayer": "Reprodutor",
-    "ButtonCast": "Projetar",
+    "ButtonCast": "Transmitir para o dispositivo",
     "AllowTonemappingHelp": "O mapeamento de tons pode mudar a gama dinâmica de um vídeo de HDR para SDR, mantendo as detalhes e as cores, as quais são importantes para reproduzir a imagem original. Atualmente, funciona apenas quando transcodificam-se vídeos com metadados HDR10 ou HLG incorporados. Se a reprodução não estiver suave, ou se falhar, por favor considere desativar o descodificador por hardware correspondente.",
     "MusicVideos": "Videoclipes",
     "LabelTonemappingPeak": "Pico de mapeamento de Tom:",
@@ -1344,5 +1344,14 @@
     "Console": "Consola",
     "Conductor": "Condutor",
     "Casual": "Casual",
-    "ButtonBackspace": "Retrocesso"
+    "ButtonBackspace": "Retrocesso",
+    "GoogleCastUnsupported": "Google Cast não compatível",
+    "Digital": "Digital",
+    "CopyFailed": "Não podes copiar",
+    "Copy": "Copiar",
+    "Copied": "Copiado",
+    "ButtonSpace": "Espaço",
+    "ButtonExitApp": "Sair da Aplicação",
+    "ButtonClose": "Fechar",
+    "AddToFavorites": "adicionar aos favoritos"
 }
