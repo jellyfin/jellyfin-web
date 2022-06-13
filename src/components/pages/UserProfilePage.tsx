@@ -134,7 +134,9 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
         });
 
         (page.querySelector('.btnAddImage') as HTMLButtonElement).addEventListener('click', function () {
-            (page.querySelector('#uploadImage') as HTMLInputElement).click();
+            const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
+            uploadImage.value = '';
+            uploadImage.click();
         });
 
         (page.querySelector('#uploadImage') as HTMLInputElement).addEventListener('change', function (evt: Event) {
