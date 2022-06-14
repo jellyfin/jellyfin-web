@@ -89,11 +89,11 @@ function renderItems(page, item) {
     const sectionElems = elem.querySelectorAll('.verticalSection');
 
     for (let i = 0, length = sectionElems.length; i < length; i++) {
-        renderSection(page, item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
+        renderSection(item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
     }
 }
 
-function renderSection(page, item, element, type) {
+function renderSection(item, element, type) {
     switch (type) {
         case 'Program':
             loadItems(element, item, type, {
@@ -373,6 +373,8 @@ function getItemsFunction(options, item) {
     };
 }
 
-window.ItemsByName = {
-    renderItems: renderItems
+const ItemsByName = {
+    renderItems
 };
+
+export default ItemsByName;

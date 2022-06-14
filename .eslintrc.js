@@ -215,7 +215,6 @@ module.exports = {
                 'LiveTvHelpers': 'writable',
                 'Loading': 'writable',
                 'MetadataEditor': 'writable',
-                'PlaylistViewer': 'writable',
                 'ServerNotifications': 'writable',
                 'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
