@@ -128,9 +128,6 @@ function processGeneralCommand(cmd, apiClient) {
         case 'ToggleContextMenu':
             // todo
             break;
-        case 'TakeScreenShot':
-            // todo
-            break;
         case 'SendKey':
             // todo
             break;
