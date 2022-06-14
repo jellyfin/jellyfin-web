@@ -1,16 +1,22 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FunctionComponent, HTMLAttributes, useEffect, useRef } from 'react';
 
 import viewManager from './viewManager/viewManager';
 
 type PageProps = {
-    title?: string
+    title?: string,
+    isBackButtonEnabled?: boolean
 };
 
 /**
  * Page component that handles hiding active non-react views, triggering the required events for
  * navigation and appRouter state updates, and setting the correct classes and data attributes.
  */
-const Page: FunctionComponent<PageProps> = ({ children, title }) => {
+const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
+    children,
+    className = '',
+    title,
+    isBackButtonEnabled = true
+}) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -38,9 +44,9 @@ const Page: FunctionComponent<PageProps> = ({ children, title }) => {
         <div
             ref={element}
             data-role='page'
-            className='mainAnimatedPage page libraryPage allLibraryPage noSecondaryNavPage'
+            className={`page ${className}`}
             data-title={title}
-            data-backbutton='true'
+            data-backbutton={`${isBackButtonEnabled}`}
         >
             {children}
         </div>
