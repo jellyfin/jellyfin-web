@@ -98,7 +98,7 @@ import confirm from '../../../components/confirm/confirm';
             deviceHtml += '<div class="cardBox visualCardBox">';
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
-            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#!/device.html?id=' + device.Id : '#'}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
+            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#/device.html?id=' + device.Id : '#'}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
             const iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {

@@ -219,9 +219,9 @@ function getProviderName(providerId) {
 function getProviderConfigurationUrl(providerId) {
     switch (providerId = providerId.toLowerCase()) {
         case 'xmltv':
-            return '#!/livetvguideprovider.html?type=xmltv';
+            return '#/livetvguideprovider.html?type=xmltv';
         case 'schedulesdirect':
-            return '#!/livetvguideprovider.html?type=schedulesdirect';
+            return '#/livetvguideprovider.html?type=schedulesdirect';
     }
 }
 

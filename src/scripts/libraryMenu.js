@@ -293,7 +293,7 @@ import '../assets/css/flexstyles.scss';
     function refreshLibraryInfoInDrawer(user) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home.html"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
 
         // placeholder for custom menu links
         html += '<div class="customMenuOptions"></div>';
@@ -306,8 +306,8 @@ import '../assets/css/flexstyles.scss';
             html += '<h3 class="sidebarHeader">';
             html += globalize.translate('HeaderAdmin');
             html += '</h3>';
-            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#!/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
-            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#!/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
+            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
+            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
             html += '</div>';
         }
 
@@ -408,28 +408,28 @@ import '../assets/css/flexstyles.scss';
             name: globalize.translate('TabServer')
         }, {
             name: globalize.translate('TabDashboard'),
-            href: '#!/dashboard.html',
+            href: '#/dashboard.html',
             pageIds: ['dashboardPage'],
             icon: 'dashboard'
         }, {
             name: globalize.translate('General'),
-            href: '#!/dashboardgeneral.html',
+            href: '#/dashboardgeneral.html',
             pageIds: ['dashboardGeneralPage'],
             icon: 'settings'
         }, {
             name: globalize.translate('HeaderUsers'),
-            href: '#!/userprofiles.html',
+            href: '#/userprofiles.html',
             pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
             icon: 'people'
         }, {
             name: globalize.translate('HeaderLibraries'),
-            href: '#!/library.html',
+            href: '#/library.html',
             pageIds: ['mediaLibraryPage', 'librarySettingsPage', 'libraryDisplayPage', 'metadataImagesConfigurationPage', 'metadataNfoPage'],
             icon: 'folder'
         }, {
             name: globalize.translate('TitlePlayback'),
             icon: 'play_arrow',
-            href: '#!/encodingsettings.html',
+            href: '#/encodingsettings.html',
             pageIds: ['encodingSettingsPage', 'playbackConfigurationPage', 'streamingSettingsPage']
         }];
         addPluginPagesToMainMenu(links, pluginItems, 'server');
@@ -439,19 +439,19 @@ import '../assets/css/flexstyles.scss';
         });
         links.push({
             name: globalize.translate('HeaderDevices'),
-            href: '#!/devices.html',
+            href: '#/devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
         });
         links.push({
             name: globalize.translate('HeaderActivity'),
-            href: '#!/serveractivity.html',
+            href: '#/serveractivity.html',
             pageIds: ['serverActivityPage'],
             icon: 'assessment'
         });
         links.push({
             name: globalize.translate('DLNA'),
-            href: '#!/dlnasettings.html',
+            href: '#/dlnasettings.html',
             pageIds: ['dlnaSettingsPage', 'dlnaProfilesPage', 'dlnaProfilePage'],
             icon: 'input'
         });
@@ -461,13 +461,13 @@ import '../assets/css/flexstyles.scss';
         });
         links.push({
             name: globalize.translate('LiveTV'),
-            href: '#!/livetvstatus.html',
+            href: '#/livetvstatus.html',
             pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
             icon: 'live_tv'
         });
         links.push({
             name: globalize.translate('HeaderDVR'),
-            href: '#!/livetvsettings.html',
+            href: '#/livetvsettings.html',
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
         });
@@ -479,36 +479,36 @@ import '../assets/css/flexstyles.scss';
         links.push({
             name: globalize.translate('TabNetworking'),
             icon: 'cloud',
-            href: '#!/networking.html',
+            href: '#/networking.html',
             pageIds: ['networkingPage']
         });
         links.push({
             name: globalize.translate('HeaderApiKeys'),
             icon: 'vpn_key',
-            href: '#!/apikeys.html',
+            href: '#/apikeys.html',
             pageIds: ['apiKeysPage']
         });
         links.push({
             name: globalize.translate('TabLogs'),
-            href: '#!/log.html',
+            href: '#/log.html',
             pageIds: ['logPage'],
             icon: 'bug_report'
         });
         links.push({
             name: globalize.translate('TabNotifications'),
             icon: 'notifications',
-            href: '#!/notificationsettings.html',
+            href: '#/notificationsettings.html',
             pageIds: ['notificationSettingsPage', 'notificationSettingPage']
         });
         links.push({
             name: globalize.translate('TabPlugins'),
             icon: 'shopping_cart',
-            href: '#!/installedplugins.html',
+            href: '#/installedplugins.html',
             pageIds: ['pluginsPage', 'pluginCatalogPage']
         });
         links.push({
             name: globalize.translate('TabScheduledTasks'),
-            href: '#!/scheduledtasks.html',
+            href: '#/scheduledtasks.html',
             pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
             icon: 'schedule'
         });
@@ -593,7 +593,7 @@ import '../assets/css/flexstyles.scss';
     function createDashboardMenu(apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             let html = '';
-            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="#!/home.html">';
+            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="#/home.html">';
             html += '<img src="assets/img/icon-transparent.png" />';
             html += '</a>';
             html += toolsMenuHtml;
@@ -624,7 +624,7 @@ import '../assets/css/flexstyles.scss';
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = '#!/livetv.html?tab=1';
+                    guideView.url = '#/livetv.html?tab=1';
                     list.push(guideView);
                 }
             }

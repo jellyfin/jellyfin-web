@@ -33,13 +33,13 @@ import Dashboard from '../../utils/dashboard';
 
     function getTabs() {
         return [{
-            href: '#!/encodingsettings.html',
+            href: '#/encodingsettings.html',
             name: globalize.translate('Transcoding')
         }, {
-            href: '#!/playbackconfiguration.html',
+            href: '#/playbackconfiguration.html',
             name: globalize.translate('ButtonResume')
         }, {
-            href: '#!/streamingsettings.html',
+            href: '#/streamingsettings.html',
             name: globalize.translate('TabStreaming')
         }];
     }
