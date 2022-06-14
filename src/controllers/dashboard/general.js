@@ -15,6 +15,7 @@ import alert from '../../components/alert';
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
         page.querySelector('#chkQuickConnectAvailable').checked = config.QuickConnectAvailable === true;
+        page.querySelector('#chkSplashScreenAvailable').checked = config.SplashscreenEnabled === true;
         $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
         $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
         $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
@@ -39,6 +40,7 @@ import alert from '../../components/alert';
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
                     brandingConfig.CustomCss = form.querySelector('#txtCustomCss').value;
+                    brandingConfig.SplashscreenEnabled = form.querySelector('#chkSplashScreenAvailable').checked;
 
                     ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function () {
                         Dashboard.processServerConfigurationUpdateResult();
