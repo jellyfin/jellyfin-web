@@ -13,16 +13,16 @@ const LibraryDisplayPage: FunctionComponent = () => {
 
     const getTabs = () => {
         return [{
-            href: '#!/library.html',
+            href: '#/library.html',
             name: globalize.translate('HeaderLibraries')
         }, {
-            href: '#!/librarydisplay.html',
+            href: '#/librarydisplay.html',
             name: globalize.translate('Display')
         }, {
-            href: '#!/metadataimages.html',
+            href: '#/metadataimages.html',
             name: globalize.translate('Metadata')
         }, {
-            href: '#!/metadatanfo.html',
+            href: '#/metadatanfo.html',
             name: globalize.translate('TabNfoSettings')
         }];
     };
