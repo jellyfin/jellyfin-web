@@ -945,7 +945,7 @@
     "LabelHardwareAccelerationType": "Hardware acceleration:",
     "LabelEncoderPreset": "Encoding preset:",
     "LabelH264Crf": "H.264 encoding CRF:",
-    "LabelGroupMoviesIntoCollectionsHelp": "If pick the films list view, then the film collections will be shown as items with grouped films.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Films in a collection will be displayed as one grouped item when displaying film lists.",
     "LabelGroupMoviesIntoCollections": "Group films into collections",
     "LabelServerNameHelp": "This name will be used to identify the server and will default to the server's hostname.",
     "LabelFriendlyName": "Friendly name:",
@@ -1290,7 +1290,7 @@
     "Album": "Album",
     "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
     "ButtonTogglePlaylist": "Playlist",
-    "HeaderDVR": "Digital Recorder",
+    "HeaderDVR": "DVR",
     "ApiKeysCaption": "List of the currently enabled API keys",
     "ButtonCast": "Cast to Device",
     "ButtonSyncPlay": "SyncPlay",
@@ -1650,5 +1650,8 @@
     "OriginalAirDate": "Original Air Date",
     "Digital": "Digital",
     "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
-    "EnableEnhancedNvdecDecoderHelp": "Experimental NVDEC implementation, do not enable this option unless you encounter decoding errors."
+    "EnableEnhancedNvdecDecoderHelp": "Experimental NVDEC implementation, do not enable this option unless you encounter decoding errors.",
+    "EnableSplashScreen": "Enable the splash screen",
+    "Bold": "Bold",
+    "HomeVideosPhotos": "Home Videos and Photos"
 }
