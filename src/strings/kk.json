@@ -1653,5 +1653,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Eksperimenttık NVDEC ıske asyru, dekodtau qatelerıne tap bolmasañyz, bul opsiany qospañyz.",
     "HomeVideosPhotos": "Üi beinelerı men fotolar",
     "Bold": "Qalyñ",
-    "LabelTextWeight": "Qarıp salmağy:"
+    "LabelTextWeight": "Qarıp salmağy:",
+    "EnableSplashScreen": "Sälemdesu ekranyn qosu"
 }
