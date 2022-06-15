@@ -792,7 +792,7 @@
     "NumLocationsValue": "{0} mappar",
     "Off": "Av",
     "OneChannel": "En kanal",
-    "OnlyForcedSubtitles": "Endast påtvingad",
+    "OnlyForcedSubtitles": "Endast tvingad",
     "OnlyForcedSubtitlesHelp": "Endast undertexter markerade som tvingande kommer att laddas.",
     "OnlyImageFormats": "Endast bildbaserade format (VobSub, PGS, SUB)",
     "OptionAdminUsers": "Administratörer",
