@@ -1652,5 +1652,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Kísérleti NVDEC implementáció, csak akkor engedélyezze ezt a lehetőséget, ha dekódolási hibákat észlel.",
     "HomeVideosPhotos": "Otthoni videók és fotók",
     "Bold": "Félkövér",
-    "LabelTextWeight": "Betűvastagság:"
+    "LabelTextWeight": "Betűvastagság:",
+    "EnableSplashScreen": "Indítóképernyő engedélyezése"
 }
