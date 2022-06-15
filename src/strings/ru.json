@@ -1652,5 +1652,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Экспериментальная реализация NVDEC, не включайте эту опцию, если не столкнетесь с ошибками декодирования.",
     "HomeVideosPhotos": "Домашние видео и фото",
     "Bold": "Жирный",
-    "LabelTextWeight": "Насыщенность шрифта:"
+    "LabelTextWeight": "Насыщенность шрифта:",
+    "EnableSplashScreen": "Включить экран-заставку"
 }
