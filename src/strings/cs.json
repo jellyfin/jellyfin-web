@@ -1652,5 +1652,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Experimentální implementace NVDEC. Používejte jen v případě, že dochází při dekódování k chybám.",
     "HomeVideosPhotos": "Domácí videa a fotky",
     "Bold": "Tučné",
-    "LabelTextWeight": "Tloušťka textu:"
+    "LabelTextWeight": "Tloušťka textu:",
+    "EnableSplashScreen": "Povolit úvodní obrazovku"
 }
