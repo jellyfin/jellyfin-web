@@ -1651,5 +1651,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Experimentellt NVDEC genomförande. Aktivera ej detta om du upplever avkodningsfel.",
     "HomeVideosPhotos": "Hemvideor och bilder",
     "Bold": "Fettext",
-    "LabelTextWeight": "Textvikt:"
+    "LabelTextWeight": "Textvikt:",
+    "EnableSplashScreen": "Aktivera startbild"
 }
