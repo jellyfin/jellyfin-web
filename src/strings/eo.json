@@ -1648,5 +1648,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Eksperimenta NVDEC-efektivigo, ne ebligu ĉi tiun opcion krom se vi renkontas malkodajn erarojn.",
     "HomeVideosPhotos": "Hejmaj Videoj kaj Fotoj",
     "Bold": "Grasa",
-    "LabelTextWeight": "Teksta pezo:"
+    "LabelTextWeight": "Teksta pezo:",
+    "EnableSplashScreen": "Ebligi la salutŝildon"
 }
