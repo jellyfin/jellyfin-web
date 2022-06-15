@@ -1070,5 +1070,14 @@
     "LabelAutomaticallyAddToCollection": "自動加入合輯",
     "LabelAirsBeforeEpisode": "預告：",
     "HeaderSyncPlayTimeSyncSettings": "時間同步",
-    "ButtonExitApp": "離開應用程式"
+    "ButtonExitApp": "離開應用程式",
+    "Digital": "數碼",
+    "CopyFailed": "不能複製",
+    "Copy": "複製",
+    "Copied": "已複製",
+    "Console": "控制台",
+    "ButtonSpace": "空白",
+    "ButtonClose": "關閉",
+    "ButtonBackspace": "返回",
+    "AddToFavorites": "添加到最愛"
 }
