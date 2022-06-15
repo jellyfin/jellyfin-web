@@ -1288,7 +1288,7 @@
     "HeaderRemoteAccessSettings": "Setări pentru acces distant",
     "HeaderHttpsSettings": "Setări HTTPS",
     "SaveChanges": "Salvează modificările",
-    "HeaderDVR": "Înregistrator Digital",
+    "HeaderDVR": "Înregistrator Digital DVR",
     "SyncPlayAccessHelp": "Caracteristica SyncPlay permite sincronizarea redării cu alte dispozitive. Selectați nivelul de acces pe care îl are acest utilizator la SyncPlay.",
     "MessageSyncPlayErrorMedia": "Eroare la activarea SyncPlay! Eroare media.",
     "MessageSyncPlayErrorMissingSession": "Eroare la activarea SyncPlay! Sesiune lipsă.",
@@ -1649,5 +1649,6 @@
     "LabelEnableGamepad": "Activați Gamepad",
     "Controls": "Controale",
     "UseEpisodeImagesInNextUpHelp": "Secțiunile „Următorul” și „Continuați vizionarea” vor folosi imagini ale episoadelor ca miniaturi în loc de miniatura principală a emisiunii.",
-    "EnableEnhancedNvdecDecoderHelp": "Implementare experimentală a NVDEC. Activați această opțiune doar dacă întâmpinați erori de decodare."
+    "EnableEnhancedNvdecDecoderHelp": "Implementare experimentală a NVDEC. Activați această opțiune doar dacă întâmpinați erori de decodare.",
+    "HomeVideosPhotos": "Videoclipuri și Fotografii Locale"
 }
