@@ -1652,5 +1652,6 @@
     "EnableEnhancedNvdecDecoderHelp": "实验性的 NVDEC 实现，除非你遇到了解码错误，否则不要启用此选项。",
     "HomeVideosPhotos": "主页视频及照片",
     "Bold": "粗体",
-    "LabelTextWeight": "文字大小："
+    "LabelTextWeight": "文字大小：",
+    "EnableSplashScreen": "启用闪屏"
 }
