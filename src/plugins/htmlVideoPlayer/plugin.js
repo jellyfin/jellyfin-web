@@ -1037,7 +1037,20 @@ function tryRemoveElement(elem) {
                     throw new Error(response);
                 }
 
-                return response.json();
+                const json = await response.json();
+
+                const rtlLanguages = ['heb', 'aze', 'div', 'kur', 'per', 'urd'];
+                if (rtlLanguages.includes(track.Language)) {
+                // if the subtitles are in a RTL langauge forece right to left.
+                    console.debug('Forcing right to left subtitles.');
+
+                    for (const trackEvent of json.TrackEvents) {
+                        trackEvent.Text = '\u200E' + trackEvent.Text;
+                        trackEvent.Text = trackEvent.Text.replace('\n', '\n\u200E');
+                    }
+                }
+
+                return json;
             } finally {
                 this.decrementFetchQueue();
             }
