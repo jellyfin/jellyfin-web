@@ -1652,5 +1652,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Implémentation expérimentale de NVDEC, à n'utiliser que si des erreurs apparaissent lors du décodage.",
     "HomeVideosPhotos": "Vidéos et photos personnelles",
     "LabelTextWeight": "Poids de la police :",
-    "Bold": "Gras"
+    "Bold": "Gras",
+    "EnableSplashScreen": "Activer l'écran de démarrage"
 }
