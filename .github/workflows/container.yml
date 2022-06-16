@@ -2,7 +2,7 @@ name: Publish container
 
 on:
   workflow_dispatch:
-  
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: jellyfin-intro-skipper
@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-    
+
     steps:
     - uses: actions/checkout@v3
 
@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        
+
     - name: Get npm cache directory
       id: npm-cache-dir
       run: |
@@ -36,7 +36,7 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-        
+
     - name: Checkout web interface
       uses: actions/checkout@v3
 
@@ -55,7 +55,7 @@ jobs:
     - name: Publish container
       uses: docker/build-push-action@v3.0.0
       with:
-        file: docker/Dockerfile
-        context: docker/
+        file: Dockerfile
+        context: .
         push: true
-        tags: ${{ steps.web_commit.outputs.commit }}
+        tags: dev
