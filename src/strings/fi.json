@@ -1650,5 +1650,6 @@
     "PersonRole": "tunnuksella {0}",
     "HomeVideosPhotos": "Kotivideot ja valokuvat",
     "Bold": "Lihavoitu",
-    "LabelTextWeight": "Tekstin vahvuus:"
+    "LabelTextWeight": "Tekstin vahvuus:",
+    "EnableSplashScreen": "Käytä aloitusruutua"
 }
