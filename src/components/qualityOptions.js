@@ -1,5 +1,6 @@
 import { appHost } from '../components/apphost';
 import globalize from '../scripts/globalize';
+import appSettings from '../scripts/settings/appSettings';
 
 export function getVideoQualityOptions(options) {
     const maxStreamingBitrate = options.currentMaxBitrate;
@@ -12,7 +13,9 @@ export function getVideoQualityOptions(options) {
         videoWidth = videoHeight * (16 / 9);
     }
 
-    const hostScreenWidth = appHost.screen()?.maxAllowedWidth || 4096;
+    const maxVideoWidth = options.maxVideoWidth == null ? appSettings.maxVideoWidth() : options.maxVideoWidth;
+
+    const hostScreenWidth = (maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth) || 4096;
     const maxAllowedWidth = videoWidth || 4096;
 
     const qualityOptions = [];

@@ -39,7 +39,8 @@ function getDeviceProfile(item) {
             profile = profileBuilder(builderOpts);
         }
 
-        const maxTranscodingVideoWidth = appHost.screen()?.maxAllowedWidth;
+        const maxVideoWidth = appSettings.maxVideoWidth();
+        const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
             profile.TranscodingProfiles.forEach((transcodingProfile) => {

@@ -41,6 +41,19 @@
             <div class="selectContainer fldChromecastQuality hide">
                 <select is="emby-select" class="selectChromecastVideoQuality" label="${LabelMaxChromecastBitrate}"></select>
             </div>
+
+            <div class="selectContainer">
+                <select is="emby-select" class="selectLabelMaxVideoWidth" label="${LabelMaxVideoResolution}">
+                    <option value="0">${Auto}</option>
+                    <option value="-1">${ScreenResolution}</option>
+                    <option value="640">360p</option>
+                    <option value="852">480p</option>
+                    <option value="1280">720p</option>
+                    <option value="1920">1080p</option>
+                    <option value="3840">4K</option>
+                    <option value="7680">8K</option>
+                </select>
+            </div>
         </div>
 
         <div class="verticalSection verticalSection-extrabottompadding musicQualitySection hide">
