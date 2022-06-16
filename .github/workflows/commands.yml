@@ -5,8 +5,13 @@ on:
       - created
       - edited
 
+permissions:
+  contents: read
+
 jobs:
   rebase:
+    permissions:
+      contents: none
     name: Rebase
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '@jellyfin-bot rebase') && github.event.comment.author_association == 'MEMBER'
     runs-on: ubuntu-latest
