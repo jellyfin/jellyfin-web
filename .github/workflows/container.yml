@@ -1,0 +1,61 @@
+name: Publish container
+
+on:
+  workflow_dispatch:
+  
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: jellyfin-intro-skipper
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+
+    - name: Configure npm cache
+      uses: actions/cache@v3
+      id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+      with:
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+        
+    - name: Checkout web interface
+      uses: actions/checkout@v3
+
+    - name: Store commit of web interface
+      id: web_commit
+      run: |
+        echo "::set-output commit=$(git log -1 --format='%H' | cut -c -10)"
+
+    - name: Login to GHCR
+      uses: docker/login-action@v2.0.0
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish container
+      uses: docker/build-push-action@v3.0.0
+      with:
+        file: docker/Dockerfile
+        context: docker/
+        push: true
+        tags: ${{ steps.web_commit.outputs.commit }}
