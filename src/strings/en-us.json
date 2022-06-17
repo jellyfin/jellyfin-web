@@ -1643,5 +1643,6 @@
     "Sample": "Sample",
     "ThemeSong": "Theme Song",
     "ThemeVideo": "Theme Video",
-    "EnableSplashScreen": "Enable the splash screen"
+    "EnableSplashScreen": "Enable the splash screen",
+    "VideoRangeTypeNotSupported": "The video's range type is not supported"
 }
