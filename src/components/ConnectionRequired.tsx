@@ -96,7 +96,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                             throw new Error('Public system info request failed');
                         }
                         const systemInfo = await infoResponse.json();
-                        if (!systemInfo.StartupWizardCompleted) {
+                        if (!systemInfo?.StartupWizardCompleted) {
                             // Bounce to the wizard
                             console.info('[ConnectionRequired] startup wizard is not complete, redirecting there');
                             navigate(BounceRoutes.StartWizard);
@@ -104,6 +104,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                         }
                     } catch (ex) {
                         console.error('[ConnectionRequired] checking wizard status failed', ex);
+                        return;
                     }
                 }
 
@@ -112,7 +113,8 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 return;
             }
 
-            // TODO: should exiting the app be handled here?
+            // TODO: appRouter will call appHost.exit() if navigating back when you are already at the default route.
+            // This case will need to be handled elsewhere before appRouter can be killed.
 
             const client = ServerConnections.currentApiClient();
 

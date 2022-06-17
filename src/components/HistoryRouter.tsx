@@ -13,7 +13,7 @@ const normalizePath = (pathname: string) => pathname.replace(/^!/, '');
  * Refs: https://github.com/remix-run/react-router/blob/v6.3.0/packages/react-router-dom/index.tsx#L222
  */
 export function HistoryRouter({ basename, children, history }: HistoryRouterProps) {
-    const [state, setState] = React.useState({
+    const [state, setState] = React.useState<Update>({
         action: history.action,
         location: history.location
     });
