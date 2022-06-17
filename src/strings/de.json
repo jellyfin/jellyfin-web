@@ -275,7 +275,7 @@
     "HeaderImageOptions": "Bild-Einstellungen",
     "HeaderImageSettings": "Bild-Einstellungen",
     "HeaderInstall": "Installieren",
-    "HeaderInstantMix": "Instant Mix",
+    "HeaderInstantMix": "Sofortiger Mix",
     "HeaderKeepRecording": "Aufnahme behalten",
     "HeaderKeepSeries": "Serie behalten",
     "HeaderKodiMetadataHelp": "Um NFO-Metadaten zu aktivieren oder zu deaktivieren, bearbeite eine Bibliothek und finde den Abschnitt zum Speichern von Metadaten.",
@@ -1652,5 +1652,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Experimentelle NVDEC-Implementierung, nur aktiviere, falls es zu Dekodierungsfehlern kommt.",
     "HomeVideosPhotos": "Heimvideos und -bilder",
     "Bold": "Fett",
-    "LabelTextWeight": "Schriftstärke:"
+    "LabelTextWeight": "Schriftstärke:",
+    "EnableSplashScreen": "Aktiviere den Splash Screen"
 }
