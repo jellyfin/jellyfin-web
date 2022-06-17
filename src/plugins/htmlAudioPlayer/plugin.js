@@ -74,7 +74,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
                 type: 'HEAD'
             }).then(function (response) {
                 const contentType = (response.headers.get('Content-Type') || '').toLowerCase();
-                if (contentType === 'application/x-mpegurl') {
+                if (contentType === 'application/vnd.apple.mpegurl' || contentType === 'application/x-mpegurl') {
                     resolve();
                 } else {
                     reject();
