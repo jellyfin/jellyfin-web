@@ -37,6 +37,8 @@ import alert from '../../components/alert';
         page.querySelector('#txtTonemappingThreshold').value = config.TonemappingThreshold;
         page.querySelector('#txtTonemappingPeak').value = config.TonemappingPeak;
         page.querySelector('#txtTonemappingParam').value = config.TonemappingParam || '';
+        page.querySelector('#txtVppTonemappingBrightness').value = config.VppTonemappingBrightness;
+        page.querySelector('#txtVppTonemappingContrast').value = config.VppTonemappingContrast;
         page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
         page.querySelector('#txtH264Crf').value = config.H264Crf || '';
         page.querySelector('#txtH265Crf').value = config.H265Crf || '';
@@ -91,6 +93,8 @@ import alert from '../../components/alert';
                 config.TonemappingThreshold = form.querySelector('#txtTonemappingThreshold').value;
                 config.TonemappingPeak = form.querySelector('#txtTonemappingPeak').value;
                 config.TonemappingParam = form.querySelector('#txtTonemappingParam').value || '0';
+                config.VppTonemappingBrightness = form.querySelector('#txtVppTonemappingBrightness').value;
+                config.VppTonemappingContrast = form.querySelector('#txtVppTonemappingContrast').value;
                 config.EncoderPreset = form.querySelector('#selectEncoderPreset').value;
                 config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
                 config.H265Crf = parseInt(form.querySelector('#txtH265Crf').value || '0');
@@ -205,9 +209,9 @@ import alert from '../../components/alert';
             }
 
             if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {
-                page.querySelector('.fldVppTonemapping').classList.remove('hide');
+                page.querySelector('.vppTonemappingOptions').classList.remove('hide');
             } else {
-                page.querySelector('.fldVppTonemapping').classList.add('hide');
+                page.querySelector('.vppTonemappingOptions').classList.add('hide');
             }
 
             if (this.value == 'qsv') {
