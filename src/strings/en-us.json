@@ -1644,5 +1644,9 @@
     "ThemeSong": "Theme Song",
     "ThemeVideo": "Theme Video",
     "EnableSplashScreen": "Enable the splash screen",
+    "LabelVppTonemappingBrightness": "VPP Tone mapping brightness gain:",
+    "LabelVppTonemappingBrightnessHelp": "Apply brightness gain in VPP tone mapping. Both recommended and default values are 0.",
+    "LabelVppTonemappingContrast": "VPP Tone mapping contrast gain:",
+    "LabelVppTonemappingContrastHelp": "Apply contrast gain in VPP tone mapping. The recommended and default values are 1.2 and 1.",
     "VideoRangeTypeNotSupported": "The video's range type is not supported"
 }
