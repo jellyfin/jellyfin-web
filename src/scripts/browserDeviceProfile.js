@@ -851,6 +851,29 @@ import browser from './browser';
             hevcProfiles = 'main|main 10';
         }
 
+        const h264VideoRangeTypes = 'SDR';
+        let hevcVideoRangeTypes = 'SDR';
+        let vp9VideoRangeTypes = 'SDR';
+        let av1VideoRangeTypes = 'SDR';
+
+        if (browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)) {
+            hevcVideoRangeTypes += '|HDR10|HLG';
+            if ((browser.iOS && browser.iOSVersion >= 13) || browser.osx) {
+                hevcVideoRangeTypes += '|DOVI';
+            }
+        }
+
+        if (browser.tizen || browser.web0s) {
+            hevcVideoRangeTypes += '|HDR10|HLG|DOVI';
+            vp9VideoRangeTypes += '|HDR10|HLG';
+            av1VideoRangeTypes += '|HDR10|HLG';
+        }
+
+        if (browser.edgeChromium || browser.chrome || browser.firefox) {
+            vp9VideoRangeTypes += '|HDR10|HLG';
+            av1VideoRangeTypes += '|HDR10|HLG';
+        }
+
         const h264CodecProfileConditions = [
             {
                 Condition: 'NotEquals',
@@ -862,6 +885,12 @@ import browser from './browser';
                 Condition: 'EqualsAny',
                 Property: 'VideoProfile',
                 Value: h264Profiles,
+                IsRequired: false
+            },
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: h264VideoRangeTypes,
                 IsRequired: false
             },
             {
@@ -886,9 +915,33 @@ import browser from './browser';
                 IsRequired: false
             },
             {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: hevcVideoRangeTypes,
+                IsRequired: false
+            },
+            {
                 Condition: 'LessThanEqual',
                 Property: 'VideoLevel',
                 Value: maxHevcLevel.toString(),
+                IsRequired: false
+            }
+        ];
+
+        const vp9CodecProfileConditions = [
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: vp9VideoRangeTypes,
+                IsRequired: false
+            }
+        ];
+
+        const av1CodecProfileConditions = [
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: av1VideoRangeTypes,
                 IsRequired: false
             }
         ];
@@ -980,6 +1033,18 @@ import browser from './browser';
             Type: 'Video',
             Codec: 'hevc',
             Conditions: hevcCodecProfileConditions
+        });
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'vp9',
+            Conditions: vp9CodecProfileConditions
+        });
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'av1',
+            Conditions: av1CodecProfileConditions
         });
 
         const globalVideoConditions = [];
