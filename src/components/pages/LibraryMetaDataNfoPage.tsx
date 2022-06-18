@@ -2,14 +2,14 @@ import React, { FunctionComponent, useCallback, useEffect, useRef, useState } fr
 
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../dashboard/users/ButtonElement';
 import loading from '../loading/loading';
 import Dashboard from '../../utils/dashboard';
 import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import CheckBoxElement from '../dashboard/users/CheckBoxElement';
-import SelectUserElement from '../dashboard/users/SelectUserElement';
-import SelectReleaseDateFormat from '../dashboard/library/SelectReleaseDateFormat';
 import alert from '../alert';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
+import escapeHTML from 'escape-html';
+import SelectElement from '../dashboard/elements/SelectElement';
 
 const LibraryMetaDataNfoPage: FunctionComponent = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);
@@ -92,6 +92,21 @@ const LibraryMetaDataNfoPage: FunctionComponent = () => {
         };
     }, [loadData, showConfirmMessage]);
 
+    const OptionUser = () => {
+        let content = '';
+        content += `<option value='' selected>${globalize.translate('None')}</option>`;
+        for (const user of users) {
+            content += `<option value='${user.Id}'>${escapeHTML(user.Name)}</option>`;
+        }
+        return content;
+    };
+
+    const optionReleaseDateFormat = () => {
+        let content = '';
+        content += '<option value="yyyy-MM-dd">yyyy-MM-dd</option>';
+        return content;
+    };
+
     return (
         <div ref={element}>
             <div className='content-primary'>
@@ -101,29 +116,31 @@ const LibraryMetaDataNfoPage: FunctionComponent = () => {
                     </p>
                     <br />
                     <div className='selectContainer'>
-                        <SelectUserElement
+                        <SelectElement
                             name='selectUser'
                             id='selectUser'
                             label='LabelKodiMetadataUser'
-                            users={users}
-                        />
+                        >
+                            {OptionUser()}
+                        </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('LabelKodiMetadataUserHelp')}
                         </div>
                     </div>
                     <div className='selectContainer'>
-                        <SelectReleaseDateFormat
+                        <SelectElement
                             name='selectReleaseDateFormat'
                             id='selectReleaseDateFormat'
                             label='LabelKodiMetadataDateFormat'
-                        />
+                        >
+                            {optionReleaseDateFormat()}
+                        </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('LabelKodiMetadataDateFormatHelp')}
                         </div>
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkSaveImagePaths'
                             title='LabelKodiMetadataSaveImagePaths'
                         />
@@ -133,7 +150,6 @@ const LibraryMetaDataNfoPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkEnablePathSubstitution'
                             title='LabelKodiMetadataEnablePathSubstitution'
                         />
@@ -143,7 +159,6 @@ const LibraryMetaDataNfoPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkEnableExtraThumbs'
                             title='LabelKodiMetadataEnableExtraThumbs'
                         />

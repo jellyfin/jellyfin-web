@@ -5,8 +5,8 @@ import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import ButtonElement from '../dashboard/elements/ButtonElement';
 import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
-import SelectDateAdded from '../dashboard/library/SelectDateAdded';
 import LibraryMenu from '../../scripts/libraryMenu';
+import SelectElement from '../dashboard/elements/SelectElement';
 
 const LibraryDisplayPage: FunctionComponent = () => {
     const element = useRef<HTMLDivElement>(null);
@@ -97,16 +97,24 @@ const LibraryDisplayPage: FunctionComponent = () => {
         });
     }, [loadData]);
 
+    const optionDateAdded = () => {
+        let content = '';
+        content += `<option value='0'>${globalize.translate('OptionDateAddedImportTime')}</option>`;
+        content += `<option value='1'>${globalize.translate('OptionDateAddedFileTime')}</option>`;
+        return content;
+    };
+
     return (
         <div ref={element}>
             <div className='content-primary'>
                 <form className='libraryDisplayForm'>
                     <div className='selectContainer'>
-                        <SelectDateAdded
-                            className='selectDateAdded'
+                        <SelectElement
                             id='selectDateAdded'
                             label='LabelDateAddedBehavior'
-                        />
+                        >
+                            {optionDateAdded()}
+                        </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('LabelDateAddedBehaviorHelp')}
                         </div>

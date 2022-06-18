@@ -2,12 +2,12 @@ import React, { FunctionComponent, useCallback, useEffect, useRef, useState } fr
 
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../dashboard/users/ButtonElement';
 import loading from '../loading/loading';
-import SelectLanguage from '../dashboard/library/SelectLanguage';
-import SelectCountry from '../dashboard/library/SelectCountry';
 import Dashboard from '../../utils/dashboard';
 import { CountryInfo, CultureDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import ButtonElement from '../dashboard/elements/ButtonElement';
+import escapeHTML from 'escape-html';
+import SelectElement from '../dashboard/elements/SelectElement';
 
 const LibraryMetaDataConfigPage: FunctionComponent = () => {
     const [ languages, setLanguages] = useState<CultureDto[]>([]);
@@ -86,6 +86,24 @@ const LibraryMetaDataConfigPage: FunctionComponent = () => {
         };
     }, [loadPage]);
 
+    const optionLanguage = () => {
+        let content = '';
+        content += '<option value=\'\'></option>';
+        for (const culture of languages) {
+            content += `<option value='${culture.TwoLetterISOLanguageName}'>${escapeHTML(culture.DisplayName)}</option>`;
+        }
+        return content;
+    };
+
+    const optionCountry = () => {
+        let content = '';
+        content += '<option value=\'\'></option>';
+        for (const culture of countries) {
+            content += `<option value='${culture.TwoLetterISORegionName}'>${escapeHTML(culture.DisplayName)}</option>`;
+        }
+        return content;
+    };
+
     return (
         <div ref={element}>
             <div className='content-primary'>
@@ -97,20 +115,22 @@ const LibraryMetaDataConfigPage: FunctionComponent = () => {
                         {globalize.translate('DefaultMetadataLangaugeDescription')}
                     </p>
                     <div className='selectContainer'>
-                        <SelectLanguage
+                        <SelectElement
                             id='selectLanguage'
                             required='required'
                             label='LabelLanguage'
-                            languages={languages}
-                        />
+                        >
+                            {optionLanguage()}
+                        </SelectElement>
                     </div>
                     <div className='selectContainer'>
-                        <SelectCountry
+                        <SelectElement
                             id='selectCountry'
                             required='required'
                             label='LabelCountry'
-                            countries={countries}
-                        />
+                        >
+                            {optionCountry()}
+                        </SelectElement>
                     </div>
                     <br />
                     <ButtonElement

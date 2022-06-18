@@ -7,10 +7,11 @@ import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import LibraryMenu from '../../scripts/libraryMenu';
 import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 import InputElement from '../dashboard/elements/InputElement';
-import SelectUserElement from '../dashboard/users/SelectUserElement';
 import ButtonElement from '../dashboard/elements/ButtonElement';
 import '../../components/listview/listview.scss';
 import '../../elements/emby-button/emby-button';
+import escapeHTML from 'escape-html';
+import SelectElement from '../dashboard/elements/SelectElement';
 
 const DlnaSettingsPage: FunctionComponent = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);
@@ -79,6 +80,15 @@ const DlnaSettingsPage: FunctionComponent = () => {
 
         (page.querySelector('.dlnaSettingsForm') as HTMLFormElement).addEventListener('submit', onSubmit);
     }, [loadPage]);
+
+    const optionUser = () => {
+        let content = '';
+        content += '<option value=\'\'></option>';
+        for (const user of users) {
+            content += `<option value='${user.Id}'>${escapeHTML(user.Name)}</option>`;
+        }
+        return content;
+    };
 
     return (
         <div ref={element} className='content-primary'>
@@ -155,11 +165,13 @@ const DlnaSettingsPage: FunctionComponent = () => {
                 </div>
 
                 <div className='selectContainer'>
-                    <SelectUserElement
+                    <SelectElement
+                        name='selectUser'
                         id='selectUser'
-                        label='LabelDefaultUser'
-                        users={users}
-                    />
+                        label='LabelKodiMetadataUser'
+                    >
+                        {optionUser()}
+                    </SelectElement>
                     <div className='fieldDescription'>
                         {globalize.translate('LabelDefaultUserHelp')}
                     </div>

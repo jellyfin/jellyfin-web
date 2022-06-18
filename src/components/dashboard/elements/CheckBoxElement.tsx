@@ -32,8 +32,9 @@ type IProps = {
 }
 
 const CheckBoxElement: FunctionComponent<IProps> = ({ labelClassName, className, elementId, dataFilter, itemType, itemId, itemAppName, itemCheckedAttribute, itemName, title }: IProps) => {
+    const appName = itemAppName ? `- ${itemAppName}` : '';
     const renderContent = itemName ?
-        `<span>${escapeHTML(itemName || '')} ${itemAppName ? `- ${itemAppName}` : ''}</span>` :
+        `<span>${escapeHTML(itemName || '')} ${appName}</span>` :
         `<span>${globalize.translate(title)}</span>`;
 
     return (

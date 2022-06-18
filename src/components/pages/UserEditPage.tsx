@@ -8,12 +8,12 @@ import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 import InputElement from '../dashboard/elements/InputElement';
 import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences';
 import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
-import SelectElement from '../dashboard/users/SelectElement';
-import SelectSyncPlayAccessElement from '../dashboard/users/SelectSyncPlayAccessElement';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 import { getParameterByName } from '../../utils/url';
+import escapeHTML from 'escape-html';
+import SelectElement from '../dashboard/elements/SelectElement';
 
 type ItemsArr = {
     Name?: string;
@@ -21,11 +21,16 @@ type ItemsArr = {
     checkedAttribute: string
 }
 
+type ProvidersArr = {
+    Name?: string;
+    Id?: string;
+}
+
 const UserEditPage: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ItemsArr[]>([]);
-    const [ authProviders, setAuthProviders ] = useState([]);
-    const [ passwordResetProviders, setPasswordResetProviders ] = useState([]);
+    const [ authProviders, setAuthProviders ] = useState<ProvidersArr[]>([]);
+    const [ passwordResetProviders, setPasswordResetProviders ] = useState<ItemsArr[]>([]);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
@@ -226,8 +231,8 @@ const UserEditPage: FunctionComponent = () => {
             user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
             user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0');
             user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0');
-            user.Policy.AuthenticationProviderId = (page.querySelector('.selectLoginProvider') as HTMLSelectElement).value;
-            user.Policy.PasswordResetProviderId = (page.querySelector('.selectPasswordResetProvider') as HTMLSelectElement).value;
+            user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
+            user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
                 return c.checked;
@@ -274,6 +279,24 @@ const UserEditPage: FunctionComponent = () => {
         });
     }, [loadData]);
 
+    const optionLoginProvider = authProviders.map((provider) => {
+        const selected = provider.Id === authenticationProviderId || authProviders.length < 2 ? ' selected' : '';
+        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
+    });
+
+    const optionPasswordResetProvider = passwordResetProviders.map((provider) => {
+        const selected = provider.Id === passwordResetProviderId || passwordResetProviders.length < 2 ? ' selected' : '';
+        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
+    });
+
+    const optionSyncPlayAccess = () => {
+        let content = '';
+        content += `<option value='CreateAndJoinGroups'>${globalize.translate('LabelSyncPlayAccessCreateAndJoinGroups')}</option>`;
+        content += `<option value='JoinGroups'>${globalize.translate('LabelSyncPlayAccessJoinGroups')}</option>`;
+        content += `<option value='None'>${globalize.translate('LabelSyncPlayAccessNone')}</option>`;
+        return content;
+    };
+
     return (
         <div ref={element}>
             <div className='content-primary'>
@@ -315,22 +338,23 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='selectContainer fldSelectLoginProvider hide'>
                         <SelectElement
-                            className= 'selectLoginProvider'
-                            label= 'LabelAuthProvider'
-                            currentProviderId={authenticationProviderId}
-                            providers={authProviders}
-                        />
+                            id='selectLoginProvider'
+                            label='LabelAuthProvider'
+                        >
+                            {optionLoginProvider}
+                        </SelectElement>
+
                         <div className='fieldDescription'>
                             {globalize.translate('AuthProviderHelp')}
                         </div>
                     </div>
                     <div className='selectContainer fldSelectPasswordResetProvider hide'>
                         <SelectElement
-                            className= 'selectPasswordResetProvider'
-                            label= 'LabelPasswordResetProvider'
-                            currentProviderId={passwordResetProviderId}
-                            providers={passwordResetProviders}
-                        />
+                            id='selectPasswordResetProvider'
+                            label='LabelPasswordResetProvider'
+                        >
+                            {optionPasswordResetProvider}
+                        </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('PasswordResetProviderHelp')}
                         </div>
@@ -413,11 +437,12 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='verticalSection'>
                         <div className='selectContainer fldSelectSyncPlayAccess'>
-                            <SelectSyncPlayAccessElement
-                                className='selectSyncPlayAccess'
+                            <SelectElement
                                 id='selectSyncPlayAccess'
                                 label='LabelSyncPlayAccess'
-                            />
+                            >
+                                {optionSyncPlayAccess()}
+                            </SelectElement>
                             <div className='fieldDescription'>
                                 {globalize.translate('SyncPlayAccessHelp')}
                             </div>

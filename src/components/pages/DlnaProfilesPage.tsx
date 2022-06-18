@@ -6,7 +6,7 @@ import loading from '../loading/loading';
 import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import LibraryMenu from '../../scripts/libraryMenu';
 import confirm from '../confirm/confirm';
-import ListItem from '../dashboard/users/ListItem';
+import ListItem from '../dashboard/dlna/ListItem';
 import '../../components/listview/listview.scss';
 import '../../elements/emby-button/emby-button';
 

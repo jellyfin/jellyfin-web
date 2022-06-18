@@ -6,12 +6,13 @@ import AccessScheduleList from '../dashboard/users/AccessScheduleList';
 import BlockedTagList from '../dashboard/users/BlockedTagList';
 import ButtonElement from '../dashboard/elements/ButtonElement';
 import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
-import SelectMaxParentalRating from '../dashboard/users/SelectMaxParentalRating';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 import { getParameterByName } from '../../utils/url';
 import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
+import escapeHTML from 'escape-html';
+import SelectElement from '../dashboard/elements/SelectElement';
 
 type RatingsArr = {
     Name: string;
@@ -180,7 +181,7 @@ const UserParentalControl: FunctionComponent = () => {
             }
         }
 
-        (page.querySelector('.selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
+        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
 
         if (user.Policy.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
@@ -225,7 +226,7 @@ const UserParentalControl: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            user.Policy.MaxParentalRating = parseInt((page.querySelector('.selectMaxParentalRating') as HTMLSelectElement).value || '0', 10) || null;
+            user.Policy.MaxParentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value || '0', 10) || null;
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
@@ -315,6 +316,15 @@ const UserParentalControl: FunctionComponent = () => {
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
     }, [loadBlockedTags, loadData, renderAccessSchedule]);
 
+    const optionMaxParentalRating = () => {
+        let content = '';
+        content += '<option value=\'\'></option>';
+        for (const rating of parentalRatings) {
+            content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+        }
+        return content;
+    };
+
     return (
         <div ref={element}>
             <div className='content-primary'>
@@ -327,11 +337,12 @@ const UserParentalControl: FunctionComponent = () => {
                 <SectionTabs activeTab='userparentalcontrol'/>
                 <form className='userParentalControlForm'>
                     <div className='selectContainer'>
-                        <SelectMaxParentalRating
-                            className= 'selectMaxParentalRating'
-                            label= 'LabelMaxParentalRating'
-                            parentalRatings={parentalRatings}
-                        />
+                        <SelectElement
+                            id='selectMaxParentalRating'
+                            label='LabelMaxParentalRating'
+                        >
+                            {optionMaxParentalRating()}
+                        </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('MaxParentalRatingHelp')}
                         </div>
