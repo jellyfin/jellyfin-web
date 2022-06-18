@@ -269,31 +269,10 @@ import ServerConnections from '../ServerConnections';
             });
         }
 
-        if (videoStream.VideoRange) {
+        if (videoStream.VideoRangeType) {
             sessionStats.push({
-                label: globalize.translate('LabelVideoRange'),
-                value: videoStream.VideoRange
-            });
-        }
-
-        if (videoStream.ColorSpace) {
-            sessionStats.push({
-                label: globalize.translate('LabelColorSpace'),
-                value: videoStream.ColorSpace
-            });
-        }
-
-        if (videoStream.ColorTransfer) {
-            sessionStats.push({
-                label: globalize.translate('LabelColorTransfer'),
-                value: videoStream.ColorTransfer
-            });
-        }
-
-        if (videoStream.ColorPrimaries) {
-            sessionStats.push({
-                label: globalize.translate('LabelColorPrimaries'),
-                value: videoStream.ColorPrimaries
+                label: globalize.translate('LabelVideoRangeType'),
+                value: videoStream.VideoRangeType
             });
         }
 
