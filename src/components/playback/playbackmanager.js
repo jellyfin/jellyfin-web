@@ -2300,7 +2300,7 @@ class PlaybackManager {
             }
         }
 
-        function autoSetNextTracks(prevSource, mediaSource) {
+        function autoSetNextTracks(prevSource, mediaSource, audio, subtitle) {
             try {
                 if (!prevSource) return;
 
@@ -2319,8 +2319,11 @@ class PlaybackManager {
                     return;
                 }
 
-                rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
-                rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+                if (audio)
+                    rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
+
+                if (subtitle)
+                    rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
             } catch (e) {
                 console.error(`AutoSet - Caught unexpected error: ${e}`);
             }
@@ -2385,8 +2388,18 @@ class PlaybackManager {
                 playOptions.items = null;
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
-                    if (userSettings.enableSetUsingLastTracks())
-                        autoSetNextTracks(prevSource, mediaSource);
+                    const user = apiClient.getCurrentUser();
+                    if (user.Configuration.RememberAudioSelections) {
+                        if (user.Configuration.RememberSubtitleSelections)
+                            autoSetNextTracks(prevSource, mediaSource, true, true);
+                        else
+                            autoSetNextTracks(prevSource, mediaSource, true, false);
+                    } else {
+                        if (user.Configuration.RememberSubtitleSelections)
+                            autoSetNextTracks(prevSource, mediaSource, false, true);
+                        else
+                            autoSetNextTracks(prevSource, mediaSource, false, false);
+                    }
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 

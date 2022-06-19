@@ -167,19 +167,6 @@ export class UserSettings {
     }
 
     /**
-     * Get or set 'SetUsingLastTracks' state.
-     * @param {boolean|undefined} val - Flag to enable 'SetUsingLastTracks' or undefined.
-     * @return {boolean} 'SetUsingLastTracks' state.
-     */
-    enableSetUsingLastTracks(val) {
-        if (val !== undefined) {
-            return this.set('enableSetUsingLastTracks', val.toString());
-        }
-
-        return this.get('enableSetUsingLastTracks', false) !== 'false';
-    }
-
-    /**
      * Get or set 'Theme Songs' state.
      * @param {boolean|undefined} val - Flag to enable 'Theme Songs' or undefined.
      * @return {boolean} 'Theme Songs' state.
@@ -570,7 +557,6 @@ export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(cu
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
-export const enableSetUsingLastTracks = currentSettings.enableSetUsingLastTracks.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
