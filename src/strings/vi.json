@@ -1643,5 +1643,6 @@
     "EnableEnhancedNvdecDecoderHelp": "Triển khai NVDEC thử nghiệm, không bật tùy chọn này trừ khi bạn gặp lỗi giải mã.",
     "HomeVideosPhotos": "Videos và Ảnh Gia Đình",
     "Bold": "In đậm",
-    "LabelTextWeight": "Trọng lượng văn bản:"
+    "LabelTextWeight": "Trọng lượng văn bản:",
+    "EnableSplashScreen": "Bật màn hình giật gân"
 }
