@@ -92,6 +92,19 @@ class AppSettings {
         return val ? parseInt(val) : null;
     }
 
+    /**
+     * Get or set 'Maximum video width'
+     * @param {number|undefined} val - Maximum video width or undefined.
+     * @return {number} Maximum video width.
+     */
+    maxVideoWidth(val) {
+        if (val !== undefined) {
+            return this.set('maxVideoWidth', val.toString());
+        }
+
+        return parseInt(this.get('maxVideoWidth') || '0', 10) || 0;
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         AppStorage.setItem(this.#getKey(name, userId), value);
