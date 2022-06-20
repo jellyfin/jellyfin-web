@@ -1652,5 +1652,6 @@
     "ItemDetails": "Dettagli Titolo",
     "Digital": "Digitale",
     "LabelTextWeight": "Stile testo:",
-    "Bold": "Grassetto"
+    "Bold": "Grassetto",
+    "EnableSplashScreen": "Abilita la schermata di avvio"
 }
