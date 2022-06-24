@@ -1645,5 +1645,6 @@
     "EnableRewatchingNextUpHelp": "Habilite 'Mostrar episodios ya vistos' en las secciones 'Siguiente'.",
     "EnableRewatchingNextUp": "Habilitar \"Volver a mirar\" en \"Siguiente\"",
     "Bold": "Audaz",
-    "LabelTextWeight": "Peso del texto:"
+    "LabelTextWeight": "Peso del texto:",
+    "EnableSplashScreen": "Habilitar pantalla de inicio"
 }
