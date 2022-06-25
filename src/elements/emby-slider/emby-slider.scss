@@ -245,3 +245,23 @@
     display: block;
     margin-bottom: 0.25em;
 }
+
+.sliderChapterMarkContainer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 0.54em; /* half of slider thumb size */
+}
+
+.sliderChapterMark {
+    position: absolute;
+    transform: translate3d(0, -100%, 0) rotate(90deg);
+}
+
+.sliderChapterMark.unwatched {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.sliderChapterMark.watched {
+    color: #00a4dc;
+}

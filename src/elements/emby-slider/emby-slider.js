@@ -102,6 +102,13 @@ import '../emby-input/emby-input';
                 fraction *= 100;
                 backgroundLower.style.width = fraction + '%';
             }
+
+            if (range.chapterMarkContainerElement) {
+                if (!range.triedChapterMarksAdd) {
+                    addChapterMarks(range);
+                }
+                updateChapterMarks(range, value);
+            }
         });
     }
 
@@ -128,6 +135,57 @@ import '../emby-input/emby-input';
 
             bubble.innerHTML = value;
         });
+    }
+
+    function setChapterMark(range, valueChapterMark, chapterMark, valueProgress) {
+        requestAnimationFrame(function () {
+            const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
+            const chapterMarkRect = chapterMark.getBoundingClientRect();
+
+            if (!bubbleTrackRect.width || !chapterMarkRect.width) {
+                // width is not set, most probably because the OSD is currently hidden
+                return;
+            }
+
+            let chapterMarkPos = (bubbleTrackRect.width * valueChapterMark / 100) - chapterMarkRect.width / 2;
+            chapterMarkPos = Math.min(Math.max(chapterMarkPos, - chapterMarkRect.width / 2), bubbleTrackRect.width - chapterMarkRect.width / 2);
+
+            chapterMark.style.left = chapterMarkPos + 'px';
+
+            if (valueProgress >= valueChapterMark) {
+                chapterMark.classList.remove('unwatched');
+                chapterMark.classList.add('watched');
+            } else {
+                chapterMark.classList.add('unwatched');
+                chapterMark.classList.remove('watched');
+            }
+        });
+    }
+
+    function updateChapterMarks(range, currentValue) {
+        if (range.chapterFractions && range.chapterFractions.length && range.chapterMarkElements && range.chapterMarkElements.length) {
+            for (let i = 0, length = range.chapterMarkElements.length; i < length; i++) {
+                if (range.chapterFractions.length > i) {
+                    setChapterMark(range, mapFractionToValue(range, range.chapterFractions[i]), range.chapterMarkElements[i], currentValue);
+                }
+            }
+        }
+    }
+
+    function addChapterMarks(range) {
+        range.chapterFractions = [];
+        if (range.getChapterFractions) {
+            range.chapterFractions = range.getChapterFractions();
+        }
+
+        const htmlToInsert = '<span class="material-icons label sliderChapterMark" aria-hidden="true"></span>';
+
+        range.chapterFractions.forEach(() => {
+            range.chapterMarkContainerElement.insertAdjacentHTML('beforeend', htmlToInsert);
+        });
+
+        range.chapterMarkElements = range.chapterMarkContainerElement.querySelectorAll('.sliderChapterMark');
+        range.triedChapterMarksAdd = true;
     }
 
     EmbySliderPrototype.attachedCallback = function () {
@@ -187,7 +245,13 @@ import '../emby-input/emby-input';
         this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
         const sliderBubble = containerElement.querySelector('.sliderBubble');
 
-        let hasHideClass = sliderBubble.classList.contains('hide');
+        let hasHideClassBubble = sliderBubble.classList.contains('hide');
+
+        this.chapterMarkContainerElement = containerElement.querySelector('.sliderChapterMarkContainer');
+        let hasHideClassChapterMarkContainer = false;
+        if (this.chapterMarkContainerElement) {
+            hasHideClassChapterMarkContainer = this.chapterMarkContainerElement.classList.contains('hide');
+        }
 
         dom.addEventListener(this, 'input', function () {
             this.dragging = true;
@@ -199,9 +263,14 @@ import '../emby-input/emby-input';
             const bubbleValue = mapValueToFraction(this, this.value) * 100;
             updateBubble(this, bubbleValue, sliderBubble);
 
-            if (hasHideClass) {
+            if (hasHideClassBubble) {
                 sliderBubble.classList.remove('hide');
-                hasHideClass = false;
+                hasHideClassBubble = false;
+            }
+
+            if (hasHideClassChapterMarkContainer) {
+                this.chapterMarkContainerElement.classList.remove('hide');
+                hasHideClassChapterMarkContainer = false;
             }
         }, {
             passive: true
@@ -215,7 +284,10 @@ import '../emby-input/emby-input';
             }
 
             sliderBubble.classList.add('hide');
-            hasHideClass = true;
+            hasHideClassBubble = true;
+
+            this.chapterMarkContainerElement.classList.add('hide');
+            hasHideClassChapterMarkContainer = true;
         }, {
             passive: true
         });
@@ -227,9 +299,14 @@ import '../emby-input/emby-input';
 
                 updateBubble(this, bubbleValue, sliderBubble);
 
-                if (hasHideClass) {
+                if (hasHideClassBubble) {
                     sliderBubble.classList.remove('hide');
-                    hasHideClass = false;
+                    hasHideClassBubble = false;
+                }
+
+                if (hasHideClassChapterMarkContainer) {
+                    this.chapterMarkContainerElement.classList.remove('hide');
+                    hasHideClassChapterMarkContainer = false;
                 }
             }
         }, {
@@ -239,7 +316,10 @@ import '../emby-input/emby-input';
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
             sliderBubble.classList.add('hide');
-            hasHideClass = true;
+            hasHideClassBubble = true;
+
+            this.chapterMarkContainerElement.classList.add('hide');
+            hasHideClassChapterMarkContainer = true;
         }, {
             passive: true
         });

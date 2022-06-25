@@ -1574,6 +1574,28 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
         };
 
+        nowPlayingPositionSlider.getChapterFractions = function () {
+            showOsd();
+
+            const item = currentItem;
+
+            if (item && item.Chapters && item.Chapters.length) {
+                const chapterFractions = [];
+                const runtimeDuration = item.RunTimeTicks;
+
+                for (let i = 0, length = item.Chapters.length; i < length; i++) {
+                    const currentChapter = item.Chapters[i];
+
+                    const fraction = currentChapter.StartPositionTicks / runtimeDuration;
+                    chapterFractions.push(fraction);
+                }
+
+                return chapterFractions;
+            }
+
+            return [];
+        };
+
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
             playbackManager.previousTrack(currentPlayer);
         });
