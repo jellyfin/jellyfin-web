@@ -2275,7 +2275,7 @@ class PlaybackManager {
                     score += 1;
                 if (prevRelIndex == newRelIndex)
                     score += 1;
-                if (prevStream.Title && prevStream.Title == stream.Title)
+                if (prevStream.DisplayTitle && prevStream.DisplayTitle == stream.DisplayTitle)
                     score += 2;
                 if (prevStream.Language && prevStream.Language != 'und' && prevStream.Language == stream.Language)
                     score += 2;
@@ -2319,11 +2319,13 @@ class PlaybackManager {
                     return;
                 }
 
-                if (audio)
+                if (audio) {
                     rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
+                }
 
-                if (subtitle)
+                if (subtitle) {
                     rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+                }
             } catch (e) {
                 console.error(`AutoSet - Caught unexpected error: ${e}`);
             }
@@ -2387,19 +2389,9 @@ class PlaybackManager {
                 // this reference was only needed by sendPlaybackListToPlayer
                 playOptions.items = null;
 
-                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
-                    const user = apiClient.getCurrentUser();
-                    if (user.Configuration.RememberAudioSelections) {
-                        if (user.Configuration.RememberSubtitleSelections)
-                            autoSetNextTracks(prevSource, mediaSource, true, true);
-                        else
-                            autoSetNextTracks(prevSource, mediaSource, true, false);
-                    } else {
-                        if (user.Configuration.RememberSubtitleSelections)
-                            autoSetNextTracks(prevSource, mediaSource, false, true);
-                        else
-                            autoSetNextTracks(prevSource, mediaSource, false, false);
-                    }
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(async (mediaSource) => {
+                    const user = await apiClient.getCurrentUser();
+                    autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
