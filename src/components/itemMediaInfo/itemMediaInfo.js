@@ -113,7 +113,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             if (stream.Profile) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoProfile'), stream.Profile));
             }
-            if (stream.Level && stream.Type === 'Video') {
+            if (stream.Level > 0) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoLevel'), stream.Level));
             }
             if (stream.Width || stream.Height) {
