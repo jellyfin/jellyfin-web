@@ -2309,21 +2309,11 @@ class PlaybackManager {
                     return;
                 }
 
-                if (typeof prevSource.DefaultAudioStreamIndex != 'number'
-                    || typeof prevSource.DefaultSubtitleStreamIndex != 'number')
-                    return;
-
-                if (typeof mediaSource.DefaultAudioStreamIndex != 'number'
-                    || typeof mediaSource.DefaultSubtitleStreamIndex != 'number') {
-                    console.warn('AutoSet - No stream indexes (but prevSource has them)');
-                    return;
-                }
-
-                if (audio) {
+                if (audio && typeof prevSource.DefaultAudioStreamIndex == 'number') {
                     rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
                 }
 
-                if (subtitle) {
+                if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex == 'number') {
                     rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
                 }
             } catch (e) {
