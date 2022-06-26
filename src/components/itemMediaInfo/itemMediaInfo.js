@@ -137,7 +137,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             if (stream.Channels) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), `${stream.Channels} ch`));
             }
-            if (stream.BitRate && (stream.Type === 'Video' || stream.Type === 'Audio')) {
+            if (stream.BitRate) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000)} kbps`));
             }
             if (stream.SampleRate) {
