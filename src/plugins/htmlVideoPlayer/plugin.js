@@ -1376,7 +1376,7 @@ function tryRemoveElement(elem) {
                         if (!appHost.supports('htmlvideoautoplay')) {
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                         } else if (browser.web0s) {
-                            // in webOS, setting peload auto allows resuming videos
+                            // in webOS, setting preload auto allows resuming videos
                             html += '<video class="' + cssClass + '" preload="auto" autoplay="autoplay" webkit-playsinline playsinline>';
                         } else {
                             // Chrome 35 won't play with preload none
