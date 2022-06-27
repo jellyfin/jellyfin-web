@@ -131,7 +131,8 @@ import { Events } from 'jellyfin-apiclient';
     }
 
     function setCurrentTimeIfNeeded(element, seconds) {
-        if (Math.abs(element.currentTime || 0, seconds) <= 1) {
+        // If it's worth skipping (1 sec or less of a difference)
+        if (Math.abs((element.currentTime || 0) - seconds) >= 1) {
             element.currentTime = seconds;
         }
     }
