@@ -2275,7 +2275,7 @@ class PlaybackManager {
                     score += 1;
                 if (prevRelIndex == newRelIndex)
                     score += 1;
-                if (prevStream.Title && prevStream.Title == stream.Title)
+                if (prevStream.DisplayTitle && prevStream.DisplayTitle == stream.DisplayTitle)
                     score += 2;
                 if (prevStream.Language && prevStream.Language != 'und' && prevStream.Language == stream.Language)
                     score += 2;
@@ -2300,7 +2300,7 @@ class PlaybackManager {
             }
         }
 
-        function autoSetNextTracks(prevSource, mediaSource) {
+        function autoSetNextTracks(prevSource, mediaSource, audio, subtitle) {
             try {
                 if (!prevSource) return;
 
@@ -2309,18 +2309,13 @@ class PlaybackManager {
                     return;
                 }
 
-                if (typeof prevSource.DefaultAudioStreamIndex != 'number'
-                    || typeof prevSource.DefaultSubtitleStreamIndex != 'number')
-                    return;
-
-                if (typeof mediaSource.DefaultAudioStreamIndex != 'number'
-                    || typeof mediaSource.DefaultSubtitleStreamIndex != 'number') {
-                    console.warn('AutoSet - No stream indexes (but prevSource has them)');
-                    return;
+                if (audio && typeof prevSource.DefaultAudioStreamIndex == 'number') {
+                    rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
                 }
 
-                rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
-                rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+                if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex == 'number') {
+                    rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+                }
             } catch (e) {
                 console.error(`AutoSet - Caught unexpected error: ${e}`);
             }
@@ -2384,9 +2379,9 @@ class PlaybackManager {
                 // this reference was only needed by sendPlaybackListToPlayer
                 playOptions.items = null;
 
-                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
-                    if (userSettings.enableSetUsingLastTracks())
-                        autoSetNextTracks(prevSource, mediaSource);
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(async (mediaSource) => {
+                    const user = await apiClient.getCurrentUser();
+                    autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 

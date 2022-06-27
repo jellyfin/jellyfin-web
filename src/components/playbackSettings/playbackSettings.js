@@ -186,7 +186,8 @@ import template from './playbackSettings.template.html';
         context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
-        context.querySelector('.chkSetUsingLastTracks').checked = userSettings.enableSetUsingLastTracks();
+        context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
+        context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
         context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
 
         setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
@@ -232,7 +233,8 @@ import template from './playbackSettings.template.html';
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
-        userSettingsInstance.enableSetUsingLastTracks(context.querySelector('.chkSetUsingLastTracks').checked);
+        user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
+        user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
         userSettingsInstance.chromecastVersion(context.querySelector('.selectChromecastVersion').value);
         userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
         userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
