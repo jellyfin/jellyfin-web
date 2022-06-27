@@ -1,6 +1,6 @@
 {
   "name": "jellyfin-web",
-  "version": "10.8.0",
+  "version": "10.8.1",
   "description": "Web interface for Jellyfin",
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
