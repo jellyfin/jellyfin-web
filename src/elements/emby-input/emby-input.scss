@@ -17,6 +17,11 @@
     width: 100%;
 }
 
+.emby-input[type=color] {
+    height: 2.5em;
+    padding: 0;
+}
+
 .emby-input::-moz-focus-inner {
     border: 0;
 }
