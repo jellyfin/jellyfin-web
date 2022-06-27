@@ -1652,5 +1652,16 @@
     "LabelVppTonemappingBrightnessHelp": "Apply brightness gain in VPP tone mapping. Both recommended and default values are 0.",
     "LabelVppTonemappingContrast": "VPP Tone mapping contrast gain:",
     "LabelVppTonemappingContrastHelp": "Apply contrast gain in VPP tone mapping. The recommended and default values are 1.2 and 1.",
-    "VideoRangeTypeNotSupported": "The video's range type is not supported"
+    "VideoRangeTypeNotSupported": "The video's range type is not supported",
+    "LabelVideoRangeType": "Video range type:",
+    "MediaInfoVideoRangeType": "Video range type",
+    "MediaInfoDoViTitle": "DV title",
+    "MediaInfoDvVersionMajor": "DV version major",
+    "MediaInfoDvVersionMinor": "DV version minor",
+    "MediaInfoDvProfile": "DV profile",
+    "MediaInfoDvLevel": "DV level",
+    "MediaInfoRpuPresentFlag": "DV rpu preset flag",
+    "MediaInfoElPresentFlag": "DV el preset flag",
+    "MediaInfoBlPresentFlag": "DV bl preset flag",
+    "MediaInfoDvBlSignalCompatibilityId": "DV bl signal compatibility id"
 }
