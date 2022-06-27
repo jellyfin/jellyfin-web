@@ -13,7 +13,11 @@ const SearchPage: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
 
     return (
-        <Page title={globalize.translate('Search')} className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage'>
+        <Page
+            id='searchPage'
+            title={globalize.translate('Search')}
+            className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage'
+        >
             <SearchFields onSearch={setQuery} />
             {!query &&
                 <SearchSuggestions

@@ -3,8 +3,11 @@ import React, { FunctionComponent, HTMLAttributes, useEffect, useRef } from 'rea
 import viewManager from './viewManager/viewManager';
 
 type PageProps = {
+    id: string, // id is required for libraryMenu
     title?: string,
-    isBackButtonEnabled?: boolean
+    isBackButtonEnabled?: boolean,
+    isNowPlayingBarEnabled?: boolean,
+    isThemeMediaSupported?: boolean
 };
 
 /**
@@ -13,9 +16,12 @@ type PageProps = {
  */
 const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
     children,
+    id,
     className = '',
     title,
-    isBackButtonEnabled = true
+    isBackButtonEnabled = true,
+    isNowPlayingBarEnabled = true,
+    isThemeMediaSupported = false
 }) => {
     const element = useRef<HTMLDivElement>(null);
 
@@ -29,20 +35,27 @@ const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
             bubbles: true,
             cancelable: false,
             detail: {
-                isRestored: false
+                isRestored: false,
+                options: {
+                    enableMediaControl: isNowPlayingBarEnabled,
+                    supportsThemeMedia: isThemeMediaSupported
+                }
             }
         };
-        // pagebeforeshow - hides tabs on tabless pages in libraryMenu
+        // viewbeforeshow - switches between the admin dashboard and standard themes
+        element.current?.dispatchEvent(new CustomEvent('viewbeforeshow', event));
+        // pagebeforeshow - hides tabs on tables pages in libraryMenu
         element.current?.dispatchEvent(new CustomEvent('pagebeforeshow', event));
         // viewshow - updates state of appRouter
         element.current?.dispatchEvent(new CustomEvent('viewshow', event));
         // pageshow - updates header/navigation in libraryMenu
         element.current?.dispatchEvent(new CustomEvent('pageshow', event));
-    }, [ element ]);
+    }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported ]);
 
     return (
         <div
             ref={element}
+            id={id}
             data-role='page'
             className={`page ${className}`}
             data-title={title}
