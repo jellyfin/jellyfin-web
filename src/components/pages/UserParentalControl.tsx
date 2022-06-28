@@ -4,15 +4,15 @@ import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
 import AccessScheduleList from '../dashboard/users/AccessScheduleList';
 import BlockedTagList from '../dashboard/users/BlockedTagList';
-import ButtonElement from '../dashboard/users/ButtonElement';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import SectionTitleButtonElement from '../dashboard/users/SectionTitleButtonElement';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
-import SelectMaxParentalRating from '../dashboard/users/SelectMaxParentalRating';
+import ButtonElement from '../dashboard/elements/ButtonElement';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import SectionTabs from '../dashboard/users/SectionTabs';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
 import { getParameterByName } from '../../utils/url';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
+import escapeHTML from 'escape-html';
+import SelectElement from '../dashboard/elements/SelectElement';
 
 type RatingsArr = {
     Name: string;
@@ -181,7 +181,7 @@ const UserParentalControl: FunctionComponent = () => {
             }
         }
 
-        (page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value = ratingValue;
+        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
 
         if (user.Policy.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
@@ -226,7 +226,7 @@ const UserParentalControl: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            user.Policy.MaxParentalRating = parseInt((page.querySelector('.selectMaxParentalRating') as HTMLInputElement).value || '0', 10) || null;
+            user.Policy.MaxParentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value || '0', 10) || null;
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
@@ -299,7 +299,7 @@ const UserParentalControl: FunctionComponent = () => {
             return false;
         };
 
-        (page.querySelector('.btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
             showSchedulePopup({
                 Id: 0,
                 UserId: '',
@@ -309,28 +309,40 @@ const UserParentalControl: FunctionComponent = () => {
             }, -1);
         });
 
-        (page.querySelector('.btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
             showBlockedTagPopup();
         });
 
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
     }, [loadBlockedTags, loadData, renderAccessSchedule]);
 
+    const optionMaxParentalRating = () => {
+        let content = '';
+        content += '<option value=\'\'></option>';
+        for (const rating of parentalRatings) {
+            content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+        }
+        return content;
+    };
+
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        url='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
                 <SectionTabs activeTab='userparentalcontrol'/>
                 <form className='userParentalControlForm'>
                     <div className='selectContainer'>
-                        <SelectMaxParentalRating
-                            className= 'selectMaxParentalRating'
-                            label= 'LabelMaxParentalRating'
-                            parentalRatings={parentalRatings}
-                        />
+                        <SelectElement
+                            id='selectMaxParentalRating'
+                            label='LabelMaxParentalRating'
+                        >
+                            {optionMaxParentalRating()}
+                        </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('MaxParentalRatingHelp')}
                         </div>
@@ -342,12 +354,12 @@ const UserParentalControl: FunctionComponent = () => {
                             </h3>
                             <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                                 {unratedItems.map(Item => {
-                                    return <CheckBoxListItem
+                                    return <CheckBoxElement
                                         key={Item.value}
                                         className='chkUnratedItem'
-                                        ItemType={Item.value}
-                                        Name={Item.name}
-                                        checkedAttribute={Item.checkedAttribute}
+                                        itemType={Item.value}
+                                        itemName={Item.name}
+                                        itemCheckedAttribute={Item.checkedAttribute}
                                     />;
                                 })}
                             </div>
@@ -355,19 +367,16 @@ const UserParentalControl: FunctionComponent = () => {
                     </div>
                     <br />
                     <div className='verticalSection' style={{marginBottom: '2em'}}>
-                        <div
-                            className='detailSectionHeader sectionTitleContainer'
-                            style={{display: 'flex', alignItems: 'center', paddingBottom: '1em'}}
-                        >
-                            <h2 className='sectionTitle'>
-                                {globalize.translate('LabelBlockContentWithTags')}
-                            </h2>
-                            <SectionTitleButtonElement
-                                className='fab btnAddBlockedTag submit'
-                                title='Add'
-                                icon='add'
-                            />
-                        </div>
+                        <SectionTitleContainer
+                            SectionClassName='detailSectionHeader'
+                            title={globalize.translate('LabelBlockContentWithTags')}
+                            isBtnVisible={true}
+                            btnId='btnAddBlockedTag'
+                            btnClassName='fab submit sectionTitleButton'
+                            btnTitle='Add'
+                            btnIcon='add'
+                            isLinkVisible={false}
+                        />
                         <div className='blockedTags' style={{marginTop: '.5em'}}>
                             {blockedTags.map((tag, index) => {
                                 return <BlockedTagList
@@ -378,19 +387,15 @@ const UserParentalControl: FunctionComponent = () => {
                         </div>
                     </div>
                     <div className='accessScheduleSection verticalSection' style={{marginBottom: '2em'}}>
-                        <div
-                            className='sectionTitleContainer'
-                            style={{display: 'flex', alignItems: 'center', paddingBottom: '1em'}}
-                        >
-                            <h2 className='sectionTitle'>
-                                {globalize.translate('HeaderAccessSchedule')}
-                            </h2>
-                            <SectionTitleButtonElement
-                                className='fab btnAddSchedule submit'
-                                title='Add'
-                                icon='add'
-                            />
-                        </div>
+                        <SectionTitleContainer
+                            title={globalize.translate('HeaderAccessSchedule')}
+                            isBtnVisible={true}
+                            btnId='btnAddSchedule'
+                            btnClassName='fab submit sectionTitleButton'
+                            btnTitle='Add'
+                            btnIcon='add'
+                            isLinkVisible={false}
+                        />
                         <p>{globalize.translate('HeaderAccessScheduleHelp')}</p>
                         <div className='accessScheduleList paperList'>
                             {accessSchedules.map((accessSchedule, index) => {

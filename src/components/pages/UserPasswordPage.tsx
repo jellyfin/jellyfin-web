@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect, useState } from 'reac
 import SectionTabs from '../dashboard/users/SectionTabs';
 import UserPasswordForm from '../dashboard/users/UserPasswordForm';
 import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 
 const UserPasswordPage: FunctionComponent = () => {
     const userId = getParameterByName('userId');
@@ -23,10 +23,12 @@ const UserPasswordPage: FunctionComponent = () => {
     return (
         <div>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        url='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
                 <SectionTabs activeTab='userpassword'/>
                 <div className='readOnlyContent'>
                     <UserPasswordForm

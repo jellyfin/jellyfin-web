@@ -6,9 +6,9 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
-import ButtonElement from './ButtonElement';
-import CheckBoxElement from './CheckBoxElement';
-import InputElement from './InputElement';
+import ButtonElement from '../elements/ButtonElement';
+import CheckBoxElement from '../elements/CheckBoxElement';
+import InputElement from '../elements/InputElement';
 
 type IProps = {
     userId: string;
@@ -206,8 +206,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
         (page.querySelector('.updatePasswordForm') as HTMLFormElement).addEventListener('submit', onSubmit);
         (page.querySelector('.localAccessForm') as HTMLFormElement).addEventListener('submit', onLocalAccessSubmit);
 
-        (page.querySelector('.btnResetEasyPassword') as HTMLButtonElement).addEventListener('click', resetEasyPassword);
-        (page.querySelector('.btnResetPassword') as HTMLButtonElement).addEventListener('click', resetPassword);
+        (page.querySelector('#btnResetEasyPassword') as HTMLButtonElement).addEventListener('click', resetEasyPassword);
+        (page.querySelector('#btnResetPassword') as HTMLButtonElement).addEventListener('click', resetPassword);
     }, [loadUser, userId]);
 
     return (
@@ -250,7 +250,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised btnResetPassword button-cancel block hide'
+                            id='btnResetPassword'
+                            className='raised button-cancel block hide'
                             title='ResetPassword'
                         />
                     </div>
@@ -281,7 +282,6 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                     <br />
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkEnableLocalEasyPassword'
                             title='LabelInNetworkSignInWithEasyPassword'
                         />
@@ -297,7 +297,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised btnResetEasyPassword button-cancel block hide'
+                            id='btnResetEasyPassword'
+                            className='raised button-cancel block hide'
                             title='ButtonResetEasyPassword'
                         />
                     </div>

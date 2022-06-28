@@ -4,11 +4,11 @@ import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
-import InputElement from '../dashboard/users/InputElement';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import ButtonElement from '../dashboard/users/ButtonElement';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
+import InputElement from '../dashboard/elements/InputElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
 import AccessContainer from '../dashboard/users/AccessContainer';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 
 type userInput = {
     Name?: string;
@@ -169,7 +169,7 @@ const NewUserPage: FunctionComponent = () => {
 
         (page.querySelector('.newUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        (page.querySelector('.button-cancel') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
             window.history.back();
         });
     }, [loadUser]);
@@ -177,10 +177,13 @@ const NewUserPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={globalize.translate('HeaderAddUser')}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderAddUser')}
+                        url='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
+
                 <form className='newUserProfileForm'>
                     <div className='inputContainer'>
                         <InputElement
@@ -208,12 +211,11 @@ const NewUserPage: FunctionComponent = () => {
                         description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkFolder'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute=''
+                                itemId={Item.Id}
+                                itemName={Item.Name}
                             />
                         ))}
                     </AccessContainer>
@@ -229,12 +231,11 @@ const NewUserPage: FunctionComponent = () => {
                         description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkChannel'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute=''
+                                itemId={Item.Id}
+                                itemName={Item.Name}
                             />
                         ))}
                     </AccessContainer>
@@ -246,7 +247,8 @@ const NewUserPage: FunctionComponent = () => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised button-cancel block btnCancel'
+                            id='btnCancel'
+                            className='raised button-cancel block'
                             title='ButtonCancel'
                         />
                     </div>

@@ -6,11 +6,11 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
 import SectionTabs from '../dashboard/users/SectionTabs';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import ButtonElement from '../dashboard/users/ButtonElement';
+import ButtonElement from '../dashboard/elements/ButtonElement';
 import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import AccessContainer from '../dashboard/users/AccessContainer';
+import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
 
 type ItemsArr = {
     Name?: string;
@@ -228,10 +228,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        url='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
                 <SectionTabs activeTab='userlibraryaccess'/>
                 <form className='userLibraryAccessForm'>
                     <AccessContainer
@@ -245,12 +247,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                         description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkFolder'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute={Item.checkedAttribute}
+                                itemId={Item.Id}
+                                itemName={Item.Name}
+                                itemCheckedAttribute={Item.checkedAttribute}
                             />
                         ))}
                     </AccessContainer>
@@ -266,12 +268,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                         description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkChannel'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute={Item.checkedAttribute}
+                                itemId={Item.Id}
+                                itemName={Item.Name}
+                                itemCheckedAttribute={Item.checkedAttribute}
                             />
                         ))}
                     </AccessContainer>
@@ -287,13 +289,13 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                         description='DeviceAccessHelp'
                     >
                         {devicesItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkDevice'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                AppName={Item.AppName}
-                                checkedAttribute={Item.checkedAttribute}
+                                itemId={Item.Id}
+                                itemName={Item.Name}
+                                itemAppName={Item.AppName}
+                                itemCheckedAttribute={Item.checkedAttribute}
                             />
                         ))}
                     </AccessContainer>

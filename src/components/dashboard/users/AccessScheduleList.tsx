@@ -1,17 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import datetime from '../../../scripts/datetime';
 import globalize from '../../../scripts/globalize';
-
-const createButtonElement = (index: number) => ({
-    __html: `<button
-        type='button'
-        is='paper-icon-button-light'
-        class='btnDelete listItemButton'
-        data-index='${index}'
-    >
-        <span class='material-icons delete' aria-hidden='true' />
-    </button>`
-});
+import IconButtonElement from '../elements/IconButtonElement';
 
 type IProps = {
     index: number;
@@ -48,8 +38,13 @@ const AccessScheduleList: FunctionComponent<IProps> = ({index, DayOfWeek, StartH
                     {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
                 </div>
             </div>
-            <div
-                dangerouslySetInnerHTML={createButtonElement(index)}
+            <IconButtonElement
+                is='paper-icon-button-light'
+                type='button'
+                className='btnDelete listItemButton'
+                title='Delete'
+                icon='delete'
+                dataIndex={index}
             />
         </div>
     );

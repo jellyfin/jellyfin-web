@@ -4,6 +4,8 @@ import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import globalize from '../../../scripts/globalize';
 import cardBuilder from '../../cardbuilder/cardBuilder';
+import IconButtonElement from '../elements/IconButtonElement';
+import escapeHTML from 'escape-html';
 
 const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl: string }) => ({
     __html: `<a
@@ -13,16 +15,6 @@ const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl
         >
         ${renderImgUrl}
     </a>`
-});
-
-const createButtonElement = () => ({
-    __html: `<button
-        is="paper-icon-button-light"
-        type="button"
-        class="btnUserMenu flex-shrink-zero"
-        >
-        <span class="material-icons more_vert" aria-hidden="true"></span>
-    </button>`
 });
 
 type IProps = {
@@ -81,16 +73,21 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                     />
                 </div>
                 <div className='cardFooter visualCardBox-cardFooter'>
-                    <div className='cardText flex align-items-center'>
-                        <div className='flex-grow' style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                            {user.Name}
-                        </div>
-                        <div
-                            dangerouslySetInnerHTML={createButtonElement()}
+                    <div
+                        style={{textAlign: 'right', float: 'right', paddingTop: '5px'}}
+                    >
+                        <IconButtonElement
+                            is='paper-icon-button-light'
+                            type='button'
+                            className='btnUserMenu flex-shrink-zero'
+                            icon='more_vert'
                         />
                     </div>
+                    <div className='cardText'>
+                        <span>{escapeHTML(user.Name)}</span>
+                    </div>
                     <div className='cardText cardText-secondary'>
-                        {lastSeen != '' ? lastSeen : ''}
+                        <span>{lastSeen != '' ? lastSeen : ''}</span>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import confirm from '../../components/confirm/confirm';
 import UserCardBox from '../dashboard/users/UserCardBox';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../components/cardbuilder/card.scss';
@@ -124,7 +124,7 @@ const UserProfilesPage: FunctionComponent = () => {
             }
         });
 
-        (page.querySelector('.btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
     }, []);
@@ -132,11 +132,17 @@ const UserProfilesPage: FunctionComponent = () => {
     return (
         <div ref={element}>
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={globalize.translate('HeaderUsers')}
-                    isBtnVisible={true}
-                    titleLink='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderUsers')}
+                        isBtnVisible={true}
+                        btnId='btnAddUser'
+                        btnClassName='fab submit sectionTitleButton'
+                        btnTitle='ButtonAddUser'
+                        btnIcon='add'
+                        url='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
+                    />
+                </div>
 
                 <div className='localUsers itemsContainer vertical-wrap'>
                     {users.map(user => {
