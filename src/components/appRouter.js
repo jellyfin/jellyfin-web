@@ -122,7 +122,11 @@ class AppRouter {
                 isBack: action === Action.Pop
             });
         } else {
-            console.warn('[appRouter] "%s" route not found', normalizedPath, location);
+            console.info('[appRouter] "%s" route not found', normalizedPath, location);
+            this.currentRouteInfo = {
+                route: {},
+                path: normalizedPath + location.search
+            };
         }
     }
 
@@ -139,7 +143,7 @@ class AppRouter {
             Events.on(apiClient, 'requestfail', this.onRequestFail);
         });
 
-        ServerConnections.connect().then(result => {
+        return ServerConnections.connect().then(result => {
             this.firstConnectionResult = result;
 
             // Handle the initial route

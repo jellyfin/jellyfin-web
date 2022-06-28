@@ -21,8 +21,8 @@ const CARD_OPTIONS = {
 
 type LiveTVSearchResultsProps = {
     serverId?: string;
-    parentId?: string;
-    collectionType?: string;
+    parentId?: string | null;
+    collectionType?: string | null;
     query?: string;
 }
 

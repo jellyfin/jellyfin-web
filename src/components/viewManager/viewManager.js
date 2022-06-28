@@ -147,6 +147,15 @@ class ViewManager {
         });
     }
 
+    hideView() {
+        if (currentView) {
+            dispatchViewEvent(currentView, null, 'viewbeforehide');
+            dispatchViewEvent(currentView, null, 'viewhide');
+            currentView.classList.add('hide');
+            currentView = null;
+        }
+    }
+
     tryRestoreView(options, onViewChanging) {
         if (options.cancel) {
             return Promise.reject({ cancelled: true });
