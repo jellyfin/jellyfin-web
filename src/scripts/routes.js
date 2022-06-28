@@ -446,14 +446,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/usernew.html',
-        path: 'dashboard/users/usernew.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'NewUserPage'
-    });
-
-    defineRoute({
         alias: '/userparentalcontrol.html',
         path: 'dashboard/users/userparentalcontrol.html',
         autoFocus: false,

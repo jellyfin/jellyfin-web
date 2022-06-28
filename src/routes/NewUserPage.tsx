@@ -1,14 +1,15 @@
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
-import Dashboard from '../../utils/dashboard';
-import globalize from '../../scripts/globalize';
-import loading from '../loading/loading';
-import toast from '../toast/toast';
-import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
-import InputElement from '../dashboard/elements/InputElement';
-import ButtonElement from '../dashboard/elements/ButtonElement';
-import AccessContainer from '../dashboard/users/AccessContainer';
-import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
+import Dashboard from '../utils/dashboard';
+import globalize from '../scripts/globalize';
+import loading from '../components/loading/loading';
+import toast from '../components/toast/toast';
+import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import InputElement from '../components/dashboard/elements/InputElement';
+import ButtonElement from '../components/dashboard/elements/ButtonElement';
+import AccessContainer from '../components/dashboard/users/AccessContainer';
+import CheckBoxElement from '../components/dashboard/elements/CheckBoxElement';
+import Page from '../components/Page';
 
 type userInput = {
     Name?: string;
@@ -175,8 +176,11 @@ const NewUserPage: FunctionComponent = () => {
     }, [loadUser]);
 
     return (
-        <div ref={element}>
-            <div className='content-primary'>
+        <Page
+            id='newUserPage'
+            className='mainAnimatedPage type-interior'
+        >
+            <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('HeaderAddUser')}
@@ -254,7 +258,8 @@ const NewUserPage: FunctionComponent = () => {
                     </div>
                 </form>
             </div>
-        </div>
+        </Page>
+
     );
 };
 

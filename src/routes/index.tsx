@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import ConnectionRequired from '../components/ConnectionRequired';
+import NewUserPage from './NewUserPage';
 import SearchPage from './search';
 
 const AppRoutes = () => (
@@ -12,6 +13,14 @@ const AppRoutes = () => (
                 element={
                     <ConnectionRequired>
                         <SearchPage />
+                    </ConnectionRequired>
+                }
+            />
+            <Route
+                path='usernew.html'
+                element={
+                    <ConnectionRequired>
+                        <NewUserPage />
                     </ConnectionRequired>
                 }
             />
