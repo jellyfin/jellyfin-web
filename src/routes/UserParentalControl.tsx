@@ -4,15 +4,15 @@ import globalize from '../scripts/globalize';
 import LibraryMenu from '../scripts/libraryMenu';
 import AccessScheduleList from '../components/dashboard/users/AccessScheduleList';
 import BlockedTagList from '../components/dashboard/users/BlockedTagList';
-import ButtonElement from '../components/dashboard/elements/ButtonElement';
-import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import ButtonElement from '../elements/ButtonElement';
+import SectionTitleContainer from '../elements/SectionTitleContainer';
 import SectionTabs from '../components/dashboard/users/SectionTabs';
 import loading from '../components/loading/loading';
 import toast from '../components/toast/toast';
 import { getParameterByName } from '../utils/url';
-import CheckBoxElement from '../components/dashboard/elements/CheckBoxElement';
+import CheckBoxElement from '../elements/CheckBoxElement';
 import escapeHTML from 'escape-html';
-import SelectElement from '../components/dashboard/elements/SelectElement';
+import SelectElement from '../elements/SelectElement';
 import Page from '../components/Page';
 
 type RatingsArr = {

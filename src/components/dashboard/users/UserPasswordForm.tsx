@@ -6,9 +6,9 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
-import ButtonElement from '../elements/ButtonElement';
-import CheckBoxElement from '../elements/CheckBoxElement';
-import InputElement from '../elements/InputElement';
+import ButtonElement from '../../../elements/ButtonElement';
+import CheckBoxElement from '../../../elements/CheckBoxElement';
+import InputElement from '../../../elements/InputElement';
 
 type IProps = {
     userId: string;

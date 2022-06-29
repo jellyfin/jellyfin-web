@@ -4,11 +4,11 @@ import Dashboard from '../utils/dashboard';
 import globalize from '../scripts/globalize';
 import loading from '../components/loading/loading';
 import toast from '../components/toast/toast';
-import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
-import InputElement from '../components/dashboard/elements/InputElement';
-import ButtonElement from '../components/dashboard/elements/ButtonElement';
+import SectionTitleContainer from '../elements/SectionTitleContainer';
+import InputElement from '../elements/InputElement';
+import ButtonElement from '../elements/ButtonElement';
 import AccessContainer from '../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../components/dashboard/elements/CheckBoxElement';
+import CheckBoxElement from '../elements/CheckBoxElement';
 import Page from '../components/Page';
 
 type userInput = {

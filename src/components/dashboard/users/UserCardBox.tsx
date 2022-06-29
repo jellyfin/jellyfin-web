@@ -4,7 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import globalize from '../../../scripts/globalize';
 import cardBuilder from '../../cardbuilder/cardBuilder';
-import IconButtonElement from '../elements/IconButtonElement';
+import IconButtonElement from '../../../elements/IconButtonElement';
 import escapeHTML from 'escape-html';
 
 const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl: string }) => ({

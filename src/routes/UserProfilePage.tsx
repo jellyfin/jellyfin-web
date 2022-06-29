@@ -6,7 +6,7 @@ import globalize from '../scripts/globalize';
 import LibraryMenu from '../scripts/libraryMenu';
 import { appHost } from '../components/apphost';
 import confirm from '../components/confirm/confirm';
-import ButtonElement from '../components/dashboard/elements/ButtonElement';
+import ButtonElement from '../elements/ButtonElement';
 import UserPasswordForm from '../components/dashboard/users/UserPasswordForm';
 import loading from '../components/loading/loading';
 import toast from '../components/toast/toast';

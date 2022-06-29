@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import datetime from '../../../scripts/datetime';
 import globalize from '../../../scripts/globalize';
-import IconButtonElement from '../elements/IconButtonElement';
+import IconButtonElement from '../../../elements/IconButtonElement';
 
 type IProps = {
     index: number;

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect, useState } from 'reac
 import SectionTabs from '../components/dashboard/users/SectionTabs';
 import UserPasswordForm from '../components/dashboard/users/UserPasswordForm';
 import { getParameterByName } from '../utils/url';
-import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import SectionTitleContainer from '../elements/SectionTitleContainer';
 import Page from '../components/Page';
 import loading from '../components/loading/loading';
 

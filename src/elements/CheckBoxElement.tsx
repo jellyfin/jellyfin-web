@@ -1,6 +1,6 @@
 import escapeHTML from 'escape-html';
 import React, { FunctionComponent } from 'react';
-import globalize from '../../../scripts/globalize';
+import globalize from '../scripts/globalize';
 
 const createCheckBoxElement = ({ labelClassName, className, id, dataFilter, dataItemType, dataId, checkedAttribute, renderContent }: { labelClassName?: string, type?: string, className?: string, id?: string, dataFilter?: string, dataItemType?: string, dataId?: string, checkedAttribute?: string, renderContent?: string }) => ({
     __html: `<label ${labelClassName}>

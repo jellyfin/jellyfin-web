@@ -6,11 +6,11 @@ import libraryMenu from '../scripts/libraryMenu';
 import globalize from '../scripts/globalize';
 import toast from '../components/toast/toast';
 import SectionTabs from '../components/dashboard/users/SectionTabs';
-import ButtonElement from '../components/dashboard/elements/ButtonElement';
+import ButtonElement from '../elements/ButtonElement';
 import { getParameterByName } from '../utils/url';
-import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import SectionTitleContainer from '../elements/SectionTitleContainer';
 import AccessContainer from '../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../components/dashboard/elements/CheckBoxElement';
+import CheckBoxElement from '../elements/CheckBoxElement';
 import Page from '../components/Page';
 
 type ItemsArr = {
