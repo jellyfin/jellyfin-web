@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import alert from './alert';
 import { appRouter } from './appRouter';
@@ -33,7 +33,6 @@ type ConnectionRequiredProps = {
  * If a condition fails, this component will navigate to the appropriate page.
  */
 const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
-    children,
     isAdminRequired = false,
     isUserRequired = true
 }) => {
@@ -161,9 +160,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         return null;
     }
 
-    return (
-        <>{children}</>
-    );
+    return <Outlet />;
 };
 
 export default ConnectionRequired;

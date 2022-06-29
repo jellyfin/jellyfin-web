@@ -14,70 +14,22 @@ import UserProfilesPage from './UserProfilesPage';
 const AppRoutes = () => (
     <Routes>
         <Route path='/'>
-            <Route
-                path='search.html'
-                element={
-                    <ConnectionRequired>
-                        <SearchPage />
-                    </ConnectionRequired>
-                }
-            />
-            <Route
-                path='usernew.html'
-                element={
-                    <ConnectionRequired>
-                        <NewUserPage />
-                    </ConnectionRequired>
-                }
-            />
-            <Route
-                path='userprofiles.html'
-                element={
-                    <ConnectionRequired>
-                        <UserProfilesPage />
-                    </ConnectionRequired>
-                }
-            />
-            <Route
-                path='useredit.html'
-                element={
-                    <ConnectionRequired>
-                        <UserEditPage />
-                    </ConnectionRequired>
-                }
-            />
-            <Route
-                path='userlibraryaccess.html'
-                element={
-                    <ConnectionRequired>
-                        <UserLibraryAccessPage />
-                    </ConnectionRequired>
-                }
-            />
-            <Route
-                path='userparentalcontrol.html'
-                element={
-                    <ConnectionRequired>
-                        <UserParentalControl />
-                    </ConnectionRequired>
-                }
-            />
-            <Route
-                path='userpassword.html'
-                element={
-                    <ConnectionRequired>
-                        <UserPasswordPage />
-                    </ConnectionRequired>
-                }
-            />
-            <Route
-                path='myprofile.html'
-                element={
-                    <ConnectionRequired>
-                        <UserProfilePage />
-                    </ConnectionRequired>
-                }
-            />
+            {/* User routes */}
+            <Route path='/' element={<ConnectionRequired />}>
+                <Route path='search.html' element={<SearchPage />} />
+                <Route path='myprofile.html' element={<UserProfilePage />} />
+            </Route>
+
+            {/* Admin routes */}
+            <Route path='/' element={<ConnectionRequired isAdminRequired={true} />}>
+                <Route path='usernew.html' element={<NewUserPage />} />
+                <Route path='userprofiles.html' element={<UserProfilesPage />} />
+                <Route path='useredit.html' element={<UserEditPage />} />
+                <Route path='userlibraryaccess.html' element={<UserLibraryAccessPage />} />
+                <Route path='userparentalcontrol.html' element={<UserParentalControl />} />
+                <Route path='userpassword.html' element={<UserPasswordPage />} />
+            </Route>
+
             {/* Suppress warnings for unhandled routes */}
             <Route path='*' element={null} />
         </Route>
