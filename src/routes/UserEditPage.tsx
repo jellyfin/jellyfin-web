@@ -1,19 +1,20 @@
 import { SyncPlayUserAccessType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
-import Dashboard from '../../utils/dashboard';
-import globalize from '../../scripts/globalize';
-import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../dashboard/elements/ButtonElement';
-import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
-import InputElement from '../dashboard/elements/InputElement';
-import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences';
-import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
-import SectionTabs from '../dashboard/users/SectionTabs';
-import loading from '../loading/loading';
-import toast from '../toast/toast';
-import { getParameterByName } from '../../utils/url';
+import Dashboard from '../utils/dashboard';
+import globalize from '../scripts/globalize';
+import LibraryMenu from '../scripts/libraryMenu';
+import ButtonElement from '../components/dashboard/elements/ButtonElement';
+import CheckBoxElement from '../components/dashboard/elements/CheckBoxElement';
+import InputElement from '../components/dashboard/elements/InputElement';
+import LinkEditUserPreferences from '../components/dashboard/users/LinkEditUserPreferences';
+import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import SectionTabs from '../components/dashboard/users/SectionTabs';
+import loading from '../components/loading/loading';
+import toast from '../components/toast/toast';
+import { getParameterByName } from '../utils/url';
 import escapeHTML from 'escape-html';
-import SelectElement from '../dashboard/elements/SelectElement';
+import SelectElement from '../components/dashboard/elements/SelectElement';
+import Page from '../components/Page';
 
 type ItemsArr = {
     Name?: string;
@@ -298,8 +299,11 @@ const UserEditPage: FunctionComponent = () => {
     };
 
     return (
-        <div ref={element}>
-            <div className='content-primary'>
+        <Page
+            id='editUserPage'
+            className='mainAnimatedPage type-interior'
+        >
+            <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
@@ -569,7 +573,8 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                 </form>
             </div>
-        </div>
+        </Page>
+
     );
 };
 

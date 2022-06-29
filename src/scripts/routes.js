@@ -430,14 +430,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/useredit.html',
-        path: 'dashboard/users/useredit.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'UserEditPage'
-    });
-
-    defineRoute({
         alias: '/userlibraryaccess.html',
         path: 'dashboard/users/userlibraryaccess.html',
         autoFocus: false,
