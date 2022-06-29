@@ -9,9 +9,9 @@ import UserCardBox from '../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
-import '../components/cardbuilder/card.scss';
-import '../components/indicators/indicators.scss';
-import '../assets/css/flexstyles.scss';
+import '../../components/cardbuilder/card.scss';
+import '../../components/indicators/indicators.scss';
+import '../../assets/css/flexstyles.scss';
 import Page from '../../components/Page';
 
 type MenuEntry = {
