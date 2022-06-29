@@ -461,14 +461,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/userprofiles.html',
-        path: 'dashboard/users/userprofiles.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'UserProfilesPage'
-    });
-
-    defineRoute({
         alias: '/wizardremoteaccess.html',
         path: 'wizard/remote/index.html',
         autoFocus: false,

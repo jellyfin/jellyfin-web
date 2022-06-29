@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import ConnectionRequired from '../components/ConnectionRequired';
 import NewUserPage from './NewUserPage';
 import SearchPage from './search';
+import UserProfilesPage from './UserProfilesPage';
 
 const AppRoutes = () => (
     <Routes>
@@ -21,6 +22,14 @@ const AppRoutes = () => (
                 element={
                     <ConnectionRequired>
                         <NewUserPage />
+                    </ConnectionRequired>
+                }
+            />
+            <Route
+                path='userprofiles.html'
+                element={
+                    <ConnectionRequired>
+                        <UserProfilesPage />
                     </ConnectionRequired>
                 }
             />

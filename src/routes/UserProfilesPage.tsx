@@ -1,17 +1,18 @@
 import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, {FunctionComponent, useEffect, useState, useRef} from 'react';
-import Dashboard from '../../utils/dashboard';
-import globalize from '../../scripts/globalize';
-import loading from '../loading/loading';
-import dom from '../../scripts/dom';
-import confirm from '../../components/confirm/confirm';
-import UserCardBox from '../dashboard/users/UserCardBox';
-import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../components/cardbuilder/card.scss';
-import '../../components/indicators/indicators.scss';
-import '../../assets/css/flexstyles.scss';
+import Dashboard from '../utils/dashboard';
+import globalize from '../scripts/globalize';
+import loading from '../components/loading/loading';
+import dom from '../scripts/dom';
+import confirm from '../components/confirm/confirm';
+import UserCardBox from '../components/dashboard/users/UserCardBox';
+import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import '../elements/emby-button/emby-button';
+import '../elements/emby-button/paper-icon-button-light';
+import '../components/cardbuilder/card.scss';
+import '../components/indicators/indicators.scss';
+import '../assets/css/flexstyles.scss';
+import Page from '../components/Page';
 
 type MenuEntry = {
     name?: string;
@@ -74,7 +75,7 @@ const UserProfilesPage: FunctionComponent = () => {
                 icon: 'delete'
             });
 
-            import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+            import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: card,
@@ -130,8 +131,11 @@ const UserProfilesPage: FunctionComponent = () => {
     }, []);
 
     return (
-        <div ref={element}>
-            <div className='content-primary'>
+        <Page
+            id='userProfilesPage'
+            className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
+        >
+            <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('HeaderUsers')}
@@ -150,7 +154,8 @@ const UserProfilesPage: FunctionComponent = () => {
                     })}
                 </div>
             </div>
-        </div>
+        </Page>
+
     );
 };
 
