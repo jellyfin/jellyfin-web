@@ -1,20 +1,20 @@
 import { SyncPlayUserAccessType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
-import Dashboard from '../utils/dashboard';
-import globalize from '../scripts/globalize';
-import LibraryMenu from '../scripts/libraryMenu';
-import ButtonElement from '../elements/ButtonElement';
-import CheckBoxElement from '../elements/CheckBoxElement';
-import InputElement from '../elements/InputElement';
-import LinkEditUserPreferences from '../components/dashboard/users/LinkEditUserPreferences';
-import SectionTitleContainer from '../elements/SectionTitleContainer';
-import SectionTabs from '../components/dashboard/users/SectionTabs';
-import loading from '../components/loading/loading';
-import toast from '../components/toast/toast';
-import { getParameterByName } from '../utils/url';
+import Dashboard from '../../utils/dashboard';
+import globalize from '../../scripts/globalize';
+import LibraryMenu from '../../scripts/libraryMenu';
+import ButtonElement from '../../elements/ButtonElement';
+import CheckBoxElement from '../../elements/CheckBoxElement';
+import InputElement from '../../elements/InputElement';
+import LinkEditUserPreferences from '../../components/dashboard/users/LinkEditUserPreferences';
+import SectionTitleContainer from '../../elements/SectionTitleContainer';
+import SectionTabs from '../../components/dashboard/users/SectionTabs';
+import loading from '../../components/loading/loading';
+import toast from '../../components/toast/toast';
+import { getParameterByName } from '../../utils/url';
 import escapeHTML from 'escape-html';
-import SelectElement from '../elements/SelectElement';
-import Page from '../components/Page';
+import SelectElement from '../../elements/SelectElement';
+import Page from '../../components/Page';
 
 type ItemsArr = {
     Name?: string;
@@ -27,7 +27,7 @@ type ProvidersArr = {
     Id?: string;
 }
 
-const UserEditPage: FunctionComponent = () => {
+const UserEdit: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ItemsArr[]>([]);
     const [ authProviders, setAuthProviders ] = useState<ProvidersArr[]>([]);
@@ -578,4 +578,4 @@ const UserEditPage: FunctionComponent = () => {
     );
 };
 
-export default UserEditPage;
+export default UserEdit;

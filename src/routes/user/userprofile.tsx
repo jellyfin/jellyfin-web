@@ -1,19 +1,19 @@
 import { ImageType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
 
-import Dashboard from '../utils/dashboard';
-import globalize from '../scripts/globalize';
-import LibraryMenu from '../scripts/libraryMenu';
-import { appHost } from '../components/apphost';
-import confirm from '../components/confirm/confirm';
-import ButtonElement from '../elements/ButtonElement';
-import UserPasswordForm from '../components/dashboard/users/UserPasswordForm';
-import loading from '../components/loading/loading';
-import toast from '../components/toast/toast';
-import { getParameterByName } from '../utils/url';
-import Page from '../components/Page';
+import Dashboard from '../../utils/dashboard';
+import globalize from '../../scripts/globalize';
+import LibraryMenu from '../../scripts/libraryMenu';
+import { appHost } from '../../components/apphost';
+import confirm from '../../components/confirm/confirm';
+import ButtonElement from '../../elements/ButtonElement';
+import UserPasswordForm from '../../components/dashboard/users/UserPasswordForm';
+import loading from '../../components/loading/loading';
+import toast from '../../components/toast/toast';
+import { getParameterByName } from '../../utils/url';
+import Page from '../../components/Page';
 
-const UserProfilePage: FunctionComponent = () => {
+const UserProfile: FunctionComponent = () => {
     const userId = getParameterByName('userId');
     const [ userName, setUserName ] = useState('');
 
@@ -197,4 +197,4 @@ const UserProfilePage: FunctionComponent = () => {
     );
 };
 
-export default UserProfilePage;
+export default UserProfile;

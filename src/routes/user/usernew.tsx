@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
-import Dashboard from '../utils/dashboard';
-import globalize from '../scripts/globalize';
-import loading from '../components/loading/loading';
-import toast from '../components/toast/toast';
-import SectionTitleContainer from '../elements/SectionTitleContainer';
-import InputElement from '../elements/InputElement';
-import ButtonElement from '../elements/ButtonElement';
-import AccessContainer from '../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../elements/CheckBoxElement';
-import Page from '../components/Page';
+import Dashboard from '../../utils/dashboard';
+import globalize from '../../scripts/globalize';
+import loading from '../../components/loading/loading';
+import toast from '../../components/toast/toast';
+import SectionTitleContainer from '../../elements/SectionTitleContainer';
+import InputElement from '../../elements/InputElement';
+import ButtonElement from '../../elements/ButtonElement';
+import AccessContainer from '../../components/dashboard/users/AccessContainer';
+import CheckBoxElement from '../../elements/CheckBoxElement';
+import Page from '../../components/Page';
 
 type userInput = {
     Name?: string;
@@ -21,7 +21,7 @@ type ItemsArr = {
     Id?: string;
 }
 
-const NewUserPage: FunctionComponent = () => {
+const UserNew: FunctionComponent = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const element = useRef<HTMLDivElement>(null);
@@ -263,4 +263,4 @@ const NewUserPage: FunctionComponent = () => {
     );
 };
 
-export default NewUserPage;
+export default UserNew;

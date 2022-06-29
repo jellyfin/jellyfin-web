@@ -1,18 +1,18 @@
 import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, {FunctionComponent, useEffect, useState, useRef} from 'react';
-import Dashboard from '../utils/dashboard';
-import globalize from '../scripts/globalize';
-import loading from '../components/loading/loading';
-import dom from '../scripts/dom';
-import confirm from '../components/confirm/confirm';
-import UserCardBox from '../components/dashboard/users/UserCardBox';
-import SectionTitleContainer from '../elements/SectionTitleContainer';
-import '../elements/emby-button/emby-button';
-import '../elements/emby-button/paper-icon-button-light';
+import Dashboard from '../../utils/dashboard';
+import globalize from '../../scripts/globalize';
+import loading from '../../components/loading/loading';
+import dom from '../../scripts/dom';
+import confirm from '../../components/confirm/confirm';
+import UserCardBox from '../../components/dashboard/users/UserCardBox';
+import SectionTitleContainer from '../../elements/SectionTitleContainer';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
 import '../components/cardbuilder/card.scss';
 import '../components/indicators/indicators.scss';
 import '../assets/css/flexstyles.scss';
-import Page from '../components/Page';
+import Page from '../../components/Page';
 
 type MenuEntry = {
     name?: string;
@@ -20,7 +20,7 @@ type MenuEntry = {
     icon?: string;
 }
 
-const UserProfilesPage: FunctionComponent = () => {
+const UserProfiles: FunctionComponent = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
@@ -75,7 +75,7 @@ const UserProfilesPage: FunctionComponent = () => {
                 icon: 'delete'
             });
 
-            import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+            import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: card,
@@ -159,4 +159,4 @@ const UserProfilesPage: FunctionComponent = () => {
     );
 };
 
-export default UserProfilesPage;
+export default UserProfiles;
