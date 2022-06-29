@@ -47,7 +47,7 @@ const AppRoutes = () => (
                 }
             />
             <Route
-                path='userLibraryAccessPage.html'
+                path='userlibraryaccess.html'
                 element={
                     <ConnectionRequired>
                         <UserLibraryAccessPage />
