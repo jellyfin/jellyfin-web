@@ -40,11 +40,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                 let showLocalAccessSection = false;
 
                 if (user.HasConfiguredPassword) {
-                    (page.querySelector('.btnResetPassword') as HTMLDivElement).classList.remove('hide');
+                    (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
                     (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
                     showLocalAccessSection = true;
                 } else {
-                    (page.querySelector('.btnResetPassword') as HTMLDivElement).classList.add('hide');
+                    (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
                     (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
                 }
 
@@ -65,11 +65,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
 
                 if (user.HasConfiguredEasyPassword) {
                     txtEasyPassword.placeholder = '******';
-                    (page.querySelector('.btnResetEasyPassword') as HTMLDivElement).classList.remove('hide');
+                    (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.remove('hide');
                 } else {
                     txtEasyPassword.removeAttribute('placeholder');
                     txtEasyPassword.placeholder = '';
-                    (page.querySelector('.btnResetEasyPassword') as HTMLDivElement).classList.add('hide');
+                    (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.add('hide');
                 }
 
                 const chkEnableLocalEasyPassword = page.querySelector('.chkEnableLocalEasyPassword') as HTMLInputElement;

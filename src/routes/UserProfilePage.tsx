@@ -1,21 +1,20 @@
 import { ImageType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
 
-import Dashboard from '../../utils/dashboard';
-import globalize from '../../scripts/globalize';
-import LibraryMenu from '../../scripts/libraryMenu';
-import { appHost } from '../apphost';
-import confirm from '../confirm/confirm';
-import ButtonElement from '../dashboard/elements/ButtonElement';
-import UserPasswordForm from '../dashboard/users/UserPasswordForm';
-import loading from '../loading/loading';
-import toast from '../toast/toast';
+import Dashboard from '../utils/dashboard';
+import globalize from '../scripts/globalize';
+import LibraryMenu from '../scripts/libraryMenu';
+import { appHost } from '../components/apphost';
+import confirm from '../components/confirm/confirm';
+import ButtonElement from '../components/dashboard/elements/ButtonElement';
+import UserPasswordForm from '../components/dashboard/users/UserPasswordForm';
+import loading from '../components/loading/loading';
+import toast from '../components/toast/toast';
+import { getParameterByName } from '../utils/url';
+import Page from '../components/Page';
 
-type IProps = {
-    userId: string;
-}
-
-const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
+const UserProfilePage: FunctionComponent = () => {
+    const userId = getParameterByName('userId');
     const [ userName, setUserName ] = useState('');
 
     const element = useRef<HTMLDivElement>(null);
@@ -145,13 +144,18 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
     }, [reloadUser, userId]);
 
     return (
-        <div ref={element}>
-            <div className='padded-left padded-right padded-bottom-page'>
+        <Page
+            id='userProfilePage'
+            title={globalize.translate('Profile')}
+            className='mainAnimatedPage libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage'
+        >
+            <div ref={element} className='padded-left padded-right padded-bottom-page'>
                 <div
                     className='readOnlyContent'
                     style={{margin: '0 auto', marginBottom: '1.8em', padding: '0 1em', display: 'flex', flexDirection: 'row', alignItems: 'center'}}
                 >
                     <div
+                        className='imagePlaceHolder'
                         style={{position: 'relative', display: 'inline-block', maxWidth: 200 }}
                     >
                         <input
@@ -188,7 +192,8 @@ const UserProfilePage: FunctionComponent<IProps> = ({userId}: IProps) => {
                     userId={userId}
                 />
             </div>
-        </div>
+        </Page>
+
     );
 };
 

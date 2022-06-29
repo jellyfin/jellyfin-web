@@ -4,17 +4,20 @@ import UserPasswordForm from '../components/dashboard/users/UserPasswordForm';
 import { getParameterByName } from '../utils/url';
 import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
 import Page from '../components/Page';
+import loading from '../components/loading/loading';
 
 const UserPasswordPage: FunctionComponent = () => {
     const userId = getParameterByName('userId');
     const [ userName, setUserName ] = useState('');
 
     const loadUser = useCallback(() => {
+        loading.show();
         window.ApiClient.getUser(userId).then(function (user) {
             if (!user.Name) {
                 throw new Error('Unexpected null user.Name');
             }
             setUserName(user.Name);
+            loading.hide();
         });
     }, [userId]);
     useEffect(() => {

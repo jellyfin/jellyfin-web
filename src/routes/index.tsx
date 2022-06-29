@@ -8,6 +8,7 @@ import UserEditPage from './UserEditPage';
 import UserLibraryAccessPage from './UserLibraryAccessPage';
 import UserParentalControl from './UserParentalControl';
 import UserPasswordPage from './UserPasswordPage';
+import UserProfilePage from './UserProfilePage';
 import UserProfilesPage from './UserProfilesPage';
 
 const AppRoutes = () => (
@@ -66,6 +67,14 @@ const AppRoutes = () => (
                 element={
                     <ConnectionRequired>
                         <UserPasswordPage />
+                    </ConnectionRequired>
+                }
+            />
+            <Route
+                path='myprofile.html'
+                element={
+                    <ConnectionRequired>
+                        <UserProfilePage />
                     </ConnectionRequired>
                 }
             />

@@ -78,13 +78,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/myprofile.html',
-        path: 'user/profile/index.html',
-        autoFocus: false,
-        pageComponent: 'UserProfilePage'
-    });
-
-    defineRoute({
         alias: '/mypreferencescontrols.html',
         path: 'user/controls/index.html',
         autoFocus: false,
