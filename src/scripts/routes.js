@@ -430,14 +430,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/userlibraryaccess.html',
-        path: 'dashboard/users/userlibraryaccess.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'UserLibraryAccessPage'
-    });
-
-    defineRoute({
         alias: '/userparentalcontrol.html',
         path: 'dashboard/users/userparentalcontrol.html',
         autoFocus: false,

@@ -5,6 +5,7 @@ import ConnectionRequired from '../components/ConnectionRequired';
 import NewUserPage from './NewUserPage';
 import SearchPage from './search';
 import UserEditPage from './UserEditPage';
+import UserLibraryAccessPage from './UserLibraryAccessPage';
 import UserProfilesPage from './UserProfilesPage';
 
 const AppRoutes = () => (
@@ -39,6 +40,14 @@ const AppRoutes = () => (
                 element={
                     <ConnectionRequired>
                         <UserEditPage />
+                    </ConnectionRequired>
+                }
+            />
+            <Route
+                path='userLibraryAccessPage.html'
+                element={
+                    <ConnectionRequired>
+                        <UserLibraryAccessPage />
                     </ConnectionRequired>
                 }
             />

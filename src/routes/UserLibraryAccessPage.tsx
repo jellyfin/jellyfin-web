@@ -1,16 +1,17 @@
 import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
-import loading from '../loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
-import toast from '../toast/toast';
-import SectionTabs from '../dashboard/users/SectionTabs';
-import ButtonElement from '../dashboard/elements/ButtonElement';
-import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
-import AccessContainer from '../dashboard/users/AccessContainer';
-import CheckBoxElement from '../dashboard/elements/CheckBoxElement';
+import loading from '../components/loading/loading';
+import libraryMenu from '../scripts/libraryMenu';
+import globalize from '../scripts/globalize';
+import toast from '../components/toast/toast';
+import SectionTabs from '../components/dashboard/users/SectionTabs';
+import ButtonElement from '../components/dashboard/elements/ButtonElement';
+import { getParameterByName } from '../utils/url';
+import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import AccessContainer from '../components/dashboard/users/AccessContainer';
+import CheckBoxElement from '../components/dashboard/elements/CheckBoxElement';
+import Page from '../components/Page';
 
 type ItemsArr = {
     Name?: string;
@@ -226,8 +227,11 @@ const UserLibraryAccessPage: FunctionComponent = () => {
     }, [loadData]);
 
     return (
-        <div ref={element}>
-            <div className='content-primary'>
+        <Page
+            id='userLibraryAccessPage'
+            className='mainAnimatedPage type-interior'
+        >
+            <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
@@ -309,7 +313,8 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                     </div>
                 </form>
             </div>
-        </div>
+        </Page>
+
     );
 };
 
