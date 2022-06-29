@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import SectionTabs from '../dashboard/users/SectionTabs';
-import UserPasswordForm from '../dashboard/users/UserPasswordForm';
-import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/elements/SectionTitleContainer';
+import SectionTabs from '../components/dashboard/users/SectionTabs';
+import UserPasswordForm from '../components/dashboard/users/UserPasswordForm';
+import { getParameterByName } from '../utils/url';
+import SectionTitleContainer from '../components/dashboard/elements/SectionTitleContainer';
+import Page from '../components/Page';
 
 const UserPasswordPage: FunctionComponent = () => {
     const userId = getParameterByName('userId');
@@ -21,7 +22,10 @@ const UserPasswordPage: FunctionComponent = () => {
     }, [loadUser]);
 
     return (
-        <div>
+        <Page
+            id='userPasswordPage'
+            className='mainAnimatedPage type-interior userPasswordPage'
+        >
             <div className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
@@ -36,7 +40,8 @@ const UserPasswordPage: FunctionComponent = () => {
                     />
                 </div>
             </div>
-        </div>
+        </Page>
+
     );
 };
 

@@ -7,6 +7,7 @@ import SearchPage from './search';
 import UserEditPage from './UserEditPage';
 import UserLibraryAccessPage from './UserLibraryAccessPage';
 import UserParentalControl from './UserParentalControl';
+import UserPasswordPage from './UserPasswordPage';
 import UserProfilesPage from './UserProfilesPage';
 
 const AppRoutes = () => (
@@ -57,6 +58,14 @@ const AppRoutes = () => (
                 element={
                     <ConnectionRequired>
                         <UserParentalControl />
+                    </ConnectionRequired>
+                }
+            />
+            <Route
+                path='userpassword.html'
+                element={
+                    <ConnectionRequired>
+                        <UserPasswordPage />
                     </ConnectionRequired>
                 }
             />

@@ -430,13 +430,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/userpassword.html',
-        path: 'dashboard/users/userpassword.html',
-        autoFocus: false,
-        pageComponent: 'UserPasswordPage'
-    });
-
-    defineRoute({
         alias: '/wizardremoteaccess.html',
         path: 'wizard/remote/index.html',
         autoFocus: false,
