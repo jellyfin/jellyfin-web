@@ -1653,5 +1653,18 @@
     "HomeVideosPhotos": "Домашние видео и фото",
     "Bold": "Жирный",
     "LabelTextWeight": "Насыщенность шрифта:",
-    "EnableSplashScreen": "Включить экран-заставку"
+    "EnableSplashScreen": "Включить экран-заставку",
+    "MediaInfoDvLevel": "Уровень DV",
+    "MediaInfoDvProfile": "DV-профиль",
+    "MediaInfoDvVersionMinor": "Дополнительная версия DV",
+    "MediaInfoDvVersionMajor": "Основная версия DV",
+    "MediaInfoDoViTitle": "Название DV",
+    "MediaInfoVideoRangeType": "Тип диапазона видео",
+    "LabelVideoRangeType": "Тип диапазона видео:",
+    "ScreenResolution": "Разрешение экрана",
+    "RememberAudioSelectionsHelp": "Попытка задать аудиодорожку по ближайшему совпадению с предыдущим видео.",
+    "RememberSubtitleSelectionsHelp": "Попытка задать дорожку субтитров по ближайшему совпадению с предыдущим видео.",
+    "RememberSubtitleSelections": "Задать дорожку субтитров на основе предыдущего элемента",
+    "RememberAudioSelections": "Задать аудиодорожку на основе предыдущего элемента",
+    "LabelMaxVideoResolution": "Максимально допустимое разрешение перекодирующегося видео"
 }
