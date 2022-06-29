@@ -1661,5 +1661,7 @@
     "RememberSubtitleSelections": "Đặt phụ đề dựa trên mục trước",
     "RememberAudioSelectionsHelp": "Cố gắng đặt bản âm thanh phù hợp nhất với video cuối cùng.",
     "RememberAudioSelections": "Đặt bản nhạc dựa trên mục trước đó",
-    "LabelMaxVideoResolution": "Độ Phân Giải Chuyển Mã Video Tối Đa Được Phép"
+    "LabelMaxVideoResolution": "Độ Phân Giải Chuyển Mã Video Tối Đa Được Phép",
+    "VideoRangeTypeNotSupported": "Loại phạm vi của video không được hỗ trợ",
+    "Interview": "Phỏng vấn"
 }
