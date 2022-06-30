@@ -8,6 +8,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import Dashboard from '../../utils/dashboard';
+import {playbackManager} from '../../components/playback/playbackmanager';
 
 export default function (view, params, tabContent) {
     function getPageData(context) {
@@ -144,6 +145,12 @@ export default function (view, params, tabContent) {
         });
     };
 
+    function shuffle() {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+            playbackManager.shuffle(item);
+        });
+    }
+
     self.getCurrentViewStyle = function () {
         return getPageData(tabContent).view;
     };
@@ -190,6 +197,7 @@ export default function (view, params, tabContent) {
                 button: e.target
             });
         });
+        tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
     }
 
     initPage(tabContent);
