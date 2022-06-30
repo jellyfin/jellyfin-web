@@ -65,7 +65,7 @@ import ServerConnections from '../ServerConnections';
             }).then(function(homeScreenSections) {
                 let html = '';
                 for (let i = 0; i < homeScreenSections.TotalRecordCount; i++) {
-                    let sectionClass = homeScreenSections.Items[i].Name;
+                    let sectionClass = homeScreenSections.Items[i].Section;
                     html += '<div class="verticalSection ' + sectionClass + '"></div>';
                 }
 
@@ -189,22 +189,22 @@ import ServerConnections from '../ServerConnections';
 
     function loadSectionNew(page, apiClient, user, userSettings, sectionInfo) {
         
-        const elem = page.querySelector('.' + sectionInfo.Name);
+        const elem = page.querySelector('.' + sectionInfo.Section);
         let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-        if (!layoutManager.tv && sectionInfo.SortName !== undefined) {
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(sectionInfo.SortName, {
+        if (!layoutManager.tv && sectionInfo.Route !== undefined) {
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(sectionInfo.Route, {
                 serverId: apiClient.serverId()
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += sectionInfo.OriginalTitle;
+            html += sectionInfo.DisplayText;
             html += '</h2>';
             html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += sectionInfo.OriginalTitle;
+            html += sectionInfo.DisplayText;
             html += '</h2>';
         }
         html += '</div>';
@@ -226,7 +226,7 @@ import ServerConnections from '../ServerConnections';
 
         const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getHomeScreenSectionFetchFn(apiClient.serverId(), sectionInfo);
-        itemsContainer.getItemsHtml = getHomeScreenSectionItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), sectionInfo.Name);
+        itemsContainer.getItemsHtml = getHomeScreenSectionItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), sectionInfo.Section);
         itemsContainer.parentContainer = elem;
 
         return Promise.resolve();
@@ -695,9 +695,9 @@ import ServerConnections from '../ServerConnections';
     function getHomeScreenSectionFetchFn(serverId, sectionInfo) {
         return function() {
             const apiClient = ServerConnections.getApiClient(serverId);
-            return apiClient.getHomeScreenSection(sectionInfo.Name, {
+            return apiClient.getHomeScreenSection(sectionInfo.Section, {
                 UserId: apiClient.getCurrentUserId(),
-                AdditionalData: sectionInfo.Overview
+                AdditionalData: sectionInfo.AdditionalData
             });
         };
     }
