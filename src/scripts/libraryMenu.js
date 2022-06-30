@@ -329,6 +329,8 @@ import '../assets/css/flexstyles.scss';
             }
 
             html += '</div>';
+
+            html += '<div class="pluginMenuOptions"></div>';
         }
 
         // add buttons to navigation drawer
@@ -715,6 +717,36 @@ import '../assets/css/flexstyles.scss';
                 for (const sidebarLink of sidebarLinks) {
                     sidebarLink.removeEventListener('click', onSidebarLinkClick);
                     sidebarLink.addEventListener('click', onSidebarLinkClick);
+                }
+            });
+        }
+
+        const pluginMenuOptions = document.querySelector('.pluginMenuOptions');
+
+        if (pluginMenuOptions) {
+            apiClient.getPluginUserPages().then(function (items) {
+
+                if (items.TotalRecordCount > 0) {
+                    let html = `<h3 class="sidebarHeader">Plugin Settings</h3>`;
+    
+                    html += items.Items.map(function(item) {
+                        const icon = item.Icon;
+                        const itemId = item.Id;
+
+                        return `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="#/userpluginsettings.html?pageUrl=${item.Url}">
+                                    <span class="material-icons navMenuOptionIcon ${icon}" aria-hidden="true"></span>
+                                    <span class="sectionName navMenuOptionText">${escapeHtml(item.DisplayText)}</span>
+                                </a>`;
+                    }).join('');
+
+                    pluginMenuOptions.innerHTML = html;
+                    const elem = pluginMenuOptions;
+                    const sidebarLinks = elem.querySelectorAll('.navMenuOption');
+    
+                    for (const sidebarLink of sidebarLinks) {
+                        sidebarLink.removeEventListener('click', onSidebarLinkClick);
+                        sidebarLink.addEventListener('click', onSidebarLinkClick);
+                    }
                 }
             });
         }

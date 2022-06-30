@@ -85,6 +85,13 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
+        alias: '/userpluginsettings.html',
+        path: 'user/plugin/index.html',
+        autoFocus: false,
+        controller: 'user/plugin/index'
+    });
+
+    defineRoute({
         alias: '/mypreferencescontrols.html',
         path: 'user/controls/index.html',
         autoFocus: false,

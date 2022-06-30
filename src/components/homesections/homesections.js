@@ -53,51 +53,109 @@ import ServerConnections from '../ServerConnections';
     }
 
     export function loadSections(elem, apiClient, user, userSettings) {
-        return getUserViews(apiClient, user.Id).then(function (userViews) {
-            let html = '';
 
-            if (userViews.length) {
-                const sectionCount = 7;
-                for (let i = 0; i < sectionCount; i++) {
-                    html += '<div class="verticalSection section' + i + '"></div>';
+        if (userSettings 
+            && userSettings.currentSettings
+            && userSettings.currentSettings.displayPrefs
+            && userSettings.currentSettings.displayPrefs.CustomPrefs
+            && userSettings.currentSettings.displayPrefs.CustomPrefs['useModularHome'] === 'true') {
+
+            apiClient.getHomeScreenSections({
+                UserId: apiClient.getCurrentUserId()
+            }).then(function(homeScreenSections) {
+                let html = '';
+                for (let i = 0; i < homeScreenSections.TotalRecordCount; i++) {
+                    let sectionClass = homeScreenSections.Items[i].Name;
+                    html += '<div class="verticalSection ' + sectionClass + '"></div>';
                 }
 
                 elem.innerHTML = html;
                 elem.classList.add('homeSectionsContainer');
 
                 const promises = [];
-                const sections = getAllSectionsToShow(userSettings, sectionCount);
-                for (let i = 0; i < sections.length; i++) {
-                    promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
+                if (homeScreenSections.TotalRecordCount > 0) {
+                    for (let i = 0; i < homeScreenSections.Items.length; i++) {
+                        let s = homeScreenSections.Items[i];
+                        promises.push(loadSectionNew(elem, apiClient, user, userSettings, s));
+                    }
                 }
 
-                return Promise.all(promises).then(function () {
-                    return resume(elem, {
-                        refresh: true
+                if (homeScreenSections.TotalRecordCount > 0) {
+    
+                    return Promise.all(promises).then(function () {
+                        return resume(elem, {
+                            refresh: true
+                        });
                     });
-                });
-            } else {
-                let noLibDescription;
-                if (user['Policy'] && user['Policy']['IsAdministrator']) {
-                    noLibDescription = globalize.translate('NoCreatedLibraries', '<br><a id="button-createLibrary" class="button-link">', '</a>');
                 } else {
-                    noLibDescription = globalize.translate('AskAdminToCreateLibrary');
+                    let noLibDescription;
+                    if (user['Policy'] && user['Policy']['IsAdministrator']) {
+                        noLibDescription = globalize.translate('NoCreatedLibraries', '<br><a id="button-createLibrary" class="button-link">', '</a>');
+                    } else {
+                        noLibDescription = globalize.translate('AskAdminToCreateLibrary');
+                    }
+    
+                    html += '<div class="centerMessage padded-left padded-right">';
+                    html += '<h2>' + globalize.translate('MessageNothingHere') + '</h2>';
+                    html += '<p>' + noLibDescription + '</p>';
+                    html += '</div>';
+                    elem.innerHTML = html;
+    
+                    const createNowLink = elem.querySelector('#button-createLibrary');
+                    if (createNowLink) {
+                        createNowLink.addEventListener('click', function () {
+                            Dashboard.navigate('library.html');
+                        });
+                    }
                 }
+            });
+        } else {
+            return getUserViews(apiClient, user.Id).then(function (userViews) {
+                let html = '';
+    
+                if (userViews.length) {
+                    const sectionCount = 7;
+                    for (let i = 0; i < sectionCount; i++) {
+                        html += '<div class="verticalSection section' + i + '"></div>';
+                    }
 
-                html += '<div class="centerMessage padded-left padded-right">';
-                html += '<h2>' + globalize.translate('MessageNothingHere') + '</h2>';
-                html += '<p>' + noLibDescription + '</p>';
-                html += '</div>';
-                elem.innerHTML = html;
+                    elem.innerHTML = html;
+                    elem.classList.add('homeSectionsContainer');
 
-                const createNowLink = elem.querySelector('#button-createLibrary');
-                if (createNowLink) {
-                    createNowLink.addEventListener('click', function () {
-                        Dashboard.navigate('library.html');
+                    const promises = [];
+                    const sections = getAllSectionsToShow(userSettings, sectionCount);
+                    for (let i = 0; i < sections.length; i++) {
+                        promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
+                    }
+
+                    return Promise.all(promises).then(function () {
+                        return resume(elem, {
+                            refresh: true
+                        });
                     });
+                } else {
+                    let noLibDescription;
+                    if (user['Policy'] && user['Policy']['IsAdministrator']) {
+                        noLibDescription = globalize.translate('NoCreatedLibraries', '<br><a id="button-createLibrary" class="button-link">', '</a>');
+                    } else {
+                        noLibDescription = globalize.translate('AskAdminToCreateLibrary');
+                    }
+
+                    html += '<div class="centerMessage padded-left padded-right">';
+                    html += '<h2>' + globalize.translate('MessageNothingHere') + '</h2>';
+                    html += '<p>' + noLibDescription + '</p>';
+                    html += '</div>';
+                    elem.innerHTML = html;
+
+                    const createNowLink = elem.querySelector('#button-createLibrary');
+                    if (createNowLink) {
+                        createNowLink.addEventListener('click', function () {
+                            Dashboard.navigate('library.html');
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     export function destroySections(elem) {
@@ -127,6 +185,51 @@ import ServerConnections from '../ServerConnections';
         }
 
         return Promise.all(promises);
+    }
+
+    function loadSectionNew(page, apiClient, user, userSettings, sectionInfo) {
+        
+        const elem = page.querySelector('.' + sectionInfo.Name);
+        let html = '';
+
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+        if (!layoutManager.tv && sectionInfo.SortName !== undefined) {
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(sectionInfo.SortName, {
+                serverId: apiClient.serverId()
+            }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += sectionInfo.OriginalTitle;
+            html += '</h2>';
+            html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
+            html += '</a>';
+        } else {
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += sectionInfo.OriginalTitle;
+            html += '</h2>';
+        }
+        html += '</div>';
+
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        }
+
+        if (enableScrollX()) {
+            html += '</div>';
+        }
+        html += '</div>';
+
+        elem.classList.add('hide');
+        elem.innerHTML = html;
+
+        const itemsContainer = elem.querySelector('.itemsContainer');
+        itemsContainer.fetchData = getHomeScreenSectionFetchFn(apiClient.serverId(), sectionInfo);
+        itemsContainer.getItemsHtml = getHomeScreenSectionItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), sectionInfo.Name);
+        itemsContainer.parentContainer = elem;
+
+        return Promise.resolve();
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
@@ -587,6 +690,40 @@ import ServerConnections from '../ServerConnections';
                 itemsContainer.getItemsHtml = getOnNowItemsHtml;
             }
         });
+    }
+
+    function getHomeScreenSectionFetchFn(serverId, sectionInfo) {
+        return function() {
+            const apiClient = ServerConnections.getApiClient(serverId);
+            return apiClient.getHomeScreenSection(sectionInfo.Name, {
+                UserId: apiClient.getCurrentUserId(),
+                AdditionalData: sectionInfo.Overview
+            });
+        };
+    }
+
+    function getHomeScreenSectionItemsHtmlFn(useEpisodeImages, sectionKey) {
+        return function (items) {
+            const cardLayout = false;
+            return cardBuilder.getCardsHtml({
+                items: items,
+                preferThumb: true,
+                inheritThumb: !useEpisodeImages,
+                shape: getThumbShape(),
+                overlayText: false,
+                showTitle: true,
+                showParentTitle: true,
+                lazy: true,
+                showDetailsMenu: true,
+                overlayPlayButton: sectionKey === 'MyMedia' ? false : true,
+                context: 'home',
+                centerText: !cardLayout,
+                allowBottomPadding: false,
+                cardLayout: cardLayout,
+                showYear: true,
+                lines: sectionKey === 'MyMedia' ? 1 : 2
+            });
+        };
     }
 
     function getNextUpFetchFn(serverId, userSettings) {
