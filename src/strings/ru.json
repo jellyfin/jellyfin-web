@@ -1666,5 +1666,14 @@
     "RememberSubtitleSelectionsHelp": "Попытка задать дорожку субтитров по ближайшему совпадению с предыдущим видео.",
     "RememberSubtitleSelections": "Задать дорожку субтитров на основе предыдущего элемента",
     "RememberAudioSelections": "Задать аудиодорожку на основе предыдущего элемента",
-    "LabelMaxVideoResolution": "Максимально допустимое разрешение перекодирующегося видео"
+    "LabelMaxVideoResolution": "Максимально допустимое разрешение перекодирующегося видео",
+    "LabelVppTonemappingContrastHelp": "Применяется усиление контрастности при VPP-тонмаппинге. Значения рекомендованные и по умолчанию равны 1.2 и 1.",
+    "MediaInfoDvBlSignalCompatibilityId": "ID совместимости сигнала DV bl",
+    "MediaInfoBlPresentFlag": "Флаг предустановки DV bl",
+    "MediaInfoElPresentFlag": "Флаг предустановки DV el",
+    "MediaInfoRpuPresentFlag": "Флаг предустановки DV rpu",
+    "VideoRangeTypeNotSupported": "Тип диапазона видео не поддерживается",
+    "LabelVppTonemappingBrightnessHelp": "Применяется усиление яркости при VPP-тонмаппинге. Значения рекомендованные и по умолчанию равны 0.",
+    "LabelVppTonemappingContrast": "Усиление контрастности VPP-тонмаппинга:",
+    "LabelVppTonemappingBrightness": "Усиление яркости VPP-тонмаппинга:"
 }
