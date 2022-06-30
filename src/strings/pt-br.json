@@ -1651,5 +1651,10 @@
     "AllowEmbeddedSubtitlesHelp": "Desabilitar legendas que estiverem empacotadas nos contêineres de mídia. Precisa de uma atualização total das bibliotecas.",
     "AllowEmbeddedSubtitles": "Desabilitar diferentes tipos de legendas embutidas",
     "Bold": "Negrito",
-    "LabelTextWeight": "Intensidade do texto:"
+    "LabelTextWeight": "Intensidade do texto:",
+    "EnableSplashScreen": "Ativar tela de abertura",
+    "ScreenResolution": "Resolução de tela",
+    "RememberAudioSelectionsHelp": "Tentar definir a faixa de áudio com a correspondência mais próxima do último vídeo.",
+    "RememberAudioSelections": "Definir faixa de áudio baseado no item anterior",
+    "LabelMaxVideoResolution": "Resolução máxima de transcodificação de vídeo permitida"
 }
