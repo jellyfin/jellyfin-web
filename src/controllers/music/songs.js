@@ -117,6 +117,9 @@ export default function (view, params, tabContent) {
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
             libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+
+            tabContent.querySelector('.btnShuffle').classList.toggle('hide', result.TotalRecordCount < 1);
+
             loading.hide();
             isLoading = false;
 
