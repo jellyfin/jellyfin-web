@@ -1653,5 +1653,21 @@
     "HomeVideosPhotos": "Heimvideos und -bilder",
     "Bold": "Fett",
     "LabelTextWeight": "Schriftstärke:",
-    "EnableSplashScreen": "Aktiviere den Splash Screen"
+    "EnableSplashScreen": "Aktiviere den Splash Screen",
+    "MediaInfoRpuPresentFlag": "DV rpu Flag anwesend",
+    "MediaInfoDvLevel": "DV Level",
+    "MediaInfoDvProfile": "DV Profil",
+    "MediaInfoDvVersionMinor": "DV Nebenversion",
+    "MediaInfoDvVersionMajor": "DV Hauptversion",
+    "MediaInfoDoViTitle": "DV Titel",
+    "LabelVppTonemappingContrastHelp": "VPP Tonemapping Kontrast anwenden. Empfohlene und Standartwerte sind 1,2 und 1.",
+    "LabelVppTonemappingContrast": "VPP Tonemapping Kontrast:",
+    "LabelVppTonemappingBrightnessHelp": "VPP Tonemapping Helligkeit anwenden. Empfohlener und Standartwert sind 0.",
+    "LabelVppTonemappingBrightness": "VPP Tonemapping Helligkeit:",
+    "ScreenResolution": "Bildschirmauflösung",
+    "RememberSubtitleSelectionsHelp": "Versuche den zum letzten Video ähnlichsten Untertitel zu setzen.",
+    "RememberSubtitleSelections": "Setze den Untertitel auf Basis des letzten Objekts",
+    "RememberAudioSelectionsHelp": "Versuchen die ähnlichste Tonspur zum letzten Video zu setzen.",
+    "RememberAudioSelections": "Tonspur auf Basis des letzten Objekt auswählen",
+    "LabelMaxVideoResolution": "Maximal erlaubte Video Transcodierungs-Auflösung"
 }
