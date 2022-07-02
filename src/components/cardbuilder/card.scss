@@ -406,6 +406,11 @@ button::-moz-focus-inner {
     display: flex;
     align-items: center;
     contain: layout style;
+
+    [dir="rtl"] & {
+        right: unset;
+        left: 0.225em;
+    }
 }
 
 .cardProgramAttributeIndicators {
@@ -415,6 +420,11 @@ button::-moz-focus-inner {
     display: flex;
     text-transform: uppercase;
     font-size: 92%;
+
+    [dir="rtl"] & {
+        left: unset;
+        right: 0;
+    }
 }
 
 .programAttributeIndicator {
@@ -435,6 +445,11 @@ button::-moz-focus-inner {
     position: absolute;
     bottom: 0;
     right: 0;
+
+    [dir="rtl"] & {
+        right: unset;
+        left: 0;
+    }
 }
 
 .cardOverlayButtonIcon {

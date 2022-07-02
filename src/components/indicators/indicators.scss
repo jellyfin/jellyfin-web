@@ -10,6 +10,11 @@
     top: 0;
     left: 0;
     bottom: 0;
+
+    [dir="rtl"] & {
+        left: unset;
+        right: 0;
+    }
 }
 
 .indicator {
