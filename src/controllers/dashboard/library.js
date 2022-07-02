@@ -343,7 +343,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             html += '&nbsp;';
             html += '</div>';
         } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
-            html += "<div class='cardText cardText-secondary'>";
+            html += "<div class='cardText cardText-secondary' dir='ltr'>";
             html += virtualFolder.Locations[0];
             html += '</div>';
         } else {

@@ -303,6 +303,10 @@ button::-moz-focus-inner {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+
+    [dir="rtl"] & {
+        text-align: right;
+    }
 }
 
 .dialog .cardText {

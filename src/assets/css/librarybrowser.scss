@@ -141,6 +141,10 @@
     height: 1.7em;
     align-items: center;
     flex-shrink: 1;
+
+    [dir='rtl'] & {
+        margin: 0 0.5em 0 0;
+    }
 }
 
 .pageTitleWithDefaultLogo {
@@ -162,6 +166,10 @@
     background-size: contain;
     background-repeat: no-repeat;
     width: 13.2em;
+
+    [dir='rtl'] & {
+        background-position: right center;
+    }
 }
 
 .skinHeader {
@@ -213,11 +221,20 @@
     font-weight: 400 !important;
     margin: 0 !important;
     border-radius: 0 !important;
+
+    [dir='rtl'] & {
+        padding: 0.9em 2.4em 0.9em 0 !important;
+    }
 }
 
 .navMenuOptionIcon {
     margin-right: 1.2em;
     flex-shrink: 0;
+
+    [dir='rtl'] & {
+        margin-right: unset;
+        margin-left: 1.2em;
+    }
 }
 
 .navMenuOptionText {
@@ -226,8 +243,15 @@
 }
 
 .sidebarHeader {
-    padding-left: 1.2em;
     margin: 1em 0 0.5em;
+
+    [dir='ltr'] & {
+        padding-left: 1.2em;
+    }
+
+    [dir='rtl'] & {
+        padding-right: 1.2em;
+    }
 }
 
 .dashboardDocument .skinBody {
@@ -484,6 +508,19 @@
             margin-left: 0;
         }
     }
+
+    [dir="rtl"] & {
+        padding-right: 32.45vw;
+        padding-left: 2%;
+
+        .layout-desktop &,
+        .layout-tv & {
+            .emby-scroller {
+                margin-left: unset;
+                margin-right: 0;
+            }
+        }
+    }
 }
 
 .detailSectionContent a {
@@ -655,6 +692,18 @@
         display: block;
         padding-left: 32.45vw;
     }
+
+    [dir="rtl"] & {
+        .layout-mobile & {
+            padding: 0.5rem 0 0 5%;
+        }
+
+        .layout-desktop &,
+        .layout-tv & {
+            padding-right: 32.45vw;
+            padding-left: unset;
+        }
+    }
 }
 
 .layout-desktop .detailRibbon {
@@ -685,6 +734,10 @@
     text-align: left;
     min-width: 0;
     max-width: 100%;
+
+    [dir="rtl"] & {
+        text-align: right;
+    }
 }
 
 .detailPageSecondaryContainer {
@@ -745,6 +798,19 @@
         top: 50%;
         width: 25vw;
         transform: translateY(-50%);
+    }
+
+    [dir="rtl"] & {
+        left: unset;
+
+        .layout-mobile &,
+        .layout-tv & {
+            right: 5%;
+        }
+
+        .layout-desktop & {
+            right: 3.3%;
+        }
     }
 }
 
@@ -1146,10 +1212,20 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .padded-left {
     padding-left: 3.3%;
+
+    [dir="rtl"] & {
+        padding-right: 3.3%;
+        padding-left: unset;
+    }
 }
 
 .padded-right {
     padding-right: 3.3%;
+
+    [dir="rtl"] & {
+        padding-right: unset;
+        padding-left: 3.3%;
+    }
 }
 
 .padded-top {

@@ -1,6 +1,10 @@
 .mediaInfoItem {
     margin: 0 1em 0 0;
     padding: 0;
+
+    [dir="rtl"] & {
+        margin: 0 0 0 1em;
+    }
 }
 
 .mediaInfoText {
@@ -26,6 +30,11 @@
 
 .mediaInfoItem:last-child {
     margin-right: 0;
+
+    [dir='rtl'] & {
+        margin-right: unset;
+        margin-left: 0;
+    }
 }
 
 .starRatingContainer {

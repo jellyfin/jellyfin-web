@@ -100,6 +100,7 @@ function onGlobalizeInit() {
         import('../assets/css/fonts.scss');
     }
 
+    import('../styles/rtl.scss');
     import('../assets/css/librarybrowser.scss');
 
     loadPlugins().then(function () {

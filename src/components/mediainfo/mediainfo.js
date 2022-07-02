@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import globalize from '../../scripts/globalize';
+import globalize, { getCurrentDateTimeLocale } from '../../scripts/globalize';
 import { appRouter } from '../appRouter';
 import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';
@@ -111,6 +111,8 @@ import '../../elements/emby-button/emby-button';
 
         const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.Type === 'Playlist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
 
+        const dateTimeLocale = getCurrentDateTimeLocale();
+
         if (showFolderRuntime) {
             count = item.SongCount || item.ChildCount;
 
@@ -175,16 +177,16 @@ import '../../elements/emby-button/emby-button';
 
         if (options.year !== false && item.ProductionYear && item.Type === 'Series') {
             if (item.Status === 'Continuing') {
-                miscInfo.push(globalize.translate('SeriesYearToPresent', item.ProductionYear));
+                miscInfo.push(globalize.translate('SeriesYearToPresent', item.ProductionYear.toLocaleString(dateTimeLocale, {useGrouping: false})));
             } else if (item.ProductionYear) {
-                text = item.ProductionYear;
+                text = item.ProductionYear.toLocaleString(dateTimeLocale, {useGrouping: false});
 
                 if (item.EndDate) {
                     try {
-                        const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
+                        const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear().toLocaleString(dateTimeLocale, {useGrouping: false});
 
                         if (endYear !== item.ProductionYear) {
-                            text += `-${datetime.parseISO8601Date(item.EndDate).getFullYear()}`;
+                            text += `-${endYear}`;
                         }
                     } catch (e) {
                         console.error('error parsing date:', item.EndDate);
@@ -245,7 +247,7 @@ import '../../elements/emby-button/emby-button';
                     miscInfo.push(item.ProductionYear);
                 } else if (item.PremiereDate) {
                     try {
-                        text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
+                        text = datetime.parseISO8601Date(item.PremiereDate).getFullYear().toLocaleString(dateTimeLocale, {useGrouping: false});
                         miscInfo.push(text);
                     } catch (e) {
                         console.error('error parsing date:', item.PremiereDate);

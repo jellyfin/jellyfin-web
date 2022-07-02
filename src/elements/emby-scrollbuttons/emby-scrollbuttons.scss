@@ -10,6 +10,11 @@
     z-index: 1;
     color: #fff;
     display: flex;
+
+    [dir='rtl'] & {
+        left: 0;
+        right: unset;
+    }
 }
 
 .emby-scrollbuttons-button > .material-icons {

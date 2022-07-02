@@ -84,7 +84,7 @@ import globalize from './globalize';
         hours = Math.floor(hours);
 
         if (hours) {
-            parts.push(hours);
+            parts.push(hours.toLocaleString());
         }
 
         ticks -= (hours * ticksPerHour);
@@ -95,7 +95,9 @@ import globalize from './globalize';
         ticks -= (minutes * ticksPerMinute);
 
         if (minutes < 10 && hours) {
-            minutes = '0' + minutes;
+            minutes = (0).toLocaleString() + minutes.toLocaleString();
+        } else {
+            minutes = minutes.toLocaleString();
         }
         parts.push(minutes);
 
@@ -103,7 +105,9 @@ import globalize from './globalize';
         seconds = Math.floor(seconds);
 
         if (seconds < 10) {
-            seconds = '0' + seconds;
+            seconds = (0).toLocaleString() + seconds.toLocaleString();
+        } else {
+            seconds = seconds.toLocaleString();
         }
         parts.push(seconds);
 

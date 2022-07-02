@@ -11,7 +11,7 @@ import imageLoader from '../images/imageLoader';
 import itemHelper from '../itemHelper';
 import focusManager from '../focusManager';
 import indicators from '../indicators/indicators';
-import globalize from '../../scripts/globalize';
+import globalize, { getCurrentDateTimeLocale } from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
@@ -909,19 +909,20 @@ import { appRouter } from '../appRouter';
                 }
 
                 if (options.showYear || options.showSeriesYear) {
+                    const productionYear = item.ProductionYear?.toLocaleString(getCurrentDateTimeLocale(), {useGrouping: false});
                     if (item.Type === 'Series') {
                         if (item.Status === 'Continuing') {
-                            lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
+                            lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
                         } else {
                             if (item.EndDate && item.ProductionYear) {
-                                const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
-                                lines.push(item.ProductionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
+                                const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear().toLocaleString(getCurrentDateTimeLocale(), {useGrouping: false});
+                                lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                             } else {
-                                lines.push(item.ProductionYear || '');
+                                lines.push(productionYear || '');
                             }
                         }
                     } else {
-                        lines.push(item.ProductionYear || '');
+                        lines.push(productionYear || '');
                     }
                 }
 

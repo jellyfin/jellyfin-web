@@ -13,6 +13,10 @@
     padding: 0.25em 0.25em 0.25em 0.5em;
     cursor: pointer;
     overflow: hidden;
+
+    [dir='rtl'] & {
+        text-align: right;
+    }
 }
 
 .listItem-withContentWrapper {
@@ -211,7 +215,7 @@
     width: 1em !important;
     height: 1em !important;
     font-size: 143%;
-    padding: 0 0.25em 0 0;
+    margin: 0 0.25em 0 0;
 }
 
 .listItemIcon:not(.listItemIcon-transparent) {

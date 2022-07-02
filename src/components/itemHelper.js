@@ -27,7 +27,7 @@ export function getDisplayName(item, options = {}) {
         let nameSeparator = ' - ';
 
         if (options.includeParentInfo !== false) {
-            number = 'S' + item.ParentIndexNumber + ':E' + number;
+            number = 'S' + item.ParentIndexNumber.toLocaleString() + ':E' + number.toLocaleString();
         } else {
             nameSeparator = '. ';
         }

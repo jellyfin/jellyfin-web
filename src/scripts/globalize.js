@@ -10,6 +10,7 @@ import { currentSettings as userSettings } from './settings/userSettings';
     const allTranslations = {};
     let currentCulture;
     let currentDateTimeCulture;
+    let isRTL = false;
 
     export function getCurrentLocale() {
         return currentCulture;
@@ -38,6 +39,10 @@ import { currentSettings as userSettings } from './settings/userSettings';
         return fallbackCulture;
     }
 
+    export function getIsRTL() {
+        return isRTL;
+    }
+
     export function updateCurrentCulture() {
         let culture;
         try {
@@ -46,6 +51,13 @@ import { currentSettings as userSettings } from './settings/userSettings';
             console.error('no language set in user settings');
         }
         culture = culture || getDefaultLanguage();
+        isRTL = culture === 'ar' || culture === 'fa' || culture === 'ur_PK' || culture === 'he';
+
+        if (isRTL) {
+            document.getElementsByTagName('body')[0].setAttribute('dir', 'rtl');
+        } else {
+            document.getElementsByTagName('body')[0].setAttribute('dir', 'ltr');
+        }
 
         currentCulture = normalizeLocaleName(culture);
 
@@ -257,7 +269,8 @@ export default {
     getCurrentLocale,
     getCurrentDateTimeLocale,
     register,
-    updateCurrentCulture
+    updateCurrentCulture,
+    getIsRTL
 };
 
 /* eslint-enable indent */

@@ -154,6 +154,12 @@
     left: 0;
     position: absolute;
     padding: 0 0.54em; /* half of slider thumb size */
+
+    [dir="rtl"] & {
+        left: unset;
+        right: 0;
+        padding: 0 0 0 0.54em;
+    }
 }
 
 .mdl-slider-background-flex {
@@ -167,6 +173,11 @@
     overflow: hidden;
     border: 0;
     padding: 0;
+
+    [dir="rtl"] & {
+        left: unset;
+        right: 0;
+    }
 }
 
 .mdl-slider-background-flex-inner {
@@ -182,6 +193,11 @@
     top: 0;
     bottom: 0;
     background-color: #00a4dc;
+
+    [dir="rtl"] & {
+        left: unset;
+        right: 0;
+    }
 }
 
 .mdl-slider-background-lower-clear {
@@ -212,6 +228,10 @@
     left: 0;
     right: 0;
     margin: 0 0.54em; /* half of slider thumb size */
+
+    [dir="rtl"] & {
+        margin: 0 0 0 0.54em;
+    }
 }
 
 .sliderBubble {
