@@ -231,7 +231,7 @@ import template from './libraryoptionseditor.template.html';
         html += '<h3 class="checkboxListLabel" style="margin:0;">' + globalize.translate('HeaderTypeImageFetchers', globalize.translate('TypeOptionPlural' + availableTypeOptions.Type)) + '</h3>';
         const supportedImageTypes = availableTypeOptions.SupportedImageTypes || [];
         if (supportedImageTypes.length > 1 || supportedImageTypes.length === 1 && supportedImageTypes[0] !== 'Primary') {
-            html += '<button is="emby-button" class="raised btnImageOptionsForType" type="button" style="margin-left:1.5em;font-size:90%;"><span>' + globalize.translate('HeaderFetcherSettings') + '</span></button>';
+            html += '<button is="emby-button" class="raised btnImageOptionsForType" type="button" style="margin-inline-start:1.5em;font-size:90%;"><span>' + globalize.translate('HeaderFetcherSettings') + '</span></button>';
         }
         html += '</div>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';

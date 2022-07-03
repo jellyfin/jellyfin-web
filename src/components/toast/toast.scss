@@ -1,6 +1,6 @@
 .toastContainer {
     position: fixed;
-    left: 0;
+    inset-inline-start: 0;
     bottom: 0;
     pointer-events: none;
     z-index: 9999999;

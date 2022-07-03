@@ -47,13 +47,17 @@
 }
 
 .mediaInfoCriticRating {
-    padding-left: 1.5em;
+    padding-inline-start: 1.5em;
     background-position: left center;
     background-repeat: no-repeat;
     background-size: auto 1.2em;
     min-height: 1.2em;
     display: flex;
     align-items: center;
+
+    [dir="rtl"] & {
+        background-position: right center;
+    }
 }
 
 .mediaInfoCriticRatingFresh {

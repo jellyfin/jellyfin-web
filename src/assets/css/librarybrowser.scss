@@ -348,7 +348,7 @@
 
 .headerArrowImage {
     height: 20px;
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
 }
 
 .backdropContainer {
@@ -378,7 +378,7 @@
 }
 
 .viewControls + .listTopPaging {
-    margin-left: 0.5em !important;
+    margin-inline-start: 0.5em !important;
 }
 
 .criticReview {
@@ -439,12 +439,12 @@
 }
 
 .reviewDate {
-    margin-left: 1em;
+    margin-inline-start: 1em;
 }
 
 .reviewScore {
     position: absolute;
-    left: 0.8em;
+    inset-inline-start: 0.8em;
 }
 
 .itemBackdrop {
@@ -630,7 +630,7 @@
 .layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
-    margin-left: 0;
+    margin-inline-start: 0;
 
     @include header-poster-padding;
 
@@ -638,6 +638,13 @@
     @media all and (max-width: 32em) {
         margin-bottom: 0;
         padding-left: 0;
+    }
+
+    [dir="rtl"] & {
+        @media all and (max-width: 32em) {
+            padding-left: unset;
+            padding-right: 0;
+        }
     }
 }
 
@@ -909,8 +916,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .recordingFields button {
-    margin-left: 0;
-    margin-right: 0.5em;
+    margin-inline: 0 0.5em;
     flex-shrink: 0;
 }
 
@@ -1145,16 +1151,16 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .sectionTitleButton {
-    margin-left: 1.5em !important;
+    margin-inline-start: 1.5em !important;
     flex-shrink: 0;
 }
 
 .sectionTitleButton + .sectionTitleButton {
-    margin-left: 0.5em !important;
+    margin-inline-start: 0.5em !important;
 }
 
 .sectionTitleIconButton {
-    margin-left: 1.5em !important;
+    margin-inline-start: 1.5em !important;
     flex-shrink: 0;
     font-size: 84% !important;
     padding: 0.5em !important;

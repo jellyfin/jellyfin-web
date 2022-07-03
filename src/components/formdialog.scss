@@ -12,7 +12,7 @@
 }
 
 .formDialogHeaderTitle {
-    margin-left: 0.25em;
+    margin-inline-start: 0.25em;
 
     /* In case of h1, h2, h3 */
     margin-top: 0;
@@ -20,7 +20,7 @@
 }
 
 .formDialogHeaderTitle:first-child {
-    margin-left: 1em;
+    margin-inline-start: 1em;
 }
 
 .formDialogContent:not(.no-grow) {
@@ -98,8 +98,7 @@
 .formDialogFooterItem-autosize {
     flex-basis: initial;
     flex-grow: initial;
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-inline: 2em;
 }
 
 @media all and (min-width: 50em) {
@@ -108,8 +107,7 @@
     }
 
     .dialogContentInner {
-        padding-left: 1.5em;
-        padding-right: 1.5em;
+        padding-inline: 1.5em;
     }
 }
 
@@ -119,7 +117,6 @@
     }
 
     .dialogContentInner {
-        padding-left: 2em;
-        padding-right: 2em;
+        padding-inline: 2em;
     }
 }
