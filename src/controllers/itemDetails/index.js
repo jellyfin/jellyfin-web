@@ -497,7 +497,7 @@ function renderName(item, container, context) {
         html += '<h4 class="itemName infoText originalTitle">' + escapeHtml(item.OriginalTitle) + '</h4>';
     }
 
-    container.innerHTML = html;
+    container.innerHTML = '<bdi>' + html + '</bdi>';
 
     if (html.length) {
         container.classList.remove('hide');

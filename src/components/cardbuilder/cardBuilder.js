@@ -702,7 +702,7 @@ import { appRouter } from '../appRouter';
 
                 if (text) {
                     html += "<div class='" + currentCssClass + "'>";
-                    html += text;
+                    html += '<bdi>' + text + '</bdi>';
                     html += '</div>';
                     valid++;
 
