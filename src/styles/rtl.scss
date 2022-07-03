@@ -1,22 +1,14 @@
 .chevron_right,
 .chevron_left,
 .arrow_back,
-.play_arrow,
 .playlist_add,
-.video_library,
 .shuffle,
 .input,
 .live_tv,
 .dvr,
-.play_circle_filled,
 .shopping_cart,
 .vpn_key,
-.skip_next,
-.skip_previous,
-.fast_forward,
-.fast_rewind,
-.undo,
-.redo {
+.volume_up {
     [dir='rtl'] & {
         transform: scale(-1, 1);
     }

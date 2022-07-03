@@ -11,7 +11,7 @@
     /* General select styles: change as needed */
     font-family: inherit;
     font-weight: inherit;
-    padding-block: 0.5em 0.5em;
+    padding-block: 0.5em;
     padding-inline: 0.5em 1.9em;
 
     /* Prevent padding from causing width overflow */
@@ -35,9 +35,8 @@
 }
 
 .selectContainer-inline > .emby-select {
-    padding: 0.3em 1.9em 0.3em 0.5em;
     padding-block: 0.3em;
-    padding-inline: 0.5em 0.9em;
+    padding-inline: 0.5em 1.9em;
     font-size: inherit;
 }
 
