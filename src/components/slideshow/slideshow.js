@@ -296,7 +296,7 @@ export default function (options) {
         },
         {
             id: '5000',
-            name: '5 second'
+            name: '5 seconds'
         },
         {
             id: '10000',
@@ -307,7 +307,7 @@ export default function (options) {
             items,
             positionTo: button
         };
-        
+
         actionSheet.show(actionSheetOptions).then(function (result) {
             if (result) {
                 swiperInstance.params.autoplay.delay = result;
