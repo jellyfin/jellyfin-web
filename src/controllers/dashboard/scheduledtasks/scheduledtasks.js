@@ -58,7 +58,7 @@ import '../../../elements/emby-button/emby-button';
             html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
             html += '</a>';
             html += '<div class="listItemBody two-line">';
-            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
+            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:start;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
             html += "<h3 class='listItemBodyText'>" + task.Name + '</h3>';
             html += "<div class='secondary listItemBodyText' id='taskProgress" + task.Id + "'>" + getTaskProgressHtml(task) + '</div>';
             html += '</a>';

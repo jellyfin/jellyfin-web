@@ -41,7 +41,7 @@ import alert from '../../components/alert';
                     let logHtml = '';
                     logHtml += '<a is="emby-linkbutton" href="' + logUrl + '" target="_blank" class="listItem listItem-border" style="color:inherit;">';
                     logHtml += '<div class="listItemBody two-line">';
-                    logHtml += "<h3 class='listItemBodyText'>" + log.Name + '</h3>';
+                    logHtml += "<h3 class='listItemBodyText' dir='ltr' style='text-align: left'>" + log.Name + '</h3>';
                     const date = datetime.parseISO8601Date(log.DateModified, true);
                     let text = datetime.toLocaleDateString(date);
                     text += ' ' + datetime.getDisplayTime(date);
