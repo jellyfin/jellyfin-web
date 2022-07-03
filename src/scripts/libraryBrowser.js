@@ -90,7 +90,7 @@ export function getQueryPagingHtml (options) {
 
     if (showControls) {
         html += '<span style="vertical-align:middle;">';
-        html += globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd, totalRecordCount);
+        html += globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0).toLocaleString(), recordsEnd.toLocaleString(), totalRecordCount.toLocaleString());
         html += '</span>';
     }
 
