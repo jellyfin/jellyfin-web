@@ -909,7 +909,7 @@ import { appRouter } from '../appRouter';
                 }
 
                 if (options.showYear || options.showSeriesYear) {
-                    const productionYear = datetime.toLocaleString(item.ProductionYear, {useGrouping: false});
+                    const productionYear = item.ProductionYear && datetime.toLocaleString(item.ProductionYear, {useGrouping: false});
                     if (item.Type === 'Series') {
                         if (item.Status === 'Continuing') {
                             lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
