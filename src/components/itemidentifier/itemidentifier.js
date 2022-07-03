@@ -167,7 +167,7 @@ import datetime from '../../scripts/datetime';
         lines.push(escapeHtml(identifyResult.Name));
 
         if (identifyResult.ProductionYear) {
-            lines.push(datetime.toLocaleString(identifyResult.ProductionYear));
+            lines.push(datetime.toLocaleString(identifyResult.ProductionYear, {useGrouping: false}));
         }
 
         let resultHtml = lines.join('<br/>');
