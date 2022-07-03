@@ -244,6 +244,10 @@
     right: 0;
     bottom: 0;
     left: 0;
+
+    [dir="rtl"] & {
+        transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
+    }
 }
 
 .centerMessage {
@@ -278,7 +282,7 @@
     }
 
     .dashboardDocument .skinBody {
-        inset-inline-start: 20em;
+        left: 20em;
     }
 }
 
@@ -477,8 +481,7 @@
 .detailPageContent {
     display: flex;
     flex-direction: column;
-    padding-left: 32.45vw;
-    padding-right: 2%;
+    padding-inline: 32.45vw 2%;
 
     .layout-mobile & {
         padding-left: 5%;
@@ -493,9 +496,6 @@
     }
 
     [dir="rtl"] & {
-        padding-right: 32.45vw;
-        padding-left: 2%;
-
         .layout-desktop &,
         .layout-tv & {
             .emby-scroller {

@@ -912,7 +912,7 @@ function renderOverview(page, item) {
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
-                overviewElemnt.innerHTML = overview;
+                overviewElemnt.innerHTML = '<bdi>' + overview + '</bdi>';
                 overviewElemnt.classList.remove('hide');
                 overviewElemnt.classList.add('detail-clamp-text');
 
@@ -1065,7 +1065,7 @@ function renderTagline(page, item) {
 
     if (item.Taglines && item.Taglines.length) {
         taglineElement.classList.remove('hide');
-        taglineElement.innerText = item.Taglines[0];
+        taglineElement.innerHTML = '<bdi>' + item.Taglines[0] + '</bdi>';
     } else {
         taglineElement.classList.add('hide');
     }
