@@ -137,14 +137,11 @@
 
 .pageTitle {
     display: inline-flex;
-    margin: 0 0 0 0.5em;
+    margin-block: 0;
+    margin-inline: 0.5em 0;
     height: 1.7em;
     align-items: center;
     flex-shrink: 1;
-
-    [dir='rtl'] & {
-        margin: 0 0.5em 0 0;
-    }
 }
 
 .pageTitleWithDefaultLogo {
@@ -216,25 +213,17 @@
     align-items: center;
     text-decoration: none;
     color: inherit;
-    padding: 0.9em 0 0.9em 2.4em !important;
+    padding-block: 0.9em !important;
+    padding-inline: 2.4em 0 !important;
     flex-grow: 1;
     font-weight: 400 !important;
     margin: 0 !important;
     border-radius: 0 !important;
-
-    [dir='rtl'] & {
-        padding: 0.9em 2.4em 0.9em 0 !important;
-    }
 }
 
 .navMenuOptionIcon {
-    margin-right: 1.2em;
+    margin-inline-end: 1.2em;
     flex-shrink: 0;
-
-    [dir='rtl'] & {
-        margin-right: unset;
-        margin-left: 1.2em;
-    }
 }
 
 .navMenuOptionText {
@@ -243,15 +232,9 @@
 }
 
 .sidebarHeader {
-    margin: 1em 0 0.5em;
-
-    [dir='ltr'] & {
-        padding-left: 1.2em;
-    }
-
-    [dir='rtl'] & {
-        padding-right: 1.2em;
-    }
+    padding-inline-start: 1.2em;
+    margin-block: 1em 0.5em;
+    margin-inline: 0;
 }
 
 .dashboardDocument .skinBody {
@@ -282,7 +265,7 @@
 
     .dashboardDocument .mainDrawer {
         z-index: inherit !important;
-        left: 0 !important;
+        inset-inline-start: 0 !important;
         top: 0 !important;
         transform: none !important;
         box-shadow: none !important;
@@ -295,7 +278,7 @@
     }
 
     .dashboardDocument .skinBody {
-        left: 20em;
+        inset-inline-start: 20em;
     }
 }
 
@@ -494,31 +477,16 @@
 .detailPageContent {
     display: flex;
     flex-direction: column;
-    padding-left: 32.45vw;
-    padding-right: 2%;
+    padding-inline: 3.245vw 2%;
 
     .layout-mobile & {
-        padding-left: 5%;
-        padding-right: 5%;
+        padding-inline: 5%;
     }
 
     .layout-desktop &,
     .layout-tv & {
         .emby-scroller {
-            margin-left: 0;
-        }
-    }
-
-    [dir="rtl"] & {
-        padding-right: 32.45vw;
-        padding-left: 2%;
-
-        .layout-desktop &,
-        .layout-tv & {
-            .emby-scroller {
-                margin-left: unset;
-                margin-right: 0;
-            }
+            margin-inline-start: 0;
         }
     }
 }
@@ -680,29 +648,18 @@
     .layout-mobile & {
         display: block;
         position: relative;
-        padding: 0.5rem 5%;
+        padding-block: 0.5rem;
+        padding-inline: 5%;
     }
 
     .layout-desktop & {
         position: relative;
-        padding-left: 32.45vw;
+        padding-inline-start: 32.45vw;
     }
 
     .layout-tv & {
         display: block;
-        padding-left: 32.45vw;
-    }
-
-    [dir="rtl"] & {
-        .layout-mobile & {
-            padding: 0.5rem 0 0 5%;
-        }
-
-        .layout-desktop &,
-        .layout-tv & {
-            padding-right: 32.45vw;
-            padding-left: unset;
-        }
+        padding-inline-start: 32.45vw;
     }
 }
 
@@ -731,13 +688,9 @@
 }
 
 .infoText {
-    text-align: left;
+    text-align: start;
     min-width: 0;
     max-width: 100%;
-
-    [dir="rtl"] & {
-        text-align: right;
-    }
 }
 
 .detailPageSecondaryContainer {
@@ -770,13 +723,13 @@
     }
 
     .layout-mobile & {
-        left: 5%;
+        inset-inline-start: 5%;
         bottom: 1rem;
         max-width: 30vw;
         filter: drop-shadow(0 0 0.5rem #000);
 
         @media all and (max-width: 32em) {
-            left: 0;
+            inset-inline-start: 0;
             bottom: 0;
         }
 
@@ -788,29 +741,16 @@
     }
 
     .layout-desktop & {
-        left: 3.3%;
+        inset-inline-start: 3.3%;
         top: -80%;
         width: 25vw;
     }
 
     .layout-tv & {
-        left: 5%;
+        inset-inline-start: 5%;
         top: 50%;
         width: 25vw;
         transform: translateY(-50%);
-    }
-
-    [dir="rtl"] & {
-        left: unset;
-
-        .layout-mobile &,
-        .layout-tv & {
-            right: 5%;
-        }
-
-        .layout-desktop & {
-            right: 3.3%;
-        }
     }
 }
 
@@ -1211,21 +1151,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .padded-left {
-    padding-left: 3.3%;
-
-    [dir="rtl"] & {
-        padding-right: 3.3%;
-        padding-left: unset;
-    }
+    padding-inline-start: 3.3%;
 }
 
 .padded-right {
-    padding-right: 3.3%;
-
-    [dir="rtl"] & {
-        padding-right: unset;
-        padding-left: 3.3%;
-    }
+    padding-inline-end: 3.3%;
 }
 
 .padded-top {

@@ -54,11 +54,10 @@
 @media all and (min-width: 50em) {
     .editPageSidebar {
         position: fixed;
-        top: 5.2em;
-        bottom: 0;
-        left: 0;
+        inset-block: 5.2em 0;
+        inset-inline-start: 0;
         width: 30%;
-        border-right: 1px solid #555;
+        border-inline-end: 1px solid #555;
         display: block;
     }
 

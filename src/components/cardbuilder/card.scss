@@ -302,11 +302,7 @@ button::-moz-focus-inner {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: left;
-
-    [dir="rtl"] & {
-        text-align: right;
-    }
+    text-align: start;
 }
 
 .dialog .cardText {
@@ -400,31 +396,21 @@ button::-moz-focus-inner {
 }
 
 .cardIndicators {
-    right: 0.225em;
+    inset-inline-end: 0.225em;
     top: 0.225em;
     position: absolute;
     display: flex;
     align-items: center;
     contain: layout style;
-
-    [dir="rtl"] & {
-        right: unset;
-        left: 0.225em;
-    }
 }
 
 .cardProgramAttributeIndicators {
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     display: flex;
     text-transform: uppercase;
     font-size: 92%;
-
-    [dir="rtl"] & {
-        left: unset;
-        right: 0;
-    }
 }
 
 .programAttributeIndicator {
@@ -444,12 +430,7 @@ button::-moz-focus-inner {
 .cardOverlayButton-br {
     position: absolute;
     bottom: 0;
-    right: 0;
-
-    [dir="rtl"] & {
-        right: unset;
-        left: 0;
-    }
+    inset-inline-end: 0;
 }
 
 .cardOverlayButtonIcon {

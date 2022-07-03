@@ -9,14 +9,10 @@
     margin: 0;
     display: block;
     align-items: center;
-    text-align: left;
+    text-align: start;
     padding: 0.25em 0.25em 0.25em 0.5em;
     cursor: pointer;
     overflow: hidden;
-
-    [dir='rtl'] & {
-        text-align: right;
-    }
 }
 
 .listItem-withContentWrapper {

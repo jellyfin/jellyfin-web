@@ -151,15 +151,10 @@
     width: 100%;
     box-sizing: border-box;
     top: 50%;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
-    padding: 0 0.54em; /* half of slider thumb size */
-
-    [dir="rtl"] & {
-        left: unset;
-        right: 0;
-        padding: 0 0 0 0.54em;
-    }
+    padding-block: 0;
+    padding-inline: 0.54em;/* half of slider thumb size */
 }
 
 .mdl-slider-background-flex {
@@ -168,16 +163,11 @@
     margin-top: -0.1em;
     width: 100%;
     top: 50%;
-    left: 0;
+    inset-inline-start: 0;
     display: flex;
     overflow: hidden;
     border: 0;
     padding: 0;
-
-    [dir="rtl"] & {
-        left: unset;
-        right: 0;
-    }
 }
 
 .mdl-slider-background-flex-inner {
@@ -188,16 +178,11 @@
 .mdl-slider-background-lower {
     /* transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1); */
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     width: 0;
     top: 0;
     bottom: 0;
     background-color: #00a4dc;
-
-    [dir="rtl"] & {
-        left: unset;
-        right: 0;
-    }
 }
 
 .mdl-slider-background-lower-clear {
@@ -227,11 +212,8 @@
     position: absolute;
     left: 0;
     right: 0;
-    margin: 0 0.54em; /* half of slider thumb size */
-
-    [dir="rtl"] & {
-        margin: 0 0 0 0.54em;
-    }
+    margin-block: 0;
+    margin-inline: 0.54em; /* half of slider thumb size */
 }
 
 .sliderBubble {

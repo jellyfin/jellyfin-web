@@ -7,14 +7,8 @@
 
 .itemProgressBarForeground {
     position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-
-    [dir="rtl"] & {
-        left: unset;
-        right: 0;
-    }
+    inset-block: 0;
+    inset-inline-start: 0;
 }
 
 .indicator {
