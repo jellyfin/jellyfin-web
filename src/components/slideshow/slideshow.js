@@ -17,6 +17,7 @@ import ServerConnections from '../ServerConnections';
 import { Swiper } from 'swiper/swiper-bundle.esm';
 import 'swiper/swiper-bundle.css';
 import screenfull from 'screenfull';
+import actionSheet from '../actionSheet/actionSheet';
 
 /**
  * Name of transition event.
@@ -192,6 +193,7 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
+                html += getIcon('timer', 'btnAutoplayTimer', true, true);
                 if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
@@ -222,6 +224,13 @@ export default function (options) {
             const btnPause = dialog.querySelector('.btnSlideshowPause');
             if (btnPause) {
                 btnPause.addEventListener('click', getClickHandler(playPause));
+            }
+
+            const btnAutoplayTimer = dialog.querySelector('.btnAutoplayTimer');
+            if (btnAutoplayTimer) {
+                btnAutoplayTimer.addEventListener('click', function (e) {
+                    showDelayMenu(e.target);
+                });
             }
 
             const btnDownload = dialog.querySelector('.btnDownload');
@@ -274,6 +283,36 @@ export default function (options) {
         if (btnSlideshowPrevious) btnSlideshowPrevious.classList.add('hide');
         const btnSlideshowNext = dialog.querySelector('.btnSlideshowNext');
         if (btnSlideshowNext) btnSlideshowNext.classList.add('hide');
+    }
+
+    function showDelayMenu(button) {
+        const items = [{
+            id: '1000',
+            name: '1 second'
+        },
+        {
+            id: '3000',
+            name: '3 seconds'
+        },
+        {
+            id: '5000',
+            name: '5 second'
+        },
+        {
+            id: '10000',
+            name: '10 seconds'
+        }];
+
+        const actionSheetOptions = {
+            items,
+            positionTo: button
+        };
+        
+        actionSheet.show(actionSheetOptions).then(function (result) {
+            if (result) {
+                swiperInstance.params.autoplay.delay = result;
+            }
+        }).catch(() => { return undefined; });//don't throw exception whenever not selecting item
     }
 
     /**
