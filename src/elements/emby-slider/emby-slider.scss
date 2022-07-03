@@ -258,6 +258,11 @@
     transform: translate3d(0, -100%, 0) rotate(90deg);
 }
 
+.sliderChapterMark::before {
+    font-family: 'Material Icons';
+    content: "\e892";
+}
+
 .sliderChapterMark.unwatched {
     color: rgba(255, 255, 255, 0.3);
 }

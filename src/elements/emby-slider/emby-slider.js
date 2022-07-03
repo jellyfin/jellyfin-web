@@ -178,7 +178,7 @@ import '../emby-input/emby-input';
             range.chapterFractions = range.getChapterFractions();
         }
 
-        const htmlToInsert = '<span class="material-icons label sliderChapterMark" aria-hidden="true"></span>';
+        const htmlToInsert = '<span class="material-icons sliderChapterMark" aria-hidden="true"></span>';
 
         range.chapterFractions.forEach(() => {
             range.chapterMarkContainerElement.insertAdjacentHTML('beforeend', htmlToInsert);
