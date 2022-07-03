@@ -1651,5 +1651,21 @@
     "HomeVideosPhotos": "Kotivideot ja valokuvat",
     "Bold": "Lihavoitu",
     "LabelTextWeight": "Tekstin vahvuus:",
-    "EnableSplashScreen": "Käytä aloitusruutua"
+    "EnableSplashScreen": "Käytä aloitusruutua",
+    "MediaInfoDvLevel": "DV-taso",
+    "MediaInfoDvProfile": "DV-profiili",
+    "MediaInfoDoViTitle": "DV-nimike",
+    "ScreenResolution": "Näyttötarkkuus",
+    "RememberAudioSelectionsHelp": "Pyri valitsemaan parhaiten edellisen videon ääniraitaa vastaava ääniraita.",
+    "RememberSubtitleSelectionsHelp": "Pyri valitsemaan parhaiten edellisen videon tekstitysraitaa vastaava tekstitysraita.",
+    "RememberSubtitleSelections": "Valitse tekstitysraita edellisen kohteen perusteella",
+    "RememberAudioSelections": "Valitse ääniraita edellisen kohteen perusteella",
+    "LabelMaxVideoResolution": "Suurin sallittu videon transkoodaustarkkuus",
+    "MediaInfoVideoRangeType": "Videon aluetyyppi",
+    "LabelVideoRangeType": "Videon aluetyyppi:",
+    "VideoRangeTypeNotSupported": "Videon aluetyyppiä ei tueta",
+    "LabelVppTonemappingContrastHelp": "Käytä kontrastin vahvistusta VPP-sävykartoituksen kanssa. Molemmat ovat suositeltavia ja oletusarvot ovat 0.",
+    "LabelVppTonemappingBrightnessHelp": "Käytä kirkkauden vahvistusta VPP-sävykartoituksen kanssa. Molemmat ovat suositeltavia ja oletusarvot ovat 0.",
+    "LabelVppTonemappingContrast": "VPP-sävykartoituksen kontrastin vahvistus:",
+    "LabelVppTonemappingBrightness": "VPP-sävykartoituksen kirkkauden vahvistus:"
 }

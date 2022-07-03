@@ -41,7 +41,7 @@ import template from './playbackSettings.template.html';
         select.innerHTML = html;
     }
 
-    function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
+    function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
         const options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
 
             currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
@@ -52,7 +52,8 @@ import template from './playbackSettings.template.html';
 
             currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
             isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype),
-            enableAuto: true
+            enableAuto: true,
+            maxVideoWidth
 
         });
 
@@ -60,6 +61,10 @@ import template from './playbackSettings.template.html';
             // render empty string instead of 0 for the auto option
             return `<option value="${i.bitrate || ''}">${i.name}</option>`;
         }).join('');
+    }
+
+    function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
+        fillQuality(select, isInNetwork, mediatype);
 
         if (appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype)) {
             select.value = '';
@@ -68,12 +73,13 @@ import template from './playbackSettings.template.html';
         }
     }
 
-    function fillChromecastQuality(select) {
+    function fillChromecastQuality(select, maxVideoWidth) {
         const options = qualityoptions.getVideoQualityOptions({
 
             currentMaxBitrate: appSettings.maxChromecastBitrate(),
             isAutomaticBitrateEnabled: !appSettings.maxChromecastBitrate(),
-            enableAuto: true
+            enableAuto: true,
+            maxVideoWidth
         });
 
         select.innerHTML = options.map(i => {
@@ -180,7 +186,8 @@ import template from './playbackSettings.template.html';
         context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
-        context.querySelector('.chkSetUsingLastTracks').checked = userSettings.enableSetUsingLastTracks();
+        context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
+        context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
         context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
 
         setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
@@ -191,6 +198,9 @@ import template from './playbackSettings.template.html';
 
         const selectChromecastVersion = context.querySelector('.selectChromecastVersion');
         selectChromecastVersion.value = userSettings.chromecastVersion();
+
+        const selectLabelMaxVideoWidth = context.querySelector('.selectLabelMaxVideoWidth');
+        selectLabelMaxVideoWidth.value = appSettings.maxVideoWidth();
 
         const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
         fillSkipLengths(selectSkipForwardLength);
@@ -209,6 +219,7 @@ import template from './playbackSettings.template.html';
         appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
 
         appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
+        appSettings.maxVideoWidth(context.querySelector('.selectLabelMaxVideoWidth').value);
 
         setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
         setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -222,7 +233,8 @@ import template from './playbackSettings.template.html';
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
-        userSettingsInstance.enableSetUsingLastTracks(context.querySelector('.chkSetUsingLastTracks').checked);
+        user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
+        user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
         userSettingsInstance.chromecastVersion(context.querySelector('.selectChromecastVersion').value);
         userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
         userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
@@ -245,6 +257,36 @@ import template from './playbackSettings.template.html';
                 loading.hide();
             });
         });
+    }
+
+    function setSelectValue(select, value, defaultValue) {
+        select.value = value;
+
+        if (select.selectedIndex < 0) {
+            select.value = defaultValue;
+        }
+    }
+
+    function onMaxVideoWidthChange(e) {
+        const context = this.options.element;
+
+        const selectVideoInNetworkQuality = context.querySelector('.selectVideoInNetworkQuality');
+        const selectVideoInternetQuality = context.querySelector('.selectVideoInternetQuality');
+        const selectChromecastVideoQuality = context.querySelector('.selectChromecastVideoQuality');
+
+        const selectVideoInNetworkQualityValue = selectVideoInNetworkQuality.value;
+        const selectVideoInternetQualityValue = selectVideoInternetQuality.value;
+        const selectChromecastVideoQualityValue = selectChromecastVideoQuality.value;
+
+        const maxVideoWidth = parseInt(e.target.value || '0', 10) || 0;
+
+        fillQuality(selectVideoInNetworkQuality, true, 'Video', maxVideoWidth);
+        fillQuality(selectVideoInternetQuality, false, 'Video', maxVideoWidth);
+        fillChromecastQuality(selectChromecastVideoQuality, maxVideoWidth);
+
+        setSelectValue(selectVideoInNetworkQuality, selectVideoInNetworkQualityValue, '');
+        setSelectValue(selectVideoInternetQuality, selectVideoInternetQualityValue, '');
+        setSelectValue(selectChromecastVideoQuality, selectChromecastVideoQualityValue, '');
     }
 
     function onSubmit(e) {
@@ -273,6 +315,8 @@ import template from './playbackSettings.template.html';
         if (options.enableSaveButton) {
             options.element.querySelector('.btnSave').classList.remove('hide');
         }
+
+        options.element.querySelector('.selectLabelMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
 
         self.loadData();
 

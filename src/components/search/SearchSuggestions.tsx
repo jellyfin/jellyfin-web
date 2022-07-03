@@ -22,7 +22,7 @@ const createSuggestionLink = ({ name, href }: { name: string, href: string }) =>
 
 type SearchSuggestionsProps = {
     serverId?: string;
-    parentId?: string;
+    parentId?: string | null;
 }
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId = window.ApiClient.serverId(), parentId }: SearchSuggestionsProps) => {

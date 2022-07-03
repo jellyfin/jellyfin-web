@@ -41,6 +41,19 @@
             <div class="selectContainer fldChromecastQuality hide">
                 <select is="emby-select" class="selectChromecastVideoQuality" label="${LabelMaxChromecastBitrate}"></select>
             </div>
+
+            <div class="selectContainer">
+                <select is="emby-select" class="selectLabelMaxVideoWidth" label="${LabelMaxVideoResolution}">
+                    <option value="0">${Auto}</option>
+                    <option value="-1">${ScreenResolution}</option>
+                    <option value="640">360p</option>
+                    <option value="852">480p</option>
+                    <option value="1280">720p</option>
+                    <option value="1920">1080p</option>
+                    <option value="3840">4K</option>
+                    <option value="7680">8K</option>
+                </select>
+            </div>
         </div>
 
         <div class="verticalSection verticalSection-extrabottompadding musicQualitySection hide">
@@ -84,10 +97,18 @@
 
         <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
-                <input type="checkbox" is="emby-checkbox" class="chkSetUsingLastTracks" />
-                <span>${SetUsingLastTracks}</span>
+                <input type="checkbox" is="emby-checkbox" class="chkRememberAudioSelections" />
+                <span>${RememberAudioSelections}</span>
             </label>
-            <div class="fieldDescription checkboxFieldDescription">${SetUsingLastTracksHelp}</div>
+            <div class="fieldDescription checkboxFieldDescription">${RememberAudioSelectionsHelp}</div>
+        </div>
+        
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkRememberSubtitleSelections" />
+                <span>${RememberSubtitleSelections}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${RememberSubtitleSelectionsHelp}</div>
         </div>
 
         <div class="checkboxContainer checkboxContainer-withDescription fldEnableNextVideoOverlay">

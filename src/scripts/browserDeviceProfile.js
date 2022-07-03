@@ -312,7 +312,7 @@ import browser from './browser';
         return -1;
     }
 
-    function getPhysicalAudioChannels(options) {
+    function getPhysicalAudioChannels(options, videoTestElement) {
         const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels(), 10);
 
         if (allowedAudioChannels > 0) {
@@ -324,7 +324,13 @@ import browser from './browser';
         }
 
         const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.tv || browser.ps4 || browser.xboxOne;
+        const isAc3Eac3Supported = supportsAc3(videoTestElement) || supportsEac3(videoTestElement);
         const speakerCount = getSpeakerCount();
+
+        // AC3/EAC3 hinted that device is able to play dolby surround sound.
+        if (isAc3Eac3Supported && isSurroundSoundSupportedBrowser) {
+            return speakerCount > 6 ? speakerCount : 6;
+        }
 
         if (speakerCount > 2) {
             if (isSurroundSoundSupportedBrowser) {
@@ -348,11 +354,11 @@ import browser from './browser';
     export default function (options) {
         options = options || {};
 
-        const physicalAudioChannels = getPhysicalAudioChannels(options);
-
         const bitrateSetting = getMaxBitrate();
 
         const videoTestElement = document.createElement('video');
+
+        const physicalAudioChannels = getPhysicalAudioChannels(options, videoTestElement);
 
         const canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
         const canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
@@ -851,6 +857,29 @@ import browser from './browser';
             hevcProfiles = 'main|main 10';
         }
 
+        const h264VideoRangeTypes = 'SDR';
+        let hevcVideoRangeTypes = 'SDR';
+        let vp9VideoRangeTypes = 'SDR';
+        let av1VideoRangeTypes = 'SDR';
+
+        if (browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)) {
+            hevcVideoRangeTypes += '|HDR10|HLG';
+            if ((browser.iOS && browser.iOSVersion >= 13) || browser.osx) {
+                hevcVideoRangeTypes += '|DOVI';
+            }
+        }
+
+        if (browser.tizen || browser.web0s) {
+            hevcVideoRangeTypes += '|HDR10|HLG|DOVI';
+            vp9VideoRangeTypes += '|HDR10|HLG';
+            av1VideoRangeTypes += '|HDR10|HLG';
+        }
+
+        if (browser.edgeChromium || browser.chrome || browser.firefox) {
+            vp9VideoRangeTypes += '|HDR10|HLG';
+            av1VideoRangeTypes += '|HDR10|HLG';
+        }
+
         const h264CodecProfileConditions = [
             {
                 Condition: 'NotEquals',
@@ -862,6 +891,12 @@ import browser from './browser';
                 Condition: 'EqualsAny',
                 Property: 'VideoProfile',
                 Value: h264Profiles,
+                IsRequired: false
+            },
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: h264VideoRangeTypes,
                 IsRequired: false
             },
             {
@@ -886,9 +921,33 @@ import browser from './browser';
                 IsRequired: false
             },
             {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: hevcVideoRangeTypes,
+                IsRequired: false
+            },
+            {
                 Condition: 'LessThanEqual',
                 Property: 'VideoLevel',
                 Value: maxHevcLevel.toString(),
+                IsRequired: false
+            }
+        ];
+
+        const vp9CodecProfileConditions = [
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: vp9VideoRangeTypes,
+                IsRequired: false
+            }
+        ];
+
+        const av1CodecProfileConditions = [
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: av1VideoRangeTypes,
                 IsRequired: false
             }
         ];
@@ -980,6 +1039,18 @@ import browser from './browser';
             Type: 'Video',
             Codec: 'hevc',
             Conditions: hevcCodecProfileConditions
+        });
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'vp9',
+            Conditions: vp9CodecProfileConditions
+        });
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'av1',
+            Conditions: av1CodecProfileConditions
         });
 
         const globalVideoConditions = [];

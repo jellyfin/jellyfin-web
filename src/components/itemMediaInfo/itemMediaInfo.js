@@ -113,7 +113,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             if (stream.Profile) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoProfile'), stream.Profile));
             }
-            if (stream.Level) {
+            if (stream.Level > 0) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoLevel'), stream.Level));
             }
             if (stream.Width || stream.Height) {
@@ -128,7 +128,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
                 }
                 attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
             }
-            if (stream.AverageFrameRate || stream.RealFrameRate) {
+            if ((stream.AverageFrameRate || stream.RealFrameRate) && stream.Type === 'Video') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), (stream.AverageFrameRate || stream.RealFrameRate)));
             }
             if (stream.ChannelLayout) {
@@ -137,7 +137,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             if (stream.Channels) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), `${stream.Channels} ch`));
             }
-            if (stream.BitRate && stream.Codec !== 'mjpeg') {
+            if (stream.BitRate) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000)} kbps`));
             }
             if (stream.SampleRate) {
@@ -148,6 +148,36 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             }
             if (stream.VideoRange) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoVideoRange'), stream.VideoRange));
+            }
+            if (stream.VideoRangeType) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoVideoRangeType'), stream.VideoRangeType));
+            }
+            if (stream.VideoDoViTitle) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoDoViTitle'), stream.VideoDoViTitle));
+                if (stream.DvVersionMajor != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMajor'), stream.DvVersionMajor));
+                }
+                if (stream.DvVersionMinor != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMinor'), stream.DvVersionMinor));
+                }
+                if (stream.DvProfile != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvProfile'), stream.DvProfile));
+                }
+                if (stream.DvLevel != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvLevel'), stream.DvLevel));
+                }
+                if (stream.RpuPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoRpuPresentFlag'), stream.RpuPresentFlag));
+                }
+                if (stream.ElPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoElPresentFlag'), stream.ElPresentFlag));
+                }
+                if (stream.BlPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoBlPresentFlag'), stream.BlPresentFlag));
+                }
+                if (stream.DvBlSignalCompatibilityId != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvBlSignalCompatibilityId'), stream.DvBlSignalCompatibilityId));
+                }
             }
             if (stream.ColorSpace) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoColorSpace'), stream.ColorSpace));
