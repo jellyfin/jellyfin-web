@@ -8,7 +8,8 @@
 .dvr,
 .shopping_cart,
 .vpn_key,
-.volume_up {
+.volume_up,
+.message {
     [dir='rtl'] & {
         transform: scale(-1, 1);
     }
