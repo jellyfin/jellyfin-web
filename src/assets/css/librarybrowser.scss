@@ -477,16 +477,31 @@
 .detailPageContent {
     display: flex;
     flex-direction: column;
-    padding-inline: 32.45vw 2%;
+    padding-left: 32.45vw;
+    padding-right: 2%;
 
     .layout-mobile & {
-        padding-inline: 5%;
+        padding-left: 5%;
+        padding-right: 5%;
     }
 
     .layout-desktop &,
     .layout-tv & {
         .emby-scroller {
-            margin-inline-start: 0;
+            margin-left: 0;
+        }
+    }
+
+    [dir="rtl"] & {
+        padding-right: 32.45vw;
+        padding-left: 2%;
+
+        .layout-desktop &,
+        .layout-tv & {
+            .emby-scroller {
+                margin-left: unset;
+                margin-right: 0;
+            }
         }
     }
 }
@@ -648,18 +663,25 @@
     .layout-mobile & {
         display: block;
         position: relative;
-        padding-block: 0.5rem;
-        padding-inline: 5%;
+        padding: 0.5rem 5%;
     }
 
     .layout-desktop & {
         position: relative;
-        padding-inline-start: 32.45vw;
+        padding-left: 32.45vw;
     }
 
     .layout-tv & {
         display: block;
-        padding-inline-start: 32.45vw;
+        padding-left: 32.45vw;
+    }
+
+    [dir="rtl"] & {
+        .layout-desktop &,
+        .layout-tv & {
+            padding-right: 32.45vw;
+            padding-left: unset;
+        }
     }
 }
 
@@ -723,13 +745,13 @@
     }
 
     .layout-mobile & {
-        inset-inline-start: 5%;
+        left: 5%;
         bottom: 1rem;
         max-width: 30vw;
         filter: drop-shadow(0 0 0.5rem #000);
 
         @media all and (max-width: 32em) {
-            inset-inline-start: 0;
+            left: 0;
             bottom: 0;
         }
 
@@ -741,16 +763,29 @@
     }
 
     .layout-desktop & {
-        inset-inline-start: 3.3%;
+        left: 3.3%;
         top: -80%;
         width: 25vw;
     }
 
     .layout-tv & {
-        inset-inline-start: 5%;
+        left: 5%;
         top: 50%;
         width: 25vw;
         transform: translateY(-50%);
+    }
+
+    [dir="rtl"] & {
+        left: unset;
+
+        .layout-mobile &,
+        .layout-tv & {
+            right: 5%;
+        }
+
+        .layout-desktop & {
+            right: 3.3%;
+        }
     }
 }
 
