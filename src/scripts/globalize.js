@@ -213,7 +213,7 @@ import { currentSettings as userSettings } from './settings/userSettings';
     export function translate(key) {
         let val = translateKey(key);
         for (let i = 1; i < arguments.length; i++) {
-            val = replaceAll(val, '{' + (i - 1) + '}', arguments[i]);
+            val = replaceAll(val, '{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
         }
         return val;
     }

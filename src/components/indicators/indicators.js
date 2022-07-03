@@ -3,6 +3,7 @@ import itemHelper from '../itemHelper';
 import '../../elements/emby-progressbar/emby-progressbar';
 import './indicators.scss';
 import 'material-design-icons-iconfont';
+import { getCurrentDateTimeLocale } from '../../scripts/globalize';
 
 export function enableProgressIndicator(item) {
     if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
@@ -84,7 +85,7 @@ export function getPlayedIndicatorHtml(item) {
     if (enablePlayedIndicator(item)) {
         const userData = item.UserData || {};
         if (userData.UnplayedItemCount) {
-            return '<div class="countIndicator indicator">' + userData.UnplayedItemCount.toLocaleString() + '</div>';
+            return '<div class="countIndicator indicator">' + datetime.toLocaleString(userData.UnplayedItemCount) + '</div>';
         }
 
         if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
@@ -99,7 +100,7 @@ export function getChildCountIndicatorHtml(item, options) {
     const minCount = options && options.minCount ? options.minCount : 0;
 
     if (item.ChildCount && item.ChildCount > minCount) {
-        return '<div class="countIndicator indicator">' + item.ChildCount.toLocaleString() + '</div>';
+        return '<div class="countIndicator indicator">' + datetime.toLocaleString(item.ChildCount) + '</div>';
     }
 
     return '';

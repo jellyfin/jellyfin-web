@@ -5,7 +5,8 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
-import { getIsRTL } from '../../scripts/globalize';
+import { getCurrentDateTimeLocale, getIsRTL } from '../../scripts/globalize';
+import datetime from '../../scripts/datetime';
 
 /* eslint-disable indent */
 
@@ -129,7 +130,7 @@ import { getIsRTL } from '../../scripts/globalize';
                 if (range.getBubbleText) {
                     value = range.getBubbleText(value);
                 } else {
-                    value = mapFractionToValue(range, value / 100).toLocaleString();
+                    value = datetime.toLocaleString(mapFractionToValue(range, value / 100));
                 }
                 value = '<h1 class="sliderBubbleText">' + value + '</h1>';
             }

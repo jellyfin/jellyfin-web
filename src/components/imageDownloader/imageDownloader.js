@@ -122,7 +122,7 @@ import template from './imageDownloader.template.html';
         html += '<span style="margin-right: 10px;">';
 
         const startAtDisplay = totalRecordCount ? startIndex + 1 : 0;
-        html += globalize.translate('ListPaging', startAtDisplay.toLocaleString(), recordsEnd.toLocaleString(), totalRecordCount.toLocaleString());
+        html += globalize.translate('ListPaging', startAtDisplay, recordsEnd, totalRecordCount);
 
         html += '</span>';
 

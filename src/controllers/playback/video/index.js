@@ -216,7 +216,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             let title = itemName;
             if (item.PremiereDate) {
                 try {
-                    const year = datetime.parseISO8601Date(item.PremiereDate).getFullYear().toLocaleString(getCurrentDateTimeLocale(), {useGrouping: false});
+                    const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), {useGrouping: false});
                     title += ` (${year})`;
                 } catch (e) {
                     console.error(e);
