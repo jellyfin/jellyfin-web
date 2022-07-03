@@ -1,7 +1,7 @@
 import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';
-import globalize from '../../scripts/globalize';
+import globalize, { getIsRTL } from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -42,18 +42,23 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
     function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
         // TODO: Check if hack is really needed
         // hack alert add twenty for rounding errors
+        let localeAwarePos = scrollPos;
+        if (getIsRTL()) {
+            localeAwarePos *= -1;
+        }
+
         if (scrollWidth <= scrollSize + 20) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
             scrollButtons.scrollButtonsRight.classList.add('hide');
         }
 
-        if (scrollPos > 0) {
+        if (localeAwarePos > 0) {
             scrollButtons.scrollButtonsLeft.disabled = false;
         } else {
             scrollButtons.scrollButtonsLeft.disabled = true;
         }
 
-        const scrollPosEnd = scrollPos + scrollSize;
+        const scrollPosEnd = localeAwarePos + scrollSize;
         if (scrollWidth > 0 && scrollPosEnd >= scrollWidth) {
             scrollButtons.scrollButtonsRight.disabled = true;
         } else {

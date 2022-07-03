@@ -9,6 +9,7 @@ import dom from '../scripts/dom';
 import focusManager from '../components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
 import '../assets/css/scrollstyles.scss';
+import { getIsRTL } from '../scripts/globalize';
 
 /**
 * Return type of the value.
@@ -267,6 +268,9 @@ const scrollerFactory = function (frame, options) {
         } else {
             newPos = within(newPos, pos.start, pos.end);
         }
+
+        if (getIsRTL())
+            newPos *= -1;
 
         if (!transform) {
             nativeScrollTo(nativeScrollElement, newPos, immediate);
