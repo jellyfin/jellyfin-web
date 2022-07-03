@@ -55,6 +55,7 @@ import { currentSettings as userSettings } from './settings/userSettings';
 
         if (isRTL) {
             document.getElementsByTagName('body')[0].setAttribute('dir', 'rtl');
+            import('../styles/rtl.scss');
         } else {
             document.getElementsByTagName('body')[0].setAttribute('dir', 'ltr');
         }

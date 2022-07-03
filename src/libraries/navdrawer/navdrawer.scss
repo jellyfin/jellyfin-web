@@ -15,6 +15,13 @@
     -webkit-transition: -webkit-transform ease-out 40ms, left ease-out 260ms;
     -o-transition: transform ease-out 40ms, left ease-out 260ms;
     transition: transform ease-out 40ms, left ease-out 260ms;
+
+    [div="rtl"] & {
+        -webkit-transition: -webkit-transform ease-out 40ms, right ease-out 260ms;
+        -o-transition: transform ease-out 40ms, right ease-out 260ms;
+        transition: transform ease-out 40ms, right ease-out 260ms;
+    }
+
     z-index: 1099;
 }
 
@@ -22,6 +29,12 @@
     -webkit-transition: -webkit-transform ease-out 240ms, left ease-out 260ms;
     -o-transition: transform ease-out 240ms, left ease-out 260ms;
     transition: transform ease-out 240ms, left ease-out 260ms;
+
+    [div="rtl"] & {
+        -webkit-transition: -webkit-transform ease-out 240ms, right ease-out 260ms;
+        -o-transition: transform ease-out 240ms, right ease-out 260ms;
+        transition: transform ease-out 240ms, right ease-out 260ms;
+    }
 }
 
 .drawer-open {

@@ -813,6 +813,10 @@
 .itemDetailImage {
     width: 100% !important;
     box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
+
+    [dir="rtl"] & {
+        box-shadow: 0 0 0.5em 0.1em rgba(0, 0, 0, 0.75);
+    }
 }
 
 div.itemDetailGalleryLink.defaultCardBackground {

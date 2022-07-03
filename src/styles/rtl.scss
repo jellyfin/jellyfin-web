@@ -13,3 +13,15 @@
         transform: scale(-1, 1);
     }
 }
+
+@media all and (min-width: 40em) {
+    .dashboardDocument .mainDrawer {
+        left: unset !important;
+        right: 0 !important;
+    }
+
+    .dashboardDocument .skinBody {
+        left: 0 !important;
+        right: 20em !important;
+    }
+}
