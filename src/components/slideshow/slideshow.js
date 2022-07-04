@@ -195,7 +195,7 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                html += getIcon('timer', 'btnAutoplayTimer', true, true);
+                html += getIcon('timer', 'btnAutoplayDelay', true, true);
                 if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
@@ -228,10 +228,10 @@ export default function (options) {
                 btnPause.addEventListener('click', getClickHandler(playPause));
             }
 
-            const btnAutoplayTimer = dialog.querySelector('.btnAutoplayTimer');
-            if (btnAutoplayTimer) {
-                btnAutoplayTimer.addEventListener('click', function (e) {
-                    showDelayMenu(e.target);
+            const btnAutoplayDelay = dialog.querySelector('.btnAutoplayDelay');
+            if (btnAutoplayDelay) {
+                btnAutoplayDelay.addEventListener('click', function (e) {
+                    showAutoplayDelayMenu(e.target);
                 });
             }
 
@@ -287,7 +287,7 @@ export default function (options) {
         if (btnSlideshowNext) btnSlideshowNext.classList.add('hide');
     }
 
-    function showDelayMenu(button) {
+    function showAutoplayDelayMenu(button) {
         const delayLengths = [1, 3, 5, 10, 15];
         const items = delayLengths.map(length => {
             return {
@@ -382,7 +382,6 @@ export default function (options) {
         }
 
         const autoplayDelay = userSettings.get('autoplayDelay', true) || 3000;
-        console.log('autoplaydelay: ', autoplayDelay);
         const autoplay = options.autoplay ? {delay:autoplayDelay} : false;
 
         swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
