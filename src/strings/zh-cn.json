@@ -1671,5 +1671,9 @@
     "LabelVppTonemappingContrast": "VPP 色调映射对比度增益：",
     "LabelVppTonemappingBrightnessHelp": "在 VPP 色调映射中应用亮度增益。推荐值和默认值均为 0。",
     "ScreenResolution": "屏幕分辨率",
-    "LabelMaxVideoResolution": "允许的最大视频转码分辨率"
+    "LabelMaxVideoResolution": "允许的最大视频转码分辨率",
+    "RememberSubtitleSelectionsHelp": "尝试将字幕轨道设置为与最后一个视频最接近的匹配。",
+    "RememberSubtitleSelections": "根据上一项设置字幕轨道",
+    "RememberAudioSelectionsHelp": "尝试将音轨设置为最接近最后一个视频的匹配。",
+    "RememberAudioSelections": "根据上一项设置音轨"
 }
