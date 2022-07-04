@@ -18,6 +18,7 @@ import { Swiper } from 'swiper/swiper-bundle.esm';
 import 'swiper/swiper-bundle.css';
 import screenfull from 'screenfull';
 import actionSheet from '../actionSheet/actionSheet';
+import globalize from '../../scripts/globalize';
 
 /**
  * Name of transition event.
@@ -286,22 +287,13 @@ export default function (options) {
     }
 
     function showDelayMenu(button) {
-        const items = [{
-            id: '1000',
-            name: '1 second'
-        },
-        {
-            id: '3000',
-            name: '3 seconds'
-        },
-        {
-            id: '5000',
-            name: '5 seconds'
-        },
-        {
-            id: '10000',
-            name: '10 seconds'
-        }];
+        const delayLengths = [1, 3, 5, 10];
+        const items = delayLengths.map(length => {
+            return {
+                id: length * 1000,
+                name: globalize.translate('ValueSeconds', length)
+            };
+        });
 
         const actionSheetOptions = {
             items,
@@ -311,8 +303,9 @@ export default function (options) {
         actionSheet.show(actionSheetOptions).then(function (result) {
             if (result) {
                 swiperInstance.params.autoplay.delay = result;
+                swiperInstance.autoplay.start();
             }
-        }).catch(() => { return undefined; });//don't throw exception whenever not selecting item
+        }).catch(() => { /* swallow errors */ });
     }
 
     /**
