@@ -382,7 +382,7 @@ export default function (options) {
         }
 
         const autoplayDelay = userSettings.get('autoplayDelay', true) || 3000;
-        const autoplay = options.autoplay ? {delay:autoplayDelay} : false;
+        const autoplay = !options.interactive || options.autoplay ? { delay: autoplayDelay } : false;
 
         swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
             direction: 'horizontal',
@@ -392,7 +392,7 @@ export default function (options) {
                 minRatio: 1,
                 toggle: true
             },
-            autoplay: !options.interactive || autoplay,
+            autoplay: autoplay,
             keyboard: {
                 enabled: true
             },
