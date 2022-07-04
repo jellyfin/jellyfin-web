@@ -19,6 +19,7 @@ import 'swiper/swiper-bundle.css';
 import screenfull from 'screenfull';
 import actionSheet from '../actionSheet/actionSheet';
 import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 /**
  * Name of transition event.
@@ -287,7 +288,7 @@ export default function (options) {
     }
 
     function showDelayMenu(button) {
-        const delayLengths = [1, 3, 5, 10];
+        const delayLengths = [1, 3, 5, 10, 15];
         const items = delayLengths.map(length => {
             return {
                 id: length * 1000,
@@ -304,6 +305,7 @@ export default function (options) {
             if (result) {
                 swiperInstance.params.autoplay.delay = result;
                 swiperInstance.autoplay.start();
+                userSettings.set('autoplayDelay', result, true);
             }
         }).catch(() => { /* swallow errors */ });
     }
@@ -311,10 +313,13 @@ export default function (options) {
     /**
      * Handles OSD changes when the autoplay is started.
      */
-    function onAutoplayStart() {
+    function onAutoplayStart(autoplayDelay) {
         const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
         if (btnSlideshowPause) {
             btnSlideshowPause.classList.replace('play_arrow', 'pause');
+        }
+        if (autoplayDelay) {
+            swiperInstance.params.autoplay.delay = autoplayDelay;
         }
     }
 
@@ -376,6 +381,10 @@ export default function (options) {
             slides = currentOptions.items;
         }
 
+        const autoplayDelay = userSettings.get('autoplayDelay', true) || 3000;
+        console.log('autoplaydelay: ', autoplayDelay);
+        const autoplay = options.autoplay ? {delay:autoplayDelay} : false;
+
         swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
             direction: 'horizontal',
             // Loop is disabled due to the virtual slides option not supporting it.
@@ -384,7 +393,7 @@ export default function (options) {
                 minRatio: 1,
                 toggle: true
             },
-            autoplay: !options.interactive || !!options.autoplay,
+            autoplay: !options.interactive || autoplay,
             keyboard: {
                 enabled: true
             },
@@ -407,14 +416,14 @@ export default function (options) {
             }
         });
 
-        swiperInstance.on('autoplayStart', onAutoplayStart);
+        swiperInstance.on('autoplayStart', () => onAutoplayStart(autoplayDelay));
         swiperInstance.on('autoplayStop', onAutoplayStop);
 
         if (useFakeZoomImage) {
             swiperInstance.on('zoomChange', onZoomChange);
         }
 
-        if (swiperInstance.autoplay?.running) onAutoplayStart();
+        if (swiperInstance.autoplay?.running) onAutoplayStart(autoplayDelay);
     }
 
     /**
