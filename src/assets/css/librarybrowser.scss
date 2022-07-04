@@ -672,15 +672,6 @@
         margin-bottom: 0;
         padding-left: 0;
     }
-
-    [dir="rtl"] & {
-        @include header-poster-padding-rtl;
-
-        @media all and (max-width: 32em) {
-            padding-left: unset;
-            padding-right: 0;
-        }
-    }
 }
 
 .subtitle {

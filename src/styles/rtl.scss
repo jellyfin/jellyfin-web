@@ -1,3 +1,5 @@
+@import '../assets/css/librarybrowser.scss';
+
 .chevron_right,
 .chevron_left,
 .arrow_back,
@@ -25,5 +27,15 @@
     .dashboardDocument .skinBody {
         left: 0 !important;
         right: 20em !important;
+    }
+}
+
+.layout-mobile .mainDetailButtons {
+    padding-left: unset !important;
+    @include header-poster-padding-rtl;
+
+    @media all and (max-width: 32em) {
+        padding-left: unset !important;
+        padding-right: 0 Im !important;
     }
 }
