@@ -287,6 +287,11 @@ export default function (options) {
         if (btnSlideshowNext) btnSlideshowNext.classList.add('hide');
     }
 
+    /**
+     * Opens actionSheetOptions to show possible delay timings
+     * On selection, saves that delay selection, starting autoplay if necessary.
+     * @param {Object} button Location of button to open menu at
+     */
     function showAutoplayDelayMenu(button) {
         const delayLengths = [1, 3, 5, 10, 15];
         const items = delayLengths.map(length => {
@@ -301,17 +306,27 @@ export default function (options) {
             positionTo: button
         };
 
-        actionSheet.show(actionSheetOptions).then(function (result) {
-            if (result) {
-                swiperInstance.params.autoplay.delay = result;
-                swiperInstance.autoplay.start();
-                userSettings.set('autoplayDelay', result, true);
-            }
-        }).catch(() => { /* swallow errors */ });
+        actionSheet.show(actionSheetOptions).then(
+            (result) => updateAutoplayDelay(result)
+        ).catch(() => { /* swallow errors */ });
     }
 
     /**
-     * Handles OSD changes when the autoplay is started.
+     * Updates autoplay delay length.
+     * Starts autoplay.
+     * Saves delay to userSettings.
+     * @param {string} delay Length of delay for autoplay in ms
+     */
+    function updateAutoplayDelay(delay) {
+        if (delay) {
+            swiperInstance.params.autoplay.delay = delay;
+            swiperInstance.autoplay.start();
+            userSettings.set('autoplayDelay', delay, true);
+        }
+    }
+
+    /**
+     * Handles OSD changes when the autoplay is started and applies custom delay if necessary.
      */
     function onAutoplayStart(autoplayDelay) {
         const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
