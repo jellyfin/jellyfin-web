@@ -19,7 +19,7 @@ import 'swiper/swiper-bundle.css';
 import screenfull from 'screenfull';
 import actionSheet from '../actionSheet/actionSheet';
 import globalize from '../../scripts/globalize';
-import * as userSettings from '../../scripts/settings/userSettings';
+import { currentSettings as userSettings } from '../../scripts/settings/userSettings';
 
 /**
  * Name of transition event.
