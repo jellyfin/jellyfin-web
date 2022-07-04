@@ -107,12 +107,21 @@
 }
 
 .alphaPicker-fixed-right {
-    right: 0.4em;
+    inset-inline-end: 0.4em;
 }
 
 @media all and (min-width: 62.5em) {
     .alphaPicker-fixed-right {
         right: 1em;
+    }
+}
+
+[dir="rtl"] {
+    @media all and (min-width: 62.5em) {
+        .alphaPicker-fixed-right {
+            right: unset;
+            left: 1em;
+        }
     }
 }
 

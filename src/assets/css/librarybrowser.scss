@@ -32,6 +32,39 @@
     }
 }
 
+@mixin header-poster-padding-rtl() {
+    padding-left: unset;
+    padding-right: 37.5%;
+
+    @media all and (min-width: 43.75em) {
+        padding-right: 25%;
+    }
+
+    @media all and (min-width: 50em) {
+        padding-right: 20%;
+    }
+
+    @media all and (min-width: 75em) {
+        padding-right: 16.666666666666666666666666666667%;
+    }
+
+    @media all and (min-width: 87.5em) {
+        padding-right: 14.285714285714285714285714285714%;
+    }
+
+    @media all and (min-width: 100em) {
+        padding-right: 12.5%;
+    }
+
+    @media all and (min-width: 120em) {
+        padding-right: 11.111111111111111111111111111111%;
+    }
+
+    @media all and (min-width: 131.25em) {
+        padding-right: 10%;
+    }
+}
+
 .headerUserImage,
 .navMenuOption,
 .pageTitle {
@@ -622,9 +655,9 @@
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,
 .layout-mobile .mainDetailButtons {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
 }
 
 .layout-mobile .mainDetailButtons {
@@ -641,6 +674,8 @@
     }
 
     [dir="rtl"] & {
+        @include header-poster-padding-rtl;
+
         @media all and (max-width: 32em) {
             padding-left: unset;
             padding-right: 0;
@@ -712,6 +747,12 @@
 
         @media all and (max-width: 32em) {
             position: relative;
+        }
+    }
+
+    [dir="rtl"] & {
+        .layout-mobile & {
+            @include header-poster-padding-rtl;
         }
     }
 }

@@ -473,7 +473,7 @@ function renderName(item, container, context) {
                 html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
         } else {
-            html = '<h1 class="parentName focuscontainer-x">' + tvShowHtml + '</h1>';
+            html = '<h1 class="parentName focuscontainer-x"><bdi>' + tvShowHtml + '</bdi></h1>';
         }
     }
 
@@ -483,21 +483,21 @@ function renderName(item, container, context) {
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle focuscontainer-x">' + tvSeasonHtml + ' - ' + name + '</h3>';
+            html += '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - </bdi><bdi>' + name + '</bdi></h3>';
         } else {
             html += '<h3 class="itemName infoText subtitle">' + name + '</h3>';
         }
     } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
         html = '<h1 class="itemName infoText parentNameLast withOriginalTitle">' + name + '</h1>' + html;
     } else {
-        html = '<h1 class="itemName infoText parentNameLast">' + name + '</h1>' + html;
+        html = '<h1 class="itemName infoText parentNameLast"><bdi>' + name + '</bdi></h1>' + html;
     }
 
     if (item.OriginalTitle && item.OriginalTitle != item.Name) {
         html += '<h4 class="itemName infoText originalTitle">' + escapeHtml(item.OriginalTitle) + '</h4>';
     }
 
-    container.innerHTML = '<bdi>' + html + '</bdi>';
+    container.innerHTML = html;
 
     if (html.length) {
         container.classList.remove('hide');

@@ -149,7 +149,7 @@ import ServerConnections from '../ServerConnections';
 
             elem.classList.add('listItemBodyText');
 
-            elem.innerText = text;
+            elem.innerHTML = '<bdi>' + text + '</bdi>';
 
             html += elem.outerHTML;
         }
@@ -422,7 +422,7 @@ import ServerConnections from '../ServerConnections';
 
             if (enableOverview && item.Overview) {
                 html += '<div class="secondary listItem-overview listItemBodyText">';
-                html += item.Overview;
+                html += '<bdi>' + item.Overview + '</bdi>';
                 html += '</div>';
             }
 
