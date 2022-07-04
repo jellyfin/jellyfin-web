@@ -280,7 +280,7 @@ import confirm from '../../components/confirm/confirm';
                     html += clientImage;
                 }
 
-                html += '<div class="sessionAppName" style="display:inline-block;"  dir="ltr">';
+                html += '<div class="sessionAppName" style="display:inline-block; text-align:left;"  dir="ltr" >';
                 html += '<div class="sessionDeviceName">' + escapeHtml(session.DeviceName) + '</div>';
                 html += '<div class="sessionAppSecondaryText">' + escapeHtml(DashboardPage.getAppSecondaryText(session)) + '</div>';
                 html += '</div>';
