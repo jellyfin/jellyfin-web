@@ -487,7 +487,7 @@ import ServerConnections from '../ServerConnections';
 
                 if (enableOverview && item.Overview) {
                     html += '<div class="listItem-bottomoverview secondary">';
-                    html += item.Overview;
+                    html += '<bdi>' + item.Overview + '</bdi>';
                     html += '</div>';
                 }
             }
