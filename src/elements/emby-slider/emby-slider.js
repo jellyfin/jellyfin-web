@@ -173,15 +173,23 @@ import '../emby-input/emby-input';
     }
 
     function addChapterMarks(range) {
+        range.chapterNames = [];
         range.chapterFractions = [];
-        if (range.getChapterFractions) {
-            range.chapterFractions = range.getChapterFractions();
+        if (range.getChapterNamesAndFractions) {
+            [range.chapterNames, range.chapterFractions] = range.getChapterNamesAndFractions();
         }
 
-        const htmlToInsert = '<span class="material-icons sliderChapterMark" aria-hidden="true"></span>';
+        function htmlToInsert(chapterName) {
+            let classChapterName = '';
+            if (typeof chapterName === 'string' && chapterName.length) {
+                // limit the class length in case the name contains half a novel
+                classChapterName = `scm-${chapterName.substring(0, 100).toLowerCase().replace(' ', '-')}`;
+            }
+            return `<span class="material-icons sliderChapterMark ${classChapterName}" aria-hidden="true"></span>`;
+        }
 
-        range.chapterFractions.forEach(() => {
-            range.chapterMarkContainerElement.insertAdjacentHTML('beforeend', htmlToInsert);
+        range.chapterNames.forEach(chapterName => {
+            range.chapterMarkContainerElement.insertAdjacentHTML('beforeend', htmlToInsert(chapterName || ''));
         });
 
         range.chapterMarkElements = range.chapterMarkContainerElement.querySelectorAll('.sliderChapterMark');

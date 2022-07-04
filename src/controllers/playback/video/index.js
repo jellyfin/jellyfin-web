@@ -1574,12 +1574,13 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
         };
 
-        nowPlayingPositionSlider.getChapterFractions = function () {
+        nowPlayingPositionSlider.getChapterNamesAndFractions = function () {
             showOsd();
 
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length) {
+                const chapterNames = [];
                 const chapterFractions = [];
                 const runtimeDuration = item.RunTimeTicks;
 
@@ -1588,12 +1589,13 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 
                     const fraction = currentChapter.StartPositionTicks / runtimeDuration;
                     chapterFractions.push(fraction);
+                    chapterNames.push(currentChapter.Name);
                 }
 
-                return chapterFractions;
+                return [chapterNames, chapterFractions];
             }
 
-            return [];
+            return [[], []];
         };
 
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
