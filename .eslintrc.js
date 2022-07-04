@@ -2,13 +2,7 @@ const restrictedGlobals = require('confusing-browser-globals');
 
 module.exports = {
     root: true,
-    plugins: [
-        '@babel',
-        'react',
-        'promise',
-        'import',
-        'eslint-comments'
-    ],
+    plugins: ['@babel', 'react', 'promise', 'import', 'eslint-comments'],
     env: {
         node: true,
         es6: true,
@@ -34,48 +28,53 @@ module.exports = {
     rules: {
         'array-callback-return': ['error'],
         'block-spacing': ['error'],
-        'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
+        'brace-style': ['error', '1tbs', { allowSingleLine: true }],
         'comma-dangle': ['error', 'never'],
         'comma-spacing': ['error'],
         'default-case-last': ['error'],
         'eol-last': ['error'],
-        'indent': ['error', 4, { 'SwitchCase': 1 }],
-        'jsx-quotes': ['error', 'prefer-single'],
+        'jsx-quotes': ['error', 'prefer-double'],
         'keyword-spacing': ['error'],
         'max-statements-per-line': ['error'],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
-        'no-multiple-empty-lines': ['error', { 'max': 1 }],
+        'no-multiple-empty-lines': ['error', { max: 1 }],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-trailing-spaces': ['error'],
-        '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
-        'no-void': ['error', { 'allowAsStatement': true }],
+        '@babel/no-unused-expressions': [
+            'error',
+            {
+                allowShortCircuit: true,
+                allowTernary: true,
+                allowTaggedTemplates: true
+            }
+        ],
+        'no-void': ['error', { allowAsStatement: true }],
         'no-nested-ternary': ['error'],
         'one-var': ['error', 'never'],
         'padded-blocks': ['error', 'never'],
-        'prefer-const': ['error', { 'destructuring': 'all' }],
-        'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+        'prefer-const': ['error', { destructuring: 'all' }],
+        quotes: [
+            'error',
+            'single',
+            { avoidEscape: true, allowTemplateLiterals: false }
+        ],
         '@babel/semi': ['error'],
         'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        'yoda': 'error',
-        'no-sequences': ['error', { 'allowInParentheses': false }]
+        yoda: 'error',
+        'no-sequences': ['error', { allowInParentheses: false }]
     },
     settings: {
         react: {
             version: 'detect'
         },
-        'import/extensions': [
-            '.js',
-            '.ts',
-            '.jsx',
-            '.tsx'
-        ],
+        'import/extensions': ['.js', '.ts', '.jsx', '.tsx'],
         'import/parsers': {
-            '@typescript-eslint/parser': [ '.ts', '.tsx' ]
+            '@typescript-eslint/parser': ['.ts', '.tsx']
         },
         polyfills: [
             // Native Promises Only
@@ -176,10 +175,7 @@ module.exports = {
         },
         // JavaScript source files
         {
-            files: [
-                './src/**/*.js',
-                './src/**/*.ts'
-            ],
+            files: ['./src/**/*.js', './src/**/*.ts'],
             parser: '@babel/eslint-parser',
             env: {
                 node: false,
@@ -190,45 +186,41 @@ module.exports = {
                 es2020: true
             },
             globals: {
-                // Browser globals
-                'MediaMetadata': 'readonly',
+            // Browser globals
+                MediaMetadata: 'readonly',
                 // Tizen globals
-                'tizen': 'readonly',
-                'webapis': 'readonly',
+                tizen: 'readonly',
+                webapis: 'readonly',
                 // WebOS globals
-                'webOS': 'readonly',
+                webOS: 'readonly',
                 // Dependency globals
-                '$': 'readonly',
-                'jQuery': 'readonly',
+                $: 'readonly',
+                jQuery: 'readonly',
                 // Jellyfin globals
-                'ApiClient': 'writable',
-                'Events': 'writable',
-                'chrome': 'writable',
-                'DlnaProfilePage': 'writable',
-                'DashboardPage': 'writable',
-                'Emby': 'readonly',
-                'Globalize': 'writable',
-                'Hls': 'writable',
-                'dfnshelper': 'writable',
-                'LibraryMenu': 'writable',
-                'LinkParser': 'writable',
-                'LiveTvHelpers': 'writable',
-                'Loading': 'writable',
-                'MetadataEditor': 'writable',
-                'ServerNotifications': 'writable',
-                'TaskButton': 'writable',
-                'UserParentalControlPage': 'writable',
-                'Windows': 'readonly'
+                ApiClient: 'writable',
+                Events: 'writable',
+                chrome: 'writable',
+                DlnaProfilePage: 'writable',
+                DashboardPage: 'writable',
+                Emby: 'readonly',
+                Globalize: 'writable',
+                Hls: 'writable',
+                dfnshelper: 'writable',
+                LibraryMenu: 'writable',
+                LinkParser: 'writable',
+                LiveTvHelpers: 'writable',
+                Loading: 'writable',
+                MetadataEditor: 'writable',
+                ServerNotifications: 'writable',
+                TaskButton: 'writable',
+                UserParentalControlPage: 'writable',
+                Windows: 'readonly'
             },
-            rules: {
-            }
+            rules: {}
         },
         // TypeScript source files
         {
-            files: [
-                './src/**/*.ts',
-                './src/**/*.tsx'
-            ],
+            files: ['./src/**/*.ts', './src/**/*.tsx'],
             parser: '@typescript-eslint/parser',
             plugins: ['@typescript-eslint'],
             extends: [
