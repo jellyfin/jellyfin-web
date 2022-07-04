@@ -1656,5 +1656,21 @@
     "RememberSubtitleSelections": "Обрати дорожку субтитрів засновуючись на попередньому елементі",
     "RememberAudioSelectionsHelp": "Спробувати обрати звукову доріжку, яка найбільше відповідає попередньому відео.",
     "RememberAudioSelections": "Обрати звукову доріжку засновуючись на попередньому елементі",
-    "LabelMaxVideoResolution": "Максимально дозволена роздільна здатність для транскодування відео"
+    "LabelMaxVideoResolution": "Максимально дозволена роздільна здатність для транскодування відео",
+    "MediaInfoDvBlSignalCompatibilityId": "Ідентифікатор сигналу сумісності DV bl",
+    "MediaInfoBlPresentFlag": "Прапор пресета DV bl",
+    "MediaInfoElPresentFlag": "Прапор пресета DV el",
+    "MediaInfoRpuPresentFlag": "Прапор пресета DV rpu",
+    "MediaInfoDvLevel": "Рівень DV",
+    "MediaInfoDvProfile": "Профіль DV",
+    "MediaInfoDvVersionMinor": "Додаткова версія DV",
+    "MediaInfoDvVersionMajor": "Значна версія DV",
+    "MediaInfoDoViTitle": "Назва DV",
+    "MediaInfoVideoRangeType": "Тип діапазону відео",
+    "LabelVideoRangeType": "Тип діапазону відео:",
+    "VideoRangeTypeNotSupported": "Тип диапазону відео не підтримується",
+    "LabelVppTonemappingContrastHelp": "Застосувати чутливість яскравості для VPP tone mapping. Значення за замовчуванням (1.2 та 1) є рекомендованими.",
+    "LabelVppTonemappingContrast": "Чутливість контрасту для VPP Tone mapping:",
+    "LabelVppTonemappingBrightnessHelp": "Застосувати чутливість яскравості для VPP tone mapping. Значення за замовчуванням (0) є рекомендованим.",
+    "LabelVppTonemappingBrightness": "Чутливість яскравості для VPP Tone mapping:"
 }
