@@ -74,7 +74,10 @@ class NavDrawer {
         const touch = touches[0] || {};
         const endX = touch.clientX || 0;
         const endY = touch.clientY || 0;
-        const deltaX = endX - (this.menuTouchStartX || 0);
+        let deltaX = endX - (this.menuTouchStartX || 0);
+        if (getIsRTL()) {
+            deltaX *= -1;
+        }
         const deltaY = endY - (this.menuTouchStartY || 0);
         this.setVelocity(deltaX);
 
@@ -107,7 +110,10 @@ class NavDrawer {
         const touch = touches[0] || {};
         const endX = touch.clientX || 0;
         const endY = touch.clientY || 0;
-        const deltaX = endX - (this.menuTouchStartX || 0);
+        let deltaX = endX - (this.menuTouchStartX || 0);
+        if (getIsRTL()) {
+            deltaX *= -1;
+        }
         const deltaY = endY - (this.menuTouchStartY || 0);
         this.currentPos = deltaX;
         this.checkMenuState(deltaX, deltaY);
@@ -162,7 +168,10 @@ class NavDrawer {
 
         if (endX <= options.width && this.isVisible) {
             this.countStart++;
-            const deltaX = endX - (this.backgroundTouchStartX || 0);
+            let deltaX = endX - (this.backgroundTouchStartX || 0);
+            if (getIsRTL()) {
+                deltaX *= -1;
+            }
 
             if (this.countStart == 1) {
                 this.startPoint = deltaX;
@@ -184,7 +193,10 @@ class NavDrawer {
         const touches = getTouches(e);
         const touch = touches[0] || {};
         const endX = touch.clientX || 0;
-        const deltaX = endX - (this.backgroundTouchStartX || 0);
+        let deltaX = endX - (this.backgroundTouchStartX || 0);
+        if (getIsRTL()) {
+            deltaX *= -1;
+        }
         this.checkMenuState(deltaX);
         this.countStart = 0;
     };
