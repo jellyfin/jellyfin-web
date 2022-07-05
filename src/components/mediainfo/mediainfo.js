@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import globalize, { getCurrentDateTimeLocale } from '../../scripts/globalize';
+import globalize from '../../scripts/globalize';
 import { appRouter } from '../appRouter';
 import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';

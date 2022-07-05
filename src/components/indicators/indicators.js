@@ -3,7 +3,6 @@ import itemHelper from '../itemHelper';
 import '../../elements/emby-progressbar/emby-progressbar';
 import './indicators.scss';
 import 'material-design-icons-iconfont';
-import { getCurrentDateTimeLocale } from '../../scripts/globalize';
 
 export function enableProgressIndicator(item) {
     if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {

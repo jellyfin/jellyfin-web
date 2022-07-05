@@ -11,7 +11,7 @@ import imageLoader from '../images/imageLoader';
 import itemHelper from '../itemHelper';
 import focusManager from '../focusManager';
 import indicators from '../indicators/indicators';
-import globalize, { getCurrentDateTimeLocale } from '../../scripts/globalize';
+import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
