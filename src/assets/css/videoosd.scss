@@ -126,6 +126,10 @@
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
+
+    [dir="rtl"] & {
+        flex-direction: row-reverse;
+    }
 }
 
 .osdVolumeSliderContainer {
@@ -142,6 +146,10 @@
     display: -webkit-flex;
     align-items: center;
     -webkit-box-align: center;
+
+    [dir="rtl"] & {
+        flex-direction: row-reverse;
+    }
 }
 
 .volumeButtons {

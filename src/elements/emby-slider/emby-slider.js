@@ -33,10 +33,8 @@ import datetime from '../../scripts/datetime';
         const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
         let fraction = (clientX - rect.left) / rect.width;
-
-        if (getIsRTL()) {
-            fraction = (rect.width - (clientX - rect.left)) / rect.width;
-        }
+        if (getIsRTL())
+            fraction = (rect.right - clientX) / rect.width;
 
         // Snap to step
         const valueRange = range.max - range.min;
@@ -130,7 +128,7 @@ import datetime from '../../scripts/datetime';
                 if (range.getBubbleText) {
                     value = range.getBubbleText(value);
                 } else {
-                    value = datetime.toLocaleString(mapFractionToValue(range, value / 100));
+                    value = mapFractionToValue(range, value / 100).toLocaleString();
                 }
                 value = '<h1 class="sliderBubbleText">' + value + '</h1>';
             }
