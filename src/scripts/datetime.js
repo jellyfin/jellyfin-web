@@ -1,4 +1,4 @@
-import globalize, { getCurrentDateTimeLocale } from './globalize';
+import globalize from './globalize';
 
 /* eslint-disable indent */
 
@@ -84,7 +84,7 @@ import globalize, { getCurrentDateTimeLocale } from './globalize';
         hours = Math.floor(hours);
 
         if (hours) {
-            parts.push(toLocaleString(hours));
+            parts.push(hours.toLocaleString(globalize.getCurrentDateTimeLocale()));
         }
 
         ticks -= (hours * ticksPerHour);
@@ -95,9 +95,9 @@ import globalize, { getCurrentDateTimeLocale } from './globalize';
         ticks -= (minutes * ticksPerMinute);
 
         if (minutes < 10 && hours) {
-            minutes = toLocaleString(0) + toLocaleString(minutes);
+            minutes = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
         } else {
-            minutes = toLocaleString(minutes);
+            minutes = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
         }
         parts.push(minutes);
 
@@ -105,9 +105,9 @@ import globalize, { getCurrentDateTimeLocale } from './globalize';
         seconds = Math.floor(seconds);
 
         if (seconds < 10) {
-            seconds = toLocaleString(0) + toLocaleString(seconds);
+            seconds = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
         } else {
-            seconds = toLocaleString(seconds);
+            seconds = seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
         }
         parts.push(seconds);
 
