@@ -5,8 +5,7 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
-import { getCurrentDateTimeLocale, getIsRTL } from '../../scripts/globalize';
-import datetime from '../../scripts/datetime';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -33,7 +32,7 @@ import datetime from '../../scripts/datetime';
         const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
         let fraction = (clientX - rect.left) / rect.width;
-        if (getIsRTL())
+        if (globalize.getElementIsRTL(range))
             fraction = (rect.right - clientX) / rect.width;
 
         // Snap to step
@@ -115,7 +114,7 @@ import datetime from '../../scripts/datetime';
             const bubbleRect = bubble.getBoundingClientRect();
 
             let bubblePos = bubbleTrackRect.width * value / 100;
-            if (getIsRTL()) {
+            if (globalize.getElementIsRTL(range)) {
                 bubblePos = bubbleTrackRect.width - bubblePos;
             }
             bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);

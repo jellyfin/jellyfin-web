@@ -43,6 +43,16 @@ import { currentSettings as userSettings } from './settings/userSettings';
         return isRTL;
     }
 
+    export function getElementIsRTL(element) {
+        let elementIsRTL = false;
+        if (window.getComputedStyle) { // all browsers
+            elementIsRTL = window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
+        } else {
+            elementIsRTL = element.currentStyle.direction == 'rtl'; // IE5-8
+        }
+        return elementIsRTL;
+    }
+
     export function updateCurrentCulture() {
         let culture;
         try {
@@ -271,7 +281,8 @@ export default {
     getCurrentDateTimeLocale,
     register,
     updateCurrentCulture,
-    getIsRTL
+    getIsRTL,
+    getElementIsRTL
 };
 
 /* eslint-enable indent */

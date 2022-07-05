@@ -146,10 +146,6 @@
     display: -webkit-flex;
     align-items: center;
     -webkit-box-align: center;
-
-    [dir="rtl"] & {
-        flex-direction: row-reverse;
-    }
 }
 
 .volumeButtons {
