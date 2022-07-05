@@ -1577,25 +1577,26 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         nowPlayingPositionSlider.getChapterNamesAndFractions = function () {
             showOsd();
 
+            const markers = [];
+
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length) {
-                const chapterNames = [];
-                const chapterFractions = [];
                 const runtimeDuration = item.RunTimeTicks;
 
                 for (let i = 0, length = item.Chapters.length; i < length; i++) {
                     const currentChapter = item.Chapters[i];
 
                     const fraction = currentChapter.StartPositionTicks / runtimeDuration;
-                    chapterFractions.push(fraction);
-                    chapterNames.push(currentChapter.Name);
-                }
 
-                return [chapterNames, chapterFractions];
+                    markers.push({
+                        name: currentChapter.Name,
+                        progress: fraction
+                    });
+                }
             }
 
-            return [[], []];
+            return markers;
         };
 
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {

@@ -163,20 +163,19 @@ import '../emby-input/emby-input';
     }
 
     function updateChapterMarks(range, currentValue) {
-        if (range.chapterFractions && range.chapterFractions.length && range.chapterMarkElements && range.chapterMarkElements.length) {
+        if (range.chapterInfo && range.chapterInfo.length && range.chapterMarkElements && range.chapterMarkElements.length) {
             for (let i = 0, length = range.chapterMarkElements.length; i < length; i++) {
-                if (range.chapterFractions.length > i) {
-                    setChapterMark(range, mapFractionToValue(range, range.chapterFractions[i]), range.chapterMarkElements[i], currentValue);
+                if (range.chapterInfo.length > i) {
+                    setChapterMark(range, mapFractionToValue(range, range.chapterInfo[i].progress), range.chapterMarkElements[i], currentValue);
                 }
             }
         }
     }
 
     function addChapterMarks(range) {
-        range.chapterNames = [];
-        range.chapterFractions = [];
+        range.chapterInfo = [];
         if (range.getChapterNamesAndFractions) {
-            [range.chapterNames, range.chapterFractions] = range.getChapterNamesAndFractions();
+            range.chapterInfo = range.getChapterNamesAndFractions();
         }
 
         function htmlToInsert(chapterName) {
@@ -188,8 +187,8 @@ import '../emby-input/emby-input';
             return `<span class="material-icons sliderChapterMark ${classChapterName}" aria-hidden="true"></span>`;
         }
 
-        range.chapterNames.forEach(chapterName => {
-            range.chapterMarkContainerElement.insertAdjacentHTML('beforeend', htmlToInsert(chapterName || ''));
+        range.chapterInfo.forEach(chapter => {
+            range.chapterMarkContainerElement.insertAdjacentHTML('beforeend', htmlToInsert(chapter.name || ''));
         });
 
         range.chapterMarkElements = range.chapterMarkContainerElement.querySelectorAll('.sliderChapterMark');
