@@ -495,7 +495,7 @@
     "LabelFriendlyName": "Benutzerfreundlicher Name:",
     "LabelServerNameHelp": "Dieser Name wird benutzt, um den Server zu identifizieren, standardmäßig wird der Hostname des Servers verwendet.",
     "LabelGroupMoviesIntoCollections": "Gruppiere Filme in Sammlungen",
-    "LabelGroupMoviesIntoCollectionsHelp": "Wenn für Filme die Listenansicht ausgewählt ist, werden Sammlungen als Einträge mit gruppierten Filmen angezeigt.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Filme in einer Sammlung werden bei der Anzeige von Filmlisten als ein gruppiertes Element angezeigt.",
     "LabelEncoderPreset": "Kodierungsvoreinstellung:",
     "LabelHardwareAccelerationType": "Hardwarebeschleunigung:",
     "LabelHardwareAccelerationTypeHelp": "Hardwarebeschleunigung benötigt zusätzliche Konfiguration.",
