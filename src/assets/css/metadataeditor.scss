@@ -67,6 +67,14 @@
     }
 }
 
+[dir="rtl"] {
+    @media all and (min-width: 50em) {
+        .editPageInnerContent {
+            float: left;
+        }
+    }
+}
+
 @media all and (min-width: 112.5em) {
     .editPageSidebar {
         width: 25%;
