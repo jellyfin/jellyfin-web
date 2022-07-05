@@ -1574,13 +1574,14 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
         };
 
-        nowPlayingPositionSlider.getChapterNamesAndFractions = function () {
+        nowPlayingPositionSlider.getMarkerInfo = function () {
             showOsd();
 
             const markers = [];
 
             const item = currentItem;
 
+            // use markers based on chapters
             if (item && item.Chapters && item.Chapters.length) {
                 const runtimeDuration = item.RunTimeTicks;
 
@@ -1590,6 +1591,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                     const fraction = currentChapter.StartPositionTicks / runtimeDuration;
 
                     markers.push({
+                        className: 'chapterMarker',
                         name: currentChapter.Name,
                         progress: fraction
                     });

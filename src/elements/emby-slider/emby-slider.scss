@@ -246,27 +246,27 @@
     margin-bottom: 0.25em;
 }
 
-.sliderChapterMarkContainer {
+.sliderMarkerContainer {
     position: absolute;
     left: 0;
     right: 0;
     margin: 0 0.54em; /* half of slider thumb size */
 }
 
-.sliderChapterMark {
+.sliderMarker {
     position: absolute;
     transform: translate3d(0, -100%, 0) rotate(90deg);
 }
 
-.sliderChapterMark::before {
+.sliderMarker.chapterMarker::before {
     font-family: 'Material Icons', sans-serif;
     content: "\e892";
 }
 
-.sliderChapterMark.unwatched {
+.sliderMarker.unwatched {
     color: rgba(255, 255, 255, 0.3);
 }
 
-.sliderChapterMark.watched {
+.sliderMarker.watched {
     color: #00a4dc;
 }

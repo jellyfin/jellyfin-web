@@ -103,11 +103,11 @@ import '../emby-input/emby-input';
                 backgroundLower.style.width = fraction + '%';
             }
 
-            if (range.chapterMarkContainerElement) {
-                if (!range.triedChapterMarksAdd) {
-                    addChapterMarks(range);
+            if (range.markerContainerElement) {
+                if (!range.triedAddingMarkers) {
+                    addMarkers(range);
                 }
-                updateChapterMarks(range, value);
+                updateMarkers(range, value);
             }
         });
     }
@@ -137,62 +137,68 @@ import '../emby-input/emby-input';
         });
     }
 
-    function setChapterMark(range, valueChapterMark, chapterMark, valueProgress) {
+    function setMarker(range, valueMarker, marker, valueProgress) {
         requestAnimationFrame(function () {
             const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
-            const chapterMarkRect = chapterMark.getBoundingClientRect();
+            const markerRect = marker.getBoundingClientRect();
 
-            if (!bubbleTrackRect.width || !chapterMarkRect.width) {
+            if (!bubbleTrackRect.width || !markerRect.width) {
                 // width is not set, most probably because the OSD is currently hidden
                 return;
             }
 
-            let chapterMarkPos = (bubbleTrackRect.width * valueChapterMark / 100) - chapterMarkRect.width / 2;
-            chapterMarkPos = Math.min(Math.max(chapterMarkPos, - chapterMarkRect.width / 2), bubbleTrackRect.width - chapterMarkRect.width / 2);
+            let markerPos = (bubbleTrackRect.width * valueMarker / 100) - markerRect.width / 2;
+            markerPos = Math.min(Math.max(markerPos, - markerRect.width / 2), bubbleTrackRect.width - markerRect.width / 2);
 
-            chapterMark.style.left = chapterMarkPos + 'px';
+            marker.style.left = markerPos + 'px';
 
-            if (valueProgress >= valueChapterMark) {
-                chapterMark.classList.remove('unwatched');
-                chapterMark.classList.add('watched');
+            if (valueProgress >= valueMarker) {
+                marker.classList.remove('unwatched');
+                marker.classList.add('watched');
             } else {
-                chapterMark.classList.add('unwatched');
-                chapterMark.classList.remove('watched');
+                marker.classList.add('unwatched');
+                marker.classList.remove('watched');
             }
         });
     }
 
-    function updateChapterMarks(range, currentValue) {
-        if (range.chapterInfo && range.chapterInfo.length && range.chapterMarkElements && range.chapterMarkElements.length) {
-            for (let i = 0, length = range.chapterMarkElements.length; i < length; i++) {
-                if (range.chapterInfo.length > i) {
-                    setChapterMark(range, mapFractionToValue(range, range.chapterInfo[i].progress), range.chapterMarkElements[i], currentValue);
+    function updateMarkers(range, currentValue) {
+        if (range.markerInfo && range.markerInfo.length && range.markerElements && range.markerElements.length) {
+            for (let i = 0, length = range.markerElements.length; i < length; i++) {
+                if (range.markerInfo.length > i) {
+                    setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
                 }
             }
         }
     }
 
-    function addChapterMarks(range) {
-        range.chapterInfo = [];
-        if (range.getChapterNamesAndFractions) {
-            range.chapterInfo = range.getChapterNamesAndFractions();
+    function addMarkers(range) {
+        range.markerInfo = [];
+        if (range.getMarkerInfo) {
+            range.markerInfo = range.getMarkerInfo();
         }
 
-        function htmlToInsert(chapterName) {
-            let classChapterName = '';
-            if (typeof chapterName === 'string' && chapterName.length) {
-                // limit the class length in case the name contains half a novel
-                classChapterName = `scm-${chapterName.substring(0, 100).toLowerCase().replace(' ', '-')}`;
+        function htmlToInsert(markerInfo) {
+            let markerTypeSpecificClasses = '';
+
+            if (markerInfo.className === 'chapterMarker') {
+                markerTypeSpecificClasses = markerInfo.className;
+
+                if (typeof markerInfo.name === 'string' && markerInfo.name.length) {
+                    // limit the class length in case the name contains half a novel
+                    markerTypeSpecificClasses = `${markerInfo.className} marker-${markerInfo.name.substring(0, 100).toLowerCase().replace(' ', '-')}`;
+                }
             }
-            return `<span class="material-icons sliderChapterMark ${classChapterName}" aria-hidden="true"></span>`;
+
+            return `<span class="material-icons sliderMarker ${markerTypeSpecificClasses}" aria-hidden="true"></span>`;
         }
 
-        range.chapterInfo.forEach(chapter => {
-            range.chapterMarkContainerElement.insertAdjacentHTML('beforeend', htmlToInsert(chapter.name || ''));
+        range.markerInfo.forEach(info => {
+            range.markerContainerElement.insertAdjacentHTML('beforeend', htmlToInsert(info));
         });
 
-        range.chapterMarkElements = range.chapterMarkContainerElement.querySelectorAll('.sliderChapterMark');
-        range.triedChapterMarksAdd = true;
+        range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+        range.triedAddingMarkers = true;
     }
 
     EmbySliderPrototype.attachedCallback = function () {
@@ -254,10 +260,10 @@ import '../emby-input/emby-input';
 
         let hasHideClassBubble = sliderBubble.classList.contains('hide');
 
-        this.chapterMarkContainerElement = containerElement.querySelector('.sliderChapterMarkContainer');
-        let hasHideClassChapterMarkContainer = false;
-        if (this.chapterMarkContainerElement) {
-            hasHideClassChapterMarkContainer = this.chapterMarkContainerElement.classList.contains('hide');
+        this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
+        let hasHideClassMarkerContainer = false;
+        if (this.markerContainerElement) {
+            hasHideClassMarkerContainer = this.markerContainerElement.classList.contains('hide');
         }
 
         dom.addEventListener(this, 'input', function () {
@@ -275,9 +281,9 @@ import '../emby-input/emby-input';
                 hasHideClassBubble = false;
             }
 
-            if (hasHideClassChapterMarkContainer) {
-                this.chapterMarkContainerElement.classList.remove('hide');
-                hasHideClassChapterMarkContainer = false;
+            if (hasHideClassMarkerContainer) {
+                this.markerContainerElement.classList.remove('hide');
+                hasHideClassMarkerContainer = false;
             }
         }, {
             passive: true
@@ -293,8 +299,8 @@ import '../emby-input/emby-input';
             sliderBubble.classList.add('hide');
             hasHideClassBubble = true;
 
-            this.chapterMarkContainerElement.classList.add('hide');
-            hasHideClassChapterMarkContainer = true;
+            this.markerContainerElement.classList.add('hide');
+            hasHideClassMarkerContainer = true;
         }, {
             passive: true
         });
@@ -311,9 +317,9 @@ import '../emby-input/emby-input';
                     hasHideClassBubble = false;
                 }
 
-                if (hasHideClassChapterMarkContainer) {
-                    this.chapterMarkContainerElement.classList.remove('hide');
-                    hasHideClassChapterMarkContainer = false;
+                if (hasHideClassMarkerContainer) {
+                    this.markerContainerElement.classList.remove('hide');
+                    hasHideClassMarkerContainer = false;
                 }
             }
         }, {
@@ -325,8 +331,8 @@ import '../emby-input/emby-input';
             sliderBubble.classList.add('hide');
             hasHideClassBubble = true;
 
-            this.chapterMarkContainerElement.classList.add('hide');
-            hasHideClassChapterMarkContainer = true;
+            this.markerContainerElement.classList.add('hide');
+            hasHideClassMarkerContainer = true;
         }, {
             passive: true
         });
