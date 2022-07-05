@@ -1575,8 +1575,6 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         };
 
         nowPlayingPositionSlider.getMarkerInfo = function () {
-            showOsd();
-
             const markers = [];
 
             const item = currentItem;
