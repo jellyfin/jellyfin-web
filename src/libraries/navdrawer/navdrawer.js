@@ -7,7 +7,7 @@ import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './navdrawer.scss';
 import '../../assets/css/scrollstyles.scss';
-import { getIsRTL } from '../../scripts/globalize';
+import globalize from '../../scripts/globalize';
 
 function getTouches(e) {
     return e.changedTouches || e.targetTouches || e.touches;
@@ -75,7 +75,7 @@ class NavDrawer {
         const endX = touch.clientX || 0;
         const endY = touch.clientY || 0;
         let deltaX = endX - (this.menuTouchStartX || 0);
-        if (getIsRTL()) {
+        if (globalize.getIsRTL()) {
             deltaX *= -1;
         }
         const deltaY = endY - (this.menuTouchStartY || 0);
@@ -111,7 +111,7 @@ class NavDrawer {
         const endX = touch.clientX || 0;
         const endY = touch.clientY || 0;
         let deltaX = endX - (this.menuTouchStartX || 0);
-        if (getIsRTL()) {
+        if (globalize.getIsRTL()) {
             deltaX *= -1;
         }
         const deltaY = endY - (this.menuTouchStartY || 0);
@@ -169,7 +169,7 @@ class NavDrawer {
         if (endX <= options.width && this.isVisible) {
             this.countStart++;
             let deltaX = endX - (this.backgroundTouchStartX || 0);
-            if (getIsRTL()) {
+            if (globalize.getIsRTL()) {
                 deltaX *= -1;
             }
 
@@ -194,7 +194,7 @@ class NavDrawer {
         const touch = touches[0] || {};
         const endX = touch.clientX || 0;
         let deltaX = endX - (this.backgroundTouchStartX || 0);
-        if (getIsRTL()) {
+        if (globalize.getIsRTL()) {
             deltaX *= -1;
         }
         this.checkMenuState(deltaX);
@@ -218,7 +218,7 @@ class NavDrawer {
     animateToPosition(pos) {
         const options = this.options;
         requestAnimationFrame(function () {
-            options.target.style.transform = pos ? 'translateX(' + (getIsRTL() ? -pos : pos) + 'px)' : 'none';
+            options.target.style.transform = pos ? 'translateX(' + (globalize.getIsRTL() ? -pos : pos) + 'px)' : 'none';
         });
     }
 

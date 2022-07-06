@@ -1,7 +1,7 @@
 import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';
-import globalize, { getIsRTL } from '../../scripts/globalize';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -43,7 +43,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         // TODO: Check if hack is really needed
         // hack alert add twenty for rounding errors
         let localeAwarePos = scrollPos;
-        if (getIsRTL()) {
+        if (globalize.getElementIsRTL(scrollButtons)) {
             localeAwarePos *= -1;
         }
 

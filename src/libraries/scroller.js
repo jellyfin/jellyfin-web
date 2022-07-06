@@ -9,7 +9,7 @@ import dom from '../scripts/dom';
 import focusManager from '../components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
 import '../assets/css/scrollstyles.scss';
-import { getIsRTL } from '../scripts/globalize';
+import globalize from '../scripts/globalize';
 
 /**
 * Return type of the value.
@@ -269,7 +269,7 @@ const scrollerFactory = function (frame, options) {
             newPos = within(newPos, pos.start, pos.end);
         }
 
-        if (getIsRTL())
+        if (globalize.getIsRTL())
             newPos *= -1;
 
         if (!transform) {
