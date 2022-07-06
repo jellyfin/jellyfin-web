@@ -140,6 +140,13 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
             newPos = scrollPos + scrollSize;
         }
 
+        if (globalize.getIsRTL() && direction === 'left') {
+            newPos = scrollPos + scrollSize;
+        } else if (globalize.getIsRTL()) {
+            newPos = Math.min(0, scrollPos - scrollSize);
+        }
+        console.log(newPos);
+
         scroller.scrollToPosition(newPos, false);
     }
 

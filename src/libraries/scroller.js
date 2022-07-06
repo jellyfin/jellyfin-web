@@ -53,7 +53,9 @@ function disableOneEvent(event) {
  *
  * @return {Number}
  */
-function within(number, min, max) {
+function within(number, num1, num2) {
+    const min = Math.min(num1, num2);
+    const max = Math.max(num1, num2);
     if (number < min) {
         return min;
     } else if (number > max) {
@@ -174,6 +176,8 @@ const scrollerFactory = function (frame, options) {
 
             // Set position limits & relativess
             self._pos.end = Math.max(slideeSize - frameSize, 0);
+            if (globalize.getIsRTL())
+                self._pos.end *= -1;
         }
     }
 
@@ -269,9 +273,6 @@ const scrollerFactory = function (frame, options) {
             newPos = within(newPos, pos.start, pos.end);
         }
 
-        if (globalize.getIsRTL())
-            newPos *= -1;
-
         if (!transform) {
             nativeScrollTo(nativeScrollElement, newPos, immediate);
             return;
@@ -360,7 +361,12 @@ const scrollerFactory = function (frame, options) {
         const slideeOffset = getBoundingClientRect(scrollElement);
         const itemOffset = getBoundingClientRect(item);
 
-        let offset = o.horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
+        let horizontalOffset = itemOffset.left - slideeOffset.left;
+        if (globalize.getIsRTL()) {
+            horizontalOffset = itemOffset.right - slideeOffset.right;
+        }
+
+        let offset = o.horizontal ? horizontalOffset : itemOffset.top - slideeOffset.top;
 
         let size = o.horizontal ? itemOffset.width : itemOffset.height;
         if (!size && size !== 0) {
@@ -384,12 +390,17 @@ const scrollerFactory = function (frame, options) {
         const currentEnd = currentStart + frameSize;
 
         console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
-        const isVisible = offset >= currentStart && (offset + size) <= currentEnd;
+        const isVisible = offset >= Math.min(currentStart, currentEnd)
+         && (offset + size) <= Math.max(currentStart, currentEnd);
+
+        let end = offset - frameSize + size;
+        if (globalize.getIsRTL())
+            end *= -1;
 
         return {
             start: offset,
             center: offset + centerOffset - (frameSize / 2) + (size / 2),
-            end: offset - frameSize + size,
+            end,
             size: size,
             isVisible: isVisible
         };
