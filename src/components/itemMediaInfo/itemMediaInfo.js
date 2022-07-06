@@ -212,6 +212,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
         return html;
     }
 
+    // File Paths should be always ltr. The isLtr parameter allows this.
     function createAttribute(label, value, isLtr) {
         return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute" ${isLtr && 'dir="ltr"'}>${escapeHtml(value)}</span>\n`;
     }
