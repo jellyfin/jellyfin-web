@@ -66,7 +66,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             html += `${createAttribute(globalize.translate('MediaInfoFormat'), version.Formats.join(','))}<br/>`;
         }
         if (version.Path && user && user.Policy.IsAdministrator) {
-            html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path)}<br/>`;
+            html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path, true)}<br/>`;
         }
         if (version.Size) {
             const size = `${(version.Size / (1024 * 1024)).toFixed(0)} MB`;
@@ -212,8 +212,8 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
         return html;
     }
 
-    function createAttribute(label, value) {
-        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute">${escapeHtml(value)}</span>\n`;
+    function createAttribute(label, value, isLtr) {
+        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute" ${isLtr && 'dir="ltr"'}>${escapeHtml(value)}</span>\n`;
     }
 
     function loadMediaInfo(itemId, serverId) {
