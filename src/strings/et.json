@@ -1586,7 +1586,13 @@
     "LabelAutomaticallyAddToCollection": "Lisa automaatselt kogumikku",
     "H264CrfHelp": "'Constant Rate Factor' (CRF) on x264 ja x265 kodeerija vaikekvaliteediseade. Võimalikud on väärtused vahemikus 0 kuni 51, kus madalamad väärtused tooksid kaasa parema kvaliteedi (suurema failimahu arvelt). Mõistlikud väärtused on vahemikus 18 kuni 28. Vaikeväärtus x264 jaoks on 23 ja x265 jaoks 28, nii et seda saab kasutada lähtepunktina.",
     "Cursive": "Kursiiv",
-    "ButtonCast": "Esita meediumiüksused seadmes",
+    "ButtonCast": "Esita seadmes",
     "ButtonExitApp": "Lahku rakendusest",
-    "Arranger": "Korraldaja"
+    "Arranger": "Korraldaja",
+    "CopyFailed": "Kopeerimine ei õnnestunud",
+    "Copy": "Kopeeri",
+    "Copied": "Kopeeritud",
+    "ButtonSpace": "Tühik",
+    "ButtonClose": "Sulge",
+    "AddToFavorites": "Lisa lemmikutesse"
 }
