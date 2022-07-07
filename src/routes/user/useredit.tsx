@@ -16,22 +16,20 @@ import escapeHTML from 'escape-html';
 import SelectElement from '../../elements/SelectElement';
 import Page from '../../components/Page';
 
-type ItemsArr = {
-    Name?: string;
-    Id?: string;
+type ResetProvider = AuthProvider & {
     checkedAttribute: string
 }
 
-type ProvidersArr = {
+type AuthProvider = {
     Name?: string;
     Id?: string;
 }
 
 const UserEdit: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ItemsArr[]>([]);
-    const [ authProviders, setAuthProviders ] = useState<ProvidersArr[]>([]);
-    const [ passwordResetProviders, setPasswordResetProviders ] = useState<ItemsArr[]>([]);
+    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
+    const [ authProviders, setAuthProviders ] = useState<AuthProvider[]>([]);
+    const [ passwordResetProviders, setPasswordResetProviders ] = useState<ResetProvider[]>([]);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
@@ -96,7 +94,7 @@ const UserEdit: FunctionComponent = () => {
         })).then(function (channelsResult) {
             let isChecked;
             let checkedAttribute;
-            const itemsArr: ItemsArr[] = [];
+            const itemsArr: ResetProvider[] = [];
 
             for (const folder of mediaFolders) {
                 isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
