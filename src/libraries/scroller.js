@@ -54,8 +54,12 @@ function disableOneEvent(event) {
  * @return {Number}
  */
 function within(number, num1, num2) {
+    if (num2 === undefined) {
+        return number < num1 ? num1 : number;
+    }
     const min = Math.min(num1, num2);
     const max = Math.max(num1, num2);
+    console.log(min, max);
     if (number < min) {
         return min;
     } else if (number > max) {
@@ -264,6 +268,7 @@ const scrollerFactory = function (frame, options) {
          * @return {Void}
          */
     self.slideTo = function (newPos, immediate, fullItemPos) {
+        console.trace();
         ensureSizeInfo();
         const pos = self._pos;
 
@@ -864,6 +869,7 @@ scrollerFactory.prototype.to = function (location, item, immediate) {
         this.slideTo(this._pos[location], immediate);
     } else {
         const itemPos = this.getPos(item);
+        console.log(itemPos);
 
         if (itemPos) {
             this.slideTo(itemPos[location], immediate, itemPos);
