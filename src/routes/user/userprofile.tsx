@@ -183,7 +183,7 @@ const UserProfile: FunctionComponent = () => {
                         <ButtonElement
                             type='button'
                             id='btnDeleteImage'
-                            className='raised button-delete hide'
+                            className='raised hide'
                             title='DeleteImage'
                         />
                     </div>
