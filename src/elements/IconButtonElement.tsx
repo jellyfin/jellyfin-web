@@ -3,7 +3,6 @@ import globalize from '../scripts/globalize';
 
 type IProps = {
     is?: string;
-    type?: string;
     id?: string;
     title?: string;
     className?: string;
@@ -13,10 +12,10 @@ type IProps = {
     dataProfileid?: string | number;
 }
 
-const createIconButtonElement = ({ is, type, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => ({
+const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => ({
     __html: `<button
         is="${is}"
-        type="${type}"
+        type="button"
         ${id}
         class="${className}"
         ${title}
@@ -28,12 +27,11 @@ const createIconButtonElement = ({ is, type, id, className, title, icon, dataInd
     </button>`
 });
 
-const IconButtonElement: FunctionComponent<IProps> = ({ is, type, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => {
+const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createIconButtonElement({
                 is: is,
-                type: type,
                 id: id ? `id="${id}"` : '',
                 className: className,
                 title: title ? `title="${globalize.translate(title)}"` : '',

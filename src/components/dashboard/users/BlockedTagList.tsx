@@ -16,7 +16,6 @@ const BlockedTagList: FunctionComponent<IProps> = ({tag}: IProps) => {
                 </div>
                 <IconButtonElement
                     is='paper-icon-button-light'
-                    type='button'
                     className='blockedTag btnDeleteTag listItemButton'
                     title='Delete'
                     icon='delete'

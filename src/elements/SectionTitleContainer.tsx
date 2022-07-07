@@ -22,7 +22,6 @@ const SectionTitleContainer: FunctionComponent<IProps> = ({SectionClassName, tit
 
             {isBtnVisible && <IconButtonElement
                 is='emby-button'
-                type='button'
                 id={btnId}
                 className={btnClassName}
                 title={btnTitle}

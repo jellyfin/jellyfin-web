@@ -40,7 +40,6 @@ const AccessScheduleList: FunctionComponent<IProps> = ({index, DayOfWeek, StartH
             </div>
             <IconButtonElement
                 is='paper-icon-button-light'
-                type='button'
                 className='btnDelete listItemButton'
                 title='Delete'
                 icon='delete'

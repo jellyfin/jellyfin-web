@@ -78,7 +78,6 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                     >
                         <IconButtonElement
                             is='paper-icon-button-light'
-                            type='button'
                             className='btnUserMenu flex-shrink-zero'
                             icon='more_vert'
                         />
