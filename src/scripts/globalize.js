@@ -45,6 +45,7 @@ import { currentSettings as userSettings } from './settings/userSettings';
     }
 
     function checkAndProcessDir(culture) {
+        isRTL = false;
         for (const lang of RTL_LANGS) {
             if (culture.includes(lang)) {
                 isRTL = true;
@@ -60,11 +61,13 @@ import { currentSettings as userSettings } from './settings/userSettings';
 
     function processIsRTL() {
         document.getElementsByTagName('body')[0].setAttribute('dir', 'rtl');
+        document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
         import('../styles/rtl.scss');
     }
 
     function processIsLTR() {
         document.getElementsByTagName('body')[0].setAttribute('dir', 'ltr');
+        document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
 
     export function getElementIsRTL(element) {

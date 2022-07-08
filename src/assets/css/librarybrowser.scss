@@ -308,6 +308,11 @@
         box-shadow: none !important;
         width: 20.205em !important;
         font-size: 94%;
+
+        [dir="rtl"] & {
+            left: unset !important;
+            right: 0 !important;
+        }
     }
 
     .dashboardDocument .mainDrawer-scrollContainer {
@@ -316,6 +321,11 @@
 
     .dashboardDocument .skinBody {
         left: 20em;
+
+        [dir="rtl"] & {
+            left: 0 !important;
+            right: 20em !important;
+        }
     }
 }
 
@@ -672,6 +682,15 @@
         margin-bottom: 0;
         padding-left: 0;
     }
+
+    [dir="rtl"] & {
+        padding-left: unset !important;
+        @include header-poster-padding-rtl;
+
+        @media all and (max-width: 32em) {
+            padding-right: 0 !important;
+        }
+    }
 }
 
 .subtitle {
@@ -696,24 +715,24 @@
     .layout-mobile & {
         display: block;
         position: relative;
-        padding: 0.5rem 5%;
+        padding: 0.5rem 5% !important;
     }
 
     .layout-desktop & {
         position: relative;
-        padding-left: 32.45vw;
+        padding-left: 32.45vw !important;
     }
 
     .layout-tv & {
         display: block;
-        padding-left: 32.45vw;
+        padding-left: 32.45vw !important;
     }
 
     [dir="rtl"] & {
         .layout-desktop &,
         .layout-tv & {
-            padding-right: 32.45vw;
-            padding-left: unset;
+            padding-right: 32.45vw !important;
+            padding-left: unset !important;
         }
     }
 }
@@ -1228,21 +1247,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .padded-left {
-    padding-left: 3.3%;
-
-    [dir="rtl"] & {
-        padding-left: unset;
-        padding-right: 3.3%;
-    }
+    padding-inline-start: 3.3%;
 }
 
 .padded-right {
-    padding-right: 3.3%;
-
-    [dir="rtl"] & {
-        padding-right: unset;
-        padding-left: 3.3%;
-    }
+    padding-inline-end: 3.3%;
 }
 
 .padded-top {

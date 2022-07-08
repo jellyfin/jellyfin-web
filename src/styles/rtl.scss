@@ -18,25 +18,3 @@
         transform: scale(-1, 1);
     }
 }
-
-@media all and (min-width: 40em) {
-    .dashboardDocument .mainDrawer {
-        left: unset !important;
-        right: 0 !important;
-    }
-
-    .dashboardDocument .skinBody {
-        left: 0 !important;
-        right: 20em !important;
-    }
-}
-
-.layout-mobile .mainDetailButtons {
-    padding-left: unset !important;
-    @include header-poster-padding-rtl;
-
-    @media all and (max-width: 32em) {
-        padding-left: unset !important;
-        padding-right: 0 Im !important;
-    }
-}
