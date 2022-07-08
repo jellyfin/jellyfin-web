@@ -217,8 +217,9 @@ class NavDrawer {
 
     animateToPosition(pos) {
         const options = this.options;
+        const languageAwarePos = globalize.getIsRTL() ? -pos : pos;
         requestAnimationFrame(function () {
-            options.target.style.transform = pos ? 'translateX(' + (globalize.getIsRTL() ? -pos : pos) + 'px)' : 'none';
+            options.target.style.transform = pos ? 'translateX(' + languageAwarePos + 'px)' : 'none';
         });
     }
 
