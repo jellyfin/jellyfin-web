@@ -1049,7 +1049,7 @@
     "LabelSelectFolderGroupsHelp": "Папки, для яких не встановлено прапорець, відображатимуться самі по собі у власному поданні.",
     "LabelSeasonNumber": "Номер сезону:",
     "LabelScreensaver": "Заставка:",
-    "LabelScheduledTaskLastRan": "Останній запуск {0}, беручи {1}.",
+    "LabelScheduledTaskLastRan": "Останній раз запускалося: {0}, час виконання: {1}.",
     "LabelSaveLocalMetadata": "Збережіть ілюстрацію в медіа-папках",
     "LabelRuntimeMinutes": "Час виконання:",
     "LabelRequireHttps": "Вимагати HTTPS",
