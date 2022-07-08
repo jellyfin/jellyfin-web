@@ -68,13 +68,10 @@ import { currentSettings as userSettings } from './settings/userSettings';
     }
 
     export function getElementIsRTL(element) {
-        let elementIsRTL = false;
         if (window.getComputedStyle) { // all browsers
-            elementIsRTL = window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
-        } else {
-            elementIsRTL = element.currentStyle.direction == 'rtl'; // IE5-8
+            return window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
         }
-        return elementIsRTL;
+        return element.currentStyle.direction == 'rtl';
     }
 
     export function updateCurrentCulture() {
