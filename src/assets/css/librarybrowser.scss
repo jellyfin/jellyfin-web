@@ -1228,11 +1228,21 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .padded-left {
-    padding-inline-start: 3.3%;
+    padding-left: 3.3%;
+
+    [dir="rtl"] & {
+        padding-left: unset;
+        padding-right: 3.3%;
+    }
 }
 
 .padded-right {
-    padding-inline-end: 3.3%;
+    padding-right: 3.3%;
+
+    [dir="rtl"] & {
+        padding-right: unset;
+        padding-left: 3.3%;
+    }
 }
 
 .padded-top {
