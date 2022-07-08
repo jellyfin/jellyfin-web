@@ -6,6 +6,7 @@ import { currentSettings as userSettings } from './settings/userSettings';
 /* eslint-disable indent */
 
     const fallbackCulture = 'en-us';
+    const RTL_LANGS = ['ar', 'fa', 'ur', 'he'];
 
     const allTranslations = {};
     let currentCulture;
@@ -43,6 +44,29 @@ import { currentSettings as userSettings } from './settings/userSettings';
         return isRTL;
     }
 
+    function checkAndProcessDir(culture) {
+        for (const lang of RTL_LANGS) {
+            if (culture.includes(lang)) {
+                isRTL = true;
+                break;
+            }
+        }
+
+        if (isRTL)
+            processIsRTL();
+        else
+            processIsLTR();
+    }
+
+    function processIsRTL() {
+        document.getElementsByTagName('body')[0].setAttribute('dir', 'rtl');
+        import('../styles/rtl.scss');
+    }
+
+    function processIsLTR() {
+        document.getElementsByTagName('body')[0].setAttribute('dir', 'ltr');
+    }
+
     export function getElementIsRTL(element) {
         let elementIsRTL = false;
         if (window.getComputedStyle) { // all browsers
@@ -61,14 +85,7 @@ import { currentSettings as userSettings } from './settings/userSettings';
             console.error('no language set in user settings');
         }
         culture = culture || getDefaultLanguage();
-        isRTL = culture === 'ar' || culture === 'fa' || culture === 'ur_PK' || culture === 'he';
-
-        if (isRTL) {
-            document.getElementsByTagName('body')[0].setAttribute('dir', 'rtl');
-            import('../styles/rtl.scss');
-        } else {
-            document.getElementsByTagName('body')[0].setAttribute('dir', 'ltr');
-        }
+        checkAndProcessDir(culture);
 
         currentCulture = normalizeLocaleName(culture);
 
