@@ -54,7 +54,9 @@ function disableOneEvent(event) {
  * @return {Number}
  */
 function within(number, num1, num2) {
-    if (num2 === undefined) {
+    if (num2 === undefined && globalize.getIsRTL()) {
+        return number > num1 ? num1 : number;
+    } else if (num2 === undefined) {
         return number < num1 ? num1 : number;
     }
     const min = Math.min(num1, num2);
@@ -268,12 +270,11 @@ const scrollerFactory = function (frame, options) {
          * @return {Void}
          */
     self.slideTo = function (newPos, immediate, fullItemPos) {
-        console.trace();
         ensureSizeInfo();
         const pos = self._pos;
 
         if (layoutManager.tv) {
-            newPos = within(newPos, pos.start);
+            newPos = within(-newPos, pos.start);
         } else {
             newPos = within(newPos, pos.start, pos.end);
         }
@@ -368,7 +369,7 @@ const scrollerFactory = function (frame, options) {
 
         let horizontalOffset = itemOffset.left - slideeOffset.left;
         if (globalize.getIsRTL()) {
-            horizontalOffset = itemOffset.right - slideeOffset.right;
+            horizontalOffset = slideeOffset.right - itemOffset.right;
         }
 
         let offset = o.horizontal ? horizontalOffset : itemOffset.top - slideeOffset.top;
@@ -392,22 +393,21 @@ const scrollerFactory = function (frame, options) {
         ensureSizeInfo();
 
         const currentStart = self._pos.cur;
-        const currentEnd = currentStart + frameSize;
+        let currentEnd = currentStart + frameSize;
+        if (globalize.getIsRTL()) {
+            currentEnd = currentStart - frameSize;
+        }
 
         console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
         const isVisible = offset >= Math.min(currentStart, currentEnd)
-         && (offset + size) <= Math.max(currentStart, currentEnd);
-
-        let end = offset - frameSize + size;
-        if (globalize.getIsRTL())
-            end *= -1;
+         && (globalize.getIsRTL() ? (offset - size) : (offset + size)) <= Math.max(currentStart, currentEnd);
 
         return {
             start: offset,
             center: offset + centerOffset - (frameSize / 2) + (size / 2),
-            end,
-            size: size,
-            isVisible: isVisible
+            end: offset - frameSize + size,
+            size,
+            isVisible
         };
     };
 
@@ -869,7 +869,6 @@ scrollerFactory.prototype.to = function (location, item, immediate) {
         this.slideTo(this._pos[location], immediate);
     } else {
         const itemPos = this.getPos(item);
-        console.log(itemPos);
 
         if (itemPos) {
             this.slideTo(itemPos[location], immediate, itemPos);
