@@ -685,6 +685,7 @@
 
     [dir="rtl"] & {
         padding-left: unset !important;
+
         @include header-poster-padding-rtl;
 
         @media all and (max-width: 32em) {
