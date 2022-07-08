@@ -364,7 +364,7 @@ button::-moz-focus-inner {
 
 .cardTextCentered,
 .cardTextCentered > .textActionButton {
-    text-align: center;
+    text-align: center !important;
 }
 
 .cardText-rightmargin {
