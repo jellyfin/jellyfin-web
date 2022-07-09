@@ -272,8 +272,10 @@ const scrollerFactory = function (frame, options) {
         ensureSizeInfo();
         const pos = self._pos;
 
-        if (layoutManager.tv) {
+        if (layoutManager.tv && globalize.getIsRTL()) {
             newPos = within(-newPos, pos.start);
+        } else if (layoutManager.tv) {
+            newPos = within(newPos, pos.start);
         } else {
             newPos = within(newPos, pos.start, pos.end);
         }
