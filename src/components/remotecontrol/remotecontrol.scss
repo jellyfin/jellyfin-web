@@ -51,6 +51,10 @@
 
 .nowPlayingButtonsContainer {
     display: flex;
+
+    [dir="rtl"] & {
+        flex-direction: row-reverse;
+    }
 }
 
 .infoContainer,
@@ -94,7 +98,7 @@
 
 .nowPlayingPageImageContainer {
     width: 16%;
-    margin-right: 1em;
+    margin-inline-end: 1em;
     position: relative;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
@@ -265,7 +269,7 @@
 
 @media all and (min-width: 80em) {
     .nowPlayingPageImageContainer {
-        margin-right: 0.75em;
+        margin-inline-end: 0.75em;
     }
 }
 
@@ -362,23 +366,23 @@
 
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle button {
         padding-top: 0;
-        padding-right: 0;
-        margin-right: 0;
-        float: right;
+        padding-inline-end: 0;
+        margin-inline-end: 0;
+        float: inline-end;
         border-radius: 0;
     }
 
     .nowPlayingInfoButtons .btnRepeat,
     .nowPlayingInfoButtons .btnRewind {
-        margin-left: 0;
-        margin-right: auto;
+        margin-inline-start: 0;
+        margin-inline-end: auto;
         font-size: smaller;
     }
 
     .nowPlayingInfoButtons .btnShuffleQueue,
     .nowPlayingInfoButtons .btnFastForward {
-        margin-left: auto;
-        margin-right: 0;
+        margin-inline-start: auto;
+        margin-inline-end: 0;
         font-size: smaller;
     }
 
@@ -410,7 +414,7 @@
 
     .nowPlayingButtonsContainer {
         display: flex;
-        flex-direction: column;
+        flex-direction: column !important;
     }
 }
 

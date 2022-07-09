@@ -47,7 +47,7 @@ import { appRouter } from '../appRouter';
         html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
         html += '<div class="nowPlayingBarTop">';
-        html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
+        html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
         html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
         html += '</div>';
 
@@ -57,7 +57,7 @@ import { appRouter } from '../appRouter';
         html += '</div>';
 
         // The onclicks are needed due to the return false above
-        html += '<div class="nowPlayingBarCenter">';
+        html += '<div class="nowPlayingBarCenter" dir="ltr">';
 
         html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous" aria-hidden="true"></span></button>';
 

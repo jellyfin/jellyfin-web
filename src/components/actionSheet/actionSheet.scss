@@ -100,7 +100,8 @@
 }
 
 .actionsheetMenuItemIcon {
-    margin: 0 0.85em 0 0.45em !important;
+    margin-block: 0 !important;
+    margin-inline: 0.45em 0.85em !important;
     padding: 0 !important;
 }
 
@@ -111,5 +112,5 @@
 .btnCloseActionSheet {
     position: fixed;
     top: 0.75em;
-    left: 0.5em;
+    inset-inline-start: 0.5em;
 }

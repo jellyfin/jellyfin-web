@@ -54,11 +54,10 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     vertical-align: middle;
-    text-align: left;
+    text-align: start;
     flex-grow: 1;
     font-size: 92%;
-    margin-right: 1em;
-    margin-left: 0.5em;
+    margin-inline: 0.5em 1em;
 }
 
 .nowPlayingBarCenter {
@@ -92,7 +91,8 @@
 
 .nowPlayingBarRight {
     position: relative;
-    margin: 0 0.5em 0 auto;
+    margin-block: 0;
+    margin-inline: auto 0.5em;
 
     /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
     z-index: 2;
@@ -110,7 +110,7 @@
 }
 
 .nowPlayingBarVolumeSliderContainer {
-    margin-right: 2em;
+    margin-inline-end: 2em;
 }
 
 .nowPlayingBarUserDataButtons {
