@@ -183,6 +183,9 @@ import Dashboard from '../../utils/dashboard';
                     }, {
                         name: globalize.translate('Runtime'),
                         id: 'Runtime,AlbumArtist,Album,SortName'
+                    }, {
+                        name: globalize.translate('OptionRandom'),
+                        id: 'Random,SortName'
                     }],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;
