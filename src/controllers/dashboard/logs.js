@@ -9,7 +9,8 @@ import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
-    function onSubmit() {
+    function onSubmit(event) {
+        event.preventDefault();
         loading.show();
         const form = this;
         ApiClient.getServerConfiguration().then(function (config) {
