@@ -1654,5 +1654,11 @@
     "HomeVideosPhotos": "Üi beinelerı men fotolar",
     "Bold": "Qalyñ",
     "LabelTextWeight": "Qarıp salmağy:",
-    "EnableSplashScreen": "Sälemdesu ekranyn qosu"
+    "EnableSplashScreen": "Sälemdesu ekranyn qosu",
+    "ScreenResolution": "Ekran ajyratymdylyy",
+    "RememberSubtitleSelectionsHelp": "Subtitr jolşyğyn soñğy beinege eñ jaqyn säikestıkke ornatuğa tyrysu.",
+    "RememberSubtitleSelections": "Subtitr jolşyğyn aldyñğy tarmaq negızınde ornatu",
+    "RememberAudioSelectionsHelp": "Dybys jolşyğyn soñğy beinege eñ jaqyn säikestıkke ornatuğa tyrysu.",
+    "RememberAudioSelections": "Dybys jolşyğyn aldyñğy tarmaq negızınde ornatu",
+    "LabelMaxVideoResolution": "Beinenı qaıta kodtau rūqsat etılgen eñ joğary ajyratymdylığy"
 }
