@@ -31,7 +31,8 @@
 .playerStats-stats {
     display: flex;
     flex-direction: column;
-    padding: 0 3em 1em 1em;
+    padding-block: 0 1em;
+    padding-inline: 1em 3em;
     max-width: 50em;
     overflow: hidden;
 }
