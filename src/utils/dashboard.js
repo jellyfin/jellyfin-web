@@ -57,10 +57,12 @@ export async function serverAddress() {
                 }
 
                 return {
-                    url: url,
+                    url,
                     config: await resp.json()
                 };
-            }).catch(() => { /* swallow errors */ });
+            }).catch(error => {
+                console.error(error);
+            });
     });
 
     return Promise.all(promises).then(responses => {
@@ -69,7 +71,7 @@ export async function serverAddress() {
         const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
         return selection?.url;
     }).catch(error => {
-        console.log(error);
+        console.error(error);
     });
 }
 
