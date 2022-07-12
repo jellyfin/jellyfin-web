@@ -50,30 +50,28 @@ export async function serverAddress() {
     console.debug('URL candidates:', urls);
 
     const promises = urls.map(url => {
-        return fetch(`${url}/System/Info/Public`).then(resp => {
-            return {
-                url: url,
-                response: resp
-            };
-        }).catch(() => {
-            return Promise.resolve();
-        });
+        return fetch(`${url}/System/Info/Public`)
+            .then(async resp => {
+                if (!resp.ok) {
+                    return;
+                }
+
+                return {
+                    url,
+                    config: await resp.json()
+                };
+            }).catch(error => {
+                console.error(error);
+            });
     });
 
     return Promise.all(promises).then(responses => {
-        responses = responses.filter(obj => obj && obj.response.ok);
-        return Promise.all(responses.map(obj => {
-            return {
-                url: obj.url,
-                config: obj.response.json()
-            };
-        }));
+        return responses.filter(obj => obj?.config);
     }).then(configs => {
         const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
-        return Promise.resolve(selection?.url);
+        return selection?.url;
     }).catch(error => {
-        console.log(error);
-        return Promise.resolve();
+        console.error(error);
     });
 }
 
