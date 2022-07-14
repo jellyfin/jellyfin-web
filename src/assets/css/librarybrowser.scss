@@ -732,9 +732,9 @@
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,
 .layout-mobile .mainDetailButtons {
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .layout-mobile .mainDetailButtons {
@@ -798,16 +798,14 @@
         display: block;
     }
 
-    [dir="ltr"] & {
-        .layout-desktop &,
-        .layout-tv & {
+    .layout-desktop &,
+    .layout-tv & {
+        [dir="ltr"] & {
             padding-left: 32.45vw;
-        }
-    }
 
-    [dir="rtl"] & {
-        .layout-desktop &,
-        .layout-tv & {
+        }
+
+        [dir="rtl"] & {
             padding-right: 32.45vw;
         }
     }
@@ -829,16 +827,16 @@
     flex: 1 0 0;
 
     .layout-mobile & {
-        @include header-poster-padding;
+        [dir="ltr"] {
+            @include header-poster-padding;
+        }
+
+        [dir="rtl"] & {
+            @include header-poster-padding-rtl;
+        }
 
         @media all and (max-width: 32em) {
             position: relative;
-        }
-    }
-
-    [dir="rtl"] & {
-        .layout-mobile & {
-            @include header-poster-padding-rtl;
         }
     }
 }

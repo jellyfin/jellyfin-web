@@ -83,8 +83,15 @@
 }
 
 .listViewDragHandle {
-    margin-inline-start: -0.25em !important;
     touch-action: none;
+
+    [dir="ltr"] & {
+        margin-left: -0.25em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: -0.25em !important;
+    }
 }
 
 .listItemBody {

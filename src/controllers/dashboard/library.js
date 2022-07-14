@@ -310,7 +310,10 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
 
         if (virtualFolder.showMenu !== false) {
-            html += '<div style="text-align:end; float:inline-end;padding-top:5px;">';
+            let dirTextAlign = 'right';
+            if (globalize.getIsRTL())
+                dirTextAlign = 'left';
+            html += '<div style="text-align:' + dirTextAlign + '; float:' + dirTextAlign + ';padding-top:5px;">';
             html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
             html += '</div>';
         }

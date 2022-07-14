@@ -59,7 +59,6 @@
 }
 
 .mediaInfoCriticRating {
-    background-position: left center;
     background-repeat: no-repeat;
     background-size: auto 1.2em;
     min-height: 1.2em;
@@ -68,6 +67,7 @@
 
     [dir="ltr"] & {
         padding-left: 1.5em;
+        background-position: left center;
     }
 
     [dir="rtl"] & {

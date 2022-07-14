@@ -110,7 +110,7 @@ import template from './mediaLibraryEditor.template.html';
 
     function getFolderHtml(pathInfo, index) {
         let html = '';
-        html += `<div class="listItem listItem-border lnkPath" data-index="${index}" style="padding-inline-start:.5em;">`;
+        html += `<div class="listItem listItem-border lnkPath" data-index="${index}">`;
         html += `<div class="${pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody'}">`;
         html += '<h3 class="listItemBodyText">';
         html += escapeHtml(pathInfo.Path);
