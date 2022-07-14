@@ -18,6 +18,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../elements/emby-toggle/emby-toggle';
 import '../../assets/css/flexstyles.scss';
+import './style.scss';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './mediaLibraryEditor.template.html';

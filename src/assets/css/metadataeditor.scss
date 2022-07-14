@@ -7,7 +7,13 @@
 }
 
 .libraryTree {
-    margin-inline-start: 0.25em;
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
 }
 
 .offlineEditorNode {
@@ -54,22 +60,30 @@
 @media all and (min-width: 50em) {
     .editPageSidebar {
         position: fixed;
-        inset-block: 5.2em 0;
-        inset-inline-start: 0;
+        top: 5.2em;
+        bottom: 0;
         width: 30%;
-        border-inline-end: 1px solid #555;
         display: block;
+
+        [dir="ltr"] & {
+            left: 0;
+            border-right: 1px solid #555;
+        }
+
+        [dir="rtl"] & {
+            right: 0;
+            border-left: 1px solid #555;
+        }
     }
 
     .editPageInnerContent {
-        float: right;
         width: 68.5%;
-    }
-}
 
-[dir="rtl"] {
-    @media all and (min-width: 50em) {
-        .editPageInnerContent {
+        [dir="ltr"] & {
+            float: right;
+        }
+
+        [dir="rtl"] & {
             float: left;
         }
     }

@@ -130,7 +130,7 @@ import datetime from '../../scripts/datetime';
             html += '<h1 class="itemSelectionCount"></h1>';
 
             const moreIcon = 'more_vert';
-            html += `<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-inline-start:auto;"><span class="material-icons ${moreIcon}" aria-hidden="true"></span></button>`;
+            html += `<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize"><span class="material-icons ${moreIcon}" aria-hidden="true"></span></button>`;
 
             selectionCommandsPanel.innerHTML = html;
 

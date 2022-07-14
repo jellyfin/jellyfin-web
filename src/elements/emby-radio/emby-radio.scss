@@ -32,11 +32,18 @@
 
 .mdl-radio__circles {
     position: relative;
-    margin-inline-end: 0.54em;
     width: 1.08em;
     height: 1.08em;
     border-radius: 50%;
     cursor: pointer;
+
+    [dir="ltr"] & {
+        margin-right: 0.54em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 0.54em;
+    }
 }
 
 .mdl-radio__circles svg {
@@ -44,9 +51,16 @@
     height: 100%;
     position: absolute;
     top: 0;
-    inset-inline-start: 0;
     z-index: 1;
     overflow: visible;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .mdl-radio__button:disabled + .mdl-radio__circles {

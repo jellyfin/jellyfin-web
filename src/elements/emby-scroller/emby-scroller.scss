@@ -9,7 +9,15 @@
 
 /* align first card in scroller to heading */
 .itemsContainer > .card > .cardBox {
-    margin-inline: 0 1.2em;
+    [dir="ltr"] & {
+        margin-left: 0;
+        margin-right: 1.2em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 1.2em;
+    }
 }
 
 .servers > .card > .cardBox {

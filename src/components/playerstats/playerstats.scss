@@ -2,9 +2,16 @@
     background: rgba(28, 28, 28, 0.8);
     border-radius: 0.3em;
     color: #fff;
-    inset-inline-start: 1.5em;
     position: absolute;
     top: 5em;
+
+    [dir="ltr"] & {
+        left: 1.5em;
+    }
+
+    [dir="rtl"] & {
+        right: 1.5em;
+    }
 }
 
 .playerStats-tv {
@@ -31,26 +38,51 @@
 .playerStats-stats {
     display: flex;
     flex-direction: column;
-    padding-block: 0 1em;
-    padding-inline: 1em 3em;
     max-width: 50em;
     overflow: hidden;
+
+    [dir="ltr"] & {
+        padding: 0 3em 1em 1em;
+    }
+
+    [dir="rtl"] & {
+        padding: 0 1em 1em 3em;
+    }
 }
 
 .playerStats-stat {
     display: flex;
-    margin-inline-start: 1em;
+
+    [dir="ltr"] & {
+        margin-left: 1em;
+
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
 }
 
 .playerStats-stat-label {
     font-weight: 500;
-    margin-block: 0;
-    margin-inline: 0 0.5em;
+
+    [dir="ltr"] & {
+        margin: 0 0.5em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 0 0.5em;
+    }
 }
 
 .playerStats-stat-header {
-    margin-block: 1em 0;
-    margin-inline: 0 1em;
+    [dir="ltr"] & {
+        margin: 1em 1em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 1em 0 0 1em;
+    }
 }
 
 .playerStats-stat-value {

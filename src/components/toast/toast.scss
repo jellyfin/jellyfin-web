@@ -1,12 +1,19 @@
 .toastContainer {
     position: fixed;
-    inset-inline-start: 0;
     bottom: 0;
     pointer-events: none;
     z-index: 9999999;
     padding: 1em;
     display: flex;
     flex-direction: column;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .toast {

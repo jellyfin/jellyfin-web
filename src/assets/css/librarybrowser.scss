@@ -170,11 +170,17 @@
 
 .pageTitle {
     display: inline-flex;
-    margin-block: 0;
-    margin-inline: 0.5em 0;
     height: 1.7em;
     align-items: center;
     flex-shrink: 1;
+
+    [dir="ltr"] & {
+        margin: 0 0 0 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.5em 0 0;
+    }
 }
 
 .pageTitleWithDefaultLogo {
@@ -246,17 +252,30 @@
     align-items: center;
     text-decoration: none;
     color: inherit;
-    padding-block: 0.9em !important;
-    padding-inline: 2.4em 0 !important;
     flex-grow: 1;
     font-weight: 400 !important;
     margin: 0 !important;
     border-radius: 0 !important;
+
+    [dir="ltr"] & {
+        padding: 0.9em 0 0.9em 2.4em !important;
+    }
+
+    [dir="rtl"] & {
+        padding: 0.9em 2.4em 0.9em 0 !important;
+    }
 }
 
 .navMenuOptionIcon {
-    margin-inline-end: 1.2em;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-right: 1.2em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 1.2em;
+    }
 }
 
 .navMenuOptionText {
@@ -265,9 +284,15 @@
 }
 
 .sidebarHeader {
-    padding-inline-start: 1.2em;
-    margin-block: 1em 0.5em;
-    margin-inline: 0;
+    margin: 1em 0 0.5em;
+
+    [dir="ltr"] & {
+        padding-left: 1.2em;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 1.2em;
+    }
 }
 
 .dashboardDocument .skinBody {
@@ -309,8 +334,11 @@
         width: 20.205em !important;
         font-size: 94%;
 
+        [dir="ltr"] & {
+            left: 0 !important;
+        }
+
         [dir="rtl"] & {
-            left: unset !important;
             right: 0 !important;
         }
     }
@@ -320,11 +348,12 @@
     }
 
     .dashboardDocument .skinBody {
-        left: 20em;
+        [dir="ltr"] & {
+            left: 20em;
+        }
 
         [dir="rtl"] & {
-            left: 0 !important;
-            right: 20em !important;
+            right: 20em;
         }
     }
 }
@@ -391,7 +420,14 @@
 
 .headerArrowImage {
     height: 20px;
-    margin-inline-start: 0.5em;
+
+    [dir="ltr"] & {
+        margin-left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em;
+    }
 }
 
 .backdropContainer {
@@ -421,15 +457,28 @@
 }
 
 .viewControls + .listTopPaging {
-    margin-inline-start: 0.5em !important;
+    [dir="ltr"] & {
+        margin-left: 0.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em !important;
+    }
 }
 
 .criticReview {
     margin: 1.5em 0;
     background: #222;
-    padding: 0.8em 0.8em 0.8em 3em;
     border-radius: 0.3em;
     position: relative;
+
+    [dir="ltr"] & {
+        padding: 0.8em 0.8em 0.8em 3em;
+    }
+
+    [dir="rtl"] & {
+        padding: 0.8em 3em 0.8em 0.8em;
+    }
 }
 
 .detailLogo {
@@ -482,12 +531,25 @@
 }
 
 .reviewDate {
-    margin-inline-start: 1em;
+    [dir="ltr"] & {
+        margin-left: 1em;
+
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
 }
 
 .reviewScore {
     position: absolute;
-    inset-inline-start: 0.8em;
+    [dir="ltr"] & {
+        left: 0.8em;
+    }
+
+    [dir="rtl"] & {
+        right: 0.8em;
+    }
 }
 
 .itemBackdrop {
@@ -524,7 +586,6 @@
 .detailPageContent {
     display: flex;
     flex-direction: column;
-    padding-inline: 32.45vw 2%;
 
     .layout-mobile & {
         padding-left: 5%;
@@ -534,18 +595,24 @@
     .layout-desktop &,
     .layout-tv & {
         .emby-scroller {
-            margin-left: 0;
-        }
-    }
+            [dir="ltr"] & {
+                margin-left: 0;
+            }
 
-    [dir="rtl"] & {
-        .layout-desktop &,
-        .layout-tv & {
-            .emby-scroller {
-                margin-left: unset;
+            [dir="rtl"] & {
                 margin-right: 0;
             }
         }
+    }
+
+    [dir="ltr"] & {
+        padding-left: 32.45vw;
+        padding-right: 2%;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 32.45vw;
+        padding-left: 2%;
     }
 }
 
@@ -673,7 +740,6 @@
 .layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
-    margin-inline-start: 0;
 
     @include header-poster-padding;
 
@@ -683,7 +749,12 @@
         padding-left: 0;
     }
 
+    [dir="ltr"] & {
+        margin-left: 0;
+    }
+
     [dir="rtl"] & {
+        margin-right: 0;
         padding-left: unset !important;
 
         @include header-poster-padding-rtl;
@@ -716,24 +787,28 @@
     .layout-mobile & {
         display: block;
         position: relative;
-        padding: 0.5rem 5% !important;
+        padding: 0.5rem 5%;
     }
 
     .layout-desktop & {
         position: relative;
-        padding-left: 32.45vw !important;
     }
 
     .layout-tv & {
         display: block;
-        padding-left: 32.45vw !important;
+    }
+
+    [dir="ltr"] & {
+        .layout-desktop &,
+        .layout-tv & {
+            padding-left: 32.45vw;
+        }
     }
 
     [dir="rtl"] & {
         .layout-desktop &,
         .layout-tv & {
-            padding-right: 32.45vw !important;
-            padding-left: unset !important;
+            padding-right: 32.45vw;
         }
     }
 }
@@ -769,9 +844,16 @@
 }
 
 .infoText {
-    text-align: start;
     min-width: 0;
     max-width: 100%;
+
+    [dir="ltr"] & {
+        text-align: left;
+    }
+
+    [dir="rtl"] & {
+        text-align: right;
+    }
 }
 
 .detailPageSecondaryContainer {
@@ -972,8 +1054,17 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .recordingFields button {
-    margin-inline: 0 0.5em;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-left: 0;
+        margin-right: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 0.5em;
+    }
 }
 
 .mainDetailButtons.hide + .recordingFields {
@@ -1116,8 +1207,15 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .mediaInfoLabel {
-    margin-inline-end: 1em;
     font-weight: 600;
+
+    [dir="ltr"] & {
+        margin-right: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 1em;
+    }
 }
 
 .recordingProgressBar::-moz-progress-bar {
@@ -1207,19 +1305,39 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .sectionTitleButton {
-    margin-inline-start: 1.5em !important;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-left: 1.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1.5em !important;
+    }
 }
 
 .sectionTitleButton + .sectionTitleButton {
-    margin-inline-start: 0.5em !important;
+    [dir="ltr"] & {
+        margin-left: 0.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em !important;
+    }
 }
 
 .sectionTitleIconButton {
-    margin-inline-start: 1.5em !important;
     flex-shrink: 0;
     font-size: 84% !important;
     padding: 0.5em !important;
+
+    [dir="ltr"] & {
+        margin-left: 1.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1.5em !important;
+    }
 }
 
 .horizontalItemsContainer {
@@ -1248,11 +1366,23 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .padded-left {
-    padding-inline-start: 3.3%;
+    [dir="ltr"] & {
+        padding-left: 3.3%;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 3.3%;
+    }
 }
 
 .padded-right {
-    padding-inline-end: 3.3%;
+    [dir="ltr"] & {
+        padding-right: 3.3%;
+    }
+
+    [dir="rtl"] & {
+        padding-left: 3.3%;
+    }
 }
 
 .padded-top {

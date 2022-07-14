@@ -113,7 +113,10 @@ import confirm from '../../../components/confirm/confirm';
             deviceHtml += '<div class="cardFooter">';
 
             if (canEdit || canDelete(device.Id)) {
-                deviceHtml += '<div style="text-align:end; float:inline-end;padding-top:5px;">';
+                if (globalize.getIsRTL())
+                    deviceHtml += '<div style="text-align:left; float:left;padding-top:5px;">';
+                else
+                    deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
                 deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
                 deviceHtml += '</div>';
             }

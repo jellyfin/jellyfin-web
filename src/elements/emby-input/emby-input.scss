@@ -47,12 +47,24 @@
 
 .inlineForm .inputContainer:first-child,
 .inlineForm .selectContainer:first-child {
-    margin-inline-start: 0;
+    [dir="ltr"] & {
+        margin-left: 0;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0
+    }
 }
 
 .inlineForm .inputContainer:last-child,
 .inlineForm .selectContainer:last-child {
-    margin-inline-end: 0;
+    [dir="ltr"] & {
+        margin-right: 0;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 0;
+    }
 }
 
 .inputLabel {

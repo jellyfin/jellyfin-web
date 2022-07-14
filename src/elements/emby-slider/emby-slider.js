@@ -417,7 +417,10 @@ import globalize from '../../scripts/globalize';
 
     function setRange(elem, startPercent, endPercent) {
         const style = elem.style;
-        style.insetInlineStart = Math.max(startPercent, 0) + '%';
+        if (globalize.getIsRTL())
+            style.right = Math.max(startPercent, 0) + '%';
+        else
+            style.left = Math.max(startPercent, 0) + '%';
 
         const widthPercent = endPercent - startPercent;
         style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
