@@ -667,7 +667,7 @@
     "LabelDidlMode": "DIDL 模式：",
     "LabelDeviceDescription": "裝置說明：",
     "LabelDeinterlaceMethod": "反交錯方法：",
-    "LabelDefaultUserHelp": "確定哪些使用者媒體庫將顯示在連接裝置上。這可以為每個裝置提供不同的使用者設定檔。",
+    "LabelDefaultUserHelp": "決定哪些使用者媒體庫顯示在已連接裝置上。這可以為每個裝置提供不同的使用者設定檔。",
     "LabelDefaultUser": "預設使用者：",
     "LabelDefaultScreen": "預設分頁：",
     "LabelDeathDate": "死亡日期：",
@@ -723,10 +723,10 @@
     "LabelAllowedRemoteAddresses": "遠端 IP 位址過濾：",
     "LabelAlbumArtPN": "專輯封面 PN ：",
     "LabelAlbumArtMaxWidth": "專輯封面最大寬度 :",
-    "LabelAlbumArtMaxResHelp": "透過 upnp:albumArtURI 屬性使用的專輯封面最高解析度。",
+    "LabelAlbumArtMaxResHelp": "「upnp:albumArtURI」屬性設定專輯封面最高解析度。",
     "LabelAlbumArtMaxHeight": "專輯封面最大高度 :",
     "LabelAlbumArtists": "專輯藝人 :",
-    "LabelAlbumArtHelp": "PN 在 upnp:albumArtURI 裡的 dlna:profileID 屬性用於專輯封面。某些裝置不管圖像的尺寸大小，都會要求特定的值。",
+    "LabelAlbumArtHelp": "在「upnp:albumArtURI」裡的「dlna:profileID」屬性中 PN 會用於專輯封面。在某些裝置上，不論圖像尺寸也會要求 PN 值。",
     "LabelAlbum": "專輯 :",
     "LabelAirTime": "播出時間 :",
     "LabelAirDays": "播出日期 :",
@@ -734,7 +734,7 @@
     "LabelAccessEnd": "結束時間 :",
     "LabelAbortedByServerShutdown": "（因為伺服器關閉被中止）",
     "Label3DFormat": "3D 格式 :",
-    "KnownProxiesHelp": "連接到 Jellyfin 的代理伺服器的 IP 位址或主機名稱之列表，以逗號分隔，以使 X-Forwarded-For 標頭能正常運作。本設定儲存後需要重新啟動。",
+    "KnownProxiesHelp": "提供連接到Jellyfin 時使用的代理伺服器 IP 位址或主機名稱（以逗號分隔）才能使 X-Forwarded-For 標頭能正常運作。儲存設定後需要重新啟動才能生效。",
     "Kids": "兒童",
     "Items": "項目",
     "ItemCount": "{0}個項目",
@@ -1090,5 +1090,6 @@
     "EnableRewatchingNextUp": "允許重新觀看「接下來」",
     "EnableRewatchingNextUpHelp": "允許在「接下來」中顯示已觀看的集數。",
     "Conductor": "指揮",
-    "Casual": "隨意"
+    "Casual": "隨意",
+    "LabelSyncPlaySettingsDescription": "更改 SyncPlay 設定"
 }
