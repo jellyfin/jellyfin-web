@@ -1646,5 +1646,13 @@
     "EnableRewatchingNextUp": "Habilitar \"Volver a mirar\" en \"Siguiente\"",
     "Bold": "Audaz",
     "LabelTextWeight": "Peso del texto:",
-    "EnableSplashScreen": "Habilitar pantalla de inicio"
+    "EnableSplashScreen": "Habilitar pantalla de inicio",
+    "MediaInfoDvLevel": "Nivel DV",
+    "MediaInfoDvProfile": "Perfil DV",
+    "MediaInfoDvVersionMinor": "Versión menor de DV",
+    "MediaInfoDvVersionMajor": "Versión principal de DV",
+    "MediaInfoDoViTitle": "Título DV",
+    "MediaInfoVideoRangeType": "Tipo de rango de video",
+    "LabelVideoRangeType": "Tipo de rango de video:",
+    "ScreenResolution": "Resolución de la pantalla"
 }
