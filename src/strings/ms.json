@@ -104,7 +104,7 @@
     "ApiKeysCaption": "Senarai kunci API yang diaktifkan sekarang",
     "AllowTonemappingHelp": "Pemetaan nada dapat mengubah rentang dinamik video dari HDR ke SDR sambil mengekalkan perincian dan warna gambar, yang merupakan maklumat yang sangat penting untuk mewakili pemandangan asal. Pada masa ini ia hanya berfungsi dengan video HDR10 atau HLG. Ini memerlukan pemadanan dengan OpenCL atau CUDA semasa.",
     "Songs": "Lagu-lagu",
-    "Playlists": "Senarai main",
+    "Playlists": "Senarai ulangmain",
     "Photos": "Gambar-gambar",
     "ButtonParentalControl": "Kawalan penjaga",
     "ButtonOpen": "Buka",
