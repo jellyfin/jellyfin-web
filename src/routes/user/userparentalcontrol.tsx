@@ -1,4 +1,4 @@
-import { AccessSchedule, DynamicDayOfWeek, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import { AccessSchedule, DynamicDayOfWeek, ParentalRating, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
@@ -15,12 +15,7 @@ import escapeHTML from 'escape-html';
 import SelectElement from '../../elements/SelectElement';
 import Page from '../../components/Page';
 
-type RatingsArr = {
-    Name: string;
-    Value: number;
-}
-
-type ItemsArr = {
+type UnratedItem = {
     name: string;
     value: string;
     checkedAttribute: string
@@ -28,8 +23,8 @@ type ItemsArr = {
 
 const UserParentalControl: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [ parentalRatings, setParentalRatings ] = useState<RatingsArr[]>([]);
-    const [ unratedItems, setUnratedItems ] = useState<ItemsArr[]>([]);
+    const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
+    const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ blockedTags, setBlockedTags ] = useState([]);
 
@@ -37,7 +32,7 @@ const UserParentalControl: FunctionComponent = () => {
 
     const populateRatings = useCallback((allParentalRatings) => {
         let rating;
-        const ratings: RatingsArr[] = [];
+        const ratings: ParentalRating[] = [];
 
         for (let i = 0, length = allParentalRatings.length; i < length; i++) {
             rating = allParentalRatings[i];
@@ -91,7 +86,7 @@ const UserParentalControl: FunctionComponent = () => {
             value: 'Series'
         }];
 
-        const itemsArr: ItemsArr[] = [];
+        const itemsArr: UnratedItem[] = [];
 
         for (const item of items) {
             const isChecked = user.Policy.BlockUnratedItems.indexOf(item.value) != -1;

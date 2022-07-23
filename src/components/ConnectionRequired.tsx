@@ -160,7 +160,11 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         return null;
     }
 
-    return <Outlet />;
+    return (
+        <div className='skinBody'>
+            <Outlet />
+        </div>
+    );
 };
 
 export default ConnectionRequired;
