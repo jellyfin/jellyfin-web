@@ -1480,7 +1480,7 @@
     "PluginFromRepo": "{0} aus dem Repository {1}",
     "LabelUDPPortRangeHelp": "Beschränkt Jellyfin auf die Verwendung dieses Portbereichs beim Herstellen von UDP-Verbindungen. (Standard ist 1024 - 645535).<br/> Hinweis: Für bestimmte Funktionen sind feste Ports erforderlich, die möglicherweise außerhalb dieses Bereichs liegen.",
     "LabelUDPPortRange": "UDP-Kommunikationsbereich:",
-    "LabelHDHomerunPortRangeHelp": "Beschränkt den HDHomeRun UDP-Portbereich zu diesem Wert. (Standard ist 1024 - 645535).",
+    "LabelHDHomerunPortRangeHelp": "Beschränkt den HDHomeRun UDP-Portbereich zu diesem Wert. (Standard ist 1024 - 65535).",
     "LabelHDHomerunPortRange": "HDHomeRun Portbereich:",
     "LabelSyncPlayInfo": "SyncPlay-Info",
     "LabelOriginalMediaInfo": "Originale Medieninformation",
