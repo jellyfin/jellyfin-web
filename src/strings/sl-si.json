@@ -1375,7 +1375,7 @@
     "DeleteAll": "Izbriši vse",
     "Bwdif": "BWDIF",
     "LabelH265Crf": "H.265 kodiranje CRF:",
-    "LabelHDHomerunPortRangeHelp": "Omeji razpon UDP vrat za HDHomeRun na to vrednost. (Privzeto 1024 - 645535).",
+    "LabelHDHomerunPortRangeHelp": "Omeji razpon UDP vrat za HDHomeRun na to vrednost. (Privzeto 1024 - 65535).",
     "LabelHDHomerunPortRange": "HDHomeRun razpon vrat:",
     "SkipEpisodesAlreadyInMyLibraryHelp": "Epizode bodo primerjane po številki sezone in epizode, kadar so na voljo.",
     "SkipEpisodesAlreadyInMyLibrary": "Ne snemaj epizod ki so že v moji knjižnici",
