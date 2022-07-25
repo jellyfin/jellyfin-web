@@ -772,7 +772,7 @@
     "LabelHttpsPort": "Plaaslike HTTPS -poortnommer:",
     "LabelHomeScreenSectionValue": "Tuisskermafdeling {0}:",
     "LabelHomeNetworkQuality": "Tuisnetwerk kwaliteit:",
-    "LabelHDHomerunPortRangeHelp": "Beperk die HD Homerun UDP -poortreeks tot hierdie waarde. (Standaard is 1024 - 645535).",
+    "LabelHDHomerunPortRangeHelp": "Beperk die HD Homerun UDP -poortreeks tot hierdie waarde. (Standaard is 1024 - 65535).",
     "LabelHDHomerunPortRange": "HD Homerun -poortreeks:",
     "LabelHardwareAccelerationTypeHelp": "Hardewareversnelling vereis ekstra konfigurasie.",
     "LabelHardwareAccelerationType": "Hardeware versnelling:",
