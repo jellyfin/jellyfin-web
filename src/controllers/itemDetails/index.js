@@ -1966,7 +1966,9 @@ export default function (view, params) {
         download([{
             url: downloadHref,
             itemId: currentItem.Id,
-            serverId: currentItem.serverId
+            serverId: currentItem.serverId,
+            title: currentItem.Name,
+            filename: currentItem.Path.replace(/^.*[\\/]/, '')
         }]);
     }
 
