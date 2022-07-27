@@ -821,7 +821,7 @@ import { appRouter } from '../appRouter';
                         if (isUsingLiveTvNaming(item)) {
                             lines.push(escapeHtml(item.Name));
 
-                            if (!item.EpisodeTitle) {
+                            if (!item.EpisodeTitle && !item.IndexNumber) {
                                 titleAdded = true;
                             }
                         } else {

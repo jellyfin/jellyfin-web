@@ -2,16 +2,17 @@ import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, {FunctionComponent, useEffect, useState, useRef} from 'react';
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
-import loading from '../loading/loading';
+import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import confirm from '../../components/confirm/confirm';
-import UserCardBox from '../dashboard/users/UserCardBox';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import UserCardBox from '../../components/dashboard/users/UserCardBox';
+import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../components/cardbuilder/card.scss';
 import '../../components/indicators/indicators.scss';
 import '../../assets/css/flexstyles.scss';
+import Page from '../../components/Page';
 
 type MenuEntry = {
     name?: string;
@@ -19,7 +20,7 @@ type MenuEntry = {
     icon?: string;
 }
 
-const UserProfilesPage: FunctionComponent = () => {
+const UserProfiles: FunctionComponent = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
@@ -124,19 +125,28 @@ const UserProfilesPage: FunctionComponent = () => {
             }
         });
 
-        (page.querySelector('.btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
     }, []);
 
     return (
-        <div ref={element}>
-            <div className='content-primary'>
-                <SectionTitleContainer
-                    title={globalize.translate('HeaderUsers')}
-                    isBtnVisible={true}
-                    titleLink='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
-                />
+        <Page
+            id='userProfilesPage'
+            className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
+        >
+            <div ref={element} className='content-primary'>
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderUsers')}
+                        isBtnVisible={true}
+                        btnId='btnAddUser'
+                        btnClassName='fab submit sectionTitleButton'
+                        btnTitle='ButtonAddUser'
+                        btnIcon='add'
+                        url='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
+                    />
+                </div>
 
                 <div className='localUsers itemsContainer vertical-wrap'>
                     {users.map(user => {
@@ -144,8 +154,9 @@ const UserProfilesPage: FunctionComponent = () => {
                     })}
                 </div>
             </div>
-        </div>
+        </Page>
+
     );
 };
 
-export default UserProfilesPage;
+export default UserProfiles;

@@ -78,13 +78,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/myprofile.html',
-        path: 'user/profile/index.html',
-        autoFocus: false,
-        pageComponent: 'UserProfilePage'
-    });
-
-    defineRoute({
         alias: '/mypreferencescontrols.html',
         path: 'user/controls/index.html',
         autoFocus: false,
@@ -427,53 +420,6 @@ import { appRouter } from '../components/appRouter';
         path: 'shows/tvrecommended.html',
         autoFocus: false,
         controller: 'shows/tvrecommended'
-    });
-
-    defineRoute({
-        alias: '/useredit.html',
-        path: 'dashboard/users/useredit.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'UserEditPage'
-    });
-
-    defineRoute({
-        alias: '/userlibraryaccess.html',
-        path: 'dashboard/users/userlibraryaccess.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'UserLibraryAccessPage'
-    });
-
-    defineRoute({
-        alias: '/usernew.html',
-        path: 'dashboard/users/usernew.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'NewUserPage'
-    });
-
-    defineRoute({
-        alias: '/userparentalcontrol.html',
-        path: 'dashboard/users/userparentalcontrol.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'UserParentalControl'
-    });
-
-    defineRoute({
-        alias: '/userpassword.html',
-        path: 'dashboard/users/userpassword.html',
-        autoFocus: false,
-        pageComponent: 'UserPasswordPage'
-    });
-
-    defineRoute({
-        alias: '/userprofiles.html',
-        path: 'dashboard/users/userprofiles.html',
-        autoFocus: false,
-        roles: 'admin',
-        pageComponent: 'UserProfilesPage'
     });
 
     defineRoute({

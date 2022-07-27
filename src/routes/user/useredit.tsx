@@ -3,30 +3,33 @@ import React, { FunctionComponent, useCallback, useEffect, useState, useRef } fr
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../dashboard/users/ButtonElement';
-import CheckBoxElement from '../dashboard/users/CheckBoxElement';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import InputElement from '../dashboard/users/InputElement';
-import LinkEditUserPreferences from '../dashboard/users/LinkEditUserPreferences';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
-import SelectElement from '../dashboard/users/SelectElement';
-import SelectSyncPlayAccessElement from '../dashboard/users/SelectSyncPlayAccessElement';
-import SectionTabs from '../dashboard/users/SectionTabs';
-import loading from '../loading/loading';
-import toast from '../toast/toast';
+import ButtonElement from '../../elements/ButtonElement';
+import CheckBoxElement from '../../elements/CheckBoxElement';
+import InputElement from '../../elements/InputElement';
+import LinkEditUserPreferences from '../../components/dashboard/users/LinkEditUserPreferences';
+import SectionTitleContainer from '../../elements/SectionTitleContainer';
+import SectionTabs from '../../components/dashboard/users/SectionTabs';
+import loading from '../../components/loading/loading';
+import toast from '../../components/toast/toast';
 import { getParameterByName } from '../../utils/url';
+import escapeHTML from 'escape-html';
+import SelectElement from '../../elements/SelectElement';
+import Page from '../../components/Page';
 
-type ItemsArr = {
-    Name?: string;
-    Id?: string;
+type ResetProvider = AuthProvider & {
     checkedAttribute: string
 }
 
-const UserEditPage: FunctionComponent = () => {
+type AuthProvider = {
+    Name?: string;
+    Id?: string;
+}
+
+const UserEdit: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
-    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ItemsArr[]>([]);
-    const [ authProviders, setAuthProviders ] = useState([]);
-    const [ passwordResetProviders, setPasswordResetProviders ] = useState([]);
+    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
+    const [ authProviders, setAuthProviders ] = useState<AuthProvider[]>([]);
+    const [ passwordResetProviders, setPasswordResetProviders ] = useState<ResetProvider[]>([]);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
@@ -91,7 +94,7 @@ const UserEditPage: FunctionComponent = () => {
         })).then(function (channelsResult) {
             let isChecked;
             let checkedAttribute;
-            const itemsArr: ItemsArr[] = [];
+            const itemsArr: ResetProvider[] = [];
 
             for (const folder of mediaFolders) {
                 isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
@@ -172,7 +175,7 @@ const UserEditPage: FunctionComponent = () => {
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = user.Policy.LoginAttemptsBeforeLockout || '0';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = user.Policy.MaxActiveSessions || '0';
         if (window.ApiClient.isMinServerVersion('10.6.0')) {
-            (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value = user.Policy.SyncPlayAccess;
+            (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = user.Policy.SyncPlayAccess;
         }
         loading.hide();
     }, [loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
@@ -227,8 +230,8 @@ const UserEditPage: FunctionComponent = () => {
             user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
             user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0');
             user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0');
-            user.Policy.AuthenticationProviderId = (page.querySelector('.selectLoginProvider') as HTMLInputElement).value;
-            user.Policy.PasswordResetProviderId = (page.querySelector('.selectPasswordResetProvider') as HTMLInputElement).value;
+            user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
+            user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
                 return c.checked;
@@ -236,7 +239,7 @@ const UserEditPage: FunctionComponent = () => {
                 return c.getAttribute('data-id');
             });
             if (window.ApiClient.isMinServerVersion('10.6.0')) {
-                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value as SyncPlayUserAccessType;
+                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
             }
             window.ApiClient.updateUser(user).then(function () {
                 window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {}).then(function () {
@@ -270,18 +273,42 @@ const UserEditPage: FunctionComponent = () => {
 
         (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        (page.querySelector('.button-cancel') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
             window.history.back();
         });
     }, [loadData]);
 
+    const optionLoginProvider = authProviders.map((provider) => {
+        const selected = provider.Id === authenticationProviderId || authProviders.length < 2 ? ' selected' : '';
+        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
+    });
+
+    const optionPasswordResetProvider = passwordResetProviders.map((provider) => {
+        const selected = provider.Id === passwordResetProviderId || passwordResetProviders.length < 2 ? ' selected' : '';
+        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
+    });
+
+    const optionSyncPlayAccess = () => {
+        let content = '';
+        content += `<option value='CreateAndJoinGroups'>${globalize.translate('LabelSyncPlayAccessCreateAndJoinGroups')}</option>`;
+        content += `<option value='JoinGroups'>${globalize.translate('LabelSyncPlayAccessJoinGroups')}</option>`;
+        content += `<option value='None'>${globalize.translate('LabelSyncPlayAccessNone')}</option>`;
+        return content;
+    };
+
     return (
-        <div ref={element}>
-            <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+        <Page
+            id='editUserPage'
+            className='mainAnimatedPage type-interior'
+        >
+            <div ref={element} className='content-primary'>
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        url='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
+
                 <SectionTabs activeTab='useredit'/>
                 <div
                     className='lnkEditUserPreferencesContainer'
@@ -313,29 +340,29 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='selectContainer fldSelectLoginProvider hide'>
                         <SelectElement
-                            className= 'selectLoginProvider'
-                            label= 'LabelAuthProvider'
-                            currentProviderId={authenticationProviderId}
-                            providers={authProviders}
-                        />
+                            id='selectLoginProvider'
+                            label='LabelAuthProvider'
+                        >
+                            {optionLoginProvider}
+                        </SelectElement>
+
                         <div className='fieldDescription'>
                             {globalize.translate('AuthProviderHelp')}
                         </div>
                     </div>
                     <div className='selectContainer fldSelectPasswordResetProvider hide'>
                         <SelectElement
-                            className= 'selectPasswordResetProvider'
-                            label= 'LabelPasswordResetProvider'
-                            currentProviderId={passwordResetProviderId}
-                            providers={passwordResetProviders}
-                        />
+                            id='selectPasswordResetProvider'
+                            label='LabelPasswordResetProvider'
+                        >
+                            {optionPasswordResetProvider}
+                        </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('PasswordResetProviderHelp')}
                         </div>
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription fldRemoteAccess hide'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkRemoteAccess'
                             title='AllowRemoteAccess'
                         />
@@ -345,7 +372,6 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <CheckBoxElement
                         labelClassName='checkboxContainer'
-                        type='checkbox'
                         className='chkIsAdmin'
                         title='OptionAllowUserToManageServer'
                     />
@@ -355,12 +381,10 @@ const UserEditPage: FunctionComponent = () => {
                         </h2>
                         <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableLiveTvAccess'
                                 title='OptionAllowBrowsingLiveTv'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkManageLiveTv'
                                 title='OptionAllowManageLiveTv'
                             />
@@ -372,27 +396,22 @@ const UserEditPage: FunctionComponent = () => {
                         </h2>
                         <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableMediaPlayback'
                                 title='OptionAllowMediaPlayback'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableAudioPlaybackTranscoding'
                                 title='OptionAllowAudioPlaybackTranscoding'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableVideoPlaybackTranscoding'
                                 title='OptionAllowVideoPlaybackTranscoding'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableVideoPlaybackRemuxing'
                                 title='OptionAllowVideoPlaybackRemuxing'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkForceRemoteSourceTranscoding'
                                 title='OptionForceRemoteSourceTranscoding'
                             />
@@ -420,11 +439,12 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='verticalSection'>
                         <div className='selectContainer fldSelectSyncPlayAccess'>
-                            <SelectSyncPlayAccessElement
-                                className='selectSyncPlayAccess'
+                            <SelectElement
                                 id='selectSyncPlayAccess'
                                 label='LabelSyncPlayAccess'
-                            />
+                            >
+                                {optionSyncPlayAccess()}
+                            </SelectElement>
                             <div className='fieldDescription'>
                                 {globalize.translate('SyncPlayAccessHelp')}
                             </div>
@@ -437,18 +457,17 @@ const UserEditPage: FunctionComponent = () => {
                         <div className='checkboxList paperList checkboxList-paperList'>
                             <CheckBoxElement
                                 labelClassName='checkboxContainer'
-                                type='checkbox'
                                 className='chkEnableDeleteAllFolders'
                                 title='AllLibraries'
                             />
                             <div className='deleteAccess'>
                                 {deleteFoldersAccess.map(Item => (
-                                    <CheckBoxListItem
+                                    <CheckBoxElement
                                         key={Item.Id}
                                         className='chkFolder'
-                                        Id={Item.Id}
-                                        Name={Item.Name}
-                                        checkedAttribute={Item.checkedAttribute}
+                                        itemId={Item.Id}
+                                        itemName={Item.Name}
+                                        itemCheckedAttribute={Item.checkedAttribute}
                                     />
                                 ))}
                             </div>
@@ -460,12 +479,10 @@ const UserEditPage: FunctionComponent = () => {
                         </h2>
                         <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkEnableRemoteControlOtherUsers'
                                 title='OptionAllowRemoteControlOthers'
                             />
                             <CheckBoxElement
-                                type='checkbox'
                                 className='chkRemoteControlSharedDevices'
                                 title='OptionAllowRemoteSharedDevices'
                             />
@@ -479,7 +496,6 @@ const UserEditPage: FunctionComponent = () => {
                     </h2>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkEnableDownloading'
                             title='OptionAllowContentDownload'
                         />
@@ -489,7 +505,6 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsEnabled'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkDisabled'
                             title='OptionDisableUser'
                         />
@@ -499,7 +514,6 @@ const UserEditPage: FunctionComponent = () => {
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsHidden'>
                         <CheckBoxElement
-                            type='checkbox'
                             className='chkIsHidden'
                             title='OptionHideUser'
                         />
@@ -550,14 +564,16 @@ const UserEditPage: FunctionComponent = () => {
                         />
                         <ButtonElement
                             type='button'
-                            className='raised button-cancel block btnCancel'
+                            id='btnCancel'
+                            className='raised button-cancel block'
                             title='ButtonCancel'
                         />
                     </div>
                 </form>
             </div>
-        </div>
+        </Page>
+
     );
 };
 
-export default UserEditPage;
+export default UserEdit;

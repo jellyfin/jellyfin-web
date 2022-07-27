@@ -1,16 +1,17 @@
 import { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
-import loading from '../loading/loading';
+import loading from '../../components/loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
-import toast from '../toast/toast';
-import SectionTabs from '../dashboard/users/SectionTabs';
-import CheckBoxListItem from '../dashboard/users/CheckBoxListItem';
-import ButtonElement from '../dashboard/users/ButtonElement';
+import toast from '../../components/toast/toast';
+import SectionTabs from '../../components/dashboard/users/SectionTabs';
+import ButtonElement from '../../elements/ButtonElement';
 import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
-import AccessContainer from '../dashboard/users/AccessContainer';
+import SectionTitleContainer from '../../elements/SectionTitleContainer';
+import AccessContainer from '../../components/dashboard/users/AccessContainer';
+import CheckBoxElement from '../../elements/CheckBoxElement';
+import Page from '../../components/Page';
 
 type ItemsArr = {
     Name?: string;
@@ -19,7 +20,7 @@ type ItemsArr = {
     checkedAttribute?: string
 }
 
-const UserLibraryAccessPage: FunctionComponent = () => {
+const UserLibraryAccess: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -226,12 +227,17 @@ const UserLibraryAccessPage: FunctionComponent = () => {
     }, [loadData]);
 
     return (
-        <div ref={element}>
-            <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+        <Page
+            id='userLibraryAccessPage'
+            className='mainAnimatedPage type-interior'
+        >
+            <div ref={element} className='content-primary'>
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        url='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
                 <SectionTabs activeTab='userlibraryaccess'/>
                 <form className='userLibraryAccessForm'>
                     <AccessContainer
@@ -245,12 +251,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                         description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkFolder'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute={Item.checkedAttribute}
+                                itemId={Item.Id}
+                                itemName={Item.Name}
+                                itemCheckedAttribute={Item.checkedAttribute}
                             />
                         ))}
                     </AccessContainer>
@@ -266,12 +272,12 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                         description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkChannel'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                checkedAttribute={Item.checkedAttribute}
+                                itemId={Item.Id}
+                                itemName={Item.Name}
+                                itemCheckedAttribute={Item.checkedAttribute}
                             />
                         ))}
                     </AccessContainer>
@@ -287,13 +293,13 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                         description='DeviceAccessHelp'
                     >
                         {devicesItems.map(Item => (
-                            <CheckBoxListItem
+                            <CheckBoxElement
                                 key={Item.Id}
                                 className='chkDevice'
-                                Id={Item.Id}
-                                Name={Item.Name}
-                                AppName={Item.AppName}
-                                checkedAttribute={Item.checkedAttribute}
+                                itemId={Item.Id}
+                                itemName={Item.Name}
+                                itemAppName={Item.AppName}
+                                itemCheckedAttribute={Item.checkedAttribute}
                             />
                         ))}
                     </AccessContainer>
@@ -307,8 +313,9 @@ const UserLibraryAccessPage: FunctionComponent = () => {
                     </div>
                 </form>
             </div>
-        </div>
+        </Page>
+
     );
 };
 
-export default UserLibraryAccessPage;
+export default UserLibraryAccess;

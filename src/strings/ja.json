@@ -1500,7 +1500,7 @@
     "MediaInfoTitle": "タイトル",
     "Lyricist": "作詞",
     "Larger": "より大きい",
-    "LabelUDPPortRangeHelp": "UDP 接続を確立する際のポートをこの値の範囲に制限します。（デフォルト値は 1024 - 645535）。<br/> 注: 特定の機能は、この範囲外となる固定のポートを要求する場合があります。",
+    "LabelUDPPortRangeHelp": "UDP 接続を確立する際のポートをこの値の範囲に制限します。（デフォルト値は 1024 - 65535）。<br/> 注: 特定の機能は、この範囲外となる固定のポートを要求する場合があります。",
     "LabelUDPPortRange": "UDP コミュニケーション範囲:",
     "LabelSyncPlaySettingsSkipToSyncHelp": "予想される地点へシーク（スキップ）して同期を補正します。同期補正を有効にする必要があります。",
     "LabelSyncPlaySettingsSkipToSync": "スキップによる同期の有効化",
