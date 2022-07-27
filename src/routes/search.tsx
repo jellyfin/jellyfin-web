@@ -8,7 +8,7 @@ import SearchSuggestions from '../components/search/SearchSuggestions';
 import LiveTVSearchResults from '../components/search/LiveTVSearchResults';
 import globalize from '../scripts/globalize';
 
-const SearchPage: FunctionComponent = () => {
+const Search: FunctionComponent = () => {
     const [ query, setQuery ] = useState<string>();
     const [ searchParams ] = useSearchParams();
 
@@ -41,4 +41,4 @@ const SearchPage: FunctionComponent = () => {
     );
 };
 
-export default SearchPage;
+export default Search;

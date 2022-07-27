@@ -26,7 +26,7 @@ export default function (view, params) {
         const userId = params.userId || Dashboard.getCurrentUserId();
         const page = this;
 
-        page.querySelector('.lnkMyProfile').setAttribute('href', '#/myprofile.html?userId=' + userId);
+        page.querySelector('.lnkUserProfile').setAttribute('href', '#/userprofile.html?userId=' + userId);
         page.querySelector('.lnkDisplayPreferences').setAttribute('href', '#/mypreferencesdisplay.html?userId=' + userId);
         page.querySelector('.lnkHomePreferences').setAttribute('href', '#/mypreferenceshome.html?userId=' + userId);
         page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#/mypreferencesplayback.html?userId=' + userId);
