@@ -191,6 +191,9 @@ export default function (view, params, tabContent) {
                 }, {
                     name: globalize.translate('Runtime'),
                     id: 'Runtime,AlbumArtist,Album,SortName'
+                }, {
+                    name: globalize.translate('OptionRandom'),
+                    id: 'Random,SortName'
                 }],
                 callback: function () {
                     getQuery(tabContent).StartIndex = 0;
