@@ -11,6 +11,7 @@ import UserPassword from './user/userpassword';
 import UserProfile from './user/userprofile';
 import UserProfiles from './user/userprofiles';
 import DlnaProfiles from './dlna/dlnaprofiles';
+import DlnaSettings from './dlna/dlnasettings';
 
 const AppRoutes = () => (
     <Routes>
@@ -30,6 +31,7 @@ const AppRoutes = () => (
                 <Route path='userparentalcontrol.html' element={<UserParentalControl />} />
                 <Route path='userpassword.html' element={<UserPassword />} />
                 <Route path='dlnaprofiles.html' element={<DlnaProfiles />} />
+                <Route path='dlnasettings.html' element={<DlnaSettings />} />
             </Route>
 
             {/* Suppress warnings for unhandled routes */}
