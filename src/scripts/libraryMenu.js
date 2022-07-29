@@ -13,7 +13,7 @@ import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
-import { getMenuLinks } from '../scripts/settings/webSettings';
+import { getMenuLinks } from './settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
 import { getParameterByName } from '../utils/url.ts';
@@ -937,10 +937,11 @@ import '../assets/css/flexstyles.scss';
     const skinHeader = document.querySelector('.skinHeader');
     let requiresUserRefresh = true;
 
-    function setTabs (type, selectedIndex, builder) {
+    function setTabs (type, selectedIndex, builder, page) {
+        const view = page ? page : viewManager.currentView();
         import('../components/maintabsmanager').then((mainTabsManager) => {
             if (type) {
-                mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
+                mainTabsManager.setTabs(view, selectedIndex, builder, function () {
                     return [];
                 });
             } else {

@@ -74,7 +74,7 @@ const LibraryDisplay: FunctionComponent = () => {
             return;
         }
 
-        LibraryMenu.setTabs('librarysetup', 1, getTabs);
+        LibraryMenu.setTabs('librarysetup', 1, getTabs, page);
         loadData();
 
         (page.querySelector('.libraryDisplayForm') as HTMLFormElement).addEventListener('submit', function(e) {
@@ -106,11 +106,11 @@ const LibraryDisplay: FunctionComponent = () => {
     };
 
     return (
-        <Page
-            id='libraryDisplayPage'
-            className='mainAnimatedPage type-interior librarySectionPage withTabs'
-        >
-            <div ref={element}>
+        <div ref={element}>
+            <Page
+                id='libraryDisplayPage'
+                className='mainAnimatedPage type-interior librarySectionPage withTabs'
+            >
                 <div className='content-primary'>
                     <form className='libraryDisplayForm'>
                         <div className='selectContainer'>
@@ -177,8 +177,8 @@ const LibraryDisplay: FunctionComponent = () => {
                         </div>
                     </form>
                 </div>
-            </div>
-        </Page>
+            </Page>
+        </div>
     );
 };
 
