@@ -1339,7 +1339,7 @@
     "LabelRequireHttpsHelp": "If checked, the server will automatically redirect all requests over HTTP to HTTPS. This has no effect if the server is not listening on HTTPS.",
     "LabelRequireHttps": "Require HTTPS",
     "LabelStable": "Stable",
-    "LabelChromecastVersion": "Google Cast Version",
+    "LabelChromecastVersion": "Google Cast Version:",
     "LabelEnableHttpsHelp": "Listen on the configured HTTPS port. A valid certificate must also be supplied for this to take effect.",
     "LabelEnableHttps": "Enable HTTPS",
     "HeaderSyncPlayEnabled": "SyncPlay enabled",
@@ -1475,7 +1475,7 @@
     "LabelSelectStereo": "Stereo",
     "LabelSelectMono": "Mono",
     "LabelSelectAudioChannels": "Channels",
-    "LabelAllowedAudioChannels": "Maximum Allowed Audio Channels",
+    "LabelAllowedAudioChannels": "Maximum Allowed Audio Channels:",
     "AllowHevcEncoding": "Allow encoding in HEVC format",
     "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct stream HEVC content on supported devices.",
     "PreferFmp4HlsContainer": "Prefer fMP4-HLS Media Container",
@@ -1675,5 +1675,5 @@
     "RememberSubtitleSelections": "Set subtitle track based on previous item",
     "RememberAudioSelectionsHelp": "Try to set the audio track to the closest match to the last video.",
     "RememberAudioSelections": "Set audio track based on previous item",
-    "LabelMaxVideoResolution": "Maximum Allowed Video Transcoding Resolution"
+    "LabelMaxVideoResolution": "Maximum Allowed Video Transcoding Resolution:"
 }
