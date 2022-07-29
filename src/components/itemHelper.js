@@ -123,7 +123,7 @@ export function canEdit(user, item) {
 }
 
 export function isLocalItem(item) {
-    if (item && item.Id && item.Id.indexOf('local') === 0) {
+    if (item && item.Id && typeof item.Id === 'string' && item.Id.indexOf('local') === 0) {
         return true;
     }
 
