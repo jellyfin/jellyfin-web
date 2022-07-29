@@ -294,14 +294,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/home.html',
-        path: 'home.html',
-        autoFocus: false,
-        controller: 'home',
-        type: 'home'
-    });
-
-    defineRoute({
         alias: '/list.html',
         path: 'list.html',
         autoFocus: false,

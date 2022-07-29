@@ -8,7 +8,9 @@ type PageProps = {
     isBackButtonEnabled?: boolean,
     isMenuButtonEnabled?: boolean,
     isNowPlayingBarEnabled?: boolean,
-    isThemeMediaSupported?: boolean
+    isThemeMediaSupported?: boolean,
+    isDomCacheEnabled?: boolean,
+    backDropType?: string
 };
 
 /**
@@ -23,7 +25,9 @@ const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
     isBackButtonEnabled = true,
     isMenuButtonEnabled = false,
     isNowPlayingBarEnabled = true,
-    isThemeMediaSupported = false
+    isThemeMediaSupported = false,
+    isDomCacheEnabled = false,
+    backDropType
 }) => {
     const element = useRef<HTMLDivElement>(null);
 
@@ -63,6 +67,8 @@ const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
             data-title={title}
             data-backbutton={`${isBackButtonEnabled}`}
             data-menubutton={`${isMenuButtonEnabled}`}
+            data-dom-cache={`${isDomCacheEnabled}`}
+            data-backdroptype={`${backDropType}`}
         >
             {children}
         </div>
