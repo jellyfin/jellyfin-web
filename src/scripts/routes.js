@@ -208,14 +208,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/librarydisplay.html',
-        path: 'dashboard/librarydisplay.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/librarydisplay'
-    });
-
-    defineRoute({
         alias: '/edititemmetadata.html',
         path: 'edititemmetadata.html',
         controller: 'edititemmetadata',

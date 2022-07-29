@@ -11,6 +11,8 @@ import UserPassword from './user/userpassword';
 import UserProfile from './user/userprofile';
 import UserProfiles from './user/userprofiles';
 
+import LibraryDisplay from './library/librarydisplay';
+
 const AppRoutes = () => (
     <Routes>
         <Route path='/'>
@@ -28,6 +30,8 @@ const AppRoutes = () => (
                 <Route path='userlibraryaccess.html' element={<UserLibraryAccess />} />
                 <Route path='userparentalcontrol.html' element={<UserParentalControl />} />
                 <Route path='userpassword.html' element={<UserPassword />} />
+
+                <Route path='librarydisplay.html' element={<LibraryDisplay />} />
             </Route>
 
             {/* Suppress warnings for unhandled routes */}
