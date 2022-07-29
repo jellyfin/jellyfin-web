@@ -176,14 +176,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/dlnaprofiles.html',
-        path: 'dashboard/dlna/profiles.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/dlna/profiles'
-    });
-
-    defineRoute({
         alias: '/dlnasettings.html',
         path: 'dashboard/dlna/settings.html',
         autoFocus: false,
