@@ -10,7 +10,7 @@ import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
-    export default function (view, params, tabContent) {
+    export default function (params, tabContent) {
         function getPageData() {
             const key = getSavedQueryKey();
             let pageData = data[key];

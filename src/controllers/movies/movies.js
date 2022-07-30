@@ -11,7 +11,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
-    export default function (view, params, tabContent, options) {
+    export default function (params, tabContent, options) {
         const onViewStyleChange = () => {
             if (this.getCurrentViewStyle() == 'List') {
                 itemsContainer.classList.add('vertical-list');
@@ -87,7 +87,11 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 elem.addEventListener('click', onPreviousPageClick);
             }
 
-            tabContent.querySelector('.btnShuffle').classList.toggle('hide', result.TotalRecordCount < 1);
+            const btnShuffle = tabContent.querySelector('.btnShuffle');
+
+            if (btnShuffle) {
+                btnShuffle.classList.toggle('hide', result.TotalRecordCount < 1);
+            }
 
             isLoading = false;
             loading.hide();
@@ -259,7 +263,11 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 itemsContainer.refreshItems();
             });
 
-            tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
+            const btnShuffle = tabContent.querySelector('.btnShuffle');
+
+            if (btnShuffle) {
+                btnShuffle.addEventListener('click', shuffle);
+            }
         };
 
         let itemsContainer = tabContent.querySelector('.itemsContainer');
