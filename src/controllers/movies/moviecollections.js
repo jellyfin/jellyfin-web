@@ -7,53 +7,11 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-function getSavedQueryKey(context) {
-    if (!context.savedQueryKey) {
-        context.savedQueryKey = libraryBrowser.getSavedQueryKey('moviecollections');
-    }
-
-    return context.savedQueryKey;
-}
 class MovieCollections {
     isLoading = false;
-    data = {};
     constructor(params, tabContent) {
-        this.topParentId = params.topParentId;
+        this.params = params;
         this.tabContent = tabContent;
-    }
-
-    getPageData(context) {
-        const key = getSavedQueryKey(context);
-        let pageData = this.data[key];
-
-        if (!pageData) {
-            pageData = this.data[key] = {
-                query: {
-                    SortBy: 'SortName',
-                    SortOrder: 'Ascending',
-                    IncludeItemTypes: 'BoxSet',
-                    Recursive: true,
-                    Fields: 'PrimaryImageAspectRatio,SortName',
-                    ImageTypeLimit: 1,
-                    EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-                    StartIndex: 0
-                },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
-            };
-
-            if (userSettings.libraryPageSize() > 0) {
-                pageData.query['Limit'] = userSettings.libraryPageSize();
-            }
-
-            pageData.query.ParentId = this.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
-        }
-
-        return pageData;
-    }
-
-    getQuery(context) {
-        return this.getPageData(context).query;
     }
 
     onViewStyleChange = () => {
@@ -74,7 +32,7 @@ class MovieCollections {
     reloadItems(page) {
         loading.show();
         this.isLoading = true;
-        const query = this.getQuery(page);
+        const query = this.query;
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             window.scrollTo(0, 0);
             let html;
@@ -171,7 +129,7 @@ class MovieCollections {
             const itemsContainer = page.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+            userSettings.saveQuerySettings(this.savedQueryKey, query);
             loading.hide();
             this.isLoading = false;
 
@@ -204,19 +162,37 @@ class MovieCollections {
     }
 
     getCurrentViewStyle() {
-        return this.getPageData(this.tabContent).view;
+        return userSettings.get(this.savedViewKey) || 'Poster';
     }
 
     initPage(tabContent) {
+        this.savedQueryKey = this.params.topParentId + '-moviecollections';
+        this.savedViewKey = this.savedQueryKey + '-view';
+        this.query = {
+            SortBy: 'SortName',
+            SortOrder: 'Ascending',
+            IncludeItemTypes: 'BoxSet',
+            Recursive: true,
+            Fields: 'PrimaryImageAspectRatio,SortName',
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
+            StartIndex: 0,
+            ParentId: this.params.topParentId
+        };
+
+        if (userSettings.libraryPageSize() > 0) {
+            this.query['Limit'] = userSettings.libraryPageSize();
+        }
+
+        this.query = userSettings.loadQuerySettings(this.savedQueryKey, this.query);
         const btnSelectView = tabContent.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
         });
         btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
-            this.getPageData(tabContent).view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
-            this.getQuery(tabContent).StartIndex = 0;
+            userSettings.set(this.savedViewKey, viewStyle);
+            this.query.StartIndex = 0;
             this.onViewStyleChange();
             this.reloadItems(tabContent);
         });
@@ -230,23 +206,14 @@ class MovieCollections {
                         name: globalize.translate('Name'),
                         id: 'SortName'
                     }, {
-                        name: globalize.translate('OptionImdbRating'),
-                        id: 'CommunityRating,SortName'
-                    }, {
                         name: globalize.translate('OptionDateAdded'),
                         id: 'DateCreated,SortName'
-                    }, {
-                        name: globalize.translate('OptionParentalRating'),
-                        id: 'OfficialRating,SortName'
-                    }, {
-                        name: globalize.translate('OptionReleaseDate'),
-                        id: 'PremiereDate,SortName'
                     }],
                     callback: () => {
-                        this.getQuery(tabContent).StartIndex = 0;
+                        this.query.StartIndex = 0;
                         this.reloadItems(tabContent);
                     },
-                    query: this.getQuery(tabContent),
+                    query: this.query,
                     button: e.target
                 });
             });

@@ -285,13 +285,13 @@ const Movies: FunctionComponent<IProps> = (props: IProps) => {
 
                         <IconButtonElement
                             is='paper-icon-button-light'
-                            className='btnSort autoSize'
+                            className='btnSort autoSize hide'
                             title='Sort'
                             icon='material-icons sort_by_alpha'
                         />
                         <IconButtonElement
                             is='paper-icon-button-light'
-                            className='btnFilter autoSize'
+                            className='btnFilter autoSize hide'
                             title='Filter'
                             icon='material-icons filter_list'
                         />

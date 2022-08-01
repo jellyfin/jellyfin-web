@@ -9,58 +9,17 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-function getSavedQueryKey(context) {
-    if (!context.savedQueryKey) {
-        context.savedQueryKey = libraryBrowser.getSavedQueryKey('trailers');
-    }
-
-    return context.savedQueryKey;
-}
 class MovieTrailers {
     isLoading = false;
-    data = {};
     constructor(params, tabContent) {
-        this.topParentId = params.topParentId;
+        this.params = params;
         this.tabContent = tabContent;
-    }
-
-    getPageData(context) {
-        const key = getSavedQueryKey(context);
-        let pageData = this.data[key];
-
-        if (!pageData) {
-            pageData = this.data[key] = {
-                query: {
-                    SortBy: 'SortName',
-                    SortOrder: 'Ascending',
-                    IncludeItemTypes: 'Trailer',
-                    Recursive: true,
-                    Fields: 'PrimaryImageAspectRatio,SortName,BasicSyncInfo',
-                    ImageTypeLimit: 1,
-                    EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-                    StartIndex: 0
-                },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
-            };
-
-            if (userSettings.libraryPageSize() > 0) {
-                pageData.query['Limit'] = userSettings.libraryPageSize();
-            }
-
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
-        }
-
-        return pageData;
-    }
-
-    getQuery(context) {
-        return this.getPageData(context).query;
     }
 
     reloadItems(page) {
         loading.show();
         this.isLoading = true;
-        const query = this.getQuery(page);
+        const query = this.query;
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             window.scrollTo(0, 0);
             this.alphaPicker?.updateControls(query);
@@ -159,7 +118,18 @@ class MovieTrailers {
             const itemsContainer = page.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+            userSettings.saveQuerySettings(this.savedQueryKey, query);
+            const btnFilter = this.tabContent.querySelector('.btnFilter');
+
+            if (btnFilter) {
+                btnFilter.classList.toggle('hide', result.TotalRecordCount < 20);
+            }
+
+            const btnSort = this.tabContent.querySelector('.btnSort');
+
+            if (btnSort) {
+                btnSort.classList.toggle('hide', result.TotalRecordCount < 20);
+            }
             loading.hide();
             this.isLoading = false;
         });
@@ -190,12 +160,12 @@ class MovieTrailers {
     showFilterMenu() {
         import('../../components/filterdialog/filterdialog').then(({ default: filterDialogFactory }) => {
             const filterDialog = new filterDialogFactory({
-                query: this.getQuery(this.tabContent),
+                query: this.query,
                 mode: 'movies',
                 serverId: ApiClient.serverId()
             });
             Events.on(filterDialog, 'filterchange', () => {
-                this.getQuery(this.tabContent).StartIndex = 0;
+                this.query.StartIndex = 0;
                 this.reloadItems(this.tabContent);
             });
             filterDialog.show();
@@ -203,15 +173,35 @@ class MovieTrailers {
     }
 
     getCurrentViewStyle = () => {
-        return this.getPageData(this.tabContent).view;
+        return userSettings.get(this.savedViewKey) || 'Poster';
     };
 
     initPage(tabContent) {
+        this.savedQueryKey = this.params.topParentId + '-trailers';
+        this.savedViewKey = this.savedQueryKey + '-view';
+        this.query = {
+            SortBy: 'SortName',
+            SortOrder: 'Ascending',
+            IncludeItemTypes: 'Trailer',
+            Recursive: true,
+            Fields: 'PrimaryImageAspectRatio,SortName,BasicSyncInfo',
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
+            StartIndex: 0,
+            ParentId: this.params.topParentId
+        };
+
+        if (userSettings.libraryPageSize() > 0) {
+            this.query['Limit'] = userSettings.libraryPageSize();
+        }
+
+        this.query = userSettings.loadQuerySettings(this.savedQueryKey, this.query);
+
         const alphaPickerElement = tabContent.querySelector('.alphaPicker');
         const itemsContainer = tabContent.querySelector('.itemsContainer');
         alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
             const newValue = e.detail.value;
-            const query = this.getQuery(tabContent);
+            const query = this.query;
             if (newValue === '#') {
                 query.NameLessThan = 'A';
                 delete query.NameStartsWith;
@@ -259,10 +249,10 @@ class MovieTrailers {
                     id: 'PremiereDate,SortName'
                 }],
                 callback: () => {
-                    this.getQuery(tabContent).StartIndex = 0;
+                    this.query.StartIndex = 0;
                     this.reloadItems(tabContent);
                 },
-                query: this.getQuery(tabContent),
+                query: this.query,
                 button: e.target
             });
         });
@@ -274,7 +264,7 @@ class MovieTrailers {
 
     renderTab() {
         this.reloadItems(this.tabContent);
-        this.alphaPicker?.updateControls(this.getQuery(this.tabContent));
+        this.alphaPicker?.updateControls(this.query);
     }
 }
 

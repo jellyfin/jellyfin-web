@@ -1,10 +1,10 @@
 import escapeHtml from 'escape-html';
 import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../../components/appRouter';
 import '../../elements/emby-button/emby-button';
 
@@ -20,47 +20,30 @@ function getPortraitShape() {
     return enableScrollX() ? 'overflowPortrait' : 'portrait';
 }
 
-function getSavedQueryKey() {
-    return libraryBrowser.getSavedQueryKey('moviegenres');
-}
-
 class MovieGenres {
-    promise;
-    data = {};
     constructor(params, tabContent) {
-        this.topParentId = params.topParentId;
+        this.params = params;
         this.tabContent = tabContent;
     }
 
-    getPageData() {
-        const key = getSavedQueryKey();
-        let pageData = this.data[key];
+    initPage() {
+        this.savedQueryKey = this.params.topParentId + '-moviegenres';
+        this.savedViewKey = this.savedQueryKey + '-view';
+        this.query = {
+            SortBy: 'SortName',
+            SortOrder: 'Ascending',
+            IncludeItemTypes: 'Movie',
+            Recursive: true,
+            EnableTotalRecordCount: false,
+            ParentId: this.params.topParentId
+        };
 
-        if (!pageData) {
-            pageData = this.data[key] = {
-                query: {
-                    SortBy: 'SortName',
-                    SortOrder: 'Ascending',
-                    IncludeItemTypes: 'Movie',
-                    Recursive: true,
-                    EnableTotalRecordCount: false
-                },
-                view: 'Poster'
-            };
-            pageData.query.ParentId = this.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
-        }
-
-        return pageData;
-    }
-
-    getQuery() {
-        return this.getPageData().query;
+        this.query = userSettings.loadQuerySettings(this.savedQueryKey, this.query);
     }
 
     getPromise() {
         loading.show();
-        const query = this.getQuery();
+        const query = this.query;
         return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
     }
 
@@ -86,7 +69,7 @@ class MovieGenres {
             Limit: limit,
             GenreIds: id,
             EnableTotalRecordCount: false,
-            ParentId: this.topParentId
+            ParentId: this.params.topParentId
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             if (viewStyle == 'Thumb') {
@@ -140,7 +123,7 @@ class MovieGenres {
     };
 
     reloadItems(context, promise) {
-        const query = this.getQuery();
+        const query = this.query;
         promise.then((result) => {
             const elem = context.querySelector('#items');
             let html = '';
@@ -153,7 +136,7 @@ class MovieGenres {
                 html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item, {
                     context: 'movies',
-                    parentId: this.topParentId
+                    parentId: this.params.topParentId
                 }) + '" class="more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre' + item.Id + '">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += escapeHtml(item.Name);
@@ -188,14 +171,18 @@ class MovieGenres {
 
             elem.innerHTML = html;
             lazyLoader.lazyChildren(elem, this.fillItemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+            userSettings.saveQuerySettings(this.savedQueryKey, query);
             loading.hide();
         });
     }
 
     getCurrentViewStyle = () =>{
-        return this.getPageData().view;
+        return userSettings.get(this.savedViewKey) || 'Poster';
     };
+
+    initTab() {
+        this.initPage();
+    }
 
     preRender = () => {
         this.promise = this.getPromise();

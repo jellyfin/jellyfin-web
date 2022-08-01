@@ -15,8 +15,21 @@ class Movies {
         this.params = params;
         this.tabContent = tabContent;
         this.options = options;
+    }
+
+    initTab() {
+        this.initPage(this.tabContent);
+        this.onViewStyleChange();
+    }
+
+    renderTab() {
+        this.itemsContainer.refreshItems();
+        this.alphaPicker?.updateControls(this.query);
+    }
+
+    initPage(tabContent) {
         this.itemsContainer = tabContent.querySelector('.itemsContainer');
-        this.savedQueryKey = params.topParentId + '-' + options.mode;
+        this.savedQueryKey = this.params.topParentId + '-' + this.options.mode;
         this.savedViewKey = this.savedQueryKey + '-view';
         this.query = {
             SortBy: 'SortName,ProductionYear',
@@ -27,36 +40,22 @@ class Movies {
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             StartIndex: 0,
-            ParentId: params.topParentId
+            ParentId: this.params.topParentId
         };
 
         if (userSettings.libraryPageSize() > 0) {
             this.query['Limit'] = userSettings.libraryPageSize();
         }
 
-        if (options.mode === 'favorites') {
+        if (this.options.mode === 'favorites') {
             this.query.IsFavorite = true;
         }
 
         this.query = userSettings.loadQuerySettings(this.savedQueryKey, this.query);
-    }
 
-    initTab() {
-        this.initPage(this.tabContent);
-        this.onViewStyleChange();
-    }
-
-    renderTab() {
-        const itemsContainer = this.tabContent.querySelector('.itemsContainer');
-        itemsContainer.refreshItems();
-        this.alphaPicker?.updateControls(this.query);
-    }
-
-    initPage(tabContent) {
-        const itemsContainer = tabContent.querySelector('.itemsContainer');
-        itemsContainer.fetchData = this.fetchData.bind(this);
-        itemsContainer.getItemsHtml = this.getItemsHtml.bind(this);
-        itemsContainer.afterRefresh = this.afterRefresh.bind(this);
+        this.itemsContainer.fetchData = this.fetchData.bind(this);
+        this.itemsContainer.getItemsHtml = this.getItemsHtml.bind(this);
+        this.itemsContainer.afterRefresh = this.afterRefresh.bind(this);
         const alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
         if (alphaPickerElement) {
@@ -70,7 +69,7 @@ class Movies {
                     delete this.query.NameLessThan;
                 }
                 this.query.StartIndex = 0;
-                itemsContainer.refreshItems();
+                this.itemsContainer.refreshItems();
             });
             this.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
@@ -79,7 +78,7 @@ class Movies {
 
             tabContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
-            itemsContainer.classList.add('padded-right-withalphapicker');
+            this.itemsContainer.classList.add('padded-right-withalphapicker');
         }
 
         const btnFilter = tabContent.querySelector('.btnFilter');
@@ -128,7 +127,7 @@ class Movies {
                     callback: () => {
                         this.query.StartIndex = 0;
                         userSettings.saveQuerySettings(this.savedQueryKey, this.query);
-                        itemsContainer.refreshItems();
+                        this.itemsContainer.refreshItems();
                     },
                     query: this.query,
                     button: e.target
@@ -144,7 +143,7 @@ class Movies {
             userSettings.set(this.savedViewKey, viewStyle);
             this.query.StartIndex = 0;
             this.onViewStyleChange();
-            itemsContainer.refreshItems();
+            this.itemsContainer.refreshItems();
         });
 
         const btnShuffle = tabContent.querySelector('.btnShuffle');
@@ -299,7 +298,6 @@ class Movies {
     }
 
     showFilterMenu() {
-        const itemsContainer = this.tabContent.querySelector('.itemsContainer');
         import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
             const filterDialog = new filterDialogFactory({
                 query: this.query,
@@ -308,7 +306,7 @@ class Movies {
             });
             Events.on(filterDialog, 'filterchange', () => {
                 this.query.StartIndex = 0;
-                itemsContainer.refreshItems();
+                this.itemsContainer.refreshItems();
             });
             filterDialog.show();
         });
@@ -325,21 +323,16 @@ class Movies {
 
     onViewStyleChange() {
         const viewStyle = this.getCurrentViewStyle();
-        const itemsContainer = this.tabContent.querySelector('.itemsContainer');
 
         if (viewStyle == 'List') {
-            itemsContainer.classList.add('vertical-list');
-            itemsContainer.classList.remove('vertical-wrap');
+            this.itemsContainer.classList.add('vertical-list');
+            this.itemsContainer.classList.remove('vertical-wrap');
         } else {
-            itemsContainer.classList.remove('vertical-list');
-            itemsContainer.classList.add('vertical-wrap');
+            this.itemsContainer.classList.remove('vertical-list');
+            this.itemsContainer.classList.add('vertical-wrap');
         }
 
-        itemsContainer.innerHTML = '';
-    }
-
-    destroy() {
-        this.itemsContainer = null;
+        this.itemsContainer.innerHTML = '';
     }
 }
 
