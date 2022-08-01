@@ -266,7 +266,7 @@ const UserEdit: FunctionComponent = () => {
             }
         });
 
-        window.ApiClient.getServerConfiguration().then(function (config) {
+        window.ApiClient.getNamedConfiguration('network').then(function (config) {
             const fldRemoteAccess = page.querySelector('.fldRemoteAccess') as HTMLDivElement;
             config.EnableRemoteAccess ? fldRemoteAccess.classList.remove('hide') : fldRemoteAccess.classList.add('hide');
         });
