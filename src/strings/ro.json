@@ -659,7 +659,7 @@
     "LabelHardwareAccelerationType": "Accelerare hardware:",
     "LabelEncoderPreset": "Codificare presetată:",
     "LabelH264Crf": "CRF codare H.264:",
-    "LabelGroupMoviesIntoCollectionsHelp": "Dacă alegeți vizualizarea listei de filme, atunci colecțiile de filme vor fi afișate ca elemente cu filme grupate.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Filmele dintr-o colecție vor fi afișate ca un element grupat când vizualizați listele de filme.",
     "LabelGroupMoviesIntoCollections": "Grupează filmele în colecții",
     "LabelServerNameHelp": "Acest nume va fi utilizat pentru a identifica serverul și va fi implicit la numele computerului serverului.",
     "LabelFriendlyName": "Nume prietenos:",
@@ -1650,5 +1650,9 @@
     "Controls": "Controale",
     "UseEpisodeImagesInNextUpHelp": "Secțiunile „Următorul” și „Continuați vizionarea” vor folosi imagini ale episoadelor ca miniaturi în loc de miniatura principală a emisiunii.",
     "EnableEnhancedNvdecDecoderHelp": "Implementare experimentală a NVDEC. Activați această opțiune doar dacă întâmpinați erori de decodare.",
-    "HomeVideosPhotos": "Videoclipuri și Fotografii Locale"
+    "HomeVideosPhotos": "Videoclipuri și Fotografii Locale",
+    "ScreenResolution": "Rezoluție ecran",
+    "Bold": "Îngroșat",
+    "LabelTextWeight": "Greutate text:",
+    "LabelMaxVideoResolution": "Rezoluție maximă admisă pentru transcodare"
 }
