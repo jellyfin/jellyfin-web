@@ -1347,7 +1347,7 @@ import ServerConnections from '../ServerConnections';
 
                 cardImageContainerClose = '</div>';
             } else {
-                const cardImageContainerAriaLabelAttribute = ` aria-label="${item.Name}"`;
+                const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
 
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
@@ -1430,7 +1430,7 @@ import ServerConnections from '../ServerConnections';
             if (tagName === 'button') {
                 className += ' itemAction';
                 actionAttribute = ' data-action="' + action + '"';
-                ariaLabelAttribute = ` aria-label="${item.Name}"`;
+                ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
             } else {
                 actionAttribute = '';
             }
