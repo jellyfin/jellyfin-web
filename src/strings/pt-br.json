@@ -1656,5 +1656,13 @@
     "ScreenResolution": "Resolução de tela",
     "RememberAudioSelectionsHelp": "Tentar definir a faixa de áudio com a correspondência mais próxima do último vídeo.",
     "RememberAudioSelections": "Definir faixa de áudio baseado no item anterior",
-    "LabelMaxVideoResolution": "Resolução máxima de transcodificação de vídeo permitida"
+    "LabelMaxVideoResolution": "Resolução máxima de transcodificação de vídeo permitida",
+    "LabelVideoRangeType": "Tipo de intervalo de vídeo:",
+    "VideoRangeTypeNotSupported": "O tipo de intervalo do vídeo não é compatível",
+    "LabelVppTonemappingContrastHelp": "Aplique ganho de contraste no mapeamento de tom VPP. Os valores recomendados e padrão são 1,2 e 1.",
+    "LabelVppTonemappingContrast": "Ganho de contraste de mapeamento de tom VPP:",
+    "LabelVppTonemappingBrightnessHelp": "Aplicar ganho de brilho no mapeamento de tons do VPP. Os valores recomendados e padrão são 0.",
+    "LabelVppTonemappingBrightness": "Ganho de brilho do mapeamento de tom VPP:",
+    "RememberSubtitleSelectionsHelp": "Tentar definir a legenda com a correspondência mais próxima do último vídeo.",
+    "RememberSubtitleSelections": "Definir legenda baseado no item anterior"
 }
