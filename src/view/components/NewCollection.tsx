@@ -9,9 +9,10 @@ const NewCollection: FunctionComponent = () => {
         const btnNewCollection = element.current?.querySelector('.btnNewCollection') as HTMLButtonElement;
         if (btnNewCollection) {
             btnNewCollection.addEventListener('click', () => {
-                import('../../components/collectionEditor/collectionEditor').then(({ default: collectionEditor }) => {
+                import('../../components/collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
                     const serverId = window.ApiClient.serverId();
-                    new collectionEditor({
+                    const collectionEditor = new CollectionEditor();
+                    collectionEditor.show({
                         items: [],
                         serverId: serverId
                     });
