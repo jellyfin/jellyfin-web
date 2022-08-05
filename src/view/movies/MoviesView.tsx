@@ -141,7 +141,7 @@ const MoviesView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
 
             <AlphaPickerContainer query={query} reloadItems={reloadItems} />
 
-            <ItemsContainer getCurrentViewStyle={getCurrentViewStyle} query={query} items={itemsResult?.Items} noItemsMessage= 'MessageNoMoviesAvailable' />
+            <ItemsContainer getCurrentViewStyle={getCurrentViewStyle} query={query} items={itemsResult?.Items} noItemsMessage= 'NoCreatedLibraries' />
 
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination itemsResult= {itemsResult} query={query} reloadItems={reloadItems} />

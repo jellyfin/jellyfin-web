@@ -1,14 +1,15 @@
-import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
-
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import globalize from '../../scripts/globalize';
-import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
-import layoutManager from '../../components/layoutManager';
-import { appRouter } from '../../components/appRouter';
-import escapeHTML from 'escape-html';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
+
+import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import escapeHTML from 'escape-html';
+import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+
+import { appRouter } from '../../components/appRouter';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import layoutManager from '../../components/layoutManager';
+import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
+import globalize from '../../scripts/globalize';
 import { IQuery } from './type';
 
 type GenresItemsContainerProps = {
