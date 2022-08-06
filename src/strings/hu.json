@@ -1278,7 +1278,7 @@
     "New": "Új",
     "ApiKeysCaption": "A jelenleg engedélyezett API kulcsok listája",
     "LabelStable": "Stabil",
-    "LabelChromecastVersion": "Google Cast verzió:",
+    "LabelChromecastVersion": "Google Cast verzió",
     "LabelEnableHttpsHelp": "Figyelés a megadott HTTPS porton. Érvényes tanúsítványt is be kell állítani az érvénybe léptetéshez.",
     "LabelRequireHttpsHelp": "Bekapcsolást követően minden egyes HTTP-kérést átirányít HTTPS protokollra. A már meglévő HTTPS kéréseket nem módosítja.",
     "LabelRequireHttps": "HTTPS megkövetelése",
@@ -1425,7 +1425,7 @@
     "LabelSelectStereo": "Sztereó",
     "LabelSelectMono": "Monó",
     "LabelSelectAudioChannels": "Csatornák",
-    "LabelAllowedAudioChannels": "A maximálisan megengedett audiocsatornák:",
+    "LabelAllowedAudioChannels": "A maximálisan megengedett audiocsatornák",
     "AllowHevcEncoding": "HEVC formátumú kódolás engedélyezése",
     "PreferFmp4HlsContainerHelp": "Inkább az fMP4-et használja alapértelmezett tárolóként a HLS számára, lehetővé téve a HEVC-tartalom közvetlen irányítását a támogatott eszközökön.",
     "PreferFmp4HlsContainer": "Inkább az fMP4-HLS adattárolót részesítsd előnyben",
@@ -1671,5 +1671,5 @@
     "RememberSubtitleSelections": "Feliratsáv beállítása az előző elem alapján",
     "RememberAudioSelectionsHelp": "Próbálja meg úgy beállítani a hangsávot, hogy a legközelebb legyen az utolsó videóhoz.",
     "RememberAudioSelections": "Hangsáv beállítása az előző elem alapján",
-    "LabelMaxVideoResolution": "Maximálisan engedélyezett felbontás, Video Transzkódolás alatt:"
+    "LabelMaxVideoResolution": "Maximálisan engedélyezett felbontás, Video Transzkódolás alatt"
 }
