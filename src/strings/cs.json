@@ -1277,7 +1277,7 @@
     "New": "Nový",
     "ButtonTogglePlaylist": "Playlist",
     "LabelStable": "Stabilní",
-    "LabelChromecastVersion": "Verze Google Cast:",
+    "LabelChromecastVersion": "Verze Google Cast",
     "ApiKeysCaption": "Seznam povolených klíčů k API",
     "LabelEnableHttpsHelp": "Naslouchání na uvedeném portu HTTPS. K fungování je nutné nakonfigurovat i platný certifikát.",
     "LabelEnableHttps": "Povolit HTTPS",
@@ -1440,7 +1440,7 @@
     "LabelSelectStereo": "Stereo",
     "LabelSelectMono": "Mono",
     "LabelSelectAudioChannels": "Kanály",
-    "LabelAllowedAudioChannels": "Maximální povolený počet audiokanálů:",
+    "LabelAllowedAudioChannels": "Maximální povolený počet audiokanálů",
     "AllowHevcEncoding": "Povolit kódování do formátu HEVC",
     "PreferFmp4HlsContainerHelp": "Preferovat fMP4 jako výchozí kontejner pro HLS, což umožňuje na podporovaných zařízeních přímo streamovat obsah ve formátu HEVC.",
     "PreferFmp4HlsContainer": "Preferovat kontejner fMP4-HLS",
@@ -1675,5 +1675,5 @@
     "RememberSubtitleSelections": "Nastavit titulkovou stopu podle předchozí položky",
     "RememberAudioSelectionsHelp": "Pokusí se nastavit zvukovou stopu co nejpodobněji předchozímu videu.",
     "RememberAudioSelections": "Nastavit zvukovou stopu podle předchozí položky",
-    "LabelMaxVideoResolution": "Maximální rozlišení videa pro překódování:"
+    "LabelMaxVideoResolution": "Maximální rozlišení videa pro překódování"
 }
