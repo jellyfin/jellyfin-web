@@ -1664,5 +1664,7 @@
     "LabelVppTonemappingBrightnessHelp": "Aplicar ganho de brilho no mapeamento de tons do VPP. Os valores recomendados e padrão são 0.",
     "LabelVppTonemappingBrightness": "Ganho de brilho do mapeamento de tom VPP:",
     "RememberSubtitleSelectionsHelp": "Tentar definir a legenda com a correspondência mais próxima do último vídeo.",
-    "RememberSubtitleSelections": "Definir legenda baseado no item anterior"
+    "RememberSubtitleSelections": "Definir legenda baseado no item anterior",
+    "MediaInfoDvVersionMajor": "",
+    "MediaInfoDoViTitle": "Título DV"
 }
