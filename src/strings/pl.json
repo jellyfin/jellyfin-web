@@ -1329,7 +1329,7 @@
     "LabelRequireHttpsHelp": "Jeśli zaznaczone, serwer automatycznie przekieruje wszystkie połączenia HTTP do HTTPS. Ta opcja nie zadziała jeśli serwer nie nasłuchuje na HTTPS.",
     "LabelRequireHttps": "Wymagaj HTTPS",
     "LabelStable": "Stabilny",
-    "LabelChromecastVersion": "Wersja Google Cast:",
+    "LabelChromecastVersion": "Wersja Google Cast",
     "LabelEnableHttpsHelp": "Nasłuchuj na skonfigurowanym porcie HTTPS. Aby to zadziałało, należy również przedstawić ważny certyfikat.",
     "LabelEnableHttps": "Włącz HTTPS",
     "HeaderSyncPlayEnabled": "SyncPlay włączony",
@@ -1441,7 +1441,7 @@
     "LabelSelectStereo": "Stereo",
     "LabelSelectMono": "Mono",
     "LabelSelectAudioChannels": "Kanały",
-    "LabelAllowedAudioChannels": "Maksymalne Dozwolone Kanały Audio:",
+    "LabelAllowedAudioChannels": "Maksymalne Dozwolone Kanały Audio",
     "AllowHevcEncoding": "Zezwól na kodowanie w formacie HEVC",
     "LabelSyncPlayInfo": "Informacje o SyncPlay",
     "LabelOriginalMediaInfo": "Informacje o oryginalnym pliku",
@@ -1675,5 +1675,5 @@
     "RememberAudioSelectionsHelp": "Spróbuj ustawić ścieżkę dźwiękową najbardziej odpowiadającą ostatniemu filmowi.",
     "RememberAudioSelections": "Ustaw ścieżkę dźwiękową na podstawie poprzedniego elementu",
     "Bold": "Pogrubienie",
-    "LabelMaxVideoResolution": "Maksymalna dozwolona rozdzielczość transkodowania wideo:"
+    "LabelMaxVideoResolution": "Maksymalna dozwolona rozdzielczość transkodowania wideo"
 }
