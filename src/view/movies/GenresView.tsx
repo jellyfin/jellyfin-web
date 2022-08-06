@@ -53,7 +53,7 @@ const GenresView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
     }, [reloadItems]);
     return (
         <div ref={element}>
-            <GenresItemsContainer topParentId={topParentId} getCurrentViewStyle={getCurrentViewStyle} query={query} itemsResult={itemsResult} />
+            <GenresItemsContainer topParentId={topParentId} getCurrentViewStyle={getCurrentViewStyle} itemsResult={itemsResult} />
         </div>
     );
 };

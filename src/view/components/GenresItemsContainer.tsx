@@ -10,16 +10,14 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import layoutManager from '../../components/layoutManager';
 import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
-import { IQuery } from './type';
 
 type GenresItemsContainerProps = {
     topParentId?: string | null;
     getCurrentViewStyle: () => string;
-    query: IQuery;
     itemsResult?: BaseItemDtoQueryResult;
 }
 
-const GenresItemsContainer: FunctionComponent<GenresItemsContainerProps> = ({ topParentId, getCurrentViewStyle, query, itemsResult = {} }: GenresItemsContainerProps) => {
+const GenresItemsContainer: FunctionComponent<GenresItemsContainerProps> = ({ topParentId, getCurrentViewStyle, itemsResult = {} }: GenresItemsContainerProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     const enableScrollX = useCallback(() => {
@@ -154,7 +152,7 @@ const GenresItemsContainer: FunctionComponent<GenresItemsContainerProps> = ({ to
 
         elem.innerHTML = html;
         lazyLoader.lazyChildren(elem, fillItemsContainer);
-    }, [getCurrentViewStyle, query.SortBy, itemsResult.Items, fillItemsContainer, topParentId, enableScrollX]);
+    }, [getCurrentViewStyle, itemsResult.Items, fillItemsContainer, topParentId, enableScrollX]);
 
     return (
         <div ref={element}>
