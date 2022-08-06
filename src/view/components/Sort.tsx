@@ -5,13 +5,13 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import { IQuery } from './type';
 
 type SortProps = {
-    SortMenuOptions: () => { name: string; id: string}[];
+    sortMenuOptions: () => { name: string; id: string}[];
     query: IQuery;
     savedQueryKey: string;
     reloadItems: () => void;
 }
 
-const Sort: FunctionComponent<SortProps> = ({ SortMenuOptions, query, savedQueryKey, reloadItems }: SortProps) => {
+const Sort: FunctionComponent<SortProps> = ({ sortMenuOptions, query, savedQueryKey, reloadItems }: SortProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const Sort: FunctionComponent<SortProps> = ({ SortMenuOptions, query, savedQuery
         if (btnSort) {
             btnSort.addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
-                    items: SortMenuOptions(),
+                    items: sortMenuOptions(),
                     callback: () => {
                         query.StartIndex = 0;
                         userSettings.saveQuerySettings(savedQueryKey, query);
@@ -31,7 +31,7 @@ const Sort: FunctionComponent<SortProps> = ({ SortMenuOptions, query, savedQuery
                 });
             });
         }
-    }, [SortMenuOptions, query, reloadItems, savedQueryKey]);
+    }, [sortMenuOptions, query, reloadItems, savedQueryKey]);
 
     return (
         <div ref={element}>

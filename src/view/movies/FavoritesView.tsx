@@ -128,7 +128,7 @@ const FavoritesView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
                 <Pagination itemsResult= {itemsResult} query={query} reloadItems={reloadItems} />
 
                 <SelectView getCurrentViewStyle={getCurrentViewStyle} savedViewKey={savedViewKey} query={query} onViewStyleChange={onViewStyleChange} reloadItems={reloadItems} />
-                <Sort SortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
+                <Sort sortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
                 <Filter query={query} reloadItems={reloadItems} />
 
             </div>

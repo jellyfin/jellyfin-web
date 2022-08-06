@@ -113,7 +113,7 @@ const TrailersView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination itemsResult= {itemsResult} query={query} reloadItems={reloadItems} />
 
-                <Sort SortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
+                <Sort sortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
                 <Filter query={query} reloadItems={reloadItems} />
 
             </div>

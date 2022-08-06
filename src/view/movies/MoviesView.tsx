@@ -134,7 +134,7 @@ const MoviesView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
                 <Shuffle itemsResult= {itemsResult} topParentId={topParentId} />
 
                 <SelectView getCurrentViewStyle={getCurrentViewStyle} savedViewKey={savedViewKey} query={query} onViewStyleChange={onViewStyleChange} reloadItems={reloadItems} />
-                <Sort SortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
+                <Sort sortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
                 <Filter query={query} reloadItems={reloadItems} />
 
             </div>
