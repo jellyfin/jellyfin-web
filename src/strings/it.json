@@ -1278,7 +1278,7 @@
     "New": "Nuovo",
     "ApiKeysCaption": "Elenco chiavi API abilitate",
     "LabelStable": "Stabile",
-    "LabelChromecastVersion": "Versione Google Cast:",
+    "LabelChromecastVersion": "Versione Google Cast",
     "LabelRequireHttpsHelp": "Se selezionata, il server reindirizzerà tutte le richieste HTTP a HTTPS. Vale solo se il sever è configurato per l'ascolto in HTTPS.",
     "LabelRequireHttps": "Richiede HTTPS",
     "LabelEnableHttpsHelp": "Ascolta sulla porta HTTPS configurata. Deve essere fornito un certificato valido per l'abilitazione.",
@@ -1481,7 +1481,7 @@
     "LabelHDHomerunPortRangeHelp": "Restringi l'intervallo delle porte UDP di HDHomeRun a questo valore. (Default è 1024 - 65535).",
     "LabelHDHomerunPortRange": "Intervallo porte di HD Homerun:",
     "LabelH265Crf": "CRF di codifica H.265:",
-    "LabelAllowedAudioChannels": "Numero massimo di Canali Audio permessi:",
+    "LabelAllowedAudioChannels": "Numero massimo di Canali Audio permessi",
     "AspectRatioFill": "Riempi",
     "AspectRatioCover": "Copertina",
     "SyncPlayGroupDefaultTitle": "Gruppo di {0}",
@@ -1675,5 +1675,5 @@
     "RememberSubtitleSelections": "Imposta la traccia sottotitoli sulla base dell'elemento precedente",
     "RememberAudioSelectionsHelp": "Prova a impostare la traccia audio per essere più simile possibile all'ultimo video.",
     "RememberAudioSelections": "Imposta la traccia audio sulla base dell'elemento precedente",
-    "LabelMaxVideoResolution": "Risoluzione massima consentita per la transcodifica video:"
+    "LabelMaxVideoResolution": "Risoluzione massima consentita per la transcodifica video"
 }
