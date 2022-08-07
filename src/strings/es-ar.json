@@ -1658,7 +1658,7 @@
     "LabelVppTonemappingContrast": "Ganancia de contraste en mapeo de tono VPP:",
     "LabelVppTonemappingBrightness": "Ganancia de brillo en mapeo de tono VPP:",
     "RememberSubtitleSelections": "Establecer subtitulo basado en el item anterior",
-    "RememberAudioSelectionsHelp": "Intentar establecer la pista de audio lo mas cercano al ultimo video",
+    "RememberAudioSelectionsHelp": "Intentar establecer la pista de audio lo mas cercano al ultimo video.",
     "RememberAudioSelections": "Establecer pista de audio basada en el item anterior",
     "MixedMoviesShows": "Peliculas y Series",
     "LabelMaxVideoResolution": "Maxima resolución de transcodeo permitida",
