@@ -1671,5 +1671,9 @@
     "RememberSubtitleSelections": "Feliratsáv beállítása az előző elem alapján",
     "RememberAudioSelectionsHelp": "Próbálja meg úgy beállítani a hangsávot, hogy a legközelebb legyen az utolsó videóhoz.",
     "RememberAudioSelections": "Hangsáv beállítása az előző elem alapján",
-    "LabelMaxVideoResolution": "Maximálisan engedélyezett felbontás, Video Transzkódolás alatt"
+    "LabelMaxVideoResolution": "Maximálisan engedélyezett felbontás, Video Transzkódolás alatt",
+    "MediaInfoDvBlSignalCompatibilityId": "Dolby Vision BL jel kompatibilitási azonosító",
+    "MediaInfoBlPresentFlag": "Dolby Vision BL előre beállított zászló",
+    "MediaInfoElPresentFlag": "Dolby Vision EL elérhető markerek",
+    "MediaInfoRpuPresentFlag": "Dolby Vision rpu zászló jelen van"
 }
