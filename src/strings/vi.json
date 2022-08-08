@@ -1409,7 +1409,7 @@
     "Video": "Video",
     "ValueOneAlbum": "1 tuyển tập",
     "ValueMinutes": "{0} phút",
-    "ValueAlbumCount": "{0} albums",
+    "ValueAlbumCount": "",
     "TrackCount": "{0} bản ghi",
     "TabPlugins": "Plugins",
     "TV": "TV",
@@ -1665,7 +1665,7 @@
     "VideoRangeTypeNotSupported": "Loại phạm vi của video không được hỗ trợ",
     "Interview": "Phỏng vấn",
     "Sample": "Mẫu",
-    "Trailer": "Trailer",
+    "Trailer": "",
     "TypeOptionPluralVideo": "Videos",
     "ButtonSpace": "Cách",
     "ButtonBackspace": "Xóa"
