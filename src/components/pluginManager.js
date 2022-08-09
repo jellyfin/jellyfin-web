@@ -34,7 +34,7 @@ class PluginManager {
             // translations won't be loaded for skins until needed
             return plugin;
         } else {
-            return await this.#loadStrings(plugin);
+            return this.#loadStrings(plugin);
         }
     }
 
