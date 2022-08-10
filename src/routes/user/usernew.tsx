@@ -107,6 +107,7 @@ const UserNew: FunctionComponent = () => {
         loadUser();
 
         const saveUser = () => {
+            /*eslint-disable-next-line no-shadow */
             const userInput: userInput = {};
             userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;

@@ -7,6 +7,7 @@ import loading from './loading/loading';
 import ServerConnections from './ServerConnections';
 import globalize from '../scripts/globalize';
 
+/*eslint-disable no-shadow */
 enum BounceRoutes {
     Home = '/home.html',
     Login = '/login.html',
@@ -26,6 +27,7 @@ type ConnectionRequiredProps = {
     isAdminRequired?: boolean,
     isUserRequired?: boolean
 };
+/*eslint-enable no-shadow */
 
 /**
  * A component that ensures a server connection has been established.
