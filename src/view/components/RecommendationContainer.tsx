@@ -43,7 +43,6 @@ const RecommendationContainer: FunctionComponent<RecommendationContainerProps> =
     useEffect(() => {
         cardBuilder.buildCards(recommendation.Items || [], {
             itemsContainer: element.current?.querySelector('.itemsContainer'),
-            parentContainer: element.current,
             shape: getPortraitShape(),
             scalable: true,
             overlayPlayButton: true,

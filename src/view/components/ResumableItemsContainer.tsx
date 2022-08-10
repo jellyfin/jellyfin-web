@@ -6,6 +6,7 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../scripts/globalize';
 import ItemsContainerElement from '../../elements/ItemsContainerElement';
+import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
 
 type ResumableItemsContainerProps = {
     getThumbShape: () => string;
@@ -17,17 +18,10 @@ const ResumableItemsContainer: FunctionComponent<ResumableItemsContainerProps> =
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const section = element.current?.querySelector('#resumableSection') as HTMLDivElement;
-        if (itemsResult.Items?.length) {
-            section.classList.remove('hide');
-        } else {
-            section.classList.add('hide');
-        }
-
         const allowBottomPadding = !enableScrollX();
-        const container = element.current?.querySelector('#resumableItems') as HTMLDivElement;
         cardBuilder.buildCards(itemsResult.Items || [], {
-            itemsContainer: container,
+            itemsContainer: element.current?.querySelector('.itemsContainer'),
+            parentContainer: element.current?.querySelector('#resumableSection'),
             preferThumb: true,
             shape: getThumbShape(),
             scalable: true,
@@ -49,10 +43,14 @@ const ResumableItemsContainer: FunctionComponent<ResumableItemsContainerProps> =
                     </h2>
                 </div>
 
-                <ItemsContainerElement
-                    id='resumableItems'
-                    className='itemsContainer padded-left padded-right'
-                />
+                {enableScrollX() ? <ItemsScrollerContainerElement
+                    scrollerclassName='padded-top-focusscale padded-bottom-focusscale'
+                    dataMousewheel='false'
+                    dataCenterfocus='true'
+                    className='itemsContainer scrollSlider focuscontainer-x'
+                /> : <ItemsContainerElement
+                    className='itemsContainer focuscontainer-x padded-left padded-right vertical-wrap'
+                />}
 
             </div>
         </div>

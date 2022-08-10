@@ -6,6 +6,7 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../scripts/globalize';
 import ItemsContainerElement from '../../elements/ItemsContainerElement';
+import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
 
 type RecentlyAddedItemsContainerProps = {
     getPortraitShape: () => string;
@@ -17,21 +18,13 @@ const RecentlyAddedItemsContainer: FunctionComponent<RecentlyAddedItemsContainer
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const section = element.current?.querySelector('#recentlyAddedItemsSection') as HTMLDivElement;
-        if (items?.length) {
-            section.classList.remove('hide');
-        } else {
-            section.classList.add('hide');
-        }
-
-        const allowBottomPadding = !enableScrollX();
-        const container = element.current?.querySelector('#recentlyAddedItems');
         cardBuilder.buildCards(items, {
-            itemsContainer: container,
+            itemsContainer: element.current?.querySelector('.itemsContainer'),
+            parentContainer: element.current?.querySelector('#recentlyAddedItemsSection'),
             shape: getPortraitShape(),
             scalable: true,
             overlayPlayButton: true,
-            allowBottomPadding: allowBottomPadding,
+            allowBottomPadding: true,
             showTitle: true,
             showYear: true,
             centerText: true
@@ -47,10 +40,14 @@ const RecentlyAddedItemsContainer: FunctionComponent<RecentlyAddedItemsContainer
                     </h2>
                 </div>
 
-                <ItemsContainerElement
-                    id='recentlyAddedItems'
-                    className='itemsContainer padded-left padded-right'
-                />
+                {enableScrollX() ? <ItemsScrollerContainerElement
+                    scrollerclassName='padded-top-focusscale padded-bottom-focusscale'
+                    dataMousewheel='false'
+                    dataCenterfocus='true'
+                    className='itemsContainer scrollSlider focuscontainer-x'
+                /> : <ItemsContainerElement
+                    className='itemsContainer focuscontainer-x padded-left padded-right vertical-wrap'
+                />}
 
             </div>
         </div>

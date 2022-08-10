@@ -103,7 +103,6 @@ const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentView
     return (
         <div ref={element}>
             <ItemsContainerElement
-                id=''
                 className={`itemsContainer ${cssClass} centered padded-left padded-right`}
             />
         </div>

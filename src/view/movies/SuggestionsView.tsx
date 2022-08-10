@@ -113,41 +113,6 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
         loadSuggestions(view, userId);
     }, [loadLatest, loadResume, loadSuggestions, props.topParentId]);
 
-    const setScrollClasses = useCallback((elem, scrollX) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        if (scrollX) {
-            elem.classList.add('hiddenScrollX');
-
-            if (layoutManager.tv) {
-                elem.classList.add('smoothScrollX');
-                elem.classList.add('padded-top-focusscale');
-                elem.classList.add('padded-bottom-focusscale');
-            }
-
-            elem.classList.add('scrollX');
-            elem.classList.remove('vertical-wrap');
-        } else {
-            elem.classList.remove('hiddenScrollX');
-            elem.classList.remove('smoothScrollX');
-            elem.classList.remove('scrollX');
-            elem.classList.add('vertical-wrap');
-        }
-    }, []);
-
-    const initSuggestedTab = useCallback((view) => {
-        const containers = view.querySelectorAll('.itemsContainer');
-
-        for (const container of containers) {
-            setScrollClasses(container, enableScrollX());
-        }
-    }, [enableScrollX, setScrollClasses]);
-
     useEffect(() => {
         const page = element.current;
 
@@ -156,9 +121,8 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
             return;
         }
 
-        initSuggestedTab(page);
         loadSuggestionsTab(page);
-    }, [initSuggestedTab, loadSuggestionsTab]);
+    }, [loadSuggestionsTab]);
 
     return (
         <div ref={element}>
@@ -173,7 +137,6 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
                 </div> : recommendations.map((recommendation, index) => {
                     return <RecommendationContainer key={index} getPortraitShape={getPortraitShape} enableScrollX={enableScrollX} recommendation={recommendation} />;
                 })}
-                {}
             </div>
         </div>
     );
