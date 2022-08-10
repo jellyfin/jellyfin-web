@@ -96,38 +96,16 @@ const FavoritesView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
         });
     }, [query]);
 
-    const onViewStyleChange = useCallback(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        const viewStyle = getCurrentViewStyle();
-        const itemsContainer = page.querySelector('.itemsContainer') as HTMLDivElement;
-        if (viewStyle == 'List') {
-            itemsContainer.classList.add('vertical-list');
-            itemsContainer.classList.remove('vertical-wrap');
-        } else {
-            itemsContainer.classList.remove('vertical-list');
-            itemsContainer.classList.add('vertical-wrap');
-        }
-
-        itemsContainer.innerHTML = '';
-    }, [getCurrentViewStyle]);
-
     useEffect(() => {
-        onViewStyleChange();
         reloadItems();
-    }, [onViewStyleChange, query, reloadItems]);
+    }, [query, reloadItems]);
 
     return (
         <div ref={element}>
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination itemsResult= {itemsResult} query={query} reloadItems={reloadItems} />
 
-                <SelectView getCurrentViewStyle={getCurrentViewStyle} savedViewKey={savedViewKey} query={query} onViewStyleChange={onViewStyleChange} reloadItems={reloadItems} />
+                <SelectView getCurrentViewStyle={getCurrentViewStyle} savedViewKey={savedViewKey} query={query} reloadItems={reloadItems} />
                 <Sort sortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
                 <Filter query={query} reloadItems={reloadItems} />
 

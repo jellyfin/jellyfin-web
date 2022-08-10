@@ -54,11 +54,8 @@ const Pagination: FunctionComponent<PaginationProps> = ({ query, itemsResult = {
 
     return (
         <div ref={element}>
-            <div
-                className='paging'
-            />
+            <div className='paging' />
         </div>
-
     );
 };
 

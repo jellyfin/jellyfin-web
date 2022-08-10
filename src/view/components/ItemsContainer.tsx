@@ -18,10 +18,11 @@ type ItemsContainerProps = {
 
 const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentViewStyle, query, items = [], noItemsMessage }: ItemsContainerProps) => {
     const element = useRef<HTMLDivElement>(null);
+    const viewStyle = getCurrentViewStyle();
 
     useEffect(() => {
         let html;
-        const viewStyle = getCurrentViewStyle();
+
         if (viewStyle == 'Thumb') {
             html = cardBuilder.getCardsHtml(items, {
                 items: items,
@@ -95,13 +96,15 @@ const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentView
         const itemsContainer = element.current?.querySelector('.itemsContainer') as HTMLDivElement;
         itemsContainer.innerHTML = html;
         imageLoader.lazyChildren(itemsContainer);
-    }, [getCurrentViewStyle, query.SortBy, items, noItemsMessage]);
+    }, [query.SortBy, items, noItemsMessage, viewStyle]);
+
+    const cssClass = viewStyle == 'List' ? 'vertical-list' : 'vertical-wrap';
 
     return (
         <div ref={element}>
             <ItemsContainerElement
                 id=''
-                className='itemsContainer vertical-wrap centered padded-left padded-right'
+                className={`itemsContainer ${cssClass} centered padded-left padded-right`}
             />
         </div>
     );

@@ -156,7 +156,7 @@ const GenresItemsContainer: FunctionComponent<GenresItemsContainerProps> = ({ to
 
     return (
         <div ref={element}>
-            <div id='items'></div>
+            <div id='items'/>
         </div>
     );
 };

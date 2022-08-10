@@ -97,34 +97,9 @@ const MoviesView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
         });
     }, [query]);
 
-    const onViewStyleChange = useCallback(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        const viewStyle = getCurrentViewStyle();
-        const itemsContainer = page.querySelector('.itemsContainer') as HTMLDivElement;
-        if (viewStyle == 'List') {
-            itemsContainer.classList.add('vertical-list');
-            itemsContainer.classList.remove('vertical-wrap');
-        } else {
-            itemsContainer.classList.remove('vertical-list');
-            itemsContainer.classList.add('vertical-wrap');
-        }
-
-        itemsContainer.innerHTML = '';
-    }, [getCurrentViewStyle]);
-
-    useEffect(() => {
-        onViewStyleChange();
-    }, [onViewStyleChange]);
-
     useEffect(() => {
         reloadItems();
-    }, [onViewStyleChange, query, reloadItems]);
+    }, [query, reloadItems]);
 
     return (
         <div ref={element}>
@@ -133,7 +108,7 @@ const MoviesView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
 
                 <Shuffle itemsResult= {itemsResult} topParentId={topParentId} />
 
-                <SelectView getCurrentViewStyle={getCurrentViewStyle} savedViewKey={savedViewKey} query={query} onViewStyleChange={onViewStyleChange} reloadItems={reloadItems} />
+                <SelectView getCurrentViewStyle={getCurrentViewStyle} savedViewKey={savedViewKey} query={query} reloadItems={reloadItems} />
                 <Sort sortMenuOptions={SortMenuOptions} query={query} savedQueryKey={savedQueryKey} reloadItems={reloadItems} />
                 <Filter query={query} reloadItems={reloadItems} />
 

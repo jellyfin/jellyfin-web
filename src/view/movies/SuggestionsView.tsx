@@ -97,8 +97,8 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb'
         });
-        window.ApiClient.getJSON(url).then(recommendations => {
-            setRecommendations(recommendations);
+        window.ApiClient.getJSON(url).then(result => {
+            setRecommendations(result);
 
             // FIXME: Wait for all sections to load
             autoFocus(page);

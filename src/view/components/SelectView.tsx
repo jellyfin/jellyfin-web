@@ -9,11 +9,10 @@ type SelectViewProps = {
     getCurrentViewStyle: () => string;
     query: IQuery;
     savedViewKey: string;
-    onViewStyleChange: () => void;
     reloadItems: () => void;
 }
 
-const SelectView: FunctionComponent<SelectViewProps> = ({ getCurrentViewStyle, savedViewKey, query, onViewStyleChange, reloadItems }: SelectViewProps) => {
+const SelectView: FunctionComponent<SelectViewProps> = ({ getCurrentViewStyle, savedViewKey, query, reloadItems }: SelectViewProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -25,10 +24,9 @@ const SelectView: FunctionComponent<SelectViewProps> = ({ getCurrentViewStyle, s
             const viewStyle = (e as CustomEvent).detail.viewStyle;
             userSettings.set(savedViewKey, viewStyle, false);
             query.StartIndex = 0;
-            onViewStyleChange();
             reloadItems();
         });
-    }, [getCurrentViewStyle, onViewStyleChange, query, reloadItems, savedViewKey]);
+    }, [getCurrentViewStyle, query, reloadItems, savedViewKey]);
 
     return (
         <div ref={element}>
