@@ -62,7 +62,8 @@ module.exports = {
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
-        'no-sequences': ['error', { 'allowInParentheses': false }]
+        'no-sequences': ['error', { 'allowInParentheses': false }],
+        'no-shadow': ['error']
     },
     settings: {
         react: {
