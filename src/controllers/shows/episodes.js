@@ -189,11 +189,11 @@ import Dashboard from '../../utils/dashboard';
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
-            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
+        function initPage(tabsContent) {
+            tabsContent.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });
-            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
+            tabsContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -221,22 +221,22 @@ import Dashboard from '../../utils/dashboard';
                         id: 'Runtime,SeriesSortName,SortName'
                     }],
                     callback: function () {
-                        reloadItems(tabContent);
+                        reloadItems(tabsContent);
                     },
-                    query: getQuery(tabContent),
+                    query: getQuery(tabsContent),
                     button: e.target
                 });
             });
-            const btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabsContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
-                getPageData(tabContent).view = viewStyle;
-                libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+                getPageData(tabsContent).view = viewStyle;
+                libraryBrowser.saveViewSetting(getSavedQueryKey(tabsContent), viewStyle);
                 onViewStyleChange();
-                reloadItems(tabContent);
+                reloadItems(tabsContent);
             });
         }
 

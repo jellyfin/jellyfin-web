@@ -767,7 +767,7 @@ function renderLinks(page, item) {
     }
 }
 
-function renderDetailImage(elem, item, imageLoader) {
+function renderDetailImage(elem, item, imgLoader) {
     const itemArray = [];
     itemArray.push(item);
     const cardHtml = cardBuilder.getCardsHtml(itemArray, {
@@ -784,7 +784,7 @@ function renderDetailImage(elem, item, imageLoader) {
     });
 
     elem.innerHTML = cardHtml;
-    imageLoader.lazyChildren(elem);
+    imgLoader.lazyChildren(elem);
 
     // Avoid breaking the design by preventing focus of the poster using the keyboard.
     elem.querySelector('a, button').tabIndex = -1;
@@ -1878,28 +1878,28 @@ export default function (view, params) {
         return params.serverId ? ServerConnections.getApiClient(params.serverId) : ApiClient;
     }
 
-    function reload(instance, page, params) {
+    function reload(instance, page, reloadParams) {
         loading.show();
 
         const apiClient = getApiClient();
 
-        Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
+        Promise.all([getPromise(apiClient, reloadParams), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
-            reloadFromItem(instance, page, params, item, user);
+            reloadFromItem(instance, page, reloadParams, item, user);
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
         });
     }
 
-    function splitVersions(instance, page, apiClient, params) {
+    function splitVersions(instance, page, apiClient, reloadParams) {
         confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
             loading.show();
             apiClient.ajax({
                 type: 'DELETE',
-                url: apiClient.getUrl('Videos/' + params.id + '/AlternateSources')
+                url: apiClient.getUrl('Videos/' + reloadParams.id + '/AlternateSources')
             }).then(function () {
                 loading.hide();
-                reload(instance, page, params);
+                reload(instance, page, reloadParams);
             });
         });
     }

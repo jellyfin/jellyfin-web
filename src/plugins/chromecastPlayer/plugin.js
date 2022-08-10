@@ -982,9 +982,9 @@ class ChromecastPlayer {
 
         const instance = this;
 
-        apiClient.getItem(userId, item.Id).then(function (item) {
+        apiClient.getItem(userId, item.Id).then(function (shuffleItem) {
             instance.playWithCommand({
-                items: [item]
+                items: [shuffleItem]
             }, 'Shuffle');
         });
     }
@@ -995,9 +995,9 @@ class ChromecastPlayer {
 
         const instance = this;
 
-        apiClient.getItem(userId, item.Id).then(function (item) {
+        apiClient.getItem(userId, item.Id).then(function (mixItem) {
             instance.playWithCommand({
-                items: [item]
+                items: [mixItem]
             }, 'InstantMix');
         });
     }

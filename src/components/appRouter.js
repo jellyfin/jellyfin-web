@@ -539,7 +539,7 @@ class AppRouter {
         }
 
         if (item === 'list') {
-            let url = '#/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            url = '#/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
             if (options.isFavorite) {
                 url += '&IsFavorite=true';

@@ -47,7 +47,7 @@ import '../elements/emby-button/emby-button';
         return true;
     }
 
-    function configureSwipeTabs(view, tabsElem) {
+    function configureSwipeTabs(view, tabsElement) {
         if (!browser.touch) {
             return;
         }
@@ -55,13 +55,13 @@ import '../elements/emby-button/emby-button';
         // implement without hammer
         const onSwipeLeft = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
-                tabsElem.selectNext();
+                tabsElement.selectNext();
             }
         };
 
         const onSwipeRight = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
-                tabsElem.selectPrevious();
+                tabsElement.selectPrevious();
             }
         };
 

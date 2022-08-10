@@ -251,8 +251,8 @@ import toast from './toast/toast';
         } else if (action === 'playmenu') {
             showPlayMenu(card, target);
         } else if (action === 'edit') {
-            getItem(target).then(item => {
-                editItem(item, serverId);
+            getItem(target).then(itemToEdit => {
+                editItem(itemToEdit, serverId);
             });
         } else if (action === 'playtrailer') {
             getItem(target).then(playTrailer);
@@ -293,7 +293,7 @@ import toast from './toast/toast';
         const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
-            const serverId = apiClient.serverInfo().Id;
+            serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {

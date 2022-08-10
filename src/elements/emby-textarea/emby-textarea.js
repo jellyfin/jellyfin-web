@@ -13,11 +13,11 @@ import '../emby-input/emby-input';
 
         /**
          * Calculates the vertical padding of the element
-         * @param textarea
+         * @param textareaEl
          * @returns {number}
          */
-        self.getOffset = function (textarea) {
-            const style = window.getComputedStyle(textarea, null);
+        self.getOffset = function (textareaEl) {
+            const style = window.getComputedStyle(textareaEl, null);
             const props = ['paddingTop', 'paddingBottom'];
             let offset = 0;
 

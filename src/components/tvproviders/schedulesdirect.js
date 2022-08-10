@@ -201,8 +201,8 @@ export default function (page, providerId, options) {
         });
     }
 
-    function getTunerName(providerId) {
-        switch (providerId = providerId.toLowerCase()) {
+    function getTunerName(deviceType) {
+        switch (deviceType = deviceType.toLowerCase()) {
             case 'm3u':
                 return 'M3U Playlist';
             case 'hdhomerun':
@@ -214,7 +214,7 @@ export default function (page, providerId, options) {
         }
     }
 
-    function refreshTunerDevices(page, providerInfo, devices) {
+    function refreshTunerDevices(pageEl, providerInfo, devices) {
         let html = '';
 
         for (let i = 0, length = devices.length; i < length; i++) {
@@ -235,7 +235,7 @@ export default function (page, providerId, options) {
             html += '</div>';
         }
 
-        page.querySelector('.tunerList').innerHTML = html;
+        pageEl.querySelector('.tunerList').innerHTML = html;
     }
 
     let listingsId;

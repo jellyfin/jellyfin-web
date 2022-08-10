@@ -158,11 +158,11 @@ export default function (view, params, tabContent) {
         return getPageData(tabContent).view;
     };
 
-    function initPage(tabContent) {
-        tabContent.querySelector('.btnFilter').addEventListener('click', function () {
+    function initPage(tabsContent) {
+        tabsContent.querySelector('.btnFilter').addEventListener('click', function () {
             self.showFilterMenu();
         });
-        tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabsContent.querySelector('.btnSort').addEventListener('click', function (e) {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('OptionTrackName'),
@@ -196,14 +196,14 @@ export default function (view, params, tabContent) {
                     id: 'Random,SortName'
                 }],
                 callback: function () {
-                    getQuery(tabContent).StartIndex = 0;
-                    reloadItems(tabContent);
+                    getQuery(tabsContent).StartIndex = 0;
+                    reloadItems(tabsContent);
                 },
-                query: getQuery(tabContent),
+                query: getQuery(tabsContent),
                 button: e.target
             });
         });
-        tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
+        tabsContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
     }
 
     initPage(tabContent);

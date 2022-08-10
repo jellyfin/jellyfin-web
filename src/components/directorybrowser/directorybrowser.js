@@ -251,7 +251,7 @@ class DirectoryBrowser {
         }
         Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
             responses => {
-                const systemInfo = responses[0];
+                systemInfo = responses[0];
                 const initialPath = responses[1];
                 const dlg = dialogHelper.createDialog({
                     size: 'small',

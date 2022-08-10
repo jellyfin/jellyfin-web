@@ -1783,7 +1783,7 @@ class PlaybackManager {
                     MediaTypes: 'Photo,Video',
                     Limit: UNLIMITED_ITEMS
                 }).then(function (result) {
-                    const items = result.Items;
+                    items = result.Items;
 
                     let index = items.map(function (i) {
                         return i.Id;

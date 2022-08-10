@@ -165,11 +165,11 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return html;
         };
 
-        const initPage = (tabContent) => {
+        const initPage = (tabsContent) => {
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
-            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const alphaPickerElement = tabsContent.querySelector('.alphaPicker');
 
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
@@ -189,19 +189,19 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     valueChangeEvent: 'click'
                 });
 
-                tabContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+                tabsContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
                 alphaPickerElement.classList.add('alphaPicker-fixed-right');
                 itemsContainer.classList.add('padded-right-withalphapicker');
             }
 
-            const btnFilter = tabContent.querySelector('.btnFilter');
+            const btnFilter = tabsContent.querySelector('.btnFilter');
 
             if (btnFilter) {
                 btnFilter.addEventListener('click', () => {
                     this.showFilterMenu();
                 });
             }
-            const btnSort = tabContent.querySelector('.btnSort');
+            const btnSort = tabsContent.querySelector('.btnSort');
 
             if (btnSort) {
                 btnSort.addEventListener('click', function (e) {
@@ -247,7 +247,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     });
                 });
             }
-            const btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabsContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', (e) => {
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
@@ -259,7 +259,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 itemsContainer.refreshItems();
             });
 
-            tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
+            tabsContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
         };
 
         let itemsContainer = tabContent.querySelector('.itemsContainer');

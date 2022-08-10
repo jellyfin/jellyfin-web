@@ -1356,13 +1356,13 @@ function tryRemoveElement(elem) {
          * @private
          */
         createMediaElement(options) {
-            const dlg = document.querySelector('.videoPlayerContainer');
+            let dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
                     return import('./style.scss').then(() => {
                         loading.show();
 
-                        const dlg = document.createElement('div');
+                        dlg = document.createElement('div');
 
                         dlg.classList.add('videoPlayerContainer');
 

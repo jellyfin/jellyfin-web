@@ -226,7 +226,7 @@ import Dashboard from '../../utils/dashboard';
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
-        function enableScrollX() {
+        function isScrollXenabled() {
             return browser.mobile;
         }
 
@@ -363,7 +363,7 @@ import Dashboard from '../../utils/dashboard';
             const containers = tabContent.querySelectorAll('.itemsContainer');
 
             for (let i = 0, length = containers.length; i < length; i++) {
-                setScrollClasses(containers[i], enableScrollX());
+                setScrollClasses(containers[i], isScrollXenabled());
             }
         };
 

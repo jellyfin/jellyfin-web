@@ -105,8 +105,8 @@ export default function (page, providerId, options) {
         });
     }
 
-    function getTunerName(providerId) {
-        switch (providerId = providerId.toLowerCase()) {
+    function getTunerName(deviceType) {
+        switch (deviceType = deviceType.toLowerCase()) {
             case 'm3u':
                 return 'M3U Playlist';
             case 'hdhomerun':
@@ -118,7 +118,7 @@ export default function (page, providerId, options) {
         }
     }
 
-    function refreshTunerDevices(page, providerInfo, devices) {
+    function refreshTunerDevices(context, providerInfo, devices) {
         let html = '';
 
         for (let i = 0, length = devices.length; i < length; i++) {
@@ -139,11 +139,11 @@ export default function (page, providerId, options) {
             html += '</div>';
         }
 
-        page.querySelector('.tunerList').innerHTML = html;
+        context.querySelector('.tunerList').innerHTML = html;
     }
 
     function onSelectPathClick(e) {
-        const page = $(e.target).parents('.xmltvForm')[0];
+        const context = $(e.target).parents('.xmltvForm')[0];
 
         import('../directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
             const picker = new DirectoryBrowser();
@@ -151,7 +151,7 @@ export default function (page, providerId, options) {
                 includeFiles: true,
                 callback: function (path) {
                     if (path) {
-                        const txtPath = page.querySelector('.txtPath');
+                        const txtPath = context.querySelector('.txtPath');
                         txtPath.value = path;
                         txtPath.focus();
                     }

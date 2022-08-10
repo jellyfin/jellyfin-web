@@ -26,13 +26,13 @@ function zoomIn(elem, iterations) {
 
 function createMediaElement(instance, options) {
     return new Promise(function (resolve) {
-        const dlg = document.querySelector('.youtubePlayerContainer');
+        let dlg = document.querySelector('.youtubePlayerContainer');
 
         if (!dlg) {
             import('./style.scss').then(() => {
                 loading.show();
 
-                const dlg = document.createElement('div');
+                dlg = document.createElement('div');
 
                 dlg.classList.add('youtubePlayerContainer');
 

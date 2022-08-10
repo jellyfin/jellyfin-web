@@ -205,12 +205,12 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return getPageData(tabContent).view;
         };
 
-        const initPage = (tabContent) => {
-            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
-            const itemsContainer = tabContent.querySelector('.itemsContainer');
+        const initPage = (tabsContent) => {
+            const alphaPickerElement = tabsContent.querySelector('.alphaPicker');
+            const itemsContainer = tabsContent.querySelector('.itemsContainer');
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
-                const query = getQuery(tabContent);
+                const query = getQuery(tabsContent);
                 if (newValue === '#') {
                     query.NameLessThan = 'A';
                     delete query.NameStartsWith;
@@ -226,14 +226,14 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 valueChangeEvent: 'click'
             });
 
-            tabContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+            tabsContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
             itemsContainer.classList.add('padded-right-withalphapicker');
 
-            tabContent.querySelector('.btnFilter').addEventListener('click', () => {
+            tabsContent.querySelector('.btnFilter').addEventListener('click', () => {
                 this.showFilterMenu();
             });
-            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
+            tabsContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -258,10 +258,10 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                         id: 'PremiereDate,SortName'
                     }],
                     callback: function () {
-                        getQuery(tabContent).StartIndex = 0;
+                        getQuery(tabsContent).StartIndex = 0;
                         reloadItems();
                     },
-                    query: getQuery(tabContent),
+                    query: getQuery(tabsContent),
                     button: e.target
                 });
             });

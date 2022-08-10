@@ -206,8 +206,8 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return getPageData(tabContent).view;
         };
 
-        const initPage = (tabContent) => {
-            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
+        const initPage = (tabsContent) => {
+            tabsContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -226,26 +226,26 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                         id: 'PremiereDate,SortName'
                     }],
                     callback: function () {
-                        getQuery(tabContent).StartIndex = 0;
-                        reloadItems(tabContent);
+                        getQuery(tabsContent).StartIndex = 0;
+                        reloadItems(tabsContent);
                     },
-                    query: getQuery(tabContent),
+                    query: getQuery(tabsContent),
                     button: e.target
                 });
             });
-            const btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabsContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', (e) => {
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
-                getPageData(tabContent).view = viewStyle;
-                libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
-                getQuery(tabContent).StartIndex = 0;
+                getPageData(tabsContent).view = viewStyle;
+                libraryBrowser.saveViewSetting(getSavedQueryKey(tabsContent), viewStyle);
+                getQuery(tabsContent).StartIndex = 0;
                 onViewStyleChange();
-                reloadItems(tabContent);
+                reloadItems(tabsContent);
             });
-            tabContent.querySelector('.btnNewCollection').addEventListener('click', () => {
+            tabsContent.querySelector('.btnNewCollection').addEventListener('click', () => {
                 import('../../components/collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
                     const serverId = ApiClient.serverInfo().Id;
                     new collectionEditor({
