@@ -42,6 +42,7 @@ module.exports = {
         'indent': ['error', 4, { 'SwitchCase': 1 }],
         'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
+        'no-throw-literal': ['error'],
         'max-statements-per-line': ['error'],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
