@@ -1652,5 +1652,6 @@
     "HomeVideosPhotos": "Hemvideor och bilder",
     "Bold": "Fettext",
     "LabelTextWeight": "Textvikt:",
-    "EnableSplashScreen": "Aktivera startbild"
+    "EnableSplashScreen": "Aktivera startbild",
+    "LabelMaxVideoResolution": "Maximal tillåten video omkodningsupplösning"
 }
