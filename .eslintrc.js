@@ -49,6 +49,7 @@ module.exports = {
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
+        'no-return-await': ['error'],
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
         'no-void': ['error', { 'allowAsStatement': true }],
