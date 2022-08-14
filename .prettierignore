@@ -1,0 +1,12 @@
+# Add files here to ignore them from prettier formatting
+
+/dist
+/coverage
+/.ci
+/.copr
+/.github
+/.vscode
+/fedora
+
+*.png
+*.jpg
