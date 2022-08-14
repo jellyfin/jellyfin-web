@@ -1664,5 +1664,15 @@
     "RememberSubtitleSelectionsHelp": "Försök att ställa in undertextspåret så att det matchar den senaste videon närmast.",
     "RememberAudioSelectionsHelp": "Försök att ställa in ljudspåret så att det matchar den senaste videon närmast.",
     "RememberAudioSelections": "Ställ in ljudspår baserat på föregående objekt",
-    "RememberSubtitleSelections": "Ställ in undertextspår baserat på föregående objekt"
+    "RememberSubtitleSelections": "Ställ in undertextspår baserat på föregående objekt",
+    "LabelVppTonemappingContrast": "Kontrastförstärkning för VPP-tonmappning:",
+    "LabelVppTonemappingBrightness": "Ljusförstärkning för VPP-tonmappning:",
+    "LabelVppTonemappingContrastHelp": "Tillämpa kontrastförstärkning i VPP-tonmappning. De rekommenderade och standardvärden är 1.2 och 1.",
+    "LabelVppTonemappingBrightnessHelp": "Tillämpa ljusstyrka i VPP-tonmappning. Både rekommenderade och standardvärden är 0.",
+    "MediaInfoDvVersionMinor": "DV mindre version",
+    "MediaInfoDvVersionMajor": "DV huvudversion",
+    "MediaInfoDvBlSignalCompatibilityId": "DV bl signalkompatibilitets-id",
+    "MediaInfoBlPresentFlag": "Förinställd flagga för DV bl",
+    "MediaInfoElPresentFlag": "Förinställd flagga för DV el",
+    "MediaInfoRpuPresentFlag": "Förinställd flagga för DV rpu"
 }
