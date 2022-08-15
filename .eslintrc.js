@@ -7,7 +7,8 @@ module.exports = {
         'react',
         'promise',
         'import',
-        'eslint-comments'
+        'eslint-comments',
+        'sonarjs'
     ],
     env: {
         node: true,
@@ -29,7 +30,8 @@ module.exports = {
         // 'plugin:promise/recommended',
         'plugin:import/errors',
         'plugin:eslint-comments/recommended',
-        'plugin:compat/recommended'
+        'plugin:compat/recommended',
+        'plugin:sonarjs/recommended'
     ],
     rules: {
         'array-callback-return': ['error'],
@@ -66,7 +68,8 @@ module.exports = {
         'yoda': 'error',
         'no-sequences': ['error', { 'allowInParentheses': false }],
 
-        'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }]
+        'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
+        'sonarjs/cognitive-complexity': ['warn']
     },
     settings: {
         react: {
