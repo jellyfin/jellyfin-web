@@ -69,7 +69,8 @@ module.exports = {
         'no-sequences': ['error', { 'allowInParentheses': false }],
 
         'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
-        'sonarjs/cognitive-complexity': ['warn']
+        'sonarjs/cognitive-complexity': ['warn'],
+        'sonarjs/no-duplicate-string': ['warn']
     },
     settings: {
         react: {
