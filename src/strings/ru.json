@@ -1184,7 +1184,7 @@
     "LeaveBlankToNotSetAPassword": "Оставьте пустым, чтобы не назначать пароль.",
     "MessageImageFileTypeAllowed": "Поддерживаются только файлы JPEG и PNG.",
     "MessageImageTypeNotSelected": "Выберите тип изображения из выпадающего меню.",
-    "OptionResElement": "'res' element",
+    "OptionResElement": "элемент 'res'",
     "AuthProviderHelp": "Выберите поставщика аутентификации, который будет использоваться для аутентификации пароля этого пользователя.",
     "LabelAuthProvider": "Поставщик аутентификации:",
     "LabelPasswordResetProvider": "Поставщик сброса пароля:",
