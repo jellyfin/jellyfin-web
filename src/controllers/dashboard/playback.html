@@ -35,6 +35,21 @@
                         ${LabelMinResumeDurationHelp}
                     </div>
                 </div>
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkMarkResumableItemUnplayedOnPlay" />
+                        <span>${LabelMarkResumableItemUnplayedOnPlay}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${LabelMarkResumableItemUnplayedOnPlayHelp}</div>
+                </div>
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkUpdateLastPlayedAndPlayCountOnPlayCompletion" />
+                        <span>${LabelUpdateLastPlayedAndPlayCountOnPlayCompletion}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${LabelUpdateLastPlayedAndPlayCountOnPlayCompletionHelp}</div>
+                </div>
+
                 <div><button is="emby-button" type="submit" class="raised button-submit block"><span>${Save}</span></button></div>
             </form>
         </div>
