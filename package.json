@@ -64,12 +64,12 @@
     "worker-loader": "3.0.8"
   },
   "dependencies": {
-    "@fontsource/noto-sans": "4.5.1",
-    "@fontsource/noto-sans-hk": "4.5.2",
-    "@fontsource/noto-sans-jp": "4.5.2",
-    "@fontsource/noto-sans-kr": "4.5.2",
-    "@fontsource/noto-sans-sc": "4.5.2",
-    "@fontsource/noto-sans-tc": "4.5.2",
+    "@fontsource/noto-sans": "4.5.11",
+    "@fontsource/noto-sans-hk": "4.5.11",
+    "@fontsource/noto-sans-jp": "4.5.11",
+    "@fontsource/noto-sans-kr": "4.5.11",
+    "@fontsource/noto-sans-sc": "4.5.11",
+    "@fontsource/noto-sans-tc": "4.5.11",
     "@jellyfin/libass-wasm": "4.1.1",
     "blurhash": "1.1.4",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
