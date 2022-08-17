@@ -18,7 +18,7 @@
     "@types/escape-html": "1.0.1",
     "@types/lodash-es": "4.17.6",
     "@types/react": "17.0.40",
-    "@types/react-dom": "17.0.13",
+    "@types/react-dom": "17.0.17",
     "@typescript-eslint/eslint-plugin": "5.15.0",
     "@typescript-eslint/parser": "5.15.0",
     "@uupaa/dynamic-import-polyfill": "1.0.2",
