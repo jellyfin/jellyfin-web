@@ -280,7 +280,7 @@
     "HeaderAccessSchedule": "Horario de acceso",
     "HardwareAccelerationWarning": "Habilitar la aceleración de hardware puede causar inestabilidad en algunos entornos. Asegúrese de que su sistema operativo y los controladores de vídeo estén completamente actualizados. Si tiene dificultades para reproducir el vídeo después de habilitarlo, deberá volver a cambiar la configuración a \"Nada\".",
     "HDPrograms": "Programas en HD",
-    "EncoderPresetHelp": "Elegí un valor más rápido para mejorar la performance, o un valor más lento para mejorar la calidad.",
+    "EncoderPresetHelp": "Elegí un valor más rápido para mejorar el rendimiento, o un valor más lento para mejorar la calidad.",
     "FetchingData": "Obteniendo información adicional",
     "Episode": "Capítulo",
     "Yesterday": "Ayer",
