@@ -43,7 +43,7 @@ jobs:
   - script: 'mv dist jellyfin-web'
     displayName: 'Rename Directory'
 
-  - task: ArchiveFiles@2
+  - task: ArchiveFiles@2.206.0
     displayName: 'Archive Directory'
     inputs:
       rootFolderOrFile: 'jellyfin-web'
