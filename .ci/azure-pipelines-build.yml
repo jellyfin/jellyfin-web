@@ -18,7 +18,7 @@ jobs:
     inputs:
       versionSpec: '12.x'
 
-  - task: Cache@2
+  - task: Cache@2.198.0
     displayName: 'Cache node_modules'
     inputs:
       key: 'npm | package-lock.json'
