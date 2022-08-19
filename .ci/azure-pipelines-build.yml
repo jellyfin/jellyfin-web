@@ -50,7 +50,7 @@ jobs:
       includeRootFolder: true
       archiveFile: 'jellyfin-web-$(BuildConfiguration)'
 
-  - task: PublishPipelineArtifact@1
+  - task: PublishPipelineArtifact@1.199.0
     displayName: 'Publish Release'
     inputs:
       targetPath: '$(Build.SourcesDirectory)/jellyfin-web-$(BuildConfiguration).zip'
