@@ -1065,6 +1065,7 @@
     "MessageItemsAdded": "Items added.",
     "MessageItemSaved": "Item saved.",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item or the global default value.",
+    "MessageNoItemsAvailable": "No Items are currently available.",
     "MessageNoFavoritesAvailable": "No favorites are currently available.",
     "MessageNoAvailablePlugins": "No available plugins.",
     "MessageNoCollectionsAvailable": "Collections allow you to enjoy personalized groupings of Movies, Series, and Albums. Click the '+' button to start creating collections.",

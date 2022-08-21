@@ -126,13 +126,8 @@ const GenresItemsContainer: FunctionComponent<GenresItemsContainerProps> = ({ to
             html += '</a>';
             html += '</div>';
             if (enableScrollX()) {
-                let scrollXClass = 'scrollX hiddenScrollX';
-
-                if (layoutManager.tv) {
-                    scrollXClass += 'smoothScrollX padded-top-focusscale padded-bottom-focusscale';
-                }
-
-                html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' lazy padded-left padded-right" data-id="' + item.Id + '">';
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x lazy" data-id="' + item.Id + '">';
             } else {
                 html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap lazy padded-left padded-right" data-id="' + item.Id + '">';
             }

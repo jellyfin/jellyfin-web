@@ -8,11 +8,11 @@ import { IQuery } from './type';
 type SelectViewProps = {
     getCurrentViewStyle: () => string;
     query: IQuery;
-    savedViewKey: string;
+    getViewSettings: () => string;
     reloadItems: () => void;
 }
 
-const SelectView: FunctionComponent<SelectViewProps> = ({ getCurrentViewStyle, savedViewKey, query, reloadItems }: SelectViewProps) => {
+const SelectView: FunctionComponent<SelectViewProps> = ({ getCurrentViewStyle, getViewSettings, query, reloadItems }: SelectViewProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -22,11 +22,11 @@ const SelectView: FunctionComponent<SelectViewProps> = ({ getCurrentViewStyle, s
         });
         btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = (e as CustomEvent).detail.viewStyle;
-            userSettings.set(savedViewKey, viewStyle, false);
+            userSettings.set(getViewSettings(), viewStyle, false);
             query.StartIndex = 0;
             reloadItems();
         });
-    }, [getCurrentViewStyle, query, reloadItems, savedViewKey]);
+    }, [getCurrentViewStyle, query, reloadItems, getViewSettings]);
 
     return (
         <div ref={element}>

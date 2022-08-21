@@ -1,25 +1,27 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
 
 import IconButtonElement from '../../elements/IconButtonElement';
 
 const NewCollection: FunctionComponent = () => {
     const element = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const btnNewCollection = element.current?.querySelector('.btnNewCollection') as HTMLButtonElement;
-        if (btnNewCollection) {
-            btnNewCollection.addEventListener('click', () => {
-                import('../../components/collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
-                    const serverId = window.ApiClient.serverId();
-                    const collectionEditor = new CollectionEditor();
-                    collectionEditor.show({
-                        items: [],
-                        serverId: serverId
-                    });
-                });
+    const showCollectionEditor = useCallback(() => {
+        import('../../components/collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+            const serverId = window.ApiClient.serverId();
+            const collectionEditor = new CollectionEditor();
+            collectionEditor.show({
+                items: [],
+                serverId: serverId
             });
-        }
+        });
     }, []);
+
+    useEffect(() => {
+        const btnNewCollection = element.current?.querySelector('.btnNewCollection');
+        if (btnNewCollection) {
+            btnNewCollection.addEventListener('click', showCollectionEditor);
+        }
+    }, [showCollectionEditor]);
 
     return (
         <div ref={element}>

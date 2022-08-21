@@ -22,8 +22,7 @@ const Shuffle: FunctionComponent<ShuffleProps> = ({ itemsResult = {}, topParentI
     }, [topParentId]);
 
     useEffect(() => {
-        const btnShuffle = element.current?.querySelector('.btnShuffle') as HTMLButtonElement;
-        btnShuffle.classList.toggle('hide', typeof itemsResult.TotalRecordCount === 'number' && itemsResult.TotalRecordCount < 1);
+        const btnShuffle = element.current?.querySelector('.btnShuffle');
         if (btnShuffle) {
             btnShuffle.addEventListener('click', shuffle);
         }
@@ -33,7 +32,7 @@ const Shuffle: FunctionComponent<ShuffleProps> = ({ itemsResult = {}, topParentI
         <div ref={element}>
             <IconButtonElement
                 is='paper-icon-button-light'
-                className='btnShuffle autoSize hide'
+                className='btnShuffle autoSize'
                 title='Shuffle'
                 icon='material-icons shuffle'
             />

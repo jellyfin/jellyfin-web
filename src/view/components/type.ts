@@ -5,6 +5,7 @@ export type IQuery = {
     Recursive?: boolean;
     Fields?: string;
     ImageTypeLimit?: number;
+    EnableTotalRecordCount?: boolean;
     EnableImageTypes?: string;
     StartIndex: number;
     ParentId?: string | null;

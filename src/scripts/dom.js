@@ -146,8 +146,14 @@
     }
 
     /**
+    * @typedef {Object} windowSize
+    * @property {number} innerHeight - window innerHeight.
+    * @property {number} innerWidth - window innerWidth.
+    */
+
+    /**
      * Returns window size.
-     * @returns {Object} Window size.
+     * @returns {windowSize} Window size.
      */
     export function getWindowSize() {
         if (!windowSize) {

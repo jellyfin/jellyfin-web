@@ -57,7 +57,7 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
 
     const loadResume = useCallback((page, userId, parentId) => {
         loading.show();
-        const screenWidth: any = dom.getWindowSize();
+        const screenWidth = dom.getWindowSize();
         const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
@@ -82,7 +82,7 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
     }, [autoFocus]);
 
     const loadSuggestions = useCallback((page, userId) => {
-        const screenWidth: any = dom.getWindowSize();
+        const screenWidth = dom.getWindowSize();
         let itemLimit = 5;
         if (screenWidth.innerWidth >= 1600) {
             itemLimit = 8;

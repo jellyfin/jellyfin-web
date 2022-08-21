@@ -12,11 +12,12 @@ import { IQuery } from './type';
 type ItemsContainerProps = {
     getCurrentViewStyle: () => string;
     query: IQuery;
+    getContext: () => string | null;
     items?: BaseItemDto[] | null;
     noItemsMessage?: string;
 }
 
-const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentViewStyle, query, items = [], noItemsMessage }: ItemsContainerProps) => {
+const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentViewStyle, query, getContext, items = [], noItemsMessage }: ItemsContainerProps) => {
     const element = useRef<HTMLDivElement>(null);
     const viewStyle = getCurrentViewStyle();
 
@@ -28,7 +29,7 @@ const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentView
                 items: items,
                 shape: 'backdrop',
                 preferThumb: true,
-                context: 'movies',
+                context: getContext(),
                 lazy: true,
                 overlayPlayButton: true,
                 showTitle: true,
@@ -40,7 +41,7 @@ const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentView
                 items: items,
                 shape: 'backdrop',
                 preferThumb: true,
-                context: 'movies',
+                context: getContext(),
                 lazy: true,
                 cardLayout: true,
                 showTitle: true,
@@ -52,20 +53,20 @@ const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentView
                 items: items,
                 shape: 'banner',
                 preferBanner: true,
-                context: 'movies',
+                context: getContext(),
                 lazy: true
             });
         } else if (viewStyle == 'List') {
             html = listview.getListViewHtml({
                 items: items,
-                context: 'movies',
+                context: getContext(),
                 sortBy: query.SortBy
             });
         } else if (viewStyle == 'PosterCard') {
             html = cardBuilder.getCardsHtml(items, {
                 items: items,
                 shape: 'portrait',
-                context: 'movies',
+                context: getContext(),
                 showTitle: true,
                 showYear: true,
                 centerText: true,
@@ -76,7 +77,7 @@ const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentView
             html = cardBuilder.getCardsHtml(items, {
                 items: items,
                 shape: 'portrait',
-                context: 'movies',
+                context: getContext(),
                 overlayPlayButton: true,
                 showTitle: true,
                 showYear: true,
@@ -96,14 +97,14 @@ const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentView
         const itemsContainer = element.current?.querySelector('.itemsContainer') as HTMLDivElement;
         itemsContainer.innerHTML = html;
         imageLoader.lazyChildren(itemsContainer);
-    }, [query.SortBy, items, noItemsMessage, viewStyle]);
+    }, [query.SortBy, items, noItemsMessage, viewStyle, getContext]);
 
     const cssClass = viewStyle == 'List' ? 'vertical-list' : 'vertical-wrap';
 
     return (
         <div ref={element}>
             <ItemsContainerElement
-                className={`itemsContainer ${cssClass} centered padded-left padded-right`}
+                className={`itemsContainer ${cssClass} centered padded-left padded-right padded-right-withalphapicker`}
             />
         </div>
     );

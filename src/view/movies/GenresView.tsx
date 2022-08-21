@@ -11,13 +11,18 @@ type IProps = {
 }
 
 const GenresView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
-    const savedQueryKey = topParentId + '-moviegenres';
-    const savedViewKey = savedQueryKey + '-view';
-
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
     const element = useRef<HTMLDivElement>(null);
 
-    const query = useMemo<IQuery>(() => ({
+    const getSettingsKey = useCallback(() => {
+        return topParentId + '-genres';
+    }, [topParentId]);
+
+    const getViewSettings = useCallback(() => {
+        return getSettingsKey() + '-view';
+    }, [getSettingsKey]);
+
+    let query = useMemo<IQuery>(() => ({
         SortBy: 'SortName',
         SortOrder: 'Ascending',
         IncludeItemTypes: 'Movie',
@@ -27,20 +32,13 @@ const GenresView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
         StartIndex: 0,
         ParentId: topParentId }), [topParentId]);
 
-    userSettings.loadQuerySettings(savedQueryKey, query);
+    query = userSettings.loadQuerySettings(getSettingsKey(), query);
 
     const getCurrentViewStyle = useCallback(() => {
-        return userSettings.get(savedViewKey, false) || 'Poster';
-    }, [savedViewKey]);
+        return userSettings.get(getViewSettings(), false) || 'Poster';
+    }, [getViewSettings]);
 
     const reloadItems = useCallback(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
         loading.show();
         window.ApiClient.getGenres(window.ApiClient.getCurrentUserId(), query).then((result) => {
             setItemsResult(result);

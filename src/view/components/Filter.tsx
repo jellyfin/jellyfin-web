@@ -5,17 +5,18 @@ import { IQuery } from './type';
 
 type FilterProps = {
     query: IQuery;
+    getFilterMode: () => string | null;
     reloadItems: () => void;
 }
 
-const Filter: FunctionComponent<FilterProps> = ({ query, reloadItems }: FilterProps) => {
+const Filter: FunctionComponent<FilterProps> = ({ query, getFilterMode, reloadItems }: FilterProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showFilterMenu = useCallback(() => {
         import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
             const filterDialog = new filterDialogFactory({
                 query: query,
-                mode: 'movies',
+                mode: getFilterMode(),
                 serverId: window.ApiClient.serverId()
             });
             Events.on(filterDialog, 'filterchange', () => {
@@ -24,15 +25,13 @@ const Filter: FunctionComponent<FilterProps> = ({ query, reloadItems }: FilterPr
             });
             filterDialog.show();
         });
-    }, [query, reloadItems]);
+    }, [getFilterMode, query, reloadItems]);
 
     useEffect(() => {
         const btnFilter = element.current?.querySelector('.btnFilter');
 
         if (btnFilter) {
-            btnFilter.addEventListener('click', () => {
-                showFilterMenu();
-            });
+            btnFilter.addEventListener('click', showFilterMenu);
         }
     }, [showFilterMenu]);
 
