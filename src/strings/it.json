@@ -1675,5 +1675,7 @@
     "RememberSubtitleSelections": "Imposta la traccia sottotitoli sulla base dell'elemento precedente",
     "RememberAudioSelectionsHelp": "Prova a impostare la traccia audio per essere più simile possibile all'ultimo video.",
     "RememberAudioSelections": "Imposta la traccia audio sulla base dell'elemento precedente",
-    "LabelMaxVideoResolution": "Risoluzione massima consentita per la transcodifica video"
+    "LabelMaxVideoResolution": "Risoluzione massima consentita per la transcodifica video",
+    "IgnoreDtsHelp": "Disattivare quest'impostazione potregge risolvere alcuni problemi. Ad esempio, audio mancante in canali con flussi audio e video separati.",
+    "IgnoreDts": "Ignora DTS (decodifica del timestamp)"
 }
