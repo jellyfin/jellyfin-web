@@ -506,6 +506,8 @@
     "Horizontal": "Horizontal",
     "HttpsRequiresCert": "To enable secure connections, you will need to supply a trusted SSL certificate, such as Let's Encrypt. Please either supply a certificate, or disable secure connections.",
     "Identify": "Identify",
+    "IgnoreDts": "Ignore DTS (decoding timestamp)",
+    "IgnoreDtsHelp": "Disabling this option may resolve some issues, e.g. missing audio on channels with separate audio and video streams.",
     "Image": "Image",
     "Images": "Images",
     "ImportFavoriteChannelsHelp": "Only channels that are marked as favorite on the tuner device will be imported.",
