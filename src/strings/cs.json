@@ -1675,5 +1675,7 @@
     "RememberSubtitleSelections": "Nastavit titulkovou stopu podle předchozí položky",
     "RememberAudioSelectionsHelp": "Pokusí se nastavit zvukovou stopu co nejpodobněji předchozímu videu.",
     "RememberAudioSelections": "Nastavit zvukovou stopu podle předchozí položky",
-    "LabelMaxVideoResolution": "Maximální rozlišení videa pro překódování"
+    "LabelMaxVideoResolution": "Maximální rozlišení videa pro překódování",
+    "IgnoreDtsHelp": "Vypnutím se mohou vyřešit některé problémy, např. chybějící zvuk u kanálů s oddělenými zvukovými a video stopami.",
+    "IgnoreDts": "Ignorovat DTS (časové razítko dekódování)"
 }
