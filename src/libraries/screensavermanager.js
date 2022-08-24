@@ -116,7 +116,7 @@ function ScreenSaverManager() {
             return;
         }
 
-        if (getFunctionalEventIdleTime < getMinIdleTime()) {
+        if (getFunctionalEventIdleTime() < getMinIdleTime()) {
             return;
         }
 
