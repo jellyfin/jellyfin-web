@@ -195,7 +195,10 @@
     height: 4.2em;
     right: 0;
     padding-left: 7.3%;
+    padding-left: max(env(safe-area-inset-left), 7.3%);
     padding-right: 7.3%;
+    padding-right: max(env(safe-area-inset-right), 7.3%);
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .layout-desktop .playlistSectionButton,
