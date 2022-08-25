@@ -1667,5 +1667,7 @@
     "LabelVppTonemappingContrastHelp": "Käytä kontrastin vahvistusta VPP-sävykartoituksen kanssa. Molemmat ovat suositeltavia ja oletusarvot ovat 0.",
     "LabelVppTonemappingBrightnessHelp": "Käytä kirkkauden vahvistusta VPP-sävykartoituksen kanssa. Molemmat ovat suositeltavia ja oletusarvot ovat 0.",
     "LabelVppTonemappingContrast": "VPP-sävykartoituksen kontrastin vahvistus:",
-    "LabelVppTonemappingBrightness": "VPP-sävykartoituksen kirkkauden vahvistus:"
+    "LabelVppTonemappingBrightness": "VPP-sävykartoituksen kirkkauden vahvistus:",
+    "IgnoreDtsHelp": "Valinnan käytöstä poisto voi korjata joitakin onhelmia, kuten puuttuvan äänen kanavilla, joilla on erilliset ääni- ja videokanavat.",
+    "IgnoreDts": "Ohita DTS (dekoodauksen aikaleima)"
 }
