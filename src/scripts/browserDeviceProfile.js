@@ -390,6 +390,9 @@ import browser from './browser';
             if (supportsMp3VideoAudio && (browser.chrome || browser.edgeChromium || (browser.firefox && browser.versionMajor >= 83))) {
                 supportsMp2VideoAudio = true;
             }
+            if (browser.android) {
+                supportsMp2VideoAudio = false;
+            }
         }
 
         /* eslint-disable compat/compat */
