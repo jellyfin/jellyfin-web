@@ -1356,7 +1356,7 @@
     "VideoAudio": "Audio Video",
     "Video": "Video",
     "Subtitle": "Sottotitolo",
-    "SpecialFeatures": "Caratteristiche Speciali",
+    "SpecialFeatures": "Contenuti speciali",
     "SelectServer": "Seleziona Server",
     "Restart": "Riavvio",
     "ResetPassword": "Reset Password",
@@ -1676,6 +1676,6 @@
     "RememberAudioSelectionsHelp": "Prova a impostare la traccia audio per essere più simile possibile all'ultimo video.",
     "RememberAudioSelections": "Imposta la traccia audio sulla base dell'elemento precedente",
     "LabelMaxVideoResolution": "Risoluzione massima consentita per la transcodifica video",
-    "IgnoreDtsHelp": "Disattivare quest'impostazione potregge risolvere alcuni problemi. Ad esempio, audio mancante in canali con flussi audio e video separati.",
+    "IgnoreDtsHelp": "Disattivare quest'impostazione potrebbe risolvere alcuni problemi. Ad esempio, audio mancante in canali con flussi audio e video separati.",
     "IgnoreDts": "Ignora DTS (decodifica del timestamp)"
 }
