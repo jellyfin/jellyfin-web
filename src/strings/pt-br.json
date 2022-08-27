@@ -1665,6 +1665,12 @@
     "LabelVppTonemappingBrightness": "Ganho de brilho do mapeamento de tom VPP:",
     "RememberSubtitleSelectionsHelp": "Tentar definir a legenda com a correspondência mais próxima do último vídeo.",
     "RememberSubtitleSelections": "Definir legenda baseado no item anterior",
-    "MediaInfoDvVersionMajor": "",
-    "MediaInfoDoViTitle": "Título DV"
+    "MediaInfoDvVersionMajor": "Versão DV principal",
+    "MediaInfoDoViTitle": "Título DV",
+    "MediaInfoDvLevel": "Nível DV",
+    "MediaInfoDvProfile": "Perfil DV",
+    "MediaInfoDvVersionMinor": "Versão DV menor",
+    "MediaInfoVideoRangeType": "Tipo de intervalo de vídeo",
+    "IgnoreDtsHelp": "Desativar esta opção pode resolver alguns problemas, por exemplo. falta de áudio em canais com fluxos de áudio e vídeo separados.",
+    "IgnoreDts": "Ignorar DTS (decodificação de carimbo de data/hora)"
 }
