@@ -1,13 +1,9 @@
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-
 import { RecommendationDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FunctionComponent } from 'react';
 
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../scripts/globalize';
-import ItemsContainerElement from '../../elements/ItemsContainerElement';
-import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
 import escapeHTML from 'escape-html';
+import SectionContainer from './SectionContainer';
 
 type RecommendationContainerProps = {
     getPortraitShape: () => string;
@@ -16,8 +12,6 @@ type RecommendationContainerProps = {
 }
 
 const RecommendationContainer: FunctionComponent<RecommendationContainerProps> = ({ getPortraitShape, enableScrollX, recommendation = {} }: RecommendationContainerProps) => {
-    const element = useRef<HTMLDivElement>(null);
-
     let title = '';
 
     switch (recommendation.RecommendationType) {
@@ -40,40 +34,15 @@ const RecommendationContainer: FunctionComponent<RecommendationContainerProps> =
             break;
     }
 
-    useEffect(() => {
-        cardBuilder.buildCards(recommendation.Items || [], {
-            itemsContainer: element.current?.querySelector('.itemsContainer'),
+    return <SectionContainer
+        sectionTitle={escapeHTML(title)}
+        enableScrollX={enableScrollX}
+        items={recommendation.Items || []}
+        cardOptions={{
             shape: getPortraitShape(),
-            scalable: true,
-            overlayPlayButton: true,
-            allowBottomPadding: true,
-            showTitle: true,
-            showYear: true,
-            centerText: true
-        });
-    }, [enableScrollX, getPortraitShape, recommendation]);
-
-    return (
-        <div ref={element}>
-            <div className='verticalSection'>
-                <div className='sectionTitleContainer sectionTitleContainer-cards'>
-                    <h2 className='sectionTitle sectionTitle-cards padded-left'>
-                        {escapeHTML(title)}
-                    </h2>
-                </div>
-
-                {enableScrollX() ? <ItemsScrollerContainerElement
-                    scrollerclassName='padded-top-focusscale padded-bottom-focusscale'
-                    dataMousewheel='false'
-                    dataCenterfocus='true'
-                    className='itemsContainer scrollSlider focuscontainer-x'
-                /> : <ItemsContainerElement
-                    className='itemsContainer focuscontainer-x padded-left padded-right vertical-wrap'
-                />}
-
-            </div>
-        </div>
-    );
+            showYear: true
+        }}
+    />;
 };
 
 export default RecommendationContainer;

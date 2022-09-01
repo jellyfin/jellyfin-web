@@ -5,9 +5,8 @@ import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
-import RecentlyAddedItemsContainer from '../components/RecentlyAddedItemsContainer';
 import RecommendationContainer from '../components/RecommendationContainer';
-import ResumableItemsContainer from '../components/ResumableItemsContainer';
+import SectionContainer from '../components/SectionContainer';
 
 type IProps = {
     topParentId: string | null;
@@ -15,7 +14,7 @@ type IProps = {
 
 const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
     const [ latestItems, setLatestItems ] = useState<BaseItemDto[]>([]);
-    const [ resumeItemsResult, setResumeItemsResult ] = useState<BaseItemDtoQueryResult>();
+    const [ resumeResult, setResumeResult ] = useState<BaseItemDtoQueryResult>({});
     const [ recommendations, setRecommendations ] = useState<RecommendationDto[]>([]);
     const element = useRef<HTMLDivElement>(null);
 
@@ -37,6 +36,31 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
         });
     }, []);
 
+    const loadResume = useCallback((page, userId, parentId) => {
+        loading.show();
+        const screenWidth = dom.getWindowSize().innerWidth;
+        const options = {
+            SortBy: 'DatePlayed',
+            SortOrder: 'Descending',
+            IncludeItemTypes: 'Movie',
+            Filters: 'IsResumable',
+            Limit: screenWidth >= 1600 ? 5 : 3,
+            Recursive: true,
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+            CollapseBoxSetItems: false,
+            ParentId: parentId,
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
+            EnableTotalRecordCount: false
+        };
+        window.ApiClient.getItems(userId, options).then(result => {
+            setResumeResult(result);
+
+            loading.hide();
+            autoFocus(page);
+        });
+    }, [autoFocus]);
+
     const loadLatest = useCallback((page: HTMLDivElement, userId: string, parentId: string | null) => {
         const options = {
             IncludeItemTypes: 'Movie',
@@ -50,43 +74,16 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
         window.ApiClient.getJSON(window.ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(items => {
             setLatestItems(items);
 
-            // FIXME: Wait for all sections to load
-            autoFocus(page);
-        });
-    }, [autoFocus]);
-
-    const loadResume = useCallback((page, userId, parentId) => {
-        loading.show();
-        const screenWidth = dom.getWindowSize();
-        const options = {
-            SortBy: 'DatePlayed',
-            SortOrder: 'Descending',
-            IncludeItemTypes: 'Movie',
-            Filters: 'IsResumable',
-            Limit: screenWidth.innerWidth >= 1600 ? 5 : 3,
-            Recursive: true,
-            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
-            CollapseBoxSetItems: false,
-            ParentId: parentId,
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-            EnableTotalRecordCount: false
-        };
-        window.ApiClient.getItems(userId, options).then(result => {
-            setResumeItemsResult(result);
-
-            loading.hide();
-            // FIXME: Wait for all sections to load
             autoFocus(page);
         });
     }, [autoFocus]);
 
     const loadSuggestions = useCallback((page, userId) => {
-        const screenWidth = dom.getWindowSize();
+        const screenWidth = dom.getWindowSize().innerWidth;
         let itemLimit = 5;
-        if (screenWidth.innerWidth >= 1600) {
+        if (screenWidth >= 1600) {
             itemLimit = 8;
-        } else if (screenWidth.innerWidth >= 1200) {
+        } else if (screenWidth >= 1200) {
             itemLimit = 6;
         }
         const url = window.window.ApiClient.getUrl('Movies/Recommendations', {
@@ -100,7 +97,6 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
         window.ApiClient.getJSON(url).then(result => {
             setRecommendations(result);
 
-            // FIXME: Wait for all sections to load
             autoFocus(page);
         });
     }, [autoFocus]);
@@ -126,18 +122,33 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
 
     return (
         <div ref={element}>
-            <ResumableItemsContainer getThumbShape={getThumbShape} enableScrollX={enableScrollX} itemsResult={resumeItemsResult} />
+            <SectionContainer
+                sectionTitle={globalize.translate('HeaderContinueWatching')}
+                enableScrollX={enableScrollX}
+                items={resumeResult.Items || []}
+                cardOptions={{
+                    preferThumb: true,
+                    shape: getThumbShape(),
+                    showYear: true
+                }}
+            />
 
-            <RecentlyAddedItemsContainer getPortraitShape={getPortraitShape} enableScrollX={enableScrollX} items={latestItems} />
+            <SectionContainer
+                sectionTitle={globalize.translate('HeaderLatestMovies')}
+                enableScrollX={enableScrollX}
+                items={latestItems}
+                cardOptions={{
+                    shape: getPortraitShape(),
+                    showYear: true
+                }}
+            />
 
-            <div id='recommendations'>
-                {!recommendations.length ? <div className='noItemsMessage centerMessage'>
-                    <h1>{globalize.translate('MessageNothingHere')}</h1>
-                    <p>{globalize.translate('MessageNoMovieSuggestionsAvailable')}</p>
-                </div> : recommendations.map((recommendation, index) => {
-                    return <RecommendationContainer key={index} getPortraitShape={getPortraitShape} enableScrollX={enableScrollX} recommendation={recommendation} />;
-                })}
-            </div>
+            {!recommendations.length ? <div className='noItemsMessage centerMessage'>
+                <h1>{globalize.translate('MessageNothingHere')}</h1>
+                <p>{globalize.translate('MessageNoMovieSuggestionsAvailable')}</p>
+            </div> : recommendations.map((recommendation, index) => {
+                return <RecommendationContainer key={index} getPortraitShape={getPortraitShape} enableScrollX={enableScrollX} recommendation={recommendation} />;
+            })}
         </div>
     );
 };

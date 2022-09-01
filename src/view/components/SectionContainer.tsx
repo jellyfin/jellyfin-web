@@ -4,39 +4,44 @@ import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import globalize from '../../scripts/globalize';
 import ItemsContainerElement from '../../elements/ItemsContainerElement';
 import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
+import { ICardOptions } from './type';
 
-type RecentlyAddedItemsContainerProps = {
-    getPortraitShape: () => string;
+type SectionContainerProps = {
+    sectionTitle: string;
     enableScrollX: () => boolean;
     items?: BaseItemDto[];
+    cardOptions?: ICardOptions;
 }
 
-const RecentlyAddedItemsContainer: FunctionComponent<RecentlyAddedItemsContainerProps> = ({ getPortraitShape, enableScrollX, items = [] }: RecentlyAddedItemsContainerProps) => {
+const SectionContainer: FunctionComponent<SectionContainerProps> = ({
+    sectionTitle,
+    enableScrollX,
+    items = [],
+    cardOptions = {}
+}: SectionContainerProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         cardBuilder.buildCards(items, {
             itemsContainer: element.current?.querySelector('.itemsContainer'),
-            parentContainer: element.current?.querySelector('#recentlyAddedItemsSection'),
-            shape: getPortraitShape(),
+            parentContainer: element.current?.querySelector('.verticalSection'),
             scalable: true,
             overlayPlayButton: true,
-            allowBottomPadding: true,
             showTitle: true,
-            showYear: true,
-            centerText: true
+            centerText: true,
+            cardLayout: false,
+            ...cardOptions
         });
-    }, [enableScrollX, getPortraitShape, items]);
+    }, [cardOptions, enableScrollX, items]);
 
     return (
         <div ref={element}>
-            <div id='recentlyAddedItemsSection' className='verticalSection hide'>
+            <div className='verticalSection hide'>
                 <div className='sectionTitleContainer sectionTitleContainer-cards'>
                     <h2 className='sectionTitle sectionTitle-cards padded-left'>
-                        {globalize.translate('HeaderLatestMovies')}
+                        {sectionTitle}
                     </h2>
                 </div>
 
@@ -54,4 +59,4 @@ const RecentlyAddedItemsContainer: FunctionComponent<RecentlyAddedItemsContainer
     );
 };
 
-export default RecentlyAddedItemsContainer;
+export default SectionContainer;
