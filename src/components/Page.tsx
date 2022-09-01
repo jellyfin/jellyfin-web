@@ -65,10 +65,10 @@ const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
             data-role='page'
             className={`page ${className}`}
             data-title={title}
-            data-backbutton={`${isBackButtonEnabled}`}
-            data-menubutton={`${isMenuButtonEnabled}`}
-            data-dom-cache={`${isDomCacheEnabled}`}
-            data-backdroptype={`${backDropType}`}
+            data-backbutton={isBackButtonEnabled}
+            data-menubutton={isMenuButtonEnabled}
+            data-dom-cache={isDomCacheEnabled}
+            data-backdroptype={backDropType}
         >
             {children}
         </div>
