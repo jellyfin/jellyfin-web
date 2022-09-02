@@ -146,12 +146,14 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             setIsLoading(false);
         };
 
-        loading.show();
         validateConnection();
     }, [ isAdminRequired, isUserRequired, navigate ]);
 
+    // Show/hide the loading indicator
     useEffect(() => {
-        if (!isLoading) {
+        if (isLoading) {
+            loading.show();
+        } else {
             loading.hide();
         }
     }, [ isLoading ]);
