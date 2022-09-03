@@ -530,6 +530,7 @@ import { appRouter } from '../appRouter';
             nowPlayingImageElement.style.display = null;
             nowPlayingTextElement.style.marginLeft = null;
         } else {
+            nowPlayingImageUrl = null;
             nowPlayingImageElement.style.backgroundImage = '';
             nowPlayingImageElement.style.display = 'none';
             nowPlayingTextElement.style.marginLeft = '1em';
