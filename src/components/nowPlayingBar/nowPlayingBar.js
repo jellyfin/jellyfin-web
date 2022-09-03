@@ -526,7 +526,7 @@ import { appRouter } from '../appRouter';
 
         if (url && url !== nowPlayingImageUrl) {
             nowPlayingImageUrl = url;
-            imageLoader.lazyImage(nowPlayingImageElement, url);
+            imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
             nowPlayingImageElement.style.display = null;
             nowPlayingTextElement.style.marginLeft = null;
         } else {
