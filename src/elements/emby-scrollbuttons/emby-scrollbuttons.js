@@ -45,6 +45,9 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         if (scrollWidth <= scrollSize + 20) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
             scrollButtons.scrollButtonsRight.classList.add('hide');
+        } else {
+            scrollButtons.scrollButtonsLeft.classList.remove('hide');
+            scrollButtons.scrollButtonsRight.classList.remove('hide');
         }
 
         if (scrollPos > 0) {
