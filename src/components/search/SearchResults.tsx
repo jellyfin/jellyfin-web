@@ -1,4 +1,4 @@
-import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import classNames from 'classnames';
 import { ApiClient } from 'jellyfin-apiclient';
 import React, { FunctionComponent, useEffect, useState } from 'react';
