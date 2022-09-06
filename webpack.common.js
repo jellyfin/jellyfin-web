@@ -116,7 +116,11 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|blurhash|date-fns|epubjs|flv.js|libarchive.js|marked|react-router|screenfull)/,
                 use: [{
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true
+                    }
                 }]
             },
             {
@@ -140,6 +144,8 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        cacheCompression: false,
+                        cacheDirectory: true,
                         plugins: [
                             '@babel/transform-modules-umd'
                         ]
