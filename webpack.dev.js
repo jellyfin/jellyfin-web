@@ -6,7 +6,7 @@ module.exports = merge(common, {
     target: process.env.WEBPACK_SERVE ? 'web' : 'browserslist',
     mode: 'development',
     entry: { 'main.jellyfin': './scripts/site.js' },
-    devtool: 'source-map',
+    devtool: 'eval',
     module: {
         rules: [
             {
