@@ -1,4 +1,5 @@
-import { AccessSchedule, DynamicDayOfWeek, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { AccessSchedule, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import { DynamicDayOfWeek } from '@thornbill/jellyfin-sdk/dist/generated-client/models/dynamic-day-of-week';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
