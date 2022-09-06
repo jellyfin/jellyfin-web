@@ -1,7 +1,7 @@
 // TODO: Move to jellyfin-apiclient
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'jellyfin-apiclient' {
-    import {
+    import type {
         AllThemeMediaResult,
         AuthenticationResult,
         BaseItemDto,
