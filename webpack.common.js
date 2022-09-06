@@ -81,10 +81,28 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].jellyfin.bundle.js',
+        filename: '[name].bundle.js',
         chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
+    },
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name(module) {
+                        // get the name. E.g. node_modules/packageName/not/this/part.js
+                        // or node_modules/packageName
+                        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                        return `node_modules.${packageName}`;
+                    }
+                }
+            }
+        }
     },
     module: {
         rules: [
@@ -98,7 +116,11 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|blurhash|date-fns|epubjs|flv.js|libarchive.js|marked|react-router|screenfull)/,
                 use: [{
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true
+                    }
                 }]
             },
             {
@@ -122,6 +144,8 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        cacheCompression: false,
+                        cacheDirectory: true,
                         plugins: [
                             '@babel/transform-modules-umd'
                         ]

@@ -17,5 +17,12 @@
     "Albums": "Албуми",
     "MusicVideos": "Музички видеа",
     "HeaderAlbumArtists": "Изведувачи од Албуми",
-    "Default": "Зададено"
+    "Default": "Зададено",
+    "AddToCollection": "Додади во колекција",
+    "AddToPlaylist": "Додади во плејлиста",
+    "AddToFavorites": "Додади во омилени",
+    "All": "Сите",
+    "Add": "Додади",
+    "Actor": "Актер",
+    "Absolute": "Абсолутно"
 }

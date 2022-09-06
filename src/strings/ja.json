@@ -742,7 +742,7 @@
     "LabelDisplayLanguageHelp": "Jellyfinの翻訳は現在進行しているプロジェクトです。",
     "LabelDownloadLanguages": "ダウンロードされた言語:",
     "LabelEnableAutomaticPortMap": "自動ポートマッピングを有効:",
-    "LabelEnableHardwareDecodingFor": "ハードウェアでコードを有効:",
+    "LabelEnableHardwareDecodingFor": "ハードウェア デコードを有効:",
     "LabelEnableDlnaServerHelp": "ネットワーク中の UPnP デバイスにコンテンツの閲覧・再生を許可する。",
     "LabelEnableRealtimeMonitor": "リアルタイムモニタリングを有効化",
     "LabelEpisodeNumber": "エピソード数:",
