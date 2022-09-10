@@ -524,16 +524,18 @@ import { appRouter } from '../appRouter';
             height: imgHeight
         })) : null;
 
-        if (url && url !== nowPlayingImageUrl) {
-            nowPlayingImageUrl = url;
-            imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
-            nowPlayingImageElement.style.display = null;
-            nowPlayingTextElement.style.marginLeft = null;
-        } else {
-            nowPlayingImageUrl = null;
-            nowPlayingImageElement.style.backgroundImage = '';
-            nowPlayingImageElement.style.display = 'none';
-            nowPlayingTextElement.style.marginLeft = '1em';
+        if (url !== nowPlayingImageUrl) {
+            if (url) {
+                nowPlayingImageUrl = url;
+                imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
+                nowPlayingImageElement.style.display = null;
+                nowPlayingTextElement.style.marginLeft = null;
+            } else {
+                nowPlayingImageUrl = null;
+                nowPlayingImageElement.style.backgroundImage = '';
+                nowPlayingImageElement.style.display = 'none';
+                nowPlayingTextElement.style.marginLeft = '1em';
+            }
         }
 
         if (nowPlayingItem.Id) {
