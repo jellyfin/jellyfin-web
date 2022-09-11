@@ -1653,6 +1653,12 @@
     "HomeVideosPhotos": "Videoclipuri și Fotografii Locale",
     "ScreenResolution": "Rezoluție ecran",
     "Bold": "Îngroșat",
-    "LabelTextWeight": "Greutate text:",
-    "LabelMaxVideoResolution": "Rezoluție maximă admisă pentru transcodare"
+    "LabelTextWeight": "Greutatea textului:",
+    "LabelMaxVideoResolution": "Rezoluție Maximă Admisă Pentru Transcodare",
+    "RememberSubtitleSelectionsHelp": "Încercați să setați subtitrarea la cea mai apropiată potrivire cu ultimul videoclip.",
+    "RememberSubtitleSelections": "Setați subtitrarea pe baza celui anterior",
+    "RememberAudioSelectionsHelp": "Încercați să setați pista audio la cea mai apropiată potrivire cu ultimul videoclip.",
+    "RememberAudioSelections": "Setați pista audio pe baza celui anterior",
+    "IgnoreDtsHelp": "Dezactivarea acestei opțiuni poate rezolva unele probleme, de ex. audio lipsește pe canalele cu fluxuri audio și video separate.",
+    "IgnoreDts": "Ignoră DTS (marca de timp a decodării)"
 }
