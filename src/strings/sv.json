@@ -1674,5 +1674,7 @@
     "MediaInfoDvBlSignalCompatibilityId": "DV bl signalkompatibilitets-id",
     "MediaInfoBlPresentFlag": "Förinställd flagga för DV bl",
     "MediaInfoElPresentFlag": "Förinställd flagga för DV el",
-    "MediaInfoRpuPresentFlag": "Förinställd flagga för DV rpu"
+    "MediaInfoRpuPresentFlag": "Förinställd flagga för DV rpu",
+    "IgnoreDtsHelp": "Att avaktivera den här inställningen kan lösa några problem, t.ex. frånvarande ljud på kanaler med separata ljud- och bildströmmar.",
+    "IgnoreDts": "Ignorera DTS (avkodningstidsstämpel)"
 }

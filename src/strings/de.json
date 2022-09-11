@@ -557,7 +557,7 @@
     "LabelMethod": "Methode:",
     "LabelMinBackdropDownloadWidth": "Minimale Breite der zu herunterladenden Hintergründe:",
     "LabelMinResumeDuration": "Minimale Dauer für Wiederaufnahme:",
-    "LabelMinResumeDurationHelp": "Die kürzeste Videolänge in Sekunden, welche die Wiedergabeposition speichert und dich fortsetzen lässt.",
+    "LabelMinResumeDurationHelp": "Die Mindestfilmlänge in Sekunden, welche die Abspielzeit speichert und dich fortsetzen lässt.",
     "LabelMinResumePercentage": "Minimale Prozent für Wiederaufnahme:",
     "LabelMinResumePercentageHelp": "Titel werden als ungesehen eingetragen, wenn sie vor dieser Zeit gestoppt werden.",
     "LabelMinScreenshotDownloadWidth": "Minimale Breite für zu herunterladende Screenshot:",
@@ -1675,5 +1675,6 @@
     "MediaInfoBlPresentFlag": "DV BL verfügbar Marker",
     "MediaInfoElPresentFlag": "DV el verfügbar Marker",
     "MediaInfoVideoRangeType": "Spektrum",
-    "LabelVideoRangeType": "Spektrum:"
+    "LabelVideoRangeType": "Spektrum:",
+    "IgnoreDtsHelp": "Die Deaktivierung dieser Option könnte Probleme beheben, z. B. kein Ton auf Filmen mit getrennten Audio- und Video-Streams."
 }

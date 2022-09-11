@@ -1631,5 +1631,19 @@
     "HomeVideosPhotos": "Homevideo's en foto's",
     "EnableRewatchingNextUpHelp": "Laat al gekeken afleveringen zien in 'Volgende' secties.",
     "ContainerBitrateExceedsLimit": "De video’s bitrate heeft de limiet overschreden",
-    "LabelMaxVideoResolution": "Maximaal toegestane resolutie voor transcoderingen"
+    "LabelMaxVideoResolution": "Maximaal toegestane resolutie voor transcoderingen",
+    "UnknownAudioStreamInfo": "De audio stream info is onbekend",
+    "UnknownVideoStreamInfo": "De video stream info is onbekend",
+    "VideoBitrateNotSupported": "De video's bitrate is niet ondersteunt",
+    "AudioIsExternal": "De audio stream is extern",
+    "LabelHardwareEncodingOptions": "Hardware codering opties:",
+    "IntelLowPowerEncHelp": "Low-Power Encoderen kan onnodige CPU-GPU synchronisatie houden. Bij linux moet deze uitgeschakeld zijn als de i915 HuC firmware niet geconfigureerd is.",
+    "EnableIntelLowPowerHevcHwEncoder": "Schakel Intel Low-Power HEVC hardware encoder in",
+    "EnableIntelLowPowerH264HwEncoder": "Schakel Intel Low-Power H.264 hardware encoder in",
+    "PreferSystemNativeHwDecoder": "Voorkeur OS eigen DXVA of VA-API hardware decoders",
+    "ScreenResolution": "Scherm Resolutie",
+    "RememberSubtitleSelections": "Zet het ondertitelspoor gebaseerd op",
+    "RememberAudioSelections": "Stel audio spoor in gebaseerd op",
+    "IgnoreDtsHelp": "Deze optie uitschakelen kan problemen oplossen, bijv: missende audio bij kanalen met apparte audio en video streams.",
+    "IgnoreDts": "Negeer DTS (tijdstempel decoderen)"
 }
