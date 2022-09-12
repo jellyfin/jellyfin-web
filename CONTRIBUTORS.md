@@ -53,6 +53,7 @@
  - [Matthew Jones](https://github.com/matthew-jones-uk)
  - [taku0](https://github.com/taku0)
  - [is343](https://github.com/is343)
+ - [Meet Pandya](https://github.com/meet-k-pandya)
 
 # Emby Contributors
 

@@ -487,12 +487,21 @@ html {
     background: #101010;
 }
 
+#comicsPlayer .swiper-pagination {
+    background: #101010;
+    color: #fff;
+}
+
 #bookPlayer .topButtons {
     color: #fff;
 }
 
 .actionButtonIcon {
     color: #fff;
+}
+
+.actionButtons > button:hover {
+    background: #101010 !important;
 }
 
 #dialogToc {
