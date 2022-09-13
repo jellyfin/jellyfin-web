@@ -972,5 +972,9 @@
     "ViewAlbumArtist": "Žiūrėti albumo atlikėją",
     "Yesterday": "Vakar",
     "LabelOriginalMediaInfo": "Originali medijos informacija",
-    "MoreMediaInfo": "Medijos informacija"
+    "MoreMediaInfo": "Medijos informacija",
+    "Digital": "Skaitmeninis",
+    "Cursive": "Kursyvus",
+    "ButtonSpace": "Tarpas",
+    "ButtonActivate": "Aktyvuoti"
 }
