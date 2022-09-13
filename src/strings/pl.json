@@ -1194,7 +1194,7 @@
     "MusicArtist": "Artysta Muzyczny",
     "MusicVideo": "Teledysk",
     "Option3D": "3D",
-    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
+    "OptionCaptionInfoExSamsung": "RozszerzoneInfoNagłówka (Samsung)",
     "OptionIsHD": "HD",
     "OptionIsSD": "SD",
     "OptionLoginAttemptsBeforeLockout": "Określ ile nieprawidłowych prób logowania można wykonać przed wystąpieniem blokady.",
@@ -1675,5 +1675,7 @@
     "RememberAudioSelectionsHelp": "Spróbuj ustawić ścieżkę dźwiękową najbardziej odpowiadającą ostatniemu filmowi.",
     "RememberAudioSelections": "Ustaw ścieżkę dźwiękową na podstawie poprzedniego elementu",
     "Bold": "Pogrubienie",
-    "LabelMaxVideoResolution": "Maksymalna dozwolona rozdzielczość transkodowania wideo"
+    "LabelMaxVideoResolution": "Maksymalna dozwolona rozdzielczość transkodowania wideo",
+    "IgnoreDtsHelp": "Wyłączenie tej opcji może rozwiązać niektóe problemy np: brak audio w kanałach z oddzielną scieżką audio i wideo.",
+    "IgnoreDts": "Ignoruj DTS (dekodowanie znacznika czasu)"
 }
