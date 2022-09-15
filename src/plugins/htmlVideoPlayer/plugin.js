@@ -533,7 +533,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        getTextTrack() {
+        getTextTracks() {
             const videoElement = this.#mediaElement;
             if (videoElement) {
                 return Array.from(videoElement.textTracks)
@@ -546,9 +546,6 @@ function tryRemoveElement(elem) {
             }
         }
 
-        /**
-         * @private
-         */
         setSubtitleOffset(offset) {
             const offsetValue = parseFloat(offset);
 
@@ -557,12 +554,13 @@ function tryRemoveElement(elem) {
                 this.updateCurrentTrackOffset(offsetValue);
                 this.#currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
             } else {
-                const trackElement = this.getTextTrack();
+                const trackElements = this.getTextTracks();
                 // if .vtt currently rendering
-                if (trackElement) {
-                    this.setTextTrackSubtitleOffset(trackElement, offsetValue);
-                } else if (this.#currentTrackEvents) {
-                    this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue);
+                if (trackElements.length > 0) {
+                    trackElements.forEach((trackElement, index) => this.setTextTrackSubtitleOffset(trackElement, offsetValue, index));
+                } else if (this.#currentTrackEvents || this.#currentSecondaryTrackEvents) {
+                    this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, this._PRIMARY_TEXT_TRACK_INDEX);
+                    this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, this._SECONDARY_TEXT_TRACK_INDEX);
                 } else {
                     console.debug('No available track, cannot apply offset: ', offsetValue);
                 }
@@ -572,10 +570,21 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        updateCurrentTrackOffset(offsetValue) {
+        updateCurrentTrackOffset(offsetValue, currentTrackIndex = 0) {
+            const skipRelativeOffset = currentTrackIndex !== this._PRIMARY_TEXT_TRACK_INDEX;
             let relativeOffset = offsetValue;
             const newTrackOffset = offsetValue;
-            if (this.#currentTrackOffset) {
+            if (this.#currentTrackOffset && !skipRelativeOffset) {
+                /**
+                 * Only calculate the offset for the first track.
+                 * The offset gets set after this method is first called.
+                 * Subsequent method calls (when playing multiple tracks)
+                 * will have the calculated relative offset cancel out
+                 * and will be `0`
+                 * @example
+                 * first_call: (relativeOffset = -2) -= (this.#currentTrackOffset = -1) -> 1
+                 * second_call: (relativeOffset = -2) -= (this.#currentTrackOffset = -2) -> 0
+                 */
                 relativeOffset -= this.#currentTrackOffset;
             }
             this.#currentTrackOffset = newTrackOffset;
@@ -585,10 +594,41 @@ function tryRemoveElement(elem) {
 
         /**
          * @private
+         * These browsers will not clear the existing active cue when setting an offset
+         * for native TextTracks.
+         * Any previous text tracks that are on the screen when the offset changes will
+         * remain next to the new tracks until they reach the new offset's instance of the track.
          */
-        setTextTrackSubtitleOffset(currentTrack, offsetValue) {
+        requiresHidingActiveCuesOnOffsetChange() {
+            if (browser.firefox) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * @private
+         */
+        hideTextTrackActiveCues(currentTrack) {
+            if (currentTrack.activeCues) {
+                Array.from(currentTrack.activeCues).forEach((cue) => {
+                    cue.text = '';
+                });
+            }
+        }
+
+        /**
+         * @private
+         */
+        setTextTrackSubtitleOffset(currentTrack, offsetValue, currentTrackIndex) {
             if (currentTrack.cues) {
-                offsetValue = this.updateCurrentTrackOffset(offsetValue);
+                offsetValue = this.updateCurrentTrackOffset(offsetValue, currentTrackIndex);
+                if (offsetValue === 0) {
+                    return;
+                }
+                if (this.requiresHidingActiveCuesOnOffsetChange()) {
+                    this.hideTextTrackActiveCues(currentTrack);
+                }
                 Array.from(currentTrack.cues)
                     .forEach(function (cue) {
                         cue.startTime -= offsetValue;
@@ -600,9 +640,12 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
+        setTrackEventsSubtitleOffset(trackEvents, offsetValue, currentTrackIndex) {
             if (Array.isArray(trackEvents)) {
-                offsetValue = this.updateCurrentTrackOffset(offsetValue) * 1e7; // ticks
+                offsetValue = this.updateCurrentTrackOffset(offsetValue, currentTrackIndex) * 1e7; // ticks
+                if (offsetValue === 0) {
+                    return;
+                }
                 trackEvents.forEach(function (trackEvent) {
                     trackEvent.StartPositionTicks -= offsetValue;
                     trackEvent.EndPositionTicks -= offsetValue;
