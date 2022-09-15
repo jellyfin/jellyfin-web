@@ -223,9 +223,17 @@ function tryRemoveElement(elem) {
          */
         #videoSubtitlesElem;
         /**
+         * @type {HTMLElement | null | undefined}
+         */
+        #videoSecondarySubtitlesElem;
+        /**
          * @type {any | null | undefined}
          */
         #currentTrackEvents;
+        /**
+         * @type {any | null | undefined}
+         */
+        #currentSecondaryTrackEvents;
         /**
          * @type {string[] | undefined}
          */
@@ -977,16 +985,29 @@ function tryRemoveElement(elem) {
          */
         destroyCustomTrack(videoElement, targetTrackIndex) {
             const destroySingleTrack = typeof targetTrackIndex === 'number';
+            const destroyPrimaryTrack = targetTrackIndex === this._PRIMARY_TEXT_TRACK_INDEX;
+            const destroySecondaryTrack = targetTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
 
-            if (this.#videoSubtitlesElem) {
-                const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
-                if (subtitlesContainer) {
-                    tryRemoveElement(subtitlesContainer);
+            if (destroyPrimaryTrack) {
+                if (this.#videoSubtitlesElem) {
+                    tryRemoveElement(this.#videoSubtitlesElem);
+                    this.#videoSubtitlesElem = null;
                 }
-                this.#videoSubtitlesElem = null;
+            } else if (destroySecondaryTrack) {
+                if (this.#videoSecondarySubtitlesElem) {
+                    tryRemoveElement(this.#videoSecondarySubtitlesElem);
+                    this.#videoSecondarySubtitlesElem = null;
+                }
+            } else {
+                if (this.#videoSubtitlesElem) {
+                    const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
+                    if (subtitlesContainer) {
+                        tryRemoveElement(subtitlesContainer);
+                    }
+                    this.#videoSubtitlesElem = null;
+                    this.#videoSecondarySubtitlesElem = null;
+                }
             }
-
-            this.#currentTrackEvents = null;
 
             if (videoElement) {
                 const allTracks = videoElement.textTracks || []; // get list of tracks
@@ -1001,7 +1022,19 @@ function tryRemoveElement(elem) {
                 }
             }
 
-            this.#customTrackIndex = -1;
+            if (destroyPrimaryTrack) {
+                this.#customTrackIndex = -1;
+                this.#currentTrackEvents = null;
+            } else if (destroySecondaryTrack) {
+                this.#customSecondaryTrackIndex = -1;
+                this.#currentSecondaryTrackEvents = null;
+            } else {
+                this.#customTrackIndex = -1;
+                this.#customSecondaryTrackIndex = -1;
+                this.#currentTrackEvents = null;
+                this.#currentSecondaryTrackEvents = null;
+            }
+
             this.#currentClock = null;
             this._currentAspectRatio = null;
 
@@ -1191,16 +1224,27 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        renderSubtitlesWithCustomElement(videoElement, track, item) {
+        renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
             this.fetchSubtitles(track, item).then((data) => {
                 if (!this.#videoSubtitlesElem) {
-                    const subtitlesContainer = document.createElement('div');
-                    subtitlesContainer.classList.add('videoSubtitles');
-                    subtitlesContainer.innerHTML = '<div class="videoSubtitlesInner"></div>';
-                    this.#videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
-                    this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
-                    videoElement.parentNode.appendChild(subtitlesContainer);
-                    this.#currentTrackEvents = data.TrackEvents;
+                    if (!this.isSecondaryTrack(targetTextTrackIndex)) {
+                        const subtitlesContainer = document.createElement('div');
+                        subtitlesContainer.classList.add('videoSubtitles');
+                        subtitlesContainer.innerHTML = '<div class="videoSubtitlesInner"></div>';
+                        this.#videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
+                        this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
+                        videoElement.parentNode.appendChild(subtitlesContainer);
+                        this.#currentTrackEvents = data.TrackEvents;
+                    }
+                } else if (this.isSecondaryTrack(targetTextTrackIndex)) {
+                    const subtitlesContainer = document.querySelector('.videoSubtitles');
+                    if (!subtitlesContainer) return;
+                    const secondarySubtitlesElement = document.createElement('div');
+                    secondarySubtitlesElement.classList.add('videoSecondarySubtitlesInner');
+                    subtitlesContainer.prepend(secondarySubtitlesElement);
+                    this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
+                    this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
+                    this.#currentSecondaryTrackEvents = data.TrackEvents;
                 }
             });
         }
@@ -1324,24 +1368,29 @@ function tryRemoveElement(elem) {
                 return;
             }
 
-            const trackEvents = this.#currentTrackEvents;
-            const subtitleTextElement = this.#videoSubtitlesElem;
+            const allTrackEvents = [this.#currentTrackEvents, this.#currentSecondaryTrackEvents];
+            const subtitleTextElements = [this.#videoSubtitlesElem, this.#videoSecondarySubtitlesElem];
 
-            if (trackEvents && subtitleTextElement) {
-                const ticks = timeMs * 10000;
-                let selectedTrackEvent;
-                for (const trackEvent of trackEvents) {
-                    if (trackEvent.StartPositionTicks <= ticks && trackEvent.EndPositionTicks >= ticks) {
-                        selectedTrackEvent = trackEvent;
-                        break;
+            for (let i = 0; i < allTrackEvents.length; i++) {
+                const trackEvents = allTrackEvents[i];
+                const subtitleTextElement = subtitleTextElements[i];
+
+                if (trackEvents && subtitleTextElement) {
+                    const ticks = timeMs * 10000;
+                    let selectedTrackEvent;
+                    for (const trackEvent of trackEvents) {
+                        if (trackEvent.StartPositionTicks <= ticks && trackEvent.EndPositionTicks >= ticks) {
+                            selectedTrackEvent = trackEvent;
+                            break;
+                        }
                     }
-                }
 
-                if (selectedTrackEvent && selectedTrackEvent.Text) {
-                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
-                    subtitleTextElement.classList.remove('hide');
-                } else {
-                    subtitleTextElement.classList.add('hide');
+                    if (selectedTrackEvent && selectedTrackEvent.Text) {
+                        subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
+                        subtitleTextElement.classList.remove('hide');
+                    } else {
+                        subtitleTextElement.classList.add('hide');
+                    }
                 }
             }
         }

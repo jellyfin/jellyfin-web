@@ -74,6 +74,14 @@ video[controls]::-webkit-media-controls {
     display: inline-block;
 }
 
+.videoSecondarySubtitlesInner {
+    max-width: 70%;
+    background-color: rgba(0, 0, 0, 0.8);
+    margin: auto;
+    display: block;
+    margin-bottom: 0 !important;
+}
+
 @keyframes htmlvideoplayer-zoomin {
     from {
         transform: scale3d(0.2, 0.2, 0.2);
