@@ -187,6 +187,10 @@ function tryRemoveElement(elem) {
          */
         #subtitleTrackIndexToSetOnPlaying;
         /**
+         * @type {number | undefined}
+         */
+        #secondarySubtitleTrackIndexToSetOnPlaying;
+        /**
          * @type {number | null}
          */
         #audioTrackIndexToSetOnPlaying;
@@ -472,6 +476,15 @@ function tryRemoveElement(elem) {
                 const initialSubtitleStream = options.mediaSource.MediaStreams[this.#subtitleTrackIndexToSetOnPlaying];
                 if (!initialSubtitleStream || initialSubtitleStream.DeliveryMethod === 'Encode') {
                     this.#subtitleTrackIndexToSetOnPlaying = -1;
+                }
+            }
+            // Continue using the secondary track that has been set during this watch session
+            const currentSecondaryTrackIndex = playbackManager.getSecondarySubtitleStreamIndex();
+            this.#secondarySubtitleTrackIndexToSetOnPlaying = currentSecondaryTrackIndex == null ? -1 : currentSecondaryTrackIndex;
+            if (this.#secondarySubtitleTrackIndexToSetOnPlaying != null && this.#secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
+                const initialSecondarySubtitleStream = options.mediaSource.MediaStreams[this.#secondarySubtitleTrackIndexToSetOnPlaying];
+                if (!initialSecondarySubtitleStream || initialSecondarySubtitleStream.DeliveryMethod !== 'External') {
+                    this.#secondarySubtitleTrackIndexToSetOnPlaying = -1;
                 }
             }
 
@@ -888,6 +901,16 @@ function tryRemoveElement(elem) {
 
             if (this.#audioTrackIndexToSetOnPlaying != null && this.canSetAudioStreamIndex()) {
                 this.setAudioStreamIndex(this.#audioTrackIndexToSetOnPlaying);
+            }
+
+            if (this.#secondarySubtitleTrackIndexToSetOnPlaying != null && this.#secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
+                /**
+                 * Using a 0ms timeout to set the secondary subtitles because of some weird race condition when
+                 * setting both primary and secondary tracks at the same time.
+                 * The `TextTrack` content and cues will somehow get mixed up and each track will play a mix of both languages.
+                 * Putting this in a timeout fixes it completely.
+                 */
+                setTimeout(() => this.setSecondarySubtitleStreamIndex(this.#secondarySubtitleTrackIndexToSetOnPlaying), 0);
             }
         }
 

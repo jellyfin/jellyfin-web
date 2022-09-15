@@ -1488,6 +1488,24 @@ class PlaybackManager {
             return getPlayerData(player).subtitleStreamIndex;
         };
 
+        self.getSecondarySubtitleStreamIndex = function (player) {
+            player = player || self._currentPlayer;
+
+            try {
+                if (player && !enableLocalPlaylistManagement(player)) {
+                    return player.getSecondarySubtitleStreamIndex();
+                }
+            } catch (e) {
+                console.error(`Failed to get secondary stream index: ${e}`);
+            }
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
+            return getPlayerData(player).secondarySubtitleStreamIndex;
+        };
+
         function getDeliveryMethod(subtitleStream) {
             // This will be null for internal subs for local items
             if (subtitleStream.DeliveryMethod) {
