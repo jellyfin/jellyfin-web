@@ -876,12 +876,37 @@ class PlaybackManager {
             });
         };
 
+        self.hasSecondarySubtitleSupport = function (player = self._currentPlayer) {
+            if (!player) return false;
+            return Boolean(player.supports('SecondarySubtitles'));
+        };
+
+        self.secondarySubtitleTracks = function (player = self._currentPlayer) {
+            const streams = self.subtitleTracks(player);
+            // Currently, only External subtitles are supported
+            return streams.filter((stream) => getDeliveryMethod(stream) === 'External');
+        };
+
         function getCurrentSubtitleStream(player) {
             if (!player) {
                 throw new Error('player cannot be null');
             }
 
             const index = getPlayerData(player).subtitleStreamIndex;
+
+            if (index == null || index === -1) {
+                return null;
+            }
+
+            return getSubtitleStream(player, index);
+        }
+
+        function getCurrentSecondarySubtitleStream(player) {
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
+            const index = getPlayerData(player).secondarySubtitleStreamIndex;
 
             if (index == null || index === -1) {
                 return null;
@@ -1522,7 +1547,49 @@ class PlaybackManager {
 
             player.setSubtitleStreamIndex(selectedTrackElementIndex);
 
+            // Also disable secondary subtitles when disabling the primary subtitles
+            if (selectedTrackElementIndex === -1) {
+                self.setSecondarySubtitleStreamIndex(selectedTrackElementIndex);
+            }
+
             getPlayerData(player).subtitleStreamIndex = index;
+        };
+
+        self.setSecondarySubtitleStreamIndex = function (index, player) {
+            player = player || self._currentPlayer;
+            if (!self.hasSecondarySubtitleSupport(player)) return;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                try {
+                    return player.setSecondarySubtitleStreamIndex(index);
+                } catch (e) {
+                    console.error(`AutoSet - Failed to set secondary track: ${e}`);
+                }
+            }
+
+            const currentStream = getCurrentSecondarySubtitleStream(player);
+
+            const newStream = getSubtitleStream(player, index);
+
+            if (!currentStream && !newStream) {
+                return;
+            }
+
+            const clearingStream = currentStream && !newStream;
+            const changingStream = currentStream && newStream;
+            const addingStream = !currentStream && newStream;
+            // Secondary subtitles are currently only handled client side
+            // Changes to the server code are required before we can handle other delivery methods
+            if (!clearingStream && (changingStream || addingStream) && getDeliveryMethod(newStream) !== 'External') {
+                return;
+            }
+
+            getPlayerData(player).secondarySubtitleStreamIndex = index;
+
+            try {
+                player.setSecondarySubtitleStreamIndex(index);
+            } catch (e) {
+                console.error(`AutoSet - Failed to set secondary track: ${e}`);
+            }
         };
 
         self.supportSubtitleOffset = function (player) {

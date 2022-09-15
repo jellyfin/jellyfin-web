@@ -178,7 +178,6 @@ function tryRemoveElement(elem) {
          * @type {boolean}
          */
         isFetching = false;
-
         /**
          * @type {HTMLDivElement | null | undefined}
          */
@@ -207,6 +206,10 @@ function tryRemoveElement(elem) {
          * @type {number | undefined}
          */
         #customTrackIndex;
+        /**
+         * @type {number | undefined}
+         */
+        #customSecondaryTrackIndex;
         /**
          * @type {boolean | undefined}
          */
@@ -270,6 +273,14 @@ function tryRemoveElement(elem) {
          * @type {any | undefined}
          */
         _currentPlayOptions;
+        /**
+         * @type {number}
+         */
+        _PRIMARY_TEXT_TRACK_INDEX = 0;
+        /**
+         * @type {number}
+         */
+        _SECONDARY_TEXT_TRACK_INDEX = 1;
         /**
          * @type {any | undefined}
          */
@@ -490,6 +501,10 @@ function tryRemoveElement(elem) {
             this.setCurrentTrackElement(index);
         }
 
+        setSecondarySubtitleStreamIndex(index) {
+            this.setCurrentTrackElement(index, this._SECONDARY_TEXT_TRACK_INDEX);
+        }
+
         resetSubtitleOffset() {
             this.#currentTrackOffset = 0;
             this.#showTrackOffset = false;
@@ -514,7 +529,7 @@ function tryRemoveElement(elem) {
             const videoElement = this.#mediaElement;
             if (videoElement) {
                 return Array.from(videoElement.textTracks)
-                    .find(function (trackElement) {
+                    .filter(function (trackElement) {
                         // get showing .vtt textTack
                         return trackElement.mode === 'showing';
                     });
@@ -589,6 +604,10 @@ function tryRemoveElement(elem) {
 
         getSubtitleOffset() {
             return this.#currentTrackOffset;
+        }
+
+        isSecondaryTrack(textTrackIndex) {
+            return textTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
         }
 
         /**
@@ -956,7 +975,9 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        destroyCustomTrack(videoElement) {
+        destroyCustomTrack(videoElement, targetTrackIndex) {
+            const destroySingleTrack = typeof targetTrackIndex === 'number';
+
             if (this.#videoSubtitlesElem) {
                 const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
                 if (subtitlesContainer) {
@@ -969,7 +990,11 @@ function tryRemoveElement(elem) {
 
             if (videoElement) {
                 const allTracks = videoElement.textTracks || []; // get list of tracks
-                for (const track of allTracks) {
+                for (let index = 0; index < allTracks.length; index++) {
+                    const track = allTracks[index];
+                    if (destroySingleTrack && targetTrackIndex !== index) {
+                        continue;
+                    }
                     if (track.label.includes('manualTrack')) {
                         track.mode = 'disabled';
                     }
@@ -1029,23 +1054,34 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        setTrackForDisplay(videoElement, track) {
+        setTrackForDisplay(videoElement, track, targetTextTrackIndex = this._PRIMARY_TEXT_TRACK_INDEX) {
             if (!track) {
-                this.destroyCustomTrack(videoElement);
+                // Destroy all tracks by passing undefined if there is no valid primary track
+                this.destroyCustomTrack(videoElement, this.isSecondaryTrack(targetTextTrackIndex) ? targetTextTrackIndex : undefined);
                 return;
             }
 
+            let targetTrackIndex = this.#customTrackIndex;
+            if (this.isSecondaryTrack(targetTextTrackIndex)) {
+                targetTrackIndex = this.#customSecondaryTrackIndex;
+            }
+
             // skip if already playing this track
-            if (this.#customTrackIndex === track.Index) {
+            if (targetTrackIndex === track.Index) {
                 return;
             }
 
             this.resetSubtitleOffset();
             const item = this._currentPlayOptions.item;
 
-            this.destroyCustomTrack(videoElement);
-            this.#customTrackIndex = track.Index;
-            this.renderTracksEvents(videoElement, track, item);
+            this.destroyCustomTrack(videoElement, targetTextTrackIndex);
+
+            if (this.isSecondaryTrack(targetTextTrackIndex)) {
+                this.#customSecondaryTrackIndex = track.Index;
+            } else {
+                this.#customTrackIndex = track.Index;
+            }
+            this.renderTracksEvents(videoElement, track, item, targetTextTrackIndex);
         }
 
         /**
@@ -1211,7 +1247,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        renderTracksEvents(videoElement, track, item) {
+        renderTracksEvents(videoElement, track, item, targetTextTrackIndex = this._PRIMARY_TEXT_TRACK_INDEX) {
             if (!itemHelper.isLocalItem(item) || track.IsExternal) {
                 const format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
@@ -1220,15 +1256,15 @@ function tryRemoveElement(elem) {
                 }
 
                 if (this.requiresCustomSubtitlesElement()) {
-                    this.renderSubtitlesWithCustomElement(videoElement, track, item);
+                    this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
                     return;
                 }
             }
 
             let trackElement = null;
-            if (videoElement.textTracks && videoElement.textTracks.length > 0) {
-                trackElement = videoElement.textTracks[0];
-
+            const updatingTrack = videoElement.textTracks && videoElement.textTracks.length > (this.isSecondaryTrack(targetTextTrackIndex) ? 1 : 0);
+            if (updatingTrack) {
+                trackElement = videoElement.textTracks[targetTextTrackIndex];
                 // This throws an error in IE, but is fine in chrome
                 // In IE it's not necessary anyway because changing the src seems to be enough
                 try {
@@ -1313,7 +1349,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        setCurrentTrackElement(streamIndex) {
+        setCurrentTrackElement(streamIndex, targetTextTrackIndex) {
             console.debug(`setting new text track index to: ${streamIndex}`);
 
             const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
@@ -1322,7 +1358,7 @@ function tryRemoveElement(elem) {
                 return t.Index === streamIndex;
             })[0];
 
-            this.setTrackForDisplay(this.#mediaElement, track);
+            this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
             if (enableNativeTrackSupport(this.#currentSrc, track)) {
                 if (streamIndex !== -1) {
                     this.setCueAppearance();
@@ -1500,6 +1536,7 @@ function tryRemoveElement(elem) {
 
         list.push('SetBrightness');
         list.push('SetAspectRatio');
+        list.push('SecondarySubtitles');
 
         return list;
     }
