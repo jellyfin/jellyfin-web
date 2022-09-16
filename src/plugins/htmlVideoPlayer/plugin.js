@@ -1049,8 +1049,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        destroyCustomTrack(videoElement, targetTrackIndex) {
-            const destroySingleTrack = typeof targetTrackIndex === 'number';
+        destroyCustomRenderedTrackElements(targetTrackIndex) {
             const destroyPrimaryTrack = targetTrackIndex === this._PRIMARY_TEXT_TRACK_INDEX;
             const destroySecondaryTrack = targetTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
 
@@ -1064,7 +1063,7 @@ function tryRemoveElement(elem) {
                     tryRemoveElement(this.#videoSecondarySubtitlesElem);
                     this.#videoSecondarySubtitlesElem = null;
                 }
-            } else {
+            } else { // destroy all
                 if (this.#videoSubtitlesElem) {
                     const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
                     if (subtitlesContainer) {
@@ -1074,11 +1073,18 @@ function tryRemoveElement(elem) {
                     this.#videoSecondarySubtitlesElem = null;
                 }
             }
+        }
 
+        /**
+         * @private
+         */
+        destroyNativeTracks(videoElement, targetTrackIndex) {
             if (videoElement) {
+                const destroySingleTrack = typeof targetTrackIndex === 'number';
                 const allTracks = videoElement.textTracks || []; // get list of tracks
                 for (let index = 0; index < allTracks.length; index++) {
                     const track = allTracks[index];
+                    // Skip all other tracks if we are targeting just one
                     if (destroySingleTrack && targetTrackIndex !== index) {
                         continue;
                     }
@@ -1087,6 +1093,14 @@ function tryRemoveElement(elem) {
                     }
                 }
             }
+        }
+
+        /**
+         * @private
+         */
+        destroyStoredTrackInfo(targetTrackIndex) {
+            const destroyPrimaryTrack = targetTrackIndex === this._PRIMARY_TEXT_TRACK_INDEX;
+            const destroySecondaryTrack = targetTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
 
             if (destroyPrimaryTrack) {
                 this.#customTrackIndex = -1;
@@ -1094,12 +1108,26 @@ function tryRemoveElement(elem) {
             } else if (destroySecondaryTrack) {
                 this.#customSecondaryTrackIndex = -1;
                 this.#currentSecondaryTrackEvents = null;
-            } else {
+            } else { // destroy all
                 this.#customTrackIndex = -1;
                 this.#customSecondaryTrackIndex = -1;
                 this.#currentTrackEvents = null;
                 this.#currentSecondaryTrackEvents = null;
             }
+        }
+
+        /**
+         * @private
+         */
+        destroyCustomTrack(videoElement, targetTrackIndex) {
+            if (this.#resizeObserver) {
+                this.#resizeObserver.disconnect();
+                this.#resizeObserver = null;
+            }
+
+            this.destroyCustomRenderedTrackElements(targetTrackIndex);
+            this.destroyNativeTracks(videoElement, targetTrackIndex);
+            this.destroyStoredTrackInfo(targetTrackIndex);
 
             this.#currentClock = null;
             this._currentAspectRatio = null;
