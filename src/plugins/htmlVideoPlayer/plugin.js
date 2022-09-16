@@ -670,6 +670,10 @@ function tryRemoveElement(elem) {
             return this.#currentTrackOffset;
         }
 
+        isPrimaryTrack(textTrackIndex) {
+            return textTrackIndex === this._PRIMARY_TEXT_TRACK_INDEX;
+        }
+
         isSecondaryTrack(textTrackIndex) {
             return textTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
         }
@@ -1050,15 +1054,12 @@ function tryRemoveElement(elem) {
          * @private
          */
         destroyCustomRenderedTrackElements(targetTrackIndex) {
-            const destroyPrimaryTrack = targetTrackIndex === this._PRIMARY_TEXT_TRACK_INDEX;
-            const destroySecondaryTrack = targetTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
-
-            if (destroyPrimaryTrack) {
+            if (this.isPrimaryTrack(targetTrackIndex)) {
                 if (this.#videoSubtitlesElem) {
                     tryRemoveElement(this.#videoSubtitlesElem);
                     this.#videoSubtitlesElem = null;
                 }
-            } else if (destroySecondaryTrack) {
+            } else if (this.isSecondaryTrack(targetTrackIndex)) {
                 if (this.#videoSecondarySubtitlesElem) {
                     tryRemoveElement(this.#videoSecondarySubtitlesElem);
                     this.#videoSecondarySubtitlesElem = null;
@@ -1099,13 +1100,10 @@ function tryRemoveElement(elem) {
          * @private
          */
         destroyStoredTrackInfo(targetTrackIndex) {
-            const destroyPrimaryTrack = targetTrackIndex === this._PRIMARY_TEXT_TRACK_INDEX;
-            const destroySecondaryTrack = targetTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
-
-            if (destroyPrimaryTrack) {
+            if (this.isPrimaryTrack(targetTrackIndex)) {
                 this.#customTrackIndex = -1;
                 this.#currentTrackEvents = null;
-            } else if (destroySecondaryTrack) {
+            } else if (this.isSecondaryTrack(targetTrackIndex)) {
                 this.#customSecondaryTrackIndex = -1;
                 this.#currentSecondaryTrackEvents = null;
             } else { // destroy all
