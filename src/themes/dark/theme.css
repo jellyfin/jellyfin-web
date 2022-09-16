@@ -481,3 +481,37 @@ html {
     background-color: #f2f2f2;
     color: #00a4dc;
 }
+
+#comicsPlayer,
+#bookPlayer {
+    background: #101010;
+}
+
+#bookPlayer .topButtons {
+    color: #fff;
+}
+
+.actionButtonIcon {
+    color: #fff;
+}
+
+#dialogToc {
+    background-color: #101010;
+}
+
+#dialogToc .bookplayerButtonIcon {
+    color: #ccc;
+}
+
+#dialogToc .bookplayerButtonIcon:hover {
+    color: #00a4dc;
+}
+
+.toc li a:link {
+    color: #ccc;
+}
+
+.toc li a:active,
+.toc li a:hover {
+    color: #00a4dc;
+}
