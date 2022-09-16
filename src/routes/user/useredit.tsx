@@ -1,4 +1,4 @@
-import type { SyncPlayUserAccessType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';

@@ -1,4 +1,4 @@
-import type { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
 import loading from '../../components/loading/loading';
