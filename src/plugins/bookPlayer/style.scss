@@ -42,6 +42,12 @@
 
 #dialogToc {
     background-color: white;
+    height: fit-content;
+    width: fit-content;
+    max-height: 80%;
+    max-width: 60%;
+    padding-right: 50px;
+    padding-bottom: 15px;
 
     .bookplayerButtonIcon {
         color: black;
@@ -49,5 +55,19 @@
 
     .toc li {
         margin-bottom: 5px;
+
+        list-style-type: none;
+        font-size: 120%;
+
+        a:link {
+            color: #000;
+            text-decoration: none;
+        }
+
+        a:active,
+        a:hover {
+            color: #00a4dc;
+            text-decoration: none;
+        }
     }
 }
