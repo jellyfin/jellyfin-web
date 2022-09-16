@@ -1292,17 +1292,20 @@ function tryRemoveElement(elem) {
          */
         renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
             this.fetchSubtitles(track, item).then((data) => {
-                if (!this.#videoSubtitlesElem) {
-                    if (!this.isSecondaryTrack(targetTextTrackIndex)) {
-                        const subtitlesContainer = document.createElement('div');
+                if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
+                    let subtitlesContainer = document.querySelector('.videoSubtitles');
+                    if (!subtitlesContainer) {
+                        subtitlesContainer = document.createElement('div');
                         subtitlesContainer.classList.add('videoSubtitles');
-                        subtitlesContainer.innerHTML = '<div class="videoSubtitlesInner"></div>';
-                        this.#videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
-                        this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
-                        videoElement.parentNode.appendChild(subtitlesContainer);
-                        this.#currentTrackEvents = data.TrackEvents;
                     }
-                } else if (this.isSecondaryTrack(targetTextTrackIndex)) {
+                    const subtitlesElement = document.createElement('div');
+                    subtitlesElement.classList.add('videoSubtitlesInner');
+                    subtitlesContainer.appendChild(subtitlesElement);
+                    this.#videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
+                    this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
+                    videoElement.parentNode.appendChild(subtitlesContainer);
+                    this.#currentTrackEvents = data.TrackEvents;
+                } else if (!this.#videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
                     const subtitlesContainer = document.querySelector('.videoSubtitles');
                     if (!subtitlesContainer) return;
                     const secondarySubtitlesElement = document.createElement('div');
