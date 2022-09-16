@@ -1,4 +1,5 @@
-import { ImageType, UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import { ImageType } from '@thornbill/jellyfin-sdk/dist/generated-client/models/image-type';
 import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
 
 import Dashboard from '../../utils/dashboard';
