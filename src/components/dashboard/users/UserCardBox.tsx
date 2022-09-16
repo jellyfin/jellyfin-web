@@ -1,4 +1,4 @@
-import type { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';

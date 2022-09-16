@@ -1,4 +1,4 @@
-import type { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
 import cardBuilder from '../cardbuilder/cardBuilder';
