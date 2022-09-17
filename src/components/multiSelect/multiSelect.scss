@@ -14,7 +14,13 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 1em 0.5em;
+    padding-left: 0.5em;
+    padding-left: max(env(safe-area-inset-left), 0.5em);
+    padding-right: 0.5em;
+    padding-right: max(env(safe-area-inset-right), 0.5em);
+    padding-top: 1em;
+    padding-top: max(env(safe-area-inset-top), 1em);
+    padding-bottom: 1em;
     display: flex;
     align-items: center;
     z-index: 99999;

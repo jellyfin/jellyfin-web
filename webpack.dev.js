@@ -5,8 +5,8 @@ module.exports = merge(common, {
     // In order for live reload to work we must use "web" as the target not "browserslist"
     target: process.env.WEBPACK_SERVE ? 'web' : 'browserslist',
     mode: 'development',
-    entry: './scripts/site.js',
-    devtool: 'source-map',
+    entry: { 'main.jellyfin': './scripts/site.js' },
+    devtool: 'eval-cheap-module-source-map',
     module: {
         rules: [
             {

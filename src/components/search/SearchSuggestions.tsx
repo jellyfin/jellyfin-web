@@ -1,4 +1,4 @@
-import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import escapeHtml from 'escape-html';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 

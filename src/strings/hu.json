@@ -1452,7 +1452,7 @@
     "OptionAllowContentDownloadHelp": "A felhasználók letölthetik az adathordozókat, és tárolhatják azokat eszközeiken. Ez nem azonos a szinkronizálási funkcióval. A könyvtári könyvtáraknak engedélyezniük kell a megfelelő működését.",
     "OptionAllowContentDownload": "Médialetöltések engedélyezése",
     "MediaInfoColorPrimaries": "Fő színek",
-    "LabelUDPPortRangeHelp": "Korlátozza a Jellyfint, hogy ezt a porttartományt használja UDP-kapcsolatok létrehozásakor. (Alapértelmezés szerint 1024 - 645535). <br/> Megjegyzés: Bizonyos funkciókhoz fix portok szükségesek, amelyek kívül eshetnek ezen a tartományon.",
+    "LabelUDPPortRangeHelp": "Korlátozza a Jellyfint, hogy ezt a porttartományt használja UDP-kapcsolatok létrehozásakor. (Alapértelmezés szerint 1024 - 65535). <br/> Megjegyzés: Bizonyos funkciókhoz fix portok szükségesek, amelyek kívül eshetnek ezen a tartományon.",
     "LabelUDPPortRange": "UDP kommunikációs tartomány:",
     "LabelTonemappingParamHelp": "Hangolja be a hangleképezési algoritmust. Az ajánlott és az alapértelmezett érték NaN. Általában hagyja üresen.",
     "LabelSSDPTracingFilterHelp": "Opcionális IP-cím, amelyen szűrni lehet a naplózott SSDP-forgalmat.",
@@ -1462,7 +1462,7 @@
     "LabelMaxMuxingQueueSizeHelp": "Azon pufferek maximális száma, amelyek pufferelhetők, amíg az összes adat inicializálására vár. Próbálja meg növelni, ha továbbra is \"Túl sok csomag van pufferelve a kimeneti adatfolyamhoz\" hibával találkozik az FFmpeg naplókban. Az ajánlott érték 2048.",
     "LabelMaxMuxingQueueSize": "Maximális muxing sor méret:",
     "LabelIsForced": "Kényszerített",
-    "LabelHDHomerunPortRangeHelp": "Erre az értékre korlátozza a HDHomeRun UDP porttartományt. (Alapértelmezés szerint 1024 - 645535).",
+    "LabelHDHomerunPortRangeHelp": "Erre az értékre korlátozza a HDHomeRun UDP porttartományt. (Alapértelmezés szerint 1024 - 65535).",
     "LabelHDHomerunPortRange": "HDHomeRun port tartomány:",
     "LabelH265Crf": "H.265 CRF kódolás:",
     "LabelEnableSSDPTracingHelp": "Engedélyezze az SSDP hálózati nyomon követésének naplózását.<br/><b>FIGYELEM:</b> Ez komoly teljesítményromlást okoz.",
@@ -1671,5 +1671,11 @@
     "RememberSubtitleSelections": "Feliratsáv beállítása az előző elem alapján",
     "RememberAudioSelectionsHelp": "Próbálja meg úgy beállítani a hangsávot, hogy a legközelebb legyen az utolsó videóhoz.",
     "RememberAudioSelections": "Hangsáv beállítása az előző elem alapján",
-    "LabelMaxVideoResolution": "Maximálisan engedélyezett felbontás, Video Transzkódolás alatt"
+    "LabelMaxVideoResolution": "Maximálisan engedélyezett felbontás, Video Transzkódolás alatt",
+    "MediaInfoDvBlSignalCompatibilityId": "Dolby Vision BL jel kompatibilitási azonosító",
+    "MediaInfoBlPresentFlag": "Dolby Vision BL előre beállított zászló",
+    "MediaInfoElPresentFlag": "Dolby Vision EL elérhető markerek",
+    "MediaInfoRpuPresentFlag": "Dolby Vision rpu zászló jelen van",
+    "IgnoreDtsHelp": "Ennek az opciónak a letiltása megoldhat bizonyos problémákat, pl. hiányzik a hang a külön hang- és videofolyamokkal rendelkező csatornákon.",
+    "IgnoreDts": "DTS (dekódolási időbélyeg) figyelmen kívül hagyása"
 }

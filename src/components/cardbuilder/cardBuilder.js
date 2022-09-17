@@ -821,7 +821,7 @@ import { appRouter } from '../appRouter';
                         if (isUsingLiveTvNaming(item)) {
                             lines.push(escapeHtml(item.Name));
 
-                            if (!item.EpisodeTitle) {
+                            if (!item.EpisodeTitle && !item.IndexNumber) {
                                 titleAdded = true;
                             }
                         } else {
@@ -1349,7 +1349,7 @@ import { appRouter } from '../appRouter';
 
                 cardImageContainerClose = '</div>';
             } else {
-                const cardImageContainerAriaLabelAttribute = ` aria-label="${item.Name}"`;
+                const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
 
                 const url = appRouter.getRouteUrl(item);
                 // Don't use the IMG tag with safari because it puts a white border around it
@@ -1433,7 +1433,7 @@ import { appRouter } from '../appRouter';
             if (tagName === 'button') {
                 className += ' itemAction';
                 actionAttribute = ' data-action="' + action + '"';
-                ariaLabelAttribute = ` aria-label="${item.Name}"`;
+                ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
             } else {
                 actionAttribute = '';
             }

@@ -1450,7 +1450,7 @@
     "OptionAllowContentDownloadHelp": "Brukere kan laste ned media og lagre på enhetene sine. Dette er ikke en synkroniseringsfunksjon. Bokbiblioteker krever at dette er aktivert for å fungere riktig.",
     "OptionAllowContentDownload": "Tillat nedlasting av media",
     "MessageSyncPlayIsDisabled": "Tillatelse kreves for å bruke SyncPlay.",
-    "LabelUDPPortRangeHelp": "Begrens Jellyfin til å bruke dette portområdet ved UDP-tilkoblinger. (Standard er 1024 - 645535). <br/> Merk: Enkelte funksjoner krever faste porter som kan være utenfor dette området.",
+    "LabelUDPPortRangeHelp": "Begrens Jellyfin til å bruke dette portområdet ved UDP-tilkoblinger. (Standard er 1024 - 65535). <br/> Merk: Enkelte funksjoner krever faste porter som kan være utenfor dette området.",
     "LabelUDPPortRange": "UDP-portområde:",
     "LabelSyncPlayTimeSyncOffset": "Tidsforskyvning:",
     "LabelSyncPlayTimeSyncDevice": "Tidssynkronisering med:",
@@ -1467,7 +1467,7 @@
     "LabelMaxAudiobookResumeHelp": "Titler antas å være ferdig avspilt hvis de stoppes når gjenværende varighet er mindre en denne verdien.",
     "LabelMaxAudiobookResume": "Gjenstående antall minutter for å fortsette avspilling av lydbøker:",
     "LabelIsForced": "Tvunget",
-    "LabelHDHomerunPortRangeHelp": "Begrenser UDP-portområdet for HDHomeRun til denne verdien. (Standard er 1024 - 645535).",
+    "LabelHDHomerunPortRangeHelp": "Begrenser UDP-portområdet for HDHomeRun til denne verdien. (Standard er 1024 - 65535).",
     "LabelHDHomerunPortRange": "HDHomeRun port-område:",
     "LabelH265Crf": "CRF-verdi for H.265-koding:",
     "LabelEnableSSDPTracingHelp": "Aktiver detaljert logging av SSDP-sporing. <br/><b>ADVARSEL:</b> Dette vil føre til alvorlig degradering av ytelse.",
@@ -1649,5 +1649,9 @@
     "Copied": "Kopiert",
     "ButtonSpace": "Mellomrom",
     "ButtonClose": "Steng",
-    "AddToFavorites": "Legg til i favoritter"
+    "AddToFavorites": "Legg til i favoritter",
+    "RememberAudioSelections": "Still inn lydspor basert på forrige element",
+    "Bold": "Fet tekst",
+    "LabelTextWeight": "Tekstvekt:",
+    "LabelMaxVideoResolution": "Maksimal tillat videoomkodingsoppløsning"
 }
