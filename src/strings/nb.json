@@ -409,7 +409,7 @@
     "LabelFriendlyName": "Egendefinert navn:",
     "LabelServerNameHelp": "Dette navnet vil bli brukt for å identifisere tjeneren. Standardverdien er tjenerens vertsnavn.",
     "LabelGroupMoviesIntoCollections": "Gruppér filmer i samlinger",
-    "LabelGroupMoviesIntoCollectionsHelp": "Ved valg av filmlistevisning, vil samlinger bli vist som ett element med grupperte filmer.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Filmer i en samling vil bli vist som en gruppering ved visning av filmlister.",
     "LabelH264Crf": "CRF-verdi for H.264-koding:",
     "LabelEncoderPreset": "Forhåndsinnstilling for koding:",
     "LabelHardwareAccelerationType": "Maskinvareakselerasjon:",
@@ -1650,8 +1650,16 @@
     "ButtonSpace": "Mellomrom",
     "ButtonClose": "Steng",
     "AddToFavorites": "Legg til i favoritter",
-    "RememberAudioSelections": "Still inn lydspor basert på forrige element",
+    "RememberAudioSelections": "Velg lydspor basert på forrige video",
     "Bold": "Fet tekst",
     "LabelTextWeight": "Tekstvekt:",
-    "LabelMaxVideoResolution": "Maksimal tillat videoomkodingsoppløsning"
+    "LabelMaxVideoResolution": "Maksimal tillat videoomkodingsoppløsning",
+    "LabelVppTonemappingBrightness": "VPP Tonemapping lysstyrke gain",
+    "EnableSplashScreen": "Aktiver oppstartsskjerm",
+    "ScreenResolution": "Skjermoppløsning",
+    "RememberSubtitleSelections": "Velg undertekst basert på forrige video",
+    "RememberSubtitleSelectionsHelp": "Prøv å velg undertekst automatisk basert på forrige video.",
+    "RememberAudioSelectionsHelp": "Prøv å velg lydspor automatisk basert på forrige video.",
+    "IgnoreDtsHelp": "Deaktiviering av dette valget kan løse noen problemer, f.eks. manglende lyd på kanaler med seperat lyd og videospor.",
+    "IgnoreDts": "Ignorer DTS (dekoding tidsmerke)"
 }
