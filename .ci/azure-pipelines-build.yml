@@ -13,7 +13,7 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - task: NodeTool@0
+  - task: NodeTool@0.210.1
     displayName: 'Install Node'
     inputs:
       versionSpec: '12.x'
