@@ -59,7 +59,7 @@
     "webpack-cli": "4.9.2",
     "webpack-dev-server": "4.7.4",
     "webpack-merge": "5.8.0",
-    "workbox-webpack-plugin": "6.5.1",
+    "workbox-webpack-plugin": "6.5.4",
     "worker-loader": "3.0.8"
   },
   "dependencies": {
@@ -103,8 +103,8 @@
     "swiper": "6.8.4",
     "webcomponents.js": "0.7.24",
     "whatwg-fetch": "3.6.2",
-    "workbox-core": "6.2.4",
-    "workbox-precaching": "6.2.4"
+    "workbox-core": "6.5.4",
+    "workbox-precaching": "6.5.4"
   },
   "browserslist": [
     "last 2 Firefox versions",
