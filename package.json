@@ -73,7 +73,7 @@
     "@jellyfin/sdk": "0.7.0",
     "blurhash": "1.1.5",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
-    "classnames": "2.3.1",
+    "classnames": "2.3.2",
     "core-js": "3.25.1",
     "date-fns": "2.29.2",
     "dompurify": "2.4.0",
