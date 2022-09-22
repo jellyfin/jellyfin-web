@@ -1654,7 +1654,7 @@
     "Bold": "Fet tekst",
     "LabelTextWeight": "Tekstvekt:",
     "LabelMaxVideoResolution": "Maksimal tillat videoomkodingsoppløsning",
-    "LabelVppTonemappingBrightness": "VPP Tonemapping lysstyrke gain",
+    "LabelVppTonemappingBrightness": "VPP Tonemapping lysstyrke gain:",
     "EnableSplashScreen": "Aktiver oppstartsskjerm",
     "ScreenResolution": "Skjermoppløsning",
     "RememberSubtitleSelections": "Velg undertekst basert på forrige video",
