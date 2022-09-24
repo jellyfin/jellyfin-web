@@ -1020,5 +1020,12 @@
     "Mobile": "נייד",
     "Mute": "השתק",
     "Next": "הבא",
-    "Normal": "רגיל"
+    "Normal": "רגיל",
+    "LabelPlayer": "נגן:",
+    "LabelPasswordRecoveryPinCode": "קוד PIN:",
+    "LabelPasswordConfirm": "סיסמא (וידוא):",
+    "LabelOriginalName": "שם מקורי:",
+    "LabelffmpegPathHelp": "הנתיב לקובץ התוכנה של FFmpeg או לתיקייה שמכילה את FFmpeg.",
+    "LabelffmpegPath": "נתיב לFFmpeg:",
+    "LabelAudioSampleRate": "קצב דגימת שמע:"
 }
