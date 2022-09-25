@@ -76,7 +76,8 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
     function renameVirtualFolder(page, virtualFolder) {
         import('../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
-                label: globalize.translate('LabelNewName'),
+                title: globalize.translate('LabelNewName'),
+                label: globalize.translate('MessageAreYouSureYouWishToRenameMediaFolder'),
                 confirmText: globalize.translate('ButtonRename')
             }).then(function (newName) {
                 if (newName && newName != virtualFolder.Name) {
