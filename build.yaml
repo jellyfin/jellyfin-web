@@ -1,7 +1,7 @@
 ---
 # We just wrap `build` so this is really it
 name: "jellyfin-web"
-version: "10.8.4"
+version: "10.8.5"
 packages:
   - debian.all
   - fedora.all
