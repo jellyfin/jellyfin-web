@@ -1036,6 +1036,7 @@
     "MessageAlreadyInstalled": "This version is already installed.",
     "MessageAreYouSureDeleteSubtitles": "Are you sure you wish to delete this subtitle file?",
     "MessageAreYouSureYouWishToRemoveMediaFolder": "Are you sure you wish to remove this media folder?",
+    "MessageAreYouSureYouWishToRenameMediaFolder": "Are you sure you wish to rename this media folder? All metadata will be lost",
     "MessageBrowsePluginCatalog": "Browse our plugin catalog to view available plugins.",
     "MessageChangeRecordingPath": "Changing your recording folder will not migrate existing recordings from the old location to the new. You'll need to move them manually if desired.",
     "MessageConfirmAppExit": "Do you want to exit?",
