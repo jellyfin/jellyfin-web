@@ -48,7 +48,7 @@
     "sass-loader": "13.0.2",
     "source-map-loader": "3.0.1",
     "style-loader": "3.3.1",
-    "stylelint": "14.11.0",
+    "stylelint": "14.12.0",
     "stylelint-config-rational-order": "0.1.2",
     "stylelint-no-browser-hacks": "1.2.1",
     "stylelint-order": "5.0.0",
