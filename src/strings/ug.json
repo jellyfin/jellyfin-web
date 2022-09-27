@@ -1,10 +1,17 @@
 {
     "Album": "البم",
-    "Actor": "اداڪار",
-    "Absolute": "مطلق",
+    "Actor": "ئاكتيور",
+    "Absolute": "مۇتلەق",
     "ButtonCast": "ميڊيا کي ڊوائس ۾ ڪاسٽ ڪريو",
     "Channels": "قانال",
     "Books": "كىتاب",
     "Artists": "سەنئەتكار",
-    "Albums": "پىلاستىنكا"
+    "Albums": "پىلاستىنكا",
+    "Collections": "توپلام",
+    "Default": "سۈكۈتتىكى",
+    "Folders": "ھۆججەت خالتىسى",
+    "Favorites": "ساقلىغۇچ",
+    "AddedOnValue": "{0} ى قوشۇلدى",
+    "Add": "قوشۇش",
+    "AccessRestrictedTryAgainLater": "نۆۋەتتە زىيارىتىڭىز چەكلىمىگە ئۇچرىدى. سەل تۇرۇپ قايتا سىناڭ."
 }
