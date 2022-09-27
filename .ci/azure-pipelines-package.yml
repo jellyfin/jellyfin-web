@@ -33,7 +33,7 @@ jobs:
     displayName: 'Run Dockerfile (stable)'
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
 
-  - task: PublishPipelineArtifact@1
+  - task: PublishPipelineArtifact@1.199.0
     displayName: 'Publish Release'
     condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
