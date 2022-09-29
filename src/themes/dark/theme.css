@@ -483,7 +483,8 @@ html {
 }
 
 #comicsPlayer,
-#bookPlayer {
+#bookPlayer,
+#pdfPlayer {
     background: #101010;
 }
 
@@ -496,12 +497,9 @@ html {
     color: #fff;
 }
 
-.actionButtonIcon {
+#comicsPlayer .actionButtonIcon,
+#pdfPlayer .actionButtonIcon {
     color: #fff;
-}
-
-.actionButtons > button:hover {
-    background: #101010 !important;
 }
 
 #dialogToc {
@@ -516,11 +514,11 @@ html {
     color: #00a4dc;
 }
 
-.toc li a:link {
+#dialogToc .toc li a:link {
     color: #ccc;
 }
 
-.toc li a:active,
-.toc li a:hover {
+#dialogToc .toc li a:active,
+#dialogToc .toc li a:hover {
     color: #00a4dc;
 }
