@@ -131,7 +131,7 @@
     "CancelRecording": "Cancelar grabación",
     "CancelSeries": "Cancelar serie",
     "Categories": "Categorías",
-    "ChangingMetadataImageSettingsNewContent": "Cambiar la configuración de descarga de metadatos o arte solo aplicará al contenido nuevo que se agregue a tu biblioteca. Para aplicar los cambios a los títulos existentes, tendrás que actualizar sus metadatos manualmente.",
+    "ChangingMetadataImageSettingsNewContent": "Cambios en la configuración de descarga de metadatos o arte solo se aplicará al contenido nuevo que se agregue a tu biblioteca. Para aplicar los cambios a los títulos existentes, tendrás que actualizar sus metadatos manualmente.",
     "ChannelAccessHelp": "Selecciona los canales a compartir con este usuario. Los administradores podrán editar todos los canales con el administrador de metadatos.",
     "ChannelNameOnly": "Sólo canal {0}",
     "ChannelNumber": "Número del canal",
