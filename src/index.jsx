@@ -6,44 +6,44 @@ import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
-import '../assets/css/site.scss';
+import './assets/css/site.scss';
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Events } from 'jellyfin-apiclient';
-import ServerConnections from '../components/ServerConnections';
-import globalize from './globalize';
-import browser from './browser';
-import keyboardNavigation from './keyboardNavigation';
-import './mouseManager';
-import autoFocuser from '../components/autoFocuser';
-import { appHost } from '../components/apphost';
-import { getPlugins } from './settings/webSettings';
-import { pluginManager } from '../components/pluginManager';
-import packageManager from '../components/packageManager';
-import { appRouter, history } from '../components/appRouter';
-import '../elements/emby-button/emby-button';
-import './autoThemes';
-import './libraryMenu';
-import './routes';
-import '../components/themeMediaPlayer';
-import './autoBackdrops';
-import { pageClassOn, serverAddress } from '../utils/dashboard';
-import './screensavermanager';
-import './serverNotifications';
-import '../components/playback/playerSelectionMenu';
-import '../legacy/domParserTextHtml';
-import '../legacy/focusPreventScroll';
-import '../legacy/htmlMediaElement';
-import '../legacy/vendorStyles';
-import SyncPlay from '../components/syncPlay/core';
-import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';
-import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
-import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
-import { currentSettings } from './settings/userSettings';
-import taskButton from './taskbutton';
-import { HistoryRouter } from '../components/HistoryRouter.tsx';
-import AppRoutes from '../routes/index.tsx';
+import ServerConnections from './components/ServerConnections';
+import globalize from './scripts/globalize';
+import browser from './scripts/browser';
+import keyboardNavigation from './scripts/keyboardNavigation';
+import './scripts/mouseManager';
+import autoFocuser from './components/autoFocuser';
+import { appHost } from './components/apphost';
+import { getPlugins } from './scripts/settings/webSettings';
+import { pluginManager } from './components/pluginManager';
+import packageManager from './components/packageManager';
+import { appRouter, history } from './components/appRouter';
+import './elements/emby-button/emby-button';
+import './scripts/autoThemes';
+import './scripts/libraryMenu';
+import './scripts/routes';
+import './components/themeMediaPlayer';
+import './scripts/autoBackdrops';
+import { pageClassOn, serverAddress } from './utils/dashboard';
+import './scripts/screensavermanager';
+import './scripts/serverNotifications';
+import './components/playback/playerSelectionMenu';
+import './legacy/domParserTextHtml';
+import './legacy/focusPreventScroll';
+import './legacy/htmlMediaElement';
+import './legacy/vendorStyles';
+import SyncPlay from './components/syncPlay/core';
+import { playbackManager } from './components/playback/playbackmanager';
+import SyncPlayNoActivePlayer from './components/syncPlay/ui/players/NoActivePlayer';
+import SyncPlayHtmlVideoPlayer from './components/syncPlay/ui/players/HtmlVideoPlayer';
+import SyncPlayHtmlAudioPlayer from './components/syncPlay/ui/players/HtmlAudioPlayer';
+import { currentSettings } from './scripts/settings/userSettings';
+import taskButton from './scripts/taskbutton';
+import { HistoryRouter } from './components/HistoryRouter.tsx';
+import AppRoutes from './routes/index.tsx';
 
 function loadCoreDictionary() {
     const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es-419', 'es-ar', 'es_do', 'es-mx', 'et', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'lv', 'mr', 'ms', 'nb', 'nl', 'nn', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
@@ -94,13 +94,13 @@ function onGlobalizeInit() {
 
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
-        import('../assets/css/fonts.sized.scss');
+        import('./assets/css/fonts.sized.scss');
     } else {
         console.debug('using default fonts');
-        import('../assets/css/fonts.scss');
+        import('./assets/css/fonts.scss');
     }
 
-    import('../assets/css/librarybrowser.scss');
+    import('./assets/css/librarybrowser.scss');
 
     loadPlugins().then(function () {
         initSyncPlay();
@@ -164,7 +164,7 @@ async function onAppReady() {
     console.debug('onAppReady: loading dependencies');
 
     if (browser.iOS) {
-        import('../assets/css/ios.scss');
+        import('./assets/css/ios.scss');
     }
 
     Events.on(appHost, 'resume', () => {
@@ -181,29 +181,29 @@ async function onAppReady() {
     );
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-        import('../components/nowPlayingBar/nowPlayingBar');
+        import('./components/nowPlayingBar/nowPlayingBar');
     }
 
     if (appHost.supports('remotecontrol')) {
-        import('../components/playback/playerSelectionMenu');
-        import('../components/playback/remotecontrolautoplay');
+        import('./components/playback/playerSelectionMenu');
+        import('./components/playback/remotecontrolautoplay');
     }
 
     if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
-        import('../components/playback/volumeosd');
+        import('./components/playback/volumeosd');
     }
 
     /* eslint-disable-next-line compat/compat */
     if (navigator.mediaSession || window.NativeShell) {
-        import('../components/playback/mediasession');
+        import('./components/playback/mediasession');
     }
 
     if (!browser.tv && !browser.xboxOne) {
-        import('../components/playback/playbackorientation');
+        import('./components/playback/playbackorientation');
         registerServiceWorker();
 
         if (window.Notification) {
-            import('../components/notifications/notifications');
+            import('./components/notifications/notifications');
         }
     }
 

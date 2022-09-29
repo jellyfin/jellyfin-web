@@ -64,7 +64,9 @@ module.exports = {
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
-        'no-sequences': ['error', { 'allowInParentheses': false }]
+        'no-sequences': ['error', { 'allowInParentheses': false }],
+
+        'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }]
     },
     settings: {
         react: {
@@ -180,6 +182,7 @@ module.exports = {
         {
             files: [
                 './src/**/*.js',
+                './src/**/*.jsx',
                 './src/**/*.ts'
             ],
             parser: '@babel/eslint-parser',
