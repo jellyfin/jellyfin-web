@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
 
 const Assets = [
@@ -21,7 +22,11 @@ const LibarchiveWasm = [
     'libarchive.js/dist/wasm-gen/libarchive.wasm'
 ];
 
-module.exports = {
+const DEV_MODE = process.env.NODE_ENV !== 'production';
+
+const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
+
+const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     resolve: {
@@ -92,8 +97,10 @@ module.exports = {
             chunks: 'all',
             maxInitialRequests: Infinity,
             cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
+                node_modules: {
+                    test(module) {
+                        return NODE_MODULES_REGEX.test(module.context);
+                    },
                     name(module) {
                         // get the name. E.g. node_modules/packageName/not/this/part.js
                         // or node_modules/packageName
@@ -155,7 +162,7 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    'style-loader',
+                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: 'postcss-loader',
@@ -171,7 +178,7 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [
-                    'style-loader',
+                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: 'postcss-loader',
@@ -205,3 +212,9 @@ module.exports = {
         ]
     }
 };
+
+if (!DEV_MODE) {
+    config.plugins.push(new MiniCssExtractPlugin());
+}
+
+module.exports = config;
