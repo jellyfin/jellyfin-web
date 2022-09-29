@@ -259,7 +259,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                         name: globalize.translate('OptionImdbRating'),
                         id: 'CommunityRating,SortName'
                     }, {
-                        name: globalize.translate('OptionDateAdded'),
+                        name: globalize.translate('OptionDateShowAdded'),
                         id: 'DateCreated,SortName'
                     }, {
                         name: globalize.translate('OptionDateEpisodeAdded'),
