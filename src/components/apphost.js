@@ -79,8 +79,7 @@ function generateDeviceId() {
     keys.push(navigator.userAgent);
     keys.push(new Date().getTime());
     if (window.btoa) {
-        const result = replaceAll(btoa(keys.join('|')), '=', '1');
-        return result;
+        return replaceAll(btoa(keys.join('|')), '=', '1');
     }
 
     return new Date().getTime();

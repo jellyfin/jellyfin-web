@@ -7,7 +7,8 @@ module.exports = {
         'react',
         'promise',
         'import',
-        'eslint-comments'
+        'eslint-comments',
+        'sonarjs'
     ],
     env: {
         node: true,
@@ -29,7 +30,8 @@ module.exports = {
         // 'plugin:promise/recommended',
         'plugin:import/errors',
         'plugin:eslint-comments/recommended',
-        'plugin:compat/recommended'
+        'plugin:compat/recommended',
+        'plugin:sonarjs/recommended'
     ],
     rules: {
         'array-callback-return': ['error'],
@@ -51,6 +53,7 @@ module.exports = {
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-return-await': ['error'],
+        'no-sequences': ['error', { 'allowInParentheses': false }],
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
         'no-void': ['error', { 'allowAsStatement': true }],
@@ -64,9 +67,23 @@ module.exports = {
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
-        'no-sequences': ['error', { 'allowInParentheses': false }],
 
-        'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }]
+        'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
+
+        'sonarjs/cognitive-complexity': ['warn'],
+        // TODO: Enable the following rules and fix issues
+        'sonarjs/max-switch-cases': ['off'],
+        'sonarjs/no-collapsible-if': ['off'],
+        'sonarjs/no-duplicate-string': ['off'],
+        'sonarjs/no-duplicated-branches': ['off'],
+        'sonarjs/no-gratuitous-expressions': ['off'],
+        'sonarjs/no-identical-functions': ['off'],
+        'sonarjs/no-nested-switch': ['off'],
+        'sonarjs/no-redundant-jump': ['off'],
+        'sonarjs/no-small-switch': ['off'],
+        'sonarjs/no-unused-collection': ['off'],
+        'sonarjs/prefer-object-literal': ['off'],
+        'sonarjs/prefer-single-boolean-return': ['off']
     },
     settings: {
         react: {
