@@ -1677,5 +1677,7 @@
     "RememberAudioSelectionsHelp": "尝试将音轨设置为最接近最后一个视频的匹配。",
     "RememberAudioSelections": "根据上一项设置音轨",
     "IgnoreDtsHelp": "禁用此选项可能会解决一些问题，例如在具有单独的音频和视频流的频道上缺少音频。",
-    "IgnoreDts": "忽略DTS（解码时间戳）"
+    "IgnoreDts": "忽略DTS（解码时间戳）",
+    "OptionDateShowAdded": "节目添加日期",
+    "OptionDateEpisodeAdded": "剧集添加日期"
 }
