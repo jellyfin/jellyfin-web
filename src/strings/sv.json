@@ -1676,5 +1676,7 @@
     "MediaInfoElPresentFlag": "Förinställd flagga för DV el",
     "MediaInfoRpuPresentFlag": "Förinställd flagga för DV rpu",
     "IgnoreDtsHelp": "Att avaktivera den här inställningen kan lösa några problem, t.ex. frånvarande ljud på kanaler med separata ljud- och bildströmmar.",
-    "IgnoreDts": "Ignorera DTS (avkodningstidsstämpel)"
+    "IgnoreDts": "Ignorera DTS (avkodningstidsstämpel)",
+    "OptionDateShowAdded": "Datum för serietilläggning",
+    "OptionDateEpisodeAdded": "Datum för avsnittstilläggning"
 }
