@@ -1188,6 +1188,8 @@
     "OptionCustomUsers": "Custom",
     "OptionDaily": "Daily",
     "OptionDateAdded": "Date Added",
+    "OptionDateEpisodeAdded": "Date Episode Added",
+    "OptionDateShowAdded": "Date Show Added",
     "OptionDateAddedFileTime": "Use file creation date",
     "OptionDateAddedImportTime": "Use date scanned into the library",
     "OptionDatePlayed": "Date Played",
