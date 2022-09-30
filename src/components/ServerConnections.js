@@ -58,7 +58,7 @@ class ServerConnections extends ConnectionManager {
         );
 
         apiClient.enableAutomaticNetworking = false;
-        apiClient.manualAddressOnly = true;
+        apiClient.manualAddressOnly = false;
 
         this.addApiClient(apiClient);
 
