@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ contains(github.repository, 'jellyfin/') }}
     steps:
-      - uses: actions/stale@v5.0.0
+      - uses: actions/stale@3de2653986ebd134983c79fe2be5d45cc3d9f4e1 # tag=v6.0.0
         with:
           repo-token: ${{ secrets.JF_BOT_TOKEN }}
           days-before-stale: 120

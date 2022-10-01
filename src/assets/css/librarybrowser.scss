@@ -219,6 +219,9 @@
     flex-direction: column;
     contain: layout style paint;
     transition: background ease-in-out 0.5s;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
 }
 
 .layout-tv .skinHeader {
@@ -1366,20 +1369,24 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 .padded-left {
     [dir="ltr"] & {
         padding-left: 3.3%;
+        padding-left: max(env(safe-area-inset-left), 3.3%);
     }
 
     [dir="rtl"] & {
         padding-right: 3.3%;
+        padding-right: max(env(safe-area-inset-right), 3.3%);
     }
 }
 
 .padded-right {
     [dir="ltr"] & {
         padding-right: 3.3%;
+        padding-right: max(env(safe-area-inset-right), 3.3%);
     }
 
     [dir="rtl"] & {
         padding-left: 3.3%;
+        padding-left: max(env(safe-area-inset-left), 3.3%);
     }
 }
 
@@ -1404,6 +1411,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 @media all and (min-height: 31.25em) {
     .padded-right-withalphapicker {
         padding-right: 7.5%;
+        padding-right: max(env(safe-area-inset-left), 7.5%);
     }
 }
 

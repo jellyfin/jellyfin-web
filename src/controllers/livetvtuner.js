@@ -61,6 +61,7 @@ function fillTunerHostInfo(view, info) {
     view.querySelector('.chkFavorite').checked = info.ImportFavoritesOnly;
     view.querySelector('.chkTranscode').checked = info.AllowHWTranscoding;
     view.querySelector('.chkStreamLoop').checked = info.EnableStreamLooping;
+    view.querySelector('.chkIgnoreDts').checked = info.IgnoreDts;
     view.querySelector('.txtTunerCount').value = info.TunerCount || '0';
 }
 
@@ -75,7 +76,8 @@ function submitForm(page) {
         TunerCount: page.querySelector('.txtTunerCount').value || 0,
         ImportFavoritesOnly: page.querySelector('.chkFavorite').checked,
         AllowHWTranscoding: page.querySelector('.chkTranscode').checked,
-        EnableStreamLooping: page.querySelector('.chkStreamLoop').checked
+        EnableStreamLooping: page.querySelector('.chkStreamLoop').checked,
+        IgnoreDts: page.querySelector('.chkIgnoreDts').checked
     };
 
     if (isM3uVariant(info.Type)) {
@@ -120,6 +122,7 @@ function onTypeChange() {
     const supportsTunerIpAddress = value === 'hdhomerun';
     const supportsTunerFileOrUrl = value === 'm3u';
     const supportsStreamLooping = value === 'm3u';
+    const supportsIgnoreDts = value === 'm3u';
     const supportsTunerCount = value === 'm3u';
     const supportsUserAgent = value === 'm3u';
     const suppportsSubmit = value !== 'other';
@@ -166,6 +169,12 @@ function onTypeChange() {
         view.querySelector('.fldStreamLoop').classList.remove('hide');
     } else {
         view.querySelector('.fldStreamLoop').classList.add('hide');
+    }
+
+    if (supportsIgnoreDts) {
+        view.querySelector('.fldIgnoreDts').classList.remove('hide');
+    } else {
+        view.querySelector('.fldIgnoreDts').classList.add('hide');
     }
 
     if (supportsTunerCount) {

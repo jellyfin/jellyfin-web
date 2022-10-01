@@ -1,4 +1,4 @@
-import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import classNames from 'classnames';
 import { ApiClient } from 'jellyfin-apiclient';
 import React, { FunctionComponent, useEffect, useState } from 'react';
@@ -33,6 +33,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
     const [ audioBooks, setAudioBooks ] = useState<BaseItemDto[]>([]);
     const [ books, setBooks ] = useState<BaseItemDto[]>([]);
     const [ people, setPeople ] = useState<BaseItemDto[]>([]);
+    const [ collections, setCollections ] = useState<BaseItemDto[]>([]);
 
     useEffect(() => {
         const getDefaultParameters = () => ({
@@ -99,6 +100,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
         setAudioBooks([]);
         setBooks([]);
         setPeople([]);
+        setCollections([]);
 
         if (query) {
             const apiClient = ServerConnections.getApiClient(serverId);
@@ -166,6 +168,9 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                 // Books row
                 fetchItems(apiClient, { IncludeItemTypes: 'Book' })
                     .then(results => setBooks(results.Items || []));
+                // Collections row
+                fetchItems(apiClient, { IncludeItemTypes: 'BoxSet' })
+                    .then(result => setCollections(result.Items || []));
             }
         }
     }, [collectionType, parentId, query, serverId]);
@@ -256,6 +261,10 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
             <SearchResultsRow
                 title={globalize.translate('Books')}
                 items={books}
+            />
+            <SearchResultsRow
+                title={globalize.translate('Collections')}
+                items={collections}
             />
             <SearchResultsRow
                 title={globalize.translate('People')}

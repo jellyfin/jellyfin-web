@@ -6,8 +6,10 @@ type PageProps = {
     id: string, // id is required for libraryMenu
     title?: string,
     isBackButtonEnabled?: boolean,
+    isMenuButtonEnabled?: boolean,
     isNowPlayingBarEnabled?: boolean,
-    isThemeMediaSupported?: boolean
+    isThemeMediaSupported?: boolean,
+    backDropType?: string
 };
 
 /**
@@ -20,8 +22,10 @@ const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
     className = '',
     title,
     isBackButtonEnabled = true,
+    isMenuButtonEnabled = false,
     isNowPlayingBarEnabled = true,
-    isThemeMediaSupported = false
+    isThemeMediaSupported = false,
+    backDropType
 }) => {
     const element = useRef<HTMLDivElement>(null);
 
@@ -59,7 +63,9 @@ const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
             data-role='page'
             className={`page ${className}`}
             data-title={title}
-            data-backbutton={`${isBackButtonEnabled}`}
+            data-backbutton={isBackButtonEnabled}
+            data-menubutton={isMenuButtonEnabled}
+            data-backdroptype={backDropType}
         >
             {children}
         </div>

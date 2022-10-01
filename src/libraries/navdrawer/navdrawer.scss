@@ -4,6 +4,8 @@
     top: 0;
     bottom: 0;
     contain: strict;
+    box-sizing: border-box;
+    padding-left: env(safe-area-inset-left);
 }
 
 .touch-menu-la {

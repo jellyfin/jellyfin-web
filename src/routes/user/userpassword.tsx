@@ -1,19 +1,23 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import SectionTabs from '../dashboard/users/SectionTabs';
-import UserPasswordForm from '../dashboard/users/UserPasswordForm';
+import SectionTabs from '../../components/dashboard/users/SectionTabs';
+import UserPasswordForm from '../../components/dashboard/users/UserPasswordForm';
 import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../dashboard/users/SectionTitleContainer';
+import SectionTitleContainer from '../../elements/SectionTitleContainer';
+import Page from '../../components/Page';
+import loading from '../../components/loading/loading';
 
-const UserPasswordPage: FunctionComponent = () => {
+const UserPassword: FunctionComponent = () => {
     const userId = getParameterByName('userId');
     const [ userName, setUserName ] = useState('');
 
     const loadUser = useCallback(() => {
+        loading.show();
         window.ApiClient.getUser(userId).then(function (user) {
             if (!user.Name) {
                 throw new Error('Unexpected null user.Name');
             }
             setUserName(user.Name);
+            loading.hide();
         });
     }, [userId]);
     useEffect(() => {
@@ -21,12 +25,17 @@ const UserPasswordPage: FunctionComponent = () => {
     }, [loadUser]);
 
     return (
-        <div>
+        <Page
+            id='userPasswordPage'
+            className='mainAnimatedPage type-interior userPasswordPage'
+        >
             <div className='content-primary'>
-                <SectionTitleContainer
-                    title={userName}
-                    titleLink='https://docs.jellyfin.org/general/server/users/'
-                />
+                <div className='verticalSection'>
+                    <SectionTitleContainer
+                        title={userName}
+                        url='https://docs.jellyfin.org/general/server/users/'
+                    />
+                </div>
                 <SectionTabs activeTab='userpassword'/>
                 <div className='readOnlyContent'>
                     <UserPasswordForm
@@ -34,8 +43,9 @@ const UserPasswordPage: FunctionComponent = () => {
                     />
                 </div>
             </div>
-        </div>
+        </Page>
+
     );
 };
 
-export default UserPasswordPage;
+export default UserPassword;

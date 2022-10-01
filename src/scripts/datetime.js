@@ -19,7 +19,7 @@ import globalize from './globalize';
         //     "00", "00", ".000", "Z", undefined, undefined, undefined]
 
         if (!d) {
-            throw "Couldn't parse ISO 8601 date string '" + s + "'";
+            throw new Error("Couldn't parse ISO 8601 date string '" + s + "'");
         }
 
         // parse strings, leading zeros into proper ints

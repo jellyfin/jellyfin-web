@@ -1,21 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import datetime from '../../../scripts/datetime';
 import globalize from '../../../scripts/globalize';
+import IconButtonElement from '../../../elements/IconButtonElement';
 
-const createButtonElement = (index: number) => ({
-    __html: `<button
-        type='button'
-        is='paper-icon-button-light'
-        class='btnDelete listItemButton'
-        data-index='${index}'
-    >
-        <span class='material-icons delete' aria-hidden='true' />
-    </button>`
-});
-
-type IProps = {
+type AccessScheduleListProps = {
     index: number;
-    Id: number;
+    Id?: number;
     DayOfWeek?: string;
     StartHour?: number ;
     EndHour?: number;
@@ -32,7 +22,7 @@ function getDisplayTime(hours = 0) {
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
-const AccessScheduleList: FunctionComponent<IProps> = ({index, DayOfWeek, StartHour, EndHour}: IProps) => {
+const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({index, DayOfWeek, StartHour, EndHour}: AccessScheduleListProps) => {
     return (
         <div
             className='liSchedule listItem'
@@ -48,8 +38,12 @@ const AccessScheduleList: FunctionComponent<IProps> = ({index, DayOfWeek, StartH
                     {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
                 </div>
             </div>
-            <div
-                dangerouslySetInnerHTML={createButtonElement(index)}
+            <IconButtonElement
+                is='paper-icon-button-light'
+                className='btnDelete listItemButton'
+                title='Delete'
+                icon='delete'
+                dataIndex={index}
             />
         </div>
     );

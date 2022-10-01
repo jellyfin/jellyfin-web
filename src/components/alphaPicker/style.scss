@@ -12,6 +12,7 @@
 .alphaPicker-fixed {
     position: fixed;
     bottom: 5.5em;
+    bottom: max(env(safe-area-inset-bottom), 5.5em);
 }
 
 .alphaPickerRow {
@@ -45,6 +46,7 @@
 @media all and (max-height: 50em) {
     .alphaPicker-fixed {
         bottom: 5em;
+        bottom: max(env(safe-area-inset-bottom), 5em);
     }
 
     .alphaPickerButton-vertical {
@@ -104,15 +106,18 @@
 
 .alphaPicker-fixed.alphaPicker-tv {
     bottom: 1%;
+    bottom: max(env(safe-area-inset-bottom), 1%);
 }
 
 .alphaPicker-fixed-right {
     [dir="ltr"] & {
         right: 0.4em;
+        right: max(env(safe-area-inset-right), 0.4em);
     }
 
     [dir="rtl"] & {
         left: 0.4em;
+        left: max(env(safe-area-inset-right), 0.4em)
     }
 }
 
@@ -120,10 +125,12 @@
     .alphaPicker-fixed-right {
         [dir="ltr"] & {
             right: 1em;
+            right: max(env(safe-area-inset-right), 1em);
         }
 
         [dir="rtl"] & {
             left: 1em;
+            left: max(env(safe-area-inset-right), 1em);
         }
     }
 }

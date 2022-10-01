@@ -9,7 +9,6 @@ import loading from './loading/loading';
 import viewManager from './viewManager/viewManager';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
-import reactControllerFactory from './reactControllerFactory';
 
 export const history = createHashHistory();
 
@@ -264,9 +263,7 @@ class AppRouter {
             this.#sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
 
-        if (route.pageComponent) {
-            onInitComplete(reactControllerFactory);
-        } else if (route.controller) {
+        if (route.controller) {
             import('../controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
@@ -293,7 +290,6 @@ class AppRouter {
             fullscreen: route.fullscreen,
             controllerFactory: controllerFactory,
             options: {
-                pageComponent: route.pageComponent,
                 supportsThemeMedia: route.supportsThemeMedia || false,
                 enableMediaControl: route.enableMediaControl !== false
             },

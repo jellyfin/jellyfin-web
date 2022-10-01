@@ -13,12 +13,12 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - name: Setup node environment
-        uses: actions/setup-node@v3.3.0
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # tag=v3.5.0
         with:
-          node-version: 12
+          node-version: 16
           check-latest: true
 
       - name: Get npm cache directory path
@@ -26,7 +26,7 @@ jobs:
         run: echo "::set-output name=dir::$(npm config get cache)"
 
       - name: Cache node_modules
-        uses: actions/cache@v3.0.4
+        uses: actions/cache@ac8075791e805656e71b4ba23325ace9e3421120 # tag=v3.0.9
         id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir-path.outputs.dir }}
@@ -48,12 +48,12 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - name: Setup node environment
-        uses: actions/setup-node@v3.3.0
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # tag=v3.5.0
         with:
-          node-version: 12
+          node-version: 16
           check-latest: true
 
       - name: Get npm cache directory path
@@ -61,7 +61,7 @@ jobs:
         run: echo "::set-output name=dir::$(npm config get cache)"
 
       - name: Cache node_modules
-        uses: actions/cache@v3.0.4
+        uses: actions/cache@ac8075791e805656e71b4ba23325ace9e3421120 # tag=v3.0.9
         id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir-path.outputs.dir }}
@@ -70,7 +70,7 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Set up stylelint matcher
-        uses: xt0rted/stylelint-problem-matcher@v1
+        uses: xt0rted/stylelint-problem-matcher@34db1b874c0452909f0696aedef70b723870a583 # tag=v1
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
@@ -86,12 +86,12 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - name: Setup node environment
-        uses: actions/setup-node@v3.3.0
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # tag=v3.5.0
         with:
-          node-version: 12
+          node-version: 16
           check-latest: true
 
       - name: Get npm cache directory path
@@ -99,7 +99,7 @@ jobs:
         run: echo "::set-output name=dir::$(npm config get cache)"
 
       - name: Cache node_modules
-        uses: actions/cache@v3.0.4
+        uses: actions/cache@ac8075791e805656e71b4ba23325ace9e3421120 # tag=v3.0.9
         id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir-path.outputs.dir }}
@@ -108,7 +108,7 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Set up stylelint matcher
-        uses: xt0rted/stylelint-problem-matcher@v1
+        uses: xt0rted/stylelint-problem-matcher@34db1b874c0452909f0696aedef70b723870a583 # tag=v1
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit

@@ -1465,7 +1465,7 @@
     "MessagePlaybackError": "Būl faildy Google Cast qabyldağyşy oinatqanda qate paida boldy.",
     "LabelMaxAudiobookResumeHelp": "Qalğan uzaqtyğy osy männen az bolğanda toqtatylsa taqyryptar tolyğymen oynatylğan bolyp esepteledi.",
     "LabelIconMaxResHelp": "\"upnp:ıcon\" sipaty arqyly körstıletın belgışelerdıñ eñ joğary ajyratylymdyğy.",
-    "LabelHDHomerunPortRangeHelp": "HDHomeRun qūrylğysynyñ UDP-porttar auqymy osy mänge şekteledі. (Ädepkіsı: 1024 - 645535).",
+    "LabelHDHomerunPortRangeHelp": "HDHomeRun qūrylğysynyñ UDP-porttar auqymy osy mänge şekteledі. (Ädepkіsı: 1024 - 65535).",
     "LabelEnableSSDPTracingHelp": "SSDP jelılik qadağalau egjeilerın jūrnalğa tirkeuın qosady.<br/><b>ESKERTU:</b> Būl önımdılıktıñ salmaqty naşarlauyna äkeledі.",
     "LabelCreateHttpPortMap": "HTTP-trafıgı jäne de HTTPS üşın, avtomatty port salğastyru qosylady.",
     "YoutubeDenied": "Saual jasalğan beine üşın endırılgen oinatqyştarda oinatuğa tyiym salynğan.",
@@ -1492,7 +1492,7 @@
     "PreferFmp4HlsContainerHelp": "Qoldau körsetılgen qūrylğylarğa HEVC-mazmūndy tıkelei taratuğa mümkındık beretın, HLS üşın ädepkı retınde fMP4-konteinerdı paidalanuyn qalau.",
     "MessageChromecastConnectionError": "Google Cast qabyldağyşy Jellyfin-serverben bailanysa almaidy. Qosylymdy tekserıp, qaitalap körıñız.",
     "TonemappingAlgorithmHelp": "Tonmapiñdı naqty teñşeuge bolady. Eger osy opsialarmen tanys bolmasañyz, ädettegıdei ädepkını qaldyryñyz. Ūsynylğan män - \"BT.2390\".",
-    "LabelUDPPortRangeHelp": "UDP-qosylymdaryn jasağanda, Jellyfin üşın osy port auqymyn paidalanuğa şekteu qoiylady. (Ädepkı mänı: 1024 - 645535).<br/>Eskerım: Belgılı bır mümkındık üşın osy auqymnan tys tūraqty porttar qajet boluy mümkın.",
+    "LabelUDPPortRangeHelp": "UDP-qosylymdaryn jasağanda, Jellyfin üşın osy port auqymyn paidalanuğa şekteu qoiylady. (Ädepkı mänı: 1024 - 65535).<br/>Eskerım: Belgılı bır mümkındık üşın osy auqymnan tys tūraqty porttar qajet boluy mümkın.",
     "LabelOpenclDeviceHelp": "Būl tonmapiñ üşın paidalanylatyn OpenCL qūrylğysy. Nüktenіñ sol jağy - tūğyrnama nömіrі, al oñ jağy - tūğyrnamadağy qūrylğynyñ nömіrі. Ädepkі mänі - 0,0. OpenCL aparattyq jedeldetu ädіsіn qamtityn FFmpeg qoldanbasynyñ faily qajet.",
     "RemuxHelp1": "Tasyğyşderekter syiysymdy emes faildyq konteinerde (MKV, AVI, WMV jäne t.b.) tūr, al beine ağyny da, dybys ağyny da qūrylğymen syiysymdy. Tasyğyşderekter qūrylğyğa jіberіlmes būryn naqty uaqytta derekterı joğaltymynsyz qaıta jinaqtalady.",
     "KnownProxiesHelp": "Jellyfin danasyna qosylu kezınde paidalanylatyn belgılı proksilerdıñ ütırmen bölıngen IP-mekenjailar nemese tüiınder tızımı. Būl \"X-Forwarded-For\" basderektemeler tiıstı paidalanu üşın qajet. Saqtaudan keiın qaita ıske qosudy qajet etedі.",
@@ -1654,5 +1654,11 @@
     "HomeVideosPhotos": "Üi beinelerı men fotolar",
     "Bold": "Qalyñ",
     "LabelTextWeight": "Qarıp salmağy:",
-    "EnableSplashScreen": "Sälemdesu ekranyn qosu"
+    "EnableSplashScreen": "Sälemdesu ekranyn qosu",
+    "ScreenResolution": "Ekran ajyratymdylyy",
+    "RememberSubtitleSelectionsHelp": "Subtitr jolşyğyn soñğy beinege eñ jaqyn säikestıkke ornatuğa tyrysu.",
+    "RememberSubtitleSelections": "Subtitr jolşyğyn aldyñğy tarmaq negızınde ornatu",
+    "RememberAudioSelectionsHelp": "Dybys jolşyğyn soñğy beinege eñ jaqyn säikestıkke ornatuğa tyrysu.",
+    "RememberAudioSelections": "Dybys jolşyğyn aldyñğy tarmaq negızınde ornatu",
+    "LabelMaxVideoResolution": "Beinenı qaıta kodtau rūqsat etılgen eñ joğary ajyratymdylığy"
 }

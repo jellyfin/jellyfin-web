@@ -13,9 +13,6 @@ import './style.scss';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';
-// eslint-disable-next-line import/named, import/namespace
-import { Swiper } from 'swiper/swiper-bundle.esm';
-import 'swiper/swiper-bundle.css';
 import screenfull from 'screenfull';
 
 /**
@@ -344,45 +341,51 @@ export default function (options) {
             slides = currentOptions.items;
         }
 
-        swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
-            direction: 'horizontal',
-            // Loop is disabled due to the virtual slides option not supporting it.
-            loop: false,
-            zoom: {
-                minRatio: 1,
-                toggle: true
-            },
-            autoplay: !options.interactive || !!options.autoplay,
-            keyboard: {
-                enabled: true
-            },
-            preloadImages: true,
-            slidesPerView: 1,
-            slidesPerColumn: 1,
-            initialSlide: options.startIndex || 0,
-            speed: 240,
-            navigation: {
-                nextEl: '.btnSlideshowNext',
-                prevEl: '.btnSlideshowPrevious'
-            },
-            // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
-            virtual: {
-                slides: slides,
-                cache: true,
-                renderSlide: getSwiperSlideHtml,
-                addSlidesBefore: 1,
-                addSlidesAfter: 1
+        //eslint-disable-next-line import/no-unresolved
+        import('swiper/css/bundle');
+
+        // eslint-disable-next-line import/no-unresolved
+        import('swiper/bundle').then(({ Swiper }) => {
+            swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
+                direction: 'horizontal',
+                // Loop is disabled due to the virtual slides option not supporting it.
+                loop: false,
+                zoom: {
+                    minRatio: 1,
+                    toggle: true
+                },
+                autoplay: !options.interactive || !!options.autoplay,
+                keyboard: {
+                    enabled: true
+                },
+                preloadImages: true,
+                slidesPerView: 1,
+                slidesPerColumn: 1,
+                initialSlide: options.startIndex || 0,
+                speed: 240,
+                navigation: {
+                    nextEl: '.btnSlideshowNext',
+                    prevEl: '.btnSlideshowPrevious'
+                },
+                // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
+                virtual: {
+                    slides: slides,
+                    cache: true,
+                    renderSlide: getSwiperSlideHtml,
+                    addSlidesBefore: 1,
+                    addSlidesAfter: 1
+                }
+            });
+
+            swiperInstance.on('autoplayStart', onAutoplayStart);
+            swiperInstance.on('autoplayStop', onAutoplayStop);
+
+            if (useFakeZoomImage) {
+                swiperInstance.on('zoomChange', onZoomChange);
             }
+
+            if (swiperInstance.autoplay?.running) onAutoplayStart();
         });
-
-        swiperInstance.on('autoplayStart', onAutoplayStart);
-        swiperInstance.on('autoplayStop', onAutoplayStop);
-
-        if (useFakeZoomImage) {
-            swiperInstance.on('zoomChange', onZoomChange);
-        }
-
-        if (swiperInstance.autoplay?.running) onAutoplayStart();
     }
 
     /**

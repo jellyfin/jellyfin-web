@@ -7,7 +7,6 @@ import { appRouter } from '../../components/appRouter';
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import { Events } from 'jellyfin-apiclient';
-import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 
 export class PdfPlayer {
     constructor() {
@@ -200,14 +199,14 @@ export class PdfPlayer {
         const serverId = item.ServerId;
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        return new Promise((resolve) => {
+        return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
             const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
             const downloadTask = getDocument(downloadHref);
-            downloadTask.promise.then(book => {
+            return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
                 this.book = book;
                 this.loaded = true;
@@ -219,8 +218,6 @@ export class PdfPlayer {
                 } else {
                     this.loadPage(1);
                 }
-
-                return resolve();
             });
         });
     }

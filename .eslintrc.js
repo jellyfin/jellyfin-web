@@ -42,6 +42,7 @@ module.exports = {
         'indent': ['error', 4, { 'SwitchCase': 1 }],
         'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
+        'no-throw-literal': ['error'],
         'max-statements-per-line': ['error'],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
@@ -49,6 +50,7 @@ module.exports = {
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
+        'no-return-await': ['error'],
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
         'no-void': ['error', { 'allowAsStatement': true }],
@@ -62,7 +64,9 @@ module.exports = {
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
-        'no-sequences': ['error', { 'allowInParentheses': false }]
+        'no-sequences': ['error', { 'allowInParentheses': false }],
+
+        'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }]
     },
     settings: {
         react: {
@@ -178,6 +182,7 @@ module.exports = {
         {
             files: [
                 './src/**/*.js',
+                './src/**/*.jsx',
                 './src/**/*.ts'
             ],
             parser: '@babel/eslint-parser',

@@ -481,3 +481,44 @@ html {
     background-color: #f2f2f2;
     color: #00a4dc;
 }
+
+#comicsPlayer,
+#bookPlayer,
+#pdfPlayer {
+    background: #101010;
+}
+
+#comicsPlayer .swiper-pagination {
+    background: #101010;
+    color: #fff;
+}
+
+#bookPlayer .topButtons {
+    color: #fff;
+}
+
+#comicsPlayer .actionButtonIcon,
+#pdfPlayer .actionButtonIcon {
+    color: #fff;
+}
+
+#dialogToc {
+    background-color: #101010;
+}
+
+#dialogToc .bookplayerButtonIcon {
+    color: #ccc;
+}
+
+#dialogToc .bookplayerButtonIcon:hover {
+    color: #00a4dc;
+}
+
+#dialogToc .toc li a:link {
+    color: #ccc;
+}
+
+#dialogToc .toc li a:active,
+#dialogToc .toc li a:hover {
+    color: #00a4dc;
+}
