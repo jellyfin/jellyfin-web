@@ -1669,5 +1669,7 @@
     "LabelVppTonemappingContrast": "VPP-sävykartoituksen kontrastin vahvistus:",
     "LabelVppTonemappingBrightness": "VPP-sävykartoituksen kirkkauden vahvistus:",
     "IgnoreDtsHelp": "Valinnan käytöstä poisto voi korjata joitakin onhelmia, kuten puuttuvan äänen kanavilla, joilla on erilliset ääni- ja videokanavat.",
-    "IgnoreDts": "Ohita DTS (dekoodauksen aikaleima)"
+    "IgnoreDts": "Ohita DTS (dekoodauksen aikaleima)",
+    "OptionDateShowAdded": "Sarjan lisäysaika",
+    "OptionDateEpisodeAdded": "Jakson lisäysaika"
 }
