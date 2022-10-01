@@ -801,14 +801,16 @@
         display: block;
     }
 
-    .layout-desktop &,
-    .layout-tv & {
-        [dir="ltr"] & {
+    [dir="ltr"] & {
+        .layout-desktop &,
+        .layout-tv & {
             padding-left: 32.45vw;
-
         }
+    }
 
-        [dir="rtl"] & {
+    [dir="rtl"] & {
+        .layout-desktop &,
+        .layout-tv & {
             padding-right: 32.45vw;
         }
     }
