@@ -2,10 +2,10 @@ import { Events } from 'jellyfin-apiclient';
 
 import { playbackManager } from '../../components/playback/playbackmanager';
 import ServerConnections from '../../components/ServerConnections';
-import SyncPlay from '../../components/syncPlay/core';
-import SyncPlayNoActivePlayer from '../../components/syncPlay/ui/players/NoActivePlayer';
-import SyncPlayHtmlVideoPlayer from '../../components/syncPlay/ui/players/HtmlVideoPlayer';
-import SyncPlayHtmlAudioPlayer from '../../components/syncPlay/ui/players/HtmlAudioPlayer';
+import SyncPlay from './core';
+import SyncPlayNoActivePlayer from './ui/players/NoActivePlayer';
+import SyncPlayHtmlVideoPlayer from './ui/players/HtmlVideoPlayer';
+import SyncPlayHtmlAudioPlayer from './ui/players/HtmlAudioPlayer';
 
 class SyncPlayPlugin {
     name: string;

@@ -1,4 +1,4 @@
-import { appHost } from '../../apphost';
+import { appHost } from '../../../components/apphost';
 
 /**
  * Creates an audio element that plays a silent sound.

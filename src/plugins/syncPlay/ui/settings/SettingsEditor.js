@@ -6,10 +6,10 @@
 import { Events } from 'jellyfin-apiclient';
 import SyncPlay from '../../core';
 import { setSetting } from '../../core/Settings';
-import dialogHelper from '../../../dialogHelper/dialogHelper';
-import layoutManager from '../../../layoutManager';
-import loading from '../../../loading/loading';
-import toast from '../../../toast/toast';
+import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
+import layoutManager from '../../../../components/layoutManager';
+import loading from '../../../../components/loading/loading';
+import toast from '../../../../components/toast/toast';
 import globalize from '../../../../scripts/globalize';
 
 import 'material-design-icons-iconfont';
@@ -18,8 +18,8 @@ import '../../../../elements/emby-select/emby-select';
 import '../../../../elements/emby-button/emby-button';
 import '../../../../elements/emby-button/paper-icon-button-light';
 import '../../../../elements/emby-checkbox/emby-checkbox';
-import '../../../listview/listview.scss';
-import '../../../formdialog.scss';
+import '../../../../components/listview/listview.scss';
+import '../../../../components/formdialog.scss';
 
 function centerFocus(elem, horiz, on) {
     import('../../../../scripts/scrollHelper').then((scrollHelper) => {
