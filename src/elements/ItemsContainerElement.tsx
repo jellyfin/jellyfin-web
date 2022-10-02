@@ -1,24 +1,21 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
-const createElement = ({ id, className }: IProps) => ({
+const createElement = ({ className }: IProps) => ({
     __html: `<div
         is="emby-itemscontainer"
-        ${id}
         class="${className}"
     >
     </div>`
 });
 
-type IProps = {
-    id?: string;
+interface IProps {
     className?: string;
 }
 
-const ItemsContainerElement: FunctionComponent<IProps> = ({ id, className }: IProps) => {
+const ItemsContainerElement: FC<IProps> = ({ className }) => {
     return (
         <div
             dangerouslySetInnerHTML={createElement({
-                id: id ? `id='${id}'` : '',
                 className: className
             })}
         />

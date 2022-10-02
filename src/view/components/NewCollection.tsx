@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 
 import IconButtonElement from '../../elements/IconButtonElement';
 
-const NewCollection: FunctionComponent = () => {
+const NewCollection: FC = () => {
     const element = useRef<HTMLDivElement>(null);
 
     const showCollectionEditor = useCallback(() => {

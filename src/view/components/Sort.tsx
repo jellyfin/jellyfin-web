@@ -1,20 +1,20 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { IQuery } from './type';
+import { QueryI } from './interface';
 
-type SortProps = {
+interface SortI {
     getSortMenuOptions: () => {
         name: string;
         id: string;
     }[];
-    query: IQuery;
+    query: QueryI;
     getSettingsKey: () => string;
     reloadItems: () => void;
 }
 
-const Sort: FunctionComponent<SortProps> = ({ getSortMenuOptions, query, getSettingsKey, reloadItems }: SortProps) => {
+const Sort: FC<SortI> = ({ getSortMenuOptions, query, getSettingsKey, reloadItems }) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

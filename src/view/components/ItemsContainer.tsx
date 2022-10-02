@@ -7,11 +7,11 @@ import listview from '../../components/listview/listview';
 import globalize from '../../scripts/globalize';
 import imageLoader from '../../components/images/imageLoader';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import { IQuery } from './type';
+import { QueryI } from './interface';
 
 type ItemsContainerProps = {
     getCurrentViewStyle: () => string;
-    query: IQuery;
+    query: QueryI;
     getContext: () => string | null;
     items?: BaseItemDto[] | null;
     noItemsMessage?: string;

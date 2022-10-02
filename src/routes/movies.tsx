@@ -3,7 +3,7 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import * as mainTabsManager from '../components/maintabsmanager';
@@ -37,27 +37,27 @@ const getDefaultTabIndex = (folderId: string | null) => {
     }
 };
 
-const Movies: FunctionComponent = () => {
+const getTabs = () => {
+    return [{
+        name: globalize.translate('Movies')
+    }, {
+        name: globalize.translate('Suggestions')
+    }, {
+        name: globalize.translate('Trailers')
+    }, {
+        name: globalize.translate('Favorites')
+    }, {
+        name: globalize.translate('Collections')
+    }, {
+        name: globalize.translate('Genres')
+    }];
+};
+
+const Movies: FC = () => {
     const [ searchParams ] = useSearchParams();
     const currentTabIndex = parseInt(searchParams.get('tab') || getDefaultTabIndex(searchParams.get('topParentId')).toString());
     const [ selectedIndex, setSelectedIndex ] = useState(currentTabIndex);
     const element = useRef<HTMLDivElement>(null);
-
-    const getTabs = () => {
-        return [{
-            name: globalize.translate('Movies')
-        }, {
-            name: globalize.translate('Suggestions')
-        }, {
-            name: globalize.translate('Trailers')
-        }, {
-            name: globalize.translate('Favorites')
-        }, {
-            name: globalize.translate('Collections')
-        }, {
-            name: globalize.translate('Genres')
-        }];
-    };
 
     const getTabComponent = (index: number) => {
         if (index == null) {
@@ -106,7 +106,7 @@ const Movies: FunctionComponent = () => {
             console.error('Unexpected null reference');
             return;
         }
-        mainTabsManager.setTabs(element.current, selectedIndex, getTabs, undefined, undefined, onTabChange);
+        mainTabsManager.setTabs(page, selectedIndex, getTabs, undefined, undefined, onTabChange);
         if (!page.getAttribute('data-title')) {
             const parentId = searchParams.get('topParentId');
 

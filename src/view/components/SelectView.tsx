@@ -1,18 +1,18 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
 
 import libraryBrowser from '../../scripts/libraryBrowser';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { IQuery } from './type';
+import { QueryI } from './interface';
 
-type SelectViewProps = {
+interface SelectViewI {
     getCurrentViewStyle: () => string;
-    query: IQuery;
+    query: QueryI;
     getViewSettings: () => string;
     reloadItems: () => void;
 }
 
-const SelectView: FunctionComponent<SelectViewProps> = ({ getCurrentViewStyle, getViewSettings, query, reloadItems }: SelectViewProps) => {
+const SelectView: FC<SelectViewI> = ({ getCurrentViewStyle, getViewSettings, query, reloadItems }) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

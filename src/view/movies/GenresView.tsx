@@ -1,16 +1,16 @@
 import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
 import GenresItemsContainer from '../components/GenresItemsContainer';
-import { IQuery } from '../components/type';
+import { QueryI } from '../components/interface';
 
-type IProps = {
+interface GenresViewI {
     topParentId: string | null;
 }
 
-const GenresView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
+const GenresView: FC<GenresViewI> = ({ topParentId }) => {
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
     const element = useRef<HTMLDivElement>(null);
 
@@ -22,7 +22,7 @@ const GenresView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
         return getSettingsKey() + '-view';
     }, [getSettingsKey]);
 
-    let query = useMemo<IQuery>(() => ({
+    let query = useMemo<QueryI>(() => ({
         SortBy: 'SortName',
         SortOrder: 'Ascending',
         IncludeItemTypes: 'Movie',

@@ -1,4 +1,4 @@
-export type IQuery = {
+export type QueryI = {
     SortBy?: string;
     SortOrder?: string;
     IncludeItemTypes?: string;
@@ -16,7 +16,7 @@ export type IQuery = {
     NameStartsWith?: string;
 }
 
-export type ICardOptions = {
+export type CardOptionsI = {
     itemsContainer?: HTMLElement;
     parentContainer?: HTMLElement;
     allowBottomPadding?: boolean;

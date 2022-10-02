@@ -1,5 +1,5 @@
 import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -10,10 +10,10 @@ import Pagination from './Pagination';
 import SelectView from './SelectView';
 import Shuffle from './Shuffle';
 import Sort from './Sort';
-import { IQuery } from './type';
+import { QueryI } from './interface';
 import NewCollection from './NewCollection';
 
-type IProps = {
+interface ViewItemsContainerI {
     topParentId: string | null;
     isBtnShuffleEnabled?: boolean;
     isBtnFilterEnabled?: boolean;
@@ -29,7 +29,7 @@ type IProps = {
     getNoItemsMessage: () => string;
 }
 
-const ViewItemsContainer: FunctionComponent<IProps> = ({
+const ViewItemsContainer: FC<ViewItemsContainerI> = ({
     topParentId,
     isBtnShuffleEnabled = false,
     isBtnFilterEnabled = true,
@@ -40,7 +40,7 @@ const ViewItemsContainer: FunctionComponent<IProps> = ({
     getItemTypes,
     getSortMenuOptions,
     getNoItemsMessage
-}: IProps) => {
+}) => {
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
 
     const element = useRef<HTMLDivElement>(null);
@@ -53,7 +53,7 @@ const ViewItemsContainer: FunctionComponent<IProps> = ({
         return `${getSettingsKey()} -view`;
     }, [getSettingsKey]);
 
-    let query = useMemo<IQuery>(() => ({
+    let query = useMemo<QueryI>(() => ({
         SortBy: 'SortName,ProductionYear',
         SortOrder: 'Ascending',
         IncludeItemTypes: getItemTypes(),

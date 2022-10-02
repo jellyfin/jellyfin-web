@@ -1,16 +1,16 @@
 import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
 import globalize from '../../scripts/globalize';
-import { IQuery } from './type';
+import { QueryI } from './interface';
 
-type PaginationProps = {
-    query: IQuery;
+interface PaginationI {
+    query: QueryI;
     itemsResult?: BaseItemDtoQueryResult;
     reloadItems: () => void;
 }
 
-const Pagination: FunctionComponent<PaginationProps> = ({ query, itemsResult = {}, reloadItems }: PaginationProps) => {
+const Pagination: FC<PaginationI> = ({ query, itemsResult = {}, reloadItems }) => {
     const startIndex = query.StartIndex;
     const limit = query.Limit;
     const totalRecordCount = itemsResult.TotalRecordCount || 0;

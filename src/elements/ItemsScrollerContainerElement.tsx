@@ -1,31 +1,29 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
-const createScroller = ({ scrollerclassName, dataHorizontal, dataMousewheel, dataCenterfocus, id, className }: IProps) => ({
+const createScroller = ({ scrollerclassName, dataHorizontal, dataMousewheel, dataCenterfocus, className }: IProps) => ({
     __html: `<div is="emby-scroller"
     class="${scrollerclassName}"
     ${dataHorizontal}
     ${dataMousewheel}
     ${dataCenterfocus}
     >
-    <div
-        is="emby-itemscontainer"
-        ${id}
-        class="${className}"
-    >
-    </div>
+        <div
+            is="emby-itemscontainer"
+            class="${className}"
+        >
+        </div>
     </div>`
 });
 
-type IProps = {
+interface IProps {
     scrollerclassName?: string;
     dataHorizontal?: string;
     dataMousewheel?: string;
     dataCenterfocus?: string;
-    id?: string;
     className?: string;
 }
 
-const ItemsScrollerContainerElement: FunctionComponent<IProps> = ({ scrollerclassName, dataHorizontal, dataMousewheel, dataCenterfocus, id, className }: IProps) => {
+const ItemsScrollerContainerElement: FC<IProps> = ({ scrollerclassName, dataHorizontal, dataMousewheel, dataCenterfocus, className }) => {
     return (
         <div
             dangerouslySetInnerHTML={createScroller({
@@ -33,7 +31,6 @@ const ItemsScrollerContainerElement: FunctionComponent<IProps> = ({ scrollerclas
                 dataHorizontal: dataHorizontal ? `data-horizontal="${dataHorizontal}"` : '',
                 dataMousewheel: dataMousewheel ? `data-mousewheel="${dataMousewheel}"` : '',
                 dataCenterfocus: dataCenterfocus ? `data-centerfocus="${dataCenterfocus}"` : '',
-                id: id ? `id='${id}'` : '',
                 className: className
             })}
         />

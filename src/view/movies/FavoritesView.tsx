@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 
 import globalize from '../../scripts/globalize';
 import ViewItemsContainer from '../components/ViewItemsContainer';
 
-type IProps = {
+interface FavoritesViewI {
     topParentId: string | null;
 }
 
-const FavoritesView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
+const FavoritesView: FC<FavoritesViewI> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {
         return 'favorites';
     }, []);

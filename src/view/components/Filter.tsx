@@ -1,15 +1,15 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { Events } from 'jellyfin-apiclient';
 import IconButtonElement from '../../elements/IconButtonElement';
-import { IQuery } from './type';
+import { QueryI } from './interface';
 
-type FilterProps = {
-    query: IQuery;
+interface FilterI {
+    query: QueryI;
     getFilterMode: () => string | null;
     reloadItems: () => void;
 }
 
-const Filter: FunctionComponent<FilterProps> = ({ query, getFilterMode, reloadItems }: FilterProps) => {
+const Filter: FC<FilterI> = ({ query, getFilterMode, reloadItems }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showFilterMenu = useCallback(() => {

@@ -1,26 +1,26 @@
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import ItemsContainerElement from '../../elements/ItemsContainerElement';
 import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
-import { ICardOptions } from './type';
+import { CardOptionsI } from './interface';
 
-type SectionContainerProps = {
+interface SectionContainerI {
     sectionTitle: string;
     enableScrollX: () => boolean;
     items?: BaseItemDto[];
-    cardOptions?: ICardOptions;
+    cardOptions?: CardOptionsI;
 }
 
-const SectionContainer: FunctionComponent<SectionContainerProps> = ({
+const SectionContainer: FC<SectionContainerI> = ({
     sectionTitle,
     enableScrollX,
     items = [],
     cardOptions = {}
-}: SectionContainerProps) => {
+}) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

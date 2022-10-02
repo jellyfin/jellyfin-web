@@ -3,7 +3,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import escapeHTML from 'escape-html';
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 
 import { appRouter } from '../../components/appRouter';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
@@ -11,13 +11,13 @@ import layoutManager from '../../components/layoutManager';
 import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
 
-type GenresItemsContainerProps = {
+interface GenresItemsContainerI {
     topParentId?: string | null;
     getCurrentViewStyle: () => string;
     itemsResult?: BaseItemDtoQueryResult;
 }
 
-const GenresItemsContainer: FunctionComponent<GenresItemsContainerProps> = ({ topParentId, getCurrentViewStyle, itemsResult = {} }: GenresItemsContainerProps) => {
+const GenresItemsContainer: FC<GenresItemsContainerI> = ({ topParentId, getCurrentViewStyle, itemsResult = {} }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const enableScrollX = useCallback(() => {

@@ -1,17 +1,17 @@
 import { RecommendationDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 import globalize from '../../scripts/globalize';
 import escapeHTML from 'escape-html';
 import SectionContainer from './SectionContainer';
 
-type RecommendationContainerProps = {
+interface RecommendationContainerI {
     getPortraitShape: () => string;
     enableScrollX: () => boolean;
     recommendation?: RecommendationDto;
 }
 
-const RecommendationContainer: FunctionComponent<RecommendationContainerProps> = ({ getPortraitShape, enableScrollX, recommendation = {} }: RecommendationContainerProps) => {
+const RecommendationContainer: FC<RecommendationContainerI> = ({ getPortraitShape, enableScrollX, recommendation = {} }) => {
     let title = '';
 
     switch (recommendation.RecommendationType) {

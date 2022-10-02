@@ -8,11 +8,11 @@ import globalize from '../../scripts/globalize';
 import RecommendationContainer from '../components/RecommendationContainer';
 import SectionContainer from '../components/SectionContainer';
 
-type IProps = {
+interface SuggestionsViewI {
     topParentId: string | null;
 }
 
-const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
+const SuggestionsView: FunctionComponent<SuggestionsViewI> = ({topParentId}) => {
     const [ latestItems, setLatestItems ] = useState<BaseItemDto[]>([]);
     const [ resumeResult, setResumeResult ] = useState<BaseItemDtoQueryResult>({});
     const [ recommendations, setRecommendations ] = useState<RecommendationDto[]>([]);
@@ -102,12 +102,12 @@ const SuggestionsView: FunctionComponent<IProps> = (props: IProps) => {
     }, [autoFocus]);
 
     const loadSuggestionsTab = useCallback((view) => {
-        const parentId = props.topParentId;
+        const parentId = topParentId;
         const userId = window.ApiClient.getCurrentUserId();
         loadResume(view, userId, parentId);
         loadLatest(view, userId, parentId);
         loadSuggestions(view, userId);
-    }, [loadLatest, loadResume, loadSuggestions, props.topParentId]);
+    }, [loadLatest, loadResume, loadSuggestions, topParentId]);
 
     useEffect(() => {
         const page = element.current;

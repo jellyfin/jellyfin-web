@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 
 import globalize from '../../scripts/globalize';
 import ViewItemsContainer from '../components/ViewItemsContainer';
 
-type IProps = {
+interface CollectionsViewI {
     topParentId: string | null;
 }
 
-const CollectionsView: FunctionComponent<IProps> = ({ topParentId }: IProps) => {
+const CollectionsView: FC<CollectionsViewI> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {
         return 'collections';
     }, []);
