@@ -1,4 +1,4 @@
-export type QueryI = {
+export interface QueryI {
     SortBy?: string;
     SortOrder?: string;
     IncludeItemTypes?: string;
@@ -16,7 +16,7 @@ export type QueryI = {
     NameStartsWith?: string;
 }
 
-export type CardOptionsI = {
+export interface CardOptionsI {
     itemsContainer?: HTMLElement;
     parentContainer?: HTMLElement;
     allowBottomPadding?: boolean;
