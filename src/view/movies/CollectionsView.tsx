@@ -1,6 +1,5 @@
 import React, { FC, useCallback } from 'react';
 
-import globalize from '../../scripts/globalize';
 import ViewItemsContainer from '../components/ViewItemsContainer';
 
 interface CollectionsViewI {
@@ -24,16 +23,6 @@ const CollectionsView: FC<CollectionsViewI> = ({ topParentId }) => {
         return 'MessageNoCollectionsAvailable';
     }, []);
 
-    const getSortMenuOptions = useCallback(() => {
-        return [{
-            name: globalize.translate('Name'),
-            id: 'SortName'
-        }, {
-            name: globalize.translate('OptionDateAdded'),
-            id: 'DateCreated,SortName'
-        }];
-    }, []);
-
     return (
         <ViewItemsContainer
             topParentId={topParentId}
@@ -43,7 +32,6 @@ const CollectionsView: FC<CollectionsViewI> = ({ topParentId }) => {
             getBasekey={getBasekey}
             getFilterMode={getFilterMode}
             getItemTypes={getItemTypes}
-            getSortMenuOptions={getSortMenuOptions}
             getNoItemsMessage={getNoItemsMessage}
         />
     );

@@ -1,40 +1,44 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
-import libraryBrowser from '../../scripts/libraryBrowser';
-import * as userSettings from '../../scripts/settings/userSettings';
-import { QueryI } from './interface';
 
 interface SortI {
     getSortMenuOptions: () => {
         name: string;
-        id: string;
-    }[];
-    query: QueryI;
+        value: string;
+    }[]
+    getSortValues: () => {
+        sortBy: string;
+        sortOrder: string;
+    }
     getSettingsKey: () => string;
     reloadItems: () => void;
 }
 
-const Sort: FC<SortI> = ({ getSortMenuOptions, query, getSettingsKey, reloadItems }) => {
+const Sort: FC<SortI> = ({ getSortMenuOptions, getSortValues, getSettingsKey, reloadItems }) => {
     const element = useRef<HTMLDivElement>(null);
+
+    const showSortMenu = useCallback(() => {
+        import('../../components/sortmenu/sortmenu').then(({default: SortMenu}) => {
+            const sortMenu = new SortMenu();
+            sortMenu.show({
+                settingsKey: getSettingsKey(),
+                settings: getSortValues(),
+                sortOptions: getSortMenuOptions()
+            }).then(() => {
+                reloadItems();
+            });
+        });
+    }, [getSettingsKey, getSortMenuOptions, getSortValues, reloadItems]);
 
     useEffect(() => {
         const btnSort = element.current?.querySelector('.btnSort');
 
-        if (btnSort) {
-            btnSort.addEventListener('click', (e) => {
-                libraryBrowser.showSortMenu({
-                    items: getSortMenuOptions(),
-                    callback: () => {
-                        query.StartIndex = 0;
-                        userSettings.saveQuerySettings(getSettingsKey(), query);
-                        reloadItems();
-                    },
-                    query: query,
-                    button: e.target
-                });
-            });
-        }
-    }, [getSortMenuOptions, query, reloadItems, getSettingsKey]);
+        btnSort?.addEventListener('click', showSortMenu);
+
+        return () => {
+            btnSort?.removeEventListener('click', showSortMenu);
+        };
+    }, [showSortMenu]);
 
     return (
         <div ref={element}>

@@ -1,5 +1,5 @@
 import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 
 import ItemsContainerElement from '../../elements/ItemsContainerElement';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
@@ -9,7 +9,7 @@ import imageLoader from '../../components/images/imageLoader';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { QueryI } from './interface';
 
-type ItemsContainerProps = {
+interface ItemsContainerI {
     getCurrentViewStyle: () => string;
     query: QueryI;
     getContext: () => string | null;
@@ -17,7 +17,7 @@ type ItemsContainerProps = {
     noItemsMessage?: string;
 }
 
-const ItemsContainer: FunctionComponent<ItemsContainerProps> = ({ getCurrentViewStyle, query, getContext, items = [], noItemsMessage }: ItemsContainerProps) => {
+const ItemsContainer: FC<ItemsContainerI> = ({ getCurrentViewStyle, query, getContext, items = [], noItemsMessage }) => {
     const element = useRef<HTMLDivElement>(null);
     const viewStyle = getCurrentViewStyle();
 
