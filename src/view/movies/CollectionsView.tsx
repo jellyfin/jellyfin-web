@@ -11,12 +11,8 @@ const CollectionsView: FC<CollectionsViewI> = ({ topParentId }) => {
         return 'collections';
     }, []);
 
-    const getFilterMode = useCallback(() => {
-        return 'movies';
-    }, []);
-
     const getItemTypes = useCallback(() => {
-        return 'BoxSet';
+        return ['BoxSet'];
     }, []);
 
     const getNoItemsMessage = useCallback(() => {
@@ -30,7 +26,6 @@ const CollectionsView: FC<CollectionsViewI> = ({ topParentId }) => {
             isBtnNewCollectionEnabled={true}
             isAlphaPickerEnabled={false}
             getBasekey={getBasekey}
-            getFilterMode={getFilterMode}
             getItemTypes={getItemTypes}
             getNoItemsMessage={getNoItemsMessage}
         />

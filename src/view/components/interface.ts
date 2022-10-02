@@ -12,8 +12,39 @@ export interface QueryI {
     IsFavorite?: boolean;
     IsMissing?: boolean;
     Limit:number;
+    NameStartsWithOrGreater?: string;
     NameLessThan?: string;
     NameStartsWith?: string;
+    VideoTypes?: string;
+    GenreIds?: string;
+    Is4K?: boolean;
+    IsHD?: boolean;
+    Is3D?: boolean;
+    HasSubtitles?: boolean;
+    HasTrailer?: boolean;
+    HasSpecialFeature?: boolean;
+    HasThemeSong?: boolean;
+    HasThemeVideo?: boolean;
+    Filters?: string | null;
+}
+
+export interface FiltersI {
+    IsPlayed: boolean;
+    IsUnplayed: boolean;
+    IsFavorite: boolean;
+    IsResumable: boolean;
+    Is4K: boolean;
+    IsHD: boolean;
+    IsSD: boolean;
+    Is3D: boolean;
+    VideoTypes: string;
+    SeriesStatus: string;
+    HasSubtitles: string;
+    HasTrailer: string;
+    HasSpecialFeature: string;
+    HasThemeSong: string;
+    HasThemeVideo: string;
+    GenreIds: string;
 }
 
 export interface CardOptionsI {

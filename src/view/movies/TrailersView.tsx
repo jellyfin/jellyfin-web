@@ -12,12 +12,8 @@ const TrailersView: FC<TrailersViewI> = ({ topParentId }) => {
         return 'trailers';
     }, []);
 
-    const getFilterMode = useCallback(() => {
-        return 'movies';
-    }, []);
-
     const getItemTypes = useCallback(() => {
-        return 'Trailer';
+        return ['Trailer'];
     }, []);
 
     const getNoItemsMessage = useCallback(() => {
@@ -28,7 +24,6 @@ const TrailersView: FC<TrailersViewI> = ({ topParentId }) => {
         <ViewItemsContainer
             topParentId={topParentId}
             getBasekey={getBasekey}
-            getFilterMode={getFilterMode}
             getItemTypes={getItemTypes}
             getNoItemsMessage={getNoItemsMessage}
         />

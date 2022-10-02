@@ -11,12 +11,8 @@ const FavoritesView: FC<FavoritesViewI> = ({ topParentId }) => {
         return 'favorites';
     }, []);
 
-    const getFilterMode = useCallback(() => {
-        return 'movies';
-    }, []);
-
     const getItemTypes = useCallback(() => {
-        return 'Movie';
+        return ['Movie'];
     }, []);
 
     const getNoItemsMessage = useCallback(() => {
@@ -27,7 +23,6 @@ const FavoritesView: FC<FavoritesViewI> = ({ topParentId }) => {
         <ViewItemsContainer
             topParentId={topParentId}
             getBasekey={getBasekey}
-            getFilterMode={getFilterMode}
             getItemTypes={getItemTypes}
             getNoItemsMessage={getNoItemsMessage}
         />

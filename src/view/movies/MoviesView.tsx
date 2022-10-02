@@ -11,12 +11,8 @@ const MoviesView: FC<MoviesViewI> = ({ topParentId }) => {
         return 'movies';
     }, []);
 
-    const getFilterMode = useCallback(() => {
-        return 'movies';
-    }, []);
-
     const getItemTypes = useCallback(() => {
-        return 'Movie';
+        return ['Movie'];
     }, []);
 
     const getNoItemsMessage = useCallback(() => {
@@ -28,7 +24,6 @@ const MoviesView: FC<MoviesViewI> = ({ topParentId }) => {
             topParentId={topParentId}
             isBtnShuffleEnabled={true}
             getBasekey={getBasekey}
-            getFilterMode={getFilterMode}
             getItemTypes={getItemTypes}
             getNoItemsMessage={getNoItemsMessage}
         />
