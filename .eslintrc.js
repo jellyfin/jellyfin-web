@@ -78,7 +78,6 @@ module.exports = {
         'sonarjs/no-identical-functions': ['off'],
         'sonarjs/no-redundant-jump': ['off'],
         'sonarjs/no-small-switch': ['off'],
-        'sonarjs/no-unused-collection': ['off'],
         'sonarjs/prefer-object-literal': ['off'],
         'sonarjs/prefer-single-boolean-return': ['off']
     },
