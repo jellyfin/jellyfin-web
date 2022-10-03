@@ -94,16 +94,14 @@ function onPlaybackStopped(e, stopInfo) {
     const state = stopInfo.state;
 
     const eventsToMonitor = getEventsToMonitor(instance);
-    if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
+    if (state.NowPlayingItem?.MediaType === 'Video') {
         if (eventsToMonitor.indexOf('videoplayback') !== -1) {
             instance.notifyRefreshNeeded(true);
             return;
         }
-    } else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
-        if (eventsToMonitor.indexOf('audioplayback') !== -1) {
-            instance.notifyRefreshNeeded(true);
-            return;
-        }
+    } else if (state.NowPlayingItem?.MediaType === 'Audio' && eventsToMonitor.indexOf('audioplayback') !== -1) {
+        instance.notifyRefreshNeeded(true);
+        return;
     }
 }
 

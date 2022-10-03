@@ -85,13 +85,9 @@ import 'webcomponents.js/webcomponents-lite';
             passive: true
         });
 
-        if (browser.orsay) {
-            if (this === document.activeElement) {
-                //Make sure the IME pops up if this is the first/default element on the page
-                if (document.attachIME) {
-                    document.attachIME(this);
-                }
-            }
+        //Make sure the IME pops up if this is the first/default element on the page
+        if (browser.orsay && this === document.activeElement && document.attachIME) {
+            document.attachIME(this);
         }
     };
 

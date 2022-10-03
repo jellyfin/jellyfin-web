@@ -68,10 +68,8 @@ export function showLayoutMenu (button, currentLayout, views) {
                     cancelable: false
                 }));
 
-                if (!dispatchEvent) {
-                    if (window.$) {
-                        $(button).trigger('layoutchange', [id]);
-                    }
+                if (!dispatchEvent && window.$) {
+                    $(button).trigger('layoutchange', [id]);
                 }
             }
         });

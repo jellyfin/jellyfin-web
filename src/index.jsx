@@ -84,10 +84,10 @@ function init() {
 }
 
 function onGlobalizeInit() {
-    if (window.appMode === 'android') {
-        if (window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
-            return onAppReady();
-        }
+    if (window.appMode === 'android'
+        && window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1
+    ) {
+        return onAppReady();
     }
 
     document.title = globalize.translateHtml(document.title, 'core');

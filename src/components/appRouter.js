@@ -87,12 +87,10 @@ class AppRouter {
 
         path = path.replace(this.baseUrl(), '');
 
-        if (this.currentRouteInfo && this.currentRouteInfo.path === path) {
-            // can't use this with home right now due to the back menu
-            if (this.currentRouteInfo.route.type !== 'home') {
-                loading.hide();
-                return Promise.resolve();
-            }
+        // can't use this with home right now due to the back menu
+        if (this.currentRouteInfo?.path === path && this.currentRouteInfo.route.type !== 'home') {
+            loading.hide();
+            return Promise.resolve();
         }
 
         this.promiseShow = new Promise((resolve) => {
@@ -351,15 +349,13 @@ class AppRouter {
     onRequestFail(_e, data) {
         const apiClient = this;
 
-        if (data.status === 403) {
-            if (data.errorCode === 'ParentalControl') {
-                const isCurrentAllowed = appRouter.currentRouteInfo ? (appRouter.currentRouteInfo.route.anonymous || appRouter.currentRouteInfo.route.startup) : true;
+        if (data.status === 403 && data.errorCode === 'ParentalControl') {
+            const isCurrentAllowed = appRouter.currentRouteInfo ? (appRouter.currentRouteInfo.route.anonymous || appRouter.currentRouteInfo.route.startup) : true;
 
-                // Bounce to the login screen, but not if a password entry fails, obviously
-                if (!isCurrentAllowed) {
-                    appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
-                    appRouter.showLocalLogin(apiClient.serverId());
-                }
+            // Bounce to the login screen, but not if a password entry fails, obviously
+            if (!isCurrentAllowed) {
+                appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
+                appRouter.showLocalLogin(apiClient.serverId());
             }
         }
     }
