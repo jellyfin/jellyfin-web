@@ -1677,5 +1677,7 @@
     "MediaInfoElPresentFlag": "Dolby Vision EL elérhető markerek",
     "MediaInfoRpuPresentFlag": "Dolby Vision rpu zászló jelen van",
     "IgnoreDtsHelp": "Ennek az opciónak a letiltása megoldhat bizonyos problémákat, pl. hiányzik a hang a külön hang- és videofolyamokkal rendelkező csatornákon.",
-    "IgnoreDts": "DTS (dekódolási időbélyeg) figyelmen kívül hagyása"
+    "IgnoreDts": "DTS (dekódolási időbélyeg) figyelmen kívül hagyása",
+    "OptionDateShowAdded": "Műsor hozzáadásának dátuma",
+    "OptionDateEpisodeAdded": "Epizód hozzáadásának dátuma"
 }
