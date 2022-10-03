@@ -117,7 +117,7 @@
 
     [dir="rtl"] & {
         left: 0.4em;
-        left: max(env(safe-area-inset-left), 0.4em)
+        left: max(env(safe-area-inset-left), 0.4em);
     }
 }
 

@@ -536,7 +536,6 @@
 .reviewDate {
     [dir="ltr"] & {
         margin-left: 1em;
-
     }
 
     [dir="rtl"] & {
@@ -546,6 +545,7 @@
 
 .reviewScore {
     position: absolute;
+
     [dir="ltr"] & {
         left: 0.8em;
     }
@@ -800,20 +800,14 @@
     .layout-tv & {
         display: block;
     }
+}
 
-    [dir="ltr"] & {
-        .layout-desktop &,
-        .layout-tv & {
-            padding-left: 32.45vw;
-        }
-    }
+.layout-desktop [dir="rtl"] .detailPagePrimaryContainer {
+    padding-right: 32.45vw;
+}
 
-    [dir="rtl"] & {
-        .layout-desktop &,
-        .layout-tv & {
-            padding-right: 32.45vw;
-        }
-    }
+.layout-desktop [dir="ltr"] .detailPagePrimaryContainer {
+    padding-left: 32.45vw;
 }
 
 .layout-desktop .detailRibbon {

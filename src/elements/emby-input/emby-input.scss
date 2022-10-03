@@ -45,26 +45,18 @@
     margin: 0 0.5em 1.8em;
 }
 
-.inlineForm .inputContainer:first-child,
-.inlineForm .selectContainer:first-child {
-    [dir="ltr"] & {
-        margin-left: 0;
-    }
-
-    [dir="rtl"] & {
-        margin-right: 0
-    }
+[dir="rtl"] .inlineForm .inputContainer:last-child,
+[dir="rtl"] .inlineForm .selectContainer:last-child,
+[dir="ltr"] .inlineForm .inputContainer:first-child,
+[dir="ltr"] .inlineForm .selectContainer:first-child {
+    margin-left: 0;
 }
 
-.inlineForm .inputContainer:last-child,
-.inlineForm .selectContainer:last-child {
-    [dir="ltr"] & {
-        margin-right: 0;
-    }
-
-    [dir="rtl"] & {
-        margin-left: 0;
-    }
+[dir="ltr"] .inlineForm .inputContainer:last-child,
+[dir="ltr"] .inlineForm .selectContainer:last-child,
+[dir="rtl"] .inlineForm .inputContainer:first-child,
+[dir="rtl"] .inlineForm .selectContainer:first-child {
+    margin-right: 0;
 }
 
 .inputLabel {

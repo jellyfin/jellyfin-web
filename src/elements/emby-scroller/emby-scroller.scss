@@ -9,6 +9,11 @@
     margin-right: max(env(safe-area-inset-right), 3.3%);
 }
 
+.servers > .card > .cardBox {
+    margin-left: 0.6em;
+    margin-right: 0.6em;
+}
+
 /* align first card in scroller to heading */
 .itemsContainer > .card > .cardBox {
     [dir="ltr"] & {
@@ -20,11 +25,6 @@
         margin-right: 0;
         margin-left: 1.2em;
     }
-}
-
-.servers > .card > .cardBox {
-    margin-left: 0.6em;
-    margin-right: 0.6em;
 }
 
 .layout-tv .emby-scroller,

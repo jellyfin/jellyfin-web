@@ -1,3 +1,10 @@
+.listItem,
+.listItemBody,
+.listItemMediaInfo {
+    display: flex;
+    contain: layout style;
+}
+
 .listItem {
     background: transparent;
     border: 0;
@@ -102,13 +109,6 @@
     flex-direction: column;
     vertical-align: middle;
     justify-content: center;
-}
-
-.listItem,
-.listItemBody,
-.listItemMediaInfo {
-    display: flex;
-    contain: layout style;
 }
 
 .layout-tv .listItemBody {

@@ -302,9 +302,9 @@ button::-moz-focus-inner {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
     [dir="ltr"] & {
         text-align: left;
-
     }
 
     [dir="rtl"] & {
@@ -454,7 +454,6 @@ button::-moz-focus-inner {
 
     [dir="ltr"] & {
         right: 0;
-
     }
 
     [dir="rtl"] & {
