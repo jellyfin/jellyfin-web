@@ -1,57 +1,61 @@
+const BASE_DEVICE_IMAGE_URL = 'assets/img/devices/';
+
+function getWebDeviceIcon(browser) {
+    switch (browser) {
+        case 'Opera':
+        case 'Opera TV':
+        case 'Opera Android':
+            return BASE_DEVICE_IMAGE_URL + 'opera.svg';
+        case 'Chrome':
+        case 'Chrome Android':
+            return BASE_DEVICE_IMAGE_URL + 'chrome.svg';
+        case 'Firefox':
+        case 'Firefox Android':
+            return BASE_DEVICE_IMAGE_URL + 'firefox.svg';
+        case 'Safari':
+        case 'Safari iPad':
+        case 'Safari iPhone':
+            return BASE_DEVICE_IMAGE_URL + 'safari.svg';
+        case 'Edge Chromium':
+        case 'Edge Chromium Android':
+        case 'Edge Chromium iPad':
+        case 'Edge Chromium iPhone':
+            return BASE_DEVICE_IMAGE_URL + 'edgechromium.svg';
+        case 'Edge':
+            return BASE_DEVICE_IMAGE_URL + 'edge.svg';
+        case 'Internet Explorer':
+            return BASE_DEVICE_IMAGE_URL + 'msie.svg';
+        default:
+            return BASE_DEVICE_IMAGE_URL + 'html5.svg';
+    }
+}
 
 /* eslint-disable indent */
 
     export function getDeviceIcon(device) {
-        const baseUrl = 'assets/img/devices/';
         switch (device.AppName || device.Client) {
             case 'Samsung Smart TV':
-                return baseUrl + 'samsung.svg';
+                return BASE_DEVICE_IMAGE_URL + 'samsung.svg';
             case 'Xbox One':
-                return baseUrl + 'xbox.svg';
+                return BASE_DEVICE_IMAGE_URL + 'xbox.svg';
             case 'Sony PS4':
-                return baseUrl + 'playstation.svg';
+                return BASE_DEVICE_IMAGE_URL + 'playstation.svg';
             case 'Kodi':
             case 'Kodi JellyCon':
-                return baseUrl + 'kodi.svg';
+                return BASE_DEVICE_IMAGE_URL + 'kodi.svg';
             case 'Jellyfin Android':
             case 'AndroidTV':
             case 'Android TV':
-                return baseUrl + 'android.svg';
+                return BASE_DEVICE_IMAGE_URL + 'android.svg';
             case 'Jellyfin Mobile (iOS)':
             case 'Jellyfin Mobile (iPadOS)':
             case 'Jellyfin iOS':
             case 'Infuse':
-                return baseUrl + 'apple.svg';
+                return BASE_DEVICE_IMAGE_URL + 'apple.svg';
             case 'Jellyfin Web':
-                switch (device.Name || device.DeviceName) {
-                    case 'Opera':
-                    case 'Opera TV':
-                    case 'Opera Android':
-                        return baseUrl + 'opera.svg';
-                    case 'Chrome':
-                    case 'Chrome Android':
-                        return baseUrl + 'chrome.svg';
-                    case 'Firefox':
-                    case 'Firefox Android':
-                        return baseUrl + 'firefox.svg';
-                    case 'Safari':
-                    case 'Safari iPad':
-                    case 'Safari iPhone':
-                        return baseUrl + 'safari.svg';
-                    case 'Edge Chromium':
-                    case 'Edge Chromium Android':
-                    case 'Edge Chromium iPad':
-                    case 'Edge Chromium iPhone':
-                        return baseUrl + 'edgechromium.svg';
-                    case 'Edge':
-                        return baseUrl + 'edge.svg';
-                    case 'Internet Explorer':
-                        return baseUrl + 'msie.svg';
-                    default:
-                        return baseUrl + 'html5.svg';
-                }
+                return getWebDeviceIcon(device.Name || device.DeviceName);
             default:
-                return baseUrl + 'other.svg';
+                return BASE_DEVICE_IMAGE_URL + 'other.svg';
         }
     }
 
