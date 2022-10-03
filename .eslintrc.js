@@ -75,7 +75,6 @@ module.exports = {
         'sonarjs/no-collapsible-if': ['off'],
         'sonarjs/no-duplicate-string': ['off'],
         'sonarjs/no-duplicated-branches': ['off'],
-        'sonarjs/no-gratuitous-expressions': ['off'],
         'sonarjs/no-identical-functions': ['off'],
         'sonarjs/no-nested-switch': ['off'],
         'sonarjs/no-redundant-jump': ['off'],
