@@ -249,7 +249,7 @@ import browser from './browser';
                 supported = testCanPlayTs();
                 videoCodecs.push('h264');
                 // safari doesn't support hevc in TS-HLS
-                if ((browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
+                if ((browser.tizen || browser.web0s || (browser.chrome && browser.chrome.versionMajor >= 105)) && canPlayHevc(videoTestElement, options)) {
                     videoCodecs.push('hevc');
                 }
                 if (supportsVc1(videoTestElement)) {
@@ -515,8 +515,19 @@ import browser from './browser';
         const hlsInTsVideoCodecs = [];
         const hlsInFmp4VideoCodecs = [];
 
-        if ((browser.safari || browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
-            hlsInFmp4VideoCodecs.push('hevc');
+        if (canPlayHevc(videoTestElement, options)) {
+            if (browser.safari || browser.tizen || browser.web0s) {
+                hlsInFmp4VideoCodecs.push('hevc');
+            }
+
+            // safari is lying on HDR and 60fps videos, use fMP4 instead
+            if (!browser.safari) {
+                mp4VideoCodecs.push('hevc');
+            }
+
+            if (browser.tizen || browser.web0s || (browser.chrome && browser.chrome.versionMajor >= 105)) {
+                hlsInTsVideoCodecs.push('hevc');
+            }
         }
 
         if (canPlayH264(videoTestElement)) {
@@ -525,17 +536,6 @@ import browser from './browser';
 
             if (browser.safari || browser.tizen || browser.web0s) {
                 hlsInFmp4VideoCodecs.push('h264');
-            }
-        }
-
-        if (canPlayHevc(videoTestElement, options)) {
-            // safari is lying on HDR and 60fps videos, use fMP4 instead
-            if (!browser.safari) {
-                mp4VideoCodecs.push('hevc');
-            }
-
-            if (browser.tizen || browser.web0s) {
-                hlsInTsVideoCodecs.push('hevc');
             }
         }
 
@@ -876,6 +876,10 @@ import browser from './browser';
             hevcVideoRangeTypes += '|HDR10|HLG|DOVI';
             vp9VideoRangeTypes += '|HDR10|HLG';
             av1VideoRangeTypes += '|HDR10|HLG';
+        }
+
+        if (browser.chrome) {
+            hevcVideoRangeTypes += '|HDR10|HLG';
         }
 
         if (browser.edgeChromium || browser.chrome || browser.firefox) {
