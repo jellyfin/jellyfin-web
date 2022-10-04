@@ -72,15 +72,11 @@ module.exports = {
 
         'sonarjs/cognitive-complexity': ['warn'],
         // TODO: Enable the following rules and fix issues
-        'sonarjs/max-switch-cases': ['off'],
         'sonarjs/no-duplicate-string': ['off'],
         'sonarjs/no-duplicated-branches': ['off'],
-        'sonarjs/no-gratuitous-expressions': ['off'],
         'sonarjs/no-identical-functions': ['off'],
-        'sonarjs/no-nested-switch': ['off'],
         'sonarjs/no-redundant-jump': ['off'],
         'sonarjs/no-small-switch': ['off'],
-        'sonarjs/no-unused-collection': ['off'],
         'sonarjs/prefer-object-literal': ['off'],
         'sonarjs/prefer-single-boolean-return': ['off']
     },

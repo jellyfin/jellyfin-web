@@ -458,7 +458,7 @@ import confirm from '../../components/confirm/confirm';
 
                 html += ' / ';
 
-                if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
+                if (nowPlayingItem.RunTimeTicks) {
                     html += datetime.getDisplayRunningTime(nowPlayingItem.RunTimeTicks);
                 } else {
                     html += '0:00';

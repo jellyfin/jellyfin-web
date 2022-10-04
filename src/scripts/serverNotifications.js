@@ -123,16 +123,11 @@ function processGeneralCommand(cmd, apiClient) {
             displayMessage(cmd);
             break;
         case 'ToggleOsd':
-            // todo
-            break;
         case 'ToggleContextMenu':
-            // todo
-            break;
         case 'SendKey':
             // todo
             break;
         case 'SendString':
-            // todo
             focusManager.sendText(cmd.Arguments.String);
             break;
         default:
