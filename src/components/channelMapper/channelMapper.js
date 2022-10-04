@@ -87,7 +87,8 @@ export default class channelMapper {
             html += '</div>';
             html += '</div>';
             html += `<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="${channel.Id}" data-providerid="${channel.ProviderChannelId}"><span class="material-icons mode_edit" aria-hidden="true"></span></button>`;
-            return html += '</div>';
+            html += '</div>';
+            return html;
         }
 
         function getEditorHtml() {
@@ -100,7 +101,8 @@ export default class channelMapper {
             html += '</div>';
             html += '</form>';
             html += '</div>';
-            return html += '</div>';
+            html += '</div>';
+            return html;
         }
 
         function initEditor(dlg, options) {

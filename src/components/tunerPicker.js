@@ -26,7 +26,8 @@ function getEditorHtml() {
     html += '<div is="emby-itemscontainer" class="results vertical-wrap">';
     html += '</div>';
     html += '</div>';
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 function getDeviceHtml(device) {
@@ -61,7 +62,8 @@ function getDeviceHtml(device) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    return html += '</button>';
+    html += '</button>';
+    return html;
 }
 
 function getTunerName(providerId) {

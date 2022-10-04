@@ -52,6 +52,7 @@ module.exports = {
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
+        'no-return-assign': ['error'],
         'no-return-await': ['error'],
         'no-sequences': ['error', { 'allowInParentheses': false }],
         'no-trailing-spaces': ['error'],
