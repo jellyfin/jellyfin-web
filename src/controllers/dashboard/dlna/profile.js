@@ -149,7 +149,8 @@ import { getParameterByName } from '../../../utils/url.ts';
             li += '<h3 class="listItemBodyText">' + escapeHtml(h.Name + ' = ' + (h.Value || '')) + '</h3>';
             li += '</div>';
             li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><span class="material-icons delete" aria-hidden="true"></span></button>';
-            return li += '</div>';
+            li += '</div>';
+            return li;
         }).join('') + '</div>';
         const elem = $('.xmlDocumentAttributeList', page).html(html).trigger('create');
         $('.btnDeleteXmlAttribute', elem).on('click', function () {

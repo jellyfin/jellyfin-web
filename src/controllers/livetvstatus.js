@@ -49,7 +49,8 @@ function getDeviceHtml(device) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 function renderDevices(page, devices) {

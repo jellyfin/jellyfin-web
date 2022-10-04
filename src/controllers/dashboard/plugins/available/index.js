@@ -129,7 +129,8 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 function getTabs() {

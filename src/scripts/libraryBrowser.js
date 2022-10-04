@@ -115,7 +115,8 @@ export function getQueryPagingHtml (options) {
         html += '</div>';
     }
 
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 export function showSortMenu (options) {
