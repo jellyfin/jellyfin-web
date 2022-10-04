@@ -10,10 +10,6 @@ import HtmlVideoPlayer from './HtmlVideoPlayer';
  */
 class HtmlAudioPlayer extends HtmlVideoPlayer {
     static type = 'htmlaudioplayer';
-
-    constructor(player, syncPlayManager) {
-        super(player, syncPlayManager);
-    }
 }
 
 export default HtmlAudioPlayer;
