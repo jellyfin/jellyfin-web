@@ -800,13 +800,11 @@ import confirm from '../../components/confirm/confirm';
                     });
                 }
 
-                if (ApiClient.isMinServerVersion('3.4.1.25')) {
-                    if (!page.serverActivityLog) {
-                        page.serverActivityLog = new ActivityLog({
-                            serverId: ApiClient.serverId(),
-                            element: page.querySelector('.serverActivityItems')
-                        });
-                    }
+                if (!page.serverActivityLog) {
+                    page.serverActivityLog = new ActivityLog({
+                        serverId: ApiClient.serverId(),
+                        element: page.querySelector('.serverActivityItems')
+                    });
                 }
 
                 refreshActiveRecordings(view, apiClient);

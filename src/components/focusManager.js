@@ -384,10 +384,11 @@ import scrollManager from './scrollManager';
             // See if there's a focusable container, and if so, send the focus command to that
             if (activeElement) {
                 const nearestElementFocusableParent = dom.parentWithClass(nearestElement, 'focusable');
-                if (nearestElementFocusableParent && nearestElementFocusableParent !== nearestElement) {
-                    if (focusableContainer !== nearestElementFocusableParent) {
-                        nearestElement = nearestElementFocusableParent;
-                    }
+                if (nearestElementFocusableParent
+                    && nearestElementFocusableParent !== nearestElement
+                    && focusableContainer !== nearestElementFocusableParent
+                ) {
+                    nearestElement = nearestElementFocusableParent;
                 }
             }
             focus(nearestElement);

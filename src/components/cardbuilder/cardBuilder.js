@@ -790,10 +790,8 @@ import { appRouter } from '../appRouter';
 
             const showOtherText = isOuterFooter ? !overlayText : overlayText;
 
-            if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
-                if (options.cardFooterAside !== 'none') {
-                    html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
-                }
+            if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== 'none') {
+                html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
             }
 
             const cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
@@ -803,33 +801,31 @@ import { appRouter } from '../appRouter';
             const parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
             let titleAdded;
 
-            if (showOtherText) {
-                if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
-                    if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
-                        if (item.SeriesId) {
-                            lines.push(getTextActionButton({
-                                Id: item.SeriesId,
-                                ServerId: serverId,
-                                Name: item.SeriesName,
-                                Type: 'Series',
-                                IsFolder: true
-                            }));
-                        } else {
-                            lines.push(escapeHtml(item.SeriesName));
+            if (showOtherText && (options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
+                if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
+                    if (item.SeriesId) {
+                        lines.push(getTextActionButton({
+                            Id: item.SeriesId,
+                            ServerId: serverId,
+                            Name: item.SeriesName,
+                            Type: 'Series',
+                            IsFolder: true
+                        }));
+                    } else {
+                        lines.push(escapeHtml(item.SeriesName));
+                    }
+                } else {
+                    if (isUsingLiveTvNaming(item)) {
+                        lines.push(escapeHtml(item.Name));
+
+                        if (!item.EpisodeTitle && !item.IndexNumber) {
+                            titleAdded = true;
                         }
                     } else {
-                        if (isUsingLiveTvNaming(item)) {
-                            lines.push(escapeHtml(item.Name));
+                        const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
-                            if (!item.EpisodeTitle && !item.IndexNumber) {
-                                titleAdded = true;
-                            }
-                        } else {
-                            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
-
-                            if (parentTitle || showTitle) {
-                                lines.push(escapeHtml(parentTitle));
-                            }
+                        if (parentTitle || showTitle) {
+                            lines.push(escapeHtml(parentTitle));
                         }
                     }
                 }
@@ -986,10 +982,8 @@ import { appRouter } from '../appRouter';
                     }
                 }
 
-                if (options.showPersonRoleOrType) {
-                    if (item.Role) {
-                        lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
-                    }
+                if (options.showPersonRoleOrType && item.Role) {
+                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
                 }
             }
 
@@ -1009,13 +1003,11 @@ import { appRouter } from '../appRouter';
                 html += progressHtml;
             }
 
-            if (html) {
-                if (!isOuterFooter || logoUrl || options.cardLayout) {
-                    html = '<div class="' + footerClass + '">' + html;
+            if (html && (!isOuterFooter || logoUrl || options.cardLayout)) {
+                html = '<div class="' + footerClass + '">' + html;
 
-                    //cardFooter
-                    html += '</div>';
-                }
+                //cardFooter
+                html += '</div>';
             }
 
             return html;

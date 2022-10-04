@@ -159,11 +159,9 @@ function normalizeImages(state, apiClient) {
     if (state && state.NowPlayingItem) {
         const item = state.NowPlayingItem;
 
-        if (!item.ImageTags || !item.ImageTags.Primary) {
-            if (item.PrimaryImageTag) {
-                item.ImageTags = item.ImageTags || {};
-                item.ImageTags.Primary = item.PrimaryImageTag;
-            }
+        if (!item.ImageTags || !item.ImageTags.Primary && item.PrimaryImageTag) {
+            item.ImageTags = item.ImageTags || {};
+            item.ImageTags.Primary = item.PrimaryImageTag;
         }
         if (item.BackdropImageTag && item.BackdropItemId === item.Id) {
             item.BackdropImageTags = [item.BackdropImageTag];

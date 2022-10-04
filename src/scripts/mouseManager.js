@@ -88,12 +88,10 @@ import dom from '../scripts/dom';
     function onPointerEnter(e) {
         const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
-        if (pointerType === 'mouse') {
-            if (!isMouseIdle) {
-                const parent = focusManager.focusableParent(e.target);
-                if (parent) {
-                    focusManager.focus(parent);
-                }
+        if (pointerType === 'mouse' && !isMouseIdle) {
+            const parent = focusManager.focusableParent(e.target);
+            if (parent) {
+                focusManager.focus(parent);
             }
         }
     }

@@ -289,34 +289,32 @@ class NavDrawer {
     setEdgeSwipeEnabled(enabled) {
         const options = this.options;
 
-        if (!options.disableEdgeSwipe) {
-            if (browser.touch) {
-                if (enabled) {
-                    if (!this._edgeSwipeEnabled) {
-                        this._edgeSwipeEnabled = true;
-                        dom.addEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
-                            passive: true
-                        });
-                        dom.addEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
-                            passive: true
-                        });
-                        dom.addEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
-                            passive: true
-                        });
-                    }
-                } else {
-                    if (this._edgeSwipeEnabled) {
-                        this._edgeSwipeEnabled = false;
-                        dom.removeEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
-                            passive: true
-                        });
-                        dom.removeEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
-                            passive: true
-                        });
-                        dom.removeEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
-                            passive: true
-                        });
-                    }
+        if (!options.disableEdgeSwipe && browser.touch) {
+            if (enabled) {
+                if (!this._edgeSwipeEnabled) {
+                    this._edgeSwipeEnabled = true;
+                    dom.addEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
+                        passive: true
+                    });
+                    dom.addEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
+                        passive: true
+                    });
+                    dom.addEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
+                        passive: true
+                    });
+                }
+            } else {
+                if (this._edgeSwipeEnabled) {
+                    this._edgeSwipeEnabled = false;
+                    dom.removeEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
+                        passive: true
+                    });
+                    dom.removeEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
+                        passive: true
+                    });
+                    dom.removeEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
+                        passive: true
+                    });
                 }
             }
         }

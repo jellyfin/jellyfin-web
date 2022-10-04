@@ -72,26 +72,25 @@ import toast from './toast/toast';
             }
         }
 
-        if (item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
-            if (item.CollectionType !== 'livetv') {
-                if (options.shuffle !== false) {
-                    commands.push({
-                        name: globalize.translate('Shuffle'),
-                        id: 'shuffle',
-                        icon: 'shuffle'
-                    });
-                }
-            }
+        if ((item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre')
+            && item.CollectionType !== 'livetv'
+            && options.shuffle !== false
+        ) {
+            commands.push({
+                name: globalize.translate('Shuffle'),
+                id: 'shuffle',
+                icon: 'shuffle'
+            });
         }
 
-        if (item.MediaType === 'Audio' || item.Type === 'MusicAlbum' || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
-            if (options.instantMix !== false && !itemHelper.isLocalItem(item)) {
-                commands.push({
-                    name: globalize.translate('InstantMix'),
-                    id: 'instantmix',
-                    icon: 'explore'
-                });
-            }
+        if ((item.MediaType === 'Audio' || item.Type === 'MusicAlbum' || item.Type === 'MusicArtist' || item.Type === 'MusicGenre')
+            && options.instantMix !== false && !itemHelper.isLocalItem(item)
+        ) {
+            commands.push({
+                name: globalize.translate('InstantMix'),
+                id: 'instantmix',
+                icon: 'explore'
+            });
         }
 
         if (commands.length) {
@@ -180,57 +179,49 @@ import toast from './toast/toast';
         }
 
         const canEdit = itemHelper.canEdit(user, item);
-        if (canEdit) {
-            if (options.edit !== false && item.Type !== 'SeriesTimer') {
-                const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
-                commands.push({
-                    name: text,
-                    id: 'edit',
-                    icon: 'edit'
-                });
-            }
+        if (canEdit && options.edit !== false && item.Type !== 'SeriesTimer') {
+            const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+            commands.push({
+                name: text,
+                id: 'edit',
+                icon: 'edit'
+            });
         }
 
-        if (itemHelper.canEditImages(user, item)) {
-            if (options.editImages !== false) {
-                commands.push({
-                    name: globalize.translate('EditImages'),
-                    id: 'editimages',
-                    icon: 'image'
-                });
-            }
+        if (itemHelper.canEditImages(user, item) && options.editImages !== false) {
+            commands.push({
+                name: globalize.translate('EditImages'),
+                id: 'editimages',
+                icon: 'image'
+            });
         }
 
-        if (canEdit) {
-            if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-                if (options.editSubtitles !== false) {
-                    commands.push({
-                        name: globalize.translate('EditSubtitles'),
-                        id: 'editsubtitles',
-                        icon: 'closed_caption'
-                    });
-                }
-            }
+        if (canEdit && item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program'
+            && item.LocationType !== 'Virtual'
+            && !(item.Type === 'Recording' && item.Status !== 'Completed')
+            && options.editSubtitles !== false
+        ) {
+            commands.push({
+                name: globalize.translate('EditSubtitles'),
+                id: 'editsubtitles',
+                icon: 'closed_caption'
+            });
         }
 
-        if (options.identify !== false) {
-            if (itemHelper.canIdentify(user, item)) {
-                commands.push({
-                    name: globalize.translate('Identify'),
-                    id: 'identify',
-                    icon: 'edit'
-                });
-            }
+        if (options.identify !== false && itemHelper.canIdentify(user, item)) {
+            commands.push({
+                name: globalize.translate('Identify'),
+                id: 'identify',
+                icon: 'edit'
+            });
         }
 
-        if (item.MediaSources) {
-            if (options.moremediainfo !== false) {
-                commands.push({
-                    name: globalize.translate('MoreMediaInfo'),
-                    id: 'moremediainfo',
-                    icon: 'info'
-                });
-            }
+        if (item.MediaSources && options.moremediainfo !== false) {
+            commands.push({
+                name: globalize.translate('MoreMediaInfo'),
+                id: 'moremediainfo',
+                icon: 'info'
+            });
         }
 
         if (item.Type === 'Program' && options.record !== false) {
@@ -240,11 +231,7 @@ import toast from './toast/toast';
                     id: 'record',
                     icon: 'fiber_manual_record'
                 });
-            }
-        }
-
-        if (item.Type === 'Program' && options.record !== false) {
-            if (!item.TimerId) {
+            } else {
                 commands.push({
                     name: globalize.translate('Record'),
                     id: 'record',
@@ -277,26 +264,20 @@ import toast from './toast/toast';
             });
         }
 
-        if (!restrictOptions) {
-            if (options.share === true) {
-                if (itemHelper.canShare(item, user)) {
-                    commands.push({
-                        name: globalize.translate('Share'),
-                        id: 'share',
-                        icon: 'share'
-                    });
-                }
-            }
+        if (!restrictOptions && options.share === true && itemHelper.canShare(item, user)) {
+            commands.push({
+                name: globalize.translate('Share'),
+                id: 'share',
+                icon: 'share'
+            });
         }
 
-        if (options.sync !== false) {
-            if (itemHelper.canSync(user, item)) {
-                commands.push({
-                    name: globalize.translate('Sync'),
-                    id: 'sync',
-                    icon: 'sync'
-                });
-            }
+        if (options.sync !== false && itemHelper.canSync(user, item)) {
+            commands.push({
+                name: globalize.translate('Sync'),
+                id: 'sync',
+                icon: 'sync'
+            });
         }
 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
