@@ -129,17 +129,18 @@ import '../../elements/emby-button/emby-button';
             }
         }
 
-        if ((item.Type === 'Episode' || item.MediaType === 'Photo') && options.originalAirDate !== false) {
-            if (item.PremiereDate) {
-                try {
-                    //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
-                    date = datetime.parseISO8601Date(item.PremiereDate, item.Type !== 'Episode');
+        if ((item.Type === 'Episode' || item.MediaType === 'Photo')
+            && options.originalAirDate !== false
+            && item.PremiereDate
+        ) {
+            try {
+                //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
+                date = datetime.parseISO8601Date(item.PremiereDate, item.Type !== 'Episode');
 
-                    text = datetime.toLocaleDateString(date);
-                    miscInfo.push(text);
-                } catch (e) {
-                    console.error('error parsing date:', item.PremiereDate);
-                }
+                text = datetime.toLocaleDateString(date);
+                miscInfo.push(text);
+            } catch (e) {
+                console.error('error parsing date:', item.PremiereDate);
             }
         }
 
@@ -239,17 +240,17 @@ import '../../elements/emby-button/emby-button';
             }
         }
 
-        if (options.year !== false) {
-            if (item.Type !== 'Series' && item.Type !== 'Episode' && item.Type !== 'Person' && item.MediaType !== 'Photo' && item.Type !== 'Program' && item.Type !== 'Season') {
-                if (item.ProductionYear) {
-                    miscInfo.push(item.ProductionYear);
-                } else if (item.PremiereDate) {
-                    try {
-                        text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
-                        miscInfo.push(text);
-                    } catch (e) {
-                        console.error('error parsing date:', item.PremiereDate);
-                    }
+        if (options.year !== false && item.Type !== 'Series' && item.Type !== 'Episode' && item.Type !== 'Person'
+            && item.MediaType !== 'Photo' && item.Type !== 'Program' && item.Type !== 'Season'
+        ) {
+            if (item.ProductionYear) {
+                miscInfo.push(item.ProductionYear);
+            } else if (item.PremiereDate) {
+                try {
+                    text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
+                    miscInfo.push(text);
+                } catch (e) {
+                    console.error('error parsing date:', item.PremiereDate);
                 }
             }
         }
@@ -314,14 +315,12 @@ import '../../elements/emby-button/emby-button';
     }
 
     export function getEndsAt(item) {
-        if (item.MediaType === 'Video' && item.RunTimeTicks) {
-            if (!item.StartDate) {
-                let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
-                endDate = new Date(endDate);
+        if (item.MediaType === 'Video' && item.RunTimeTicks && !item.StartDate) {
+            let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
+            endDate = new Date(endDate);
 
-                const displayTime = datetime.getDisplayTime(endDate);
-                return globalize.translate('EndsAtValue', displayTime);
-            }
+            const displayTime = datetime.getDisplayTime(endDate);
+            return globalize.translate('EndsAtValue', displayTime);
         }
 
         return null;

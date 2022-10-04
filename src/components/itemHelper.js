@@ -48,10 +48,8 @@ export function getDisplayName(item, options = {}) {
 export function supportsAddingToCollection(item) {
     const invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item);
@@ -74,10 +72,8 @@ export function supportsAddingToPlaylist(item) {
         return false;
     }
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     if (isLocalItem(item)) {
@@ -109,10 +105,8 @@ export function canEdit(user, item) {
         return false;
     }
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     if (isLocalItem(item)) {
@@ -133,23 +127,17 @@ export function isLocalItem(item) {
 export function canIdentify (user, item) {
     const itemType = item.Type;
 
-    if (itemType === 'Movie' ||
-        itemType === 'Trailer' ||
-        itemType === 'Series' ||
-        itemType === 'BoxSet' ||
-        itemType === 'Person' ||
-        itemType === 'Book' ||
-        itemType === 'MusicAlbum' ||
-        itemType === 'MusicArtist' ||
-        itemType === 'MusicVideo') {
-        if (user.Policy.IsAdministrator) {
-            if (!isLocalItem(item)) {
-                return true;
-            }
-        }
-    }
-
-    return false;
+    return (itemType === 'Movie'
+        || itemType === 'Trailer'
+        || itemType === 'Series'
+        || itemType === 'BoxSet'
+        || itemType === 'Person'
+        || itemType === 'Book'
+        || itemType === 'MusicAlbum'
+        || itemType === 'MusicArtist'
+        || itemType === 'MusicVideo')
+        && user.Policy.IsAdministrator
+        && !isLocalItem(item);
 }
 
 export function canEditImages (user, item) {
@@ -167,10 +155,8 @@ export function canEditImages (user, item) {
         return false;
     }
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
@@ -201,10 +187,8 @@ export function canShare (item, user) {
     if (item.Type === 'SeriesTimer') {
         return false;
     }
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
     if (isLocalItem(item)) {
         return false;
@@ -301,11 +285,10 @@ export function canRefreshMetadata (item, user) {
             return false;
         }
 
-        if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-            if (!isLocalItem(item)) {
-                return true;
-            }
-        }
+        return item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program'
+            && item.Type !== 'TvChannel'
+            && !(item.Type === 'Recording' && item.Status !== 'Completed')
+            && !isLocalItem(item);
     }
 
     return false;

@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import { playbackManager } from '../../../components/playback/playbackmanager';
-import SyncPlay from '../../../components/syncPlay/core';
+import SyncPlay from '../../../plugins/syncPlay/core';
 import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';

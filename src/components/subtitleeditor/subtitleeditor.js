@@ -114,10 +114,8 @@ function fillSubtitleList(context, item) {
             itemHtml += '</a>';
             itemHtml += '</div>';
 
-            if (!layoutManager.tv) {
-                if (s.Path) {
-                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
-                }
+            if (!layoutManager.tv && s.Path) {
+                itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
             }
 
             itemHtml += '</' + tagName + '>';

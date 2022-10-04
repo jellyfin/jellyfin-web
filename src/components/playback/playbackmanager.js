@@ -44,10 +44,8 @@ function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, prev
         return;
     }
 
-    if (newTarget && previousTargetInfo) {
-        if (newTarget.id === previousTargetInfo.id) {
-            return;
-        }
+    if (newTarget && previousTargetInfo && newTarget.id === previousTargetInfo.id) {
+        return;
     }
 
     Events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
@@ -501,10 +499,10 @@ function getPlaybackInfo(player,
     }
 
     // lastly, enforce player overrides for special situations
-    if (query.EnableDirectStream !== false) {
-        if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
-            query.EnableDirectStream = false;
-        }
+    if (query.EnableDirectStream !== false
+        && player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)
+    ) {
+        query.EnableDirectStream = false;
     }
 
     if (player.getDirectPlayProtocols) {
@@ -569,10 +567,10 @@ function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, ma
     }
 
     // lastly, enforce player overrides for special situations
-    if (query.EnableDirectStream !== false) {
-        if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
-            query.EnableDirectStream = false;
-        }
+    if (query.EnableDirectStream !== false
+        && player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)
+    ) {
+        query.EnableDirectStream = false;
     }
 
     return apiClient.ajax({
@@ -963,10 +961,8 @@ class PlaybackManager {
         self.isPlaying = function (player) {
             player = player || self._currentPlayer;
 
-            if (player) {
-                if (player.isPlaying) {
-                    return player.isPlaying();
-                }
+            if (player?.isPlaying) {
+                return player.isPlaying();
             }
 
             return player != null && player.currentSrc() != null;
@@ -975,10 +971,8 @@ class PlaybackManager {
         self.isPlayingMediaType = function (mediaType, player) {
             player = player || self._currentPlayer;
 
-            if (player) {
-                if (player.isPlaying) {
-                    return player.isPlaying(mediaType);
-                }
+            if (player?.isPlaying) {
+                return player.isPlaying(mediaType);
             }
 
             if (self.isPlaying(player)) {
@@ -1027,10 +1021,8 @@ class PlaybackManager {
                 return true;
             }
 
-            if (item.LocationType === 'Virtual') {
-                if (itemType !== 'Program') {
-                    return false;
-                }
+            if (item.LocationType === 'Virtual' && itemType !== 'Program') {
+                return false;
             }
 
             if (itemType === 'Program') {
@@ -3300,10 +3292,10 @@ class PlaybackManager {
                     reportPlayback(self, state, player, reportPlaylist, serverId, 'reportPlaybackProgress', progressEventName);
                 }
 
-                if (streamInfo && streamInfo.liveStreamId) {
-                    if (new Date().getTime() - (streamInfo.lastMediaInfoQuery || 0) >= 600000) {
-                        getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
-                    }
+                if (streamInfo?.liveStreamId
+                    && (new Date().getTime() - (streamInfo.lastMediaInfoQuery || 0) >= 600000)
+                ) {
+                    getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
                 }
             }
         }
@@ -3568,10 +3560,8 @@ class PlaybackManager {
     }
 
     getBufferedRanges(player = this._currentPlayer) {
-        if (player) {
-            if (player.getBufferedRanges) {
-                return player.getBufferedRanges();
-            }
+        if (player?.getBufferedRanges) {
+            return player.getBufferedRanges();
         }
 
         return [];
@@ -3842,19 +3832,15 @@ class PlaybackManager {
 
     removeActivePlayer(name) {
         const playerInfo = this.getPlayerInfo();
-        if (playerInfo) {
-            if (playerInfo.name === name) {
-                this.setDefaultPlayerActive();
-            }
+        if (playerInfo?.name === name) {
+            this.setDefaultPlayerActive();
         }
     }
 
     removeActiveTarget(id) {
         const playerInfo = this.getPlayerInfo();
-        if (playerInfo) {
-            if (playerInfo.id === id) {
-                this.setDefaultPlayerActive();
-            }
+        if (playerInfo?.id === id) {
+            this.setDefaultPlayerActive();
         }
     }
 

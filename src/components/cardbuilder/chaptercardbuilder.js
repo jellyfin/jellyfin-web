@@ -34,10 +34,8 @@ import ServerConnections from '../ServerConnections';
 
         let shape = (options.backdropShape || 'backdrop');
 
-        if (videoStream.Width && videoStream.Height) {
-            if ((videoStream.Width / videoStream.Height) <= 1.2) {
-                shape = (options.squareShape || 'square');
-            }
+        if (videoStream.Width && videoStream.Height && (videoStream.Width / videoStream.Height) <= 1.2) {
+            shape = (options.squareShape || 'square');
         }
 
         className += ` ${shape}Card`;

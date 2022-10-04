@@ -46,11 +46,9 @@ function getImageUrl(item, options, apiClient) {
         return apiClient.getScaledImageUrl(item.Id, options);
     }
 
-    if (options.type === 'Primary') {
-        if (item.AlbumId && item.AlbumPrimaryImageTag) {
-            options.tag = item.AlbumPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.AlbumId, options);
-        }
+    if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
+        options.tag = item.AlbumPrimaryImageTag;
+        return apiClient.getScaledImageUrl(item.AlbumId, options);
     }
 
     return null;

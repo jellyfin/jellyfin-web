@@ -35,11 +35,6 @@ import './legacy/domParserTextHtml';
 import './legacy/focusPreventScroll';
 import './legacy/htmlMediaElement';
 import './legacy/vendorStyles';
-import SyncPlay from './components/syncPlay/core';
-import { playbackManager } from './components/playback/playbackmanager';
-import SyncPlayNoActivePlayer from './components/syncPlay/ui/players/NoActivePlayer';
-import SyncPlayHtmlVideoPlayer from './components/syncPlay/ui/players/HtmlVideoPlayer';
-import SyncPlayHtmlAudioPlayer from './components/syncPlay/ui/players/HtmlAudioPlayer';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
 import { HistoryRouter } from './components/HistoryRouter.tsx';
@@ -84,10 +79,10 @@ function init() {
 }
 
 function onGlobalizeInit() {
-    if (window.appMode === 'android') {
-        if (window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
-            return onAppReady();
-        }
+    if (window.appMode === 'android'
+        && window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1
+    ) {
+        return onAppReady();
     }
 
     document.title = globalize.translateHtml(document.title, 'core');
@@ -102,10 +97,7 @@ function onGlobalizeInit() {
 
     import('./assets/css/librarybrowser.scss');
 
-    loadPlugins().then(function () {
-        initSyncPlay();
-        onAppReady();
-    });
+    loadPlugins().then(onAppReady);
 }
 
 function loadPlugins() {
@@ -135,27 +127,6 @@ function loadPlugins() {
             })
         ;
     });
-}
-
-function initSyncPlay() {
-    // Register player wrappers.
-    SyncPlay.PlayerFactory.setDefaultWrapper(SyncPlayNoActivePlayer);
-    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlVideoPlayer);
-    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlAudioPlayer);
-
-    // Listen for player changes.
-    Events.on(playbackManager, 'playerchange', (event, newPlayer, newTarget, oldPlayer) => {
-        SyncPlay.Manager.onPlayerChange(newPlayer, newTarget, oldPlayer);
-    });
-
-    // Start SyncPlay.
-    const apiClient = ServerConnections.currentApiClient();
-    if (apiClient) SyncPlay.Manager.init(apiClient);
-
-    // FIXME: Multiple apiClients?
-    Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => SyncPlay.Manager.init(newApiClient));
-    Events.on(ServerConnections, 'localusersignedin', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
-    Events.on(ServerConnections, 'localusersignedout', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
 }
 
 async function onAppReady() {

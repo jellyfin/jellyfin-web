@@ -67,16 +67,12 @@ function tryRemoveElement(elem) {
     }
 
     function enableNativeTrackSupport(currentSrc, track) {
-        if (track) {
-            if (track.DeliveryMethod === 'Embed') {
-                return true;
-            }
+        if (track?.DeliveryMethod === 'Embed') {
+            return true;
         }
 
-        if (browser.firefox) {
-            if ((currentSrc || '').toLowerCase().includes('.m3u8')) {
-                return false;
-            }
+        if (browser.firefox && (currentSrc || '').toLowerCase().includes('.m3u8')) {
+            return false;
         }
 
         if (browser.ps4) {
@@ -92,11 +88,9 @@ function tryRemoveElement(elem) {
             return false;
         }
 
-        if (browser.iOS) {
+        if (browser.iOS && (browser.iosVersion || 10) < 10) {
             // works in the browser but not the native app
-            if ((browser.iosVersion || 10) < 10) {
-                return false;
-            }
+            return false;
         }
 
         if (track) {
@@ -1500,10 +1494,11 @@ function tryRemoveElement(elem) {
             || document.pictureInPictureEnabled
         ) {
             list.push('PictureInPicture');
-        } else if (window.Windows) {
-            if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
+        } else if (window.Windows
+            && Windows.UI.ViewManagement.ApplicationView.getForCurrentView()
+                .isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)
+        ) {
                 list.push('PictureInPicture');
-            }
         }
 
         if (browser.safari || browser.iOS || browser.iPad) {
@@ -1564,13 +1559,7 @@ function tryRemoveElement(elem) {
         }
 
         const video = this.#mediaElement;
-        if (video) {
-            if (video.audioTracks) {
-                return true;
-            }
-        }
-
-        return false;
+        return !!video?.audioTracks;
     }
 
     static onPictureInPictureError(err) {
