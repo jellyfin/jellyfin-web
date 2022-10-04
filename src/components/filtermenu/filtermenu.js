@@ -124,15 +124,15 @@ function saveValues(context, settings, settingsKey) {
     userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
 
     // Series status
-    // TODO: Add filtering by series status?
-    // const seriesStatuses = [];
-    // elems = context.querySelectorAll('.chkSeriesStatus');
+    const seriesStatuses = [];
+    elems = context.querySelectorAll('.chkSeriesStatus');
 
-    // for (let i = 0, length = elems.length; i < length; i++) {
-    //     if (elems[i].checked) {
-    //         seriesStatuses.push(elems[i].getAttribute('data-filter'));
-    //     }
-    // }
+    for (let i = 0, length = elems.length; i < length; i++) {
+        if (elems[i].checked) {
+            seriesStatuses.push(elems[i].getAttribute('data-filter'));
+        }
+    }
+    userSettings.setFilter(`${settingsKey}-filter-SeriesStatus`, seriesStatuses.join(','));
 
     // Genres
     const genres = [];
