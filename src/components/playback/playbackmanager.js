@@ -2478,8 +2478,8 @@ class PlaybackManager {
                     playMethod = 'DirectPlay';
                 } else if (mediaSource.StreamUrl) {
                     // Only used for audio
-                    playMethod = 'Transcode';
                     mediaUrl = mediaSource.StreamUrl;
+                    // Use the default playMethod value of Transcode
                 } else if (mediaSource.SupportsDirectPlay || mediaSource.SupportsDirectStream) {
                     directOptions = {
                         Static: true,
