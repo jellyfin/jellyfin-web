@@ -56,6 +56,7 @@ module.exports = {
         'no-sequences': ['error', { 'allowInParentheses': false }],
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        'no-useless-constructor': ['error'],
         'no-void': ['error', { 'allowAsStatement': true }],
         'no-nested-ternary': ['error'],
         'one-var': ['error', 'never'],
@@ -256,7 +257,11 @@ module.exports = {
                 'plugin:react/recommended',
                 'plugin:react-hooks/recommended',
                 'plugin:jsx-a11y/recommended'
-            ]
+            ],
+            rules: {
+                'no-useless-constructor': ['off'],
+                '@typescript-eslint/no-useless-constructor': ['error']
+            }
         }
     ]
 };
