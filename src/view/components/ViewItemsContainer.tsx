@@ -1,5 +1,5 @@
-import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -10,9 +10,10 @@ import Pagination from './Pagination';
 import SelectView from './SelectView';
 import Shuffle from './Shuffle';
 import Sort from './Sort';
-import { QueryI } from './interface';
 import NewCollection from './NewCollection';
 import globalize from '../../scripts/globalize';
+import layoutManager from '../../components/layoutManager';
+import { AlphaPickerValueI, QueryI } from './interface';
 
 interface ViewItemsContainerI {
     topParentId: string | null;
@@ -36,15 +37,37 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
     getNoItemsMessage
 }) => {
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
+    const [ startIndex, setStartIndex ] = useState<number>(0);
+    const [ alphaPickerValue, setAlphaPickerValue ] = useState<AlphaPickerValueI>({});
 
     const element = useRef<HTMLDivElement>(null);
+
+    const queryAlphaPickerValue = useMemo(() => ({
+        ...alphaPickerValue
+    }), [alphaPickerValue]);
 
     const getSettingsKey = useCallback(() => {
         return `${topParentId} - ${getBasekey()}`;
     }, [getBasekey, topParentId]);
 
+    const getVisibleViewSettings = useCallback(() => {
+        return [
+            'showTitle',
+            'showYear',
+            'imageType',
+            'cardLayout'
+        ];
+    }, []);
+
     const getViewSettings = useCallback(() => {
-        return `${getSettingsKey()} -view`;
+        const basekey = getSettingsKey();
+        return {
+            showTitle: userSettings.get(basekey + '-showTitle', false) !== 'false',
+            showYear: userSettings.get(basekey + '-showYear', false) !== 'false',
+            imageType: userSettings.get(basekey + '-imageType', false) || 'primary',
+            viewType: userSettings.get(basekey + '-viewType', false) || 'images',
+            cardLayout: userSettings.get(basekey + '-cardLayout', false) !== 'false'
+        };
     }, [getSettingsKey]);
 
     const getDefaultSortBy = useCallback(() => {
@@ -102,16 +125,26 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
     }, []);
 
     const getQuery = useCallback(() => {
+        let fields = 'BasicSyncInfo,MediaSourceCount';
+        const viewsettings = getViewSettings();
+        if (viewsettings.imageType === 'primary') {
+            fields += ',PrimaryImageAspectRatio';
+        }
+
+        if (viewsettings.showYear) {
+            fields += ',ProductionYear';
+        }
+
         const query: QueryI = {
             SortBy: getSortValues().sortBy,
             SortOrder: getSortValues().sortOrder,
             IncludeItemTypes: getItemTypes().join(','),
             Recursive: true,
-            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+            Fields: fields,
             ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
             Limit: userSettings.libraryPageSize(undefined),
-            StartIndex: 0,
+            StartIndex: startIndex,
             ParentId: topParentId
         };
 
@@ -119,13 +152,13 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
             query.IsFavorite = true;
         }
 
-        userSettings.loadQuerySettings(getSettingsKey(), query);
-        return query;
-    }, [getSortValues, getItemTypes, topParentId, getBasekey, getSettingsKey]);
+        const queryInfo: QueryI = Object.assign(query, queryAlphaPickerValue || {});
+
+        return queryInfo;
+    }, [getViewSettings, getSortValues, getItemTypes, startIndex, topParentId, getBasekey, queryAlphaPickerValue]);
 
     const getQueryWithFilters = useCallback(() => {
         const query = getQuery();
-
         const queryFilters = [];
         let hasFilters;
 
@@ -248,10 +281,6 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
         }];
     }, []);
 
-    const getCurrentViewStyle = useCallback(() => {
-        return userSettings.get(getViewSettings(), false) || 'Poster';
-    }, [getViewSettings]);
-
     const getContext = useCallback(() => {
         const itemType = getItemTypes().join(',');
         if (itemType === 'Movie' || itemType === 'BoxSet') {
@@ -269,8 +298,8 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
             return;
         }
         loading.show();
-        const querywithfilters = getQueryWithFilters().query;
-        window.ApiClient.getItems(window.ApiClient.getCurrentUserId(), querywithfilters).then((result) => {
+        const query = getQueryWithFilters().query;
+        window.ApiClient.getItems(window.ApiClient.getCurrentUserId(), query).then((result) => {
             setItemsResult(result);
             window.scrollTo(0, 0);
 
@@ -289,10 +318,20 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
     return (
         <div ref={element}>
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
-                <Pagination itemsResult= {itemsResult} query={getQuery()} reloadItems={reloadItems} />
+                <Pagination
+                    itemsResult= {itemsResult}
+                    startIndex={startIndex}
+                    setStartIndex={setStartIndex}
+                />
 
                 {isBtnShuffleEnabled && <Shuffle itemsResult={itemsResult} topParentId={topParentId} />}
-                <SelectView getCurrentViewStyle={getCurrentViewStyle} getViewSettings={getViewSettings} query={getQuery()} reloadItems={reloadItems} />
+
+                {<SelectView
+                    getSettingsKey={getSettingsKey}
+                    getVisibleViewSettings={getVisibleViewSettings}
+                    getViewSettings={getViewSettings}
+                    reloadItems={reloadItems}
+                />}
 
                 <Sort
                     getSortMenuOptions={getSortMenuOptions}
@@ -315,18 +354,25 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
 
             </div>
 
-            {isAlphaPickerEnabled && <AlphaPickerContainer query={getQuery()} reloadItems={reloadItems} />}
+            {isAlphaPickerEnabled && <AlphaPickerContainer
+                getQuery={getQuery}
+                setAlphaPickerValue={setAlphaPickerValue}
+                setStartIndex={setStartIndex}
+            />}
 
             <ItemsContainer
-                getCurrentViewStyle={getCurrentViewStyle}
-                query={getQuery()}
+                getViewSettings={getViewSettings}
                 getContext={getContext}
                 items={itemsResult?.Items}
                 noItemsMessage={getNoItemsMessage()}
             />
 
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
-                <Pagination itemsResult= {itemsResult} query={getQuery()} reloadItems={reloadItems} />
+                <Pagination
+                    itemsResult= {itemsResult}
+                    startIndex={startIndex}
+                    setStartIndex={setStartIndex}
+                />
             </div>
         </div>
     );

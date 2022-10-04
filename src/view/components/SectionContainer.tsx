@@ -1,6 +1,6 @@
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useEffect, useRef } from 'react';
 
 import cardBuilder from '../../components/cardbuilder/cardBuilder';

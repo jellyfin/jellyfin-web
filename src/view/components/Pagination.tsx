@@ -1,36 +1,35 @@
-import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
 import globalize from '../../scripts/globalize';
-import { QueryI } from './interface';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 interface PaginationI {
-    query: QueryI;
+    startIndex: number
+    setStartIndex: React.Dispatch<React.SetStateAction<number>>;
     itemsResult?: BaseItemDtoQueryResult;
-    reloadItems: () => void;
 }
 
-const Pagination: FC<PaginationI> = ({ query, itemsResult = {}, reloadItems }) => {
-    const startIndex = query.StartIndex;
-    const limit = query.Limit;
+const Pagination: FC<PaginationI> = ({ startIndex, setStartIndex, itemsResult = {} }) => {
+    const limit = userSettings.libraryPageSize(undefined);
     const totalRecordCount = itemsResult.TotalRecordCount || 0;
     const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
     const showControls = limit < totalRecordCount;
     const element = useRef<HTMLDivElement>(null);
 
     const onNextPageClick = useCallback(() => {
-        if (query.Limit > 0) {
-            query.StartIndex += query.Limit;
+        if (limit > 0) {
+            const newIndex = startIndex + limit;
+            setStartIndex(newIndex);
         }
-        reloadItems();
-    }, [query, reloadItems]);
+    }, [limit, setStartIndex, startIndex]);
 
     const onPreviousPageClick = useCallback(() => {
-        if (query.Limit > 0) {
-            query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+        if (limit > 0) {
+            const newIndex = Math.max(0, startIndex - limit);
+            setStartIndex(newIndex);
         }
-        reloadItems();
-    }, [query, reloadItems]);
+    }, [limit, setStartIndex, startIndex]);
 
     useEffect(() => {
         const btnNextPage = element.current?.querySelector('.btnNextPage') as HTMLButtonElement;
@@ -52,6 +51,11 @@ const Pagination: FC<PaginationI> = ({ query, itemsResult = {}, reloadItems }) =
             }
             btnPreviousPage.addEventListener('click', onPreviousPageClick);
         }
+
+        return () => {
+            btnNextPage?.removeEventListener('click', onNextPageClick);
+            btnPreviousPage?.removeEventListener('click', onPreviousPageClick);
+        };
     }, [totalRecordCount, onNextPageClick, onPreviousPageClick, limit, startIndex]);
 
     return (

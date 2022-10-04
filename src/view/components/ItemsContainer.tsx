@@ -1,5 +1,5 @@
-import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FC, useEffect, useRef } from 'react';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 
 import ItemsContainerElement from '../../elements/ItemsContainerElement';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
@@ -7,82 +7,78 @@ import listview from '../../components/listview/listview';
 import globalize from '../../scripts/globalize';
 import imageLoader from '../../components/images/imageLoader';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import { QueryI } from './interface';
+import { CardOptionsI } from './interface';
 
 interface ItemsContainerI {
-    getCurrentViewStyle: () => string;
-    query: QueryI;
+    getViewSettings: () => {
+        showTitle: string | boolean;
+        cardLayout: string | boolean;
+        showYear: string | boolean;
+        imageType: string;
+        viewType: string;
+    };
     getContext: () => string | null;
     items?: BaseItemDto[] | null;
     noItemsMessage?: string;
 }
 
-const ItemsContainer: FC<ItemsContainerI> = ({ getCurrentViewStyle, query, getContext, items = [], noItemsMessage }) => {
+const ItemsContainer: FC<ItemsContainerI> = ({ getViewSettings, getContext, items = [], noItemsMessage }) => {
     const element = useRef<HTMLDivElement>(null);
-    const viewStyle = getCurrentViewStyle();
+    const viewsettings = getViewSettings();
 
-    useEffect(() => {
-        let html;
+    const getCardOptions = useCallback(() => {
+        let shape;
+        let preferThumb;
+        let preferDisc;
+        let preferLogo;
 
-        if (viewStyle == 'Thumb') {
-            html = cardBuilder.getCardsHtml(items, {
-                items: items,
-                shape: 'backdrop',
-                preferThumb: true,
-                context: getContext(),
-                lazy: true,
-                overlayPlayButton: true,
-                showTitle: true,
-                showYear: true,
-                centerText: true
-            });
-        } else if (viewStyle == 'ThumbCard') {
-            html = cardBuilder.getCardsHtml(items, {
-                items: items,
-                shape: 'backdrop',
-                preferThumb: true,
-                context: getContext(),
-                lazy: true,
-                cardLayout: true,
-                showTitle: true,
-                showYear: true,
-                centerText: true
-            });
-        } else if (viewStyle == 'Banner') {
-            html = cardBuilder.getCardsHtml(items, {
-                items: items,
-                shape: 'banner',
-                preferBanner: true,
-                context: getContext(),
-                lazy: true
-            });
-        } else if (viewStyle == 'List') {
+        if (viewsettings.imageType === 'banner') {
+            shape = 'banner';
+        } else if (viewsettings.imageType === 'disc') {
+            shape = 'square';
+            preferDisc = true;
+        } else if (viewsettings.imageType === 'logo') {
+            shape = 'backdrop';
+            preferLogo = true;
+        } else if (viewsettings.imageType === 'thumb') {
+            shape = 'backdrop';
+            preferThumb = true;
+        } else {
+            shape = 'autoVertical';
+        }
+
+        const cardOptions: CardOptionsI = {
+            shape: shape,
+            showTitle: viewsettings.showTitle,
+            showYear: viewsettings.showTitle,
+            cardLayout: viewsettings.cardLayout,
+            centerText: true,
+            context: getContext(),
+            coverImage: true,
+            preferThumb: preferThumb,
+            preferDisc: preferDisc,
+            preferLogo: preferLogo,
+            overlayPlayButton: false,
+            overlayMoreButton: true,
+            overlayText: !viewsettings.showTitle
+        };
+
+        cardOptions.items = items;
+
+        return cardOptions;
+    }, [getContext, items, viewsettings.cardLayout, viewsettings.imageType, viewsettings.showTitle]);
+
+    const getItemsHtml = useCallback(() => {
+        const settings = getViewSettings();
+
+        let html = '';
+
+        if (settings.imageType === 'list') {
             html = listview.getListViewHtml({
                 items: items,
-                context: getContext(),
-                sortBy: query.SortBy
-            });
-        } else if (viewStyle == 'PosterCard') {
-            html = cardBuilder.getCardsHtml(items, {
-                items: items,
-                shape: 'portrait',
-                context: getContext(),
-                showTitle: true,
-                showYear: true,
-                centerText: true,
-                lazy: true,
-                cardLayout: true
-            });
+                context: getContext()});
         } else {
-            html = cardBuilder.getCardsHtml(items, {
-                items: items,
-                shape: 'portrait',
-                context: getContext(),
-                overlayPlayButton: true,
-                showTitle: true,
-                showYear: true,
-                centerText: true
-            });
+            html = cardBuilder.getCardsHtml(items, getCardOptions());
         }
 
         if (!items?.length) {
@@ -94,12 +90,16 @@ const ItemsContainer: FC<ItemsContainerI> = ({ getCurrentViewStyle, query, getCo
             html += '</div>';
         }
 
-        const itemsContainer = element.current?.querySelector('.itemsContainer') as HTMLDivElement;
-        itemsContainer.innerHTML = html;
-        imageLoader.lazyChildren(itemsContainer);
-    }, [query.SortBy, items, noItemsMessage, viewStyle, getContext]);
+        return html;
+    }, [getCardOptions, getContext, getViewSettings, items, noItemsMessage]);
 
-    const cssClass = viewStyle == 'List' ? 'vertical-list' : 'vertical-wrap';
+    useEffect(() => {
+        const itemsContainer = element.current?.querySelector('.itemsContainer') as HTMLDivElement;
+        itemsContainer.innerHTML = getItemsHtml();
+        imageLoader.lazyChildren(itemsContainer);
+    }, [getItemsHtml]);
+
+    const cssClass = viewsettings.imageType == 'List' ? 'vertical-list' : 'vertical-wrap';
 
     return (
         <div ref={element}>

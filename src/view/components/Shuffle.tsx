@@ -1,4 +1,4 @@
-import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 
 import { playbackManager } from '../../components/playback/playbackmanager';

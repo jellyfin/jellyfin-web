@@ -1,3 +1,9 @@
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+
+export interface AlphaPickerValueI {
+    NameLessThan?: string;
+    NameStartsWith?: string | null;
+}
 export interface QueryI {
     SortBy?: string;
     SortOrder?: string;
@@ -7,14 +13,14 @@ export interface QueryI {
     ImageTypeLimit?: number;
     EnableTotalRecordCount?: boolean;
     EnableImageTypes?: string;
-    StartIndex: number;
+    StartIndex?: number;
     ParentId?: string | null;
     IsFavorite?: boolean;
     IsMissing?: boolean;
     Limit:number;
     NameStartsWithOrGreater?: string;
     NameLessThan?: string;
-    NameStartsWith?: string;
+    NameStartsWith?: string | null;
     VideoTypes?: string;
     GenreIds?: string;
     Is4K?: boolean;
@@ -48,8 +54,9 @@ export interface FiltersI {
 }
 
 export interface CardOptionsI {
-    itemsContainer?: HTMLElement;
-    parentContainer?: HTMLElement;
+    itemsContainer?: HTMLElement | null;
+    parentContainer?: HTMLElement | null;
+    items?: BaseItemDto[] | null;
     allowBottomPadding?: boolean;
     centerText?: boolean;
     coverImage?: boolean;
@@ -58,17 +65,19 @@ export interface CardOptionsI {
     overlayPlayButton?: boolean;
     overlayText?: boolean;
     preferThumb?: boolean;
+    preferDisc?: boolean;
+    preferLogo?: boolean;
     scalable?: boolean;
-    shape?: string;
+    shape?: string | null;
     lazy?: boolean;
-    cardLayout?: boolean;
+    cardLayout?: boolean | string;
     showParentTitle?: boolean;
     showParentTitleOrTitle?: boolean;
     showAirTime?: boolean;
     showAirDateTime?: boolean;
     showChannelName?: boolean;
-    showTitle?: boolean;
-    showYear?: boolean;
+    showTitle?: boolean | string;
+    showYear?: boolean | string;
     showDetailsMenu?: boolean;
     missingIndicator?: boolean;
     showLocationTypeIndicator?: boolean;
@@ -76,5 +85,43 @@ export interface CardOptionsI {
     showUnplayedIndicator?: boolean;
     showChildCountIndicator?: boolean;
     lines?: number;
-    context?: string;
+    context?: string | null;
+    action?: string | null;
+    defaultShape?: string;
+    indexBy?: string;
+    parentId?: string | null;
+    showMenu?: boolean;
+    cardCssClass?: string | null;
+    cardClass?: string | null;
+    centerPlayButton?: boolean;
+    overlayInfoButton?: boolean;
+    autoUpdate?: boolean;
+    cardFooterAside?: string;
+    includeParentInfoInTitle?: boolean;
+    maxLines?: number;
+    overlayMarkPlayedButton?: boolean;
+    overlayRateButton?: boolean;
+    showAirEndTime?: boolean;
+    showCurrentProgram?: boolean;
+    showCurrentProgramTime?: boolean;
+    showItemCounts?: boolean;
+    showPersonRoleOrType?: boolean;
+    showProgressBar?: boolean;
+    showPremiereDate?: boolean;
+    showRuntime?: boolean;
+    showSeriesTimerTime?: boolean;
+    showSeriesTimerChannel?: boolean;
+    showSongCount?: boolean;
+    width?: number;
+    showChannelLogo?: boolean;
+    showLogo?: boolean;
+    serverId?: string;
+    collectionId?: string | null;
+    playlistId?: string | null;
+    defaultCardImageIcon?: string;
+    disableHoverMenu?: boolean;
+    disableIndicators?: boolean;
+    showGroupCount?: boolean;
+    containerClass?: string;
+    noItemsMessage?: string;
 }

@@ -57,7 +57,7 @@ function showIfAllowed(context, selector, visible) {
 
 class ViewSettings {
     show(options) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -99,8 +99,9 @@ class ViewSettings {
             initEditor(dlg, options.settings);
 
             dlg.querySelector('.selectImageType').addEventListener('change', function () {
-                showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list');
-                showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list');
+                showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list' && this.value !== 'banner');
+                showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list' && this.value !== 'banner');
+                showIfAllowed(dlg, '.chkCardLayoutContainer', this.value !== 'list' && this.value !== 'banner');
             });
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
@@ -126,11 +127,10 @@ class ViewSettings {
 
                 if (submitted) {
                     saveValues(dlg, options.settings, options.settingsKey);
-                    resolve();
-                    return;
+                    return resolve();
                 }
 
-                reject();
+                return resolve();
             });
         });
     }

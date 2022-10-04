@@ -1,33 +1,34 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import AlphaPicker from '../../components/alphaPicker/alphaPicker';
-import { IQuery } from './type';
+import { AlphaPickerValueI, QueryI } from './interface';
 
-type AlphaPickerProps = {
-    query: IQuery;
-    reloadItems: () => void;
-};
+interface AlphaPickerContainerI {
+    getQuery: () => QueryI
+    setAlphaPickerValue: React.Dispatch<AlphaPickerValueI>;
+    setStartIndex: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const AlphaPickerContainer: FunctionComponent<AlphaPickerProps> = ({ query, reloadItems }: AlphaPickerProps) => {
+const AlphaPickerContainer: FC<AlphaPickerContainerI> = ({ getQuery, setAlphaPickerValue, setStartIndex }) => {
     const [ alphaPicker, setAlphaPicker ] = useState<AlphaPicker>();
     const element = useRef<HTMLDivElement>(null);
+    const query = getQuery();
 
     alphaPicker?.updateControls(query);
 
     const onAlphaPickerChange = useCallback((e) => {
         const newValue = (e as CustomEvent).detail.value;
+        let updatedValue;
         if (newValue === '#') {
-            query.NameLessThan = 'A';
-            delete query.NameStartsWith;
+            updatedValue = {NameLessThan: 'A'};
         } else {
-            query.NameStartsWith = newValue;
-            delete query.NameLessThan;
+            updatedValue = {NameStartsWith: newValue};
         }
-        query.StartIndex = 0;
-        reloadItems();
-    }, [query, reloadItems]);
+        setAlphaPickerValue(updatedValue);
+        setStartIndex(0);
+    }, [setStartIndex, setAlphaPickerValue]);
 
     useEffect(() => {
-        const alphaPickerElement = element.current?.querySelector('.alphaPicker');
+        const alphaPickerElement = element.current;
 
         setAlphaPicker(new AlphaPicker({
             element: alphaPickerElement,
@@ -37,12 +38,14 @@ const AlphaPickerContainer: FunctionComponent<AlphaPickerProps> = ({ query, relo
         if (alphaPickerElement) {
             alphaPickerElement.addEventListener('alphavaluechanged', onAlphaPickerChange);
         }
+
+        return () => {
+            alphaPickerElement?.removeEventListener('alphavaluechanged', onAlphaPickerChange);
+        };
     }, [onAlphaPickerChange]);
 
     return (
-        <div ref={element}>
-            <div className='alphaPicker alphaPicker-fixed alphaPicker-fixed-right alphaPicker-vertical alphabetPicker-right' />
-        </div>
+        <div ref={element} className='alphaPicker alphaPicker-fixed alphaPicker-fixed-right alphaPicker-vertical alphabetPicker-right' />
     );
 };
 

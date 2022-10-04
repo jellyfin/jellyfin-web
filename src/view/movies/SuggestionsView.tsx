@@ -1,5 +1,5 @@
-import { BaseItemDto, BaseItemDtoQueryResult, RecommendationDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
+import type { BaseItemDto, BaseItemDtoQueryResult, RecommendationDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
@@ -12,7 +12,7 @@ interface SuggestionsViewI {
     topParentId: string | null;
 }
 
-const SuggestionsView: FunctionComponent<SuggestionsViewI> = ({topParentId}) => {
+const SuggestionsView: FC<SuggestionsViewI> = ({topParentId}) => {
     const [ latestItems, setLatestItems ] = useState<BaseItemDto[]>([]);
     const [ resumeResult, setResumeResult ] = useState<BaseItemDtoQueryResult>({});
     const [ recommendations, setRecommendations ] = useState<RecommendationDto[]>([]);

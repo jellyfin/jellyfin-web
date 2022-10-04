@@ -1,4 +1,4 @@
-import { RecommendationDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC } from 'react';
 
 import globalize from '../../scripts/globalize';

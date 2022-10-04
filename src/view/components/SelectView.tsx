@@ -1,32 +1,43 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
 
-import libraryBrowser from '../../scripts/libraryBrowser';
-import * as userSettings from '../../scripts/settings/userSettings';
-import { QueryI } from './interface';
-
 interface SelectViewI {
-    getCurrentViewStyle: () => string;
-    query: QueryI;
-    getViewSettings: () => string;
+    getSettingsKey: () => string;
+    getVisibleViewSettings: () => string[];
+    getViewSettings: () => {
+        showTitle: string | boolean;
+        cardLayout: string | boolean;
+        showYear: string | boolean;
+        imageType: string;
+        viewType: string;
+    };
     reloadItems: () => void;
 }
 
-const SelectView: FC<SelectViewI> = ({ getCurrentViewStyle, getViewSettings, query, reloadItems }) => {
+const SelectView: FC<SelectViewI> = ({ getSettingsKey, getVisibleViewSettings, getViewSettings, reloadItems }) => {
     const element = useRef<HTMLDivElement>(null);
+
+    const showViewSettingsMenu = useCallback(() => {
+        import('../../components/viewSettings/viewSettings').then(({default: ViewSettings}) => {
+            const viewSettings = new ViewSettings();
+            viewSettings.show({
+                settingsKey: getSettingsKey(),
+                settings: getViewSettings(),
+                visibleSettings: getVisibleViewSettings()
+            }).then(() => {
+                reloadItems();
+            });
+        });
+    }, [getSettingsKey, getViewSettings, getVisibleViewSettings, reloadItems]);
 
     useEffect(() => {
         const btnSelectView = element.current?.querySelector('.btnSelectView') as HTMLButtonElement;
-        btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
-        });
-        btnSelectView.addEventListener('layoutchange', (e) => {
-            const viewStyle = (e as CustomEvent).detail.viewStyle;
-            userSettings.set(getViewSettings(), viewStyle, false);
-            query.StartIndex = 0;
-            reloadItems();
-        });
-    }, [getCurrentViewStyle, query, reloadItems, getViewSettings]);
+        btnSelectView?.addEventListener('click', showViewSettingsMenu);
+
+        return () => {
+            btnSelectView?.removeEventListener('click', showViewSettingsMenu);
+        };
+    }, [showViewSettingsMenu]);
 
     return (
         <div ref={element}>

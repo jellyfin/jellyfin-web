@@ -1,7 +1,7 @@
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-import { BaseItemDtoQueryResult } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import escapeHTML from 'escape-html';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 
