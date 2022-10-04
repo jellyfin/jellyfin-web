@@ -513,6 +513,7 @@ import { appRouter } from '../appRouter';
             let imgType = null;
             let itemId = null;
 
+            /* eslint-disable sonarjs/no-duplicated-branches */
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
                 imgTag = item.ImageTags.Thumb;
@@ -609,6 +610,7 @@ import { appRouter } from '../appRouter';
                 imgTag = item.ParentBackdropImageTags[0];
                 itemId = item.ParentBackdropItemId;
             }
+            /* eslint-enable sonarjs/no-duplicated-branches */
 
             if (!itemId) {
                 itemId = item.Id;

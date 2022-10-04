@@ -153,9 +153,9 @@ import Sortable from 'sortablejs';
         const eventsToMonitor = getEventsToMonitor(itemsContainer);
 
         // TODO: Check user data change reason?
-        if (eventsToMonitor.indexOf('markfavorite') !== -1) {
-            itemsContainer.notifyRefreshNeeded();
-        } else if (eventsToMonitor.indexOf('markplayed') !== -1) {
+        if (eventsToMonitor.indexOf('markfavorite') !== -1
+            || eventsToMonitor.indexOf('markplayed') !== -1
+        ) {
             itemsContainer.notifyRefreshNeeded();
         }
     }
