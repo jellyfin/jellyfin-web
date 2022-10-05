@@ -183,9 +183,9 @@
             width = height * (16.0 / 9.0);
         }
 
-        return standardWidths.sort(function (a, b) {
-            return Math.abs(width - a) - Math.abs(width - b);
-        })[0];
+        standardWidths.sort((a, b) => Math.abs(width - a) - Math.abs(width - b));
+
+        return standardWidths[0];
     }
 
     /**

@@ -67,7 +67,7 @@ function getDeviceHtml(device) {
 }
 
 function getTunerName(providerId) {
-    switch (providerId = providerId.toLowerCase()) {
+    switch (providerId.toLowerCase()) {
         case 'm3u':
             return 'M3U';
 

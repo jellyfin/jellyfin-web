@@ -459,7 +459,8 @@ const scrollerFactory = function (frame, options) {
      */
     function dragHandler(event) {
         dragging.released = event.type === 'mouseup' || event.type === 'touchend';
-        const pointer = dragging.touch ? event[dragging.released ? 'changedTouches' : 'touches'][0] : event;
+        const eventName = dragging.released ? 'changedTouches' : 'touches';
+        const pointer = dragging.touch ? event[eventName][0] : event;
         dragging.pathX = pointer.pageX - dragging.initX;
         dragging.pathY = pointer.pageY - dragging.initY;
         dragging.path = Math.sqrt(Math.pow(dragging.pathX, 2) + Math.pow(dragging.pathY, 2));

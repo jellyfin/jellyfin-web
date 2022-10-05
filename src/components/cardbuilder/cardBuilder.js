@@ -390,7 +390,8 @@ import { appRouter } from '../appRouter';
                     } else if (options.indexBy === 'ProductionYear') {
                         newIndexValue = item.ProductionYear;
                     } else if (options.indexBy === 'CommunityRating') {
-                        newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + (item.CommunityRating % 1 >= 0.5 ? 0.5 : 0)) + '+' : null;
+                        const roundedRatingDecimal = item.CommunityRating % 1 >= 0.5 ? 0.5 : 0;
+                        newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + roundedRatingDecimal) + '+' : null;
                     }
 
                     if (newIndexValue !== currentIndexValue) {
