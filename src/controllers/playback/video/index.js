@@ -1204,17 +1204,6 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             resetIdle();
         }
 
-        function onWindowTouchStart(e) {
-            clickedElement = e.target;
-            mouseIsDown = true;
-            resetIdle();
-        }
-
-        function onWindowTouchEnd() {
-            mouseIsDown = false;
-            resetIdle();
-        }
-
         function onWindowDragEnd() {
             // mousedown -> dragstart -> dragend !!! no mouseup :(
             mouseIsDown = false;
@@ -1370,12 +1359,12 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                     capture: true,
                     passive: true
                 });
-                dom.addEventListener(window, 'touchstart', onWindowTouchStart, {
+                dom.addEventListener(window, 'touchstart', onWindowMouseDown, {
                     capture: true,
                     passive: true
                 });
                 ['touchend', 'touchcancel'].forEach((event) => {
-                    dom.addEventListener(window, event, onWindowTouchEnd, {
+                    dom.addEventListener(window, event, onWindowMouseUp, {
                         capture: true,
                         passive: true
                     });
@@ -1411,12 +1400,12 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 capture: true,
                 passive: true
             });
-            dom.removeEventListener(window, 'touchstart', onWindowTouchStart, {
+            dom.removeEventListener(window, 'touchstart', onWindowMouseDown, {
                 capture: true,
                 passive: true
             });
             ['touchend', 'touchcancel'].forEach((event) => {
-                dom.removeEventListener(window, event, onWindowTouchEnd, {
+                dom.removeEventListener(window, event, onWindowMouseUp, {
                     capture: true,
                     passive: true
                 });

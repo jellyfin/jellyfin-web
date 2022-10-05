@@ -747,14 +747,7 @@ import confirm from '../../components/confirm/confirm';
             console.debug('onServerRestarting not implemented', evt, apiClient);
         }
 
-        function onPackageInstalling(evt, apiClient) {
-            if (apiClient.serverId() === serverId) {
-                pollForInfo(view, apiClient);
-                reloadSystemInfo(view, apiClient);
-            }
-        }
-
-        function onPackageInstallationCompleted(evt, apiClient) {
+        function onPackageInstall(_, apiClient) {
             if (apiClient.serverId() === serverId) {
                 pollForInfo(view, apiClient);
                 reloadSystemInfo(view, apiClient);
@@ -786,8 +779,8 @@ import confirm from '../../components/confirm/confirm';
                 Events.on(serverNotifications, 'RestartRequired', onRestartRequired);
                 Events.on(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
                 Events.on(serverNotifications, 'ServerRestarting', onServerRestarting);
-                Events.on(serverNotifications, 'PackageInstalling', onPackageInstalling);
-                Events.on(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
+                Events.on(serverNotifications, 'PackageInstalling', onPackageInstall);
+                Events.on(serverNotifications, 'PackageInstallationCompleted', onPackageInstall);
                 Events.on(serverNotifications, 'Sessions', onSessionsUpdate);
                 Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
                 DashboardPage.lastAppUpdateCheck = null;
@@ -824,8 +817,8 @@ import confirm from '../../components/confirm/confirm';
             Events.off(serverNotifications, 'RestartRequired', onRestartRequired);
             Events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
             Events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
-            Events.off(serverNotifications, 'PackageInstalling', onPackageInstalling);
-            Events.off(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
+            Events.off(serverNotifications, 'PackageInstalling', onPackageInstall);
+            Events.off(serverNotifications, 'PackageInstallationCompleted', onPackageInstall);
             Events.off(serverNotifications, 'Sessions', onSessionsUpdate);
             Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
 

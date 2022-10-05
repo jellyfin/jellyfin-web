@@ -275,6 +275,11 @@ import '../../assets/css/scrollstyles.scss';
         }
     }
 
+    const getAnimationEndHandler = (dlg, callback) => function handler() {
+        dom.removeEventListener(dlg, dom.whichAnimationEvent(), handler, { once: true });
+        callback();
+    };
+
     function animateDialogOpen(dlg) {
         const onAnimationFinish = () => {
             focusManager.pushScope(dlg);
@@ -290,15 +295,11 @@ import '../../assets/css/scrollstyles.scss';
         };
 
         if (enableAnimation()) {
-            const onFinish = () => {
-                dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                    once: true
-                });
-                onAnimationFinish();
-            };
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                once: true
-            });
+            dom.addEventListener(
+                dlg,
+                dom.whichAnimationEvent(),
+                getAnimationEndHandler(dlg, onAnimationFinish),
+                { once: true });
 
             return;
         }
@@ -324,15 +325,12 @@ import '../../assets/css/scrollstyles.scss';
                     animated = false;
                     break;
             }
-            const onFinish = () => {
-                dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                    once: true
-                });
-                onAnimationFinish();
-            };
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                once: true
-            });
+
+            dom.addEventListener(
+                dlg,
+                dom.whichAnimationEvent(),
+                getAnimationEndHandler(dlg, onAnimationFinish),
+                { once: true });
 
             if (animated) {
                 return;

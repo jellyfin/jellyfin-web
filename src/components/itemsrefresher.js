@@ -24,37 +24,18 @@ function getEventsToMonitor(instance) {
     return [];
 }
 
-function onTimerCreated() {
+function notifyTimerRefresh() {
     const instance = this;
 
     if (getEventsToMonitor(instance).indexOf('timers') !== -1) {
         instance.notifyRefreshNeeded();
-        return;
     }
 }
 
-function onSeriesTimerCreated() {
+function notifySeriesTimerRefresh() {
     const instance = this;
     if (getEventsToMonitor(instance).indexOf('seriestimers') !== -1) {
         instance.notifyRefreshNeeded();
-        return;
-    }
-}
-
-function onTimerCancelled() {
-    const instance = this;
-
-    if (getEventsToMonitor(instance).indexOf('timers') !== -1) {
-        instance.notifyRefreshNeeded();
-        return;
-    }
-}
-
-function onSeriesTimerCancelled() {
-    const instance = this;
-    if (getEventsToMonitor(instance).indexOf('seriestimers') !== -1) {
-        instance.notifyRefreshNeeded();
-        return;
     }
 }
 
@@ -125,10 +106,10 @@ class ItemsRefresher {
         this.options = options || {};
 
         addNotificationEvent(this, 'UserDataChanged', onUserDataChanged);
-        addNotificationEvent(this, 'TimerCreated', onTimerCreated);
-        addNotificationEvent(this, 'SeriesTimerCreated', onSeriesTimerCreated);
-        addNotificationEvent(this, 'TimerCancelled', onTimerCancelled);
-        addNotificationEvent(this, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        addNotificationEvent(this, 'TimerCreated', notifyTimerRefresh);
+        addNotificationEvent(this, 'SeriesTimerCreated', notifySeriesTimerRefresh);
+        addNotificationEvent(this, 'TimerCancelled', notifyTimerRefresh);
+        addNotificationEvent(this, 'SeriesTimerCancelled', notifySeriesTimerRefresh);
         addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
         addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
     }

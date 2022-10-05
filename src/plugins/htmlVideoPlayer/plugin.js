@@ -1690,10 +1690,7 @@ function tryRemoveElement(elem) {
 
     // This is a retry after error
     resume() {
-        const mediaElement = this.#mediaElement;
-        if (mediaElement) {
-            mediaElement.play();
-        }
+        this.unpause();
     }
 
     unpause() {
