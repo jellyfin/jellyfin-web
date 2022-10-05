@@ -4,13 +4,12 @@ import { Events } from 'jellyfin-apiclient';
 
 function onUserDataChanged() {
     const instance = this;
-
     const eventsToMonitor = getEventsToMonitor(instance);
 
     // TODO: Check user data change reason?
-    if (eventsToMonitor.indexOf('markfavorite') !== -1) {
-        instance.notifyRefreshNeeded();
-    } else if (eventsToMonitor.indexOf('markplayed') !== -1) {
+    if (eventsToMonitor.indexOf('markfavorite') !== -1
+        || eventsToMonitor.indexOf('markplayed') !== -1
+    ) {
         instance.notifyRefreshNeeded();
     }
 }

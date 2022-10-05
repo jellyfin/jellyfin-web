@@ -110,16 +110,12 @@ import browser from './browser';
     function canPlayAudioFormat(format) {
         let typeString;
 
-        if (format === 'flac') {
+        if (format === 'flac' || format === 'asf') {
             if (browser.tizen || browser.web0s || browser.edgeUwp) {
                 return true;
             }
         } else if (format === 'wma') {
             if (browser.tizen || browser.edgeUwp) {
-                return true;
-            }
-        } else if (format === 'asf') {
-            if (browser.tizen || browser.web0s || browser.edgeUwp) {
                 return true;
             }
         } else if (format === 'opus') {
@@ -171,9 +167,7 @@ import browser from './browser';
     }
 
     function testCanPlayAv1(videoTestElement) {
-        if (browser.tizenVersion >= 5.5) {
-            return true;
-        } else if (browser.web0sVersion >= 5) {
+        if (browser.tizenVersion >= 5.5 || browser.web0sVersion >= 5) {
             return true;
         }
 
@@ -199,6 +193,7 @@ import browser from './browser';
 
         switch (container) {
             case 'asf':
+            case 'wmv':
                 supported = browser.tizen || browser.web0s || browser.edgeUwp;
                 videoAudioCodecs = [];
                 break;
@@ -240,10 +235,6 @@ import browser from './browser';
                 if (supportsMpeg2Video()) {
                     videoCodecs.push('mpeg2video');
                 }
-                break;
-            case 'wmv':
-                supported = browser.tizen || browser.web0s || browser.edgeUwp;
-                videoAudioCodecs = [];
                 break;
             case 'ts':
                 supported = testCanPlayTs();

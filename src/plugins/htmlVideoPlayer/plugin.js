@@ -1490,15 +1490,14 @@ function tryRemoveElement(elem) {
         if (
             // Check non-standard Safari PiP support
             typeof video.webkitSupportsPresentationMode === 'function' && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === 'function'
+            // Check non-standard Windows PiP support
+            || (window.Windows
+                && Windows.UI.ViewManagement.ApplicationView.getForCurrentView()
+                    .isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay))
             // Check standard PiP support
             || document.pictureInPictureEnabled
         ) {
             list.push('PictureInPicture');
-        } else if (window.Windows
-            && Windows.UI.ViewManagement.ApplicationView.getForCurrentView()
-                .isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)
-        ) {
-                list.push('PictureInPicture');
         }
 
         if (browser.safari || browser.iOS || browser.iPad) {
