@@ -417,10 +417,7 @@ class HtmlAudioPlayer {
 
     // This is a retry after error
     resume() {
-        const mediaElement = this._mediaElement;
-        if (mediaElement) {
-            mediaElement.play();
-        }
+        this.unpause();
     }
 
     unpause() {
