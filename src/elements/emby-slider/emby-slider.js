@@ -261,10 +261,6 @@ import '../emby-input/emby-input';
         let hasHideClassBubble = sliderBubble.classList.contains('hide');
 
         this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
-        let hasHideClassMarkerContainer = false;
-        if (this.markerContainerElement) {
-            hasHideClassMarkerContainer = this.markerContainerElement.classList.contains('hide');
-        }
 
         dom.addEventListener(this, 'input', function () {
             this.dragging = true;
@@ -280,11 +276,6 @@ import '../emby-input/emby-input';
                 sliderBubble.classList.remove('hide');
                 hasHideClassBubble = false;
             }
-
-            if (hasHideClassMarkerContainer) {
-                this.markerContainerElement.classList.remove('hide');
-                hasHideClassMarkerContainer = false;
-            }
         }, {
             passive: true
         });
@@ -298,9 +289,6 @@ import '../emby-input/emby-input';
 
             sliderBubble.classList.add('hide');
             hasHideClassBubble = true;
-
-            this.markerContainerElement.classList.add('hide');
-            hasHideClassMarkerContainer = true;
         }, {
             passive: true
         });
@@ -316,11 +304,6 @@ import '../emby-input/emby-input';
                     sliderBubble.classList.remove('hide');
                     hasHideClassBubble = false;
                 }
-
-                if (hasHideClassMarkerContainer) {
-                    this.markerContainerElement.classList.remove('hide');
-                    hasHideClassMarkerContainer = false;
-                }
             }
         }, {
             passive: true
@@ -330,9 +313,6 @@ import '../emby-input/emby-input';
         dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
             sliderBubble.classList.add('hide');
             hasHideClassBubble = true;
-
-            this.markerContainerElement.classList.add('hide');
-            hasHideClassMarkerContainer = true;
         }, {
             passive: true
         });
