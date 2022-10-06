@@ -144,7 +144,7 @@ export function canEditImages (user, item) {
     }
 
     if (itemType === 'UserView') {
-        return user.Policy.IsAdministrator;
+        return !!user.Policy.IsAdministrator;
     }
 
     if (item.Type === 'Recording' && item.Status !== 'Completed') {
@@ -218,13 +218,13 @@ export function canMarkPlayed (item) {
 }
 
 export function canRate (item) {
-    return item.Type === 'Program'
-        || item.Type === 'Timer'
-        || item.Type === 'SeriesTimer'
-        || item.Type === 'CollectionFolder'
-        || item.Type === 'UserView'
-        || item.Type === 'Channel'
-        || !item.UserData;
+    return item.Type !== 'Program'
+        && item.Type !== 'Timer'
+        && item.Type !== 'SeriesTimer'
+        && item.Type !== 'CollectionFolder'
+        && item.Type !== 'UserView'
+        && item.Type !== 'Channel'
+        && item.UserData;
 }
 
 export function canConvert (item, user) {
@@ -255,7 +255,7 @@ export function canConvert (item, user) {
         return false;
     }
 
-    return item.IsPlaceHolder;
+    return !item.IsPlaceHolder;
 }
 
 export function canRefreshMetadata (item, user) {
@@ -284,11 +284,11 @@ export function supportsMediaSourceSelection (item) {
     if (!item.MediaSources || (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder')) {
         return false;
     }
-    if (item.EnableMediaSourceDisplay === false) {
+    if (!item.EnableMediaSourceDisplay) {
         return false;
     }
 
-    return item.EnableMediaSourceDisplay == null && item.SourceType && item.SourceType !== 'Library';
+    return !item.SourceType || item.SourceType === 'Library';
 }
 
 export function sortTracks (trackA, trackB) {

@@ -166,7 +166,7 @@ function supportsHtmlMediaAutoplay() {
         return true;
     }
 
-    return !!browser.mobile;
+    return !browser.mobile;
 }
 
 function supportsCue() {
