@@ -1,7 +1,7 @@
 import type { UserDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
-import { localeWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocaleWithSuffix } from '../../../scripts/dfnshelper';
 import globalize from '../../../scripts/globalize';
 import cardBuilder from '../../cardbuilder/cardBuilder';
 
@@ -31,7 +31,7 @@ type IProps = {
 
 const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
-        return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), localeWithSuffix));
+        return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), getLocaleWithSuffix()));
     }
 
     return '';
