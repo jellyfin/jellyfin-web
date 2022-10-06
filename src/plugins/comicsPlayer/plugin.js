@@ -356,11 +356,7 @@ export class ComicsPlayer {
     }
 
     canPlayItem(item) {
-        if (item.Path && (item.Path.endsWith('cbz') || item.Path.endsWith('cbr'))) {
-            return true;
-        }
-
-        return false;
+        return item.Path && (item.Path.endsWith('cbz') || item.Path.endsWith('cbr'));
     }
 }
 

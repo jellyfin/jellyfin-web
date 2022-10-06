@@ -19,11 +19,7 @@ function enableLocalPlaylistManagement(player) {
         return false;
     }
 
-    if (player.isLocalPlayer) {
-        return true;
-    }
-
-    return false;
+    return player.isLocalPlayer;
 }
 
 function bindToFullscreenChange(player) {
@@ -225,11 +221,7 @@ function getParam(name, url) {
 }
 
 function isAutomaticPlayer(player) {
-    if (player.isLocalPlayer) {
-        return true;
-    }
-
-    return false;
+    return player.isLocalPlayer;
 }
 
 function getAutomaticPlayers(instance, forceLocalPlayer) {
@@ -244,10 +236,7 @@ function getAutomaticPlayers(instance, forceLocalPlayer) {
 }
 
 function isServerItem(item) {
-    if (!item.Id) {
-        return false;
-    }
-    return true;
+    return !!item.Id;
 }
 
 function enableIntros(item) {
@@ -3007,11 +2996,8 @@ class PlaybackManager {
 
         function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
             // mediadecodeerror, medianotsupported, network, servererror
-            if (streamInfo.mediaSource.SupportsTranscoding && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy)) {
-                return true;
-            }
-
-            return false;
+            return streamInfo.mediaSource.SupportsTranscoding
+                && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
         }
 
         function onPlaybackError(e, error) {

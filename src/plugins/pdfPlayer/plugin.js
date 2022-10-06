@@ -304,11 +304,7 @@ export class PdfPlayer {
     }
 
     canPlayItem(item) {
-        if (item.Path && item.Path.endsWith('pdf')) {
-            return true;
-        }
-
-        return false;
+        return item.Path && item.Path.endsWith('pdf');
     }
 }
 

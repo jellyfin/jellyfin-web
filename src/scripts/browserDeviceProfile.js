@@ -53,12 +53,8 @@ import browser from './browser';
         }
 
         const media = document.createElement('video');
-        if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
-            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
-            return true;
-        }
-
-        return false;
+        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
+            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
     }
 
     function canPlayHlsWithMSE() {
@@ -159,11 +155,7 @@ import browser from './browser';
             return true;
         }
 
-        if (browser.edgeUwp) {
-            return true;
-        }
-
-        return false;
+        return !!browser.edgeUwp;
     }
 
     function testCanPlayAv1(videoTestElement) {

@@ -168,12 +168,7 @@ function throttle(key) {
     const time = times[key] || 0;
     const now = new Date().getTime();
 
-    if ((now - time) >= 200) {
-        //times[key] = now;
-        return true;
-    }
-
-    return false;
+    return (now - time) >= 200;
 }
 
 function resetThrottle(key) {
@@ -187,11 +182,7 @@ function allowInput() {
         return false;
     }
 
-    if (appHost.getWindowState() === 'Minimized') {
-        return false;
-    }
-
-    return true;
+    return appHost.getWindowState() !== 'Minimized';
 }
 
 function raiseEvent(name, key, keyCode) {
