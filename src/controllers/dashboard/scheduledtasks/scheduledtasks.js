@@ -4,7 +4,7 @@ import { Events } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
-import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocale, getLocaleWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 
@@ -77,7 +77,7 @@ import '../../../elements/emby-button/emby-button';
             if (task.LastExecutionResult) {
                 const endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
                 const starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
-                html += globalize.translate('LabelScheduledTaskLastRan', formatDistanceToNow(endtime, localeWithSuffix),
+                html += globalize.translate('LabelScheduledTaskLastRan', formatDistanceToNow(endtime, getLocaleWithSuffix()),
                     formatDistance(starttime, endtime, { locale: getLocale() }));
                 if (task.LastExecutionResult.Status === 'Failed') {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate('LabelFailed') + ')</span>';
