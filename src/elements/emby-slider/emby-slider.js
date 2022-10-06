@@ -178,7 +178,7 @@ import '../emby-input/emby-input';
             range.markerInfo = range.getMarkerInfo();
         }
 
-        function htmlToInsert(markerInfo) {
+        function getMarkerHtml(markerInfo) {
             let markerTypeSpecificClasses = '';
 
             if (markerInfo.className === 'chapterMarker') {
@@ -194,7 +194,7 @@ import '../emby-input/emby-input';
         }
 
         range.markerInfo.forEach(info => {
-            range.markerContainerElement.insertAdjacentHTML('beforeend', htmlToInsert(info));
+            range.markerContainerElement.insertAdjacentHTML('beforeend', getMarkerHtml(info));
         });
 
         range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
@@ -258,7 +258,7 @@ import '../emby-input/emby-input';
         this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
         const sliderBubble = containerElement.querySelector('.sliderBubble');
 
-        let hasHideClassBubble = sliderBubble.classList.contains('hide');
+        let hasHideBubbleClass = sliderBubble.classList.contains('hide');
 
         this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
 
@@ -272,9 +272,9 @@ import '../emby-input/emby-input';
             const bubbleValue = mapValueToFraction(this, this.value) * 100;
             updateBubble(this, bubbleValue, sliderBubble);
 
-            if (hasHideClassBubble) {
+            if (hasHideBubbleClass) {
                 sliderBubble.classList.remove('hide');
-                hasHideClassBubble = false;
+                hasHideBubbleClass = false;
             }
         }, {
             passive: true
@@ -288,7 +288,7 @@ import '../emby-input/emby-input';
             }
 
             sliderBubble.classList.add('hide');
-            hasHideClassBubble = true;
+            hasHideBubbleClass = true;
         }, {
             passive: true
         });
@@ -300,9 +300,9 @@ import '../emby-input/emby-input';
 
                 updateBubble(this, bubbleValue, sliderBubble);
 
-                if (hasHideClassBubble) {
+                if (hasHideBubbleClass) {
                     sliderBubble.classList.remove('hide');
-                    hasHideClassBubble = false;
+                    hasHideBubbleClass = false;
                 }
             }
         }, {
@@ -312,7 +312,7 @@ import '../emby-input/emby-input';
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
             sliderBubble.classList.add('hide');
-            hasHideClassBubble = true;
+            hasHideBubbleClass = true;
         }, {
             passive: true
         });
