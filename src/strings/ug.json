@@ -13,5 +13,16 @@
     "Favorites": "ساقلىغۇچ",
     "AddedOnValue": "{0} ى قوشۇلدى",
     "Add": "قوشۇش",
-    "AccessRestrictedTryAgainLater": "نۆۋەتتە زىيارىتىڭىز چەكلىمىگە ئۇچرىدى. سەل تۇرۇپ قايتا سىناڭ."
+    "AccessRestrictedTryAgainLater": "نۆۋەتتە زىيارىتىڭىز چەكلىمىگە ئۇچرىدى. سەل تۇرۇپ قايتا سىناڭ.",
+    "ValueSpecialEpisodeName": "خاسلىق - {0}",
+    "Sync": "ماس قەدەمدەش",
+    "Songs": "ناخشىلار",
+    "Shows": "پروگراممىلار",
+    "Playlists": "قويۇش تىزىملىكى",
+    "Photos": "رەسىملەر",
+    "MusicVideos": "سىنلىق مۇزىكا",
+    "Movies": "فىلىملەر",
+    "HeaderContinueWatching": "داۋاملىق كۆرۈش",
+    "HeaderAlbumArtists": "پىلاستىنكا سەنئەتكارلىرى",
+    "Genres": "ئۇسلۇبلار"
 }
