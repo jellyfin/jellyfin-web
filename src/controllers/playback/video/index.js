@@ -1563,6 +1563,25 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
         };
 
+        nowPlayingPositionSlider.getMarkerInfo = function () {
+            const markers = [];
+
+            const item = currentItem;
+
+            // use markers based on chapters
+            if (item?.Chapters?.length) {
+                item.Chapters.forEach(currentChapter => {
+                    markers.push({
+                        className: 'chapterMarker',
+                        name: currentChapter.Name,
+                        progress: currentChapter.StartPositionTicks / item.RunTimeTicks
+                    });
+                });
+            }
+
+            return markers;
+        };
+
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
             playbackManager.previousTrack(currentPlayer);
         });
