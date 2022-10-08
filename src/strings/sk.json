@@ -1675,5 +1675,9 @@
     "RememberSubtitleSelections": "Nastaviť titulky podľa predchádzajúcej položky",
     "RememberAudioSelectionsHelp": "Pokúsi sa nastaviť zvukovú stopu tak, aby sa čo najviac zhodovala s posledným videom.",
     "RememberAudioSelections": "Nastaviť zvukovú stopu podľa predchádzajúcej položky",
-    "LabelMaxVideoResolution": "Maximálne dovolené rozlíšenie videa pre prekódovanie"
+    "LabelMaxVideoResolution": "Maximálne dovolené rozlíšenie videa pre prekódovanie",
+    "OptionDateShowAdded": "Dátum pridania seriálu",
+    "OptionDateEpisodeAdded": "Dátum pridania epizódy",
+    "IgnoreDtsHelp": "Vypnutím sa môžu vyriešiť niektoré problémy, napr. chýbajúci zvuk pri kanáloch so samostatnými zvukovými a video streamami.",
+    "IgnoreDts": "Ignorovať DTS (dekódovacia časová pečiatka)"
 }
