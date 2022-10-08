@@ -1676,5 +1676,8 @@
     "RememberSubtitleSelections": "Définir la piste de sous-titre en fonction de l'élément précédent",
     "RememberAudioSelectionsHelp": "Choisir la piste audio la plus proche de la dernière vidéo.",
     "RememberAudioSelections": "Définir la piste audio en fonction de l'élément précédent",
-    "IgnoreDtsHelp": "Désactiver cette option pourrait résoudre certains problèmes, comme par exemple l'audio manquant sur des pistes ayant des flux audios et vidéos séparés."
+    "IgnoreDtsHelp": "La désactivation de cette option peut résoudre certains problèmes, par ex. audio manquant sur les canaux avec des flux audio et vidéo séparés.",
+    "OptionDateShowAdded": "Date d'ajout de la série",
+    "OptionDateEpisodeAdded": "Date d'ajout de l'épisode",
+    "IgnoreDts": "Ignorer DTS (horodatage de décodage)"
 }
