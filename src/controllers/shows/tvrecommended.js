@@ -333,10 +333,9 @@ import autoFocuser from '../../components/autoFocuser';
         }
 
         function onInputCommand(e) {
-            switch (e.detail.command) {
-                case 'search':
-                    e.preventDefault();
-                    Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
+            if (e.detail.command === 'search') {
+                e.preventDefault();
+                Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
             }
         }
 

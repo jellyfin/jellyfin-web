@@ -66,11 +66,9 @@ function renderRecordingFolders(context, promise) {
 
 function onMoreClick() {
     const type = this.getAttribute('data-type');
-    const serverId = ApiClient.serverId();
 
-    switch (type) {
-        case 'latest':
-            Dashboard.navigate('list.html?type=Recordings&serverId=' + serverId);
+    if (type === 'latest') {
+        Dashboard.navigate('list.html?type=Recordings&serverId=' + ApiClient.serverId());
     }
 }
 
