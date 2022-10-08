@@ -190,7 +190,6 @@ import Sortable from 'sortablejs';
         const itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
             itemsContainer.notifyRefreshNeeded();
-            return;
         }
     }
 
