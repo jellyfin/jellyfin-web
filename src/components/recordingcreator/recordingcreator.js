@@ -129,7 +129,6 @@ function executeCloseAction(action, programId, serverId) {
                 serverId: serverId
             });
         });
-        return;
     }
 }
 

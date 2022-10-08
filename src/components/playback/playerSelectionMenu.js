@@ -295,7 +295,6 @@ document.addEventListener('viewshow', function (e) {
         mirrorIfEnabled({
             item: item
         });
-        return;
     }
 });
 

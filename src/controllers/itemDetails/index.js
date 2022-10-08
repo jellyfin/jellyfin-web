@@ -170,7 +170,6 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
 
     page.querySelector('.seriesTimerScheduleSection').classList.add('hide');
     hideAll(page, 'btnCancelSeriesTimer');
-    return;
 }
 
 function renderTrackSelections(page, instance, item, forceReload) {

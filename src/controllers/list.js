@@ -720,8 +720,6 @@ class ItemsView {
             if (params.type === 'Video') {
                 return globalize.translate('Videos');
             }
-
-            return;
         }
 
         function play() {
