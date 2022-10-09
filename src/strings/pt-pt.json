@@ -1413,7 +1413,7 @@
     "SmallCaps": "Maiúsculas reduzidas",
     "LabelTonemappingRange": "Alcance do Tone Mapping :",
     "TonemappingAlgorithmHelp": "O Tone Mapping pode ser afinado. Se não estiver familiarizado com estas opções, mantenha-as nas opções padrão. O valor recomendado é 'BT.2390'.",
-    "AllowTonemappingHelp": "O processo de Tone Mapping transforma o Dynamic Range de um vídeo HDR  em SDR, mantendo os detalhes e as cores, sendo estes bastante importantes para preservar a cena original. Atualmente funciona apenas com vídeos HDR10 ou HLG. Esta opção requer os executáveis CUDA ou OpenCL correspondentes.",
+    "AllowTonemappingHelp": "O processo de Tone Mapping transforma o Dynamic Range de um vídeo HDR em SDR, mantendo os detalhes e as cores, sendo estes bastante importantes para preservar a cena original. Atualmente funciona apenas com vídeos HDR10 ou HLG. Esta opção requer os executáveis CUDA ou OpenCL correspondentes.",
     "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes armazenados em <i>buffer</i> enquanto aguardam que todas as transmissões iniciem. Tente aumentá-lo caso se depare com o seguinte erro nos <i>registos</i> do FFmpeg \"Too many packets buffered for output stream\". O valor recomendado é 2048.",
     "DeleteAll": "Apagar tudo",
     "DeleteDevicesConfirmation": "Tem a certeza que deseja remover todos os dispositivos? Todas as outras sessões serão terminadas. Os dispositivos reaparecerão da próxima vez que um utilizador iniciar sessão.",
