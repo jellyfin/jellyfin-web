@@ -111,6 +111,14 @@
     text-overflow: ellipsis;
 }
 
+.listItemBodyText-blurred {
+    filter: blur(5px);
+}
+
+.listItem:hover .listItemBodyText-blurred {
+    filter: blur(0);
+}
+
 .layout-desktop .listItemBodyText {
     margin: 0.25em 0 0 0;
 }

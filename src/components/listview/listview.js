@@ -124,7 +124,7 @@ import ServerConnections from '../ServerConnections';
         }
     }
 
-    function getTextLinesHtml(textlines, isLargeStyle) {
+    function getTextLinesHtml(textlines, isLargeStyle, isPlayed) {
         let html = '';
 
         const largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
@@ -148,6 +148,10 @@ import ServerConnections from '../ServerConnections';
             }
 
             elem.classList.add('listItemBodyText');
+
+            if (!isPlayed) {
+                elem.classList.add('listItemBodyText-blurred');
+            }
 
             elem.innerText = text;
 
@@ -397,7 +401,7 @@ import ServerConnections from '../ServerConnections';
 
             html += `<div class="${cssClass}">`;
 
-            html += getTextLinesHtml(textlines, isLargeStyle);
+            html += getTextLinesHtml(textlines, isLargeStyle, item.UserData.Played);
 
             if (options.mediaInfo !== false && !enableSideMediaInfo) {
                 const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
@@ -413,7 +417,11 @@ import ServerConnections from '../ServerConnections';
             }
 
             if (enableOverview && item.Overview) {
-                html += '<div class="secondary listItem-overview listItemBodyText">';
+                html += '<div class="secondary listItem-overview listItemBodyText';
+                if (!item.UserData.Played) {
+                    html += ' listItemBodyText-blurred';
+                }
+                html += '">';
                 html += item.Overview;
                 html += '</div>';
             }
@@ -481,7 +489,6 @@ import ServerConnections from '../ServerConnections';
                     html += '</div>';
                 }
             }
-
             html += `</${outerTagName}>`;
 
             outerHtml += html;
