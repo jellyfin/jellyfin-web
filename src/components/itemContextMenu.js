@@ -141,6 +141,14 @@ import toast from './toast/toast';
             });
         }
 
+        if (item.Type === 'Season' || item.Type == 'Series') {
+            commands.push({
+                name: 'Download All',
+                id: 'downloadall',
+                icon: 'file_download'
+            });
+        }
+
         if (item.CanDelete && options.deleteItem !== false) {
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
@@ -347,6 +355,48 @@ import toast from './toast/toast';
                         getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
                     break;
+                case 'downloadall': {
+                    const downloadEpisodes = episodes => {
+                        import('../scripts/fileDownloader').then((fileDownloader) => {
+                            const downloads = episodes.map(episode => {
+                                const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
+                                return {
+                                    url: downloadHref,
+                                    itemId: episode.Id,
+                                    serverId: serverId,
+                                    title: episode.Name,
+                                    filename: episode.Path.replace(/^.*[\\/]/, '')
+                                };
+                            });
+
+                            fileDownloader.download(downloads);
+                        });
+                    };
+                    const downloadSeasons = seasons => {
+                        Promise.all(seasons.map(seasonItem => {
+                                return apiClient.getEpisodes(seasonItem.SeriesId, {
+                                    seasonId: seasonItem.Id,
+                                    userId: options.user.Id,
+                                    Fields: 'CanDownload,Path'
+                                });
+                            }
+                        )).then(seasons => {
+                            downloadEpisodes([].concat.apply([], seasons.map(season => season.Items)));
+                        });
+                    };
+
+                    if (item.Type === 'Season') {
+                        downloadSeasons([item]);
+                    } else if (item.Type === 'Series') {
+                        apiClient.getSeasons(item.Id, {
+                            userId: options.user.Id,
+                            Fields: 'ItemCounts'
+                        }).then(seasons => downloadSeasons(seasons.Items));
+                    }
+
+                    getResolveFunction(getResolveFunction(resolve, id), id)();
+                    break;
+                }
                 case 'copy-stream': {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
                     copy(downloadHref).then(() => {
