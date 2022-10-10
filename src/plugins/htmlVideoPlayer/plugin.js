@@ -471,15 +471,30 @@ function tryRemoveElement(elem) {
             destroyFlvPlayer(this);
             destroyCastPlayer(this);
 
+            let secondaryTrackValid = true;
+
             this.#subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
             if (this.#subtitleTrackIndexToSetOnPlaying != null && this.#subtitleTrackIndexToSetOnPlaying >= 0) {
                 const initialSubtitleStream = options.mediaSource.MediaStreams[this.#subtitleTrackIndexToSetOnPlaying];
                 if (!initialSubtitleStream || initialSubtitleStream.DeliveryMethod === 'Encode') {
                     this.#subtitleTrackIndexToSetOnPlaying = -1;
                 }
+                // secondary track should not be shown if primary track is no longer `External` or is not on
+                if (initialSubtitleStream && initialSubtitleStream.DeliveryMethod !== 'External') {
+                    secondaryTrackValid = false;
+                }
+            } else {
+                secondaryTrackValid = false;
             }
-            // Continue using the secondary track that has been set during this watch session
-            const currentSecondaryTrackIndex = playbackManager.getSecondarySubtitleStreamIndex();
+
+            // Get the secondary track that has been set during this watch session
+            let currentSecondaryTrackIndex = playbackManager.getSecondarySubtitleStreamIndex();
+
+            if (!secondaryTrackValid) {
+                currentSecondaryTrackIndex = -1;
+                playbackManager.setSecondarySubtitleStreamIndex(currentSecondaryTrackIndex);
+            }
+
             this.#secondarySubtitleTrackIndexToSetOnPlaying = currentSecondaryTrackIndex == null ? -1 : currentSecondaryTrackIndex;
             if (this.#secondarySubtitleTrackIndexToSetOnPlaying != null && this.#secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
                 const initialSecondarySubtitleStream = options.mediaSource.MediaStreams[this.#secondarySubtitleTrackIndexToSetOnPlaying];
@@ -1118,11 +1133,6 @@ function tryRemoveElement(elem) {
          * @private
          */
         destroyCustomTrack(videoElement, targetTrackIndex) {
-            if (this.#resizeObserver) {
-                this.#resizeObserver.disconnect();
-                this.#resizeObserver = null;
-            }
-
             this.destroyCustomRenderedTrackElements(targetTrackIndex);
             this.destroyNativeTracks(videoElement, targetTrackIndex);
             this.destroyStoredTrackInfo(targetTrackIndex);

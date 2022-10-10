@@ -1062,8 +1062,21 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 return opt;
             });
 
-            // Only show option if: player has support, has more than 1 subtitle track, has valid secondary tracks, primary subtitle is not off
-            if (playbackManager.hasSecondarySubtitleSupport(player) && streams.length > 1 && secondaryStreams.length > 0 && currentIndex !== -1) {
+            /**
+             * Only show option if:
+             * - player has support
+             * - has more than 1 subtitle track
+             * - has valid secondary tracks
+             * - primary subtitle is not off
+             * - primary subtitle is `External`
+             */
+            if (
+                playbackManager.hasSecondarySubtitleSupport(player) &&
+                streams.length > 1 &&
+                secondaryStreams.length > 0 &&
+                currentIndex !== -1 &&
+                playbackManager.isSubtitleStreamExternal(currentIndex, player)
+                ) {
                 const secondarySubtitleMenuItem = {
                     name: globalize.translate('SecondarySubtitles'),
                     id: 'secondarysubtitle'
@@ -1077,7 +1090,6 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,
-                    resolveOnClick: true,
                     positionTo: positionTo
                 }).then(function (id) {
                     if (id === 'secondarysubtitle') {
