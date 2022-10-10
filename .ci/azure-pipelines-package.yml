@@ -48,7 +48,7 @@ jobs:
       runOptions: 'inline'
       inline: 'mkdir -p /srv/repository/incoming/azure/$(Build.BuildNumber)/$(BuildConfiguration)'
 
-  - task: CopyFilesOverSSH@0
+  - task: CopyFilesOverSSH@0.212.0
     displayName: 'Upload artifacts to repository server'
     condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
