@@ -52,6 +52,8 @@ function getWebDeviceIcon(browser) {
             case 'Jellyfin iOS':
             case 'Infuse':
                 return BASE_DEVICE_IMAGE_URL + 'apple.svg';
+            case 'Home Assistant':
+                return BASE_DEVICE_IMAGE_URL + 'home-assistant.svg';
             case 'Jellyfin Web':
                 return getWebDeviceIcon(device.Name || device.DeviceName);
             default:
