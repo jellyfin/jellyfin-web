@@ -1672,5 +1672,9 @@
     "RememberSubtitleSelections": "تعيين مسار الترجمة على أساس البند السابق",
     "RememberAudioSelectionsHelp": "حاول ضبط المسار الصوتي على أقرب تطابق للفيديو الأخير.",
     "RememberAudioSelections": "تعيين مسار الصوت على أساس البند السابق",
-    "LabelMaxVideoResolution": "الحد الأقصى المسموح به لقرار تحويل ترميز الفيديو"
+    "LabelMaxVideoResolution": "الحد الأقصى المسموح به لقرار تحويل ترميز الفيديو",
+    "OptionDateShowAdded": "تاريخ اضافة العرض",
+    "OptionDateEpisodeAdded": "تاريخ اضافة الحلقة",
+    "IgnoreDtsHelp": "قد يؤدي تعطيل هذا الخيار إلى حل بعض المشكلات ، على سبيل المثال فقدان الصوت على القنوات التي تحتوي على دفق صوت وفيديو منفصل.",
+    "IgnoreDts": "تجاهل DTS (الطابع الزمني لفك التشفير)"
 }

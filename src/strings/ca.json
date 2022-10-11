@@ -969,7 +969,7 @@
     "NoNewDevicesFound": "No es van trobar nous dispositius. Per afegir un nou sintonitzador, tancar aquest diàleg i introduïu la informació de el dispositiu de forma manual.",
     "NoCreatedLibraries": "Sembla que no s'ha creat cap biblioteca encara. {0} Li agradaria crear una ara? {1}",
     "No": "No",
-    "NextUp": "Fins a la pròxima",
+    "NextUp": "A continuació",
     "NextTrack": "Passar a la següent",
     "Next": "Pròxim",
     "News": "Notícies",
@@ -1644,5 +1644,8 @@
     "ButtonClose": "Tancar",
     "ButtonBackspace": "Retrocés",
     "Arranger": "Arranjador",
-    "AddToFavorites": "Afegir a preferits"
+    "AddToFavorites": "Afegir a preferits",
+    "EnableSplashScreen": "Habilita la pantalla de benvinguda",
+    "ScreenResolution": "Resolució de pantalla",
+    "Bold": "Negreta"
 }

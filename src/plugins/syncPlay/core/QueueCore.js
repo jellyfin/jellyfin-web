@@ -193,7 +193,6 @@ class QueueCore {
             }
 
             this.manager.haltGroupPlayback(apiClient);
-            return;
         });
     }
 

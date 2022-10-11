@@ -1668,5 +1668,8 @@
     "Trailer": "",
     "TypeOptionPluralVideo": "Videos",
     "ButtonSpace": "Cách",
-    "ButtonBackspace": "Xóa"
+    "ButtonBackspace": "Xóa",
+    "OptionDateEpisodeAdded": "Ngày Thêm Tập",
+    "IgnoreDtsHelp": "Việc tắt tùy chọn này có thể giải quyết một số vấn đề, ví dụ: thiếu âm thanh trên các kênh có luồng âm thanh và video riêng biệt.",
+    "IgnoreDts": "Bỏ qua DTS (dấu thời gian giải mã)"
 }
