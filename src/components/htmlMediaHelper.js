@@ -277,28 +277,23 @@ import { Events } from 'jellyfin-apiclient';
         hls.on(Hls.Events.ERROR, function (event, data) {
             console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
-            switch (data.type) {
-                case Hls.ErrorTypes.NETWORK_ERROR:
-                    // try to recover network error
-                    if (data.response && data.response.code && data.response.code >= 400) {
-                        console.debug('hls.js response error code: ' + data.response.code);
+            // try to recover network error
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR
+                && data.response?.code && data.response.code >= 400
+            ) {
+                console.debug('hls.js response error code: ' + data.response.code);
 
-                        // Trigger failure differently depending on whether this is prior to start of playback, or after
-                        hls.destroy();
+                // Trigger failure differently depending on whether this is prior to start of playback, or after
+                hls.destroy();
 
-                        if (reject) {
-                            reject('servererror');
-                            reject = null;
-                        } else {
-                            onErrorInternal(instance, 'servererror');
-                        }
+                if (reject) {
+                    reject('servererror');
+                    reject = null;
+                } else {
+                    onErrorInternal(instance, 'servererror');
+                }
 
-                        return;
-                    }
-
-                    break;
-                default:
-                    break;
+                return;
             }
 
             if (data.fatal) {

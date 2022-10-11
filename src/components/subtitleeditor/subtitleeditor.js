@@ -334,12 +334,8 @@ function showDownloadOptions(button, context, subtitleId) {
             positionTo: button
 
         }).then(function (id) {
-            switch (id) {
-                case 'download':
-                    downloadRemoteSubtitles(context, subtitleId);
-                    break;
-                default:
-                    break;
+            if (id === 'download') {
+                downloadRemoteSubtitles(context, subtitleId);
             }
         });
     });

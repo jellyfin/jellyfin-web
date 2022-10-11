@@ -76,7 +76,6 @@ module.exports = {
         'sonarjs/cognitive-complexity': ['warn'],
         // TODO: Enable the following rules and fix issues
         'sonarjs/no-duplicate-string': ['off'],
-        'sonarjs/no-small-switch': ['off'],
         'sonarjs/prefer-object-literal': ['off'],
         'sonarjs/prefer-single-boolean-return': ['off']
     },

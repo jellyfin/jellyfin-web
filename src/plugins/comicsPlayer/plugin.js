@@ -172,10 +172,8 @@ export class ComicsPlayer {
 
     onWindowKeyUp(e) {
         const key = keyboardnavigation.getKeyName(e);
-        switch (key) {
-            case 'Escape':
-                this.stop();
-                break;
+        if (key === 'Escape') {
+            this.stop();
         }
     }
 
