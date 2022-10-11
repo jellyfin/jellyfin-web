@@ -76,7 +76,7 @@
     "blurhash": "2.0.2",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.3.2",
-    "core-js": "3.25.4",
+    "core-js": "3.25.5",
     "date-fns": "2.29.3",
     "dompurify": "2.4.0",
     "epubjs": "0.3.93",
