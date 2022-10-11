@@ -34,7 +34,7 @@ module.exports = {
         'plugin:sonarjs/recommended'
     ],
     rules: {
-        'array-callback-return': ['error'],
+        'array-callback-return': ['error', { 'checkForEach': true }],
         'block-spacing': ['error'],
         'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
