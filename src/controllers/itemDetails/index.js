@@ -205,8 +205,12 @@ function renderTrackSelections(page, instance, item, forceReload) {
     });
 
     mediaSources = [];
-    resolutionNames.forEach(v => mediaSources.push(v));
-    sourceNames.forEach(v => mediaSources.push(v));
+    resolutionNames.forEach(v => {
+        mediaSources.push(v);
+    });
+    sourceNames.forEach(v => {
+        mediaSources.push(v);
+    });
 
     instance._currentPlaybackMediaSources = mediaSources;
 
