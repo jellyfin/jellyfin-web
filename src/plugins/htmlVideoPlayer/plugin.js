@@ -478,9 +478,10 @@ function tryRemoveElement(elem) {
                 const initialSubtitleStream = options.mediaSource.MediaStreams[this.#subtitleTrackIndexToSetOnPlaying];
                 if (!initialSubtitleStream || initialSubtitleStream.DeliveryMethod === 'Encode') {
                     this.#subtitleTrackIndexToSetOnPlaying = -1;
+                    secondaryTrackValid = false;
                 }
-                // secondary track should not be shown if primary track is no longer `External` or is not on
-                if (initialSubtitleStream && initialSubtitleStream.DeliveryMethod !== 'External') {
+                // secondary track should not be shown if primary track is no longer a valid pair
+                if (initialSubtitleStream && !playbackManager.trackHasSecondarySubtitleSupport(initialSubtitleStream)) {
                     secondaryTrackValid = false;
                 }
             } else {

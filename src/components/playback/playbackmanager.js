@@ -876,15 +876,28 @@ class PlaybackManager {
             });
         };
 
-        self.hasSecondarySubtitleSupport = function (player = self._currentPlayer) {
+        self.playerHasSecondarySubtitleSupport = function (player = self._currentPlayer) {
             if (!player) return false;
             return Boolean(player.supports('SecondarySubtitles'));
         };
 
+        /**
+         * Checks if:
+         * - the track can be used directly as a secondary subtitle
+         * - or if it can be paired with a secondary subtitle when used as a primary subtitle
+         */
+        self.trackHasSecondarySubtitleSupport = function (track, player = self._currentPlayer) {
+            if (!player || !self.playerHasSecondarySubtitleSupport(player)) return false;
+            const format = (track.Codec || '').toLowerCase();
+            // Currently, only non-SSA/non-ASS external subtitles are supported.
+            // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
+            // of the complexity of how they are rendered and the risk of the subtitles overlapping
+            return format !== 'ssa' && format !== 'ass' && getDeliveryMethod(track) === 'External';
+        };
+
         self.secondarySubtitleTracks = function (player = self._currentPlayer) {
             const streams = self.subtitleTracks(player);
-            // Currently, only External subtitles are supported
-            return streams.filter((stream) => getDeliveryMethod(stream) === 'External');
+            return streams.filter((stream) => self.trackHasSecondarySubtitleSupport(stream, player));
         };
 
         function getCurrentSubtitleStream(player) {
@@ -1575,7 +1588,7 @@ class PlaybackManager {
 
         self.setSecondarySubtitleStreamIndex = function (index, player) {
             player = player || self._currentPlayer;
-            if (!self.hasSecondarySubtitleSupport(player)) return;
+            if (!self.playerHasSecondarySubtitleSupport(player)) return;
             if (player && !enableLocalPlaylistManagement(player)) {
                 try {
                     return player.setSecondarySubtitleStreamIndex(index);

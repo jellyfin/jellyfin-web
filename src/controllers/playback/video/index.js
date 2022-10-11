@@ -990,7 +990,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 
         function showSecondarySubtitlesMenu(actionsheet, positionTo) {
             const player = currentPlayer;
-            if (!playbackManager.hasSecondarySubtitleSupport(player)) return;
+            if (!playbackManager.playerHasSecondarySubtitleSupport(player)) return;
             let currentIndex = playbackManager.getSecondarySubtitleStreamIndex(player);
             const streams = playbackManager.secondarySubtitleTracks(player);
 
@@ -1071,7 +1071,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
              * - primary subtitle is `External`
              */
             if (
-                playbackManager.hasSecondarySubtitleSupport(player) &&
+                playbackManager.playerHasSecondarySubtitleSupport(player) &&
                 streams.length > 1 &&
                 secondaryStreams.length > 0 &&
                 currentIndex !== -1 &&
