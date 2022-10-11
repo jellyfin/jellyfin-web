@@ -284,8 +284,9 @@ export function supportsMediaSourceSelection (item) {
     if (!item.MediaSources || (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder')) {
         return false;
     }
-    if (!item.EnableMediaSourceDisplay) {
-        return false;
+
+    if (item.EnableMediaSourceDisplay != null) {
+        return !!item.EnableMediaSourceDisplay;
     }
 
     return !item.SourceType || item.SourceType === 'Library';
