@@ -224,7 +224,7 @@ const UserParentalControl: FunctionComponent = () => {
             }
 
             const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value || '0', 10);
-            user.Policy.MaxParentalRating = parentalRating !== undefined ? parentalRating : null;
+            user.Policy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
