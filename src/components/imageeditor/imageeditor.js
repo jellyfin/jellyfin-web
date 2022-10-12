@@ -26,11 +26,7 @@ import template from './imageeditor.template.html';
     let hasChanges = false;
 
     function getBaseRemoteOptions() {
-        const options = {};
-
-        options.itemId = currentItem.Id;
-
-        return options;
+        return { itemId: currentItem.Id };
     }
 
     function reload(page, item, focusContext) {

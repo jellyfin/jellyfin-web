@@ -3609,9 +3609,10 @@ class PlaybackManager {
 
         const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-        const options = {};
-        options.UserId = apiClient.getCurrentUserId();
-        options.Limit = 200;
+        const options = {
+            UserId: apiClient.getCurrentUserId(),
+            Limit: 200
+        };
 
         const instance = this;
 
