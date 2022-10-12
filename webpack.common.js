@@ -129,7 +129,7 @@ const config = {
             },
             {
                 test: /\.(js|jsx)$/,
-                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|@remix-run[\\/]router|blurhash|date-fns|epubjs|flv.js|libarchive.js|marked|react-router|screenfull)/,
+                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|@remix-run[\\/]router|blurhash|date-fns|dom7|epubjs|flv.js|libarchive.js|marked|react-router|screenfull|ssr-window|swiper)/,
                 use: [{
                     loader: 'babel-loader',
                     options: {
