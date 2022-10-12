@@ -144,33 +144,32 @@ class SubtitleSync {
     }
 
     toggle(action) {
+        if (action && !['hide', 'forceToHide'].includes(action)) {
+            console.warn('SubtitleSync.toggle called with invalid action', action);
+            return;
+        }
+
         if (player && playbackManager.supportSubtitleOffset(player)) {
-            /* eslint-disable no-fallthrough */
-            switch (action) {
-                case undefined:
-                    // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
-                    if (playbackManager.isShowingSubtitleOffsetEnabled(player) && playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
-                        // if no subtitle offset is defined or element has focus (offset being defined)
-                        if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
-                            // set default offset to '0' = 50%
-                            subtitleSyncSlider.value = '50';
-                            subtitleSyncTextField.textContent = '0s';
-                            playbackManager.setSubtitleOffset(0, player);
-                        }
-                        // show subtitle sync
-                        subtitleSyncContainer.classList.remove('hide');
-                        break; // stop here
-                    } // else continue and hide
-                case 'hide':
-                    // only break if element has focus
-                    if (subtitleSyncTextField.hasFocus) {
-                        break;
+            if (!action) {
+                // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
+                if (playbackManager.isShowingSubtitleOffsetEnabled(player) && playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
+                    // if no subtitle offset is defined or element has focus (offset being defined)
+                    if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
+                        // set default offset to '0' = 50%
+                        subtitleSyncSlider.value = '50';
+                        subtitleSyncTextField.textContent = '0s';
+                        playbackManager.setSubtitleOffset(0, player);
                     }
-                case 'forceToHide':
-                    subtitleSyncContainer.classList.add('hide');
-                    break;
+                    // show subtitle sync
+                    subtitleSyncContainer.classList.remove('hide');
+                    return;
+                }
+            } else if (action === 'hide' && subtitleSyncTextField.hasFocus) {
+                // do not hide if element has focus
+                return;
             }
-            /* eslint-enable no-fallthrough */
+
+            subtitleSyncContainer.classList.add('hide');
         }
     }
 }

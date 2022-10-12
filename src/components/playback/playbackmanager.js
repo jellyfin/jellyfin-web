@@ -19,11 +19,7 @@ function enableLocalPlaylistManagement(player) {
         return false;
     }
 
-    if (player.isLocalPlayer) {
-        return true;
-    }
-
-    return false;
+    return player.isLocalPlayer;
 }
 
 function bindToFullscreenChange(player) {
@@ -44,10 +40,8 @@ function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, prev
         return;
     }
 
-    if (newTarget && previousTargetInfo) {
-        if (newTarget.id === previousTargetInfo.id) {
-            return;
-        }
+    if (newTarget && previousTargetInfo && newTarget.id === previousTargetInfo.id) {
+        return;
     }
 
     Events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
@@ -227,11 +221,7 @@ function getParam(name, url) {
 }
 
 function isAutomaticPlayer(player) {
-    if (player.isLocalPlayer) {
-        return true;
-    }
-
-    return false;
+    return player.isLocalPlayer;
 }
 
 function getAutomaticPlayers(instance, forceLocalPlayer) {
@@ -246,10 +236,7 @@ function getAutomaticPlayers(instance, forceLocalPlayer) {
 }
 
 function isServerItem(item) {
-    if (!item.Id) {
-        return false;
-    }
-    return true;
+    return !!item.Id;
 }
 
 function enableIntros(item) {
@@ -501,10 +488,10 @@ function getPlaybackInfo(player,
     }
 
     // lastly, enforce player overrides for special situations
-    if (query.EnableDirectStream !== false) {
-        if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
-            query.EnableDirectStream = false;
-        }
+    if (query.EnableDirectStream !== false
+        && player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)
+    ) {
+        query.EnableDirectStream = false;
     }
 
     if (player.getDirectPlayProtocols) {
@@ -569,10 +556,10 @@ function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, ma
     }
 
     // lastly, enforce player overrides for special situations
-    if (query.EnableDirectStream !== false) {
-        if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
-            query.EnableDirectStream = false;
-        }
+    if (query.EnableDirectStream !== false
+        && player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)
+    ) {
+        query.EnableDirectStream = false;
     }
 
     return apiClient.ajax({
@@ -963,10 +950,8 @@ class PlaybackManager {
         self.isPlaying = function (player) {
             player = player || self._currentPlayer;
 
-            if (player) {
-                if (player.isPlaying) {
-                    return player.isPlaying();
-                }
+            if (player?.isPlaying) {
+                return player.isPlaying();
             }
 
             return player != null && player.currentSrc() != null;
@@ -975,10 +960,8 @@ class PlaybackManager {
         self.isPlayingMediaType = function (mediaType, player) {
             player = player || self._currentPlayer;
 
-            if (player) {
-                if (player.isPlaying) {
-                    return player.isPlaying(mediaType);
-                }
+            if (player?.isPlaying) {
+                return player.isPlaying(mediaType);
             }
 
             if (self.isPlaying(player)) {
@@ -1027,10 +1010,8 @@ class PlaybackManager {
                 return true;
             }
 
-            if (item.LocationType === 'Virtual') {
-                if (itemType !== 'Program') {
-                    return false;
-                }
+            if (item.LocationType === 'Virtual' && itemType !== 'Program') {
+                return false;
             }
 
             if (itemType === 'Program') {
@@ -2486,8 +2467,8 @@ class PlaybackManager {
                     playMethod = 'DirectPlay';
                 } else if (mediaSource.StreamUrl) {
                     // Only used for audio
-                    playMethod = 'Transcode';
                     mediaUrl = mediaSource.StreamUrl;
+                    // Use the default playMethod value of Transcode
                 } else if (mediaSource.SupportsDirectPlay || mediaSource.SupportsDirectStream) {
                     directOptions = {
                         Static: true,
@@ -3015,11 +2996,8 @@ class PlaybackManager {
 
         function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
             // mediadecodeerror, medianotsupported, network, servererror
-            if (streamInfo.mediaSource.SupportsTranscoding && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy)) {
-                return true;
-            }
-
-            return false;
+            return streamInfo.mediaSource.SupportsTranscoding
+                && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
         }
 
         function onPlaybackError(e, error) {
@@ -3300,10 +3278,10 @@ class PlaybackManager {
                     reportPlayback(self, state, player, reportPlaylist, serverId, 'reportPlaybackProgress', progressEventName);
                 }
 
-                if (streamInfo && streamInfo.liveStreamId) {
-                    if (new Date().getTime() - (streamInfo.lastMediaInfoQuery || 0) >= 600000) {
-                        getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
-                    }
+                if (streamInfo?.liveStreamId
+                    && (new Date().getTime() - (streamInfo.lastMediaInfoQuery || 0) >= 600000)
+                ) {
+                    getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
                 }
             }
         }
@@ -3568,10 +3546,8 @@ class PlaybackManager {
     }
 
     getBufferedRanges(player = this._currentPlayer) {
-        if (player) {
-            if (player.getBufferedRanges) {
-                return player.getBufferedRanges();
-            }
+        if (player?.getBufferedRanges) {
+            return player.getBufferedRanges();
         }
 
         return [];
@@ -3842,19 +3818,15 @@ class PlaybackManager {
 
     removeActivePlayer(name) {
         const playerInfo = this.getPlayerInfo();
-        if (playerInfo) {
-            if (playerInfo.name === name) {
-                this.setDefaultPlayerActive();
-            }
+        if (playerInfo?.name === name) {
+            this.setDefaultPlayerActive();
         }
     }
 
     removeActiveTarget(id) {
         const playerInfo = this.getPlayerInfo();
-        if (playerInfo) {
-            if (playerInfo.id === id) {
-                this.setDefaultPlayerActive();
-            }
+        if (playerInfo?.id === id) {
+            this.setDefaultPlayerActive();
         }
     }
 

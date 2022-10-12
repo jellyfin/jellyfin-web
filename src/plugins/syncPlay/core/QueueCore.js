@@ -4,7 +4,7 @@
  */
 
 import globalize from '../../../scripts/globalize';
-import toast from '../../toast/toast';
+import toast from '../../../components/toast/toast';
 import * as Helper from './Helper';
 
 /**
@@ -193,7 +193,6 @@ class QueueCore {
             }
 
             this.manager.haltGroupPlayback(apiClient);
-            return;
         });
     }
 

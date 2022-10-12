@@ -21,10 +21,8 @@ import Sortable from 'sortablejs';
         const itemsContainer = this;
         const multiSelect = itemsContainer.multiSelect;
 
-        if (multiSelect) {
-            if (multiSelect.onContainerClick.call(itemsContainer, e) === false) {
-                return;
-            }
+        if (multiSelect?.onContainerClick.call(itemsContainer, e) === false) {
+            return;
         }
 
         itemShortcuts.onClick.call(itemsContainer, e);
@@ -155,9 +153,9 @@ import Sortable from 'sortablejs';
         const eventsToMonitor = getEventsToMonitor(itemsContainer);
 
         // TODO: Check user data change reason?
-        if (eventsToMonitor.indexOf('markfavorite') !== -1) {
-            itemsContainer.notifyRefreshNeeded();
-        } else if (eventsToMonitor.indexOf('markplayed') !== -1) {
+        if (eventsToMonitor.indexOf('markfavorite') !== -1
+            || eventsToMonitor.indexOf('markplayed') !== -1
+        ) {
             itemsContainer.notifyRefreshNeeded();
         }
     }
@@ -192,7 +190,6 @@ import Sortable from 'sortablejs';
         const itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
             itemsContainer.notifyRefreshNeeded();
-            return;
         }
     }
 
@@ -259,11 +256,9 @@ import Sortable from 'sortablejs';
                 itemsContainer.notifyRefreshNeeded(true);
                 return;
             }
-        } else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
-            if (eventsToMonitor.indexOf('audioplayback') !== -1) {
-                itemsContainer.notifyRefreshNeeded(true);
-                return;
-            }
+        } else if (state.NowPlayingItem?.MediaType === 'Audio' && eventsToMonitor.indexOf('audioplayback') !== -1) {
+            itemsContainer.notifyRefreshNeeded(true);
+            return;
         }
     }
 
@@ -298,10 +293,8 @@ import Sortable from 'sortablejs';
             }
         }
 
-        if (layoutManager.desktop || layoutManager.mobile) {
-            if (this.getAttribute('data-multiselect') !== 'false') {
-                this.enableMultiSelect(true);
-            }
+        if (layoutManager.desktop || layoutManager.mobile && this.getAttribute('data-multiselect') !== 'false') {
+            this.enableMultiSelect(true);
         }
 
         if (layoutManager.tv) {

@@ -444,12 +444,10 @@ import { appRouter } from '../appRouter';
         options = options || {};
         options.type = options.type || 'Primary';
 
-        if (options.type === 'Primary') {
-            if (item.SeriesPrimaryImageTag) {
-                options.tag = item.SeriesPrimaryImageTag;
+        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
+            options.tag = item.SeriesPrimaryImageTag;
 
-                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
         if (options.type === 'Thumb') {

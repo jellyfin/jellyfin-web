@@ -383,7 +383,6 @@ import template from './libraryoptionseditor.template.html';
             return setContentType(parent, contentType).then(function() {
                 libraryOptions && setLibraryOptions(parent, libraryOptions);
                 bindEvents(parent);
-                return;
             });
         });
     }

@@ -9,7 +9,7 @@ import TimeSyncCore from './timeSync/TimeSyncCore';
 import PlaybackCore from './PlaybackCore';
 import QueueCore from './QueueCore';
 import Controller from './Controller';
-import toast from '../../toast/toast';
+import toast from '../../../components/toast/toast';
 import globalize from '../../../scripts/globalize';
 
 /**

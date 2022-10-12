@@ -170,7 +170,6 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
 
     page.querySelector('.seriesTimerScheduleSection').classList.add('hide');
     hideAll(page, 'btnCancelSeriesTimer');
-    return;
 }
 
 function renderTrackSelections(page, instance, item, forceReload) {
@@ -206,8 +205,12 @@ function renderTrackSelections(page, instance, item, forceReload) {
     });
 
     mediaSources = [];
-    resolutionNames.forEach(v => mediaSources.push(v));
-    sourceNames.forEach(v => mediaSources.push(v));
+    resolutionNames.forEach(v => {
+        mediaSources.push(v);
+    });
+    sourceNames.forEach(v => {
+        mediaSources.push(v);
+    });
 
     instance._currentPlaybackMediaSources = mediaSources;
 

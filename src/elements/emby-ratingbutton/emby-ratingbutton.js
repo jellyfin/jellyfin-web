@@ -63,18 +63,6 @@ import ServerConnections from '../../components/ServerConnections';
             }
 
             button.classList.add('ratingbutton-withrating');
-        } else if (likes) {
-            if (icon) {
-                icon.classList.add('favorite');
-                icon.classList.remove('ratingbutton-icon-withrating');
-            }
-            button.classList.remove('ratingbutton-withrating');
-        } else if (likes === false) {
-            if (icon) {
-                icon.classList.add('favorite');
-                icon.classList.remove('ratingbutton-icon-withrating');
-            }
-            button.classList.remove('ratingbutton-withrating');
         } else {
             if (icon) {
                 icon.classList.add('favorite');

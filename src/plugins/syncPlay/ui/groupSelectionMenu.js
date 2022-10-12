@@ -1,12 +1,12 @@
 import { Events } from 'jellyfin-apiclient';
 import SyncPlay from '../core';
 import SyncPlaySettingsEditor from './settings/SettingsEditor';
-import loading from '../../loading/loading';
-import toast from '../../toast/toast';
-import actionsheet from '../../actionSheet/actionSheet';
+import loading from '../../../components/loading/loading';
+import toast from '../../../components/toast/toast';
+import actionsheet from '../../../components/actionSheet/actionSheet';
 import globalize from '../../../scripts/globalize';
 import playbackPermissionManager from './playbackPermissionManager';
-import ServerConnections from '../../ServerConnections';
+import ServerConnections from '../../../components/ServerConnections';
 import './groupSelectionMenu.scss';
 
 /**

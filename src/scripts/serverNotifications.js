@@ -1,5 +1,5 @@
 import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlay from '../components/syncPlay/core';
+import SyncPlay from '../plugins/syncPlay/core';
 import { Events } from 'jellyfin-apiclient';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
@@ -123,16 +123,11 @@ function processGeneralCommand(cmd, apiClient) {
             displayMessage(cmd);
             break;
         case 'ToggleOsd':
-            // todo
-            break;
         case 'ToggleContextMenu':
-            // todo
-            break;
         case 'SendKey':
             // todo
             break;
         case 'SendString':
-            // todo
             focusManager.sendText(cmd.Arguments.String);
             break;
         default:

@@ -333,10 +333,8 @@ class YoutubePlayer {
     setVolume(val) {
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
-        if (currentYoutubePlayer) {
-            if (val != null) {
-                currentYoutubePlayer.setVolume(val);
-            }
+        if (currentYoutubePlayer && val != null) {
+            currentYoutubePlayer.setVolume(val);
         }
     }
     getVolume() {

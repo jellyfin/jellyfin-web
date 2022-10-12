@@ -5,7 +5,7 @@ import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
 import imageHelper from '../../../scripts/imagehelper';
 import { formatDistanceToNow } from 'date-fns';
-import { localeWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocaleWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
@@ -91,6 +91,8 @@ import confirm from '../../../components/confirm/confirm';
     }
 
     function load(page, devices) {
+        const localeWithSuffix = getLocaleWithSuffix();
+
         let html = '';
         html += devices.map(function (device) {
             let deviceHtml = '';

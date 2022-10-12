@@ -328,10 +328,8 @@ import ServerConnections from '../ServerConnections';
                 textlines.push(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
             }
 
-            if (options.showChannel) {
-                if (item.ChannelName) {
-                    textlines.push(item.ChannelName);
-                }
+            if (options.showChannel && item.ChannelName) {
+                textlines.push(item.ChannelName);
             }
 
             let parentTitle = null;
@@ -370,10 +368,8 @@ import ServerConnections from '../ServerConnections';
             }
 
             if (item.IsFolder) {
-                if (options.artist !== false) {
-                    if (item.AlbumArtist && item.Type === 'MusicAlbum') {
+                if (options.artist !== false && item.AlbumArtist && item.Type === 'MusicAlbum') {
                         textlines.push(item.AlbumArtist);
-                    }
                 }
             } else {
                 if (options.artist) {
@@ -386,10 +382,8 @@ import ServerConnections from '../ServerConnections';
                 }
             }
 
-            if (item.Type === 'TvChannel') {
-                if (item.CurrentProgram) {
-                    textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
-                }
+            if (item.Type === 'TvChannel' && item.CurrentProgram) {
+                textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
             }
 
             cssClass = 'listItemBody';
@@ -405,19 +399,17 @@ import ServerConnections from '../ServerConnections';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 
-            if (options.mediaInfo !== false) {
-                if (!enableSideMediaInfo) {
-                    const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
+            if (options.mediaInfo !== false && !enableSideMediaInfo) {
+                const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
 
-                    html += `<div class="${mediaInfoClass}">`;
-                    html += mediaInfo.getPrimaryMediaInfoHtml(item, {
-                        episodeTitle: false,
-                        originalAirDate: false,
-                        subtitles: false
+                html += `<div class="${mediaInfoClass}">`;
+                html += mediaInfo.getPrimaryMediaInfoHtml(item, {
+                    episodeTitle: false,
+                    originalAirDate: false,
+                    subtitles: false
 
-                    });
-                    html += '</div>';
-                }
+                });
+                html += '</div>';
             }
 
             if (enableOverview && item.Overview) {
@@ -428,20 +420,18 @@ import ServerConnections from '../ServerConnections';
 
             html += '</div>';
 
-            if (options.mediaInfo !== false) {
-                if (enableSideMediaInfo) {
-                    html += '<div class="secondary listItemMediaInfo">';
-                    html += mediaInfo.getPrimaryMediaInfoHtml(item, {
+            if (options.mediaInfo !== false && enableSideMediaInfo) {
+                html += '<div class="secondary listItemMediaInfo">';
+                html += mediaInfo.getPrimaryMediaInfoHtml(item, {
 
-                        year: false,
-                        container: false,
-                        episodeTitle: false,
-                        criticRating: false,
-                        endsAt: false
+                    year: false,
+                    container: false,
+                    episodeTitle: false,
+                    criticRating: false,
+                    endsAt: false
 
-                    });
-                    html += '</div>';
-                }
+                });
+                html += '</div>';
             }
 
             if (!options.recordButton && (item.Type === 'Timer' || item.Type === 'Program')) {

@@ -374,10 +374,9 @@ import Dashboard from '../../utils/dashboard';
         }
 
         function onInputCommand(e) {
-            switch (e.detail.command) {
-                case 'search':
-                    e.preventDefault();
-                    Dashboard.navigate('search.html?collectionType=movies&parentId=' + params.topParentId);
+            if (e.detail.command === 'search') {
+                e.preventDefault();
+                Dashboard.navigate('search.html?collectionType=movies&parentId=' + params.topParentId);
             }
         }
 

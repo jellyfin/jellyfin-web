@@ -3,7 +3,7 @@
  * @module components/syncPlay/ui/players/NoActivePlayer
  */
 
-import { playbackManager } from '../../../playback/playbackmanager';
+import { playbackManager } from '../../../../components/playback/playbackmanager';
 import SyncPlay from '../../core';
 import QueueManager from './QueueManager';
 

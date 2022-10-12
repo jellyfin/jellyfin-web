@@ -61,40 +61,20 @@ function fetchData(instance) {
 
 function onTimerChangedExternally(e, apiClient, data) {
     const options = this.options;
-    let refresh = false;
 
-    if (data.Id) {
-        if (this.TimerId === data.Id) {
-            refresh = true;
-        }
-    }
-    if (data.ProgramId && options) {
-        if (options.programId === data.ProgramId) {
-            refresh = true;
-        }
-    }
-
-    if (refresh) {
+    if ((data.Id && this.TimerId === data.Id)
+        || (data.ProgramId && options && options.programId === data.ProgramId)
+    ) {
         this.refresh();
     }
 }
 
 function onSeriesTimerChangedExternally(e, apiClient, data) {
     const options = this.options;
-    let refresh = false;
 
-    if (data.Id) {
-        if (this.SeriesTimerId === data.Id) {
-            refresh = true;
-        }
-    }
-    if (data.ProgramId && options) {
-        if (options.programId === data.ProgramId) {
-            refresh = true;
-        }
-    }
-
-    if (refresh) {
+    if ((data.Id && this.SeriesTimerId === data.Id)
+        || (data.ProgramId && options && options.programId === data.ProgramId)
+    ) {
         this.refresh();
     }
 }

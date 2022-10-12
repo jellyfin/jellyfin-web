@@ -68,10 +68,8 @@ export function showLayoutMenu (button, currentLayout, views) {
                     cancelable: false
                 }));
 
-                if (!dispatchEvent) {
-                    if (window.$) {
-                        $(button).trigger('layoutchange', [id]);
-                    }
+                if (!dispatchEvent && window.$) {
+                    $(button).trigger('layoutchange', [id]);
                 }
             }
         });
@@ -117,7 +115,8 @@ export function getQueryPagingHtml (options) {
         html += '</div>';
     }
 
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 export function showSortMenu (options) {

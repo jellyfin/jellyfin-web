@@ -5,15 +5,9 @@ import './indicators.scss';
 import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {
-    if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
-        return true;
-    }
-
-    if (item.Type === 'AudioBook' || item.Type === 'AudioPodcast') {
-        return true;
-    }
-
-    return false;
+    return (item.MediaType === 'Video' && item.Type !== 'TvChannel')
+        || item.Type === 'AudioBook'
+        || item.Type === 'AudioPodcast';
 }
 
 export function getProgressHtml(pct, options) {

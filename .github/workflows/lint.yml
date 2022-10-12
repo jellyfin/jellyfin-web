@@ -20,19 +20,7 @@ jobs:
         with:
           node-version: 16
           check-latest: true
-
-      - name: Get npm cache directory path
-        id: npm-cache-dir-path
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache node_modules
-        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # tag=v3.0.10
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+          cache: npm
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
@@ -55,19 +43,7 @@ jobs:
         with:
           node-version: 16
           check-latest: true
-
-      - name: Get npm cache directory path
-        id: npm-cache-dir-path
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache node_modules
-        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # tag=v3.0.10
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+          cache: npm
 
       - name: Set up stylelint matcher
         uses: xt0rted/stylelint-problem-matcher@34db1b874c0452909f0696aedef70b723870a583 # tag=v1
@@ -93,19 +69,7 @@ jobs:
         with:
           node-version: 16
           check-latest: true
-
-      - name: Get npm cache directory path
-        id: npm-cache-dir-path
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache node_modules
-        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # tag=v3.0.10
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+          cache: npm
 
       - name: Set up stylelint matcher
         uses: xt0rted/stylelint-problem-matcher@34db1b874c0452909f0696aedef70b723870a583 # tag=v1

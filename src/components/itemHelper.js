@@ -48,10 +48,8 @@ export function getDisplayName(item, options = {}) {
 export function supportsAddingToCollection(item) {
     const invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item);
@@ -74,10 +72,8 @@ export function supportsAddingToPlaylist(item) {
         return false;
     }
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     if (isLocalItem(item)) {
@@ -109,10 +105,8 @@ export function canEdit(user, item) {
         return false;
     }
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     if (isLocalItem(item)) {
@@ -123,33 +117,23 @@ export function canEdit(user, item) {
 }
 
 export function isLocalItem(item) {
-    if (item && item.Id && typeof item.Id === 'string' && item.Id.indexOf('local') === 0) {
-        return true;
-    }
-
-    return false;
+    return item && item.Id && typeof item.Id === 'string' && item.Id.indexOf('local') === 0;
 }
 
 export function canIdentify (user, item) {
     const itemType = item.Type;
 
-    if (itemType === 'Movie' ||
-        itemType === 'Trailer' ||
-        itemType === 'Series' ||
-        itemType === 'BoxSet' ||
-        itemType === 'Person' ||
-        itemType === 'Book' ||
-        itemType === 'MusicAlbum' ||
-        itemType === 'MusicArtist' ||
-        itemType === 'MusicVideo') {
-        if (user.Policy.IsAdministrator) {
-            if (!isLocalItem(item)) {
-                return true;
-            }
-        }
-    }
-
-    return false;
+    return (itemType === 'Movie'
+        || itemType === 'Trailer'
+        || itemType === 'Series'
+        || itemType === 'BoxSet'
+        || itemType === 'Person'
+        || itemType === 'Book'
+        || itemType === 'MusicAlbum'
+        || itemType === 'MusicArtist'
+        || itemType === 'MusicVideo')
+        && user.Policy.IsAdministrator
+        && !isLocalItem(item);
 }
 
 export function canEditImages (user, item) {
@@ -160,17 +144,11 @@ export function canEditImages (user, item) {
     }
 
     if (itemType === 'UserView') {
-        if (user.Policy.IsAdministrator) {
-            return true;
-        }
-
-        return false;
+        return !!user.Policy.IsAdministrator;
     }
 
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
 
     return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
@@ -201,10 +179,8 @@ export function canShare (item, user) {
     if (item.Type === 'SeriesTimer') {
         return false;
     }
-    if (item.Type === 'Recording') {
-        if (item.Status !== 'Completed') {
-            return false;
-        }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
     }
     if (isLocalItem(item)) {
         return false;
@@ -234,29 +210,21 @@ export function canMarkPlayed (item) {
         }
     }
 
-    if (item.Type === 'Series' ||
-        item.Type === 'Season' ||
-        item.Type === 'BoxSet' ||
-        item.MediaType === 'Book' ||
-        item.MediaType === 'Recording') {
-        return true;
-    }
-
-    return false;
+    return item.Type === 'Series'
+        || item.Type === 'Season'
+        || item.Type === 'BoxSet'
+        || item.MediaType === 'Book'
+        || item.MediaType === 'Recording';
 }
 
 export function canRate (item) {
-    if (item.Type === 'Program'
-        || item.Type === 'Timer'
-        || item.Type === 'SeriesTimer'
-        || item.Type === 'CollectionFolder'
-        || item.Type === 'UserView'
-        || item.Type === 'Channel'
-        || !item.UserData) {
-        return false;
-    }
-
-    return true;
+    return item.Type !== 'Program'
+        && item.Type !== 'Timer'
+        && item.Type !== 'SeriesTimer'
+        && item.Type !== 'CollectionFolder'
+        && item.Type !== 'UserView'
+        && item.Type !== 'Channel'
+        && item.UserData;
 }
 
 export function canConvert (item, user) {
@@ -287,11 +255,7 @@ export function canConvert (item, user) {
         return false;
     }
 
-    if (item.IsPlaceHolder) {
-        return false;
-    }
-
-    return true;
+    return !item.IsPlaceHolder;
 }
 
 export function canRefreshMetadata (item, user) {
@@ -301,11 +265,10 @@ export function canRefreshMetadata (item, user) {
             return false;
         }
 
-        if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-            if (!isLocalItem(item)) {
-                return true;
-            }
-        }
+        return item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program'
+            && item.Type !== 'TvChannel'
+            && !(item.Type === 'Recording' && item.Status !== 'Completed')
+            && !isLocalItem(item);
     }
 
     return false;
@@ -321,14 +284,12 @@ export function supportsMediaSourceSelection (item) {
     if (!item.MediaSources || (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder')) {
         return false;
     }
-    if (item.EnableMediaSourceDisplay === false) {
-        return false;
-    }
-    if (item.EnableMediaSourceDisplay == null && item.SourceType && item.SourceType !== 'Library') {
-        return false;
+
+    if (item.EnableMediaSourceDisplay != null) {
+        return !!item.EnableMediaSourceDisplay;
     }
 
-    return true;
+    return !item.SourceType || item.SourceType === 'Library';
 }
 
 export function sortTracks (trackA, trackB) {

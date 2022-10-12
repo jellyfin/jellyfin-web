@@ -1675,5 +1675,9 @@
     "RememberSubtitleSelections": "Set subtitle track based on previous item",
     "RememberAudioSelectionsHelp": "Try to set the audio track to the closest match to the last video.",
     "RememberAudioSelections": "Set audio track based on previous item",
-    "LabelMaxVideoResolution": "Maximum Allowed Video Transcoding Resolution"
+    "LabelMaxVideoResolution": "Maximum Allowed Video Transcoding Resolution",
+    "OptionDateShowAdded": "Date Show Added",
+    "OptionDateEpisodeAdded": "Date Episode Added",
+    "IgnoreDtsHelp": "Disabling this option may resolve some issues, e.g. missing audio on channels with separate audio and video streams.",
+    "IgnoreDts": "Ignore DTS (decoding timestamp)"
 }

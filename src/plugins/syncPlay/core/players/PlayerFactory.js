@@ -16,7 +16,7 @@ class PlayerFactory {
 
     /**
      * Registers a wrapper to the list of players that can be managed.
-     * @param {GenericPlayer} wrapperClass The wrapper to register.
+     * @param {typeof GenericPlayer} wrapperClass The wrapper to register.
      */
     registerWrapper(wrapperClass) {
         console.debug('SyncPlay WrapperFactory registerWrapper:', wrapperClass.type);
@@ -25,7 +25,7 @@ class PlayerFactory {
 
     /**
      * Sets the default player wrapper.
-     * @param {GenericPlayer} wrapperClass The wrapper.
+     * @param {typeof GenericPlayer} wrapperClass The wrapper.
      */
     setDefaultWrapper(wrapperClass) {
         console.debug('SyncPlay WrapperFactory setDefaultWrapper:', wrapperClass.type);

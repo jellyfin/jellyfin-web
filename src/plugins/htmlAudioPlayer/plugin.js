@@ -41,13 +41,9 @@ function cancelFadeTimeout() {
 }
 
 function supportsFade() {
-    if (browser.tv) {
-        // Not working on tizen.
-        // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
-        return false;
-    }
-
-    return true;
+    // Not working on tizen.
+    // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
+    return !browser.tv;
 }
 
 function requireHlsPlayer(callback) {
@@ -417,10 +413,7 @@ class HtmlAudioPlayer {
 
     // This is a retry after error
     resume() {
-        const mediaElement = this._mediaElement;
-        if (mediaElement) {
-            mediaElement.play();
-        }
+        this.unpause();
     }
 
     unpause() {

@@ -9,10 +9,6 @@ import TimeSync from './TimeSync';
  * Class that manages time syncing with server.
  */
 class TimeSyncServer extends TimeSync {
-    constructor(syncPlayManager) {
-        super(syncPlayManager);
-    }
-
     /**
      * Makes a ping request to the server.
      */

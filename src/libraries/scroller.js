@@ -291,10 +291,8 @@ const scrollerFactory = function (frame, options) {
 
         const now = new Date().getTime();
 
-        if (o.autoImmediate) {
-            if (!immediate && (now - (lastAnimate || 0)) <= 50) {
-                immediate = true;
-            }
+        if (o.autoImmediate && !immediate && (now - (lastAnimate || 0)) <= 50) {
+            immediate = true;
         }
 
         if (!immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
@@ -482,7 +480,8 @@ const scrollerFactory = function (frame, options) {
      */
     function dragHandler(event) {
         dragging.released = event.type === 'mouseup' || event.type === 'touchend';
-        const pointer = dragging.touch ? event[dragging.released ? 'changedTouches' : 'touches'][0] : event;
+        const eventName = dragging.released ? 'changedTouches' : 'touches';
+        const pointer = dragging.touch ? event[eventName][0] : event;
         dragging.pathX = pointer.pageX - dragging.initX;
         dragging.pathY = pointer.pageY - dragging.initY;
         dragging.path = Math.sqrt(Math.pow(dragging.pathX, 2) + Math.pow(dragging.pathY, 2));
@@ -808,15 +807,13 @@ const scrollerFactory = function (frame, options) {
                     passive: true
                 });
             }
-        } else if (o.horizontal) {
+        } else if (o.horizontal && o.mouseWheel) {
             // Don't bind to mouse events with vertical scroll since the mouse wheel can handle this natively
 
-            if (o.mouseWheel) {
-                // Scrolling navigation
-                dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
-                    passive: true
-                });
-            }
+            // Scrolling navigation
+            dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
+                passive: true
+            });
         }
 
         dom.addEventListener(frame, 'click', onFrameClick, {

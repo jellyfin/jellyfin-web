@@ -35,7 +35,6 @@ import Dashboard from '../../../utils/dashboard';
                     Dashboard.navigate('forgotpasswordpin.html');
                 }
             });
-            return;
         }
     }
 
