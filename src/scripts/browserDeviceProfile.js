@@ -349,13 +349,12 @@ import browser from './browser';
 
         const canPlayMkv = testCanPlayMkv(videoTestElement);
 
-        const profile = {};
-
-        profile.MaxStreamingBitrate = bitrateSetting;
-        profile.MaxStaticBitrate = 100000000;
-        profile.MusicStreamingTranscodingBitrate = Math.min(bitrateSetting, 384000);
-
-        profile.DirectPlayProfiles = [];
+        const profile = {
+            MaxStreamingBitrate: bitrateSetting,
+            MaxStaticBitrate: 100000000,
+            MusicStreamingTranscodingBitrate: Math.min(bitrateSetting, 384000),
+            DirectPlayProfiles: []
+        };
 
         let videoAudioCodecs = [];
         let hlsInTsVideoAudioCodecs = [];
