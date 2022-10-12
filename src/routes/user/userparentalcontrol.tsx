@@ -168,7 +168,7 @@ const UserParentalControl: FunctionComponent = () => {
         populateRatings(allParentalRatings);
         let ratingValue = '';
 
-        if (user.Policy.MaxParentalRating) {
+        if (user.Policy.MaxParentalRating != null) {
             for (let i = 0, length = allParentalRatings.length; i < length; i++) {
                 const rating = allParentalRatings[i];
 
@@ -223,7 +223,8 @@ const UserParentalControl: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            user.Policy.MaxParentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value || '0', 10) || null;
+            const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value || '0', 10);
+            user.Policy.MaxParentalRating = parentalRating !== undefined ? parentalRating : null;
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
             }).map(function (i) {
