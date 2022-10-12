@@ -26,12 +26,8 @@ import { Events } from 'jellyfin-apiclient';
     function canPlayNativeHls() {
         const media = document.createElement('video');
 
-        if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
-            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
-            return true;
-        }
-
-        return false;
+        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
+            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
     }
 
     export function enableHlsJsPlayer(runTimeTicks, mediaType) {
@@ -123,11 +119,10 @@ import { Events } from 'jellyfin-apiclient';
     }
 
     export function isValidDuration(duration) {
-        if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
-            return true;
-        }
-
-        return false;
+        return duration
+            && !isNaN(duration)
+            && duration !== Number.POSITIVE_INFINITY
+            && duration !== Number.NEGATIVE_INFINITY;
     }
 
     function setCurrentTimeIfNeeded(element, seconds) {

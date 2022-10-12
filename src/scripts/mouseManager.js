@@ -105,11 +105,7 @@ import dom from '../scripts/dom';
             return false;
         }
 
-        if (browser.tv) {
-            return true;
-        }
-
-        return false;
+        return !!browser.tv;
     }
 
     function onMouseInterval() {
