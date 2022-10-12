@@ -110,17 +110,8 @@
 .formDialogFooterItem-autosize {
     flex-basis: initial;
     flex-grow: initial;
-
-    [dir="ltr"] & {
-
-        padding-left: 2em;
-        padding-right: 2em;
-    }
-
-    [dir="rtl"] & {
-        padding-right: 2em;
-        padding-left: 2em;
-    }
+    padding-right: 2em;
+    padding-left: 2em;
 }
 
 @media all and (min-width: 50em) {
@@ -129,15 +120,8 @@
     }
 
     .dialogContentInner {
-        [dir="ltr"] & {
-            padding-left: 1.5em;
-            padding-right: 1.5em;
-        }
-
-        [dir="rtl"] & {
-            padding-right: 1.5em;
-            padding-left: 1.5em;
-        }
+        padding-left: 1.5em;
+        padding-right: 1.5em;
     }
 }
 
@@ -147,14 +131,7 @@
     }
 
     .dialogContentInner {
-        [dir="ltr"] & {
-            padding-left: 2em;
-            padding-right: 2em;
-        }
-
-        [dir="rtl"] & {
-            padding-right: 2em;
-            padding-left: 2em;
-        }
+        padding-left: 2em;
+        padding-right: 2em;
     }
 }
