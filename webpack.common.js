@@ -105,6 +105,14 @@ const config = {
                         // get the name. E.g. node_modules/packageName/not/this/part.js
                         // or node_modules/packageName
                         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                        // if "packageName" is a namespace (i.e. @jellyfin) get the namespace + packageName
+                        if (packageName.startsWith('@')) {
+                            const parts = module.context
+                                .substring(module.context.lastIndexOf(packageName))
+                                .split('/');
+                            return `node_modules.${parts[0]}.${parts[1]}`;
+                        }
+
                         return `node_modules.${packageName}`;
                     }
                 }
