@@ -63,7 +63,8 @@
     "webpack-dev-server": "4.11.1",
     "webpack-merge": "5.8.0",
     "workbox-webpack-plugin": "6.5.4",
-    "worker-loader": "3.0.8"
+    "worker-loader": "3.0.8",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "@fontsource/noto-sans": "4.5.11",
@@ -128,7 +129,7 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "webpack serve --config webpack.dev.js",
-    "prepare": "node ./scripts/prepare.js",
+    "prepare": "node ./scripts/prepare.js && husky install",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "NODE_ENV=\"production\" webpack --config webpack.prod.js",
     "escheck": "es-check",
