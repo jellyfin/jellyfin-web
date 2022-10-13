@@ -1030,5 +1030,6 @@
     "LabelAudioSampleRate": "קצב דגימת שמע:",
     "LabelAlbumArtHelp": "אלבום",
     "LabelBlockContentWithTags": "חסום פריטים עם תגיות:",
-    "LabelCustomCertificatePathHelp": "נתיב"
+    "LabelCustomCertificatePathHelp": "נתיב",
+    "IgnoreDtsHelp": "השבתת אפשרות זו עשויה לפתור בעיות מסוימות, למשל. אודיו חסר בערוצים עם זרמי אודיו ווידאו נפרדים."
 }
