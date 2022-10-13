@@ -1320,7 +1320,7 @@ class PlaybackManager {
             }
 
             if (self.playMethod(player) === 'Transcode' || !player.canSetAudioStreamIndex()) {
-                changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
+                changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index, EnableDirectPlay: false });
                 getPlayerData(player).audioStreamIndex = index;
             } else {
                 // See if the player supports the track without transcoding
