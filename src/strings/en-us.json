@@ -144,6 +144,7 @@
     "ConfigureDateAdded": "Set up how metadata for 'Date added' is determined in the Dashboard > Libraries > NFO Settings",
     "ConfirmDeleteImage": "Delete image?",
     "ConfirmDeleteItem": "Deleting this item will delete it from both the file system and your media library. Are you sure you wish to continue?",
+    "ConfirmDeletePlaylistItem": "Deleting this item will not affect you media. Are you sure you wish to delete this playlist?",
     "ConfirmDeleteItems": "Deleting these items will delete them from both the file system and your media library. Are you sure you wish to continue?",
     "ConfirmDeletion": "Confirm Deletion",
     "ConfirmEndPlayerSession": "Would you like to shutdown Jellyfin on {0}?",

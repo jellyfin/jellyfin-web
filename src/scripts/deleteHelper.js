@@ -15,10 +15,12 @@ export function deleteItem(options) {
 
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
+    const deleteItemText=(item.Type === 'Playlist' ? 'ConfirmDeletePlaylistItem' : 'ConfirmDeleteItem');
+
     return confirm({
 
         title: globalize.translate('HeaderDeleteItem'),
-        text: globalize.translate('ConfirmDeleteItem'),
+        text: globalize.translate(deleteItemText),
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
 
