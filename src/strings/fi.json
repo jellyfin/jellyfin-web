@@ -1569,7 +1569,7 @@
     "TitleHostingSettings": "Isännöintiasetukset",
     "TextSent": "Teksti lähetettiin.",
     "SystemDlnaProfilesHelp": "Järjestelmäprofiileihin ei ole kirjoitusoikeutta ja niihin tehdyt muutokset tallennetaan uusina profiileina.",
-    "SyncPlayGroupDefaultTitle": "Käyttäjän {0} ryhmä",
+    "SyncPlayGroupDefaultTitle": "{0} -n ryhmä",
     "SubtitleAppearanceSettingsDisclaimer": "Seuraavat asetukset eivät vaikuta yllämainittuhin graafisiin tekstityksiin, eivätkä ASS- ja SSA-tekstityksiin, jotka sisältävät omia tyylejään.",
     "SubtitleOffset": "Tekstityksen ajoitus",
     "StopPlayback": "Pysäytä toisto",
