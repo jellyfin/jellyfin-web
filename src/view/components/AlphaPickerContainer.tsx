@@ -1,14 +1,13 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import AlphaPicker from '../../components/alphaPicker/alphaPicker';
-import { AlphaPickerValueI, QueryI } from './interface';
+import { QueryI } from './interface';
 
-interface AlphaPickerContainerI {
-    getQuery: () => QueryI
-    setAlphaPickerValue: React.Dispatch<AlphaPickerValueI>;
-    setStartIndex: React.Dispatch<React.SetStateAction<number>>;
+interface AlphaPickerContainerProps {
+    getQuery: () => QueryI;
+    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
 }
 
-const AlphaPickerContainer: FC<AlphaPickerContainerI> = ({ getQuery, setAlphaPickerValue, setStartIndex }) => {
+const AlphaPickerContainer: FC<AlphaPickerContainerProps> = ({ getQuery, setQuery }) => {
     const [ alphaPicker, setAlphaPicker ] = useState<AlphaPicker>();
     const element = useRef<HTMLDivElement>(null);
     const query = getQuery();
@@ -23,9 +22,9 @@ const AlphaPickerContainer: FC<AlphaPickerContainerI> = ({ getQuery, setAlphaPic
         } else {
             updatedValue = {NameStartsWith: newValue};
         }
-        setAlphaPickerValue(updatedValue);
-        setStartIndex(0);
-    }, [setStartIndex, setAlphaPickerValue]);
+
+        setQuery({StartIndex: 0, ...updatedValue});
+    }, [setQuery]);
 
     useEffect(() => {
         const alphaPickerElement = element.current;

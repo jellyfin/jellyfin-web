@@ -5,13 +5,13 @@ import globalize from '../../scripts/globalize';
 import escapeHTML from 'escape-html';
 import SectionContainer from './SectionContainer';
 
-interface RecommendationContainerI {
+interface RecommendationContainerProps {
     getPortraitShape: () => string;
     enableScrollX: () => boolean;
     recommendation?: RecommendationDto;
 }
 
-const RecommendationContainer: FC<RecommendationContainerI> = ({ getPortraitShape, enableScrollX, recommendation = {} }) => {
+const RecommendationContainer: FC<RecommendationContainerProps> = ({ getPortraitShape, enableScrollX, recommendation = {} }) => {
     let title = '';
 
     switch (recommendation.RecommendationType) {

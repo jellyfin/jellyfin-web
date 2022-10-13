@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
+import { QueryI } from './interface';
 
-interface SortI {
+interface SortProps {
     getSortMenuOptions: () => {
         name: string;
         value: string;
@@ -11,10 +12,11 @@ interface SortI {
         sortOrder: string;
     }
     getSettingsKey: () => string;
+    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
     reloadItems: () => void;
 }
 
-const Sort: FC<SortI> = ({ getSortMenuOptions, getSortValues, getSettingsKey, reloadItems }) => {
+const Sort: FC<SortProps> = ({ getSortMenuOptions, getSortValues, getSettingsKey, setQuery, reloadItems }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showSortMenu = useCallback(() => {
@@ -25,10 +27,11 @@ const Sort: FC<SortI> = ({ getSortMenuOptions, getSortValues, getSettingsKey, re
                 settings: getSortValues(),
                 sortOptions: getSortMenuOptions()
             }).then(() => {
+                setQuery({StartIndex: 0});
                 reloadItems();
             });
         });
-    }, [getSettingsKey, getSortMenuOptions, getSortValues, reloadItems]);
+    }, [getSettingsKey, getSortMenuOptions, getSortValues, reloadItems, setQuery]);
 
     useEffect(() => {
         const btnSort = element.current?.querySelector('.btnSort');

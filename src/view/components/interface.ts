@@ -1,9 +1,5 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
-export interface AlphaPickerValueI {
-    NameLessThan?: string;
-    NameStartsWith?: string | null;
-}
 export interface QueryI {
     SortBy?: string;
     SortOrder?: string;
@@ -17,7 +13,7 @@ export interface QueryI {
     ParentId?: string | null;
     IsFavorite?: boolean;
     IsMissing?: boolean;
-    Limit:number;
+    Limit?:number;
     NameStartsWithOrGreater?: string;
     NameLessThan?: string;
     NameStartsWith?: string | null;

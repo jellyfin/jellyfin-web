@@ -1,24 +1,26 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
-import { FiltersI } from './interface';
+import { FiltersI, QueryI } from './interface';
 
-interface FilterI {
+interface FilterProps {
     topParentId?: string | null;
     getItemTypes: () => string[];
     getFilters: () => FiltersI;
     getSettingsKey: () => string;
     getFilterMenuOptions: () => Record<string, never>;
     getVisibleFilters: () => string[];
+    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
     reloadItems: () => void;
 }
 
-const Filter: FC<FilterI> = ({
+const Filter: FC<FilterProps> = ({
     topParentId,
     getItemTypes,
     getSettingsKey,
     getFilters,
     getVisibleFilters,
     getFilterMenuOptions,
+    setQuery,
     reloadItems
 }) => {
     const element = useRef<HTMLDivElement>(null);
@@ -35,10 +37,11 @@ const Filter: FC<FilterI> = ({
                 serverId: window.ApiClient.serverId(),
                 filterMenuOptions: getFilterMenuOptions()
             }).then(() => {
+                setQuery({StartIndex: 0});
                 reloadItems();
             });
         });
-    }, [getSettingsKey, getFilters, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, reloadItems]);
+    }, [getSettingsKey, getFilters, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, setQuery, reloadItems]);
 
     useEffect(() => {
         const btnFilter = element.current?.querySelector('.btnFilter');

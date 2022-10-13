@@ -8,14 +8,14 @@ import ItemsContainerElement from '../../elements/ItemsContainerElement';
 import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
 import { CardOptionsI } from './interface';
 
-interface SectionContainerI {
+interface SectionContainerProps {
     sectionTitle: string;
     enableScrollX: () => boolean;
     items?: BaseItemDto[];
     cardOptions?: CardOptionsI;
 }
 
-const SectionContainer: FC<SectionContainerI> = ({
+const SectionContainer: FC<SectionContainerProps> = ({
     sectionTitle,
     enableScrollX,
     items = [],

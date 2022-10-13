@@ -50,7 +50,7 @@ const ItemsContainer: FC<ItemsContainerI> = ({ getViewSettings, getContext, item
         const cardOptions: CardOptionsI = {
             shape: shape,
             showTitle: viewsettings.showTitle,
-            showYear: viewsettings.showTitle,
+            showYear: viewsettings.showYear,
             cardLayout: viewsettings.cardLayout,
             centerText: true,
             context: getContext(),
@@ -66,7 +66,7 @@ const ItemsContainer: FC<ItemsContainerI> = ({ getViewSettings, getContext, item
         cardOptions.items = items;
 
         return cardOptions;
-    }, [getContext, items, viewsettings.cardLayout, viewsettings.imageType, viewsettings.showTitle]);
+    }, [getContext, items, viewsettings.cardLayout, viewsettings.imageType, viewsettings.showTitle, viewsettings.showYear]);
 
     const getItemsHtml = useCallback(() => {
         const settings = getViewSettings();
@@ -82,8 +82,6 @@ const ItemsContainer: FC<ItemsContainerI> = ({ getViewSettings, getContext, item
         }
 
         if (!items?.length) {
-            html = '';
-
             html += '<div class="noItemsMessage centerMessage">';
             html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
             html += '<p>' + globalize.translate(noItemsMessage) + '</p>';

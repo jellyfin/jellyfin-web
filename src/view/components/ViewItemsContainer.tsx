@@ -1,5 +1,5 @@
 import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -12,10 +12,9 @@ import Shuffle from './Shuffle';
 import Sort from './Sort';
 import NewCollection from './NewCollection';
 import globalize from '../../scripts/globalize';
-import layoutManager from '../../components/layoutManager';
-import { AlphaPickerValueI, QueryI } from './interface';
+import { QueryI } from './interface';
 
-interface ViewItemsContainerI {
+interface ViewItemsContainerProps {
     topParentId: string | null;
     isBtnShuffleEnabled?: boolean;
     isBtnFilterEnabled?: boolean;
@@ -26,7 +25,7 @@ interface ViewItemsContainerI {
     getNoItemsMessage: () => string;
 }
 
-const ViewItemsContainer: FC<ViewItemsContainerI> = ({
+const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
     topParentId,
     isBtnShuffleEnabled = false,
     isBtnFilterEnabled = true,
@@ -37,14 +36,11 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
     getNoItemsMessage
 }) => {
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
-    const [ startIndex, setStartIndex ] = useState<number>(0);
-    const [ alphaPickerValue, setAlphaPickerValue ] = useState<AlphaPickerValueI>({});
+    const [ query, setQuery ] = useState<QueryI>({
+        StartIndex: 0
+    });
 
     const element = useRef<HTMLDivElement>(null);
-
-    const queryAlphaPickerValue = useMemo(() => ({
-        ...alphaPickerValue
-    }), [alphaPickerValue]);
 
     const getSettingsKey = useCallback(() => {
         return `${topParentId} - ${getBasekey()}`;
@@ -135,7 +131,7 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
             fields += ',ProductionYear';
         }
 
-        const query: QueryI = {
+        const options: QueryI = {
             SortBy: getSortValues().sortBy,
             SortOrder: getSortValues().sortOrder,
             IncludeItemTypes: getItemTypes().join(','),
@@ -144,18 +140,18 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
             Limit: userSettings.libraryPageSize(undefined),
-            StartIndex: startIndex,
+            StartIndex: query.StartIndex,
+            NameLessThan: query.NameLessThan,
+            NameStartsWith: query.NameStartsWith,
             ParentId: topParentId
         };
 
         if (getBasekey() === 'favorites') {
-            query.IsFavorite = true;
+            options.IsFavorite = true;
         }
 
-        const queryInfo: QueryI = Object.assign(query, queryAlphaPickerValue || {});
-
-        return queryInfo;
-    }, [getViewSettings, getSortValues, getItemTypes, startIndex, topParentId, getBasekey, queryAlphaPickerValue]);
+        return options;
+    }, [getViewSettings, getSortValues, getItemTypes, query.StartIndex, query.NameLessThan, query.NameStartsWith, topParentId, getBasekey]);
 
     const getQueryWithFilters = useCallback(() => {
         const query = getQuery();
@@ -320,8 +316,8 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination
                     itemsResult= {itemsResult}
-                    startIndex={startIndex}
-                    setStartIndex={setStartIndex}
+                    query={query}
+                    setQuery={setQuery}
                 />
 
                 {isBtnShuffleEnabled && <Shuffle itemsResult={itemsResult} topParentId={topParentId} />}
@@ -330,6 +326,7 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
                     getSettingsKey={getSettingsKey}
                     getVisibleViewSettings={getVisibleViewSettings}
                     getViewSettings={getViewSettings}
+                    setQuery={setQuery}
                     reloadItems={reloadItems}
                 />}
 
@@ -337,6 +334,7 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
                     getSortMenuOptions={getSortMenuOptions}
                     getSortValues={getSortValues}
                     getSettingsKey={getSettingsKey}
+                    setQuery={setQuery}
                     reloadItems={reloadItems}
                 />
 
@@ -347,6 +345,7 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
                     getItemTypes={getItemTypes}
                     getVisibleFilters={getVisibleFilters}
                     getFilterMenuOptions={getFilterMenuOptions}
+                    setQuery={setQuery}
                     reloadItems={reloadItems}
                 />}
 
@@ -356,8 +355,7 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
 
             {isAlphaPickerEnabled && <AlphaPickerContainer
                 getQuery={getQuery}
-                setAlphaPickerValue={setAlphaPickerValue}
-                setStartIndex={setStartIndex}
+                setQuery={setQuery}
             />}
 
             <ItemsContainer
@@ -370,8 +368,8 @@ const ViewItemsContainer: FC<ViewItemsContainerI> = ({
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination
                     itemsResult= {itemsResult}
-                    startIndex={startIndex}
-                    setStartIndex={setStartIndex}
+                    query={query}
+                    setQuery={setQuery}
                 />
             </div>
         </div>

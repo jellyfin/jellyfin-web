@@ -4,12 +4,12 @@ import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import IconButtonElement from '../../elements/IconButtonElement';
 
-interface ShuffleI {
+interface ShuffleProps {
     itemsResult?: BaseItemDtoQueryResult;
     topParentId: string | null;
 }
 
-const Shuffle: FC<ShuffleI> = ({ itemsResult = {}, topParentId }) => {
+const Shuffle: FC<ShuffleProps> = ({ itemsResult = {}, topParentId }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const shuffle = useCallback(() => {

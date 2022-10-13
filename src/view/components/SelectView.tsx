@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
+import { QueryI } from './interface';
 
-interface SelectViewI {
+interface SelectViewProps {
     getSettingsKey: () => string;
     getVisibleViewSettings: () => string[];
     getViewSettings: () => {
@@ -11,10 +12,11 @@ interface SelectViewI {
         imageType: string;
         viewType: string;
     };
+    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
     reloadItems: () => void;
 }
 
-const SelectView: FC<SelectViewI> = ({ getSettingsKey, getVisibleViewSettings, getViewSettings, reloadItems }) => {
+const SelectView: FC<SelectViewProps> = ({ setQuery, getSettingsKey, getVisibleViewSettings, getViewSettings, reloadItems }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showViewSettingsMenu = useCallback(() => {
@@ -25,10 +27,11 @@ const SelectView: FC<SelectViewI> = ({ getSettingsKey, getVisibleViewSettings, g
                 settings: getViewSettings(),
                 visibleSettings: getVisibleViewSettings()
             }).then(() => {
+                setQuery({StartIndex: 0});
                 reloadItems();
             });
         });
-    }, [getSettingsKey, getViewSettings, getVisibleViewSettings, reloadItems]);
+    }, [getSettingsKey, getViewSettings, getVisibleViewSettings, reloadItems, setQuery]);
 
     useEffect(() => {
         const btnSelectView = element.current?.querySelector('.btnSelectView') as HTMLButtonElement;

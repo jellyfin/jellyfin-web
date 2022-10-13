@@ -11,13 +11,13 @@ import layoutManager from '../../components/layoutManager';
 import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
 
-interface GenresItemsContainerI {
+interface GenresItemsContainerProps {
     topParentId?: string | null;
     getCurrentViewStyle: () => string;
     itemsResult?: BaseItemDtoQueryResult;
 }
 
-const GenresItemsContainer: FC<GenresItemsContainerI> = ({ topParentId, getCurrentViewStyle, itemsResult = {} }) => {
+const GenresItemsContainer: FC<GenresItemsContainerProps> = ({ topParentId, getCurrentViewStyle, itemsResult = {} }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const enableScrollX = useCallback(() => {

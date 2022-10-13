@@ -3,16 +3,18 @@ import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
+import { QueryI } from './interface';
 
-interface PaginationI {
-    startIndex: number
-    setStartIndex: React.Dispatch<React.SetStateAction<number>>;
+interface PaginationProps {
+    query: QueryI;
+    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
     itemsResult?: BaseItemDtoQueryResult;
 }
 
-const Pagination: FC<PaginationI> = ({ startIndex, setStartIndex, itemsResult = {} }) => {
+const Pagination: FC<PaginationProps> = ({ query, setQuery, itemsResult = {} }) => {
     const limit = userSettings.libraryPageSize(undefined);
     const totalRecordCount = itemsResult.TotalRecordCount || 0;
+    const startIndex = query.StartIndex || 0;
     const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
     const showControls = limit < totalRecordCount;
     const element = useRef<HTMLDivElement>(null);
@@ -20,16 +22,16 @@ const Pagination: FC<PaginationI> = ({ startIndex, setStartIndex, itemsResult = 
     const onNextPageClick = useCallback(() => {
         if (limit > 0) {
             const newIndex = startIndex + limit;
-            setStartIndex(newIndex);
+            setQuery({StartIndex: newIndex});
         }
-    }, [limit, setStartIndex, startIndex]);
+    }, [limit, setQuery, startIndex]);
 
     const onPreviousPageClick = useCallback(() => {
         if (limit > 0) {
             const newIndex = Math.max(0, startIndex - limit);
-            setStartIndex(newIndex);
+            setQuery({StartIndex: newIndex});
         }
-    }, [limit, setStartIndex, startIndex]);
+    }, [limit, setQuery, startIndex]);
 
     useEffect(() => {
         const btnNextPage = element.current?.querySelector('.btnNextPage') as HTMLButtonElement;
