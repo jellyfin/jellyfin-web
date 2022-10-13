@@ -206,7 +206,10 @@ class NavDrawer {
 
         options.target.classList.add('touch-menu-la');
         options.target.style.width = options.width + 'px';
-        options.target.style.insetInlineStart = -options.width + 'px';
+        if (globalize.getIsRTL())
+            options.target.style.right = -options.width + 'px';
+        else
+            options.target.style.left = -options.width + 'px';
 
         if (!options.disableMask) {
             this.mask = document.createElement('div');

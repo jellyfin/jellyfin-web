@@ -40,13 +40,13 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
     }
 
     function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
-        // TODO: Check if hack is really needed
-        // hack alert add twenty for rounding errors
         let localeAwarePos = scrollPos;
-        if (globalize.getElementIsRTL(scrollButtons)) {
+        if (globalize.getIsElementRTL(scrollButtons)) {
             localeAwarePos *= -1;
         }
 
+        // TODO: Check if hack is really needed
+        // hack alert add twenty for rounding errors
         if (scrollWidth <= scrollSize + 20) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
             scrollButtons.scrollButtonsRight.classList.add('hide');

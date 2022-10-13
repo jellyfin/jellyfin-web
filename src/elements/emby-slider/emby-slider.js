@@ -32,7 +32,7 @@ import globalize from '../../scripts/globalize';
         const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
         let fraction = (clientX - rect.left) / rect.width;
-        if (globalize.getElementIsRTL(range))
+        if (globalize.getIsElementRTL(range))
             fraction = (rect.right - clientX) / rect.width;
 
         // Snap to step
@@ -121,7 +121,7 @@ import globalize from '../../scripts/globalize';
             const bubbleRect = bubble.getBoundingClientRect();
 
             let bubblePos = bubbleTrackRect.width * value / 100;
-            if (globalize.getElementIsRTL(range)) {
+            if (globalize.getIsElementRTL(range)) {
                 bubblePos = bubbleTrackRect.width - bubblePos;
             }
             bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);

@@ -3,6 +3,11 @@ import isEmpty from 'lodash-es/isEmpty';
 
 import { currentSettings as userSettings } from './settings/userSettings';
 
+const Direction = {
+    rtl: "rtl",
+    ltr: "ltr"
+};
+
 /* eslint-disable indent */
 
     const fallbackCulture = 'en-us';
@@ -46,6 +51,7 @@ import { currentSettings as userSettings } from './settings/userSettings';
 
     function checkAndProcessDir(culture) {
         isRTL = false;
+        console.log(culture);
         for (const lang of RTL_LANGS) {
             if (culture.includes(lang)) {
                 isRTL = true;
@@ -53,24 +59,17 @@ import { currentSettings as userSettings } from './settings/userSettings';
             }
         }
 
-        if (isRTL)
-            processIsRTL();
-        else
-            processIsLTR();
+        setDocumentDirection(isRTL ? Direction.rtl : Direction.ltr);
     }
 
-    function processIsRTL() {
-        document.getElementsByTagName('body')[0].setAttribute('dir', 'rtl');
-        document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-        import('../styles/rtl.scss');
+    function setDocumentDirection(direction) {
+        document.getElementsByTagName('body')[0].setAttribute('dir', direction);
+        document.getElementsByTagName('html')[0].setAttribute('dir', direction);
+        if (direction === Direction.rtl)
+            import('../styles/rtl.scss');
     }
 
-    function processIsLTR() {
-        document.getElementsByTagName('body')[0].setAttribute('dir', 'ltr');
-        document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-    }
-
-    export function getElementIsRTL(element) {
+    export function getIsElementRTL(element) {
         if (window.getComputedStyle) { // all browsers
             return window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
         }
@@ -299,7 +298,7 @@ export default {
     register,
     updateCurrentCulture,
     getIsRTL,
-    getElementIsRTL
+    getIsElementRTL
 };
 
 /* eslint-enable indent */
