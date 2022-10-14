@@ -1,4 +1,5 @@
-import { AppStorage, Events } from 'jellyfin-apiclient';
+import { AppStorage } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 
 class AppSettings {

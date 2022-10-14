@@ -1,5 +1,5 @@
-import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../playback/playbackmanager';
+import Events from '../../utils/events.ts';
 
 function transferPlayback(oldPlayer, newPlayer) {
     const state = playbackManager.getPlayerState(oldPlayer);

@@ -2,10 +2,10 @@ import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import { Events } from 'jellyfin-apiclient';
 import castSenderApiLoader from '../../components/castSenderApi';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
+import Events from '../../utils/events.ts';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 

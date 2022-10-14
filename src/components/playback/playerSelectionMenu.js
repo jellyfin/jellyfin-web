@@ -1,5 +1,5 @@
 import appSettings from '../../scripts/settings/appSettings';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';

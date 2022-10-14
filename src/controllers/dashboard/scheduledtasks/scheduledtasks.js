@@ -1,10 +1,11 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import { Events } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, getLocaleWithSuffix } from '../../../scripts/dfnshelper';
+import Events from '../../../utils/events.ts';
+
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 

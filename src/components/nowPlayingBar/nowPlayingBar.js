@@ -1,5 +1,5 @@
 import datetime from '../../scripts/datetime';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';

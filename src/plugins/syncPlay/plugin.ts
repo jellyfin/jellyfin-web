@@ -1,7 +1,6 @@
-import { Events } from 'jellyfin-apiclient';
-
 import { playbackManager } from '../../components/playback/playbackmanager';
 import ServerConnections from '../../components/ServerConnections';
+import Events from '../../utils/events';
 import SyncPlay from './core';
 import SyncPlayNoActivePlayer from './ui/players/NoActivePlayer';
 import SyncPlayHtmlVideoPlayer from './ui/players/HtmlVideoPlayer';

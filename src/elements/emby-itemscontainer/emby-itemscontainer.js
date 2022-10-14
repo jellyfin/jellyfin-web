@@ -8,7 +8,7 @@ import dom from '../../scripts/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import serverNotifications from '../../scripts/serverNotifications';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../../components/ServerConnections';
 import Sortable from 'sortablejs';

@@ -1,12 +1,12 @@
 import { playbackManager } from '../components/playback/playbackmanager';
 import SyncPlay from '../plugins/syncPlay/core';
-import { Events } from 'jellyfin-apiclient';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
 import { appRouter } from '../components/appRouter';
 import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import alert from '../components/alert';
+import Events from '../utils/events.ts';
 
 const serverNotifications = {};
 
