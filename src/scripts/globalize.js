@@ -4,8 +4,8 @@ import isEmpty from 'lodash-es/isEmpty';
 import { currentSettings as userSettings } from './settings/userSettings';
 
 const Direction = {
-    rtl: "rtl",
-    ltr: "ltr"
+    rtl: 'rtl',
+    ltr: 'ltr'
 };
 
 /* eslint-disable indent */
