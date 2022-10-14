@@ -3,7 +3,7 @@
  * @module components/syncPlay/core/Helper
  */
 
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../../utils/events.ts';
 
 /**
  * Constants

@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import * as datefns from 'date-fns';

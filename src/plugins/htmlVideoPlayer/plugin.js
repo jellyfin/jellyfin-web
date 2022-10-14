@@ -1,5 +1,4 @@
 import browser from '../../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
@@ -31,6 +30,7 @@ import ServerConnections from '../../components/ServerConnections';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import Events from '../../utils/events.ts';
 
 /**
  * Returns resolved URL.

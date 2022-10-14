@@ -1,9 +1,9 @@
-import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
+import Events from '../../utils/events.ts';
 
 function getDefaultProfile() {
     return profileBuilder({});

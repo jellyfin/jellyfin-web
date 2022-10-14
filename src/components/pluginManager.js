@@ -1,4 +1,4 @@
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 import globalize from '../scripts/globalize';
 import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';

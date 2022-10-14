@@ -5,7 +5,7 @@ import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';

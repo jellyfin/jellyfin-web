@@ -1,4 +1,3 @@
-import { Events } from 'jellyfin-apiclient';
 import SyncPlay from '../core';
 import SyncPlaySettingsEditor from './settings/SettingsEditor';
 import loading from '../../../components/loading/loading';
@@ -7,6 +6,8 @@ import actionsheet from '../../../components/actionSheet/actionSheet';
 import globalize from '../../../scripts/globalize';
 import playbackPermissionManager from './playbackPermissionManager';
 import ServerConnections from '../../../components/ServerConnections';
+import Events from '../../../utils/events.ts';
+
 import './groupSelectionMenu.scss';
 
 /**

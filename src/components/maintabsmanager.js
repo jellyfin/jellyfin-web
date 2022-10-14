@@ -1,6 +1,6 @@
 import dom from '../scripts/dom';
 import browser from '../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 

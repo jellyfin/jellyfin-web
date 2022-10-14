@@ -1,7 +1,7 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
-import { Events } from 'jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
 import ServerConnections from '../../components/ServerConnections';
+import Events from '../../utils/events.ts';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();

@@ -1,4 +1,3 @@
-import { Events } from 'jellyfin-apiclient';
 import 'material-design-icons-iconfont';
 
 import loading from '../../components/loading/loading';
@@ -10,6 +9,7 @@ import TableOfContents from './tableOfContents';
 import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
+import Events from '../../utils/events.ts';
 
 import '../../elements/emby-button/paper-icon-button-light';
 

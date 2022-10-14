@@ -7,7 +7,7 @@ import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import { appRouter } from '../../components/appRouter';
 import layoutManager from '../../components/layoutManager';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import datetime from '../../scripts/datetime';

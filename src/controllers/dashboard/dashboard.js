@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';

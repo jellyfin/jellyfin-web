@@ -3,8 +3,8 @@
  * @module components/syncPlay/ui/players/HtmlVideoPlayer
  */
 
-import { Events } from 'jellyfin-apiclient';
 import NoActivePlayer from './NoActivePlayer';
+import Events from '../../../../utils/events.ts';
 
 /**
  * Class that manages the HtmlVideoPlayer for SyncPlay.
