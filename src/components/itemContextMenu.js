@@ -143,7 +143,7 @@ import toast from './toast/toast';
 
         if (item.Type === 'Season' || item.Type == 'Series') {
             commands.push({
-                name: 'Download All',
+                name: globalize.translate('DownloadAll'),
                 id: 'downloadall',
                 icon: 'file_download'
             });
