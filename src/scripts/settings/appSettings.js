@@ -1,4 +1,3 @@
-import { AppStorage } from 'jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 
@@ -108,7 +107,7 @@ class AppSettings {
 
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
-        AppStorage.setItem(this.#getKey(name, userId), value);
+        localStorage.setItem(this.#getKey(name, userId), value);
 
         if (currentValue !== value) {
             Events.trigger(this, 'change', [name]);
@@ -116,7 +115,7 @@ class AppSettings {
     }
 
     get(name, userId) {
-        return AppStorage.getItem(this.#getKey(name, userId));
+        return localStorage.getItem(this.#getKey(name, userId));
     }
 }
 
