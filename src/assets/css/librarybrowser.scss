@@ -810,6 +810,14 @@
     padding-left: 32.45vw;
 }
 
+.layout-tv [dir="rtl"] .detailPagePrimaryContainer {
+    padding-right: 32.45vw;
+}
+
+.layout-tv [dir="ltr"] .detailPagePrimaryContainer {
+    padding-left: 32.45vw;
+}
+
 .layout-desktop .detailRibbon {
     margin-top: -7.2em;
     height: 7.2em;

@@ -149,7 +149,7 @@ import ServerConnections from '../ServerConnections';
 
             elem.classList.add('listItemBodyText');
 
-            elem.innerHTML = '<bdi>' + text + '</bdi>';
+            elem.innerHTML = '<bdi>' + escapeHtml(text) + '</bdi>';
 
             html += elem.outerHTML;
         }
