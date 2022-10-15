@@ -232,14 +232,10 @@ const Direction = {
         return key;
     }
 
-    function replaceAll(str, find, replace) {
-        return str.split(find).join(replace);
-    }
-
     export function translate(key) {
         let val = translateKey(key);
         for (let i = 1; i < arguments.length; i++) {
-            val = replaceAll(val, '{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
+            val = val.replaceAll('{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
         }
         return val;
     }
