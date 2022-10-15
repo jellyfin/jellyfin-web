@@ -1068,7 +1068,7 @@ function renderTagline(page, item) {
 
     if (item.Taglines && item.Taglines.length) {
         taglineElement.classList.remove('hide');
-        taglineElement.innerHTML = '<bdi>' + item.Taglines[0] + '</bdi>';
+        taglineElement.innerHTML = '<bdi>' + escapeHtml(item.Taglines[0]) + '</bdi>';
     } else {
         taglineElement.classList.add('hide');
     }
