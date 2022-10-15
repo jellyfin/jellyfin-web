@@ -1347,6 +1347,7 @@ function tryRemoveElement(elem) {
                         loading.show();
 
                         const dlg = document.createElement('div');
+                        dlg.setAttribute('dir', 'ltr');
 
                         dlg.classList.add('videoPlayerContainer');
 

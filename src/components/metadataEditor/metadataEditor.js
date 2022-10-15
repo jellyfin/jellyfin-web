@@ -17,6 +17,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../assets/css/clearbutton.scss';
 import '../../assets/css/flexstyles.scss';
+import './style.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';

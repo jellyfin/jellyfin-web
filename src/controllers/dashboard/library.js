@@ -310,7 +310,10 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
 
         if (virtualFolder.showMenu !== false) {
-            html += '<div style="text-align:right; float:right;padding-top:5px;">';
+            let dirTextAlign = 'right';
+            if (globalize.getIsRTL())
+                dirTextAlign = 'left';
+            html += '<div style="text-align:' + dirTextAlign + '; float:' + dirTextAlign + ';padding-top:5px;">';
             html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
             html += '</div>';
         }
@@ -343,7 +346,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             html += '&nbsp;';
             html += '</div>';
         } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
-            html += "<div class='cardText cardText-secondary'>";
+            html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
             html += virtualFolder.Locations[0];
             html += '</div>';
         } else {

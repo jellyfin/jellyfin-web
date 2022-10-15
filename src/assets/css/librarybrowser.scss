@@ -32,6 +32,39 @@
     }
 }
 
+@mixin header-poster-padding-rtl() {
+    padding-left: unset;
+    padding-right: 37.5%;
+
+    @media all and (min-width: 43.75em) {
+        padding-right: 25%;
+    }
+
+    @media all and (min-width: 50em) {
+        padding-right: 20%;
+    }
+
+    @media all and (min-width: 75em) {
+        padding-right: 16.666666666666666666666666666667%;
+    }
+
+    @media all and (min-width: 87.5em) {
+        padding-right: 14.285714285714285714285714285714%;
+    }
+
+    @media all and (min-width: 100em) {
+        padding-right: 12.5%;
+    }
+
+    @media all and (min-width: 120em) {
+        padding-right: 11.111111111111111111111111111111%;
+    }
+
+    @media all and (min-width: 131.25em) {
+        padding-right: 10%;
+    }
+}
+
 .headerUserImage,
 .navMenuOption,
 .pageTitle {
@@ -137,10 +170,17 @@
 
 .pageTitle {
     display: inline-flex;
-    margin: 0 0 0 0.5em;
     height: 1.7em;
     align-items: center;
     flex-shrink: 1;
+
+    [dir="ltr"] & {
+        margin: 0 0 0 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.5em 0 0;
+    }
 }
 
 .pageTitleWithDefaultLogo {
@@ -162,6 +202,10 @@
     background-size: contain;
     background-repeat: no-repeat;
     width: 13.2em;
+
+    [dir='rtl'] & {
+        background-position: right center;
+    }
 }
 
 .skinHeader {
@@ -211,16 +255,30 @@
     align-items: center;
     text-decoration: none;
     color: inherit;
-    padding: 0.9em 0 0.9em 2.4em !important;
     flex-grow: 1;
     font-weight: 400 !important;
     margin: 0 !important;
     border-radius: 0 !important;
+
+    [dir="ltr"] & {
+        padding: 0.9em 0 0.9em 2.4em !important;
+    }
+
+    [dir="rtl"] & {
+        padding: 0.9em 2.4em 0.9em 0 !important;
+    }
 }
 
 .navMenuOptionIcon {
-    margin-right: 1.2em;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-right: 1.2em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 1.2em;
+    }
 }
 
 .navMenuOptionText {
@@ -229,8 +287,15 @@
 }
 
 .sidebarHeader {
-    padding-left: 1.2em;
     margin: 1em 0 0.5em;
+
+    [dir="ltr"] & {
+        padding-left: 1.2em;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 1.2em;
+    }
 }
 
 .dashboardDocument .skinBody {
@@ -240,6 +305,10 @@
     right: 0;
     bottom: 0;
     left: 0;
+
+    [dir="rtl"] & {
+        transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
+    }
 }
 
 .centerMessage {
@@ -267,6 +336,14 @@
         box-shadow: none !important;
         width: 20.205em !important;
         font-size: 94%;
+
+        [dir="ltr"] & {
+            left: 0 !important;
+        }
+
+        [dir="rtl"] & {
+            right: 0 !important;
+        }
     }
 
     .dashboardDocument .mainDrawer-scrollContainer {
@@ -274,7 +351,13 @@
     }
 
     .dashboardDocument .skinBody {
-        left: 20em;
+        [dir="ltr"] & {
+            left: 20em;
+        }
+
+        [dir="rtl"] & {
+            right: 20em;
+        }
     }
 }
 
@@ -340,7 +423,14 @@
 
 .headerArrowImage {
     height: 20px;
-    margin-left: 0.5em;
+
+    [dir="ltr"] & {
+        margin-left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em;
+    }
 }
 
 .backdropContainer {
@@ -370,15 +460,28 @@
 }
 
 .viewControls + .listTopPaging {
-    margin-left: 0.5em !important;
+    [dir="ltr"] & {
+        margin-left: 0.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em !important;
+    }
 }
 
 .criticReview {
     margin: 1.5em 0;
     background: #222;
-    padding: 0.8em 0.8em 0.8em 3em;
     border-radius: 0.3em;
     position: relative;
+
+    [dir="ltr"] & {
+        padding: 0.8em 0.8em 0.8em 3em;
+    }
+
+    [dir="rtl"] & {
+        padding: 0.8em 3em 0.8em 0.8em;
+    }
 }
 
 .detailLogo {
@@ -431,12 +534,25 @@
 }
 
 .reviewDate {
-    margin-left: 1em;
+    [dir="ltr"] & {
+        margin-left: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
 }
 
 .reviewScore {
     position: absolute;
-    left: 0.8em;
+
+    [dir="ltr"] & {
+        left: 0.8em;
+    }
+
+    [dir="rtl"] & {
+        right: 0.8em;
+    }
 }
 
 .itemBackdrop {
@@ -473,8 +589,6 @@
 .detailPageContent {
     display: flex;
     flex-direction: column;
-    padding-left: 32.45vw;
-    padding-right: 2%;
 
     .layout-mobile & {
         padding-left: 5%;
@@ -484,8 +598,24 @@
     .layout-desktop &,
     .layout-tv & {
         .emby-scroller {
-            margin-left: 0;
+            [dir="ltr"] & {
+                margin-left: 0;
+            }
+
+            [dir="rtl"] & {
+                margin-right: 0;
+            }
         }
+    }
+
+    [dir="ltr"] & {
+        padding-left: 32.45vw;
+        padding-right: 2%;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 32.45vw;
+        padding-left: 2%;
     }
 }
 
@@ -613,7 +743,6 @@
 .layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
-    margin-left: 0;
 
     @include header-poster-padding;
 
@@ -621,6 +750,21 @@
     @media all and (max-width: 32em) {
         margin-bottom: 0;
         padding-left: 0;
+    }
+
+    [dir="ltr"] & {
+        margin-left: 0;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0;
+        padding-left: unset !important;
+
+        @include header-poster-padding-rtl;
+
+        @media all and (max-width: 32em) {
+            padding-right: 0 !important;
+        }
     }
 }
 
@@ -651,13 +795,19 @@
 
     .layout-desktop & {
         position: relative;
-        padding-left: 32.45vw;
     }
 
     .layout-tv & {
         display: block;
-        padding-left: 32.45vw;
     }
+}
+
+.layout-desktop [dir="rtl"] .detailPagePrimaryContainer {
+    padding-right: 32.45vw;
+}
+
+.layout-desktop [dir="ltr"] .detailPagePrimaryContainer {
+    padding-left: 32.45vw;
 }
 
 .layout-desktop .detailRibbon {
@@ -676,7 +826,13 @@
     flex: 1 0 0;
 
     .layout-mobile & {
-        @include header-poster-padding;
+        [dir="ltr"] {
+            @include header-poster-padding;
+        }
+
+        [dir="rtl"] & {
+            @include header-poster-padding-rtl;
+        }
 
         @media all and (max-width: 32em) {
             position: relative;
@@ -685,9 +841,16 @@
 }
 
 .infoText {
-    text-align: left;
     min-width: 0;
     max-width: 100%;
+
+    [dir="ltr"] & {
+        text-align: left;
+    }
+
+    [dir="rtl"] & {
+        text-align: right;
+    }
 }
 
 .detailPageSecondaryContainer {
@@ -749,6 +912,19 @@
         width: 25vw;
         transform: translateY(-50%);
     }
+
+    [dir="rtl"] & {
+        left: unset;
+
+        .layout-mobile &,
+        .layout-tv & {
+            right: 5%;
+        }
+
+        .layout-desktop & {
+            right: 3.3%;
+        }
+    }
 }
 
 .detailPagePrimaryContent {
@@ -768,6 +944,10 @@
 .itemDetailImage {
     width: 100% !important;
     box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
+
+    [dir="rtl"] & {
+        box-shadow: 0 0 0.5em 0.1em rgba(0, 0, 0, 0.75);
+    }
 }
 
 div.itemDetailGalleryLink.defaultCardBackground {
@@ -871,9 +1051,17 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .recordingFields button {
-    margin-left: 0;
-    margin-right: 0.5em;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-left: 0;
+        margin-right: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 0.5em;
+    }
 }
 
 .mainDetailButtons.hide + .recordingFields {
@@ -1016,8 +1204,15 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .mediaInfoLabel {
-    margin-right: 1em;
     font-weight: 600;
+
+    [dir="ltr"] & {
+        margin-right: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 1em;
+    }
 }
 
 .recordingProgressBar::-moz-progress-bar {
@@ -1107,19 +1302,39 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .sectionTitleButton {
-    margin-left: 1.5em !important;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-left: 1.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1.5em !important;
+    }
 }
 
 .sectionTitleButton + .sectionTitleButton {
-    margin-left: 0.5em !important;
+    [dir="ltr"] & {
+        margin-left: 0.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em !important;
+    }
 }
 
 .sectionTitleIconButton {
-    margin-left: 1.5em !important;
     flex-shrink: 0;
     font-size: 84% !important;
     padding: 0.5em !important;
+
+    [dir="ltr"] & {
+        margin-left: 1.5em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1.5em !important;
+    }
 }
 
 .horizontalItemsContainer {
@@ -1148,13 +1363,27 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .padded-left {
-    padding-left: 3.3%;
-    padding-left: max(env(safe-area-inset-left), 3.3%);
+    [dir="ltr"] & {
+        padding-left: 3.3%;
+        padding-left: max(env(safe-area-inset-left), 3.3%);
+    }
+
+    [dir="rtl"] & {
+        padding-right: 3.3%;
+        padding-right: max(env(safe-area-inset-right), 3.3%);
+    }
 }
 
 .padded-right {
-    padding-right: 3.3%;
-    padding-right: max(env(safe-area-inset-right), 3.3%);
+    [dir="ltr"] & {
+        padding-right: 3.3%;
+        padding-right: max(env(safe-area-inset-right), 3.3%);
+    }
+
+    [dir="rtl"] & {
+        padding-left: 3.3%;
+        padding-left: max(env(safe-area-inset-left), 3.3%);
+    }
 }
 
 .padded-top {

@@ -11,13 +11,20 @@
     /* General select styles: change as needed */
     font-family: inherit;
     font-weight: inherit;
-    padding: 0.5em 1.9em 0.5em 0.5em;
 
     /* Prevent padding from causing width overflow */
     box-sizing: border-box;
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     width: 100%;
+
+    [dir="ltr"] & {
+        padding: 0.5em 1.9em 0.5em 0.5em;
+    }
+
+    [dir="rtl"] & {
+        padding: 0.5em 0.5em 0.5em 1.9em;
+    }
 }
 
 .emby-select[disabled] {
@@ -34,8 +41,15 @@
 }
 
 .selectContainer-inline > .emby-select {
-    padding: 0.3em 1.9em 0.3em 0.5em;
     font-size: inherit;
+
+    [dir="ltr"] & {
+        padding: 0.3em 1.9em 0.3em 0.5em;
+    }
+
+    [dir="rtl"] & {
+        padding: 0.3em 0.5em 0.3em 1.9em;
+    }
 }
 
 .selectContainer-inline > .emby-select[disabled] {
@@ -92,10 +106,17 @@
 
 .selectArrowContainer {
     position: absolute;
-    right: 0.3em;
     top: 0.2em;
     color: inherit;
     pointer-events: none;
+
+    [dir="ltr"] & {
+        right: 0.3em;
+    }
+
+    [dir="rtl"] & {
+        left: 0.3em;
+    }
 }
 
 .selectContainer-inline > .selectArrowContainer {

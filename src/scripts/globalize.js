@@ -3,13 +3,20 @@ import isEmpty from 'lodash-es/isEmpty';
 import { currentSettings as userSettings } from './settings/userSettings';
 import Events from '../utils/events.ts';
 
+const Direction = {
+    rtl: 'rtl',
+    ltr: 'ltr'
+};
+
 /* eslint-disable indent */
 
     const fallbackCulture = 'en-us';
+    const RTL_LANGS = ['ar', 'fa', 'ur', 'he'];
 
     const allTranslations = {};
     let currentCulture;
     let currentDateTimeCulture;
+    let isRTL = false;
 
     export function getCurrentLocale() {
         return currentCulture;
@@ -38,6 +45,37 @@ import Events from '../utils/events.ts';
         return fallbackCulture;
     }
 
+    export function getIsRTL() {
+        return isRTL;
+    }
+
+    function checkAndProcessDir(culture) {
+        isRTL = false;
+        console.log(culture);
+        for (const lang of RTL_LANGS) {
+            if (culture.includes(lang)) {
+                isRTL = true;
+                break;
+            }
+        }
+
+        setDocumentDirection(isRTL ? Direction.rtl : Direction.ltr);
+    }
+
+    function setDocumentDirection(direction) {
+        document.getElementsByTagName('body')[0].setAttribute('dir', direction);
+        document.getElementsByTagName('html')[0].setAttribute('dir', direction);
+        if (direction === Direction.rtl)
+            import('../styles/rtl.scss');
+    }
+
+    export function getIsElementRTL(element) {
+        if (window.getComputedStyle) { // all browsers
+            return window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
+        }
+        return element.currentStyle.direction == 'rtl';
+    }
+
     export function updateCurrentCulture() {
         let culture;
         try {
@@ -46,6 +84,7 @@ import Events from '../utils/events.ts';
             console.error('no language set in user settings');
         }
         culture = culture || getDefaultLanguage();
+        checkAndProcessDir(culture);
 
         currentCulture = normalizeLocaleName(culture);
 
@@ -200,7 +239,7 @@ import Events from '../utils/events.ts';
     export function translate(key) {
         let val = translateKey(key);
         for (let i = 1; i < arguments.length; i++) {
-            val = replaceAll(val, '{' + (i - 1) + '}', arguments[i]);
+            val = replaceAll(val, '{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
         }
         return val;
     }
@@ -257,7 +296,9 @@ export default {
     getCurrentLocale,
     getCurrentDateTimeLocale,
     register,
-    updateCurrentCulture
+    updateCurrentCulture,
+    getIsRTL,
+    getIsElementRTL
 };
 
 /* eslint-enable indent */

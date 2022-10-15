@@ -1,6 +1,13 @@
 .mediaInfoItem {
-    margin: 0 1em 0 0;
     padding: 0;
+
+    [dir="ltr"] & {
+        margin: 0 1em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 0 1em;
+    }
 }
 
 .mediaInfoText {
@@ -25,7 +32,13 @@
 }
 
 .mediaInfoItem:last-child {
-    margin-right: 0;
+    [dir="ltr"] & {
+        margin-right: 0;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 0;
+    }
 }
 
 .starRatingContainer {
@@ -46,13 +59,21 @@
 }
 
 .mediaInfoCriticRating {
-    padding-left: 1.5em;
-    background-position: left center;
     background-repeat: no-repeat;
     background-size: auto 1.2em;
     min-height: 1.2em;
     display: flex;
     align-items: center;
+
+    [dir="ltr"] & {
+        padding-left: 1.5em;
+        background-position: left center;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 1.5em;
+        background-position: right center;
+    }
 }
 
 .mediaInfoCriticRatingFresh {

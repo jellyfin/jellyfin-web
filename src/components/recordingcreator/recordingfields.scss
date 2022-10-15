@@ -1,6 +1,13 @@
 .recordingButton {
-    margin-left: 0;
     min-width: 10em;
+
+    [dir="ltr"] & {
+        margin-left: 0;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0;
+    }
 }
 
 .recordingIcon-active {

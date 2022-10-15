@@ -5,6 +5,7 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -31,6 +32,8 @@ import '../emby-input/emby-input';
         const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
         let fraction = (clientX - rect.left) / rect.width;
+        if (globalize.getIsElementRTL(range))
+            fraction = (rect.right - clientX) / rect.width;
 
         // Snap to step
         const valueRange = range.max - range.min;
@@ -118,6 +121,9 @@ import '../emby-input/emby-input';
             const bubbleRect = bubble.getBoundingClientRect();
 
             let bubblePos = bubbleTrackRect.width * value / 100;
+            if (globalize.getIsElementRTL(range)) {
+                bubblePos = bubbleTrackRect.width - bubblePos;
+            }
             bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);
 
             bubble.style.left = bubblePos + 'px';
@@ -484,7 +490,10 @@ import '../emby-input/emby-input';
 
     function setRange(elem, startPercent, endPercent) {
         const style = elem.style;
-        style.left = Math.max(startPercent, 0) + '%';
+        if (globalize.getIsRTL())
+            style.right = Math.max(startPercent, 0) + '%';
+        else
+            style.left = Math.max(startPercent, 0) + '%';
 
         const widthPercent = endPercent - startPercent;
         style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
