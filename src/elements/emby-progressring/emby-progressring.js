@@ -2,6 +2,7 @@ import './emby-progressring.scss';
 import 'webcomponents.js/webcomponents-lite';
 import template from './emby-progressring.template.html';
 import { getCurrentDateTimeLocale } from '../../scripts/globalize';
+import { toPercent } from '../../utils/number.ts';
 
 /* eslint-disable indent */
 
@@ -72,10 +73,7 @@ import { getCurrentDateTimeLocale } from '../../scripts/globalize';
             this.querySelector('.animate-75-100-b').style.transform = 'rotate(' + angle + 'deg)';
         }
 
-        this.querySelector('.progressring-text').innerHTML = new Intl.NumberFormat(getCurrentDateTimeLocale(), {
-            style: 'percent',
-            maximumFractionDigits: 0
-        }).format(progress / 100);
+        this.querySelector('.progressring-text').innerHTML = toPercent(progress / 100, getCurrentDateTimeLocale());
     };
 
     EmbyProgressRing.attachedCallback = function () {
