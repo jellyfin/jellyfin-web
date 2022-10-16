@@ -1091,5 +1091,8 @@
     "EnableRewatchingNextUpHelp": "允許在「接下來」中顯示已觀看的集數。",
     "Conductor": "指揮",
     "Casual": "隨意",
-    "LabelSyncPlaySettingsDescription": "更改 SyncPlay 設定"
+    "LabelSyncPlaySettingsDescription": "更改 SyncPlay 設定",
+    "IgnoreDts": "忽略 DTS (解碼時間標記)",
+    "LabelSyncPlaySettingsSyncCorrection": "同步校正",
+    "HomeVideosPhotos": "家庭影片及相片"
 }
