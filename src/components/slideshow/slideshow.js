@@ -141,11 +141,11 @@ export default function (options) {
      * Creates the HTML markup for the dialog and the OSD.
      * @param {Object} options - Options used to create the dialog and slideshow.
      */
-    function createElements(options) {
-        currentOptions = options;
+    function createElements(slideshowOptions) {
+        currentOptions = slideshowOptions;
 
         dialog = dialogHelper.createDialog({
-            exitAnimationDuration: options.interactive ? 400 : 800,
+            exitAnimationDuration: slideshowOptions.interactive ? 400 : 800,
             size: 'fullscreen',
             autoFocus: false,
             scrollY: false,
@@ -159,7 +159,7 @@ export default function (options) {
 
         html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-        if (options.interactive && !layoutManager.tv) {
+        if (slideshowOptions.interactive && !layoutManager.tv) {
             const actionButtonsOnTop = layoutManager.mobile;
 
             html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
@@ -169,7 +169,7 @@ export default function (options) {
             if (actionButtonsOnTop) {
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
 
-                if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
+                if (appHost.supports('filedownload') && slideshowOptions.user && slideshowOptions.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (appHost.supports('sharing')) {
@@ -187,7 +187,7 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
+                if (appHost.supports('filedownload') && slideshowOptions.user && slideshowOptions.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (appHost.supports('sharing')) {
@@ -206,7 +206,7 @@ export default function (options) {
 
         dialog.innerHTML = html;
 
-        if (options.interactive && !layoutManager.tv) {
+        if (slideshowOptions.interactive && !layoutManager.tv) {
             dialog.querySelector('.btnSlideshowExit').addEventListener('click', function () {
                 dialogHelper.close(dialog);
             });
@@ -331,7 +331,7 @@ export default function (options) {
      * @param {HTMLElement} dialog - Element containing the dialog.
      * @param {Object} options - Options used to initialize the Swiper instance.
      */
-    function loadSwiper(dialog, options) {
+    function loadSwiper(dialogElement, swiperOptions) {
         let slides;
         if (currentOptions.slides) {
             slides = currentOptions.slides;
@@ -344,7 +344,7 @@ export default function (options) {
 
         // eslint-disable-next-line import/no-unresolved
         import('swiper/bundle').then(({ Swiper }) => {
-            swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
+            swiperInstance = new Swiper(dialogElement.querySelector('.slideshowSwiperContainer'), {
                 direction: 'horizontal',
                 // Loop is disabled due to the virtual slides option not supporting it.
                 loop: false,
@@ -352,14 +352,14 @@ export default function (options) {
                     minRatio: 1,
                     toggle: true
                 },
-                autoplay: !options.interactive || !!options.autoplay,
+                autoplay: !swiperOptions.interactive || !!swiperOptions.autoplay,
                 keyboard: {
                     enabled: true
                 },
                 preloadImages: true,
                 slidesPerView: 1,
                 slidesPerColumn: 1,
-                initialSlide: options.startIndex || 0,
+                initialSlide: swiperOptions.startIndex || 0,
                 speed: 240,
                 navigation: {
                     nextEl: '.btnSlideshowNext',

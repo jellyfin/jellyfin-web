@@ -264,7 +264,7 @@ function runInputLoop() {
         }
         // Iterate through the buttons to see if Left thumbstick, DPad, A and B are pressed.
         const buttons = gamepad.buttons;
-        for (let j = 0, len = buttons.length; j < len; j++) {
+        for (let j = 0, buttonsLen = buttons.length; j < buttonsLen; j++) {
             if (ProcessedButtons.indexOf(j) !== -1) {
                 if (buttons[j].pressed) {
                     switch (j) {

@@ -1346,13 +1346,13 @@ function tryRemoveElement(elem) {
                     return import('./style.scss').then(() => {
                         loading.show();
 
-                        const dlg = document.createElement('div');
-                        dlg.setAttribute('dir', 'ltr');
+                        const newdlg = document.createElement('div');
+                        newdlg.setAttribute('dir', 'ltr');
 
-                        dlg.classList.add('videoPlayerContainer');
+                        newdlg.classList.add('videoPlayerContainer');
 
                         if (options.fullscreen) {
-                            dlg.classList.add('videoPlayerContainer-onTop');
+                          newdlg.classList.add('videoPlayerContainer-onTop');
                         }
 
                         let html = '';
@@ -1371,8 +1371,8 @@ function tryRemoveElement(elem) {
 
                         html += '</video>';
 
-                        dlg.innerHTML = html;
-                        const videoElement = dlg.querySelector('video');
+                        newdlg.innerHTML = html;
+                        const videoElement = newdlg.querySelector('video');
 
                         videoElement.volume = getSavedVolume();
                         videoElement.addEventListener('timeupdate', this.onTimeUpdate);
@@ -1388,8 +1388,8 @@ function tryRemoveElement(elem) {
                             videoElement.poster = options.backdropUrl;
                         }
 
-                        document.body.insertBefore(dlg, document.body.firstChild);
-                        this.#videoDialog = dlg;
+                        document.body.insertBefore(newdlg, document.body.firstChild);
+                        this.#videoDialog = newdlg;
                         this.#mediaElement = videoElement;
 
                         delete this.forcedFullscreen;
@@ -1408,7 +1408,7 @@ function tryRemoveElement(elem) {
 
                             // don't animate on smart tv's, too slow
                             if (!browser.slow && browser.supportsCssAnimation()) {
-                                return zoomIn(dlg).then(function () {
+                                return zoomIn(newdlg).then(function () {
                                     return videoElement;
                                 });
                             }

@@ -251,8 +251,8 @@ import toast from './toast/toast';
         } else if (action === 'playmenu') {
             showPlayMenu(card, target);
         } else if (action === 'edit') {
-            getItem(target).then(item => {
-                editItem(item, serverId);
+            getItem(target).then(itemToEdit => {
+                editItem(itemToEdit, serverId);
             });
         } else if (action === 'playtrailer') {
             getItem(target).then(playTrailer);
@@ -293,21 +293,21 @@ import toast from './toast/toast';
         const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
-            const serverId = apiClient.serverInfo().Id;
+            const myServerId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
                     import('./recordingcreator/recordingcreator').then(({default: recordingCreator}) => {
-                        recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
+                        recordingCreator.show(item.ProgramId, myServerId).then(resolve, reject);
                     });
                 } else {
                     import('./recordingcreator/recordingeditor').then(({default: recordingEditor}) => {
-                        recordingEditor.show(item.Id, serverId).then(resolve, reject);
+                        recordingEditor.show(item.Id, myServerId).then(resolve, reject);
                     });
                 }
             } else {
                 import('./metadataEditor/metadataEditor').then(({default: metadataEditor}) => {
-                    metadataEditor.show(item.Id, serverId).then(resolve, reject);
+                    metadataEditor.show(item.Id, myServerId).then(resolve, reject);
                 });
             }
         });
