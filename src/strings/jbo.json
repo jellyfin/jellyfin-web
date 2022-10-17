@@ -25,5 +25,13 @@
     "ButtonStart": "tolsti",
     "ButtonStop": "sisti",
     "Art": "lardai",
-    "Audio": "sance"
+    "Audio": "sance",
+    "AddedOnValue": "se jmina {0}",
+    "AddToPlaylist": "jmina fe zgiste",
+    "ButtonGotIt": "je'e",
+    "ButtonNextTrack": "sepcau zgike",
+    "BirthPlaceValue": "lo ve jbena {0}",
+    "ButtonQuickStartGuide": "se sutra lo te gidva  lo se tolsti cu",
+    "ButtonTogglePlaylist": "zgiste",
+    "LabelPlaylist": "zgiste:"
 }
