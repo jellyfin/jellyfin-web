@@ -3,8 +3,8 @@
  * @module components/syncPlay/core/timeSync/TimeSyncCore
  */
 
-import { Events } from 'jellyfin-apiclient';
 import appSettings from '../../../../scripts/settings/appSettings';
+import Events from '../../../../utils/events.ts';
 import { toFloat } from '../../../../utils/string.ts';
 import { getSetting } from '../Settings';
 import TimeSyncServer from './TimeSyncServer';

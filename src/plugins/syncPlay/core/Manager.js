@@ -3,7 +3,6 @@
  * @module components/syncPlay/core/Manager
  */
 
-import { Events } from 'jellyfin-apiclient';
 import * as Helper from './Helper';
 import TimeSyncCore from './timeSync/TimeSyncCore';
 import PlaybackCore from './PlaybackCore';
@@ -11,6 +10,7 @@ import QueueCore from './QueueCore';
 import Controller from './Controller';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../scripts/globalize';
+import Events from '../../../utils/events.ts';
 
 /**
  * Class that manages the SyncPlay feature.

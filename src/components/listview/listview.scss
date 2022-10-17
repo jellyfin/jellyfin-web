@@ -1,3 +1,10 @@
+.listItem,
+.listItemBody,
+.listItemMediaInfo {
+    display: flex;
+    contain: layout style;
+}
+
 .listItem {
     background: transparent;
     border: 0;
@@ -7,12 +14,19 @@
     font-family: inherit;
     font-size: inherit;
     margin: 0;
-    display: block;
     align-items: center;
-    text-align: left;
-    padding: 0.25em 0.25em 0.25em 0.5em;
     cursor: pointer;
     overflow: hidden;
+
+    [dir="ltr"] & {
+        text-align: left;
+        padding: 0.25em 0.25em 0.25em 0.5em;
+    }
+
+    [dir="rtl"] & {
+        text-align: right;
+        padding: 0.25em 0.5em 0.25em 0.25em;
+    }
 }
 
 .listItem-withContentWrapper {
@@ -41,7 +55,6 @@
 }
 
 .listItem-border {
-    display: block;
     margin: 0;
     padding: 0;
     border-width: 0 0 0.1em 0;
@@ -75,8 +88,15 @@
 }
 
 .listViewDragHandle {
-    margin-left: -0.25em !important;
     touch-action: none;
+
+    [dir="ltr"] & {
+        margin-left: -0.25em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: -0.25em !important;
+    }
 }
 
 .listItemBody {
@@ -87,13 +107,6 @@
     flex-direction: column;
     vertical-align: middle;
     justify-content: center;
-}
-
-.listItem,
-.listItemBody,
-.listItemMediaInfo {
-    display: flex;
-    contain: layout style;
 }
 
 .layout-tv .listItemBody {
@@ -211,7 +224,14 @@
     width: 1em !important;
     height: 1em !important;
     font-size: 143%;
-    padding: 0 0.25em 0 0;
+
+    [dir="ltr"] & {
+        margin: 0 0.25em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 0 0.25em;
+    }
 }
 
 .listItemIcon:not(.listItemIcon-transparent) {
@@ -219,7 +239,14 @@
     color: #fff;
     padding: 0.5em;
     border-radius: 100em;
-    margin: 0 0.2em 0 0.4em;
+
+    [dir="ltr"] & {
+        margin: 0 0.2em 0 0.4em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.4em 0 0.2em;
+    }
 }
 
 .listItemProgressBar {

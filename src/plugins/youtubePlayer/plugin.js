@@ -1,8 +1,8 @@
-import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { appRouter } from '../../components/appRouter';
 import loading from '../../components/loading/loading';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import Events from '../../utils/events.ts';
 
 /* globals YT */
 

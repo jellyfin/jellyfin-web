@@ -7,7 +7,7 @@ import loading from '../loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../scripts/dom';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-slider/emby-slider';

@@ -9,7 +9,7 @@ import datetime from '../../../scripts/datetime';
 import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../../utils/events.ts';
 import globalize from '../../../scripts/globalize';
 import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
@@ -216,7 +216,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             let title = itemName;
             if (item.PremiereDate) {
                 try {
-                    const year = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
+                    const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), {useGrouping: false});
                     title += ` (${year})`;
                 } catch (e) {
                     console.error(e);

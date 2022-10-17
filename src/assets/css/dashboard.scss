@@ -117,8 +117,15 @@ div[data-role=controlgroup] a[data-role=button]:last-child {
 }
 
 div[data-role=controlgroup] a[data-role=button] + a[data-role=button] {
-    border-left-width: 0 !important;
-    margin: 0 0 0 -0.4em !important;
+    [dir="ltr"] & {
+        border-left-width: 0 !important;
+        margin: 0 0 0 -0.4em !important;
+    }
+
+    [dir="rtl"] & {
+        border-right-width: 0 !important;
+        margin: 0 -0.4em 0 0 !important;
+    }
 }
 
 div[data-role=controlgroup] a.ui-btn-active {

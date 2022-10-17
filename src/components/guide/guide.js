@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../scripts/globalize';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';

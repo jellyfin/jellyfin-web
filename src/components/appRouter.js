@@ -1,9 +1,9 @@
-import { Events } from 'jellyfin-apiclient';
 import { Action, createHashHistory } from 'history';
 
 import { appHost } from './apphost';
 import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
 import globalize from '../scripts/globalize';
+import Events from '../utils/events.ts';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
 import viewManager from './viewManager/viewManager';

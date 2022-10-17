@@ -7,7 +7,7 @@ import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import { appRouter } from '../../components/appRouter';
 import layoutManager from '../../components/layoutManager';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import datetime from '../../scripts/datetime';
@@ -476,7 +476,7 @@ function renderName(item, container, context) {
                 html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
         } else {
-            html = '<h1 class="parentName focuscontainer-x">' + tvShowHtml + '</h1>';
+            html = '<h1 class="parentName focuscontainer-x"><bdi>' + tvShowHtml + '</bdi></h1>';
         }
     }
 
@@ -486,14 +486,14 @@ function renderName(item, container, context) {
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle focuscontainer-x">' + tvSeasonHtml + ' - ' + name + '</h3>';
+            html += '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
         } else {
-            html += '<h3 class="itemName infoText subtitle">' + name + '</h3>';
+            html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
         }
     } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-        html = '<h1 class="itemName infoText parentNameLast withOriginalTitle">' + name + '</h1>' + html;
+        html = '<h1 class="itemName infoText parentNameLast withOriginalTitle"><bdi>' + name + '</bdi></h1>' + html;
     } else {
-        html = '<h1 class="itemName infoText parentNameLast">' + name + '</h1>' + html;
+        html = '<h1 class="itemName infoText parentNameLast"><bdi>' + name + '</bdi></h1>' + html;
     }
 
     if (item.OriginalTitle && item.OriginalTitle != item.Name) {
@@ -915,7 +915,7 @@ function renderOverview(page, item) {
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
-                overviewElemnt.innerHTML = overview;
+                overviewElemnt.innerHTML = '<bdi>' + overview + '</bdi>';
                 overviewElemnt.classList.remove('hide');
                 overviewElemnt.classList.add('detail-clamp-text');
 
@@ -1068,7 +1068,7 @@ function renderTagline(page, item) {
 
     if (item.Taglines && item.Taglines.length) {
         taglineElement.classList.remove('hide');
-        taglineElement.innerText = item.Taglines[0];
+        taglineElement.innerHTML = '<bdi>' + escapeHtml(item.Taglines[0]) + '</bdi>';
     } else {
         taglineElement.classList.add('hide');
     }

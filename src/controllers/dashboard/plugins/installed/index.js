@@ -83,7 +83,10 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardFooter">';
 
     if (configPage || plugin.CanUninstall) {
-        html += '<div style="text-align:right; float:right;padding-top:5px;">';
+        if (globalize.getIsRTL())
+            html += '<div style="text-align:left; float:left;padding-top:5px;">';
+        else
+            html += '<div style="text-align:right; float:right;padding-top:5px;">';
         html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
         html += '</div>';
     }

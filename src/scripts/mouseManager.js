@@ -1,9 +1,9 @@
 import inputManager from './inputManager';
 import focusManager from '../components/focusManager';
-import browser from '../scripts/browser';
+import browser from './browser';
 import layoutManager from '../components/layoutManager';
-import { Events } from 'jellyfin-apiclient';
-import dom from '../scripts/dom';
+import dom from './dom';
+import Events from '../utils/events.ts';
 /* eslint-disable indent */
 
     const self = {};

@@ -1,6 +1,6 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import type { ApiClient } from 'jellyfin-apiclient';
 import classNames from 'classnames';
-import { ApiClient } from 'jellyfin-apiclient';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';

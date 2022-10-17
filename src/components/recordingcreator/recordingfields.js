@@ -1,5 +1,5 @@
 import globalize from '../../scripts/globalize';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
 import dom from '../../scripts/dom';

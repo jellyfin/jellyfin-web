@@ -45,7 +45,13 @@
 }
 
 .actionsheetListItemBody {
-    padding: 0.4em 1em 0.4em 0.6em !important;
+    [dir="ltr"] & {
+        padding: 0.4em 1em 0.4em 0.6em !important;
+    }
+
+    [dir="rtl"] & {
+        padding: 0.4em 0.6em 0.4em 1em !important;
+    }
 }
 
 .actionSheetItemText {
@@ -64,8 +70,16 @@
     display: flex;
     justify-content: flex-end;
     flex-shrink: 0;
-    margin-left: 5em;
-    margin-right: 0.5em;
+
+    [dir="ltr"] & {
+        margin-left: 5em;
+        margin-right: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 5em;
+        margin-left: 0.5em;
+    }
 }
 
 .actionSheetScroller {
@@ -101,8 +115,15 @@
 }
 
 .actionsheetMenuItemIcon {
-    margin: 0 0.85em 0 0.45em !important;
     padding: 0 !important;
+
+    [dir="ltr"] & {
+        margin: 0 0.85em 0 0.45em !important;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.45em 0 0.85em !important;
+    }
 }
 
 .actionsheet-xlargeFont {
@@ -112,5 +133,12 @@
 .btnCloseActionSheet {
     position: fixed;
     top: 0.75em;
-    left: 0.5em;
+
+    [dir="ltr"] & {
+        left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        right: 0.5em;
+    }
 }

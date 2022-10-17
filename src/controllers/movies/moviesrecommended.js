@@ -1,5 +1,4 @@
 import escapeHtml from 'escape-html';
-import { Events } from 'jellyfin-apiclient';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -10,11 +9,13 @@ import dom from '../../scripts/dom';
 import imageLoader from '../../components/images/imageLoader';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
+import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
+
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
-import Dashboard from '../../utils/dashboard';
 
 /* eslint-disable indent */
 

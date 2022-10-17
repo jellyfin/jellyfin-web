@@ -1,6 +1,5 @@
 .toastContainer {
     position: fixed;
-    left: 0;
     bottom: 0;
     pointer-events: none;
     z-index: 9999999;
@@ -12,6 +11,14 @@
     padding-bottom: max(env(safe-area-inset-bottom), 1em);
     display: flex;
     flex-direction: column;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .toast {

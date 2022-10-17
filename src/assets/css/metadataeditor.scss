@@ -7,7 +7,13 @@
 }
 
 .libraryTree {
-    margin-left: 0.25em;
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
 }
 
 .offlineEditorNode {
@@ -56,15 +62,30 @@
         position: fixed;
         top: 5.2em;
         bottom: 0;
-        left: 0;
         width: 30%;
-        border-right: 1px solid #555;
         display: block;
+
+        [dir="ltr"] & {
+            left: 0;
+            border-right: 1px solid #555;
+        }
+
+        [dir="rtl"] & {
+            right: 0;
+            border-left: 1px solid #555;
+        }
     }
 
     .editPageInnerContent {
-        float: right;
         width: 68.5%;
+
+        [dir="ltr"] & {
+            float: right;
+        }
+
+        [dir="rtl"] & {
+            float: left;
+        }
     }
 }
 

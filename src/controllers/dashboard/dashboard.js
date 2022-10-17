@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
@@ -280,7 +280,7 @@ import confirm from '../../components/confirm/confirm';
                     html += clientImage;
                 }
 
-                html += '<div class="sessionAppName" style="display:inline-block;">';
+                html += '<div class="sessionAppName" style="display:inline-block; text-align:left;"  dir="ltr" >';
                 html += '<div class="sessionDeviceName">' + escapeHtml(session.DeviceName) + '</div>';
                 html += '<div class="sessionAppSecondaryText">' + escapeHtml(DashboardPage.getAppSecondaryText(session)) + '</div>';
                 html += '</div>';

@@ -1,4 +1,4 @@
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';

@@ -1027,5 +1027,9 @@
     "LabelOriginalName": "שם מקורי:",
     "LabelffmpegPathHelp": "הנתיב לקובץ התוכנה של FFmpeg או לתיקייה שמכילה את FFmpeg.",
     "LabelffmpegPath": "נתיב לFFmpeg:",
-    "LabelAudioSampleRate": "קצב דגימת שמע:"
+    "LabelAudioSampleRate": "קצב דגימת שמע:",
+    "LabelAlbumArtHelp": "אלבום",
+    "LabelBlockContentWithTags": "חסום פריטים עם תגיות:",
+    "LabelCustomCertificatePathHelp": "נתיב",
+    "IgnoreDtsHelp": "השבתת אפשרות זו עשויה לפתור בעיות מסוימות, למשל. אודיו חסר בערוצים עם זרמי אודיו ווידאו נפרדים."
 }

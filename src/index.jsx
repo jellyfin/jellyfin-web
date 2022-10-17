@@ -9,7 +9,7 @@ import 'resize-observer-polyfill';
 import './assets/css/site.scss';
 import React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Events } from 'jellyfin-apiclient';
+import Events from './utils/events.ts';
 import ServerConnections from './components/ServerConnections';
 import globalize from './scripts/globalize';
 import browser from './scripts/browser';

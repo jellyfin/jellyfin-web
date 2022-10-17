@@ -3,7 +3,6 @@
  * @module components/syncPlay/settings/SettingsEditor
  */
 
-import { Events } from 'jellyfin-apiclient';
 import SyncPlay from '../../core';
 import { setSetting } from '../../core/Settings';
 import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
@@ -11,6 +10,7 @@ import layoutManager from '../../../../components/layoutManager';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import globalize from '../../../../scripts/globalize';
+import Events from '../../../../utils/events.ts';
 
 import 'material-design-icons-iconfont';
 import '../../../../elements/emby-input/emby-input';

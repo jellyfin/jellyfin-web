@@ -1,13 +1,14 @@
 import loading from '../../components/loading/loading';
-import { Events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
+
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 

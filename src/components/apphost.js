@@ -1,7 +1,7 @@
 import Package from '../../package.json';
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../scripts/globalize';

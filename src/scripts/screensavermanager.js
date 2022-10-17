@@ -1,9 +1,10 @@
-import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
 import inputManager from './inputManager';
 import * as userSettings from './settings/userSettings';
 import ServerConnections from '../components/ServerConnections';
+import Events from '../utils/events.ts';
+
 import './screensavermanager.scss';
 
 function getMinIdleTime() {

@@ -1,7 +1,7 @@
-import { Events } from 'jellyfin-apiclient';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../scripts/globalize';
 import appSettings from '../../../scripts/settings/appSettings';
+import Events from '../../../utils/events.ts';
 
 export default function (view) {
     function submit(e) {

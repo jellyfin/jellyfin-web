@@ -1,5 +1,4 @@
 
-import { Events } from 'jellyfin-apiclient';
 import inputManager from '../../scripts/inputManager';
 import libraryMenu from '../../scripts/libraryMenu';
 import layoutManager from '../../components/layoutManager';
@@ -14,6 +13,7 @@ import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
 import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
 import autoFocuser from '../../components/autoFocuser';
 
 /* eslint-disable indent */

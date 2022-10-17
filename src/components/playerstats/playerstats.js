@@ -1,6 +1,6 @@
-import { Events } from 'jellyfin-apiclient';
 import '../../elements/emby-button/paper-icon-button-light';
 import globalize from '../../scripts/globalize';
+import Events from '../../utils/events.ts';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';

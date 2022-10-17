@@ -176,16 +176,16 @@ import '../../elements/emby-button/emby-button';
 
         if (options.year !== false && item.ProductionYear && item.Type === 'Series') {
             if (item.Status === 'Continuing') {
-                miscInfo.push(globalize.translate('SeriesYearToPresent', item.ProductionYear));
+                miscInfo.push(globalize.translate('SeriesYearToPresent', datetime.toLocaleString(item.ProductionYear, {useGrouping: false})));
             } else if (item.ProductionYear) {
-                text = item.ProductionYear;
+                text = datetime.toLocaleString(item.ProductionYear, {useGrouping: false});
 
                 if (item.EndDate) {
                     try {
-                        const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
+                        const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), {useGrouping: false});
 
                         if (endYear !== item.ProductionYear) {
-                            text += `-${datetime.parseISO8601Date(item.EndDate).getFullYear()}`;
+                            text += `-${endYear}`;
                         }
                     } catch (e) {
                         console.error('error parsing date:', item.EndDate);
@@ -247,7 +247,7 @@ import '../../elements/emby-button/emby-button';
                 miscInfo.push(item.ProductionYear);
             } else if (item.PremiereDate) {
                 try {
-                    text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
+                    text = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), {useGrouping: false});
                     miscInfo.push(text);
                 } catch (e) {
                     console.error('error parsing date:', item.PremiereDate);
