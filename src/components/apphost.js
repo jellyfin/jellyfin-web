@@ -63,23 +63,13 @@ function getDeviceProfile(item) {
     });
 }
 
-function escapeRegExp(str) {
-    return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
-}
-
-function replaceAll(originalString, strReplace, strWith) {
-    const strReplace2 = escapeRegExp(strReplace);
-    const reg = new RegExp(strReplace2, 'ig');
-    return originalString.replace(reg, strWith);
-}
-
 function generateDeviceId() {
     const keys = [];
 
     keys.push(navigator.userAgent);
     keys.push(new Date().getTime());
     if (window.btoa) {
-        return replaceAll(btoa(keys.join('|')), '=', '1');
+        return btoa(keys.join('|')).replaceAll('=', '1');
     }
 
     return new Date().getTime();
