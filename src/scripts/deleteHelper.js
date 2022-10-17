@@ -15,7 +15,7 @@ export function deleteItem(options) {
 
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    const deleteItemText=(item.Type === 'Playlist' ? 'ConfirmDeletePlaylistItem' : 'ConfirmDeleteItem');
+    const deleteItemText = (item.Type === 'Playlist' ? 'ConfirmDeletePlaylistItem' : 'ConfirmDeleteItem');
 
     return confirm({
 
