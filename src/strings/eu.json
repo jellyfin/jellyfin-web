@@ -618,7 +618,7 @@
     "LabelMinAudiobookResume": "Audioliburuari gutxienez minututan berrekitea:",
     "LabelMethod": "Metodoa:",
     "QuickConnectAuthorizeFail": "Konexio azkarreko kode ezezaguna",
-    "QuickConnectAuthorizeCode": "Sartu identifikazio-kodea",
+    "QuickConnectAuthorizeCode": "Sartu identifikazio-kodea {0}",
     "QuickConnectActivationSuccessful": "Behar bezala aktibatuta",
     "QuickConnect": "Konexio azkarra",
     "Quality": "Kalitatea",
