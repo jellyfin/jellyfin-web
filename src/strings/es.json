@@ -1379,7 +1379,7 @@
     "QuickConnectDeactivated": "La conexión rápida se desactivó antes que se pudiera aprobar la solicitud de inicio de sesión",
     "QuickConnectAuthorizeFail": "Código de conexión rápida desconocido",
     "QuickConnectAuthorizeSuccess": "Solicitar autorización",
-    "QuickConnectAuthorizeCode": "Introducir código de identificación",
+    "QuickConnectAuthorizeCode": "Introducir código de identificación {0}",
     "QuickConnectActivationSuccessful": "Activado satisfactoriamente",
     "QuickConnect": "Conexión rápida",
     "LabelQuickConnectCode": "Código de conexión rápida:",
