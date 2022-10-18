@@ -7,7 +7,7 @@ import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import './assets/css/site.scss';
-import React from 'react';
+import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import Events from './utils/events.ts';
 import ServerConnections from './components/ServerConnections';
@@ -145,9 +145,11 @@ async function onAppReady() {
     await appRouter.start();
 
     ReactDOM.render(
-        <HistoryRouter history={history}>
-            <AppRoutes />
-        </HistoryRouter>,
+        <StrictMode>
+            <HistoryRouter history={history}>
+                <AppRoutes />
+            </HistoryRouter>
+        </StrictMode>,
         document.getElementById('reactRoot')
     );
 
