@@ -1,5 +1,5 @@
 {
-    "Books": "cukta",
+    "Books": "lo cukta",
     "Box": "tanxe",
     "ButtonActivate": "aktigau",
     "Add": "jmina",
@@ -51,5 +51,22 @@
     "MusicArtist": "larpra zgike",
     "MusicAlbum": "zgike albuma",
     "TypeOptionPluralMusicAlbum": "lo zgike albuma",
-    "ViewAlbum": "cutla fe lo albuma"
+    "ViewAlbum": "cutla fe lo albuma",
+    "Large": "barda",
+    "Normal": "fadni",
+    "ButtonOk": "ie",
+    "Small": "cmalu",
+    "BirthLocation": "lo ve jbena",
+    "Browse": "catlu",
+    "Absolute": "fatci",
+    "AllLanguages": "ro bangu",
+    "AllLibraries": "lo gavni sorcu",
+    "AllowMediaConversion": "curmi fe lo se galfi be lo ganvi",
+    "LabelBirthDate": "lo te jbena",
+    "LabelPlaceOfBirth": "lo ve jbena",
+    "Backdrops": "lo vinti'e",
+    "ButtonClose": "ga'orgau",
+    "ButtonShutdown": "na'aktigau",
+    "ButtonSelectView": "samcu'a lo jvinu",
+    "ButtonExitApp": "se barkalri lo proga"
 }
