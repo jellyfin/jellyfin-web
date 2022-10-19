@@ -293,21 +293,21 @@ import toast from './toast/toast';
         const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
-            const myServerId = apiClient.serverInfo().Id;
+            const currentServerId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
                     import('./recordingcreator/recordingcreator').then(({default: recordingCreator}) => {
-                        recordingCreator.show(item.ProgramId, myServerId).then(resolve, reject);
+                        recordingCreator.show(item.ProgramId, currentServerId).then(resolve, reject);
                     });
                 } else {
                     import('./recordingcreator/recordingeditor').then(({default: recordingEditor}) => {
-                        recordingEditor.show(item.Id, myServerId).then(resolve, reject);
+                        recordingEditor.show(item.Id, currentServerId).then(resolve, reject);
                     });
                 }
             } else {
                 import('./metadataEditor/metadataEditor').then(({default: metadataEditor}) => {
-                    metadataEditor.show(item.Id, myServerId).then(resolve, reject);
+                    metadataEditor.show(item.Id, currentServerId).then(resolve, reject);
                 });
             }
         });

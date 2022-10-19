@@ -1346,13 +1346,13 @@ function tryRemoveElement(elem) {
                     return import('./style.scss').then(() => {
                         loading.show();
 
-                        const newdlg = document.createElement('div');
-                        newdlg.setAttribute('dir', 'ltr');
+                        const playerDlg = document.createElement('div');
+                        playerDlg.setAttribute('dir', 'ltr');
 
-                        newdlg.classList.add('videoPlayerContainer');
+                        playerDlg.classList.add('videoPlayerContainer');
 
                         if (options.fullscreen) {
-                            newdlg.classList.add('videoPlayerContainer-onTop');
+                            playerDlg.classList.add('videoPlayerContainer-onTop');
                         }
 
                         let html = '';
@@ -1371,8 +1371,8 @@ function tryRemoveElement(elem) {
 
                         html += '</video>';
 
-                        newdlg.innerHTML = html;
-                        const videoElement = newdlg.querySelector('video');
+                        playerDlg.innerHTML = html;
+                        const videoElement = playerDlg.querySelector('video');
 
                         videoElement.volume = getSavedVolume();
                         videoElement.addEventListener('timeupdate', this.onTimeUpdate);
@@ -1388,8 +1388,8 @@ function tryRemoveElement(elem) {
                             videoElement.poster = options.backdropUrl;
                         }
 
-                        document.body.insertBefore(newdlg, document.body.firstChild);
-                        this.#videoDialog = newdlg;
+                        document.body.insertBefore(playerDlg, document.body.firstChild);
+                        this.#videoDialog = playerDlg;
                         this.#mediaElement = videoElement;
 
                         delete this.forcedFullscreen;
@@ -1408,7 +1408,7 @@ function tryRemoveElement(elem) {
 
                             // don't animate on smart tv's, too slow
                             if (!browser.slow && browser.supportsCssAnimation()) {
-                                return zoomIn(newdlg).then(function () {
+                                return zoomIn(playerDlg).then(function () {
                                     return videoElement;
                                 });
                             }
