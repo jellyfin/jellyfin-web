@@ -68,5 +68,9 @@
     "ButtonClose": "ga'orgau",
     "ButtonShutdown": "na'aktigau",
     "ButtonSelectView": "samcu'a lo jvinu",
-    "ButtonExitApp": "se barkalri lo proga"
+    "ButtonExitApp": "se barkalri lo proga",
+    "AddToPlayQueue": "jmina fe lo mencti depypoi",
+    "HeaderStartNow": "ca tolsti",
+    "LabelDeathDate": "se detri lo nu nunmro",
+    "LabelDeviceDescription": "se velski lo skami"
 }
