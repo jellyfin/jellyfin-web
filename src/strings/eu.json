@@ -1620,5 +1620,8 @@
     "Episodes": "Kapituluak",
     "Episode": "Gertaera",
     "Engineer": "Soinu-ingeniaria",
-    "EndsAtValue": "{0} -tan amaitzen da"
+    "EndsAtValue": "{0} -tan amaitzen da",
+    "ButtonBackspace": "Atzera",
+    "ButtonClose": "Itxi",
+    "ButtonSpace": "Hutsunea"
 }
