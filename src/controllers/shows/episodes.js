@@ -191,7 +191,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         };
 
         function initPage(tabElement) {
-          tabElement.querySelector('.btnFilter').addEventListener('click', function () {
+            tabElement.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });
             tabElement.querySelector('.btnSort').addEventListener('click', function (e) {

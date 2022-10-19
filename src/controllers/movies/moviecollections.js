@@ -207,7 +207,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         };
 
         const initPage = (tabElement) => {
-          tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
+            tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),

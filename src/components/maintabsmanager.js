@@ -55,13 +55,13 @@ import '../elements/emby-button/emby-button';
         // implement without hammer
         const onSwipeLeft = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
-              currentElement.selectNext();
+                currentElement.selectNext();
             }
         };
 
         const onSwipeRight = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
-              currentElement.selectPrevious();
+                currentElement.selectPrevious();
             }
         };
 

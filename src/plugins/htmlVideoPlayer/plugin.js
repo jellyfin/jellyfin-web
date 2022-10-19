@@ -1352,7 +1352,7 @@ function tryRemoveElement(elem) {
                         newdlg.classList.add('videoPlayerContainer');
 
                         if (options.fullscreen) {
-                          newdlg.classList.add('videoPlayerContainer-onTop');
+                            newdlg.classList.add('videoPlayerContainer-onTop');
                         }
 
                         let html = '';
