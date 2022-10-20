@@ -28,24 +28,15 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         const items = servers.map(function (server) {
             return {
                 name: server.Name,
-                showIcon: true,
-                icon: 'cast',
+                icon: 'storage',
                 cardType: '',
                 id: server.Id,
                 server: server
             };
         });
         let html = items.map(function (item) {
-            let cardImageContainer;
-
-            if (item.showIcon) {
-                cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';
-            } else {
-                cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
-            }
-
             // TODO move card creation code to Card component
-
+            const cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';
             let cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
 
             if (layoutManager.tv) {
