@@ -155,6 +155,9 @@ function tryRemoveElement(elem) {
         return profileBuilder({});
     }
 
+    const PRIMARY_TEXT_TRACK_INDEX = 0;
+    const SECONDARY_TEXT_TRACK_INDEX = 1;
+
     export class HtmlVideoPlayer {
         /**
          * @type {string}
@@ -285,14 +288,6 @@ function tryRemoveElement(elem) {
          * @type {any | undefined}
          */
         _currentPlayOptions;
-        /**
-         * @type {number}
-         */
-        _PRIMARY_TEXT_TRACK_INDEX = 0;
-        /**
-         * @type {number}
-         */
-        _SECONDARY_TEXT_TRACK_INDEX = 1;
         /**
          * @type {any | undefined}
          */
@@ -539,7 +534,7 @@ function tryRemoveElement(elem) {
         }
 
         setSecondarySubtitleStreamIndex(index) {
-            this.setCurrentTrackElement(index, this._SECONDARY_TEXT_TRACK_INDEX);
+            this.setCurrentTrackElement(index, SECONDARY_TEXT_TRACK_INDEX);
         }
 
         resetSubtitleOffset() {
@@ -588,8 +583,8 @@ function tryRemoveElement(elem) {
                 if (trackElements.length > 0) {
                     trackElements.forEach((trackElement, index) => this.setTextTrackSubtitleOffset(trackElement, offsetValue, index));
                 } else if (this.#currentTrackEvents || this.#currentSecondaryTrackEvents) {
-                    this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, this._PRIMARY_TEXT_TRACK_INDEX);
-                    this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, this._SECONDARY_TEXT_TRACK_INDEX);
+                    this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, PRIMARY_TEXT_TRACK_INDEX);
+                    this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, SECONDARY_TEXT_TRACK_INDEX);
                 } else {
                     console.debug('No available track, cannot apply offset: ', offsetValue);
                 }
@@ -600,7 +595,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         updateCurrentTrackOffset(offsetValue, currentTrackIndex = 0) {
-            const skipRelativeOffset = currentTrackIndex !== this._PRIMARY_TEXT_TRACK_INDEX;
+            const skipRelativeOffset = currentTrackIndex !== PRIMARY_TEXT_TRACK_INDEX;
             let relativeOffset = offsetValue;
             const newTrackOffset = offsetValue;
             if (this.#currentTrackOffset && !skipRelativeOffset) {
@@ -629,10 +624,7 @@ function tryRemoveElement(elem) {
          * remain next to the new tracks until they reach the new offset's instance of the track.
          */
         requiresHidingActiveCuesOnOffsetChange() {
-            if (browser.firefox) {
-                return true;
-            }
-            return false;
+            return !!browser.firefox;
         }
 
         /**
@@ -687,11 +679,11 @@ function tryRemoveElement(elem) {
         }
 
         isPrimaryTrack(textTrackIndex) {
-            return textTrackIndex === this._PRIMARY_TEXT_TRACK_INDEX;
+            return textTrackIndex === PRIMARY_TEXT_TRACK_INDEX;
         }
 
         isSecondaryTrack(textTrackIndex) {
-            return textTrackIndex === this._SECONDARY_TEXT_TRACK_INDEX;
+            return textTrackIndex === SECONDARY_TEXT_TRACK_INDEX;
         }
 
         /**
@@ -1190,7 +1182,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        setTrackForDisplay(videoElement, track, targetTextTrackIndex = this._PRIMARY_TEXT_TRACK_INDEX) {
+        setTrackForDisplay(videoElement, track, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
             if (!track) {
                 // Destroy all tracks by passing undefined if there is no valid primary track
                 this.destroyCustomTrack(videoElement, this.isSecondaryTrack(targetTextTrackIndex) ? targetTextTrackIndex : undefined);
@@ -1397,7 +1389,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        renderTracksEvents(videoElement, track, item, targetTextTrackIndex = this._PRIMARY_TEXT_TRACK_INDEX) {
+        renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
             if (!itemHelper.isLocalItem(item) || track.IsExternal) {
                 const format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
