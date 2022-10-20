@@ -132,14 +132,14 @@ import './backdrop.scss';
     }
 
     let hasInternalBackdrop;
-    function internalBackdrop(enabled) {
-        hasInternalBackdrop = enabled;
+    function internalBackdrop(isEnabled) {
+        hasInternalBackdrop = isEnabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
     let hasExternalBackdrop;
-    export function externalBackdrop(enabled) {
-        hasExternalBackdrop = enabled;
+    export function externalBackdrop(isEnabled) {
+        hasExternalBackdrop = isEnabled;
         setBackgroundContainerBackgroundEnabled();
     }
 

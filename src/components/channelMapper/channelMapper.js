@@ -105,8 +105,8 @@ export default class channelMapper {
             return html;
         }
 
-        function initEditor(dlg, options) {
-            getChannelMappingOptions(options.serverId, options.providerId).then(result => {
+        function initEditor(dlg, initOptions) {
+            getChannelMappingOptions(initOptions.serverId, initOptions.providerId).then(result => {
                 currentMappingOptions = result;
                 const channelsElement = dlg.querySelector('.channels');
                 channelsElement.innerHTML = result.TunerChannels.map(channel => {

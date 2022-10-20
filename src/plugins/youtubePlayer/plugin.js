@@ -32,26 +32,26 @@ function createMediaElement(instance, options) {
             import('./style.scss').then(() => {
                 loading.show();
 
-                const dlg = document.createElement('div');
+                const playerDlg = document.createElement('div');
 
-                dlg.classList.add('youtubePlayerContainer');
+                playerDlg.classList.add('youtubePlayerContainer');
 
                 if (options.fullscreen) {
-                    dlg.classList.add('onTop');
+                    playerDlg.classList.add('onTop');
                 }
 
-                dlg.innerHTML = '<div id="player"></div>';
-                const videoElement = dlg.querySelector('#player');
+                playerDlg.innerHTML = '<div id="player"></div>';
+                const videoElement = playerDlg.querySelector('#player');
 
-                document.body.insertBefore(dlg, document.body.firstChild);
-                instance.videoDialog = dlg;
+                document.body.insertBefore(playerDlg, document.body.firstChild);
+                instance.videoDialog = playerDlg;
 
                 if (options.fullscreen) {
                     document.body.classList.add('hide-scroll');
                 }
 
-                if (options.fullscreen && dlg.animate && !browser.slow) {
-                    zoomIn(dlg, 1).onfinish = function () {
+                if (options.fullscreen && playerDlg.animate && !browser.slow) {
+                    zoomIn(playerDlg, 1).onfinish = function () {
                         resolve(videoElement);
                     };
                 } else {

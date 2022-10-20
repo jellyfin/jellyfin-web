@@ -429,7 +429,7 @@ function Guide(options) {
         return '<span class="material-icons programIcon timerIcon fiber_manual_record" aria-hidden="true"></span>';
     }
 
-    function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
+    function getChannelProgramsHtml(context, date, channel, programs, programOptions, listInfo) {
         let html = '';
 
         const startMs = date.getTime();
@@ -542,21 +542,21 @@ function Guide(options) {
                 html += '<div class="guideProgramNameText">' + escapeHtml(program.Name);
 
                 let indicatorHtml = null;
-                if (program.IsLive && options.showLiveIndicator) {
+                if (program.IsLive && programOptions.showLiveIndicator) {
                     indicatorHtml = '<span class="liveTvProgram guideProgramIndicator">' + globalize.translate('Live') + '</span>';
-                } else if (program.IsPremiere && options.showPremiereIndicator) {
+                } else if (program.IsPremiere && programOptions.showPremiereIndicator) {
                     indicatorHtml = '<span class="premiereTvProgram guideProgramIndicator">' + globalize.translate('Premiere') + '</span>';
-                } else if (program.IsSeries && !program.IsRepeat && options.showNewIndicator) {
+                } else if (program.IsSeries && !program.IsRepeat && programOptions.showNewIndicator) {
                     indicatorHtml = '<span class="newTvProgram guideProgramIndicator">' + globalize.translate('New') + '</span>';
-                } else if (program.IsSeries && program.IsRepeat && options.showRepeatIndicator) {
+                } else if (program.IsSeries && program.IsRepeat && programOptions.showRepeatIndicator) {
                     indicatorHtml = '<span class="repeatTvProgram guideProgramIndicator">' + globalize.translate('Repeat') + '</span>';
                 }
                 html += indicatorHtml || '';
 
-                if ((program.EpisodeTitle && options.showEpisodeTitle)) {
+                if ((program.EpisodeTitle && programOptions.showEpisodeTitle)) {
                     html += '<div class="guideProgramSecondaryInfo">';
 
-                    if (program.EpisodeTitle && options.showEpisodeTitle) {
+                    if (program.EpisodeTitle && programOptions.showEpisodeTitle) {
                         html += '<span class="programSecondaryTitle">' + escapeHtml(program.EpisodeTitle) + '</span>';
                     }
                     html += '</div>';
@@ -564,7 +564,7 @@ function Guide(options) {
 
                 html += '</div>';
 
-                if (program.IsHD && options.showHdIcon) {
+                if (program.IsHD && programOptions.showHdIcon) {
                     if (layoutManager.tv) {
                         html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';
                     } else {
@@ -633,7 +633,7 @@ function Guide(options) {
         imageLoader.lazyChildren(channelList);
     }
 
-    function renderPrograms(context, date, channels, programs, options) {
+    function renderPrograms(context, date, channels, programs, programOptions) {
         const listInfo = {
             startIndex: 0
         };
@@ -641,7 +641,7 @@ function Guide(options) {
         const html = [];
 
         for (const channel of channels) {
-            html.push(getChannelProgramsHtml(context, date, channel, programs, options, listInfo));
+            html.push(getChannelProgramsHtml(context, date, channel, programs, programOptions, listInfo));
         }
 
         programGrid.innerHTML = html.join('');

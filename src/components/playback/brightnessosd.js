@@ -98,9 +98,9 @@ function hideOsd() {
     }
 }
 
-function setIcon(iconElement, icon) {
-    iconElement.classList.remove('brightness_high', 'brightness_medium', 'brightness_low');
-    iconElement.classList.add(icon);
+function setIcon(iconHtmlElement, icon) {
+    iconHtmlElement.classList.remove('brightness_high', 'brightness_medium', 'brightness_low');
+    iconHtmlElement.classList.add(icon);
 }
 
 function updateElementsFromPlayer(brightness) {

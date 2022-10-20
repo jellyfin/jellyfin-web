@@ -289,8 +289,8 @@ import alert from '../../components/alert';
         libraryMenu.setTabs('playback', 0, getTabs);
         const page = this;
         ApiClient.getNamedConfiguration('encoding').then(function (config) {
-            ApiClient.getSystemInfo().then(function (systemInfo) {
-                loadPage(page, config, systemInfo);
+            ApiClient.getSystemInfo().then(function (fetchedSystemInfo) {
+                loadPage(page, config, fetchedSystemInfo);
             });
         });
     });

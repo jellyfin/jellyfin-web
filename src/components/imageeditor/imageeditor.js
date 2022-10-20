@@ -39,8 +39,8 @@ import template from './imageeditor.template.html';
             reloadItem(page, item, apiClient, focusContext);
         } else {
             apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-            apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
-                reloadItem(page, item, apiClient, focusContext);
+            apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (itemToReload) {
+                reloadItem(page, itemToReload, apiClient, focusContext);
             });
         }
     }

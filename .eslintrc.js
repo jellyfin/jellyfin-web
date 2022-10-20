@@ -70,6 +70,7 @@ module.exports = {
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
+        '@typescript-eslint/no-shadow': 'error',
 
         'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
 

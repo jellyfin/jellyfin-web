@@ -190,11 +190,11 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
-            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
+        function initPage(tabElement) {
+            tabElement.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });
-            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
+            tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -222,22 +222,22 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                         id: 'Runtime,SeriesSortName,SortName'
                     }],
                     callback: function () {
-                        reloadItems(tabContent);
+                        reloadItems(tabElement);
                     },
-                    query: getQuery(tabContent),
+                    query: getQuery(tabElement),
                     button: e.target
                 });
             });
-            const btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabElement.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
-                getPageData(tabContent).view = viewStyle;
-                libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+                getPageData(tabElement).view = viewStyle;
+                libraryBrowser.saveViewSetting(getSavedQueryKey(tabElement), viewStyle);
                 onViewStyleChange();
-                reloadItems(tabContent);
+                reloadItems(tabElement);
             });
         }
 

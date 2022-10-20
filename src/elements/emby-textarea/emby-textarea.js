@@ -2,8 +2,18 @@ import './emby-textarea.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 
-/* eslint-disable indent */
+function calculateOffset(textarea) {
+    const style = window.getComputedStyle(textarea, null);
+    const props = ['paddingTop', 'paddingBottom'];
+    let offset = 0;
 
+    for (let i = 0; i < props.length; i++) {
+        offset += parseInt(style[props[i]]);
+    }
+    return offset;
+}
+
+/* eslint-disable indent */
     function autoGrow(textarea, maxLines) {
         const self = this;
 
@@ -16,16 +26,7 @@ import '../emby-input/emby-input';
          * @param textarea
          * @returns {number}
          */
-        self.getOffset = function (textarea) {
-            const style = window.getComputedStyle(textarea, null);
-            const props = ['paddingTop', 'paddingBottom'];
-            let offset = 0;
-
-            for (let i = 0; i < props.length; i++) {
-                offset += parseInt(style[props[i]]);
-            }
-            return offset;
-        };
+        self.getOffset = calculateOffset(textarea);
 
         let offset;
         function reset() {
