@@ -1158,7 +1158,7 @@
     "OptionLoginAttemptsBeforeLockout": "Počet chybných pokusů o přihlášení, který lze provést před zablokováním.",
     "OptionLoginAttemptsBeforeLockoutHelp": "0 znamená zdědění výchozí hodnoty 3 pokusů pro běžné uživatele a 5 pro administrátory. Nastavení na -1 deaktivuje funkci.",
     "OptionMax": "Max",
-    "OptionProtocolHls": "HTTP Live Streaming (HLS)",
+    "OptionProtocolHls": "HTTP živý přenos (HLS)",
     "OptionProtocolHttp": "HTTP",
     "OptionRequirePerfectSubtitleMatchHelp": "Vyžadování dokonalé shody filtruje titulky tak, aby obsahovaly pouze ty, které byly testovány a ověřeny s vaším přesným videosouborem. Zrušení zaškrtnutí tohoto políčka zvýší pravděpodobnost stahování titulků, ale zvýší pravděpodobnost chybného nebo nesprávného textu titulků.",
     "PasswordResetProviderHelp": "Zvolte poskytovatele resetování hesla, který bude použit při žádosti tohoto uživatele o resetování hesla.",
@@ -1677,5 +1677,7 @@
     "RememberAudioSelections": "Nastavit zvukovou stopu podle předchozí položky",
     "LabelMaxVideoResolution": "Maximální rozlišení videa pro překódování",
     "IgnoreDtsHelp": "Vypnutím se mohou vyřešit některé problémy, např. chybějící zvuk u kanálů s oddělenými zvukovými a video stopami.",
-    "IgnoreDts": "Ignorovat DTS (časové razítko dekódování)"
+    "IgnoreDts": "Ignorovat DTS (časové razítko dekódování)",
+    "OptionDateEpisodeAdded": "Datum přidání epizody",
+    "OptionDateShowAdded": "Datum přidání pořadu"
 }
