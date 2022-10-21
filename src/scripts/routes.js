@@ -492,12 +492,6 @@ import { appRouter } from '../components/appRouter';
         serverRequest: true
     });
 
-    defineRoute({
-        path: '/',
-        autoFocus: false,
-        isDefaultRoute: true
-    });
-
     console.groupEnd('defining core routes');
 
 /* eslint-enable indent */

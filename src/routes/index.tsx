@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import ConnectionRequired from '../components/ConnectionRequired';
 import UserNew from './user/usernew';
@@ -23,13 +23,18 @@ const AppRoutes = () => (
             </Route>
 
             {/* Admin routes */}
-            <Route path='/' element={<ConnectionRequired isAdminRequired={true} />}>
+            <Route path='/' element={<ConnectionRequired isAdminRequired />}>
                 <Route path='usernew.html' element={<UserNew />} />
                 <Route path='userprofiles.html' element={<UserProfiles />} />
                 <Route path='useredit.html' element={<UserEdit />} />
                 <Route path='userlibraryaccess.html' element={<UserLibraryAccess />} />
                 <Route path='userparentalcontrol.html' element={<UserParentalControl />} />
                 <Route path='userpassword.html' element={<UserPassword />} />
+            </Route>
+
+            {/* Public routes */}
+            <Route path='/' element={<ConnectionRequired isUserRequired={false} />}>
+                <Route index element={<Navigate replace to='/home.html' />} />
             </Route>
 
             {/* Suppress warnings for unhandled routes */}
