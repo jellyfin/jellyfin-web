@@ -97,10 +97,10 @@ function populateList(options) {
 
 function onSearchBarType(searchBar) {
     const filter = searchBar.value.toLowerCase();
-    for (const header of document.querySelectorAll("div .verticalSection")) {
+    for (const header of document.querySelectorAll('div .verticalSection')) {
         // keep track of shown cards after each search
         let shown = 0;
-        for (const card of header.querySelectorAll("div .card")) {
+        for (const card of header.querySelectorAll('div .card')) {
             if (filter && filter != '' && !card.textContent.toLowerCase().includes(filter)) {
                 card.style.display = 'none';
             } else {
