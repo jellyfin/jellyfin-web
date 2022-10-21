@@ -14,7 +14,6 @@ interface SortProps {
 const Sort: FC<SortProps> = ({
     getSortMenuOptions,
     viewSettings,
-    //setSortValues,
     setViewSettings
 }) => {
     const element = useRef<HTMLDivElement>(null);

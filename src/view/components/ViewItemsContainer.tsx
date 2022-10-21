@@ -139,7 +139,7 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
     const [isLoading, setisLoading] = useState(false);
 
     const [viewSettings, setViewSettings] = useLocalStorage<ViewSettingsI>(
-        getSettingsKey() + 'viewSettings',
+        `viewSettings - ${getSettingsKey()}`,
         defaultViewSettingsValue
     );
 
@@ -194,7 +194,7 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
         };
 
         cardOptions.items = itemsResult.Items || [];
-        console.log('cardOptions', cardOptions);
+
         return cardOptions;
     }, [getContext, itemsResult.Items, viewSettings.cardLayout, viewSettings.imageType, viewSettings.showTitle, viewSettings.showYear]);
 
@@ -285,7 +285,7 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             NameStartsWith: viewSettings.NameStartsWith,
             ParentId: topParentId
         };
-        console.log('options', options);
+
         return options;
     }, [viewSettings.imageType, viewSettings.showYear, viewSettings.IsPlayed, viewSettings.IsUnplayed, viewSettings.IsFavorite, viewSettings.IsResumable, viewSettings.IsHD, viewSettings.IsSD, viewSettings.SortBy, viewSettings.SortOrder, viewSettings.VideoTypes, viewSettings.GenreIds, viewSettings.Is4K, viewSettings.Is3D, viewSettings.HasSubtitles, viewSettings.HasTrailer, viewSettings.HasSpecialFeature, viewSettings.HasThemeSong, viewSettings.HasThemeVideo, viewSettings.StartIndex, viewSettings.NameLessThan, viewSettings.NameStartsWith, getItemTypes, getBasekey, topParentId]);
 
