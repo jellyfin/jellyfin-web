@@ -12,7 +12,11 @@ import Shuffle from './Shuffle';
 import Sort from './Sort';
 import NewCollection from './NewCollection';
 import globalize from '../../scripts/globalize';
-import { QueryI } from './interface';
+import { CardOptionsI, QueryI, ViewSettingsI } from './interface';
+import ServerConnections from '../../components/ServerConnections';
+import { useLocalStorage } from '../hook/useLocalStorage';
+import listview from '../../components/listview/listview';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
 interface ViewItemsContainerProps {
     topParentId: string | null;
@@ -25,6 +29,99 @@ interface ViewItemsContainerProps {
     getNoItemsMessage: () => string;
 }
 
+const getDefaultSortBy = () => {
+    return 'SortName';
+};
+
+const getVisibleViewSettings = () => {
+    return [
+        'showTitle',
+        'showYear',
+        'imageType',
+        'cardLayout'
+    ];
+};
+
+const getFilterMenuOptions = () => {
+    return {};
+};
+
+const getVisibleFilters = () => {
+    return [
+        'IsUnplayed',
+        'IsPlayed',
+        'IsFavorite',
+        'IsResumable',
+        'VideoType',
+        'HasSubtitles',
+        'HasTrailer',
+        'HasSpecialFeature',
+        'HasThemeSong',
+        'HasThemeVideo'
+    ];
+};
+
+const getSortMenuOptions = () => {
+    return [{
+        name: globalize.translate('Name'),
+        value: 'SortName,ProductionYear'
+    }, {
+        name: globalize.translate('OptionRandom'),
+        value: 'Random'
+    }, {
+        name: globalize.translate('OptionImdbRating'),
+        value: 'CommunityRating,SortName,ProductionYear'
+    }, {
+        name: globalize.translate('OptionCriticRating'),
+        value: 'CriticRating,SortName,ProductionYear'
+    }, {
+        name: globalize.translate('OptionDateAdded'),
+        value: 'DateCreated,SortName,ProductionYear'
+    }, {
+        name: globalize.translate('OptionDatePlayed'),
+        value: 'DatePlayed,SortName,ProductionYear'
+    }, {
+        name: globalize.translate('OptionParentalRating'),
+        value: 'OfficialRating,SortName,ProductionYear'
+    }, {
+        name: globalize.translate('OptionPlayCount'),
+        value: 'PlayCount,SortName,ProductionYear'
+    }, {
+        name: globalize.translate('OptionReleaseDate'),
+        value: 'PremiereDate,SortName,ProductionYear'
+    }, {
+        name: globalize.translate('Runtime'),
+        value: 'Runtime,SortName,ProductionYear'
+    }];
+};
+
+const defaultViewSettingsValue: ViewSettingsI = {
+    showTitle: true,
+    showYear: true,
+    imageType: 'primary',
+    viewType: '',
+    cardLayout: true,
+    SortBy: getDefaultSortBy(),
+    SortOrder: 'Ascending',
+    IsPlayed: false,
+    IsUnplayed: false,
+    IsFavorite: false,
+    IsResumable: false,
+    Is4K: null,
+    IsHD: null,
+    IsSD: null,
+    Is3D: null,
+    VideoTypes: '',
+    SeriesStatus: '',
+    HasSubtitles: null,
+    HasTrailer: null,
+    HasSpecialFeature: null,
+    HasThemeSong: null,
+    HasThemeVideo: null,
+    GenreIds: '',
+    StartIndex: 0
+};
+
 const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
     topParentId,
     isBtnShuffleEnabled = false,
@@ -35,247 +132,20 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
     getItemTypes,
     getNoItemsMessage
 }) => {
-    const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
-    const [ query, setQuery ] = useState<QueryI>({
-        StartIndex: 0
-    });
-
-    const element = useRef<HTMLDivElement>(null);
-
     const getSettingsKey = useCallback(() => {
         return `${topParentId} - ${getBasekey()}`;
     }, [getBasekey, topParentId]);
 
-    const getVisibleViewSettings = useCallback(() => {
-        return [
-            'showTitle',
-            'showYear',
-            'imageType',
-            'cardLayout'
-        ];
-    }, []);
+    const [isLoading, setisLoading] = useState(false);
 
-    const getViewSettings = useCallback(() => {
-        const basekey = getSettingsKey();
-        return {
-            showTitle: userSettings.get(basekey + '-showTitle', false) !== 'false',
-            showYear: userSettings.get(basekey + '-showYear', false) !== 'false',
-            imageType: userSettings.get(basekey + '-imageType', false) || 'primary',
-            viewType: userSettings.get(basekey + '-viewType', false) || 'images',
-            cardLayout: userSettings.get(basekey + '-cardLayout', false) !== 'false'
-        };
-    }, [getSettingsKey]);
+    const [viewSettings, setViewSettings] = useLocalStorage<ViewSettingsI>(
+        getSettingsKey() + 'viewSettings',
+        defaultViewSettingsValue
+    );
 
-    const getDefaultSortBy = useCallback(() => {
-        return 'SortName';
-    }, []);
+    const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
 
-    const getSortValues = useCallback(() => {
-        const basekey = getSettingsKey();
-
-        return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || getDefaultSortBy(),
-            sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
-        };
-    }, [getDefaultSortBy, getSettingsKey]);
-
-    const getFilters = useCallback(() => {
-        const basekey = getSettingsKey();
-        return {
-            IsPlayed: userSettings.getFilter(basekey + '-filter-IsPlayed') === 'true',
-            IsUnplayed: userSettings.getFilter(basekey + '-filter-IsUnplayed') === 'true',
-            IsFavorite: userSettings.getFilter(basekey + '-filter-IsFavorite') === 'true',
-            IsResumable: userSettings.getFilter(basekey + '-filter-IsResumable') === 'true',
-            Is4K: userSettings.getFilter(basekey + '-filter-Is4K') === 'true',
-            IsHD: userSettings.getFilter(basekey + '-filter-IsHD') === 'true',
-            IsSD: userSettings.getFilter(basekey + '-filter-IsSD') === 'true',
-            Is3D: userSettings.getFilter(basekey + '-filter-Is3D') === 'true',
-            VideoTypes: userSettings.getFilter(basekey + '-filter-VideoTypes'),
-            SeriesStatus: userSettings.getFilter(basekey + '-filter-SeriesStatus'),
-            HasSubtitles: userSettings.getFilter(basekey + '-filter-HasSubtitles'),
-            HasTrailer: userSettings.getFilter(basekey + '-filter-HasTrailer'),
-            HasSpecialFeature: userSettings.getFilter(basekey + '-filter-HasSpecialFeature'),
-            HasThemeSong: userSettings.getFilter(basekey + '-filter-HasThemeSong'),
-            HasThemeVideo: userSettings.getFilter(basekey + '-filter-HasThemeVideo'),
-            GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds')
-        };
-    }, [getSettingsKey]);
-
-    const getFilterMenuOptions = useCallback(() => {
-        return {};
-    }, []);
-
-    const getVisibleFilters = useCallback(() => {
-        return [
-            'IsUnplayed',
-            'IsPlayed',
-            'IsFavorite',
-            'IsResumable',
-            'VideoType',
-            'HasSubtitles',
-            'HasTrailer',
-            'HasSpecialFeature',
-            'HasThemeSong',
-            'HasThemeVideo'
-        ];
-    }, []);
-
-    const getQuery = useCallback(() => {
-        let fields = 'BasicSyncInfo,MediaSourceCount';
-        const viewsettings = getViewSettings();
-        if (viewsettings.imageType === 'primary') {
-            fields += ',PrimaryImageAspectRatio';
-        }
-
-        if (viewsettings.showYear) {
-            fields += ',ProductionYear';
-        }
-
-        const options: QueryI = {
-            SortBy: getSortValues().sortBy,
-            SortOrder: getSortValues().sortOrder,
-            IncludeItemTypes: getItemTypes().join(','),
-            Recursive: true,
-            Fields: fields,
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
-            Limit: userSettings.libraryPageSize(undefined),
-            StartIndex: query.StartIndex,
-            NameLessThan: query.NameLessThan,
-            NameStartsWith: query.NameStartsWith,
-            ParentId: topParentId
-        };
-
-        if (getBasekey() === 'favorites') {
-            options.IsFavorite = true;
-        }
-
-        return options;
-    }, [getViewSettings, getSortValues, getItemTypes, query.StartIndex, query.NameLessThan, query.NameStartsWith, topParentId, getBasekey]);
-
-    const getQueryWithFilters = useCallback(() => {
-        const query = getQuery();
-        const queryFilters = [];
-        let hasFilters;
-
-        const filters = getFilters();
-
-        if (filters.IsPlayed) {
-            queryFilters.push('IsPlayed');
-            hasFilters = true;
-        }
-
-        if (filters.IsUnplayed) {
-            queryFilters.push('IsUnplayed');
-            hasFilters = true;
-        }
-
-        if (filters.IsFavorite) {
-            queryFilters.push('IsFavorite');
-            hasFilters = true;
-        }
-
-        if (filters.IsResumable) {
-            queryFilters.push('IsResumable');
-            hasFilters = true;
-        }
-
-        if (filters.VideoTypes) {
-            hasFilters = true;
-            query.VideoTypes = filters.VideoTypes;
-        }
-
-        if (filters.GenreIds) {
-            hasFilters = true;
-            query.GenreIds = filters.GenreIds;
-        }
-
-        if (filters.Is4K) {
-            query.Is4K = true;
-            hasFilters = true;
-        }
-
-        if (filters.IsHD) {
-            query.IsHD = true;
-            hasFilters = true;
-        }
-
-        if (filters.IsSD) {
-            query.IsHD = false;
-            hasFilters = true;
-        }
-
-        if (filters.Is3D) {
-            query.Is3D = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasSubtitles) {
-            query.HasSubtitles = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasTrailer) {
-            query.HasTrailer = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasSpecialFeature) {
-            query.HasSpecialFeature = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasThemeSong) {
-            query.HasThemeSong = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasThemeVideo) {
-            query.HasThemeVideo = true;
-            hasFilters = true;
-        }
-
-        query.Filters = queryFilters.length ? queryFilters.join(',') : null;
-
-        return {
-            query: query,
-            hasFilters: hasFilters
-        };
-    }, [getQuery, getFilters]);
-
-    const getSortMenuOptions = useCallback(() => {
-        return [{
-            name: globalize.translate('Name'),
-            value: 'SortName,ProductionYear'
-        }, {
-            name: globalize.translate('OptionRandom'),
-            value: 'Random'
-        }, {
-            name: globalize.translate('OptionImdbRating'),
-            value: 'CommunityRating,SortName,ProductionYear'
-        }, {
-            name: globalize.translate('OptionCriticRating'),
-            value: 'CriticRating,SortName,ProductionYear'
-        }, {
-            name: globalize.translate('OptionDateAdded'),
-            value: 'DateCreated,SortName,ProductionYear'
-        }, {
-            name: globalize.translate('OptionDatePlayed'),
-            value: 'DatePlayed,SortName,ProductionYear'
-        }, {
-            name: globalize.translate('OptionParentalRating'),
-            value: 'OfficialRating,SortName,ProductionYear'
-        }, {
-            name: globalize.translate('OptionPlayCount'),
-            value: 'PlayCount,SortName,ProductionYear'
-        }, {
-            name: globalize.translate('OptionReleaseDate'),
-            value: 'PremiereDate,SortName,ProductionYear'
-        }, {
-            name: globalize.translate('Runtime'),
-            value: 'Runtime,SortName,ProductionYear'
-        }];
-    }, []);
+    const element = useRef<HTMLDivElement>(null);
 
     const getContext = useCallback(() => {
         const itemType = getItemTypes().join(',');
@@ -286,6 +156,151 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
         return null;
     }, [getItemTypes]);
 
+    const getCardOptions = useCallback(() => {
+        let shape;
+        let preferThumb;
+        let preferDisc;
+        let preferLogo;
+
+        if (viewSettings.imageType === 'banner') {
+            shape = 'banner';
+        } else if (viewSettings.imageType === 'disc') {
+            shape = 'square';
+            preferDisc = true;
+        } else if (viewSettings.imageType === 'logo') {
+            shape = 'backdrop';
+            preferLogo = true;
+        } else if (viewSettings.imageType === 'thumb') {
+            shape = 'backdrop';
+            preferThumb = true;
+        } else {
+            shape = 'autoVertical';
+        }
+
+        const cardOptions: CardOptionsI = {
+            shape: shape,
+            showTitle: viewSettings.showTitle,
+            showYear: viewSettings.showYear,
+            cardLayout: viewSettings.cardLayout,
+            centerText: true,
+            context: getContext(),
+            coverImage: true,
+            preferThumb: preferThumb,
+            preferDisc: preferDisc,
+            preferLogo: preferLogo,
+            overlayPlayButton: false,
+            overlayMoreButton: true,
+            overlayText: !viewSettings.showTitle
+        };
+
+        cardOptions.items = itemsResult.Items || [];
+        console.log('cardOptions', cardOptions);
+        return cardOptions;
+    }, [getContext, itemsResult.Items, viewSettings.cardLayout, viewSettings.imageType, viewSettings.showTitle, viewSettings.showYear]);
+
+    const getItemsHtml = useCallback(() => {
+        let html = '';
+
+        if (viewSettings.imageType === 'list') {
+            html = listview.getListViewHtml({
+                items: itemsResult.Items || [],
+                context: getContext()
+            });
+        } else {
+            html = cardBuilder.getCardsHtml(itemsResult.Items || [], getCardOptions());
+        }
+
+        if (!itemsResult.Items?.length) {
+            html += '<div class="noItemsMessage centerMessage">';
+            html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+            html += '<p>' + globalize.translate(getNoItemsMessage()) + '</p>';
+            html += '</div>';
+        }
+
+        return html;
+    }, [getCardOptions, getContext, itemsResult.Items, getNoItemsMessage, viewSettings.imageType]);
+
+    const getQuery = useCallback(() => {
+        let fields = 'BasicSyncInfo,MediaSourceCount';
+
+        if (viewSettings.imageType === 'primary') {
+            fields += ',PrimaryImageAspectRatio';
+        }
+
+        if (viewSettings.showYear) {
+            fields += ',ProductionYear';
+        }
+
+        const queryFilters: string[] = [];
+
+        if (viewSettings.IsPlayed) {
+            queryFilters.push('IsPlayed');
+        }
+
+        if (viewSettings.IsUnplayed) {
+            queryFilters.push('IsUnplayed');
+        }
+
+        if (viewSettings.IsFavorite) {
+            queryFilters.push('IsFavorite');
+        }
+
+        if (viewSettings.IsResumable) {
+            queryFilters.push('IsResumable');
+        }
+
+        let queryIsHD;
+
+        if (viewSettings.IsHD) {
+            queryIsHD = true;
+        }
+
+        if (viewSettings.IsSD) {
+            queryIsHD = false;
+        }
+
+        const options: QueryI = {
+            SortBy: viewSettings.SortBy,
+            SortOrder: viewSettings.SortOrder,
+            IncludeItemTypes: getItemTypes().join(','),
+            Recursive: true,
+            Fields: fields,
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
+            Limit: userSettings.libraryPageSize(undefined),
+            IsFavorite: getBasekey() === 'favorites' ? true : null,
+            VideoTypes: viewSettings.VideoTypes,
+            GenreIds: viewSettings.GenreIds,
+            Is4K: viewSettings.Is4K ? true : null,
+            IsHD: queryIsHD,
+            Is3D: viewSettings.Is3D ? true : null,
+            HasSubtitles: viewSettings.HasSubtitles ? true : null,
+            HasTrailer: viewSettings.HasTrailer ? true : null,
+            HasSpecialFeature: viewSettings.HasSpecialFeature ? true : null,
+            HasThemeSong: viewSettings.HasThemeSong ? true : null,
+            HasThemeVideo: viewSettings.HasThemeVideo ? true : null,
+            Filters: queryFilters.length ? queryFilters.join(',') : null,
+            StartIndex: viewSettings.StartIndex,
+            NameLessThan: viewSettings.NameLessThan,
+            NameStartsWith: viewSettings.NameStartsWith,
+            ParentId: topParentId
+        };
+        console.log('options', options);
+        return options;
+    }, [viewSettings.imageType, viewSettings.showYear, viewSettings.IsPlayed, viewSettings.IsUnplayed, viewSettings.IsFavorite, viewSettings.IsResumable, viewSettings.IsHD, viewSettings.IsSD, viewSettings.SortBy, viewSettings.SortOrder, viewSettings.VideoTypes, viewSettings.GenreIds, viewSettings.Is4K, viewSettings.Is3D, viewSettings.HasSubtitles, viewSettings.HasTrailer, viewSettings.HasSpecialFeature, viewSettings.HasThemeSong, viewSettings.HasThemeVideo, viewSettings.StartIndex, viewSettings.NameLessThan, viewSettings.NameStartsWith, getItemTypes, getBasekey, topParentId]);
+
+    const fetchData = useCallback(() => {
+        loading.show();
+
+        const apiClient = ServerConnections.getApiClient(window.ApiClient.serverId());
+        return apiClient.getItems(
+            apiClient.getCurrentUserId(),
+            {
+                ...getQuery()
+            }
+        );
+    }, [getQuery]);
+
     const reloadItems = useCallback(() => {
         const page = element.current;
 
@@ -293,19 +308,19 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             console.error('Unexpected null reference');
             return;
         }
-        loading.show();
-        const query = getQueryWithFilters().query;
-        window.ApiClient.getItems(window.ApiClient.getCurrentUserId(), query).then((result) => {
+        setisLoading(false);
+        fetchData().then((result) => {
             setItemsResult(result);
-            window.scrollTo(0, 0);
 
-            loading.hide();
+            window.scrollTo(0, 0);
 
             import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(page);
             });
+            loading.hide();
+            setisLoading(true);
         });
-    }, [getQueryWithFilters]);
+    }, [fetchData]);
 
     useEffect(() => {
         reloadItems();
@@ -316,37 +331,31 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination
                     itemsResult= {itemsResult}
-                    query={query}
-                    setQuery={setQuery}
+                    viewSettings={viewSettings}
+                    setViewSettings={setViewSettings}
                 />
 
                 {isBtnShuffleEnabled && <Shuffle itemsResult={itemsResult} topParentId={topParentId} />}
 
-                {<SelectView
-                    getSettingsKey={getSettingsKey}
+                <SelectView
                     getVisibleViewSettings={getVisibleViewSettings}
-                    getViewSettings={getViewSettings}
-                    setQuery={setQuery}
-                    reloadItems={reloadItems}
-                />}
+                    viewSettings={viewSettings}
+                    setViewSettings={setViewSettings}
+                />
 
                 <Sort
                     getSortMenuOptions={getSortMenuOptions}
-                    getSortValues={getSortValues}
-                    getSettingsKey={getSettingsKey}
-                    setQuery={setQuery}
-                    reloadItems={reloadItems}
+                    viewSettings={viewSettings}
+                    setViewSettings={setViewSettings}
                 />
 
                 {isBtnFilterEnabled && <Filter
                     topParentId={topParentId}
-                    getFilters={getFilters}
-                    getSettingsKey={getSettingsKey}
                     getItemTypes={getItemTypes}
                     getVisibleFilters={getVisibleFilters}
                     getFilterMenuOptions={getFilterMenuOptions}
-                    setQuery={setQuery}
-                    reloadItems={reloadItems}
+                    viewSettings={viewSettings}
+                    setViewSettings={setViewSettings}
                 />}
 
                 {isBtnNewCollectionEnabled && <NewCollection />}
@@ -354,22 +363,20 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             </div>
 
             {isAlphaPickerEnabled && <AlphaPickerContainer
-                getQuery={getQuery}
-                setQuery={setQuery}
+                viewSettings={viewSettings}
+                setViewSettings={setViewSettings}
             />}
 
-            <ItemsContainer
-                getViewSettings={getViewSettings}
-                getContext={getContext}
-                items={itemsResult?.Items}
-                noItemsMessage={getNoItemsMessage()}
-            />
+            {isLoading && <ItemsContainer
+                viewSettings={viewSettings}
+                getItemsHtml={getItemsHtml}
+            />}
 
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination
                     itemsResult= {itemsResult}
-                    query={query}
-                    setQuery={setQuery}
+                    viewSettings={viewSettings}
+                    setViewSettings={setViewSettings}
                 />
             </div>
         </div>

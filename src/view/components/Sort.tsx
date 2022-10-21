@@ -1,37 +1,34 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
-import { QueryI } from './interface';
+import { ViewSettingsI } from './interface';
 
 interface SortProps {
     getSortMenuOptions: () => {
         name: string;
         value: string;
-    }[]
-    getSortValues: () => {
-        sortBy: string;
-        sortOrder: string;
-    }
-    getSettingsKey: () => string;
-    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
-    reloadItems: () => void;
+    }[];
+    viewSettings: ViewSettingsI
+    setViewSettings: React.Dispatch<React.SetStateAction<ViewSettingsI>>;
 }
 
-const Sort: FC<SortProps> = ({ getSortMenuOptions, getSortValues, getSettingsKey, setQuery, reloadItems }) => {
+const Sort: FC<SortProps> = ({
+    getSortMenuOptions,
+    viewSettings,
+    //setSortValues,
+    setViewSettings
+}) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showSortMenu = useCallback(() => {
         import('../../components/sortmenu/sortmenu').then(({default: SortMenu}) => {
             const sortMenu = new SortMenu();
             sortMenu.show({
-                settingsKey: getSettingsKey(),
-                settings: getSortValues(),
-                sortOptions: getSortMenuOptions()
-            }).then(() => {
-                setQuery({StartIndex: 0});
-                reloadItems();
+                settings: viewSettings,
+                sortOptions: getSortMenuOptions(),
+                setSortValues: setViewSettings
             });
         });
-    }, [getSettingsKey, getSortMenuOptions, getSortValues, reloadItems, setQuery]);
+    }, [getSortMenuOptions, viewSettings, setViewSettings]);
 
     useEffect(() => {
         const btnSort = element.current?.querySelector('.btnSort');

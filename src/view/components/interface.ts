@@ -1,54 +1,48 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
-export interface QueryI {
-    SortBy?: string;
-    SortOrder?: string;
+export interface QueryI extends ViewSettingsI {
     IncludeItemTypes?: string;
     Recursive?: boolean;
-    Fields?: string;
+    Fields?: string | null;
     ImageTypeLimit?: number;
     EnableTotalRecordCount?: boolean;
     EnableImageTypes?: string;
     StartIndex?: number;
     ParentId?: string | null;
-    IsFavorite?: boolean;
-    IsMissing?: boolean;
+    IsMissing?: boolean | null;
     Limit?:number;
-    NameStartsWithOrGreater?: string;
-    NameLessThan?: string;
-    NameStartsWith?: string | null;
-    VideoTypes?: string;
-    GenreIds?: string;
-    Is4K?: boolean;
-    IsHD?: boolean;
-    Is3D?: boolean;
-    HasSubtitles?: boolean;
-    HasTrailer?: boolean;
-    HasSpecialFeature?: boolean;
-    HasThemeSong?: boolean;
-    HasThemeVideo?: boolean;
     Filters?: string | null;
 }
 
-export interface FiltersI {
-    IsPlayed: boolean;
-    IsUnplayed: boolean;
-    IsFavorite: boolean;
-    IsResumable: boolean;
-    Is4K: boolean;
-    IsHD: boolean;
-    IsSD: boolean;
-    Is3D: boolean;
-    VideoTypes: string;
-    SeriesStatus: string;
-    HasSubtitles: string;
-    HasTrailer: string;
-    HasSpecialFeature: string;
-    HasThemeSong: string;
-    HasThemeVideo: string;
-    GenreIds: string;
+export interface ViewSettingsI {
+    showTitle?: boolean;
+    showYear?: boolean;
+    imageType?: string;
+    viewType?: string;
+    cardLayout?: boolean;
+    SortBy?: string | null;
+    SortOrder?: string | null;
+    IsPlayed?: boolean | null;
+    IsUnplayed?: boolean | null;
+    IsFavorite?: boolean | null;
+    IsResumable?: boolean | null;
+    Is4K?: boolean | null;
+    IsHD?: boolean | null;
+    IsSD?: boolean | null;
+    Is3D?: boolean | null;
+    VideoTypes?: string | null;
+    SeriesStatus?: string | null;
+    HasSubtitles?: boolean | null;
+    HasTrailer?: boolean | null;
+    HasSpecialFeature?: boolean | null;
+    ParentIndexNumber?: boolean | null;
+    HasThemeSong?: boolean | null;
+    HasThemeVideo?: boolean | null;
+    GenreIds?: string | null;
+    NameLessThan?: string | null;
+    NameStartsWith?: string | null;
+    StartIndex?: number;
 }
-
 export interface CardOptionsI {
     itemsContainer?: HTMLElement | null;
     parentContainer?: HTMLElement | null;

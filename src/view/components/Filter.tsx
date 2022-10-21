@@ -1,27 +1,23 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
-import { FiltersI, QueryI } from './interface';
+import { ViewSettingsI } from './interface';
 
 interface FilterProps {
     topParentId?: string | null;
     getItemTypes: () => string[];
-    getFilters: () => FiltersI;
-    getSettingsKey: () => string;
     getFilterMenuOptions: () => Record<string, never>;
     getVisibleFilters: () => string[];
-    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
-    reloadItems: () => void;
+    viewSettings: ViewSettingsI;
+    setViewSettings: React.Dispatch<React.SetStateAction<ViewSettingsI>>;
 }
 
 const Filter: FC<FilterProps> = ({
     topParentId,
     getItemTypes,
-    getSettingsKey,
-    getFilters,
     getVisibleFilters,
     getFilterMenuOptions,
-    setQuery,
-    reloadItems
+    viewSettings,
+    setViewSettings
 }) => {
     const element = useRef<HTMLDivElement>(null);
 
@@ -29,19 +25,16 @@ const Filter: FC<FilterProps> = ({
         import('../../components/filtermenu/filtermenu').then(({default: FilterMenu}) => {
             const filterMenu = new FilterMenu();
             filterMenu.show({
-                settingsKey: getSettingsKey(),
-                settings: getFilters(),
+                settings: viewSettings,
                 visibleSettings: getVisibleFilters(),
                 parentId: topParentId,
                 itemTypes: getItemTypes(),
                 serverId: window.ApiClient.serverId(),
-                filterMenuOptions: getFilterMenuOptions()
-            }).then(() => {
-                setQuery({StartIndex: 0});
-                reloadItems();
+                filterMenuOptions: getFilterMenuOptions(),
+                setfilters: setViewSettings
             });
         });
-    }, [getSettingsKey, getFilters, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, setQuery, reloadItems]);
+    }, [viewSettings, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, setViewSettings]);
 
     useEffect(() => {
         const btnFilter = element.current?.querySelector('.btnFilter');

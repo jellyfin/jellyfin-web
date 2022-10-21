@@ -1,37 +1,30 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
-import { QueryI } from './interface';
+import { ViewSettingsI } from './interface';
 
 interface SelectViewProps {
-    getSettingsKey: () => string;
     getVisibleViewSettings: () => string[];
-    getViewSettings: () => {
-        showTitle: string | boolean;
-        cardLayout: string | boolean;
-        showYear: string | boolean;
-        imageType: string;
-        viewType: string;
-    };
-    setQuery: React.Dispatch<React.SetStateAction<QueryI>>;
-    reloadItems: () => void;
+    viewSettings: ViewSettingsI
+    setViewSettings: React.Dispatch<React.SetStateAction<ViewSettingsI>>;
 }
 
-const SelectView: FC<SelectViewProps> = ({ setQuery, getSettingsKey, getVisibleViewSettings, getViewSettings, reloadItems }) => {
+const SelectView: FC<SelectViewProps> = ({
+    getVisibleViewSettings,
+    viewSettings,
+    setViewSettings
+}) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showViewSettingsMenu = useCallback(() => {
         import('../../components/viewSettings/viewSettings').then(({default: ViewSettings}) => {
-            const viewSettings = new ViewSettings();
-            viewSettings.show({
-                settingsKey: getSettingsKey(),
-                settings: getViewSettings(),
-                visibleSettings: getVisibleViewSettings()
-            }).then(() => {
-                setQuery({StartIndex: 0});
-                reloadItems();
+            const viewsettings = new ViewSettings();
+            viewsettings.show({
+                settings: viewSettings,
+                visibleSettings: getVisibleViewSettings(),
+                setviewsettings: setViewSettings
             });
         });
-    }, [getSettingsKey, getViewSettings, getVisibleViewSettings, reloadItems, setQuery]);
+    }, [getVisibleViewSettings, viewSettings, setViewSettings]);
 
     useEffect(() => {
         const btnSelectView = element.current?.querySelector('.btnSelectView') as HTMLButtonElement;

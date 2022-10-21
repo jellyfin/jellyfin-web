@@ -76,8 +76,8 @@ import LibraryMenu from '../scripts/libraryMenu';
         const sortValues = instance.getSortValues();
 
         if (!query.SortBy) {
-            query.SortBy = sortValues.sortBy;
-            query.SortOrder = sortValues.sortOrder;
+            query.SortBy = sortValues.SortBy;
+            query.SortOrder = sortValues.SortOrder;
         }
 
         query.Fields = query.Fields ? query.Fields + ',PrimaryImageAspectRatio' : 'PrimaryImageAspectRatio';
@@ -202,7 +202,7 @@ import LibraryMenu from '../scripts/libraryMenu';
             const btnSortIcon = instance.btnSortIcon;
 
             if (btnSortIcon) {
-                setSortButtonIcon(btnSortIcon, values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
+                setSortButtonIcon(btnSortIcon, values.SortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
             }
         }
     }
@@ -963,8 +963,8 @@ class ItemsView {
     getSortValues() {
         const basekey = this.getSettingsKey();
         return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
-            sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
+            SortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
+            SortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
         };
     }
 
