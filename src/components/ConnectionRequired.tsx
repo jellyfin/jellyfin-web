@@ -1,25 +1,19 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import type { ConnectResponse } from 'jellyfin-apiclient';
 
 import alert from './alert';
 import { appRouter } from './appRouter';
 import loading from './loading/loading';
 import ServerConnections from './ServerConnections';
 import globalize from '../scripts/globalize';
+import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
 
 enum BounceRoutes {
     Home = '/home.html',
     Login = '/login.html',
     SelectServer = '/selectserver.html',
     StartWizard = '/wizardstart.html'
-}
-
-// TODO: This should probably be in the SDK
-enum ConnectionState {
-    SignedIn = 'SignedIn',
-    ServerSignIn = 'ServerSignIn',
-    ServerSelection = 'ServerSelection',
-    ServerUpdateNeeded = 'ServerUpdateNeeded'
 }
 
 type ConnectionRequiredProps = {
@@ -42,7 +36,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
 
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bounce = async (connectionResponse: any) => {
+        const bounce = async (connectionResponse: ConnectResponse) => {
             switch (connectionResponse.State) {
                 case ConnectionState.SignedIn:
                     // Already logged in, bounce to the home page
