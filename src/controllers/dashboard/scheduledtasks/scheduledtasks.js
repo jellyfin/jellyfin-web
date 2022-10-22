@@ -49,7 +49,7 @@ import '../../../elements/emby-button/emby-button';
                 html += currentCategory;
                 html += '</h2>';
                 if (i === 0) {
-                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">' + globalize.translate('Help') + '</a>';
+                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/tasks">' + globalize.translate('Help') + '</a>';
                 }
                 html += '</div>';
                 html += '<div class="paperList">';

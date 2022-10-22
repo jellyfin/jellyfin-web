@@ -305,7 +305,7 @@ const UserEdit: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
-                        url='https://docs.jellyfin.org/general/server/users/'
+                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
 

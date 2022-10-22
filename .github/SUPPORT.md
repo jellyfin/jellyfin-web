@@ -7,7 +7,7 @@ When looking for support or information, please first search for your
 question in these venues:
 
 * [Jellyfin Forum](https://forum.jellyfin.org)
-* [Jellyfin Documentation](https://docs.jellyfin.org)
+* [Jellyfin Documentation](https://jellyfin.org/docs/)
 * [Open or **closed** issues in the organization](https://github.com/issues?q=sort%3Aupdated-desc+org%3Ajellyfin+is%3Aissue+)
 
 If you didn't find an answer in the resources above, contributors and other

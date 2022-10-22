@@ -144,7 +144,7 @@ const UserProfiles: FunctionComponent = () => {
                         btnClassName='fab submit sectionTitleButton'
                         btnTitle='ButtonAddUser'
                         btnIcon='add'
-                        url='https://docs.jellyfin.org/general/server/users/adding-managing-users.html'
+                        url='https://jellyfin.org/docs/general/server/users/adding-managing-users'
                     />
                 </div>
 
