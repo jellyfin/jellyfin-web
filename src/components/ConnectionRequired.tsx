@@ -96,6 +96,9 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                         }
                         const systemInfo = await infoResponse.json();
                         if (!systemInfo?.StartupWizardCompleted) {
+                            // Update the current ApiClient
+                            // TODO: Is there a better place to handle this?
+                            ServerConnections.setLocalApiClient(firstConnection.ApiClient);
                             // Bounce to the wizard
                             console.info('[ConnectionRequired] startup wizard is not complete, redirecting there');
                             navigate(BounceRoutes.StartWizard);

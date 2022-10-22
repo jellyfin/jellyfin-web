@@ -412,11 +412,7 @@ class AppRouter {
         if (apiClient && apiClient.isLoggedIn()) {
             console.debug('[appRouter] user is authenticated');
 
-            if (route.isDefaultRoute) {
-                console.debug('[appRouter] loading home page');
-                this.goHome();
-                return;
-            } else if (route.roles) {
+            if (route.roles) {
                 this.#validateRoles(apiClient, route.roles).then(() => {
                     callback();
                 }, this.#beginConnectionWizard.bind(this));
