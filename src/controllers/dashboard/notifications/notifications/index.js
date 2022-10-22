@@ -24,7 +24,7 @@ function reload(page) {
                 itemHtml += '</h2>';
                 if (showHelp) {
                     showHelp = false;
-                    itemHtml += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/notifications.html">';
+                    itemHtml += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/notifications">';
                     itemHtml += globalize.translate('Help');
                     itemHtml += '</a>';
                 }

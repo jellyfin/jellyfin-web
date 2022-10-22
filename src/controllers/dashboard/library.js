@@ -223,19 +223,19 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         }, {
             name: globalize.translate('Movies'),
             value: 'movies',
-            message: getLink('MovieLibraryHelp', 'https://docs.jellyfin.org/general/server/media/movies.html')
+            message: getLink('MovieLibraryHelp', 'https://jellyfin.org/docs/general/server/media/movies')
         }, {
             name: globalize.translate('TabMusic'),
             value: 'music',
-            message: getLink('MusicLibraryHelp', 'https://docs.jellyfin.org/general/server/media/music.html')
+            message: getLink('MusicLibraryHelp', 'https://jellyfin.org/docs/general/server/media/music')
         }, {
             name: globalize.translate('Shows'),
             value: 'tvshows',
-            message: getLink('TvLibraryHelp', 'https://docs.jellyfin.org/general/server/media/shows.html')
+            message: getLink('TvLibraryHelp', 'https://jellyfin.org/docs/general/server/media/shows')
         }, {
             name: globalize.translate('Books'),
             value: 'books',
-            message: getLink('BookLibraryHelp', 'https://docs.jellyfin.org/general/server/media/books.html')
+            message: getLink('BookLibraryHelp', 'https://jellyfin.org/docs/general/server/media/books')
         }, {
             name: globalize.translate('HomeVideosPhotos'),
             value: 'homevideos'
