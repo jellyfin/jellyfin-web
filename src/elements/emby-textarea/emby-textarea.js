@@ -2,6 +2,12 @@ import './emby-textarea.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 
+/**
+ * Calculates the vertical padding of the element
+ * @param textarea
+ * @returns {number}
+ */
+
 function calculateOffset(textarea) {
     const style = window.getComputedStyle(textarea, null);
     const props = ['paddingTop', 'paddingBottom'];
@@ -21,17 +27,10 @@ function calculateOffset(textarea) {
             maxLines = 999;
         }
 
-        /**
-         * Calculates the vertical padding of the element
-         * @param textarea
-         * @returns {number}
-         */
-        self.getOffset = calculateOffset(textarea);
-
         let offset;
         function reset() {
             textarea.rows = 1;
-            offset = self.getOffset(textarea);
+            offset = calculateOffset(textarea);
             self.rows = textarea.rows || 1;
             self.lineHeight = (textarea.scrollHeight / self.rows) - (offset / self.rows);
             self.maxAllowedHeight = (self.lineHeight * maxLines) - offset;
