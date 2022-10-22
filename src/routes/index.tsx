@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import ConnectionRequired from '../components/ConnectionRequired';
+import ViewManagerPage from '../components/viewManager/ViewManagerPage';
 import UserNew from './user/usernew';
 import Search from './search';
 import UserEdit from './user/useredit';
@@ -22,6 +23,9 @@ const AppRoutes = () => (
                 <Route path='userprofile.html' element={<UserProfile />} />
                 <Route path='home.html' element={<Home />} />
                 <Route path='movies.html' element={<Movies />} />
+                <Route path='music.html' element={
+                    <ViewManagerPage controller='music/musicrecommended' view='music/music.html' />
+                } />
             </Route>
 
             {/* Admin routes */}
