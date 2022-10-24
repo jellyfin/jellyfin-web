@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import globalize from '../../scripts/globalize';
 import viewManager from './viewManager';
 
-interface ViewManagerPageProps {
+export interface ViewManagerPageProps {
     controller: string
     view: string
     type?: string
@@ -35,7 +35,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
             let viewHtml = await import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`);
             viewHtml = globalize.translateHtml(viewHtml);
 
-            viewManager.loadView({
+            const viewOptions = {
                 url: location.pathname + location.search,
                 controllerFactory,
                 view: viewHtml,
@@ -48,7 +48,14 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
                     supportsThemeMedia: isThemeMediaSupported,
                     enableMediaControl: isNowPlayingBarEnabled
                 }
-            });
+            };
+
+            viewManager.tryRestoreView(viewOptions)
+                .catch((result?: any) => {
+                    if (!result || !result.cancelled) {
+                        viewManager.loadView(viewOptions);
+                    }
+                });
         };
 
         loadPage();
