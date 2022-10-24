@@ -1413,9 +1413,14 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 @media all and (min-height: 31.25em) {
-    .padded-right-withalphapicker {
+    [dir="ltr"] .padded-right-withalphapicker {
         padding-right: 7.5%;
         padding-right: max(env(safe-area-inset-right), 7.5%);
+    }
+
+    [dir="rtl"] .padded-right-withalphapicker {
+        padding-left: 7.5%;
+        padding-left: max(env(safe-area-inset-left), 7.5%);
     }
 }
 
