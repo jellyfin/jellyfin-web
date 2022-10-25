@@ -2,7 +2,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import castSenderApiLoader from '../../components/castSenderApi';
+import castSenderApiLoader from './castSenderApi';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import Events from '../../utils/events.ts';
