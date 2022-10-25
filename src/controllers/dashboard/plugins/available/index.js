@@ -105,7 +105,7 @@ function onSearchBarType(searchBar) {
                 card.style.display = 'none';
             } else {
                 card.style.display = 'unset';
-                shown += 1;
+                shown++;
             }
         }
         // hide title if no cards are shown
