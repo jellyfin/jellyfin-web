@@ -16,6 +16,7 @@ export interface ViewManagerPageProps {
 
 /**
  * Page component that renders legacy views via the ViewManager.
+ * NOTE: Any new pages should use the generic Page component instead.
  */
 const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
     controller,
@@ -30,10 +31,11 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
 
     useEffect(() => {
         const loadPage = async () => {
-            const controllerFactory = await import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`);
-
-            let viewHtml = await import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`);
-            viewHtml = globalize.translateHtml(viewHtml);
+            const [ controllerFactory, viewHtml ] = await Promise.all([
+                import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
+                import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+                    .then(html => globalize.translateHtml(html))
+            ]);
 
             const viewOptions = {
                 url: location.pathname + location.search,
