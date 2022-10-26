@@ -1671,5 +1671,6 @@
     "IgnoreDtsHelp": "Valinnan käytöstä poisto voi korjata joitakin onhelmia, kuten puuttuvan äänen kanavilla, joilla on erilliset ääni- ja videokanavat.",
     "IgnoreDts": "Ohita DTS (dekoodauksen aikaleima)",
     "OptionDateShowAdded": "Sarjan lisäysaika",
-    "OptionDateEpisodeAdded": "Jakson lisäysaika"
+    "OptionDateEpisodeAdded": "Jakson lisäysaika",
+    "MessageRenameMediaFolder": "Kaikki metatiedot menetetään mediakirjaston uudelleennimeämisen yhteydessä, joten ole varovainen."
 }
