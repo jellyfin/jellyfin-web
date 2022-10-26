@@ -1679,5 +1679,6 @@
     "IgnoreDtsHelp": "Die Deaktivierung dieser Option könnte Probleme beheben, z. B. kein Ton auf Filmen mit getrennten Audio- und Video-Streams.",
     "OptionDateShowAdded": "Datum Serie hinzugefügt",
     "OptionDateEpisodeAdded": "Datum Episode hinzugefügt",
-    "IgnoreDts": "DTS ignorieren (Dekodierungszeitstempel)"
+    "IgnoreDts": "DTS ignorieren (Dekodierungszeitstempel)",
+    "MessageRenameMediaFolder": "Beim umbenennen einer Medienbibliothek werden alle Metadaten gelöscht, mit Vorsicht fortfahren."
 }
