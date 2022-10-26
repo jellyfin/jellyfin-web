@@ -5,10 +5,10 @@ import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client'
 import escapeHTML from 'escape-html';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 
-import { appRouter } from '../../components/appRouter';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import layoutManager from '../../components/layoutManager';
-import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
+import { appRouter } from '../appRouter';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import layoutManager from '../layoutManager';
+import lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
 
 interface GenresItemsContainerProps {

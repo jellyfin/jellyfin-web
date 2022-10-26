@@ -11,12 +11,12 @@ import Page from '../components/Page';
 import globalize from '../scripts/globalize';
 import libraryMenu from '../scripts/libraryMenu';
 import * as userSettings from '../scripts/settings/userSettings';
-import CollectionsView from '../view/movies/CollectionsView';
-import FavoritesView from '../view/movies/FavoritesView';
-import GenresView from '../view/movies/GenresView';
-import MoviesView from '../view/movies/MoviesView';
-import SuggestionsView from '../view/movies/SuggestionsView';
-import TrailersView from '../view/movies/TrailersView';
+import CollectionsView from './movies/CollectionsView';
+import FavoritesView from './movies/FavoritesView';
+import GenresView from './movies/GenresView';
+import MoviesView from './movies/MoviesView';
+import SuggestionsView from './movies/SuggestionsView';
+import TrailersView from './movies/TrailersView';
 
 const getDefaultTabIndex = (folderId: string | null) => {
     switch (userSettings.get('landing-' + folderId, false)) {

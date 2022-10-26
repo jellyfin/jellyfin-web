@@ -1,30 +1,30 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
-import { ViewSettingsI } from './interface';
+import { ViewQuerySettings } from '../../types/interface';
 
 interface SelectViewProps {
     getVisibleViewSettings: () => string[];
-    viewSettings: ViewSettingsI
-    setViewSettings: React.Dispatch<React.SetStateAction<ViewSettingsI>>;
+    viewQuerySettings: ViewQuerySettings;
+    setViewQuerySettings: React.Dispatch<React.SetStateAction<ViewQuerySettings>>;
 }
 
 const SelectView: FC<SelectViewProps> = ({
     getVisibleViewSettings,
-    viewSettings,
-    setViewSettings
+    viewQuerySettings,
+    setViewQuerySettings
 }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showViewSettingsMenu = useCallback(() => {
-        import('../../components/viewSettings/viewSettings').then(({default: ViewSettings}) => {
+        import('../viewSettings/viewSettings').then(({default: ViewSettings}) => {
             const viewsettings = new ViewSettings();
             viewsettings.show({
-                settings: viewSettings,
+                settings: viewQuerySettings,
                 visibleSettings: getVisibleViewSettings(),
-                setviewsettings: setViewSettings
+                setviewsettings: setViewQuerySettings
             });
         });
-    }, [getVisibleViewSettings, viewSettings, setViewSettings]);
+    }, [getVisibleViewSettings, viewQuerySettings, setViewQuerySettings]);
 
     useEffect(() => {
         const btnSelectView = element.current?.querySelector('.btnSelectView') as HTMLButtonElement;

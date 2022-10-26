@@ -6,7 +6,7 @@ const NewCollection: FC = () => {
     const element = useRef<HTMLDivElement>(null);
 
     const showCollectionEditor = useCallback(() => {
-        import('../../components/collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+        import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
             const serverId = window.ApiClient.serverId();
             const collectionEditor = new CollectionEditor();
             collectionEditor.show({

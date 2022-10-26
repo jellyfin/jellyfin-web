@@ -3,18 +3,18 @@ import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { ViewSettingsI } from './interface';
+import { ViewQuerySettings } from '../../types/interface';
 
 interface PaginationProps {
-    viewSettings: ViewSettingsI;
-    setViewSettings: React.Dispatch<React.SetStateAction<ViewSettingsI>>;
+    viewQuerySettings: ViewQuerySettings;
+    setViewQuerySettings: React.Dispatch<React.SetStateAction<ViewQuerySettings>>;
     itemsResult?: BaseItemDtoQueryResult;
 }
 
-const Pagination: FC<PaginationProps> = ({ viewSettings, setViewSettings, itemsResult = {} }) => {
+const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettings, itemsResult = {} }) => {
     const limit = userSettings.libraryPageSize(undefined);
     const totalRecordCount = itemsResult.TotalRecordCount || 0;
-    const startIndex = viewSettings.StartIndex || 0;
+    const startIndex = viewQuerySettings.StartIndex || 0;
     const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
     const showControls = limit < totalRecordCount;
     const element = useRef<HTMLDivElement>(null);
@@ -22,22 +22,22 @@ const Pagination: FC<PaginationProps> = ({ viewSettings, setViewSettings, itemsR
     const onNextPageClick = useCallback(() => {
         if (limit > 0) {
             const newIndex = startIndex + limit;
-            setViewSettings((prevState) => ({
+            setViewQuerySettings((prevState) => ({
                 ...prevState,
                 StartIndex: newIndex
             }));
         }
-    }, [limit, setViewSettings, startIndex]);
+    }, [limit, setViewQuerySettings, startIndex]);
 
     const onPreviousPageClick = useCallback(() => {
         if (limit > 0) {
             const newIndex = Math.max(0, startIndex - limit);
-            setViewSettings((prevState) => ({
+            setViewQuerySettings((prevState) => ({
                 ...prevState,
                 StartIndex: newIndex
             }));
         }
-    }, [limit, setViewSettings, startIndex]);
+    }, [limit, setViewQuerySettings, startIndex]);
 
     useEffect(() => {
         const btnNextPage = element.current?.querySelector('.btnNextPage') as HTMLButtonElement;

@@ -3,8 +3,8 @@ import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 're
 
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
-import GenresItemsContainer from '../components/GenresItemsContainer';
-import { QueryI } from '../components/interface';
+import GenresItemsContainer from '../../components/common/GenresItemsContainer';
+import { Query } from '../../types/interface';
 
 interface GenresViewI {
     topParentId: string | null;
@@ -22,7 +22,7 @@ const GenresView: FC<GenresViewI> = ({ topParentId }) => {
         return getSettingsKey() + '-view';
     }, [getSettingsKey]);
 
-    let query = useMemo<QueryI>(() => ({
+    let query = useMemo<Query>(() => ({
         SortBy: 'SortName',
         SortOrder: 'Ascending',
         IncludeItemTypes: 'Movie',

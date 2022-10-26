@@ -1,23 +1,22 @@
-
 import React, { FC, useCallback } from 'react';
 
-import ViewItemsContainer from '../components/ViewItemsContainer';
+import ViewItemsContainer from '../../components/common/ViewItemsContainer';
 
-interface TrailersViewI {
+interface FavoritesViewI {
     topParentId: string | null;
 }
 
-const TrailersView: FC<TrailersViewI> = ({ topParentId }) => {
+const FavoritesView: FC<FavoritesViewI> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {
-        return 'trailers';
+        return 'favorites';
     }, []);
 
     const getItemTypes = useCallback(() => {
-        return ['Trailer'];
+        return ['Movie'];
     }, []);
 
     const getNoItemsMessage = useCallback(() => {
-        return 'MessageNoTrailersFound';
+        return 'MessageNoFavoritesAvailable';
     }, []);
 
     return (
@@ -30,4 +29,4 @@ const TrailersView: FC<TrailersViewI> = ({ topParentId }) => {
     );
 };
 
-export default TrailersView;
+export default FavoritesView;

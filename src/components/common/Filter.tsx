@@ -1,14 +1,14 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import IconButtonElement from '../../elements/IconButtonElement';
-import { ViewSettingsI } from './interface';
+import { ViewQuerySettings } from '../../types/interface';
 
 interface FilterProps {
     topParentId?: string | null;
     getItemTypes: () => string[];
     getFilterMenuOptions: () => Record<string, never>;
     getVisibleFilters: () => string[];
-    viewSettings: ViewSettingsI;
-    setViewSettings: React.Dispatch<React.SetStateAction<ViewSettingsI>>;
+    viewQuerySettings: ViewQuerySettings;
+    setViewQuerySettings: React.Dispatch<React.SetStateAction<ViewQuerySettings>>;
 }
 
 const Filter: FC<FilterProps> = ({
@@ -16,25 +16,25 @@ const Filter: FC<FilterProps> = ({
     getItemTypes,
     getVisibleFilters,
     getFilterMenuOptions,
-    viewSettings,
-    setViewSettings
+    viewQuerySettings,
+    setViewQuerySettings
 }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const showFilterMenu = useCallback(() => {
-        import('../../components/filtermenu/filtermenu').then(({default: FilterMenu}) => {
+        import('../filtermenu/filtermenu').then(({default: FilterMenu}) => {
             const filterMenu = new FilterMenu();
             filterMenu.show({
-                settings: viewSettings,
+                settings: viewQuerySettings,
                 visibleSettings: getVisibleFilters(),
                 parentId: topParentId,
                 itemTypes: getItemTypes(),
                 serverId: window.ApiClient.serverId(),
                 filterMenuOptions: getFilterMenuOptions(),
-                setfilters: setViewSettings
+                setfilters: setViewQuerySettings
             });
         });
-    }, [viewSettings, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, setViewSettings]);
+    }, [viewQuerySettings, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, setViewQuerySettings]);
 
     useEffect(() => {
         const btnFilter = element.current?.querySelector('.btnFilter');

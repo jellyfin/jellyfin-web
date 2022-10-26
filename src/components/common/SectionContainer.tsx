@@ -3,16 +3,16 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useEffect, useRef } from 'react';
 
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import cardBuilder from '../cardbuilder/cardBuilder';
 import ItemsContainerElement from '../../elements/ItemsContainerElement';
 import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
-import { CardOptionsI } from './interface';
+import { CardOptions } from '../../types/interface';
 
 interface SectionContainerProps {
     sectionTitle: string;
     enableScrollX: () => boolean;
     items?: BaseItemDto[];
-    cardOptions?: CardOptionsI;
+    cardOptions?: CardOptions;
 }
 
 const SectionContainer: FC<SectionContainerProps> = ({

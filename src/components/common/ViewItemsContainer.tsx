@@ -1,7 +1,7 @@
 import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
-import loading from '../../components/loading/loading';
+import loading from '../loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
 import AlphaPickerContainer from './AlphaPickerContainer';
 import Filter from './Filter';
@@ -12,11 +12,11 @@ import Shuffle from './Shuffle';
 import Sort from './Sort';
 import NewCollection from './NewCollection';
 import globalize from '../../scripts/globalize';
-import { CardOptionsI, QueryI, ViewSettingsI } from './interface';
-import ServerConnections from '../../components/ServerConnections';
-import { useLocalStorage } from '../hook/useLocalStorage';
-import listview from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import { CardOptions, ViewQuerySettings } from '../../types/interface';
+import ServerConnections from '../ServerConnections';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import listview from '../listview/listview';
+import cardBuilder from '../cardbuilder/cardBuilder';
 
 interface ViewItemsContainerProps {
     topParentId: string | null;
@@ -95,12 +95,12 @@ const getSortMenuOptions = () => {
     }];
 };
 
-const defaultViewSettingsValue: ViewSettingsI = {
+const defaultViewQuerySettings: ViewQuerySettings = {
     showTitle: true,
     showYear: true,
     imageType: 'primary',
     viewType: '',
-    cardLayout: true,
+    cardLayout: false,
     SortBy: getDefaultSortBy(),
     SortOrder: 'Ascending',
     IsPlayed: false,
@@ -138,9 +138,9 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
 
     const [isLoading, setisLoading] = useState(false);
 
-    const [viewSettings, setViewSettings] = useLocalStorage<ViewSettingsI>(
-        `viewSettings - ${getSettingsKey()}`,
-        defaultViewSettingsValue
+    const [viewQuerySettings, setViewQuerySettings] = useLocalStorage<ViewQuerySettings>(
+        `viewQuerySettings - ${getSettingsKey()}`,
+        defaultViewQuerySettings
     );
 
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
@@ -162,26 +162,26 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
         let preferDisc;
         let preferLogo;
 
-        if (viewSettings.imageType === 'banner') {
+        if (viewQuerySettings.imageType === 'banner') {
             shape = 'banner';
-        } else if (viewSettings.imageType === 'disc') {
+        } else if (viewQuerySettings.imageType === 'disc') {
             shape = 'square';
             preferDisc = true;
-        } else if (viewSettings.imageType === 'logo') {
+        } else if (viewQuerySettings.imageType === 'logo') {
             shape = 'backdrop';
             preferLogo = true;
-        } else if (viewSettings.imageType === 'thumb') {
+        } else if (viewQuerySettings.imageType === 'thumb') {
             shape = 'backdrop';
             preferThumb = true;
         } else {
             shape = 'autoVertical';
         }
 
-        const cardOptions: CardOptionsI = {
+        const cardOptions: CardOptions = {
             shape: shape,
-            showTitle: viewSettings.showTitle,
-            showYear: viewSettings.showYear,
-            cardLayout: viewSettings.cardLayout,
+            showTitle: viewQuerySettings.showTitle,
+            showYear: viewQuerySettings.showYear,
+            cardLayout: viewQuerySettings.cardLayout,
             centerText: true,
             context: getContext(),
             coverImage: true,
@@ -190,18 +190,25 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             preferLogo: preferLogo,
             overlayPlayButton: false,
             overlayMoreButton: true,
-            overlayText: !viewSettings.showTitle
+            overlayText: !viewQuerySettings.showTitle
         };
 
         cardOptions.items = itemsResult.Items || [];
 
         return cardOptions;
-    }, [getContext, itemsResult.Items, viewSettings.cardLayout, viewSettings.imageType, viewSettings.showTitle, viewSettings.showYear]);
+    }, [
+        getContext,
+        itemsResult.Items,
+        viewQuerySettings.cardLayout,
+        viewQuerySettings.imageType,
+        viewQuerySettings.showTitle,
+        viewQuerySettings.showYear
+    ]);
 
     const getItemsHtml = useCallback(() => {
         let html = '';
 
-        if (viewSettings.imageType === 'list') {
+        if (viewQuerySettings.imageType === 'list') {
             html = listview.getListViewHtml({
                 items: itemsResult.Items || [],
                 context: getContext()
@@ -218,50 +225,50 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
         }
 
         return html;
-    }, [getCardOptions, getContext, itemsResult.Items, getNoItemsMessage, viewSettings.imageType]);
+    }, [getCardOptions, getContext, itemsResult.Items, getNoItemsMessage, viewQuerySettings.imageType]);
 
     const getQuery = useCallback(() => {
         let fields = 'BasicSyncInfo,MediaSourceCount';
 
-        if (viewSettings.imageType === 'primary') {
+        if (viewQuerySettings.imageType === 'primary') {
             fields += ',PrimaryImageAspectRatio';
         }
 
-        if (viewSettings.showYear) {
+        if (viewQuerySettings.showYear) {
             fields += ',ProductionYear';
         }
 
         const queryFilters: string[] = [];
 
-        if (viewSettings.IsPlayed) {
+        if (viewQuerySettings.IsPlayed) {
             queryFilters.push('IsPlayed');
         }
 
-        if (viewSettings.IsUnplayed) {
+        if (viewQuerySettings.IsUnplayed) {
             queryFilters.push('IsUnplayed');
         }
 
-        if (viewSettings.IsFavorite) {
+        if (viewQuerySettings.IsFavorite) {
             queryFilters.push('IsFavorite');
         }
 
-        if (viewSettings.IsResumable) {
+        if (viewQuerySettings.IsResumable) {
             queryFilters.push('IsResumable');
         }
 
         let queryIsHD;
 
-        if (viewSettings.IsHD) {
+        if (viewQuerySettings.IsHD) {
             queryIsHD = true;
         }
 
-        if (viewSettings.IsSD) {
+        if (viewQuerySettings.IsSD) {
             queryIsHD = false;
         }
 
-        const options: QueryI = {
-            SortBy: viewSettings.SortBy,
-            SortOrder: viewSettings.SortOrder,
+        return {
+            SortBy: viewQuerySettings.SortBy,
+            SortOrder: viewQuerySettings.SortOrder,
             IncludeItemTypes: getItemTypes().join(','),
             Recursive: true,
             Fields: fields,
@@ -269,25 +276,49 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
             Limit: userSettings.libraryPageSize(undefined),
             IsFavorite: getBasekey() === 'favorites' ? true : null,
-            VideoTypes: viewSettings.VideoTypes,
-            GenreIds: viewSettings.GenreIds,
-            Is4K: viewSettings.Is4K ? true : null,
+            VideoTypes: viewQuerySettings.VideoTypes,
+            GenreIds: viewQuerySettings.GenreIds,
+            Is4K: viewQuerySettings.Is4K ? true : null,
             IsHD: queryIsHD,
-            Is3D: viewSettings.Is3D ? true : null,
-            HasSubtitles: viewSettings.HasSubtitles ? true : null,
-            HasTrailer: viewSettings.HasTrailer ? true : null,
-            HasSpecialFeature: viewSettings.HasSpecialFeature ? true : null,
-            HasThemeSong: viewSettings.HasThemeSong ? true : null,
-            HasThemeVideo: viewSettings.HasThemeVideo ? true : null,
+            Is3D: viewQuerySettings.Is3D ? true : null,
+            HasSubtitles: viewQuerySettings.HasSubtitles ? true : null,
+            HasTrailer: viewQuerySettings.HasTrailer ? true : null,
+            HasSpecialFeature: viewQuerySettings.HasSpecialFeature ? true : null,
+            HasThemeSong: viewQuerySettings.HasThemeSong ? true : null,
+            HasThemeVideo: viewQuerySettings.HasThemeVideo ? true : null,
             Filters: queryFilters.length ? queryFilters.join(',') : null,
-            StartIndex: viewSettings.StartIndex,
-            NameLessThan: viewSettings.NameLessThan,
-            NameStartsWith: viewSettings.NameStartsWith,
+            StartIndex: viewQuerySettings.StartIndex,
+            NameLessThan: viewQuerySettings.NameLessThan,
+            NameStartsWith: viewQuerySettings.NameStartsWith,
             ParentId: topParentId
         };
-
-        return options;
-    }, [viewSettings.imageType, viewSettings.showYear, viewSettings.IsPlayed, viewSettings.IsUnplayed, viewSettings.IsFavorite, viewSettings.IsResumable, viewSettings.IsHD, viewSettings.IsSD, viewSettings.SortBy, viewSettings.SortOrder, viewSettings.VideoTypes, viewSettings.GenreIds, viewSettings.Is4K, viewSettings.Is3D, viewSettings.HasSubtitles, viewSettings.HasTrailer, viewSettings.HasSpecialFeature, viewSettings.HasThemeSong, viewSettings.HasThemeVideo, viewSettings.StartIndex, viewSettings.NameLessThan, viewSettings.NameStartsWith, getItemTypes, getBasekey, topParentId]);
+    }, [
+        viewQuerySettings.imageType,
+        viewQuerySettings.showYear,
+        viewQuerySettings.IsPlayed,
+        viewQuerySettings.IsUnplayed,
+        viewQuerySettings.IsFavorite,
+        viewQuerySettings.IsResumable,
+        viewQuerySettings.IsHD,
+        viewQuerySettings.IsSD,
+        viewQuerySettings.SortBy,
+        viewQuerySettings.SortOrder,
+        viewQuerySettings.VideoTypes,
+        viewQuerySettings.GenreIds,
+        viewQuerySettings.Is4K,
+        viewQuerySettings.Is3D,
+        viewQuerySettings.HasSubtitles,
+        viewQuerySettings.HasTrailer,
+        viewQuerySettings.HasSpecialFeature,
+        viewQuerySettings.HasThemeSong,
+        viewQuerySettings.HasThemeVideo,
+        viewQuerySettings.StartIndex,
+        viewQuerySettings.NameLessThan,
+        viewQuerySettings.NameStartsWith,
+        getItemTypes,
+        getBasekey,
+        topParentId
+    ]);
 
     const fetchData = useCallback(() => {
         loading.show();
@@ -331,22 +362,22 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination
                     itemsResult= {itemsResult}
-                    viewSettings={viewSettings}
-                    setViewSettings={setViewSettings}
+                    viewQuerySettings={viewQuerySettings}
+                    setViewQuerySettings={setViewQuerySettings}
                 />
 
                 {isBtnShuffleEnabled && <Shuffle itemsResult={itemsResult} topParentId={topParentId} />}
 
                 <SelectView
                     getVisibleViewSettings={getVisibleViewSettings}
-                    viewSettings={viewSettings}
-                    setViewSettings={setViewSettings}
+                    viewQuerySettings={viewQuerySettings}
+                    setViewQuerySettings={setViewQuerySettings}
                 />
 
                 <Sort
                     getSortMenuOptions={getSortMenuOptions}
-                    viewSettings={viewSettings}
-                    setViewSettings={setViewSettings}
+                    viewQuerySettings={viewQuerySettings}
+                    setViewQuerySettings={setViewQuerySettings}
                 />
 
                 {isBtnFilterEnabled && <Filter
@@ -354,8 +385,8 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
                     getItemTypes={getItemTypes}
                     getVisibleFilters={getVisibleFilters}
                     getFilterMenuOptions={getFilterMenuOptions}
-                    viewSettings={viewSettings}
-                    setViewSettings={setViewSettings}
+                    viewQuerySettings={viewQuerySettings}
+                    setViewQuerySettings={setViewQuerySettings}
                 />}
 
                 {isBtnNewCollectionEnabled && <NewCollection />}
@@ -363,20 +394,20 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             </div>
 
             {isAlphaPickerEnabled && <AlphaPickerContainer
-                viewSettings={viewSettings}
-                setViewSettings={setViewSettings}
+                viewQuerySettings={viewQuerySettings}
+                setViewQuerySettings={setViewQuerySettings}
             />}
 
             {isLoading && <ItemsContainer
-                viewSettings={viewSettings}
+                viewQuerySettings={viewQuerySettings}
                 getItemsHtml={getItemsHtml}
             />}
 
             <div className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
                 <Pagination
                     itemsResult= {itemsResult}
-                    viewSettings={viewSettings}
-                    setViewSettings={setViewSettings}
+                    viewQuerySettings={viewQuerySettings}
+                    setViewQuerySettings={setViewQuerySettings}
                 />
             </div>
         </div>

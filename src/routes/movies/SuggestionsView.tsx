@@ -5,8 +5,8 @@ import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
-import RecommendationContainer from '../components/RecommendationContainer';
-import SectionContainer from '../components/SectionContainer';
+import RecommendationContainer from '../../components/common/RecommendationContainer';
+import SectionContainer from '../../components/common/SectionContainer';
 
 interface SuggestionsViewI {
     topParentId: string | null;

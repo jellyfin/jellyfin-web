@@ -1,28 +1,28 @@
+
 import React, { FC, useCallback } from 'react';
 
-import ViewItemsContainer from '../components/ViewItemsContainer';
+import ViewItemsContainer from '../../components/common/ViewItemsContainer';
 
-interface MoviesViewI {
+interface TrailersViewI {
     topParentId: string | null;
 }
 
-const MoviesView: FC<MoviesViewI> = ({ topParentId }) => {
+const TrailersView: FC<TrailersViewI> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {
-        return 'movies';
+        return 'trailers';
     }, []);
 
     const getItemTypes = useCallback(() => {
-        return ['Movie'];
+        return ['Trailer'];
     }, []);
 
     const getNoItemsMessage = useCallback(() => {
-        return 'MessageNoItemsAvailable';
+        return 'MessageNoTrailersFound';
     }, []);
 
     return (
         <ViewItemsContainer
             topParentId={topParentId}
-            isBtnShuffleEnabled={true}
             getBasekey={getBasekey}
             getItemTypes={getItemTypes}
             getNoItemsMessage={getNoItemsMessage}
@@ -30,4 +30,4 @@ const MoviesView: FC<MoviesViewI> = ({ topParentId }) => {
     );
 };
 
-export default MoviesView;
+export default TrailersView;

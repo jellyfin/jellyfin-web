@@ -1,6 +1,6 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
-export interface QueryI extends ViewSettingsI {
+export interface Query extends ViewQuerySettings {
     IncludeItemTypes?: string;
     Recursive?: boolean;
     Fields?: string | null;
@@ -14,7 +14,7 @@ export interface QueryI extends ViewSettingsI {
     Filters?: string | null;
 }
 
-export interface ViewSettingsI {
+export interface ViewQuerySettings {
     showTitle?: boolean;
     showYear?: boolean;
     imageType?: string;
@@ -43,7 +43,8 @@ export interface ViewSettingsI {
     NameStartsWith?: string | null;
     StartIndex?: number;
 }
-export interface CardOptionsI {
+
+export interface CardOptions {
     itemsContainer?: HTMLElement | null;
     parentContainer?: HTMLElement | null;
     items?: BaseItemDto[] | null;

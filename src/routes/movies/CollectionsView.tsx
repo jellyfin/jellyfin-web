@@ -1,27 +1,30 @@
 import React, { FC, useCallback } from 'react';
 
-import ViewItemsContainer from '../components/ViewItemsContainer';
+import ViewItemsContainer from '../../components/common/ViewItemsContainer';
 
-interface FavoritesViewI {
+interface CollectionsViewI {
     topParentId: string | null;
 }
 
-const FavoritesView: FC<FavoritesViewI> = ({ topParentId }) => {
+const CollectionsView: FC<CollectionsViewI> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {
-        return 'favorites';
+        return 'collections';
     }, []);
 
     const getItemTypes = useCallback(() => {
-        return ['Movie'];
+        return ['BoxSet'];
     }, []);
 
     const getNoItemsMessage = useCallback(() => {
-        return 'MessageNoFavoritesAvailable';
+        return 'MessageNoCollectionsAvailable';
     }, []);
 
     return (
         <ViewItemsContainer
             topParentId={topParentId}
+            isBtnFilterEnabled={false}
+            isBtnNewCollectionEnabled={true}
+            isAlphaPickerEnabled={false}
             getBasekey={getBasekey}
             getItemTypes={getItemTypes}
             getNoItemsMessage={getNoItemsMessage}
@@ -29,4 +32,4 @@ const FavoritesView: FC<FavoritesViewI> = ({ topParentId }) => {
     );
 };
 
-export default FavoritesView;
+export default CollectionsView;
