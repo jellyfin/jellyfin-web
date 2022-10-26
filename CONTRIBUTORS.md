@@ -52,6 +52,7 @@
  - [MinecraftPlaye](https://github.com/MinecraftPlaye)
  - [Matthew Jones](https://github.com/matthew-jones-uk)
  - [taku0](https://github.com/taku0)
+ - [Peter Spenler](https://github.com/peterspenler)
 
 # Emby Contributors
 
