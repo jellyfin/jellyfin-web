@@ -305,9 +305,15 @@
     right: 0;
     bottom: 0;
     left: 0;
+    pointer-events: none;
 
     [dir="rtl"] & {
         transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
+    }
+
+    > .page {
+        // Fix pointer events being swallowed by the react root when a dashboard page is not rendered by react
+        pointer-events: all;
     }
 }
 

@@ -109,7 +109,7 @@ const config = {
                         if (packageName.startsWith('@')) {
                             const parts = module.context
                                 .substring(module.context.lastIndexOf(packageName))
-                                .split('/');
+                                .split(/[\\/]/);
                             return `node_modules.${parts[0]}.${parts[1]}`;
                         }
 

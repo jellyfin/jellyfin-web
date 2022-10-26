@@ -1679,5 +1679,6 @@
     "IgnoreDtsHelp": "Vypnutím se mohou vyřešit některé problémy, např. chybějící zvuk u kanálů s oddělenými zvukovými a video stopami.",
     "IgnoreDts": "Ignorovat DTS (časové razítko dekódování)",
     "OptionDateEpisodeAdded": "Datum přidání epizody",
-    "OptionDateShowAdded": "Datum přidání pořadu"
+    "OptionDateShowAdded": "Datum přidání pořadu",
+    "MessageRenameMediaFolder": "Přejmenování knihovny médií způsobí ztrátu všech metadat, postupujte proto s opatrností."
 }
