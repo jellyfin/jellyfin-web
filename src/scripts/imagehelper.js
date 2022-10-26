@@ -54,6 +54,10 @@ function getWebDeviceIcon(browser) {
                 return BASE_DEVICE_IMAGE_URL + 'apple.svg';
             case 'Home Assistant':
                 return BASE_DEVICE_IMAGE_URL + 'home-assistant.svg';
+            case 'Jellyfin Roku':
+                return BASE_DEVICE_IMAGE_URL + 'roku.svg';
+            case 'Finamp':
+                return BASE_DEVICE_IMAGE_URL + 'finamp.svg';
             case 'Jellyfin Web':
                 return getWebDeviceIcon(device.Name || device.DeviceName);
             default:
