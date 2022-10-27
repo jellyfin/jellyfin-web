@@ -918,6 +918,8 @@
         left: 3.3%;
         top: -80%;
         width: 25vw;
+        // FIXME: the fixed width + max height cause the card to be cropped this needs a proper fix
+        max-height: none;
     }
 
     .layout-tv & {
