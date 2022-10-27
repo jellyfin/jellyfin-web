@@ -55,6 +55,7 @@
  - [Viperinius](https://github.com/Viperinius)
  - [is343](https://github.com/is343)
  - [Meet Pandya](https://github.com/meet-k-pandya)
+ - [Peter Spenler](https://github.com/peterspenler)
 
 # Emby Contributors
 
