@@ -2286,7 +2286,12 @@ class PlaybackManager {
                 .then((bitrate) => {
                     return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
                 })
-                .catch(onInterceptorRejection);
+                .catch(onInterceptorRejection)
+                .finally(() => {
+                    if (playOptions.fullscreen) {
+                        loading.hide();
+                    }
+                });
         }
 
         function cancelPlayback() {
