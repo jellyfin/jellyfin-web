@@ -192,7 +192,7 @@ const Direction = {
 
             const url = filtered[0].path;
 
-            import(`../strings/${url}`).then((fileContent) => {
+            import(/* webpackChunkName: "[request]" */ `../strings/${url}`).then((fileContent) => {
                 resolve(fileContent);
             }).catch(() => {
                 resolve({});
