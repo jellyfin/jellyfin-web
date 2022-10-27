@@ -290,7 +290,9 @@ import './login.scss';
 
                 for (const elem of disclaimer.querySelectorAll('a')) {
                     elem.rel = 'noopener noreferrer';
-                    elem.target = '_blank';
+                    if( typeof elem.target === 'undefined' || !(elem.target)) {
+                        elem.target = '_blank';
+                    }
                     elem.classList.add('button-link');
                     elem.setAttribute('is', 'emby-linkbutton');
 
