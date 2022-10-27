@@ -67,7 +67,7 @@ declare module 'jellyfin-apiclient' {
         UserPolicy,
         UtcTimeResponse,
         VirtualFolderInfo
-    } from '@thornbill/jellyfin-sdk/dist/generated-client';
+    } from '@jellyfin/sdk/lib/generated-client';
 
     class ApiClient {
         constructor(serverAddress: string, appName: string, appVersion: string, deviceName: string, deviceId: string);
