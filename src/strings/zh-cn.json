@@ -1679,5 +1679,6 @@
     "IgnoreDtsHelp": "禁用此选项可能会解决一些问题，例如在具有单独的音频和视频流的频道上缺少音频。",
     "IgnoreDts": "忽略DTS（解码时间戳）",
     "OptionDateShowAdded": "节目添加日期",
-    "OptionDateEpisodeAdded": "剧集添加日期"
+    "OptionDateEpisodeAdded": "剧集添加日期",
+    "MessageRenameMediaFolder": "请注意: 重命名一个媒体库将会导致所有的元数据丢失."
 }
