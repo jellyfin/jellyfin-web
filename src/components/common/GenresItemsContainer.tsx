@@ -10,14 +10,31 @@ import cardBuilder from '../cardbuilder/cardBuilder';
 import layoutManager from '../layoutManager';
 import lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
+import ItemsScrollerContainerElement from '../../elements/ItemsScrollerContainerElement';
+import ItemsContainerElement from '../../elements/ItemsContainerElement';
+
+const createLinkElement = ({ className, title, href }: { className?: string, title?: string | null, href?: string }) => ({
+    __html: `<a
+        is="emby-linkbutton"
+        class="${className}"
+        href="${href}"
+        >
+            <h2 class='sectionTitle sectionTitle-cards'>
+                ${title}
+            </h2>
+            <span class='material-icons chevron_right' aria-hidden='true'></span>
+    </a>`
+});
 
 interface GenresItemsContainerProps {
     topParentId?: string | null;
-    getCurrentViewStyle: () => string;
-    itemsResult?: BaseItemDtoQueryResult;
+    itemsResult: BaseItemDtoQueryResult;
 }
 
-const GenresItemsContainer: FC<GenresItemsContainerProps> = ({ topParentId, getCurrentViewStyle, itemsResult = {} }) => {
+const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
+    topParentId,
+    itemsResult = {}
+}) => {
     const element = useRef<HTMLDivElement>(null);
 
     const enableScrollX = useCallback(() => {
@@ -28,21 +45,10 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({ topParentId, getC
         return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }, [enableScrollX]);
 
-    const getThumbShape = useCallback(() => {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-    }, [enableScrollX]);
-
     const fillItemsContainer = useCallback((entry) => {
         const elem = entry.target;
         const id = elem.getAttribute('data-id');
-        const viewStyle = getCurrentViewStyle();
-        let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
 
-        if (enableScrollX()) {
-            limit = 10;
-        }
-
-        const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
         const query = {
             SortBy: 'Random',
             SortOrder: 'Ascending',
@@ -50,108 +56,69 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({ topParentId, getC
             Recursive: true,
             Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
             ImageTypeLimit: 1,
-            EnableImageTypes: enableImageTypes,
-            Limit: limit,
+            EnableImageTypes: 'Primary',
+            Limit: 12,
             GenreIds: id,
             EnableTotalRecordCount: false,
             ParentId: topParentId
         };
         window.ApiClient.getItems(window.ApiClient.getCurrentUserId(), query).then((result) => {
-            const items = result.Items || [];
-            if (viewStyle == 'Thumb') {
-                cardBuilder.buildCards(items, {
-                    itemsContainer: elem,
-                    shape: getThumbShape(),
-                    preferThumb: true,
-                    showTitle: true,
-                    scalable: true,
-                    centerText: true,
-                    overlayMoreButton: true,
-                    allowBottomPadding: false
-                });
-            } else if (viewStyle == 'ThumbCard') {
-                cardBuilder.buildCards(items, {
-                    itemsContainer: elem,
-                    shape: getThumbShape(),
-                    preferThumb: true,
-                    showTitle: true,
-                    scalable: true,
-                    centerText: false,
-                    cardLayout: true,
-                    showYear: true
-                });
-            } else if (viewStyle == 'PosterCard') {
-                cardBuilder.buildCards(items, {
-                    itemsContainer: elem,
-                    shape: getPortraitShape(),
-                    showTitle: true,
-                    scalable: true,
-                    centerText: false,
-                    cardLayout: true,
-                    showYear: true
-                });
-            } else if (viewStyle == 'Poster') {
-                cardBuilder.buildCards(items, {
-                    itemsContainer: elem,
-                    shape: getPortraitShape(),
-                    scalable: true,
-                    overlayMoreButton: true,
-                    allowBottomPadding: true,
-                    showTitle: true,
-                    centerText: true,
-                    showYear: true
-                });
-            }
+            cardBuilder.buildCards(result.Items || [], {
+                itemsContainer: elem,
+                shape: getPortraitShape(),
+                scalable: true,
+                overlayMoreButton: true,
+                allowBottomPadding: true,
+                showTitle: true,
+                centerText: true,
+                showYear: true
+            });
         });
-    }, [enableScrollX, getCurrentViewStyle, getPortraitShape, getThumbShape, topParentId]);
+    }, [getPortraitShape, topParentId]);
 
     useEffect(() => {
-        const elem = element.current?.querySelector('#items') as HTMLDivElement;
-        let html = '';
-        const items = itemsResult.Items || [];
-
-        for (let i = 0, length = items.length; i < length; i++) {
-            const item = items[i];
-
-            html += '<div class="verticalSection">';
-            html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item, {
-                context: 'movies',
-                parentId: topParentId
-            }) + '" class="more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre' + item.Id + '">';
-            html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += escapeHTML(item.Name);
-            html += '</h2>';
-            html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
-            html += '</a>';
-            html += '</div>';
-            if (enableScrollX()) {
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x lazy" data-id="' + item.Id + '">';
-            } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap lazy padded-left padded-right" data-id="' + item.Id + '">';
-            }
-
-            html += '</div>';
-            html += '</div>';
-        }
-
-        if (!itemsResult.Items?.length) {
-            html = '';
-
-            html += '<div class="noItemsMessage centerMessage">';
-            html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
-            html += '<p>' + globalize.translate('MessageNoGenresAvailable') + '</p>';
-            html += '</div>';
-        }
-
-        elem.innerHTML = html;
+        const elem = element.current;
         lazyLoader.lazyChildren(elem, fillItemsContainer);
-    }, [getCurrentViewStyle, itemsResult.Items, fillItemsContainer, topParentId, enableScrollX]);
+    }, [itemsResult.Items, fillItemsContainer]);
 
+    const items = itemsResult.Items || [];
     return (
         <div ref={element}>
-            <div id='items'/>
+            {
+                !items.length ? (
+                    <div className='noItemsMessage centerMessage'>
+                        <h1>{globalize.translate('MessageNothingHere')}</h1>
+                        <p>{globalize.translate('MessageNoGenresAvailable')}</p>
+                    </div>
+                ) : items.map((item, index) => (
+                    <div key={index} className='verticalSection'>
+                        <div
+                            className='sectionTitleContainer sectionTitleContainer-cards padded-left'
+                            dangerouslySetInnerHTML={createLinkElement({
+                                className: 'more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre',
+                                title: escapeHTML(item.Name),
+                                href: appRouter.getRouteUrl(item, {
+                                    context: 'movies',
+                                    parentId: topParentId
+                                })
+                            })}
+                        />
+
+                        {enableScrollX() ?
+                            <ItemsScrollerContainerElement
+                                scrollerclassName='padded-top-focusscale padded-bottom-focusscale'
+                                dataMousewheel='false'
+                                dataCenterfocus='true'
+                                className='itemsContainer scrollSlider focuscontainer-x lazy'
+                                dataId={item.Id}
+                            /> : <ItemsContainerElement
+                                className='itemsContainer vertical-wrap lazy padded-left padded-right'
+                                dataId={item.Id}
+                            />
+                        }
+                    </div>
+                ))
+            }
         </div>
     );
 };

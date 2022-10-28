@@ -1,22 +1,25 @@
 import React, { FC } from 'react';
 
-const createElement = ({ className }: IProps) => ({
+const createElement = ({ className, dataId }: IProps) => ({
     __html: `<div
         is="emby-itemscontainer"
         class="${className}"
+        ${dataId}
     >
     </div>`
 });
 
 interface IProps {
     className?: string;
+    dataId?: string;
 }
 
-const ItemsContainerElement: FC<IProps> = ({ className }) => {
+const ItemsContainerElement: FC<IProps> = ({ className, dataId }) => {
     return (
         <div
             dangerouslySetInnerHTML={createElement({
-                className: className
+                className: className,
+                dataId: dataId ? `data-id="${dataId}"` : ''
             })}
         />
     );
