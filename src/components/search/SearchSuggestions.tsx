@@ -1,10 +1,14 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
+import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import escapeHtml from 'escape-html';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { appRouter } from '../appRouter';
+import { useApi } from '../../hooks/useApi';
+import { useUser } from '../../hooks/useUser';
 import globalize from '../../scripts/globalize';
-import ServerConnections from '../ServerConnections';
 
 import '../../elements/emby-button/emby-button';
 
@@ -21,27 +25,31 @@ const createSuggestionLink = ({ name, href }: { name: string, href: string }) =>
 });
 
 type SearchSuggestionsProps = {
-    serverId?: string;
     parentId?: string | null;
 }
 
-const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId = window.ApiClient.serverId(), parentId }: SearchSuggestionsProps) => {
+const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }: SearchSuggestionsProps) => {
     const [ suggestions, setSuggestions ] = useState<BaseItemDto[]>([]);
+    const api = useApi();
+    const user = useUser();
 
     useEffect(() => {
-        const apiClient = ServerConnections.getApiClient(serverId);
-
-        apiClient.getItems(apiClient.getCurrentUserId(), {
-            SortBy: 'IsFavoriteOrLiked,Random',
-            IncludeItemTypes: 'Movie,Series,MusicArtist',
-            Limit: 20,
-            Recursive: true,
-            ImageTypeLimit: 0,
-            EnableImages: false,
-            ParentId: parentId,
-            EnableTotalRecordCount: false
-        }).then(result => setSuggestions(result.Items || []));
-    }, [parentId, serverId]);
+        if (api && user?.Id) {
+            getItemsApi(api)
+                .getItemsByUserId({
+                    userId: user.Id,
+                    sortBy: [ItemSortBy.IsFavoriteOrLiked, ItemSortBy.Random],
+                    includeItemTypes: [BaseItemKind.Movie, BaseItemKind.Series, BaseItemKind.MusicArtist],
+                    limit: 20,
+                    recursive: true,
+                    imageTypeLimit: 0,
+                    enableImages: false,
+                    parentId: parentId || undefined,
+                    enableTotalRecordCount: false
+                })
+                .then(result => setSuggestions(result.data.Items || []));
+        }
+    }, [api, parentId, user?.Id]);
 
     return (
         <div
