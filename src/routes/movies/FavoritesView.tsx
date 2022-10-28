@@ -1,12 +1,9 @@
 import React, { FC, useCallback } from 'react';
 
 import ViewItemsContainer from '../../components/common/ViewItemsContainer';
+import { LibraryViewProps } from '../../types/interface';
 
-interface FavoritesViewI {
-    topParentId: string | null;
-}
-
-const FavoritesView: FC<FavoritesViewI> = ({ topParentId }) => {
+const FavoritesView: FC<LibraryViewProps> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {
         return 'favorites';
     }, []);

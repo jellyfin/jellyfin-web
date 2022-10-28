@@ -4,13 +4,9 @@ import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 're
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
 import GenresItemsContainer from '../../components/common/GenresItemsContainer';
-import { Query } from '../../types/interface';
+import { LibraryViewProps, Query } from '../../types/interface';
 
-interface GenresViewI {
-    topParentId: string | null;
-}
-
-const GenresView: FC<GenresViewI> = ({ topParentId }) => {
+const GenresView: FC<LibraryViewProps> = ({ topParentId }) => {
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
     const element = useRef<HTMLDivElement>(null);
 

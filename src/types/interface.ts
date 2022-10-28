@@ -116,3 +116,7 @@ export interface CardOptions {
     containerClass?: string;
     noItemsMessage?: string;
 }
+
+export interface LibraryViewProps {
+    topParentId: string | null;
+}

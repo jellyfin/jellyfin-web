@@ -1,12 +1,9 @@
 import React, { FC, useCallback } from 'react';
 
 import ViewItemsContainer from '../../components/common/ViewItemsContainer';
+import { LibraryViewProps } from '../../types/interface';
 
-interface MoviesViewI {
-    topParentId: string | null;
-}
-
-const MoviesView: FC<MoviesViewI> = ({ topParentId }) => {
+const MoviesView: FC<LibraryViewProps> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {
         return 'movies';
     }, []);

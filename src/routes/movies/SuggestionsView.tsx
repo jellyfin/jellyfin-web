@@ -7,12 +7,9 @@ import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
 import RecommendationContainer from '../../components/common/RecommendationContainer';
 import SectionContainer from '../../components/common/SectionContainer';
+import { LibraryViewProps } from '../../types/interface';
 
-interface SuggestionsViewI {
-    topParentId: string | null;
-}
-
-const SuggestionsView: FC<SuggestionsViewI> = ({topParentId}) => {
+const SuggestionsView: FC<LibraryViewProps> = ({topParentId}) => {
     const [ latestItems, setLatestItems ] = useState<BaseItemDto[]>([]);
     const [ resumeResult, setResumeResult ] = useState<BaseItemDtoQueryResult>({});
     const [ recommendations, setRecommendations ] = useState<RecommendationDto[]>([]);
@@ -86,7 +83,7 @@ const SuggestionsView: FC<SuggestionsViewI> = ({topParentId}) => {
         } else if (screenWidth >= 1200) {
             itemLimit = 6;
         }
-        const url = window.window.ApiClient.getUrl('Movies/Recommendations', {
+        const url = window.ApiClient.getUrl('Movies/Recommendations', {
             userId: userId,
             categoryLimit: 6,
             ItemLimit: itemLimit,
