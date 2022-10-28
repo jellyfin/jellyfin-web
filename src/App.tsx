@@ -1,7 +1,6 @@
 import { Api } from '@jellyfin/sdk';
 import { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import { History } from '@remix-run/router';
-import { ApiClient, ConnectionManager } from 'jellyfin-apiclient';
 import React, { useEffect, useState } from 'react';
 
 import { HistoryRouter } from './components/HistoryRouter';
@@ -12,11 +11,7 @@ import AppRoutes from './routes/index';
 import events from './utils/events';
 import { toApi } from './utils/sdk';
 
-interface ServerConnections extends ConnectionManager {
-    currentApiClient: () => ApiClient
-}
-
-const App = ({ history, connections }: { history: History, connections: ServerConnections }) => {
+const App = ({ history, connections }: { history: History, connections: typeof ServerConnections }) => {
     const [ api, setApi ] = useState<Api | undefined>(toApi(connections.currentApiClient()));
     const [ user, setUser ] = useState<UserDto | undefined>();
 
