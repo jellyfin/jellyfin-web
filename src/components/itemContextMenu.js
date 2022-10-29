@@ -324,6 +324,7 @@ import toast from './toast/toast';
         const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise(function (resolve, reject) {
+            // eslint-disable-next-line sonarjs/max-switch-cases
             switch (id) {
                 case 'addtocollection':
                     import('./collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
@@ -380,8 +381,8 @@ import toast from './toast/toast';
                                     Fields: 'CanDownload,Path'
                                 });
                             }
-                        )).then(seasons => {
-                            downloadEpisodes([].concat.apply([], seasons.map(season => season.Items)));
+                        )).then(seasonData => {
+                            downloadEpisodes([].concat.apply([], seasonData.map(season => season.Items)));
                         });
                     };
 
