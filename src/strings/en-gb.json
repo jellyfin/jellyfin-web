@@ -1679,5 +1679,6 @@
     "OptionDateShowAdded": "Date Show Added",
     "OptionDateEpisodeAdded": "Date Episode Added",
     "IgnoreDtsHelp": "Disabling this option may resolve some issues, e.g. missing audio on channels with separate audio and video streams.",
-    "IgnoreDts": "Ignore DTS (decoding timestamp)"
+    "IgnoreDts": "Ignore DTS (decoding timestamp)",
+    "MessageRenameMediaFolder": "Renaming a media library will cause all metadata to be lost, proceed with caution."
 }
