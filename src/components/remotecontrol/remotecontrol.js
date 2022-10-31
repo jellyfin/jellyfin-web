@@ -86,7 +86,7 @@ function showSubtitleMenu(context, player, button) {
 
 function getNowPlayingNameHtml(nowPlayingItem, includeNonNameInfo) {
     return nowPlayingHelper.getNowPlayingNames(nowPlayingItem, includeNonNameInfo).map(function (i) {
-        return escapeHtml(i.text);
+        return i.text;
     }).join('<br/>');
 }
 
