@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import alert from './alert';
 import { appRouter } from './appRouter';
-import loading from './loading/loading';
+import Loading from './loading/Loading';
 import ServerConnections from './ServerConnections';
 import globalize from '../scripts/globalize';
 
@@ -152,17 +152,8 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         validateConnection();
     }, [ isAdminRequired, isUserRequired, navigate ]);
 
-    // Show/hide the loading indicator
-    useEffect(() => {
-        if (isLoading) {
-            loading.show();
-        } else {
-            loading.hide();
-        }
-    }, [ isLoading ]);
-
     if (isLoading) {
-        return null;
+        return <Loading />;
     }
 
     return <Outlet />;
