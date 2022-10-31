@@ -1,47 +1,66 @@
+import loadable from '@loadable/component';
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import ConnectionRequired from '../components/ConnectionRequired';
 import ServerContentPage from '../components/ServerContentPage';
 import { LEGACY_ADMIN_ROUTES, LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacyRoutes';
-import UserNew from './user/usernew';
-import Search from './search';
-import UserEdit from './user/useredit';
-import UserLibraryAccess from './user/userlibraryaccess';
-import UserParentalControl from './user/userparentalcontrol';
-import UserPassword from './user/userpassword';
-import UserProfile from './user/userprofile';
-import UserProfiles from './user/userprofiles';
-import Home from './home';
-import Movies from './movies';
+
+interface AsyncPageProps {
+    page: string
+}
+
+const AsyncPage = loadable(
+    (props: AsyncPageProps) => import(/* webpackChunkName: "[request]" */ `./${props.page}`),
+    { cacheKey: (props: AsyncPageProps) => props.page }
+);
+
+interface AsyncRoute {
+    path: string
+    page: string
+}
+
+const toAsyncPageRoute = (route: AsyncRoute) => (
+    <Route
+        key={route.path}
+        path={route.path}
+        element={<AsyncPage page={route.page} />}
+    />
+);
+
+const USER_ROUTES: AsyncRoute[] = [
+    { path: 'search.html', page: 'search' },
+    { path: 'userprofile.html', page: 'user/userprofile' },
+    { path: 'home.html', page: 'home' },
+    { path: 'movies.html', page: 'movies' }
+];
+
+const ADMIN_ROUTES: AsyncRoute[] = [
+    { path: 'usernew.html', page: 'user/usernew' },
+    { path: 'userprofiles.html', page: 'user/userprofiles' },
+    { path: 'useredit.html', page: 'user/useredit' },
+    { path: 'userlibraryaccess.html', page: 'user/userlibraryaccess' },
+    { path: 'userparentalcontrol.html', page: 'user/userparentalcontrol' },
+    { path: 'userpassword.html', page: 'user/userpassword' }
+];
 
 const AppRoutes = () => (
     <Routes>
         <Route path='/'>
             {/* User routes */}
             <Route path='/' element={<ConnectionRequired />}>
-                <Route path='search.html' element={<Search />} />
-                <Route path='userprofile.html' element={<UserProfile />} />
-                <Route path='home.html' element={<Home />} />
-                <Route path='movies.html' element={<Movies />} />
-
+                {USER_ROUTES.map(toAsyncPageRoute)}
                 {LEGACY_USER_ROUTES.map(toViewManagerPageRoute)}
             </Route>
 
             {/* Admin routes */}
             <Route path='/' element={<ConnectionRequired isAdminRequired />}>
-                <Route path='usernew.html' element={<UserNew />} />
-                <Route path='userprofiles.html' element={<UserProfiles />} />
-                <Route path='useredit.html' element={<UserEdit />} />
-                <Route path='userlibraryaccess.html' element={<UserLibraryAccess />} />
-                <Route path='userparentalcontrol.html' element={<UserParentalControl />} />
-                <Route path='userpassword.html' element={<UserPassword />} />
+                {ADMIN_ROUTES.map(toAsyncPageRoute)}
+                {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
 
                 <Route path='configurationpage' element={
                     <ServerContentPage view='/web/configurationpage' />
                 } />
-
-                {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
             </Route>
 
             {/* Public routes */}
