@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import alert from './alert';
 import { appRouter } from './appRouter';
-import Loading from './loading/Loading';
+import Loading from './loading/LoadingComponent';
 import ServerConnections from './ServerConnections';
 import globalize from '../scripts/globalize';
 
