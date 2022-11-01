@@ -11,6 +11,7 @@ import UserPassword from './user/userpassword';
 import UserProfile from './user/userprofile';
 import UserProfiles from './user/userprofiles';
 import Home from './home';
+import Movies from './movies';
 
 const AppRoutes = () => (
     <Routes>
@@ -20,6 +21,7 @@ const AppRoutes = () => (
                 <Route path='search.html' element={<Search />} />
                 <Route path='userprofile.html' element={<UserProfile />} />
                 <Route path='home.html' element={<Home />} />
+                <Route path='movies.html' element={<Movies />} />
             </Route>
 
             {/* Admin routes */}

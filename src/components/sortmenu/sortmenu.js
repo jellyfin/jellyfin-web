@@ -18,8 +18,8 @@ function onSubmit(e) {
 function initEditor(context, settings) {
     context.querySelector('form').addEventListener('submit', onSubmit);
 
-    context.querySelector('.selectSortOrder').value = settings.sortOrder;
-    context.querySelector('.selectSortBy').value = settings.sortBy;
+    context.querySelector('.selectSortOrder').value = settings.SortOrder;
+    context.querySelector('.selectSortBy').value = settings.SortBy;
 }
 
 function centerFocus(elem, horiz, on) {
@@ -37,9 +37,18 @@ function fillSortBy(context, options) {
     }).join('');
 }
 
-function saveValues(context, settingsKey) {
-    userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
-    userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
+function saveValues(context, settingsKey, setSortValues) {
+    if (setSortValues) {
+        setSortValues((prevState) => ({
+            ...prevState,
+            StartIndex: 0,
+            SortBy: context.querySelector('.selectSortBy').value,
+            SortOrder: context.querySelector('.selectSortOrder').value
+        }));
+    } else {
+        userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
+        userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
+    }
 }
 
 class SortMenu {
@@ -95,7 +104,7 @@ class SortMenu {
                 }
 
                 if (submitted) {
-                    saveValues(dlg, options.settingsKey);
+                    saveValues(dlg, options.settingsKey, options.setSortValues);
                     resolve();
                     return;
                 }

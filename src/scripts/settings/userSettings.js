@@ -468,10 +468,16 @@ export class UserSettings {
     }
 
     /**
+    * @typedef {Object} Query
+    * @property {number} StartIndex - query StartIndex.
+    * @property {number} Limit - query Limit.
+    */
+
+    /**
      * Load query settings.
      * @param {string} key - Query key.
      * @param {Object} query - Query base.
-     * @return {Object} Query.
+     * @return {Query} Query.
      */
     loadQuerySettings(key, query) {
         let values = this.get(key);
