@@ -1,22 +1,22 @@
-import '../elements/emby-scroller/emby-scroller';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-tabs/emby-tabs';
-import '../elements/emby-button/emby-button';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
 
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import * as mainTabsManager from '../components/maintabsmanager';
-import Page from '../components/Page';
-import globalize from '../scripts/globalize';
-import libraryMenu from '../scripts/libraryMenu';
-import * as userSettings from '../scripts/settings/userSettings';
-import CollectionsView from './movies/CollectionsView';
-import FavoritesView from './movies/FavoritesView';
-import GenresView from './movies/GenresView';
-import MoviesView from './movies/MoviesView';
-import SuggestionsView from './movies/SuggestionsView';
-import TrailersView from './movies/TrailersView';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import Page from '../../components/Page';
+import globalize from '../../scripts/globalize';
+import libraryMenu from '../../scripts/libraryMenu';
+import * as userSettings from '../../scripts/settings/userSettings';
+import CollectionsView from './CollectionsView';
+import FavoritesView from './FavoritesView';
+import GenresView from './GenresView';
+import MoviesView from './MoviesView';
+import SuggestionsView from './SuggestionsView';
+import TrailersView from './TrailersView';
 
 const getDefaultTabIndex = (folderId: string | null) => {
     switch (userSettings.get('landing-' + folderId, false)) {
