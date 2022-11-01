@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import ConnectionRequired from '../components/ConnectionRequired';
-import { LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacy';
+import { LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacyRoutes';
 import UserNew from './user/usernew';
 import Search from './search';
 import UserEdit from './user/useredit';
