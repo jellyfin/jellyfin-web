@@ -15,6 +15,8 @@ BuildRequires:	nodejs
 %else
 BuildRequires:	git
 # Nodejs 16 is required and npm >= 8 should bring in NodeJS 16
+# This requires the build environment to use the nodejs:16 module stream:
+# dnf module {install|switch-to}:web nodejs:16
 BuildRequires:	npm >= 8
 %endif
 
