@@ -1,9 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { toAsyncPageRoute } from './asyncRoutes';
-import { ASYNC_ADMIN_ROUTES } from './asyncRoutes/admin';
-import { ASYNC_USER_ROUTES } from './asyncRoutes/user';
+import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES, toAsyncPageRoute } from './asyncRoutes';
 import ConnectionRequired from '../components/ConnectionRequired';
 import ServerContentPage from '../components/ServerContentPage';
 import { LEGACY_ADMIN_ROUTES, LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacyRoutes';

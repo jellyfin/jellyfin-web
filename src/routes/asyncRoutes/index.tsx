@@ -17,3 +17,6 @@ export const toAsyncPageRoute = (route: AsyncRoute) => (
         element={<AsyncPage page={route.page} />}
     />
 );
+
+export * from './admin';
+export * from './user';
