@@ -167,7 +167,7 @@ class ViewManager {
         }
 
         return viewContainer.tryRestoreView(options).then(function (view) {
-            onViewChanging();
+            if (onViewChanging) onViewChanging();
             onViewChange(view, options, true);
         });
     }

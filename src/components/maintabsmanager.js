@@ -138,21 +138,23 @@ import '../elements/emby-button/emby-button';
 
             configureSwipeTabs(view, tabsElem);
 
-            tabsElem.addEventListener('beforetabchange', function (e) {
-                const tabContainers = getTabContainersFn();
-                if (e.detail.previousIndex != null) {
-                    const previousPanel = tabContainers[e.detail.previousIndex];
-                    if (previousPanel) {
-                        previousPanel.classList.remove('is-active');
+            if (getTabContainersFn) {
+                tabsElem.addEventListener('beforetabchange', function (e) {
+                    const tabContainers = getTabContainersFn();
+                    if (e.detail.previousIndex != null) {
+                        const previousPanel = tabContainers[e.detail.previousIndex];
+                        if (previousPanel) {
+                            previousPanel.classList.remove('is-active');
+                        }
                     }
-                }
 
-                const newPanel = tabContainers[e.detail.selectedTabIndex];
+                    const newPanel = tabContainers[e.detail.selectedTabIndex];
 
-                if (newPanel) {
-                    newPanel.classList.add('is-active');
-                }
-            });
+                    if (newPanel) {
+                        newPanel.classList.add('is-active');
+                    }
+                });
+            }
 
             if (onBeforeTabChange) {
                 tabsElem.addEventListener('beforetabchange', onBeforeTabChange);
