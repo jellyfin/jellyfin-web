@@ -71,55 +71,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/mypreferencesmenu.html',
-        path: 'user/menu/index.html',
-        autoFocus: false,
-        controller: 'user/menu/index'
-    });
-
-    defineRoute({
-        alias: '/mypreferencescontrols.html',
-        path: 'user/controls/index.html',
-        autoFocus: false,
-        controller: 'user/controls/index'
-    });
-
-    defineRoute({
-        alias: '/mypreferencesdisplay.html',
-        path: 'user/display/index.html',
-        autoFocus: false,
-        controller: 'user/display/index'
-    });
-
-    defineRoute({
-        alias: '/mypreferenceshome.html',
-        path: 'user/home/index.html',
-        autoFocus: false,
-        controller: 'user/home/index'
-    });
-
-    defineRoute({
-        alias: '/mypreferencesquickconnect.html',
-        path: 'user/quickConnect/index.html',
-        autoFocus: false,
-        transition: 'fade',
-        controller: 'user/quickConnect/index'
-    });
-    defineRoute({
-        alias: '/mypreferencesplayback.html',
-        path: 'user/playback/index.html',
-        autoFocus: false,
-        controller: 'user/playback/index'
-    });
-
-    defineRoute({
-        alias: '/mypreferencessubtitles.html',
-        path: 'user/subtitles/index.html',
-        autoFocus: false,
-        controller: 'user/subtitles/index'
-    });
-
-    defineRoute({
         alias: '/dashboard.html',
         path: 'dashboard/dashboard.html',
         autoFocus: false,
@@ -294,27 +245,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/list.html',
-        path: 'list.html',
-        autoFocus: false,
-        controller: 'list'
-    });
-
-    defineRoute({
-        alias: '/details',
-        path: 'itemDetails/index.html',
-        controller: 'itemDetails/index',
-        autoFocus: false
-    });
-
-    defineRoute({
-        alias: '/livetv.html',
-        path: 'livetv.html',
-        controller: 'livetv/livetvsuggested',
-        autoFocus: false
-    });
-
-    defineRoute({
         alias: '/livetvguideprovider.html',
         path: 'livetvguideprovider.html',
         autoFocus: false,
@@ -343,13 +273,6 @@ import { appRouter } from '../components/appRouter';
         autoFocus: false,
         roles: 'admin',
         controller: 'livetvtuner'
-    });
-
-    defineRoute({
-        alias: '/music.html',
-        path: 'music/music.html',
-        controller: 'music/musicrecommended',
-        autoFocus: false
     });
 
     defineRoute({
@@ -401,13 +324,6 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        alias: '/tv.html',
-        path: 'shows/tvrecommended.html',
-        autoFocus: false,
-        controller: 'shows/tvrecommended'
-    });
-
-    defineRoute({
         alias: '/wizardremoteaccess.html',
         path: 'wizard/remote/index.html',
         autoFocus: false,
@@ -453,27 +369,6 @@ import { appRouter } from '../components/appRouter';
         controller: 'wizard/user/index',
         autoFocus: false,
         anonymous: true
-    });
-
-    defineRoute({
-        alias: '/video',
-        path: 'playback/video/index.html',
-        controller: 'playback/video/index',
-        autoFocus: false,
-        type: 'video-osd',
-        supportsThemeMedia: true,
-        fullscreen: true,
-        enableMediaControl: false
-    });
-
-    defineRoute({
-        alias: '/queue',
-        path: 'playback/queue/index.html',
-        controller: 'playback/queue/index',
-        autoFocus: false,
-        fullscreen: true,
-        supportsThemeMedia: true,
-        enableMediaControl: false
     });
 
     defineRoute({

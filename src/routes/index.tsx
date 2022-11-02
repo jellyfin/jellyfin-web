@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import ConnectionRequired from '../components/ConnectionRequired';
+import { LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacyRoutes';
 import UserNew from './user/usernew';
 import Search from './search';
 import UserEdit from './user/useredit';
@@ -22,6 +23,8 @@ const AppRoutes = () => (
                 <Route path='userprofile.html' element={<UserProfile />} />
                 <Route path='home.html' element={<Home />} />
                 <Route path='movies.html' element={<Movies />} />
+
+                {LEGACY_USER_ROUTES.map(toViewManagerPageRoute)}
             </Route>
 
             {/* Admin routes */}
