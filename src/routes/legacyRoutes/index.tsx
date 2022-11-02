@@ -20,4 +20,5 @@ export function toViewManagerPageRoute(route: LegacyRoute) {
     );
 }
 
+export * from './admin';
 export * from './user';

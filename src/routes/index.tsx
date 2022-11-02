@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import ConnectionRequired from '../components/ConnectionRequired';
-import { LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacyRoutes';
+import { LEGACY_ADMIN_ROUTES, LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacyRoutes';
 import UserNew from './user/usernew';
 import Search from './search';
 import UserEdit from './user/useredit';
@@ -35,6 +35,8 @@ const AppRoutes = () => (
                 <Route path='userlibraryaccess.html' element={<UserLibraryAccess />} />
                 <Route path='userparentalcontrol.html' element={<UserParentalControl />} />
                 <Route path='userpassword.html' element={<UserPassword />} />
+
+                {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
             </Route>
 
             {/* Public routes */}
