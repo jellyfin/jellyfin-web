@@ -2,7 +2,7 @@ import isEmpty from 'lodash-es/isEmpty';
 
 import { currentSettings as userSettings } from './settings/userSettings';
 import Events from '../utils/events.ts';
-import { updateLocale } from './dfnshelper';
+import { updateLocale } from '../utils/dateFnsLocale.ts';
 
 const Direction = {
     rtl: 'rtl',

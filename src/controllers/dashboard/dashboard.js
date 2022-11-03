@@ -6,7 +6,7 @@ import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
 import { formatDistanceToNow } from 'date-fns';
-import { getLocaleWithSuffix } from '../../scripts/dfnshelper';
+import { getLocaleWithSuffix } from '../../utils/dateFnsLocale.ts';
 import loading from '../../components/loading/loading';
 import playMethodHelper from '../../components/playback/playmethodhelper';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';

@@ -1,6 +1,6 @@
 import enUS from 'date-fns/locale/en-US';
 
-const LOCALE_MAP = {
+const LOCALE_MAP: Record<string, string> = {
     'af': 'af',
     'ar': 'ar-DZ',
     'be-by': 'be',
@@ -67,10 +67,10 @@ const DEFAULT_LOCALE = 'en-US';
 let localeString = DEFAULT_LOCALE;
 let locale = enUS;
 
-export async function updateLocale(newLocale) {
-    console.debug('[dfnshelper] updating date-fns locale', newLocale);
+export async function updateLocale(newLocale: string) {
+    console.debug('[dateFnsLocale] updating date-fns locale', newLocale);
     localeString = LOCALE_MAP[newLocale] || LOCALE_MAP[newLocale.replace(/-.*/, '')] || DEFAULT_LOCALE;
-    console.debug('[dfnshelper] mapped to date-fns locale', localeString);
+    console.debug('[dateFnsLocale] mapped to date-fns locale', localeString);
     locale = await import(`date-fns/locale/${localeString}/index.js`);
 }
 

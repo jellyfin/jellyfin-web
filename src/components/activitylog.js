@@ -3,12 +3,12 @@ import Events from '../utils/events.ts';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import { formatRelative } from 'date-fns';
-import { getLocale } from '../scripts/dfnshelper';
 import serverNotifications from '../scripts/serverNotifications';
 import '../elements/emby-button/emby-button';
 import './listview/listview.scss';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
+import { getLocale } from '../utils/dateFnsLocale.ts';
 import { toBoolean } from '../utils/string.ts';
 
 /* eslint-disable indent */
