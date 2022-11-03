@@ -2,6 +2,7 @@ import isEmpty from 'lodash-es/isEmpty';
 
 import { currentSettings as userSettings } from './settings/userSettings';
 import Events from '../utils/events.ts';
+import { updateLocale } from './dfnshelper';
 
 const Direction = {
     rtl: 'rtl',
@@ -100,6 +101,8 @@ const Direction = {
         } else {
             currentDateTimeCulture = currentCulture;
         }
+        updateLocale(currentDateTimeCulture);
+
         ensureTranslations(currentCulture);
     }
 
