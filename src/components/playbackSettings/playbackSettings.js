@@ -5,7 +5,7 @@ import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';

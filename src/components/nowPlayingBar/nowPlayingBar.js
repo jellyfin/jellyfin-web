@@ -1,5 +1,5 @@
 import datetime from '../../scripts/datetime';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
@@ -48,7 +48,7 @@ import { appRouter } from '../appRouter';
         html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
         html += '<div class="nowPlayingBarTop">';
-        html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
+        html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
         html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
         html += '</div>';
 
@@ -58,7 +58,7 @@ import { appRouter } from '../appRouter';
         html += '</div>';
 
         // The onclicks are needed due to the return false above
-        html += '<div class="nowPlayingBarCenter">';
+        html += '<div class="nowPlayingBarCenter" dir="ltr">';
 
         html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous" aria-hidden="true"></span></button>';
 
@@ -444,12 +444,10 @@ import { appRouter } from '../appRouter';
         options = options || {};
         options.type = options.type || 'Primary';
 
-        if (options.type === 'Primary') {
-            if (item.SeriesPrimaryImageTag) {
-                options.tag = item.SeriesPrimaryImageTag;
+        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
+            options.tag = item.SeriesPrimaryImageTag;
 
-                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
         if (options.type === 'Thumb') {

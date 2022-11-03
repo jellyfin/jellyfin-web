@@ -12,15 +12,27 @@
 }
 
 .formDialogHeaderTitle {
-    margin-left: 0.25em;
-
     /* In case of h1, h2, h3 */
     margin-top: 0;
     margin-bottom: 0;
+
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
 }
 
 .formDialogHeaderTitle:first-child {
-    margin-left: 1em;
+    [dir="ltr"] & {
+        margin-left: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
 }
 
 .formDialogContent:not(.no-grow) {
@@ -98,8 +110,8 @@
 .formDialogFooterItem-autosize {
     flex-basis: initial;
     flex-grow: initial;
-    padding-left: 2em;
     padding-right: 2em;
+    padding-left: 2em;
 }
 
 @media all and (min-width: 50em) {

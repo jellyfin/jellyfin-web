@@ -83,7 +83,10 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardFooter">';
 
     if (configPage || plugin.CanUninstall) {
-        html += '<div style="text-align:right; float:right;padding-top:5px;">';
+        if (globalize.getIsRTL())
+            html += '<div style="text-align:left; float:left;padding-top:5px;">';
+        else
+            html += '<div style="text-align:right; float:right;padding-top:5px;">';
         html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
         html += '</div>';
     }
@@ -109,7 +112,6 @@ function populateList(page, plugins, pluginConfigurationPages) {
         if (plugin1.Name > plugin2.Name) {
             return 1;
         }
-
         return -1;
     });
 
@@ -131,6 +133,12 @@ function populateList(page, plugins, pluginConfigurationPages) {
         html += globalize.translate('MessageBrowsePluginCatalog');
         html += '</a></p>';
         html += '</div>';
+    }
+
+    // add search box listener
+    const searchBar = page.querySelector('#txtSearchPlugins');
+    if (searchBar) {
+        searchBar.addEventListener('input', () => onFilterType(page, searchBar));
     }
 
     installedPluginsElement.innerHTML = html;
@@ -232,6 +240,17 @@ function onInstalledPluginsClick(e) {
         const btnCardMenu = dom.parentWithClass(e.target, 'btnCardMenu');
         if (btnCardMenu) {
             showPluginMenu(dom.parentWithClass(btnCardMenu, 'page'), btnCardMenu);
+        }
+    }
+}
+
+function onFilterType(page, searchBar) {
+    const filter = searchBar.value.toLowerCase();
+    for (const card of page.querySelectorAll('.card')) {
+        if (filter && filter != '' && !card.textContent.toLowerCase().includes(filter)) {
+            card.style.display = 'none';
+        } else {
+            card.style.display = 'unset';
         }
     }
 }

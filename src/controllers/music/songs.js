@@ -1,14 +1,15 @@
 
-import { Events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
 import loading from '../../components/loading/loading';
+import { playbackManager } from '../../components/playback/playbackmanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import Dashboard from '../../utils/dashboard';
-import {playbackManager} from '../../components/playback/playbackmanager';
+import Events from '../../utils/events.ts';
+
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
     function getPageData(context) {
@@ -158,11 +159,11 @@ export default function (view, params, tabContent) {
         return getPageData(tabContent).view;
     };
 
-    function initPage(tabContent) {
-        tabContent.querySelector('.btnFilter').addEventListener('click', function () {
+    function initPage(tabElement) {
+        tabElement.querySelector('.btnFilter').addEventListener('click', function () {
             self.showFilterMenu();
         });
-        tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('OptionTrackName'),
@@ -196,14 +197,14 @@ export default function (view, params, tabContent) {
                     id: 'Random,SortName'
                 }],
                 callback: function () {
-                    getQuery(tabContent).StartIndex = 0;
-                    reloadItems(tabContent);
+                    getQuery(tabElement).StartIndex = 0;
+                    reloadItems(tabElement);
                 },
-                query: getQuery(tabContent),
+                query: getQuery(tabElement),
                 button: e.target
             });
         });
-        tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
+        tabElement.querySelector('.btnShuffle').addEventListener('click', shuffle);
     }
 
     initPage(tabContent);

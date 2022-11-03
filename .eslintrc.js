@@ -34,7 +34,7 @@ module.exports = {
         'plugin:sonarjs/recommended'
     ],
     rules: {
-        'array-callback-return': ['error'],
+        'array-callback-return': ['error', { 'checkForEach': true }],
         'block-spacing': ['error'],
         'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
@@ -51,39 +51,32 @@ module.exports = {
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
+        'no-nested-ternary': ['error'],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
+        'no-return-assign': ['error'],
         'no-return-await': ['error'],
         'no-sequences': ['error', { 'allowInParentheses': false }],
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        'no-useless-constructor': ['error'],
+        'no-var': ['error'],
         'no-void': ['error', { 'allowAsStatement': true }],
-        'no-nested-ternary': ['error'],
+        'no-warning-comments': ['warn', { 'terms': ['fixme', 'hack', 'xxx'] }],
         'one-var': ['error', 'never'],
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         '@babel/semi': ['error'],
-        'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
+        '@typescript-eslint/no-shadow': 'error',
 
         'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
 
         'sonarjs/cognitive-complexity': ['warn'],
         // TODO: Enable the following rules and fix issues
-        'sonarjs/max-switch-cases': ['off'],
-        'sonarjs/no-collapsible-if': ['off'],
-        'sonarjs/no-duplicate-string': ['off'],
-        'sonarjs/no-duplicated-branches': ['off'],
-        'sonarjs/no-gratuitous-expressions': ['off'],
-        'sonarjs/no-identical-functions': ['off'],
-        'sonarjs/no-nested-switch': ['off'],
-        'sonarjs/no-redundant-jump': ['off'],
-        'sonarjs/no-small-switch': ['off'],
-        'sonarjs/no-unused-collection': ['off'],
-        'sonarjs/prefer-object-literal': ['off'],
-        'sonarjs/prefer-single-boolean-return': ['off']
+        'sonarjs/no-duplicate-string': ['off']
     },
     settings: {
         react: {
@@ -261,7 +254,11 @@ module.exports = {
                 'plugin:react/recommended',
                 'plugin:react-hooks/recommended',
                 'plugin:jsx-a11y/recommended'
-            ]
+            ],
+            rules: {
+                'no-useless-constructor': ['off'],
+                '@typescript-eslint/no-useless-constructor': ['error']
+            }
         }
     ]
 };

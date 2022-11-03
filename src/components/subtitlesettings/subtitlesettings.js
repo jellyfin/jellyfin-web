@@ -7,7 +7,7 @@ import loading from '../loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../scripts/dom';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-slider/emby-slider';
@@ -25,17 +25,15 @@ import template from './subtitlesettings.template.html';
  */
 
 function getSubtitleAppearanceObject(context) {
-    const appearanceSettings = {};
-
-    appearanceSettings.textSize = context.querySelector('#selectTextSize').value;
-    appearanceSettings.textWeight = context.querySelector('#selectTextWeight').value;
-    appearanceSettings.dropShadow = context.querySelector('#selectDropShadow').value;
-    appearanceSettings.font = context.querySelector('#selectFont').value;
-    appearanceSettings.textBackground = context.querySelector('#inputTextBackground').value;
-    appearanceSettings.textColor = layoutManager.tv ? context.querySelector('#selectTextColor').value : context.querySelector('#inputTextColor').value;
-    appearanceSettings.verticalPosition = context.querySelector('#sliderVerticalPosition').value;
-
-    return appearanceSettings;
+    return {
+        textSize: context.querySelector('#selectTextSize').value,
+        textWeight: context.querySelector('#selectTextWeight').value,
+        dropShadow: context.querySelector('#selectDropShadow').value,
+        font: context.querySelector('#selectFont').value,
+        textBackground: context.querySelector('#inputTextBackground').value,
+        textColor: layoutManager.tv ? context.querySelector('#selectTextColor').value : context.querySelector('#inputTextColor').value,
+        verticalPosition: context.querySelector('#sliderVerticalPosition').value
+    };
 }
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {

@@ -1,0 +1,19 @@
+.fab.btnAddFolder.submit {
+    [dir="ltr"] & {
+        margin-left: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
+}
+
+.listItem.listItem-border.lnkPath {
+    [dir="ltr"] & {
+        padding-left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 0.5em;
+    }
+}

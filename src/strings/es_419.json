@@ -1549,5 +1549,9 @@
     "ButtonExitApp": "Salir de aplicación",
     "ButtonClose": "Cerrar",
     "AddToFavorites": "Añadir a favoritos",
-    "Digital": "Digital"
+    "Digital": "Digital",
+    "LabelMaxVideoResolution": "Resolución máximade transcodificación de video permitida",
+    "ButtonBackspace": "Retroceso",
+    "LabelMaxDaysForNextUpHelp": "Establece la cantidad máxima de días que un programa debe permanecer en la lista 'Siguiente' sin verlo.",
+    "IgnoreDts": "Ignorar DTS (descodificación de marca de tiempo)"
 }

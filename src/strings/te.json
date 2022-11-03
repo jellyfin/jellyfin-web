@@ -242,7 +242,7 @@
     "QuickConnectDeactivated": "లాగిన్ అభ్యర్థన ఆమోదించబడటానికి ముందు శీఘ్ర కనెక్ట్ నిష్క్రియం చేయబడింది",
     "QuickConnectAuthorizeSuccess": "అభ్యర్థన అధికారం",
     "QuickConnectAuthorizeFail": "తెలియని శీఘ్ర కనెక్ట్ కోడ్",
-    "QuickConnectAuthorizeCode": "లాగిన్ అవ్వడానికి code 0 code కోడ్‌ను నమోదు చేయండి",
+    "QuickConnectAuthorizeCode": "లాగిన్ అవ్వడానికి {0} నమోదు చేయండి",
     "QuickConnectActivationSuccessful": "విజయవంతంగా సక్రియం చేయబడింది",
     "QuickConnect": "త్వరిత కనెక్ట్",
     "Quality": "నాణ్యత",

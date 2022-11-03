@@ -1,6 +1,6 @@
 import serverNotifications from '../../scripts/serverNotifications';
-import { Events } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
+import Events from '../../utils/events.ts';
 import EmbyButtonPrototype from '../emby-button/emby-button';
 import ServerConnections from '../../components/ServerConnections';
 
@@ -63,18 +63,6 @@ import ServerConnections from '../../components/ServerConnections';
             }
 
             button.classList.add('ratingbutton-withrating');
-        } else if (likes) {
-            if (icon) {
-                icon.classList.add('favorite');
-                icon.classList.remove('ratingbutton-icon-withrating');
-            }
-            button.classList.remove('ratingbutton-withrating');
-        } else if (likes === false) {
-            if (icon) {
-                icon.classList.add('favorite');
-                icon.classList.remove('ratingbutton-icon-withrating');
-            }
-            button.classList.remove('ratingbutton-withrating');
         } else {
             if (icon) {
                 icon.classList.add('favorite');

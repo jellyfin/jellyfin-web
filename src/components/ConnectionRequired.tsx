@@ -1,25 +1,19 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import type { ConnectResponse } from 'jellyfin-apiclient';
 
 import alert from './alert';
 import { appRouter } from './appRouter';
-import loading from './loading/loading';
+import Loading from './loading/LoadingComponent';
 import ServerConnections from './ServerConnections';
 import globalize from '../scripts/globalize';
+import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
 
 enum BounceRoutes {
     Home = '/home.html',
     Login = '/login.html',
     SelectServer = '/selectserver.html',
     StartWizard = '/wizardstart.html'
-}
-
-// TODO: This should probably be in the SDK
-enum ConnectionState {
-    SignedIn = 'SignedIn',
-    ServerSignIn = 'ServerSignIn',
-    ServerSelection = 'ServerSelection',
-    ServerUpdateNeeded = 'ServerUpdateNeeded'
 }
 
 type ConnectionRequiredProps = {
@@ -42,7 +36,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
 
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bounce = async (connectionResponse: any) => {
+        const bounce = async (connectionResponse: ConnectResponse) => {
             switch (connectionResponse.State) {
                 case ConnectionState.SignedIn:
                     // Already logged in, bounce to the home page
@@ -96,6 +90,9 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                         }
                         const systemInfo = await infoResponse.json();
                         if (!systemInfo?.StartupWizardCompleted) {
+                            // Update the current ApiClient
+                            // TODO: Is there a better place to handle this?
+                            ServerConnections.setLocalApiClient(firstConnection.ApiClient);
                             // Bounce to the wizard
                             console.info('[ConnectionRequired] startup wizard is not complete, redirecting there');
                             navigate(BounceRoutes.StartWizard);
@@ -149,24 +146,11 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         validateConnection();
     }, [ isAdminRequired, isUserRequired, navigate ]);
 
-    // Show/hide the loading indicator
-    useEffect(() => {
-        if (isLoading) {
-            loading.show();
-        } else {
-            loading.hide();
-        }
-    }, [ isLoading ]);
-
     if (isLoading) {
-        return null;
+        return <Loading />;
     }
 
-    return (
-        <div className='skinBody'>
-            <Outlet />
-        </div>
-    );
+    return <Outlet />;
 };
 
 export default ConnectionRequired;

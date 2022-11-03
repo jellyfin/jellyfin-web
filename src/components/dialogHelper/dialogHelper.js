@@ -57,11 +57,28 @@ import '../../assets/css/scrollstyles.scss';
 
             if ((shouldClose || !isOpened(dlg)) && unlisten) {
                 unlisten();
+                unlisten = null;
             }
 
             if (shouldClose) {
                 close(dlg);
             }
+        }
+
+        function finishClose() {
+            if (unlisten) {
+                unlisten();
+                unlisten = null;
+            }
+
+            dlg.dispatchEvent(new CustomEvent('close', {
+                bubbles: false,
+                cancelable: false
+            }));
+
+            resolve({
+                element: dlg
+            });
         }
 
         function onBackCommand(e) {
@@ -79,6 +96,7 @@ import '../../assets/css/scrollstyles.scss';
 
             if (unlisten) {
                 unlisten();
+                unlisten = null;
             }
 
             removeBackdrop(dlg);
@@ -92,9 +110,13 @@ import '../../assets/css/scrollstyles.scss';
                 const state = history.location.state || {};
                 if (state.dialogs?.length > 0) {
                     if (state.dialogs[state.dialogs.length - 1] === hash) {
+                        unlisten = history.listen(finishClose);
                         history.back();
                     } else if (state.dialogs.includes(hash)) {
                         console.warn('[dialogHelper] dialog "%s" was closed, but is not the last dialog opened', hash);
+
+                        unlisten = history.listen(finishClose);
+
                         // Remove the closed dialog hash from the history state
                         history.replace(
                             `${history.location.pathname}${history.location.search}`,
@@ -123,18 +145,9 @@ import '../../assets/css/scrollstyles.scss';
                 }
             }
 
-            //resolve();
-            // if we just called history.back(), then use a timeout to allow the history events to fire first
-            setTimeout(() => {
-                dlg.dispatchEvent(new CustomEvent('close', {
-                    bubbles: false,
-                    cancelable: false
-                }));
-
-                resolve({
-                    element: dlg
-                });
-            }, 1);
+            if (!unlisten) {
+                finishClose();
+            }
         }
 
         dlg.addEventListener('_close', onDialogClosed);
@@ -262,6 +275,11 @@ import '../../assets/css/scrollstyles.scss';
         }
     }
 
+    const getAnimationEndHandler = (dlg, callback) => function handler() {
+        dom.removeEventListener(dlg, dom.whichAnimationEvent(), handler, { once: true });
+        callback();
+    };
+
     function animateDialogOpen(dlg) {
         const onAnimationFinish = () => {
             focusManager.pushScope(dlg);
@@ -277,15 +295,11 @@ import '../../assets/css/scrollstyles.scss';
         };
 
         if (enableAnimation()) {
-            const onFinish = () => {
-                dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                    once: true
-                });
-                onAnimationFinish();
-            };
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                once: true
-            });
+            dom.addEventListener(
+                dlg,
+                dom.whichAnimationEvent(),
+                getAnimationEndHandler(dlg, onAnimationFinish),
+                { once: true });
 
             return;
         }
@@ -311,15 +325,12 @@ import '../../assets/css/scrollstyles.scss';
                     animated = false;
                     break;
             }
-            const onFinish = () => {
-                dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                    once: true
-                });
-                onAnimationFinish();
-            };
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                once: true
-            });
+
+            dom.addEventListener(
+                dlg,
+                dom.whichAnimationEvent(),
+                getAnimationEndHandler(dlg, onAnimationFinish),
+                { once: true });
 
             if (animated) {
                 return;

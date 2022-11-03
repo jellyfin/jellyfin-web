@@ -106,10 +106,8 @@ function getIndicatorIcon(item) {
         return 'fiber_manual_record';
     }
 
-    if (item.SeriesTimerId) {
-        if (status !== 'Cancelled') {
-            return 'fiber_smart_record';
-        }
+    if (item.SeriesTimerId && status !== 'Cancelled') {
+        return 'fiber_smart_record';
     }
 
     return 'fiber_manual_record';

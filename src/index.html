@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="preload">
+<html class="preload" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -14,7 +14,7 @@
     <meta name="referrer" content="no-referrer">
     <meta property="og:title" content="Jellyfin">
     <meta property="og:site_name" content="Jellyfin">
-    <meta property="og:url" content="http://jellyfin.org">
+    <meta property="og:url" content="https://jellyfin.org">
     <meta property="og:description" content="The Free Software Media System">
     <meta property="og:type" content="article">
 
@@ -112,11 +112,18 @@
         .mainDrawerHandle {
             position: fixed;
             top: 0;
-            left: 0;
             bottom: 0;
             z-index: 1;
             width: 0.8em;
             padding-left: env(safe-area-inset-left);
+        }
+
+        [dir="ltr"] .mainDrawerHandle {
+            left: 0;
+        }
+
+        [dir="rtl"] .mainDrawerHandle {
+            left: 0;
         }
 
         @-webkit-keyframes fadein {
@@ -163,7 +170,7 @@
         }
     </style>
 </head>
-<body>
+<body dir="ltr">
     <div class="backdropContainer"></div>
     <div class="backgroundContainer"></div>
     <div class="mainDrawer hide">
@@ -173,7 +180,7 @@
     <div class="mainAnimatedPages skinBody">
         <div class="splashLogo"></div>
     </div>
-    <div id="reactRoot"></div>
+    <div id="reactRoot" class="skinBody"></div>
     <div class="mainDrawerHandle"></div>
 </body>
 </html>

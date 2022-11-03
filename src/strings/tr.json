@@ -914,7 +914,7 @@
     "QuickConnectActivationSuccessful": "Başarıyla etkinleştirildi",
     "QuickConnect": "Hızlı Bağlantı",
     "LabelQuickConnectCode": "Hızlı Bağlantı kodu:",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Bu ayarlar, bu cihaz tarafından başlatılan herhangi bir Chromecast oynatma için de geçerlidir.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Bu ayarlar, bu cihaz tarafından başlatılan herhangi bir ChromeCast oynatma için de geçerlidir.",
     "StopPlayback": "Oynatmayı durdur",
     "SyncPlayAccessHelp": "SyncPlay özelliği, oynatmayı diğer cihazlarla senkronize etmeyi sağlar. Bu kullanıcının SyncPlay sahip olduğu erişim düzeyini seçin.",
     "TitlePlayback": "Oynatma",
@@ -1670,5 +1670,8 @@
     "RememberSubtitleSelectionsHelp": "Altyazı dilini, son videoya en yakın eşleşmeye göre ayarlamayı dene.",
     "RememberAudioSelectionsHelp": "Ses dilini, son videoya en yakın eşleşmeye göre ayarlamayı dene.",
     "RememberAudioSelections": "Ses dilini önceki öğeye göre ayarla",
-    "RememberSubtitleSelections": "Altyazı dilini önceki öğeye göre ayarla"
+    "RememberSubtitleSelections": "Altyazı dilini önceki öğeye göre ayarla",
+    "TabContainers": "Barındırıcılar",
+    "OptionDateShowAdded": "Dizi Eklenme Tarihi",
+    "OptionDateEpisodeAdded": "Bölüm Eklenme Tarihi"
 }

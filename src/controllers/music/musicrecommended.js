@@ -226,10 +226,6 @@ import Dashboard from '../../utils/dashboard';
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
-        function enableScrollX() {
-            return browser.mobile;
-        }
-
         function setScrollClasses(elem, scrollX) {
             if (scrollX) {
                 elem.classList.add('hiddenScrollX');
@@ -348,10 +344,9 @@ import Dashboard from '../../utils/dashboard';
         }
 
         function onInputCommand(e) {
-            switch (e.detail.command) {
-                case 'search':
-                    e.preventDefault();
-                    Dashboard.navigate('search.html?collectionType=music&parentId=' + params.topParentId);
+            if (e.detail.command === 'search') {
+                e.preventDefault();
+                Dashboard.navigate('search.html?collectionType=music&parentId=' + params.topParentId);
             }
         }
 
@@ -363,7 +358,7 @@ import Dashboard from '../../utils/dashboard';
             const containers = tabContent.querySelectorAll('.itemsContainer');
 
             for (let i = 0, length = containers.length; i < length; i++) {
-                setScrollClasses(containers[i], enableScrollX());
+                setScrollClasses(containers[i], browser.mobile);
             }
         };
 

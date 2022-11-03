@@ -7,9 +7,9 @@ import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import './assets/css/site.scss';
-import React from 'react';
+import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
-import { Events } from 'jellyfin-apiclient';
+import Events from './utils/events.ts';
 import ServerConnections from './components/ServerConnections';
 import globalize from './scripts/globalize';
 import browser from './scripts/browser';
@@ -35,18 +35,13 @@ import './legacy/domParserTextHtml';
 import './legacy/focusPreventScroll';
 import './legacy/htmlMediaElement';
 import './legacy/vendorStyles';
-import SyncPlay from './components/syncPlay/core';
-import { playbackManager } from './components/playback/playbackmanager';
-import SyncPlayNoActivePlayer from './components/syncPlay/ui/players/NoActivePlayer';
-import SyncPlayHtmlVideoPlayer from './components/syncPlay/ui/players/HtmlVideoPlayer';
-import SyncPlayHtmlAudioPlayer from './components/syncPlay/ui/players/HtmlAudioPlayer';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
 import { HistoryRouter } from './components/HistoryRouter.tsx';
 import AppRoutes from './routes/index.tsx';
 
 function loadCoreDictionary() {
-    const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es-419', 'es-ar', 'es_do', 'es-mx', 'et', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'lv', 'mr', 'ms', 'nb', 'nl', 'nn', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
+    const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es-419', 'es-ar', 'es_do', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'lv', 'mr', 'ms', 'nb', 'nl', 'nn', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
     const translations = languages.map(function (language) {
         return {
             lang: language,
@@ -84,10 +79,10 @@ function init() {
 }
 
 function onGlobalizeInit() {
-    if (window.appMode === 'android') {
-        if (window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
-            return onAppReady();
-        }
+    if (window.appMode === 'android'
+        && window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1
+    ) {
+        return onAppReady();
     }
 
     document.title = globalize.translateHtml(document.title, 'core');
@@ -102,10 +97,7 @@ function onGlobalizeInit() {
 
     import('./assets/css/librarybrowser.scss');
 
-    loadPlugins().then(function () {
-        initSyncPlay();
-        onAppReady();
-    });
+    loadPlugins().then(onAppReady);
 }
 
 function loadPlugins() {
@@ -137,27 +129,6 @@ function loadPlugins() {
     });
 }
 
-function initSyncPlay() {
-    // Register player wrappers.
-    SyncPlay.PlayerFactory.setDefaultWrapper(SyncPlayNoActivePlayer);
-    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlVideoPlayer);
-    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlAudioPlayer);
-
-    // Listen for player changes.
-    Events.on(playbackManager, 'playerchange', (event, newPlayer, newTarget, oldPlayer) => {
-        SyncPlay.Manager.onPlayerChange(newPlayer, newTarget, oldPlayer);
-    });
-
-    // Start SyncPlay.
-    const apiClient = ServerConnections.currentApiClient();
-    if (apiClient) SyncPlay.Manager.init(apiClient);
-
-    // FIXME: Multiple apiClients?
-    Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => SyncPlay.Manager.init(newApiClient));
-    Events.on(ServerConnections, 'localusersignedin', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
-    Events.on(ServerConnections, 'localusersignedout', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
-}
-
 async function onAppReady() {
     console.debug('begin onAppReady');
 
@@ -174,9 +145,11 @@ async function onAppReady() {
     await appRouter.start();
 
     ReactDOM.render(
-        <HistoryRouter history={history}>
-            <AppRoutes />
-        </HistoryRouter>,
+        <StrictMode>
+            <HistoryRouter history={history}>
+                <AppRoutes />
+            </HistoryRouter>
+        </StrictMode>,
         document.getElementById('reactRoot')
     );
 

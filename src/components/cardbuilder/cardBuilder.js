@@ -390,7 +390,8 @@ import { appRouter } from '../appRouter';
                     } else if (options.indexBy === 'ProductionYear') {
                         newIndexValue = item.ProductionYear;
                     } else if (options.indexBy === 'CommunityRating') {
-                        newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + (item.CommunityRating % 1 >= 0.5 ? 0.5 : 0)) + '+' : null;
+                        const roundedRatingDecimal = item.CommunityRating % 1 >= 0.5 ? 0.5 : 0;
+                        newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + roundedRatingDecimal) + '+' : null;
                     }
 
                     if (newIndexValue !== currentIndexValue) {
@@ -512,6 +513,7 @@ import { appRouter } from '../appRouter';
             let imgType = null;
             let itemId = null;
 
+            /* eslint-disable sonarjs/no-duplicated-branches */
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
                 imgTag = item.ImageTags.Thumb;
@@ -608,6 +610,7 @@ import { appRouter } from '../appRouter';
                 imgTag = item.ParentBackdropImageTags[0];
                 itemId = item.ParentBackdropItemId;
             }
+            /* eslint-enable sonarjs/no-duplicated-branches */
 
             if (!itemId) {
                 itemId = item.Id;
@@ -702,7 +705,7 @@ import { appRouter } from '../appRouter';
 
                 if (text) {
                     html += "<div class='" + currentCssClass + "'>";
-                    html += text;
+                    html += '<bdi>' + text + '</bdi>';
                     html += '</div>';
                     valid++;
 
@@ -790,10 +793,8 @@ import { appRouter } from '../appRouter';
 
             const showOtherText = isOuterFooter ? !overlayText : overlayText;
 
-            if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
-                if (options.cardFooterAside !== 'none') {
-                    html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
-                }
+            if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== 'none') {
+                html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
             }
 
             const cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
@@ -803,33 +804,31 @@ import { appRouter } from '../appRouter';
             const parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
             let titleAdded;
 
-            if (showOtherText) {
-                if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
-                    if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
-                        if (item.SeriesId) {
-                            lines.push(getTextActionButton({
-                                Id: item.SeriesId,
-                                ServerId: serverId,
-                                Name: item.SeriesName,
-                                Type: 'Series',
-                                IsFolder: true
-                            }));
-                        } else {
-                            lines.push(escapeHtml(item.SeriesName));
+            if (showOtherText && (options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
+                if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
+                    if (item.SeriesId) {
+                        lines.push(getTextActionButton({
+                            Id: item.SeriesId,
+                            ServerId: serverId,
+                            Name: item.SeriesName,
+                            Type: 'Series',
+                            IsFolder: true
+                        }));
+                    } else {
+                        lines.push(escapeHtml(item.SeriesName));
+                    }
+                } else {
+                    if (isUsingLiveTvNaming(item)) {
+                        lines.push(escapeHtml(item.Name));
+
+                        if (!item.EpisodeTitle && !item.IndexNumber) {
+                            titleAdded = true;
                         }
                     } else {
-                        if (isUsingLiveTvNaming(item)) {
-                            lines.push(escapeHtml(item.Name));
+                        const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
-                            if (!item.EpisodeTitle && !item.IndexNumber) {
-                                titleAdded = true;
-                            }
-                        } else {
-                            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
-
-                            if (parentTitle || showTitle) {
-                                lines.push(escapeHtml(parentTitle));
-                            }
+                        if (parentTitle || showTitle) {
+                            lines.push(escapeHtml(parentTitle));
                         }
                     }
                 }
@@ -909,19 +908,20 @@ import { appRouter } from '../appRouter';
                 }
 
                 if (options.showYear || options.showSeriesYear) {
+                    const productionYear = item.ProductionYear && datetime.toLocaleString(item.ProductionYear, {useGrouping: false});
                     if (item.Type === 'Series') {
                         if (item.Status === 'Continuing') {
-                            lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
+                            lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
                         } else {
                             if (item.EndDate && item.ProductionYear) {
-                                const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
-                                lines.push(item.ProductionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
+                                const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), {useGrouping: false});
+                                lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                             } else {
-                                lines.push(item.ProductionYear || '');
+                                lines.push(productionYear || '');
                             }
                         }
                     } else {
-                        lines.push(item.ProductionYear || '');
+                        lines.push(productionYear || '');
                     }
                 }
 
@@ -986,10 +986,8 @@ import { appRouter } from '../appRouter';
                     }
                 }
 
-                if (options.showPersonRoleOrType) {
-                    if (item.Role) {
-                        lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
-                    }
+                if (options.showPersonRoleOrType && item.Role) {
+                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
                 }
             }
 
@@ -1009,13 +1007,11 @@ import { appRouter } from '../appRouter';
                 html += progressHtml;
             }
 
-            if (html) {
-                if (!isOuterFooter || logoUrl || options.cardLayout) {
-                    html = '<div class="' + footerClass + '">' + html;
+            if (html && (!isOuterFooter || logoUrl || options.cardLayout)) {
+                html = '<div class="' + footerClass + '">' + html;
 
-                    //cardFooter
-                    html += '</div>';
-                }
+                //cardFooter
+                html += '</div>';
             }
 
             return html;

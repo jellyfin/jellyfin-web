@@ -4,9 +4,10 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import { appRouter } from '../../components/appRouter';
+import Events from '../../utils/events.ts';
+
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
-import { Events } from 'jellyfin-apiclient';
 
 export class PdfPlayer {
     constructor() {
@@ -304,11 +305,7 @@ export class PdfPlayer {
     }
 
     canPlayItem(item) {
-        if (item.Path && item.Path.endsWith('pdf')) {
-            return true;
-        }
-
-        return false;
+        return item.Path && item.Path.endsWith('pdf');
     }
 }
 

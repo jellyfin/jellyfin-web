@@ -26,11 +26,7 @@ import template from './imageeditor.template.html';
     let hasChanges = false;
 
     function getBaseRemoteOptions() {
-        const options = {};
-
-        options.itemId = currentItem.Id;
-
-        return options;
+        return { itemId: currentItem.Id };
     }
 
     function reload(page, item, focusContext) {
@@ -43,8 +39,8 @@ import template from './imageeditor.template.html';
             reloadItem(page, item, apiClient, focusContext);
         } else {
             apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-            apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
-                reloadItem(page, item, apiClient, focusContext);
+            apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (itemToReload) {
+                reloadItem(page, itemToReload, apiClient, focusContext);
             });
         }
     }

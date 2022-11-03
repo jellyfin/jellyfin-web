@@ -49,7 +49,8 @@ function getDeviceHtml(device) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 function renderDevices(page, devices) {
@@ -191,7 +192,7 @@ function deleteProvider(page, id) {
 }
 
 function getTunerName(providerId) {
-    switch (providerId = providerId.toLowerCase()) {
+    switch (providerId.toLowerCase()) {
         case 'm3u':
             return 'M3U';
         case 'hdhomerun':
@@ -206,7 +207,7 @@ function getTunerName(providerId) {
 }
 
 function getProviderName(providerId) {
-    switch (providerId = providerId.toLowerCase()) {
+    switch (providerId.toLowerCase()) {
         case 'schedulesdirect':
             return 'Schedules Direct';
         case 'xmltv':
@@ -217,7 +218,7 @@ function getProviderName(providerId) {
 }
 
 function getProviderConfigurationUrl(providerId) {
-    switch (providerId = providerId.toLowerCase()) {
+    switch (providerId.toLowerCase()) {
         case 'xmltv':
             return '#/livetvguideprovider.html?type=xmltv';
         case 'schedulesdirect':

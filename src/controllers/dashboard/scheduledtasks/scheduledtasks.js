@@ -1,10 +1,11 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import { Events } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
-import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocale, getLocaleWithSuffix } from '../../../scripts/dfnshelper';
+import Events from '../../../utils/events.ts';
+
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 
@@ -48,7 +49,7 @@ import '../../../elements/emby-button/emby-button';
                 html += currentCategory;
                 html += '</h2>';
                 if (i === 0) {
-                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">' + globalize.translate('Help') + '</a>';
+                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/tasks">' + globalize.translate('Help') + '</a>';
                 }
                 html += '</div>';
                 html += '<div class="paperList">';
@@ -58,7 +59,10 @@ import '../../../elements/emby-button/emby-button';
             html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
             html += '</a>';
             html += '<div class="listItemBody two-line">';
-            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
+            let textAlignStyle = 'left';
+            if (globalize.getIsRTL())
+                textAlignStyle = 'right';
+            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:" + textAlignStyle + ";' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
             html += "<h3 class='listItemBodyText'>" + task.Name + '</h3>';
             html += "<div class='secondary listItemBodyText' id='taskProgress" + task.Id + "'>" + getTaskProgressHtml(task) + '</div>';
             html += '</a>';
@@ -83,7 +87,7 @@ import '../../../elements/emby-button/emby-button';
             if (task.LastExecutionResult) {
                 const endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
                 const starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
-                html += globalize.translate('LabelScheduledTaskLastRan', formatDistanceToNow(endtime, localeWithSuffix),
+                html += globalize.translate('LabelScheduledTaskLastRan', formatDistanceToNow(endtime, getLocaleWithSuffix()),
                     formatDistance(starttime, endtime, { locale: getLocale() }));
                 if (task.LastExecutionResult.Status === 'Failed') {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate('LabelFailed') + ')</span>';

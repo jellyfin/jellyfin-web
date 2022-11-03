@@ -1,14 +1,15 @@
-import { Events } from 'jellyfin-apiclient';
 import { Action, createHashHistory } from 'history';
 
 import { appHost } from './apphost';
 import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
 import globalize from '../scripts/globalize';
+import Events from '../utils/events.ts';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
 import viewManager from './viewManager/viewManager';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
+import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState.ts';
 
 export const history = createHashHistory();
 
@@ -87,12 +88,10 @@ class AppRouter {
 
         path = path.replace(this.baseUrl(), '');
 
-        if (this.currentRouteInfo && this.currentRouteInfo.path === path) {
-            // can't use this with home right now due to the back menu
-            if (this.currentRouteInfo.route.type !== 'home') {
-                loading.hide();
-                return Promise.resolve();
-            }
+        // can't use this with home right now due to the back menu
+        if (this.currentRouteInfo?.path === path && this.currentRouteInfo.route.type !== 'home') {
+            loading.hide();
+            return Promise.resolve();
         }
 
         this.promiseShow = new Promise((resolve) => {
@@ -203,17 +202,17 @@ class AppRouter {
 
     #handleConnectionResult(result) {
         switch (result.State) {
-            case 'SignedIn':
+            case ConnectionState.SignedIn:
                 loading.hide();
                 this.goHome();
                 break;
-            case 'ServerSignIn':
+            case ConnectionState.ServerSignIn:
                 this.showLocalLogin(result.ApiClient.serverId());
                 break;
-            case 'ServerSelection':
+            case ConnectionState.ServerSelection:
                 this.showSelectServer();
                 break;
-            case 'ServerUpdateNeeded':
+            case ConnectionState.ServerUpdateNeeded:
                 alert({
                     text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                     html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
@@ -264,7 +263,7 @@ class AppRouter {
         };
 
         if (route.controller) {
-            import('../controllers/' + route.controller).then(onInitComplete);
+            import(/* webpackChunkName: "[request]" */ '../controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
         }
@@ -351,15 +350,13 @@ class AppRouter {
     onRequestFail(_e, data) {
         const apiClient = this;
 
-        if (data.status === 403) {
-            if (data.errorCode === 'ParentalControl') {
-                const isCurrentAllowed = appRouter.currentRouteInfo ? (appRouter.currentRouteInfo.route.anonymous || appRouter.currentRouteInfo.route.startup) : true;
+        if (data.status === 403 && data.errorCode === 'ParentalControl') {
+            const isCurrentAllowed = appRouter.currentRouteInfo ? (appRouter.currentRouteInfo.route.anonymous || appRouter.currentRouteInfo.route.startup) : true;
 
-                // Bounce to the login screen, but not if a password entry fails, obviously
-                if (!isCurrentAllowed) {
-                    appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
-                    appRouter.showLocalLogin(apiClient.serverId());
-                }
+            // Bounce to the login screen, but not if a password entry fails, obviously
+            if (!isCurrentAllowed) {
+                appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
+                appRouter.showLocalLogin(apiClient.serverId());
             }
         }
     }
@@ -369,7 +366,7 @@ class AppRouter {
 
         this.firstConnectionResult = null;
         if (firstResult) {
-            if (firstResult.State === 'ServerSignIn') {
+            if (firstResult.State === ConnectionState.ServerSignIn) {
                 const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
                 fetch(url).then(response => {
                     if (!response.ok) return Promise.reject('fetch failed');
@@ -386,7 +383,7 @@ class AppRouter {
                 });
 
                 return;
-            } else if (firstResult.State !== 'SignedIn') {
+            } else if (firstResult.State !== ConnectionState.SignedIn) {
                 this.#handleConnectionResult(firstResult);
                 return;
             }
@@ -416,11 +413,7 @@ class AppRouter {
         if (apiClient && apiClient.isLoggedIn()) {
             console.debug('[appRouter] user is authenticated');
 
-            if (route.isDefaultRoute) {
-                console.debug('[appRouter] loading home page');
-                this.goHome();
-                return;
-            } else if (route.roles) {
+            if (route.roles) {
                 this.#validateRoles(apiClient, route.roles).then(() => {
                     callback();
                 }, this.#beginConnectionWizard.bind(this));
@@ -539,13 +532,13 @@ class AppRouter {
         }
 
         if (item === 'list') {
-            let url = '#/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            let urlForList = '#/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
             if (options.isFavorite) {
-                url += '&IsFavorite=true';
+                urlForList += '&IsFavorite=true';
             }
 
-            return url;
+            return urlForList;
         }
 
         if (item === 'livetv') {

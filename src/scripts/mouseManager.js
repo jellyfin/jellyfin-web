@@ -1,9 +1,9 @@
 import inputManager from './inputManager';
 import focusManager from '../components/focusManager';
-import browser from '../scripts/browser';
+import browser from './browser';
 import layoutManager from '../components/layoutManager';
-import { Events } from 'jellyfin-apiclient';
-import dom from '../scripts/dom';
+import dom from './dom';
+import Events from '../utils/events.ts';
 /* eslint-disable indent */
 
     const self = {};
@@ -88,12 +88,10 @@ import dom from '../scripts/dom';
     function onPointerEnter(e) {
         const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
-        if (pointerType === 'mouse') {
-            if (!isMouseIdle) {
-                const parent = focusManager.focusableParent(e.target);
-                if (parent) {
-                    focusManager.focus(parent);
-                }
+        if (pointerType === 'mouse' && !isMouseIdle) {
+            const parent = focusManager.focusableParent(e.target);
+            if (parent) {
+                focusManager.focus(parent);
             }
         }
     }
@@ -107,11 +105,7 @@ import dom from '../scripts/dom';
             return false;
         }
 
-        if (browser.tv) {
-            return true;
-        }
-
-        return false;
+        return !!browser.tv;
     }
 
     function onMouseInterval() {

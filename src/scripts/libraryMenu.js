@@ -4,18 +4,19 @@ import Headroom from 'headroom.js';
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
-import { Events } from 'jellyfin-apiclient';
 import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
-import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
+import { pluginManager } from '../components/pluginManager';
+import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
+import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
 
 import '../elements/emby-button/paper-icon-button-light';
@@ -154,8 +155,14 @@ import '../assets/css/flexstyles.scss';
 
             const policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            const apiClient = getCurrentApiClient();
-            if (headerSyncButton && policy?.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
+            if (
+                // Button is present
+                headerSyncButton
+                // SyncPlay plugin is loaded
+                && pluginManager.plugins.filter(plugin => plugin.id === 'syncplay').length > 0
+                // SyncPlay enabled for user
+                && policy?.SyncPlayAccess !== 'None'
+            ) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -318,7 +325,7 @@ import '../assets/css/flexstyles.scss';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon wifi" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('SelectServer')}</span></a>`;
+                html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon storage" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('SelectServer')}</span></a>`;
             }
 
             html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Settings')}</span></a>`;

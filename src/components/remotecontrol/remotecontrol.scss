@@ -39,7 +39,13 @@
 }
 
 .nowPlayingPageTitle {
-    margin: 0 0 0.5em 0.5em;
+    [dir="ltr"] & {
+        margin: 0 0 0.5em 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.5em 0.5em 0;
+    }
 }
 
 .nowPlayingAlbum a,
@@ -51,6 +57,10 @@
 
 .nowPlayingButtonsContainer {
     display: flex;
+
+    [dir="rtl"] & {
+        flex-direction: row-reverse;
+    }
 }
 
 .infoContainer,
@@ -94,10 +104,17 @@
 
 .nowPlayingPageImageContainer {
     width: 16%;
-    margin-right: 1em;
     position: relative;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-right: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 1em;
+    }
 }
 
 .nowPlayingPageImageContainerNoAlbum {
@@ -268,7 +285,13 @@
 
 @media all and (min-width: 80em) {
     .nowPlayingPageImageContainer {
-        margin-right: 0.75em;
+        [dir="ltr"] & {
+            margin-right: 0.75em;
+        }
+
+        [dir="rtl"] & {
+            margin-left: 0.75em;
+        }
     }
 }
 
@@ -365,24 +388,49 @@
 
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle button {
         padding-top: 0;
-        padding-right: 0;
-        margin-right: 0;
-        float: right;
         border-radius: 0;
+
+        [dir="ltr"] & {
+            padding-right: 0;
+            margin-right: 0;
+            float: right;
+        }
+
+        [dir="rtl"] & {
+            padding-left: 0;
+            margin-left: 0;
+            float: left;
+        }
     }
 
     .nowPlayingInfoButtons .btnRepeat,
     .nowPlayingInfoButtons .btnRewind {
-        margin-left: 0;
-        margin-right: auto;
         font-size: smaller;
+
+        [dir="ltr"] & {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        [dir="rtl"] & {
+            margin-right: 0;
+            margin-left: auto;
+        }
     }
 
     .nowPlayingInfoButtons .btnShuffleQueue,
     .nowPlayingInfoButtons .btnFastForward {
-        margin-left: auto;
-        margin-right: 0;
         font-size: smaller;
+
+        [dir="ltr"] & {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] & {
+            margin-right: auto;
+            margin-left: 0;
+        }
     }
 
     .paper-icon-button-light {
@@ -413,7 +461,7 @@
 
     .nowPlayingButtonsContainer {
         display: flex;
-        flex-direction: column;
+        flex-direction: column !important;
     }
 }
 

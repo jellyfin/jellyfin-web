@@ -272,10 +272,8 @@ import '../../assets/css/scrollstyles.scss';
         let sibling = elem[method];
 
         while (sibling) {
-            if (sibling.classList.contains(buttonClass)) {
-                if (!sibling.classList.contains('hide')) {
-                    return sibling;
-                }
+            if (sibling.classList.contains(buttonClass) && !sibling.classList.contains('hide')) {
+                return sibling;
             }
 
             sibling = sibling[method];

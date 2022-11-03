@@ -59,7 +59,6 @@
 .mdl-switch__thumb {
     background: #999;
     position: absolute;
-    left: 0;
     top: -0.25em;
     height: 1.44em;
     width: 1.44em;
@@ -72,6 +71,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .mdl-switch__input:checked + .mdl-switch__label + .mdl-switch__trackContainer > .mdl-switch__thumb {

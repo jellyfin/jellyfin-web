@@ -8,8 +8,46 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
+import './style.scss';
 import Dashboard from '../../utils/dashboard';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
+
+function getTunerName(providerId) {
+    switch (providerId.toLowerCase()) {
+        case 'm3u':
+            return 'M3U Playlist';
+        case 'hdhomerun':
+            return 'HDHomerun';
+        case 'satip':
+            return 'DVB';
+        default:
+            return 'Unknown';
+    }
+}
+
+function refreshTunerDevices(page, providerInfo, devices) {
+    let html = '';
+
+    for (let i = 0, length = devices.length; i < length; i++) {
+        const device = devices[i];
+        html += '<div class="listItem">';
+        const enabledTuners = providerInfo.EnabledTuners || [];
+        const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
+        const checkedAttribute = isChecked ? ' checked' : '';
+        html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
+        html += '<div class="listItemBody two-line">';
+        html += '<div class="listItemBodyText">';
+        html += device.FriendlyName || getTunerName(device.Type);
+        html += '</div>';
+        html += '<div class="listItemBodyText secondary">';
+        html += device.Url;
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+
+    page.querySelector('.tunerList').innerHTML = html;
+}
 
 export default function (page, providerId, options) {
     function reload() {
@@ -199,43 +237,6 @@ export default function (page, providerId, options) {
             refreshListings('');
             loading.hide();
         });
-    }
-
-    function getTunerName(providerId) {
-        switch (providerId = providerId.toLowerCase()) {
-            case 'm3u':
-                return 'M3U Playlist';
-            case 'hdhomerun':
-                return 'HDHomerun';
-            case 'satip':
-                return 'DVB';
-            default:
-                return 'Unknown';
-        }
-    }
-
-    function refreshTunerDevices(page, providerInfo, devices) {
-        let html = '';
-
-        for (let i = 0, length = devices.length; i < length; i++) {
-            const device = devices[i];
-            html += '<div class="listItem">';
-            const enabledTuners = providerInfo.EnabledTuners || [];
-            const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
-            const checkedAttribute = isChecked ? ' checked' : '';
-            html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
-            html += '<div class="listItemBody two-line">';
-            html += '<div class="listItemBodyText">';
-            html += device.FriendlyName || getTunerName(device.Type);
-            html += '</div>';
-            html += '<div class="listItemBodyText secondary">';
-            html += device.Url;
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        page.querySelector('.tunerList').innerHTML = html;
     }
 
     let listingsId;

@@ -86,8 +86,35 @@ function populateList(options) {
         options.noItemsElement.classList.remove('hide');
     }
 
+    const searchBar = document.getElementById('txtSearchPlugins');
+    if (searchBar) {
+        searchBar.addEventListener('input', () => onSearchBarType(searchBar));
+    }
+
     options.catalogElement.innerHTML = html;
     loading.hide();
+}
+
+function onSearchBarType(searchBar) {
+    const filter = searchBar.value.toLowerCase();
+    for (const header of document.querySelectorAll('div .verticalSection')) {
+        // keep track of shown cards after each search
+        let shown = 0;
+        for (const card of header.querySelectorAll('div .card')) {
+            if (filter && filter != '' && !card.textContent.toLowerCase().includes(filter)) {
+                card.style.display = 'none';
+            } else {
+                card.style.display = 'unset';
+                shown++;
+            }
+        }
+        // hide title if no cards are shown
+        if (shown <= 0) {
+            header.style.display = 'none';
+        } else {
+            header.style.display = 'unset';
+        }
+    }
 }
 
 function getPluginHtml(plugin, options, installedPlugins) {
@@ -129,7 +156,8 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 function getTabs() {

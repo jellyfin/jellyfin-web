@@ -6,7 +6,63 @@ import '../../elements/emby-input/emby-input';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import Dashboard from '../../utils/dashboard';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
+
+function getTunerName(providerId) {
+    switch (providerId.toLowerCase()) {
+        case 'm3u':
+            return 'M3U Playlist';
+        case 'hdhomerun':
+            return 'HDHomerun';
+        case 'satip':
+            return 'DVB';
+        default:
+            return 'Unknown';
+    }
+}
+
+function refreshTunerDevices(page, providerInfo, devices) {
+    let html = '';
+
+    for (let i = 0, length = devices.length; i < length; i++) {
+        const device = devices[i];
+        html += '<div class="listItem">';
+        const enabledTuners = providerInfo.EnabledTuners || [];
+        const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
+        const checkedAttribute = isChecked ? ' checked' : '';
+        html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' + device.Id + '" ' + checkedAttribute + '><span></span></label>';
+        html += '<div class="listItemBody two-line">';
+        html += '<div class="listItemBodyText">';
+        html += device.FriendlyName || getTunerName(device.Type);
+        html += '</div>';
+        html += '<div class="listItemBodyText secondary">';
+        html += device.Url;
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+
+    page.querySelector('.tunerList').innerHTML = html;
+}
+
+function onSelectPathClick(e) {
+    const page = $(e.target).parents('.xmltvForm')[0];
+
+    import('../directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+        const picker = new DirectoryBrowser();
+        picker.show({
+            includeFiles: true,
+            callback: function (path) {
+                if (path) {
+                    const txtPath = page.querySelector('.txtPath');
+                    txtPath.value = path;
+                    txtPath.focus();
+                }
+                picker.close();
+            }
+        });
+    });
+}
 
 export default function (page, providerId, options) {
     function getListingProvider(config, id) {
@@ -101,62 +157,6 @@ export default function (page, providerId, options) {
                 Dashboard.alert({
                     message: globalize.translate('ErrorAddingXmlTvFile')
                 });
-            });
-        });
-    }
-
-    function getTunerName(providerId) {
-        switch (providerId = providerId.toLowerCase()) {
-            case 'm3u':
-                return 'M3U Playlist';
-            case 'hdhomerun':
-                return 'HDHomerun';
-            case 'satip':
-                return 'DVB';
-            default:
-                return 'Unknown';
-        }
-    }
-
-    function refreshTunerDevices(page, providerInfo, devices) {
-        let html = '';
-
-        for (let i = 0, length = devices.length; i < length; i++) {
-            const device = devices[i];
-            html += '<div class="listItem">';
-            const enabledTuners = providerInfo.EnabledTuners || [];
-            const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
-            const checkedAttribute = isChecked ? ' checked' : '';
-            html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' + device.Id + '" ' + checkedAttribute + '><span></span></label>';
-            html += '<div class="listItemBody two-line">';
-            html += '<div class="listItemBodyText">';
-            html += device.FriendlyName || getTunerName(device.Type);
-            html += '</div>';
-            html += '<div class="listItemBodyText secondary">';
-            html += device.Url;
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        page.querySelector('.tunerList').innerHTML = html;
-    }
-
-    function onSelectPathClick(e) {
-        const page = $(e.target).parents('.xmltvForm')[0];
-
-        import('../directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                includeFiles: true,
-                callback: function (path) {
-                    if (path) {
-                        const txtPath = page.querySelector('.txtPath');
-                        txtPath.value = path;
-                        txtPath.focus();
-                    }
-                    picker.close();
-                }
             });
         });
     }

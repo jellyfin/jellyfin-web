@@ -7,7 +7,7 @@ import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import { appRouter } from '../../components/appRouter';
 import layoutManager from '../../components/layoutManager';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import datetime from '../../scripts/datetime';
@@ -170,7 +170,6 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
 
     page.querySelector('.seriesTimerScheduleSection').classList.add('hide');
     hideAll(page, 'btnCancelSeriesTimer');
-    return;
 }
 
 function renderTrackSelections(page, instance, item, forceReload) {
@@ -206,8 +205,12 @@ function renderTrackSelections(page, instance, item, forceReload) {
     });
 
     mediaSources = [];
-    resolutionNames.forEach(v => mediaSources.push(v));
-    sourceNames.forEach(v => mediaSources.push(v));
+    resolutionNames.forEach(v => {
+        mediaSources.push(v);
+    });
+    sourceNames.forEach(v => {
+        mediaSources.push(v);
+    });
 
     instance._currentPlaybackMediaSources = mediaSources;
 
@@ -473,7 +476,7 @@ function renderName(item, container, context) {
                 html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
         } else {
-            html = '<h1 class="parentName focuscontainer-x">' + tvShowHtml + '</h1>';
+            html = '<h1 class="parentName focuscontainer-x"><bdi>' + tvShowHtml + '</bdi></h1>';
         }
     }
 
@@ -483,14 +486,14 @@ function renderName(item, container, context) {
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle focuscontainer-x">' + tvSeasonHtml + ' - ' + name + '</h3>';
+            html += '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
         } else {
-            html += '<h3 class="itemName infoText subtitle">' + name + '</h3>';
+            html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
         }
     } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-        html = '<h1 class="itemName infoText parentNameLast withOriginalTitle">' + name + '</h1>' + html;
+        html = '<h1 class="itemName infoText parentNameLast withOriginalTitle"><bdi>' + name + '</bdi></h1>' + html;
     } else {
-        html = '<h1 class="itemName infoText parentNameLast">' + name + '</h1>' + html;
+        html = '<h1 class="itemName infoText parentNameLast"><bdi>' + name + '</bdi></h1>' + html;
     }
 
     if (item.OriginalTitle && item.OriginalTitle != item.Name) {
@@ -767,7 +770,7 @@ function renderLinks(page, item) {
     }
 }
 
-function renderDetailImage(elem, item, imageLoader) {
+function renderDetailImage(elem, item, loader) {
     const itemArray = [];
     itemArray.push(item);
     const cardHtml = cardBuilder.getCardsHtml(itemArray, {
@@ -784,7 +787,7 @@ function renderDetailImage(elem, item, imageLoader) {
     });
 
     elem.innerHTML = cardHtml;
-    imageLoader.lazyChildren(elem);
+    loader.lazyChildren(elem);
 
     // Avoid breaking the design by preventing focus of the poster using the keyboard.
     elem.querySelector('a, button').tabIndex = -1;
@@ -912,7 +915,7 @@ function renderOverview(page, item) {
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
-                overviewElemnt.innerHTML = overview;
+                overviewElemnt.innerHTML = '<bdi>' + overview + '</bdi>';
                 overviewElemnt.classList.remove('hide');
                 overviewElemnt.classList.add('detail-clamp-text');
 
@@ -1065,7 +1068,7 @@ function renderTagline(page, item) {
 
     if (item.Taglines && item.Taglines.length) {
         taglineElement.classList.remove('hide');
-        taglineElement.innerText = item.Taglines[0];
+        taglineElement.innerHTML = '<bdi>' + escapeHtml(item.Taglines[0]) + '</bdi>';
     } else {
         taglineElement.classList.add('hide');
     }
@@ -1878,28 +1881,28 @@ export default function (view, params) {
         return params.serverId ? ServerConnections.getApiClient(params.serverId) : ApiClient;
     }
 
-    function reload(instance, page, params) {
+    function reload(instance, page, pageParams) {
         loading.show();
 
         const apiClient = getApiClient();
 
-        Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
+        Promise.all([getPromise(apiClient, pageParams), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
-            reloadFromItem(instance, page, params, item, user);
+            reloadFromItem(instance, page, pageParams, item, user);
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
         });
     }
 
-    function splitVersions(instance, page, apiClient, params) {
+    function splitVersions(instance, page, apiClient, pageParams) {
         confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
             loading.show();
             apiClient.ajax({
                 type: 'DELETE',
-                url: apiClient.getUrl('Videos/' + params.id + '/AlternateSources')
+                url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
             }).then(function () {
                 loading.hide();
-                reload(instance, page, params);
+                reload(instance, page, pageParams);
             });
         });
     }

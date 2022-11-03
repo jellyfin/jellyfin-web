@@ -1,8 +1,9 @@
 
-import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from './playbackmanager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
+import Events from '../../utils/events.ts';
+
 import './iconosd.scss';
 import 'material-design-icons-iconfont';
 

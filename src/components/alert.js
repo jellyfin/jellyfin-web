@@ -5,11 +5,6 @@ import globalize from '../scripts/globalize';
 
 /* eslint-disable indent */
 
-    function replaceAll(originalString, strReplace, strWith) {
-        const reg = new RegExp(strReplace, 'ig');
-        return originalString.replace(reg, strWith);
-    }
-
     function useNativeAlert() {
         // webOS seems to block modals
         // Tizen 2.x seems to block modals
@@ -33,7 +28,7 @@ import globalize from '../scripts/globalize';
         await appRouter.ready();
 
         if (useNativeAlert()) {
-            alert(replaceAll(options.text || '', '<br/>', '\n'));
+            alert((options.text || '').replaceAll('<br/>', '\n'));
             return Promise.resolve();
         } else {
             const items = [];

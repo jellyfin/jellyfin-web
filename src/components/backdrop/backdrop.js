@@ -10,24 +10,13 @@ import './backdrop.scss';
 /* eslint-disable indent */
 
     function enableAnimation() {
-        if (browser.slow) {
-            return false;
-        }
-
-        return true;
+        return !browser.slow;
     }
 
     function enableRotation() {
-        if (browser.tv) {
-            return false;
-        }
-
-        // Causes high cpu usage
-        if (browser.firefox) {
-            return false;
-        }
-
-        return true;
+        return !browser.tv
+            // Causes high cpu usage
+            && !browser.firefox;
     }
 
     class Backdrop {
@@ -143,14 +132,14 @@ import './backdrop.scss';
     }
 
     let hasInternalBackdrop;
-    function internalBackdrop(enabled) {
-        hasInternalBackdrop = enabled;
+    function internalBackdrop(isEnabled) {
+        hasInternalBackdrop = isEnabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
     let hasExternalBackdrop;
-    export function externalBackdrop(enabled) {
-        hasExternalBackdrop = enabled;
+    export function externalBackdrop(isEnabled) {
+        hasExternalBackdrop = isEnabled;
         setBackgroundContainerBackgroundEnabled();
     }
 

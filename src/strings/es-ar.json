@@ -1662,5 +1662,21 @@
     "RememberAudioSelections": "Establecer pista de audio basada en el item anterior",
     "MixedMoviesShows": "Peliculas y Series",
     "LabelMaxVideoResolution": "Maxima resolución de transcodeo permitida",
-    "ItemDetails": "Detalles"
+    "ItemDetails": "Detalles",
+    "IgnoreDts": "Ignorar DTS (marca de tiempo de decodificación)",
+    "IgnoreDtsHelp": "Deshabilitar esta opción puede resolver algunos problemas, p. e. la falta de audio en canales con secuencias de audio y video separadas.",
+    "OptionDateEpisodeAdded": "Fecha del episodio añadido",
+    "OptionDateShowAdded": "Fecha de la serie añadida",
+    "AllowEmbeddedSubtitlesHelp": "Deshabilitar los subtítulos que están empaquetados dentro de los contenedores de medios. Requiere una actualización completa de la biblioteca.",
+    "ShowParentImages": "Mostrar imágenes de la serie",
+    "StoryArc": "Arco narrativo",
+    "Clip": "Ficha técnica",
+    "LabelVppTonemappingBrightnessHelp": "Aplicar ganancia de brillo en el mapeo de tonos VPP. Tanto los valores recomendados como los predeterminados son 0.",
+    "LabelVppTonemappingContrastHelp": "Aplicar ganancia de contraste en el mapeo de tonos VPP. Los valores recomendados y predeterminados son 1.2 y 1.",
+    "VideoRangeTypeNotSupported": "El tipo de rango del video no es compatible",
+    "MediaInfoRpuPresentFlag": "Bandera preestablecida de DV rpu",
+    "MediaInfoElPresentFlag": "Indicador preestablecido DV el",
+    "MediaInfoBlPresentFlag": "Bandera preestablecida DV bl",
+    "MediaInfoDvBlSignalCompatibilityId": "ID de compatibilidad de señal DV bl",
+    "RememberSubtitleSelectionsHelp": "Intentar establecer la pista de subtítulos en la coincidencia más cercana al último video."
 }

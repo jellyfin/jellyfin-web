@@ -83,7 +83,7 @@ worker.addEventListener(
             source = entry;
         }
 
-        if (entry.intersectionRatio > 0) {
+        if (entry.isIntersecting) {
             if (source) {
                 fillImageElement(target, source);
             }

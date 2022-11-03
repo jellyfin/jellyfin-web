@@ -1,4 +1,4 @@
-import { af, arDZ, be, bg, bn, ca, cs, cy, da, de, el, enGB, enUS, eo, es, et, faIR, fi, fr, frCA, gl, he, hi, hr, hu, id, is, it, ja, kk, ko, lt, lv, ms, nb,
+import { af, arDZ, be, bg, bn, ca, cs, cy, da, de, el, enGB, enUS, eo, es, et, eu, faIR, fi, fr, frCA, gl, he, hi, hr, hu, id, is, it, ja, kk, ko, lt, lv, ms, nb,
     nl, nn, pl, ptBR, pt, ro, ru, sk, sl, sv, ta, th, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
 import globalize from './globalize';
 
@@ -22,6 +22,7 @@ const dateLocales = (locale) => ({
     'es-do': es,
     'es-mx': es,
     'et': et,
+    'eu': eu,
     'fa': faIR,
     'fi': fi,
     'fr': fr,
@@ -67,9 +68,14 @@ export function getLocale() {
     return dateLocales(globalize.getCurrentLocale()) || dateLocales(globalize.getCurrentLocale().replace(/-.*/, '')) || enUS;
 }
 
-export const localeWithSuffix = { addSuffix: true, locale: getLocale() };
+export function getLocaleWithSuffix() {
+    return {
+        addSuffix: true,
+        locale: getLocale()
+    };
+}
 
 export default {
     getLocale: getLocale,
-    localeWithSuffix: localeWithSuffix
+    getLocaleWithSuffix
 };

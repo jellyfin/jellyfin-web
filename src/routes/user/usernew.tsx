@@ -184,7 +184,7 @@ const UserNew: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('HeaderAddUser')}
-                        url='https://docs.jellyfin.org/general/server/users/'
+                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
 

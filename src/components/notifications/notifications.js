@@ -1,6 +1,6 @@
 import serverNotifications from '../../scripts/serverNotifications';
 import { playbackManager } from '../playback/playbackmanager';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import globalize from '../../scripts/globalize';
 
 import NotificationIcon from './notificationicon.png';

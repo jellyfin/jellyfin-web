@@ -1679,5 +1679,9 @@
     "IgnoreDtsHelp": "Ennek az opciónak a letiltása megoldhat bizonyos problémákat, pl. hiányzik a hang a külön hang- és videofolyamokkal rendelkező csatornákon.",
     "IgnoreDts": "DTS (dekódolási időbélyeg) figyelmen kívül hagyása",
     "OptionDateShowAdded": "Műsor hozzáadásának dátuma",
-    "OptionDateEpisodeAdded": "Epizód hozzáadásának dátuma"
+    "OptionDateEpisodeAdded": "Epizód hozzáadásának dátuma",
+    "MessageRenameMediaFolder": "A médiakönyvtár átnevezése az összes metaadat elvesztésével jár, csak óvatosan.",
+    "EnableCardLayout": "Vizuális CardBox megjelenítése",
+    "MessageNoItemsAvailable": "Jelenleg nincs elérhető elem.",
+    "MessageNoFavoritesAvailable": "Jelenleg nincs elérhető kedvenc."
 }

@@ -103,9 +103,9 @@ function getViewEventDetail(view, {state, url, options = {}}, isRestored) {
     const searchParams = new URLSearchParams(url.substring(index + 1));
     const params = {};
 
-    searchParams.forEach((value, key) =>
-        params[key] = value
-    );
+    searchParams.forEach((value, key) => {
+        params[key] = value;
+    });
 
     return {
         detail: {
@@ -167,7 +167,7 @@ class ViewManager {
         }
 
         return viewContainer.tryRestoreView(options).then(function (view) {
-            onViewChanging();
+            if (onViewChanging) onViewChanging();
             onViewChange(view, options, true);
         });
     }

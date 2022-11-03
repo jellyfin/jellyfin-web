@@ -2,8 +2,24 @@ import './emby-textarea.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 
-/* eslint-disable indent */
+/**
+ * Calculates the vertical padding of the element
+ * @param textarea
+ * @returns {number}
+ */
 
+function calculateOffset(textarea) {
+    const style = window.getComputedStyle(textarea, null);
+    const props = ['paddingTop', 'paddingBottom'];
+    let offset = 0;
+
+    for (let i = 0; i < props.length; i++) {
+        offset += parseInt(style[props[i]]);
+    }
+    return offset;
+}
+
+/* eslint-disable indent */
     function autoGrow(textarea, maxLines) {
         const self = this;
 
@@ -11,26 +27,10 @@ import '../emby-input/emby-input';
             maxLines = 999;
         }
 
-        /**
-         * Calculates the vertical padding of the element
-         * @param textarea
-         * @returns {number}
-         */
-        self.getOffset = function (textarea) {
-            const style = window.getComputedStyle(textarea, null);
-            const props = ['paddingTop', 'paddingBottom'];
-            let offset = 0;
-
-            for (let i = 0; i < props.length; i++) {
-                offset += parseInt(style[props[i]]);
-            }
-            return offset;
-        };
-
         let offset;
         function reset() {
             textarea.rows = 1;
-            offset = self.getOffset(textarea);
+            offset = calculateOffset(textarea);
             self.rows = textarea.rows || 1;
             self.lineHeight = (textarea.scrollHeight / self.rows) - (offset / self.rows);
             self.maxAllowedHeight = (self.lineHeight * maxLines) - offset;

@@ -9,6 +9,7 @@ import dom from '../scripts/dom';
 import focusManager from '../components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
 import '../assets/css/scrollstyles.scss';
+import globalize from '../scripts/globalize';
 
 /**
 * Return type of the value.
@@ -52,7 +53,14 @@ function disableOneEvent(event) {
  *
  * @return {Number}
  */
-function within(number, min, max) {
+function within(number, num1, num2) {
+    if (num2 === undefined && globalize.getIsRTL()) {
+        return number > num1 ? num1 : number;
+    } else if (num2 === undefined) {
+        return number < num1 ? num1 : number;
+    }
+    const min = Math.min(num1, num2);
+    const max = Math.max(num1, num2);
     if (number < min) {
         return min;
     } else if (number > max) {
@@ -173,6 +181,8 @@ const scrollerFactory = function (frame, options) {
 
             // Set position limits & relativess
             self._pos.end = Math.max(slideeSize - frameSize, 0);
+            if (globalize.getIsRTL())
+                self._pos.end *= -1;
         }
     }
 
@@ -262,7 +272,9 @@ const scrollerFactory = function (frame, options) {
         ensureSizeInfo();
         const pos = self._pos;
 
-        if (layoutManager.tv) {
+        if (layoutManager.tv && globalize.getIsRTL()) {
+            newPos = within(-newPos, pos.start);
+        } else if (layoutManager.tv) {
             newPos = within(newPos, pos.start);
         } else {
             newPos = within(newPos, pos.start, pos.end);
@@ -279,10 +291,8 @@ const scrollerFactory = function (frame, options) {
 
         const now = new Date().getTime();
 
-        if (o.autoImmediate) {
-            if (!immediate && (now - (lastAnimate || 0)) <= 50) {
-                immediate = true;
-            }
+        if (o.autoImmediate && !immediate && (now - (lastAnimate || 0)) <= 50) {
+            immediate = true;
         }
 
         if (!immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
@@ -356,7 +366,12 @@ const scrollerFactory = function (frame, options) {
         const slideeOffset = getBoundingClientRect(scrollElement);
         const itemOffset = getBoundingClientRect(item);
 
-        let offset = o.horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
+        let horizontalOffset = itemOffset.left - slideeOffset.left;
+        if (globalize.getIsRTL()) {
+            horizontalOffset = slideeOffset.right - itemOffset.right;
+        }
+
+        let offset = o.horizontal ? horizontalOffset : itemOffset.top - slideeOffset.top;
 
         let size = o.horizontal ? itemOffset.width : itemOffset.height;
         if (!size && size !== 0) {
@@ -377,17 +392,21 @@ const scrollerFactory = function (frame, options) {
         ensureSizeInfo();
 
         const currentStart = self._pos.cur;
-        const currentEnd = currentStart + frameSize;
+        let currentEnd = currentStart + frameSize;
+        if (globalize.getIsRTL()) {
+            currentEnd = currentStart - frameSize;
+        }
 
         console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
-        const isVisible = offset >= currentStart && (offset + size) <= currentEnd;
+        const isVisible = offset >= Math.min(currentStart, currentEnd)
+            && (globalize.getIsRTL() ? (offset - size) : (offset + size)) <= Math.max(currentStart, currentEnd);
 
         return {
             start: offset,
             center: offset + centerOffset - (frameSize / 2) + (size / 2),
             end: offset - frameSize + size,
-            size: size,
-            isVisible: isVisible
+            size,
+            isVisible
         };
     };
 
@@ -461,7 +480,8 @@ const scrollerFactory = function (frame, options) {
      */
     function dragHandler(event) {
         dragging.released = event.type === 'mouseup' || event.type === 'touchend';
-        const pointer = dragging.touch ? event[dragging.released ? 'changedTouches' : 'touches'][0] : event;
+        const eventName = dragging.released ? 'changedTouches' : 'touches';
+        const pointer = dragging.touch ? event[eventName][0] : event;
         dragging.pathX = pointer.pageX - dragging.initX;
         dragging.pathY = pointer.pageY - dragging.initY;
         dragging.path = Math.sqrt(Math.pow(dragging.pathX, 2) + Math.pow(dragging.pathY, 2));
@@ -787,15 +807,13 @@ const scrollerFactory = function (frame, options) {
                     passive: true
                 });
             }
-        } else if (o.horizontal) {
+        } else if (o.horizontal && o.mouseWheel) {
             // Don't bind to mouse events with vertical scroll since the mouse wheel can handle this natively
 
-            if (o.mouseWheel) {
-                // Scrolling navigation
-                dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
-                    passive: true
-                });
-            }
+            // Scrolling navigation
+            dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
+                passive: true
+            });
         }
 
         dom.addEventListener(frame, 'click', onFrameClick, {
