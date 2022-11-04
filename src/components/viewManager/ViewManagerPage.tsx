@@ -30,17 +30,9 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
     const location = useLocation();
 
     useEffect(() => {
-        const loadPage = async () => {
-            const [ controllerFactory, viewHtml ] = await Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
-                    .then(html => globalize.translateHtml(html))
-            ]);
-
+        const loadPage = () => {
             const viewOptions = {
                 url: location.pathname + location.search,
-                controllerFactory,
-                view: viewHtml,
                 type,
                 state: location.state,
                 autoFocus: false,
@@ -53,9 +45,19 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
             };
 
             viewManager.tryRestoreView(viewOptions)
-                .catch((result?: any) => {
+                .catch(async (result?: any) => {
                     if (!result || !result.cancelled) {
-                        viewManager.loadView(viewOptions);
+                        const [ controllerFactory, viewHtml ] = await Promise.all([
+                            import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
+                            import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+                                .then(html => globalize.translateHtml(html))
+                        ]);
+
+                        viewManager.loadView({
+                            ...viewOptions,
+                            controllerFactory,
+                            view: viewHtml
+                        });
                     }
                 });
         };
