@@ -121,10 +121,12 @@ const config = {
                             let name = `node_modules.${parts[0]}`;
                             if (parts[1]) {
                                 name += `.${parts[1]}`;
+
+                                if (parts[1] === 'locale' && parts[2]) {
+                                    name += `.${parts[2]}`;
+                                }
                             }
-                            if (parts[1] === 'locale') {
-                                name += `.${parts[2]}`;
-                            }
+
                             return name;
                         }
 
