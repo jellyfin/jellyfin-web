@@ -1672,5 +1672,7 @@
     "IgnoreDts": "Ohita DTS (dekoodauksen aikaleima)",
     "OptionDateShowAdded": "Sarjan lisäysaika",
     "OptionDateEpisodeAdded": "Jakson lisäysaika",
-    "MessageRenameMediaFolder": "Kaikki metatiedot menetetään mediakirjaston uudelleennimeämisen yhteydessä, joten ole varovainen."
+    "MessageRenameMediaFolder": "Kaikki metatiedot menetetään mediakirjaston uudelleennimeämisen yhteydessä, joten ole varovainen.",
+    "MessageNoItemsAvailable": "Kohteita ei ole tällä hetkellä käytettävissä.",
+    "MessageNoFavoritesAvailable": "Suosikkeja ei ole tällä hetkellä käytettävissä."
 }
