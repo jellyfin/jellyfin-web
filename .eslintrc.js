@@ -224,7 +224,6 @@ module.exports = {
                 'Emby': 'readonly',
                 'Globalize': 'writable',
                 'Hls': 'writable',
-                'dfnshelper': 'writable',
                 'LibraryMenu': 'writable',
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
