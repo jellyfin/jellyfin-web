@@ -245,7 +245,7 @@ function setImageUrl(context, state, url) {
     const imgContainer = context.querySelector('.nowPlayingPageImageContainer');
 
     if (url) {
-        imgContainer.innerHTML = '<img class="nowPlayingPageImage" src="' + url + '" />';
+        imgContainer.innerHTML = `<img class="nowPlayingPageImage" src="${url}" />`;
 
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImageAudio', item.Type === 'Audio');
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImagePoster', item.Type !== 'Audio');
