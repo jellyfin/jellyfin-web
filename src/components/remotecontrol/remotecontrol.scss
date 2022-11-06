@@ -104,7 +104,7 @@
 
 .nowPlayingPageImageContainer {
     width: 16%;
-    aspect-ratio: 1;
+    aspect-ratio: auto 1 / 1;
     position: relative;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
