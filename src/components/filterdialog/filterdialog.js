@@ -69,8 +69,6 @@ import template from './filterdialog.template.html';
 
         if (options.mode === 'livetvchannels') {
             context.querySelector('.chkFavorite').checked = query.IsFavorite === true;
-            context.querySelector('.chkLikes').checked = query.IsLiked === true;
-            context.querySelector('.chkDislikes').checked = query.IsDisliked === true;
         } else {
             for (const elem of context.querySelectorAll('.chkStandardFilter')) {
                 const filters = `,${query.Filters || ''}`;
@@ -237,19 +235,6 @@ import template from './filterdialog.template.html';
                 for (const elem of context.querySelectorAll('.chkFavorite')) {
                     elem.addEventListener('change', () => this.onFavoriteChange(elem));
                 }
-
-                const chkLikes = context.querySelector('.chkLikes');
-                chkLikes.addEventListener('change', () => {
-                    query.StartIndex = 0;
-                    query.IsLiked = chkLikes.checked ? true : null;
-                    triggerChange(this);
-                });
-                const chkDislikes = context.querySelector('.chkDislikes');
-                chkDislikes.addEventListener('change', () => {
-                    query.StartIndex = 0;
-                    query.IsDisliked = chkDislikes.checked ? true : null;
-                    triggerChange(this);
-                });
             } else {
                 for (const elem of context.querySelectorAll('.chkStandardFilter')) {
                     elem.addEventListener('change', () => this.onStandardFilterChange(elem));
