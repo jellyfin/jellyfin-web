@@ -113,6 +113,23 @@ const config = {
                             return `node_modules.${parts[0]}.${parts[1]}`;
                         }
 
+                        if (packageName === 'date-fns') {
+                            const parts = module.context
+                                .substring(module.context.lastIndexOf(packageName))
+                                .split(/[\\/]/);
+
+                            let name = `node_modules.${parts[0]}`;
+                            if (parts[1]) {
+                                name += `.${parts[1]}`;
+
+                                if (parts[1] === 'locale' && parts[2]) {
+                                    name += `.${parts[2]}`;
+                                }
+                            }
+
+                            return name;
+                        }
+
                         return `node_modules.${packageName}`;
                     }
                 }

@@ -3,7 +3,7 @@ import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
-import { getLocale, getLocaleWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocale, getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
 import Events from '../../../utils/events.ts';
 
 import '../../../components/listview/listview.scss';

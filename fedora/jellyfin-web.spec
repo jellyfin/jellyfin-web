@@ -2,7 +2,7 @@
 
 Name:           jellyfin-web
 Version:        10.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Free Software Media System web client
 License:        GPLv2
 URL:            https://jellyfin.org
@@ -14,7 +14,10 @@ BuildArch:		noarch
 BuildRequires:	nodejs
 %else
 BuildRequires:	git
-BuildRequires:	npm
+# Nodejs 16 is required and npm >= 8 should bring in NodeJS 16
+# This requires the build environment to use the nodejs:16 module stream:
+# dnf module {install|switch-to}:web nodejs:16
+BuildRequires:	npm >= 8
 %endif
 
 %description

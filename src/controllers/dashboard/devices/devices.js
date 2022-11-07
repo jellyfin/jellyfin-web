@@ -5,7 +5,7 @@ import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
 import imageHelper from '../../../scripts/imagehelper';
 import { formatDistanceToNow } from 'date-fns';
-import { getLocaleWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';

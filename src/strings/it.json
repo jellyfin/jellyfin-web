@@ -1677,5 +1677,10 @@
     "RememberAudioSelections": "Imposta la traccia audio sulla base dell'elemento precedente",
     "LabelMaxVideoResolution": "Risoluzione massima consentita per la transcodifica video",
     "IgnoreDtsHelp": "Disattivare quest'impostazione potrebbe risolvere alcuni problemi. Ad esempio, audio mancante in canali con flussi audio e video separati.",
-    "IgnoreDts": "Ignora DTS (decodifica del timestamp)"
+    "IgnoreDts": "Ignora DTS (decodifica del timestamp)",
+    "MessageNoItemsAvailable": "Nessun oggetto è disponibile per il momento.",
+    "MessageRenameMediaFolder": "Rinominare una libreria media causerà la perdita di tutti i metadati, procedi con cautela.",
+    "OptionDateEpisodeAdded": "Data Aggiunta Episodio",
+    "OptionDateShowAdded": "Data Aggiunta Serie",
+    "MessageNoFavoritesAvailable": "Al momento non sono disponibili preferiti."
 }

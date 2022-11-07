@@ -1680,5 +1680,8 @@
     "OptionDateEpisodeAdded": "Date Episode Added",
     "IgnoreDtsHelp": "Disabling this option may resolve some issues, e.g. missing audio on channels with separate audio and video streams.",
     "IgnoreDts": "Ignore DTS (decoding timestamp)",
-    "MessageRenameMediaFolder": "Renaming a media library will cause all metadata to be lost, proceed with caution."
+    "MessageRenameMediaFolder": "Renaming a media library will cause all metadata to be lost, proceed with caution.",
+    "EnableCardLayout": "Display visual CardBox",
+    "MessageNoItemsAvailable": "No Items are currently available.",
+    "MessageNoFavoritesAvailable": "No favourites are currently available."
 }

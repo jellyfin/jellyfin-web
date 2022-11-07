@@ -2,13 +2,13 @@ import escapeHtml from 'escape-html';
 import Events from '../utils/events.ts';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
-import * as datefns from 'date-fns';
-import dfnshelper from '../scripts/dfnshelper';
+import { formatRelative } from 'date-fns';
 import serverNotifications from '../scripts/serverNotifications';
 import '../elements/emby-button/emby-button';
 import './listview/listview.scss';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
+import { getLocale } from '../utils/dateFnsLocale.ts';
 import { toBoolean } from '../utils/string.ts';
 
 /* eslint-disable indent */
@@ -38,7 +38,7 @@ import { toBoolean } from '../utils/string.ts';
         html += escapeHtml(entry.Name);
         html += '</div>';
         html += '<div class="listItemBodyText secondary">';
-        html += datefns.formatRelative(Date.parse(entry.Date), Date.parse(new Date()), { locale: dfnshelper.getLocale() });
+        html += formatRelative(Date.parse(entry.Date), Date.now(), { locale: getLocale() });
         html += '</div>';
         html += '<div class="listItemBodyText secondary listItemBodyText-nowrap">';
         html += escapeHtml(entry.ShortOverview || '');
