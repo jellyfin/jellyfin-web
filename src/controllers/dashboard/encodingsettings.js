@@ -22,6 +22,7 @@ import alert from '../../components/alert';
         page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
+        page.querySelector('#chkEnableAudioVbr').checked = config.EnableAudioVbr;
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
         page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
@@ -77,6 +78,7 @@ import alert from '../../components/alert';
         const onDecoderConfirmed = function () {
             loading.show();
             ApiClient.getNamedConfiguration('encoding').then(function (config) {
+                config.EnableAudioVbr = form.querySelector('#chkEnableAudioVbr').checked;
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
                 config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();

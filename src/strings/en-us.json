@@ -627,6 +627,8 @@
     "LabelEasyPinCode": "Easy PIN code:",
     "LabelEmbedAlbumArtDidl": "Embed album art in DIDL",
     "LabelEmbedAlbumArtDidlHelp": "Some devices prefer this method for getting the album art. Others may fail to play with this option enabled.",
+    "LabelEnableAudioVbr": "Enable VBR audio encoding",
+    "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues.",
     "LabelEnableAutomaticPortMap": "Enable automatic port mapping",
     "LabelEnableAutomaticPortMapHelp": "Automatically forward public ports on your router to local ports on your server via UPnP. This may not work with some router models or network configurations. Changes will not apply until after a server restart.",
     "LabelEnableBlastAliveMessages": "Blast alive messages",
