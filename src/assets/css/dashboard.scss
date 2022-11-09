@@ -334,7 +334,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .sessionAppInfo {
     flex-grow: 1;
-    padding: 0.5em;
+    padding: 1em;
     overflow: hidden;
 }
 
@@ -374,14 +374,18 @@ div[data-role=controlgroup] a.ui-btn-active {
 .sessionNowPlayingInfo {
     flex-grow: 1;
     text-overflow: ellipsis;
-    padding: 0.8em 0.5em;
+    padding: 1em;
+}
+
+.sessionNowPlayingName {
+    font-size: 0.8em;
 }
 
 .sessionNowPlayingTime {
     flex-shrink: 0;
     align-self: flex-end;
     text-overflow: ellipsis;
-    padding: 0.8em 0.5em;
+    padding: 1em;
 }
 
 .playbackProgress,
