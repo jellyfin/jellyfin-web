@@ -1678,5 +1678,9 @@
     "SelectAll": "Selecteer alles",
     "DirectPlayError": "Er is een fout opgetreden tijdens het starten van direct playback",
     "OptionDateShowAdded": "Datum Serie Toegevoegd",
-    "OptionDateEpisodeAdded": "Datum Aflevering Toegevoegd"
+    "OptionDateEpisodeAdded": "Datum Aflevering Toegevoegd",
+    "MessageNoFavoritesAvailable": "Er zijn momenteel geen favorieten beschikbaar.",
+    "MessageNoItemsAvailable": "Er zijn momenteel geen items beschikbaar.",
+    "EnableCardLayout": "Toon als kaartenlijst",
+    "MessageRenameMediaFolder": "Bij het hernoemen van mediabibliotheek gaat alle metadata verloren, ga voorzichtig te werk."
 }
