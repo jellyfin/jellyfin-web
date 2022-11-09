@@ -273,20 +273,21 @@
     flex-shrink: 0;
 
     [dir="ltr"] & {
-        margin-right: 1.2em;
+        margin-right: 1em;
     }
 
     [dir="rtl"] & {
-        margin-left: 1.2em;
+        margin-left: 1em;
     }
 }
 
 .navMenuOptionText {
+    line-height: 1.35em;
     white-space: nowrap;
-    margin-top: 0.25em;
 }
 
 .sidebarHeader {
+    font-size: 1em;
     margin: 1em 0 0.5em;
 
     [dir="ltr"] & {
