@@ -395,11 +395,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     background: transparent !important;
 }
 
-.activeDevices.itemsContainer {
-    /* offset for cardBox margin */
-    margin: -0.6em;
-}
-
 .activeSession .backgroundProgress,
 .activeSession .playbackProgress,
 .activeSession .transcodingProgress {
