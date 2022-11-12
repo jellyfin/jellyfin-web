@@ -1681,7 +1681,7 @@
     "OptionDateShowAdded": "节目添加日期",
     "OptionDateEpisodeAdded": "剧集添加日期",
     "MessageRenameMediaFolder": "请注意: 重命名一个媒体库将会导致所有的元数据丢失.",
-    "MessageNoFavoritesAvailable": "目前没有任何关注。",
+    "MessageNoFavoritesAvailable": "没有可用的收藏",
     "EnableCardLayout": "显示视觉卡盒",
-    "MessageNoItemsAvailable": "目前没有任何项目。"
+    "MessageNoItemsAvailable": "没有可用的项"
 }
