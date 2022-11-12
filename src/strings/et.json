@@ -1596,5 +1596,7 @@
     "ButtonClose": "Sulge",
     "AddToFavorites": "Lisa lemmikutesse",
     "ButtonBackspace": "Tagasilükkeklahv",
-    "Casual": "Põgus"
+    "Casual": "Põgus",
+    "EnableCardLayout": "Kuva kaardipakina",
+    "Digital": "Digitaalne"
 }
