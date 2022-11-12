@@ -106,7 +106,7 @@
     "LabelColorSpace": "Värviruum:",
     "LabelColorPrimaries": "Põhivärvid:",
     "LabelCollection": "Kogumik:",
-    "LabelChromecastVersion": "Chromecasti versioon",
+    "LabelChromecastVersion": "Google cast versioon",
     "LabelChannels": "Kanalid:",
     "LabelCertificatePasswordHelp": "Kui sertifikaat nõuab parooli, sisesta see siia.",
     "LabelCertificatePassword": "Sertifikaadi parool:",
@@ -279,7 +279,7 @@
     "HeaderEnabledFields": "Lubatud väljad",
     "HeaderEditImages": "Muuda pilte",
     "HeaderEasyPinCode": "Lihtne PIN kood",
-    "HeaderDVR": "Digisalvesti",
+    "HeaderDVR": "DVR",
     "HeaderDownloadSync": "Laadi alla ja sünkrooni",
     "HeaderCancelSeries": "Tühista sari",
     "CustomDlnaProfilesHelp": "Loo kohandatud profiil uue seadme jaoks või tühista süsteemi profiil.",
@@ -1598,5 +1598,8 @@
     "ButtonBackspace": "Tagasilükkeklahv",
     "Casual": "Põgus",
     "EnableCardLayout": "Kuva kaardipakina",
-    "Digital": "Digitaalne"
+    "Digital": "Digitaalne",
+    "ItemDetails": "Elemendi üksikasjad",
+    "HomeVideosPhotos": "Koduvideod ja fotod",
+    "GoogleCastUnsupported": "Google Cast pole toetatud"
 }
