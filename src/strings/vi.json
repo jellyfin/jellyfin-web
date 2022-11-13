@@ -1671,5 +1671,9 @@
     "ButtonBackspace": "Xóa",
     "OptionDateEpisodeAdded": "Ngày Thêm Tập",
     "IgnoreDtsHelp": "Việc tắt tùy chọn này có thể giải quyết một số vấn đề, ví dụ: thiếu âm thanh trên các kênh có luồng âm thanh và video riêng biệt.",
-    "IgnoreDts": "Bỏ qua DTS (dấu thời gian giải mã)"
+    "IgnoreDts": "Bỏ qua DTS (dấu thời gian giải mã)",
+    "EnableCardLayout": "Hiển thị CardBox trực quan",
+    "MessageNoItemsAvailable": "Không có mục nào hiện có sẵn.",
+    "MessageNoFavoritesAvailable": "Không có mục yêu thích hiện có sẵn.",
+    "MessageRenameMediaFolder": "Đổi tên thư viện phương tiện sẽ làm mất mọi dữ liệu mô tả, hãy tiến hành thận trọng."
 }
