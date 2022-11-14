@@ -1035,26 +1035,10 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             setTimeout(resetIdle, 0);
         }
 
-        /**
-        * Only show option if:
-        * - player has support
-        * - has more than 1 subtitle track
-        * - has valid secondary tracks
-        * - primary subtitle is not off
-        * - primary subtitle has support (index + 1 because `'Off'` is index 0 in `streams` array)
-        */
-        function currentTrackCanHaveSecondarySubtitle(player, streams, currentIndex) {
-            const secondaryStreams = playbackManager.secondarySubtitleTracks(player);
-            return playbackManager.playerHasSecondarySubtitleSupport(player) &&
-            streams.length > 1 &&
-            secondaryStreams.length > 0 &&
-            currentIndex !== -1 &&
-            playbackManager.trackHasSecondarySubtitleSupport(streams[currentIndex + 1], player);
-        }
-
         function showSubtitleTrackSelection() {
             const player = currentPlayer;
             const streams = playbackManager.subtitleTracks(player);
+            const secondaryStreams = playbackManager.secondarySubtitleTracks(player);
             let currentIndex = playbackManager.getSubtitleStreamIndex(player);
 
             if (currentIndex == null) {
@@ -1078,7 +1062,21 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 return opt;
             });
 
-            if (currentTrackCanHaveSecondarySubtitle(player, streams, currentIndex)) {
+            /**
+            * Only show option if:
+            * - player has support
+            * - has more than 1 subtitle track
+            * - has valid secondary tracks
+            * - primary subtitle is not off
+            * - primary subtitle has support (index + 1 because `'Off'` is index 0 in `streams` array)
+            */
+            const currentTrackCanAddSecondarySubtitle = playbackManager.playerHasSecondarySubtitleSupport(player) &&
+            streams.length > 1 &&
+            secondaryStreams.length > 0 &&
+            currentIndex !== -1 &&
+            playbackManager.trackHasSecondarySubtitleSupport(streams[currentIndex + 1], player);
+
+            if (currentTrackCanAddSecondarySubtitle) {
                 const secondarySubtitleMenuItem = {
                     name: globalize.translate('SecondarySubtitles'),
                     id: 'secondarysubtitle'
