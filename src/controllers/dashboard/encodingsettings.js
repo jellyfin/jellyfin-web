@@ -46,6 +46,9 @@ import alert from '../../components/alert';
         page.querySelector('#chkDoubleRateDeinterlacing').checked = config.DeinterlaceDoubleRate;
         page.querySelector('#chkEnableSubtitleExtraction').checked = config.EnableSubtitleExtraction || false;
         page.querySelector('#chkEnableThrottling').checked = config.EnableThrottling || false;
+        page.querySelector('#chkEnableSegmentDeletion').checked = config.EnableSegmentDeletion || false;
+        page.querySelector('#txtThrottleDelaySeconds').value = config.ThrottleDelaySeconds || '';
+        page.querySelector('#txtSegmentKeepSeconds').value = config.SegmentKeepSeconds || '';
         page.querySelector('#selectVideoDecoder').dispatchEvent(new CustomEvent('change', {
             bubbles: true
         }));
@@ -102,6 +105,9 @@ import alert from '../../components/alert';
                 config.DeinterlaceDoubleRate = form.querySelector('#chkDoubleRateDeinterlacing').checked;
                 config.EnableSubtitleExtraction = form.querySelector('#chkEnableSubtitleExtraction').checked;
                 config.EnableThrottling = form.querySelector('#chkEnableThrottling').checked;
+                config.EnableSegmentDeletion = form.querySelector('#chkEnableSegmentDeletion').checked;
+                config.ThrottleDelaySeconds = parseInt(form.querySelector('#txtThrottleDelaySeconds').value || '0');
+                config.SegmentKeepSeconds = parseInt(form.querySelector('#txtSegmentKeepSeconds').value || '0');
                 config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll('.chkDecodeCodec'), function (c) {
                     return c.checked;
                 }), function (c) {
