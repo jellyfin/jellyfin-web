@@ -887,7 +887,7 @@ class PlaybackManager {
          * - or if it can be paired with a secondary subtitle when used as a primary subtitle
          */
         self.trackHasSecondarySubtitleSupport = function (track, player = self._currentPlayer) {
-            if (!player || !self.playerHasSecondarySubtitleSupport(player)) return false;
+            if (!player) return false;
             const format = (track.Codec || '').toLowerCase();
             // Currently, only non-SSA/non-ASS external subtitles are supported.
             // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
@@ -1578,8 +1578,9 @@ class PlaybackManager {
 
             player.setSubtitleStreamIndex(selectedTrackElementIndex);
 
-            // Also disable secondary subtitles when disabling the primary subtitles
-            if (selectedTrackElementIndex === -1) {
+            // Also disable secondary subtitles when disabling the primary
+            // subtitles, or if it doesn't support a secondary pair
+            if (selectedTrackElementIndex === -1 || !self.trackHasSecondarySubtitleSupport(newStream)) {
                 self.setSecondarySubtitleStreamIndex(selectedTrackElementIndex);
             }
 
@@ -1605,12 +1606,9 @@ class PlaybackManager {
                 return;
             }
 
-            const clearingStream = currentStream && !newStream;
-            const changingStream = currentStream && newStream;
-            const addingStream = !currentStream && newStream;
             // Secondary subtitles are currently only handled client side
             // Changes to the server code are required before we can handle other delivery methods
-            if (!clearingStream && (changingStream || addingStream) && getDeliveryMethod(newStream) !== 'External') {
+            if (newStream && getDeliveryMethod(newStream) !== 'External') {
                 return;
             }
 

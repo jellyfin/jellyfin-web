@@ -228,6 +228,14 @@ function tryRemoveElement(elem) {
         /**
          * @type {HTMLElement | null | undefined}
          */
+        #secondaryTrackOffset;
+        /**
+         * @type {number | null | undefined}
+         */
+        #subtitleVerticalPosition;
+        /**
+         * @type {HTMLElement | null | undefined}
+         */
         #videoSubtitlesElem;
         /**
          * @type {HTMLElement | null | undefined}
@@ -539,6 +547,7 @@ function tryRemoveElement(elem) {
 
         resetSubtitleOffset() {
             this.#currentTrackOffset = 0;
+            this.#secondaryTrackOffset = 0;
             this.#showTrackOffset = false;
         }
 
@@ -581,7 +590,7 @@ function tryRemoveElement(elem) {
                 const trackElements = this.getTextTracks();
                 // if .vtt currently rendering
                 if (trackElements.length > 0) {
-                    trackElements.forEach(function (trackElement, index) {
+                    trackElements.forEach((trackElement, index) => {
                         this.setTextTrackSubtitleOffset(trackElement, offsetValue, index);
                     });
                 } else if (this.#currentTrackEvents || this.#currentSecondaryTrackEvents) {
@@ -596,24 +605,25 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        updateCurrentTrackOffset(offsetValue, currentTrackIndex = 0) {
-            const skipRelativeOffset = currentTrackIndex !== PRIMARY_TEXT_TRACK_INDEX;
+        updateCurrentTrackOffset(offsetValue, currentTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+            let offsetToCompare = this.#currentTrackOffset;
+            if (this.isSecondaryTrack(currentTrackIndex)) {
+                offsetToCompare = this.#secondaryTrackOffset;
+            }
+
             let relativeOffset = offsetValue;
             const newTrackOffset = offsetValue;
-            if (this.#currentTrackOffset && !skipRelativeOffset) {
-                /**
-                 * Only calculate the offset for the first track.
-                 * The offset gets set after this method is first called.
-                 * Subsequent method calls (when playing multiple tracks)
-                 * will have the calculated relative offset cancel out
-                 * and will be `0`
-                 * @example
-                 * first_call: (relativeOffset = -2) -= (this.#currentTrackOffset = -1) -> 1
-                 * second_call: (relativeOffset = -2) -= (this.#currentTrackOffset = -2) -> 0
-                 */
-                relativeOffset -= this.#currentTrackOffset;
+
+            if (offsetToCompare) {
+                relativeOffset -= offsetToCompare;
             }
-            this.#currentTrackOffset = newTrackOffset;
+
+            if (this.isSecondaryTrack(currentTrackIndex)) {
+                this.#secondaryTrackOffset = newTrackOffset;
+            } else {
+                this.#currentTrackOffset = newTrackOffset;
+            }
+
             // relative to currentTrackOffset
             return relativeOffset;
         }
@@ -1132,6 +1142,7 @@ function tryRemoveElement(elem) {
             this.destroyNativeTracks(videoElement, targetTrackIndex);
             this.destroyStoredTrackInfo(targetTrackIndex);
 
+            this.#subtitleVerticalPosition = null;
             this.#currentClock = null;
             this._currentAspectRatio = null;
 
@@ -1322,6 +1333,14 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
+            if (this.#subtitleVerticalPosition == null) {
+                import('../../scripts/settings/userSettings').then((userSettings) => {
+                    const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+                    this.#subtitleVerticalPosition = subtitleAppearance.verticalPosition;
+                    this.#subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
+                });
+            }
+
             this.fetchSubtitles(track, item).then((data) => {
                 if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                     let subtitlesContainer = document.querySelector('.videoSubtitles');
@@ -1341,7 +1360,12 @@ function tryRemoveElement(elem) {
                     if (!subtitlesContainer) return;
                     const secondarySubtitlesElement = document.createElement('div');
                     secondarySubtitlesElement.classList.add('videoSecondarySubtitlesInner');
-                    subtitlesContainer.prepend(secondarySubtitlesElement);
+                    // determine the order of the subtitles
+                    if (this.#subtitleVerticalPosition < 0) {
+                        subtitlesContainer.prepend(secondarySubtitlesElement);
+                    } else {
+                        subtitlesContainer.appendChild(secondarySubtitlesElement);
+                    }
                     this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
                     this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
                     this.#currentSecondaryTrackEvents = data.TrackEvents;
