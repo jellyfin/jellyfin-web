@@ -409,6 +409,7 @@ function tryRemoveElement(elem) {
                     const includeCorsCredentials = await getIncludeCorsCredentials();
 
                     const hls = new Hls({
+                        startPosition: options.playerStartPositionTicks / 10000000,
                         manifestLoadingTimeOut: 20000,
                         maxBufferLength: maxBufferLength,
                         xhrSetup(xhr) {
