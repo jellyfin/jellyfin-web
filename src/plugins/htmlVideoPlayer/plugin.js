@@ -230,10 +230,6 @@ function tryRemoveElement(elem) {
          */
         #secondaryTrackOffset;
         /**
-         * @type {number | null | undefined}
-         */
-        #subtitleVerticalPosition;
-        /**
          * @type {HTMLElement | null | undefined}
          */
         #videoSubtitlesElem;
@@ -589,7 +585,7 @@ function tryRemoveElement(elem) {
             } else {
                 const trackElements = this.getTextTracks();
                 // if .vtt currently rendering
-                if (trackElements.length > 0) {
+                if (trackElements?.length > 0) {
                     trackElements.forEach((trackElement, index) => {
                         this.setTextTrackSubtitleOffset(trackElement, offsetValue, index);
                     });
@@ -1142,7 +1138,6 @@ function tryRemoveElement(elem) {
             this.destroyNativeTracks(videoElement, targetTrackIndex);
             this.destroyStoredTrackInfo(targetTrackIndex);
 
-            this.#subtitleVerticalPosition = null;
             this.#currentClock = null;
             this._currentAspectRatio = null;
 
@@ -1333,15 +1328,11 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
-            if (this.#subtitleVerticalPosition == null) {
-                import('../../scripts/settings/userSettings').then((userSettings) => {
-                    const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-                    this.#subtitleVerticalPosition = subtitleAppearance.verticalPosition;
-                    this.#subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
-                });
-            }
+            Promise.all([import('../../scripts/settings/userSettings'), this.fetchSubtitles(track, item)]).then((results) => {
+                const [userSettings, subtitleData] = results;
+                const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+                const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
-            this.fetchSubtitles(track, item).then((data) => {
                 if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                     let subtitlesContainer = document.querySelector('.videoSubtitles');
                     if (!subtitlesContainer) {
@@ -1354,21 +1345,21 @@ function tryRemoveElement(elem) {
                     this.#videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
                     this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
                     videoElement.parentNode.appendChild(subtitlesContainer);
-                    this.#currentTrackEvents = data.TrackEvents;
+                    this.#currentTrackEvents = subtitleData.TrackEvents;
                 } else if (!this.#videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
                     const subtitlesContainer = document.querySelector('.videoSubtitles');
                     if (!subtitlesContainer) return;
                     const secondarySubtitlesElement = document.createElement('div');
                     secondarySubtitlesElement.classList.add('videoSecondarySubtitlesInner');
                     // determine the order of the subtitles
-                    if (this.#subtitleVerticalPosition < 0) {
-                        subtitlesContainer.prepend(secondarySubtitlesElement);
+                    if (subtitleVerticalPosition < 0) {
+                        subtitlesContainer.insertBefore(secondarySubtitlesElement, subtitlesContainer.firstChild);
                     } else {
                         subtitlesContainer.appendChild(secondarySubtitlesElement);
                     }
                     this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
                     this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
-                    this.#currentSecondaryTrackEvents = data.TrackEvents;
+                    this.#currentSecondaryTrackEvents = subtitleData.TrackEvents;
                 }
             });
         }

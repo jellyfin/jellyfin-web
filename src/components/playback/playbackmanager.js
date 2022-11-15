@@ -911,7 +911,7 @@ class PlaybackManager {
                 return null;
             }
 
-            return getSubtitleStream(player, index);
+            return self.getSubtitleStream(player, index);
         }
 
         function getCurrentSecondarySubtitleStream(player) {
@@ -925,14 +925,14 @@ class PlaybackManager {
                 return null;
             }
 
-            return getSubtitleStream(player, index);
+            return self.getSubtitleStream(player, index);
         }
 
-        function getSubtitleStream(player, index) {
+        self.getSubtitleStream = function (player, index) {
             return self.subtitleTracks(player).filter(function (s) {
                 return s.Type === 'Subtitle' && s.Index === index;
             })[0];
-        }
+        };
 
         self.getPlaylist = function (player) {
             player = player || self._currentPlayer;
@@ -1536,7 +1536,7 @@ class PlaybackManager {
 
             const currentStream = getCurrentSubtitleStream(player);
 
-            const newStream = getSubtitleStream(player, index);
+            const newStream = self.getSubtitleStream(player, index);
 
             if (!currentStream && !newStream) {
                 return;
@@ -1581,7 +1581,7 @@ class PlaybackManager {
             // Also disable secondary subtitles when disabling the primary
             // subtitles, or if it doesn't support a secondary pair
             if (selectedTrackElementIndex === -1 || !self.trackHasSecondarySubtitleSupport(newStream)) {
-                self.setSecondarySubtitleStreamIndex(selectedTrackElementIndex);
+                self.setSecondarySubtitleStreamIndex(-1);
             }
 
             getPlayerData(player).subtitleStreamIndex = index;
@@ -1600,7 +1600,7 @@ class PlaybackManager {
 
             const currentStream = getCurrentSecondarySubtitleStream(player);
 
-            const newStream = getSubtitleStream(player, index);
+            const newStream = self.getSubtitleStream(player, index);
 
             if (!currentStream && !newStream) {
                 return;
@@ -1644,7 +1644,7 @@ class PlaybackManager {
         };
 
         self.isSubtitleStreamExternal = function (index, player) {
-            const stream = getSubtitleStream(player, index);
+            const stream = self.getSubtitleStream(player, index);
             return stream ? getDeliveryMethod(stream) === 'External' : false;
         };
 
