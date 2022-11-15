@@ -447,6 +447,7 @@
 
     .layout-mobile & {
         background-attachment: initial;
+        background-position: top center;
         margin-top: 3rem;
 
         @media all and (orientation: portrait) and (max-width: 40em) {
