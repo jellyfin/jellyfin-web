@@ -118,15 +118,6 @@ import { appRouter } from '../components/appRouter';
         anonymous: true
     });
 
-    defineRoute({
-        path: '/configurationpage',
-        autoFocus: false,
-        enableCache: false,
-        enableContentQueryString: true,
-        roles: 'admin',
-        serverRequest: true
-    });
-
     console.groupEnd('defining core routes');
 
 /* eslint-enable indent */
