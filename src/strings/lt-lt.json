@@ -976,5 +976,21 @@
     "Digital": "Skaitmeninis",
     "Cursive": "Kursyvus",
     "ButtonSpace": "Tarpas",
-    "ButtonActivate": "Aktyvuoti"
+    "ButtonActivate": "Aktyvuoti",
+    "AllowFfmpegThrottlingHelp": "Kai perkodavimas arba \"remux\" pakankamai užkrovęs į priekį nuo dabartinės atkūrimo padėties, pristabdykite procesą, kad sunaudotų mažiau išteklių. Tai labiausiai naudinga, kai žiūrite dažnai nekeisdami rodymo pozicijos. Išjunkite tai, jei kyla atkūrimo problemų.",
+    "AllowTonemappingHelp": "Tonų atvaizdavimas gali pakeisti vaizdo įrašo dinaminį diapazoną iš HDR į SDR, kartu išsaugant vaizdo detales ir spalvas, kurios yra labai svarbi informacija, vaizduojant originalią sceną. Šiuo metu veikia tik su HDR10 arba HLG vaizdo įrašais. Tam reikalingas atitinkamas OpenCL arba CUDA vykdymo laikas.",
+    "Arranger": "Aranžuotojas",
+    "EnableBlurHashHelp": "Vaizdai, kurie vis dar įkeliami, bus rodomi su unikalia rezervuota vieta.",
+    "EnableDetailsBannerHelp": "Rodyti reklamjuostės vaizdą elemento išsamios informacijos puslapio viršuje.",
+    "EnableCardLayout": "Rodyti vizualinį CardBox",
+    "Bwdif": "BWDIF",
+    "EnableDecodingColorDepth10Vp9": "Įgalinkite 10 bitų aparatinės įrangos dekodavimą VP9",
+    "DailyAt": "Kas dieną {0}",
+    "DirectPlayHelp": "Šaltinio failas yra visiškai suderinamas su šiuo klientu, o sesija gauna failą be pakeitimų.",
+    "EnableDecodingColorDepth10Hevc": "Įgalinkite 10 bitų aparatinės įrangos dekodavimą HEVC",
+    "EnableDetailsBanner": "Išsamios informacijos baneris",
+    "EnableAutoCast": "Nustatyti kaip numatytąjį",
+    "EnableBlurHash": "Įgalinti neryškias vaizdų rezervuotas vietas",
+    "ButtonUseQuickConnect": "Naudoti Quick Connect",
+    "Casual": "Įprastas"
 }
