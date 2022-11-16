@@ -1629,5 +1629,6 @@
     "RememberAudioSelectionsHelp": "Proovi valida heliriba, mis sobib kõige paremini eelmise video heliribaga.",
     "RememberSubtitleSelections": "Määra subtiitrid eelmise üksuse põhjal",
     "RememberSubtitleSelectionsHelp": "Proovi valida subtiitrid, mis sobivad kõige paremini eelmise videoga.",
-    "ScreenResolution": "Ekraanilahutus"
+    "ScreenResolution": "Ekraanilahutus",
+    "AudioIsExternal": "Heliriba on väline"
 }
