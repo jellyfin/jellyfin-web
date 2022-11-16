@@ -1682,5 +1682,6 @@
     "MessageNoFavoritesAvailable": "Er zijn momenteel geen favorieten beschikbaar.",
     "MessageNoItemsAvailable": "Er zijn momenteel geen items beschikbaar.",
     "EnableCardLayout": "Toon als kaartenlijst",
-    "MessageRenameMediaFolder": "Bij het hernoemen van mediabibliotheek gaat alle metadata verloren, ga voorzichtig te werk."
+    "MessageRenameMediaFolder": "Wanneer u een mediabibliotheek hernoemt, zal alle metadata verloren gaan. Ga voorzichtig te werk.",
+    "Unreleased": "Nog niet uitgebracht"
 }
