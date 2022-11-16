@@ -1683,5 +1683,6 @@
     "MessageRenameMediaFolder": "A médiakönyvtár átnevezése az összes metaadat elvesztésével jár, csak óvatosan.",
     "EnableCardLayout": "Vizuális CardBox megjelenítése",
     "MessageNoItemsAvailable": "Jelenleg nincs elérhető elem.",
-    "MessageNoFavoritesAvailable": "Jelenleg nincs elérhető kedvenc."
+    "MessageNoFavoritesAvailable": "Jelenleg nincs elérhető kedvenc.",
+    "Unreleased": "Még nem jelent meg"
 }
