@@ -1,18 +1,16 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, {FunctionComponent, useEffect, useState, useRef} from 'react';
+import React, { FC, useEffect, useState, useRef} from 'react';
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import confirm from '../../components/confirm/confirm';
+import Page from '../../components/Page';
 import UserCardBox from '../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../elements/SectionTitleContainer';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
 import '../../components/cardbuilder/card.scss';
 import '../../components/indicators/indicators.scss';
 import '../../assets/css/flexstyles.scss';
-import Page from '../../components/Page';
 
 type MenuEntry = {
     name?: string;
@@ -20,7 +18,7 @@ type MenuEntry = {
     icon?: string;
 }
 
-const UserProfiles: FunctionComponent = () => {
+const UserProfiles: FC = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
@@ -124,10 +122,6 @@ const UserProfiles: FunctionComponent = () => {
                 showUserMenu(btnUserMenu);
             }
         });
-
-        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
-            Dashboard.navigate('usernew.html');
-        });
     }, []);
 
     return (
@@ -145,6 +139,7 @@ const UserProfiles: FunctionComponent = () => {
                         btnTitle='ButtonAddUser'
                         btnIcon='add'
                         url='https://jellyfin.org/docs/general/server/users/adding-managing-users'
+                        onClick={() => Dashboard.navigate('usernew.html')}
                     />
                 </div>
 

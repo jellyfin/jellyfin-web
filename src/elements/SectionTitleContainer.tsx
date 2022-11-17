@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
-import IconButtonElement from './IconButtonElement';
-import SectionTitleLinkElement from './SectionTitleLinkElement';
+import React, { FC } from 'react';
+import globalize from '../scripts/globalize';
+import IconButton from './emby-button/IconButton';
+import LinkButton from './emby-button/LinkButton';
 
-type IProps = {
+interface SectionTitleContainerProps {
     SectionClassName?: string;
-    title?: string;
+    title?: string | null;
     isBtnVisible?: boolean;
     btnId?: string;
     btnClassName?: string;
@@ -12,27 +13,45 @@ type IProps = {
     btnIcon?: string;
     isLinkVisible?: boolean;
     url?: string;
+    onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
-const SectionTitleContainer: FunctionComponent<IProps> = ({SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, isLinkVisible = true, url}: IProps) => {
+
+const SectionTitleContainer: FC<SectionTitleContainerProps> = ({
+    SectionClassName,
+    title,
+    isBtnVisible = false,
+    btnId,
+    btnClassName,
+    btnTitle,
+    btnIcon,
+    isLinkVisible = true,
+    url,
+    onClick
+}) => {
     return (
         <div className={`${SectionClassName} sectionTitleContainer flex align-items-center`}>
             <h2 className='sectionTitle'>
                 {title}
             </h2>
 
-            {isBtnVisible && <IconButtonElement
-                is='emby-button'
+            {isBtnVisible && <IconButton
+                type='button'
                 id={btnId}
                 className={btnClassName}
                 title={btnTitle}
                 icon={btnIcon}
+                onClick={onClick}
             />}
 
-            {isLinkVisible && <SectionTitleLinkElement
+            {isLinkVisible && <LinkButton
                 className='raised button-alt headerHelpButton'
-                title='Help'
-                url={url}
-            />}
+                rel='noopener noreferrer'
+                target='_blank'
+                href={url}
+            >
+                {globalize.translate('Help')}
+            </LinkButton>
+            }
 
         </div>
     );
