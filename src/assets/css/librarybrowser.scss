@@ -439,7 +439,7 @@
 .itemBackdrop {
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center 0;
+    background-position: center center;
     background-attachment: fixed;
     height: 40vh;
     position: relative;
@@ -447,6 +447,7 @@
 
     .layout-mobile & {
         background-attachment: initial;
+        background-position: top center;
         margin-top: 3rem;
 
         @media all and (orientation: portrait) and (max-width: 40em) {
