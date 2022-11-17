@@ -1,42 +1,39 @@
 import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC } from 'react';
 
 import { playbackManager } from '../playback/playbackmanager';
-import IconButtonElement from '../../elements/IconButtonElement';
+import IconButton from '../../elements/emby-button/IconButton';
 
 interface ShuffleProps {
     itemsResult?: BaseItemDtoQueryResult;
     topParentId: string | null;
 }
 
-const Shuffle: FC<ShuffleProps> = ({ itemsResult = {}, topParentId }) => {
-    const element = useRef<HTMLDivElement>(null);
-
-    const shuffle = useCallback(() => {
+const Shuffle: FC<ShuffleProps> = ({ topParentId }) => {
+    const shuffle = () => {
         window.ApiClient.getItem(
             window.ApiClient.getCurrentUserId(),
             topParentId as string
         ).then((item) => {
             playbackManager.shuffle(item);
         });
-    }, [topParentId]);
+    };
 
-    useEffect(() => {
+    /*useEffect(() => {
         const btnShuffle = element.current?.querySelector('.btnShuffle');
         if (btnShuffle) {
             btnShuffle.addEventListener('click', shuffle);
         }
-    }, [itemsResult.TotalRecordCount, shuffle]);
+    }, [itemsResult.TotalRecordCount, shuffle]);*/
 
     return (
-        <div ref={element}>
-            <IconButtonElement
-                is='paper-icon-button-light'
-                className='btnShuffle autoSize'
-                title='Shuffle'
-                icon='material-icons shuffle'
-            />
-        </div>
+        <IconButton
+            type='button'
+            className='btnShuffle autoSize'
+            title='Shuffle'
+            icon='shuffle'
+            onClick={shuffle}
+        />
     );
 };
 

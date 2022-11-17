@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
-import IconButtonElement from '../../elements/IconButtonElement';
+import React, { FC } from 'react';
+import IconButton from '../../elements/emby-button/IconButton';
 import { ViewQuerySettings } from '../../types/interface';
 
 interface SortProps {
@@ -16,9 +16,7 @@ const Sort: FC<SortProps> = ({
     viewQuerySettings,
     setViewQuerySettings
 }) => {
-    const element = useRef<HTMLDivElement>(null);
-
-    const showSortMenu = useCallback(() => {
+    const showSortMenu = () => {
         import('../sortmenu/sortmenu').then(({default: SortMenu}) => {
             const sortMenu = new SortMenu();
             sortMenu.show({
@@ -27,9 +25,9 @@ const Sort: FC<SortProps> = ({
                 setSortValues: setViewQuerySettings
             });
         });
-    }, [getSortMenuOptions, viewQuerySettings, setViewQuerySettings]);
+    };
 
-    useEffect(() => {
+    /*useEffect(() => {
         const btnSort = element.current?.querySelector('.btnSort');
 
         btnSort?.addEventListener('click', showSortMenu);
@@ -37,17 +35,16 @@ const Sort: FC<SortProps> = ({
         return () => {
             btnSort?.removeEventListener('click', showSortMenu);
         };
-    }, [showSortMenu]);
+    }, [showSortMenu]);*/
 
     return (
-        <div ref={element}>
-            <IconButtonElement
-                is='paper-icon-button-light'
-                className='btnSort autoSize'
-                title='Sort'
-                icon='material-icons sort_by_alpha'
-            />
-        </div>
+        <IconButton
+            type='button'
+            className='btnSort autoSize'
+            title='Sort'
+            icon='sort_by_alpha'
+            onClick={showSortMenu}
+        />
     );
 };
 

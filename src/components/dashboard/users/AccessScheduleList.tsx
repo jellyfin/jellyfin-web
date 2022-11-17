@@ -1,15 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import datetime from '../../../scripts/datetime';
 import globalize from '../../../scripts/globalize';
-import IconButtonElement from '../../../elements/IconButtonElement';
-
-type AccessScheduleListProps = {
-    index: number;
-    Id?: number;
-    DayOfWeek?: string;
-    StartHour?: number ;
-    EndHour?: number;
-}
+import IconButton from '../../../elements/emby-button/IconButton';
 
 function getDisplayTime(hours = 0) {
     let minutes = 0;
@@ -22,7 +14,15 @@ function getDisplayTime(hours = 0) {
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
-const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({index, DayOfWeek, StartHour, EndHour}: AccessScheduleListProps) => {
+interface AccessScheduleListProps {
+    index: number;
+    Id?: number;
+    DayOfWeek?: string;
+    StartHour?: number ;
+    EndHour?: number;
+}
+
+const AccessScheduleList: FC<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour }) => {
     return (
         <div
             className='liSchedule listItem'
@@ -38,12 +38,12 @@ const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({index, 
                     {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
                 </div>
             </div>
-            <IconButtonElement
-                is='paper-icon-button-light'
+            <IconButton
+                type='button'
                 className='btnDelete listItemButton'
                 title='Delete'
                 icon='delete'
-                dataIndex={index}
+                data-index={index}
             />
         </div>
     );

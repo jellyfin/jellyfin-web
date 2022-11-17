@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
-import IconButtonElement from '../../elements/IconButtonElement';
+import React, { FC } from 'react';
+import IconButton from '../../elements/emby-button/IconButton';
 import { ViewQuerySettings } from '../../types/interface';
 
 interface SelectViewProps {
@@ -13,9 +13,7 @@ const SelectView: FC<SelectViewProps> = ({
     viewQuerySettings,
     setViewQuerySettings
 }) => {
-    const element = useRef<HTMLDivElement>(null);
-
-    const showViewSettingsMenu = useCallback(() => {
+    const showViewSettingsMenu = () => {
         import('../viewSettings/viewSettings').then(({default: ViewSettings}) => {
             const viewsettings = new ViewSettings();
             viewsettings.show({
@@ -24,26 +22,16 @@ const SelectView: FC<SelectViewProps> = ({
                 setviewsettings: setViewQuerySettings
             });
         });
-    }, [getVisibleViewSettings, viewQuerySettings, setViewQuerySettings]);
-
-    useEffect(() => {
-        const btnSelectView = element.current?.querySelector('.btnSelectView') as HTMLButtonElement;
-        btnSelectView?.addEventListener('click', showViewSettingsMenu);
-
-        return () => {
-            btnSelectView?.removeEventListener('click', showViewSettingsMenu);
-        };
-    }, [showViewSettingsMenu]);
+    };
 
     return (
-        <div ref={element}>
-            <IconButtonElement
-                is='paper-icon-button-light'
-                className='btnSelectView autoSize'
-                title='ButtonSelectView'
-                icon='material-icons view_comfy'
-            />
-        </div>
+        <IconButton
+            type='button'
+            className='btnSelectView autoSize'
+            title='ButtonSelectView'
+            icon='view_comfy'
+            onClick={showViewSettingsMenu}
+        />
     );
 };
 

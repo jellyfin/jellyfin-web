@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
-import IconButtonElement from '../../elements/IconButtonElement';
+import React, { FC } from 'react';
+import IconButton from '../../elements/emby-button/IconButton';
 import { ViewQuerySettings } from '../../types/interface';
 
 interface FilterProps {
@@ -19,9 +19,7 @@ const Filter: FC<FilterProps> = ({
     viewQuerySettings,
     setViewQuerySettings
 }) => {
-    const element = useRef<HTMLDivElement>(null);
-
-    const showFilterMenu = useCallback(() => {
+    const showFilterMenu = () => {
         import('../filtermenu/filtermenu').then(({default: FilterMenu}) => {
             const filterMenu = new FilterMenu();
             filterMenu.show({
@@ -34,27 +32,16 @@ const Filter: FC<FilterProps> = ({
                 setfilters: setViewQuerySettings
             });
         });
-    }, [viewQuerySettings, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, setViewQuerySettings]);
-
-    useEffect(() => {
-        const btnFilter = element.current?.querySelector('.btnFilter');
-
-        btnFilter?.addEventListener('click', showFilterMenu);
-
-        return () => {
-            btnFilter?.removeEventListener('click', showFilterMenu);
-        };
-    }, [showFilterMenu]);
+    };
 
     return (
-        <div ref={element}>
-            <IconButtonElement
-                is='paper-icon-button-light'
-                className='btnFilter autoSize'
-                title='Filter'
-                icon='material-icons filter_list'
-            />
-        </div>
+        <IconButton
+            type='button'
+            className='btnFilter autoSize'
+            title='Filter'
+            icon='filter_list'
+            onClick={showFilterMenu}
+        />
     );
 };
 
