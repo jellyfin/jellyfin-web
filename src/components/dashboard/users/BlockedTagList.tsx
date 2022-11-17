@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react';
-import IconButtonElement from '../../../elements/IconButtonElement';
+import React, { FC } from 'react';
+import IconButton from '../../../elements/emby-button/IconButton';
 
-type IProps = {
+interface BlockedTagListProps {
     tag?: string;
 }
 
-const BlockedTagList: FunctionComponent<IProps> = ({tag}: IProps) => {
+const BlockedTagList: FC<BlockedTagListProps> = ({ tag }) => {
     return (
         <div className='paperList'>
             <div className='listItem'>
@@ -14,12 +14,12 @@ const BlockedTagList: FunctionComponent<IProps> = ({tag}: IProps) => {
                         {tag}
                     </h3>
                 </div>
-                <IconButtonElement
-                    is='paper-icon-button-light'
+                <IconButton
+                    type='button'
                     className='blockedTag btnDeleteTag listItemButton'
                     title='Delete'
                     icon='delete'
-                    dataTag={tag}
+                    data-tag={tag}
                 />
             </div>
         </div>

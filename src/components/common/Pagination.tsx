@@ -1,6 +1,6 @@
 import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback, useEffect, useRef } from 'react';
-import IconButtonElement from '../../elements/IconButtonElement';
+import React, { FC } from 'react';
+import IconButton from '../../elements/emby-button/IconButton';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { ViewQuerySettings } from '../../types/interface';
@@ -17,9 +17,8 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
     const startIndex = viewQuerySettings.StartIndex || 0;
     const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
     const showControls = limit > 0 && limit < totalRecordCount;
-    const element = useRef<HTMLDivElement>(null);
 
-    const onNextPageClick = useCallback(() => {
+    const onNextPageClick = () => {
         if (limit > 0) {
             const newIndex = startIndex + limit;
             setViewQuerySettings((prevState) => ({
@@ -27,9 +26,9 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
                 StartIndex: newIndex
             }));
         }
-    }, [limit, setViewQuerySettings, startIndex]);
+    };
 
-    const onPreviousPageClick = useCallback(() => {
+    const onPreviousPageClick = () => {
         if (limit > 0) {
             const newIndex = Math.max(0, startIndex - limit);
             setViewQuerySettings((prevState) => ({
@@ -37,58 +36,33 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
                 StartIndex: newIndex
             }));
         }
-    }, [limit, setViewQuerySettings, startIndex]);
-
-    useEffect(() => {
-        const btnNextPage = element.current?.querySelector('.btnNextPage') as HTMLButtonElement;
-        if (btnNextPage) {
-            if (startIndex + limit >= totalRecordCount) {
-                btnNextPage.disabled = true;
-            } else {
-                btnNextPage.disabled = false;
-            }
-            btnNextPage.addEventListener('click', onNextPageClick);
-        }
-
-        const btnPreviousPage = element.current?.querySelector('.btnPreviousPage') as HTMLButtonElement;
-        if (btnPreviousPage) {
-            if (startIndex) {
-                btnPreviousPage.disabled = false;
-            } else {
-                btnPreviousPage.disabled = true;
-            }
-            btnPreviousPage.addEventListener('click', onPreviousPageClick);
-        }
-
-        return () => {
-            btnNextPage?.removeEventListener('click', onNextPageClick);
-            btnPreviousPage?.removeEventListener('click', onPreviousPageClick);
-        };
-    }, [totalRecordCount, onNextPageClick, onPreviousPageClick, limit, startIndex]);
+    };
 
     return (
-        <div ref={element}>
-            <div className='paging'>
-                {showControls && (
-                    <div className='listPaging' style={{ display: 'flex', alignItems: 'center' }}>
+        <div className='paging'>
+            {showControls && (
+                <div className='listPaging' style={{ display: 'flex', alignItems: 'center' }}>
 
-                        <span>
-                            {globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd, totalRecordCount)}
-                        </span>
+                    <span>
+                        {globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd, totalRecordCount)}
+                    </span>
 
-                        <IconButtonElement
-                            is='paper-icon-button-light'
-                            className='btnPreviousPage autoSize'
-                            icon='material-icons arrow_back'
-                        />
-                        <IconButtonElement
-                            is='paper-icon-button-light'
-                            className='btnNextPage autoSize'
-                            icon='material-icons arrow_forward'
-                        />
-                    </div>
-                )}
-            </div>
+                    <IconButton
+                        type='button'
+                        className='btnPreviousPage autoSize'
+                        icon='arrow_back'
+                        disabled={startIndex ? false : true}
+                        onClick={onPreviousPageClick}
+                    />
+                    <IconButton
+                        type='button'
+                        className='btnNextPage autoSize'
+                        icon='arrow_forward'
+                        disabled={startIndex + limit >= totalRecordCount ? true : false}
+                        onClick={onNextPageClick}
+                    />
+                </div>
+            )}
         </div>
     );
 };

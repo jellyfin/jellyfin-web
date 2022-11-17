@@ -1,23 +1,15 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
+import escapeHTML from 'escape-html';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../scripts/globalize';
 import cardBuilder from '../../cardbuilder/cardBuilder';
-import IconButtonElement from '../../../elements/IconButtonElement';
-import escapeHTML from 'escape-html';
+import IconButton from '../../../elements/emby-button/IconButton';
+import LinkButton from '../../../elements/emby-button/LinkButton';
+import classNames from 'classnames';
 
-const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl: string }) => ({
-    __html: `<a
-        is="emby-linkbutton"
-        class="cardContent"
-        href="#/useredit.html?userId=${user.Id}"
-        >
-        ${renderImgUrl}
-    </a>`
-});
-
-type IProps = {
+interface UserCardBoxProps {
     user?: UserDto;
 }
 
@@ -29,7 +21,7 @@ const getLastSeenText = (lastActivityDate?: string | null) => {
     return '';
 };
 
-const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
+const UserCardBox: FC<UserCardBoxProps> = ({ user = {} }) => {
     let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
     if (user.Policy?.IsDisabled) {
@@ -54,30 +46,33 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
 
     const lastSeen = getLastSeenText(user.LastActivityDate);
 
-    const renderImgUrl = imgUrl ?
-        `<div class='${imageClass}' style='background-image:url(${imgUrl})'></div>` :
-        `<div class='${imageClass} ${cardBuilder.getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
-            <span class='material-icons cardImageIcon person' aria-hidden='true'></span>
-        </div>`;
-
     return (
         <div data-userid={user.Id} className={cssClass}>
             <div className='cardBox visualCardBox'>
                 <div className='cardScalable visualCardBox-cardScalable'>
                     <div className='cardPadder cardPadder-square'></div>
-                    <div
-                        dangerouslySetInnerHTML={createLinkElement({
-                            user: user,
-                            renderImgUrl: renderImgUrl
-                        })}
-                    />
+                    <LinkButton
+                        className='cardContent'
+                        href={`#/useredit.html?userId=${user.Id}`}
+                    >
+                        {
+                            imgUrl ? (
+                                <div className={imageClass} style={{backgroundImage: `url(${imgUrl})`}}></div>
+                            ) :
+                                (
+                                    <div className={classNames(imageClass, cardBuilder.getDefaultBackgroundClass(user.Name), 'flex align-items-center justify-content-center')}>
+                                        <span className='material-icons cardImageIcon person' aria-hidden='true'></span>
+                                    </div>
+                                )
+                        }
+                    </LinkButton>
                 </div>
                 <div className='cardFooter visualCardBox-cardFooter'>
                     <div
                         style={{textAlign: 'right', float: 'right', paddingTop: '5px'}}
                     >
-                        <IconButtonElement
-                            is='paper-icon-button-light'
+                        <IconButton
+                            type='button'
                             className='btnUserMenu flex-shrink-zero'
                             icon='more_vert'
                         />

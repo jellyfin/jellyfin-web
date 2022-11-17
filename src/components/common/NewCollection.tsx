@@ -1,11 +1,8 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
-
-import IconButtonElement from '../../elements/IconButtonElement';
+import React, { FC } from 'react';
+import IconButton from '../../elements/emby-button/IconButton';
 
 const NewCollection: FC = () => {
-    const element = useRef<HTMLDivElement>(null);
-
-    const showCollectionEditor = useCallback(() => {
+    const showCollectionEditor = () => {
         import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
             const serverId = window.ApiClient.serverId();
             const collectionEditor = new CollectionEditor();
@@ -14,24 +11,16 @@ const NewCollection: FC = () => {
                 serverId: serverId
             });
         });
-    }, []);
-
-    useEffect(() => {
-        const btnNewCollection = element.current?.querySelector('.btnNewCollection');
-        if (btnNewCollection) {
-            btnNewCollection.addEventListener('click', showCollectionEditor);
-        }
-    }, [showCollectionEditor]);
+    };
 
     return (
-        <div ref={element}>
-            <IconButtonElement
-                is='paper-icon-button-light'
-                className='btnNewCollection autoSize'
-                title='Add'
-                icon='material-icons add'
-            />
-        </div>
+        <IconButton
+            type='button'
+            className='btnNewCollection autoSize'
+            title='Add'
+            icon='add'
+            onClick={showCollectionEditor}
+        />
     );
 };
 
