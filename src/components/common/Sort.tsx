@@ -27,16 +27,6 @@ const Sort: FC<SortProps> = ({
         });
     };
 
-    /*useEffect(() => {
-        const btnSort = element.current?.querySelector('.btnSort');
-
-        btnSort?.addEventListener('click', showSortMenu);
-
-        return () => {
-            btnSort?.removeEventListener('click', showSortMenu);
-        };
-    }, [showSortMenu]);*/
-
     return (
         <IconButton
             type='button'
