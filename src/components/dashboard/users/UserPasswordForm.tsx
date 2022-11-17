@@ -207,7 +207,7 @@ const UserPasswordForm: FC<UserPasswordFormProps> = ({ userId }) => {
 
     useEffect(() => {
         loadUser();
-    }, [loadUser, userId]);
+    }, [loadUser]);
 
     return (
         <div ref={element}>
