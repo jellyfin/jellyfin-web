@@ -900,26 +900,12 @@ class PlaybackManager {
             return streams.filter((stream) => self.trackHasSecondarySubtitleSupport(stream, player));
         };
 
-        function getCurrentSubtitleStream(player) {
+        function getCurrentSubtitleStream(player, isSecondaryStream = false) {
             if (!player) {
                 throw new Error('player cannot be null');
             }
 
-            const index = getPlayerData(player).subtitleStreamIndex;
-
-            if (index == null || index === -1) {
-                return null;
-            }
-
-            return self.getSubtitleStream(player, index);
-        }
-
-        function getCurrentSecondarySubtitleStream(player) {
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-
-            const index = getPlayerData(player).secondarySubtitleStreamIndex;
+            const index = isSecondaryStream ? getPlayerData(player).secondarySubtitleStreamIndex : getPlayerData(player).subtitleStreamIndex;
 
             if (index == null || index === -1) {
                 return null;
@@ -1598,7 +1584,7 @@ class PlaybackManager {
                 }
             }
 
-            const currentStream = getCurrentSecondarySubtitleStream(player);
+            const currentStream = getCurrentSubtitleStream(player, true);
 
             const newStream = self.getSubtitleStream(player, index);
 
