@@ -1,20 +1,20 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
+import React, { FC, useEffect, useState, useRef, useCallback } from 'react';
 
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
 import { appHost } from '../../components/apphost';
 import confirm from '../../components/confirm/confirm';
-import ButtonElement from '../../elements/ButtonElement';
 import UserPasswordForm from '../../components/dashboard/users/UserPasswordForm';
 import loading from '../../components/loading/loading';
 import toast from '../../components/toast/toast';
 import { getParameterByName } from '../../utils/url';
 import Page from '../../components/Page';
+import Button from '../../elements/emby-button/Button';
 
-const UserProfile: FunctionComponent = () => {
+const UserProfile: FC = () => {
     const userId = getParameterByName('userId');
     const [ userName, setUserName ] = useState('');
 
@@ -68,6 +68,31 @@ const UserProfile: FunctionComponent = () => {
         });
     }, [userId]);
 
+    const onBtnAddImage = () => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+        const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
+        uploadImage.value = '';
+        uploadImage.click();
+    };
+
+    const onBtnDeleteImage = () => {
+        confirm(
+            globalize.translate('DeleteImageConfirmation'),
+            globalize.translate('DeleteImage')
+        ).then(function () {
+            loading.show();
+            window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
+                loading.hide();
+                reloadUser();
+            });
+        });
+    };
+
     useEffect(() => {
         const page = element.current;
 
@@ -120,25 +145,6 @@ const UserProfile: FunctionComponent = () => {
             reader.readAsDataURL(file);
         };
 
-        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
-            confirm(
-                globalize.translate('DeleteImageConfirmation'),
-                globalize.translate('DeleteImage')
-            ).then(function () {
-                loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
-                    loading.hide();
-                    reloadUser();
-                });
-            });
-        });
-
-        (page.querySelector('#btnAddImage') as HTMLButtonElement).addEventListener('click', function () {
-            const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
-            uploadImage.value = '';
-            uploadImage.click();
-        });
-
         (page.querySelector('#uploadImage') as HTMLInputElement).addEventListener('change', function (evt: Event) {
             setFiles(evt);
         });
@@ -175,17 +181,19 @@ const UserProfile: FunctionComponent = () => {
                             {userName}
                         </h2>
                         <br />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnAddImage'
                             className='raised button-submit hide'
                             title='ButtonAddImage'
+                            onClick={onBtnAddImage}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnDeleteImage'
                             className='raised hide'
                             title='DeleteImage'
+                            onClick={onBtnDeleteImage}
                         />
                     </div>
                 </div>

@@ -2,6 +2,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import './emby-button.scss';
+import globalize from '../../scripts/globalize';
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
@@ -33,7 +34,9 @@ const Button: React.FC<ButtonProps> = ({
             {...rest}
         >
             {icon && iconPos === 'LEFT' && <span className={classNames('material-icons', iconClassName, icon)} aria-hidden='true'></span>}
-            <span>{title}</span>
+
+            <span>{globalize.translate(title)}</span>
+
             {icon && iconPos === 'RIGHT' && <span className={classNames('material-icons', iconClassName, icon)} aria-hidden='true'></span>}
         </button>
     );
