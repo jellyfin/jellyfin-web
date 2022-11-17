@@ -9,12 +9,12 @@ import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import SectionTabs from '../../components/dashboard/users/SectionTabs';
 import loading from '../../components/loading/loading';
 import toast from '../../components/toast/toast';
-import { getParameterByName } from '../../utils/url';
 import CheckBoxElement from '../../elements/CheckBoxElement';
 import escapeHTML from 'escape-html';
 import SelectElement from '../../elements/SelectElement';
 import Page from '../../components/Page';
 import Button from '../../elements/emby-button/Button';
+import { useSearchParams } from 'react-router-dom';
 
 type UnratedItem = {
     name: string;
@@ -23,6 +23,8 @@ type UnratedItem = {
 }
 
 const UserParentalControl: FC = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId') || '';
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
@@ -241,7 +243,6 @@ const UserParentalControl: FC = () => {
 
     const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         loading.show();
-        const userId = getParameterByName('userId');
         window.ApiClient.getUser(userId).then(function (result) {
             saveUser(result);
         });
@@ -298,7 +299,6 @@ const UserParentalControl: FC = () => {
     useEffect(() => {
         const loadData = () => {
             loading.show();
-            const userId = getParameterByName('userId');
             const promise1 = window.ApiClient.getUser(userId);
             const promise2 = window.ApiClient.getParentalRatings();
             Promise.all([promise1, promise2]).then(function (responses) {
@@ -307,7 +307,7 @@ const UserParentalControl: FC = () => {
         };
 
         loadData();
-    }, [loadUser]);
+    }, [loadUser, userId]);
 
     const optionMaxParentalRating = () => {
         let content = '';

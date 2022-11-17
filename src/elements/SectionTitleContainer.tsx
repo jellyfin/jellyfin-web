@@ -13,7 +13,7 @@ interface SectionTitleContainerProps {
     btnIcon?: string;
     isLinkVisible?: boolean;
     url?: string;
-    onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const SectionTitleContainer: FC<SectionTitleContainerProps> = ({
