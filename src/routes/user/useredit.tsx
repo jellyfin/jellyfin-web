@@ -1,12 +1,10 @@
 import type { SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useState, useRef, MouseEvent } from 'react';
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../../elements/ButtonElement';
 import CheckBoxElement from '../../elements/CheckBoxElement';
 import InputElement from '../../elements/InputElement';
-import LinkEditUserPreferences from '../../components/dashboard/users/LinkEditUserPreferences';
 import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import SectionTabs from '../../components/dashboard/users/SectionTabs';
 import loading from '../../components/loading/loading';
@@ -15,6 +13,8 @@ import { getParameterByName } from '../../utils/url';
 import escapeHTML from 'escape-html';
 import SelectElement from '../../elements/SelectElement';
 import Page from '../../components/Page';
+import Button from '../../elements/emby-button/Button';
+import LinkButton from '../../elements/emby-button/LinkButton';
 
 type ResetProvider = AuthProvider & {
     checkedAttribute: string
@@ -25,8 +25,8 @@ type AuthProvider = {
     Id?: string;
 }
 
-const UserEdit: FunctionComponent = () => {
-    const [ userName, setUserName ] = useState('');
+const UserEdit: FC = () => {
+    const [ userData, setUserData ] = useState<UserDto>({});
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const [ authProviders, setAuthProviders ] = useState<AuthProvider[]>([]);
     const [ passwordResetProviders, setPasswordResetProviders ] = useState<ResetProvider[]>([]);
@@ -124,6 +124,74 @@ const UserEdit: FunctionComponent = () => {
         });
     }, []);
 
+    function onSaveComplete() {
+        Dashboard.navigate('userprofiles.html');
+        loading.hide();
+        toast(globalize.translate('SettingsSaved'));
+    }
+
+    const saveUser = (user: UserDto) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
+        if (!user.Id) {
+            throw new Error('Unexpected null user.Id');
+        }
+
+        if (!user.Policy) {
+            throw new Error('Unexpected null user.Policy');
+        }
+
+        user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value;
+        user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
+        user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
+        user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
+        user.Policy.EnableRemoteControlOfOtherUsers = (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked;
+        user.Policy.EnableLiveTvManagement = (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked;
+        user.Policy.EnableLiveTvAccess = (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked;
+        user.Policy.EnableSharedDeviceControl = (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked;
+        user.Policy.EnableMediaPlayback = (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked;
+        user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked;
+        user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked;
+        user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
+        user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
+        user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
+        user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
+        user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
+        user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0');
+        user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0');
+        user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
+        user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
+        user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
+        user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
+            return c.checked;
+        }).map(function (c) {
+            return c.getAttribute('data-id');
+        });
+        if (window.ApiClient.isMinServerVersion('10.6.0')) {
+            user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
+        }
+        window.ApiClient.updateUser(user).then(function () {
+            window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {}).then(function () {
+                onSaveComplete();
+            });
+        });
+    };
+
+    const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        loading.show();
+        getUser().then(function (result) {
+            saveUser(result);
+        });
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    };
+
     const loadUser = useCallback((user) => {
         const page = element.current;
 
@@ -151,10 +219,7 @@ const UserEdit: FunctionComponent = () => {
         txtUserName.disabled = false;
         txtUserName.removeAttribute('disabled');
 
-        const lnkEditUserPreferences = page.querySelector('.lnkEditUserPreferences') as HTMLDivElement;
-        lnkEditUserPreferences.setAttribute('href', 'mypreferencesmenu.html?userId=' + user.Id);
         LibraryMenu.setTitle(user.Name);
-        setUserName(user.Name);
         (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name;
         (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = user.Policy.IsAdministrator;
         (page.querySelector('.chkDisabled') as HTMLInputElement).checked = user.Policy.IsDisabled;
@@ -183,6 +248,7 @@ const UserEdit: FunctionComponent = () => {
     const loadData = useCallback(() => {
         loading.show();
         getUser().then(function (user) {
+            setUserData(user);
             loadUser(user);
         });
     }, [loadUser]);
@@ -197,67 +263,6 @@ const UserEdit: FunctionComponent = () => {
 
         loadData();
 
-        function onSaveComplete() {
-            Dashboard.navigate('userprofiles.html');
-            loading.hide();
-            toast(globalize.translate('SettingsSaved'));
-        }
-
-        const saveUser = (user: UserDto) => {
-            if (!user.Id) {
-                throw new Error('Unexpected null user.Id');
-            }
-
-            if (!user.Policy) {
-                throw new Error('Unexpected null user.Policy');
-            }
-
-            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value;
-            user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
-            user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
-            user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
-            user.Policy.EnableRemoteControlOfOtherUsers = (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked;
-            user.Policy.EnableLiveTvManagement = (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked;
-            user.Policy.EnableLiveTvAccess = (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked;
-            user.Policy.EnableSharedDeviceControl = (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked;
-            user.Policy.EnableMediaPlayback = (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked;
-            user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked;
-            user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked;
-            user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
-            user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
-            user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
-            user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
-            user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
-            user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0');
-            user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0');
-            user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
-            user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
-            user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
-            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
-                return c.checked;
-            }).map(function (c) {
-                return c.getAttribute('data-id');
-            });
-            if (window.ApiClient.isMinServerVersion('10.6.0')) {
-                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
-            }
-            window.ApiClient.updateUser(user).then(function () {
-                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {}).then(function () {
-                    onSaveComplete();
-                });
-            });
-        };
-
-        const onSubmit = (e: Event) => {
-            loading.show();
-            getUser().then(function (result) {
-                saveUser(result);
-            });
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        };
-
         (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
             if (this.checked) {
                 (page.querySelector('.deleteAccess') as HTMLDivElement).classList.add('hide');
@@ -269,12 +274,6 @@ const UserEdit: FunctionComponent = () => {
         window.ApiClient.getNamedConfiguration('network').then(function (config) {
             const fldRemoteAccess = page.querySelector('.fldRemoteAccess') as HTMLDivElement;
             config.EnableRemoteAccess ? fldRemoteAccess.classList.remove('hide') : fldRemoteAccess.classList.add('hide');
-        });
-
-        (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
-            window.history.back();
         });
     }, [loadData]);
 
@@ -304,7 +303,7 @@ const UserEdit: FunctionComponent = () => {
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
-                        title={userName}
+                        title={userData.Name}
                         url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
@@ -314,10 +313,13 @@ const UserEdit: FunctionComponent = () => {
                     className='lnkEditUserPreferencesContainer'
                     style={{paddingBottom: '1em'}}
                 >
-                    <LinkEditUserPreferences
+                    <LinkButton
                         className= 'lnkEditUserPreferences button-link'
-                        title= 'ButtonEditOtherUserPreferences'
-                    />
+                        href={`#/mypreferencesmenu.html?userId=${userData.Id}`}
+                    >
+                        {globalize.translate('ButtonEditOtherUserPreferences')}
+                    </LinkButton>
+
                 </div>
                 <form className='editUserProfileForm'>
                     <div className='disabledUserBanner hide'>
@@ -557,16 +559,18 @@ const UserEdit: FunctionComponent = () => {
                     </div>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
                             title='Save'
+                            onClick={onSubmit}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnCancel'
                             className='raised button-cancel block'
                             title='ButtonCancel'
+                            onClick={() => window.history.back()}
                         />
                     </div>
                 </form>

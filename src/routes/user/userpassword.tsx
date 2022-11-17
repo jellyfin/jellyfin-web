@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import SectionTabs from '../../components/dashboard/users/SectionTabs';
 import UserPasswordForm from '../../components/dashboard/users/UserPasswordForm';
 import { getParameterByName } from '../../utils/url';
@@ -6,7 +6,7 @@ import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import Page from '../../components/Page';
 import loading from '../../components/loading/loading';
 
-const UserPassword: FunctionComponent = () => {
+const UserPassword: FC = () => {
     const userId = getParameterByName('userId');
     const [ userName, setUserName ] = useState('');
 

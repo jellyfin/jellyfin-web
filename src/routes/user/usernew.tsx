@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useState, useRef, MouseEvent } from 'react';
 
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
@@ -6,10 +6,10 @@ import loading from '../../components/loading/loading';
 import toast from '../../components/toast/toast';
 import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import InputElement from '../../elements/InputElement';
-import ButtonElement from '../../elements/ButtonElement';
 import AccessContainer from '../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../elements/CheckBoxElement';
 import Page from '../../components/Page';
+import Button from '../../elements/emby-button/Button';
 
 type userInput = {
     Name?: string;
@@ -21,7 +21,7 @@ type ItemsArr = {
     Id?: string;
 }
 
-const UserNew: FunctionComponent = () => {
+const UserNew: FC = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const element = useRef<HTMLDivElement>(null);
@@ -96,6 +96,64 @@ const UserNew: FunctionComponent = () => {
         });
     }, [loadChannels, loadMediaFolders]);
 
+    const saveUser = () => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+        const userInput: userInput = {};
+        userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+        userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
+        window.ApiClient.createUser(userInput).then(function (user) {
+            if (!user.Id) {
+                throw new Error('Unexpected null user.Id');
+            }
+
+            if (!user.Policy) {
+                throw new Error('Unexpected null user.Policy');
+            }
+
+            user.Policy.EnableAllFolders = (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked;
+            user.Policy.EnabledFolders = [];
+
+            if (!user.Policy.EnableAllFolders) {
+                user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
+                    return i.checked;
+                }).map(function (i) {
+                    return i.getAttribute('data-id');
+                });
+            }
+
+            user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
+            user.Policy.EnabledChannels = [];
+
+            if (!user.Policy.EnableAllChannels) {
+                user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
+                    return i.checked;
+                }).map(function (i) {
+                    return i.getAttribute('data-id');
+                });
+            }
+
+            window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
+                Dashboard.navigate('useredit.html?userId=' + user.Id);
+            });
+        }, function () {
+            toast(globalize.translate('ErrorDefault'));
+            loading.hide();
+        });
+    };
+
+    const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        loading.show();
+        saveUser();
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    };
+
     useEffect(() => {
         const page = element.current;
 
@@ -106,58 +164,6 @@ const UserNew: FunctionComponent = () => {
 
         loadUser();
 
-        const saveUser = () => {
-            const userInput: userInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
-            userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
-            window.ApiClient.createUser(userInput).then(function (user) {
-                if (!user.Id) {
-                    throw new Error('Unexpected null user.Id');
-                }
-
-                if (!user.Policy) {
-                    throw new Error('Unexpected null user.Policy');
-                }
-
-                user.Policy.EnableAllFolders = (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked;
-                user.Policy.EnabledFolders = [];
-
-                if (!user.Policy.EnableAllFolders) {
-                    user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
-                        return i.checked;
-                    }).map(function (i) {
-                        return i.getAttribute('data-id');
-                    });
-                }
-
-                user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
-                user.Policy.EnabledChannels = [];
-
-                if (!user.Policy.EnableAllChannels) {
-                    user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
-                        return i.checked;
-                    }).map(function (i) {
-                        return i.getAttribute('data-id');
-                    });
-                }
-
-                window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                    Dashboard.navigate('useredit.html?userId=' + user.Id);
-                });
-            }, function () {
-                toast(globalize.translate('ErrorDefault'));
-                loading.hide();
-            });
-        };
-
-        const onSubmit = (e: Event) => {
-            loading.show();
-            saveUser();
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        };
-
         (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
             const channelAccessListContainer = page.querySelector('.channelAccessListContainer') as HTMLDivElement;
             this.checked ? channelAccessListContainer.classList.add('hide') : channelAccessListContainer.classList.remove('hide');
@@ -166,12 +172,6 @@ const UserNew: FunctionComponent = () => {
         (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
             const folderAccessListContainer = page.querySelector('.folderAccessListContainer') as HTMLDivElement;
             this.checked ? folderAccessListContainer.classList.add('hide') : folderAccessListContainer.classList.remove('hide');
-        });
-
-        (page.querySelector('.newUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
-            window.history.back();
         });
     }, [loadUser]);
 
@@ -244,16 +244,18 @@ const UserNew: FunctionComponent = () => {
                         ))}
                     </AccessContainer>
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
                             title='Save'
+                            onClick={onSubmit}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnCancel'
                             className='raised button-cancel block'
                             title='ButtonCancel'
+                            onClick={() => window.history.back()}
                         />
                     </div>
                 </form>

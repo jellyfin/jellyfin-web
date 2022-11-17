@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
+import globalize from '../../scripts/globalize';
 import './emby-button.scss';
 
 enum IconPosition {
@@ -44,7 +45,7 @@ const Button: React.FC<ButtonProps> = ({
             {...rest}
         >
             {icon && iconPos === IconPosition.LEFT && <span className={iconClass} aria-hidden='true' />}
-            <span>{title}</span>
+            <span>{globalize.translate(title)}</span>
             {icon && iconPos === IconPosition.RIGHT && <span className={iconClass} aria-hidden='true' />}
         </button>
     );

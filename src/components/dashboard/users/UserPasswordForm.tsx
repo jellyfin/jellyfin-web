@@ -1,20 +1,20 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { FC, MouseEvent, useCallback, useEffect, useRef } from 'react';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../scripts/globalize';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
-import ButtonElement from '../../../elements/ButtonElement';
 import CheckBoxElement from '../../../elements/CheckBoxElement';
 import InputElement from '../../../elements/InputElement';
+import Button from '../../../elements/emby-button/Button';
 
-type IProps = {
+interface UserPasswordFormProps {
     userId: string;
 }
 
-const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
+const UserPasswordForm: FC<UserPasswordFormProps> = ({ userId }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const loadUser = useCallback(() => {
@@ -87,127 +87,126 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
         (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value = '';
     }, [userId]);
 
-    useEffect(() => {
+    const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         const page = element.current;
 
         if (!page) {
             console.error('Unexpected null reference');
             return;
         }
+        if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
+            toast(globalize.translate('PasswordMatchError'));
+        } else {
+            loading.show();
+            savePassword(page);
+        }
 
-        loadUser();
+        e.preventDefault();
+        return false;
+    };
 
-        const onSubmit = (e: Event) => {
-            if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
-                toast(globalize.translate('PasswordMatchError'));
-            } else {
-                loading.show();
-                savePassword();
+    const savePassword = (page: HTMLDivElement) => {
+        let currentPassword = (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value;
+        const newPassword = (page.querySelector('#txtNewPassword') as HTMLInputElement).value;
+
+        if ((page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.contains('hide')) {
+            // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
+            // This should only happen when user.HasConfiguredPassword is false, but this information is not passed on
+            currentPassword = '';
+        }
+
+        window.ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(function () {
+            loading.hide();
+            toast(globalize.translate('PasswordSaved'));
+
+            loadUser();
+        }, function () {
+            loading.hide();
+            Dashboard.alert({
+                title: globalize.translate('HeaderLoginFailure'),
+                message: globalize.translate('MessageInvalidUser')
+            });
+        });
+    };
+
+    const onLocalAccessSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        loading.show();
+        saveEasyPassword();
+        e.preventDefault();
+        return false;
+    };
+
+    const saveEasyPassword = () => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+        const easyPassword = (page.querySelector('#txtEasyPassword') as HTMLInputElement).value;
+
+        if (easyPassword) {
+            window.ApiClient.updateEasyPassword(userId, easyPassword).then(function () {
+                onEasyPasswordSaved(page);
+            });
+        } else {
+            onEasyPasswordSaved(page);
+        }
+    };
+
+    const onEasyPasswordSaved = (page: HTMLDivElement) => {
+        window.ApiClient.getUser(userId).then(function (user) {
+            if (!user.Configuration) {
+                throw new Error('Unexpected null user.Configuration');
             }
 
-            e.preventDefault();
-            return false;
-        };
-
-        const savePassword = () => {
-            let currentPassword = (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value;
-            const newPassword = (page.querySelector('#txtNewPassword') as HTMLInputElement).value;
-
-            if ((page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.contains('hide')) {
-                // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
-                // This should only happen when user.HasConfiguredPassword is false, but this information is not passed on
-                currentPassword = '';
+            if (!user.Id) {
+                throw new Error('Unexpected null user.Id');
             }
 
-            window.ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(function () {
+            user.Configuration.EnableLocalPassword = (page.querySelector('.chkEnableLocalEasyPassword') as HTMLInputElement).checked;
+            window.ApiClient.updateUserConfiguration(user.Id, user.Configuration).then(function () {
                 loading.hide();
-                toast(globalize.translate('PasswordSaved'));
+                toast(globalize.translate('SettingsSaved'));
 
                 loadUser();
-            }, function () {
+            });
+        });
+    };
+
+    const resetEasyPassword = () => {
+        const msg = globalize.translate('PinCodeResetConfirmation');
+
+        confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
+            loading.show();
+            window.ApiClient.resetEasyPassword(userId).then(function () {
                 loading.hide();
                 Dashboard.alert({
-                    title: globalize.translate('HeaderLoginFailure'),
-                    message: globalize.translate('MessageInvalidUser')
+                    message: globalize.translate('PinCodeResetComplete'),
+                    title: globalize.translate('HeaderPinCodeReset')
                 });
+                loadUser();
             });
-        };
+        });
+    };
 
-        const onLocalAccessSubmit = (e: Event) => {
+    const resetPassword = () => {
+        const msg = globalize.translate('PasswordResetConfirmation');
+        confirm(msg, globalize.translate('ResetPassword')).then(function () {
             loading.show();
-            saveEasyPassword();
-            e.preventDefault();
-            return false;
-        };
-
-        const saveEasyPassword = () => {
-            const easyPassword = (page.querySelector('#txtEasyPassword') as HTMLInputElement).value;
-
-            if (easyPassword) {
-                window.ApiClient.updateEasyPassword(userId, easyPassword).then(function () {
-                    onEasyPasswordSaved();
+            window.ApiClient.resetUserPassword(userId).then(function () {
+                loading.hide();
+                Dashboard.alert({
+                    message: globalize.translate('PasswordResetComplete'),
+                    title: globalize.translate('ResetPassword')
                 });
-            } else {
-                onEasyPasswordSaved();
-            }
-        };
-
-        const onEasyPasswordSaved = () => {
-            window.ApiClient.getUser(userId).then(function (user) {
-                if (!user.Configuration) {
-                    throw new Error('Unexpected null user.Configuration');
-                }
-
-                if (!user.Id) {
-                    throw new Error('Unexpected null user.Id');
-                }
-
-                user.Configuration.EnableLocalPassword = (page.querySelector('.chkEnableLocalEasyPassword') as HTMLInputElement).checked;
-                window.ApiClient.updateUserConfiguration(user.Id, user.Configuration).then(function () {
-                    loading.hide();
-                    toast(globalize.translate('SettingsSaved'));
-
-                    loadUser();
-                });
+                loadUser();
             });
-        };
+        });
+    };
 
-        const resetEasyPassword = () => {
-            const msg = globalize.translate('PinCodeResetConfirmation');
-
-            confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
-                loading.show();
-                window.ApiClient.resetEasyPassword(userId).then(function () {
-                    loading.hide();
-                    Dashboard.alert({
-                        message: globalize.translate('PinCodeResetComplete'),
-                        title: globalize.translate('HeaderPinCodeReset')
-                    });
-                    loadUser();
-                });
-            });
-        };
-
-        const resetPassword = () => {
-            const msg = globalize.translate('PasswordResetConfirmation');
-            confirm(msg, globalize.translate('ResetPassword')).then(function () {
-                loading.show();
-                window.ApiClient.resetUserPassword(userId).then(function () {
-                    loading.hide();
-                    Dashboard.alert({
-                        message: globalize.translate('PasswordResetComplete'),
-                        title: globalize.translate('ResetPassword')
-                    });
-                    loadUser();
-                });
-            });
-        };
-
-        (page.querySelector('.updatePasswordForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-        (page.querySelector('.localAccessForm') as HTMLFormElement).addEventListener('submit', onLocalAccessSubmit);
-
-        (page.querySelector('#btnResetEasyPassword') as HTMLButtonElement).addEventListener('click', resetEasyPassword);
-        (page.querySelector('#btnResetPassword') as HTMLButtonElement).addEventListener('click', resetPassword);
+    useEffect(() => {
+        loadUser();
     }, [loadUser, userId]);
 
     return (
@@ -243,16 +242,18 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                     </div>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
                             title='Save'
+                            onClick={onSubmit}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnResetPassword'
                             className='raised button-cancel block hide'
                             title='ResetPassword'
+                            onClick={resetPassword}
                         />
                     </div>
                 </div>
@@ -290,16 +291,18 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
                         </div>
                     </div>
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
                             title='Save'
+                            onClick={onLocalAccessSubmit}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnResetEasyPassword'
                             className='raised button-cancel block hide'
                             title='ButtonResetEasyPassword'
+                            onClick={resetEasyPassword}
                         />
                     </div>
                 </div>
