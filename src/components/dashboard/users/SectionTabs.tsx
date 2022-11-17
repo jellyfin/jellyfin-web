@@ -1,49 +1,40 @@
-import React, { FunctionComponent } from 'react';
+import classNames from 'classnames';
+import React, { FC } from 'react';
+import LinkButton from '../../../elements/emby-button/LinkButton';
 import globalize from '../../../scripts/globalize';
+import Dashboard from '../../../utils/dashboard';
 
-type IProps = {
+const tabs = [
+    { name: 'Profile', page: 'useredit' },
+    { name: 'TabAccess', page: 'userlibraryaccess' },
+    { name: 'TabParentalControl', page: 'userparentalcontrol' },
+    { name: 'HeaderPassword', page: 'userpassword' }
+];
+
+interface SectionTabsProps {
     activeTab: string;
 }
 
-const createLinkElement = (activeTab: string) => ({
-    __html: `<a href="#"
-        is="emby-linkbutton"
-        data-role="button"
-        class="${activeTab === 'useredit' ? 'ui-btn-active' : ''}"
-        onclick="Dashboard.navigate('useredit.html', true);">
-        ${globalize.translate('Profile')}
-    </a>
-    <a href="#"
-        is="emby-linkbutton"
-        data-role="button"
-        class="${activeTab === 'userlibraryaccess' ? 'ui-btn-active' : ''}"
-        onclick="Dashboard.navigate('userlibraryaccess.html', true);">
-        ${globalize.translate('TabAccess')}
-    </a>
-    <a href="#"
-        is="emby-linkbutton"
-        data-role="button"
-        class="${activeTab === 'userparentalcontrol' ? 'ui-btn-active' : ''}"
-        onclick="Dashboard.navigate('userparentalcontrol.html', true);">
-        ${globalize.translate('TabParentalControl')}
-    </a>
-    <a href="#"
-        is="emby-linkbutton"
-        data-role="button"
-        class="${activeTab === 'userpassword' ? 'ui-btn-active' : ''}"
-        onclick="Dashboard.navigate('userpassword.html', true);">
-        ${globalize.translate('HeaderPassword')}
-    </a>`
-});
-
-const SectionTabs: FunctionComponent<IProps> = ({activeTab}: IProps) => {
+const SectionTabs: FC<SectionTabsProps> = ({ activeTab }) => {
     return (
         <div
             data-role='controlgroup'
             data-type='horizontal'
             className='localnav'
-            dangerouslySetInnerHTML={createLinkElement(activeTab)}
-        />
+        >
+            {
+                tabs.map((tab, index) =>
+                    <LinkButton
+                        key={index}
+                        data-role='button'
+                        className={classNames(activeTab === tab.page ? 'ui-btn-active' : '')}
+                        onClick={() => Dashboard.navigate(`${tab.page}.html`, true)}
+                    >
+                        {globalize.translate(tab.name)}
+                    </LinkButton>
+                )
+            }
+        </div>
     );
 };
 
