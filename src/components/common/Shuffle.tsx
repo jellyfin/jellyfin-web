@@ -19,13 +19,6 @@ const Shuffle: FC<ShuffleProps> = ({ topParentId }) => {
         });
     };
 
-    /*useEffect(() => {
-        const btnShuffle = element.current?.querySelector('.btnShuffle');
-        if (btnShuffle) {
-            btnShuffle.addEventListener('click', shuffle);
-        }
-    }, [itemsResult.TotalRecordCount, shuffle]);*/
-
     return (
         <IconButton
             type='button'
