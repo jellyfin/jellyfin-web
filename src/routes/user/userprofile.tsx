@@ -10,12 +10,13 @@ import confirm from '../../components/confirm/confirm';
 import UserPasswordForm from '../../components/dashboard/users/UserPasswordForm';
 import loading from '../../components/loading/loading';
 import toast from '../../components/toast/toast';
-import { getParameterByName } from '../../utils/url';
 import Page from '../../components/Page';
 import Button from '../../elements/emby-button/Button';
+import { useSearchParams } from 'react-router-dom';
 
 const UserProfile: FC = () => {
-    const userId = getParameterByName('userId');
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId') || '';
     const [ userName, setUserName ] = useState('');
 
     const element = useRef<HTMLDivElement>(null);
@@ -69,13 +70,7 @@ const UserProfile: FC = () => {
     }, [userId]);
 
     const onBtnAddImage = () => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-        const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
+        const uploadImage = element.current?.querySelector('#uploadImage') as HTMLInputElement;
         uploadImage.value = '';
         uploadImage.click();
     };

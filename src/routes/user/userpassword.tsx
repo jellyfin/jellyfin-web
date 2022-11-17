@@ -1,28 +1,29 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import SectionTabs from '../../components/dashboard/users/SectionTabs';
 import UserPasswordForm from '../../components/dashboard/users/UserPasswordForm';
-import { getParameterByName } from '../../utils/url';
 import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import Page from '../../components/Page';
 import loading from '../../components/loading/loading';
+import { useSearchParams } from 'react-router-dom';
 
 const UserPassword: FC = () => {
-    const userId = getParameterByName('userId');
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId') || '';
     const [ userName, setUserName ] = useState('');
 
-    const loadUser = useCallback(() => {
-        loading.show();
-        window.ApiClient.getUser(userId).then(function (user) {
-            if (!user.Name) {
-                throw new Error('Unexpected null user.Name');
-            }
-            setUserName(user.Name);
-            loading.hide();
-        });
-    }, [userId]);
     useEffect(() => {
+        const loadUser = () => {
+            loading.show();
+            window.ApiClient.getUser(userId).then(function (user) {
+                if (!user.Name) {
+                    throw new Error('Unexpected null user.Name');
+                }
+                setUserName(user.Name);
+                loading.hide();
+            });
+        };
         loadUser();
-    }, [loadUser]);
+    }, [userId]);
 
     return (
         <Page
