@@ -9,12 +9,12 @@ import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import SectionTabs from '../../components/dashboard/users/SectionTabs';
 import loading from '../../components/loading/loading';
 import toast from '../../components/toast/toast';
-import { getParameterByName } from '../../utils/url';
 import escapeHTML from 'escape-html';
 import SelectElement from '../../elements/SelectElement';
 import Page from '../../components/Page';
 import Button from '../../elements/emby-button/Button';
 import LinkButton from '../../elements/emby-button/LinkButton';
+import { useSearchParams } from 'react-router-dom';
 
 type ResetProvider = AuthProvider & {
     checkedAttribute: string
@@ -26,6 +26,8 @@ type AuthProvider = {
 }
 
 const UserEdit: FC = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId') || '';
     const [ userData, setUserData ] = useState<UserDto>({});
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const [ authProviders, setAuthProviders ] = useState<AuthProvider[]>([]);
@@ -42,10 +44,9 @@ const UserEdit: FC = () => {
         select.dispatchEvent(evt);
     };
 
-    const getUser = () => {
-        const userId = getParameterByName('userId');
+    const getUser = useCallback(() => {
         return window.ApiClient.getUser(userId);
-    };
+    }, [userId]);
 
     const loadAuthProviders = useCallback((user, providers) => {
         const page = element.current;
@@ -251,7 +252,7 @@ const UserEdit: FC = () => {
             setUserData(user);
             loadUser(user);
         });
-    }, [loadUser]);
+    }, [getUser, loadUser]);
 
     useEffect(() => {
         const page = element.current;

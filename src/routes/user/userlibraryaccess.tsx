@@ -6,12 +6,12 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import toast from '../../components/toast/toast';
 import SectionTabs from '../../components/dashboard/users/SectionTabs';
-import { getParameterByName } from '../../utils/url';
 import SectionTitleContainer from '../../elements/SectionTitleContainer';
 import AccessContainer from '../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../elements/CheckBoxElement';
 import Page from '../../components/Page';
 import Button from '../../elements/emby-button/Button';
+import { useSearchParams } from 'react-router-dom';
 
 type ItemsArr = {
     Name?: string;
@@ -21,6 +21,8 @@ type ItemsArr = {
 }
 
 const UserLibraryAccess: FC = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId') || '';
     const [ userName, setUserName ] = useState('');
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -139,7 +141,6 @@ const UserLibraryAccess: FC = () => {
 
     const loadData = useCallback(() => {
         loading.show();
-        const userId = getParameterByName('userId');
         const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
         const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -149,11 +150,10 @@ const UserLibraryAccess: FC = () => {
         Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
             loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
         });
-    }, [loadUser]);
+    }, [loadUser, userId]);
 
     const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         loading.show();
-        const userId = getParameterByName('userId');
         window.ApiClient.getUser(userId).then(function (result) {
             saveUser(result);
         });
