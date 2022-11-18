@@ -7,7 +7,6 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { appRouter } from '../appRouter';
 import { useApi } from '../../hooks/useApi';
-import { useUser } from '../../hooks/useUser';
 import globalize from '../../scripts/globalize';
 
 import '../../elements/emby-button/emby-button';
@@ -30,8 +29,7 @@ type SearchSuggestionsProps = {
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }: SearchSuggestionsProps) => {
     const [ suggestions, setSuggestions ] = useState<BaseItemDto[]>([]);
-    const api = useApi();
-    const user = useUser();
+    const { api, user } = useApi();
 
     useEffect(() => {
         if (api && user?.Id) {
@@ -49,7 +47,7 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
                 })
                 .then(result => setSuggestions(result.data.Items || []));
         }
-    }, [api, parentId, user?.Id]);
+    }, [ api, parentId, user ]);
 
     return (
         <div
