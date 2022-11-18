@@ -43,7 +43,7 @@ function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
     Promise.all(promises).then(
         responses => {
             const folders = responses[0];
-            const parentPath = responses[1] || '';
+            const parentPath = (responses[1] ? JSON.parse(responses[1]) : '') || '';
             let html = '';
 
             page.querySelector('.results').scrollTop = 0;
