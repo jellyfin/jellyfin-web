@@ -1675,5 +1675,6 @@
     "EnableCardLayout": "Hiển thị CardBox trực quan",
     "MessageNoItemsAvailable": "Không có mục nào hiện có sẵn.",
     "MessageNoFavoritesAvailable": "Không có mục yêu thích hiện có sẵn.",
-    "MessageRenameMediaFolder": "Đổi tên thư viện phương tiện sẽ làm mất mọi dữ liệu mô tả, hãy tiến hành thận trọng."
+    "MessageRenameMediaFolder": "Đổi tên thư viện phương tiện sẽ làm mất mọi dữ liệu mô tả, hãy tiến hành thận trọng.",
+    "Unreleased": "Chưa phát hành"
 }
