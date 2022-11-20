@@ -1630,5 +1630,6 @@
     "RememberSubtitleSelections": "Määra subtiitrid eelmise üksuse põhjal",
     "RememberSubtitleSelectionsHelp": "Proovi valida subtiitrid, mis sobivad kõige paremini eelmise videoga.",
     "ScreenResolution": "Ekraanilahutus",
-    "AudioIsExternal": "Heliriba on väline"
+    "AudioIsExternal": "Heliriba on väline",
+    "VideoBitrateNotSupported": "Video bitikiirust ei toetata"
 }
