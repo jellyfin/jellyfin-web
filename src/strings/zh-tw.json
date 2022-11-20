@@ -1591,5 +1591,8 @@
     "GoogleCastUnsupported": "不支援Google Cast",
     "EnableRewatchingNextUpHelp": "在「接下來」中顯示已觀看的影集。",
     "EnableRewatchingNextUp": "在接下來介面中啟用再看一次",
-    "Digital": "數位的"
+    "Digital": "數位的",
+    "ButtonBackspace": "回退格",
+    "ButtonClose": "關閉",
+    "ButtonSpace": "空格"
 }
