@@ -38,6 +38,16 @@
     color: #888;
 }
 
+.listItemMediaInfo + .timerIndicator {
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
+}
+
 .indicator + .indicator {
     [dir="ltr"] & {
         margin-left: 0.25em;

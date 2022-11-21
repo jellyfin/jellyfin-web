@@ -96,33 +96,26 @@ function getContextMenuOptions(item, user, button) {
     };
 }
 
-function getProgramScheduleHtml(items) {
-    let html = '';
-
-    html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
-    html += listView.getListViewHtml({
+function getProgramScheduleHtml(items, action) {
+    return listView.getListViewHtml({
         items: items,
         enableUserDataButtons: false,
         image: true,
         imageSource: 'channel',
         showProgramDateTime: true,
         showChannel: false,
-        mediaInfo: false,
-        action: 'none',
+        mediaInfo: true,
+        runtime: false,
+        action: action,
         moreButton: false,
         recordButton: false
     });
-
-    html += '</div>';
-
-    return html;
 }
 
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
     apiClient.getLiveTvTimers({
         UserId: apiClient.getCurrentUserId(),
         ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Thumb',
         SortBy: 'StartDate',
         EnableTotalRecordCount: false,
         EnableUserData: false,
@@ -133,8 +126,8 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
             result.Items = [];
         }
 
-        const html = getProgramScheduleHtml(result.Items);
-        const scheduleTab = page.querySelector('.seriesTimerSchedule');
+        const html = getProgramScheduleHtml(result.Items, 'none');
+        const scheduleTab = page.querySelector('#seriesTimerSchedule');
         scheduleTab.innerHTML = html;
         imageLoader.lazyChildren(scheduleTab);
     });
@@ -162,13 +155,13 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
             });
         });
 
-        page.querySelector('.seriesTimerScheduleSection').classList.remove('hide');
+        page.querySelector('#seriesTimerScheduleSection').classList.remove('hide');
         hideAll(page, 'btnCancelSeriesTimer', true);
         renderSeriesTimerSchedule(page, apiClient, item.Id);
         return;
     }
 
-    page.querySelector('.seriesTimerScheduleSection').classList.add('hide');
+    page.querySelector('#seriesTimerScheduleSection').classList.add('hide');
     hideAll(page, 'btnCancelSeriesTimer');
 }
 
@@ -1599,13 +1592,13 @@ function renderSeriesSchedule(page, item) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     apiClient.getLiveTvPrograms({
         UserId: apiClient.getCurrentUserId(),
+        ImageTypeLimit: 1,
         HasAired: false,
         SortBy: 'StartDate',
         EnableTotalRecordCount: false,
-        EnableImages: false,
-        ImageTypeLimit: 0,
         Limit: 50,
         EnableUserData: false,
+        Fields: 'ChannelInfo,ChannelImage',
         LibrarySeriesId: item.Id
     }).then(function (result) {
         if (result.Items.length) {
@@ -1614,17 +1607,11 @@ function renderSeriesSchedule(page, item) {
             page.querySelector('#seriesScheduleSection').classList.add('hide');
         }
 
-        page.querySelector('#seriesScheduleList').innerHTML = listView.getListViewHtml({
-            items: result.Items,
-            enableUserDataButtons: false,
-            showParentTitle: false,
-            image: false,
-            showProgramDateTime: true,
-            mediaInfo: false,
-            showTitle: true,
-            moreButton: false,
-            action: 'programdialog'
-        });
+        const html = getProgramScheduleHtml(result.Items, 'programdialog');
+        const scheduleTab = page.querySelector('#seriesScheduleList');
+        scheduleTab.innerHTML = html;
+        imageLoader.lazyChildren(scheduleTab);
+
         loading.hide();
     });
 }
