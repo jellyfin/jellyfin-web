@@ -1133,7 +1133,7 @@
     "ClearQueue": "Očisti red",
     "Bwdif": "BWDIF",
     "ButtonPlayer": "Reproduktor",
-    "AllowTonemappingHelp": "Mapiranje tona može pretvoriti dinamički raspon videozapisa iz HDR u SDR pri tome održavajući detalje i boju slike, što je prilično bitno za reprezentaciju originalne scene. Trenutno radi samo kod transkodiranja videozapisa sa ugrađenim HDR10 ili HLG metapodacima. Ako reprodukcija nije glatka ili je neuspješna, razmotrite isključivanje pripadnog hardverskog dekodera.",
+    "AllowTonemappingHelp": "Tonsko preslikavanje može transformirati dinamički raspon videozapisa iz HDR u SDR zadržavajući detalje slike i boje, što su vrlo važne informacije za predstavljanje izvorne scene. Trenutačno radi samo pri transkodiranju videozapisa s ugrađenim HDR10 ili HLG metapodacima. Ako reprodukcija nije glatka ili ne uspije, razmislite o isključivanju odgovarajućeg hardverskog dekodera HDR10 ili HLG videozapisa. Ovo zahtijeva odgovarajuće OpenCL ili CUDA runtime.",
     "LabelCreateHttpPortMap": "Omogući automatsko mapiranje ulaza za HTTP i HTTPS promet.",
     "LabelChromecastVersion": "Verzija Chromecasta",
     "LabelCertificatePasswordHelp": "Ako Vaš certifikat zahtjeva lozinku, molimo unesite je ovdje.",
