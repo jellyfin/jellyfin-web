@@ -1631,5 +1631,16 @@
     "RememberSubtitleSelectionsHelp": "Proovi valida subtiitrid, mis sobivad kõige paremini eelmise videoga.",
     "ScreenResolution": "Ekraanilahutus",
     "AudioIsExternal": "Heliriba on väline",
-    "VideoBitrateNotSupported": "Video bitikiirust ei toetata"
+    "VideoBitrateNotSupported": "Video bitikiirust ei toetata",
+    "MediaInfoDvLevel": "DV tase",
+    "Scene": "Stseen",
+    "Sample": "Näidis",
+    "ThemeSong": "Tunnusmuusika",
+    "LabelVideoRangeType": "Videovahemiku tüüp:",
+    "VideoRangeTypeNotSupported": "Videovahemiku tüüpi ei toetata",
+    "MediaInfoDvProfile": "DV profiil",
+    "SelectAll": "Vali kõik",
+    "Trailer": "Treiler",
+    "ThemeVideo": "Tunnusvideo",
+    "MediaInfoVideoRangeType": "Videovahemiku tüüp"
 }
