@@ -1662,5 +1662,10 @@
     "RememberSubtitleSelections": "Seleccionar la pista de subtítulos basado en el anterior ítem",
     "RememberAudioSelectionsHelp": "Intentar seleccionar la pista de audio con la más parecida al anterior vídeo.",
     "RememberAudioSelections": "Seleccionar pista de audio basado en el anterior item",
-    "LabelMaxVideoResolution": "Resolución máxima permitida para recodificar vídeo"
+    "LabelMaxVideoResolution": "Resolución máxima permitida para recodificar vídeo",
+    "IgnoreDts": "Ignorar DTS (decoding timestamp)",
+    "MessageNoItemsAvailable": "No hay elementos disponibles.",
+    "IgnoreDtsHelp": "Deshabilitar esta opción puede producir algunos problemas, por ejemplo: pérdida del audio en canales con distintas pistas de audio y video.",
+    "MessageNoFavoritesAvailable": "No hay favoritos disponibles.",
+    "MessageRenameMediaFolder": "Renombrar una biblioteca resultará en la pérdida de metadatos, proceda con precaución."
 }

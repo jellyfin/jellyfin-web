@@ -57,6 +57,7 @@
  - [Meet Pandya](https://github.com/meet-k-pandya)
  - [Peter Spenler](https://github.com/peterspenler)
  - [Aimekram](https://github.com/Aimekram)
+ - [Vankerkom](https://github.com/vankerkom)
 
 # Emby Contributors
 

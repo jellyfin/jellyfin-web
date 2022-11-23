@@ -1680,5 +1680,9 @@
     "IgnoreDts": "Ignorovat DTS (časové razítko dekódování)",
     "OptionDateEpisodeAdded": "Datum přidání epizody",
     "OptionDateShowAdded": "Datum přidání pořadu",
-    "MessageRenameMediaFolder": "Přejmenování knihovny médií způsobí ztrátu všech metadat, postupujte proto s opatrností."
+    "MessageRenameMediaFolder": "Přejmenování knihovny médií způsobí ztrátu všech metadat, postupujte proto s opatrností.",
+    "EnableCardLayout": "Zobrazení jako kartotéka",
+    "Unreleased": "Dosud nevydáno",
+    "MessageNoItemsAvailable": "Momentálně nejsou k dispozici žádné položky.",
+    "MessageNoFavoritesAvailable": "Momentálně nejsou k dispozici žádné oblíbené položky."
 }

@@ -1679,5 +1679,10 @@
     "OptionDateShowAdded": "Dátum pridania seriálu",
     "OptionDateEpisodeAdded": "Dátum pridania epizódy",
     "IgnoreDtsHelp": "Vypnutím sa môžu vyriešiť niektoré problémy, napr. chýbajúci zvuk pri kanáloch so samostatnými zvukovými a video streamami.",
-    "IgnoreDts": "Ignorovať DTS (dekódovacia časová pečiatka)"
+    "IgnoreDts": "Ignorovať DTS (dekódovacia časová pečiatka)",
+    "Unreleased": "Zatiaľ nevydané",
+    "EnableCardLayout": "Zobraziť vizuálny CardBox",
+    "MessageNoItemsAvailable": "Momentálne nie sú k dispozícii žiadne položky.",
+    "MessageNoFavoritesAvailable": "Momentálne nie sú k dispozícii žiadne obľúbené položky.",
+    "MessageRenameMediaFolder": "Premenovanie knižnice medií zapríčiní stratu všetkých metadát, postupujte s opatrnosťou."
 }

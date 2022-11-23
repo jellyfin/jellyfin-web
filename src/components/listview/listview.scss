@@ -122,10 +122,11 @@
     padding: 0.1em 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 400;
 }
 
 .layout-desktop .listItemBodyText {
-    margin: 0.25em 0 0 0;
+    line-height: 1.2em;
 }
 
 .listItemBodyText-nowrap {

@@ -289,7 +289,7 @@ import confirm from '../../components/confirm/confirm';
                 html += '<div class="sessionNowPlayingDetails">';
                 const nowPlayingName = DashboardPage.getNowPlayingName(session);
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
-                html += nowPlayingName.html;
+                html += '<span class="sessionNowPlayingName">' + nowPlayingName.html + '</span>';
                 html += '</div>';
                 html += '<div class="sessionNowPlayingTime">' + escapeHtml(DashboardPage.getSessionNowPlayingTime(session)) + '</div>';
                 html += '</div>';
