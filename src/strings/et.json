@@ -1642,5 +1642,10 @@
     "SelectAll": "Vali kõik",
     "Trailer": "Treiler",
     "ThemeVideo": "Tunnusvideo",
-    "MediaInfoVideoRangeType": "Videovahemiku tüüp"
+    "MediaInfoVideoRangeType": "Videovahemiku tüüp",
+    "Unreleased": "Pole veel välja antud",
+    "BehindTheScenes": "Kulisside taga",
+    "DeletedScene": "Kustutatud stseen",
+    "Interview": "Intervjuu",
+    "EnableSplashScreen": "Luba käivituskuva"
 }
