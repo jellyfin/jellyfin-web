@@ -1676,5 +1676,12 @@
     "MediaInfoElPresentFlag": "Sinalizador de predefinição DV",
     "MediaInfoDvBlSignalCompatibilityId": "ID de compatibilidade do sinal DV bl",
     "MediaInfoBlPresentFlag": "Sinalizador predefinido DV bl",
-    "MediaInfoRpuPresentFlag": "Sinalizador de predefinição de rpu DV"
+    "MediaInfoRpuPresentFlag": "Sinalizador de predefinição de rpu DV",
+    "Unreleased": "Ainda não lançado",
+    "OptionDateShowAdded": "Data de exibição adicionada",
+    "OptionDateEpisodeAdded": "Data do episódio adicionado",
+    "MessageNoItemsAvailable": "Nenhum item está disponível no momento.",
+    "MessageNoFavoritesAvailable": "Nenhum favorito está disponível no momento.",
+    "MessageRenameMediaFolder": "Renomear uma biblioteca de mídia fará com que todos metadados se perda, prossiga com cautela",
+    "EnableCardLayout": "Exibir cartão visual"
 }
