@@ -130,7 +130,7 @@
     "DetectingDevices": "Apparaten detecteren",
     "DeviceAccessHelp": "Dit geldt alleen voor apparaten die uniek geïdentificeerd kunnen worden en voorkomen niet toegang via een webbrowser. Filteren van apparaat toegang voor gebruikers voorkomt dat zij nieuwe apparaten gebruiken totdat deze hier zijn goedgekeurd.",
     "DirectPlaying": "Direct afspelen",
-    "DirectStreamHelp1": "De resolutie en codec wordt ondersteund door het apparaat, maar het audioformaat (DTS, Dolby TrueHD, etc.) of nummer van audiokanalen wordt niet ondersteund. De stream zal zonder kwaliteitsverlies worden verpakt voor deze naar het apparaat gestuurd wordt. Alleen de audio wordt geconverteerd.",
+    "DirectStreamHelp1": "De videostream wordt ondersteund door het apparaat, maar het audioformaat (DTS, Dolby TrueHD, etc.) of aantal audiokanalen wordt niet ondersteund. De videostream zal zonder kwaliteitsverlies worden verpakt voor deze naar het apparaat gestuurd wordt. Alleen de audio wordt geconverteerd.",
     "DirectStreamHelp2": "Direct streamen van een bestand gebruikt weinig processorkracht zonder verlies van beeldkwaliteit.",
     "DirectStreaming": "Direct streamen",
     "Director": "Regiseur",
