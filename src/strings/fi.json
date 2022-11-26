@@ -1244,7 +1244,7 @@
     "LabelTVHomeScreen": "Televisiotilan aloitusnäyttö:",
     "LabelHomeScreenSectionValue": "Aloitusnäyttö-osio {0}:",
     "LabelHDHomerunPortRangeHelp": "Rajoittaa HD Homerun -laitteiden UDP-porttialueen tähän arvoon (oletus on 1024 - 65535).",
-    "LabelExtractChaptersDuringLibraryScanHelp": "Pura kappalekuvat, kun videoita tuodaan kirjastojen kannauksen aikana. Muutoin ne puretaan kappalekuvien ajoitetun tehtävän aikana, jolloin kirjaston säännöllinen skannaus voidaan suorittaa nopeammin.",
+    "LabelExtractChaptersDuringLibraryScanHelp": "Pura kappalekuvat, kun videoita tuodaan kirjastojen skannauksen aikana. Muutoin ne puretaan kappalekuvien ajoitetun tehtävän aikana, jolloin kirjaston säännöllinen skannaus voidaan suorittaa nopeammin.",
     "LabelHDHomerunPortRange": "HDHomeRun -portin alue:",
     "LabelH265Crf": "H.265-koodauksen CRF:",
     "LabelGroupMoviesIntoCollectionsHelp": "Kokoelmiin kuuluvat elokuvat näytetään elokuvalistauksissa kokoelmiin ryhmiteltyinä.",
