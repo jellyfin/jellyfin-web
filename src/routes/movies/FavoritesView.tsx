@@ -1,5 +1,4 @@
 import React, { FC, useCallback } from 'react';
-
 import ViewItemsContainer from '../../components/common/ViewItemsContainer';
 import { LibraryViewProps } from '../../types/interface';
 

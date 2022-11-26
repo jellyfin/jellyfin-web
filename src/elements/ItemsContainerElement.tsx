@@ -1,3 +1,4 @@
+import '../elements/emby-itemscontainer/emby-itemscontainer';
 import React, { FC } from 'react';
 
 const createElement = ({ className, dataId }: IProps) => ({

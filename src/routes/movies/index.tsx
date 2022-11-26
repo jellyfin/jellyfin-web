@@ -1,11 +1,5 @@
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-button/emby-button';
-
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
 import * as mainTabsManager from '../../components/maintabsmanager';
 import Page from '../../components/Page';
 import globalize from '../../scripts/globalize';

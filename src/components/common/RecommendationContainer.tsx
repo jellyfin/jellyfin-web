@@ -6,12 +6,10 @@ import escapeHTML from 'escape-html';
 import SectionContainer from './SectionContainer';
 
 interface RecommendationContainerProps {
-    getPortraitShape: () => string;
-    enableScrollX: () => boolean;
     recommendation?: RecommendationDto;
 }
 
-const RecommendationContainer: FC<RecommendationContainerProps> = ({ getPortraitShape, enableScrollX, recommendation = {} }) => {
+const RecommendationContainer: FC<RecommendationContainerProps> = ({ recommendation = {} }) => {
     let title = '';
 
     switch (recommendation.RecommendationType) {
@@ -36,10 +34,9 @@ const RecommendationContainer: FC<RecommendationContainerProps> = ({ getPortrait
 
     return <SectionContainer
         sectionTitle={escapeHTML(title)}
-        enableScrollX={enableScrollX}
         items={recommendation.Items || []}
         cardOptions={{
-            shape: getPortraitShape(),
+            shape: 'overflowPortrait',
             showYear: true
         }}
     />;

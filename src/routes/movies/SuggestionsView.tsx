@@ -1,7 +1,5 @@
-import type { BaseItemDto, BaseItemDtoQueryResult, RecommendationDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, RecommendationDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-
-import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
@@ -11,21 +9,9 @@ import { LibraryViewProps } from '../../types/interface';
 
 const SuggestionsView: FC<LibraryViewProps> = ({topParentId}) => {
     const [ latestItems, setLatestItems ] = useState<BaseItemDto[]>([]);
-    const [ resumeResult, setResumeResult ] = useState<BaseItemDtoQueryResult>({});
+    const [ resumeItems, setResumeItems ] = useState<BaseItemDto[]>([]);
     const [ recommendations, setRecommendations ] = useState<RecommendationDto[]>([]);
     const element = useRef<HTMLDivElement>(null);
-
-    const enableScrollX = useCallback(() => {
-        return !layoutManager.desktop;
-    }, []);
-
-    const getPortraitShape = useCallback(() => {
-        return enableScrollX() ? 'overflowPortrait' : 'portrait';
-    }, [enableScrollX]);
-
-    const getThumbShape = useCallback(() => {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-    }, [enableScrollX]);
 
     const autoFocus = useCallback((page) => {
         import('../../components/autoFocuser').then(({default: autoFocuser}) => {
@@ -51,7 +37,7 @@ const SuggestionsView: FC<LibraryViewProps> = ({topParentId}) => {
             EnableTotalRecordCount: false
         };
         window.ApiClient.getItems(userId, options).then(result => {
-            setResumeResult(result);
+            setResumeItems(result.Items || []);
 
             loading.hide();
             autoFocus(page);
@@ -119,23 +105,32 @@ const SuggestionsView: FC<LibraryViewProps> = ({topParentId}) => {
 
     return (
         <div ref={element}>
+
             <SectionContainer
                 sectionTitle={globalize.translate('HeaderContinueWatching')}
-                enableScrollX={enableScrollX}
-                items={resumeResult.Items || []}
+                items={resumeItems}
                 cardOptions={{
+                    scalable: true,
+                    overlayPlayButton: true,
+                    showTitle: true,
+                    centerText: true,
+                    cardLayout: false,
                     preferThumb: true,
-                    shape: getThumbShape(),
+                    shape: 'overflowBackdrop',
                     showYear: true
                 }}
             />
 
             <SectionContainer
                 sectionTitle={globalize.translate('HeaderLatestMovies')}
-                enableScrollX={enableScrollX}
                 items={latestItems}
                 cardOptions={{
-                    shape: getPortraitShape(),
+                    scalable: true,
+                    overlayPlayButton: true,
+                    showTitle: true,
+                    centerText: true,
+                    cardLayout: false,
+                    shape: 'overflowPortrait',
                     showYear: true
                 }}
             />
@@ -144,7 +139,10 @@ const SuggestionsView: FC<LibraryViewProps> = ({topParentId}) => {
                 <h1>{globalize.translate('MessageNothingHere')}</h1>
                 <p>{globalize.translate('MessageNoMovieSuggestionsAvailable')}</p>
             </div> : recommendations.map((recommendation, index) => {
-                return <RecommendationContainer key={index} getPortraitShape={getPortraitShape} enableScrollX={enableScrollX} recommendation={recommendation} />;
+                return <RecommendationContainer
+                    key={index}
+                    recommendation={recommendation}
+                />;
             })}
         </div>
     );
