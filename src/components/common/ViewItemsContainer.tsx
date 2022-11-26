@@ -12,7 +12,7 @@ import Shuffle from './Shuffle';
 import Sort from './Sort';
 import NewCollection from './NewCollection';
 import globalize from '../../scripts/globalize';
-import { CardOptions, ViewQuerySettings } from '../../types/interface';
+import { CardOptions, Query, ViewQuerySettings } from '../../types/interface';
 import ServerConnections from '../ServerConnections';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import listview from '../listview/listview';
@@ -21,6 +21,8 @@ import cardBuilder from '../cardbuilder/cardBuilder';
 interface ViewItemsContainerProps {
     topParentId: string | null;
     isBtnShuffleEnabled?: boolean;
+    isBtnSelectViewEnabled?: boolean;
+    isBtnSortEnabled?: boolean;
     isBtnFilterEnabled?: boolean;
     isBtnNewCollectionEnabled?: boolean;
     isAlphaPickerEnabled?: boolean;
@@ -95,36 +97,50 @@ const getSortMenuOptions = () => {
     }];
 };
 
-const defaultViewQuerySettings: ViewQuerySettings = {
-    showTitle: true,
-    showYear: true,
-    imageType: 'primary',
-    viewType: '',
-    cardLayout: false,
-    SortBy: getDefaultSortBy(),
-    SortOrder: 'Ascending',
-    IsPlayed: false,
-    IsUnplayed: false,
-    IsFavorite: false,
-    IsResumable: false,
-    Is4K: null,
-    IsHD: null,
-    IsSD: null,
-    Is3D: null,
-    VideoTypes: '',
-    SeriesStatus: '',
-    HasSubtitles: null,
-    HasTrailer: null,
-    HasSpecialFeature: null,
-    HasThemeSong: null,
-    HasThemeVideo: null,
-    GenreIds: '',
-    StartIndex: 0
+const getDefaultViewQuerySettings = (getBasekey: string) => {
+    let imageType;
+    let showYear;
+
+    if (getBasekey === 'studios') {
+        imageType = 'thumb';
+        showYear = false;
+    } else {
+        imageType = 'primary';
+    }
+
+    return {
+        showTitle: true,
+        showYear: showYear,
+        imageType: imageType,
+        viewType: '',
+        cardLayout: false,
+        SortBy: getDefaultSortBy(),
+        SortOrder: 'Ascending',
+        IsPlayed: false,
+        IsUnplayed: false,
+        IsFavorite: false,
+        IsResumable: false,
+        Is4K: null,
+        IsHD: null,
+        IsSD: null,
+        Is3D: null,
+        VideoTypes: '',
+        SeriesStatus: '',
+        HasSubtitles: null,
+        HasTrailer: null,
+        HasSpecialFeature: null,
+        HasThemeSong: null,
+        HasThemeVideo: null,
+        GenreIds: '',
+        StartIndex: 0
+    };
 };
 
 const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
     topParentId,
     isBtnShuffleEnabled = false,
+    isBtnSelectViewEnabled = true,
+    isBtnSortEnabled = true,
     isBtnFilterEnabled = true,
     isBtnNewCollectionEnabled = false,
     isAlphaPickerEnabled = true,
@@ -140,7 +156,9 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
 
     const [viewQuerySettings, setViewQuerySettings] = useLocalStorage<ViewQuerySettings>(
         `viewQuerySettings - ${getSettingsKey()}`,
-        defaultViewQuerySettings
+        {
+            ...getDefaultViewQuerySettings(getBasekey())
+        }
     );
 
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});
@@ -151,6 +169,10 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
         const itemType = getItemTypes().join(',');
         if (itemType === 'Movie' || itemType === 'BoxSet') {
             return 'movies';
+        }
+
+        if (itemType === 'Series' || itemType === 'Season' || itemType === 'Episode') {
+            return 'tvshows';
         }
 
         return null;
@@ -193,10 +215,15 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             overlayText: !viewQuerySettings.showTitle
         };
 
+        if (getBasekey() === 'episodes') {
+            cardOptions.showParentTitle = viewQuerySettings.showTitle;
+        }
+
         cardOptions.items = itemsResult.Items || [];
 
         return cardOptions;
     }, [
+        getBasekey,
         getContext,
         itemsResult.Items,
         viewQuerySettings.cardLayout,
@@ -227,35 +254,50 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
         return html;
     }, [getCardOptions, getContext, itemsResult.Items, getNoItemsMessage, viewQuerySettings.imageType]);
 
-    const getQuery = useCallback(() => {
-        let fields = 'BasicSyncInfo,MediaSourceCount';
+    const getFields = useCallback(() => {
+        const fields = [];
+
+        if (getBasekey() !== 'studios') {
+            fields.push('BasicSyncInfo', 'MediaSourceCount');
+        }
 
         if (viewQuerySettings.imageType === 'primary') {
-            fields += ',PrimaryImageAspectRatio';
+            fields.push('PrimaryImageAspectRatio');
+        }
+
+        if (getBasekey() === 'studios') {
+            fields.push('DateCreated', 'PrimaryImageAspectRatio');
         }
 
         if (viewQuerySettings.showYear) {
-            fields += ',ProductionYear';
+            fields.push('ProductionYear');
         }
+        return fields.join(',');
+    }, [getBasekey, viewQuerySettings.imageType, viewQuerySettings.showYear]);
 
-        const queryFilters: string[] = [];
+    const getFilters = useCallback(() => {
+        const filters = [];
 
         if (viewQuerySettings.IsPlayed) {
-            queryFilters.push('IsPlayed');
+            filters.push('IsPlayed');
         }
 
         if (viewQuerySettings.IsUnplayed) {
-            queryFilters.push('IsUnplayed');
+            filters.push('IsUnplayed');
         }
 
         if (viewQuerySettings.IsFavorite) {
-            queryFilters.push('IsFavorite');
+            filters.push('IsFavorite');
         }
 
         if (viewQuerySettings.IsResumable) {
-            queryFilters.push('IsResumable');
+            filters.push('IsResumable');
         }
 
+        return filters.length ? filters.join(',') : null;
+    }, [viewQuerySettings.IsFavorite, viewQuerySettings.IsPlayed, viewQuerySettings.IsResumable, viewQuerySettings.IsUnplayed]);
+
+    const getQuery = useCallback(() => {
         let queryIsHD;
 
         if (viewQuerySettings.IsHD) {
@@ -266,12 +308,12 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             queryIsHD = false;
         }
 
-        return {
+        const query: Query = {
             SortBy: viewQuerySettings.SortBy,
             SortOrder: viewQuerySettings.SortOrder,
             IncludeItemTypes: getItemTypes().join(','),
             Recursive: true,
-            Fields: fields,
+            Fields: getFields(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
             Limit: userSettings.libraryPageSize(undefined),
@@ -286,51 +328,62 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             HasSpecialFeature: viewQuerySettings.HasSpecialFeature ? true : null,
             HasThemeSong: viewQuerySettings.HasThemeSong ? true : null,
             HasThemeVideo: viewQuerySettings.HasThemeVideo ? true : null,
-            Filters: queryFilters.length ? queryFilters.join(',') : null,
+            Filters: getFilters(),
             StartIndex: viewQuerySettings.StartIndex,
             NameLessThan: viewQuerySettings.NameLessThan,
             NameStartsWith: viewQuerySettings.NameStartsWith,
             ParentId: topParentId
         };
+
+        if (getBasekey() === 'episodes') {
+            query.IsMissing = false;
+        }
+
+        return query;
     }, [
-        viewQuerySettings.imageType,
-        viewQuerySettings.showYear,
-        viewQuerySettings.IsPlayed,
-        viewQuerySettings.IsUnplayed,
-        viewQuerySettings.IsFavorite,
-        viewQuerySettings.IsResumable,
-        viewQuerySettings.IsHD,
-        viewQuerySettings.IsSD,
-        viewQuerySettings.SortBy,
-        viewQuerySettings.SortOrder,
-        viewQuerySettings.VideoTypes,
+        getBasekey,
+        getFields,
+        getFilters,
+        getItemTypes,
+        topParentId,
         viewQuerySettings.GenreIds,
-        viewQuerySettings.Is4K,
-        viewQuerySettings.Is3D,
-        viewQuerySettings.HasSubtitles,
-        viewQuerySettings.HasTrailer,
         viewQuerySettings.HasSpecialFeature,
+        viewQuerySettings.HasSubtitles,
         viewQuerySettings.HasThemeSong,
         viewQuerySettings.HasThemeVideo,
-        viewQuerySettings.StartIndex,
+        viewQuerySettings.HasTrailer,
+        viewQuerySettings.Is3D,
+        viewQuerySettings.Is4K,
+        viewQuerySettings.IsHD,
+        viewQuerySettings.IsSD,
         viewQuerySettings.NameLessThan,
         viewQuerySettings.NameStartsWith,
-        getItemTypes,
-        getBasekey,
-        topParentId
+        viewQuerySettings.SortBy,
+        viewQuerySettings.SortOrder,
+        viewQuerySettings.StartIndex,
+        viewQuerySettings.VideoTypes
     ]);
 
     const fetchData = useCallback(() => {
         loading.show();
-
         const apiClient = ServerConnections.getApiClient(window.ApiClient.serverId());
+
+        if (getBasekey() === 'studios') {
+            return apiClient.getStudios(
+                apiClient.getCurrentUserId(),
+                {
+                    ...getQuery()
+                }
+            );
+        }
+
         return apiClient.getItems(
             apiClient.getCurrentUserId(),
             {
                 ...getQuery()
             }
         );
-    }, [getQuery]);
+    }, [getBasekey, getQuery]);
 
     const reloadItems = useCallback(() => {
         const page = element.current;
@@ -368,17 +421,17 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
 
                 {isBtnShuffleEnabled && <Shuffle itemsResult={itemsResult} topParentId={topParentId} />}
 
-                <SelectView
+                {isBtnSelectViewEnabled && <SelectView
                     getVisibleViewSettings={getVisibleViewSettings}
                     viewQuerySettings={viewQuerySettings}
                     setViewQuerySettings={setViewQuerySettings}
-                />
+                />}
 
-                <Sort
+                {isBtnSortEnabled && <Sort
                     getSortMenuOptions={getSortMenuOptions}
                     viewQuerySettings={viewQuerySettings}
                     setViewQuerySettings={setViewQuerySettings}
-                />
+                />}
 
                 {isBtnFilterEnabled && <Filter
                     topParentId={topParentId}

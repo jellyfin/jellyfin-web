@@ -1,4 +1,4 @@
-import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import GenresSectionContainer from '../../components/common/GenresSectionContainer';
 import loading from '../../components/loading/loading';
@@ -12,7 +12,7 @@ interface GenresItemsContainerProps {
 }
 
 const GenresItemsContainer: FC<GenresItemsContainerProps> = ({ topParentId, getItemTypes }) => {
-    const [ genresResult, setGenresResult ] = useState<BaseItemDtoQueryResult>({});
+    const [ genresItems, setGenresItems ] = useState<BaseItemDto[]>([]);
 
     const fetchData = useCallback(() => {
         loading.show();
@@ -33,7 +33,7 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({ topParentId, getI
 
     const loadGenres = useCallback(() => {
         fetchData().then((result) => {
-            setGenresResult(result);
+            setGenresItems(result.Items || []);
             loading.hide();
         });
     }, [fetchData]);
@@ -45,13 +45,13 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({ topParentId, getI
     return (
         <>
             {
-                !genresResult.Items?.length ?
+                !genresItems.length ?
                     (
                         <div className='noItemsMessage centerMessage'>
                             <h1>{globalize.translate('MessageNothingHere')}</h1>
                             <p>{globalize.translate('MessageNoGenresAvailable')}</p>
                         </div>
-                    ) : genresResult?.Items.map((genre, index) => (
+                    ) : genresItems.map((genre, index) => (
                         <GenresSectionContainer
                             key={index}
                             topParentId={topParentId}
