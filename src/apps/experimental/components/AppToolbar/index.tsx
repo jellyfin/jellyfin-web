@@ -15,6 +15,7 @@ import globalize from 'scripts/globalize';
 import AppTabs from '../tabs/AppTabs';
 import { isDrawerPath } from '../drawers/AppDrawer';
 import UserMenuButton from './UserMenuButton';
+import RemotePlayButton from './RemotePlayButton';
 
 interface AppToolbarProps {
     isDrawerOpen: boolean
@@ -89,6 +90,8 @@ const AppToolbar: FC<AppToolbarProps> = ({
             {isUserLoggedIn && (
                 <>
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+                        <RemotePlayButton />
+
                         <Tooltip title={globalize.translate('Search')}>
                             <IconButton
                                 size='large'
