@@ -1,6 +1,6 @@
 import type { Api } from '@jellyfin/sdk';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import { ApiClient } from 'jellyfin-apiclient';
+import type { ApiClient, Event } from 'jellyfin-apiclient';
 import React, { createContext, FC, useContext, useEffect, useState } from 'react';
 
 import type ServerConnections from '../components/ServerConnections';
@@ -28,12 +28,12 @@ export const ApiProvider: FC<ApiProviderProps> = ({ connections, children }) => 
     useEffect(() => {
         connections.currentApiClient()
             .getCurrentUser()
-            .then(newUser => udpateApiUser(null, newUser))
+            .then(newUser => updateApiUser(undefined, newUser))
             .catch(err => {
-                console.warn('[ApiProvider] Could not get current user', err);
+                console.info('[ApiProvider] Could not get current user', err);
             });
 
-        const udpateApiUser = (_e: any, newUser: UserDto) => {
+        const updateApiUser = (_e: Event | undefined, newUser: UserDto) => {
             setUser(newUser);
 
             if (newUser.ServerId) {
@@ -46,11 +46,11 @@ export const ApiProvider: FC<ApiProviderProps> = ({ connections, children }) => 
             setUser(undefined);
         };
 
-        events.on(connections, 'localusersignedin', udpateApiUser);
+        events.on(connections, 'localusersignedin', updateApiUser);
         events.on(connections, 'localusersignedout', resetApiUser);
 
         return () => {
-            events.off(connections, 'localusersignedin', udpateApiUser);
+            events.off(connections, 'localusersignedin', updateApiUser);
             events.off(connections, 'localusersignedout', resetApiUser);
         };
     }, [ connections, setLegacyApiClient, setUser ]);
