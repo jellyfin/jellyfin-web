@@ -1,3 +1,4 @@
+import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -7,24 +8,32 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 
 import { ID as UserMenuId } from './AppUserMenu';
 import AppTabs from './tabs/AppTabs';
+import { isDrawerPath } from './drawers/AppDrawer';
 
 interface AppToolbarProps {
+    isDrawerOpen: boolean
+    onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
     onUserButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 const AppToolbar: FC<AppToolbarProps> = ({
+    isDrawerOpen,
+    onDrawerButtonClick,
     onUserButtonClick
 }) => {
     const theme = useTheme();
     const { api, user } = useApi();
     const isUserLoggedIn = Boolean(user);
+    const location = useLocation();
+
+    const isDrawerAvailable = isDrawerPath(location.pathname);
 
     return (
         <Toolbar
@@ -36,6 +45,21 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 }
             }}
         >
+            {isUserLoggedIn && isDrawerAvailable && (
+                <Tooltip title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}>
+                    <IconButton
+                        size='large'
+                        edge='start'
+                        color='inherit'
+                        aria-label={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}
+                        sx={{ mr: 2 }}
+                        onClick={onDrawerButtonClick}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+
             <Box
                 component={Link}
                 to='/'
@@ -64,7 +88,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 </Typography>
             </Box>
 
-            <AppTabs />
+            <AppTabs isDrawerOpen={isDrawerOpen} />
 
             {isUserLoggedIn && (
                 <>

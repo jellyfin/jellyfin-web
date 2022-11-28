@@ -1,10 +1,11 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import ConnectionRequired from '../../../components/ConnectionRequired';
-import ServerContentPage from '../../../components/ServerContentPage';
-import { toAsyncPageRoute } from '../../../components/router/AsyncRoute';
-import { toViewManagerPageRoute } from '../../../components/router/LegacyRoute';
+import ConnectionRequired from 'components/ConnectionRequired';
+import ServerContentPage from 'components/ServerContentPage';
+import { toAsyncPageRoute } from 'components/router/AsyncRoute';
+import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
+
 import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 
