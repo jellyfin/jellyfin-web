@@ -905,6 +905,7 @@
     "LabelSyncPlayLeaveGroupDescription": "Disable SyncPlay",
     "LabelSyncPlayNewGroup": "New group",
     "LabelSyncPlayNewGroupDescription": "Create a new group",
+    "LabelSyncPlayNoGroups": "No groups available",
     "LabelSyncPlayPlaybackDiff": "Playback time difference",
     "LabelSyncPlayResumePlayback": "Resume local playback",
     "LabelSyncPlayResumePlaybackDescription": "Join back group playback",
