@@ -6,7 +6,7 @@ import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
-import './assets/css/site.scss';
+import './styles/site.scss';
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import Events from './utils/events.ts';
@@ -89,13 +89,13 @@ function onGlobalizeInit() {
 
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
-        import('./assets/css/fonts.sized.scss');
+        import('./styles/fonts.sized.scss');
     } else {
         console.debug('using default fonts');
-        import('./assets/css/fonts.scss');
+        import('./styles/fonts.scss');
     }
 
-    import('./assets/css/librarybrowser.scss');
+    import('./styles/librarybrowser.scss');
 
     loadPlugins().then(onAppReady);
 }
@@ -135,7 +135,7 @@ async function onAppReady() {
     console.debug('onAppReady: loading dependencies');
 
     if (browser.iOS) {
-        import('./assets/css/ios.scss');
+        import('./styles/ios.scss');
     }
 
     Events.on(appHost, 'resume', () => {
