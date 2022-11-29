@@ -44,6 +44,11 @@ const KeyNames = {
  */
 const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
+/**
+ * Elements for which navigation should be constrained.
+ */
+const InteractiveElements = ['INPUT', 'TEXTAREA'];
+
 let hasFieldKey = false;
 try {
     hasFieldKey = 'key' in new KeyboardEvent('keydown');
@@ -91,13 +96,21 @@ export function enable() {
 
         switch (key) {
             case 'ArrowLeft':
-                inputManager.handleCommand('left');
+                if (!InteractiveElements.includes(document.activeElement?.tagName)) {
+                    inputManager.handleCommand('left');
+                } else {
+                    capture = false;
+                }
                 break;
             case 'ArrowUp':
                 inputManager.handleCommand('up');
                 break;
             case 'ArrowRight':
-                inputManager.handleCommand('right');
+                if (!InteractiveElements.includes(document.activeElement?.tagName)) {
+                    inputManager.handleCommand('right');
+                } else {
+                    capture = false;
+                }
                 break;
             case 'ArrowDown':
                 inputManager.handleCommand('down');
