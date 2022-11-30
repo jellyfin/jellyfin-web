@@ -274,7 +274,7 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             Fields: fields,
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
-            Limit: userSettings.libraryPageSize(undefined),
+            Limit: userSettings.libraryPageSize(undefined) || undefined,
             IsFavorite: getBasekey() === 'favorites' ? true : null,
             VideoTypes: viewQuerySettings.VideoTypes,
             GenreIds: viewQuerySettings.GenreIds,

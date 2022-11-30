@@ -16,7 +16,7 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
     const totalRecordCount = itemsResult.TotalRecordCount || 0;
     const startIndex = viewQuerySettings.StartIndex || 0;
     const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
-    const showControls = limit < totalRecordCount;
+    const showControls = limit > 0 && limit < totalRecordCount;
     const element = useRef<HTMLDivElement>(null);
 
     const onNextPageClick = useCallback(() => {
