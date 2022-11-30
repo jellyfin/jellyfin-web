@@ -3,13 +3,9 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient, Event } from 'jellyfin-apiclient';
 import React, { createContext, FC, useContext, useEffect, useState } from 'react';
 
-import type ServerConnections from '../components/ServerConnections';
+import ServerConnections from '../components/ServerConnections';
 import events from '../utils/events';
 import { toApi } from '../utils/jellyfin-apiclient/compat';
-
-interface ApiProviderProps {
-    connections: typeof ServerConnections
-}
 
 interface JellyfinApiContext {
     __legacyApiClient__?: ApiClient
@@ -20,13 +16,13 @@ interface JellyfinApiContext {
 export const ApiContext = createContext<JellyfinApiContext>({});
 export const useApi = () => useContext(ApiContext);
 
-export const ApiProvider: FC<ApiProviderProps> = ({ connections, children }) => {
+export const ApiProvider: FC = ({ children }) => {
     const [ legacyApiClient, setLegacyApiClient ] = useState<ApiClient>();
     const [ api, setApi ] = useState<Api>();
     const [ user, setUser ] = useState<UserDto>();
 
     useEffect(() => {
-        connections.currentApiClient()
+        ServerConnections.currentApiClient()
             .getCurrentUser()
             .then(newUser => updateApiUser(undefined, newUser))
             .catch(err => {
@@ -37,7 +33,7 @@ export const ApiProvider: FC<ApiProviderProps> = ({ connections, children }) => 
             setUser(newUser);
 
             if (newUser.ServerId) {
-                setLegacyApiClient(connections.getApiClient(newUser.ServerId));
+                setLegacyApiClient(ServerConnections.getApiClient(newUser.ServerId));
             }
         };
 
@@ -46,14 +42,14 @@ export const ApiProvider: FC<ApiProviderProps> = ({ connections, children }) => 
             setUser(undefined);
         };
 
-        events.on(connections, 'localusersignedin', updateApiUser);
-        events.on(connections, 'localusersignedout', resetApiUser);
+        events.on(ServerConnections, 'localusersignedin', updateApiUser);
+        events.on(ServerConnections, 'localusersignedout', resetApiUser);
 
         return () => {
-            events.off(connections, 'localusersignedin', updateApiUser);
-            events.off(connections, 'localusersignedout', resetApiUser);
+            events.off(ServerConnections, 'localusersignedin', updateApiUser);
+            events.off(ServerConnections, 'localusersignedout', resetApiUser);
         };
-    }, [ connections, setLegacyApiClient, setUser ]);
+    }, [ setLegacyApiClient, setUser ]);
 
     useEffect(() => {
         setApi(legacyApiClient ? toApi(legacyApiClient) : undefined);

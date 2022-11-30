@@ -145,7 +145,7 @@ async function onAppReady() {
 
     ReactDOM.render(
         <StrictMode>
-            <App connections={ServerConnections} history={history} />
+            <App history={history} />
         </StrictMode>,
         document.getElementById('reactRoot')
     );
