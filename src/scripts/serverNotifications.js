@@ -1,12 +1,12 @@
 import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlay from '../components/syncPlay/core';
-import { Events } from 'jellyfin-apiclient';
+import SyncPlay from '../plugins/syncPlay/core';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
 import { appRouter } from '../components/appRouter';
 import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import alert from '../components/alert';
+import Events from '../utils/events.ts';
 
 const serverNotifications = {};
 
@@ -123,19 +123,11 @@ function processGeneralCommand(cmd, apiClient) {
             displayMessage(cmd);
             break;
         case 'ToggleOsd':
-            // todo
-            break;
         case 'ToggleContextMenu':
-            // todo
-            break;
-        case 'TakeScreenShot':
-            // todo
-            break;
         case 'SendKey':
             // todo
             break;
         case 'SendString':
-            // todo
             focusManager.sendText(cmd.Arguments.String);
             break;
         default:

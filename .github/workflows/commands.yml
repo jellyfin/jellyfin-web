@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify as seen
-        uses: peter-evans/create-or-update-comment@v1.4.5
+        uses: peter-evans/create-or-update-comment@5adcb0bb0f9fb3f95ef05400558bdb3f329ee808 # tag=v2.1.0
         with:
           token: ${{ secrets.JF_BOT_TOKEN }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
       - name: Checkout the latest code
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3.1.0
         with:
           token: ${{ secrets.JF_BOT_TOKEN }}
           fetch-depth: 0
       - name: Automatic Rebase
-        uses: cirrus-actions/rebase@1.5
+        uses: cirrus-actions/rebase@6e572f08c244e2f04f9beb85a943eb618218714d # tag=1.7
         env:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}

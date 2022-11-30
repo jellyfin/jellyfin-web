@@ -10,7 +10,7 @@ import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
@@ -289,6 +289,7 @@ import './login.scss';
                 disclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
 
                 for (const elem of disclaimer.querySelectorAll('a')) {
+                    elem.rel = 'noopener noreferrer';
                     elem.target = '_blank';
                     elem.classList.add('button-link');
                     elem.setAttribute('is', 'emby-linkbutton');

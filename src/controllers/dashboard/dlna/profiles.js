@@ -42,7 +42,7 @@ import confirm from '../../../components/confirm/confirm';
             html += '<div class="listItem listItem-border">';
             html += '<span class="listItemIcon material-icons live_tv" aria-hidden="true"></span>';
             html += '<div class="listItemBody two-line">';
-            html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#!/dlnaprofile.html?id=" + profile.Id + "'>";
+            html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#/dlnaprofile.html?id=" + profile.Id + "'>";
             html += '<div>' + escapeHtml(profile.Name) + '</div>';
             html += '</a>';
             html += '</div>';
@@ -80,10 +80,10 @@ import confirm from '../../../components/confirm/confirm';
 
     function getTabs() {
         return [{
-            href: '#!/dlnasettings.html',
+            href: '#/dlnasettings.html',
             name: globalize.translate('Settings')
         }, {
-            href: '#!/dlnaprofiles.html',
+            href: '#/dlnaprofiles.html',
             name: globalize.translate('TabProfiles')
         }];
     }

@@ -1,21 +1,23 @@
 import globalize from '../../../scripts/globalize';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 
 /* eslint-disable indent */
 
     function processForgotPasswordResult(result) {
         if (result.Action == 'ContactAdmin') {
-            return void Dashboard.alert({
+            Dashboard.alert({
                 message: globalize.translate('MessageContactAdminToResetPassword'),
                 title: globalize.translate('ButtonForgotPassword')
             });
+            return;
         }
 
         if (result.Action == 'InNetworkRequired') {
-            return void Dashboard.alert({
+            Dashboard.alert({
                 message: globalize.translate('MessageForgotPasswordInNetworkRequired'),
                 title: globalize.translate('ButtonForgotPassword')
             });
+            return;
         }
 
         if (result.Action == 'PinCode') {
@@ -26,7 +28,7 @@ import Dashboard from '../../../scripts/clientUtils';
             msg += '<br/>';
             msg += result.PinFile;
             msg += '<br/>';
-            return void Dashboard.alert({
+            Dashboard.alert({
                 message: msg,
                 title: globalize.translate('ButtonForgotPassword'),
                 callback: function () {

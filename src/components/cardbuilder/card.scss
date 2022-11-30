@@ -171,6 +171,7 @@ button::-moz-focus-inner {
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+    text-decoration: none;
 }
 
 .cardContent.cardImageContainer {
@@ -301,7 +302,14 @@ button::-moz-focus-inner {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: left;
+
+    [dir="ltr"] & {
+        text-align: left;
+    }
+
+    [dir="rtl"] & {
+        text-align: right;
+    }
 }
 
 .dialog .cardText {
@@ -327,6 +335,7 @@ button::-moz-focus-inner {
     vertical-align: middle;
     font-family: inherit;
     font-size: inherit;
+    text-decoration: none;
 }
 
 .textActionButton:hover {
@@ -362,7 +371,7 @@ button::-moz-focus-inner {
 
 .cardTextCentered,
 .cardTextCentered > .textActionButton {
-    text-align: center;
+    text-align: center !important;
 }
 
 .cardText-rightmargin {
@@ -394,21 +403,35 @@ button::-moz-focus-inner {
 }
 
 .cardIndicators {
-    right: 0.225em;
     top: 0.225em;
     position: absolute;
     display: flex;
     align-items: center;
     contain: layout style;
+
+    [dir="ltr"] & {
+        right: 0.225em;
+    }
+
+    [dir="rtl"] & {
+        left: 0.225em;
+    }
 }
 
 .cardProgramAttributeIndicators {
     top: 0;
-    left: 0;
     position: absolute;
     display: flex;
     text-transform: uppercase;
     font-size: 92%;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .programAttributeIndicator {
@@ -428,7 +451,14 @@ button::-moz-focus-inner {
 .cardOverlayButton-br {
     position: absolute;
     bottom: 0;
-    right: 0;
+
+    [dir="ltr"] & {
+        right: 0;
+    }
+
+    [dir="rtl"] & {
+        left: 0;
+    }
 }
 
 .cardOverlayButtonIcon {

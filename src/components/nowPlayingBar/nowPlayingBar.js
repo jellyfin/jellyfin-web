@@ -1,5 +1,5 @@
 import datetime from '../../scripts/datetime';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
@@ -24,6 +24,7 @@ import { appRouter } from '../appRouter';
 
     let currentTimeElement;
     let nowPlayingImageElement;
+    let nowPlayingImageUrl;
     let nowPlayingTextElement;
     let nowPlayingUserData;
     let muteButton;
@@ -47,7 +48,7 @@ import { appRouter } from '../appRouter';
         html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
         html += '<div class="nowPlayingBarTop">';
-        html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
+        html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
         html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
         html += '</div>';
 
@@ -57,7 +58,7 @@ import { appRouter } from '../appRouter';
         html += '</div>';
 
         // The onclicks are needed due to the return false above
-        html += '<div class="nowPlayingBarCenter">';
+        html += '<div class="nowPlayingBarCenter" dir="ltr">';
 
         html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous" aria-hidden="true"></span></button>';
 
@@ -443,12 +444,10 @@ import { appRouter } from '../appRouter';
         options = options || {};
         options.type = options.type || 'Primary';
 
-        if (options.type === 'Primary') {
-            if (item.SeriesPrimaryImageTag) {
-                options.tag = item.SeriesPrimaryImageTag;
+        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
+            options.tag = item.SeriesPrimaryImageTag;
 
-                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
         if (options.type === 'Thumb') {
@@ -488,7 +487,6 @@ import { appRouter } from '../appRouter';
         return null;
     }
 
-    let currentImgUrl;
     function updateNowPlayingInfo(state) {
         const nowPlayingItem = state.NowPlayingItem;
 
@@ -524,17 +522,14 @@ import { appRouter } from '../appRouter';
             height: imgHeight
         })) : null;
 
-        let isRefreshing = false;
-
-        if (url !== currentImgUrl) {
-            currentImgUrl = url;
-            isRefreshing = true;
-
+        if (url !== nowPlayingImageUrl) {
             if (url) {
-                imageLoader.lazyImage(nowPlayingImageElement, url);
+                nowPlayingImageUrl = url;
+                imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
                 nowPlayingImageElement.style.display = null;
                 nowPlayingTextElement.style.marginLeft = null;
             } else {
+                nowPlayingImageUrl = null;
                 nowPlayingImageElement.style.backgroundImage = '';
                 nowPlayingImageElement.style.display = 'none';
                 nowPlayingTextElement.style.marginLeft = '1em';
@@ -542,36 +537,34 @@ import { appRouter } from '../appRouter';
         }
 
         if (nowPlayingItem.Id) {
-            if (isRefreshing) {
-                const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
-                apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-                    const userData = item.UserData || {};
-                    const likes = userData.Likes == null ? '' : userData.Likes;
-                    if (!layoutManager.mobile) {
-                        let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
-                        // We remove the previous event listener by replacing the item in each update event
-                        const contextButtonClone = contextButton.cloneNode(true);
-                        contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
-                        contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
-                        const options = {
-                            play: false,
-                            queue: false,
-                            stopPlayback: true,
-                            clearQueue: true,
-                            positionTo: contextButton
-                        };
-                        apiClient.getCurrentUser().then(function (user) {
-                            contextButton.addEventListener('click', function () {
-                                itemContextMenu.show(Object.assign({
-                                    item: item,
-                                    user: user
-                                }, options));
-                            });
+            const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
+            apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
+                const userData = item.UserData || {};
+                const likes = userData.Likes == null ? '' : userData.Likes;
+                if (!layoutManager.mobile) {
+                    let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
+                    // We remove the previous event listener by replacing the item in each update event
+                    const contextButtonClone = contextButton.cloneNode(true);
+                    contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
+                    contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
+                    const options = {
+                        play: false,
+                        queue: false,
+                        stopPlayback: true,
+                        clearQueue: true,
+                        positionTo: contextButton
+                    };
+                    apiClient.getCurrentUser().then(function (user) {
+                        contextButton.addEventListener('click', function () {
+                            itemContextMenu.show(Object.assign({
+                                item: item,
+                                user: user
+                            }, options));
                         });
-                    }
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
-                });
-            }
+                    });
+                }
+                nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            });
         } else {
             nowPlayingUserData.innerHTML = '';
         }

@@ -43,7 +43,7 @@ function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
     Promise.all(promises).then(
         responses => {
             const folders = responses[0];
-            const parentPath = responses[1] || '';
+            const parentPath = (responses[1] ? JSON.parse(responses[1]) : '') || '';
             let html = '';
 
             page.querySelector('.results').scrollTop = 0;
@@ -251,8 +251,8 @@ class DirectoryBrowser {
         }
         Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
             responses => {
-                const systemInfo = responses[0];
-                const initialPath = responses[1];
+                const fetchedSystemInfo = responses[0];
+                const fetchedInitialPath = responses[1];
                 const dlg = dialogHelper.createDialog({
                     size: 'small',
                     removeOnClose: true,
@@ -267,10 +267,10 @@ class DirectoryBrowser {
                 html += '<div class="formDialogHeader">';
                 html += `<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1" title="${globalize.translate('ButtonBack')}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
                 html += '<h3 class="formDialogHeaderTitle">';
-                html += escapeHtml(options.header) || globalize.translate('HeaderSelectPath');
+                html += escapeHtml(options.header || '') || globalize.translate('HeaderSelectPath');
                 html += '</h3>';
                 html += '</div>';
-                html += getEditorHtml(options, systemInfo);
+                html += getEditorHtml(options, fetchedSystemInfo);
                 dlg.innerHTML = html;
                 initEditor(dlg, options, fileOptions);
                 dlg.addEventListener('close', onDialogClosed);
@@ -279,13 +279,13 @@ class DirectoryBrowser {
                     dialogHelper.close(dlg);
                 });
                 this.currentDialog = dlg;
-                dlg.querySelector('#txtDirectoryPickerPath').value = initialPath;
+                dlg.querySelector('#txtDirectoryPickerPath').value = fetchedInitialPath;
                 const txtNetworkPath = dlg.querySelector('#txtNetworkPath');
                 if (txtNetworkPath) {
                     txtNetworkPath.value = options.networkSharePath || '';
                 }
                 if (!options.pathReadOnly) {
-                    refreshDirectoryBrowser(dlg, initialPath, fileOptions, true);
+                    refreshDirectoryBrowser(dlg, fetchedInitialPath, fileOptions, true);
                 }
             }
         );

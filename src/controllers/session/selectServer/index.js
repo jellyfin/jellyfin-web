@@ -15,10 +15,11 @@ import '../../../elements/emby-scroller/emby-scroller';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import ServerConnections from '../../../components/ServerConnections';
 import alert from '../../../components/alert';
 import cardBuilder from '../../../components/cardbuilder/cardBuilder';
+import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionState.ts';
 
 /* eslint-disable indent */
 
@@ -28,24 +29,15 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         const items = servers.map(function (server) {
             return {
                 name: server.Name,
-                showIcon: true,
-                icon: 'cast',
+                icon: 'storage',
                 cardType: '',
                 id: server.Id,
                 server: server
             };
         });
         let html = items.map(function (item) {
-            let cardImageContainer;
-
-            if (item.showIcon) {
-                cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';
-            } else {
-                cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
-            }
-
             // TODO move card creation code to Card component
-
+            const cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';
             let cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
 
             if (layoutManager.tv) {
@@ -122,17 +114,17 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                 const apiClient = result.ApiClient;
 
                 switch (result.State) {
-                    case 'SignedIn':
+                    case ConnectionState.SignedIn:
                         Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
                         Dashboard.navigate('home.html');
                         break;
 
-                    case 'ServerSignIn':
+                    case ConnectionState.ServerSignIn:
                         Dashboard.onServerChanged(null, null, apiClient);
                         Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id);
                         break;
 
-                    case 'ServerUpdateNeeded':
+                    case ConnectionState.ServerUpdateNeeded:
                         alertTextWithOptions({
                             text: globalize.translate('core#ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                             html: globalize.translate('core#ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
@@ -196,7 +188,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         updatePageStyle(view, params);
         view.addEventListener('viewshow', function (e) {
             const isRestored = e.detail.isRestored;
-            appRouter.setTitle(null);
+            libraryMenu.setTitle(null);
             libraryMenu.setTransparentMenu(true);
 
             if (!isRestored) {

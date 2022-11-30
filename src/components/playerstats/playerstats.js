@@ -1,10 +1,10 @@
-import { Events } from 'jellyfin-apiclient';
 import '../../elements/emby-button/paper-icon-button-light';
 import globalize from '../../scripts/globalize';
+import Events from '../../utils/events.ts';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
-import SyncPlay from '../../components/syncPlay/core';
+import SyncPlay from '../../plugins/syncPlay/core';
 import './playerstats.scss';
 import ServerConnections from '../ServerConnections';
 
@@ -269,31 +269,10 @@ import ServerConnections from '../ServerConnections';
             });
         }
 
-        if (videoStream.VideoRange) {
+        if (videoStream.VideoRangeType) {
             sessionStats.push({
-                label: globalize.translate('LabelVideoRange'),
-                value: videoStream.VideoRange
-            });
-        }
-
-        if (videoStream.ColorSpace) {
-            sessionStats.push({
-                label: globalize.translate('LabelColorSpace'),
-                value: videoStream.ColorSpace
-            });
-        }
-
-        if (videoStream.ColorTransfer) {
-            sessionStats.push({
-                label: globalize.translate('LabelColorTransfer'),
-                value: videoStream.ColorTransfer
-            });
-        }
-
-        if (videoStream.ColorPrimaries) {
-            sessionStats.push({
-                label: globalize.translate('LabelColorPrimaries'),
-                value: videoStream.ColorPrimaries
+                label: globalize.translate('LabelVideoRangeType'),
+                value: videoStream.VideoRangeType
             });
         }
 

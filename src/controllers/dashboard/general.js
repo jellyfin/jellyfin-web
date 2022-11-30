@@ -6,7 +6,7 @@ import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
 /* eslint-disable indent */
@@ -39,6 +39,7 @@ import alert from '../../components/alert';
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
                     brandingConfig.CustomCss = form.querySelector('#txtCustomCss').value;
+                    brandingConfig.SplashscreenEnabled = form.querySelector('#chkSplashScreenAvailable').checked;
 
                     ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function () {
                         Dashboard.processServerConfigurationUpdateResult();
@@ -106,6 +107,7 @@ import alert from '../../components/alert';
             ApiClient.getNamedConfiguration(brandingConfigKey).then(function (config) {
                 view.querySelector('#txtLoginDisclaimer').value = config.LoginDisclaimer || '';
                 view.querySelector('#txtCustomCss').value = config.CustomCss || '';
+                view.querySelector('#chkSplashScreenAvailable').checked = config.SplashscreenEnabled === true;
             });
         });
     }

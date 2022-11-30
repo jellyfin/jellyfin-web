@@ -22,6 +22,7 @@ import '../cardbuilder/card.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './itemidentifier.template.html';
+import datetime from '../../scripts/datetime';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -166,7 +167,7 @@ import template from './itemidentifier.template.html';
         lines.push(escapeHtml(identifyResult.Name));
 
         if (identifyResult.ProductionYear) {
-            lines.push(identifyResult.ProductionYear);
+            lines.push(datetime.toLocaleString(identifyResult.ProductionYear, {useGrouping: false}));
         }
 
         let resultHtml = lines.join('<br/>');
@@ -246,7 +247,7 @@ import template from './itemidentifier.template.html';
             } else {
                 html += '<div class="cardText cardText-secondary cardTextCentered">';
             }
-            html += escapeHtml(lines[i]) || '&nbsp;';
+            html += escapeHtml(lines[i] || '') || '&nbsp;';
             html += '</div>';
         }
 

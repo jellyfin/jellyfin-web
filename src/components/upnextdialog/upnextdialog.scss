@@ -4,7 +4,6 @@
     bottom: 0;
     width: 30em;
     padding: 1em;
-    margin: 0 2em 2em 0;
     display: flex;
     flex-direction: column;
     will-change: transform, opacity;
@@ -13,6 +12,14 @@
     color: #fff;
     user-select: none;
     -webkit-touch-callout: none;
+
+    [dir="ltr"] & {
+        margin: 0 2em 2em 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 2em 2em;
+    }
 }
 
 .upNextDialog-hidden {

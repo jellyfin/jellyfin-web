@@ -4,7 +4,7 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import homeSections from '../homesections/homesections';
 import dom from '../../scripts/dom';
 import '../listview/listview.scss';

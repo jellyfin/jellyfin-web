@@ -17,6 +17,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../assets/css/clearbutton.scss';
 import '../../assets/css/flexstyles.scss';
+import './style.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
@@ -1088,9 +1089,7 @@ import template from './metadataEditor.template.html';
 
     export default {
         show: function (itemId, serverId) {
-            return new Promise(function (resolve) {
-                return show(itemId, serverId, resolve);
-            });
+            return new Promise(resolve => show(itemId, serverId, resolve));
         },
 
         embed: function (elem, itemId, serverId) {

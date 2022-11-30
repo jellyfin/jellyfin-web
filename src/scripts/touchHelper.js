@@ -1,5 +1,5 @@
 import dom from '../scripts/dom';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 
 function getTouches(e) {
     return e.changedTouches || e.targetTouches || e.touches;

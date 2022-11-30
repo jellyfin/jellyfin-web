@@ -4,10 +4,10 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import { appRouter } from '../../components/appRouter';
+import Events from '../../utils/events.ts';
+
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
-import { Events } from 'jellyfin-apiclient';
-import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 
 export class PdfPlayer {
     constructor() {
@@ -200,14 +200,14 @@ export class PdfPlayer {
         const serverId = item.ServerId;
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        return new Promise((resolve) => {
+        return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
             const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
             const downloadTask = getDocument(downloadHref);
-            downloadTask.promise.then(book => {
+            return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
                 this.book = book;
                 this.loaded = true;
@@ -219,8 +219,6 @@ export class PdfPlayer {
                 } else {
                     this.loadPage(1);
                 }
-
-                return resolve();
             });
         });
     }
@@ -263,7 +261,7 @@ export class PdfPlayer {
         for (const page of pages) {
             if (!this.pages[page]) {
                 this.pages[page] = document.createElement('canvas');
-                this.renderPage(this.pages[page], parseInt(page.substr(4)));
+                this.renderPage(this.pages[page], parseInt(page.slice(4)));
             }
         }
 
@@ -307,11 +305,7 @@ export class PdfPlayer {
     }
 
     canPlayItem(item) {
-        if (item.Path && item.Path.endsWith('pdf')) {
-            return true;
-        }
-
-        return false;
+        return item.Path && item.Path.endsWith('pdf');
     }
 }
 

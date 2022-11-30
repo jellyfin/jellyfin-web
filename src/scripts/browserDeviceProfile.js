@@ -53,12 +53,8 @@ import browser from './browser';
         }
 
         const media = document.createElement('video');
-        if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
-            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
-            return true;
-        }
-
-        return false;
+        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
+            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
     }
 
     function canPlayHlsWithMSE() {
@@ -110,16 +106,12 @@ import browser from './browser';
     function canPlayAudioFormat(format) {
         let typeString;
 
-        if (format === 'flac') {
+        if (format === 'flac' || format === 'asf') {
             if (browser.tizen || browser.web0s || browser.edgeUwp) {
                 return true;
             }
         } else if (format === 'wma') {
             if (browser.tizen || browser.edgeUwp) {
-                return true;
-            }
-        } else if (format === 'asf') {
-            if (browser.tizen || browser.web0s || browser.edgeUwp) {
                 return true;
             }
         } else if (format === 'opus') {
@@ -163,17 +155,11 @@ import browser from './browser';
             return true;
         }
 
-        if (browser.edgeUwp) {
-            return true;
-        }
-
-        return false;
+        return !!browser.edgeUwp;
     }
 
     function testCanPlayAv1(videoTestElement) {
-        if (browser.tizenVersion >= 5.5) {
-            return true;
-        } else if (browser.web0sVersion >= 5) {
+        if (browser.tizenVersion >= 5.5 || browser.web0sVersion >= 5) {
             return true;
         }
 
@@ -199,6 +185,7 @@ import browser from './browser';
 
         switch (container) {
             case 'asf':
+            case 'wmv':
                 supported = browser.tizen || browser.web0s || browser.edgeUwp;
                 videoAudioCodecs = [];
                 break;
@@ -240,10 +227,6 @@ import browser from './browser';
                 if (supportsMpeg2Video()) {
                     videoCodecs.push('mpeg2video');
                 }
-                break;
-            case 'wmv':
-                supported = browser.tizen || browser.web0s || browser.edgeUwp;
-                videoAudioCodecs = [];
                 break;
             case 'ts':
                 supported = testCanPlayTs();
@@ -288,10 +271,16 @@ import browser from './browser';
             }
         }
 
-        return browser.ps4 ? 8000000 :
-            (browser.xboxOne ? 12000000 :
-                (browser.edgeUwp ? null :
-                    (browser.tizen && isTizenFhd ? 20000000 : null)));
+        let bitrate = null;
+        if (browser.ps4) {
+            bitrate = 8000000;
+        } else if (browser.xboxOne) {
+            bitrate = 12000000;
+        } else if (browser.tizen && isTizenFhd) {
+            bitrate = 20000000;
+        }
+
+        return bitrate;
     }
 
     function getSpeakerCount() {
@@ -306,7 +295,7 @@ import browser from './browser';
         return -1;
     }
 
-    function getPhysicalAudioChannels(options) {
+    function getPhysicalAudioChannels(options, videoTestElement) {
         const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels(), 10);
 
         if (allowedAudioChannels > 0) {
@@ -318,7 +307,13 @@ import browser from './browser';
         }
 
         const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.tv || browser.ps4 || browser.xboxOne;
+        const isAc3Eac3Supported = supportsAc3(videoTestElement) || supportsEac3(videoTestElement);
         const speakerCount = getSpeakerCount();
+
+        // AC3/EAC3 hinted that device is able to play dolby surround sound.
+        if (isAc3Eac3Supported && isSurroundSoundSupportedBrowser) {
+            return speakerCount > 6 ? speakerCount : 6;
+        }
 
         if (speakerCount > 2) {
             if (isSurroundSoundSupportedBrowser) {
@@ -342,11 +337,11 @@ import browser from './browser';
     export default function (options) {
         options = options || {};
 
-        const physicalAudioChannels = getPhysicalAudioChannels(options);
-
         const bitrateSetting = getMaxBitrate();
 
         const videoTestElement = document.createElement('video');
+
+        const physicalAudioChannels = getPhysicalAudioChannels(options, videoTestElement);
 
         const canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
         const canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
@@ -354,13 +349,12 @@ import browser from './browser';
 
         const canPlayMkv = testCanPlayMkv(videoTestElement);
 
-        const profile = {};
-
-        profile.MaxStreamingBitrate = bitrateSetting;
-        profile.MaxStaticBitrate = 100000000;
-        profile.MusicStreamingTranscodingBitrate = Math.min(bitrateSetting, 384000);
-
-        profile.DirectPlayProfiles = [];
+        const profile = {
+            MaxStreamingBitrate: bitrateSetting,
+            MaxStaticBitrate: 100000000,
+            MusicStreamingTranscodingBitrate: Math.min(bitrateSetting, 384000),
+            DirectPlayProfiles: []
+        };
 
         let videoAudioCodecs = [];
         let hlsInTsVideoAudioCodecs = [];
@@ -370,13 +364,21 @@ import browser from './browser';
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '')
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp3"').replace(/no/, '');
 
-        // Not sure how to test for this
-        const supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+        let supportsMp2VideoAudio = options.supportsMp2VideoAudio;
+        if (supportsMp2VideoAudio == null) {
+            supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+
+            // If the browser supports MP3, it presumably supports MP2 as well
+            if (supportsMp3VideoAudio && (browser.chrome || browser.edgeChromium || (browser.firefox && browser.versionMajor >= 83))) {
+                supportsMp2VideoAudio = true;
+            }
+            if (browser.android) {
+                supportsMp2VideoAudio = false;
+            }
+        }
 
         /* eslint-disable compat/compat */
-        let maxVideoWidth = browser.xboxOne ?
-            (window.screen ? window.screen.width : null) :
-            null;
+        let maxVideoWidth = browser.xboxOne ? window.screen?.width : null;
 
         /* eslint-enable compat/compat */
         if (options.maxVideoWidth) {
@@ -428,6 +430,8 @@ import browser from './browser';
 
         if (supportsMp2VideoAudio) {
             videoAudioCodecs.push('mp2');
+            hlsInTsVideoAudioCodecs.push('mp2');
+            hlsInFmp4VideoAudioCodecs.push('mp2');
         }
 
         let supportsDts = options.supportsDts;
@@ -800,12 +804,12 @@ import browser from './browser';
             maxH264Level = 52;
         }
 
-        if (browser.tizen ||
-            videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
+        if ((browser.tizen ||
+            videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, ''))
             // These tests are passing in safari, but playback is failing
-            if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile) {
-                h264Profiles += '|high 10';
-            }
+            && !browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile
+        ) {
+            h264Profiles += '|high 10';
         }
 
         let maxHevcLevel = 120;
@@ -838,6 +842,29 @@ import browser from './browser';
             hevcProfiles = 'main|main 10';
         }
 
+        const h264VideoRangeTypes = 'SDR';
+        let hevcVideoRangeTypes = 'SDR';
+        let vp9VideoRangeTypes = 'SDR';
+        let av1VideoRangeTypes = 'SDR';
+
+        if (browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)) {
+            hevcVideoRangeTypes += '|HDR10|HLG';
+            if ((browser.iOS && browser.iOSVersion >= 13) || browser.osx) {
+                hevcVideoRangeTypes += '|DOVI';
+            }
+        }
+
+        if (browser.tizen || browser.web0s) {
+            hevcVideoRangeTypes += '|HDR10|HLG|DOVI';
+            vp9VideoRangeTypes += '|HDR10|HLG';
+            av1VideoRangeTypes += '|HDR10|HLG';
+        }
+
+        if (browser.edgeChromium || browser.chrome || browser.firefox) {
+            vp9VideoRangeTypes += '|HDR10|HLG';
+            av1VideoRangeTypes += '|HDR10|HLG';
+        }
+
         const h264CodecProfileConditions = [
             {
                 Condition: 'NotEquals',
@@ -849,6 +876,12 @@ import browser from './browser';
                 Condition: 'EqualsAny',
                 Property: 'VideoProfile',
                 Value: h264Profiles,
+                IsRequired: false
+            },
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: h264VideoRangeTypes,
                 IsRequired: false
             },
             {
@@ -873,9 +906,33 @@ import browser from './browser';
                 IsRequired: false
             },
             {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: hevcVideoRangeTypes,
+                IsRequired: false
+            },
+            {
                 Condition: 'LessThanEqual',
                 Property: 'VideoLevel',
                 Value: maxHevcLevel.toString(),
+                IsRequired: false
+            }
+        ];
+
+        const vp9CodecProfileConditions = [
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: vp9VideoRangeTypes,
+                IsRequired: false
+            }
+        ];
+
+        const av1CodecProfileConditions = [
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoRangeType',
+                Value: av1VideoRangeTypes,
                 IsRequired: false
             }
         ];
@@ -967,6 +1024,18 @@ import browser from './browser';
             Type: 'Video',
             Codec: 'hevc',
             Conditions: hevcCodecProfileConditions
+        });
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'vp9',
+            Conditions: vp9CodecProfileConditions
+        });
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'av1',
+            Conditions: av1CodecProfileConditions
         });
 
         const globalVideoConditions = [];

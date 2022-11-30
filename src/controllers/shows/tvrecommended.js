@@ -1,5 +1,4 @@
 
-import { Events } from 'jellyfin-apiclient';
 import inputManager from '../../scripts/inputManager';
 import libraryMenu from '../../scripts/libraryMenu';
 import layoutManager from '../../components/layoutManager';
@@ -13,7 +12,8 @@ import globalize from '../../scripts/globalize';
 import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
 import autoFocuser from '../../components/autoFocuser';
 
 /* eslint-disable indent */
@@ -98,7 +98,7 @@ import autoFocuser from '../../components/autoFocuser';
             SortOrder: 'Descending',
             IncludeItemTypes: 'Episode',
             Filters: 'IsResumable',
-            Limit: screenWidth >= 1920 ? 5 : screenWidth >= 1600 ? 5 : 3,
+            Limit: screenWidth >= 1600 ? 5 : 3,
             Recursive: true,
             Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
             CollapseBoxSetItems: false,
@@ -333,10 +333,9 @@ import autoFocuser from '../../components/autoFocuser';
         }
 
         function onInputCommand(e) {
-            switch (e.detail.command) {
-                case 'search':
-                    e.preventDefault();
-                    Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
+            if (e.detail.command === 'search') {
+                e.preventDefault();
+                Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
             }
         }
 

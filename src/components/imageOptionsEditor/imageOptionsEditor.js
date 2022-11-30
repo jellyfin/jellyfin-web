@@ -45,7 +45,6 @@ import template from './imageOptionsEditor.template.html';
     function loadValues(context, itemType, options, availableOptions) {
         const supportedImageTypes = availableOptions.SupportedImageTypes || [];
         setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.includes('Backdrop'));
-        setVisibilityOfBackdrops(context.querySelector('.screenshotFields'), supportedImageTypes.includes('Screenshot'));
         Array.prototype.forEach.call(context.querySelectorAll('.imageType'), i => {
             const imageType = i.getAttribute('data-imagetype');
             const container = dom.parentWithTag(i, 'LABEL');
@@ -65,9 +64,6 @@ import template from './imageOptionsEditor.template.html';
         const backdropConfig = getImageConfig(options, availableOptions, 'Backdrop', itemType);
         context.querySelector('#txtMaxBackdrops').value = backdropConfig.Limit;
         context.querySelector('#txtMinBackdropDownloadWidth').value = backdropConfig.MinWidth;
-        const screenshotConfig = getImageConfig(options, availableOptions, 'Screenshot', itemType);
-        context.querySelector('#txtMaxScreenshots').value = screenshotConfig.Limit;
-        context.querySelector('#txtMinScreenshotDownloadWidth').value = screenshotConfig.MinWidth;
     }
 
     function saveValues(context, options) {
@@ -82,11 +78,6 @@ import template from './imageOptionsEditor.template.html';
             Type: 'Backdrop',
             Limit: context.querySelector('#txtMaxBackdrops').value,
             MinWidth: context.querySelector('#txtMinBackdropDownloadWidth').value
-        });
-        options.ImageOptions.push({
-            Type: 'Screenshot',
-            Limit: context.querySelector('#txtMaxScreenshots').value,
-            MinWidth: context.querySelector('#txtMinScreenshotDownloadWidth').value
         });
     }
 

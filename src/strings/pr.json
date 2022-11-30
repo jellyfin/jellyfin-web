@@ -31,8 +31,8 @@
     "OnWakeFromSleep": "Show A Leg",
     "TabDashboard": "The Helm",
     "TabContainers": "Chests",
-    "ValueOneSong": "1 shantee",
-    "ValueSongCount": "{0} shantees",
+    "ValueOneSong": "1 shanty",
+    "ValueSongCount": "{0} shanties",
     "Yes": "Ay",
     "PathNotFound": "That Be Uncharted Waters Friend.",
     "LastSeen": "Ship Last Sighted {0}",
@@ -62,5 +62,8 @@
     "Folders": "Chests",
     "Collections": "Barrels",
     "LabelUser": "",
-    "HeaderPleaseSignIn": "Mewngofnodwch os gwelwch yn dda"
+    "HeaderPleaseSignIn": "Mewngofnodwch os gwelwch yn dda",
+    "ButtonArrowRight": "Starboard",
+    "ButtonArrowLeft": "Port",
+    "AllowFfmpegThrottlingHelp": "When a transcode or remux gets far enough ahead from the current playback position, pause the process so 'twill consume less resources. This here be most useful when watchin' without seekin' often. Turn this off if ye experience playback issues."
 }

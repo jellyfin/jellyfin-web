@@ -33,10 +33,10 @@ import template from './imageDownloader.template.html';
     let selectedProvider;
     let browsableParentId;
 
-    function getBaseRemoteOptions(page) {
+    function getBaseRemoteOptions(page, forceCurrentItemId = false) {
         const options = {};
 
-        if (page.querySelector('#chkShowParentImages').checked && browsableParentId) {
+        if (!forceCurrentItemId && page.querySelector('#chkShowParentImages').checked && browsableParentId) {
             options.itemId = browsableParentId;
         } else {
             options.itemId = currentItemId;
@@ -140,7 +140,7 @@ import template from './imageDownloader.template.html';
     }
 
     function downloadRemoteImage(page, apiClient, url, type, provider) {
-        const options = getBaseRemoteOptions(page);
+        const options = getBaseRemoteOptions(page, true);
 
         options.Type = type;
         options.ImageUrl = url;

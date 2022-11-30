@@ -155,9 +155,9 @@ import './emby-scroller.scss';
         }
     };
 
-    function loadScrollButtons(scroller) {
+    function loadScrollButtons(buttonsScroller) {
         import('../emby-scrollbuttons/emby-scrollbuttons').then(() => {
-            scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
+          buttonsScroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });
     }
 

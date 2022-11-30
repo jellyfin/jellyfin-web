@@ -11,6 +11,7 @@ import dom from '../../scripts/dom';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
+import './style.scss';
 import template from './libraryoptionseditor.template.html';
 
     function populateLanguages(parent) {
@@ -64,7 +65,12 @@ import template from './libraryoptionseditor.template.html';
         let html = '';
         const elem = page.querySelector('.metadataReaders');
 
-        if (plugins.length < 1) return elem.innerHTML = '', elem.classList.add('hide'), !1;
+        if (plugins.length < 1) {
+            elem.innerHTML = '';
+            elem.classList.add('hide');
+            return false;
+        }
+
         html += `<h3 class="checkboxListLabel">${globalize.translate('LabelMetadataReaders')}</h3>`;
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < plugins.length; i++) {
@@ -97,7 +103,11 @@ import template from './libraryoptionseditor.template.html';
     function renderMetadataSavers(page, metadataSavers) {
         let html = '';
         const elem = page.querySelector('.metadataSavers');
-        if (!metadataSavers.length) return elem.innerHTML = '', elem.classList.add('hide'), false;
+        if (!metadataSavers.length) {
+            elem.innerHTML = '';
+            elem.classList.add('hide');
+            return false;
+        }
         html += `<h3 class="checkboxListLabel">${globalize.translate('LabelMetadataSavers')}</h3>`;
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < metadataSavers.length; i++) {
@@ -222,7 +232,7 @@ import template from './libraryoptionseditor.template.html';
         html += '<h3 class="checkboxListLabel" style="margin:0;">' + globalize.translate('HeaderTypeImageFetchers', globalize.translate('TypeOptionPlural' + availableTypeOptions.Type)) + '</h3>';
         const supportedImageTypes = availableTypeOptions.SupportedImageTypes || [];
         if (supportedImageTypes.length > 1 || supportedImageTypes.length === 1 && supportedImageTypes[0] !== 'Primary') {
-            html += '<button is="emby-button" class="raised btnImageOptionsForType" type="button" style="margin-left:1.5em;font-size:90%;"><span>' + globalize.translate('HeaderFetcherSettings') + '</span></button>';
+            html += '<button is="emby-button" class="raised btnImageOptionsForType" type="button" style="font-size:90%;"><span>' + globalize.translate('HeaderFetcherSettings') + '</span></button>';
         }
         html += '</div>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
@@ -323,7 +333,8 @@ import template from './libraryoptionseditor.template.html';
     function onImageFetchersContainerClick(e) {
         const btnImageOptionsForType = dom.parentWithClass(e.target, 'btnImageOptionsForType');
         if (btnImageOptionsForType) {
-            return void showImageOptionsForType(dom.parentWithClass(btnImageOptionsForType, 'imageFetcher').getAttribute('data-type'));
+            showImageOptionsForType(dom.parentWithClass(btnImageOptionsForType, 'imageFetcher').getAttribute('data-type'));
+            return;
         }
         onSortableContainerClick.call(this, e);
     }
@@ -372,7 +383,6 @@ import template from './libraryoptionseditor.template.html';
             return setContentType(parent, contentType).then(function() {
                 libraryOptions && setLibraryOptions(parent, libraryOptions);
                 bindEvents(parent);
-                return;
             });
         });
     }
@@ -549,7 +559,9 @@ import template from './libraryoptionseditor.template.html';
     function getOrderedPlugins(plugins, configuredOrder) {
         plugins = plugins.slice(0);
         plugins.sort((a, b) => {
-            return a = configuredOrder.indexOf(a.Name), b = configuredOrder.indexOf(b.Name), a < b ? -1 : a > b ? 1 : 0;
+            a = configuredOrder.indexOf(a.Name);
+            b = configuredOrder.indexOf(b.Name);
+            return a - b;
         });
         return plugins;
     }

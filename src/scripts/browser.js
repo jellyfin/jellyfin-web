@@ -19,25 +19,14 @@ function isTv() {
         return true;
     }
 
-    if (isWeb0s()) {
-        return true;
-    }
-
-    return false;
+    return isWeb0s();
 }
 
 function isWeb0s() {
     const userAgent = navigator.userAgent.toLowerCase();
 
-    if (userAgent.indexOf('netcast') !== -1) {
-        return true;
-    }
-
-    if (userAgent.indexOf('web0s') !== -1) {
-        return true;
-    }
-
-    return false;
+    return userAgent.indexOf('netcast') !== -1
+        || userAgent.indexOf('web0s') !== -1;
 }
 
 function isMobile(userAgent) {
@@ -84,11 +73,7 @@ function hasKeyboard(browser) {
         return true;
     }
 
-    if (browser.tv) {
-        return true;
-    }
-
-    return false;
+    return !!browser.tv;
 }
 
 function iOSversion() {
@@ -324,11 +309,9 @@ if (browser.mobile || browser.tv) {
     browser.slow = true;
 }
 
-if (typeof document !== 'undefined') {
-    /* eslint-disable-next-line compat/compat */
-    if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
-        browser.touch = true;
-    }
+/* eslint-disable-next-line compat/compat */
+if (typeof document !== 'undefined' && ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
+    browser.touch = true;
 }
 
 browser.keyboard = hasKeyboard(browser);

@@ -7,7 +7,7 @@ import scrollHelper from '../../scripts/scrollHelper';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import recordingFields from './recordingfields';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -129,7 +129,6 @@ function executeCloseAction(action, programId, serverId) {
                 serverId: serverId
             });
         });
-        return;
     }
 }
 

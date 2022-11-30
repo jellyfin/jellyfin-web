@@ -12,10 +12,6 @@ import '../formdialog.scss';
 import template from './prompt.template.html';
 
 export default (() => {
-    function replaceAll(str, find, replace) {
-        return str.split(find).join(replace);
-    }
-
     function setInputProperties(dlg, options) {
         const txtInput = dlg.querySelector('#txtInput');
 
@@ -105,7 +101,7 @@ export default (() => {
                 };
             }
 
-            const label = replaceAll(options.label || '', '<br/>', '\n');
+            const label = (options.label || '').replaceAll('<br/>', '\n');
             const result = prompt(label, options.text || '');
 
             if (result) {

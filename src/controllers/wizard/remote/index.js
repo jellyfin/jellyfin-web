@@ -2,14 +2,16 @@ import loading from '../../../components/loading/loading';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 
 function save(page) {
     loading.show();
     const apiClient = ApiClient;
-    const config = {};
-    config.EnableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
-    config.EnableAutomaticPortMapping = page.querySelector('#chkEnableUpnp').checked;
+    const config = {
+        EnableRemoteAccess: page.querySelector('#chkRemoteAccess').checked,
+        EnableAutomaticPortMapping: page.querySelector('#chkEnableUpnp').checked
+    };
+
     apiClient.ajax({
         type: 'POST',
         data: JSON.stringify(config),

@@ -7,7 +7,8 @@ module.exports = {
         'react',
         'promise',
         'import',
-        'eslint-comments'
+        'eslint-comments',
+        'sonarjs'
     ],
     env: {
         node: true,
@@ -29,10 +30,11 @@ module.exports = {
         // 'plugin:promise/recommended',
         'plugin:import/errors',
         'plugin:eslint-comments/recommended',
-        'plugin:compat/recommended'
+        'plugin:compat/recommended',
+        'plugin:sonarjs/recommended'
     ],
     rules: {
-        'array-callback-return': ['error'],
+        'array-callback-return': ['error', { 'checkForEach': true }],
         'block-spacing': ['error'],
         'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
@@ -42,23 +44,39 @@ module.exports = {
         'indent': ['error', 4, { 'SwitchCase': 1 }],
         'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
+        'no-throw-literal': ['error'],
         'max-statements-per-line': ['error'],
+        'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
+        'no-nested-ternary': ['error'],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
+        'no-return-assign': ['error'],
+        'no-return-await': ['error'],
+        'no-sequences': ['error', { 'allowInParentheses': false }],
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        'no-useless-constructor': ['error'],
+        'no-var': ['error'],
+        'no-void': ['error', { 'allowAsStatement': true }],
+        'no-warning-comments': ['warn', { 'terms': ['fixme', 'hack', 'xxx'] }],
         'one-var': ['error', 'never'],
         'padded-blocks': ['error', 'never'],
-        'prefer-const': ['error', {'destructuring': 'all'}],
+        'prefer-const': ['error', { 'destructuring': 'all' }],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         '@babel/semi': ['error'],
-        'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        'yoda': 'error'
+        'yoda': 'error',
+        '@typescript-eslint/no-shadow': 'error',
+
+        'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
+
+        'sonarjs/cognitive-complexity': ['warn'],
+        // TODO: Enable the following rules and fix issues
+        'sonarjs/no-duplicate-string': ['off']
     },
     settings: {
         react: {
@@ -160,9 +178,21 @@ module.exports = {
         ]
     },
     overrides: [
+        // Config files and development scripts
+        {
+            files: [
+                './babel.config.js',
+                './.eslintrc.js',
+                './postcss.config.js',
+                './webpack.*.js',
+                './scripts/**/*.js'
+            ]
+        },
+        // JavaScript source files
         {
             files: [
                 './src/**/*.js',
+                './src/**/*.jsx',
                 './src/**/*.ts'
             ],
             parser: '@babel/eslint-parser',
@@ -192,17 +222,13 @@ module.exports = {
                 'DlnaProfilePage': 'writable',
                 'DashboardPage': 'writable',
                 'Emby': 'readonly',
-                'getParameterByName': 'writable',
-                'getWindowLocationSearch': 'writable',
                 'Globalize': 'writable',
                 'Hls': 'writable',
-                'dfnshelper': 'writable',
                 'LibraryMenu': 'writable',
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
                 'Loading': 'writable',
                 'MetadataEditor': 'writable',
-                'PlaylistViewer': 'writable',
                 'ServerNotifications': 'writable',
                 'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
@@ -211,6 +237,7 @@ module.exports = {
             rules: {
             }
         },
+        // TypeScript source files
         {
             files: [
                 './src/**/*.ts',
@@ -226,7 +253,11 @@ module.exports = {
                 'plugin:react/recommended',
                 'plugin:react-hooks/recommended',
                 'plugin:jsx-a11y/recommended'
-            ]
+            ],
+            rules: {
+                'no-useless-constructor': ['off'],
+                '@typescript-eslint/no-useless-constructor': ['error']
+            }
         }
     ]
 };

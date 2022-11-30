@@ -5,7 +5,7 @@
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h1 class="sectionTitle">${HeaderLiveTvTunerSetup}</h1>
-                        <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/live-tv/index.html">${Help}</a>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/live-tv/">${Help}</a>
                     </div>
                 </div>
 
@@ -60,6 +60,14 @@
                         <span>${EnableStreamLooping}</span>
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${EnableStreamLoopingHelp}</div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription fldIgnoreDts hide">
+                    <label>
+                        <input type="checkbox" is="emby-checkbox" class="chkIgnoreDts" checked />
+                        <span>${IgnoreDts}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${IgnoreDtsHelp}</div>
                 </div>
 
                 <p class="drmMessage hide">${DrmChannelsNotImported}</p>

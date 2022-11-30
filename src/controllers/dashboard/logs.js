@@ -4,12 +4,13 @@ import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../components/listview/listview.scss';
 import '../../assets/css/flexstyles.scss';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
-    function onSubmit() {
+    function onSubmit(event) {
+        event.preventDefault();
         loading.show();
         const form = this;
         ApiClient.getServerConfiguration().then(function (config) {
@@ -41,7 +42,7 @@ import alert from '../../components/alert';
                     let logHtml = '';
                     logHtml += '<a is="emby-linkbutton" href="' + logUrl + '" target="_blank" class="listItem listItem-border" style="color:inherit;">';
                     logHtml += '<div class="listItemBody two-line">';
-                    logHtml += "<h3 class='listItemBodyText'>" + log.Name + '</h3>';
+                    logHtml += "<h3 class='listItemBodyText' dir='ltr' style='text-align: left'>" + log.Name + '</h3>';
                     const date = datetime.parseISO8601Date(log.DateModified, true);
                     let text = datetime.toLocaleDateString(date);
                     text += ' ' + datetime.getDisplayTime(date);

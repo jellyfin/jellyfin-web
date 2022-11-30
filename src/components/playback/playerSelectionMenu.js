@@ -1,5 +1,5 @@
 import appSettings from '../../scripts/settings/appSettings';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
@@ -29,10 +29,8 @@ function mirrorIfEnabled(info) {
     if (info && playbackManager.enableDisplayMirroring()) {
         const getPlayerInfo = playbackManager.getPlayerInfo();
 
-        if (getPlayerInfo) {
-            if (!getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-                mirrorItem(info, playbackManager.getCurrentPlayer());
-            }
+        if (getPlayerInfo && !getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
+            mirrorItem(info, playbackManager.getCurrentPlayer());
         }
     }
 }
@@ -85,11 +83,9 @@ function getIcon(target) {
 export function show(button) {
     const currentPlayerInfo = playbackManager.getPlayerInfo();
 
-    if (currentPlayerInfo) {
-        if (!currentPlayerInfo.isLocalPlayer) {
-            showActivePlayerMenu(currentPlayerInfo);
-            return;
-        }
+    if (currentPlayerInfo && !currentPlayerInfo.isLocalPlayer) {
+        showActivePlayerMenu(currentPlayerInfo);
+        return;
     }
 
     const currentPlayerId = currentPlayerInfo ? currentPlayerInfo.id : null;
@@ -299,7 +295,6 @@ document.addEventListener('viewshow', function (e) {
         mirrorIfEnabled({
             item: item
         });
-        return;
     }
 });
 

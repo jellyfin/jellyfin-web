@@ -102,15 +102,8 @@ function onInputCommand(e) {
             break;
     }
 }
-function saveValues(context, settings, settingsKey) {
+function saveValues(context, settings, settingsKey, setfilters) {
     let elems = context.querySelectorAll('.simpleFilter');
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].tagName === 'INPUT') {
-            setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
-        } else {
-            setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
-        }
-    }
 
     // Video type
     const videoTypes = [];
@@ -121,7 +114,6 @@ function saveValues(context, settings, settingsKey) {
             videoTypes.push(elems[i].getAttribute('data-filter'));
         }
     }
-    userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
 
     // Series status
     const seriesStatuses = [];
@@ -142,7 +134,39 @@ function saveValues(context, settings, settingsKey) {
             genres.push(elems[i].getAttribute('data-filter'));
         }
     }
-    userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
+
+    if (setfilters) {
+        setfilters((prevState) => ({
+            ...prevState,
+            StartIndex: 0,
+            IsPlayed: context.querySelector('.chkPlayed').checked,
+            IsUnplayed: context.querySelector('.chkUnplayed').checked,
+            IsFavorite: context.querySelector('.chkFavorite').checked,
+            IsResumable: context.querySelector('.chkResumable').checked,
+            Is4K: context.querySelector('.chk4KFilter').checked,
+            IsHD: context.querySelector('.chkHDFilter').checked,
+            IsSD: context.querySelector('.chkSDFilter').checked,
+            Is3D: context.querySelector('.chk3DFilter').checked,
+            VideoTypes: videoTypes.join(','),
+            SeriesStatus: seriesStatuses.join(','),
+            HasSubtitles: context.querySelector('.chkSubtitle').checked,
+            HasTrailer: context.querySelector('.chkTrailer').checked,
+            HasSpecialFeature: context.querySelector('.chkSpecialFeature').checked,
+            HasThemeSong: context.querySelector('.chkThemeSong').checked,
+            HasThemeVideo: context.querySelector('.chkThemeVideo').checked,
+            GenreIds: genres.join(',')
+        }));
+    } else {
+        for (let i = 0, length = elems.length; i < length; i++) {
+            if (elems[i].tagName === 'INPUT') {
+                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
+            } else {
+                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
+            }
+        }
+
+        userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
+    }
 }
 function bindCheckboxInput(context, on) {
     const elems = context.querySelectorAll('.checkboxList-verticalwrap');
@@ -274,7 +298,7 @@ class FilterMenu {
 
                 if (submitted) {
                     //if (!options.onChange) {
-                    saveValues(dlg, options.settings, options.settingsKey);
+                    saveValues(dlg, options.settings, options.settingsKey, options.setfilters);
                     return resolve();
                     //}
                 }

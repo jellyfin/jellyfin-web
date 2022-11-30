@@ -15,7 +15,9 @@ export default function (view) {
                 return;
             }
 
-            authorize(codeElement.value);
+            // Remove spaces from code
+            const normalizedCode = codeElement.value.replace(/\s/g, '');
+            authorize(normalizedCode);
         });
     });
 }

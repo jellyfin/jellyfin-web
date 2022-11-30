@@ -13,6 +13,7 @@ export function show() {
 
     if (!elem) {
         elem = document.createElement('div');
+        elem.setAttribute('dir', 'ltr');
         loadingElem = elem;
 
         elem.classList.add('docspinner');

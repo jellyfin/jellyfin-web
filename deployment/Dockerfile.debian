@@ -1,4 +1,4 @@
-FROM debian:10
+FROM debian:11
 
 # Docker build arguments
 ARG SOURCE_DIR=/jellyfin
@@ -13,7 +13,7 @@ ENV IS_DOCKER=YES
 # Prepare Debian build environment
 RUN apt-get update \
   && apt-get install -y debhelper mmv git curl \
-  && curl -fsSL https://deb.nodesource.com/setup_12.x | bash - \
+  && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
   && apt-get install -y nodejs
 
 

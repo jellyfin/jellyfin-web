@@ -12,6 +12,7 @@ import toast from '../toast/toast';
 import { copy } from '../../scripts/clipboard';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
+import itemHelper from '../../components/itemHelper';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
@@ -65,14 +66,14 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             html += `${createAttribute(globalize.translate('MediaInfoFormat'), version.Formats.join(','))}<br/>`;
         }
         if (version.Path && user && user.Policy.IsAdministrator) {
-            html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path)}<br/>`;
+            html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path, true)}<br/>`;
         }
         if (version.Size) {
             const size = `${(version.Size / (1024 * 1024)).toFixed(0)} MB`;
             html += `${createAttribute(globalize.translate('MediaInfoSize'), size)}<br/>`;
         }
-        for (let i = 0, length = version.MediaStreams.length; i < length; i++) {
-            const stream = version.MediaStreams[i];
+        version.MediaStreams.sort(itemHelper.sortTracks);
+        for (const stream of version.MediaStreams) {
             if (stream.Type === 'Data') {
                 continue;
             }
@@ -112,7 +113,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             if (stream.Profile) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoProfile'), stream.Profile));
             }
-            if (stream.Level) {
+            if (stream.Level > 0) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoLevel'), stream.Level));
             }
             if (stream.Width || stream.Height) {
@@ -127,7 +128,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
                 }
                 attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
             }
-            if (stream.AverageFrameRate || stream.RealFrameRate) {
+            if ((stream.AverageFrameRate || stream.RealFrameRate) && stream.Type === 'Video') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), (stream.AverageFrameRate || stream.RealFrameRate)));
             }
             if (stream.ChannelLayout) {
@@ -136,7 +137,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             if (stream.Channels) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), `${stream.Channels} ch`));
             }
-            if (stream.BitRate && stream.Codec !== 'mjpeg') {
+            if (stream.BitRate) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000)} kbps`));
             }
             if (stream.SampleRate) {
@@ -147,6 +148,36 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
             }
             if (stream.VideoRange) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoVideoRange'), stream.VideoRange));
+            }
+            if (stream.VideoRangeType) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoVideoRangeType'), stream.VideoRangeType));
+            }
+            if (stream.VideoDoViTitle) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoDoViTitle'), stream.VideoDoViTitle));
+                if (stream.DvVersionMajor != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMajor'), stream.DvVersionMajor));
+                }
+                if (stream.DvVersionMinor != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMinor'), stream.DvVersionMinor));
+                }
+                if (stream.DvProfile != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvProfile'), stream.DvProfile));
+                }
+                if (stream.DvLevel != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvLevel'), stream.DvLevel));
+                }
+                if (stream.RpuPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoRpuPresentFlag'), stream.RpuPresentFlag));
+                }
+                if (stream.ElPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoElPresentFlag'), stream.ElPresentFlag));
+                }
+                if (stream.BlPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoBlPresentFlag'), stream.BlPresentFlag));
+                }
+                if (stream.DvBlSignalCompatibilityId != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvBlSignalCompatibilityId'), stream.DvBlSignalCompatibilityId));
+                }
             }
             if (stream.ColorSpace) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoColorSpace'), stream.ColorSpace));
@@ -181,8 +212,9 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
         return html;
     }
 
-    function createAttribute(label, value) {
-        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute">${escapeHtml(value)}</span>\n`;
+    // File Paths should be always ltr. The isLtr parameter allows this.
+    function createAttribute(label, value, isLtr) {
+        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute" ${isLtr && 'dir="ltr"'}>${escapeHtml(value)}</span>\n`;
     }
 
     function loadMediaInfo(itemId, serverId) {

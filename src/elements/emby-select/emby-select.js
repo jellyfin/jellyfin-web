@@ -23,11 +23,7 @@ import 'webcomponents.js/webcomponents-lite';
             return true;
         }
 
-        if (layoutManager.tv) {
-            return false;
-        }
-
-        return true;
+        return !layoutManager.tv;
     }
 
     function triggerChange(select) {

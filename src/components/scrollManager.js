@@ -61,7 +61,12 @@ import layoutManager from './layoutManager';
      * @return {number} Clamped value.
      */
     function clamp(value, min, max) {
-        return value <= min ? min : value >= max ? max : value;
+        if (value <= min) {
+            return min;
+        } else if (value >= max) {
+            return max;
+        }
+        return value;
     }
 
     /**
@@ -474,11 +479,7 @@ import layoutManager from './layoutManager';
      * Returns true if smooth scroll must be used.
      */
     function useSmoothScroll() {
-        if (browser.tizen) {
-            return true;
-        }
-
-        return false;
+        return !!browser.tizen;
     }
 
     /**

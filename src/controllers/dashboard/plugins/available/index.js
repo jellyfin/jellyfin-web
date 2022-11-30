@@ -86,13 +86,40 @@ function populateList(options) {
         options.noItemsElement.classList.remove('hide');
     }
 
+    const searchBar = document.getElementById('txtSearchPlugins');
+    if (searchBar) {
+        searchBar.addEventListener('input', () => onSearchBarType(searchBar));
+    }
+
     options.catalogElement.innerHTML = html;
     loading.hide();
 }
 
+function onSearchBarType(searchBar) {
+    const filter = searchBar.value.toLowerCase();
+    for (const header of document.querySelectorAll('div .verticalSection')) {
+        // keep track of shown cards after each search
+        let shown = 0;
+        for (const card of header.querySelectorAll('div .card')) {
+            if (filter && filter != '' && !card.textContent.toLowerCase().includes(filter)) {
+                card.style.display = 'none';
+            } else {
+                card.style.display = 'unset';
+                shown++;
+            }
+        }
+        // hide title if no cards are shown
+        if (shown <= 0) {
+            header.style.display = 'none';
+        } else {
+            header.style.display = 'unset';
+        }
+    }
+}
+
 function getPluginHtml(plugin, options, installedPlugins) {
     let html = '';
-    let href = plugin.externalUrl ? plugin.externalUrl : '#!/addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+    let href = plugin.externalUrl ? plugin.externalUrl : '#/addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
 
     if (options.context) {
         href += '&context=' + options.context;
@@ -129,18 +156,19 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 function getTabs() {
     return [{
-        href: '#!/installedplugins.html',
+        href: '#/installedplugins.html',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: '#!/availableplugins.html',
+        href: '#/availableplugins.html',
         name: globalize.translate('TabCatalog')
     }, {
-        href: '#!/repositories.html',
+        href: '#/repositories.html',
         name: globalize.translate('TabRepositories')
     }];
 }

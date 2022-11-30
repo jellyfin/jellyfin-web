@@ -1,4 +1,4 @@
-import { BaseItemDto } from '@thornbill/jellyfin-sdk/dist/generated-client';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import escapeHtml from 'escape-html';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
@@ -22,7 +22,7 @@ const createSuggestionLink = ({ name, href }: { name: string, href: string }) =>
 
 type SearchSuggestionsProps = {
     serverId?: string;
-    parentId?: string;
+    parentId?: string | null;
 }
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId = window.ApiClient.serverId(), parentId }: SearchSuggestionsProps) => {

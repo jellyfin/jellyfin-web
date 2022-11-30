@@ -7,3 +7,8 @@
         padding-left: 0.5em;
     }
 }
+
+// FIXME: background sizing for cards really needs revisited, but these are particularly terrible
+#channelsTab .cardImageContainer {
+    background-size: contain;
+}

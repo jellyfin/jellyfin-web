@@ -68,10 +68,8 @@ export function showLayoutMenu (button, currentLayout, views) {
                     cancelable: false
                 }));
 
-                if (!dispatchEvent) {
-                    if (window.$) {
-                        $(button).trigger('layoutchange', [id]);
-                    }
+                if (!dispatchEvent && window.$) {
+                    $(button).trigger('layoutchange', [id]);
                 }
             }
         });
@@ -86,9 +84,11 @@ export function getQueryPagingHtml (options) {
     const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
     const showControls = limit < totalRecordCount;
 
-    if (html += '<div class="listPaging">', showControls) {
+    html += '<div class="listPaging">';
+
+    if (showControls) {
         html += '<span style="vertical-align:middle;">';
-        html += globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd, totalRecordCount);
+        html += globalize.translate('ListPaging', totalRecordCount ? startIndex + 1 : 0, recordsEnd, totalRecordCount);
         html += '</span>';
     }
 
@@ -115,7 +115,8 @@ export function getQueryPagingHtml (options) {
         html += '</div>';
     }
 
-    return html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 export function showSortMenu (options) {

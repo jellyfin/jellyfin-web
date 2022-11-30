@@ -22,6 +22,7 @@ import './card.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../guide/programs.scss';
 import ServerConnections from '../ServerConnections';
+import { appRouter } from '../appRouter';
 
         const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -389,7 +390,8 @@ import ServerConnections from '../ServerConnections';
                     } else if (options.indexBy === 'ProductionYear') {
                         newIndexValue = item.ProductionYear;
                     } else if (options.indexBy === 'CommunityRating') {
-                        newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + (item.CommunityRating % 1 >= 0.5 ? 0.5 : 0)) + '+' : null;
+                        const roundedRatingDecimal = item.CommunityRating % 1 >= 0.5 ? 0.5 : 0;
+                        newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + roundedRatingDecimal) + '+' : null;
                     }
 
                     if (newIndexValue !== currentIndexValue) {
@@ -511,6 +513,7 @@ import ServerConnections from '../ServerConnections';
             let imgType = null;
             let itemId = null;
 
+            /* eslint-disable sonarjs/no-duplicated-branches */
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
                 imgTag = item.ImageTags.Thumb;
@@ -607,6 +610,7 @@ import ServerConnections from '../ServerConnections';
                 imgTag = item.ParentBackdropImageTags[0];
                 itemId = item.ParentBackdropItemId;
             }
+            /* eslint-enable sonarjs/no-duplicated-branches */
 
             if (!itemId) {
                 itemId = item.Id;
@@ -656,12 +660,12 @@ import ServerConnections from '../ServerConnections';
 
             if (str) {
                 const charIndex = Math.floor(str.length / 2);
-                const character = String(str.substr(charIndex, 1).charCodeAt());
+                const character = String(str.slice(charIndex, charIndex + 1).charCodeAt());
                 let sum = 0;
                 for (let i = 0; i < character.length; i++) {
                     sum += parseInt(character.charAt(i));
                 }
-                const index = String(sum).substr(-1);
+                const index = String(sum).slice(-1);
 
                 return (index % numRandomColors) + 1;
             } else {
@@ -701,7 +705,7 @@ import ServerConnections from '../ServerConnections';
 
                 if (text) {
                     html += "<div class='" + currentCssClass + "'>";
-                    html += text;
+                    html += '<bdi>' + text + '</bdi>';
                     html += '</div>';
                     valid++;
 
@@ -789,10 +793,8 @@ import ServerConnections from '../ServerConnections';
 
             const showOtherText = isOuterFooter ? !overlayText : overlayText;
 
-            if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
-                if (options.cardFooterAside !== 'none') {
-                    html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
-                }
+            if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== 'none') {
+                html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
             }
 
             const cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
@@ -802,33 +804,31 @@ import ServerConnections from '../ServerConnections';
             const parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
             let titleAdded;
 
-            if (showOtherText) {
-                if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
-                    if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
-                        if (item.SeriesId) {
-                            lines.push(getTextActionButton({
-                                Id: item.SeriesId,
-                                ServerId: serverId,
-                                Name: item.SeriesName,
-                                Type: 'Series',
-                                IsFolder: true
-                            }));
-                        } else {
-                            lines.push(escapeHtml(item.SeriesName));
+            if (showOtherText && (options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
+                if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
+                    if (item.SeriesId) {
+                        lines.push(getTextActionButton({
+                            Id: item.SeriesId,
+                            ServerId: serverId,
+                            Name: item.SeriesName,
+                            Type: 'Series',
+                            IsFolder: true
+                        }));
+                    } else {
+                        lines.push(escapeHtml(item.SeriesName));
+                    }
+                } else {
+                    if (isUsingLiveTvNaming(item)) {
+                        lines.push(escapeHtml(item.Name));
+
+                        if (!item.EpisodeTitle && !item.IndexNumber) {
+                            titleAdded = true;
                         }
                     } else {
-                        if (isUsingLiveTvNaming(item)) {
-                            lines.push(escapeHtml(item.Name));
+                        const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
-                            if (!item.EpisodeTitle) {
-                                titleAdded = true;
-                            }
-                        } else {
-                            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
-
-                            if (parentTitle || showTitle) {
-                                lines.push(escapeHtml(parentTitle));
-                            }
+                        if (parentTitle || showTitle) {
+                            lines.push(escapeHtml(parentTitle));
                         }
                     }
                 }
@@ -908,19 +908,20 @@ import ServerConnections from '../ServerConnections';
                 }
 
                 if (options.showYear || options.showSeriesYear) {
+                    const productionYear = item.ProductionYear && datetime.toLocaleString(item.ProductionYear, {useGrouping: false});
                     if (item.Type === 'Series') {
                         if (item.Status === 'Continuing') {
-                            lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
+                            lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
                         } else {
                             if (item.EndDate && item.ProductionYear) {
-                                const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
-                                lines.push(item.ProductionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
+                                const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), {useGrouping: false});
+                                lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                             } else {
-                                lines.push(item.ProductionYear || '');
+                                lines.push(productionYear || '');
                             }
                         }
                     } else {
-                        lines.push(item.ProductionYear || '');
+                        lines.push(productionYear || '');
                     }
                 }
 
@@ -949,7 +950,7 @@ import ServerConnections from '../ServerConnections';
 
                         }, item.ChannelName));
                     } else {
-                        lines.push(escapeHtml(item.ChannelName) || '&nbsp;');
+                        lines.push(escapeHtml(item.ChannelName || '') || '&nbsp;');
                     }
                 }
 
@@ -981,14 +982,12 @@ import ServerConnections from '../ServerConnections';
                     if (item.RecordAnyChannel) {
                         lines.push(globalize.translate('AllChannels'));
                     } else {
-                        lines.push(escapeHtml(item.ChannelName) || globalize.translate('OneChannel'));
+                        lines.push(escapeHtml(item.ChannelName || '') || globalize.translate('OneChannel'));
                     }
                 }
 
-                if (options.showPersonRoleOrType) {
-                    if (item.Role) {
-                        lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
-                    }
+                if (options.showPersonRoleOrType && item.Role) {
+                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
                 }
             }
 
@@ -1008,13 +1007,11 @@ import ServerConnections from '../ServerConnections';
                 html += progressHtml;
             }
 
-            if (html) {
-                if (!isOuterFooter || logoUrl || options.cardLayout) {
-                    html = '<div class="' + footerClass + '">' + html;
+            if (html && (!isOuterFooter || logoUrl || options.cardLayout)) {
+                html = '<div class="' + footerClass + '">' + html;
 
-                    //cardFooter
-                    html += '</div>';
-                }
+                //cardFooter
+                html += '</div>';
             }
 
             return html;
@@ -1038,9 +1035,10 @@ import ServerConnections from '../ServerConnections';
                 return text;
             }
 
-            let html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
+            const url = appRouter.getRouteUrl(item);
+            let html = '<a href="' + url + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' class="itemAction textActionButton" title="' + text + '" data-action="link">';
             html += text;
-            html += '</button>';
+            html += '</a>';
 
             return html;
         }
@@ -1347,12 +1345,13 @@ import ServerConnections from '../ServerConnections';
 
                 cardImageContainerClose = '</div>';
             } else {
-                const cardImageContainerAriaLabelAttribute = ` aria-label="${item.Name}"`;
+                const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
 
+                const url = appRouter.getRouteUrl(item);
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
+                cardImageContainerOpen = imgUrl ? ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
 
-                cardImageContainerClose = '</button>';
+                cardImageContainerClose = '</a>';
             }
 
             const cardScalableClass = 'cardScalable';
@@ -1430,7 +1429,7 @@ import ServerConnections from '../ServerConnections';
             if (tagName === 'button') {
                 className += ' itemAction';
                 actionAttribute = ' data-action="' + action + '"';
-                ariaLabelAttribute = ` aria-label="${item.Name}"`;
+                ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
             } else {
                 actionAttribute = '';
             }
@@ -1470,6 +1469,8 @@ import ServerConnections from '../ServerConnections';
             let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
+            const url = appRouter.getRouteUrl(item);
+            html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
             const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 

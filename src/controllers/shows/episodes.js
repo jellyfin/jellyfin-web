@@ -1,13 +1,14 @@
 import loading from '../../components/loading/loading';
-import { Events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
+import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
+
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
@@ -189,11 +190,11 @@ import Dashboard from '../../scripts/clientUtils';
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
-            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
+        function initPage(tabElement) {
+            tabElement.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });
-            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
+            tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -221,22 +222,22 @@ import Dashboard from '../../scripts/clientUtils';
                         id: 'Runtime,SeriesSortName,SortName'
                     }],
                     callback: function () {
-                        reloadItems(tabContent);
+                        reloadItems(tabElement);
                     },
-                    query: getQuery(tabContent),
+                    query: getQuery(tabElement),
                     button: e.target
                 });
             });
-            const btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabElement.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
-                getPageData(tabContent).view = viewStyle;
-                libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+                getPageData(tabElement).view = viewStyle;
+                libraryBrowser.saveViewSetting(getSavedQueryKey(tabElement), viewStyle);
                 onViewStyleChange();
-                reloadItems(tabContent);
+                reloadItems(tabElement);
             });
         }
 

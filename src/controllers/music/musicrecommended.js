@@ -14,7 +14,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 
 /* eslint-disable indent */
 
@@ -226,10 +226,6 @@ import Dashboard from '../../scripts/clientUtils';
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
-        function enableScrollX() {
-            return browser.mobile;
-        }
-
         function setScrollClasses(elem, scrollX) {
             if (scrollX) {
                 elem.classList.add('hiddenScrollX');
@@ -348,10 +344,9 @@ import Dashboard from '../../scripts/clientUtils';
         }
 
         function onInputCommand(e) {
-            switch (e.detail.command) {
-                case 'search':
-                    e.preventDefault();
-                    Dashboard.navigate('search.html?collectionType=music&parentId=' + params.topParentId);
+            if (e.detail.command === 'search') {
+                e.preventDefault();
+                Dashboard.navigate('search.html?collectionType=music&parentId=' + params.topParentId);
             }
         }
 
@@ -363,7 +358,7 @@ import Dashboard from '../../scripts/clientUtils';
             const containers = tabContent.querySelectorAll('.itemsContainer');
 
             for (let i = 0, length = containers.length; i < length; i++) {
-                setScrollClasses(containers[i], enableScrollX());
+                setScrollClasses(containers[i], browser.mobile);
             }
         };
 

@@ -145,7 +145,7 @@ import ServerConnections from '../components/ServerConnections';
         return function () {
             const apiClient = this.apiClient;
             const options = {
-                SortBy: (section.types, 'SeriesName,SortName'),
+                SortBy: 'SeriesName,SortName',
                 SortOrder: 'Ascending',
                 Filters: 'IsFavorite',
                 Recursive: true,
@@ -278,7 +278,7 @@ class FavoritesTab {
     }
 
     onResume(options) {
-        const promises = (this.apiClient, []);
+        const promises = [];
         const view = this.view;
         const elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
 

@@ -206,8 +206,8 @@ import toast from '../toast/toast';
         });
     }
 
-    export class showEditor {
-        constructor(options) {
+    class CollectionEditor {
+        show(options) {
             const items = options.items || {};
             currentServerId = options.serverId;
 
@@ -266,4 +266,4 @@ import toast from '../toast/toast';
     }
 
 /* eslint-enable indent */
-export default showEditor;
+export default CollectionEditor;

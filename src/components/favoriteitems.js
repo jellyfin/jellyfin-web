@@ -5,6 +5,7 @@ import { appHost } from './apphost';
 import imageLoader from './images/imageLoader';
 import globalize from '../scripts/globalize';
 import layoutManager from './layoutManager';
+import { getParameterByName } from '../utils/url.ts';
 import '../assets/css/scrollstyles.scss';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -120,10 +121,14 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
         }
 
         if (!isSingleSection) {
-            options.Limit = screenWidth >= 1920 ? 10 : screenWidth >= 1440 ? 8 : 6;
+            options.Limit = 6;
 
             if (enableScrollX()) {
                 options.Limit = 20;
+            } else if (screenWidth >= 1920) {
+                options.Limit = 10;
+            } else if (screenWidth >= 1440) {
+                options.Limit = 8;
             }
         }
 
@@ -140,8 +145,10 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
             let html = '';
 
             if (result.Items.length) {
-                if (html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', !layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                    html += '<a is="emby-linkbutton" href="' + ('#!/list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+
+                if (!layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
+                    html += '<a is="emby-linkbutton" href="' + ('#/list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate(section.name);
                     html += '</h2>';

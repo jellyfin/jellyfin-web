@@ -7,8 +7,9 @@ import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import '../../../components/listview/listview.scss';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import toast from '../../../components/toast/toast';
+import { getParameterByName } from '../../../utils/url.ts';
 
 /* eslint-disable indent */
 
@@ -148,7 +149,8 @@ import toast from '../../../components/toast/toast';
             li += '<h3 class="listItemBodyText">' + escapeHtml(h.Name + ' = ' + (h.Value || '')) + '</h3>';
             li += '</div>';
             li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><span class="material-icons delete" aria-hidden="true"></span></button>';
-            return li += '</div>';
+            li += '</div>';
+            return li;
         }).join('') + '</div>';
         const elem = $('.xmlDocumentAttributeList', page).html(html).trigger('create');
         $('.btnDeleteXmlAttribute', elem).on('click', function () {

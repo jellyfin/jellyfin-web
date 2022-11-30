@@ -2,17 +2,18 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
 
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
-    'libass-wasm/dist/js/subtitles-octopus-worker.js',
-    'libass-wasm/dist/js/subtitles-octopus-worker.data',
-    'libass-wasm/dist/js/subtitles-octopus-worker.wasm',
-    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.data',
-    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.data',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.data',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem',
     'pdfjs-dist/build/pdf.worker.js'
 ];
 
@@ -21,7 +22,11 @@ const LibarchiveWasm = [
     'libarchive.js/dist/wasm-gen/libarchive.wasm'
 ];
 
-module.exports = {
+const DEV_MODE = process.env.NODE_ENV !== 'production';
+
+const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
+
+const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     resolve: {
@@ -81,10 +86,55 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].jellyfin.bundle.js',
+        filename: '[name].bundle.js',
         chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
+    },
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            cacheGroups: {
+                node_modules: {
+                    test(module) {
+                        return NODE_MODULES_REGEX.test(module.context);
+                    },
+                    name(module) {
+                        // get the name. E.g. node_modules/packageName/not/this/part.js
+                        // or node_modules/packageName
+                        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                        // if "packageName" is a namespace (i.e. @jellyfin) get the namespace + packageName
+                        if (packageName.startsWith('@')) {
+                            const parts = module.context
+                                .substring(module.context.lastIndexOf(packageName))
+                                .split(/[\\/]/);
+                            return `node_modules.${parts[0]}.${parts[1]}`;
+                        }
+
+                        if (packageName === 'date-fns') {
+                            const parts = module.context
+                                .substring(module.context.lastIndexOf(packageName))
+                                .split(/[\\/]/);
+
+                            let name = `node_modules.${parts[0]}`;
+                            if (parts[1]) {
+                                name += `.${parts[1]}`;
+
+                                if (parts[1] === 'locale' && parts[2]) {
+                                    name += `.${parts[2]}`;
+                                }
+                            }
+
+                            return name;
+                        }
+
+                        return `node_modules.${packageName}`;
+                    }
+                }
+            }
+        }
     },
     module: {
         rules: [
@@ -96,9 +146,13 @@ module.exports = {
             },
             {
                 test: /\.(js|jsx)$/,
-                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|blurhash|date-fns|epubjs|flv.js|libarchive.js|marked|screenfull)/,
+                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|@remix-run[\\/]router|blurhash|date-fns|dom7|epubjs|flv.js|libarchive.js|marked|react-router|screenfull|ssr-window|swiper)/,
                 use: [{
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true
+                    }
                 }]
             },
             {
@@ -122,6 +176,8 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        cacheCompression: false,
+                        cacheDirectory: true,
                         plugins: [
                             '@babel/transform-modules-umd'
                         ]
@@ -131,7 +187,7 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    'style-loader',
+                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: 'postcss-loader',
@@ -147,7 +203,7 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [
-                    'style-loader',
+                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: 'postcss-loader',
@@ -181,3 +237,9 @@ module.exports = {
         ]
     }
 };
+
+if (!DEV_MODE) {
+    config.plugins.push(new MiniCssExtractPlugin());
+}
+
+module.exports = config;

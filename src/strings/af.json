@@ -772,7 +772,7 @@
     "LabelHttpsPort": "Plaaslike HTTPS -poortnommer:",
     "LabelHomeScreenSectionValue": "Tuisskermafdeling {0}:",
     "LabelHomeNetworkQuality": "Tuisnetwerk kwaliteit:",
-    "LabelHDHomerunPortRangeHelp": "Beperk die HD Homerun UDP -poortreeks tot hierdie waarde. (Standaard is 1024 - 645535).",
+    "LabelHDHomerunPortRangeHelp": "Beperk die HD Homerun UDP -poortreeks tot hierdie waarde. (Standaard is 1024 - 65535).",
     "LabelHDHomerunPortRange": "HD Homerun -poortreeks:",
     "LabelHardwareAccelerationTypeHelp": "Hardewareversnelling vereis ekstra konfigurasie.",
     "LabelHardwareAccelerationType": "Hardeware versnelling:",
@@ -803,5 +803,14 @@
     "Console": "Konsole",
     "Conductor": "Kondukteur",
     "Casual": "Informeel",
-    "Arranger": "Organiseerder"
+    "Arranger": "Organiseerder",
+    "Digital": "Digitaal",
+    "CopyFailed": "Kon nie kopieer nie",
+    "Copy": "Kopieer",
+    "Copied": "Gekopieer",
+    "ButtonSpace": "Spasie",
+    "ButtonExitApp": "Verlaat Program",
+    "ButtonClose": "Maak toe",
+    "ButtonBackspace": "Terug",
+    "AddToFavorites": "Voeg by gunstelinge"
 }

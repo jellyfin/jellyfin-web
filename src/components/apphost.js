@@ -1,7 +1,7 @@
 import Package from '../../package.json';
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../scripts/globalize';
@@ -39,7 +39,8 @@ function getDeviceProfile(item) {
             profile = profileBuilder(builderOpts);
         }
 
-        const maxTranscodingVideoWidth = appHost.screen()?.maxAllowedWidth;
+        const maxVideoWidth = appSettings.maxVideoWidth();
+        const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
@@ -62,22 +63,13 @@ function getDeviceProfile(item) {
     });
 }
 
-function escapeRegExp(str) {
-    return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
-}
-
-function replaceAll(originalString, strReplace, strWith) {
-    const strReplace2 = escapeRegExp(strReplace);
-    const reg = new RegExp(strReplace2, 'ig');
-    return originalString.replace(reg, strWith);
-}
-
 function generateDeviceId() {
     const keys = [];
 
-    if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), window.btoa) {
-        const result = replaceAll(btoa(keys.join('|')), '=', '1');
-        return result;
+    keys.push(navigator.userAgent);
+    keys.push(new Date().getTime());
+    if (window.btoa) {
+        return btoa(keys.join('|')).replaceAll('=', '1');
     }
 
     return new Date().getTime();
@@ -164,11 +156,7 @@ function supportsHtmlMediaAutoplay() {
         return true;
     }
 
-    if (browser.mobile) {
-        return false;
-    }
-
-    return true;
+    return !browser.mobile;
 }
 
 function supportsCue() {

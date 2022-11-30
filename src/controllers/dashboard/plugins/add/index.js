@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 import loading from '../../../../components/loading/loading';
 import globalize from '../../../../scripts/globalize';
 import '../../../../elements/emby-button/emby-button';
-import Dashboard from '../../../../scripts/clientUtils';
+import Dashboard from '../../../../utils/dashboard';
 import alert from '../../../../components/alert';
 import confirm from '../../../../components/confirm/confirm';
 
