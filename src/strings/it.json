@@ -1630,7 +1630,7 @@
     "NextUpRewatching": "Riguarda",
     "ShowParentImages": "Visualizza le immagini",
     "MixedMoviesShows": "Film e Serie TV",
-    "AddToFavorites": "Aggiungi ai favoriti",
+    "AddToFavorites": "Aggiungi ai preferiti",
     "GoogleCastUnsupported": "Google Cast non supportato",
     "CopyFailed": "Impossibile copiare",
     "Copy": "Copia",
@@ -1682,5 +1682,6 @@
     "MessageRenameMediaFolder": "Rinominare una libreria media causerà la perdita di tutti i metadati, procedi con cautela.",
     "OptionDateEpisodeAdded": "Data Aggiunta Episodio",
     "OptionDateShowAdded": "Data Aggiunta Serie",
-    "MessageNoFavoritesAvailable": "Al momento non sono disponibili preferiti."
+    "MessageNoFavoritesAvailable": "Al momento non sono disponibili preferiti.",
+    "Unreleased": "Non ancora rilasciato"
 }
