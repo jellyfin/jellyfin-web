@@ -28,7 +28,7 @@ import template from './accessSchedule.template.html';
     function populateHours(context) {
         let html = '';
 
-        for (let i = 0; i < 24; i++) {
+        for (let i = 0; i < 24; i += 0.5) {
             html += `<option value="${i}">${getDisplayTime(i)}</option>`;
         }
 
