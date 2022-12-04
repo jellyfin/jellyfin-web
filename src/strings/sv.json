@@ -1678,5 +1678,10 @@
     "IgnoreDtsHelp": "Att avaktivera den här inställningen kan lösa några problem, t.ex. frånvarande ljud på kanaler med separata ljud- och bildströmmar.",
     "IgnoreDts": "Ignorera DTS (avkodningstidsstämpel)",
     "OptionDateShowAdded": "Datum för serietilläggning",
-    "OptionDateEpisodeAdded": "Datum för avsnittstilläggning"
+    "OptionDateEpisodeAdded": "Datum för avsnittstilläggning",
+    "MessageNoItemsAvailable": "Inga objekt är för närvarande tillgängliga.",
+    "Unreleased": "Ännu ej släppt",
+    "EnableCardLayout": "Visa visuell CardBox",
+    "MessageNoFavoritesAvailable": "Inga favoriter är för närvarande tillgängliga.",
+    "MessageRenameMediaFolder": "Vid namnbyte av bibliotek kommer all metadata förloras, fortsätt med försiktighet."
 }
