@@ -1043,7 +1043,7 @@
     "ErrorDeletingItem": "서버에서 항목을 삭제하는 중에 오류가 발생했습니다. Jellyfin에 미디어 폴더에 대한 쓰기 권한이 있는지 확인하고 다시 시도하십시오.",
     "HeaderConfigureRemoteAccess": "원격 접근 설정",
     "HeaderCastAndCrew": "배역 및 제작진",
-    "HeaderNextEpisodePlayingInValue": "{0}뒤에 다음 에피소드 재생",
+    "HeaderNextEpisodePlayingInValue": "{0} 뒤 다음 에피소드 재생",
     "HeaderNextVideoPlayingInValue": "{0}뒤에 다음 비디오 재생",
     "HeaderOnNow": "지금",
     "LabelBlockContentWithTags": "다음 태그가 있는 항목 차단:",
