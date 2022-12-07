@@ -1493,7 +1493,7 @@
     "UnsupportedPlayback": "Jellyfin ei voi purkaa DRM-suojatun sisällön salausta, mutta kaiken sisällön toistoa yritetään, salatut nimikkeet mukaan lukien. Jotkin tiedostot saattavat näyttää salauksen vuoksi täysin mustilta tai saattaa ilmetä muita ei tuettuja ominaisuuksia, kuten vuorovaikutteisia valikoita.",
     "TabRepositories": "Tietovarastot",
     "PluginFromRepo": "{0} tietovarastosta {1}",
-    "SyncPlayAccessHelp": "SyncPlay-ominaisuus mahdollistaa toiston muiden laitteiden toistton kohdistuksen. Valitse käyttäjälle myönnettävä SyncPlay-taso.",
+    "SyncPlayAccessHelp": "SyncPlay-ominaisuus mahdollistaa toiston muiden laitteiden toiston kohdistuksen. Valitse käyttäjälle myönnettävä SyncPlay-taso.",
     "StoryArc": "Tarina",
     "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Säädä valitun laitteen vaatimaa kohdistusaikaa (ms) manuaalisesti. Muuta varoen.",
     "LabelSyncPlaySettingsExtraTimeOffset": "Lisätty aikapoikkeama:",
