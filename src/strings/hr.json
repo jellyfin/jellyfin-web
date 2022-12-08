@@ -1345,5 +1345,18 @@
     "LabelTonemappingParamHelp": "Podesite algoritam mapiranja tonova. Preporučene i zadane vrijednosti su NaN. Općenito ostavite prazno.",
     "LabelVideoRange": "Video raspon:",
     "LiveTV": "TV uživo",
-    "MediaInfoColorTransfer": "Prijenos boja"
+    "MediaInfoColorTransfer": "Prijenos boja",
+    "IgnoreDtsHelp": "Isključivanje ove opcije može riješiti neke probleme, npr. nedostatak zvuka na kanalima s odvojenim zvučnim i video tokovima.",
+    "LabelEnableIP4Help": "Omogući IPv4 funkcionalnost.",
+    "LabelEnableIP4": "Omogući IPv4",
+    "Cursive": "Rukopisni",
+    "ItemDetails": "Detalji stavke",
+    "LabelEnableSSDPTracing": "Omogući SSDP praćenje:",
+    "LabelEnableHttpsHelp": "Osluškuj na konfiguriranom HTTPS portu. Mora se pružati valjani certifikat kako bi ovo stupilo na snagu.",
+    "HomeVideosPhotos": "Početni videi i fotografije",
+    "LabelEnableIP6": "Omogući IPv6",
+    "LabelEnableIP6Help": "Omogući IPv6 funkcionalnost.",
+    "ButtonSpace": "Razmak",
+    "IgnoreDts": "Ignoriraj DTS (vremenska oznaka decodera)",
+    "LabelAutomaticallyAddToCollectionHelp": "Kada najmanje 2 filma imaju isti naziv kolekcije, automatski će se dodati u kolekciju."
 }
