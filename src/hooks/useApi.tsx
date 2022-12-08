@@ -23,7 +23,7 @@ export const ApiProvider: FC = ({ children }) => {
 
     useEffect(() => {
         ServerConnections.currentApiClient()
-            .getCurrentUser()
+            ?.getCurrentUser()
             .then(newUser => updateApiUser(undefined, newUser))
             .catch(err => {
                 console.info('[ApiProvider] Could not get current user', err);
