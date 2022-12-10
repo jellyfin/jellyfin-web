@@ -163,7 +163,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
         normalizeImages(session, apiClient);
 
         const eventNames = getChangedEvents(instance.lastPlayerData);
-        updateCurrentQueue(instance, session, apiClient);
+        updateCurrentQueue(instance, session);
 
         instance.lastPlayerData = session;
 
