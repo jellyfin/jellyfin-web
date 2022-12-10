@@ -64,7 +64,7 @@
     "AllowRemoteAccess": "Salli etäyhteydet tähän palvelimeen",
     "AllowRemoteAccessHelp": "Jos merkki puuttuu, kaikki ulkopuoliset yhteydet estetään.",
     "AllowedRemoteAddressesHelp": "Pilkuilla eroteltu lista IP-osoitteista tai IP/verkonpeite merkinnöistä verkoille, joille sallitaan etäyhteys palvelimeen. Tyhjäksi jätetty lista tarkoittaa, että kaikki osoitteet sallitaan.",
-    "AlwaysPlaySubtitles": "Näytä aina tekstitykset",
+    "AlwaysPlaySubtitles": "Toista aina",
     "AlwaysPlaySubtitlesHelp": "Oletuskieliasetusta vastaava tekstitys otetaan käyttöön ääniraidan kielestä huolimatta.",
     "AnyLanguage": "Mikä tahansa",
     "Anytime": "Milloin tahansa",
