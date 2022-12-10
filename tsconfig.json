@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "lib": ["DOM", "ES2015"],
+    "lib": ["DOM", "DOM.Iterable", "ES2015"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "module": "ESNext",
@@ -13,7 +13,8 @@
     "outDir": "./dist/",
     "checkJs": false,
     "strictNullChecks": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "downlevelIteration": true
   },
   "include": [
     "src"

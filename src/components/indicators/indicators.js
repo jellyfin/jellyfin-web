@@ -5,15 +5,9 @@ import './indicators.scss';
 import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {
-    if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
-        return true;
-    }
-
-    if (item.Type === 'AudioBook' || item.Type === 'AudioPodcast') {
-        return true;
-    }
-
-    return false;
+    return (item.MediaType === 'Video' && item.Type !== 'TvChannel')
+        || item.Type === 'AudioBook'
+        || item.Type === 'AudioPodcast';
 }
 
 export function getProgressHtml(pct, options) {
@@ -84,11 +78,11 @@ export function getPlayedIndicatorHtml(item) {
     if (enablePlayedIndicator(item)) {
         const userData = item.UserData || {};
         if (userData.UnplayedItemCount) {
-            return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
+            return '<div class="countIndicator indicator">' + datetime.toLocaleString(userData.UnplayedItemCount) + '</div>';
         }
 
         if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
-            return '<div class="playedIndicator indicator"><span class="material-icons indicatorIcon check"></span></div>';
+            return '<div class="playedIndicator indicator"><span class="material-icons indicatorIcon check" aria-hidden="true"></span></div>';
         }
     }
 
@@ -99,7 +93,7 @@ export function getChildCountIndicatorHtml(item, options) {
     const minCount = options && options.minCount ? options.minCount : 0;
 
     if (item.ChildCount && item.ChildCount > minCount) {
-        return '<div class="countIndicator indicator">' + item.ChildCount + '</div>';
+        return '<div class="countIndicator indicator">' + datetime.toLocaleString(item.ChildCount) + '</div>';
     }
 
     return '';
@@ -109,7 +103,7 @@ export function getTimerIndicator(item) {
     let status;
 
     if (item.Type === 'SeriesTimer') {
-        return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record"></span>';
+        return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
     } else if (item.TimerId || item.SeriesTimerId) {
         status = item.Status || 'Cancelled';
     } else if (item.Type === 'Timer') {
@@ -120,20 +114,20 @@ export function getTimerIndicator(item) {
 
     if (item.SeriesTimerId) {
         if (status !== 'Cancelled') {
-            return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record"></span>';
+            return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
         }
 
-        return '<span class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record"></span>';
+        return '<span class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
     }
 
-    return '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record"></span>';
+    return '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record" aria-hidden="true"></span>';
 }
 
 export function getSyncIndicator(item) {
     if (item.SyncPercent === 100) {
-        return '<div class="syncIndicator indicator fullSyncIndicator"><span class="material-icons indicatorIcon file_download"></span></div>';
+        return '<div class="syncIndicator indicator fullSyncIndicator"><span class="material-icons indicatorIcon file_download" aria-hidden="true"></span></div>';
     } else if (item.SyncPercent != null) {
-        return '<div class="syncIndicator indicator emptySyncIndicator"><span class="material-icons indicatorIcon file_download"></span></div>';
+        return '<div class="syncIndicator indicator emptySyncIndicator"><span class="material-icons indicatorIcon file_download" aria-hidden="true"></span></div>';
     }
 
     return '';
@@ -148,7 +142,7 @@ export function getTypeIndicator(item) {
     };
 
     const icon = iconT[item.Type];
-    return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' + icon + '"></span></div>' : '';
+    return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' + icon + '" aria-hidden="true"></span></div>' : '';
 }
 
 export function getMissingIndicator(item) {

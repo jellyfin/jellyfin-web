@@ -1,15 +1,5 @@
 import React, { FunctionComponent } from 'react';
-
-const createButtonElement = ({tag}) => ({
-    __html: `<button
-        type='button'
-        is='paper-icon-button-light'
-        class='blockedTag btnDeleteTag listItemButton'
-        data-tag='${tag}'
-    >
-        <span class='material-icons delete' />
-    </button>`
-});
+import IconButtonElement from '../../../elements/IconButtonElement';
 
 type IProps = {
     tag?: string;
@@ -24,13 +14,14 @@ const BlockedTagList: FunctionComponent<IProps> = ({tag}: IProps) => {
                         {tag}
                     </h3>
                 </div>
-                <div
-                    dangerouslySetInnerHTML={createButtonElement({
-                        tag: tag
-                    })}
+                <IconButtonElement
+                    is='paper-icon-button-light'
+                    className='blockedTag btnDeleteTag listItemButton'
+                    title='Delete'
+                    icon='delete'
+                    dataTag={tag}
                 />
             </div>
-
         </div>
     );
 };

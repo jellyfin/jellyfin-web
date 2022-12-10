@@ -117,8 +117,15 @@ div[data-role=controlgroup] a[data-role=button]:last-child {
 }
 
 div[data-role=controlgroup] a[data-role=button] + a[data-role=button] {
-    border-left-width: 0 !important;
-    margin: 0 0 0 -0.4em !important;
+    [dir="ltr"] & {
+        border-left-width: 0 !important;
+        margin: 0 0 0 -0.4em !important;
+    }
+
+    [dir="rtl"] & {
+        border-right-width: 0 !important;
+        margin: 0 -0.4em 0 0 !important;
+    }
 }
 
 div[data-role=controlgroup] a.ui-btn-active {
@@ -327,7 +334,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .sessionAppInfo {
     flex-grow: 1;
-    padding: 0.5em;
+    padding: 1em;
     overflow: hidden;
 }
 
@@ -367,14 +374,18 @@ div[data-role=controlgroup] a.ui-btn-active {
 .sessionNowPlayingInfo {
     flex-grow: 1;
     text-overflow: ellipsis;
-    padding: 0.8em 0.5em;
+    padding: 1em;
+}
+
+.sessionNowPlayingName {
+    font-size: 0.8em;
 }
 
 .sessionNowPlayingTime {
     flex-shrink: 0;
     align-self: flex-end;
     text-overflow: ellipsis;
-    padding: 0.8em 0.5em;
+    padding: 1em;
 }
 
 .playbackProgress,
@@ -382,11 +393,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin: 0;
     width: 100%;
     background: transparent !important;
-}
-
-.activeDevices.itemsContainer {
-    /* offset for cardBox margin */
-    margin: -0.6em;
 }
 
 .activeSession .backgroundProgress,

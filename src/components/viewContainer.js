@@ -1,6 +1,6 @@
 import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.scss';
-import Dashboard from '../scripts/clientUtils';
+import Dashboard from '../utils/dashboard';
 
 /* eslint-disable indent */
 
@@ -112,14 +112,11 @@ import Dashboard from '../scripts/clientUtils';
         }
     }
 
-    function replaceAll(str, find, replace) {
-        return str.split(find).join(replace);
-    }
-
     function parseHtml(html, hasScript) {
         if (hasScript) {
-            html = replaceAll(html, '\x3c!--<script', '<script');
-            html = replaceAll(html, '</script>--\x3e', '</script>');
+            html = html
+                .replaceAll('\x3c!--<script', '<script')
+                .replaceAll('</script>--\x3e', '</script>');
         }
 
         const wrapper = document.createElement('div');

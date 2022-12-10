@@ -5,21 +5,21 @@
     overflow: none;
     z-index: 100;
     background: #fff;
-}
 
-#canvas {
-    display: block;
-    margin: auto;
-}
+    #canvas {
+        display: block;
+        margin: auto;
+    }
 
-.actionButtons {
-    right: 0.5vh;
-    top: 0.5vh;
-    z-index: 1002;
-    position: absolute;
-}
+    .actionButtons {
+        right: 0.5vh;
+        top: 0.5vh;
+        z-index: 1002;
+        position: absolute;
+    }
 
-.actionButtonIcon {
-    color: black;
-    opacity: 0.7;
+    .actionButtonIcon {
+        color: #000;
+        opacity: 0.7;
+    }
 }

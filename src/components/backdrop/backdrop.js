@@ -1,31 +1,22 @@
+import isEqual from 'lodash-es/isEqual';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../scripts/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
-import './backdrop.scss';
 import ServerConnections from '../ServerConnections';
+
+import './backdrop.scss';
 
 /* eslint-disable indent */
 
     function enableAnimation() {
-        if (browser.slow) {
-            return false;
-        }
-
-        return true;
+        return !browser.slow;
     }
 
     function enableRotation() {
-        if (browser.tv) {
-            return false;
-        }
-
-        // Causes high cpu usage
-        if (browser.firefox) {
-            return false;
-        }
-
-        return true;
+        return !browser.tv
+            // Causes high cpu usage
+            && !browser.firefox;
     }
 
     class Backdrop {
@@ -141,14 +132,14 @@ import ServerConnections from '../ServerConnections';
     }
 
     let hasInternalBackdrop;
-    function internalBackdrop(enabled) {
-        hasInternalBackdrop = enabled;
+    function internalBackdrop(isEnabled) {
+        hasInternalBackdrop = isEnabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
     let hasExternalBackdrop;
-    export function externalBackdrop(enabled) {
-        hasExternalBackdrop = enabled;
+    export function externalBackdrop(isEnabled) {
+        hasExternalBackdrop = isEnabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
@@ -217,28 +208,6 @@ import ServerConnections from '../ServerConnections';
         return list;
     }
 
-    function arraysEqual(a, b) {
-        if (a === b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        if (a.length !== b.length) {
-            return false;
-        }
-
-        // If you don't care about the order of the elements inside
-        // the array, you should sort both arrays here.
-        for (let i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     function enabled() {
         return userSettings.enableBackdrops();
     }
@@ -259,7 +228,7 @@ import ServerConnections from '../ServerConnections';
     }
 
     function startRotation(images, enableImageRotation) {
-        if (arraysEqual(images, currentRotatingImages)) {
+        if (isEqual(images, currentRotatingImages)) {
             return;
         }
 
@@ -315,9 +284,37 @@ import ServerConnections from '../ServerConnections';
 
 /* eslint-enable indent */
 
-export default {
-    setBackdrops: setBackdrops,
-    setBackdrop: setBackdrop,
-    clearBackdrop: clearBackdrop,
-    externalBackdrop: externalBackdrop
+/**
+ * @enum TransparencyLevel
+ */
+export const TRANSPARENCY_LEVEL = {
+    Full: 'full',
+    Backdrop: 'backdrop',
+    None: 'none'
 };
+
+/**
+ * Sets the backdrop, background, and document transparency
+ * @param {TransparencyLevel} level The level of transparency
+ */
+export function setBackdropTransparency(level) {
+    const backdropElem = getBackdropContainer();
+    const backgroundElem = getBackgroundContainer();
+
+    if (level === TRANSPARENCY_LEVEL.Full || level === 2) {
+        clearBackdrop(true);
+        document.documentElement.classList.add('transparentDocument');
+        backgroundElem.classList.add('backgroundContainer-transparent');
+        backdropElem.classList.add('hide');
+    } else if (level === TRANSPARENCY_LEVEL.Backdrop || level === 1) {
+        externalBackdrop(true);
+        document.documentElement.classList.add('transparentDocument');
+        backgroundElem.classList.add('backgroundContainer-transparent');
+        backdropElem.classList.add('hide');
+    } else {
+        externalBackdrop(false);
+        document.documentElement.classList.remove('transparentDocument');
+        backgroundElem.classList.remove('backgroundContainer-transparent');
+        backdropElem.classList.remove('hide');
+    }
+}

@@ -2,13 +2,14 @@ import loading from '../../../components/loading/loading';
 import dom from '../../../scripts/dom';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
+import { getParameterByName } from '../../../utils/url.ts';
 
 /* eslint-disable indent */
 
     function load(page, device, deviceOptions) {
         page.querySelector('#txtCustomName', page).value = deviceOptions.CustomName || '';
-        page.querySelector('.reportedName', page).innerHTML = device.Name || '';
+        page.querySelector('.reportedName', page).innerText = device.Name || '';
     }
 
     function loadData() {

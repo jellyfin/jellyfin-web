@@ -2,32 +2,33 @@ import appSettings from '../../../scripts/settings/appSettings';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import ServerConnections from '../../../components/ServerConnections';
+import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionState.ts';
 
 /* eslint-disable indent */
 
     function handleConnectionResult(page, result) {
         loading.hide();
         switch (result.State) {
-            case 'SignedIn': {
+            case ConnectionState.SignedIn: {
                 const apiClient = result.ApiClient;
                 Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
                 Dashboard.navigate('home.html');
                 break;
             }
-            case 'ServerSignIn':
+            case ConnectionState.ServerSignIn:
                 Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id, false, 'none');
                 break;
-            case 'ServerSelection':
+            case ConnectionState.ServerSelection:
                 Dashboard.navigate('selectserver.html', false, 'none');
                 break;
-            case 'ServerUpdateNeeded':
+            case ConnectionState.ServerUpdateNeeded:
                 Dashboard.alert({
                     message: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                 });
                 break;
-            case 'Unavailable':
+            case ConnectionState.Unavailable:
                 Dashboard.alert({
                     message: globalize.translate('MessageUnableToConnectToServer'),
                     title: globalize.translate('HeaderConnectionFailure')
@@ -44,7 +45,7 @@ import ServerConnections from '../../../components/ServerConnections';
             handleConnectionResult(page, result);
         }, function() {
             handleConnectionResult(page, {
-                State: 'Unavailable'
+                State: ConnectionState.Unavailable
             });
         });
     }

@@ -5,6 +5,7 @@
  * @module components/mediaLibraryCreator/mediaLibraryCreator
  */
 
+import escapeHtml from 'escape-html';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
@@ -19,6 +20,7 @@ import '../../elements/emby-toggle/emby-toggle';
 import '../listview/listview.scss';
 import '../formdialog.scss';
 import '../../assets/css/flexstyles.scss';
+import './style.scss';
 import toast from '../toast/toast';
 import alert from '../alert';
 import template from './mediaLibraryCreator.template.html';
@@ -87,12 +89,11 @@ import template from './mediaLibraryCreator.template.html';
                 if (index != -1) {
                     const name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
                     $('#txtValue', dlg).val(name);
-                    const folderOption = collectionTypeOptions.filter(i => {
-                        return i.value == value;
-                    })[0];
-                    $('.collectionTypeFieldDescription', dlg).html(folderOption.message || '');
                 }
             }
+
+            const folderOption = collectionTypeOptions.find(i => i.value === value);
+            $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
         });
         page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
         page.querySelector('.btnSubmit').addEventListener('click', onAddLibrary);
@@ -119,16 +120,16 @@ import template from './mediaLibraryCreator.template.html';
 
     function getFolderHtml(pathInfo, index) {
         let html = '';
-        html += '<div class="listItem listItem-border lnkPath" style="padding-left:.5em;">';
+        html += '<div class="listItem listItem-border lnkPath">';
         html += `<div class="${pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody'}">`;
-        html += `<div class="listItemBodyText">${pathInfo.Path}</div>`;
+        html += `<div class="listItemBodyText" dir="ltr">${escapeHtml(pathInfo.Path)}</div>`;
 
         if (pathInfo.NetworkPath) {
-            html += `<div class="listItemBodyText secondary">${pathInfo.NetworkPath}</div>`;
+            html += `<div class="listItemBodyText secondary" dir="ltr">${escapeHtml(pathInfo.NetworkPath)}</div>`;
         }
 
         html += '</div>';
-        html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle" aria-hidden="true"></span></button>`;
         html += '</div>';
         return html;
     }

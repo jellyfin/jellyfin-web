@@ -9,8 +9,12 @@ TARBALL :=$(NAME)-$(subst -,~,$(VERSION)).tar.gz
 
 epel-7-x86_64_repos := https://rpm.nodesource.com/pub_16.x/el/\$$releasever/\$$basearch/
 
+fed_ver := $(shell rpm -E %fedora)
+# fallback when not running on Fedora
+fed_ver ?= 36
+TARGET  ?= fedora-$(fed_ver)-x86_64
+
 outdir  ?= $(PWD)/$(DIR)/
-TARGET  ?= fedora-35-x86_64
 
 srpm: $(DIR)/$(SRPM)
 tarball: $(DIR)/$(TARBALL)

@@ -3,7 +3,7 @@ import globalize from '../../../scripts/globalize';
 import '../../../assets/css/dashboard.scss';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import toast from '../../../components/toast/toast';
 
 function getApiClient() {

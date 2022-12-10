@@ -24,7 +24,7 @@ function reload(page) {
                 itemHtml += '</h2>';
                 if (showHelp) {
                     showHelp = false;
-                    itemHtml += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/notifications.html">';
+                    itemHtml += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/notifications">';
                     itemHtml += globalize.translate('Help');
                     itemHtml += '</a>';
                 }
@@ -33,14 +33,14 @@ function reload(page) {
             }
             itemHtml += '<a class="listItem listItem-border" is="emby-linkbutton" data-ripple="false" href="notificationsetting.html?type=' + notification.Type + '">';
             if (notification.Enabled) {
-                itemHtml += '<span class="listItemIcon material-icons notifications_active"></span>';
+                itemHtml += '<span class="listItemIcon material-icons notifications_active" aria-hidden="true"></span>';
             } else {
-                itemHtml += '<span class="listItemIcon material-icons notifications_off" style="background-color:#999;"></span>';
+                itemHtml += '<span class="listItemIcon material-icons notifications_off" aria-hidden="true" style="background-color:#999;"></span>';
             }
             itemHtml += '<div class="listItemBody">';
             itemHtml += '<div class="listItemBodyText">' + notification.Name + '</div>';
             itemHtml += '</div>';
-            itemHtml += '<button type="button" is="paper-icon-button-light"><span class="material-icons mode_edit"></span></button>';
+            itemHtml += '<button type="button" is="paper-icon-button-light"><span class="material-icons mode_edit" aria-hidden="true"></span></button>';
             itemHtml += '</a>';
             return itemHtml;
         }).join('');

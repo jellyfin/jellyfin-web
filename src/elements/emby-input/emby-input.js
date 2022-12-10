@@ -45,7 +45,7 @@ import 'webcomponents.js/webcomponents-lite';
         const parentNode = this.parentNode;
         const document = this.ownerDocument;
         const label = document.createElement('label');
-        label.innerHTML = this.getAttribute('label') || '';
+        label.innerText = this.getAttribute('label') || '';
         label.classList.add('inputLabel');
         label.classList.add('inputLabelUnfocused');
 
@@ -85,13 +85,9 @@ import 'webcomponents.js/webcomponents-lite';
             passive: true
         });
 
-        if (browser.orsay) {
-            if (this === document.activeElement) {
-                //Make sure the IME pops up if this is the first/default element on the page
-                if (document.attachIME) {
-                    document.attachIME(this);
-                }
-            }
+        //Make sure the IME pops up if this is the first/default element on the page
+        if (browser.orsay && this === document.activeElement && document.attachIME) {
+            document.attachIME(this);
         }
     };
 
@@ -114,7 +110,7 @@ import 'webcomponents.js/webcomponents-lite';
     };
 
     EmbyInputPrototype.label = function (text) {
-        this.labelElement.innerHTML = text;
+        this.labelElement.innerText = text;
     };
 
     document.registerElement('emby-input', {

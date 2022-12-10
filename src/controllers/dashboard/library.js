@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import taskButton from '../../scripts/taskbutton';
 import loading from '../../components/loading/loading';
@@ -7,7 +8,7 @@ import dom from '../../scripts/dom';
 import imageHelper from '../../scripts/imagehelper';
 import '../../components/cardbuilder/card.scss';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
-import Dashboard, { pageClassOn, pageIdOn } from '../../scripts/clientUtils';
+import Dashboard, { pageClassOn, pageIdOn } from '../../utils/dashboard';
 import confirm from '../../components/confirm/confirm';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
@@ -76,6 +77,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         import('../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelNewName'),
+                description: globalize.translate('MessageRenameMediaFolder'),
                 confirmText: globalize.translate('ButtonRename')
             }).then(function (newName) {
                 if (newName && newName != virtualFolder.Name) {
@@ -222,27 +224,27 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         }, {
             name: globalize.translate('Movies'),
             value: 'movies',
-            message: getLink('MovieLibraryHelp', 'https://docs.jellyfin.org/general/server/media/movies.html')
+            message: getLink('MovieLibraryHelp', 'https://jellyfin.org/docs/general/server/media/movies')
         }, {
             name: globalize.translate('TabMusic'),
             value: 'music',
-            message: getLink('MusicLibraryHelp', 'https://docs.jellyfin.org/general/server/media/music.html')
+            message: getLink('MusicLibraryHelp', 'https://jellyfin.org/docs/general/server/media/music')
         }, {
             name: globalize.translate('Shows'),
             value: 'tvshows',
-            message: getLink('TvLibraryHelp', 'https://docs.jellyfin.org/general/server/media/shows.html')
+            message: getLink('TvLibraryHelp', 'https://jellyfin.org/docs/general/server/media/shows')
         }, {
             name: globalize.translate('Books'),
             value: 'books',
-            message: getLink('BookLibraryHelp', 'https://docs.jellyfin.org/general/server/media/books.html')
+            message: getLink('BookLibraryHelp', 'https://jellyfin.org/docs/general/server/media/books')
         }, {
-            name: globalize.translate('Photos'),
+            name: globalize.translate('HomeVideosPhotos'),
             value: 'homevideos'
         }, {
             name: globalize.translate('MusicVideos'),
             value: 'musicvideos'
         }, {
-            name: globalize.translate('Other'),
+            name: globalize.translate('MixedMoviesShows'),
             value: 'mixed',
             message: globalize.translate('MessageUnsetContentHelp')
         }];
@@ -280,7 +282,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {
             html += `<div class="cardImageContainer editLibrary ${cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer;">`;
-            html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
+            html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
             hasCardImageContainer = true;
         }
 
@@ -293,11 +295,11 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
         if (!imgUrl && virtualFolder.showNameWithIcon) {
             html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-            html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
+            html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
 
             if (virtualFolder.showNameWithIcon) {
                 html += '<div style="margin:1em 0;position:width:100%;">';
-                html += virtualFolder.Name;
+                html += escapeHtml(virtualFolder.Name);
                 html += '</div>';
             }
 
@@ -309,8 +311,11 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
 
         if (virtualFolder.showMenu !== false) {
-            html += '<div style="text-align:right; float:right;padding-top:5px;">';
-            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert"></span></button>';
+            let dirTextAlign = 'right';
+            if (globalize.getIsRTL())
+                dirTextAlign = 'left';
+            html += '<div style="text-align:' + dirTextAlign + '; float:' + dirTextAlign + ';padding-top:5px;">';
+            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
             html += '</div>';
         }
 
@@ -319,7 +324,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         if (virtualFolder.showNameWithIcon) {
             html += '&nbsp;';
         } else {
-            html += virtualFolder.Name;
+            html += escapeHtml(virtualFolder.Name);
         }
 
         html += '</div>';
@@ -342,7 +347,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             html += '&nbsp;';
             html += '</div>';
         } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
-            html += "<div class='cardText cardText-secondary'>";
+            html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
             html += virtualFolder.Locations[0];
             html += '</div>';
         } else {
@@ -359,16 +364,16 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
     function getTabs() {
         return [{
-            href: '#!/library.html',
+            href: '#/library.html',
             name: globalize.translate('HeaderLibraries')
         }, {
-            href: '#!/librarydisplay.html',
+            href: '#/librarydisplay.html',
             name: globalize.translate('Display')
         }, {
-            href: '#!/metadataimages.html',
+            href: '#/metadataimages.html',
             name: globalize.translate('Metadata')
         }, {
-            href: '#!/metadatanfo.html',
+            href: '#/metadatanfo.html',
             name: globalize.translate('TabNfoSettings')
         }];
     }

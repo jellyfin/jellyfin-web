@@ -1,6 +1,6 @@
 import dom from '../../scripts/dom';
 import { playbackManager } from '../playback/playbackmanager';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import mediaInfo from '../mediainfo/mediainfo';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
@@ -80,7 +80,7 @@ import '../../assets/css/flexstyles.scss';
             title = item.SeriesName + ' - ' + title;
         }
 
-        elem.querySelector('.upNextDialog-title').innerHTML = title || '';
+        elem.querySelector('.upNextDialog-title').innerText = title || '';
 
         instance.itemType = item.Type;
 

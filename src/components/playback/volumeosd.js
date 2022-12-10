@@ -1,8 +1,9 @@
 
-import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from './playbackmanager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
+import Events from '../../utils/events.ts';
+
 import './iconosd.scss';
 import 'material-design-icons-iconfont';
 
@@ -16,7 +17,7 @@ let enableAnimation;
 function getOsdElementHtml() {
     let html = '';
 
-    html += '<span class="material-icons iconOsdIcon volume_up"></span>';
+    html += '<span class="material-icons iconOsdIcon volume_up" aria-hidden="true"></span>';
 
     html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
 

@@ -31,20 +31,20 @@ const createInputElement = () => ({
 const normalizeInput = (value = '') => value.trim();
 
 type SearchFieldsProps = {
-    onSearch?: () => void
+    onSearch?: (query: string) => void
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }: SearchFieldsProps) => {
-    const element = useRef(null);
+    const element = useRef<HTMLDivElement>(null);
 
-    const getSearchInput = () => element?.current?.querySelector('.searchfields-txtSearch');
+    const getSearchInput = () => element?.current?.querySelector<HTMLInputElement>('.searchfields-txtSearch');
 
     const debouncedOnSearch = useMemo(() => debounce(onSearch, 400), [onSearch]);
 
     useEffect(() => {
         getSearchInput()?.addEventListener('input', e => {
-            debouncedOnSearch(normalizeInput(e.target?.value));
+            debouncedOnSearch(normalizeInput((e.target as HTMLInputElement).value));
         });
         getSearchInput()?.focus();
 
@@ -53,9 +53,14 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
         };
     }, [debouncedOnSearch]);
 
-    const onAlphaPicked = e => {
-        const value = e.detail.value;
+    const onAlphaPicked = (e: Event) => {
+        const value = (e as CustomEvent).detail.value;
         const searchInput = getSearchInput();
+
+        if (!searchInput) {
+            console.error('Unexpected null reference');
+            return;
+        }
 
         if (value === 'backspace') {
             const currentValue = searchInput.value;
@@ -73,7 +78,7 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
             ref={element}
         >
             <div className='searchFieldsInner flex align-items-center justify-content-center'>
-                <span className='searchfields-icon material-icons search' />
+                <span className='searchfields-icon material-icons search' aria-hidden='true' />
                 <div
                     className='inputContainer flex-grow'
                     style={{ marginBottom: 0 }}

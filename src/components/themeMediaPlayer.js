@@ -1,6 +1,6 @@
 import { playbackManager } from './playback/playbackmanager';
 import * as userSettings from '../scripts/settings/userSettings';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 import ServerConnections from './ServerConnections';
 
 let currentOwnerId;
@@ -20,6 +20,13 @@ function playThemeMedia(items, ownerId) {
 
         currentThemeIds = currentThemeItems.map(function (i) {
             return i.Id;
+        });
+
+        currentThemeItems.forEach((i) => {
+            i.playOptions = {
+                fullscreen: false,
+                enableRemotePlayers: false
+            };
         });
 
         playbackManager.play({
@@ -65,12 +72,12 @@ function loadThemeMedia(item) {
 
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
-        const ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
+        const result = userSettings.enableThemeVideos() && themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult : themeMediaResult.ThemeSongsResult;
+
+        const ownerId = result.OwnerId;
 
         if (ownerId !== currentOwnerId) {
-            const items = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.Items : themeMediaResult.ThemeSongsResult.Items;
-
-            playThemeMedia(items, ownerId);
+            playThemeMedia(result.Items, ownerId);
         }
     });
 }

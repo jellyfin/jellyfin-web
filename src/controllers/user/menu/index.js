@@ -2,7 +2,7 @@ import { appHost } from '../../../components/apphost';
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 import layoutManager from '../../../components/layoutManager';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 
 export default function (view, params) {
     view.querySelector('.btnLogout').addEventListener('click', function () {
@@ -17,21 +17,28 @@ export default function (view, params) {
         window.NativeShell.openClientSettings();
     });
 
+    view.querySelector('.exitApp').addEventListener('click', function () {
+        appHost.exit();
+    });
+
     view.addEventListener('viewshow', function () {
         // this page can also be used by admins to change user preferences from the user edit page
         const userId = params.userId || Dashboard.getCurrentUserId();
         const page = this;
 
-        page.querySelector('.lnkMyProfile').setAttribute('href', '#!/myprofile.html?userId=' + userId);
-        page.querySelector('.lnkDisplayPreferences').setAttribute('href', '#!/mypreferencesdisplay.html?userId=' + userId);
-        page.querySelector('.lnkHomePreferences').setAttribute('href', '#!/mypreferenceshome.html?userId=' + userId);
-        page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#!/mypreferencesplayback.html?userId=' + userId);
-        page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#!/mypreferencessubtitles.html?userId=' + userId);
-        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#!/mypreferencesquickconnect.html');
-        page.querySelector('.lnkControlsPreferences').setAttribute('href', '#!/mypreferencescontrols.html?userId=' + userId);
+        page.querySelector('.lnkUserProfile').setAttribute('href', '#/userprofile.html?userId=' + userId);
+        page.querySelector('.lnkDisplayPreferences').setAttribute('href', '#/mypreferencesdisplay.html?userId=' + userId);
+        page.querySelector('.lnkHomePreferences').setAttribute('href', '#/mypreferenceshome.html?userId=' + userId);
+        page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#/mypreferencesplayback.html?userId=' + userId);
+        page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#/mypreferencessubtitles.html?userId=' + userId);
+        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#/mypreferencesquickconnect.html');
+        page.querySelector('.lnkControlsPreferences').setAttribute('href', '#/mypreferencescontrols.html?userId=' + userId);
 
         const supportsClientSettings = appHost.supports('clientsettings');
         page.querySelector('.clientSettings').classList.toggle('hide', !supportsClientSettings);
+
+        const supportsExitMenu = appHost.supports('exitmenu');
+        page.querySelector('.exitApp').classList.toggle('hide', !supportsExitMenu);
 
         const supportsMultiServer = appHost.supports('multiserver');
         page.querySelector('.selectServer').classList.toggle('hide', !supportsMultiServer);
@@ -48,7 +55,7 @@ export default function (view, params) {
                 console.debug('Failed to get QuickConnect status');
             });
         ApiClient.getUser(userId).then(function (user) {
-            page.querySelector('.headerUsername').innerHTML = user.Name;
+            page.querySelector('.headerUsername').innerText = user.Name;
             if (user.Policy.IsAdministrator && !layoutManager.tv) {
                 page.querySelector('.adminSection').classList.remove('hide');
             }

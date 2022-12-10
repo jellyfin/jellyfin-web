@@ -3,7 +3,7 @@ import loading from '../../components/loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import '../../components/listview/listview.scss';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 
 /* eslint-disable indent */
 
@@ -43,25 +43,27 @@ import Dashboard from '../../scripts/clientUtils';
 
     function onSubmit() {
         const form = this;
-        return loading.show(), ApiClient.getServerConfiguration().then(function(config) {
+        loading.show();
+        ApiClient.getServerConfiguration().then(function(config) {
             config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
             config.MetadataCountryCode = form.querySelector('#selectCountry').value;
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
-        }), !1;
+        });
+        return false;
     }
 
     function getTabs() {
         return [{
-            href: '#!/library.html',
+            href: '#/library.html',
             name: globalize.translate('HeaderLibraries')
         }, {
-            href: '#!/librarydisplay.html',
+            href: '#/librarydisplay.html',
             name: globalize.translate('Display')
         }, {
-            href: '#!/metadataimages.html',
+            href: '#/metadataimages.html',
             name: globalize.translate('Metadata')
         }, {
-            href: '#!/metadatanfo.html',
+            href: '#/metadatanfo.html',
             name: globalize.translate('TabNfoSettings')
         }];
     }

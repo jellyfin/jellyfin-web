@@ -1,5 +1,4 @@
 import browser from '../../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
@@ -30,6 +29,28 @@ import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
+import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import Events from '../../utils/events.ts';
+
+/**
+ * Returns resolved URL.
+ * @param {string} url - URL.
+ * @returns {string} Resolved URL or `url` if resolving failed.
+ */
+function resolveUrl(url) {
+    return new Promise((resolve) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('HEAD', url, true);
+        xhr.onload = function () {
+            resolve(xhr.responseURL || url);
+        };
+        xhr.onerror = function (e) {
+            console.error(e);
+            resolve(url);
+        };
+        xhr.send(null);
+    });
+}
 
 /* eslint-disable indent */
 
@@ -46,16 +67,12 @@ function tryRemoveElement(elem) {
     }
 
     function enableNativeTrackSupport(currentSrc, track) {
-        if (track) {
-            if (track.DeliveryMethod === 'Embed') {
-                return true;
-            }
+        if (track?.DeliveryMethod === 'Embed') {
+            return true;
         }
 
-        if (browser.firefox) {
-            if ((currentSrc || '').toLowerCase().includes('.m3u8')) {
-                return false;
-            }
+        if (browser.firefox && (currentSrc || '').toLowerCase().includes('.m3u8')) {
+            return false;
         }
 
         if (browser.ps4) {
@@ -71,11 +88,9 @@ function tryRemoveElement(elem) {
             return false;
         }
 
-        if (browser.iOS) {
+        if (browser.iOS && (browser.iosVersion || 10) < 10) {
             // works in the browser but not the native app
-            if ((browser.iosVersion || 10) < 10) {
-                return false;
-            }
+            return false;
         }
 
         if (track) {
@@ -258,10 +273,6 @@ function tryRemoveElement(elem) {
          * @type {any | undefined}
          */
         #lastProfile;
-        /**
-         * @type {MutationObserver | IntersectionObserver | undefined} (Unclear observer typing)
-         */
-        #resizeObserver;
 
         constructor() {
             if (browser.edgeUwp) {
@@ -691,7 +702,7 @@ function tryRemoveElement(elem) {
             destroyHlsPlayer(this);
             destroyFlvPlayer(this);
 
-            appRouter.setTransparency('none');
+            setBackdropTransparency(TRANSPARENCY_LEVEL.None);
             document.body.classList.remove('hide-scroll');
 
             const videoElement = this.#mediaElement;
@@ -838,7 +849,7 @@ function tryRemoveElement(elem) {
                 if (this._currentPlayOptions.fullscreen) {
                     appRouter.showVideoOsd().then(this.onNavigatedToOsd);
                 } else {
-                    appRouter.setTransparency('backdrop');
+                    setBackdropTransparency(TRANSPARENCY_LEVEL.Backdrop);
                     this.#videoDialog.classList.remove('videoPlayerContainer-onTop');
 
                     this.onStartedAndNavigatedToOsd();
@@ -948,11 +959,6 @@ function tryRemoveElement(elem) {
          * @private
          */
         destroyCustomTrack(videoElement) {
-            if (this.#resizeObserver) {
-                this.#resizeObserver.disconnect();
-                this.#resizeObserver = null;
-            }
-
             if (this.#videoSubtitlesElem) {
                 const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
                 if (subtitlesContainer) {
@@ -1048,7 +1054,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
-            const supportedFonts = ['application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
+            const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
             const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
             const apiClient = ServerConnections.getApiClient(item);
@@ -1081,19 +1087,27 @@ function tryRemoveElement(elem) {
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
-                renderMode: 'blend',
+                renderMode: 'wasm-blend',
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
                 targetFps: 24,
-                prescaleTradeoff: 0.8,
-                softHeightLimit: 1080,
-                hardHeightLimit: 2160,
+                prescaleFactor: 0.8,
+                prescaleHeightLimit: 1080,
+                maxRenderHeight: 2160,
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            import('libass-wasm').then(({default: SubtitlesOctopus}) => {
-                apiClient.getNamedConfiguration('encoding').then(config => {
+            import('@jellyfin/libass-wasm').then(({default: SubtitlesOctopus}) => {
+                Promise.all([
+                    apiClient.getNamedConfiguration('encoding'),
+                    // Worker in Tizen 5 doesn't resolve relative path with async request
+                    resolveUrl(options.workerUrl),
+                    resolveUrl(options.legacyWorkerUrl)
+                ]).then(([config, workerUrl, legacyWorkerUrl]) => {
+                    options.workerUrl = workerUrl;
+                    options.legacyWorkerUrl = legacyWorkerUrl;
+
                     if (config.EnableFallbackFont) {
                         apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
                             fontFiles.forEach(font => {
@@ -1121,8 +1135,7 @@ function tryRemoveElement(elem) {
                 return true;
             }
 
-            // This is unfortunate, but we're unable to remove the textTrack that gets added via addTextTrack
-            if (browser.firefox || browser.web0s) {
+            if (browser.web0s) {
                 return true;
             }
 
@@ -1333,12 +1346,13 @@ function tryRemoveElement(elem) {
                     return import('./style.scss').then(() => {
                         loading.show();
 
-                        const dlg = document.createElement('div');
+                        const playerDlg = document.createElement('div');
+                        playerDlg.setAttribute('dir', 'ltr');
 
-                        dlg.classList.add('videoPlayerContainer');
+                        playerDlg.classList.add('videoPlayerContainer');
 
                         if (options.fullscreen) {
-                            dlg.classList.add('videoPlayerContainer-onTop');
+                            playerDlg.classList.add('videoPlayerContainer-onTop');
                         }
 
                         let html = '';
@@ -1347,6 +1361,9 @@ function tryRemoveElement(elem) {
                         // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
                         if (!appHost.supports('htmlvideoautoplay')) {
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
+                        } else if (browser.web0s) {
+                            // in webOS, setting preload auto allows resuming videos
+                            html += '<video class="' + cssClass + '" preload="auto" autoplay="autoplay" webkit-playsinline playsinline>';
                         } else {
                             // Chrome 35 won't play with preload none
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" webkit-playsinline playsinline>';
@@ -1354,8 +1371,8 @@ function tryRemoveElement(elem) {
 
                         html += '</video>';
 
-                        dlg.innerHTML = html;
-                        const videoElement = dlg.querySelector('video');
+                        playerDlg.innerHTML = html;
+                        const videoElement = playerDlg.querySelector('video');
 
                         videoElement.volume = getSavedVolume();
                         videoElement.addEventListener('timeupdate', this.onTimeUpdate);
@@ -1371,8 +1388,8 @@ function tryRemoveElement(elem) {
                             videoElement.poster = options.backdropUrl;
                         }
 
-                        document.body.insertBefore(dlg, document.body.firstChild);
-                        this.#videoDialog = dlg;
+                        document.body.insertBefore(playerDlg, document.body.firstChild);
+                        this.#videoDialog = playerDlg;
                         this.#mediaElement = videoElement;
 
                         delete this.forcedFullscreen;
@@ -1391,7 +1408,7 @@ function tryRemoveElement(elem) {
 
                             // don't animate on smart tv's, too slow
                             if (!browser.slow && browser.supportsCssAnimation()) {
-                                return zoomIn(dlg).then(function () {
+                                return zoomIn(playerDlg).then(function () {
                                     return videoElement;
                                 });
                             }
@@ -1465,14 +1482,14 @@ function tryRemoveElement(elem) {
         if (
             // Check non-standard Safari PiP support
             typeof video.webkitSupportsPresentationMode === 'function' && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === 'function'
+            // Check non-standard Windows PiP support
+            || (window.Windows
+                && Windows.UI.ViewManagement.ApplicationView.getForCurrentView()
+                    .isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay))
             // Check standard PiP support
             || document.pictureInPictureEnabled
         ) {
             list.push('PictureInPicture');
-        } else if (window.Windows) {
-            if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
-                list.push('PictureInPicture');
-            }
         }
 
         if (browser.safari || browser.iOS || browser.iPad) {
@@ -1533,13 +1550,7 @@ function tryRemoveElement(elem) {
         }
 
         const video = this.#mediaElement;
-        if (video) {
-            if (video.audioTracks) {
-                return true;
-            }
-        }
-
-        return false;
+        return !!video?.audioTracks;
     }
 
     static onPictureInPictureError(err) {
@@ -1671,10 +1682,7 @@ function tryRemoveElement(elem) {
 
     // This is a retry after error
     resume() {
-        const mediaElement = this.#mediaElement;
-        if (mediaElement) {
-            mediaElement.play();
-        }
+        this.unpause();
     }
 
     unpause() {
@@ -1869,9 +1877,10 @@ function tryRemoveElement(elem) {
         };
         categories.push(videoCategory);
 
+        const devicePixelRatio = window.devicePixelRatio || 1;
         const rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
-        let height = parseInt(rect.height);
-        let width = parseInt(rect.width);
+        let height = Math.round(rect.height * devicePixelRatio);
+        let width = Math.round(rect.width * devicePixelRatio);
 
         // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {

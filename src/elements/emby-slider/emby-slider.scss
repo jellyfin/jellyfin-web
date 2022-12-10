@@ -151,9 +151,16 @@
     width: 100%;
     box-sizing: border-box;
     top: 50%;
-    left: 0;
     position: absolute;
     padding: 0 0.54em; /* half of slider thumb size */
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .mdl-slider-background-flex {
@@ -162,11 +169,18 @@
     margin-top: -0.1em;
     width: 100%;
     top: 50%;
-    left: 0;
     display: flex;
     overflow: hidden;
     border: 0;
     padding: 0;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .mdl-slider-background-flex-inner {
@@ -177,11 +191,18 @@
 .mdl-slider-background-lower {
     /* transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1); */
     position: absolute;
-    left: 0;
     width: 0;
     top: 0;
     bottom: 0;
     background-color: #00a4dc;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
 }
 
 .mdl-slider-background-lower-clear {
@@ -244,4 +265,26 @@
 .sliderLabel {
     display: block;
     margin-bottom: 0.25em;
+}
+
+.sliderMarkerContainer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 0.54em; /* half of slider thumb size */
+}
+
+.sliderMarker {
+    position: absolute;
+    width: 2px;
+    height: 0.5em;
+    transform: translate3d(0, 25%, 0);
+}
+
+.sliderMarker.unwatched {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.sliderMarker.watched {
+    background-color: #00a4dc;
 }

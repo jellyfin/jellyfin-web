@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
@@ -112,7 +113,7 @@ import toast from '../toast/toast';
             html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
             html += result.Items.map(i => {
-                return `<option value="${i.Id}">${i.Name}</option>`;
+                return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
             });
 
             select.innerHTML = html;
@@ -205,8 +206,8 @@ import toast from '../toast/toast';
         });
     }
 
-    export class showEditor {
-        constructor(options) {
+    class CollectionEditor {
+        show(options) {
             const items = options.items || {};
             currentServerId = options.serverId;
 
@@ -229,7 +230,7 @@ import toast from '../toast/toast';
             const title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
 
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += `<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${globalize.translate('ButtonBack')}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += '</h3>';
@@ -265,4 +266,4 @@ import toast from '../toast/toast';
     }
 
 /* eslint-enable indent */
-export default showEditor;
+export default CollectionEditor;

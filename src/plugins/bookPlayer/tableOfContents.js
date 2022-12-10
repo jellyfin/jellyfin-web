@@ -63,14 +63,14 @@ export default class TableOfContents {
         elem.id = 'dialogToc';
 
         let tocHtml = '<div class="topRightActionButtons">';
-        tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close"></span></button>';
+        tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close" aria-hidden="true"></span></button>';
         tocHtml += '</div>';
         tocHtml += '<ul class="toc">';
         rendition.book.navigation.forEach((chapter) => {
             tocHtml += '<li>';
 
             // remove parent directory reference from href to fix certain books
-            const link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
+            const link = chapter.href.startsWith('../') ? chapter.href.slice(3) : chapter.href;
             tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
             tocHtml += '</li>';
         });

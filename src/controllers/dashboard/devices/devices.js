@@ -1,13 +1,15 @@
+import escapeHtml from 'escape-html';
+import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import loading from '../../../components/loading/loading';
 import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
 import imageHelper from '../../../scripts/imagehelper';
 import { formatDistanceToNow } from 'date-fns';
-import { localeWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
@@ -89,6 +91,8 @@ import confirm from '../../../components/confirm/confirm';
     }
 
     function load(page, devices) {
+        const localeWithSuffix = getLocaleWithSuffix();
+
         let html = '';
         html += devices.map(function (device) {
             let deviceHtml = '';
@@ -96,14 +100,14 @@ import confirm from '../../../components/confirm/confirm';
             deviceHtml += '<div class="cardBox visualCardBox">';
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
-            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#!/device.html?id=' + device.Id : '#'}" class="cardContent cardImageContainer">`;
+            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#/device.html?id=' + device.Id : '#'}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
             const iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
                 deviceHtml += '</div>';
             } else {
-                deviceHtml += '<span class="cardImageIcon material-icons tablet_android"></span>';
+                deviceHtml += '<span class="cardImageIcon material-icons tablet_android" aria-hidden="true"></span>';
             }
 
             deviceHtml += '</a>';
@@ -111,21 +115,24 @@ import confirm from '../../../components/confirm/confirm';
             deviceHtml += '<div class="cardFooter">';
 
             if (canEdit || canDelete(device.Id)) {
-                deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
-                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert"></span></button>';
+                if (globalize.getIsRTL())
+                    deviceHtml += '<div style="text-align:left; float:left;padding-top:5px;">';
+                else
+                    deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
+                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
                 deviceHtml += '</div>';
             }
 
             deviceHtml += "<div class='cardText'>";
-            deviceHtml += device.Name;
+            deviceHtml += escapeHtml(device.Name);
             deviceHtml += '</div>';
             deviceHtml += "<div class='cardText cardText-secondary'>";
-            deviceHtml += device.AppName + ' ' + device.AppVersion;
+            deviceHtml += escapeHtml(device.AppName + ' ' + device.AppVersion);
             deviceHtml += '</div>';
             deviceHtml += "<div class='cardText cardText-secondary'>";
 
             if (device.LastUserName) {
-                deviceHtml += device.LastUserName;
+                deviceHtml += escapeHtml(device.LastUserName);
                 deviceHtml += ', ' + formatDistanceToNow(Date.parse(device.DateLastActivity), localeWithSuffix);
             }
 

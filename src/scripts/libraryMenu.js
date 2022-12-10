@@ -1,23 +1,29 @@
+import escapeHtml from 'escape-html';
+import Headroom from 'headroom.js';
+
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
-import { Events } from 'jellyfin-apiclient';
 import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
-import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
+import { pluginManager } from '../components/pluginManager';
+import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
 import { getMenuLinks } from '../scripts/settings/webSettings';
+import Dashboard, { pageClassOn } from '../utils/dashboard';
+import ServerConnections from '../components/ServerConnections';
+import Events from '../utils/events.ts';
+import { getParameterByName } from '../utils/url.ts';
+
 import '../elements/emby-button/paper-icon-button-light';
+
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
 import '../assets/css/flexstyles.scss';
-import Dashboard, { pageClassOn } from './clientUtils';
-import ServerConnections from '../components/ServerConnections';
-import Headroom from 'headroom.js';
 
 /* eslint-disable indent */
 
@@ -25,18 +31,18 @@ import Headroom from 'headroom.js';
         let html = '';
         html += '<div class="flex align-items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu"></span></button>';
-        html += '<h3 class="pageTitle"></h3>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '" aria-hidden="true"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home" aria-hidden="true"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu" aria-hidden="true"></span></button>';
+        html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
         html += '</div>';
         html += '<div class="headerRight">';
-        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
         html += '</div>';
         html += '</div>';
         html += '<div class="headerTabs sectionTabs hide">';
@@ -80,6 +86,18 @@ import Headroom from 'headroom.js';
     }
 
     function retranslateUi() {
+        if (headerBackButton) {
+            headerBackButton.title = globalize.translate('ButtonBack');
+        }
+
+        if (headerHomeButton) {
+            headerHomeButton.title = globalize.translate('Home');
+        }
+
+        if (mainDrawerButton) {
+            mainDrawerButton.title = globalize.translate('Menu');
+        }
+
         if (headerSyncButton) {
             headerSyncButton.title = globalize.translate('ButtonSyncPlay');
         }
@@ -94,6 +112,10 @@ import Headroom from 'headroom.js';
 
         if (headerSearchButton) {
             headerSearchButton.title = globalize.translate('Search');
+        }
+
+        if (headerUserButton) {
+            headerUserButton.title = globalize.translate('Settings');
         }
     }
 
@@ -133,8 +155,14 @@ import Headroom from 'headroom.js';
 
             const policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            const apiClient = getCurrentApiClient();
-            if (headerSyncButton && policy?.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
+            if (
+                // Button is present
+                headerSyncButton
+                // SyncPlay plugin is loaded
+                && pluginManager.plugins.filter(plugin => plugin.id === 'syncplay').length > 0
+                // SyncPlay enabled for user
+                && policy?.SyncPlayAccess !== 'None'
+            ) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -156,7 +184,7 @@ import Headroom from 'headroom.js';
             headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
         } else {
             headerUserButton.classList.remove('headerUserButtonRound');
-            headerUserButton.innerHTML = '<span class="material-icons person"></span>';
+            headerUserButton.innerHTML = '<span class="material-icons person" aria-hidden="true"></span>';
         }
     }
 
@@ -272,7 +300,7 @@ import Headroom from 'headroom.js';
     function refreshLibraryInfoInDrawer(user) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home.html"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
 
         // placeholder for custom menu links
         html += '<div class="customMenuOptions"></div>';
@@ -285,8 +313,8 @@ import Headroom from 'headroom.js';
             html += '<h3 class="sidebarHeader">';
             html += globalize.translate('HeaderAdmin');
             html += '</h3>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#!/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard"></span><span class="navMenuOptionText">' + globalize.translate('TabDashboard') + '</span></a>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#!/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit"></span><span class="navMenuOptionText">' + globalize.translate('Metadata') + '</span></a>';
+            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
+            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
             html += '</div>';
         }
 
@@ -297,11 +325,16 @@ import Headroom from 'headroom.js';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
+                html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon storage" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('SelectServer')}</span></a>`;
             }
 
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSignOut') + '</span></a>';
+            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Settings')}</span></a>`;
+            html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonSignOut')}</span></a>`;
+
+            if (appHost.supports('exitmenu')) {
+                html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder exitApp" data-itemid="exitapp" href="#"><span class="material-icons navMenuOptionIcon close" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonExitApp')}</span></a>`;
+            }
+
             html += '</div>';
         }
 
@@ -318,20 +351,25 @@ import Headroom from 'headroom.js';
             btnSettings.addEventListener('click', onSettingsClick);
         }
 
+        const btnExit = navDrawerScrollContainer.querySelector('.exitApp');
+        if (btnExit) {
+            btnExit.addEventListener('click', onExitAppClick);
+        }
+
         const btnLogout = navDrawerScrollContainer.querySelector('.btnLogout');
         if (btnLogout) {
             btnLogout.addEventListener('click', onLogoutClick);
         }
     }
 
-    function refreshDashboardInfoInDrawer(apiClient) {
+    function refreshDashboardInfoInDrawer(page, apiClient) {
         currentDrawerType = 'admin';
         loadNavDrawer();
 
         if (navDrawerScrollContainer.querySelector('.adminDrawerLogo')) {
-            updateDashboardMenuSelectedItem();
+            updateDashboardMenuSelectedItem(page);
         } else {
-            createDashboardMenu(apiClient);
+            createDashboardMenu(page, apiClient);
         }
     }
 
@@ -339,9 +377,9 @@ import Headroom from 'headroom.js';
         return window.location.href.toString().toLowerCase().indexOf(url.toLowerCase()) !== -1;
     }
 
-    function updateDashboardMenuSelectedItem() {
+    function updateDashboardMenuSelectedItem(page) {
         const links = navDrawerScrollContainer.querySelectorAll('.navMenuOption');
-        const currentViewId = viewManager.currentView().id;
+        const currentViewId = page.id;
 
         for (let i = 0, length = links.length; i < length; i++) {
             let link = links[i];
@@ -377,28 +415,28 @@ import Headroom from 'headroom.js';
             name: globalize.translate('TabServer')
         }, {
             name: globalize.translate('TabDashboard'),
-            href: '#!/dashboard.html',
+            href: '#/dashboard.html',
             pageIds: ['dashboardPage'],
             icon: 'dashboard'
         }, {
             name: globalize.translate('General'),
-            href: '#!/dashboardgeneral.html',
+            href: '#/dashboardgeneral.html',
             pageIds: ['dashboardGeneralPage'],
             icon: 'settings'
         }, {
             name: globalize.translate('HeaderUsers'),
-            href: '#!/userprofiles.html',
+            href: '#/userprofiles.html',
             pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
             icon: 'people'
         }, {
             name: globalize.translate('HeaderLibraries'),
-            href: '#!/library.html',
+            href: '#/library.html',
             pageIds: ['mediaLibraryPage', 'librarySettingsPage', 'libraryDisplayPage', 'metadataImagesConfigurationPage', 'metadataNfoPage'],
             icon: 'folder'
         }, {
             name: globalize.translate('TitlePlayback'),
             icon: 'play_arrow',
-            href: '#!/encodingsettings.html',
+            href: '#/encodingsettings.html',
             pageIds: ['encodingSettingsPage', 'playbackConfigurationPage', 'streamingSettingsPage']
         }];
         addPluginPagesToMainMenu(links, pluginItems, 'server');
@@ -408,19 +446,19 @@ import Headroom from 'headroom.js';
         });
         links.push({
             name: globalize.translate('HeaderDevices'),
-            href: '#!/devices.html',
+            href: '#/devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
         });
         links.push({
             name: globalize.translate('HeaderActivity'),
-            href: '#!/serveractivity.html',
+            href: '#/serveractivity.html',
             pageIds: ['serverActivityPage'],
             icon: 'assessment'
         });
         links.push({
             name: globalize.translate('DLNA'),
-            href: '#!/dlnasettings.html',
+            href: '#/dlnasettings.html',
             pageIds: ['dlnaSettingsPage', 'dlnaProfilesPage', 'dlnaProfilePage'],
             icon: 'input'
         });
@@ -430,13 +468,13 @@ import Headroom from 'headroom.js';
         });
         links.push({
             name: globalize.translate('LiveTV'),
-            href: '#!/livetvstatus.html',
+            href: '#/livetvstatus.html',
             pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
             icon: 'live_tv'
         });
         links.push({
             name: globalize.translate('HeaderDVR'),
-            href: '#!/livetvsettings.html',
+            href: '#/livetvsettings.html',
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
         });
@@ -448,36 +486,36 @@ import Headroom from 'headroom.js';
         links.push({
             name: globalize.translate('TabNetworking'),
             icon: 'cloud',
-            href: '#!/networking.html',
+            href: '#/networking.html',
             pageIds: ['networkingPage']
         });
         links.push({
             name: globalize.translate('HeaderApiKeys'),
             icon: 'vpn_key',
-            href: '#!/apikeys.html',
+            href: '#/apikeys.html',
             pageIds: ['apiKeysPage']
         });
         links.push({
             name: globalize.translate('TabLogs'),
-            href: '#!/log.html',
+            href: '#/log.html',
             pageIds: ['logPage'],
             icon: 'bug_report'
         });
         links.push({
             name: globalize.translate('TabNotifications'),
             icon: 'notifications',
-            href: '#!/notificationsettings.html',
+            href: '#/notificationsettings.html',
             pageIds: ['notificationSettingsPage', 'notificationSettingPage']
         });
         links.push({
             name: globalize.translate('TabPlugins'),
             icon: 'shopping_cart',
-            href: '#!/installedplugins.html',
+            href: '#/installedplugins.html',
             pageIds: ['pluginsPage', 'pluginCatalogPage']
         });
         links.push({
             name: globalize.translate('TabScheduledTasks'),
-            href: '#!/scheduledtasks.html',
+            href: '#/scheduledtasks.html',
             pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
             icon: 'schedule'
         });
@@ -528,11 +566,11 @@ import Headroom from 'headroom.js';
         menuHtml += '<a is="emby-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + '>';
 
         if (item.icon) {
-            menuHtml += '<span class="material-icons navMenuOptionIcon ' + item.icon + '"></span>';
+            menuHtml += '<span class="material-icons navMenuOptionIcon ' + item.icon + '" aria-hidden="true"></span>';
         }
 
         menuHtml += '<span class="navMenuOptionText">';
-        menuHtml += item.name;
+        menuHtml += escapeHtml(item.name);
         menuHtml += '</span>';
         return menuHtml + '</a>';
     }
@@ -550,7 +588,7 @@ import Headroom from 'headroom.js';
                     menuHtml += getToolsLinkHtml(item);
                 } else if (item.name) {
                     menuHtml += '<h3 class="sidebarHeader">';
-                    menuHtml += item.name;
+                    menuHtml += escapeHtml(item.name);
                     menuHtml += '</h3>';
                 }
             }
@@ -559,15 +597,15 @@ import Headroom from 'headroom.js';
         });
     }
 
-    function createDashboardMenu(apiClient) {
+    function createDashboardMenu(page, apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             let html = '';
-            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="#!/home.html">';
+            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="#/home.html">';
             html += '<img src="assets/img/icon-transparent.png" />';
             html += '</a>';
             html += toolsMenuHtml;
             navDrawerScrollContainer.innerHTML = html;
-            updateDashboardMenuSelectedItem();
+            updateDashboardMenuSelectedItem(page);
         });
     }
 
@@ -593,7 +631,7 @@ import Headroom from 'headroom.js';
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = '#!/livetv.html?tab=1';
+                    guideView.url = '#/livetv.html?tab=1';
                     list.push(guideView);
                 }
             }
@@ -618,7 +656,8 @@ import Headroom from 'headroom.js';
         if (!user) {
             showBySelector('.libraryMenuDownloads', false);
             showBySelector('.lnkSyncToOtherDevices', false);
-            return void showBySelector('.userMenuOptions', false);
+            showBySelector('.userMenuOptions', false);
+            return;
         }
 
         if (user.Policy.EnableContentDownloading) {
@@ -640,15 +679,15 @@ import Headroom from 'headroom.js';
         if (customMenuOptions) {
             getMenuLinks().then(links => {
                 links.forEach(link => {
-                    const option = document.createElement('a');
-                    option.setAttribute('is', 'emby-linkbutton');
-                    option.className = 'navMenuOption lnkMediaFolder';
+                    const option = document.createElement('a', 'emby-linkbutton');
+                    option.classList.add('navMenuOption', 'lnkMediaFolder');
                     option.rel = 'noopener noreferrer';
                     option.target = '_blank';
                     option.href = link.url;
 
                     const icon = document.createElement('span');
                     icon.className = `material-icons navMenuOptionIcon ${link.icon || 'link'}`;
+                    icon.setAttribute('aria-hidden', 'true');
                     option.appendChild(icon);
 
                     const label = document.createElement('span');
@@ -672,8 +711,8 @@ import Headroom from 'headroom.js';
                     const itemId = i.Id;
 
                     return `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
-                                    <span class="material-icons navMenuOptionIcon ${icon}"></span>
-                                    <span class="sectionName navMenuOptionText">${i.Name}</span>
+                                    <span class="material-icons navMenuOptionIcon ${icon}" aria-hidden="true"></span>
+                                    <span class="sectionName navMenuOptionText">${escapeHtml(i.Name)}</span>
                                   </a>`;
                 }).join('');
                 libraryMenuOptions.innerHTML = html;
@@ -706,6 +745,10 @@ import Headroom from 'headroom.js';
         Dashboard.navigate('mypreferencesmenu.html');
     }
 
+    function onExitAppClick() {
+        appHost.exit();
+    }
+
     function onLogoutClick() {
         Dashboard.logout();
     }
@@ -720,7 +763,7 @@ import Headroom from 'headroom.js';
         if (info && !info.isLocalPlayer) {
             icon.classList.add('cast_connected');
             headerCastButton.classList.add('castButton-active');
-            context.querySelector('.headerSelectedPlayer').innerHTML = info.deviceName || info.name;
+            context.querySelector('.headerSelectedPlayer').innerText = info.deviceName || info.name;
         } else {
             icon.classList.add('cast');
             headerCastButton.classList.remove('castButton-active');
@@ -759,7 +802,12 @@ import Headroom from 'headroom.js';
     }
 
     function updateMenuForPageType(isDashboardPage, isLibraryPage) {
-        const newPageType = isDashboardPage ? 2 : isLibraryPage ? 1 : 3;
+        let newPageType = 3;
+        if (isDashboardPage) {
+            newPageType = 2;
+        } else if (isLibraryPage) {
+            newPageType = 1;
+        }
 
         if (currentPageType !== newPageType) {
             currentPageType = newPageType;
@@ -865,8 +913,8 @@ import Headroom from 'headroom.js';
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve) {
-            import('../libraries/navdrawer/navdrawer').then(({ NavigationDrawer }) => {
-                navDrawerInstance = new NavigationDrawer(getNavDrawerOptions());
+            import('../libraries/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
+                navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
                     navDrawerElement.classList.remove('hide');
@@ -925,7 +973,8 @@ import Headroom from 'headroom.js';
 
     function setTitle (title) {
         if (title == null) {
-            return void LibraryMenu.setDefaultTitle();
+            LibraryMenu.setDefaultTitle();
+            return;
         }
 
         if (title === '-') {
@@ -942,7 +991,7 @@ import Headroom from 'headroom.js';
             pageTitleElement.classList.remove('pageTitleWithLogo');
             pageTitleElement.classList.remove('pageTitleWithDefaultLogo');
             pageTitleElement.style.backgroundImage = null;
-            pageTitleElement.innerHTML = html || '';
+            pageTitleElement.innerText = html || '';
         }
 
         document.title = title || 'Jellyfin';
@@ -975,7 +1024,7 @@ import Headroom from 'headroom.js';
                 mainDrawerButton.classList.remove('hide');
             }
 
-            refreshDashboardInfoInDrawer(apiClient);
+            refreshDashboardInfoInDrawer(page, apiClient);
         } else {
             if (mainDrawerButton) {
                 if (enableLibraryNavDrawer || (isHomePage && enableLibraryNavDrawerHome)) {

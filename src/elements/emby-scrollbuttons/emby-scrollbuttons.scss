@@ -1,7 +1,6 @@
 .emby-scrollbuttons {
     position: absolute;
     top: 0;
-    right: 0;
     align-items: center;
     justify-content: center;
     min-width: 104px;
@@ -10,6 +9,14 @@
     z-index: 1;
     color: #fff;
     display: flex;
+
+    [dir="ltr"] & {
+        right: 0;
+    }
+
+    [dir="rtl"] & {
+        left: 0;
+    }
 }
 
 .emby-scrollbuttons-button > .material-icons {

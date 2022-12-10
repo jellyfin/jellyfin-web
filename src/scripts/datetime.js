@@ -19,7 +19,7 @@ import globalize from './globalize';
         //     "00", "00", ".000", "Z", undefined, undefined, undefined]
 
         if (!d) {
-            throw "Couldn't parse ISO 8601 date string '" + s + "'";
+            throw new Error("Couldn't parse ISO 8601 date string '" + s + "'");
         }
 
         // parse strings, leading zeros into proper ints
@@ -84,7 +84,7 @@ import globalize from './globalize';
         hours = Math.floor(hours);
 
         if (hours) {
-            parts.push(hours);
+            parts.push(hours.toLocaleString(globalize.getCurrentDateTimeLocale()));
         }
 
         ticks -= (hours * ticksPerHour);
@@ -95,7 +95,9 @@ import globalize from './globalize';
         ticks -= (minutes * ticksPerMinute);
 
         if (minutes < 10 && hours) {
-            minutes = '0' + minutes;
+            minutes = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
+        } else {
+            minutes = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
         }
         parts.push(minutes);
 
@@ -103,7 +105,9 @@ import globalize from './globalize';
         seconds = Math.floor(seconds);
 
         if (seconds < 10) {
-            seconds = '0' + seconds;
+            seconds = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
+        } else {
+            seconds = seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
         }
         parts.push(seconds);
 

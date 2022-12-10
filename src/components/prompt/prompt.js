@@ -12,10 +12,6 @@ import '../formdialog.scss';
 import template from './prompt.template.html';
 
 export default (() => {
-    function replaceAll(str, find, replace) {
-        return str.split(find).join(replace);
-    }
-
     function setInputProperties(dlg, options) {
         const txtInput = dlg.querySelector('#txtInput');
 
@@ -54,10 +50,10 @@ export default (() => {
             dialogHelper.close(dlg);
         });
 
-        dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title || '';
+        dlg.querySelector('.formDialogHeaderTitle').innerText = options.title || '';
 
         if (options.description) {
-            dlg.querySelector('.fieldDescription').innerHTML = options.description;
+            dlg.querySelector('.fieldDescription').innerText = options.description;
         } else {
             dlg.querySelector('.fieldDescription').classList.add('hide');
         }
@@ -79,7 +75,7 @@ export default (() => {
             return false;
         });
 
-        dlg.querySelector('.submitText').innerHTML = options.confirmText || globalize.translate('ButtonOk');
+        dlg.querySelector('.submitText').innerText = options.confirmText || globalize.translate('ButtonOk');
 
         dlg.style.minWidth = `${Math.min(400, dom.getWindowSize().innerWidth - 50)}px`;
 
@@ -105,7 +101,7 @@ export default (() => {
                 };
             }
 
-            const label = replaceAll(options.label || '', '<br/>', '\n');
+            const label = (options.label || '').replaceAll('<br/>', '\n');
             const result = prompt(label, options.text || '');
 
             if (result) {

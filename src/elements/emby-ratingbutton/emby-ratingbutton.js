@@ -1,6 +1,6 @@
 import serverNotifications from '../../scripts/serverNotifications';
-import { Events } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
+import Events from '../../utils/events.ts';
 import EmbyButtonPrototype from '../emby-button/emby-button';
 import ServerConnections from '../../components/ServerConnections';
 
@@ -63,18 +63,6 @@ import ServerConnections from '../../components/ServerConnections';
             }
 
             button.classList.add('ratingbutton-withrating');
-        } else if (likes) {
-            if (icon) {
-                icon.classList.add('favorite');
-                icon.classList.remove('ratingbutton-icon-withrating');
-            }
-            button.classList.remove('ratingbutton-withrating');
-        } else if (likes === false) {
-            if (icon) {
-                icon.classList.add('favorite');
-                icon.classList.remove('ratingbutton-icon-withrating');
-            }
-            button.classList.remove('ratingbutton-withrating');
         } else {
             if (icon) {
                 icon.classList.add('favorite');
@@ -88,14 +76,16 @@ import ServerConnections from '../../components/ServerConnections';
 
             button.setAttribute('data-likes', (likes === null ? '' : likes));
         }
+
+        setTitle(button, isFavorite);
     }
 
-    function setTitle(button) {
-        button.title = globalize.translate('Favorite');
+    function setTitle(button, isFavorite) {
+        button.title = isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites');
 
         const text = button.querySelector('.button-text');
         if (text) {
-            text.innerHTML = button.title;
+            text.innerText = button.title;
         }
     }
 
@@ -141,9 +131,9 @@ import ServerConnections from '../../components/ServerConnections';
 
             setState(this, likes, isFavorite, false);
             bindEvents(this);
+        } else {
+            setTitle(this);
         }
-
-        setTitle(this);
     };
 
     EmbyRatingButtonPrototype.detachedCallback = function () {

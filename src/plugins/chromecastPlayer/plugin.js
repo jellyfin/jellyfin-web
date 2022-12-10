@@ -2,10 +2,10 @@ import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import { Events } from 'jellyfin-apiclient';
-import castSenderApiLoader from '../../components/castSenderApi';
+import castSenderApiLoader from './castSenderApi';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
+import Events from '../../utils/events.ts';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -452,11 +452,9 @@ function normalizeImages(state) {
     if (state && state.NowPlayingItem) {
         const item = state.NowPlayingItem;
 
-        if (!item.ImageTags || !item.ImageTags.Primary) {
-            if (item.PrimaryImageTag) {
-                item.ImageTags = item.ImageTags || {};
-                item.ImageTags.Primary = item.PrimaryImageTag;
-            }
+        if ((!item.ImageTags || !item.ImageTags.Primary) && item.PrimaryImageTag) {
+            item.ImageTags = item.ImageTags || {};
+            item.ImageTags.Primary = item.PrimaryImageTag;
         }
         if (item.BackdropImageTag && item.BackdropItemId === item.Id) {
             item.BackdropImageTags = [item.BackdropImageTag];
@@ -982,9 +980,9 @@ class ChromecastPlayer {
 
         const instance = this;
 
-        apiClient.getItem(userId, item.Id).then(function (item) {
+        apiClient.getItem(userId, item.Id).then(function (fetchedItem) {
             instance.playWithCommand({
-                items: [item]
+                items: [fetchedItem]
             }, 'Shuffle');
         });
     }
@@ -995,9 +993,9 @@ class ChromecastPlayer {
 
         const instance = this;
 
-        apiClient.getItem(userId, item.Id).then(function (item) {
+        apiClient.getItem(userId, item.Id).then(function (fetchedItem) {
             instance.playWithCommand({
-                items: [item]
+                items: [fetchedItem]
             }, 'InstantMix');
         });
     }
@@ -1056,6 +1054,7 @@ class ChromecastPlayer {
     }
 
     getCurrentPlaylistItemId() {
+        // not supported?
     }
 
     setCurrentPlaylistItem() {

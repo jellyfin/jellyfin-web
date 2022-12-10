@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
@@ -6,8 +7,9 @@ import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import '../../../components/listview/listview.scss';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import toast from '../../../components/toast/toast';
+import { getParameterByName } from '../../../utils/url.ts';
 
 /* eslint-disable indent */
 
@@ -76,7 +78,7 @@ import toast from '../../../components/toast/toast';
         profile.CodecProfiles = profile.CodecProfiles || [];
         profile.ResponseProfiles = profile.ResponseProfiles || [];
         const usersHtml = '<option></option>' + users.map(function (u) {
-            return '<option value="' + u.Id + '">' + u.Name + '</option>';
+            return '<option value="' + u.Id + '">' + escapeHtml(u.Name) + '</option>';
         }).join('');
         $('#selectUser', page).html(usersHtml).val(profile.UserId || '');
         renderSubProfiles(page, profile);
@@ -86,12 +88,12 @@ import toast from '../../../components/toast/toast';
         let index = 0;
         const html = '<div class="paperList">' + headers.map(function (h) {
             let li = '<div class="listItem">';
-            li += '<span class="material-icons listItemIcon info"></span>';
+            li += '<span class="material-icons listItemIcon info" aria-hidden="true"></span>';
             li += '<div class="listItemBody">';
-            li += '<h3 class="listItemBodyText">' + h.Name + ': ' + (h.Value || '') + '</h3>';
-            li += '<div class="listItemBodyText secondary">' + (h.Match || '') + '</div>';
+            li += '<h3 class="listItemBodyText">' + escapeHtml(h.Name + ': ' + (h.Value || '')) + '</h3>';
+            li += '<div class="listItemBodyText secondary">' + escapeHtml(h.Match || '') + '</div>';
             li += '</div>';
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteIdentificationHeader listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
+            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteIdentificationHeader listItemButton" data-index="' + index + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             li += '</div>';
             index++;
             return li;
@@ -142,12 +144,13 @@ import toast from '../../../components/toast/toast';
     function renderXmlDocumentAttributes(page, attribute) {
         const html = '<div class="paperList">' + attribute.map(function (h) {
             let li = '<div class="listItem">';
-            li += '<span class="material-icons listItemIcon info"></span>';
+            li += '<span class="material-icons listItemIcon info" aria-hidden="true"></span>';
             li += '<div class="listItemBody">';
-            li += '<h3 class="listItemBodyText">' + h.Name + ' = ' + (h.Value || '') + '</h3>';
+            li += '<h3 class="listItemBodyText">' + escapeHtml(h.Name + ' = ' + (h.Value || '')) + '</h3>';
             li += '</div>';
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><span class="material-icons delete"></span></button>';
-            return li += '</div>';
+            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><span class="material-icons delete" aria-hidden="true"></span></button>';
+            li += '</div>';
+            return li;
         }).join('') + '</div>';
         const elem = $('.xmlDocumentAttributeList', page).html(html).trigger('create');
         $('.btnDeleteXmlAttribute', elem).on('click', function () {
@@ -184,11 +187,11 @@ import toast from '../../../components/toast/toast';
         let index = 0;
         const html = '<div class="paperList">' + profiles.map(function (h) {
             let li = '<div class="listItem lnkEditSubProfile" data-index="' + index + '">';
-            li += '<span class="material-icons listItemIcon info"></span>';
+            li += '<span class="material-icons listItemIcon info" aria-hidden="true"></span>';
             li += '<div class="listItemBody">';
-            li += '<h3 class="listItemBodyText">' + (h.Format || '') + '</h3>';
+            li += '<h3 class="listItemBodyText">' + escapeHtml(h.Format || '') + '</h3>';
             li += '</div>';
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
+            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-index="' + index + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             li += '</div>';
             index++;
             return li;
@@ -278,7 +281,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + index + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + index + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             html += '</div>';
         }
 
@@ -339,7 +342,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             html += '</div>';
         }
 
@@ -423,7 +426,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             html += '</div>';
         }
 
@@ -495,7 +498,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             html += '</div>';
         }
 
@@ -575,7 +578,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             html += '</div>';
         }
 

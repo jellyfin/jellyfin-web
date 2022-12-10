@@ -5,6 +5,7 @@
  * @module components/listview/listview
  */
 
+import escapeHtml from 'escape-html';
 import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
@@ -148,11 +149,7 @@ import ServerConnections from '../ServerConnections';
 
             elem.classList.add('listItemBodyText');
 
-            if (textlines[i]) {
-                elem.innerText = textlines[i];
-            } else {
-                elem.innerHTML = '&nbsp;';
-            }
+            elem.innerHTML = '<bdi>' + escapeHtml(text) + '</bdi>';
 
             html += elem.outerHTML;
         }
@@ -166,7 +163,7 @@ import ServerConnections from '../ServerConnections';
         for (let i = 0, length = options.rightButtons.length; i < length; i++) {
             const button = options.rightButtons[i];
 
-            html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="${button.id}" title="${button.title}"><span class="material-icons ${button.icon}"></span></button>`;
+            html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="${button.id}" title="${button.title}"><span class="material-icons ${button.icon}" aria-hidden="true"></span></button>`;
         }
 
         return html;
@@ -207,7 +204,7 @@ import ServerConnections from '../ServerConnections';
                     } else {
                         html += '<h2 class="listGroupHeader">';
                     }
-                    html += itemGroupTitle;
+                    html += escapeHtml(itemGroupTitle);
                     html += '</h2>';
 
                     html += '<div>';
@@ -257,7 +254,7 @@ import ServerConnections from '../ServerConnections';
             }
 
             if (!clickEntireItem && options.dragHandle) {
-                html += '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle"></span>';
+                html += '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle" aria-hidden="true"></span>';
             }
 
             if (options.image !== false) {
@@ -282,6 +279,11 @@ import ServerConnections from '../ServerConnections';
                     html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
                 }
 
+                const mediaSourceCount = item.MediaSourceCount || 1;
+                if (mediaSourceCount > 1 && options.disableIndicators !== true) {
+                    html += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
+                }
+
                 let indicatorsHtml = '';
                 indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
 
@@ -290,7 +292,7 @@ import ServerConnections from '../ServerConnections';
                 }
 
                 if (playOnImageClick) {
-                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow"></span></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow" aria-hidden="true"></span></button>';
                 }
 
                 const progressHtml = indicators.getProgressBarHtml(item, {
@@ -326,10 +328,8 @@ import ServerConnections from '../ServerConnections';
                 textlines.push(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
             }
 
-            if (options.showChannel) {
-                if (item.ChannelName) {
-                    textlines.push(item.ChannelName);
-                }
+            if (options.showChannel && item.ChannelName) {
+                textlines.push(item.ChannelName);
             }
 
             let parentTitle = null;
@@ -368,10 +368,8 @@ import ServerConnections from '../ServerConnections';
             }
 
             if (item.IsFolder) {
-                if (options.artist !== false) {
-                    if (item.AlbumArtist && item.Type === 'MusicAlbum') {
+                if (options.artist !== false && item.AlbumArtist && item.Type === 'MusicAlbum') {
                         textlines.push(item.AlbumArtist);
-                    }
                 }
             } else {
                 if (options.artist) {
@@ -384,10 +382,8 @@ import ServerConnections from '../ServerConnections';
                 }
             }
 
-            if (item.Type === 'TvChannel') {
-                if (item.CurrentProgram) {
-                    textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
-                }
+            if (item.Type === 'TvChannel' && item.CurrentProgram) {
+                textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
             }
 
             cssClass = 'listItemBody';
@@ -403,43 +399,39 @@ import ServerConnections from '../ServerConnections';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 
-            if (options.mediaInfo !== false) {
-                if (!enableSideMediaInfo) {
-                    const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
+            if (options.mediaInfo !== false && !enableSideMediaInfo) {
+                const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
 
-                    html += `<div class="${mediaInfoClass}">`;
-                    html += mediaInfo.getPrimaryMediaInfoHtml(item, {
-                        episodeTitle: false,
-                        originalAirDate: false,
-                        subtitles: false
+                html += `<div class="${mediaInfoClass}">`;
+                html += mediaInfo.getPrimaryMediaInfoHtml(item, {
+                    episodeTitle: false,
+                    originalAirDate: false,
+                    subtitles: false
 
-                    });
-                    html += '</div>';
-                }
+                });
+                html += '</div>';
             }
 
             if (enableOverview && item.Overview) {
                 html += '<div class="secondary listItem-overview listItemBodyText">';
-                html += item.Overview;
+                html += '<bdi>' + item.Overview + '</bdi>';
                 html += '</div>';
             }
 
             html += '</div>';
 
-            if (options.mediaInfo !== false) {
-                if (enableSideMediaInfo) {
-                    html += '<div class="secondary listItemMediaInfo">';
-                    html += mediaInfo.getPrimaryMediaInfoHtml(item, {
+            if (options.mediaInfo !== false && enableSideMediaInfo) {
+                html += '<div class="secondary listItemMediaInfo">';
+                html += mediaInfo.getPrimaryMediaInfoHtml(item, {
 
-                        year: false,
-                        container: false,
-                        episodeTitle: false,
-                        criticRating: false,
-                        endsAt: false
+                    year: false,
+                    container: false,
+                    episodeTitle: false,
+                    criticRating: false,
+                    endsAt: false
 
-                    });
-                    html += '</div>';
-                }
+                });
+                html += '</div>';
             }
 
             if (!options.recordButton && (item.Type === 'Timer' || item.Type === 'Program')) {
@@ -450,11 +442,11 @@ import ServerConnections from '../ServerConnections';
 
             if (!clickEntireItem) {
                 if (options.addToListButton) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add"></span></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add" aria-hidden="true"></span></button>';
                 }
 
                 if (options.infoButton) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline"></span></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline" aria-hidden="true"></span></button>';
                 }
 
                 if (options.rightButtons) {
@@ -466,16 +458,16 @@ import ServerConnections from '../ServerConnections';
                     const likes = userData.Likes == null ? '' : userData.Likes;
 
                     if (itemHelper.canMarkPlayed(item) && options.enablePlayedButton !== false) {
-                        html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check"></span></button>';
+                        html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check" aria-hidden="true"></span></button>';
                     }
 
                     if (itemHelper.canRate(item) && options.enableRatingButton !== false) {
-                        html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
+                        html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
                     }
                 }
 
                 if (options.moreButton !== false) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert"></span></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
                 }
             }
             html += '</div>';
@@ -485,7 +477,7 @@ import ServerConnections from '../ServerConnections';
 
                 if (enableOverview && item.Overview) {
                     html += '<div class="listItem-bottomoverview secondary">';
-                    html += item.Overview;
+                    html += '<bdi>' + item.Overview + '</bdi>';
                     html += '</div>';
                 }
             }

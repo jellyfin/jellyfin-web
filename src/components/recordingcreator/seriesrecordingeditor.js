@@ -45,7 +45,7 @@ function renderTimer(context, item) {
     context.querySelector('.selectKeepUpTo').value = item.KeepUpTo || 0;
 
     if (item.ChannelName || item.ChannelNumber) {
-        context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('ChannelNameOnly', item.ChannelName || item.ChannelNumber);
+        context.querySelector('.optionChannelOnly').innerText = globalize.translate('ChannelNameOnly', item.ChannelName || item.ChannelNumber);
     } else {
         context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('OneChannel');
     }

@@ -1,5 +1,5 @@
 <div class="formDialogHeader">
-    <button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
     <h3 class="formDialogHeaderTitle">
         ${HeaderImageOptions}
     </h3>
@@ -62,17 +62,6 @@
                     <input is="emby-input" type="number" id="txtMinBackdropDownloadWidth" pattern="[0-9]*" required="required" min="0" label="${LabelMinBackdropDownloadWidth}" />
                 </div>
             </div>
-
-            <div class="screenshotFields">
-                <div class="inputContainer">
-                    <input is="emby-input" type="number" id="txtMaxScreenshots" pattern="[0-9]*" required="required" min="0" label="${LabelMaxScreenshotsPerItem}" />
-                </div>
-
-                <div class="inputContainer">
-                    <input is="emby-input" type="number" id="txtMinScreenshotDownloadWidth" pattern="[0-9]*" required="required" min="0" label="${LabelMinScreenshotDownloadWidth}" />
-                </div>
-            </div>
-
         </form>
     </div>
 </div>

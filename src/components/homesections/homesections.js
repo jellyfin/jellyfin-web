@@ -1,5 +1,5 @@
+import escapeHtml from 'escape-html';
 import cardBuilder from '../cardbuilder/cardBuilder';
-import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import imageLoader from '../images/imageLoader';
 import globalize from '../../scripts/globalize';
@@ -10,7 +10,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
 import './homesections.scss';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
@@ -73,8 +73,7 @@ import ServerConnections from '../ServerConnections';
 
                 return Promise.all(promises).then(function () {
                     return resume(elem, {
-                        refresh: true,
-                        returnPromise: false
+                        refresh: true
                     });
                 });
             } else {
@@ -127,10 +126,7 @@ import ServerConnections from '../ServerConnections';
             promises.push(elems[i].resume(options));
         }
 
-        const promise = Promise.all(promises);
-        if (!options || options.returnPromise !== false) {
-            return promise;
-        }
+        return Promise.all(promises);
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
@@ -196,7 +192,7 @@ import ServerConnections from '../ServerConnections';
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];
             const icon = imageHelper.getLibraryIcon(item.CollectionType);
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '" aria-hidden="true"></span><span class="homeLibraryText">' + escapeHtml(item.Name) + '</span></a>';
         }
 
         html += '</div>';
@@ -285,12 +281,12 @@ import ServerConnections from '../ServerConnections';
                 section: 'latest'
             }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('LatestFromLibrary', parent.Name);
+            html += globalize.translate('LatestFromLibrary', escapeHtml(parent.Name));
             html += '</h2>';
-            html += '<span class="material-icons chevron_right"></span>';
+            html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
             html += '</a>';
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', escapeHtml(parent.Name)) + '</h2>';
         }
         html += '</div>';
 
@@ -404,15 +400,8 @@ import ServerConnections from '../ServerConnections';
     function getItemsToResumeFn(mediaType, serverId) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
-            const screenWidth = dom.getWindowSize().innerWidth;
 
-            let limit;
-            if (enableScrollX()) {
-                limit = 12;
-            } else {
-                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-                limit = Math.min(limit, 5);
-            }
+            const limit = enableScrollX() ? 12 : 5;
 
             const options = {
                 Limit: limit,
@@ -569,7 +558,7 @@ import ServerConnections from '../ServerConnections';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate('HeaderOnNow');
                     html += '</h2>';
-                    html += '<span class="material-icons chevron_right"></span>';
+                    html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
                     html += '</a>';
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
@@ -607,13 +596,14 @@ import ServerConnections from '../ServerConnections';
             oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path',
+                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path,MediaSourceCount',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false,
                 DisableFirstEpisode: false,
-                NextUpDateCutoff: oldestDateForNextUp.toISOString()
+                NextUpDateCutoff: oldestDateForNextUp.toISOString(),
+                EnableRewatching: userSettings.enableRewatchingInNextUp()
             });
         };
     }
@@ -650,10 +640,12 @@ import ServerConnections from '../ServerConnections';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('NextUp');
             html += '</h2>';
-            html += '<span class="material-icons chevron_right"></span>';
+            html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
             html += '</a>';
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('NextUp') + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += globalize.translate('NextUp');
+            html += '</h2>';
         }
         html += '</div>';
 

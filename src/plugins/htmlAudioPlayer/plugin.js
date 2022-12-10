@@ -1,9 +1,9 @@
-import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
+import Events from '../../utils/events.ts';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -41,13 +41,9 @@ function cancelFadeTimeout() {
 }
 
 function supportsFade() {
-    if (browser.tv) {
-        // Not working on tizen.
-        // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
-        return false;
-    }
-
-    return true;
+    // Not working on tizen.
+    // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
+    return !browser.tv;
 }
 
 function requireHlsPlayer(callback) {
@@ -74,7 +70,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
                 type: 'HEAD'
             }).then(function (response) {
                 const contentType = (response.headers.get('Content-Type') || '').toLowerCase();
-                if (contentType === 'application/x-mpegurl') {
+                if (contentType === 'application/vnd.apple.mpegurl' || contentType === 'application/x-mpegurl') {
                     resolve();
                 } else {
                     reject();
@@ -417,10 +413,7 @@ class HtmlAudioPlayer {
 
     // This is a retry after error
     resume() {
-        const mediaElement = this._mediaElement;
-        if (mediaElement) {
-            mediaElement.play();
-        }
+        this.unpause();
     }
 
     unpause() {

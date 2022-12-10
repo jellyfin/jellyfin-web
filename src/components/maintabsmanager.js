@@ -1,6 +1,6 @@
 import dom from '../scripts/dom';
 import browser from '../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 
@@ -47,7 +47,7 @@ import '../elements/emby-button/emby-button';
         return true;
     }
 
-    function configureSwipeTabs(view, tabsElem) {
+    function configureSwipeTabs(view, currentElement) {
         if (!browser.touch) {
             return;
         }
@@ -55,13 +55,13 @@ import '../elements/emby-button/emby-button';
         // implement without hammer
         const onSwipeLeft = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
-                tabsElem.selectNext();
+                currentElement.selectNext();
             }
         };
 
         const onSwipeRight = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
-                tabsElem.selectPrevious();
+                currentElement.selectPrevious();
             }
         };
 
@@ -138,21 +138,23 @@ import '../elements/emby-button/emby-button';
 
             configureSwipeTabs(view, tabsElem);
 
-            tabsElem.addEventListener('beforetabchange', function (e) {
-                const tabContainers = getTabContainersFn();
-                if (e.detail.previousIndex != null) {
-                    const previousPanel = tabContainers[e.detail.previousIndex];
-                    if (previousPanel) {
-                        previousPanel.classList.remove('is-active');
+            if (getTabContainersFn) {
+                tabsElem.addEventListener('beforetabchange', function (e) {
+                    const tabContainers = getTabContainersFn();
+                    if (e.detail.previousIndex != null) {
+                        const previousPanel = tabContainers[e.detail.previousIndex];
+                        if (previousPanel) {
+                            previousPanel.classList.remove('is-active');
+                        }
                     }
-                }
 
-                const newPanel = tabContainers[e.detail.selectedTabIndex];
+                    const newPanel = tabContainers[e.detail.selectedTabIndex];
 
-                if (newPanel) {
-                    newPanel.classList.add('is-active');
-                }
-            });
+                    if (newPanel) {
+                        newPanel.classList.add('is-active');
+                    }
+                });
+            }
 
             if (onBeforeTabChange) {
                 tabsElem.addEventListener('beforetabchange', onBeforeTabChange);

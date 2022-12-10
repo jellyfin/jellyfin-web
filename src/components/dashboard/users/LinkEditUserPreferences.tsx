@@ -6,7 +6,7 @@ type IProps = {
     className?: string;
 }
 
-const createLinkElement = ({ className, title }) => ({
+const createLinkElement = ({ className, title }: IProps) => ({
     __html: `<a
         is="emby-linkbutton"
         class="${className}"

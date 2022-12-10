@@ -5,9 +5,14 @@
  * @module components/itemMediaInfo/itemMediaInfo
  */
 
+import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
+import toast from '../toast/toast';
+import { copy } from '../../scripts/clipboard';
+import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
+import itemHelper from '../../components/itemHelper';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
@@ -19,6 +24,12 @@ import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './itemMediaInfo.template.html';
 
+// Do not add extra spaces between tags - they will be copied into the result
+const copyButtonHtml = layoutManager.tv ? '' :
+    `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('Copy')}" aria-label="${globalize.translate('Copy')}"
+        ><span class="material-icons content_copy" aria-hidden="true"></span></button>`;
+const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </span>';
+
     function setMediaInfo(user, page, item) {
         let html = item.MediaSources.map(version => {
             return getMediaSourceHtml(user, item, version);
@@ -28,12 +39,25 @@ import template from './itemMediaInfo.template.html';
         }
         const mediaInfoContent = page.querySelector('#mediaInfoContent');
         mediaInfoContent.innerHTML = html;
+
+        for (const btn of mediaInfoContent.querySelectorAll('.btnCopy')) {
+            btn.addEventListener('click', () => {
+                const infoBlock = dom.parentWithClass(btn, 'mediaInfoStream') || dom.parentWithClass(btn, 'mediaInfoSource') || mediaInfoContent;
+
+                copy(infoBlock.textContent).then(() => {
+                    toast(globalize.translate('Copied'));
+                }).catch(() => {
+                    console.error('Could not copy text');
+                    toast(globalize.translate('CopyFailed'));
+                });
+            });
+        }
     }
 
     function getMediaSourceHtml(user, item, version) {
-        let html = '';
+        let html = '<div class="mediaInfoSource">';
         if (version.Name) {
-            html += `<div><h2 class="mediaInfoStreamType">${version.Name}</h2></div>`;
+            html += `<div><h2 class="mediaInfoStreamType">${escapeHtml(version.Name)}${copyButtonHtml}</h2></div>\n`;
         }
         if (version.Container) {
             html += `${createAttribute(globalize.translate('MediaInfoContainer'), version.Container)}<br/>`;
@@ -42,14 +66,14 @@ import template from './itemMediaInfo.template.html';
             html += `${createAttribute(globalize.translate('MediaInfoFormat'), version.Formats.join(','))}<br/>`;
         }
         if (version.Path && user && user.Policy.IsAdministrator) {
-            html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path)}<br/>`;
+            html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path, true)}<br/>`;
         }
         if (version.Size) {
             const size = `${(version.Size / (1024 * 1024)).toFixed(0)} MB`;
             html += `${createAttribute(globalize.translate('MediaInfoSize'), size)}<br/>`;
         }
-        for (let i = 0, length = version.MediaStreams.length; i < length; i++) {
-            const stream = version.MediaStreams[i];
+        version.MediaStreams.sort(itemHelper.sortTracks);
+        for (const stream of version.MediaStreams) {
             if (stream.Type === 'Data') {
                 continue;
             }
@@ -69,7 +93,7 @@ import template from './itemMediaInfo.template.html';
             }
 
             const displayType = globalize.translate(translateString);
-            html += `<h2 class="mediaInfoStreamType">${displayType}</h2>`;
+            html += `\n<h2 class="mediaInfoStreamType">${displayType}${copyButtonHtml}</h2>\n`;
             const attributes = [];
             if (stream.DisplayTitle) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoTitle'), stream.DisplayTitle));
@@ -89,7 +113,7 @@ import template from './itemMediaInfo.template.html';
             if (stream.Profile) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoProfile'), stream.Profile));
             }
-            if (stream.Level) {
+            if (stream.Level > 0) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoLevel'), stream.Level));
             }
             if (stream.Width || stream.Height) {
@@ -104,7 +128,7 @@ import template from './itemMediaInfo.template.html';
                 }
                 attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
             }
-            if (stream.AverageFrameRate || stream.RealFrameRate) {
+            if ((stream.AverageFrameRate || stream.RealFrameRate) && stream.Type === 'Video') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), (stream.AverageFrameRate || stream.RealFrameRate)));
             }
             if (stream.ChannelLayout) {
@@ -113,7 +137,7 @@ import template from './itemMediaInfo.template.html';
             if (stream.Channels) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), `${stream.Channels} ch`));
             }
-            if (stream.BitRate && stream.Codec !== 'mjpeg') {
+            if (stream.BitRate) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000)} kbps`));
             }
             if (stream.SampleRate) {
@@ -124,6 +148,36 @@ import template from './itemMediaInfo.template.html';
             }
             if (stream.VideoRange) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoVideoRange'), stream.VideoRange));
+            }
+            if (stream.VideoRangeType) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoVideoRangeType'), stream.VideoRangeType));
+            }
+            if (stream.VideoDoViTitle) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoDoViTitle'), stream.VideoDoViTitle));
+                if (stream.DvVersionMajor != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMajor'), stream.DvVersionMajor));
+                }
+                if (stream.DvVersionMinor != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMinor'), stream.DvVersionMinor));
+                }
+                if (stream.DvProfile != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvProfile'), stream.DvProfile));
+                }
+                if (stream.DvLevel != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvLevel'), stream.DvLevel));
+                }
+                if (stream.RpuPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoRpuPresentFlag'), stream.RpuPresentFlag));
+                }
+                if (stream.ElPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoElPresentFlag'), stream.ElPresentFlag));
+                }
+                if (stream.BlPresentFlag != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoBlPresentFlag'), stream.BlPresentFlag));
+                }
+                if (stream.DvBlSignalCompatibilityId != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoDvBlSignalCompatibilityId'), stream.DvBlSignalCompatibilityId));
+                }
             }
             if (stream.ColorSpace) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoColorSpace'), stream.ColorSpace));
@@ -143,10 +197,8 @@ import template from './itemMediaInfo.template.html';
             if (stream.NalLengthSize) {
                 attributes.push(createAttribute('NAL', stream.NalLengthSize));
             }
-            if (stream.Type !== 'Video') {
+            if (stream.Type === 'Subtitle' || stream.Type === 'Audio') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), (stream.IsDefault ? 'Yes' : 'No')));
-            }
-            if (stream.Type === 'Subtitle') {
                 attributes.push(createAttribute(globalize.translate('MediaInfoForced'), (stream.IsForced ? 'Yes' : 'No')));
                 attributes.push(createAttribute(globalize.translate('MediaInfoExternal'), (stream.IsExternal ? 'Yes' : 'No')));
             }
@@ -156,11 +208,13 @@ import template from './itemMediaInfo.template.html';
             html += attributes.join('<br/>');
             html += '</div>';
         }
+        html += '</div>';
         return html;
     }
 
-    function createAttribute(label, value) {
-        return `<span class="mediaInfoLabel">${label}</span><span class="mediaInfoAttribute">${value}</span>`;
+    // File Paths should be always ltr. The isLtr parameter allows this.
+    function createAttribute(label, value, isLtr) {
+        return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute" ${isLtr && 'dir="ltr"'}>${escapeHtml(value)}</span>\n`;
     }
 
     function loadMediaInfo(itemId, serverId) {

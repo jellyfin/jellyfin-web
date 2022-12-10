@@ -1,7 +1,9 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import globalize from './globalize';
 import 'material-design-icons-iconfont';
-import Dashboard from './clientUtils';
+import Dashboard from '../utils/dashboard';
+import { getParameterByName } from '../utils/url.ts';
 
 /* eslint-disable indent */
 
@@ -47,22 +49,22 @@ import Dashboard from './clientUtils';
         }
         let htmlName = "<div class='editorNode'>";
         if (item.IsFolder) {
-            htmlName += '<span class="material-icons metadataSidebarIcon folder"></span>';
+            htmlName += '<span class="material-icons metadataSidebarIcon folder" aria-hidden="true"></span>';
         } else if (item.MediaType === 'Video') {
-            htmlName += '<span class="material-icons metadataSidebarIcon movie"></span>';
+            htmlName += '<span class="material-icons metadataSidebarIcon movie" aria-hidden="true"></span>';
         } else if (item.MediaType === 'Audio') {
-            htmlName += '<span class="material-icons metadataSidebarIcon audiotrack"></span>';
+            htmlName += '<span class="material-icons metadataSidebarIcon audiotrack" aria-hidden="true"></span>';
         } else if (item.Type === 'TvChannel') {
-            htmlName += '<span class="material-icons metadataSidebarIcon live_tv"></span>';
+            htmlName += '<span class="material-icons metadataSidebarIcon live_tv" aria-hidden="true"></span>';
         } else if (item.MediaType === 'Photo') {
-            htmlName += '<span class="material-icons metadataSidebarIcon photo"></span>';
+            htmlName += '<span class="material-icons metadataSidebarIcon photo" aria-hidden="true"></span>';
         } else if (item.MediaType === 'Book') {
-            htmlName += '<span class="material-icons metadataSidebarIcon book"></span>';
+            htmlName += '<span class="material-icons metadataSidebarIcon book" aria-hidden="true"></span>';
         }
         if (item.LockData) {
-            htmlName += '<span class="material-icons metadataSidebarIcon lock"></span>';
+            htmlName += '<span class="material-icons metadataSidebarIcon lock" aria-hidden="true"></span>';
         }
-        htmlName += name;
+        htmlName += escapeHtml(name);
         htmlName += '</div>';
         return htmlName;
     }
@@ -213,19 +215,7 @@ import Dashboard from './clientUtils';
         }
     }
 
-    function onNodeOpen(event, data) {
-        const page = $(this).parents('.page')[0];
-        const node = data.node;
-        if (node.children) {
-            loadNodesToLoad(page, node);
-        }
-        if (node.li_attr && node.id != '#' && !node.li_attr.loadedFromServer) {
-            node.li_attr.loadedFromServer = true;
-            $.jstree.reference('.libraryTree', page).load_node(node.id, loadNodeCallback);
-        }
-    }
-
-    function onNodeLoad(event, data) {
+    function onNodeOpen(_, data) {
         const page = $(this).parents('.page')[0];
         const node = data.node;
         if (node.children) {
@@ -252,7 +242,13 @@ import Dashboard from './clientUtils';
                     variant: 'large'
                 }
             }
-        }).off('select_node.jstree', onNodeSelect).on('select_node.jstree', onNodeSelect).off('open_node.jstree', onNodeOpen).on('open_node.jstree', onNodeOpen).off('load_node.jstree', onNodeLoad).on('load_node.jstree', onNodeLoad);
+        })
+            .off('select_node.jstree', onNodeSelect)
+            .on('select_node.jstree', onNodeSelect)
+            .off('open_node.jstree', onNodeOpen)
+            .on('open_node.jstree', onNodeOpen)
+            .off('load_node.jstree', onNodeOpen)
+            .on('load_node.jstree', onNodeOpen);
     }
 
     function loadNodesToLoad(page, node) {
@@ -298,9 +294,9 @@ import Dashboard from './clientUtils';
         if (itemId) {
             return itemId;
         }
-        const url = window.location.hash || window.location.href;
-        return getParameterByName('id', url);
+        return getParameterByName('id');
     }
+
     let nodesToLoad = [];
     let selectedNodeId;
     $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
@@ -325,7 +321,10 @@ import Dashboard from './clientUtils';
         });
     }).on('pagebeforehide', '.metadataEditorPage', function () {
         const page = this;
-        $('.libraryTree', page).off('select_node.jstree', onNodeSelect).off('open_node.jstree', onNodeOpen).off('load_node.jstree', onNodeLoad);
+        $('.libraryTree', page)
+            .off('select_node.jstree', onNodeSelect)
+            .off('open_node.jstree', onNodeOpen)
+            .off('load_node.jstree', onNodeOpen);
     });
     let itemId;
     window.MetadataEditor = {

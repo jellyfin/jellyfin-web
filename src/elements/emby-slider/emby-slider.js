@@ -5,6 +5,7 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -31,6 +32,8 @@ import '../emby-input/emby-input';
         const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
         let fraction = (clientX - rect.left) / rect.width;
+        if (globalize.getIsElementRTL(range))
+            fraction = (rect.right - clientX) / rect.width;
 
         // Snap to step
         const valueRange = range.max - range.min;
@@ -102,6 +105,13 @@ import '../emby-input/emby-input';
                 fraction *= 100;
                 backgroundLower.style.width = fraction + '%';
             }
+
+            if (range.markerContainerElement) {
+                if (!range.triedAddingMarkers) {
+                    addMarkers(range);
+                }
+                updateMarkers(range, value);
+            }
         });
     }
 
@@ -111,6 +121,9 @@ import '../emby-input/emby-input';
             const bubbleRect = bubble.getBoundingClientRect();
 
             let bubblePos = bubbleTrackRect.width * value / 100;
+            if (globalize.getIsElementRTL(range)) {
+                bubblePos = bubbleTrackRect.width - bubblePos;
+            }
             bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);
 
             bubble.style.left = bubblePos + 'px';
@@ -128,6 +141,70 @@ import '../emby-input/emby-input';
 
             bubble.innerHTML = value;
         });
+    }
+
+    function setMarker(range, valueMarker, marker, valueProgress) {
+        requestAnimationFrame(function () {
+            const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
+            const markerRect = marker.getBoundingClientRect();
+
+            if (!bubbleTrackRect.width || !markerRect.width) {
+                // width is not set, most probably because the OSD is currently hidden
+                return;
+            }
+
+            let markerPos = (bubbleTrackRect.width * valueMarker / 100) - markerRect.width / 2;
+            markerPos = Math.min(Math.max(markerPos, - markerRect.width / 2), bubbleTrackRect.width - markerRect.width / 2);
+
+            marker.style.left = markerPos + 'px';
+
+            if (valueProgress >= valueMarker) {
+                marker.classList.remove('unwatched');
+                marker.classList.add('watched');
+            } else {
+                marker.classList.add('unwatched');
+                marker.classList.remove('watched');
+            }
+        });
+    }
+
+    function updateMarkers(range, currentValue) {
+        if (range.markerInfo && range.markerInfo.length && range.markerElements && range.markerElements.length) {
+            for (let i = 0, length = range.markerElements.length; i < length; i++) {
+                if (range.markerInfo.length > i) {
+                    setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
+                }
+            }
+        }
+    }
+
+    function addMarkers(range) {
+        range.markerInfo = [];
+        if (range.getMarkerInfo) {
+            range.markerInfo = range.getMarkerInfo();
+        }
+
+        function getMarkerHtml(markerInfo) {
+            let markerTypeSpecificClasses = '';
+
+            if (markerInfo.className === 'chapterMarker') {
+                markerTypeSpecificClasses = markerInfo.className;
+
+                if (typeof markerInfo.name === 'string' && markerInfo.name.length) {
+                    // limit the class length in case the name contains half a novel
+                    markerTypeSpecificClasses = `${markerInfo.className} marker-${markerInfo.name.substring(0, 100).toLowerCase().replace(' ', '-')}`;
+                }
+            }
+
+            return `<span class="material-icons sliderMarker ${markerTypeSpecificClasses}" aria-hidden="true"></span>`;
+        }
+
+        range.markerInfo.forEach(info => {
+            range.markerContainerElement.insertAdjacentHTML('beforeend', getMarkerHtml(info));
+        });
+
+        range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+        range.triedAddingMarkers = true;
     }
 
     EmbySliderPrototype.attachedCallback = function () {
@@ -154,7 +231,7 @@ import '../emby-input/emby-input';
 
         if (topContainer && this.getAttribute('label')) {
             const label = this.ownerDocument.createElement('label');
-            label.innerHTML = this.getAttribute('label');
+            label.innerText = this.getAttribute('label');
             label.classList.add('sliderLabel');
             label.htmlFor = this.id;
             topContainer.insertBefore(label, topContainer.firstChild);
@@ -187,7 +264,9 @@ import '../emby-input/emby-input';
         this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
         const sliderBubble = containerElement.querySelector('.sliderBubble');
 
-        let hasHideClass = sliderBubble.classList.contains('hide');
+        let hasHideBubbleClass = sliderBubble.classList.contains('hide');
+
+        this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
 
         dom.addEventListener(this, 'input', function () {
             this.dragging = true;
@@ -199,9 +278,9 @@ import '../emby-input/emby-input';
             const bubbleValue = mapValueToFraction(this, this.value) * 100;
             updateBubble(this, bubbleValue, sliderBubble);
 
-            if (hasHideClass) {
+            if (hasHideBubbleClass) {
                 sliderBubble.classList.remove('hide');
-                hasHideClass = false;
+                hasHideBubbleClass = false;
             }
         }, {
             passive: true
@@ -215,7 +294,7 @@ import '../emby-input/emby-input';
             }
 
             sliderBubble.classList.add('hide');
-            hasHideClass = true;
+            hasHideBubbleClass = true;
         }, {
             passive: true
         });
@@ -227,9 +306,9 @@ import '../emby-input/emby-input';
 
                 updateBubble(this, bubbleValue, sliderBubble);
 
-                if (hasHideClass) {
+                if (hasHideBubbleClass) {
                     sliderBubble.classList.remove('hide');
-                    hasHideClass = false;
+                    hasHideBubbleClass = false;
                 }
             }
         }, {
@@ -239,7 +318,7 @@ import '../emby-input/emby-input';
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
             sliderBubble.classList.add('hide');
-            hasHideClass = true;
+            hasHideBubbleClass = true;
         }, {
             passive: true
         });
@@ -411,7 +490,10 @@ import '../emby-input/emby-input';
 
     function setRange(elem, startPercent, endPercent) {
         const style = elem.style;
-        style.left = Math.max(startPercent, 0) + '%';
+        if (globalize.getIsRTL())
+            style.right = Math.max(startPercent, 0) + '%';
+        else
+            style.left = Math.max(startPercent, 0) + '%';
 
         const widthPercent = endPercent - startPercent;
         style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
@@ -443,10 +525,8 @@ import '../emby-input/emby-input';
         }
 
         for (const range of ranges) {
-            if (position != null) {
-                if (position >= range.end) {
-                    continue;
-                }
+            if (position != null && position >= range.end) {
+                continue;
             }
 
             setRange(elem, range.start, range.end);

@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
@@ -141,8 +142,8 @@ export function show(options) {
     }
 
     if (layoutManager.tv) {
-        html += `<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1">
-                     <span class="material-icons arrow_back"></span>
+        html += `<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1" title="${globalize.translate('ButtonBack')}">
+                     <span class="material-icons arrow_back" aria-hidden="true"></span>
                  </button>`;
     }
 
@@ -156,10 +157,10 @@ export function show(options) {
     }
 
     if (options.title) {
-        html += '<h1 class="actionSheetTitle">' + options.title + '</h1>';
+        html += '<h1 class="actionSheetTitle">' + escapeHtml(options.title) + '</h1>';
     }
     if (options.text) {
-        html += '<p class="actionSheetText">' + options.text + '</p>';
+        html += '<p class="actionSheetText">' + escapeHtml(options.text) + '</p>';
     }
 
     let scrollerClassName = 'actionSheetScroller';
@@ -204,25 +205,25 @@ export function show(options) {
         itemIcon = icons[i];
 
         if (itemIcon) {
-            html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}"></span>`;
+            html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}" aria-hidden="true"></span>`;
         } else if (renderIcon && !center) {
-            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" style="visibility:hidden;"></span>';
+            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" aria-hidden="true" style="visibility:hidden;"></span>';
         }
 
         html += '<div class="listItemBody actionsheetListItemBody">';
 
         html += '<div class="listItemBodyText actionSheetItemText">';
-        html += (item.name || item.textContent || item.innerText);
+        html += escapeHtml(item.name || item.textContent || item.innerText);
         html += '</div>';
 
         if (item.secondaryText) {
-            html += `<div class="listItemBodyText secondary">${item.secondaryText}</div>`;
+            html += `<div class="listItemBodyText secondary">${escapeHtml(item.secondaryText)}</div>`;
         }
 
         html += '</div>';
 
         if (item.asideText) {
-            html += `<div class="listItemAside actionSheetItemAsideText">${item.asideText}</div>`;
+            html += `<div class="listItemAside actionSheetItemAsideText">${escapeHtml(item.asideText)}</div>`;
         }
 
         html += '</button>';
@@ -300,7 +301,7 @@ export function show(options) {
 
                     resolve(selectedId);
                 } else {
-                    reject();
+                    reject('ActionSheet closed without resolving');
                 }
             }
         });

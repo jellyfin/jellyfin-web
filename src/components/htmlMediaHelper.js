@@ -3,7 +3,7 @@
 
 import appSettings from '../scripts/settings/appSettings' ;
 import browser from '../scripts/browser';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../utils/events.ts';
 
     export function getSavedVolume() {
         return appSettings.get('volume') || 1;
@@ -26,12 +26,8 @@ import { Events } from 'jellyfin-apiclient';
     function canPlayNativeHls() {
         const media = document.createElement('video');
 
-        if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
-            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
-            return true;
-        }
-
-        return false;
+        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
+            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
     }
 
     export function enableHlsJsPlayer(runTimeTicks, mediaType) {
@@ -123,15 +119,15 @@ import { Events } from 'jellyfin-apiclient';
     }
 
     export function isValidDuration(duration) {
-        if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
-            return true;
-        }
-
-        return false;
+        return duration
+            && !isNaN(duration)
+            && duration !== Number.POSITIVE_INFINITY
+            && duration !== Number.NEGATIVE_INFINITY;
     }
 
     function setCurrentTimeIfNeeded(element, seconds) {
-        if (Math.abs(element.currentTime || 0, seconds) <= 1) {
+        // If it's worth skipping (1 sec or less of a difference)
+        if (Math.abs((element.currentTime || 0) - seconds) >= 1) {
             element.currentTime = seconds;
         }
     }
@@ -158,11 +154,15 @@ import { Events } from 'jellyfin-apiclient';
                         // (but rewinding cannot happen as the first event with media of non-empty duration)
                         console.debug(`seeking to ${seconds} on ${e.type} event`);
                         setCurrentTimeIfNeeded(element, seconds);
-                        events.forEach(name => element.removeEventListener(name, onMediaChange));
+                        events.forEach(name => {
+                            element.removeEventListener(name, onMediaChange);
+                        });
                         if (onMediaReady) onMediaReady();
                     }
                 };
-                events.forEach(name => element.addEventListener(name, onMediaChange));
+                events.forEach(name => {
+                    element.addEventListener(name, onMediaChange);
+                });
             }
         }
     }
@@ -197,24 +197,21 @@ import { Events } from 'jellyfin-apiclient';
 
     export function playWithPromise(elem, onErrorFn) {
         try {
-            const promise = elem.play();
-            if (promise && promise.then) {
-                // Chrome now returns a promise
-                return promise.catch(function (e) {
+            return elem.play()
+                .catch((e) => {
                     const errorName = (e.name || '').toLowerCase();
                     // safari uses aborterror
                     if (errorName === 'notallowederror' ||
                         errorName === 'aborterror') {
                         // swallow this error because the user can still click the play button on the video element
-                        onSuccessfulPlay(elem, onErrorFn);
                         return Promise.resolve();
                     }
                     return Promise.reject();
+                })
+                .then(() => {
+                    onSuccessfulPlay(elem, onErrorFn);
+                    return Promise.resolve();
                 });
-            } else {
-                onSuccessfulPlay(elem, onErrorFn);
-                return Promise.resolve();
-            }
         } catch (err) {
             console.error('error calling video.play: ' + err);
             return Promise.reject();
@@ -275,28 +272,23 @@ import { Events } from 'jellyfin-apiclient';
         hls.on(Hls.Events.ERROR, function (event, data) {
             console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
-            switch (data.type) {
-                case Hls.ErrorTypes.NETWORK_ERROR:
-                    // try to recover network error
-                    if (data.response && data.response.code && data.response.code >= 400) {
-                        console.debug('hls.js response error code: ' + data.response.code);
+            // try to recover network error
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR
+                && data.response?.code && data.response.code >= 400
+            ) {
+                console.debug('hls.js response error code: ' + data.response.code);
 
-                        // Trigger failure differently depending on whether this is prior to start of playback, or after
-                        hls.destroy();
+                // Trigger failure differently depending on whether this is prior to start of playback, or after
+                hls.destroy();
 
-                        if (reject) {
-                            reject('servererror');
-                            reject = null;
-                        } else {
-                            onErrorInternal(instance, 'servererror');
-                        }
+                if (reject) {
+                    reject('servererror');
+                    reject = null;
+                } else {
+                    onErrorInternal(instance, 'servererror');
+                }
 
-                        return;
-                    }
-
-                    break;
-                default:
-                    break;
+                return;
             }
 
             if (data.fatal) {

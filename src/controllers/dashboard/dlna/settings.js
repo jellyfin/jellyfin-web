@@ -1,8 +1,9 @@
+import escapeHtml from 'escape-html';
 import 'jquery';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 
 /* eslint-disable indent */
 
@@ -14,7 +15,7 @@ import Dashboard from '../../../scripts/clientUtils';
         $('#chkBlastAliveMessages', page).prop('checked', config.BlastAliveMessages);
         $('#txtBlastInterval', page).val(config.BlastAliveMessageIntervalSeconds);
         const usersHtml = users.map(function (u) {
-            return '<option value="' + u.Id + '">' + u.Name + '</option>';
+            return '<option value="' + u.Id + '">' + escapeHtml(u.Name) + '</option>';
         }).join('');
         $('#selectUser', page).html(usersHtml).val(config.DefaultUserId || '');
         loading.hide();
@@ -38,10 +39,10 @@ import Dashboard from '../../../scripts/clientUtils';
 
     function getTabs() {
         return [{
-            href: '#!/dlnasettings.html',
+            href: '#/dlnasettings.html',
             name: globalize.translate('Settings')
         }, {
-            href: '#!/dlnaprofiles.html',
+            href: '#/dlnaprofiles.html',
             name: globalize.translate('TabProfiles')
         }];
     }

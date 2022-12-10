@@ -39,7 +39,13 @@
 }
 
 .nowPlayingPageTitle {
-    margin: 0 0 0.5em 0.5em;
+    [dir="ltr"] & {
+        margin: 0 0 0.5em 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.5em 0.5em 0;
+    }
 }
 
 .nowPlayingAlbum a,
@@ -51,6 +57,10 @@
 
 .nowPlayingButtonsContainer {
     display: flex;
+
+    [dir="rtl"] & {
+        flex-direction: row-reverse;
+    }
 }
 
 .infoContainer,
@@ -81,8 +91,6 @@
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
@@ -96,10 +104,17 @@
 
 .nowPlayingPageImageContainer {
     width: 16%;
-    margin-right: 1em;
     position: relative;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-right: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 1em;
+    }
 }
 
 .nowPlayingPageImageContainerNoAlbum {
@@ -145,7 +160,7 @@
     width: 100%;
     -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    border: 0.1em solid #222;
+    border-radius: 0.2em;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
@@ -197,7 +212,10 @@
     height: 4.2em;
     right: 0;
     padding-left: 7.3%;
+    padding-left: max(env(safe-area-inset-left), 7.3%);
     padding-right: 7.3%;
+    padding-right: max(env(safe-area-inset-right), 7.3%);
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .layout-desktop .playlistSectionButton,
@@ -267,7 +285,13 @@
 
 @media all and (min-width: 80em) {
     .nowPlayingPageImageContainer {
-        margin-right: 0.75em;
+        [dir="ltr"] & {
+            margin-right: 0.75em;
+        }
+
+        [dir="rtl"] & {
+            margin-left: 0.75em;
+        }
     }
 }
 
@@ -275,9 +299,7 @@
     .remoteControlContent {
         padding-left: 7.3% !important;
         padding-right: 7.3% !important;
-        display: flex;
         height: 100%;
-        flex-direction: column;
     }
 
     .layout-desktop .nowPlayingPageUserDataButtons {
@@ -297,7 +319,6 @@
     }
 
     .nowPlayingPageTitle {
-        /* text-align: center; */
         margin: 0;
     }
 
@@ -318,17 +339,24 @@
     }
 
     .nowPlayingInfoButtons {
-        /* margin: 1.5em 0 0 0; */
         -webkit-box-pack: center;
         -webkit-justify-content: center;
         justify-content: center;
         font-size: 1.5em;
-        height: 100%;
+        margin-left: -0.5em;
+        margin-right: -0.5em;
     }
 
     .nowPlayingPageImageContainer {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 1;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        margin: auto auto 0.5em;
+        min-height: 0;
+        margin: 0 auto 0.5em;
     }
 
     .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
@@ -337,7 +365,9 @@
     }
 
     .nowPlayingInfoControls {
-        margin: 0.5em 0 1em 0;
+        flex-grow: 0;
+        flex-shrink: 1;
+        margin: 0.5em 0 0;
         width: 100%;
         -webkit-box-pack: start !important;
         -webkit-justify-content: start !important;
@@ -358,28 +388,49 @@
 
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle button {
         padding-top: 0;
-        padding-right: 0;
-        margin-right: 0;
-        float: right;
         border-radius: 0;
+
+        [dir="ltr"] & {
+            padding-right: 0;
+            margin-right: 0;
+            float: right;
+        }
+
+        [dir="rtl"] & {
+            padding-left: 0;
+            margin-left: 0;
+            float: left;
+        }
     }
 
     .nowPlayingInfoButtons .btnRepeat,
     .nowPlayingInfoButtons .btnRewind {
-        position: absolute;
-        left: 0;
-        margin-left: 0;
-        padding-left: 7.3%;
         font-size: smaller;
+
+        [dir="ltr"] & {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        [dir="rtl"] & {
+            margin-right: 0;
+            margin-left: auto;
+        }
     }
 
     .nowPlayingInfoButtons .btnShuffleQueue,
     .nowPlayingInfoButtons .btnFastForward {
-        position: absolute;
-        right: 0;
-        margin-right: 0;
-        padding-right: 7.3%;
         font-size: smaller;
+
+        [dir="ltr"] & {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] & {
+            margin-right: auto;
+            margin-left: 0;
+        }
     }
 
     .paper-icon-button-light {
@@ -392,25 +443,11 @@
         font-size: 2em;
     }
 
-    .nowPlayingPageImage {
-        /* width: inherit; */
-        overflow-y: hidden;
-        overflow: hidden;
-        margin: 0 auto;
-    }
-
-    .nowPlayingPageImage.nowPlayingPageImageAudio {
-        width: 100%;
-    }
-
-    .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
-        height: 50%;
-        overflow: hidden;
-    }
-
-    .nowPlayingPageImageContainer.nowPlayingPageImagePoster img {
-        height: 100%;
+    .nowPlayingPageImage.nowPlayingPageImageAudio,
+    .nowPlayingPageImage.nowPlayingPageImagePoster {
         width: auto;
+        max-width: 100%;
+        max-height: 100%;
     }
 
     .playlistSectionButton .volumecontrol {
@@ -424,8 +461,7 @@
 
     .nowPlayingButtonsContainer {
         display: flex;
-        height: 100%;
-        flex-direction: column;
+        flex-direction: column !important;
     }
 }
 

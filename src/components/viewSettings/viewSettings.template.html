@@ -17,22 +17,29 @@
 
                 <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide chkTitleContainer" data-settingname="showTitle">
                     <label>
-                        <input is="emby-checkbox" type="checkbox" />
+                        <input is="emby-checkbox" type="checkbox" class="chkShowTitle" />
                         <span>${ShowTitle}</span>
                     </label>
                 </div>
 
                 <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide chkYearContainer" data-settingname="showYear">
                     <label>
-                        <input is="emby-checkbox" type="checkbox" />
+                        <input is="emby-checkbox" type="checkbox" class="chkShowYear" />
                         <span>${ShowYear}</span>
                     </label>
                 </div>
 
                 <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide" data-settingname="groupBySeries">
                     <label>
-                        <input is="emby-checkbox" type="checkbox" />
+                        <input is="emby-checkbox" type="checkbox" class="chkGroupBySeries" />
                         <span>${GroupBySeries}</span>
+                    </label>
+                </div>
+
+                <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide chkCardLayoutContainer" data-settingname="cardLayout">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" class="chkEnableCardLayout" />
+                        <span>${EnableCardLayout}</span>
                     </label>
                 </div>
             </div>

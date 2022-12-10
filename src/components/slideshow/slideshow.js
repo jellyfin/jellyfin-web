@@ -13,9 +13,6 @@ import './style.scss';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';
-// eslint-disable-next-line import/named, import/namespace
-import { Swiper } from 'swiper/swiper-bundle.esm';
-import 'swiper/swiper-bundle.css';
 import screenfull from 'screenfull';
 
 /**
@@ -49,11 +46,9 @@ function getImageUrl(item, options, apiClient) {
         return apiClient.getScaledImageUrl(item.Id, options);
     }
 
-    if (options.type === 'Primary') {
-        if (item.AlbumId && item.AlbumPrimaryImageTag) {
-            options.tag = item.AlbumPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.AlbumId, options);
-        }
+    if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
+        options.tag = item.AlbumPrimaryImageTag;
+        return apiClient.getScaledImageUrl(item.AlbumId, options);
     }
 
     return null;
@@ -114,7 +109,7 @@ function getImgUrl(item, user) {
 function getIcon(icon, cssClass, canFocus, autoFocus) {
     const tabIndex = canFocus ? '' : ' tabindex="-1"';
     autoFocus = autoFocus ? ' autofocus' : '';
-    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
+    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '" aria-hidden="true"></span></button>';
 }
 
 /**
@@ -146,11 +141,11 @@ export default function (options) {
      * Creates the HTML markup for the dialog and the OSD.
      * @param {Object} options - Options used to create the dialog and slideshow.
      */
-    function createElements(options) {
-        currentOptions = options;
+    function createElements(slideshowOptions) {
+        currentOptions = slideshowOptions;
 
         dialog = dialogHelper.createDialog({
-            exitAnimationDuration: options.interactive ? 400 : 800,
+            exitAnimationDuration: slideshowOptions.interactive ? 400 : 800,
             size: 'fullscreen',
             autoFocus: false,
             scrollY: false,
@@ -164,7 +159,7 @@ export default function (options) {
 
         html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-        if (options.interactive && !layoutManager.tv) {
+        if (slideshowOptions.interactive && !layoutManager.tv) {
             const actionButtonsOnTop = layoutManager.mobile;
 
             html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
@@ -174,7 +169,7 @@ export default function (options) {
             if (actionButtonsOnTop) {
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
 
-                if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
+                if (appHost.supports('filedownload') && slideshowOptions.user && slideshowOptions.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (appHost.supports('sharing')) {
@@ -192,7 +187,7 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
+                if (appHost.supports('filedownload') && slideshowOptions.user && slideshowOptions.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (appHost.supports('sharing')) {
@@ -211,34 +206,37 @@ export default function (options) {
 
         dialog.innerHTML = html;
 
-        if (options.interactive && !layoutManager.tv) {
+        if (slideshowOptions.interactive && !layoutManager.tv) {
             dialog.querySelector('.btnSlideshowExit').addEventListener('click', function () {
                 dialogHelper.close(dialog);
             });
 
+            dialog.querySelector('.btnSlideshowPrevious')?.addEventListener('click', getClickHandler(null));
+            dialog.querySelector('.btnSlideshowNext')?.addEventListener('click', getClickHandler(null));
+
             const btnPause = dialog.querySelector('.btnSlideshowPause');
             if (btnPause) {
-                btnPause.addEventListener('click', playPause);
+                btnPause.addEventListener('click', getClickHandler(playPause));
             }
 
             const btnDownload = dialog.querySelector('.btnDownload');
             if (btnDownload) {
-                btnDownload.addEventListener('click', download);
+                btnDownload.addEventListener('click', getClickHandler(download));
             }
 
             const btnShare = dialog.querySelector('.btnShare');
             if (btnShare) {
-                btnShare.addEventListener('click', share);
+                btnShare.addEventListener('click', getClickHandler(share));
             }
 
             const btnFullscreen = dialog.querySelector('.btnFullscreen');
             if (btnFullscreen) {
-                btnFullscreen.addEventListener('click', fullscreen);
+                btnFullscreen.addEventListener('click', getClickHandler(fullscreen));
             }
 
             const btnFullscreenExit = dialog.querySelector('.btnFullscreenExit');
             if (btnFullscreenExit) {
-                btnFullscreenExit.addEventListener('click', fullscreenExit);
+                btnFullscreenExit.addEventListener('click', getClickHandler(fullscreenExit));
             }
 
             if (screenfull.isEnabled) {
@@ -333,7 +331,7 @@ export default function (options) {
      * @param {HTMLElement} dialog - Element containing the dialog.
      * @param {Object} options - Options used to initialize the Swiper instance.
      */
-    function loadSwiper(dialog, options) {
+    function loadSwiper(dialogElement, swiperOptions) {
         let slides;
         if (currentOptions.slides) {
             slides = currentOptions.slides;
@@ -341,45 +339,51 @@ export default function (options) {
             slides = currentOptions.items;
         }
 
-        swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
-            direction: 'horizontal',
-            // Loop is disabled due to the virtual slides option not supporting it.
-            loop: false,
-            zoom: {
-                minRatio: 1,
-                toggle: true
-            },
-            autoplay: !options.interactive || !!options.autoplay,
-            keyboard: {
-                enabled: true
-            },
-            preloadImages: true,
-            slidesPerView: 1,
-            slidesPerColumn: 1,
-            initialSlide: options.startIndex || 0,
-            speed: 240,
-            navigation: {
-                nextEl: '.btnSlideshowNext',
-                prevEl: '.btnSlideshowPrevious'
-            },
-            // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
-            virtual: {
-                slides: slides,
-                cache: true,
-                renderSlide: getSwiperSlideHtml,
-                addSlidesBefore: 1,
-                addSlidesAfter: 1
+        //eslint-disable-next-line import/no-unresolved
+        import('swiper/css/bundle');
+
+        // eslint-disable-next-line import/no-unresolved
+        import('swiper/bundle').then(({ Swiper }) => {
+            swiperInstance = new Swiper(dialogElement.querySelector('.slideshowSwiperContainer'), {
+                direction: 'horizontal',
+                // Loop is disabled due to the virtual slides option not supporting it.
+                loop: false,
+                zoom: {
+                    minRatio: 1,
+                    toggle: true
+                },
+                autoplay: !swiperOptions.interactive || !!swiperOptions.autoplay,
+                keyboard: {
+                    enabled: true
+                },
+                preloadImages: true,
+                slidesPerView: 1,
+                slidesPerColumn: 1,
+                initialSlide: swiperOptions.startIndex || 0,
+                speed: 240,
+                navigation: {
+                    nextEl: '.btnSlideshowNext',
+                    prevEl: '.btnSlideshowPrevious'
+                },
+                // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
+                virtual: {
+                    slides: slides,
+                    cache: true,
+                    renderSlide: getSwiperSlideHtml,
+                    addSlidesBefore: 1,
+                    addSlidesAfter: 1
+                }
+            });
+
+            swiperInstance.on('autoplayStart', onAutoplayStart);
+            swiperInstance.on('autoplayStop', onAutoplayStop);
+
+            if (useFakeZoomImage) {
+                swiperInstance.on('zoomChange', onZoomChange);
             }
+
+            if (swiperInstance.autoplay?.running) onAutoplayStart();
         });
-
-        swiperInstance.on('autoplayStart', onAutoplayStart);
-        swiperInstance.on('autoplayStop', onAutoplayStop);
-
-        if (useFakeZoomImage) {
-            swiperInstance.on('zoomChange', onZoomChange);
-        }
-
-        if (swiperInstance.autoplay?.running) onAutoplayStart();
     }
 
     /**
@@ -754,6 +758,17 @@ export default function (options) {
             default:
                 break;
         }
+    }
+
+    /**
+     * Constructs click event handler.
+     * @param {function|null|undefined} callback - Click event handler.
+     */
+    function getClickHandler(callback) {
+        return (e) => {
+            showOsd();
+            callback?.(e);
+        };
     }
 
     /**

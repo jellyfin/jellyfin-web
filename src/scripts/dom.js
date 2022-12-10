@@ -9,7 +9,7 @@
      * Returns parent of element with specified attribute value.
      * @param {HTMLElement} elem - Element whose parent need to find.
      * @param {string} name - Attribute name.
-     * @param {mixed} value - Attribute value.
+     * @param {mixed} [value] - Attribute value.
      * @returns {HTMLElement} Parent with specified attribute value.
      */
     export function parentWithAttribute(elem, name, value) {
@@ -146,8 +146,14 @@
     }
 
     /**
+    * @typedef {Object} windowSize
+    * @property {number} innerHeight - window innerHeight.
+    * @property {number} innerWidth - window innerWidth.
+    */
+
+    /**
      * Returns window size.
-     * @returns {Object} Window size.
+     * @returns {windowSize} Window size.
      */
     export function getWindowSize() {
         if (!windowSize) {
@@ -183,9 +189,9 @@
             width = height * (16.0 / 9.0);
         }
 
-        return standardWidths.sort(function (a, b) {
-            return Math.abs(width - a) - Math.abs(width - b);
-        })[0];
+        standardWidths.sort((a, b) => Math.abs(width - a) - Math.abs(width - b));
+
+        return standardWidths[0];
     }
 
     /**
@@ -262,6 +268,17 @@
 
 /* eslint-enable indent */
 
+/**
+ * Sets title and ARIA-label of element.
+ * @param {HTMLElement} elem - Element to set the title and ARIA-label.
+ * @param {string} title - Title.
+ * @param {string?} [ariaLabel] - ARIA-label.
+ */
+export function setElementTitle(elem, title, ariaLabel) {
+    elem.setAttribute('title', title);
+    elem.setAttribute('aria-label', ariaLabel);
+}
+
 export default {
     parentWithAttribute: parentWithAttribute,
     parentWithClass: parentWithClass,
@@ -270,6 +287,7 @@ export default {
     removeEventListener: removeEventListener,
     getWindowSize: getWindowSize,
     getScreenWidth: getScreenWidth,
+    setElementTitle,
     whichTransitionEvent: whichTransitionEvent,
     whichAnimationEvent: whichAnimationEvent,
     whichAnimationCancelEvent: whichAnimationCancelEvent

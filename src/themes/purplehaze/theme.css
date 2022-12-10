@@ -277,10 +277,6 @@ a[data-role=button] {
     opacity: 0.5;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .toast {
     background: #303030;
     color: #f8f8fe;
@@ -345,6 +341,14 @@ a[data-role=button] {
 
 .listItem:focus {
     background: rgba(0, 0, 0, 0.3);
+}
+
+.listItem:hover {
+    background: #12122f;
+}
+
+.actionSheetMenuItem:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .progressring-spiner {
@@ -571,6 +575,10 @@ a[data-role=button] {
 .cardBox:not(.visualCardBox) .cardPadder {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 0.8em;
+}
+
+.cardPadder .cardImageIcon {
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .card:focus .cardBox.visualCardBox,

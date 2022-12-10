@@ -1,0 +1,19 @@
+.dialogHeader {
+    [dir="ltr"] & {
+        margin-left: auto;
+    }
+
+    [dir="rtl"] & {
+        margin-right: auto;
+    }
+}
+
+.metadataFormFields .marginStart {
+    [dir="ltr"] & {
+        margin-left: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
+}

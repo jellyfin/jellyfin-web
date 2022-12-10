@@ -1,10 +1,11 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import { Events } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
-import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
+import { getLocale, getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
+import Events from '../../../utils/events.ts';
+
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 
@@ -23,7 +24,13 @@ import '../../../elements/emby-button/emby-button';
         tasks = tasks.sort(function(a, b) {
             a = a.Category + ' ' + a.Name;
             b = b.Category + ' ' + b.Name;
-            return a == b ? 0 : a < b ? -1 : 1;
+            if (a > b) {
+                return 1;
+            } else if (a < b) {
+                return -1;
+            } else {
+                return 0;
+            }
         });
 
         let currentCategory;
@@ -42,25 +49,28 @@ import '../../../elements/emby-button/emby-button';
                 html += currentCategory;
                 html += '</h2>';
                 if (i === 0) {
-                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">' + globalize.translate('Help') + '</a>';
+                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/tasks">' + globalize.translate('Help') + '</a>';
                 }
                 html += '</div>';
                 html += '<div class="paperList">';
             }
             html += '<div class="listItem listItem-border scheduledTaskPaperIconItem" data-status="' + task.State + '">';
             html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
-            html += '<span class="material-icons listItemIcon schedule"></span>';
+            html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
             html += '</a>';
             html += '<div class="listItemBody two-line">';
-            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
+            let textAlignStyle = 'left';
+            if (globalize.getIsRTL())
+                textAlignStyle = 'right';
+            html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:" + textAlignStyle + ";' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
             html += "<h3 class='listItemBodyText'>" + task.Name + '</h3>';
             html += "<div class='secondary listItemBodyText' id='taskProgress" + task.Id + "'>" + getTaskProgressHtml(task) + '</div>';
             html += '</a>';
             html += '</div>';
             if (task.State === 'Running') {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStop') + '"><span class="material-icons stop"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStop') + '"><span class="material-icons stop" aria-hidden="true"></span></button>';
             } else if (task.State === 'Idle') {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStart') + '"><span class="material-icons play_arrow"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStart') + '"><span class="material-icons play_arrow" aria-hidden="true"></span></button>';
             }
             html += '</div>';
         }
@@ -77,7 +87,7 @@ import '../../../elements/emby-button/emby-button';
             if (task.LastExecutionResult) {
                 const endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
                 const starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
-                html += globalize.translate('LabelScheduledTaskLastRan', formatDistanceToNow(endtime, localeWithSuffix),
+                html += globalize.translate('LabelScheduledTaskLastRan', formatDistanceToNow(endtime, getLocaleWithSuffix()),
                     formatDistance(starttime, endtime, { locale: getLocale() }));
                 if (task.LastExecutionResult.Status === 'Failed') {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate('LabelFailed') + ')</span>';

@@ -7,6 +7,7 @@ import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
 import confirm from '../../../components/confirm/confirm';
+import { getParameterByName } from '../../../utils/url.ts';
 
 /* eslint-disable indent */
 
@@ -57,7 +58,7 @@ import confirm from '../../../components/confirm/confirm';
                 const trigger = task.Triggers[i];
 
                 html += '<div class="listItem listItem-border">';
-                html += '<span class="material-icons listItemIcon schedule"></span>';
+                html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
                 if (trigger.MaxRuntimeMs) {
                     html += '<div class="listItemBody two-line">';
                 } else {
@@ -76,7 +77,7 @@ import confirm from '../../../components/confirm/confirm';
                 }
 
                 html += '</div>';
-                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
+                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate('Delete') + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
                 html += '</div>';
             }
 

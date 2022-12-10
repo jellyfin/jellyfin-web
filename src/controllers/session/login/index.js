@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
@@ -8,12 +10,13 @@ import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
 import cardBuilder from '../../../components/cardbuilder/cardBuilder';
+import './login.scss';
 
 /* eslint-disable indent */
 
@@ -166,7 +169,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                 html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
                 html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
-                html += '<span class="material-icons cardImageIcon person"></span>';
+                html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
                 html += '</div>';
             }
 
@@ -281,7 +284,21 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                 loading.hide();
             });
             apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
-                view.querySelector('.disclaimer').textContent = options.LoginDisclaimer || '';
+                const disclaimer = view.querySelector('.disclaimer');
+
+                disclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
+
+                for (const elem of disclaimer.querySelectorAll('a')) {
+                    elem.rel = 'noopener noreferrer';
+                    elem.target = '_blank';
+                    elem.classList.add('button-link');
+                    elem.setAttribute('is', 'emby-linkbutton');
+
+                    if (layoutManager.tv) {
+                        // Disable links navigation on TV
+                        elem.tabIndex = -1;
+                    }
+                }
             });
         });
         view.addEventListener('viewhide', function () {

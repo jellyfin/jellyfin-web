@@ -1,19 +1,23 @@
 import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
 const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
 
-    EmbyScrollButtonsPrototype.createdCallback = function () {};
+    EmbyScrollButtonsPrototype.createdCallback = function () {
+        // no-op
+    };
 
     function getScrollButtonHtml(direction) {
         let html = '';
         const icon = direction === 'left' ? 'chevron_left' : 'chevron_right';
+        const title = direction === 'left' ? globalize.translate('Previous') : globalize.translate('Next') ;
 
-        html += '<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="' + direction + '" class="emby-scrollbuttons-button">';
-        html += '<span class="material-icons ' + icon + '"></span>';
+        html += `<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="${direction}" title="${title}" class="emby-scrollbuttons-button">`;
+        html += '<span class="material-icons ' + icon + '" aria-hidden="true"></span>';
         html += '</button>';
 
         return html;
@@ -36,20 +40,28 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
     }
 
     function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
+        let localeAwarePos = scrollPos;
+        if (globalize.getIsElementRTL(scrollButtons)) {
+            localeAwarePos *= -1;
+        }
+
         // TODO: Check if hack is really needed
         // hack alert add twenty for rounding errors
         if (scrollWidth <= scrollSize + 20) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
             scrollButtons.scrollButtonsRight.classList.add('hide');
+        } else {
+            scrollButtons.scrollButtonsLeft.classList.remove('hide');
+            scrollButtons.scrollButtonsRight.classList.remove('hide');
         }
 
-        if (scrollPos > 0) {
+        if (localeAwarePos > 0) {
             scrollButtons.scrollButtonsLeft.disabled = false;
         } else {
             scrollButtons.scrollButtonsLeft.disabled = true;
         }
 
-        const scrollPosEnd = scrollPos + scrollSize;
+        const scrollPosEnd = localeAwarePos + scrollSize;
         if (scrollWidth > 0 && scrollPosEnd >= scrollWidth) {
             scrollButtons.scrollButtonsRight.disabled = true;
         } else {
@@ -129,6 +141,12 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
             newPos = Math.max(0, scrollPos - scrollSize);
         } else {
             newPos = scrollPos + scrollSize;
+        }
+
+        if (globalize.getIsRTL() && direction === 'left') {
+            newPos = scrollPos + scrollSize;
+        } else if (globalize.getIsRTL()) {
+            newPos = Math.min(0, scrollPos - scrollSize);
         }
 
         scroller.scrollToPosition(newPos, false);

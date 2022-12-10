@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import { appHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
@@ -98,25 +99,23 @@ function fillSubtitleList(context, item) {
 
             itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-            itemHtml += '<span class="listItemIcon material-icons closed_caption"></span>';
+            itemHtml += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
             itemHtml += '<div class="listItemBody two-line">';
 
             itemHtml += '<div>';
-            itemHtml += s.DisplayTitle || '';
+            itemHtml += escapeHtml(s.DisplayTitle || '');
             itemHtml += '</div>';
 
             if (s.Path) {
-                itemHtml += '<div class="secondary listItemBodyText">' + (s.Path) + '</div>';
+                itemHtml += '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
             }
 
             itemHtml += '</a>';
             itemHtml += '</div>';
 
-            if (!layoutManager.tv) {
-                if (s.Path) {
-                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete"></span></button>';
-                }
+            if (!layoutManager.tv && s.Path) {
+                itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
             }
 
             itemHtml += '</' + tagName + '>';
@@ -193,13 +192,13 @@ function renderSearchResults(context, results) {
 
         html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
-        html += '<span class="listItemIcon material-icons closed_caption"></span>';
+        html += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
         const bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 
         html += '<div class="listItemBody ' + bodyClass + '">';
 
-        html += '<div>' + (result.Name) + '</div>';
+        html += '<div>' + escapeHtml(result.Name) + '</div>';
         html += '<div class="secondary listItemBodyText">';
 
         if (result.Format) {
@@ -212,7 +211,7 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (result.Comment) {
-            html += '<div class="secondary listItemBodyText">' + (result.Comment) + '</div>';
+            html += '<div class="secondary listItemBodyText">' + escapeHtml(result.Comment) + '</div>';
         }
 
         if (result.IsHashMatch) {
@@ -222,7 +221,7 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
         }
 
         html += '</' + tagName + '>';
@@ -265,7 +264,7 @@ function reload(context, apiClient, itemId) {
         }
 
         if (file) {
-            context.querySelector('.pathValue').innerHTML = file;
+            context.querySelector('.pathValue').innerText = file;
             context.querySelector('.originalFile').classList.remove('hide');
         } else {
             context.querySelector('.pathValue').innerHTML = '';
@@ -335,12 +334,8 @@ function showDownloadOptions(button, context, subtitleId) {
             positionTo: button
 
         }).then(function (id) {
-            switch (id) {
-                case 'download':
-                    downloadRemoteSubtitles(context, subtitleId);
-                    break;
-                default:
-                    break;
+            if (id === 'download') {
+                downloadRemoteSubtitles(context, subtitleId);
             }
         });
     });

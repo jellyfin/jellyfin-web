@@ -1,6 +1,5 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
 import loading from '../../components/loading/loading';
-import { Events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import imageLoader from '../../components/images/imageLoader';
 import AlphaPicker from '../../components/alphaPicker/alphaPicker';
@@ -8,6 +7,8 @@ import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
+import Events from '../../utils/events.ts';
+
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
@@ -209,9 +210,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             return getPageData().view;
         };
 
-        const initPage = (tabContent) => {
-            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
-            const itemsContainer = tabContent.querySelector('.itemsContainer');
+        const initPage = (tabElement) => {
+            const alphaPickerElement = tabElement.querySelector('.alphaPicker');
+            const itemsContainer = tabElement.querySelector('.itemsContainer');
 
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
@@ -232,15 +233,15 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 valueChangeEvent: 'click'
             });
 
-            tabContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+            tabElement.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
             itemsContainer.classList.add('padded-right-withalphapicker');
 
-            tabContent.querySelector('.btnFilter').addEventListener('click', () => {
+            tabElement.querySelector('.btnFilter').addEventListener('click', () => {
                 this.showFilterMenu();
             });
 
-            tabContent.querySelector('.btnSort').addEventListener('click', (e) => {
+            tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -273,7 +274,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 });
             });
 
-            const btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabElement.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', (e) => {
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
@@ -287,8 +288,8 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 reloadItems();
             });
 
-            tabContent.querySelector('.btnPlayAll').addEventListener('click', playAll);
-            tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
+            tabElement.querySelector('.btnPlayAll').addEventListener('click', playAll);
+            tabElement.querySelector('.btnShuffle').addEventListener('click', shuffle);
         };
 
         initPage(tabContent);
@@ -298,8 +299,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             reloadItems();
             this.alphaPicker?.updateControls(getQuery());
         };
-
-        this.destroy = function () {};
     }
 
 /* eslint-enable indent */

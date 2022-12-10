@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
@@ -16,6 +17,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../assets/css/clearbutton.scss';
 import '../../assets/css/flexstyles.scss';
+import './style.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
@@ -448,19 +450,19 @@ import template from './metadataEditor.template.html';
                 fullName = idInfo.Name + ' ' + globalize.translate(idInfo.Type);
             }
 
-            const labelText = globalize.translate('LabelDynamicExternalId', fullName);
+            const labelText = globalize.translate('LabelDynamicExternalId', escapeHtml(fullName));
 
             html += '<div class="inputContainer">';
             html += '<div class="flex align-items-center">';
 
-            const value = providerIds[idInfo.Key] || '';
+            const value = escapeHtml(providerIds[idInfo.Key] || '');
 
             html += '<div class="flex-grow">';
             html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" data-formatstring="' + formatString + '" id="' + id + '" label="' + labelText + '"/>';
             html += '</div>';
 
             if (formatString) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser" aria-hidden="true"></span></button>';
             }
             html += '</div>';
 
@@ -696,7 +698,17 @@ import template from './metadataEditor.template.html';
             showElement('#fldDisplayOrder', context);
             showElement('.seriesDisplayOrderDescription', context);
 
-            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="">' + globalize.translate('Aired') + '</option><option value="absolute">' + globalize.translate('Absolute') + '</option><option value="dvd">Dvd</option>';
+            let html = '';
+            html += '<option value="">' + globalize.translate('Aired') + '</option>';
+            html += '<option value="originalAirDate">' + globalize.translate('OriginalAirDate') + '</option>';
+            html += '<option value="absolute">' + globalize.translate('Absolute') + '</option>';
+            html += '<option value="dvd">DVD</option></option>';
+            html += '<option value="digital">' + globalize.translate('Digital') + '</option>';
+            html += '<option value="storyArc">' + globalize.translate('StoryArc') + '</option>';
+            html += '<option value="production">' + globalize.translate('Production') + '</option>';
+            html += '<option value="tv">TV</option>';
+
+            context.querySelector('#selectDisplayOrder').innerHTML = html;
         } else {
             context.querySelector('#selectDisplayOrder').innerHTML = '';
             hideElement('#fldDisplayOrder', context);
@@ -860,7 +872,7 @@ import template from './metadataEditor.template.html';
         for (let i = 0, length = ratings.length; i < length; i++) {
             rating = ratings[i];
 
-            html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
+            html += "<option value='" + escapeHtml(rating.Value) + "'>" + escapeHtml(rating.Name) + '</option>';
         }
 
         select.innerHTML = html;
@@ -888,17 +900,17 @@ import template from './metadataEditor.template.html';
         for (let i = 0; i < items.length; i++) {
             html += '<div class="listItem">';
 
-            html += '<span class="material-icons listItemIcon live_tv" style="background-color:#333;"></span>';
+            html += '<span class="material-icons listItemIcon live_tv" aria-hidden="true" style="background-color:#333;"></span>';
 
             html += '<div class="listItemBody">';
 
             html += '<div class="textValue">';
-            html += items[i];
+            html += escapeHtml(items[i]);
             html += '</div>';
 
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
 
             html += '</div>';
         }
@@ -923,7 +935,7 @@ import template from './metadataEditor.template.html';
             html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
 
             html += '<div class="textValue">';
-            html += (person.Name || '');
+            html += escapeHtml(person.Name || '');
             html += '</div>';
 
             if (person.Role && person.Role !== lastType) {
@@ -935,7 +947,7 @@ import template from './metadataEditor.template.html';
             html += '</button>';
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
 
             html += '</div>';
         }
@@ -1077,9 +1089,7 @@ import template from './metadataEditor.template.html';
 
     export default {
         show: function (itemId, serverId) {
-            return new Promise(function (resolve) {
-                return show(itemId, serverId, resolve);
-            });
+            return new Promise(resolve => show(itemId, serverId, resolve));
         },
 
         embed: function (elem, itemId, serverId) {

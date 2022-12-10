@@ -56,15 +56,8 @@ import scrollManager from './scrollManager';
     }).join(',') + ',.focusable';
 
     function isFocusable(elem) {
-        if (focusableTagNames.indexOf(elem.tagName) !== -1) {
-            return true;
-        }
-
-        if (elem.classList && elem.classList.contains('focusable')) {
-            return true;
-        }
-
-        return false;
+        return focusableTagNames.indexOf(elem.tagName) !== -1
+            || (elem.classList?.contains('focusable'));
     }
 
     function normalizeFocusable(elem, originalElement) {
@@ -97,11 +90,7 @@ import scrollManager from './scrollManager';
     // Determines if a focusable element can be focused at a given point in time
     function isCurrentlyFocusableInternal(elem) {
         // http://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
-        if (elem.offsetParent === null) {
-            return false;
-        }
-
-        return true;
+        return elem.offsetParent !== null;
     }
 
     // Determines if a focusable element can be focused at a given point in time
@@ -384,10 +373,11 @@ import scrollManager from './scrollManager';
             // See if there's a focusable container, and if so, send the focus command to that
             if (activeElement) {
                 const nearestElementFocusableParent = dom.parentWithClass(nearestElement, 'focusable');
-                if (nearestElementFocusableParent && nearestElementFocusableParent !== nearestElement) {
-                    if (focusableContainer !== nearestElementFocusableParent) {
-                        nearestElement = nearestElementFocusableParent;
-                    }
+                if (nearestElementFocusableParent
+                    && nearestElementFocusableParent !== nearestElement
+                    && focusableContainer !== nearestElementFocusableParent
+                ) {
+                    nearestElement = nearestElementFocusableParent;
                 }
             }
             focus(nearestElement);

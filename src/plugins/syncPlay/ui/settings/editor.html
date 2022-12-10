@@ -1,0 +1,75 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}">
+        <span class="material-icons arrow_back" aria-hidden="true"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${HeaderSyncPlaySettings}</h3>
+</div>
+<div class="formDialogContent smoothScrollY">
+    <div class="dialogContentInner dialog-content-centered">
+
+        <form style="margin: auto;">
+            <h2 class="sectionTitle">${HeaderSyncPlayPlaybackSettings}</h2>
+
+            <!-- Sync Correction Setting -->
+            <div class="checkboxContainer checkboxContainer-withDescription">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" id="chkSyncCorrection" />
+                    <span>${LabelSyncPlaySettingsSyncCorrection}</span>
+                </label>
+                <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSyncCorrectionHelp}</div>
+            </div>
+
+            <!-- SpeedToSync Settings -->
+            <div class="checkboxContainer checkboxContainer-withDescription">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" id="chkSpeedToSync" />
+                    <span>${LabelSyncPlaySettingsSpeedToSync}</span>
+                </label>
+                <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSpeedToSyncHelp}</div>
+            </div>
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtMinDelaySpeedToSync" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsMinDelaySpeedToSync}" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsMinDelaySpeedToSyncHelp}</div>
+            </div>
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtMaxDelaySpeedToSync" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsMaxDelaySpeedToSync}" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp}</div>
+            </div>
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtSpeedToSyncDuration" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsSpeedToSyncDuration}" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsSpeedToSyncDurationHelp}</div>
+            </div>
+
+            <!-- SkipToSync Settings -->
+            <div class="checkboxContainer checkboxContainer-withDescription">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" id="chkSkipToSync" />
+                    <span>${LabelSyncPlaySettingsSkipToSync}</span>
+                </label>
+                <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSkipToSyncHelp}</div>
+            </div>
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtMinDelaySkipToSync" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsMinDelaySkipToSync}" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsMinDelaySkipToSyncHelp}</div>
+            </div>
+
+            <!-- Time Settings -->
+            <h2 class="sectionTitle">${HeaderSyncPlayTimeSyncSettings}</h2>
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtExtraTimeOffset" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsExtraTimeOffset}" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsExtraTimeOffsetHelp}</div>
+            </div>
+        </form>
+
+        <div class="formDialogFooter" id="footer">
+            <button is="emby-button" type="submit" class="raised button-submit block btnSave formDialogFooterItem">
+                <span id="saveButtonText">${Save}</span>
+            </button>
+        </div>
+    </div>
+</div>

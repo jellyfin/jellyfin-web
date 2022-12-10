@@ -1,6 +1,8 @@
 import './emby-progressring.scss';
 import 'webcomponents.js/webcomponents-lite';
 import template from './emby-progressring.template.html';
+import { getCurrentDateTimeLocale } from '../../scripts/globalize';
+import { toPercent } from '../../utils/number.ts';
 
 /* eslint-disable indent */
 
@@ -8,6 +10,7 @@ import template from './emby-progressring.template.html';
 
     EmbyProgressRing.createdCallback = function () {
         this.classList.add('progressring');
+        this.setAttribute('dir', 'ltr');
         const instance = this;
 
         instance.innerHTML = template;
@@ -70,11 +73,11 @@ import template from './emby-progressring.template.html';
             this.querySelector('.animate-75-100-b').style.transform = 'rotate(' + angle + 'deg)';
         }
 
-        this.querySelector('.progressring-text').innerHTML = progress + '%';
+        this.querySelector('.progressring-text').innerHTML = toPercent(progress / 100, getCurrentDateTimeLocale());
     };
 
     EmbyProgressRing.attachedCallback = function () {
-
+        // no-op
     };
 
     EmbyProgressRing.detachedCallback = function () {

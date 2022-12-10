@@ -7,7 +7,7 @@ import scrollHelper from '../../scripts/scrollHelper';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import recordingFields from './recordingfields';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -81,10 +81,10 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
             imageContainer.classList.add('hide');
         }
 
-        context.querySelector('.recordingDialog-itemName').innerHTML = program.Name;
-        context.querySelector('.formDialogHeaderTitle').innerHTML = program.Name;
-        context.querySelector('.itemGenres').innerHTML = (program.Genres || []).join(' / ');
-        context.querySelector('.itemOverview').innerHTML = program.Overview || '';
+        context.querySelector('.recordingDialog-itemName').innerText = program.Name;
+        context.querySelector('.formDialogHeaderTitle').innerText = program.Name;
+        context.querySelector('.itemGenres').innerText = (program.Genres || []).join(' / ');
+        context.querySelector('.itemOverview').innerText = program.Overview || '';
 
         const formDialogFooter = context.querySelector('.formDialogFooter');
         const now = new Date();
@@ -129,7 +129,6 @@ function executeCloseAction(action, programId, serverId) {
                 serverId: serverId
             });
         });
-        return;
     }
 }
 

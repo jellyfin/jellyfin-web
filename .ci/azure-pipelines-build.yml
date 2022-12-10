@@ -16,7 +16,7 @@ jobs:
   - task: NodeTool@0
     displayName: 'Install Node'
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '16.x'
 
   - task: Cache@2
     displayName: 'Cache node_modules'

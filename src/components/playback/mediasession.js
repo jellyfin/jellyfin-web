@@ -1,6 +1,6 @@
 import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import ServerConnections from '../ServerConnections';
 import shell from '../../scripts/shell';
 

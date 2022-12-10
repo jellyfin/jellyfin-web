@@ -5,7 +5,7 @@ import loading from '../../components/loading/loading';
 import '../../scripts/livetvcomponents';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard from '../../utils/dashboard';
 
 function enableScrollX() {
     return !layoutManager.desktop;

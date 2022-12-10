@@ -1,7 +1,8 @@
-import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from './playbackmanager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
+import Events from '../../utils/events.ts';
+
 import './iconosd.scss';
 import 'material-design-icons-iconfont';
 
@@ -15,7 +16,7 @@ let enableAnimation;
 function getOsdElementHtml() {
     let html = '';
 
-    html += '<span class="material-icons iconOsdIcon brightness_high"></span>';
+    html += '<span class="material-icons iconOsdIcon brightness_high" aria-hidden="true"></span>';
 
     html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner brightnessOsdProgressInner"></div></div>';
 
@@ -97,9 +98,9 @@ function hideOsd() {
     }
 }
 
-function setIcon(iconElement, icon) {
-    iconElement.classList.remove('brightness_high', 'brightness_medium', 'brightness_low');
-    iconElement.classList.add(icon);
+function setIcon(iconHtmlElement, icon) {
+    iconHtmlElement.classList.remove('brightness_high', 'brightness_medium', 'brightness_low');
+    iconHtmlElement.classList.add(icon);
 }
 
 function updateElementsFromPlayer(brightness) {

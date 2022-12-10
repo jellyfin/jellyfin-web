@@ -3,10 +3,6 @@ import browser from '../../scripts/browser';
 import dialog from '../dialog/dialog';
 import globalize from '../../scripts/globalize';
 
-function replaceAll(str, find, replace) {
-    return str.split(find).join(replace);
-}
-
 function useNativeConfirm() {
     // webOS seems to block modals
     // Tizen 2.x seems to block modals
@@ -24,7 +20,7 @@ async function nativeConfirm(options) {
         };
     }
 
-    const text = replaceAll(options.text || '', '<br/>', '\n');
+    const text = (options.text || '').replaceAll('<br/>', '\n');
     await appRouter.ready();
     const result = window.confirm(text);
 

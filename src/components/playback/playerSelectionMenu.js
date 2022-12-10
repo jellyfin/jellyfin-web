@@ -1,8 +1,9 @@
 import appSettings from '../../scripts/settings/appSettings';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
+import { pluginManager } from '../pluginManager';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import { appHost } from '../apphost';
@@ -28,10 +29,8 @@ function mirrorIfEnabled(info) {
     if (info && playbackManager.enableDisplayMirroring()) {
         const getPlayerInfo = playbackManager.getPlayerInfo();
 
-        if (getPlayerInfo) {
-            if (!getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-                mirrorItem(info, playbackManager.getCurrentPlayer());
-            }
+        if (getPlayerInfo && !getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
+            mirrorItem(info, playbackManager.getCurrentPlayer());
         }
     }
 }
@@ -84,11 +83,9 @@ function getIcon(target) {
 export function show(button) {
     const currentPlayerInfo = playbackManager.getPlayerInfo();
 
-    if (currentPlayerInfo) {
-        if (!currentPlayerInfo.isLocalPlayer) {
-            showActivePlayerMenu(currentPlayerInfo);
-            return;
-        }
+    if (currentPlayerInfo && !currentPlayerInfo.isLocalPlayer) {
+        showActivePlayerMenu(currentPlayerInfo);
+        return;
     }
 
     const currentPlayerId = currentPlayerInfo ? currentPlayerInfo.id : null;
@@ -128,6 +125,13 @@ export function show(button) {
             // Might be able to solve this in the future by moving the dialogs to hashbangs
             if (!(!browser.chrome && !browser.edgeChromium || appHost.supports('castmenuhashchange'))) {
                 menuOptions.enableHistory = false;
+            }
+
+            // Add message when Google Cast is not supported
+            const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
+            // TODO: Add other checks for support (Android app, secure context, etc)
+            if (!isChromecastPluginLoaded) {
+                menuOptions.text = `(${globalize.translate('GoogleCastUnsupported')})`;
             }
 
             actionsheet.show(menuOptions).then(function (id) {
@@ -291,7 +295,6 @@ document.addEventListener('viewshow', function (e) {
         mirrorIfEnabled({
             item: item
         });
-        return;
     }
 });
 

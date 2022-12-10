@@ -9,6 +9,7 @@ import alert from '../alert';
 import playlistEditor from '../playlisteditor/playlisteditor';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
+import datetime from '../../scripts/datetime';
 
 /* eslint-disable indent */
 
@@ -78,7 +79,7 @@ import itemHelper from '../itemHelper';
         if (selectedItems.length) {
             const itemSelectionCount = document.querySelector('.itemSelectionCount');
             if (itemSelectionCount) {
-                itemSelectionCount.innerHTML = selectedItems.length;
+                itemSelectionCount.innerHTML = datetime.toLocaleString(selectedItems.length);
             }
         } else {
             hideSelections();
@@ -125,11 +126,11 @@ import itemHelper from '../itemHelper';
 
             let html = '';
 
-            html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close" aria-hidden="true"></span></button>';
             html += '<h1 class="itemSelectionCount"></h1>';
 
             const moreIcon = 'more_vert';
-            html += `<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><span class="material-icons ${moreIcon}"></span></button>`;
+            html += `<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize"><span class="material-icons ${moreIcon}" aria-hidden="true"></span></button>`;
 
             selectionCommandsPanel.innerHTML = html;
 
@@ -266,8 +267,9 @@ import itemHelper from '../itemHelper';
                                     }
                                     break;
                                 case 'addtocollection':
-                                    import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
-                                        new collectionEditor({
+                                    import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+                                        const collectionEditor = new CollectionEditor();
+                                        collectionEditor.show({
                                             items: items,
                                             serverId: serverId
                                         });

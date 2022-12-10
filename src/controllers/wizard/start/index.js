@@ -2,7 +2,7 @@ import 'jquery';
 import loading from '../../../components/loading/loading';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
-import Dashboard from '../../../scripts/clientUtils';
+import Dashboard from '../../../utils/dashboard';
 
 function loadPage(page, config, languageOptions) {
     $('#selectLocalizationLanguage', page).html(languageOptions.map(function (l) {

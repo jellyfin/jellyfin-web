@@ -5,6 +5,7 @@
  * @module components/cardBuilder/chaptercardbuilder
  */
 
+import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
@@ -33,10 +34,8 @@ import ServerConnections from '../ServerConnections';
 
         let shape = (options.backdropShape || 'backdrop');
 
-        if (videoStream.Width && videoStream.Height) {
-            if ((videoStream.Width / videoStream.Height) <= 1.2) {
-                shape = (options.squareShape || 'square');
-            }
+        if (videoStream.Width && videoStream.Height && (videoStream.Width / videoStream.Height) <= 1.2) {
+            shape = (options.squareShape || 'square');
         }
 
         className += ` ${shape}Card`;
@@ -94,11 +93,11 @@ import ServerConnections from '../ServerConnections';
         let cardImageContainer = imgUrl ? (`<div class="${cardImageContainerClass} lazy" data-src="${imgUrl}">`) : (`<div class="${cardImageContainerClass}">`);
 
         if (!imgUrl) {
-            cardImageContainer += '<span class="material-icons cardImageIcon local_movies"></span>';
+            cardImageContainer += '<span class="material-icons cardImageIcon local_movies" aria-hidden="true"></span>';
         }
 
         let nameHtml = '';
-        nameHtml += `<div class="cardText">${chapter.Name}</div>`;
+        nameHtml += `<div class="cardText">${escapeHtml(chapter.Name)}</div>`;
         nameHtml += `<div class="cardText">${datetime.getDisplayRunningTime(chapter.StartPositionTicks)}</div>`;
 
         const cardBoxCssClass = 'cardBox';

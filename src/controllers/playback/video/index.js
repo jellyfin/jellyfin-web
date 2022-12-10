@@ -1,5 +1,6 @@
+import escapeHtml from 'escape-html';
 import { playbackManager } from '../../../components/playback/playbackmanager';
-import SyncPlay from '../../../components/syncPlay/core';
+import SyncPlay from '../../../plugins/syncPlay/core';
 import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
@@ -8,7 +9,7 @@ import datetime from '../../../scripts/datetime';
 import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
-import { Events } from 'jellyfin-apiclient';
+import Events from '../../../utils/events.ts';
 import globalize from '../../../scripts/globalize';
 import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
@@ -22,8 +23,12 @@ import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/appRouter';
+import LibraryMenu from '../../../scripts/libraryMenu';
+import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 
 /* eslint-disable indent */
+    const TICKS_PER_MINUTE = 600000000;
+    const TICKS_PER_SECOND = 10000000;
 
     function getOpenedDialog() {
         return document.querySelector('.dialogContainer .dialog.opened');
@@ -53,14 +58,16 @@ import { appRouter } from '../../../components/appRouter';
                     recordingButtonManager = null;
                 }
 
-                return void view.querySelector('.btnRecord').classList.add('hide');
+                view.querySelector('.btnRecord').classList.add('hide');
+                return;
             }
 
             ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('../../../components/recordingcreator/recordingbutton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
-                            return void recordingButtonManager.refreshItem(item);
+                            recordingButtonManager.refreshItem(item);
+                            return;
                         }
 
                         recordingButtonManager = new RecordingButton({
@@ -149,7 +156,7 @@ import { appRouter } from '../../../components/appRouter';
             currentItem = item;
             if (!item) {
                 updateRecordingButton(null);
-                appRouter.setTitle('');
+                LibraryMenu.setTitle('');
                 nowPlayingVolumeSlider.disabled = true;
                 nowPlayingPositionSlider.disabled = true;
                 btnFastForward.disabled = true;
@@ -205,7 +212,18 @@ import { appRouter } from '../../../components/appRouter';
                 itemName = parentName || '';
             }
 
-            appRouter.setTitle(itemName);
+            // Display the item with its premiere date if it has one
+            let title = itemName;
+            if (item.PremiereDate) {
+                try {
+                    const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), {useGrouping: false});
+                    title += ` (${year})`;
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            LibraryMenu.setTitle(title);
 
             const documentTitle = parentName || (item ? item.Name : null);
 
@@ -582,11 +600,16 @@ import { appRouter } from '../../../components/appRouter';
 
         function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
             if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
-                const showAtSecondsLeft = runtimeTicks >= 3e10 ? 40 : runtimeTicks >= 24e9 ? 35 : 30;
-                const showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
+                let showAtSecondsLeft = 30;
+                if (runtimeTicks >= 50 * TICKS_PER_MINUTE) {
+                    showAtSecondsLeft = 40;
+                } else if (runtimeTicks >= 40 * TICKS_PER_MINUTE) {
+                    showAtSecondsLeft = 35;
+                }
+                const showAtTicks = runtimeTicks - showAtSecondsLeft * TICKS_PER_SECOND;
                 const timeRemainingTicks = runtimeTicks - currentTimeTicks;
 
-                if (currentTimeTicks >= showAtTicks && runtimeTicks >= 6e9 && timeRemainingTicks >= 2e8) {
+                if (currentTimeTicks >= showAtTicks && runtimeTicks >= (10 * TICKS_PER_MINUTE) && timeRemainingTicks >= (20 * TICKS_PER_SECOND)) {
                     showComingUpNext(player);
                 }
             }
@@ -643,13 +666,19 @@ import { appRouter } from '../../../components/appRouter';
 
             btnPlayPauseIcon.classList.remove('play_arrow', 'pause');
 
+            let icon;
+            let title;
+
             if (isPaused) {
-                btnPlayPauseIcon.classList.add('play_arrow');
-                btnPlayPause.setAttribute('title', globalize.translate('Play') + ' (k)');
+                icon = 'play_arrow';
+                title = globalize.translate('Play');
             } else {
-                btnPlayPauseIcon.classList.add('pause');
-                btnPlayPause.setAttribute('title', globalize.translate('ButtonPause') + ' (k)');
+                icon = 'pause';
+                title = globalize.translate('ButtonPause');
             }
+
+            btnPlayPauseIcon.classList.add(icon);
+            dom.setElementTitle(btnPlayPause, title + ' (k)', title);
         }
 
         function updatePlayerStateInternal(event, player, state) {
@@ -669,12 +698,6 @@ import { appRouter } from '../../../components/appRouter';
             playbackStartTimeTicks = playState.PlaybackStartTimeTicks;
             updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
-
-            if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
-                view.querySelector('.btnVideoOsdSettings').classList.remove('hide');
-            } else {
-                view.querySelector('.btnVideoOsdSettings').classList.add('hide');
-            }
 
             const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
@@ -716,7 +739,9 @@ import { appRouter } from '../../../components/appRouter';
                         const currentTimeMs = (playbackStartTimeTicks + (positionTicks || 0)) / 1e4;
                         const programRuntimeMs = programEndDateMs - programStartDateMs;
 
-                        if (nowPlayingPositionSlider.value = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs), bufferedRanges.length) {
+                        nowPlayingPositionSlider.value = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs);
+
+                        if (bufferedRanges.length) {
                             const rangeStart = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].start || 0)) / 1e4);
                             const rangeEnd = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].end || 0)) / 1e4);
                             nowPlayingPositionSlider.setBufferedRanges([{
@@ -853,6 +878,8 @@ import { appRouter } from '../../../components/appRouter';
                 const player = currentPlayer;
 
                 if (player) {
+                    const state = playbackManager.getPlayerState(player);
+
                     // show subtitle offset feature only if player and media support it
                     const showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);
@@ -861,6 +888,7 @@ import { appRouter } from '../../../components/appRouter';
                         mediaType: 'Video',
                         player: player,
                         positionTo: btn,
+                        quality: state.MediaSource?.SupportsTranscoding,
                         stats: true,
                         suboffset: showSubOffset,
                         onOption: onSettingsOption
@@ -1176,17 +1204,6 @@ import { appRouter } from '../../../components/appRouter';
             resetIdle();
         }
 
-        function onWindowTouchStart(e) {
-            clickedElement = e.target;
-            mouseIsDown = true;
-            resetIdle();
-        }
-
-        function onWindowTouchEnd() {
-            mouseIsDown = false;
-            resetIdle();
-        }
-
         function onWindowDragEnd() {
             // mousedown -> dragstart -> dragend !!! no mouseup :(
             mouseIsDown = false;
@@ -1230,7 +1247,7 @@ import { appRouter } from '../../../components/appRouter';
                 html += '<img class="chapterThumb" src="' + src + '" />';
                 html += '<div class="chapterThumbTextContainer">';
                 html += '<div class="chapterThumbText chapterThumbText-dim">';
-                html += chapter.Name;
+                html += escapeHtml(chapter.Name);
                 html += '</div>';
                 html += '<h2 class="chapterThumbText">';
                 html += datetime.getDisplayRunningTime(positionTicks);
@@ -1315,7 +1332,7 @@ import { appRouter } from '../../../components/appRouter';
 
         view.addEventListener('viewbeforeshow', function () {
             headerElement.classList.add('osdHeader');
-            appRouter.setTransparency('full');
+            setBackdropTransparency(TRANSPARENCY_LEVEL.Full);
         });
         view.addEventListener('viewshow', function () {
             try {
@@ -1342,12 +1359,12 @@ import { appRouter } from '../../../components/appRouter';
                     capture: true,
                     passive: true
                 });
-                dom.addEventListener(window, 'touchstart', onWindowTouchStart, {
+                dom.addEventListener(window, 'touchstart', onWindowMouseDown, {
                     capture: true,
                     passive: true
                 });
                 ['touchend', 'touchcancel'].forEach((event) => {
-                    dom.addEventListener(window, event, onWindowTouchEnd, {
+                    dom.addEventListener(window, event, onWindowMouseUp, {
                         capture: true,
                         passive: true
                     });
@@ -1383,12 +1400,12 @@ import { appRouter } from '../../../components/appRouter';
                 capture: true,
                 passive: true
             });
-            dom.removeEventListener(window, 'touchstart', onWindowTouchStart, {
+            dom.removeEventListener(window, 'touchstart', onWindowMouseDown, {
                 capture: true,
                 passive: true
             });
             ['touchend', 'touchcancel'].forEach((event) => {
-                dom.removeEventListener(window, event, onWindowTouchEnd, {
+                dom.removeEventListener(window, event, onWindowMouseUp, {
                     capture: true,
                     passive: true
                 });
@@ -1442,7 +1459,8 @@ import { appRouter } from '../../../components/appRouter';
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
             if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
-                return void showOsd();
+                showOsd();
+                return;
             }
 
             const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
@@ -1543,6 +1561,25 @@ import { appRouter } from '../../../components/appRouter';
             }
 
             return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
+        };
+
+        nowPlayingPositionSlider.getMarkerInfo = function () {
+            const markers = [];
+
+            const item = currentItem;
+
+            // use markers based on chapters
+            if (item?.Chapters?.length) {
+                item.Chapters.forEach(currentChapter => {
+                    markers.push({
+                        className: 'chapterMarker',
+                        name: currentChapter.Name,
+                        progress: currentChapter.StartPositionTicks / item.RunTimeTicks
+                    });
+                });
+            }
+
+            return markers;
         };
 
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {

@@ -1,4 +1,3 @@
-import { Events } from 'jellyfin-apiclient';
 import 'material-design-icons-iconfont';
 
 import loading from '../../components/loading/loading';
@@ -9,8 +8,9 @@ import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
 import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import Events from '../../utils/events.ts';
 
-import '../../scripts/dom';
 import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
@@ -287,11 +287,19 @@ export class BookPlayer {
                     width: '100%',
                     height: renderHeight,
                     // TODO: Add option for scrolled-doc
-                    flow: 'paginated'
+                    flow: 'paginated',
+                    // Scripted content is required to allow touch event passthrough in Safari
+                    allowScriptedContent: true
                 });
 
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;
+
+                rendition.themes.register('dark', { 'body': { 'color': '#fff' } });
+
+                if (userSettings.theme(undefined) === 'dark' || userSettings.theme(undefined) === null) {
+                    rendition.themes.select('dark');
+                }
 
                 return rendition.display().then(() => {
                     const epubElem = document.querySelector('.epub-container');
@@ -331,11 +339,7 @@ export class BookPlayer {
     }
 
     canPlayItem(item) {
-        if (item.Path && item.Path.endsWith('epub')) {
-            return true;
-        }
-
-        return false;
+        return item.Path && item.Path.endsWith('epub');
     }
 }
 
