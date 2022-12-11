@@ -90,6 +90,10 @@ export function getQueryPagingHtml (options) {
         html += '<span style="vertical-align:middle;">';
         html += globalize.translate('ListPaging', totalRecordCount ? startIndex + 1 : 0, recordsEnd, totalRecordCount);
         html += '</span>';
+    } else {
+        html += '<span style="vertical-align:middle;">';
+        html += globalize.translate('ListPaging', totalRecordCount ? startIndex + 1 : 0, totalRecordCount, totalRecordCount);
+        html += '</span>';
     }
 
     if (showControls || options.viewButton || options.filterButton || options.sortButton || options.addLayoutButton) {

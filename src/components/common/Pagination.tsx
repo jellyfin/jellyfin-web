@@ -88,6 +88,15 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
                         />
                     </div>
                 )}
+                {!showControls && (
+                    <div className='listPaging' style={{ display: 'flex', alignItems: 'center' }}>
+
+                        <span>
+                            {globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), totalRecordCount, totalRecordCount)}
+                        </span>
+
+                    </div>
+                )}
             </div>
         </div>
     );
