@@ -88,9 +88,9 @@ async function updatePlaylist(instance, queue) {
     const max = 100;
     const apiClient = getCurrentApiClient(instance);
 
-    const fetch = async (queue) => {
+    const fetch = async (newQueue) => {
         const options = {
-            ids: queue.map(i => i.Id ),
+            ids: newQueue.map(i => i.Id ),
             serverId: apiClient.serverId()
         };
 
@@ -101,7 +101,7 @@ async function updatePlaylist(instance, queue) {
         const items = await playbackManager.translateItemsForPlayback(result.Items, options);
 
         for (let i = 0, length = items.length; i < length; i++) {
-            items[i].PlaylistItemId = queue[i].PlaylistItemId;
+            items[i].PlaylistItemId = newQueue[i].PlaylistItemId;
         }
         return items;
     };
@@ -130,9 +130,8 @@ function updateCurrentQueue(instance, session) {
     if (instance.updating_playlist)
         return;
 
-    if (instance.lastPlayerData)
-        if (!compareQueues(current, instance.playlist))
-            return;
+    if (instance.lastPlayerData && !compareQueues(current, instance.playlist))
+        return;
 
     instance.updating_playlist = true;
 
