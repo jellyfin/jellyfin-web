@@ -1,4 +1,6 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import globalize from '../scripts/globalize';
 import LibraryMenu from '../scripts/libraryMenu';
 import { clearBackdrop } from '../components/backdrop/backdrop';
@@ -8,10 +10,6 @@ import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-scroller/emby-scroller';
 import Page from '../components/Page';
-
-type IProps = {
-    tab?: string;
-}
 
 type OnResumeOptions = {
     autoFocus?: boolean;
@@ -27,15 +25,12 @@ type ControllerProps = {
     destroy: () => void;
 }
 
-const Home: FunctionComponent<IProps> = (props: IProps) => {
-    const getDefaultTabIndex = () => {
-        return 0;
-    };
+const Home: FunctionComponent = () => {
+    const [ searchParams ] = useSearchParams();
+    const initialTabIndex = parseInt(searchParams.get('tab') || '0', 10);
 
     const tabController = useRef<ControllerProps | null>();
-    const currentTabIndex = useRef(parseInt(props.tab || getDefaultTabIndex().toString()));
     const tabControllers = useMemo<ControllerProps[]>(() => [], []);
-    const initialTabIndex = useRef<number | null>(currentTabIndex.current);
     const element = useRef<HTMLDivElement>(null);
 
     const setTitle = () => {
@@ -75,13 +70,13 @@ const Home: FunctionComponent<IProps> = (props: IProps) => {
 
             if (!controller) {
                 const tabContent = element.current?.querySelector(".tabContent[data-index='" + index + "']");
-                controller = new controllerFactory(tabContent, props);
+                controller = new controllerFactory(tabContent, null);
                 tabControllers[index] = controller;
             }
 
             return controller;
         });
-    }, [props, tabControllers]);
+    }, [ tabControllers ]);
 
     const onViewDestroy = useCallback(() => {
         if (tabControllers) {
@@ -93,8 +88,7 @@ const Home: FunctionComponent<IProps> = (props: IProps) => {
         }
 
         tabController.current = null;
-        initialTabIndex.current = null;
-    }, [tabControllers]);
+    }, [ tabControllers ]);
 
     const loadTab = useCallback((index: number, previousIndex: number | null) => {
         getTabController(index).then((controller) => {
@@ -106,13 +100,12 @@ const Home: FunctionComponent<IProps> = (props: IProps) => {
             });
 
             controller.refreshed = true;
-            currentTabIndex.current = index;
             tabController.current = controller;
         });
-    }, [getTabController]);
+    }, [ getTabController ]);
 
     const onTabChange = useCallback((e: { detail: { selectedTabIndex: string; previousIndex: number | null }; }) => {
-        const newIndex = parseInt(e.detail.selectedTabIndex);
+        const newIndex = parseInt(e.detail.selectedTabIndex, 10);
         const previousIndex = e.detail.previousIndex;
 
         const previousTabController = previousIndex == null ? null : tabControllers[previousIndex];
@@ -121,7 +114,7 @@ const Home: FunctionComponent<IProps> = (props: IProps) => {
         }
 
         loadTab(newIndex, previousIndex);
-    }, [loadTab, tabControllers]);
+    }, [ loadTab, tabControllers ]);
 
     const onResume = useCallback(() => {
         setTitle();
@@ -130,12 +123,12 @@ const Home: FunctionComponent<IProps> = (props: IProps) => {
         const currentTabController = tabController.current;
 
         if (!currentTabController) {
-            mainTabsManager.selectedTabIndex(initialTabIndex.current);
+            mainTabsManager.selectedTabIndex(initialTabIndex);
         } else if (currentTabController && currentTabController.onResume) {
             currentTabController.onResume({});
         }
         (document.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
-    }, []);
+    }, [ initialTabIndex ]);
 
     const onPause = useCallback(() => {
         const currentTabController = tabController.current;
@@ -146,14 +139,13 @@ const Home: FunctionComponent<IProps> = (props: IProps) => {
     }, []);
 
     useEffect(() => {
-        mainTabsManager.setTabs(element.current, currentTabIndex.current, getTabs, getTabContainers, null, onTabChange, false);
+        mainTabsManager.setTabs(element.current, initialTabIndex, getTabs, getTabContainers, null, onTabChange, false);
 
         onResume();
         return () => {
             onPause();
-            onViewDestroy();
         };
-    }, [onPause, onResume, onTabChange, onViewDestroy]);
+    }, [ initialTabIndex, onPause, onResume, onTabChange, onViewDestroy ]);
 
     return (
         <div ref={element}>
