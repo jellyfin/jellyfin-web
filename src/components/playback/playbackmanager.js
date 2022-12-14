@@ -1887,9 +1887,12 @@ class PlaybackManager {
             }
 
             if (options.items) {
-                return translateItemsForPlayback(options.items, options).then(function (items) {
-                    return playWithIntros(items, options);
-                });
+                return translateItemsForPlayback(options.items, options)
+                    .then((items) => getAdditionalParts(items))
+                    .then(function (allItems) {
+                        const flattened = allItems.flatMap(i => i);
+                        return playWithIntros(flattened, options);
+                    });
             } else {
                 if (!options.serverId) {
                     throw new Error('serverId required!');
@@ -1898,9 +1901,12 @@ class PlaybackManager {
                 return getItemsForPlayback(options.serverId, {
                     Ids: options.ids.join(',')
                 }).then(function (result) {
-                    return translateItemsForPlayback(result.Items, options).then(function (items) {
-                        return playWithIntros(items, options);
-                    });
+                    return translateItemsForPlayback(result.Items, options)
+                        .then((items) => getAdditionalParts(items))
+                        .then(function (allItems) {
+                            const flattened = allItems.flatMap(i => i);
+                            return playWithIntros(flattened, options);
+                        });
                 });
             }
         };
@@ -2038,6 +2044,23 @@ class PlaybackManager {
 
             return player.play(options);
         }
+
+        const getAdditionalParts = async (items) => {
+            const getOneAdditionalPart = async function (item) {
+                let retVal = [item];
+                if (item.Type === 'Movie') {
+                    const client = ServerConnections.getApiClient(item.ServerId);
+                    const user = await client.getCurrentUser();
+                    const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
+                    if (additionalParts.Items.length) {
+                        retVal = [item, ...additionalParts.Items];
+                    }
+                }
+                return retVal;
+            };
+
+            return Promise.all(items.flatMap(async (item) => getOneAdditionalPart(item)));
+        };
 
         function playWithIntros(items, options) {
             let playStartIndex = options.startIndex || 0;
