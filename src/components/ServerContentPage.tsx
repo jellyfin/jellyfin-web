@@ -34,7 +34,7 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
                         const apiClient = ServerConnections.currentApiClient();
 
                         // Fetch the view html from the server and translate it
-                        const viewHtml = await apiClient.get(apiClient.getUrl(view + location.search))
+                        const viewHtml = await apiClient?.get(apiClient.getUrl(view + location.search))
                             .then((html: string) => globalize.translateHtml(html));
 
                         viewManager.loadView({

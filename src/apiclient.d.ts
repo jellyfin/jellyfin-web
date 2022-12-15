@@ -117,6 +117,7 @@ declare module 'jellyfin-apiclient' {
         getCountries(): Promise<CountryInfo[]>;
         getCriticReviews(itemId: string, options?: any): Promise<BaseItemDtoQueryResult>;
         getCultures(): Promise<CultureDto[]>;
+        getCurrentUser(cache?: boolean): Promise<UserDto>;
         getCurrentUserId(): string;
         getDateParamValue(date: Date): string;
         getDefaultImageQuality(imageType: ImageType): number;

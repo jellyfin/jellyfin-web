@@ -128,8 +128,8 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             // If this is an admin route, ensure the user has access
             if (isAdminRequired) {
                 try {
-                    const user = await client.getCurrentUser();
-                    if (!user.Policy.IsAdministrator) {
+                    const user = await client?.getCurrentUser();
+                    if (!user?.Policy?.IsAdministrator) {
                         console.warn('[ConnectionRequired] normal user attempted to access admin route');
                         bounce(await ServerConnections.connect());
                         return;

@@ -21,7 +21,6 @@ const Search: FunctionComponent = () => {
             <SearchFields onSearch={setQuery} />
             {!query &&
                 <SearchSuggestions
-                    serverId={searchParams.get('serverId') || window.ApiClient.serverId()}
                     parentId={searchParams.get('parentId')}
                 />
             }
