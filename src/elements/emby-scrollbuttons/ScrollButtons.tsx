@@ -20,7 +20,7 @@ interface ScrollButtonsProps {
 }
 
 const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState }) => {
-    const [localeScrollPos, SetLocaleScrollPos] = useState<number>(0);
+    const [localeScrollPos, setLocaleScrollPos] = useState<number>(0);
     const scrollButtonsRef = useRef<HTMLDivElement>(null);
 
     const scrollToPosition = useCallback((pos: number, immediate: boolean) => {
@@ -54,7 +54,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
         if (globalize.getIsElementRTL(scrollButtonsRef.current)) {
             localeAwarePos *= -1;
         }
-        SetLocaleScrollPos(localeAwarePos);
+        setLocaleScrollPos(localeAwarePos);
     }, [scrollState.scrollPos]);
 
     return (

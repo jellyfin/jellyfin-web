@@ -43,11 +43,12 @@ const LinkButton: React.FC<LinkButtonProps> = ({
     if (isAutoHideEnabled === true && !appHost.supports('externallinks')) {
         return null;
     }
-    let cssClass = classNames('emby-button', className);
 
-    if (layoutManager.tv) {
-        cssClass += ' show-focus';
-    }
+    const cssClass = classNames(
+        'emby-button',
+        className,
+        { 'show-focus': layoutManager.tv }
+    );
 
     return (
         <a

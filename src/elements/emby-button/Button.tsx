@@ -3,6 +3,11 @@ import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import './emby-button.scss';
 
+enum IconPosition {
+    RIGHT = 'RIGHT',
+    LEFT = 'LEFT',
+  }
+
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
@@ -20,21 +25,27 @@ const Button: React.FC<ButtonProps> = ({
     onClick,
     ...rest
 }) => {
-    let cssClass = classNames('emby-button', className);
+    const btnClass = classNames(
+        'emby-button',
+        className,
+        { 'show-focus': layoutManager.tv }
+    );
 
-    if (layoutManager.tv) {
-        cssClass += ' show-focus';
-    }
+    const iconClass = classNames(
+        'material-icons',
+        iconClassName,
+        icon
+    );
 
     return (
         <button
-            className={cssClass}
+            className={btnClass}
             onClick={onClick}
             {...rest}
         >
-            {icon && iconPos === 'LEFT' && <span className={classNames('material-icons', iconClassName, icon)} aria-hidden='true'></span>}
+            {icon && iconPos === IconPosition.LEFT && <span className={iconClass} aria-hidden='true' />}
             <span>{title}</span>
-            {icon && iconPos === 'RIGHT' && <span className={classNames('material-icons', iconClassName, icon)} aria-hidden='true'></span>}
+            {icon && iconPos === IconPosition.RIGHT && <span className={iconClass} aria-hidden='true' />}
         </button>
     );
 };

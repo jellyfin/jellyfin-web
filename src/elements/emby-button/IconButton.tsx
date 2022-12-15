@@ -19,21 +19,27 @@ const IconButton: React.FC<IconButtonProps> = ({
     onClick,
     ...rest
 }) => {
-    let cssClass = classNames('paper-icon-button-light', className);
+    const btnClass = classNames(
+        'paper-icon-button-light',
+        className,
+        { 'show-focus': layoutManager.tv }
+    );
 
-    if (layoutManager.tv) {
-        cssClass += ' show-focus';
-    }
+    const iconClass = classNames(
+        'material-icons',
+        iconClassName,
+        icon
+    );
 
     return (
         <button
-            className={cssClass}
+            className={btnClass}
             title={title}
             disabled={disabled}
             onClick={onClick}
             {...rest}
         >
-            <span className={classNames('material-icons', iconClassName, icon)} aria-hidden='true'></span>
+            <span className={iconClass} aria-hidden='true' />
         </button>
     );
 };

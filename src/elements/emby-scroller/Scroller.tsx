@@ -32,7 +32,7 @@ const Scroller: FC<ScrollerProps> = ({
     isAllowNativeSmoothScrollEnabled,
     children
 }) => {
-    const [showControls, SetShowControls] = useState(false);
+    const [showControls, setShowControls] = useState(false);
     const [scrollState, setScrollState] = useState({
         scrollSize: 0,
         scrollPos: 0,
@@ -196,7 +196,7 @@ const Scroller: FC<ScrollerProps> = ({
                 capture: false,
                 passive: true
             });
-            SetShowControls(true);
+            setShowControls(true);
         }
 
         return () => {
@@ -229,12 +229,12 @@ const Scroller: FC<ScrollerProps> = ({
     return (
         <>
             {
-                showControls && scrollState.scrollWidth > scrollState.scrollSize + 20 ?
+                showControls && scrollState.scrollWidth > scrollState.scrollSize + 20 &&
                     <ScrollButtons
                         scrollRef={scrollRef}
                         scrollerFactoryRef={scrollerFactoryRef}
                         scrollState={scrollState}
-                    /> : null
+                    />
             }
 
             <div
