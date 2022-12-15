@@ -146,7 +146,7 @@ const config = {
             },
             {
                 test: /\.(js|jsx)$/,
-                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|@jellyfin[\\/]sdk|@remix-run[\\/]router|blurhash|compare-versions|date-fns|dom7|epubjs|flv.js|libarchive.js|marked|react-router|screenfull|ssr-window|swiper)/,
+                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|@jellyfin[\\/]sdk|@remix-run[\\/]router|axios|blurhash|compare-versions|date-fns|dom7|epubjs|flv.js|libarchive.js|marked|react-router|screenfull|ssr-window|swiper)/,
                 use: [{
                     loader: 'babel-loader',
                     options: {
