@@ -74,7 +74,7 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
                         {globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd || totalRecordCount, totalRecordCount)}
                     </span>
                     {showControls && (
-                        <div style={{ display: 'inline-flex' }}>
+                        <>
                             <IconButtonElement
                                 is='paper-icon-button-light'
                                 className='btnPreviousPage autoSize'
@@ -85,7 +85,7 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
                                 className='btnNextPage autoSize'
                                 icon='material-icons arrow_forward'
                             />
-                        </div>
+                        </>
                     )}
                 </div>
             </div>
