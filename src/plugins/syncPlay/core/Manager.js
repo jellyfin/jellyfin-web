@@ -71,7 +71,7 @@ class Manager {
 
     /**
      * Update active ApiClient.
-     * @param {Object} apiClient The ApiClient.
+     * @param {ApiClient|undefined} apiClient The ApiClient.
      */
     updateApiClient(apiClient) {
         if (!apiClient) {
