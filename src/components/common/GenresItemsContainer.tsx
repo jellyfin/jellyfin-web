@@ -90,8 +90,8 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
                         <h1>{globalize.translate('MessageNothingHere')}</h1>
                         <p>{globalize.translate('MessageNoGenresAvailable')}</p>
                     </div>
-                ) : items.map((item, index) => (
-                    <div key={index} className='verticalSection'>
+                ) : items.map(item => (
+                    <div key={item.Id} className='verticalSection'>
                         <div
                             className='sectionTitleContainer sectionTitleContainer-cards padded-left'
                             dangerouslySetInnerHTML={createLinkElement({

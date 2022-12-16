@@ -29,7 +29,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
         }
     }, [scrollerFactoryRef]);
 
-    const onScrollButtonClick = (direction: Direction) => {
+    const onScrollButtonClick = useCallback((direction: Direction) => {
         let newPos;
         if (direction === Direction.LEFT) {
             newPos = Math.max(0, scrollState.scrollPos - scrollState.scrollSize);
@@ -44,7 +44,10 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
         }
 
         scrollToPosition(newPos, false);
-    };
+    }, [ scrollState.scrollPos, scrollState.scrollSize, scrollToPosition ]);
+
+    const triggerScrollLeft = useCallback(() => onScrollButtonClick(Direction.LEFT), [ onScrollButtonClick ]);
+    const triggerScrollRight = useCallback(() => onScrollButtonClick(Direction.RIGHT), [ onScrollButtonClick ]);
 
     useEffect(() => {
         const parent = scrollButtonsRef.current?.parentNode as HTMLDivElement;
@@ -63,7 +66,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
             <IconButton
                 type='button'
                 className='emby-scrollbuttons-button btnPrev'
-                onClick={() => onScrollButtonClick(Direction.LEFT)}
+                onClick={triggerScrollLeft}
                 icon='chevron_left'
                 disabled={localeScrollPos > 0 ? false : true}
             />
@@ -71,7 +74,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
             <IconButton
                 type='button'
                 className='emby-scrollbuttons-button btnNext'
-                onClick={() => onScrollButtonClick(Direction.RIGHT)}
+                onClick={triggerScrollRight}
                 icon='chevron_right'
                 disabled={scrollState.scrollWidth > 0 && localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth ? true : false}
             />

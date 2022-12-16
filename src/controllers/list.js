@@ -1106,7 +1106,7 @@ class ItemsView {
         const filters = [];
         const params = this.params;
 
-        if (!(params.type === 'nextup')) {
+        if (params.type !== 'nextup') {
             if (params.type === 'Programs') {
                 filters.push('Genres');
             } else {

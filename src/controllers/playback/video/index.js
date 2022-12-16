@@ -585,7 +585,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             if (isEnabled && currentItem) {
                 const now = new Date().getTime();
 
-                if (!(now - lastUpdateTime < 700)) {
+                if (now - lastUpdateTime >= 700) {
                     lastUpdateTime = now;
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
