@@ -1041,7 +1041,7 @@ class ItemsView {
 
         sortBy.push({
             name: globalize.translate('ReleaseDate'),
-            value: 'ProductionYear,PremiereDate,SortName'
+            value: 'PremiereDate,SortName'
         });
         sortBy.push({
             name: globalize.translate('Runtime'),
