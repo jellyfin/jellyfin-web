@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent } from 'react';
+import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';
@@ -23,7 +23,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
     children,
     ...rest
 }) => {
-    const onAnchorClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    const onAnchorClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
         const url = href || '';
         if (url !== '#') {
             if (target) {
@@ -38,7 +38,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         } else {
             e.preventDefault();
         }
-    };
+    }, [ href, target ]);
 
     if (isAutoHideEnabled === true && !appHost.supports('externallinks')) {
         return null;

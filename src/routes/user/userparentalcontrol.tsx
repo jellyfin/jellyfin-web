@@ -379,9 +379,9 @@ const UserParentalControl: FunctionComponent = () => {
                             isLinkVisible={false}
                         />
                         <div className='blockedTags' style={{marginTop: '.5em'}}>
-                            {blockedTags.map((tag, index) => {
+                            {blockedTags.map(tag => {
                                 return <BlockedTagList
-                                    key={index}
+                                    key={tag}
                                     tag={tag}
                                 />;
                             })}
@@ -401,7 +401,7 @@ const UserParentalControl: FunctionComponent = () => {
                         <div className='accessScheduleList paperList'>
                             {accessSchedules.map((accessSchedule, index) => {
                                 return <AccessScheduleList
-                                    key={index}
+                                    key={accessSchedule.Id}
                                     index={index}
                                     Id={accessSchedule.Id}
                                     DayOfWeek={accessSchedule.DayOfWeek}
