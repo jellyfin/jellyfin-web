@@ -1675,5 +1675,6 @@
     "MessageRenameMediaFolder": "Kaikki metatiedot menetetään mediakirjaston uudelleennimeämisen yhteydessä, joten ole varovainen.",
     "MessageNoItemsAvailable": "Kohteita ei ole tällä hetkellä käytettävissä.",
     "MessageNoFavoritesAvailable": "Suosikkeja ei ole tällä hetkellä käytettävissä.",
-    "EnableCardLayout": "Näytä visuaalinen KorttiLaatikko"
+    "EnableCardLayout": "Näytä visuaalinen KorttiLaatikko",
+    "Unreleased": "Ei vielä julkaistu"
 }
