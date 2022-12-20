@@ -231,7 +231,7 @@ import './login.scss';
         view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
             appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
             const apiClient = getApiClient();
-            authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
+            authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value.trim(), view.querySelector('#txtManualPassword').value);
             e.preventDefault();
             return false;
         });
