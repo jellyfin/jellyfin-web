@@ -212,7 +212,7 @@ const UserEdit: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value;
+            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
             user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
