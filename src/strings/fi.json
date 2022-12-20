@@ -1676,5 +1676,6 @@
     "MessageNoItemsAvailable": "Kohteita ei ole tällä hetkellä käytettävissä.",
     "MessageNoFavoritesAvailable": "Suosikkeja ei ole tällä hetkellä käytettävissä.",
     "EnableCardLayout": "Näytä visuaalinen KorttiLaatikko",
-    "Unreleased": "Ei vielä julkaistu"
+    "Unreleased": "Ei vielä julkaistu",
+    "MediaInfoDvVersionMajor": "DV-versio pääaine"
 }
