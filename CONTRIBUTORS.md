@@ -57,6 +57,7 @@
  - [Meet Pandya](https://github.com/meet-k-pandya)
  - [Peter Spenler](https://github.com/peterspenler)
  - [Vankerkom](https://github.com/vankerkom)
+ - [Jxiced](https://github.com/jxiced)
 
 # Emby Contributors
 
