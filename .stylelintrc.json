@@ -13,6 +13,7 @@
     "at-rule-name-case": "lower",
     "at-rule-name-space-after": "always-single-line",
     "at-rule-no-unknown": true,
+    "at-rule-no-vendor-prefix": true,
     "at-rule-semicolon-newline-after": "always",
     "block-closing-brace-empty-line-before": "never",
     "block-closing-brace-newline-after": "always",
@@ -77,6 +78,7 @@
     "media-feature-colon-space-before": "never",
     "media-feature-name-case": "lower",
     "media-feature-name-no-unknown": true,
+    "media-feature-name-no-vendor-prefix": true,
     "media-feature-parentheses-space-inside": "never",
     "media-feature-range-operator-space-after": "always",
     "media-feature-range-operator-space-before": "always",
@@ -103,6 +105,7 @@
         ]
       }
     ],
+    "property-no-vendor-prefix": true,
     "rule-empty-line-before": [ "always-multi-line", {
       "except": ["first-nested"],
       "ignore": ["after-comment"]
@@ -116,6 +119,7 @@
     "selector-list-comma-newline-after": "always",
     "selector-list-comma-space-before": "never",
     "selector-max-empty-lines": 0,
+    "selector-no-vendor-prefix": true,
     "selector-pseudo-class-case": "lower",
     "selector-pseudo-class-no-unknown": true,
     "selector-pseudo-class-parentheses-space-inside": "never",
@@ -134,6 +138,7 @@
     "string-no-newline": true,
     "unit-case": "lower",
     "unit-no-unknown": true,
+    "value-no-vendor-prefix": true,
     "value-list-comma-newline-after": "always-multi-line",
     "value-list-comma-space-after": "always-single-line",
     "value-list-comma-space-before": "never",
