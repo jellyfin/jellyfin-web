@@ -1677,5 +1677,12 @@
     "Bold": "Pogrubienie",
     "LabelMaxVideoResolution": "Maksymalna dozwolona rozdzielczość transkodowania wideo",
     "IgnoreDtsHelp": "Wyłączenie tej opcji może rozwiązać niektóe problemy np: brak audio w kanałach z oddzielną scieżką audio i wideo.",
-    "IgnoreDts": "Ignoruj DTS (dekodowanie znacznika czasu)"
+    "IgnoreDts": "Ignoruj DTS (dekodowanie znacznika czasu)",
+    "MessageNoItemsAvailable": "Pozycje nie są obecnie dostępne.",
+    "Unreleased": "Jeszcze nie wydany",
+    "OptionDateEpisodeAdded": "Data dodania odcinka",
+    "MessageRenameMediaFolder": "Zmiana nazwy biblioteki multimediów spowoduje utratę wszystkich metadanych, należy postępować ostrożnie.",
+    "EnableCardLayout": "Wyświetlanie wizualnie CardBox",
+    "MessageNoFavoritesAvailable": "Ulubione nie są obecnie dostępne.",
+    "OptionDateShowAdded": "Data dodania serialu"
 }
