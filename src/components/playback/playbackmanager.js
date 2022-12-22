@@ -3157,11 +3157,13 @@ class PlaybackManager {
         function onPlaybackPause() {
             const player = this;
             sendProgressUpdate(player, 'pause');
+            stopPlaybackProgressTimer(player);
         }
 
         function onPlaybackUnpause() {
             const player = this;
             sendProgressUpdate(player, 'unpause');
+            startPlaybackProgressTimer(player);
         }
 
         function onPlaybackVolumeChange() {
