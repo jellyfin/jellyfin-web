@@ -17,6 +17,7 @@ import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
 import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import './login.scss';
+import { ApiClient } from 'jellyfin-apiclient';
 
 /* eslint-disable indent */
 
@@ -28,7 +29,7 @@ import './login.scss';
             const user = result.User;
             loading.hide();
 
-            onLoginSuccessful(user.Id, result.AccessToken, apiClient);
+            onLoginSuccessful(user, result.AccessToken, apiClient);
         }, function (response) {
             page.querySelector('#txtManualPassword').value = '';
             loading.hide();
@@ -79,7 +80,7 @@ import './login.scss';
                     }
 
                     const result = await apiClient.quickConnect(data.Secret);
-                    onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
+                    onLoginSuccessful(result.User, result.AccessToken, apiClient);
                 }, function (e) {
                     clearInterval(interval);
 
@@ -110,9 +111,100 @@ import './login.scss';
         });
     }
 
-    function onLoginSuccessful(id, accessToken, apiClient) {
-        Dashboard.onServerChanged(id, accessToken, apiClient);
-        Dashboard.navigate('home.html');
+    function onLoginSuccessful(user, accessToken, apiClient) {
+        Dashboard.onServerChanged(user.Id, accessToken, apiClient);
+
+        if (hasWhiteSpace(user.Name)) {
+            migrateUsername(user, apiClient);
+            user.Name = user.Name.trim();
+        } else {
+            Dashboard.navigate('home.html');
+        }
+    }
+
+    function migrateUsername(user, apiClient) {
+        const dlgOptions = {
+            removeOnClose: true,
+            size: 'small',
+            modal: true
+        };
+
+        if (layoutManager.tv) {
+            dlgOptions.size = 'fullscreen';
+        } else {
+            dlgOptions.size = 'small';
+        }
+
+        const dlg = dialogHelper.createDialog(dlgOptions);
+        dlg.classList.add('formDialog');
+
+        let html = '';
+        const status = apiClient.getJSON(apiClient.getUrl(`Users/AuthenticateByName?Username=${user.Name.trim()}`));
+
+        let newName = '';
+        if (status != null) {
+            html += '<div class="formDialogHeader">';
+            html += '<div class="focuscontainer dialog formDialog align-items-center justify-content-center dialog-fullscreen-lowres centeredDialog opened" data-history="true" modal="modal" data-autofocus="true" data-removeonclose="true" style="animation: 180ms ease-out 0s 1 normal both running scaleup;"><div class="formDialogHeader formDialogHeader-clear justify-content-center">';
+            html += '<h1 class="formDialogHeaderTitle" style="margin-top: .5em;padding: 0 1em;">Username Migration</h1>';
+            html += '</div>';
+            html += '<div class="formDialogContent smoothScrollY no-grow" style="max-width: 350px;">';
+            html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:1em;padding-bottom: 1em; text-align: center;">';
+            html += `<div class="text">"${user.Name.trim()}" is already taken, please enter a new username here.</div></div></div>`;
+            html += '<input is="emby-input" type="text" id="txtNewName" required="required" label="${LabelUser}" autocomplete="username" autocapitalize="off" />';
+            html += '<div class="formDialogFooter formDialogFooter-clear formDialogFooter-flex" style="margin:1em"><button is="emby-button" type="submit" class="btnOption raised formDialogFooterItem formDialogFooterItem-autosize button-submit emby-button" data-id="ok" autofocus="">Got It</button></div>';
+            html += '</div>';
+            html += '</div>';
+            dlg.innerHTML = globalize.translateHtml(html, 'core');
+
+            dialogHelper.open(dlg);
+            document.querySelector('.btnOption').addEventListener('click', function () {
+                newName = document.querySelector('#txtNewName').value;
+                apiClient.ajax({
+                    type: 'POST',
+                    url: apiClient.getUrl(`Users/${user.Id}`),
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        Name: newName
+                    }),
+                    contentType: 'application/json'
+                }).then(
+                    document.querySelector('.btnOption').onclick = function() {
+                    dialogHelper.close(dlg);
+                });
+            });
+        } else {
+            html += '<div class="formDialogHeader">';
+            html += '<div class="focuscontainer dialog formDialog align-items-center justify-content-center dialog-fullscreen-lowres centeredDialog opened" data-history="true" modal="modal" data-autofocus="true" data-removeonclose="true" style="animation: 180ms ease-out 0s 1 normal both running scaleup;"><div class="formDialogHeader formDialogHeader-clear justify-content-center">';
+            html += '<h1 class="formDialogHeaderTitle" style="margin-top: .5em;padding: 0 1em;">Username Migration</h1>';
+            html += '</div>';
+            html += '<div class="formDialogContent smoothScrollY no-grow" style="max-width: 350px;">';
+            html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:1em;padding-bottom: 1em; text-align: center;">';
+            html += `<div class="text">Your current username is "${user.Name}", your new username will be "${user.Name.trim()}".</div></div></div>`;
+            html += '<div class="formDialogFooter formDialogFooter-clear formDialogFooter-flex" style="margin:1em"><button is="emby-button" type="button" class="btnOption raised formDialogFooterItem formDialogFooterItem-autosize button-submit emby-button" data-id="ok" autofocus="">Got It</button></div>';
+            html += '</div>';
+            html += '</div>';
+            dlg.innerHTML = globalize.translateHtml(html, 'core');
+            newName = user.Name.trim();
+
+            dialogHelper.open(dlg).then(function() {
+                apiClient.ajax({
+                    type: 'POST',
+                    url: apiClient.getUrl(`Users/${user.Id}`),
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        Name: newName
+                    }),
+                    contentType: 'application/json'
+                }).then(
+                    document.querySelector('.btnOption').onclick = function() {
+                    dialogHelper.close(dlg);
+                });
+            });
+        }
+    }
+
+    function hasWhiteSpace(s) {
+        return s.indexOf(' ') >= 0;
     }
 
     function showManualForm(context, showCancel, focusPassword) {
@@ -231,7 +323,7 @@ import './login.scss';
         view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
             appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
             const apiClient = getApiClient();
-            authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
+            authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value.trim(), view.querySelector('#txtManualPassword').value);
             e.preventDefault();
             return false;
         });

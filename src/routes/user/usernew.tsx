@@ -108,7 +108,7 @@ const UserNew: FunctionComponent = () => {
 
         const saveUser = () => {
             const userInput: userInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
             window.ApiClient.createUser(userInput).then(function (user) {
                 if (!user.Id) {
