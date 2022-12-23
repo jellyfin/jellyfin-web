@@ -597,11 +597,6 @@
     display: flex;
     flex-direction: column;
 
-    .layout-mobile & {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
     .layout-desktop &,
     .layout-tv & {
         .emby-scroller {
@@ -624,6 +619,11 @@
         padding-right: 32.45vw;
         padding-left: 2%;
     }
+}
+
+.layout-mobile .detailPageContent {
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .detailSectionContent a {
@@ -744,12 +744,16 @@
 .layout-mobile .mainDetailButtons {
     align-items: center;
     justify-content: center;
-    text-align: center;
+    text-align: center !important;
 }
 
 .layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
+}
+
+.layout-mobile [dir="ltr"] .mainDetailButtons {
+    margin-left: 0;
 
     @include header-poster-padding;
 
@@ -758,20 +762,16 @@
         margin-bottom: 0;
         padding-left: 0;
     }
+}
 
-    [dir="ltr"] & {
-        margin-left: 0;
-    }
+.layout-mobile [dir="rtl"] .mainDetailButtons {
+    margin-right: 0;
 
-    [dir="rtl"] & {
-        margin-right: 0;
-        padding-left: unset !important;
+    @include header-poster-padding-rtl;
 
-        @include header-poster-padding-rtl;
-
-        @media all and (max-width: 32em) {
-            padding-right: 0 !important;
-        }
+    @media all and (max-width: 32em) {
+        margin-bottom: 0;
+        padding-right: 0;
     }
 }
 
@@ -839,20 +839,20 @@
     min-width: 0;
     max-width: 100%;
     flex: 1 0 0;
+}
 
-    .layout-mobile & {
-        [dir="ltr"] {
-            @include header-poster-padding;
-        }
-
-        [dir="rtl"] & {
-            @include header-poster-padding-rtl;
-        }
-
-        @media all and (max-width: 32em) {
-            position: relative;
-        }
+.layout-mobile .infoWrapper {
+    @media all and (max-width: 32em) {
+        position: relative;
     }
+}
+
+.layout-mobile [dir="ltr"] .infoWrapper {
+    @include header-poster-padding;
+}
+
+.layout-mobile [dir="rtl"] .infoWrapper {
+    @include header-poster-padding-rtl;
 }
 
 .infoText {
