@@ -1683,5 +1683,6 @@
     "MessageRenameMediaFolder": "Beim umbenennen einer Medienbibliothek werden alle Metadaten gelöscht, mit Vorsicht fortfahren.",
     "MessageNoItemsAvailable": "Es sind aktuell keine Einträge verfügbar.",
     "MessageNoFavoritesAvailable": "Es sind aktuell keine Favoriten verfügbar.",
-    "Unreleased": "Noch nicht veröffentlicht"
+    "Unreleased": "Noch nicht veröffentlicht",
+    "EnableCardLayout": "Visuelle CardBox anzeigen"
 }
