@@ -345,7 +345,9 @@ function Guide(options) {
             }
 
             apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
-                renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
+                const guideOptions = {focusProgramOnRender: focusProgramOnRender, scrollToTimeMs: scrollToTimeMs, focusToTimeMs: focusToTimeMs, startTimeOfDayMs: startTimeOfDayMs};
+
+                renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, guideOptions, apiClient);
 
                 hideLoading();
             });
@@ -667,7 +669,7 @@ function Guide(options) {
         return (channelIndex * 10000000) + (start.getTime() / 60000);
     }
 
-    function renderGuide(context, date, channels, programs, renderOptions, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
+    function renderGuide(context, date, channels, programs, renderOptions, guideOptions, apiClient) {
         programs.sort(function (a, b) {
             return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
         });
@@ -689,11 +691,11 @@ function Guide(options) {
         items = {};
         renderPrograms(context, date, channels, programs, renderOptions);
 
-        if (focusProgramOnRender) {
-            focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs);
+        if (guideOptions.focusProgramOnRender) {
+            focusProgram(context, itemId, channelRowId, guideOptions.focusToTimeMs, guideOptions.startTimeOfDayMs);
         }
 
-        scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs);
+        scrollProgramGridToTimeMs(context, guideOptions.scrollToTimeMs, guideOptions.startTimeOfDayMs);
     }
 
     function scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs) {
