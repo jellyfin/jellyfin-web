@@ -96,7 +96,7 @@ import template from './imageeditor.template.html';
         return apiClient.getScaledImageUrl(item.Id || item.ItemId, options);
     }
 
-    function getCardHtml(image, index, numImages, apiClient, imageProviders, imageSize, tagName, enableFooterButtons) {
+    function getCardHtml(image, apiClient, options) {
         // TODO move card creation code to Card component
 
         let html = '';
@@ -106,7 +106,7 @@ import template from './imageeditor.template.html';
 
         cssClass += ' backdropCard backdropCard-scalable';
 
-        if (tagName === 'button') {
+        if (options.tagName === 'button') {
             cssClass += ' btnImageCard';
 
             if (layoutManager.tv) {
@@ -122,7 +122,7 @@ import template from './imageeditor.template.html';
             html += '<div class="' + cssClass + '"';
         }
 
-        html += ' data-id="' + currentItem.Id + '" data-serverid="' + apiClient.serverId() + '" data-index="' + index + '" data-numimages="' + numImages + '" data-imagetype="' + image.ImageType + '" data-providers="' + imageProviders.length + '"';
+        html += ' data-id="' + currentItem.Id + '" data-serverid="' + apiClient.serverId() + '" data-index="' + options.index + '" data-numimages="' + options.numImages + '" data-imagetype="' + image.ImageType + '" data-providers="' + options.imageProviders.length + '"';
 
         html += '>';
 
@@ -132,7 +132,7 @@ import template from './imageeditor.template.html';
 
         html += '<div class="cardContent">';
 
-        const imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, { maxWidth: imageSize });
+        const imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, {maxWidth: options.imageSize});
 
         html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center center;background-size:contain;"></div>';
 
@@ -151,23 +151,23 @@ import template from './imageeditor.template.html';
         }
         html += '</div>';
 
-        if (enableFooterButtons) {
+        if (options.enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
             if (image.ImageType === 'Backdrop') {
-                if (index > 0) {
+                if (options.index > 0) {
                     html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
                 } else {
                     html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left" aria-hidden="true"></span></button>';
                 }
 
-                if (index < numImages - 1) {
+                if (options.index < options.numImages - 1) {
                     html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right" aria-hidden="true"></span></button>';
                 } else {
                     html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right" aria-hidden="true"></span></button>';
                 }
             } else {
-                if (imageProviders.length) {
+                if (options.imageProviders.length) {
                     html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><span class="material-icons search" aria-hidden="true"></span></button>';
                 }
             }
@@ -178,7 +178,7 @@ import template from './imageeditor.template.html';
 
         html += '</div>';
         html += '</div>';
-        html += '</' + tagName + '>';
+        html += '</' + options.tagName + '>';
 
         return html;
     }
@@ -226,7 +226,8 @@ import template from './imageeditor.template.html';
 
         for (let i = 0, length = images.length; i < length; i++) {
             const image = images[i];
-            html += getCardHtml(image, i, length, apiClient, imageProviders, imageSize, tagName, enableFooterButtons);
+            const options = {index: i, numImages: length, imageProviders: imageProviders, imageSize: imageSize, tagName: tagName, enableFooterButtons: enableFooterButtons};
+            html += getCardHtml(image, apiClient, options);
         }
 
         elem.innerHTML = html;
