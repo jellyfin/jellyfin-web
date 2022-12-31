@@ -1606,7 +1606,7 @@
     "IntelLowPowerEncHelp": "Low-Power-Kodierung kann unnötige CPU-GPU-Synchronisationen verhindern. Bei Linux muss sie deaktiviert werden, wenn die i915-HuC-Firmware nicht konfiguriert ist.",
     "EnableIntelLowPowerHevcHwEncoder": "Intel Low-Power-Hardwarekodierer für HEVC aktivieren",
     "EnableIntelLowPowerH264HwEncoder": "Intel Low-Power-Hardwarekodierer für H.264 aktivieren",
-    "DirectPlayError": "Es gab einen Fehler beim start der direkt Wiedergabe",
+    "DirectPlayError": "Es gab einen Fehler beim Start der Direktwiedergabe",
     "VideoBitrateNotSupported": "Die Bitrate des Videos wird nicht unterstützt",
     "UnknownVideoStreamInfo": "Die Video-Stream-Info ist unbekannt",
     "UnknownAudioStreamInfo": "Die Audio-Stream-Info ist unbekannt",
