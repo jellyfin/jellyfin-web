@@ -1665,7 +1665,9 @@
     "LabelMaxVideoResolution": "Resolución máxima permitida para recodificar vídeo",
     "IgnoreDts": "Ignorar DTS (decoding timestamp)",
     "MessageNoItemsAvailable": "No hay elementos disponibles.",
-    "IgnoreDtsHelp": "Deshabilitar esta opción puede producir algunos problemas, por ejemplo: pérdida del audio en canales con distintas pistas de audio y video.",
+    "IgnoreDtsHelp": "Deshabilitar esta opción puede resolver algunos problemas, por ejemplo: pérdida del audio en canales con distintas pistas de audio y video.",
     "MessageNoFavoritesAvailable": "No hay favoritos disponibles.",
-    "MessageRenameMediaFolder": "Renombrar una biblioteca resultará en la pérdida de metadatos, proceda con precaución."
+    "MessageRenameMediaFolder": "Renombrar una biblioteca resultará en la pérdida de metadatos, proceda con precaución.",
+    "OptionDateEpisodeAdded": "Fecha de la adición del episodio",
+    "EnableCardLayout": "Mostrar CardBox visual"
 }
