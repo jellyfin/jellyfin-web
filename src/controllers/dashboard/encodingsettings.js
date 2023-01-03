@@ -23,6 +23,7 @@ import alert from '../../components/alert';
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
+        $('#selectStereoDownmixAlgorithm').val(config.DownMixStereoAlgorithm || 'None');
         page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
@@ -78,6 +79,7 @@ import alert from '../../components/alert';
             loading.show();
             ApiClient.getNamedConfiguration('encoding').then(function (config) {
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
+                config.DownMixStereoAlgorithm = $('#selectStereoDownmixAlgorithm', form).val() || 'None';
                 config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
                 config.FallbackFontPath = form.querySelector('#txtFallbackFontPath').value;
