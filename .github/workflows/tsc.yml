@@ -1,0 +1,31 @@
+name: TypeScript Build Check
+
+on:
+  push:
+    branches: [ master, release* ]
+  pull_request:
+    branches: [ master, release* ]
+
+jobs:
+  tsc:
+    name: Run TypeScript build check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
+
+      - name: Setup node environment
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
+        with:
+          node-version: 16
+          check-latest: true
+          cache: npm
+
+      - name: Install Node.js dependencies
+        run: npm ci --no-audit
+        env:
+          SKIP_PREPARE: true
+
+      - name: Run tsc
+        run: npm run build:check
