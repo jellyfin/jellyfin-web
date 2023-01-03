@@ -1678,5 +1678,10 @@
     "MediaInfoElPresentFlag": "Indicador preestablecido DV el",
     "MediaInfoBlPresentFlag": "Bandera preestablecida DV bl",
     "MediaInfoDvBlSignalCompatibilityId": "ID de compatibilidad de señal DV bl",
-    "RememberSubtitleSelectionsHelp": "Intentar establecer la pista de subtítulos en la coincidencia más cercana al último video."
+    "RememberSubtitleSelectionsHelp": "Intentar establecer la pista de subtítulos en la coincidencia más cercana al último video.",
+    "EnableCardLayout": "Mostrar CardBox visual",
+    "Unreleased": "Aún no publicado",
+    "MessageNoItemsAvailable": "No hay artículos disponibles actualmente.",
+    "MessageNoFavoritesAvailable": "No hay favoritos disponibles actualmente.",
+    "MessageRenameMediaFolder": "Cambiar el nombre de una biblioteca de medios hará que se pierdan todos los metadatos, proceda con precaución."
 }
