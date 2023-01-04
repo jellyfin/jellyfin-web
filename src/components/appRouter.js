@@ -59,25 +59,11 @@ class AppRouter {
             this.baseRoute = this.baseRoute.substring(0, this.baseRoute.length - 1);
         }
 
-        this.setBaseRoute();
-
         // paths that start with a hashbang (i.e. /#!/page.html) get transformed to starting with //
         // we need to strip one "/" for our routes to work
         page('//*', (ctx) => {
             page.redirect(ctx.path.substring(1));
         });
-    }
-
-    /**
-     * @private
-     */
-    setBaseRoute() {
-        let baseRoute = window.location.pathname.replace(this.getRequestFile(), '');
-        if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
-            baseRoute = baseRoute.substring(0, baseRoute.length - 1);
-        }
-        console.debug('setting page base to ' + baseRoute);
-        page.base(baseRoute);
     }
 
     addRoute(path, newRoute) {
