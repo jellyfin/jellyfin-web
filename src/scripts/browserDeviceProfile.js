@@ -536,7 +536,6 @@ import browser from './browser';
         }
 
         if (canPlayVp8) {
-            mp4VideoCodecs.push('vp8');
             webmVideoCodecs.push('vp8');
         }
 
@@ -719,17 +718,15 @@ import browser from './browser';
             }
         }
 
-        if (webmAudioCodecs.length && webmVideoCodecs.length) {
+        // Progressive mp4 transcoding
+        if (mp4VideoCodecs.length && videoAudioCodecs.length) {
             profile.TranscodingProfiles.push({
-                Container: 'webm',
+                Container: 'mp4',
                 Type: 'Video',
-                AudioCodec: webmAudioCodecs.join(','),
-                // TODO: Remove workaround when servers migrate away from 'vpx' for transcoding profiles.
-                VideoCodec: (canPlayVp8 ? webmVideoCodecs.concat('vpx') : webmVideoCodecs).join(','),
+                AudioCodec: videoAudioCodecs.join(','),
+                VideoCodec: mp4VideoCodecs.join(','),
                 Context: 'Streaming',
                 Protocol: 'http',
-                // If audio transcoding is needed, limit channels to number of physical audio channels
-                // Trying to transcode to 5 channels when there are only 2 speakers generally does not sound good
                 MaxAudioChannels: physicalAudioChannels.toString()
             });
         }
