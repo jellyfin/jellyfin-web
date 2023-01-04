@@ -1,5 +1,3 @@
-import escapeHtml from 'escape-html';
-
 export function getNowPlayingNames(nowPlayingItem, includeNonNameInfo) {
     let topItem = nowPlayingItem;
     let bottomItem = null;
@@ -61,13 +59,13 @@ export function getNowPlayingNames(nowPlayingItem, includeNonNameInfo) {
     const list = [];
 
     list.push({
-        text: escapeHtml(topText),
+        text: topText,
         item: topItem
     });
 
     if (bottomText) {
         list.push({
-            text: escapeHtml(bottomText),
+            text: bottomText,
             item: bottomItem
         });
     }

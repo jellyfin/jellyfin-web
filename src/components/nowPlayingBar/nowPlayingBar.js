@@ -502,14 +502,14 @@ import { appRouter } from '../appRouter';
                 textLines[1].secondary = true;
                 if (textLines[1].text) {
                     const text = document.createElement('a');
-                    text.innerHTML = textLines[1].text;
+                    text.innerText = textLines[1].text;
                     secondaryText.appendChild(text);
                 }
             }
 
             if (textLines[0].text) {
                 const text = document.createElement('a');
-                text.innerHTML = textLines[0].text;
+                text.innerText = textLines[0].text;
                 itemText.appendChild(text);
             }
             nowPlayingTextElement.appendChild(itemText);
