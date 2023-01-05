@@ -744,7 +744,13 @@ import browser from './browser';
 
         profile.CodecProfiles = [];
 
-        const supportsSecondaryAudio = browser.tizen || videoTestElement.audioTracks;
+        // We rely on HTMLMediaElement.audioTracks
+        // It works in Chrome 79+ with "Experimental Web Platform features" enabled
+        // It doesn't work in Firefox 108 even with "media.track.enabled" enabled (it only sees the first audio track)
+        // It seems to work on Tizen 5.5+ (Chrome 69+). See https://developer.tizen.org/forums/web-application-development/video-tag-not-work-audiotracks
+        const supportsSecondaryAudio = !!videoTestElement.audioTracks
+            && !browser.firefox
+            && (browser.tizenVersion >= 5.5 || !browser.tizen);
 
         const aacCodecProfileConditions = [];
 
