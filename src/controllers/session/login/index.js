@@ -48,7 +48,7 @@ import './login.scss';
 
     function authenticateQuickConnect(apiClient) {
         const url = apiClient.getUrl('/QuickConnect/Initiate');
-        apiClient.getJSON(url).then(function (json) {
+        apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then(function (json) {
             if (!json.Secret || !json.Code) {
                 console.error('Malformed quick connect response', json);
                 return false;
