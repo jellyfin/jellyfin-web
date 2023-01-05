@@ -366,6 +366,10 @@ import browser from './browser';
         profile.MaxStaticBitrate = 100000000;
         profile.MusicStreamingTranscodingBitrate = Math.min(bitrateSetting, 384000);
 
+        if (browser.tizen || browser.web0s) {
+            profile.EnableMultipleCodecStreaming = false;
+        }
+
         profile.DirectPlayProfiles = [];
 
         let videoAudioCodecs = [];
