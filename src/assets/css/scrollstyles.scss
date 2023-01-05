@@ -1,6 +1,5 @@
 .scrollX {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
     white-space: nowrap;
 }
@@ -27,13 +26,11 @@
 
 .scrollY {
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
 }
 
 .smoothScrollY {
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
     scroll-behavior: smooth;
 }

@@ -1,9 +1,6 @@
 .chapterThumbTextContainer,
 .videoOsdBottom {
     user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
 
 .videoOsdBottom {
@@ -53,17 +50,13 @@
 }
 
 .chapterThumbContainer {
-    -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     position: relative;
 }
 
 .chapterThumb {
     background-position: center center;
-    -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
     border: 0;
@@ -117,13 +110,8 @@
 
 .videoOsdBottom .buttons {
     padding: 0.25em 0 0;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
 
     [dir="rtl"] & {
@@ -133,33 +121,24 @@
 
 .osdVolumeSliderContainer {
     width: 9em;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
 }
 
 .osdMediaInfo,
 .volumeButtons {
     display: flex;
-    display: -webkit-box;
-    display: -webkit-flex;
     align-items: center;
-    -webkit-box-align: center;
 }
 
 .volumeButtons {
     margin: 0 1em 0 0.29em;
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
 }
 
 .osdTimeText {
     margin-left: 1em;
     margin-right: auto;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 
@@ -170,7 +149,6 @@
 
 .osdMediaInfo {
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
 }
 
@@ -179,23 +157,14 @@
 }
 
 .osdTextContainer {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     margin-bottom: 0.7em;
     padding-left: 0.5em;
 }
 
 .osdMainTextContainer {
-    -webkit-box-align: baseline;
-    -webkit-align-items: baseline;
     align-items: baseline;
 }
 
@@ -203,30 +172,13 @@
     margin-left: auto;
 }
 
-@-moz-keyframes spin {
-    100% {
-        -moz-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-@-webkit-keyframes spin {
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
 @keyframes spin {
     100% {
-        -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
 
 .osdMediaStatus .animate {
-    -webkit-animation: spin 4s linear infinite;
-    -moz-animation: spin 4s linear infinite;
     animation: spin 4s linear infinite;
 }
 

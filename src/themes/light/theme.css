@@ -30,12 +30,10 @@ html {
 }
 
 .osdHeader {
-    -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, 0.4);
 }
@@ -289,7 +287,6 @@ a[data-role=button] {
     color: inherit;
     background: #fff;
     border: 0.16em solid rgba(0, 0, 0, 0.158);
-    -webkit-border-radius: 0.2em;
     border-radius: 0.2em;
 }
 
@@ -441,7 +438,6 @@ a[data-role=button] {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    -webkit-border-radius: 0.25em;
     border-radius: 0.25em;
 }
 
@@ -476,7 +472,6 @@ a[data-role=button] {
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -489,7 +484,6 @@ a[data-role=button] {
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
     border-radius: 2px;
-    -webkit-border-radius: 2px;
     background: center no-repeat #999;
 }
 

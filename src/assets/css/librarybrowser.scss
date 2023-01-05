@@ -82,7 +82,6 @@
 .headerSelectedPlayer,
 .itemMiscInfo,
 .navMenuOptionText {
-    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -1529,13 +1528,13 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .detail-clamp-text {
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 12;
-    -webkit-box-orient: vertical;
+    display: flex;
+    flex-direction: column;
+    line-clamp: 12;
 }
 
 @media all and (min-width: 40em) {
     .detail-clamp-text {
-        -webkit-line-clamp: 6;
+        line-clamp: 6;
     }
 }

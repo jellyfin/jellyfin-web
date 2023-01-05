@@ -12,9 +12,6 @@
     /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;
     outline-width: 0;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     z-index: 0;
@@ -97,9 +94,6 @@
     font-size: inherit;
     font-family: inherit;
     color: inherit;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     z-index: 0;
