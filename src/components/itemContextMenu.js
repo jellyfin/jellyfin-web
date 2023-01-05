@@ -382,7 +382,7 @@ import toast from './toast/toast';
                                 });
                             }
                         )).then(seasonData => {
-                            downloadEpisodes([].concat.apply([], seasonData.map(season => season.Items)));
+                            downloadEpisodes(seasonData.map(season => season.Items).flat());
                         });
                     };
 
