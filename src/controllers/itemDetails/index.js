@@ -1292,16 +1292,20 @@ function renderSeriesAirTime(page, item, isStatic) {
         html += ' at ' + item.AirTime;
     }
     if (item.Studios.length) {
+        html += ' on ';
         if (isStatic) {
-            html += ' on ' + escapeHtml(item.Studios[0].Name);
+            html += item.Studios.map(function (p) {
+                return escapeHtml(p.Name);
+            }).join(', ');
         } else {
             const context = inferContext(item);
-            const href = appRouter.getRouteUrl(item.Studios[0], {
-                context: context,
-                itemType: 'Studio',
-                serverId: item.ServerId
-            });
-            html += ' on <a class="textlink button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(item.Studios[0].Name) + '</a>';
+            html += item.Studios.map(function (p) {
+                return '<a class="textlink button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl(p, {
+                    context: context,
+                    itemType: 'Studio',
+                    serverId: item.ServerId
+                }) + '">' + escapeHtml(p.Name) + '</a>';
+            }).join(', ');
         }
     }
     if (html) {
