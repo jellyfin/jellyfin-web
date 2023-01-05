@@ -1051,11 +1051,7 @@ function renderStudio(page, item, context) {
     studiosValue.innerHTML = html;
 
     const studiosGroup = page.querySelector('.studiosGroup');
-    if (studios.length) {
-        studiosGroup.classList.remove('hide');
-    } else {
-        studiosGroup.classList.add('hide');
-    }
+    studiosGroup.classList.toggle('hide', !studios.length);
 }
 
 function renderMiscInfo(page, item) {
