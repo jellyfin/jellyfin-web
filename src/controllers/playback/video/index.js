@@ -787,12 +787,18 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                     nowPlayingPositionText.classList.add('hide');
                 }
 
-                const leftTicks = runtimeTicks - positionTicks;
-                if (leftTicks >= 0) {
-                    updateTimeText(nowPlayingDurationText, leftTicks);
-                    nowPlayingDurationText.classList.remove('hide');
+                if (userSettings.enableVideoRemainingTime()) {
+                    const leftTicks = runtimeTicks - positionTicks;
+                    if (leftTicks >= 0) {
+                        updateTimeText(nowPlayingDurationText, leftTicks);
+                        nowPlayingDurationText.innerHTML = '-' + nowPlayingDurationText.innerHTML;
+                        nowPlayingDurationText.classList.remove('hide');
+                    } else {
+                        nowPlayingPositionText.classList.add('hide');
+                    }
                 } else {
-                    nowPlayingPositionText.classList.add('hide');
+                    updateTimeText(nowPlayingDurationText, runtimeTicks);
+                    nowPlayingDurationText.classList.remove('hide');
                 }
             }
         }
@@ -869,6 +875,19 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             }
 
             elem.innerHTML = html;
+        }
+
+        function nowPlayingDurationTextClick() {
+            if (userSettings.enableVideoRemainingTime()) {
+                userSettings.enableVideoRemainingTime(false);
+            } else {
+                userSettings.enableVideoRemainingTime(true);
+            }
+            // immediately update the text, without waiting for the next tick update or if the player is paused
+            const state = playbackManager.getPlayerState(currentPlayer);
+            const playState = state.PlayState;
+            const nowPlayingItem = state.NowPlayingItem;
+            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
         }
 
         function onSettingsButtonClick() {
@@ -1329,6 +1348,8 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         if (layoutManager.tv) {
             nowPlayingPositionSlider.classList.add('focusable');
         }
+
+        nowPlayingDurationText.addEventListener('click', nowPlayingDurationTextClick);
 
         view.addEventListener('viewbeforeshow', function () {
             headerElement.classList.add('osdHeader');
