@@ -1684,5 +1684,6 @@
     "MessageRenameMediaFolder": "Zmiana nazwy biblioteki multimediów spowoduje utratę wszystkich metadanych, należy postępować ostrożnie.",
     "EnableCardLayout": "Wyświetlanie wizualnie CardBox",
     "MessageNoFavoritesAvailable": "Ulubione nie są obecnie dostępne.",
-    "OptionDateShowAdded": "Data dodania serialu"
+    "OptionDateShowAdded": "Data dodania serialu",
+    "DownloadAll": "Pobierz wszystko"
 }
