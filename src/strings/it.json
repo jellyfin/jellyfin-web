@@ -1683,5 +1683,7 @@
     "OptionDateEpisodeAdded": "Data Aggiunta Episodio",
     "OptionDateShowAdded": "Data Aggiunta Serie",
     "MessageNoFavoritesAvailable": "Al momento non sono disponibili preferiti.",
-    "Unreleased": "Non ancora rilasciato"
+    "Unreleased": "Non ancora rilasciato",
+    "DownloadAll": "Scarica tutto",
+    "EnableCardLayout": "Mostra CardBox visual"
 }
