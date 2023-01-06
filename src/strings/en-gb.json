@@ -1684,5 +1684,6 @@
     "EnableCardLayout": "Display visual CardBox",
     "MessageNoItemsAvailable": "No Items are currently available.",
     "MessageNoFavoritesAvailable": "No favourites are currently available.",
-    "Unreleased": "Not yet released"
+    "Unreleased": "Not yet released",
+    "DownloadAll": "Download All"
 }
