@@ -21,6 +21,7 @@ import alert from '../../components/alert';
         $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
         })).val(config.UICulture);
+        page.querySelector('#txtParallelImageEncodingLimit').value = config.ParallelImageEncodingLimit || '';
 
         loading.hide();
     }
@@ -36,6 +37,7 @@ import alert from '../../components/alert';
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
             config.QuickConnectAvailable = form.querySelector('#chkQuickConnectAvailable').checked;
+            config.ParallelImageEncodingLimit = parseInt(form.querySelector('#txtParallelImageEncodingLimit').value || '0', 10);
 
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
