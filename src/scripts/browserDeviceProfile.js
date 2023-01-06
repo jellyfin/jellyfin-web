@@ -294,16 +294,24 @@ import browser from './browser';
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
+    let maxChannelCount = null;
+
     function getSpeakerCount() {
+        if (maxChannelCount != null) {
+            return maxChannelCount;
+        }
+
+        maxChannelCount = -1;
+
         const AudioContext = window.AudioContext || window.webkitAudioContext || false; /* eslint-disable-line compat/compat */
 
         if (AudioContext) {
             const audioCtx = new AudioContext();
 
-            return audioCtx.destination.maxChannelCount;
+            maxChannelCount = audioCtx.destination.maxChannelCount;
         }
 
-        return -1;
+        return maxChannelCount;
     }
 
     function getPhysicalAudioChannels(options, videoTestElement) {
