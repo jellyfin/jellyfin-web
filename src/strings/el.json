@@ -206,7 +206,7 @@
     "HeaderAddUpdateImage": "Προσθήκη / Ενημέρωση εικόνας",
     "HeaderAdditionalParts": "Πρόσθετα Μέρη",
     "HeaderAdmin": "Διαχείριση",
-    "HeaderAlbumArtists": "Δισκογραφικοί καλλιτέχνες",
+    "HeaderAlbumArtists": "Καλλιτέχνες άλμπουμ",
     "HeaderAlert": "Ειδοποίηση",
     "HeaderAllowMediaDeletionFrom": "Να επιτρέπεται η διαγραφή πολυμέσων από:",
     "HeaderApiKey": "Κλειδί API",
@@ -1249,5 +1249,14 @@
     "LabelCustomDeviceDisplayNameHelp": "Δώστε ένα προσαρμοσμένο εμφανιζόμενο όνομα ή αφήστε το κενό για να χρησιμοποιήσετε το όνομα που αναφέρεται από τη συσκευή.",
     "LabelDeinterlaceMethod": "Μέθοδος απόπλεξης:",
     "LabelEnableIP4": "Ενεργοποίηση IPv4",
-    "LabelEnableHttps": "Ενεργοποίηση HTTPS"
+    "LabelEnableHttps": "Ενεργοποίηση HTTPS",
+    "DownloadAll": "Λήψη Όλων",
+    "LabelFolder": "Φάκελος:",
+    "LabelHDHomerunPortRangeHelp": "Περιορίζει το εύρος της θύρας HDHomeRun UDP σε αυτήν την τιμή. (Η προεπιλογή είναι 1024 - 645535).",
+    "LabelH265Crf": "H.265 που κωδικοποιεί CRF:",
+    "LabelEnableSSDPTracing": "Ενεργοποίηση SSDP Tracing:",
+    "LabelEncoderPreset": "Προεπιλογή κωδικοποίησης:",
+    "LabelHardwareEncoding": "Κωδικοποίηση υλικού:",
+    "LabelHDHomerunPortRange": "Εύρος θυρών HDHomeRun:",
+    "LabelEnableSSDPTracingHelp": "Ενεργοποιήστε την καταγραφή της ανίχνευσης δικτύου λεπτομερειών SSDP.<br/><b>ΠΡΟΕΙΔΟΠΟΙΗΣΗ:</b> Αυτό θα προκαλέσει σοβαρή υποβάθμιση της απόδοσης."
 }
