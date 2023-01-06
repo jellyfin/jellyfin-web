@@ -1647,7 +1647,7 @@
     "ContainerBitrateExceedsLimit": "Videon bittinopeus ylittää rajoituksen",
     "AudioBitDepthNotSupported": "Äänen bittisyvyyttä ei tueta",
     "EnableEnhancedNvdecDecoderHelp": "Kokeellinen NVDEC-toteutus, jota ei tule käyttää, jollei dekoodausvirheitä esiinny.",
-    "PersonRole": "tunnuksella {0}",
+    "PersonRole": "roolissa {0}",
     "HomeVideosPhotos": "Kotivideot ja valokuvat",
     "Bold": "Lihavoitu",
     "LabelTextWeight": "Tekstin vahvuus:",
@@ -1677,5 +1677,6 @@
     "MessageNoFavoritesAvailable": "Suosikkeja ei ole tällä hetkellä käytettävissä.",
     "EnableCardLayout": "Näytä visuaalinen KorttiLaatikko",
     "Unreleased": "Ei vielä julkaistu",
-    "MediaInfoDvVersionMajor": "DV-versio pääaine"
+    "MediaInfoDvVersionMajor": "DV-versio pääaine",
+    "DownloadAll": "Lataa kaikki"
 }
