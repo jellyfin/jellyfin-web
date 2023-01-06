@@ -30,6 +30,7 @@ import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
+import { includesAny } from '../../utils/container.ts';
 
 /**
  * Returns resolved URL.
@@ -602,7 +603,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        isAudioStreamSupported(stream, deviceProfile) {
+        isAudioStreamSupported(stream, deviceProfile, container) {
             const codec = (stream.Codec || '').toLowerCase();
 
             if (!codec) {
@@ -617,15 +618,9 @@ function tryRemoveElement(elem) {
             const profiles = deviceProfile.DirectPlayProfiles || [];
 
             return profiles.filter(function (p) {
-                if (p.Type === 'Video') {
-                    if (!p.AudioCodec) {
-                        return true;
-                    }
-
-                    return p.AudioCodec.toLowerCase().includes(codec);
-                }
-
-                return false;
+                return p.Type === 'Video'
+                    && includesAny((p.Container || '').toLowerCase(), container)
+                    && includesAny((p.AudioCodec || '').toLowerCase(), codec);
             }).length > 0;
         }
 
@@ -635,8 +630,11 @@ function tryRemoveElement(elem) {
         getSupportedAudioStreams() {
             const profile = this.#lastProfile;
 
-            return getMediaStreamAudioTracks(this._currentPlayOptions.mediaSource).filter((stream) => {
-                return this.isAudioStreamSupported(stream, profile);
+            const mediaSource = this._currentPlayOptions.mediaSource;
+            const container = mediaSource.Container.toLowerCase();
+
+            return getMediaStreamAudioTracks(mediaSource).filter((stream) => {
+                return this.isAudioStreamSupported(stream, profile, container);
             });
         }
 
