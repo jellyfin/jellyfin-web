@@ -28,7 +28,7 @@ import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
-import profileBuilder from '../../scripts/browserDeviceProfile';
+import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { includesAny } from '../../utils/container.ts';
 
@@ -1557,15 +1557,9 @@ function tryRemoveElement(elem) {
     }
 
     canSetAudioStreamIndex() {
-        if (browser.tizen || browser.orsay) {
-            return true;
-        }
-
         const video = this.#mediaElement;
         if (video) {
-            if (video.audioTracks) {
-                return true;
-            }
+            return canPlaySecondaryAudio(video);
         }
 
         return false;
