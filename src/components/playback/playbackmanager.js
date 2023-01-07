@@ -1316,11 +1316,11 @@ class PlaybackManager {
 
             const profiles = deviceProfile.DirectPlayProfiles || [];
 
-            return profiles.filter(function (p) {
+            return profiles.some(function (p) {
                 return p.Type === 'Video'
                     && includesAny((p.Container || '').toLowerCase(), container)
                     && includesAny((p.AudioCodec || '').toLowerCase(), codec);
-            }).length > 0;
+            });
         }
 
         self.setAudioStreamIndex = function (index, player) {
