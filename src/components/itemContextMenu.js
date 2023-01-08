@@ -99,7 +99,7 @@ import toast from './toast/toast';
             });
         }
 
-        if (!restrictOptions) {
+        if (options.EnableCollectionManagement && !restrictOptions) {
             if (itemHelper.supportsAddingToCollection(item)) {
                 commands.push({
                     name: globalize.translate('AddToCollection'),
