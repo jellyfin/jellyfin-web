@@ -1268,7 +1268,7 @@
     "HeaderDVR": "Gravador digital",
     "ApiKeysCaption": "Lista das chaves de API atualmente ativadas",
     "Episode": "Episódio",
-    "EnableDetailsBannerHelp": "Mostra uma imagem no topo da página dos detalhes do item.",
+    "EnableDetailsBannerHelp": "Mostrar uma imagem no topo da página dos detalhes do item.",
     "EnableDetailsBanner": "Faixa de detalhes",
     "EnableDecodingColorDepth10Vp9": "Activar descodificação de hardware de 10-bits para VP9",
     "EnableDecodingColorDepth10Hevc": "Activar descodificação de hardware de 10-bits para HEVC",
@@ -1674,5 +1674,6 @@
     "Scene": "Cena",
     "Interview": "Entrevista",
     "DeletedScene": "Cenas removidas",
-    "BehindTheScenes": "Nos bastidores"
+    "BehindTheScenes": "Nos bastidores",
+    "DownloadAll": "Transferir Todas"
 }
