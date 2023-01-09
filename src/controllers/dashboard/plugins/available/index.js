@@ -1,3 +1,5 @@
+import escapeHTML from 'escape-html';
+
 import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
@@ -73,7 +75,7 @@ function populateList(options) {
                 html += '</div>';
             }
             html += '<div class="verticalSection">';
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + category + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + escapeHTML(category) + '</h2>';
             html += '<div class="itemsContainer vertical-wrap">';
             currentCategory = category;
         }
@@ -107,7 +109,7 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${href}" ${target}>`;
 
     if (plugin.imageUrl) {
-        html += `<img src="${plugin.imageUrl}" style="width:100%" />`;
+        html += `<img src="${escapeHTML(plugin.imageUrl)}" style="width:100%" />`;
     } else {
         html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
         html += '<span class="cardImageIcon material-icons extension" aria-hidden="true"></span>';
@@ -119,11 +121,9 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '</div>';
     html += '<div class="cardFooter">';
     html += "<div class='cardText'>";
-    html += plugin.name;
+    html += escapeHTML(plugin.name);
     html += '</div>';
-    const installedPlugin = installedPlugins.filter(function (ip) {
-        return ip.Id == plugin.guid;
-    })[0];
+    const installedPlugin = installedPlugins.find(installed => installed.Id === plugin.guid);
     html += "<div class='cardText cardText-secondary'>";
     html += installedPlugin ? globalize.translate('LabelVersionInstalled', installedPlugin.Version) : '&nbsp;';
     html += '</div>';
