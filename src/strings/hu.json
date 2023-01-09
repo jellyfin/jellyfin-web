@@ -1684,5 +1684,6 @@
     "EnableCardLayout": "Vizuális CardBox megjelenítése",
     "MessageNoItemsAvailable": "Jelenleg nincs elérhető elem.",
     "MessageNoFavoritesAvailable": "Jelenleg nincs elérhető kedvenc.",
-    "Unreleased": "Még nem jelent meg"
+    "Unreleased": "Még nem jelent meg",
+    "DownloadAll": "Összes letöltése"
 }
