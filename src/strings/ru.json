@@ -1684,5 +1684,6 @@
     "MessageRenameMediaFolder": "Переименование медиатеки приведет к потере всех метаданных, действуйте с осторожностью.",
     "Unreleased": "Ещё не выпущен",
     "OptionDateEpisodeAdded": "Дата добавления эпизода",
-    "OptionDateShowAdded": "Дата добавления сериала"
+    "OptionDateShowAdded": "Дата добавления сериала",
+    "DownloadAll": "Скачать все"
 }
