@@ -1553,5 +1553,16 @@
     "LabelMaxVideoResolution": "Resolución máximade transcodificación de video permitida",
     "ButtonBackspace": "Retroceso",
     "LabelMaxDaysForNextUpHelp": "Establece la cantidad máxima de días que un programa debe permanecer en la lista 'Siguiente' sin verlo.",
-    "IgnoreDts": "Ignorar DTS (descodificación de marca de tiempo)"
+    "IgnoreDts": "Ignorar DTS (descodificación de marca de tiempo)",
+    "DownloadAll": "Descargar todos",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Ajustar manualmente el desfasaje (en ms) en el dispositivo seleccionado para la sincronización del tiempo. Tratar con precaución.",
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "Habilitar sincronización activa de la reproducción, bien acelerando la velocidad o saltando a una posición estimada. Deshabilita esto en caso de percibir tartamudeo.",
+    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "Retraso mínimo de la reproducción (en ms) luego de que SpeedToSync intenta corregir la posición de reproducción.",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSync": "Retraso máximo para SpeedToSync:",
+    "LabelSortName": "Ordenar nombre:",
+    "LabelSyncPlaySettingsDescription": "Cambiar preferencias de SyncPlay",
+    "LabelSyncPlaySettingsSyncCorrection": "Corrección de sincronización",
+    "LabelSyncPlaySettingsExtraTimeOffset": "Desfase de tiempo extra:",
+    "LabelSyncPlaySettingsMinDelaySpeedToSync": "Retraso mínimo de SpeedToSync:",
+    "LabelOriginalName": "Nombre original:"
 }
