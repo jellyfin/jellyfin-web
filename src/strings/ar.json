@@ -1681,5 +1681,6 @@
     "MessageNoItemsAvailable": "لا يجود أي عناصر متاحة حاليا.",
     "MessageNoFavoritesAvailable": "لا يوجد حاليا أي مفضلات.",
     "Unreleased": "لم يصدر حتى الآن",
-    "MessageRenameMediaFolder": "يرجى ملاحظة أنه ستحذف جميع البيانات الوصفية عند إعادة تسمية مكتبة الوسائط."
+    "MessageRenameMediaFolder": "يرجى ملاحظة أنه ستحذف جميع البيانات الوصفية عند إعادة تسمية مكتبة الوسائط.",
+    "DownloadAll": "تحميل الكل"
 }
