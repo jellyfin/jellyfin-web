@@ -1886,11 +1886,13 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
-        Promise.all([getPromise(apiClient, pageParams), apiClient.getCurrentUser()]).then(([item, user]) => {
+        return Promise.all([getPromise(apiClient, pageParams), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
             reloadFromItem(instance, page, pageParams, item, user);
+            return item;
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
+            throw error;
         });
     }
 
@@ -2052,7 +2054,6 @@ export default function (view, params) {
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
-        view.querySelector('.detailImageContainer').addEventListener('click', onPlayClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
@@ -2075,7 +2076,11 @@ export default function (view, params) {
                     renderBackdrop(currentItem);
                 }
             } else {
-                reload(self, page, params);
+                reload(self, page, params).then((item) => {
+                    if (playbackManager.canPlay(item)) {
+                        view.querySelector('.detailImageContainer').addEventListener('click', onPlayClick);
+                    }
+                });
             }
 
             Events.on(apiClient, 'message', onWebSocketMessage);
