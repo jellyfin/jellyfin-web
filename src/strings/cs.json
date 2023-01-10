@@ -1684,5 +1684,6 @@
     "EnableCardLayout": "Zobrazení jako kartotéka",
     "Unreleased": "Dosud nevydáno",
     "MessageNoItemsAvailable": "Momentálně nejsou k dispozici žádné položky.",
-    "MessageNoFavoritesAvailable": "Momentálně nejsou k dispozici žádné oblíbené položky."
+    "MessageNoFavoritesAvailable": "Momentálně nejsou k dispozici žádné oblíbené položky.",
+    "DownloadAll": "Stáhnout vše"
 }
