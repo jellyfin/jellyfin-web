@@ -297,7 +297,9 @@ if (userAgent.toLowerCase().indexOf('xbox') !== -1) {
     browser.tv = true;
 }
 browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
+browser.hisense = userAgent.toLowerCase().includes('hisense');
 browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.tizen != null;
+browser.vidaa = userAgent.toLowerCase().includes('vidaa');
 browser.web0s = isWeb0s();
 browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 

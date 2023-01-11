@@ -3,6 +3,7 @@
  * @module components/input/keyboardnavigation
  */
 
+import browser from './browser';
 import inputManager from './inputManager';
 import layoutManager from '../components/layoutManager';
 import appSettings from './settings/appSettings';
@@ -118,6 +119,15 @@ export function enable() {
 
             case 'Back':
                 inputManager.handleCommand('back');
+                break;
+
+            // HACK: Hisense TV (VIDAA OS) uses Backspace for Back action
+            case 'Backspace':
+                if (browser.tv && browser.hisense && browser.vidaa) {
+                    inputManager.handleCommand('back');
+                } else {
+                    capture = false;
+                }
                 break;
 
             case 'Escape':
