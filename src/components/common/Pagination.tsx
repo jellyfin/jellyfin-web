@@ -15,7 +15,8 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
     const limit = userSettings.libraryPageSize(undefined);
     const totalRecordCount = itemsResult.TotalRecordCount || 0;
     const startIndex = viewQuerySettings.StartIndex || 0;
-    const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
+    const recordsStart = totalRecordCount ? startIndex + 1 : 0;
+    const recordsEnd = limit ? Math.min(startIndex + limit, totalRecordCount) : totalRecordCount;
     const showControls = limit > 0 && limit < totalRecordCount;
     const element = useRef<HTMLDivElement>(null);
 
@@ -71,7 +72,7 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
             <div className='paging'>
                 <div className='listPaging' style={{ display: 'flex', alignItems: 'center' }}>
                     <span>
-                        {globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd || totalRecordCount, totalRecordCount)}
+                        {globalize.translate('ListPaging', recordsStart, recordsEnd, totalRecordCount)}
                     </span>
                     {showControls && (
                         <>
