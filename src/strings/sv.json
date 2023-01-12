@@ -1683,5 +1683,6 @@
     "Unreleased": "Ännu ej släppt",
     "EnableCardLayout": "Visa visuell CardBox",
     "MessageNoFavoritesAvailable": "Inga favoriter är för närvarande tillgängliga.",
-    "MessageRenameMediaFolder": "Vid namnbyte av bibliotek kommer all metadata förloras, fortsätt med försiktighet."
+    "MessageRenameMediaFolder": "Vid namnbyte av bibliotek kommer all metadata förloras, fortsätt med försiktighet.",
+    "DownloadAll": "Ladda ned alla"
 }
