@@ -1683,5 +1683,6 @@
     "MessageNoItemsAvailable": "Er zijn momenteel geen items beschikbaar.",
     "EnableCardLayout": "Als kaartenlijst tonen",
     "MessageRenameMediaFolder": "Wanneer u een mediabibliotheek hernoemt, zal alle metadata verloren gaan. Ga voorzichtig te werk.",
-    "Unreleased": "Nog niet uitgebracht"
+    "Unreleased": "Nog niet uitgebracht",
+    "DownloadAll": "Download Alles"
 }
