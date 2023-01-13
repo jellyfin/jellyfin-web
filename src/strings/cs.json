@@ -1685,5 +1685,6 @@
     "Unreleased": "Dosud nevydáno",
     "MessageNoItemsAvailable": "Momentálně nejsou k dispozici žádné položky.",
     "MessageNoFavoritesAvailable": "Momentálně nejsou k dispozici žádné oblíbené položky.",
-    "DownloadAll": "Stáhnout vše"
+    "DownloadAll": "Stáhnout vše",
+    "Experimental": "Experimentální"
 }
