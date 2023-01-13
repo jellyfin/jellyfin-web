@@ -31,6 +31,11 @@ class LayoutManager {
             setLayout(this, 'tv', layout);
             setLayout(this, 'desktop', layout);
 
+            if (layout === 'experimental') {
+                const legacyLayoutMode = browser.mobile ? 'mobile' : this.defaultLayout || 'desktop';
+                setLayout(this, legacyLayoutMode, legacyLayoutMode);
+            }
+
             if (save !== false) {
                 appSettings.set('layout', layout);
             }
