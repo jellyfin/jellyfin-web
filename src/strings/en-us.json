@@ -268,6 +268,7 @@
     "EveryXHours": "Every {0} hours",
     "EveryXMinutes": "Every {0} minutes",
     "ExitFullscreen": "Exit full screen",
+    "Experimental": "Experimental",
     "ExtractChapterImagesHelp": "Extracting chapter images will allow clients to display graphical scene selection menus. The process can be slow, resource intensive, and may require several gigabytes of space. It runs when videos are discovered, and also as a nightly scheduled task. The schedule is configurable in the scheduled tasks area. It is not recommended to run this task during peak usage hours.",
     "ExtraLarge": "Extra Large",
     "Extras": "Extras",
