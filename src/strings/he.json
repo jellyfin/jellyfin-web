@@ -1046,5 +1046,8 @@
     "LabelCertificatePasswordHelp": "אם התעודה שלך דורשת סיסמא, נא הקלד אותה כאן.",
     "LabelColorTransfer": "העברת צבע:",
     "LabelCreateHttpPortMap": "אפשר מיפוי פורטים אוטומטי לכל תעבורת ה-HTTP וגם ה-HTTPS.",
-    "DownloadAll": "הורד הכל"
+    "DownloadAll": "הורד הכל",
+    "Experimental": "ניסיוני",
+    "LabelDisableCustomCss": "אפשר קוד css מותאם אישית בשביל עיצובים מהשרת",
+    "LabelEasyPinCode": "קוד PIN קל"
 }
