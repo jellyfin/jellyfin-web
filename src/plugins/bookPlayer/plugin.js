@@ -32,7 +32,7 @@ export class BookPlayer {
             'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
             'sepia': { 'body': { 'color': '#d8a262', 'background': '#000', 'font-size': 'medium' } },
             'light': { 'body': { 'color': '#000', 'background': '#fff', 'font-size': 'medium' } }
-        }
+        };
         this.themeOrder = ['dark', 'sepia', 'light'];
 
         this.fontSize = 'medium';
@@ -242,27 +242,22 @@ export class BookPlayer {
             const newTheme = this.themeOrder[(this.themeOrder.indexOf(this.theme) + 1) % this.themeOrder.length];
             this.rendition.themes.select(newTheme);
             this.theme = newTheme;
-            console.dir(this.rendition);
         }
     }
 
     increaseFontSize() {
-        if (this.loaded) {
-            if (this.fontSize !== this.fontSizeOrder[this.fontSizeOrder.length - 1]) {
-                const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) + 1)];
-                this.rendition.themes.fontSize(newFontSize);
-                this.fontSize = newFontSize;
-            }
+        if (this.loaded && this.fontSize !== this.fontSizeOrder[this.fontSizeOrder.length - 1]) {
+            const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) + 1)];
+            this.rendition.themes.fontSize(newFontSize);
+            this.fontSize = newFontSize;
         }
     }
 
     decreaseFontSize() {
-        if (this.loaded) {
-            if (this.fontSize !== this.fontSizeOrder[0]) {
-                const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) - 1)];
-                this.rendition.themes.fontSize(newFontSize);
-                this.fontSize = newFontSize;
-            }
+        if (this.loaded && this.fontSize !== this.fontSizeOrder[0]) {
+            const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) - 1)];
+            this.rendition.themes.fontSize(newFontSize);
+            this.fontSize = newFontSize;
         }
     }
 
