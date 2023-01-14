@@ -1677,6 +1677,7 @@
     "MessageNoFavoritesAvailable": "Suosikkeja ei ole tällä hetkellä käytettävissä.",
     "EnableCardLayout": "Näytä visuaalinen KorttiLaatikko",
     "Unreleased": "Ei vielä julkaistu",
-    "MediaInfoDvVersionMajor": "DV-versio pääaine",
-    "DownloadAll": "Lataa kaikki"
+    "MediaInfoDvVersionMajor": "",
+    "DownloadAll": "Lataa kaikki",
+    "Experimental": "Kokeellinen"
 }
