@@ -1685,5 +1685,6 @@
     "EnableCardLayout": "Wyświetlanie wizualnie CardBox",
     "MessageNoFavoritesAvailable": "Ulubione nie są obecnie dostępne.",
     "OptionDateShowAdded": "Data dodania serialu",
-    "DownloadAll": "Pobierz wszystko"
+    "DownloadAll": "Pobierz wszystko",
+    "Experimental": "Eksperymentalne"
 }
