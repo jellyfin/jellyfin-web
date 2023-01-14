@@ -1685,5 +1685,6 @@
     "MessageNoItemsAvailable": "No Items are currently available.",
     "MessageNoFavoritesAvailable": "No favourites are currently available.",
     "Unreleased": "Not yet released",
-    "DownloadAll": "Download All"
+    "DownloadAll": "Download All",
+    "Experimental": "Experimental"
 }
