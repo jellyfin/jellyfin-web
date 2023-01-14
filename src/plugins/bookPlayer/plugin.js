@@ -29,15 +29,20 @@ export class BookPlayer {
             this.theme = 'light';
         }
         this.themes = {
-            'dark': { 'body': { 'color': '#d8dadc', 'background': '#000' } },
-            'sepia': { 'body': { 'color': '#d8a262', 'background': '#000' } },
-            'light': { 'body': { 'color': '#000', 'background': '#fff' } }
+            'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
+            'sepia': { 'body': { 'color': '#d8a262', 'background': '#000', 'font-size': 'medium' } },
+            'light': { 'body': { 'color': '#000', 'background': '#fff', 'font-size': 'medium' } }
         }
         this.themeOrder = ['dark', 'sepia', 'light'];
+
+        this.fontSize = 'medium';
+        this.fontSizeOrder = ['x-small', 'small', 'medium', 'large', 'x-large'];
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
         this.rotateTheme = this.rotateTheme.bind(this);
+        this.increaseFontSize = this.increaseFontSize.bind(this);
+        this.decreaseFontSize = this.decreaseFontSize.bind(this);
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
@@ -177,6 +182,8 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
         elem.querySelector('#btnBookplayerFullscreen').addEventListener('click', this.toggleFullscreen);
         elem.querySelector('#btnBookplayerRotateTheme').addEventListener('click', this.rotateTheme);
+        elem.querySelector('#btnBookplayerIncreaseFontSize').addEventListener('click', this.increaseFontSize);
+        elem.querySelector('#btnBookplayerDecreaseFontSize').addEventListener('click', this.decreaseFontSize);
         elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.next);
     }
@@ -198,6 +205,8 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
         elem.querySelector('#btnBookplayerFullscreen').removeEventListener('click', this.toggleFullscreen);
         elem.querySelector('#btnBookplayerRotateTheme').removeEventListener('click', this.rotateTheme);
+        elem.querySelector('#btnBookplayerIncreaseFontSize').removeEventListener('click', this.increaseFontSize);
+        elem.querySelector('#btnBookplayerDecreaseFontSize').removeEventListener('click', this.decreaseFontSize);
         elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.next);
     }
@@ -234,6 +243,26 @@ export class BookPlayer {
             this.rendition.themes.select(newTheme);
             this.theme = newTheme;
             console.dir(this.rendition);
+        }
+    }
+
+    increaseFontSize() {
+        if (this.loaded) {
+            if (this.fontSize !== this.fontSizeOrder[this.fontSizeOrder.length - 1]) {
+                const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) + 1)];
+                this.rendition.themes.fontSize(newFontSize);
+                this.fontSize = newFontSize;
+            }
+        }
+    }
+
+    decreaseFontSize() {
+        if (this.loaded) {
+            if (this.fontSize !== this.fontSizeOrder[0]) {
+                const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) - 1)];
+                this.rendition.themes.fontSize(newFontSize);
+                this.fontSize = newFontSize;
+            }
         }
     }
 
