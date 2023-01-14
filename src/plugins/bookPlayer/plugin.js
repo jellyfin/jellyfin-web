@@ -23,9 +23,21 @@ export class BookPlayer {
         this.type = PluginType.MediaPlayer;
         this.id = 'bookplayer';
         this.priority = 1;
+        if (userSettings.theme(undefined) === 'dark' || userSettings.theme(undefined) === null) {
+            this.theme = 'dark';
+        } else {
+            this.theme = 'light';
+        }
+        this.themes = {
+            'dark': { 'body': { 'color': '#d8dadc', 'background': '#000' } },
+            'sepia': { 'body': { 'color': '#d8a262', 'background': '#000' } },
+            'light': { 'body': { 'color': '#000', 'background': '#fff' } }
+        }
+        this.themeOrder = ['dark', 'sepia', 'light'];
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
+        this.rotateTheme = this.rotateTheme.bind(this);
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
@@ -164,6 +176,7 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, { once: true });
         elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
         elem.querySelector('#btnBookplayerFullscreen').addEventListener('click', this.toggleFullscreen);
+        elem.querySelector('#btnBookplayerRotateTheme').addEventListener('click', this.rotateTheme);
         elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.next);
     }
@@ -184,6 +197,7 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
         elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
         elem.querySelector('#btnBookplayerFullscreen').removeEventListener('click', this.toggleFullscreen);
+        elem.querySelector('#btnBookplayerRotateTheme').removeEventListener('click', this.rotateTheme);
         elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.next);
     }
@@ -211,6 +225,15 @@ export class BookPlayer {
             icon.classList.remove(Screenfull.isFullscreen ? 'fullscreen_exit' : 'fullscreen');
             icon.classList.add(Screenfull.isFullscreen ? 'fullscreen' : 'fullscreen_exit');
             Screenfull.toggle();
+        }
+    }
+
+    rotateTheme() {
+        if (this.loaded) {
+            const newTheme = this.themeOrder[(this.themeOrder.indexOf(this.theme) + 1) % this.themeOrder.length];
+            this.rendition.themes.select(newTheme);
+            this.theme = newTheme;
+            console.dir(this.rendition);
         }
     }
 
@@ -296,11 +319,10 @@ export class BookPlayer {
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;
 
-                rendition.themes.register('dark', { 'body': { 'color': '#fff' } });
-
-                if (userSettings.theme(undefined) === 'dark' || userSettings.theme(undefined) === null) {
-                    rendition.themes.select('dark');
+                for (const theme of Object.keys(this.themes)) {
+                    rendition.themes.register(theme, this.themes[theme]);
                 }
+                rendition.themes.select(this.theme);
 
                 return rendition.display().then(() => {
                     const epubElem = document.querySelector('.epub-container');
