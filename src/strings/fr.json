@@ -1679,7 +1679,7 @@
     "IgnoreDtsHelp": "La désactivation de cette option peut résoudre certains problèmes, par ex. audio manquant sur les canaux avec des flux audio et vidéo séparés.",
     "OptionDateShowAdded": "Date d'ajout de la série",
     "OptionDateEpisodeAdded": "Date d'ajout de l'épisode",
-    "IgnoreDts": "Ignorer DTS (horodatage de décodage)",
+    "IgnoreDts": "Ignorer le DTS (horodatage de décodage)",
     "MessageRenameMediaFolder": "Renommer une médiathèque entraînera la perte de toutes les métadonnées, procédez avec prudence.",
     "EnableCardLayout": "Format 'Carte à jouer'",
     "MessageNoItemsAvailable": "Aucun article n'est actuellement disponible.",
