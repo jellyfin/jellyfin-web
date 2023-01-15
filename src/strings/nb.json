@@ -1683,5 +1683,7 @@
     "MessageRenameMediaFolder": "Endring av navnet til et mediebibliotek vil føre til at alle metadata går tapt, fortsett med forsiktighet.",
     "EnableCardLayout": "Vis visuell CardBox",
     "MessageNoItemsAvailable": "Ingen filer er tilgjengelige for øyeblikket.",
-    "OptionDateShowAdded": "Dato serien ble lagt til"
+    "OptionDateShowAdded": "Dato serien ble lagt til",
+    "Experimental": "Eksperimentell",
+    "DownloadAll": "Laste ned alt"
 }
