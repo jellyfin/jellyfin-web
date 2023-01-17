@@ -12,7 +12,10 @@ const userDataMethods = {
     markFavorite: markFavorite
 };
 
-function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCssClass, icon, tooltip, style) {
+function getUserDataButtonHtml(method, itemId, serverId, icon, tooltip, style, classes) {
+    let buttonCssClass = classes.buttonCssClass;
+    let iconCssClass = classes.iconCssClass;
+
     if (style === 'fab-mini') {
         style = 'fab';
         buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
@@ -97,6 +100,11 @@ function getIconsHtml(options) {
 
     const iconCssClass = options.iconCssClass;
 
+    const classes = {
+        buttonCssClass: btnCssClass,
+        iconCssClass: iconCssClass
+    };
+
     const serverId = item.ServerId;
 
     if (includePlayed !== false) {
@@ -104,18 +112,21 @@ function getIconsHtml(options) {
 
         if (itemHelper.canMarkPlayed(item)) {
             if (userData.Played) {
-                html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass + ' btnUserDataOn', iconCssClass, 'check', tooltipPlayed, style);
+                const buttonCssClass = classes.buttonCssClass + ' btnUserDataOn';
+                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, {buttonCssClass: buttonCssClass, ...classes});
             } else {
-                html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass, iconCssClass, 'check', tooltipPlayed, style);
+                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, classes);
             }
         }
     }
 
     const tooltipFavorite = globalize.translate('Favorite');
     if (userData.IsFavorite) {
-        html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData btnUserDataOn', iconCssClass, 'favorite', tooltipFavorite, style);
+        const buttonCssClass = classes.buttonCssClass + ' btnUserData btnUserDataOn';
+        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, {buttonCssClass: buttonCssClass, ...classes});
     } else {
-        html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData', iconCssClass, 'favorite', tooltipFavorite, style);
+        classes.buttonCssClass += ' btnUserData';
+        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, classes);
     }
 
     return html;
