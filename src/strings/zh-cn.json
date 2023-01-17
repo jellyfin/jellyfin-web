@@ -1685,5 +1685,6 @@
     "EnableCardLayout": "显示可视卡盒",
     "MessageNoItemsAvailable": "没有可用的项。",
     "Unreleased": "暂未发布",
-    "DownloadAll": "全部下载"
+    "DownloadAll": "全部下载",
+    "Experimental": "实验功能"
 }
