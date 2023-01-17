@@ -1466,7 +1466,7 @@
     "YoutubeBadRequest": "Mauvaise requête.",
     "LabelSelectStereo": "Stéréo",
     "LabelSelectMono": "Mono",
-    "LabelSelectAudioChannels": "Chaînes",
+    "LabelSelectAudioChannels": "Canaux",
     "LabelAllowedAudioChannels": "Nombre maximal de canaux audio autorisés",
     "LabelOriginalMediaInfo": "Informations sur le média original",
     "AspectRatioFill": "Remplir",
