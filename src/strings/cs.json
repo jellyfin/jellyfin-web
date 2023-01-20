@@ -1686,5 +1686,7 @@
     "MessageNoItemsAvailable": "Momentálně nejsou k dispozici žádné položky.",
     "MessageNoFavoritesAvailable": "Momentálně nejsou k dispozici žádné oblíbené položky.",
     "DownloadAll": "Stáhnout vše",
-    "Experimental": "Experimentální"
+    "Experimental": "Experimentální",
+    "LabelStereoDownmixAlgorithm": "Algoritmus převodu na stereo",
+    "StereoDownmixAlgorithmHelp": "Algoritmus pro převod vícekanálového zvuku na stereo."
 }
