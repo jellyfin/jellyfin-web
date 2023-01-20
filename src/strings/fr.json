@@ -477,7 +477,7 @@
     "LabelDisplayName": "Nom d'affichage :",
     "LabelDisplayOrder": "Ordre d'affichage :",
     "LabelDisplaySpecialsWithinSeasons": "Afficher les épisodes spéciaux avec leur saison de diffusion",
-    "LabelDownMixAudioScale": "Booster l'audio lors du downmix :",
+    "LabelDownMixAudioScale": "Booster l'audio lors du rééchantillonnage :",
     "LabelDownMixAudioScaleHelp": "Augmenter le volume audio quand le nombre de canaux est réduit. Choisir la valeur 1 pour maintenir le volume original.",
     "LabelDownloadLanguages": "Téléchargement des langues :",
     "LabelDropImageHere": "Glisser l'image ici, ou cliquer pour parcourir les fichiers.",
@@ -1686,5 +1686,7 @@
     "MessageNoFavoritesAvailable": "Aucun favori n'est actuellement disponible.",
     "Unreleased": "Pas encore diffusé",
     "DownloadAll": "Tout télécharger",
-    "Experimental": "Expérimental"
+    "Experimental": "Expérimental",
+    "StereoDownmixAlgorithmHelp": "Algorithme utilisé pour rééchantillonner l’audio multicanal en stéréo.",
+    "LabelStereoDownmixAlgorithm": "Algorithme de rééchantillonnage en stéréo :"
 }
