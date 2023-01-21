@@ -24,6 +24,8 @@ import alert from '../../components/alert';
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
         $('#selectStereoDownmixAlgorithm').val(config.DownMixStereoAlgorithm || 'None');
+        page.querySelector('#chkEnableReplayGain').checked = config.EnableReplayGain;
+        page.querySelector('#chkAlwaysEnableAudioTranscoding').checked = config.EnableAlwaysAudioTranscode;
         page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
@@ -117,6 +119,8 @@ import alert from '../../components/alert';
                 config.EnableIntelLowPowerHevcHwEncoder = form.querySelector('#chkIntelLpHevcHwEncoder').checked;
                 config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
                 config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
+                config.EnableReplayGain = form.querySelector('#chkEnableReplayGain').checked;
+                config.EnableAlwaysAudioTranscode = form.querySelector('#chkAlwaysEnableAudioTranscoding').checked;
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
                     updateEncoder(form);
                 }, function () {

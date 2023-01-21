@@ -270,6 +270,22 @@
                     <div class="fieldDescription">${LabelMaxMuxingQueueSizeHelp}</div>
                 </div>
 
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableReplayGain" />
+                        <span>${EnableReplayGain}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${EnableReplayGainHelp}</div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkAlwaysEnableAudioTranscoding" />
+                        <span>${AlwaysEnableAudioTranscoding}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${AlwaysEnableAudioTranscodingHelp}</div>
+                </div>
+
                 <div class="selectContainer">
                     <select is="emby-select" id="selectEncoderPreset" label="${LabelEncoderPreset}">
                         <option value="">${Auto}</option>
