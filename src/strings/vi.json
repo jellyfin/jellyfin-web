@@ -1678,5 +1678,7 @@
     "MessageRenameMediaFolder": "Đổi tên thư viện phương tiện sẽ làm mất mọi dữ liệu mô tả, hãy tiến hành thận trọng.",
     "Unreleased": "Chưa phát hành",
     "Experimental": "Trải nghiệm",
-    "DownloadAll": "Tải Xuống Tất Cả"
+    "DownloadAll": "Tải Xuống Tất Cả",
+    "LabelStereoDownmixAlgorithm": "Thuật Toán Trộn Âm Thanh Nổi",
+    "StereoDownmixAlgorithmHelp": "Thuật toán được sử dụng để trộn âm thanh đa kênh thành âm thanh nổi."
 }
