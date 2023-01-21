@@ -322,7 +322,7 @@
     "LabelOriginalTitle": "Alkuperäinen nimi:",
     "LabelOriginalAspectRatio": "Alkuperäinen kuvasuhde:",
     "LabelEnableAutomaticPortMapHelp": "Ohjaa reitittimesi julkiset portit automaattisesti palvelimesi paikallisiin portteihin UPnP:n avulla. Tämä ei välttämättä toimi kaikkien reitittimien tai verkkoasetusten kanssa. Muutokset tulevat voimaan vasta palvelimen uudelleenkäynnistyksen yhteydessä.",
-    "LabelEnableAutomaticPortMap": "Salli reitittimen porttien automaattinen avaaminen (UPnP)",
+    "LabelEnableAutomaticPortMap": "Käytä automaattista porttikartoitusta",
     "LabelDownloadLanguages": "Ladattavat kielet:",
     "LabelDisplaySpecialsWithinSeasons": "Sisällytä erikoisjaksot tuotantokausiin niiden esitysajan perusteella",
     "LabelDisplayOrder": "Näyttöjärjestys:",
@@ -940,7 +940,7 @@
     "LabelServerNameHelp": "Tätä nimeä käytetään palvelimen tunnistamiseen. Jätä tyhjäksi käyttääksesi palvelinkoneen nimeä.",
     "LabelEnableRealtimeMonitorHelp": "Tiedostomuutokset käsitellään tuetuissa tiedostojärjestelmissä välittömästi.",
     "LabelEnableRealtimeMonitor": "Käytä reaaliaikaista seurantaa",
-    "LabelDropImageHere": "Pudota kuva tähän, tai paina selataksesi.",
+    "LabelDropImageHere": "Pudota kuva tähän tai selaa painamalla.",
     "LabelDroppedFrames": "Pudotettuja kuvia:",
     "LabelDidlMode": "DIDL-tila:",
     "LabelCustomDeviceDisplayNameHelp": "Tätä nimeä käytetään laitteen tunnistamiseen. Jos tyhjä, käytetään laitteen nimeä.",
@@ -1204,8 +1204,8 @@
     "LabelEnableIP4": "Ota IPv4 käyttöön",
     "LabelEnableHttpsHelp": "Kuuntele määritettyä HTTPS-porttia. Toiminto edellyttää myös kelvollisen varmenteen määritystä.",
     "LabelEnableDlnaPlayToHelp": "Havaitse verkossasi olevat laitteet ja tarjoa niiden etähallintaa.",
-    "LabelEmbedAlbumArtDidlHelp": "Jotkin laitteet suosivat tätä menetelmää albumitaiteen noudossa. Joillakin muilla laitteilla toisto saattaa epäonnistua tätä valintaa käytettäessä.",
-    "LabelDropSubtitleHere": "Pudota tekstitys tähän tai napsauta selataksesi.",
+    "LabelEmbedAlbumArtDidlHelp": "Jotkin laitteet suosivat tätä albumitaiteen noutomenetelmää. Joillakin laitteilla toisto voi epäonnistua tätä valintaa käytettäessä.",
+    "LabelDropSubtitleHere": "Pudota tekstitys tähän tai selaa painamalla.",
     "LabelCreateHttpPortMapHelp": "Salli automaattisen porttikartoituksen luoda sääntö HTTP-liikenteelle HTTPS-liikenteen lisäksi.",
     "LabelCreateHttpPortMap": "Ota automaattinen porttikartoitus käyttöön HTTP- ja HTTPS-liikenteelle.",
     "LabelColorTransfer": "Värisiirto:",
@@ -1679,5 +1679,7 @@
     "Unreleased": "Ei vielä julkaistu",
     "MediaInfoDvVersionMajor": "",
     "DownloadAll": "Lataa kaikki",
-    "Experimental": "Kokeellinen"
+    "Experimental": "Kokeellinen",
+    "LabelStereoDownmixAlgorithm": "Stereoäänen alasmiksausalgoritmi:",
+    "StereoDownmixAlgorithmHelp": "Algoritmi, jonka perusteella monikanavaääni alasmiksataan steroääneksi."
 }
