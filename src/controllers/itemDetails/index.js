@@ -789,8 +789,13 @@ function renderDetailImage(elem, item, loader) {
     elem.innerHTML = cardHtml;
     loader.lazyChildren(elem);
 
+    const anchorOrButtonElement = elem.querySelector('a, button');
     // Avoid breaking the design by preventing focus of the poster using the keyboard.
-    elem.querySelector('a, button').tabIndex = -1;
+    anchorOrButtonElement.tabIndex = -1;
+
+    if (!playbackManager.canPlay(item)) {
+        anchorOrButtonElement.style.cursor = 'default';
+    }
 }
 
 function renderImage(page, item) {
