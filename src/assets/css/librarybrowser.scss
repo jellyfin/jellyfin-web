@@ -610,6 +610,11 @@
         }
     }
 
+    .layout-mobile & {
+        padding-left: 5% !important;
+        padding-right: 5% !important;
+    }
+
     [dir="ltr"] & {
         padding-left: 32.45vw;
         padding-right: 2%;
@@ -619,11 +624,6 @@
         padding-right: 32.45vw;
         padding-left: 2%;
     }
-}
-
-.layout-mobile .detailPageContent {
-    padding-left: 5%;
-    padding-right: 5%;
 }
 
 .detailSectionContent a {
@@ -735,6 +735,18 @@
                 margin-top: 0.5em;
             }
         }
+    }
+}
+
+[dir=ltr] .mainDetailButtons {
+    @media all and (max-width: 62.5em) {
+        margin-left: -0.5em;
+    }
+}
+
+[dir=rtl] .mainDetailButtons {
+    @media all and (max-width: 62.5em) {
+        margin-right: -0.5em;
     }
 }
 
@@ -1135,10 +1147,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 @media all and (max-width: 62.5em) {
-    .mainDetailButtons {
-        margin-left: -0.5em;
-    }
-
     .detailButtonHideonMobile {
         display: none !important;
     }
