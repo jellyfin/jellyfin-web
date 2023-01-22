@@ -40,7 +40,7 @@
     "TellUsAboutYourself": "Povej nam nekaj o sebi",
     "ThisWizardWillGuideYou": "Čarovnik vas bo vodil skozi postopek namestitve. Za začetek, izberite jezik.",
     "WelcomeToProject": "Dobrodošli v Jellyfin!",
-    "Absolute": "Absolutno",
+    "Absolute": "Absoluten",
     "AccessRestrictedTryAgainLater": "Dostop je trenutno omejen. Poskusite ponovno kasneje.",
     "Actor": "Igralec",
     "Add": "Dodaj",
@@ -1176,7 +1176,7 @@
     "BoxSet": "Zbirka",
     "TabDirectPlay": "Neposredno predvajanje",
     "TabCodecs": "Kodeki",
-    "OptionRegex": "Regex",
+    "OptionRegex": "Regularni izraz - Regex",
     "OptionProtocolHls": "HTTP pretakanje v živo (HLS)",
     "ThemeSongs": "Glavne pesmi",
     "TabStreaming": "Pretakanje",
@@ -1682,5 +1682,9 @@
     "ReleaseGroup": "Skupina Izdaje",
     "RepeatEpisodes": "Ponovi Epizode",
     "MessageRenameMediaFolder": "Preimenovanje zbirke bo povzročilo izbris metapodatkov, nadaljujte previdno.",
-    "Remixer": "Remixer"
+    "Remixer": "Mešalec",
+    "StereoDownmixAlgorithmHelp": "Algoritem uporabljen za downmix večkanalnega zvoka v stereo.",
+    "Experimental": "Poskusno",
+    "LabelStereoDownmixAlgorithm": "Stereo Downmix algoritem",
+    "DownloadAll": "Prenesi vse"
 }
