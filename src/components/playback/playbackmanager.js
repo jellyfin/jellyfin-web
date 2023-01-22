@@ -11,6 +11,7 @@ import { appHost } from '../apphost';
 import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
+import { includesAny } from '../../utils/container.ts';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1287,6 +1288,7 @@ class PlaybackManager {
                 return false;
             }
 
+            const container = mediaSource.Container.toLowerCase();
             const codec = (mediaStream.Codec || '').toLowerCase();
 
             if (!codec) {
@@ -1295,22 +1297,11 @@ class PlaybackManager {
 
             const profiles = deviceProfile.DirectPlayProfiles || [];
 
-            return profiles.filter(function (p) {
-                if (p.Type === 'Video') {
-                    if (!p.AudioCodec) {
-                        return true;
-                    }
-
-                    // This is an exclusion filter
-                    if (p.AudioCodec.indexOf('-') === 0) {
-                        return p.AudioCodec.toLowerCase().indexOf(codec) === -1;
-                    }
-
-                    return p.AudioCodec.toLowerCase().indexOf(codec) !== -1;
-                }
-
-                return false;
-            }).length > 0;
+            return profiles.some(function (p) {
+                return p.Type === 'Video'
+                    && includesAny((p.Container || '').toLowerCase(), container)
+                    && includesAny((p.AudioCodec || '').toLowerCase(), codec);
+            });
         }
 
         self.setAudioStreamIndex = function (index, player) {
