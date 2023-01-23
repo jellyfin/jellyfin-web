@@ -1616,7 +1616,7 @@
     "AllowVppTonemappingHelp": "Full Intel driver based tone-mapping. Currently works only on certain hardware with HDR10 videos. This has a higher priority compared to another OpenCL implementation.",
     "Controls": "Controls",
     "LabelEnableGamepad": "Enable Gamepad",
-    "EnableGamepadHelp": "Listen for input from any connected controllers.",
+    "EnableGamepadHelp": "Listen for input from any connected controllers. (Requires: 'TV' Display Mode)",
     "AudioCodecNotSupported": "The audio codec is not supported",
     "ContainerNotSupported": "The container is not supported",
     "SubtitleCodecNotSupported": "The subtitle codec is not supported",
