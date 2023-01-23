@@ -1672,5 +1672,10 @@
     "EnableCardLayout": "Mostrar CardBox visual",
     "OptionDateShowAdded": "Fecha en que se añadió el programa",
     "Experimental": "Experimental",
-    "DownloadAll": "Descargar todo"
+    "DownloadAll": "Descargar todo",
+    "RememberSubtitleSelectionsHelp": "Intentar establecer los subtítulos con coincidencia más cercana al último video.",
+    "LabelStereoDownmixAlgorithm": "Algoritmo de mezcla estéreo",
+    "StereoDownmixAlgorithmHelp": "Algoritmo utilizado para mezclar audio multicanal a estéreo.",
+    "LabelVppTonemappingBrightness": "Ganancia de brillo de mapeo de tonos VPP:",
+    "LabelVppTonemappingBrightnessHelp": "Aplicar gananca de brillo en mapeo de tonos VPP. El valor recomendado y por defecto es 0."
 }
