@@ -74,6 +74,7 @@ function init() {
         autoFocuser.enable();
 
         Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
+        Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
     });
 }
 
