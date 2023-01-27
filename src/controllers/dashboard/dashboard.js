@@ -203,8 +203,6 @@ import confirm from '../../components/confirm/confirm';
         apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector('#serverName').innerText = globalize.translate('DashboardServerName', systemInfo.ServerName);
             view.querySelector('#versionNumber').innerText = globalize.translate('DashboardVersionNumber', systemInfo.Version);
-            view.querySelector('#operatingSystem').innerText = globalize.translate('DashboardOperatingSystem', systemInfo.OperatingSystem);
-            view.querySelector('#architecture').innerText = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
 
             if (systemInfo.CanSelfRestart) {
                 view.querySelector('#btnRestartServer').classList.remove('hide');
