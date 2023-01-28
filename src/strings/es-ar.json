@@ -1684,5 +1684,8 @@
     "MessageNoItemsAvailable": "No hay artículos disponibles actualmente.",
     "MessageNoFavoritesAvailable": "No hay favoritos disponibles actualmente.",
     "MessageRenameMediaFolder": "Cambiar el nombre de una biblioteca de medios hará que se pierdan todos los metadatos, proceda con precaución.",
-    "DownloadAll": "Descargar todo"
+    "DownloadAll": "Descargar todo",
+    "Experimental": "Experimental",
+    "LabelStereoDownmixAlgorithm": "Algoritmo de mezcla estéreo",
+    "StereoDownmixAlgorithmHelp": "Algoritmo utilizado para mezclar audio multicanal a estéreo."
 }
