@@ -1096,7 +1096,7 @@
     "TabContainers": "Контейнеры",
     "TabDashboard": "Панель",
     "TabDirectPlay": "Прямое воспроизведение",
-    "TabLatest": "Новые",
+    "TabLatest": "Последние",
     "TabLogs": "Журналы",
     "TabMusic": "Музыка",
     "TabMyPlugins": "Мои плагины",
@@ -1685,5 +1685,8 @@
     "Unreleased": "Ещё не выпущен",
     "OptionDateEpisodeAdded": "Дата добавления эпизода",
     "OptionDateShowAdded": "Дата добавления сериала",
-    "DownloadAll": "Скачать все"
+    "DownloadAll": "Скачать все",
+    "StereoDownmixAlgorithmHelp": "Алгоритм используемый для смешивания многоканального аудио в стерео.",
+    "LabelStereoDownmixAlgorithm": "Алгоритм смешивания стерео",
+    "Experimental": "Экспериментальные"
 }
