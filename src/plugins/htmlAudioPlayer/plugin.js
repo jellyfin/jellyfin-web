@@ -113,6 +113,20 @@ class HtmlAudioPlayer {
                 val += '#t=' + seconds;
             }
 
+            const audioCtx = new AudioContext();
+            const myAudio = document.querySelector('.mediaPlayerAudio');
+
+            const source = audioCtx.createMediaElementSource(myAudio);
+
+            const gainNode = audioCtx.createGain();
+            const dbGain = -1;
+            console.debug(options.item);
+            console.debug("before" + dbGain);
+            gainNode.gain.value = Math.pow(10, (dbGain/20));
+            source.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            console.debug('gain:' + gainNode.gain.value);
+
             htmlMediaHelper.destroyHlsPlayer(self);
 
             self._currentPlayOptions = options;
