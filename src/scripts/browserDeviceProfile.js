@@ -1,6 +1,7 @@
 import appSettings from './settings/appSettings';
 import * as userSettings from './settings/userSettings';
 import browser from './browser';
+import { version } from 'react';
 /* eslint-disable indent */
 
     function canPlayH264(videoTestElement) {
@@ -537,7 +538,7 @@ export function canPlaySecondaryAudio(videoTestElement) {
 
         if (canPlayHevc(videoTestElement, options)) {
             // safari is lying on HDR and 60fps videos, use fMP4 instead
-            if (!browser.safari) {
+            if (!browser.safari || (browser.safari && browser.version >= 13)) {
                 mp4VideoCodecs.push('hevc');
             }
 
