@@ -1,7 +1,6 @@
 import appSettings from './settings/appSettings';
 import * as userSettings from './settings/userSettings';
 import browser from './browser';
-import { version } from 'react';
 /* eslint-disable indent */
 
     function canPlayH264(videoTestElement) {
