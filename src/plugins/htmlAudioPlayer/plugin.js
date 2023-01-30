@@ -97,6 +97,7 @@ class HtmlAudioPlayer {
             self._currentTime = null;
 
             const elem = createMediaElement();
+
             return setCurrentSrc(elem, options);
         };
 
@@ -107,25 +108,21 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
 
+            const dbGain = -18 - options.item.Normalization;
+            console.debug(options.item);
+            self.gainNode.gain.value = Math.pow(10, (dbGain/20));
+
+
+            console.debug('gain:' + self.gainNode.gain.value);
+
+
             // Convert to seconds
             const seconds = (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {
                 val += '#t=' + seconds;
             }
 
-            const audioCtx = new AudioContext();
-            const myAudio = document.querySelector('.mediaPlayerAudio');
 
-            const source = audioCtx.createMediaElementSource(myAudio);
-
-            const gainNode = audioCtx.createGain();
-            const dbGain = -1;
-            console.debug(options.item);
-            console.debug("before" + dbGain);
-            gainNode.gain.value = Math.pow(10, (dbGain/20));
-            source.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            console.debug('gain:' + gainNode.gain.value);
 
             htmlMediaHelper.destroyHlsPlayer(self);
 
@@ -255,7 +252,22 @@ class HtmlAudioPlayer {
 
             self._mediaElement = elem;
 
+            addGainElement(elem);
+
             return elem;
+        }
+
+        function addGainElement(elem) {
+            const audioCtx = new AudioContext();
+
+            const source = audioCtx.createMediaElementSource(elem);
+
+            const gainNode = audioCtx.createGain();
+
+            source.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            self.gainNode = gainNode
         }
 
         function onEnded() {
