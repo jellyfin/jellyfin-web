@@ -1329,7 +1329,7 @@
     "OptionEnableM2tsMode": "Увімкнути режим M2TS",
     "OptionEnableForAllTuners": "Увімкнути для всіх пристроїв тюнера",
     "OptionEnableExternalContentInSuggestionsHelp": "Дозволити включати інтернет-трейлери та телепрограми в прямому ефірі до запропонованого вмісту.",
-    "OptionCaptionInfoExSamsung": "Caption InfoEx (Samsung)",
+    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
     "OptionEnableExternalContentInSuggestions": "Увімкнути зовнішній вміст у пропозиціях",
     "OptionEnableAccessToAllLibraries": "Увімкнути доступ до всіх медіатек",
     "OptionEnableAccessToAllChannels": "Увімкнути доступ до всіх каналів",
@@ -1682,5 +1682,8 @@
     "MessageRenameMediaFolder": "Перейменування медіа-бібліотеки призведе до втрати всіх метаданих, будьте обережні.",
     "EnableCardLayout": "Відобразити візуальний CardBox",
     "MessageNoItemsAvailable": "Немає доступних елементив.",
-    "MessageNoFavoritesAvailable": "Зараз немає доступних улюблених."
+    "MessageNoFavoritesAvailable": "Зараз немає доступних улюблених.",
+    "Experimental": "Експериментальний",
+    "LabelStereoDownmixAlgorithm": "Stereo Downmix алгоритм",
+    "StereoDownmixAlgorithmHelp": "Алгоритм мікшування багатоканального аудіо у стерео."
 }
