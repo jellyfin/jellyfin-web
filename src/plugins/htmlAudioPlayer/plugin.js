@@ -4,6 +4,7 @@ import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import Events from '../../utils/events.ts';
+import { UserSettings } from '../../scripts/settings/userSettings';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -107,11 +108,15 @@ class HtmlAudioPlayer {
 
             let val = options.url;
             console.debug('playing url: ' + val);
-
-            const dbGain = -18 - options.item.Normalization;
-            console.debug(options.item);
-            self.gainNode.gain.value = Math.pow(10, (dbGain/20));
-
+            import('../../scripts/settings/userSettings').then((userSettings)=> {
+                if(userSettings.enableAudioNormalization()){
+                    const dbGain = -18 - options.item.Normalization;
+                    console.debug(options.item);
+                    self.gainNode.gain.value = Math.pow(10, (dbGain/20));
+                } else {
+                    self.gainNode.gain.value = 1;
+                }
+            });
 
             console.debug('gain:' + self.gainNode.gain.value);
 

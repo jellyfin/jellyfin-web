@@ -185,6 +185,7 @@ import template from './playbackSettings.template.html';
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
         context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
+        context.querySelector('.chkEnableAudioNormalization').checked = userSettings.enableAudioNormalization();
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
         context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
         context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
@@ -231,6 +232,8 @@ import template from './playbackSettings.template.html';
         user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
         userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
+        userSettingsInstance.enableAudioNormalization(context.querySelector('.chkEnableAudioNormalization').checked);
+        
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
         user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
