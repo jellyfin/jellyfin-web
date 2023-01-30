@@ -1685,5 +1685,8 @@
     "MessageNoFavoritesAvailable": "Es sind aktuell keine Favoriten verfügbar.",
     "Unreleased": "Noch nicht veröffentlicht",
     "EnableCardLayout": "Visuelle CardBox anzeigen",
-    "DownloadAll": "Alle Herunterladen"
+    "DownloadAll": "Alle Herunterladen",
+    "LabelStereoDownmixAlgorithm": "Stereo Downmix Algorithmus",
+    "StereoDownmixAlgorithmHelp": "Algorithmus um Mehrkanal-Audio zu Stereo-Audio umzuwandeln.",
+    "Experimental": "Experimentell"
 }
