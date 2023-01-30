@@ -1686,5 +1686,6 @@
     "MessageNoFavoritesAvailable": "Ulubione nie są obecnie dostępne.",
     "OptionDateShowAdded": "Data dodania serialu",
     "DownloadAll": "Pobierz wszystko",
-    "Experimental": "Eksperymentalne"
+    "Experimental": "Eksperymentalne",
+    "LabelStereoDownmixAlgorithm": "Algorytm Stereo Downmix"
 }
