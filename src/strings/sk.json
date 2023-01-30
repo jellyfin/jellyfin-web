@@ -1684,5 +1684,9 @@
     "EnableCardLayout": "Zobraziť vizuálny CardBox",
     "MessageNoItemsAvailable": "Momentálne nie sú k dispozícii žiadne položky.",
     "MessageNoFavoritesAvailable": "Momentálne nie sú k dispozícii žiadne obľúbené položky.",
-    "MessageRenameMediaFolder": "Premenovanie knižnice medií zapríčiní stratu všetkých metadát, postupujte s opatrnosťou."
+    "MessageRenameMediaFolder": "Premenovanie knižnice medií zapríčiní stratu všetkých metadát, postupujte s opatrnosťou.",
+    "StereoDownmixAlgorithmHelp": "Algoritmus používaný na prevod viackanálového zvuku na stereo.",
+    "Experimental": "Experimentálne",
+    "DownloadAll": "Stiahnuť všetko",
+    "LabelStereoDownmixAlgorithm": "Algoritmus prevodu na stereo"
 }
