@@ -110,7 +110,7 @@ class HtmlAudioPlayer {
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings)=> {
                 if(userSettings.enableAudioNormalization()){
-                    const dbGain = -18 - options.item.Normalization;
+                    const dbGain = -18 - options.item.LUFS;
                     console.debug(options.item);
                     self.gainNode.gain.value = Math.pow(10, (dbGain/20));
                 } else {
