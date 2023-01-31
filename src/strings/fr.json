@@ -1511,7 +1511,7 @@
     "DirectPlayHelp": "Le fichier source est entièrement compatible avec le client et la session reçoit le fichier sans modifications.",
     "HeaderContinueReading": "Reprendre la lecture",
     "TextSent": "Message envoyé.",
-    "EnableGamepadHelp": "Détecter le signal d'entrée de toute manette connectée.",
+    "EnableGamepadHelp": "Détecter le signal d'entrée de toute manette connectée. (Nécessite le mode d’affichage 'TV'.)",
     "LabelEnableGamepad": "Activer la manette de jeu",
     "Controls": "Contrôles",
     "MessageSent": "Message envoyé.",
