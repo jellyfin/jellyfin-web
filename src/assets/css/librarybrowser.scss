@@ -739,7 +739,7 @@
 .layout-mobile .mainDetailButtons {
     align-items: center;
     justify-content: center;
-    text-align: center !important;
+    text-align: center;
 }
 
 .layout-mobile .mainDetailButtons {
@@ -847,14 +847,6 @@
 .infoText {
     min-width: 0;
     max-width: 100%;
-
-    [dir="ltr"] & {
-        text-align: left;
-    }
-
-    [dir="rtl"] & {
-        text-align: right;
-    }
 }
 
 .detailPageSecondaryContainer {
