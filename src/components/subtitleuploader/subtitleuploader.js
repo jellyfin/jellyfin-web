@@ -1,3 +1,5 @@
+import escapeHtml from 'escape-html';
+
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../ServerConnections';
 import dom from '../../scripts/dom';
@@ -61,7 +63,7 @@ function setFiles(page, files) {
     reader.onload = (function (theFile) {
         return function () {
             // Render file.
-            const html = '<a><span class="material-icons subtitles" aria-hidden="true" style="transform: translateY(25%);"></span><span>' + escape(theFile.name) + '</span><a/>';
+            const html = `<div><span class="material-icons subtitles" aria-hidden="true" style="transform: translateY(25%);"></span><span>${escapeHtml(theFile.name)}</span></div>`;
 
             page.querySelector('#subtitleOutput').innerHTML = html;
             page.querySelector('#fldUpload').classList.remove('hide');
