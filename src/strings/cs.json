@@ -1510,7 +1510,7 @@
     "EnablePlugin": "Povolit",
     "DirectPlayHelp": "Zdrojový soubor je s klientem plně kompatibilní a relaci je tak soubor posílán bez úprav.",
     "HeaderContinueReading": "Pokračovat ve čtení",
-    "EnableGamepadHelp": "Naslouchat vstupu z připojených herních ovladačů.",
+    "EnableGamepadHelp": "Naslouchat vstupu z připojených herních ovladačů. (Vyžaduje 'Režim zobrazení' nastavený na 'TV')",
     "LabelEnableGamepad": "Povolit herní ovladač",
     "Controls": "Ovládání",
     "TextSent": "Text odeslán.",
