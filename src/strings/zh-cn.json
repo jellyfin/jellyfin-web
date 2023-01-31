@@ -1686,5 +1686,7 @@
     "MessageNoItemsAvailable": "没有可用的项。",
     "Unreleased": "暂未发布",
     "DownloadAll": "全部下载",
-    "Experimental": "实验功能"
+    "Experimental": "实验功能",
+    "LabelStereoDownmixAlgorithm": "立体声降混算法",
+    "StereoDownmixAlgorithmHelp": "用于将多声道下降混合为立体声的算法。"
 }
