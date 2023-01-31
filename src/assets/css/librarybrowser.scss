@@ -733,18 +733,6 @@
     }
 }
 
-[dir=ltr] .mainDetailButtons {
-    @media all and (max-width: 62.5em) {
-        margin-left: -0.5em;
-    }
-}
-
-[dir=rtl] .mainDetailButtons {
-    @media all and (max-width: 62.5em) {
-        margin-right: -0.5em;
-    }
-}
-
 .layout-mobile .parentName,
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,
