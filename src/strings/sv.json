@@ -1684,5 +1684,8 @@
     "EnableCardLayout": "Visa visuell CardBox",
     "MessageNoFavoritesAvailable": "Inga favoriter är för närvarande tillgängliga.",
     "MessageRenameMediaFolder": "Vid namnbyte av bibliotek kommer all metadata förloras, fortsätt med försiktighet.",
-    "DownloadAll": "Ladda ned alla"
+    "DownloadAll": "Ladda ned alla",
+    "StereoDownmixAlgorithmHelp": "Algoritm använd för att nedmixa multi-kanalig ljud till stereo.",
+    "Experimental": "Experimentell",
+    "LabelStereoDownmixAlgorithm": "Stereo-nedmixalgoritm"
 }
