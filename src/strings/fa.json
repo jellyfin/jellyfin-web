@@ -1586,5 +1586,9 @@
     "SelectAll": "انتخاب همه",
     "ThemeSong": "آهنگ قالب",
     "Sample": "نمونه",
-    "ThemeVideo": "ویدئوی قالب"
+    "ThemeVideo": "ویدئوی قالب",
+    "IgnoreDts": "نادیده‌گرفتن DTS (decoding timestamp)",
+    "HomeVideosPhotos": "ویدیو ها و تصاویر خانگی",
+    "Experimental": "آزمایشی",
+    "DownloadAll": "دانلود همه"
 }
