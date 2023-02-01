@@ -1306,7 +1306,7 @@
     "LabelSlowResponseEnabled": "Kirjaa lokimerkintä, jos palvelin vastasi liian hitaasti",
     "LabelSkipIfGraphicalSubsPresentHelp": "Tekstitysten säilytys tekstimuodossa mahdollistaa sujuvamman mediatoiston ja vähentää transkoodauksen todennäköisyyttä.",
     "SimultaneousConnectionLimitHelp": "Samanaikaisten suoratoistojen enimmäismäärä. Arvo 0 poistaa rajoituksen käytöstä.",
-    "EnableGamepadHelp": "Kuuntele syötteitä kiinnitetyistä peliohjaimista.",
+    "EnableGamepadHelp": "Seuraa kytkettyjen ohjainten syötteitä (edellytys: TV-näyttötila).",
     "LabelEnableGamepad": "Ota käyttöön peliohjain",
     "Controls": "Ohjaimet",
     "AllowVppTonemappingHelp": "Täysi Intel-ajuriin pohjautuva sävykartoitus. Toimii toistaiseksi vain teittyjen laitteiden ja HDR10-videoiden kanssa. Tämä on muihin OpenCL-toteutuksiin verrattuna ensisijainen.",
