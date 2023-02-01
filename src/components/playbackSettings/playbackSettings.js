@@ -233,8 +233,6 @@ import template from './playbackSettings.template.html';
         userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
         userSettingsInstance.enableAudioNormalization(context.querySelector('.chkEnableAudioNormalization').checked);
-        
-
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
         user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
         user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;

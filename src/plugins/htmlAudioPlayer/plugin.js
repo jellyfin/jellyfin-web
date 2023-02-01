@@ -4,7 +4,6 @@ import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import Events from '../../utils/events.ts';
-import { UserSettings } from '../../scripts/settings/userSettings';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -109,10 +108,9 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings)=> {
-                if(userSettings.enableAudioNormalization()){
+                if (userSettings.enableAudioNormalization()) {
                     const dbGain = -18 - options.item.LUFS;
-                    console.debug(options.item);
-                    self.gainNode.gain.value = Math.pow(10, (dbGain/20));
+                    self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
                 } else {
                     self.gainNode.gain.value = 1;
                 }
@@ -120,14 +118,11 @@ class HtmlAudioPlayer {
 
             console.debug('gain:' + self.gainNode.gain.value);
 
-
             // Convert to seconds
             const seconds = (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {
                 val += '#t=' + seconds;
             }
-
-
 
             htmlMediaHelper.destroyHlsPlayer(self);
 
@@ -272,7 +267,7 @@ class HtmlAudioPlayer {
             source.connect(gainNode);
             gainNode.connect(audioCtx.destination);
 
-            self.gainNode = gainNode
+            self.gainNode = gainNode;
         }
 
         function onEnded() {

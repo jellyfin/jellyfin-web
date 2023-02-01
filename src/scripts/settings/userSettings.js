@@ -162,12 +162,12 @@ export class UserSettings {
      * @return {boolean} 'Enable Audio Normalization' state.
      */
     enableAudioNormalization(val) {
-            if (val !== undefined) {
-                return this.set('enableAudioNormalization', val.toString(), false);
-            }
-
-            return toBoolean(this.get('enableAudioNormalization', false), true);
+        if (val !== undefined) {
+            return this.set('enableAudioNormalization', val.toString(), false);
         }
+
+        return toBoolean(this.get('enableAudioNormalization', false), true);
+    }
 
     /**
      * Get or set 'Next Video Info Overlay' state.
