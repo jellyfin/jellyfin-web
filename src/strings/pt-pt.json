@@ -1558,7 +1558,7 @@
     "SubtitleCodecNotSupported": "Este formato de legendas não é suportado",
     "ContainerNotSupported": "Este contentor não é suportado",
     "AudioCodecNotSupported": "Este codec de áudio não é suportado",
-    "EnableGamepadHelp": "Responder a quaisquer comandos de jogos ligados.",
+    "EnableGamepadHelp": "Responder a quaisquer comandos de jogos ligados. (Requer: Modo de visualização 'TV')",
     "LabelEnableGamepad": "Ativar comandos de jogos",
     "Controls": "Controlos",
     "AllowVppTonemappingHelp": "Tone mapping completo dos drivers da Intel. Vídeos em HDR10 funcionam apenas em certas configurações de hardware. Tem maior prioridade quando comparado a outras implementações OpenCL.",
@@ -1675,5 +1675,7 @@
     "Interview": "Entrevista",
     "DeletedScene": "Cenas removidas",
     "BehindTheScenes": "Nos bastidores",
-    "DownloadAll": "Transferir Todas"
+    "DownloadAll": "Transferir Todas",
+    "MessageNoItemsAvailable": "Nenhum item disponível atualmente.",
+    "MessageNoFavoritesAvailable": "Nenhum favorito disponível atualmente."
 }
