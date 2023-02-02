@@ -590,7 +590,7 @@
     "HeaderContainerProfileHelp": "Les profiles de conteneur indique les formats supporté par un appareille. Si un format n'est pas supporté, le média sera transcodé, même si ce format est configuré pour la lecture directe.",
     "HeaderConfirmRevokeApiKey": "Révoquer la clef d'API",
     "HeaderCodecProfileHelp": "Les profils de codec indiquent les codecs supportés par un appareil. Si un codec n'est pas supporté, le média sera transcodé, même si ce codec est configuré pour la lecture directe.",
-    "HeaderCastAndCrew": "Distribution & équipe",
+    "HeaderCastAndCrew": "Distribution et équipe",
     "HeaderBranding": "Slogan",
     "LabelAudioSampleRate": "Taux d’échantillonnage audio :",
     "LabelAudioLanguagePreference": "Langue audio préférée :",
@@ -1017,5 +1017,8 @@
     "LabelLoginDisclaimerHelp": "Un message qui sera affiché au bas de la page de connexion.",
     "LabelManufacturerUrl": "URL du fabricant :",
     "LabelMaxChromecastBitrate": "Qualité du streaming pour Google Cast :",
-    "LabelMaxParentalRating": "Classification parentale maximale :"
+    "LabelMaxParentalRating": "Classification parentale maximale :",
+    "SpecialFeatures": "Bonus",
+    "Sort": "Trier",
+    "SortByValue": "Trier par"
 }
