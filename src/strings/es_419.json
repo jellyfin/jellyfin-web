@@ -1463,7 +1463,7 @@
     "LabelEnableSSDPTracing": "Habilitar seguimiento SSDP:",
     "LabelEnableIP6Help": "Habilita la funcionalidad IPv6.",
     "LabelEnableIP6": "Habilitar IPv6",
-    "LabelEnableIP4Help": "Habilita la funcionalidad IPv4.",
+    "LabelEnableIP4Help": "Habilitar la funcionalidad IPv4.",
     "LabelEnableIP4": "Habilitar IPv4",
     "LabelDropSubtitleHere": "Suelta el subtitulo aqui, o haz clic para buscar.",
     "LabelCreateHttpPortMapHelp": "Permite la asignación automática de puertos para crear una regla para el tráfico HTTP además del tráfico HTTPS.",
