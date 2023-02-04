@@ -992,5 +992,17 @@
     "EnableAutoCast": "Nustatyti kaip numatytąjį",
     "EnableBlurHash": "Įgalinti neryškias vaizdų rezervuotas vietas",
     "ButtonUseQuickConnect": "Naudoti Quick Connect",
-    "Casual": "Įprastas"
+    "Casual": "Įprastas",
+    "LabelSelectVersionToInstall": "Pasirinkite versiją, kurią norite įdiegti:",
+    "Season": "Sezonas",
+    "ShowAdvancedSettings": "Rodyti išplėstinius nustatymus",
+    "ButtonBackspace": "Atgalinis",
+    "Conductor": "Dirigentas",
+    "LabelSortBy": "Rūšiuoti pagal:",
+    "LabelServerHostHelp": "192.168.1.100:8096 arba https://manoserveris.lt",
+    "LabelServerName": "Serverio pavadinimas:",
+    "LabelSpecialSeasonsDisplayName": "Specialaus sezono rodomas pavadinimas:",
+    "ScanLibrary": "Skenuoti biblioteką",
+    "SaveChanges": "Išsaugoti pakeitimus",
+    "Series": "Serijos"
 }
