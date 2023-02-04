@@ -859,7 +859,7 @@
     "OptionIgnoreTranscodeByteRangeRequestsHelp": "Deze verzoeken worden gehonoreerd, maar zal de byte bereik header worden genegeerd.",
     "OptionImdbRating": "Beoordeling IMDb",
     "OptionLikes": "Leuk",
-    "OptionMissingEpisode": "Ontbrekende Afleveringen",
+    "OptionMissingEpisode": "Ontbrekende afleveringen",
     "OptionNew": "Nieuw…",
     "OptionOnInterval": "Op interval",
     "OptionParentalRating": "Kijkwijzerclassificatie",
