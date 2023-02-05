@@ -1510,7 +1510,7 @@
     "Framerate": "Bildrate",
     "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel, und die Sitzung empfängt die Datei ohne Änderungen.",
     "HeaderContinueReading": "Weiterlesen",
-    "EnableGamepadHelp": "Auf Eingaben aller verbundenen Controller hören.",
+    "EnableGamepadHelp": "Auf Eingaben aller verbundenen Controller hören. (Erfordert: 'TV'-Anzeigemodus)",
     "LabelEnableGamepad": "Gamepad aktivieren",
     "Controls": "Steuerung",
     "TextSent": "Text gesendet.",
