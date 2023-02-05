@@ -99,17 +99,10 @@
             <input is="emby-input" id="inputTextColor" label="${LabelTextColor}" type="color" />
         </div>
 
-        <div class="selectContainer hide">
-            <select is="emby-select" id="selectTextColor" label="${LabelTextColor}">
-                <option value="#ffffff">${White}</option>
-                <option value="#ffff00">${Yellow}</option>
-                <option value="#008000">${Green}</option>
-                <option value="#00ffff">${Cyan}</option>
-                <option value="#0000ff">${Blue}</option>
-                <option value="#ff00ff">${Magenta}</option>
-                <option value="#ff0000">${Red}</option>
-                <option value="#000000">${Black}</option>
-            </select>
+        <div id = "tvSubtiteColorsContainer" class="selectContainer hide">
+            <label>${LabelTextColor}</label>
+            <div id = "subtiteColorsContainer">
+            </div>
         </div>
 
         <div class="selectContainer">
