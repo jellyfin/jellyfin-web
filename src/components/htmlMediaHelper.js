@@ -147,7 +147,6 @@ import { Events } from 'jellyfin-apiclient';
             if (element.duration >= seconds) {
                 // media is ready, seek immediately
                 setCurrentTimeIfNeeded(element, seconds);
-                if (onMediaReady) onMediaReady();
             } else {
                 // update video player position when media is ready to be sought
                 const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
@@ -160,9 +159,29 @@ import { Events } from 'jellyfin-apiclient';
                         console.debug(`seeking to ${seconds} on ${e.type} event`);
                         setCurrentTimeIfNeeded(element, seconds);
                         events.forEach(name => element.removeEventListener(name, onMediaChange));
-                        if (onMediaReady) onMediaReady();
                     }
                 };
+                events.forEach(name => element.addEventListener(name, onMediaChange));
+            }
+        }
+
+        if (onMediaReady) {
+            // In mobile Chrome `readyState` is unreliable.
+            // It can change from `HAVE_ENOUGH_DATA` (4) at startup to `HAVE_METADATA` (1) at `durationchange` event.
+            // So wait for the valid `videoWidth`.
+
+            if (element.videoWidth > 0) {
+                onMediaReady();
+            } else {
+                const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
+
+                const onMediaChange = () => {
+                    if (element.videoWidth > 0) {
+                        events.forEach(name => element.removeEventListener(name, onMediaChange));
+                        onMediaReady();
+                    }
+                };
+
                 events.forEach(name => element.addEventListener(name, onMediaChange));
             }
         }
