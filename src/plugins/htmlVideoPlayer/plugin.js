@@ -1417,7 +1417,7 @@ export class HtmlVideoPlayer {
                         onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset),
 
                 // new octopus options; override all, even defaults
                 renderMode: 'wasm-blend',
