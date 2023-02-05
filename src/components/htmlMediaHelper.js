@@ -151,14 +151,17 @@ import { Events } from 'jellyfin-apiclient';
                 // update video player position when media is ready to be sought
                 const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
                 const onMediaChange = function(e) {
-                    if (element.currentTime === 0 && element.duration >= seconds) {
-                        // seek only when video position is exactly zero,
-                        // as this is true only if video hasn't started yet or
-                        // user rewound to the very beginning
-                        // (but rewinding cannot happen as the first event with media of non-empty duration)
-                        console.debug(`seeking to ${seconds} on ${e.type} event`);
-                        setCurrentTimeIfNeeded(element, seconds);
+                    if (element.duration >= seconds) {
                         events.forEach(name => element.removeEventListener(name, onMediaChange));
+
+                        if (element.currentTime === 0) {
+                            // seek only when video position is exactly zero,
+                            // as this is true only if video hasn't started yet or
+                            // user rewound to the very beginning
+                            // (but rewinding cannot happen as the first event with media of non-empty duration)
+                            console.debug(`seeking to ${seconds} on ${e.type} event`);
+                            setCurrentTimeIfNeeded(element, seconds);
+                        }
                     }
                 };
                 events.forEach(name => element.addEventListener(name, onMediaChange));
