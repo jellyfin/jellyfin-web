@@ -1096,7 +1096,7 @@ function tryRemoveElement(elem) {
                         onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
                     }, 0);
                 },
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset,
 
                 // new octopus options; override all, even defaults
                 renderMode: 'wasm-blend',
