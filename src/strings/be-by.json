@@ -35,11 +35,13 @@
     "Photos": "Фатаграфіі",
     "Songs": "Песні",
     "Channels": "Каналы",
-    "Collections": "Калекцыя",
+    "Collections": "Калекцыі",
     "Default": "Па змаўчанні",
     "Favorites": "Любімыя",
     "HeaderContinueWatching": "Працягнуць прагляд",
     "Albums": "Альбомы",
     "MusicVideos": "Музычныя кліпы",
-    "HeaderAlbumArtists": "Выканаўцы альбома"
+    "HeaderAlbumArtists": "Выканаўцы альбома",
+    "Books": "Кнігі",
+    "Artists": "Артысты"
 }
