@@ -1037,5 +1037,15 @@
     "Unmute": "Išjungti nutildymą",
     "ValueTimeLimitSingleHour": "Laiko limitas: 1 valanda",
     "Logo": "Logotipas",
-    "LearnHowYouCanContribute": "Sužinokite, kaip galite prisidėti."
+    "LearnHowYouCanContribute": "Sužinokite, kaip galite prisidėti.",
+    "MetadataManager": "Metaduomenų tvarkyklė",
+    "UninstallPluginConfirmation": "Ar tikrai norite pašalinti {0}?",
+    "MessageDeleteTaskTrigger": "Ar tikrai norite ištrinti šią užduoties paleidiklį?",
+    "LabelKodiMetadataDateFormat": "Išleidimo datos formatas:",
+    "MessageConfirmRevokeApiKey": "Ar tikrai norite atšaukti šį API raktą? Aplikacijos ryšys su šiuo serveriu bus staiga nutrauktas.",
+    "MessageNoPluginConfiguration": "Šis įskiepis neturi nustatymų, kuriuos būtų galima nustatyti.",
+    "Metadata": "Metaduomenys",
+    "OptionSaveMetadataAsHidden": "Išsaugoti metaduomenis ir vaizdus kaip paslėptus failus",
+    "PinCodeResetConfirmation": "Ar tikrai norite iš naujo nustatyti \"Easy PIN\" kodą?",
+    "LabelScreensaver": "Ekrano užsklanda:"
 }
