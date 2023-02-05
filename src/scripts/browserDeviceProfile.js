@@ -752,7 +752,8 @@ export function canPlaySecondaryAudio(videoTestElement) {
                 VideoCodec: mp4VideoCodecs.join(','),
                 Context: 'Streaming',
                 Protocol: 'http',
-                MaxAudioChannels: physicalAudioChannels.toString()
+                MaxAudioChannels: physicalAudioChannels.toString(),
+                CopyTimestamps: true
             });
         }
 
