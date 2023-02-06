@@ -47,18 +47,18 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         settingsHelper.populateLanguages(selectSubtitleLanguage, allCultures);
 
         // 140 Web safe colors from https://www.w3schools.com/colors/colors_names.asp
-        const colors = ['000000', '000080', '00008B', '0000CD', '0000FF', '006400', '008000', '008080', '008B8B', '00BFFF', '00CED1',
-            '00FA9A', '00FF00', '00FF7F', '00FFFF', '191970', '1E90FF', '20B2AA', '228B22', '2E8B57', '2F4F4F', '32CD32', '3CB371',
-            '40E0D0', '4169E1', '4682B4', '483D8B', '48D1CC', '4B0082', '556B2F', '5F9EA0', '6495ED', '663399', '66CDAA', '696969',
-            '6A5ACD', '6B8E23', '708090', '778899', '7B68EE', '7CFC00', '7FFF00', '7FFFD4', '800000', '800080', '808000', '808080',
-            '87CEEB', '87CEFA', '8A2BE2', '8B0000', '8B008B', '8B4513', '8FBC8F', '90EE90', '9370DB', '9400D3', '98FB98', '9932CC',
-            '9ACD32', 'A0522D', 'A52A2A', 'A9A9A9', 'ADD8E6', 'ADFF2F', 'AFEEEE', 'B0C4DE', 'B0E0E6', 'B22222', 'B8860B', 'BA55D3',
-            'BC8F8F', 'BDB76B', 'C0C0C0', 'C71585', 'CD5C5C', 'CD853F', 'D2691E', 'D2B48C', 'D3D3D3', 'D8BFD8', 'DA70D6', 'DAA520',
-            'DB7093', 'DC143C', 'DCDCDC', 'DDA0DD', 'DEB887', 'E0FFFF', 'E6E6FA', 'E9967A', 'EE82EE', 'EEE8AA', 'F08080', 'F0E68C',
-            'F0F8FF', 'F0FFF0', 'F0FFFF', 'F4A460', 'F5DEB3', 'F5F5DC', 'F5F5F5', 'F5FFFA', 'F8F8FF', 'FA8072', 'FAEBD7', 'FAF0E6',
-            'FAFAD2', 'FDF5E6', 'FF0000', 'FF00FF', 'FF1493', 'FF4500', 'FF6347', 'FF69B4', 'FF7F50', 'FF8C00', 'FFA07A', 'FFA500',
-            'FFB6C1', 'FFC0CB', 'FFD700', 'FFDAB9', 'FFDEAD', 'FFE4B5', 'FFE4C4', 'FFE4E1', 'FFEBCD', 'FFEFD5', 'FFF0F5', 'FFF5EE',
-            'FFF8DC', 'FFFACD', 'FFFAF0', 'FFFAFA', 'FFFF00', 'FFFFE0', 'FFFFF0', 'FFFFFF'];
+        const colors = ['000000', '000080', '00008b', '0000cd', '0000ff', '006400', '008000', '008080', '008b8b', '00bfff', '00ced1',
+            '00fa9a', '00ff00', '00ff7f', '00ffff', '191970', '1e90ff', '20b2aa', '228b22', '2e8b57', '2f4f4f', '32cd32', '3cb371',
+            '40e0d0', '4169e1', '4682b4', '483d8b', '48d1cc', '4b0082', '556b2f', '5f9ea0', '6495ed', '663399', '66cdaa', '696969',
+            '6a5acd', '6b8e23', '708090', '778899', '7b68ee', '7cfc00', '7fff00', '7fffd4', '800000', '800080', '808000', '808080',
+            '87ceeb', '87cefa', '8a2be2', '8b0000', '8b008b', '8b4513', '8fbc8f', '90ee90', '9370db', '9400d3', '98fb98', '9932cc',
+            '9acd32', 'a0522d', 'a52a2a', 'a9a9a9', 'add8e6', 'adff2f', 'afeeee', 'b0c4de', 'b0e0e6', 'b22222', 'b8860b', 'ba55d3',
+            'bc8f8f', 'bdb76b', 'c0c0c0', 'c71585', 'cd5c5c', 'cd853f', 'd2691e', 'd2b48c', 'd3d3d3', 'd8bfd8', 'da70d6', 'daa520',
+            'db7093', 'dc143c', 'dcdcdc', 'dda0dd', 'deb887', 'e0ffff', 'e6e6fa', 'e9967a', 'ee82ee', 'eee8aa', 'f08080', 'f0e68c',
+            'f0f8ff', 'f0fff0', 'f0ffff', 'f4a460', 'f5deb3', 'f5f5dc', 'f5f5f5', 'f5fffa', 'f8f8ff', 'fa8072', 'faebd7', 'faf0e6',
+            'fafad2', 'fdf5e6', 'ff0000', 'ff00ff', 'ff1493', 'ff4500', 'ff6347', 'ff69b4', 'ff7f50', 'ff8c00', 'ffa07a', 'ffa500',
+            'ffb6c1', 'ffc0cb', 'ffd700', 'ffdab9', 'ffdead', 'ffe4b5', 'ffe4c4', 'ffe4e1', 'ffebcd', 'ffefd5', 'fff0f5', 'fff5ee',
+            'fff8dc', 'fffacd', 'fffaf0', 'fffafa', 'ffff00', 'ffffe0', 'fffff0', 'ffffff'];
         let colorsHtml = '';
         colors.forEach(color => {
             colorsHtml += `<input type="radio" name="subcolor" id="subcolor_${color}" value="#${color}" />\n`
