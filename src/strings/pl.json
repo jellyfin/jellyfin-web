@@ -1510,7 +1510,7 @@
     "EnablePlugin": "Włącz",
     "DirectPlayHelp": "Plik źródłowy jest całkowicie zgodny z tym klientem, a sesja otrzymuje plik bez modyfikacji.",
     "HeaderContinueReading": "Kontynuuj czytanie",
-    "EnableGamepadHelp": "Nasłuchuj sygnałów z każdego z podpiętych kontrolerów.",
+    "EnableGamepadHelp": "Nasłuchuj sygnałów z każdego z podpiętych kontrolerów. (Wymagane: tryb wyświetlania \"TV\")",
     "LabelEnableGamepad": "Włącz obsługę kontrolera do gier",
     "Controls": "Sterowanie",
     "MessageSent": "Wiadomość została wysłana.",
@@ -1687,5 +1687,6 @@
     "OptionDateShowAdded": "Data dodania serialu",
     "DownloadAll": "Pobierz wszystko",
     "Experimental": "Eksperymentalne",
-    "LabelStereoDownmixAlgorithm": "Algorytm Stereo Downmix"
+    "LabelStereoDownmixAlgorithm": "Algorytm Stereo Downmix",
+    "StereoDownmixAlgorithmHelp": "Algorytm używany do miksowania wielokanałowego dźwięku do stereo."
 }
