@@ -34,14 +34,22 @@
 }
 
 input[name=subcolor] {
-    display: none;
+    /* We really want "display: none", for focusing purposes we need something
+       rather more complex, so the focusManager doesn't skip over it. */
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    appearance: none;
+    border: none;
 }
 
 input[name=subcolor]+label {
     border: 3px solid #99999922;
 }
 
-input[name=subcolor]:checked+label {
+input[name=subcolor]:checked + label {
     border: 3px solid #00a4dc;
 }
 
@@ -53,6 +61,7 @@ input[name=subcolor]:checked+label {
     transition: transform 0.2s ease-in-out;
 }
 
+input[name=subcolor]:focus + label,
 .sublabel:hover {
     transform: scale(1.35);
 }
