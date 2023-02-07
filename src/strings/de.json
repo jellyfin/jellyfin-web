@@ -1510,7 +1510,7 @@
     "Framerate": "Bildrate",
     "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel, und die Sitzung empfängt die Datei ohne Änderungen.",
     "HeaderContinueReading": "Weiterlesen",
-    "EnableGamepadHelp": "Auf Eingaben aller verbundenen Controller hören.",
+    "EnableGamepadHelp": "Auf Eingaben aller verbundenen Controller hören. (Erfordert: 'TV'-Anzeigemodus)",
     "LabelEnableGamepad": "Gamepad aktivieren",
     "Controls": "Steuerung",
     "TextSent": "Text gesendet.",
@@ -1684,5 +1684,9 @@
     "MessageNoItemsAvailable": "Es sind aktuell keine Einträge verfügbar.",
     "MessageNoFavoritesAvailable": "Es sind aktuell keine Favoriten verfügbar.",
     "Unreleased": "Noch nicht veröffentlicht",
-    "EnableCardLayout": "Visuelle CardBox anzeigen"
+    "EnableCardLayout": "Visuelle CardBox anzeigen",
+    "DownloadAll": "Alle Herunterladen",
+    "LabelStereoDownmixAlgorithm": "Stereo Downmix Algorithmus",
+    "StereoDownmixAlgorithmHelp": "Algorithmus um Mehrkanal-Audio zu Stereo-Audio umzuwandeln.",
+    "Experimental": "Experimentell"
 }

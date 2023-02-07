@@ -15,7 +15,8 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
     const limit = userSettings.libraryPageSize(undefined);
     const totalRecordCount = itemsResult.TotalRecordCount || 0;
     const startIndex = viewQuerySettings.StartIndex || 0;
-    const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
+    const recordsStart = totalRecordCount ? startIndex + 1 : 0;
+    const recordsEnd = limit ? Math.min(startIndex + limit, totalRecordCount) : totalRecordCount;
     const showControls = limit > 0 && limit < totalRecordCount;
     const element = useRef<HTMLDivElement>(null);
 
@@ -69,25 +70,25 @@ const Pagination: FC<PaginationProps> = ({ viewQuerySettings, setViewQuerySettin
     return (
         <div ref={element}>
             <div className='paging'>
-                {showControls && (
-                    <div className='listPaging' style={{ display: 'flex', alignItems: 'center' }}>
-
-                        <span>
-                            {globalize.translate('ListPaging', (totalRecordCount ? startIndex + 1 : 0), recordsEnd, totalRecordCount)}
-                        </span>
-
-                        <IconButtonElement
-                            is='paper-icon-button-light'
-                            className='btnPreviousPage autoSize'
-                            icon='material-icons arrow_back'
-                        />
-                        <IconButtonElement
-                            is='paper-icon-button-light'
-                            className='btnNextPage autoSize'
-                            icon='material-icons arrow_forward'
-                        />
-                    </div>
-                )}
+                <div className='listPaging' style={{ display: 'flex', alignItems: 'center' }}>
+                    <span>
+                        {globalize.translate('ListPaging', recordsStart, recordsEnd, totalRecordCount)}
+                    </span>
+                    {showControls && (
+                        <>
+                            <IconButtonElement
+                                is='paper-icon-button-light'
+                                className='btnPreviousPage autoSize'
+                                icon='material-icons arrow_back'
+                            />
+                            <IconButtonElement
+                                is='paper-icon-button-light'
+                                className='btnNextPage autoSize'
+                                icon='material-icons arrow_forward'
+                            />
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

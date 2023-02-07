@@ -1512,7 +1512,7 @@
     "DirectPlayHelp": "源文件与此客户端完全兼容，会话正在接收文件而未做任何修改。",
     "Framerate": "帧率",
     "HeaderContinueReading": "继续阅读",
-    "EnableGamepadHelp": "监听来自任何连接的控制器输入。",
+    "EnableGamepadHelp": "监听来自任何连接的控制器的输入。（需开启“电视”模式）",
     "LabelEnableGamepad": "启用游戏手柄",
     "Controls": "操控",
     "TextSent": "文本已发送。",
@@ -1681,8 +1681,12 @@
     "OptionDateShowAdded": "节目添加日期",
     "OptionDateEpisodeAdded": "剧集添加日期",
     "MessageRenameMediaFolder": "请注意: 重命名一个媒体库将会导致所有的元数据丢失.",
-    "MessageNoFavoritesAvailable": "没有可用的收藏",
+    "MessageNoFavoritesAvailable": "没有可用的收藏。",
     "EnableCardLayout": "显示可视卡盒",
-    "MessageNoItemsAvailable": "没有可用的项",
-    "Unreleased": "暂未发布"
+    "MessageNoItemsAvailable": "没有可用的项。",
+    "Unreleased": "暂未发布",
+    "DownloadAll": "全部下载",
+    "Experimental": "实验功能",
+    "LabelStereoDownmixAlgorithm": "立体声降混算法",
+    "StereoDownmixAlgorithmHelp": "用于将多声道下降混合为立体声的算法。"
 }

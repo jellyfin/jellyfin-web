@@ -255,7 +255,7 @@
     "HeaderContinueWatching": "Xem Tiếp",
     "HeaderContinueListening": "Tiếp Tục Nghe",
     "HeaderCodecProfileHelp": "Hồ sơ mã hóa chỉ ra những kiểu mã hoá nhất định mà một thiết bị có thể phát. Nếu một nội dung không thể phát, nó sẽ được chuyển mã, thậm chí nếu kiểu mã hoá đó được cấu hình để phát lại trực tiếp.",
-    "HeaderContainerProfileHelp": "Hồ sơ định dạng chỉ ra những định dạng nhất định mà một thiết bị có thể phát. Nếu nội dung có định dạng không thể phát, nội dung sẽ được chuyển đổi định dạng, kể cả khi định dạng đó được cấu hình để phát lại trực tiếp.",
+    "HeaderContainerProfileHelp": "Cấu hình vùng chứa cho biết các giới hạn của thiết bị khi phát các định dạng cụ thể. Nếu giới hạn được áp dụng thì phương tiện sẽ được chuyển mã, ngay cả khi định dạng được định cấu hình để phát lại trực tiếp.",
     "HeaderContainerProfile": "Hồ Sơ Định Dạng",
     "HeaderConnectionFailure": "Kế Nối Thất Bại",
     "HeaderConnectToServer": "Kết Nối Đến Máy Chủ",
@@ -1676,5 +1676,9 @@
     "MessageNoItemsAvailable": "Không có mục nào hiện có sẵn.",
     "MessageNoFavoritesAvailable": "Không có mục yêu thích hiện có sẵn.",
     "MessageRenameMediaFolder": "Đổi tên thư viện phương tiện sẽ làm mất mọi dữ liệu mô tả, hãy tiến hành thận trọng.",
-    "Unreleased": "Chưa phát hành"
+    "Unreleased": "Chưa phát hành",
+    "Experimental": "Trải nghiệm",
+    "DownloadAll": "Tải Xuống Tất Cả",
+    "LabelStereoDownmixAlgorithm": "Thuật Toán Trộn Âm Thanh Nổi",
+    "StereoDownmixAlgorithmHelp": "Thuật toán được sử dụng để trộn âm thanh đa kênh thành âm thanh nổi."
 }

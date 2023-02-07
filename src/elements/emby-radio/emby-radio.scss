@@ -23,9 +23,6 @@
     margin: 0;
     padding: 0;
     opacity: 0;
-    -ms-appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     appearance: none;
     border: none;
 }
@@ -77,16 +74,12 @@
 
 .mdl-radio__inner-circle {
     transition-duration: 0.2s;
-    transition-property: -webkit-transform;
     transition-property: transform;
-    transition-property: transform, -webkit-transform;
-    -webkit-transform: scale(0);
     transform: scale(0);
     transform-origin: 50% 50%;
 }
 
 .mdl-radio__button:checked + .mdl-radio__circles .mdl-radio__inner-circle {
-    -webkit-transform: scale(1);
     transform: scale(1);
 }
 
@@ -110,15 +103,11 @@
     background: #00a4dc;
     opacity: 0.26;
     transition-duration: 0.2s;
-    transition-property: -webkit-transform;
     transition-property: transform;
-    transition-property: transform, -webkit-transform;
-    -webkit-transform: scale(0);
     transform: scale(0);
 }
 
 .mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__focus-circle {
-    -webkit-transform: scale(1.75);
     transform: scale(1.75);
 }
 

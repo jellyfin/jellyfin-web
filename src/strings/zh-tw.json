@@ -1683,5 +1683,9 @@
     "MediaInfoRpuPresentFlag": "杜比視界 rpu 存在標記",
     "MediaInfoElPresentFlag": "杜比視界 el 存在標記",
     "MediaInfoBlPresentFlag": "杜比視界 bl 存在標記",
-    "MediaInfoDvBlSignalCompatibilityId": "杜比視界 bl 訊號相容性 id"
+    "MediaInfoDvBlSignalCompatibilityId": "杜比視界 bl 訊號相容性 id",
+    "LabelStereoDownmixAlgorithm": "立體聲混縮算法 (Stereo Downmix Algorithm)",
+    "StereoDownmixAlgorithmHelp": "會將多聲道的音訊混縮為雙聲道的演算法。",
+    "DownloadAll": "下載全部",
+    "Experimental": "實驗性"
 }

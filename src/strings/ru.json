@@ -1096,7 +1096,7 @@
     "TabContainers": "Контейнеры",
     "TabDashboard": "Панель",
     "TabDirectPlay": "Прямое воспроизведение",
-    "TabLatest": "Новые",
+    "TabLatest": "Последние",
     "TabLogs": "Журналы",
     "TabMusic": "Музыка",
     "TabMyPlugins": "Мои плагины",
@@ -1327,7 +1327,7 @@
     "ShowLess": "Показать меньше",
     "EnableBlurHashHelp": "Рисунки, которые всё ещё загружаются, будут отображаться с уникальным заполнением.",
     "EnableBlurHash": "Включить размытые заполнители для изображений",
-    "ButtonSyncPlay": "SyncPlay",
+    "ButtonSyncPlay": "Совместный просмотр",
     "ButtonCast": "Трансляция на устройство",
     "TabRepositories": "Репозитории",
     "MessageNoGenresAvailable": "Включаются какие-либо поставщики метаданных для получения жанров из интернета.",
@@ -1513,7 +1513,7 @@
     "Framerate": "Ч-та кадров",
     "DirectPlayHelp": "Исходный файл полностью совместим с этим клиентом, а сеанс получает файл без изменений.",
     "HeaderContinueReading": "Продолжение чтения",
-    "EnableGamepadHelp": "Слушать ввод от любых подключенных контроллеров.",
+    "EnableGamepadHelp": "Слушать ввод от любых подключенных контроллеров. (Необходим режим отображения \"TV\")",
     "LabelEnableGamepad": "Включить Gamepad",
     "Controls": "Управление",
     "TextSent": "Текст отправлен.",
@@ -1684,5 +1684,9 @@
     "MessageRenameMediaFolder": "Переименование медиатеки приведет к потере всех метаданных, действуйте с осторожностью.",
     "Unreleased": "Ещё не выпущен",
     "OptionDateEpisodeAdded": "Дата добавления эпизода",
-    "OptionDateShowAdded": "Дата добавления сериала"
+    "OptionDateShowAdded": "Дата добавления сериала",
+    "DownloadAll": "Скачать все",
+    "StereoDownmixAlgorithmHelp": "Алгоритм используемый для смешивания многоканального аудио в стерео.",
+    "LabelStereoDownmixAlgorithm": "Алгоритм смешивания стерео",
+    "Experimental": "Экспериментальные"
 }

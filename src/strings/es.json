@@ -1635,7 +1635,7 @@
     "Scene": "Escena",
     "Interview": "Entrevista",
     "DeletedScene": "Escena eliminada",
-    "BehindTheScenes": "Detrás de las cámaras",
+    "BehindTheScenes": "Detrás de cámaras",
     "Trailer": "Trailer",
     "Clip": "Mediometraje",
     "SelectAll": "Seleccionar todo",
@@ -1668,6 +1668,14 @@
     "IgnoreDtsHelp": "Deshabilitar esta opción puede resolver algunos problemas, por ejemplo: pérdida del audio en canales con distintas pistas de audio y video.",
     "MessageNoFavoritesAvailable": "No hay favoritos disponibles.",
     "MessageRenameMediaFolder": "Renombrar una biblioteca resultará en la pérdida de metadatos, proceda con precaución.",
-    "OptionDateEpisodeAdded": "Fecha de la adición del episodio",
-    "EnableCardLayout": "Mostrar CardBox visual"
+    "OptionDateEpisodeAdded": "Fecha en que se añadió el episodio",
+    "EnableCardLayout": "Mostrar CardBox visual",
+    "OptionDateShowAdded": "Fecha en que se añadió el programa",
+    "Experimental": "Experimental",
+    "DownloadAll": "Descargar todo",
+    "RememberSubtitleSelectionsHelp": "Intentar establecer los subtítulos con coincidencia más cercana al último video.",
+    "LabelStereoDownmixAlgorithm": "Algoritmo de mezcla estéreo",
+    "StereoDownmixAlgorithmHelp": "Algoritmo utilizado para mezclar audio multicanal a estéreo.",
+    "LabelVppTonemappingBrightness": "Ganancia de brillo de mapeo de tonos VPP:",
+    "LabelVppTonemappingBrightnessHelp": "Aplicar gananca de brillo en mapeo de tonos VPP. El valor recomendado y por defecto es 0."
 }

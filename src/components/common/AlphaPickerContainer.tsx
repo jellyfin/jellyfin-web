@@ -17,9 +17,15 @@ const AlphaPickerContainer: FC<AlphaPickerContainerProps> = ({ viewQuerySettings
         const newValue = (e as CustomEvent).detail.value;
         let updatedValue: React.SetStateAction<ViewQuerySettings>;
         if (newValue === '#') {
-            updatedValue = {NameLessThan: 'A'};
+            updatedValue = {
+                NameLessThan: 'A',
+                NameStartsWith: undefined
+            };
         } else {
-            updatedValue = {NameStartsWith: newValue};
+            updatedValue = {
+                NameLessThan: undefined,
+                NameStartsWith: newValue
+            };
         }
         setViewQuerySettings((prevState) => ({
             ...prevState,
