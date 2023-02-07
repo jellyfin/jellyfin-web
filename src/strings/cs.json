@@ -1688,5 +1688,10 @@
     "DownloadAll": "Stáhnout vše",
     "Experimental": "Experimentální",
     "LabelStereoDownmixAlgorithm": "Algoritmus převodu na stereo",
-    "StereoDownmixAlgorithmHelp": "Algoritmus pro převod vícekanálového zvuku na stereo."
+    "StereoDownmixAlgorithmHelp": "Algoritmus pro převod vícekanálového zvuku na stereo.",
+    "HeaderRecordingMetadataSaving": "Metadata nahrávky",
+    "SaveRecordingNFO": "Uložit metadata elektronického programového průvodce nahrávky do souboru NFO",
+    "SaveRecordingNFOHelp": "Uložit metadata položek elektronického programového průvodce spolu s médii.",
+    "SaveRecordingImages": "Uložit obrázky elektronického programového průvodce nahrávky",
+    "SaveRecordingImagesHelp": "Uložit obrázky elektronického programového průvodce nahrávky spolu s médii."
 }
