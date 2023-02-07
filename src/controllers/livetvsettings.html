@@ -92,6 +92,25 @@
                         <div class="fieldDescription">${LabelPostProcessorArgumentsHelp}</div>
                     </div>
                 </div>
+                <div class="verticalSection">
+                    <h2 class="sectionTitle">${HeaderRecordingMetadataSaving}</h2>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkSaveRecordingNFO" />
+                            <span>${SaveRecordingNFO}</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">${SaveRecordingNFOHelp}</div>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkSaveRecordingImages" />
+                            <span>${SaveRecordingImages}</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">${SaveRecordingImagesHelp}</div>
+                    </div>
+                </div>
                 <br />
                 <div>
                     <button is="emby-button" type="submit" class="raised button-submit block"><span>${Save}</span></button>
