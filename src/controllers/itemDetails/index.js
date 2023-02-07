@@ -1046,7 +1046,7 @@ function renderStudio(page, item, context) {
     }).join(', ');
 
     const studiosLabel = page.querySelector('.studiosLabel');
-    studiosLabel.innerHTML = globalize.translate(studios.length > 1 ? 'Studios' : 'Studio');
+    studiosLabel.innerText = globalize.translate(studios.length > 1 ? 'Studios' : 'Studio');
     const studiosValue = page.querySelector('.studios');
     studiosValue.innerHTML = html;
 
