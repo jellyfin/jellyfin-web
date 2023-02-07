@@ -1688,5 +1688,6 @@
     "DownloadAll": "全部下载",
     "Experimental": "实验功能",
     "LabelStereoDownmixAlgorithm": "立体声降混算法",
-    "StereoDownmixAlgorithmHelp": "用于将多声道下降混合为立体声的算法。"
+    "StereoDownmixAlgorithmHelp": "用于将多声道下降混合为立体声的算法。",
+    "HeaderRecordingMetadataSaving": "记录元数据"
 }
