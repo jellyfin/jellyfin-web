@@ -96,7 +96,7 @@ function getContextMenuOptions(item, user, button) {
     };
 }
 
-function getProgramScheduleHtml(items, action) {
+function getProgramScheduleHtml(items, action = 'none') {
     return listView.getListViewHtml({
         items: items,
         enableUserDataButtons: false,
@@ -106,7 +106,7 @@ function getProgramScheduleHtml(items, action) {
         showChannel: false,
         mediaInfo: true,
         runtime: false,
-        action: action,
+        action,
         moreButton: false,
         recordButton: false
     });
@@ -126,7 +126,7 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
             result.Items = [];
         }
 
-        const html = getProgramScheduleHtml(result.Items, 'none');
+        const html = getProgramScheduleHtml(result.Items);
         const scheduleTab = page.querySelector('#seriesTimerSchedule');
         scheduleTab.innerHTML = html;
         imageLoader.lazyChildren(scheduleTab);

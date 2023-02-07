@@ -320,3 +320,13 @@
 .listItemCheckboxContainer {
     width: auto !important;
 }
+
+.listItemMediaInfo + .timerIndicator {
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
+}
