@@ -1688,5 +1688,10 @@
     "DownloadAll": "Tout télécharger",
     "Experimental": "Expérimental",
     "StereoDownmixAlgorithmHelp": "Algorithme utilisé pour rééchantillonner l’audio multicanal en stéréo.",
-    "LabelStereoDownmixAlgorithm": "Algorithme de rééchantillonnage en stéréo :"
+    "LabelStereoDownmixAlgorithm": "Algorithme de rééchantillonnage en stéréo :",
+    "SaveRecordingNFOHelp": "Inclure les métadonnées du fournisseur de listes EPG dans l'enregistrement.",
+    "SaveRecordingImagesHelp": "Inclure les images des métadonnées du fournisseur de listes EPG dans l'enregistrement.",
+    "HeaderRecordingMetadataSaving": "Enregistrement des métadonnées",
+    "SaveRecordingNFO": "Enregistrer les métadonnées du fournisseur dans le fichier NFO",
+    "SaveRecordingImages": "Enregistrer les images des métadonnées du fournisseur"
 }
