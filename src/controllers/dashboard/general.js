@@ -1,4 +1,3 @@
-import { ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image-resolution';
 import 'jquery';
 
 import loading from '../../components/loading/loading';
@@ -17,30 +16,11 @@ import alert from '../../components/alert';
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
         page.querySelector('#chkQuickConnectAvailable').checked = config.QuickConnectAvailable === true;
-        page.querySelector('#valDummyChapterDuration').value = config.DummyChapterDuration;
-        page.querySelector('#valDummyChapterCount').value = config.DummyChapterCount;
         $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
         $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
         $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
         })).val(config.UICulture);
-        page.querySelector('#txtChapterImageResolution').value = config.ChapterImageResolution;
-        $('#txtChapterImageResolution', page).html([
-            {
-                name: globalize.translate('ResolutionMatchSource'),
-                value: ImageResolution.MatchSource
-            },
-            { name: '2160p', value: ImageResolution.P2160 },
-            { name: '1440p', value: ImageResolution.P1440 },
-            { name: '1080p', value: ImageResolution.P1080 },
-            { name: '720p', value: ImageResolution.P720 },
-            { name: '480p', value: ImageResolution.P480 },
-            { name: '360p', value: ImageResolution.P360 },
-            { name: '240p', value: ImageResolution.P240 },
-            { name: '144p', value: ImageResolution.P144 }
-        ].map(function (resolution) {
-            return '<option value="' + resolution.value + '">' + resolution.name + '</option>';
-        })).val(config.ChapterImageResolution);
 
         loading.hide();
     }
@@ -56,9 +36,7 @@ import alert from '../../components/alert';
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
             config.QuickConnectAvailable = form.querySelector('#chkQuickConnectAvailable').checked;
-            config.DummyChapterDuration = $('#valDummyChapterDuration', form).val();
-            config.DummyChapterCount = $('#valDummyChapterCount', form).val();
-            config.ChapterImageResolution = $('#txtChapterImageResolution', form).val();
+
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
