@@ -160,8 +160,6 @@
     "Cursive": "Cursive",
     "CustomDlnaProfilesHelp": "Create a custom profile to target a new device or override a system profile.",
     "DailyAt": "Daily at {0}",
-    "DashboardArchitecture": "Architecture: {0}",
-    "DashboardOperatingSystem": "Operating System: {0}",
     "DashboardServerName": "Server: {0}",
     "DashboardVersionNumber": "Version: {0}",
     "Data": "Data",
