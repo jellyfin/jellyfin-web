@@ -74,6 +74,7 @@ function init() {
         autoFocuser.enable();
 
         Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
+        Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
     });
 }
 
@@ -227,15 +228,8 @@ async function onAppReady() {
             }
         };
 
-        const handleLanguageChange = () => {
-            const locale = globalize.getCurrentLocale();
-
-            document.documentElement.setAttribute('lang', locale);
-        };
-
         const handleUserChange = () => {
             handleStyleChange();
-            handleLanguageChange();
         };
 
         Events.on(ServerConnections, 'localusersignedin', handleUserChange);
@@ -243,8 +237,6 @@ async function onAppReady() {
         Events.on(currentSettings, 'change', (e, prop) => {
             if (prop == 'disableCustomCss' || prop == 'customCss') {
                 handleStyleChange();
-            } else if (prop == 'language') {
-                handleLanguageChange();
             }
         });
 

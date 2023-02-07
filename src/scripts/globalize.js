@@ -89,6 +89,8 @@ const Direction = {
 
         currentCulture = normalizeLocaleName(culture);
 
+        document.documentElement.setAttribute('lang', currentCulture);
+
         let dateTimeCulture;
         try {
             dateTimeCulture = userSettings.dateTimeLocale();
