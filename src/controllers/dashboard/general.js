@@ -24,15 +24,15 @@ import alert from '../../components/alert';
         })).val(config.UICulture);
         page.querySelector('#txtChapterImageResolution').value = config.ChapterImageResolution;
         $('#txtChapterImageResolution', page).html([
-            {name: "Match Source", value: "MatchSource"}, 
-            {name: "2160p", value: "P2160"}, 
-            {name: "1440p", value: "P1440"},
-            {name: "1080p", value: "P1080"},
-            {name: "720p", value: "P720"},
-            {name: "480p", value: "P480"},
-            {name: "360p", value: "P360"},
-            {name: "240p", value: "P240"},
-            {name: "144p", value: "P144"}
+            {name: 'Match Source', value: 'MatchSource'},
+            {name: '2160p', value: 'P2160'},
+            {name: '1440p', value: 'P1440'},
+            {name: '1080p', value: 'P1080'},
+            {name: '720p', value: 'P720'},
+            {name: '480p', value: 'P480'},
+            {name: '360p', value: 'P360'},
+            {name: '240p', value: 'P240'},
+            {name: '144p', value: 'P144'}
         ].map(function (resolution) {
             return '<option value="' + resolution.value + '">' + resolution.name + '</option>';
         })).val(config.ChapterImageResolution);
