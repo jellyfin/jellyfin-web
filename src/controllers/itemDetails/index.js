@@ -1031,6 +1031,29 @@ function renderDirector(page, item, context) {
     }
 }
 
+function renderStudio(page, item, context) {
+    const studios = item.Studios || [];
+
+    const html = studios.map(function (studio) {
+        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+            Name: studio.Name,
+            Type: 'Studio',
+            ServerId: item.ServerId,
+            Id: studio.Id
+        }, {
+            context: context
+        }) + '">' + escapeHtml(studio.Name) + '</a>';
+    }).join(', ');
+
+    const studiosLabel = page.querySelector('.studiosLabel');
+    studiosLabel.innerText = globalize.translate(studios.length > 1 ? 'Studios' : 'Studio');
+    const studiosValue = page.querySelector('.studios');
+    studiosValue.innerHTML = html;
+
+    const studiosGroup = page.querySelector('.studiosGroup');
+    studiosGroup.classList.toggle('hide', !studios.length);
+}
+
 function renderMiscInfo(page, item) {
     const primaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
 
@@ -1079,6 +1102,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
     renderDirector(page, item, context);
+    renderStudio(page, item, context);
     renderWriter(page, item, context);
     renderGenres(page, item, context);
     renderChannelGuide(page, apiClient, item);
