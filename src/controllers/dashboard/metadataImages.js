@@ -1,9 +1,34 @@
+import { ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image-resolution';
+
 import 'jquery';
+
 import loading from '../../components/loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
-import '../../components/listview/listview.scss';
 import Dashboard from '../../utils/dashboard';
+
+import '../../components/listview/listview.scss';
+
+function populateImageResolutionOptions(select) {
+    let html = '';
+    [
+        {
+            name: globalize.translate('ResolutionMatchSource'),
+            value: ImageResolution.MatchSource
+        },
+        { name: '2160p', value: ImageResolution.P2160 },
+        { name: '1440p', value: ImageResolution.P1440 },
+        { name: '1080p', value: ImageResolution.P1080 },
+        { name: '720p', value: ImageResolution.P720 },
+        { name: '480p', value: ImageResolution.P480 },
+        { name: '360p', value: ImageResolution.P360 },
+        { name: '240p', value: ImageResolution.P240 },
+        { name: '144p', value: ImageResolution.P144 }
+    ].forEach(({ value, name }) => {
+        html += `<option value="${value}">${name}</option>`;
+    });
+    select.innerHTML = html;
+}
 
 /* eslint-disable indent */
 
@@ -32,11 +57,21 @@ import Dashboard from '../../utils/dashboard';
     }
 
     function loadPage(page) {
-        const promises = [ApiClient.getServerConfiguration(), populateLanguages(page.querySelector('#selectLanguage')), populateCountries(page.querySelector('#selectCountry'))];
+        const promises = [
+            ApiClient.getServerConfiguration(),
+            populateLanguages(page.querySelector('#selectLanguage')),
+            populateCountries(page.querySelector('#selectCountry'))
+        ];
+
+        populateImageResolutionOptions(page.querySelector('#txtChapterImageResolution'));
+
         Promise.all(promises).then(function(responses) {
             const config = responses[0];
             page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage || '';
             page.querySelector('#selectCountry').value = config.MetadataCountryCode || '';
+            page.querySelector('#valDummyChapterDuration').value = config.DummyChapterDuration || '';
+            page.querySelector('#valDummyChapterCount').value = config.DummyChapterCount || '';
+            page.querySelector('#txtChapterImageResolution').value = config.ChapterImageResolution || '';
             loading.hide();
         });
     }
@@ -47,6 +82,9 @@ import Dashboard from '../../utils/dashboard';
         ApiClient.getServerConfiguration().then(function(config) {
             config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
             config.MetadataCountryCode = form.querySelector('#selectCountry').value;
+            config.DummyChapterDuration = form.querySelector('#valDummyChapterDuration').value;
+            config.DummyChapterCount = form.querySelector('#valDummyChapterCount').value;
+            config.ChapterImageResolution = form.querySelector('#txtChapterImageResolution').value;
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
         return false;
