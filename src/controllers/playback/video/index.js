@@ -878,11 +878,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         }
 
         function nowPlayingDurationTextClick() {
-            if (userSettings.enableVideoRemainingTime()) {
-                userSettings.enableVideoRemainingTime(false);
-            } else {
-                userSettings.enableVideoRemainingTime(true);
-            }
+            userSettings.enableVideoRemainingTime(!userSettings.enableVideoRemainingTime());
             // immediately update the text, without waiting for the next tick update or if the player is paused
             const state = playbackManager.getPlayerState(currentPlayer);
             const playState = state.PlayState;
