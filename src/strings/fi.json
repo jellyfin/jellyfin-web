@@ -1681,5 +1681,10 @@
     "DownloadAll": "Lataa kaikki",
     "Experimental": "Kokeellinen",
     "LabelStereoDownmixAlgorithm": "Stereoäänen alasmiksausalgoritmi:",
-    "StereoDownmixAlgorithmHelp": "Algoritmi, jonka perusteella monikanavaääni alasmiksataan steroääneksi."
+    "StereoDownmixAlgorithmHelp": "Algoritmi, jonka perusteella monikanavaääni alasmiksataan steroääneksi.",
+    "HeaderRecordingMetadataSaving": "Tallenteen metatiedot",
+    "SaveRecordingNFO": "Tallenna tallenteen ohjelmaoppaan metatiedot NFO-tiedostoon",
+    "SaveRecordingNFOHelp": "Tallenna ohjelmaoppaan tietolähteen metatiedot mediatiedoston oheen.",
+    "SaveRecordingImages": "Tallenna tallenteen ohjelmaoppaan kuvat",
+    "SaveRecordingImagesHelp": "Tallenna ohjelmaoppaan tietolähteen kuvat mediatiedoston oheen."
 }
