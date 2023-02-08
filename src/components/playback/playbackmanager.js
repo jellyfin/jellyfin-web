@@ -1495,7 +1495,7 @@ class PlaybackManager {
                     return player.getSecondarySubtitleStreamIndex();
                 }
             } catch (e) {
-                console.error(`Failed to get secondary stream index: ${e}`);
+                console.error('[playbackmanager] Failed to get secondary stream index:', e);
             }
 
             if (!player) {
