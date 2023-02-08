@@ -1693,5 +1693,13 @@
     "SaveRecordingNFO": "Uložit metadata elektronického programového průvodce nahrávky do souboru NFO",
     "SaveRecordingNFOHelp": "Uložit metadata položek elektronického programového průvodce spolu s médii.",
     "SaveRecordingImages": "Uložit obrázky elektronického programového průvodce nahrávky",
-    "SaveRecordingImagesHelp": "Uložit obrázky elektronického programového průvodce nahrávky spolu s médii."
+    "SaveRecordingImagesHelp": "Uložit obrázky elektronického programového průvodce nahrávky spolu s médii.",
+    "HeaderDummyChapter": "Obrázky kapitol",
+    "LabelDummyChapterDuration": "Rozmezí:",
+    "LabelDummyChapterDurationHelp": "Rozmezí v sekundách mezi extrakcí obrázků kapitol.",
+    "LabelDummyChapterCount": "Limit:",
+    "LabelDummyChapterCountHelp": "Maximální počet obrázků kapitol, který má být vytvořen pro jeden soubor médií.",
+    "LabelChapterImageResolution": "Rozlišení:",
+    "LabelChapterImageResolutionHelp": "Rozližení extrahovaných obrázků kapitol.",
+    "ResolutionMatchSource": "Stejné jako zdroj"
 }
