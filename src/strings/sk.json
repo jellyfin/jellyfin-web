@@ -1688,5 +1688,18 @@
     "StereoDownmixAlgorithmHelp": "Algoritmus používaný na prevod viackanálového zvuku na stereo.",
     "Experimental": "Experimentálne",
     "DownloadAll": "Stiahnuť všetko",
-    "LabelStereoDownmixAlgorithm": "Algoritmus prevodu na stereo"
+    "LabelStereoDownmixAlgorithm": "Algoritmus prevodu na stereo",
+    "HeaderDummyChapter": "Obrázky kapitol",
+    "LabelDummyChapterDuration": "Interval:",
+    "LabelDummyChapterCount": "Limit:",
+    "LabelDummyChapterCountHelp": "Maximálny počet obrázkov kapitol, ktoré budú extrahované pre každý mediálny súbor.",
+    "LabelChapterImageResolution": "Rozlíšenie:",
+    "LabelChapterImageResolutionHelp": "Rozlíšenie extrahovaných obrázkov kapitol.",
+    "ResolutionMatchSource": "Rovnaké ako zdroj",
+    "SaveRecordingNFOHelp": "Uloží metadáta z EPG položiek sprievodcu spolu s médiami.",
+    "SaveRecordingImages": "Uložiť obrázky EPG nahrávky",
+    "LabelDummyChapterDurationHelp": "Interval extrakcie obrázkov kapitol v sekundách.",
+    "SaveRecordingNFO": "Uložiť metadáta nahrávky zo sprievodcu EPG do NFO",
+    "SaveRecordingImagesHelp": "Uloží obrázky z EPG položiek sprievodcu spolu s médiami.",
+    "HeaderRecordingMetadataSaving": "Metadáta nahrávok"
 }
