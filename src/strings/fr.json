@@ -1693,5 +1693,13 @@
     "SaveRecordingImagesHelp": "Inclure les images des métadonnées du fournisseur de listes EPG dans l'enregistrement.",
     "HeaderRecordingMetadataSaving": "Enregistrement des métadonnées",
     "SaveRecordingNFO": "Enregistrer les métadonnées du fournisseur dans le fichier NFO",
-    "SaveRecordingImages": "Enregistrer les images des métadonnées du fournisseur"
+    "SaveRecordingImages": "Enregistrer les images des métadonnées du fournisseur",
+    "LabelDummyChapterDurationHelp": "Intervalle d’extraction des images de chapitre en secondes.",
+    "LabelDummyChapterCount": "Limite :",
+    "LabelChapterImageResolution": "Résolution :",
+    "LabelChapterImageResolutionHelp": "La résolution des images de chapitre.",
+    "ResolutionMatchSource": "Résolution de la source",
+    "HeaderDummyChapter": "Images des chapitres",
+    "LabelDummyChapterDuration": "Intervalle :",
+    "LabelDummyChapterCountHelp": "Nombre maximal d’images de chapitre à extraire pour chaque fichier multimédia."
 }
