@@ -59,6 +59,7 @@
  - [Vankerkom](https://github.com/vankerkom)
  - [edvwib](https://github.com/edvwib)
  - [Rob Farraher](https://github.com/farraherbg)
+ - [Merlin Sievers](https://github.com/dann-merlin)
 
 # Emby Contributors
 

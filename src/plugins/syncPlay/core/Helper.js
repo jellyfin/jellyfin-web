@@ -4,6 +4,7 @@
  */
 
 import Events from '../../../utils/events.ts';
+import { getItems } from '../../../utils/jellyfin-apiclient/getItemsHelper.ts';
 
 /**
  * Constants
@@ -88,7 +89,9 @@ export function getItemsForPlayback(apiClient, query) {
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
 
-        return apiClient.getItems(apiClient.getCurrentUserId(), query);
+        // call getItems from getItemsHelper instead of apiClient.getItems()
+        // to split up into multiple requests if necessary (URL might get too long)
+        return getItems(apiClient, apiClient.getCurrentUserId(), query);
     }
 }
 
