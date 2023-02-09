@@ -1686,5 +1686,13 @@
     "SaveRecordingNFO": "Tallenna tallenteen ohjelmaoppaan metatiedot NFO-tiedostoon",
     "SaveRecordingNFOHelp": "Tallenna ohjelmaoppaan tietolähteen metatiedot mediatiedoston oheen.",
     "SaveRecordingImages": "Tallenna tallenteen ohjelmaoppaan kuvat",
-    "SaveRecordingImagesHelp": "Tallenna ohjelmaoppaan tietolähteen kuvat mediatiedoston oheen."
+    "SaveRecordingImagesHelp": "Tallenna ohjelmaoppaan tietolähteen kuvat mediatiedoston oheen.",
+    "HeaderDummyChapter": "Kappalekuvat",
+    "LabelDummyChapterDuration": "Aikaväli:",
+    "LabelDummyChapterDurationHelp": "Kappalekuvien purkuväli sekunteina.",
+    "LabelDummyChapterCount": "Enimmäismäärä:",
+    "LabelDummyChapterCountHelp": "Yhdestä mediatiedostosta purettavien kappalekuvien enimmäismäärä.",
+    "LabelChapterImageResolution": "Resoluutio:",
+    "LabelChapterImageResolutionHelp": "Purettujen kappalekuvien resoluutio.",
+    "ResolutionMatchSource": "Vastaa lähdettä"
 }
