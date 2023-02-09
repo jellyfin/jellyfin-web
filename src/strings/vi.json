@@ -1510,7 +1510,7 @@
     "Framerate": "Tỷ lệ khung hình",
     "DirectPlayHelp": "Tệp nguồn hoàn toàn tương thích với ứng dụng khách này và phiên đang nhận tệp mà không có sửa đổi.",
     "HeaderContinueReading": "Tiếp Tục Đọc",
-    "EnableGamepadHelp": "Nghe đầu vào từ bất kỳ bộ điều khiển được kết nối nào.",
+    "EnableGamepadHelp": "Nghe đầu vào từ bất kỳ bộ điều khiển được kết nối nào. (Yêu cầu: Chế độ hiển thị 'TV')",
     "LabelEnableGamepad": "Bật Tay Cầm Chơi Game",
     "Controls": "Điều khiển",
     "TextSent": "Đã gửi văn bản.",
@@ -1680,5 +1680,16 @@
     "Experimental": "Trải nghiệm",
     "DownloadAll": "Tải Xuống Tất Cả",
     "LabelStereoDownmixAlgorithm": "Thuật Toán Trộn Âm Thanh Nổi",
-    "StereoDownmixAlgorithmHelp": "Thuật toán được sử dụng để trộn âm thanh đa kênh thành âm thanh nổi."
+    "StereoDownmixAlgorithmHelp": "Thuật toán được sử dụng để trộn âm thanh đa kênh thành âm thanh nổi.",
+    "LabelDummyChapterDurationHelp": "Khoảng thời gian trích xuất hình ảnh phân đoạn tính bằng giây.",
+    "LabelChapterImageResolutionHelp": "Độ phân giải của hình ảnh phân đoạn trích xuất.",
+    "SaveRecordingNFO": "Lưu bản ghi dữ liệu mô tả EPG trong NFO",
+    "SaveRecordingImagesHelp": "Lưu hình ảnh từ nhà cung cấp danh sách EPG bên cạnh phương tiện.",
+    "LabelDummyChapterDuration": "Khoảng thời gian:",
+    "LabelDummyChapterCount": "Giới hạn:",
+    "LabelDummyChapterCountHelp": "Số lượng hình ảnh phân đoạn tối đa sẽ được trích xuất cho mỗi tệp phương tiện.",
+    "LabelChapterImageResolution": "Độ phân giải:",
+    "ResolutionMatchSource": "Giống Như Nguồn",
+    "SaveRecordingNFOHelp": "Lưu dữ liệu mô tả từ nhà cung cấp danh sách EPG bên cạnh phương tiện.",
+    "SaveRecordingImages": "Lưu bản ghi hình ảnh EPG"
 }
