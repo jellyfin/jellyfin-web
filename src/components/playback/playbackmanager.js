@@ -1490,16 +1490,16 @@ class PlaybackManager {
         self.getSecondarySubtitleStreamIndex = function (player) {
             player = player || self._currentPlayer;
 
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
             try {
-                if (player && !enableLocalPlaylistManagement(player)) {
+                if (!enableLocalPlaylistManagement(player)) {
                     return player.getSecondarySubtitleStreamIndex();
                 }
             } catch (e) {
                 console.error('[playbackmanager] Failed to get secondary stream index:', e);
-            }
-
-            if (!player) {
-                throw new Error('player cannot be null');
             }
 
             return getPlayerData(player).secondarySubtitleStreamIndex;
