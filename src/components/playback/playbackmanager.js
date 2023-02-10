@@ -1598,10 +1598,9 @@ class PlaybackManager {
                 return;
             }
 
-            getPlayerData(player).secondarySubtitleStreamIndex = index;
-
             try {
                 player.setSecondarySubtitleStreamIndex(index);
+                getPlayerData(player).secondarySubtitleStreamIndex = index;
             } catch (e) {
                 console.error('[playbackmanager] AutoSet - Failed to set secondary track:', e);
             }
