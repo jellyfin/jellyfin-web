@@ -1603,7 +1603,7 @@ class PlaybackManager {
             try {
                 player.setSecondarySubtitleStreamIndex(index);
             } catch (e) {
-                console.error(`AutoSet - Failed to set secondary track: ${e}`);
+                console.error('[playbackmanager] AutoSet - Failed to set secondary track:', e);
             }
         };
 
