@@ -1688,5 +1688,18 @@
     "DownloadAll": "Download All",
     "Experimental": "Experimental",
     "LabelStereoDownmixAlgorithm": "Stereo Downmix Algorithm",
-    "StereoDownmixAlgorithmHelp": "Algorithm used to downmix multi-channel audio to stereo."
+    "StereoDownmixAlgorithmHelp": "Algorithm used to downmix multi-channel audio to stereo.",
+    "LabelDummyChapterDuration": "Interval:",
+    "LabelDummyChapterCountHelp": "The maximum number of chapter images that will be extracted for each media file.",
+    "HeaderRecordingMetadataSaving": "Recording Metadata",
+    "SaveRecordingNFOHelp": "Save metadata from EPG listings provider along side media.",
+    "SaveRecordingImages": "Save recording EPG images",
+    "SaveRecordingImagesHelp": "Save images from EPG listings provider along side media.",
+    "HeaderDummyChapter": "Chapter Images",
+    "LabelDummyChapterDurationHelp": "The chapter image extraction interval in seconds.",
+    "LabelDummyChapterCount": "Limit:",
+    "LabelChapterImageResolution": "Resolution:",
+    "LabelChapterImageResolutionHelp": "The resolution of the extracted chapter images.",
+    "ResolutionMatchSource": "Match Source",
+    "SaveRecordingNFO": "Save recording EPG metadata in NFO"
 }
