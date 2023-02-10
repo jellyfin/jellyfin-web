@@ -480,7 +480,7 @@ function tryRemoveElement(elem) {
                     secondaryTrackValid = false;
                 }
                 // secondary track should not be shown if primary track is no longer a valid pair
-                if (initialSubtitleStream && !playbackManager.trackHasSecondarySubtitleSupport(initialSubtitleStream)) {
+                if (initialSubtitleStream && !playbackManager.trackHasSecondarySubtitleSupport(initialSubtitleStream, this)) {
                     secondaryTrackValid = false;
                 }
             } else {
@@ -488,11 +488,11 @@ function tryRemoveElement(elem) {
             }
 
             // Get the secondary track that has been set during this watch session
-            let currentSecondaryTrackIndex = playbackManager.getSecondarySubtitleStreamIndex();
+            let currentSecondaryTrackIndex = playbackManager.getSecondarySubtitleStreamIndex(this);
 
             if (!secondaryTrackValid) {
                 currentSecondaryTrackIndex = -1;
-                playbackManager.setSecondarySubtitleStreamIndex(currentSecondaryTrackIndex);
+                playbackManager.setSecondarySubtitleStreamIndex(currentSecondaryTrackIndex, this);
             }
 
             this.#secondarySubtitleTrackIndexToSetOnPlaying = currentSecondaryTrackIndex == null ? -1 : currentSecondaryTrackIndex;
