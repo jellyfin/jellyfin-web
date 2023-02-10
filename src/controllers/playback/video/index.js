@@ -1070,11 +1070,11 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             * - primary subtitle is not off
             * - primary subtitle has support
             */
-            const currentTrackCanAddSecondarySubtitle = playbackManager.playerHasSecondarySubtitleSupport(player) &&
-            streams.length > 1 &&
-            secondaryStreams.length > 0 &&
-            currentIndex !== -1 &&
-            playbackManager.trackHasSecondarySubtitleSupport(playbackManager.getSubtitleStream(player, currentIndex), player);
+            const currentTrackCanAddSecondarySubtitle = playbackManager.playerHasSecondarySubtitleSupport(player)
+                && streams.length > 1
+                && secondaryStreams.length > 0
+                && currentIndex !== -1
+                && playbackManager.trackHasSecondarySubtitleSupport(playbackManager.getSubtitleStream(player, currentIndex), player);
 
             if (currentTrackCanAddSecondarySubtitle) {
                 const secondarySubtitleMenuItem = {
