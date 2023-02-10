@@ -1342,7 +1342,7 @@ function tryRemoveElement(elem) {
                     const subtitlesElement = document.createElement('div');
                     subtitlesElement.classList.add('videoSubtitlesInner');
                     subtitlesContainer.appendChild(subtitlesElement);
-                    this.#videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
+                    this.#videoSubtitlesElem = subtitlesElement;
                     this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
                     videoElement.parentNode.appendChild(subtitlesContainer);
                     this.#currentTrackEvents = subtitleData.TrackEvents;
