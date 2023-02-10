@@ -132,7 +132,7 @@ import template from './imageeditor.template.html';
 
         html += '<div class="cardContent">';
 
-        const imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, {maxWidth: options.imageSize});
+        const imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, { maxWidth: options.imageSize });
 
         html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center center;background-size:contain;"></div>';
 
@@ -226,7 +226,7 @@ import template from './imageeditor.template.html';
 
         for (let i = 0, length = images.length; i < length; i++) {
             const image = images[i];
-            const options = {index: i, numImages: length, imageProviders: imageProviders, imageSize: imageSize, tagName: tagName, enableFooterButtons: enableFooterButtons};
+            const options = { index: i, numImages: length, imageProviders, imageSize, tagName, enableFooterButtons };
             html += getCardHtml(image, apiClient, options);
         }
 

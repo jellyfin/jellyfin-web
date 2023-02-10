@@ -344,7 +344,7 @@ function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, api
 
     const maxValues = getAudioMaxValues(deviceProfile);
 
-    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, { maxBitrate: maxBitrate, ...maxValues });
+    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
 }
 
 function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -377,7 +377,7 @@ function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
         let streamUrl;
 
         if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
-            streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, apiClient, startPosition, { maxBitrate: maxBitrate, ...maxValues });
+            streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
         }
 
         streamUrls.push(streamUrl || '');
@@ -1722,11 +1722,11 @@ class PlaybackManager {
                 const currentPlayOptions = currentItem.playOptions || getDefaultPlayOptions();
 
                 const options = {
-                    maxBitrate: maxBitrate,
+                    maxBitrate,
                     startPosition: ticks,
                     isPlayback: true,
-                    audioStreamIndex: audioStreamIndex,
-                    subtitleStreamIndex: subtitleStreamIndex,
+                    audioStreamIndex,
+                    subtitleStreamIndex,
                     enableDirectPlay: params.EnableDirectPlay,
                     enableDirectStream: params.EnableDirectStream,
                     allowVideoStreamCopy: params.AllowVideoStreamCopy,
@@ -2304,9 +2304,9 @@ class PlaybackManager {
                 loading.hide();
 
                 return player.play({
-                    items: items,
+                    items,
                     startPositionTicks: options.startPosition || 0,
-                    mediaSourceId: mediaSourceId,
+                    mediaSourceId,
                     audioStreamIndex: options.audioStreamIndex,
                     subtitleStreamIndex: options.subtitleStreamIndex,
                     startIndex: options.startIndex
@@ -2471,11 +2471,11 @@ class PlaybackManager {
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
                 const options = {
-                    maxBitrate: maxBitrate,
-                    startPosition: startPosition,
+                    maxBitrate,
+                    startPosition,
                     isPlayback: null,
-                    audioStreamIndex: audioStreamIndex,
-                    subtitleStreamIndex: subtitleStreamIndex,
+                    audioStreamIndex,
+                    subtitleStreamIndex,
                     startIndex: playOptions.startIndex,
                     enableDirectPlay: null,
                     enableDirectStream: null,
@@ -2549,8 +2549,8 @@ class PlaybackManager {
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
                     const mediaOptions = {
-                        maxBitrate: maxBitrate,
-                        startPosition: startPosition,
+                        maxBitrate,
+                        startPosition,
                         isPlayback: null,
                         audioStreamIndex: options.audioStreamIndex,
                         subtitleStreamIndex: options.subtitleStreamIndex,
@@ -2582,8 +2582,8 @@ class PlaybackManager {
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
                     const mediaOptions = {
-                        maxBitrate: maxBitrate,
-                        startPosition: startPosition,
+                        maxBitrate,
+                        startPosition,
                         isPlayback: true,
                         audioStreamIndex: null,
                         subtitleStreamIndex: null,

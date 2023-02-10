@@ -1261,7 +1261,7 @@ import { appRouter } from '../appRouter';
                 logoUrl = null;
 
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
-                innerCardFooter += getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, {forceName: forceName, overlayText: overlayText, isOuterFooter: false}, {imgUrl: imgUrl, logoUrl: logoUrl});
+                innerCardFooter += getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: false }, { imgUrl, logoUrl });
                 footerOverlayed = true;
             } else if (progressHtml) {
                 innerCardFooter += '<div class="innerCardFooter fullInnerCardFooter innerCardFooterClear">';
@@ -1288,7 +1288,7 @@ import { appRouter } from '../appRouter';
                     logoUrl = null;
                 }
 
-                outerCardFooter = getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, {forceName: forceName, overlayText: overlayText, isOuterFooter: true}, {imgUrl: imgUrl, logoUrl: logoUrl});
+                outerCardFooter = getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: true }, { imgUrl, logoUrl });
             }
 
             if (outerCardFooter && !options.cardLayout) {

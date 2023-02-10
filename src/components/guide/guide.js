@@ -345,7 +345,7 @@ function Guide(options) {
             }
 
             apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
-                const guideOptions = {focusProgramOnRender: focusProgramOnRender, scrollToTimeMs: scrollToTimeMs, focusToTimeMs: focusToTimeMs, startTimeOfDayMs: startTimeOfDayMs};
+                const guideOptions = { focusProgramOnRender, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs };
 
                 renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, guideOptions, apiClient);
 

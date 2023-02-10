@@ -99,12 +99,7 @@ function getIconsHtml(options) {
     }
 
     const iconCssClass = options.iconCssClass;
-
-    const classes = {
-        buttonCssClass: btnCssClass,
-        iconCssClass: iconCssClass
-    };
-
+    const classes = { buttonCssClass: btnCssClass, iconCssClass: iconCssClass };
     const serverId = item.ServerId;
 
     if (includePlayed !== false) {
@@ -113,7 +108,7 @@ function getIconsHtml(options) {
         if (itemHelper.canMarkPlayed(item)) {
             if (userData.Played) {
                 const buttonCssClass = classes.buttonCssClass + ' btnUserDataOn';
-                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, {buttonCssClass: buttonCssClass, ...classes});
+                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, { buttonCssClass, ...classes });
             } else {
                 html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, classes);
             }
@@ -123,7 +118,7 @@ function getIconsHtml(options) {
     const tooltipFavorite = globalize.translate('Favorite');
     if (userData.IsFavorite) {
         const buttonCssClass = classes.buttonCssClass + ' btnUserData btnUserDataOn';
-        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, {buttonCssClass: buttonCssClass, ...classes});
+        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, { buttonCssClass, ...classes });
     } else {
         classes.buttonCssClass += ' btnUserData';
         html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, classes);
