@@ -368,11 +368,7 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
 
         parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
-            if (e.currentTarget.checked) {
-                parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.remove('hide');
-            } else {
-                parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.add('hide');
-            }
+            parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !e.currentTarget.checked);
         });
     }
 
@@ -593,11 +589,7 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
-        if (options.EnableEmbeddedTitles) {
-            parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.remove('hide');
-        } else {
-            parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.add('hide');
-        }
+    parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !options.EnableEmbeddedTitles);
         parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked = options.EnableEmbeddedExtrasTitles;
         parent.querySelector('#chkEnableEmbeddedEpisodeInfos').value = options.EnableEmbeddedEpisodeInfos;
         parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
