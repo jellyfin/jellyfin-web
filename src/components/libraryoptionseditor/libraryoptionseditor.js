@@ -589,7 +589,7 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
-    parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !options.EnableEmbeddedTitles);
+        parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !options.EnableEmbeddedTitles);
         parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked = options.EnableEmbeddedExtrasTitles;
         parent.querySelector('#chkEnableEmbeddedEpisodeInfos').value = options.EnableEmbeddedEpisodeInfos;
         parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
