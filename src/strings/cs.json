@@ -1701,5 +1701,7 @@
     "LabelDummyChapterCountHelp": "Maximální počet obrázků kapitol, který má být vytvořen pro jeden soubor médií.",
     "LabelChapterImageResolution": "Rozlišení:",
     "LabelChapterImageResolutionHelp": "Rozližení extrahovaných obrázků kapitol.",
-    "ResolutionMatchSource": "Stejné jako zdroj"
+    "ResolutionMatchSource": "Stejné jako zdroj",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Preferovat vložené názvy před názvy souborů pro doplňky",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Doplňky většinou mají stejný vložený název jako nadřazená položka. Zaškrtnutím je i přesto můžete upřednostnit."
 }
