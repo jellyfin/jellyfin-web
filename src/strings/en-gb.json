@@ -1701,5 +1701,7 @@
     "LabelChapterImageResolution": "Resolution:",
     "LabelChapterImageResolutionHelp": "The resolution of the extracted chapter images.",
     "ResolutionMatchSource": "Match Source",
-    "SaveRecordingNFO": "Save recording EPG metadata in NFO"
+    "SaveRecordingNFO": "Save recording EPG metadata in NFO",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Prefer embedded titles over filenames for extras",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Extras often have the same embedded name as the parent, check this to use embedded titles for them anyway."
 }
