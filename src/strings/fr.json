@@ -1701,5 +1701,7 @@
     "ResolutionMatchSource": "Résolution de la source",
     "HeaderDummyChapter": "Images des chapitres",
     "LabelDummyChapterDuration": "Intervalle :",
-    "LabelDummyChapterCountHelp": "Nombre maximal d’images de chapitre à extraire pour chaque fichier multimédia."
+    "LabelDummyChapterCountHelp": "Nombre maximal d’images de chapitre à extraire pour chaque fichier multimédia.",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Préférer les titres intégrés aux médias pour les bonus",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Les bonus possèdent souvent un titre intégré identique au média parent, cocher l'option pour utiliser ce titre quoi qu'il en soit."
 }
