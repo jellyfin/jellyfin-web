@@ -1319,6 +1319,8 @@
     "PosterCard": "Poster Card",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Prefer embedded episode information over filenames",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Use the episode information from the embedded metadata if available.",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Prefer embedded titles over filenames for extras",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Extras often have the same embedded name as the parent, check this to use embedded titles for them anyway.",
     "PreferEmbeddedTitlesOverFileNames": "Prefer embedded titles over filenames",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Determine the display title to use when no internet metadata or local metadata is available.",
     "AllowEmbeddedSubtitles": "Disable different types of embedded subtitles",
