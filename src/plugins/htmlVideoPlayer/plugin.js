@@ -845,9 +845,11 @@ function tryRemoveElement(elem) {
 
                 loading.hide();
 
-                seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
+                const transcodingOffsetTicks = this._currentPlayOptions.transcodingOffsetTicks || 0;
+
+                seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks - transcodingOffsetTicks, () => {
                     if (this.#currentSubtitlesOctopus) {
-                        this.#currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                        this.#currentSubtitlesOctopus.timeOffset = transcodingOffsetTicks / 10000000 + this.#currentTrackOffset;
                         this.#currentSubtitlesOctopus.resize();
                         this.#currentSubtitlesOctopus.resetRenderAheadCache(false);
                     }
