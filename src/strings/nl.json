@@ -1687,5 +1687,10 @@
     "DownloadAll": "Alles downloaden",
     "Experimental": "Experimenteel",
     "StereoDownmixAlgorithmHelp": "Algoritme dat gebruikt wordt om multikanaals geluid naar stereo te downmixen.",
-    "LabelStereoDownmixAlgorithm": "Stereo-downmix-algoritme"
+    "LabelStereoDownmixAlgorithm": "Stereo-downmix-algoritme",
+    "LabelChapterImageResolutionHelp": "De resolutie van de opgehaalde hoofdstuk afbeeldingen.",
+    "LabelDummyChapterDuration": "Interval:",
+    "LabelDummyChapterCount": "Limiet:",
+    "LabelDummyChapterCountHelp": "Het maximum aantal hoofdstukafbeeldingen dat wordt opgehaald uit ieder mediabestand.",
+    "LabelChapterImageResolution": "Resolutie:"
 }
