@@ -398,7 +398,7 @@ import template from './libraryoptionseditor.template.html';
             parent.querySelector('.chkEnablePhotosContainer').classList.add('hide');
         }
 
-        if (contentType !== 'tvshows' && contentType !== 'movies' && contentType !== 'homevideos' && contentType !== 'musicvideos' && contentType !== 'mixed') {
+        if (contentType !== 'tvshows' && contentType !== 'movies' && contentType !== 'homevideos' && contentType !== 'musicvideos' && contentType !== 'mixed' && contentType !== undefined) {
             parent.querySelector('.chapterSettingsSection').classList.add('hide');
         } else {
             parent.querySelector('.chapterSettingsSection').classList.remove('hide');
@@ -430,13 +430,13 @@ import template from './libraryoptionseditor.template.html';
             parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
         }
 
-        if (contentType === 'tvshows' || contentType === 'movies' || contentType === 'musicvideos' || contentType === 'mixed') {
+        if (contentType === 'tvshows' || contentType === 'movies' || contentType === 'musicvideos' || contentType === 'mixed' || contentType === undefined) {
             parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.remove('hide');
         } else {
             parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
         }
 
-        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
+        parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed' && contentType !== undefined);
 
         return populateMetadataSettings(parent, contentType);
     }
