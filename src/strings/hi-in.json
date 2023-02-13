@@ -129,5 +129,8 @@
     "MusicVideos": "संगीत वीडियो",
     "OptionBluray": "BD",
     "Playlists": "प्लेलिस्ट",
-    "Photos": "तस्वीरें"
+    "Photos": "तस्वीरें",
+    "AgeValue": "({0} साल पुराना)",
+    "ButtonClose": "बंद करें",
+    "AddToFavorites": "पसंदीदो में शामिल करे"
 }
