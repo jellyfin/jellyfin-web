@@ -1686,5 +1686,6 @@
     "StereoDownmixAlgorithmHelp": "Algoritem uporabljen za downmix večkanalnega zvoka v stereo.",
     "Experimental": "Poskusno",
     "LabelStereoDownmixAlgorithm": "Stereo Downmix algoritem",
-    "DownloadAll": "Prenesi vse"
+    "DownloadAll": "Prenesi vse",
+    "HeaderDummyChapter": "Slike poglavja"
 }
