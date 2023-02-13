@@ -132,5 +132,7 @@
     "Photos": "तस्वीरें",
     "AgeValue": "({0} साल पुराना)",
     "ButtonClose": "बंद करें",
-    "AddToFavorites": "पसंदीदो में शामिल करे"
+    "AddToFavorites": "पसंदीदो में शामिल करे",
+    "ButtonExitApp": "ऐप को बंद करें",
+    "ButtonSpace": "स्पेस"
 }
