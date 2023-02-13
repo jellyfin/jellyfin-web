@@ -134,5 +134,7 @@
     "ButtonClose": "बंद करें",
     "AddToFavorites": "पसंदीदो में शामिल करे",
     "ButtonExitApp": "ऐप को बंद करें",
-    "ButtonSpace": "स्पेस"
+    "ButtonSpace": "स्पेस",
+    "ButtonSplit": "विभाजित करें",
+    "ButtonStart": "शुरु करें"
 }
