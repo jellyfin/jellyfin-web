@@ -97,6 +97,7 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 include: [
+                    path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
                     path.resolve(__dirname, 'node_modules/blurhash'),
                     path.resolve(__dirname, 'node_modules/date-fns'),
