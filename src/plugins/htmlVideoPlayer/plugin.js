@@ -246,6 +246,12 @@ function tryRemoveElement(elem) {
          */
         #currentSecondaryTrackEvents;
         /**
+         * Used to temporarily store the text track when
+         * force-clearing the `activeCue` for certain browsers
+         * @type {TextTrack | null | undefined}
+         */
+        #currentTextTrack;
+        /**
          * @type {string[] | undefined}
          */
         #supportedFeatures;
@@ -624,8 +630,8 @@ function tryRemoveElement(elem) {
          * @private
          * These browsers will not clear the existing active cue when setting an offset
          * for native TextTracks.
-         * Any previous text tracks that are on the screen when the offset changes will
-         * remain next to the new tracks until they reach the new offset's instance of the track.
+         * Any previous text tracks that are on the screen when the offset changes will remain next
+         * to the new tracks until they reach the end time of the new offset's instance of the track.
          */
         requiresHidingActiveCuesOnOffsetChange() {
             return !!browser.firefox;
@@ -634,11 +640,30 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        hideTextTrackActiveCues(currentTrack) {
+        hideTextTrackWithActiveCues(currentTrack) {
             if (currentTrack.activeCues) {
-                Array.from(currentTrack.activeCues).forEach((cue) => {
-                    cue.text = '';
-                });
+                currentTrack.mode = 'hidden';
+            }
+        }
+
+        /**
+         * Forces the active cue to clear by disabling then re-enabling the track.
+         * The track mode is reverted inside of a 0ms timeout to free up the track
+         * and allow it to disable and clear the active cue.
+         * The track needs to be temporarily stored in order for us to access it
+         * inside the timeout. The stored value is reset after it is used.
+         * @private
+         */
+        forceClearTextTrackActiveCues(currentTrack) {
+            if (currentTrack.activeCues) {
+                this.#currentTextTrack = currentTrack;
+                currentTrack.mode = 'disabled';
+                setTimeout(() => {
+                    if (this.#currentTextTrack) {
+                        this.#currentTextTrack.mode = 'showing';
+                        this.#currentTextTrack = null;
+                    }
+                }, 0);
             }
         }
 
@@ -651,14 +676,21 @@ function tryRemoveElement(elem) {
                 if (offsetValue === 0) {
                     return;
                 }
-                if (this.requiresHidingActiveCuesOnOffsetChange()) {
-                    this.hideTextTrackActiveCues(currentTrack);
+
+                const shouldClearActiveCues = this.requiresClearingActiveCuesOnOffsetChange();
+                if (shouldClearActiveCues) {
+                    this.hideTextTrackWithActiveCues(currentTrack);
                 }
+
                 Array.from(currentTrack.cues)
                     .forEach(function (cue) {
                         cue.startTime -= offsetValue;
                         cue.endTime -= offsetValue;
                     });
+
+                if (shouldClearActiveCues) {
+                    this.forceClearTextTrackActiveCues(currentTrack);
+                }
             }
         }
 
