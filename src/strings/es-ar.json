@@ -1687,5 +1687,12 @@
     "DownloadAll": "Descargar todo",
     "Experimental": "Experimental",
     "LabelStereoDownmixAlgorithm": "Algoritmo de mezcla estéreo",
-    "StereoDownmixAlgorithmHelp": "Algoritmo utilizado para mezclar audio multicanal a estéreo."
+    "StereoDownmixAlgorithmHelp": "Algoritmo utilizado para mezclar audio multicanal a estéreo.",
+    "LabelDummyChapterDurationHelp": "El intervalo de extracción de la imagen del capítulo en segundos.",
+    "HeaderRecordingMetadataSaving": "Grabando metadatos",
+    "HeaderDummyChapter": "Imágenes del capítulo",
+    "LabelDummyChapterDuration": "Intervalo:",
+    "LabelDummyChapterCount": "Límite:",
+    "LabelDummyChapterCountHelp": "El número máximo de imágenes de capítulos que se extraerán para cada archivo multimedia.",
+    "LabelChapterImageResolution": "Resolución:"
 }
