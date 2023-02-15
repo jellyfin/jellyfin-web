@@ -626,37 +626,12 @@ function tryRemoveElement(elem) {
 
         /**
          * @private
-         * These browsers will not clear the existing active cue when setting an offset
-         * for native TextTracks.
-         * Any previous text tracks that are on the screen when the offset changes will
-         * remain next to the new tracks until they reach the new offset's instance of the track.
-         */
-        requiresHidingActiveCuesOnOffsetChange() {
-            return !!browser.firefox;
-        }
-
-        /**
-         * @private
-         */
-        hideTextTrackActiveCues(currentTrack) {
-            if (currentTrack.activeCues) {
-                Array.from(currentTrack.activeCues).forEach((cue) => {
-                    cue.text = '';
-                });
-            }
-        }
-
-        /**
-         * @private
          */
         setTextTrackSubtitleOffset(currentTrack, offsetValue, currentTrackIndex) {
             if (currentTrack.cues) {
                 offsetValue = this.updateCurrentTrackOffset(offsetValue, currentTrackIndex);
                 if (offsetValue === 0) {
                     return;
-                }
-                if (this.requiresHidingActiveCuesOnOffsetChange()) {
-                    this.hideTextTrackActiveCues(currentTrack);
                 }
                 Array.from(currentTrack.cues)
                     .forEach(function (cue) {
