@@ -422,7 +422,8 @@ function getPlaybackInfo(player,
     enableDirectPlay,
     enableDirectStream,
     allowVideoStreamCopy,
-    allowAudioStreamCopy) {
+    allowAudioStreamCopy,
+    secondarySubtitleStreamIndex) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
         return Promise.resolve({
             MediaSources: [
@@ -461,6 +462,9 @@ function getPlaybackInfo(player,
     }
     if (subtitleStreamIndex != null) {
         query.SubtitleStreamIndex = subtitleStreamIndex;
+    }
+    if (secondarySubtitleStreamIndex != null) {
+        query.SecondarySubtitleStreamIndex = secondarySubtitleStreamIndex;
     }
     if (enableDirectPlay != null) {
         query.EnableDirectPlay = enableDirectPlay;
@@ -1720,6 +1724,7 @@ class PlaybackManager {
             }).then(function (deviceProfile) {
                 const audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
                 const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
+                const secondarySubtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.secondarySubtitleStreamIndex;
 
                 let currentMediaSource = self.currentMediaSource(player);
                 const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
@@ -1746,6 +1751,7 @@ class PlaybackManager {
                         }
 
                         getPlayerData(player).subtitleStreamIndex = subtitleStreamIndex;
+                        getPlayerData(player).secondarySubtitleStreamIndex = secondarySubtitleStreamIndex;
                         getPlayerData(player).audioStreamIndex = audioStreamIndex;
                         getPlayerData(player).maxStreamingBitrate = maxBitrate;
 
@@ -2031,6 +2037,7 @@ class PlaybackManager {
                 state.PlayState.PlaybackRate = self.getPlaybackRate(player);
 
                 state.PlayState.SubtitleStreamIndex = self.getSubtitleStreamIndex(player);
+                state.PlayState.SecondarySubtitleStreamIndex = self.getSecondarySubtitleStreamIndex(player);
                 state.PlayState.AudioStreamIndex = self.getAudioStreamIndex(player);
                 state.PlayState.BufferedRanges = self.getBufferedRanges(player);
 
@@ -2311,11 +2318,16 @@ class PlaybackManager {
             });
         }
 
-        function rankStreamType(prevIndex, prevSource, mediaSource, streamType) {
+        function rankStreamType(prevIndex, prevSource, mediaSource, streamType, isSecondarySubtitle) {
             if (prevIndex == -1) {
                 console.debug(`AutoSet ${streamType} - No Stream Set`);
-                if (streamType == 'Subtitle')
-                    mediaSource.DefaultSubtitleStreamIndex = -1;
+                if (streamType == 'Subtitle') {
+                    if (isSecondarySubtitle) {
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
+                    } else {
+                        mediaSource.DefaultSubtitleStreamIndex = -1;
+                    }
+                }
                 return;
             }
 
@@ -2373,8 +2385,13 @@ class PlaybackManager {
 
             if (bestStreamIndex != null) {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
-                if (streamType == 'Subtitle')
-                    mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
+                if (streamType == 'Subtitle') {
+                    if (isSecondarySubtitle) {
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
+                    } else {
+                        mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
+                    }
+                }
                 if (streamType == 'Audio')
                     mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
             } else {
@@ -2382,7 +2399,7 @@ class PlaybackManager {
             }
         }
 
-        function autoSetNextTracks(prevSource, mediaSource, audio, subtitle) {
+        function autoSetNextTracks(prevSource, mediaSource, audio, subtitle, secondarySubtitle) {
             try {
                 if (!prevSource) return;
 
@@ -2397,6 +2414,10 @@ class PlaybackManager {
 
                 if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex == 'number') {
                     rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+                }
+
+                if (secondarySubtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex == 'number') {
+                    rankStreamType(prevSource.DefaultSecondarySubtitleStreamIndex, prevSource, mediaSource, 'Subtitle', true);
                 }
             } catch (e) {
                 console.error(`AutoSet - Caught unexpected error: ${e}`);
@@ -2463,13 +2484,13 @@ class PlaybackManager {
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(async (mediaSource) => {
                     const user = await apiClient.getCurrentUser();
-                    autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
+                    const playerData = getPlayerData(player);
+
+                    autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections, playerData.secondarySubtitleStreamIndex);
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
                     streamInfo.fullscreen = playOptions.fullscreen;
-
-                    const playerData = getPlayerData(player);
 
                     playerData.isChangingStream = false;
                     playerData.maxStreamingBitrate = maxBitrate;
@@ -2832,7 +2853,8 @@ class PlaybackManager {
             return {
                 ...prevSource,
                 DefaultAudioStreamIndex: prevPlayerData.audioStreamIndex,
-                DefaultSubtitleStreamIndex: prevPlayerData.subtitleStreamIndex
+                DefaultSubtitleStreamIndex: prevPlayerData.subtitleStreamIndex,
+                DefaultSecondarySubtitleStreamIndex: prevPlayerData.secondarySubtitleStreamIndex
             };
         }
 
@@ -2991,9 +3013,11 @@ class PlaybackManager {
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
                 playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
+                playerData.secondarySubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
             } else {
                 playerData.audioStreamIndex = null;
                 playerData.subtitleStreamIndex = null;
+                playerData.secondarySubtitleStreamIndex = null;
             }
 
             self._playNextAfterEnded = true;
