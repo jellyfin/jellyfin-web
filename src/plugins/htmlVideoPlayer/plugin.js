@@ -487,6 +487,10 @@ function tryRemoveElement(elem) {
                 secondaryTrackValid = false;
             }
 
+            this.#audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
+
+            this._currentPlayOptions = options;
+
             // Get the secondary track that has been set during this watch session
             let currentSecondaryTrackIndex = playbackManager.getSecondarySubtitleStreamIndex(this);
 
@@ -502,10 +506,6 @@ function tryRemoveElement(elem) {
                     this.#secondarySubtitleTrackIndexToSetOnPlaying = -1;
                 }
             }
-
-            this.#audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
-
-            this._currentPlayOptions = options;
 
             const crossOrigin = getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
