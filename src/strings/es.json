@@ -1695,7 +1695,7 @@
     "SaveRecordingImages": "Guardar grabación de imágenes EPG",
     "SaveRecordingImagesHelp": "Guardar imágenes del proveedor de listados EPG junto con los archivos multimedia.",
     "LabelDummyChapterDuration": "Intervalo:",
-    "LabelDummyChapterDurationHelp": "Intervalo de extracción de imágenes de los capítulos",
+    "LabelDummyChapterDurationHelp": "Intervalo de extracción de imágenes de los capítulos en segundos",
     "HeaderDummyChapter": "Imágenes de capítulos",
     "LabelDummyChapterCount": "Límite:"
 }
