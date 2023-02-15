@@ -198,7 +198,7 @@ function tryRemoveElement(elem) {
         /**
          * @type {any | null | undefined}
          */
-        #currentSubtitlesOctopus;
+        #currentJASSUB;
         /**
          * @type {null | undefined}
          */
@@ -530,9 +530,9 @@ function tryRemoveElement(elem) {
             const offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if (this.#currentSubtitlesOctopus) {
+            if (this.#currentJASSUB) {
                 this.updateCurrentTrackOffset(offsetValue);
-                this.#currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+                this.#currentJASSUB.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
             } else {
                 const trackElement = this.getTextTrack();
                 // if .vtt currently rendering
@@ -837,10 +837,8 @@ function tryRemoveElement(elem) {
                 loading.hide();
 
                 seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
-                    if (this.#currentSubtitlesOctopus) {
-                        this.#currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
-                        this.#currentSubtitlesOctopus.resize();
-                        this.#currentSubtitlesOctopus.resetRenderAheadCache(false);
+                    if (this.#currentJASSUB) {
+                        this.#currentJASSUB.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
                     }
                 });
 
@@ -980,11 +978,11 @@ function tryRemoveElement(elem) {
             this.#currentClock = null;
             this._currentAspectRatio = null;
 
-            const octopus = this.#currentSubtitlesOctopus;
-            if (octopus) {
-                octopus.dispose();
+            const jassub = this.#currentJASSUB;
+            if (jassub) {
+                jassub.destroy();
             }
-            this.#currentSubtitlesOctopus = null;
+            this.#currentJASSUB = null;
 
             const renderer = this.#currentAssRenderer;
             if (renderer) {
@@ -1066,37 +1064,30 @@ function tryRemoveElement(elem) {
             const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
                 api_key: apiClient.accessToken()
             });
-            const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 fonts: avaliableFonts,
-                workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
-                legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
-                onError() {
-                    // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
-                    htmlVideoPlayer.#currentSubtitlesOctopus = null;
-
-                    // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
-                    setTimeout(() => {
-                        onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
-                    }, 0);
-                },
+                workerUrl: `${appRouter.baseUrl()}/libraries/jassub-worker.js`,
+                legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/jassub-worker-legacy.js`,
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
-                // new octopus options; override all, even defaults
-                renderMode: 'wasm-blend',
+                // new jassub options; override all, even defaults
+                blendMode: 'js',
+                asyncRender: true,
+                // firefox implements offscreen canvas, but not according to spec which causes errors
+                offscreenRender: !browser.firefox,
+                onDemandRender: true,
+                useLocalFonts: true,
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
                 targetFps: 24,
                 prescaleFactor: 0.8,
                 prescaleHeightLimit: 1080,
-                maxRenderHeight: 2160,
-                resizeVariation: 0.2,
-                renderAhead: 90
+                maxRenderHeight: 2160
             };
-            import('@jellyfin/libass-wasm').then(({default: SubtitlesOctopus}) => {
+            import('jassub').then(({ default: JASSUB }) => {
                 Promise.all([
                     apiClient.getNamedConfiguration('encoding'),
                     // Worker in Tizen 5 doesn't resolve relative path with async request
@@ -1114,11 +1105,17 @@ function tryRemoveElement(elem) {
                                 });
                                 avaliableFonts.push(fontUrl);
                             });
-                            this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                            this.#currentJASSUB = new JASSUB(options);
                         });
                     } else {
-                        this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                        this.#currentJASSUB = new JASSUB(options);
                     }
+
+                    this.#currentJASSUB.addEventListener('error', ()=>{
+                        this.#currentJASSUB.destroy();
+                        this.#currentJASSUB = null;
+                        onErrorInternal(this, 'mediadecodeerror');
+                    }, { once: true });
                 });
             });
         }
