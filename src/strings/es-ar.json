@@ -1694,5 +1694,6 @@
     "LabelDummyChapterDuration": "Intervalo:",
     "LabelDummyChapterCount": "Límite:",
     "LabelDummyChapterCountHelp": "El número máximo de imágenes de capítulos que se extraerán para cada archivo multimedia.",
-    "LabelChapterImageResolution": "Resolución:"
+    "LabelChapterImageResolution": "Resolución:",
+    "LabelChapterImageResolutionHelp": "La resolución de las imágenes de los capítulos extraídos."
 }
