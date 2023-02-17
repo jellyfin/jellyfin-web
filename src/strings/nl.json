@@ -1693,14 +1693,14 @@
     "LabelDummyChapterCount": "Limiet:",
     "LabelDummyChapterCountHelp": "Het maximum aantal hoofdstukafbeeldingen dat wordt opgehaald uit ieder mediabestand.",
     "LabelChapterImageResolution": "Resolutie:",
-    "PreferEmbeddedExtrasTitlesOverFileNames": "Voorkeur voor ingebedde titels boven bestandsnamen voor extra's",
-    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Extra's hebben vaak dezelfde ingebedde naam als de hoofdcontent, vink dit aan om toch de ingebedde titels te gebruiken.",
-    "SaveRecordingImagesHelp": "Sla afbeeldingen van de EPG vermeldingen op naast de media.",
-    "SaveRecordingNFO": "Sla opname EPG-metadata op in de NFO",
-    "SaveRecordingNFOHelp": "Sla metadata uit de EPG vermelding op naast de media.",
-    "SaveRecordingImages": "Sla opname EPG afbeeldingen op",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Ingesloten titels boven bestandsnamen verkiezen voor extra's",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Extra's hebben vaak dezelfde ingesloten naam als de hoofdinhoud; vink dit aan om toch de ingesloten titels te gebruiken.",
+    "SaveRecordingImagesHelp": "Afbeeldingen uit EPG-vermeldingen naast media opslaan.",
+    "SaveRecordingNFO": "EPG-metadata in NFO opslaan",
+    "SaveRecordingNFOHelp": "Metadata uit de EPG-vermeldingen naast media opslaan.",
+    "SaveRecordingImages": "EPG-afbeeldingen opslaan",
     "HeaderDummyChapter": "Hoofdstukafbeeldingen",
-    "LabelDummyChapterDurationHelp": "De hoofdstukafbeelding extractie interval in seconden.",
-    "ResolutionMatchSource": "Bron matchen",
-    "HeaderRecordingMetadataSaving": "Opname metadata"
+    "LabelDummyChapterDurationHelp": "De extractieinterval voor hoofdstukafbeeldingen in seconden.",
+    "ResolutionMatchSource": "Gelijk aan bron",
+    "HeaderRecordingMetadataSaving": "Metadata opname"
 }
