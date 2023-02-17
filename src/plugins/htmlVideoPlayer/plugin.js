@@ -677,7 +677,7 @@ function tryRemoveElement(elem) {
                     return;
                 }
 
-                const shouldClearActiveCues = this.requiresClearingActiveCuesOnOffsetChange();
+                const shouldClearActiveCues = this.requiresHidingActiveCuesOnOffsetChange();
                 if (shouldClearActiveCues) {
                     this.hideTextTrackWithActiveCues(currentTrack);
                 }
