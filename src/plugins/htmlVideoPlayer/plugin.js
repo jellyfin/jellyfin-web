@@ -491,20 +491,16 @@ function tryRemoveElement(elem) {
 
             this._currentPlayOptions = options;
 
-            // Get the secondary track that has been set during this watch session
-            let currentSecondaryTrackIndex = playbackManager.getSecondarySubtitleStreamIndex(this);
-
-            if (!secondaryTrackValid) {
-                currentSecondaryTrackIndex = -1;
-                playbackManager.setSecondarySubtitleStreamIndex(currentSecondaryTrackIndex, this);
-            }
-
-            this.#secondarySubtitleTrackIndexToSetOnPlaying = currentSecondaryTrackIndex == null ? -1 : currentSecondaryTrackIndex;
-            if (this.#secondarySubtitleTrackIndexToSetOnPlaying != null && this.#secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
-                const initialSecondarySubtitleStream = options.mediaSource.MediaStreams[this.#secondarySubtitleTrackIndexToSetOnPlaying];
-                if (!initialSecondarySubtitleStream || initialSecondarySubtitleStream.DeliveryMethod !== 'External') {
-                    this.#secondarySubtitleTrackIndexToSetOnPlaying = -1;
+            if (secondaryTrackValid) {
+                this.#secondarySubtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSecondarySubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSecondarySubtitleStreamIndex;
+                if (this.#secondarySubtitleTrackIndexToSetOnPlaying != null && this.#secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
+                    const initialSecondarySubtitleStream = options.mediaSource.MediaStreams[this.#secondarySubtitleTrackIndexToSetOnPlaying];
+                    if (!initialSecondarySubtitleStream || initialSecondarySubtitleStream.DeliveryMethod !== 'External') {
+                        this.#secondarySubtitleTrackIndexToSetOnPlaying = -1;
+                    }
                 }
+            } else {
+                this.#secondarySubtitleTrackIndexToSetOnPlaying = -1;
             }
 
             const crossOrigin = getCrossOriginValue(options.mediaSource);

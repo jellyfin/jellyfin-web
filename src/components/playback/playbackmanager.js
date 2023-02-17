@@ -1724,7 +1724,7 @@ class PlaybackManager {
             }).then(function (deviceProfile) {
                 const audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
                 const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
-                const secondarySubtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.secondarySubtitleStreamIndex;
+                const secondarySubtitleStreamIndex = params.SecondarySubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.SecondarySubtitleStreamIndex;
 
                 let currentMediaSource = self.currentMediaSource(player);
                 const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
@@ -2399,7 +2399,7 @@ class PlaybackManager {
             }
         }
 
-        function autoSetNextTracks(prevSource, mediaSource, audio, subtitle, secondarySubtitle) {
+        function autoSetNextTracks(prevSource, mediaSource, audio, subtitle) {
             try {
                 if (!prevSource) return;
 
@@ -2416,7 +2416,7 @@ class PlaybackManager {
                     rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
                 }
 
-                if (secondarySubtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex == 'number') {
+                if (subtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex == 'number') {
                     rankStreamType(prevSource.DefaultSecondarySubtitleStreamIndex, prevSource, mediaSource, 'Subtitle', true);
                 }
             } catch (e) {
@@ -2484,13 +2484,13 @@ class PlaybackManager {
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(async (mediaSource) => {
                     const user = await apiClient.getCurrentUser();
-                    const playerData = getPlayerData(player);
-
-                    autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections, playerData.secondarySubtitleStreamIndex);
+                    autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
                     streamInfo.fullscreen = playOptions.fullscreen;
+
+                    const playerData = getPlayerData(player);
 
                     playerData.isChangingStream = false;
                     playerData.maxStreamingBitrate = maxBitrate;
