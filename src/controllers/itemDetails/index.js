@@ -1842,9 +1842,7 @@ function renderSpecials(page, item, user) {
 }
 
 function renderCast(page, item) {
-    const people = (item.People || []).filter(function (p) {
-        return p.Type === 'Actor';
-    });
+    const people = item.People || [];
 
     if (!people.length) {
         page.querySelector('#castCollapsible').classList.add('hide');
