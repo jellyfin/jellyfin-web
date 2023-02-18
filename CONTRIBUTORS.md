@@ -59,6 +59,7 @@
  - [Vankerkom](https://github.com/vankerkom)
  - [edvwib](https://github.com/edvwib)
  - [Rob Farraher](https://github.com/farraherbg)
+ - [TelepathicWalrus](https://github.com/TelepathicWalrus)
 
 # Emby Contributors
 
@@ -125,3 +126,4 @@
  - [jomp16](https://github.com/jomp16)
  - [Leon de Klerk](https://github.com/leondeklerk)
  - [CrispyBaguette](https://github.com/CrispyBaguette)
+ - [TelepathicWalrus](https://github.com/TelepathicWalrus)
