@@ -96,7 +96,18 @@ module.exports = {
             },
             {
                 test: /\.(js|jsx)$/,
-                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|blurhash|date-fns|epubjs|flv.js|libarchive.js|marked|screenfull)/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
+                    path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
+                    path.resolve(__dirname, 'node_modules/blurhash'),
+                    path.resolve(__dirname, 'node_modules/date-fns'),
+                    path.resolve(__dirname, 'node_modules/epubjs'),
+                    path.resolve(__dirname, 'node_modules/flv.js'),
+                    path.resolve(__dirname, 'node_modules/libarchive.js'),
+                    path.resolve(__dirname, 'node_modules/marked'),
+                    path.resolve(__dirname, 'node_modules/screenfull'),
+                    path.resolve(__dirname, 'src')
+                ],
                 use: [{
                     loader: 'babel-loader'
                 }]
@@ -118,7 +129,11 @@ module.exports = {
             },
             /* modules that Babel breaks when transforming to ESM */
             {
-                test: /node_modules[\\/](pdfjs-dist|xmldom)[\\/].*\.js$/,
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/pdfjs-dist'),
+                    path.resolve(__dirname, 'node_modules/xmldom')
+                ],
                 use: [{
                     loader: 'babel-loader',
                     options: {
