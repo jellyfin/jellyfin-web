@@ -146,6 +146,7 @@ const config = {
                 test: /\.(js|jsx)$/,
                 include: [
                     path.resolve(__dirname, 'node_modules/jassub'),
+                    path.resolve(__dirname, 'node_modules/rvfc-polyfill'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),
                     path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
