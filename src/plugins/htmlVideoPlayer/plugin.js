@@ -246,12 +246,6 @@ function tryRemoveElement(elem) {
          */
         #currentSecondaryTrackEvents;
         /**
-         * Used to temporarily store the text track when
-         * force-clearing the `activeCue` for certain browsers
-         * @type {TextTrack | null | undefined}
-         */
-        #currentTextTrack;
-        /**
          * @type {string[] | undefined}
          */
         #supportedFeatures;
@@ -650,19 +644,13 @@ function tryRemoveElement(elem) {
          * Forces the active cue to clear by disabling then re-enabling the track.
          * The track mode is reverted inside of a 0ms timeout to free up the track
          * and allow it to disable and clear the active cue.
-         * The track needs to be temporarily stored in order for us to access it
-         * inside the timeout. The stored value is reset after it is used.
          * @private
          */
         forceClearTextTrackActiveCues(currentTrack) {
             if (currentTrack.activeCues) {
-                this.#currentTextTrack = currentTrack;
                 currentTrack.mode = 'disabled';
                 setTimeout(() => {
-                    if (this.#currentTextTrack) {
-                        this.#currentTextTrack.mode = 'showing';
-                        this.#currentTextTrack = null;
-                    }
+                    currentTrack.mode = 'showing';
                 }, 0);
             }
         }
