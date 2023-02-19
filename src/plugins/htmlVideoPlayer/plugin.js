@@ -32,6 +32,7 @@ import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
+import debounce from 'lodash-es/debounce';
 
 /**
  * Returns resolved URL.
@@ -571,7 +572,12 @@ function tryRemoveElement(elem) {
             }
         }
 
-        setSubtitleOffset(offset) {
+        setSubtitleOffset = debounce(this._setSubtitleOffset, 500);
+
+        /**
+         * @private
+         */
+        _setSubtitleOffset(offset) {
             const offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
