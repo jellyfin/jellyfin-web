@@ -495,7 +495,7 @@ function tryRemoveElement(elem) {
                 this.#secondarySubtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSecondarySubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSecondarySubtitleStreamIndex;
                 if (this.#secondarySubtitleTrackIndexToSetOnPlaying != null && this.#secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
                     const initialSecondarySubtitleStream = options.mediaSource.MediaStreams[this.#secondarySubtitleTrackIndexToSetOnPlaying];
-                    if (!initialSecondarySubtitleStream || initialSecondarySubtitleStream.DeliveryMethod !== 'External') {
+                    if (!initialSecondarySubtitleStream || !playbackManager.trackHasSecondarySubtitleSupport(initialSecondarySubtitleStream, this)) {
                         this.#secondarySubtitleTrackIndexToSetOnPlaying = -1;
                     }
                 }
