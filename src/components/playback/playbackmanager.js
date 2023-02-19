@@ -1598,7 +1598,7 @@ class PlaybackManager {
 
             // Secondary subtitles are currently only handled client side
             // Changes to the server code are required before we can handle other delivery methods
-            if (newStream && getDeliveryMethod(newStream) !== 'External') {
+            if (newStream && !self.trackHasSecondarySubtitleSupport(newStream, player)) {
                 return;
             }
 
