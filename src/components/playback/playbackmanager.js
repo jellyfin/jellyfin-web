@@ -2486,6 +2486,19 @@ class PlaybackManager {
                     const user = await apiClient.getCurrentUser();
                     autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
 
+                    if (mediaSource.DefaultSubtitleStreamIndex == null || mediaSource.DefaultSubtitleStreamIndex < 0) {
+                        mediaSource.DefaultSubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
+                    }
+
+                    const subtitleTrack1 = mediaSource.MediaStreams[mediaSource.DefaultSubtitleStreamIndex];
+                    const subtitleTrack2 = mediaSource.MediaStreams[mediaSource.DefaultSecondarySubtitleStreamIndex];
+
+                    if (!self.trackHasSecondarySubtitleSupport(subtitleTrack1, player)
+                        || !self.trackHasSecondarySubtitleSupport(subtitleTrack2, player)) {
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
+                    }
+
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
                     streamInfo.fullscreen = playOptions.fullscreen;
