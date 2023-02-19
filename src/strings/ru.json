@@ -1688,5 +1688,10 @@
     "DownloadAll": "Скачать все",
     "StereoDownmixAlgorithmHelp": "Алгоритм используемый для смешивания многоканального аудио в стерео.",
     "LabelStereoDownmixAlgorithm": "Алгоритм смешивания стерео",
-    "Experimental": "Экспериментальные"
+    "Experimental": "Экспериментальные",
+    "LabelDummyChapterDuration": "Интервал:",
+    "LabelChapterImageResolution": "Разрешение изображения:",
+    "HeaderDummyChapter": "Изображения глав",
+    "LabelDummyChapterCount": "Лимит:",
+    "HeaderRecordingMetadataSaving": "Метадата записей"
 }
