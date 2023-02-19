@@ -891,7 +891,7 @@ class PlaybackManager {
          * - or if it can be paired with a secondary subtitle when used as a primary subtitle
          */
         self.trackHasSecondarySubtitleSupport = function (track, player = self._currentPlayer) {
-            if (!player) return false;
+            if (!player || !track) return false;
             const format = (track.Codec || '').toLowerCase();
             // Currently, only non-SSA/non-ASS external subtitles are supported.
             // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
