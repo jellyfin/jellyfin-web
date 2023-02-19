@@ -3017,7 +3017,11 @@ class PlaybackManager {
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
                 playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
-                playerData.secondarySubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                if (self.trackHasSecondarySubtitleSupport(mediaSource.MediaStreams[mediaSource.DefaultSubtitleStreamIndex])) {
+                    playerData.secondarySubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                } else {
+                    playerData.secondarySubtitleStreamIndex = -1;
+                }
             } else {
                 playerData.audioStreamIndex = null;
                 playerData.subtitleStreamIndex = null;
