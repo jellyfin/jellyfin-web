@@ -2387,11 +2387,7 @@ class PlaybackManager {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
                 if (streamType == 'Subtitle') {
                     if (isSecondarySubtitle) {
-                        if (self.trackHasSecondarySubtitleSupport(mediaSource.MediaStreams[bestStreamIndex])) {
-                            mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
-                        } else {
-                            mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
-                        }
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
                     } else {
                         mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
                     }
