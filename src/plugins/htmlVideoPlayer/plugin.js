@@ -572,7 +572,7 @@ function tryRemoveElement(elem) {
             }
         }
 
-        setSubtitleOffset = debounce(this._setSubtitleOffset, 500);
+        setSubtitleOffset = debounce(this._setSubtitleOffset, 100);
 
         /**
          * @private
