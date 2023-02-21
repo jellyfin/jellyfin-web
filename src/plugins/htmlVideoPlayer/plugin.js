@@ -822,6 +822,8 @@ function tryRemoveElement(elem) {
         }
 
         destroy() {
+            this.setSubtitleOffset.cancel();
+
             destroyHlsPlayer(this);
             destroyFlvPlayer(this);
 
