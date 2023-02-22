@@ -6,7 +6,7 @@ import escapeHTML from 'escape-html';
 import globalize from '../../../../scripts/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
-import BlockedTagList from '../../../../components/dashboard/users/BlockedTagList';
+import TagList from '../../../../components/dashboard/users/TagList';
 import ButtonElement from '../../../../elements/ButtonElement';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
@@ -16,6 +16,7 @@ import { getParameterByName } from '../../../../utils/url';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
+import prompt from '../../../../components/prompt/prompt';
 
 type UnratedItem = {
     name: string;
@@ -28,6 +29,7 @@ const UserParentalControl: FunctionComponent = () => {
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
+    const [ allowedTags, setAllowedTags ] = useState([]);
     const [ blockedTags, setBlockedTags ] = useState([]);
 
     const element = useRef<HTMLDivElement>(null);
@@ -106,6 +108,29 @@ const UserParentalControl: FunctionComponent = () => {
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
     }, []);
 
+    const loadAllowedTags = useCallback((tags) => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('Unexpected null reference');
+            return;
+        }
+
+        setAllowedTags(tags);
+
+        const allowedTagsElem = page.querySelector('.allowedTags') as HTMLDivElement;
+
+        for (const btnDeleteTag of allowedTagsElem.querySelectorAll('.btnDeleteTag')) {
+            btnDeleteTag.addEventListener('click', function () {
+                const tag = btnDeleteTag.getAttribute('data-tag');
+                const newTags = tags.filter(function (t: string) {
+                    return t != tag;
+                });
+                loadAllowedTags(newTags);
+            });
+        }
+    }, []);
+
     const loadBlockedTags = useCallback((tags) => {
         const page = element.current;
 
@@ -165,6 +190,7 @@ const UserParentalControl: FunctionComponent = () => {
         LibraryMenu.setTitle(user.Name);
         loadUnratedItems(user);
 
+        loadAllowedTags(user.Policy.AllowedTags);
         loadBlockedTags(user.Policy.BlockedTags);
         populateRatings(allParentalRatings);
         let ratingValue = '';
@@ -188,7 +214,7 @@ const UserParentalControl: FunctionComponent = () => {
         }
         renderAccessSchedule(user.Policy.AccessSchedules || []);
         loading.hide();
-    }, [loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
 
     const loadData = useCallback(() => {
         loading.show();
@@ -211,32 +237,6 @@ const UserParentalControl: FunctionComponent = () => {
         }
 
         loadData();
-
-        const onSaveComplete = () => {
-            loading.hide();
-            toast(globalize.translate('SettingsSaved'));
-        };
-
-        const saveUser = (user: UserDto) => {
-            if (!user.Id || !user.Policy) {
-                throw new Error('Unexpected null user id or policy');
-            }
-
-            const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
-            user.Policy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
-            user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
-                return i.checked;
-            }).map(function (i) {
-                return i.getAttribute('data-itemtype');
-            });
-            user.Policy.AccessSchedules = getSchedulesFromPage();
-            user.Policy.BlockedTags = getBlockedTagsFromPage();
-            window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                onSaveComplete();
-            }).catch(err => {
-                console.error('[userparentalcontrol] failed to update user policy', err);
-            });
-        };
 
         const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
@@ -270,6 +270,27 @@ const UserParentalControl: FunctionComponent = () => {
             }) as AccessSchedule[];
         };
 
+        const getAllowedTagsFromPage = () => {
+            return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), function (elem) {
+                return elem.getAttribute('data-tag');
+            }) as string[];
+        };
+
+        const showAllowedTagPopup = () => {
+            prompt({
+                label: globalize.translate('LabelTag')
+            }).then(function (value) {
+                const tags = getAllowedTagsFromPage();
+
+                if (tags.indexOf(value) == -1) {
+                    tags.push(value);
+                    loadAllowedTags(tags);
+                }
+            }).catch(() => {
+                // prompt closed
+            });
+        };
+
         const getBlockedTagsFromPage = () => {
             return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), function (elem) {
                 return elem.getAttribute('data-tag');
@@ -277,23 +298,26 @@ const UserParentalControl: FunctionComponent = () => {
         };
 
         const showBlockedTagPopup = () => {
-            import('../../../../components/prompt/prompt').then(({ default: prompt }) => {
-                prompt({
-                    label: globalize.translate('LabelTag')
-                }).then(function (value) {
-                    const tags = getBlockedTagsFromPage();
+            prompt({
+                label: globalize.translate('LabelTag')
+            }).then(function (value) {
+                const tags = getBlockedTagsFromPage();
 
-                    if (tags.indexOf(value) == -1) {
-                        tags.push(value);
-                        loadBlockedTags(tags);
-                    }
-                }).catch(() => {
-                    // prompt closed
-                });
-            }).catch(err => {
-                console.error('[userparentalcontrol] failed to load prompt', err);
+                if (tags.indexOf(value) == -1) {
+                    tags.push(value);
+                    loadBlockedTags(tags);
+                }
+            }).catch(() => {
+                // prompt closed
             });
         };
+
+        const onSaveComplete = () => {
+            loading.hide();
+            toast(globalize.translate('SettingsSaved'));
+        };
+
+        const saveUser = handleSaveUser(page, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
 
         const onSubmit = (e: Event) => {
             loading.show();
@@ -318,12 +342,16 @@ const UserParentalControl: FunctionComponent = () => {
             }, -1);
         });
 
+        (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', function () {
+            showAllowedTagPopup();
+        });
+
         (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
             showBlockedTagPopup();
         });
 
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadBlockedTags, loadData, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadData, renderAccessSchedule]);
 
     const optionMaxParentalRating = () => {
         let content = '';
@@ -381,6 +409,27 @@ const UserParentalControl: FunctionComponent = () => {
                     <div className='verticalSection' style={{ marginBottom: '2em' }}>
                         <SectionTitleContainer
                             SectionClassName='detailSectionHeader'
+                            title={globalize.translate('LabelAllowContentWithTags')}
+                            isBtnVisible={true}
+                            btnId='btnAddAllowedTag'
+                            btnClassName='fab submit sectionTitleButton'
+                            btnTitle='Add'
+                            btnIcon='add'
+                            isLinkVisible={false}
+                        />
+                        <div className='allowedTags' style={{ marginTop: '.5em' }}>
+                            {allowedTags?.map(tag => {
+                                return <TagList
+                                    key={tag}
+                                    tag={tag}
+                                    tagType='allowedTag'
+                                />;
+                            })}
+                        </div>
+                    </div>
+                    <div className='verticalSection' style={{ marginBottom: '2em' }}>
+                        <SectionTitleContainer
+                            SectionClassName='detailSectionHeader'
                             title={globalize.translate('LabelBlockContentWithTags')}
                             isBtnVisible={true}
                             btnId='btnAddBlockedTag'
@@ -391,9 +440,10 @@ const UserParentalControl: FunctionComponent = () => {
                         />
                         <div className='blockedTags' style={{ marginTop: '.5em' }}>
                             {blockedTags.map(tag => {
-                                return <BlockedTagList
+                                return <TagList
                                     key={tag}
                                     tag={tag}
+                                    tagType='blockedTag'
                                 />;
                             })}
                         </div>
@@ -434,5 +484,29 @@ const UserParentalControl: FunctionComponent = () => {
 
     );
 };
+
+function handleSaveUser(page: HTMLDivElement, getSchedulesFromPage: () => AccessSchedule[], getAllowedTagsFromPage: () => string[], getBlockedTagsFromPage: () => string[], onSaveComplete: () => void) {
+    return (user: UserDto) => {
+        if (!user.Id || !user.Policy) {
+            throw new Error('Unexpected null user id or policy');
+        }
+
+        const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
+        user.Policy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
+        user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
+            return i.checked;
+        }).map(function (i) {
+            return i.getAttribute('data-itemtype');
+        });
+        user.Policy.AccessSchedules = getSchedulesFromPage();
+        user.Policy.AllowedTags = getAllowedTagsFromPage();
+        user.Policy.BlockedTags = getBlockedTagsFromPage();
+        window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
+            onSaveComplete();
+        }).catch(err => {
+            console.error('[userparentalcontrol] failed to update user policy', err);
+        });
+    };
+}
 
 export default UserParentalControl;

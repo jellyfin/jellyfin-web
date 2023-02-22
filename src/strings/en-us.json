@@ -528,6 +528,7 @@
     "LabelAlbum": "Album",
     "LabelAlbumArtists": "Album artists",
     "LabelAlbumGain": "Album Gain",
+    "LabelAllowContentWithTags": "Allow items with tags",
     "LabelAllowedRemoteAddresses": "Remote IP address filter",
     "LabelAllowedRemoteAddressesMode": "Remote IP address filter mode",
     "LabelAllowHWTranscoding": "Allow hardware transcoding",
