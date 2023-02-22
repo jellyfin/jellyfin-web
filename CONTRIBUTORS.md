@@ -60,6 +60,7 @@
  - [edvwib](https://github.com/edvwib)
  - [Rob Farraher](https://github.com/farraherbg)
  - [Pier-Luc Ducharme](https://github.com/pl-ducharme)
+ - [JPUC1143](https://github.com/Jpuc1143/)
 
 # Emby Contributors
 
