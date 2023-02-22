@@ -538,6 +538,7 @@
     "LabelAlbumArtMaxResHelp": "Maximum resolution of album art exposed via the 'upnp:albumArtURI' property.",
     "LabelAlbumArtMaxWidth": "Album art max width:",
     "LabelAlbumArtPN": "Album art PN:",
+    "LabelAllowContentWithTags": "Allow items with tags:",
     "LabelAllowedRemoteAddresses": "Remote IP address filter:",
     "LabelAllowedRemoteAddressesMode": "Remote IP address filter mode:",
     "LabelAllowHWTranscoding": "Allow hardware transcoding",

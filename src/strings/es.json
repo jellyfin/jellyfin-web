@@ -370,6 +370,7 @@
     "LabelAlbumArtMaxWidth": "Anchura máxima de la carátula del album:",
     "LabelAlbumArtPN": "Carátula del album PN:",
     "LabelAlbumArtists": "Artistas de los álbumes:",
+    "LabelAllowContentWithTags": "Permitir artículos con etiquetas:",
     "LabelAllowHWTranscoding": "Activar la conversión acelerada por hardware",
     "LabelAllowedRemoteAddresses": "Filtro de dirección IP remota:",
     "LabelAllowedRemoteAddressesMode": "Modo de filtro de dirección IP remota:",

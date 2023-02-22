@@ -1007,6 +1007,7 @@
     "LabelArtistsHelp": "Separate multiple artists with a semicolon.",
     "LabelArtists": "Artists:",
     "LabelAppName": "App name",
+    "LabelAllowContentWithTags": "Allow items with tags:",
     "LabelAllowedRemoteAddressesMode": "Remote IP address filter mode:",
     "LabelAllowedRemoteAddresses": "Remote IP address filter:",
     "LabelAllowHWTranscoding": "Allow hardware transcoding",
