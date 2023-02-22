@@ -65,13 +65,22 @@ video[controls]::-webkit-media-controls {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
     padding-bottom: env(safe-area-inset-bottom);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .videoSubtitlesInner {
     max-width: 70%;
     background-color: rgba(0, 0, 0, 0.8);
-    margin: auto;
-    display: inline-block;
+}
+
+.videoSecondarySubtitlesInner {
+    max-width: 70%;
+    background-color: rgba(0, 0, 0, 0.8);
+    min-height: 0 !important;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
 }
 
 @keyframes htmlvideoplayer-zoomin {
