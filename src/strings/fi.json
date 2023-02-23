@@ -1696,5 +1696,6 @@
     "LabelChapterImageResolutionHelp": "Purettujen kappalekuvien resoluutio.",
     "ResolutionMatchSource": "Vastaa lähdettä",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Suosi lisämateriaaleille upotettuja otsikoita tiedostonimien sijaan",
-    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Lisämateriaaleilla on usein sama otsikko kuin niiden isännällä. Valitse tämä käyttääksesi silti upotettuja otsikoita."
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Lisämateriaaleilla on usein sama otsikko kuin niiden isännällä. Valitse tämä käyttääksesi silti upotettuja otsikoita.",
+    "SecondarySubtitles": "Toissijaiset tekstitykset"
 }
