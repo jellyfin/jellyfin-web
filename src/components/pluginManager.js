@@ -9,6 +9,7 @@ import * as inputManager from '../scripts/inputManager';
 import toast from '../components/toast/toast';
 import confirm from '../components/confirm/confirm';
 import * as dashboard from '../utils/dashboard';
+import ServerConnections from '../components/ServerConnections';
 
 // TODO: replace with each plugin version
 const cacheParam = new Date().getTime();
@@ -88,7 +89,8 @@ class PluginManager {
                     inputManager,
                     toast,
                     confirm,
-                    dashboard
+                    dashboard,
+                    ServerConnections
                 });
             } else {
                 console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
