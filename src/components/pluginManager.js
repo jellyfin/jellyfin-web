@@ -8,6 +8,7 @@ import { appRouter } from '../components/appRouter';
 import * as inputManager from '../scripts/inputManager';
 import toast from '../components/toast/toast';
 import confirm from '../components/confirm/confirm';
+import * as dashboard from '../utils/dashboard';
 
 // TODO: replace with each plugin version
 const cacheParam = new Date().getTime();
@@ -86,7 +87,8 @@ class PluginManager {
                     appRouter,
                     inputManager,
                     toast,
-                    confirm
+                    confirm,
+                    dashboard
                 });
             } else {
                 console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
