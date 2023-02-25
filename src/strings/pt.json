@@ -1353,5 +1353,6 @@
     "ButtonSpace": "Espaço",
     "ButtonExitApp": "Sair da Aplicação",
     "ButtonClose": "Fechar",
-    "AddToFavorites": "adicionar aos favoritos"
+    "AddToFavorites": "adicionar aos favoritos",
+    "DownloadAll": "Descarregar tudo"
 }

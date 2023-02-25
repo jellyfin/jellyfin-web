@@ -422,7 +422,8 @@ function getPlaybackInfo(player,
     enableDirectPlay,
     enableDirectStream,
     allowVideoStreamCopy,
-    allowAudioStreamCopy) {
+    allowAudioStreamCopy,
+    secondarySubtitleStreamIndex) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
         return Promise.resolve({
             MediaSources: [
@@ -461,6 +462,9 @@ function getPlaybackInfo(player,
     }
     if (subtitleStreamIndex != null) {
         query.SubtitleStreamIndex = subtitleStreamIndex;
+    }
+    if (secondarySubtitleStreamIndex != null) {
+        query.SecondarySubtitleStreamIndex = secondarySubtitleStreamIndex;
     }
     if (enableDirectPlay != null) {
         query.EnableDirectPlay = enableDirectPlay;
@@ -876,25 +880,49 @@ class PlaybackManager {
             });
         };
 
-        function getCurrentSubtitleStream(player) {
+        self.playerHasSecondarySubtitleSupport = function (player = self._currentPlayer) {
+            if (!player) return false;
+            return Boolean(player.supports('SecondarySubtitles'));
+        };
+
+        /**
+         * Checks if:
+         * - the track can be used directly as a secondary subtitle
+         * - or if it can be paired with a secondary subtitle when used as a primary subtitle
+         */
+        self.trackHasSecondarySubtitleSupport = function (track, player = self._currentPlayer) {
+            if (!player || !track) return false;
+            const format = (track.Codec || '').toLowerCase();
+            // Currently, only non-SSA/non-ASS external subtitles are supported.
+            // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
+            // of the complexity of how they are rendered and the risk of the subtitles overlapping
+            return format !== 'ssa' && format !== 'ass' && getDeliveryMethod(track) === 'External';
+        };
+
+        self.secondarySubtitleTracks = function (player = self._currentPlayer) {
+            const streams = self.subtitleTracks(player);
+            return streams.filter((stream) => self.trackHasSecondarySubtitleSupport(stream, player));
+        };
+
+        function getCurrentSubtitleStream(player, isSecondaryStream = false) {
             if (!player) {
                 throw new Error('player cannot be null');
             }
 
-            const index = getPlayerData(player).subtitleStreamIndex;
+            const index = isSecondaryStream ? getPlayerData(player).secondarySubtitleStreamIndex : getPlayerData(player).subtitleStreamIndex;
 
             if (index == null || index === -1) {
                 return null;
             }
 
-            return getSubtitleStream(player, index);
+            return self.getSubtitleStream(player, index);
         }
 
-        function getSubtitleStream(player, index) {
+        self.getSubtitleStream = function (player, index) {
             return self.subtitleTracks(player).filter(function (s) {
                 return s.Type === 'Subtitle' && s.Index === index;
             })[0];
-        }
+        };
 
         self.getPlaylist = function (player) {
             player = player || self._currentPlayer;
@@ -1463,6 +1491,24 @@ class PlaybackManager {
             return getPlayerData(player).subtitleStreamIndex;
         };
 
+        self.getSecondarySubtitleStreamIndex = function (player) {
+            player = player || self._currentPlayer;
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
+            try {
+                if (!enableLocalPlaylistManagement(player)) {
+                    return player.getSecondarySubtitleStreamIndex();
+                }
+            } catch (e) {
+                console.error('[playbackmanager] Failed to get secondary stream index:', e);
+            }
+
+            return getPlayerData(player).secondarySubtitleStreamIndex;
+        };
+
         function getDeliveryMethod(subtitleStream) {
             // This will be null for internal subs for local items
             if (subtitleStream.DeliveryMethod) {
@@ -1480,7 +1526,7 @@ class PlaybackManager {
 
             const currentStream = getCurrentSubtitleStream(player);
 
-            const newStream = getSubtitleStream(player, index);
+            const newStream = self.getSubtitleStream(player, index);
 
             if (!currentStream && !newStream) {
                 return;
@@ -1522,7 +1568,46 @@ class PlaybackManager {
 
             player.setSubtitleStreamIndex(selectedTrackElementIndex);
 
+            // Also disable secondary subtitles when disabling the primary
+            // subtitles, or if it doesn't support a secondary pair
+            if (selectedTrackElementIndex === -1 || !self.trackHasSecondarySubtitleSupport(newStream)) {
+                self.setSecondarySubtitleStreamIndex(-1);
+            }
+
             getPlayerData(player).subtitleStreamIndex = index;
+        };
+
+        self.setSecondarySubtitleStreamIndex = function (index, player) {
+            player = player || self._currentPlayer;
+            if (!self.playerHasSecondarySubtitleSupport(player)) return;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                try {
+                    return player.setSecondarySubtitleStreamIndex(index);
+                } catch (e) {
+                    console.error('[playbackmanager] AutoSet - Failed to set secondary track:', e);
+                }
+            }
+
+            const currentStream = getCurrentSubtitleStream(player, true);
+
+            const newStream = self.getSubtitleStream(player, index);
+
+            if (!currentStream && !newStream) {
+                return;
+            }
+
+            // Secondary subtitles are currently only handled client side
+            // Changes to the server code are required before we can handle other delivery methods
+            if (newStream && !self.trackHasSecondarySubtitleSupport(newStream, player)) {
+                return;
+            }
+
+            try {
+                player.setSecondarySubtitleStreamIndex(index);
+                getPlayerData(player).secondarySubtitleStreamIndex = index;
+            } catch (e) {
+                console.error('[playbackmanager] AutoSet - Failed to set secondary track:', e);
+            }
         };
 
         self.supportSubtitleOffset = function (player) {
@@ -1548,7 +1633,7 @@ class PlaybackManager {
         };
 
         self.isSubtitleStreamExternal = function (index, player) {
-            const stream = getSubtitleStream(player, index);
+            const stream = self.getSubtitleStream(player, index);
             return stream ? getDeliveryMethod(stream) === 'External' : false;
         };
 
@@ -1639,6 +1724,7 @@ class PlaybackManager {
             }).then(function (deviceProfile) {
                 const audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
                 const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
+                const secondarySubtitleStreamIndex = params.SecondarySubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.SecondarySubtitleStreamIndex;
 
                 let currentMediaSource = self.currentMediaSource(player);
                 const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
@@ -1665,6 +1751,7 @@ class PlaybackManager {
                         }
 
                         getPlayerData(player).subtitleStreamIndex = subtitleStreamIndex;
+                        getPlayerData(player).secondarySubtitleStreamIndex = secondarySubtitleStreamIndex;
                         getPlayerData(player).audioStreamIndex = audioStreamIndex;
                         getPlayerData(player).maxStreamingBitrate = maxBitrate;
 
@@ -1950,6 +2037,7 @@ class PlaybackManager {
                 state.PlayState.PlaybackRate = self.getPlaybackRate(player);
 
                 state.PlayState.SubtitleStreamIndex = self.getSubtitleStreamIndex(player);
+                state.PlayState.SecondarySubtitleStreamIndex = self.getSecondarySubtitleStreamIndex(player);
                 state.PlayState.AudioStreamIndex = self.getAudioStreamIndex(player);
                 state.PlayState.BufferedRanges = self.getBufferedRanges(player);
 
@@ -2230,11 +2318,16 @@ class PlaybackManager {
             });
         }
 
-        function rankStreamType(prevIndex, prevSource, mediaSource, streamType) {
+        function rankStreamType(prevIndex, prevSource, mediaSource, streamType, isSecondarySubtitle) {
             if (prevIndex == -1) {
                 console.debug(`AutoSet ${streamType} - No Stream Set`);
-                if (streamType == 'Subtitle')
-                    mediaSource.DefaultSubtitleStreamIndex = -1;
+                if (streamType == 'Subtitle') {
+                    if (isSecondarySubtitle) {
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
+                    } else {
+                        mediaSource.DefaultSubtitleStreamIndex = -1;
+                    }
+                }
                 return;
             }
 
@@ -2292,8 +2385,13 @@ class PlaybackManager {
 
             if (bestStreamIndex != null) {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
-                if (streamType == 'Subtitle')
-                    mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
+                if (streamType == 'Subtitle') {
+                    if (isSecondarySubtitle) {
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
+                    } else {
+                        mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
+                    }
+                }
                 if (streamType == 'Audio')
                     mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
             } else {
@@ -2316,6 +2414,10 @@ class PlaybackManager {
 
                 if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex == 'number') {
                     rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+                }
+
+                if (subtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex == 'number') {
+                    rankStreamType(prevSource.DefaultSecondarySubtitleStreamIndex, prevSource, mediaSource, 'Subtitle', true);
                 }
             } catch (e) {
                 console.error(`AutoSet - Caught unexpected error: ${e}`);
@@ -2383,6 +2485,19 @@ class PlaybackManager {
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(async (mediaSource) => {
                     const user = await apiClient.getCurrentUser();
                     autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
+
+                    if (mediaSource.DefaultSubtitleStreamIndex == null || mediaSource.DefaultSubtitleStreamIndex < 0) {
+                        mediaSource.DefaultSubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
+                    }
+
+                    const subtitleTrack1 = mediaSource.MediaStreams[mediaSource.DefaultSubtitleStreamIndex];
+                    const subtitleTrack2 = mediaSource.MediaStreams[mediaSource.DefaultSecondarySubtitleStreamIndex];
+
+                    if (!self.trackHasSecondarySubtitleSupport(subtitleTrack1, player)
+                        || !self.trackHasSecondarySubtitleSupport(subtitleTrack2, player)) {
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
+                    }
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
@@ -2751,7 +2866,8 @@ class PlaybackManager {
             return {
                 ...prevSource,
                 DefaultAudioStreamIndex: prevPlayerData.audioStreamIndex,
-                DefaultSubtitleStreamIndex: prevPlayerData.subtitleStreamIndex
+                DefaultSubtitleStreamIndex: prevPlayerData.subtitleStreamIndex,
+                DefaultSecondarySubtitleStreamIndex: prevPlayerData.secondarySubtitleStreamIndex
             };
         }
 
@@ -2910,9 +3026,11 @@ class PlaybackManager {
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
                 playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
+                playerData.secondarySubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
             } else {
                 playerData.audioStreamIndex = null;
                 playerData.subtitleStreamIndex = null;
+                playerData.secondarySubtitleStreamIndex = null;
             }
 
             self._playNextAfterEnded = true;

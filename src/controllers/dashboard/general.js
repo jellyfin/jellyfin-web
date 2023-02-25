@@ -1,4 +1,5 @@
 import 'jquery';
+
 import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -35,6 +36,7 @@ import alert from '../../components/alert';
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
             config.QuickConnectAvailable = form.querySelector('#chkQuickConnectAvailable').checked;
+
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;

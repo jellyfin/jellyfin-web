@@ -154,7 +154,7 @@
     "Movies": "Film",
     "Alerts": "Peringatan",
     "AddedOnValue": "{0} Ditambahkan",
-    "AllowFfmpegThrottling": "Transcode Macet",
+    "AllowFfmpegThrottling": "Transcode Dibatas (Throttle)",
     "AllowOnTheFlySubtitleExtractionHelp": "Subtitel yang disematkan dapat diekstrak dari video dan dikirim ke klien dalam teks biasa, untuk membantu mencegah transcoding video. Pada beberapa sistem, ini dapat memakan waktu lama dan menyebabkan pemutaran video terhenti selama proses ekstraksi. Nonaktifkan ini untuk menyematkan subtitle yang disematkan dengan transcoding video ketika mereka tidak didukung secara native oleh perangkat klien.",
     "ButtonSyncPlay": "SyncPlay",
     "EnablePhotosHelp": "Gambar akan terdeteksi dan ditampilkan bersama file media lainnya.",

@@ -143,13 +143,18 @@
                                 <div class="writersLabel label"></div>
                                 <div class="writers content focuscontainer-x"></div>
                             </div>
+
+                            <div class="detailsGroupItem studiosGroup hide">
+                                <div class="studiosLabel label"></div>
+                                <div class="studios content focuscontainer-x"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="seriesTimerScheduleSection verticalSection detailVerticalSection hide" style="margin-top: -3em;">
+                <div id="seriesTimerScheduleSection" class="verticalSection detailVerticalSection hide" style="margin-top: -3em;">
                     <h2 class="sectionTitle">${Schedule}</h2>
-                    <div class="seriesTimerSchedule padded-right"></div>
+                    <div id="seriesTimerSchedule" is="emby-itemscontainer" class="itemsContainer vertical-list padded-right" data-contextmenu="false"></div>
                 </div>
 
                 <div class="collectionItems hide"></div>

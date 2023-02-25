@@ -366,6 +366,10 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('.subtitleFetchers').addEventListener('click', onSortableContainerClick);
         parent.querySelector('.metadataFetchers').addEventListener('click', onSortableContainerClick);
         parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
+
+        parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
+            parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !e.currentTarget.checked);
+        });
     }
 
     export async function embed(parent, contentType, libraryOptions) {
@@ -412,8 +416,12 @@ import template from './libraryoptionseditor.template.html';
 
         if (contentType === 'books' || contentType === 'boxsets' || contentType === 'playlists' || contentType === 'music') {
             parent.querySelector('.chkEnableEmbeddedTitlesContainer').classList.add('hide');
+            parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.add('hide');
         } else {
             parent.querySelector('.chkEnableEmbeddedTitlesContainer').classList.remove('hide');
+            if (parent.querySelector('#chkEnableEmbeddedTitles').checked) {
+                parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.remove('hide');
+            }
         }
 
         if (contentType === 'tvshows') {
@@ -525,6 +533,7 @@ import template from './libraryoptionseditor.template.html';
             SeasonZeroDisplayName: parent.querySelector('#txtSeasonZeroName').value,
             AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value),
             EnableEmbeddedTitles: parent.querySelector('#chkEnableEmbeddedTitles').checked,
+            EnableEmbeddedExtrasTitles: parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked,
             EnableEmbeddedEpisodeInfos: parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked,
             AllowEmbeddedSubtitles: parent.querySelector('#selectAllowEmbeddedSubtitles').value,
             SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked,
@@ -580,6 +589,8 @@ import template from './libraryoptionseditor.template.html';
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
+        parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !options.EnableEmbeddedTitles);
+        parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked = options.EnableEmbeddedExtrasTitles;
         parent.querySelector('#chkEnableEmbeddedEpisodeInfos').value = options.EnableEmbeddedEpisodeInfos;
         parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
         parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;

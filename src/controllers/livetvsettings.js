@@ -16,6 +16,8 @@ function loadPage(page, config) {
     page.querySelector('#txtSeriesRecordingPath').value = config.SeriesRecordingPath || '';
     page.querySelector('#txtPostProcessor').value = config.RecordingPostProcessor || '';
     page.querySelector('#txtPostProcessorArguments').value = config.RecordingPostProcessorArguments || '';
+    page.querySelector('#chkSaveRecordingNFO').checked = config.SaveRecordingNFO;
+    page.querySelector('#chkSaveRecordingImages').checked = config.SaveRecordingImages;
     loading.hide();
 }
 
@@ -36,6 +38,8 @@ function onSubmit() {
         config.PostPaddingSeconds = 60 * $('#txtPostPaddingMinutes', form).val();
         config.RecordingPostProcessor = $('#txtPostProcessor', form).val();
         config.RecordingPostProcessorArguments = $('#txtPostProcessorArguments', form).val();
+        config.SaveRecordingNFO = form.querySelector('#chkSaveRecordingNFO').checked;
+        config.SaveRecordingImages = form.querySelector('#chkSaveRecordingImages').checked;
         ApiClient.updateNamedConfiguration('livetv', config).then(function () {
             Dashboard.processServerConfigurationUpdateResult();
             showSaveMessage(recordingPathChanged);

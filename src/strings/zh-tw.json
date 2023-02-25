@@ -570,9 +570,9 @@
     "LabelAccessStart": "開始時間：",
     "LabelAirDays": "播出日期：",
     "LabelAirTime": "播出時間：",
-    "LabelAirsAfterSeason": "已播放劇集季度：",
-    "LabelAirsBeforeEpisode": "集播出前：",
-    "LabelAirsBeforeSeason": "尚未播放劇集季度：",
+    "LabelAirsAfterSeason": "在季度後播出：",
+    "LabelAirsBeforeEpisode": "在集數前播出：",
+    "LabelAirsBeforeSeason": "在季度前播出：",
     "LabelAlbum": "專輯：",
     "LabelAlbumArtHelp": "PN 在 upnp:albumArtURI 裡的 dlna:profileID 屬性用於專輯封面。某些設備不管圖像的尺寸大小，都會要求特定的值。",
     "LabelAlbumArtMaxHeight": "專輯封面最大高度：",
@@ -1169,7 +1169,7 @@
     "LabelOptionalNetworkPathHelp": "如果這個資料夾在網路上分享，提供網路分享路徑可以供其他應用程式直接存取媒體檔案，例如 {0} 或者 {1}。",
     "LabelOriginalAspectRatio": "原始長寬比：",
     "LabelOverview": "內容概述：",
-    "LabelParentalRating": "家長分級：",
+    "LabelParentalRating": "分級：",
     "LabelPasswordConfirm": "確認密碼：",
     "LabelPasswordResetProvider": "密碼重設提供者：",
     "LabelPasswordRecoveryPinCode": "PIN 碼：",
@@ -1683,5 +1683,10 @@
     "MediaInfoRpuPresentFlag": "杜比視界 rpu 存在標記",
     "MediaInfoElPresentFlag": "杜比視界 el 存在標記",
     "MediaInfoBlPresentFlag": "杜比視界 bl 存在標記",
-    "MediaInfoDvBlSignalCompatibilityId": "杜比視界 bl 訊號相容性 id"
+    "MediaInfoDvBlSignalCompatibilityId": "杜比視界 bl 訊號相容性 id",
+    "LabelStereoDownmixAlgorithm": "立體聲混縮算法 (Stereo Downmix Algorithm)",
+    "StereoDownmixAlgorithmHelp": "會將多聲道的音訊混縮為雙聲道的演算法。",
+    "DownloadAll": "下載全部",
+    "Experimental": "實驗性",
+    "HeaderDummyChapter": "章節影像"
 }

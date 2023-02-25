@@ -8,6 +8,7 @@ import 'material-design-icons-iconfont';
 import './mediainfo.scss';
 import '../guide/programs.scss';
 import '../../elements/emby-button/emby-button';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 /* eslint-disable indent */
     function getTimerIndicator(item) {
@@ -158,7 +159,7 @@ import '../../elements/emby-button/emby-button';
             }
         }
 
-        if (item.StartDate && item.Type !== 'Program' && item.Type !== 'SeriesTimer') {
+        if (item.StartDate && item.Type !== 'Program' && item.Type !== 'SeriesTimer' && item.Type !== 'Timer') {
             try {
                 date = datetime.parseISO8601Date(item.StartDate);
 
@@ -196,47 +197,52 @@ import '../../elements/emby-button/emby-button';
             }
         }
 
-        if (item.Type === 'Program') {
+        if (item.Type === 'Program' || item.Type === 'Timer') {
+            let program = item;
+            if (item.Type === 'Timer') {
+                program = item.ProgramInfo;
+            }
+
             if (options.programIndicator !== false) {
-                if (item.IsLive) {
+                if (program.IsLive && userSettings.get('guide-indicator-live') === 'true') {
                     miscInfo.push({
                         html: `<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">${globalize.translate('Live')}</div>`
                     });
-                } else if (item.IsPremiere) {
+                } else if (program.IsPremiere && userSettings.get('guide-indicator-premiere') === 'true') {
                     miscInfo.push({
                         html: `<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">${globalize.translate('Premiere')}</div>`
                     });
-                } else if (item.IsSeries && !item.IsRepeat) {
+                } else if (program.IsSeries && !program.IsRepeat && userSettings.get('guide-indicator-new') === 'true') {
                     miscInfo.push({
                         html: `<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">${globalize.translate('New')}</div>`
                     });
-                } else if (item.IsSeries && item.IsRepeat) {
+                } else if (program.IsSeries && program.IsRepeat && userSettings.get('guide-indicator-repeat') === 'true') {
                     miscInfo.push({
                         html: `<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">${globalize.translate('Repeat')}</div>`
                     });
                 }
             }
 
-            if ((item.IsSeries || item.EpisodeTitle) && options.episodeTitle !== false) {
-                text = itemHelper.getDisplayName(item, {
+            if ((program.IsSeries || program.EpisodeTitle) && options.episodeTitle !== false) {
+                text = itemHelper.getDisplayName(program, {
                     includeIndexNumber: options.episodeTitleIndexNumber
                 });
 
                 if (text) {
                     miscInfo.push(escapeHtml(text));
                 }
-            } else if (item.IsMovie && item.ProductionYear && options.originalAirDate !== false) {
-                miscInfo.push(item.ProductionYear);
-            } else if (item.PremiereDate && options.originalAirDate !== false) {
+            } else if (program.IsMovie && program.ProductionYear && options.originalAirDate !== false) {
+                miscInfo.push(program.ProductionYear);
+            } else if (program.PremiereDate && options.originalAirDate !== false) {
                 try {
-                    date = datetime.parseISO8601Date(item.PremiereDate);
+                    date = datetime.parseISO8601Date(program.PremiereDate);
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
                 } catch (e) {
-                    console.error('error parsing date:', item.PremiereDate);
+                    console.error('error parsing date:', program.PremiereDate);
                 }
-            } else if (item.ProductionYear) {
-                miscInfo.push(item.ProductionYear);
+            } else if (program.ProductionYear && options.year !== false ) {
+                miscInfo.push(program.ProductionYear);
             }
         }
 
@@ -255,7 +261,7 @@ import '../../elements/emby-button/emby-button';
             }
         }
 
-        if (item.RunTimeTicks && item.Type !== 'Series' && item.Type !== 'Program' && item.Type !== 'Book' && !showFolderRuntime && options.runtime !== false) {
+        if (item.RunTimeTicks && item.Type !== 'Series' && item.Type !== 'Program' && item.Type !== 'Timer' && item.Type !== 'Book' && !showFolderRuntime && options.runtime !== false) {
             if (item.Type === 'Audio') {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
@@ -263,7 +269,7 @@ import '../../elements/emby-button/emby-button';
             }
         }
 
-        if (item.OfficialRating && item.Type !== 'Season' && item.Type !== 'Episode') {
+        if (options.officialRating !== false && item.OfficialRating && item.Type !== 'Season' && item.Type !== 'Episode') {
             miscInfo.push({
                 text: item.OfficialRating,
                 cssClass: 'mediaInfoOfficialRating'

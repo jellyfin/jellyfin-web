@@ -1673,5 +1673,6 @@
     "RememberSubtitleSelections": "Altyazı dilini önceki öğeye göre ayarla",
     "TabContainers": "Barındırıcılar",
     "OptionDateShowAdded": "Dizi Eklenme Tarihi",
-    "OptionDateEpisodeAdded": "Bölüm Eklenme Tarihi"
+    "OptionDateEpisodeAdded": "Bölüm Eklenme Tarihi",
+    "DownloadAll": "Hepsini indir"
 }
