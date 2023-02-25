@@ -1689,5 +1689,6 @@
     "LabelDummyChapterCountHelp": "Максімальная колькасць выяваў раздзелаў, якія будуць выняты для кожнага медыяфайла.",
     "LabelChapterImageResolution": "Дазвол:",
     "LabelChapterImageResolutionHelp": "Дазвол вынятых малюнкаў раздзелаў.",
-    "ResolutionMatchSource": "Супадзенне з крыніцай"
+    "ResolutionMatchSource": "Супадзенне з крыніцай",
+    "SecondarySubtitles": "Дадатковыя субтытры"
 }
