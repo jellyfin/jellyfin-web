@@ -33,7 +33,7 @@
     "cssnano": "5.1.14",
     "es-check": "7.1.0",
     "eslint": "8.34.0",
-    "eslint-plugin-compat": "4.1.1",
+    "eslint-plugin-compat": "4.1.2",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsx-a11y": "6.7.1",
