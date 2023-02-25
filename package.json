@@ -30,7 +30,7 @@
     "copy-webpack-plugin": "11.0.0",
     "cross-env": "7.0.3",
     "css-loader": "6.7.3",
-    "cssnano": "5.1.14",
+    "cssnano": "5.1.15",
     "es-check": "7.1.0",
     "eslint": "8.34.0",
     "eslint-plugin-compat": "4.1.2",
