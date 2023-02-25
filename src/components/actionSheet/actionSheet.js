@@ -6,7 +6,7 @@ import dom from '../../scripts/dom';
 import '../../elements/emby-button/emby-button';
 import './actionSheet.scss';
 import 'material-design-icons-iconfont';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../components/listview/listview.scss';
 
 function getOffsets(elems) {

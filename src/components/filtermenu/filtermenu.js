@@ -13,7 +13,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filtermenu.template.html';
 
