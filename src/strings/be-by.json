@@ -1690,5 +1690,15 @@
     "LabelChapterImageResolution": "Дазвол:",
     "LabelChapterImageResolutionHelp": "Дазвол вынятых малюнкаў раздзелаў.",
     "ResolutionMatchSource": "Супадзенне з крыніцай",
-    "SecondarySubtitles": "Дадатковыя субтытры"
+    "SecondarySubtitles": "Дадатковыя субтытры",
+    "SubtitleBlack": "Чорны",
+    "SubtitleBlue": "Сіні",
+    "SubtitleCyan": "Блакітны",
+    "SubtitleGray": "Шэры",
+    "SubtitleGreen": "Зялёны",
+    "SubtitleLightGray": "Светла-шэры",
+    "SubtitleMagenta": "Пурпурны",
+    "SubtitleRed": "Чырвоны",
+    "SubtitleWhite": "Белы",
+    "SubtitleYellow": "Жоўты"
 }
