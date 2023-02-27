@@ -1703,5 +1703,15 @@
     "LabelDummyChapterDurationHelp": "De extractieinterval voor hoofdstukafbeeldingen in seconden.",
     "ResolutionMatchSource": "Gelijk aan bron",
     "HeaderRecordingMetadataSaving": "Metadata opname",
-    "SecondarySubtitles": "Secundaire ondertiteling"
+    "SecondarySubtitles": "Secundaire ondertiteling",
+    "SubtitleBlack": "Zwart",
+    "SubtitleBlue": "Blauw",
+    "SubtitleCyan": "Cyaan",
+    "SubtitleGray": "Grijs",
+    "SubtitleGreen": "Groen",
+    "SubtitleLightGray": "Lichtgrijs",
+    "SubtitleMagenta": "Magenta",
+    "SubtitleRed": "Rood",
+    "SubtitleWhite": "Wit",
+    "SubtitleYellow": "Geel"
 }
