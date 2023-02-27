@@ -1704,5 +1704,15 @@
     "ResolutionMatchSource": "Stejné jako zdroj",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Preferovat vložené názvy před názvy souborů pro doplňky",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Doplňky většinou mají stejný vložený název jako nadřazená položka. Zaškrtnutím je i přesto můžete upřednostnit.",
-    "SecondarySubtitles": "Sekundární titulky"
+    "SecondarySubtitles": "Sekundární titulky",
+    "SubtitleBlack": "Černá",
+    "SubtitleBlue": "Modrá",
+    "SubtitleCyan": "Tyrkysová",
+    "SubtitleGray": "Šedá",
+    "SubtitleGreen": "Zelená",
+    "SubtitleLightGray": "Světle šedá",
+    "SubtitleMagenta": "Fialová",
+    "SubtitleRed": "Červená",
+    "SubtitleWhite": "Bílá",
+    "SubtitleYellow": "Žlutá"
 }
