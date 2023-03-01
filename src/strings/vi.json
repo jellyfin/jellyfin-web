@@ -1695,5 +1695,15 @@
     "PreferEmbeddedExtrasTitlesOverFileNames": "Ưu tiên tiêu đề được nhúng hơn tên tệp cho các tính năng bổ sung",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Phần bổ sung thường có cùng tên được nhúng với phần gốc, hãy kiểm tra điều này để sử dụng các tiêu đề được nhúng cho chúng.",
     "HeaderDummyChapter": "Hình Ảnh Phân Đoạn",
-    "HeaderRecordingMetadataSaving": "Dữ Liệu Mô Tả Bản Ghi"
+    "HeaderRecordingMetadataSaving": "Dữ Liệu Mô Tả Bản Ghi",
+    "SubtitleYellow": "Vàng",
+    "SubtitleBlack": "Đen",
+    "SubtitleBlue": "Xanh lam",
+    "SubtitleCyan": "Lục lam",
+    "SubtitleGray": "Xám",
+    "SubtitleGreen": "Xanh lá",
+    "SubtitleLightGray": "Xám Nhạt",
+    "SubtitleMagenta": "Đỏ Sậm",
+    "SubtitleRed": "Đỏ",
+    "SubtitleWhite": "Trắng"
 }
