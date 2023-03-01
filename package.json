@@ -77,7 +77,7 @@
     "@jellyfin/libass-wasm": "4.1.1",
     "@jellyfin/sdk": "unstable",
     "@loadable/component": "5.15.3",
-    "blurhash": "2.0.4",
+    "blurhash": "2.0.5",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.3.2",
     "core-js": "3.28.0",
