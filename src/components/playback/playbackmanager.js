@@ -3423,12 +3423,6 @@ class PlaybackManager {
 
             streamInfo.lastMediaInfoQuery = new Date().getTime();
 
-            const apiClient = ServerConnections.getApiClient(serverId);
-
-            if (!apiClient.isMinServerVersion('3.2.70.7')) {
-                return;
-            }
-
             ServerConnections.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
                 mediaSource.MediaStreams = info.MediaStreams;
                 Events.trigger(player, 'mediastreamschange');
