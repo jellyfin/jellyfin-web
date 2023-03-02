@@ -303,7 +303,7 @@ import { getParameterByName } from '../utils/url.ts';
         updateEditorNode(this, item);
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         /* eslint-disable-next-line  @babel/no-unused-expressions */
-        import('../assets/css/metadataeditor.scss');
+        import('../styles/metadataeditor.scss');
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         const page = this;
         Dashboard.getCurrentUser().then(function (user) {

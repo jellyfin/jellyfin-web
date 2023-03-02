@@ -1688,5 +1688,21 @@
     "DownloadAll": "Alle Herunterladen",
     "LabelStereoDownmixAlgorithm": "Stereo Downmix Algorithmus",
     "StereoDownmixAlgorithmHelp": "Algorithmus um Mehrkanal-Audio zu Stereo-Audio umzuwandeln.",
-    "Experimental": "Experimentell"
+    "Experimental": "Experimentell",
+    "SaveRecordingNFO": "Speichern der EPG-Metadaten in NFO",
+    "SaveRecordingNFOHelp": "Speichern Sie Metadaten von EPG-Anbietern zusammen mit den Medien.",
+    "ResolutionMatchSource": "Quelle der Übereinstimmung",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Eingebettete Titel gegenüber Dateinamen für Extras bevorzugen",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Extras haben oft denselben eingebetteten Namen wie die übergeordnete Datei. Aktivieren Sie diese Option, um trotzdem eingebettete Titel für sie zu verwenden.",
+    "SaveRecordingImages": "Speichern der EPG-Bilder der Aufnahme",
+    "SaveRecordingImagesHelp": "Speichern Sie Bilder von EPG-Anbietern zusammen mit den Medien.",
+    "SecondarySubtitles": "Sekundäre Untertitel",
+    "HeaderDummyChapter": "Kapitel Bilder",
+    "HeaderRecordingMetadataSaving": "Aufzeichnung von Metadaten",
+    "LabelDummyChapterDuration": "Intervall:",
+    "LabelDummyChapterDurationHelp": "Das Intervall für die Extraktion des Kapitelbildes in Sekunden.",
+    "LabelDummyChapterCount": "Limit:",
+    "LabelDummyChapterCountHelp": "Die maximale Anzahl von Kapitelbildern, die für jede Mediendatei extrahiert werden.",
+    "LabelChapterImageResolution": "Auflösung:",
+    "LabelChapterImageResolutionHelp": "Die Auflösung der extrahierten Kapitelbilder."
 }

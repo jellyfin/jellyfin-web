@@ -22,7 +22,7 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
@@ -1063,7 +1063,7 @@ function renderTagline(page, item) {
     }
 }
 
-function renderDetails(page, item, apiClient, context, isStatic) {
+function renderDetails(page, item, apiClient, context) {
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
@@ -1083,7 +1083,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     }
 
     renderTags(page, item);
-    renderSeriesAirTime(page, item, isStatic);
+    renderSeriesAirTime(page, item);
 }
 
 function enableScrollX() {
@@ -1262,7 +1262,7 @@ function renderSimilarItems(page, item, context) {
     }
 }
 
-function renderSeriesAirTime(page, item, isStatic) {
+function renderSeriesAirTime(page, item) {
     const seriesAirTime = page.querySelector('#seriesAirTime');
     if (item.Type != 'Series') {
         seriesAirTime.classList.add('hide');
@@ -1280,19 +1280,6 @@ function renderSeriesAirTime(page, item, isStatic) {
     }
     if (item.AirTime) {
         html += ' at ' + item.AirTime;
-    }
-    if (item.Studios.length) {
-        if (isStatic) {
-            html += ' on ' + escapeHtml(item.Studios[0].Name);
-        } else {
-            const context = inferContext(item);
-            const href = appRouter.getRouteUrl(item.Studios[0], {
-                context: context,
-                itemType: 'Studio',
-                serverId: item.ServerId
-            });
-            html += ' on <a class="textlink button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(item.Studios[0].Name) + '</a>';
-        }
     }
     if (html) {
         html = (item.Status == 'Ended' ? 'Aired ' : 'Airs ') + html;

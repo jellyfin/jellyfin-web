@@ -7,7 +7,7 @@ import globalize from '../../scripts/globalize';
 import 'material-design-icons-iconfont';
 
 import '../../elements/emby-input/emby-input';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import './searchfields.scss';
 import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';

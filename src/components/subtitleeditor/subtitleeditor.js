@@ -14,7 +14,7 @@ import '../formdialog.scss';
 import 'material-design-icons-iconfont';
 import './subtitleeditor.scss';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';

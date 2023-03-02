@@ -9,11 +9,11 @@ import imageLoader from '../../components/images/imageLoader';
 import libraryMenu from '../../scripts/libraryMenu';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import globalize from '../../scripts/globalize';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import Dashboard from '../../utils/dashboard';
 
 /* eslint-disable indent */

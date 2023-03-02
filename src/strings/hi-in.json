@@ -141,5 +141,11 @@
     "ButtonSubmit": "प्रस्तुत करें",
     "ButtonTogglePlaylist": "प्लेलिस्ट",
     "ButtonUninstall": "ऐप हटाएं",
-    "ButtonTrailer": "ट्रेलर"
+    "ButtonTrailer": "ट्रेलर",
+    "Large": "बड़ा",
+    "Small": "छोटा",
+    "Normal": "सामान्य",
+    "Songs": "गाने",
+    "Larger": "और बड़ा",
+    "ListPaging": "{2} का {0}-{1}"
 }

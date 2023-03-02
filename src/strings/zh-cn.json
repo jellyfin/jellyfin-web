@@ -1703,5 +1703,6 @@
     "LabelDummyChapterCount": "限制：",
     "LabelDummyChapterCountHelp": "每个媒体文件的最大章节图像提取数。",
     "LabelChapterImageResolution": "分辨率：",
-    "LabelChapterImageResolutionHelp": "提取的章节图像的分辨率。"
+    "LabelChapterImageResolutionHelp": "提取的章节图像的分辨率。",
+    "SecondarySubtitles": "次字幕"
 }

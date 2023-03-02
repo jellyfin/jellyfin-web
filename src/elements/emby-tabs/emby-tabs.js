@@ -5,7 +5,7 @@ import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
 import layoutManager from '../../components/layoutManager';
 import './emby-tabs.scss';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 
 /* eslint-disable indent */
     const EmbyTabs = Object.create(HTMLDivElement.prototype);
