@@ -55,8 +55,14 @@ const getTabs = () => {
 
 const Movies: FC = () => {
     const [ searchParams ] = useSearchParams();
-    const currentTabIndex = parseInt(searchParams.get('tab') || getDefaultTabIndex(searchParams.get('topParentId')).toString());
-    const [ selectedIndex, setSelectedIndex ] = useState(currentTabIndex);
+
+    // The default tab from user settings
+    const defaultTabIndex = getDefaultTabIndex(searchParams.get('topParentId'));
+    // The tab parameter from search params (if present)
+    const searchTabIndex = parseInt(searchParams.get('tab') || '-1', 10);
+    // The tab set by the mainTabsManager
+    const [ tabManagerIndex, setTabManagerIndex ] = useState(searchTabIndex === -1 ? defaultTabIndex : searchTabIndex);
+
     const element = useRef<HTMLDivElement>(null);
 
     const getTabComponent = (index: number) => {
@@ -95,8 +101,8 @@ const Movies: FC = () => {
     };
 
     const onTabChange = useCallback((e: { detail: { selectedTabIndex: string; }; }) => {
-        const newIndex = parseInt(e.detail.selectedTabIndex);
-        setSelectedIndex(newIndex);
+        const newIndex = parseInt(e.detail.selectedTabIndex, 10);
+        setTabManagerIndex(newIndex);
     }, []);
 
     useEffect(() => {
@@ -106,7 +112,9 @@ const Movies: FC = () => {
             console.error('Unexpected null reference');
             return;
         }
-        mainTabsManager.setTabs(page, selectedIndex, getTabs, undefined, undefined, onTabChange);
+
+        mainTabsManager.setTabs(page, tabManagerIndex, getTabs, undefined, undefined, onTabChange);
+
         if (!page.getAttribute('data-title')) {
             const parentId = searchParams.get('topParentId');
 
@@ -120,7 +128,7 @@ const Movies: FC = () => {
                 libraryMenu.setTitle(globalize.translate('Movies'));
             }
         }
-    }, [onTabChange, searchParams, selectedIndex]);
+    }, [ onTabChange, searchParams, tabManagerIndex ]);
 
     return (
         <div ref={element}>
@@ -129,8 +137,7 @@ const Movies: FC = () => {
                 className='mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs'
                 backDropType='movie'
             >
-                {getTabComponent(selectedIndex)}
-
+                {getTabComponent(searchTabIndex === -1 ? tabManagerIndex : searchTabIndex)}
             </Page>
         </div>
     );
