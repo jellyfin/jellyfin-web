@@ -1704,5 +1704,15 @@
     "SaveRecordingNFO": "Save recording EPG metadata in NFO",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Prefer embedded titles over filenames for extras",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Extras often have the same embedded name as the parent, check this to use embedded titles for them anyway.",
-    "SecondarySubtitles": "Secondary Subtitles"
+    "SecondarySubtitles": "Secondary Subtitles",
+    "SubtitleBlack": "Black",
+    "SubtitleBlue": "Blue",
+    "SubtitleCyan": "Cyan",
+    "SubtitleGray": "Grey",
+    "SubtitleGreen": "Green",
+    "SubtitleLightGray": "Light Grey",
+    "SubtitleMagenta": "Magenta",
+    "SubtitleRed": "Red",
+    "SubtitleWhite": "White",
+    "SubtitleYellow": "Yellow"
 }
