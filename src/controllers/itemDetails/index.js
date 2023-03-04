@@ -1,5 +1,6 @@
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 import escapeHtml from 'escape-html';
 import isEqual from 'lodash-es/isEqual';
 
@@ -877,7 +878,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = DOMPurify.sanitize(item.Overview || '');
+        const overview = DOMPurify.sanitize(marked(item.Overview || ''));
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
