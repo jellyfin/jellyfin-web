@@ -39,9 +39,6 @@
     margin: 0;
     padding: 0;
     opacity: 0;
-    -ms-appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     appearance: none;
     border: none;
 }
@@ -122,16 +119,6 @@
 }
 
 @keyframes repaintChrome {
-    from {
-        padding: 0;
-    }
-
-    to {
-        padding: 0;
-    }
-}
-
-@-webkit-keyframes repaintChrome {
     from {
         padding: 0;
     }

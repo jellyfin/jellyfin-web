@@ -86,6 +86,10 @@ class ServerConnections extends ConnectionManager {
         return this.localApiClient;
     }
 
+    /**
+     * Gets the ApiClient that is currently connected.
+     * @returns {ApiClient|undefined} apiClient
+     */
     currentApiClient() {
         let apiClient = this.getLocalApiClient();
 

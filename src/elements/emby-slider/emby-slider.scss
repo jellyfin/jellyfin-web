@@ -1,26 +1,11 @@
-:-ms-input-placeholder {
-    appearance: none;
-    -ms-appearance: none;
-    height: 2.223em;
-    margin: 0;
-}
-
 .mdl-slider {
     width: 100%;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
     appearance: none;
     height: 150%;/* 150% is needed, else ie and edge won't display the thumb properly */
     background: transparent;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     outline: 0;
     color: #00a4dc;
-    -webkit-align-self: center;
-    -ms-flex-item-align: center;
     align-self: center;
     z-index: 1;
     cursor: pointer;
@@ -68,7 +53,7 @@
 }
 
 .mdl-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
+    appearance: none;
     width: 1.08em;
     height: 1.08em;
     box-sizing: border-box;
@@ -88,7 +73,7 @@
 }
 
 .mdl-slider::-moz-range-thumb {
-    -moz-appearance: none;
+    appearance: none;
     width: 1.08em;
     height: 1.08em;
     box-sizing: border-box;
@@ -108,7 +93,7 @@
 }
 
 .mdl-slider::-ms-thumb {
-    -webkit-appearance: none;
+    appearance: none;
     width: 1.4em;
     height: 1.4em;
     box-sizing: border-box;

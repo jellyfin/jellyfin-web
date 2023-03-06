@@ -1,8 +1,6 @@
 .dashboardColumn,
 .dashboardSections {
     flex-direction: column;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
 }
 
 .dashboardFooter {
@@ -16,8 +14,6 @@
 
 progress {
     appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     margin: 0;
     background: #ccc !important;
 }
@@ -81,8 +77,7 @@ a[data-role=button] {
     background: #292929 !important;
     background-clip: padding-box;
     -webkit-font-smoothing: antialiased;
-    -webkit-user-select: none;
-    -webkit-background-clip: padding-box;
+    user-select: none;
     cursor: pointer !important;
     font-family: inherit !important;
     font-weight: 500 !important;
@@ -96,23 +91,17 @@ a[data-role=button] {
 div[data-role=controlgroup] a[data-role=button] {
     display: inline-block !important;
     margin: 0 !important;
-    -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    -webkit-border-radius: 0;
     border-radius: 0;
 }
 
 div[data-role=controlgroup] a[data-role=button]:first-child {
-    -webkit-border-bottom-left-radius: 0.3125em;
     border-bottom-left-radius: 0.3125em;
-    -webkit-border-top-left-radius: 0.3125em;
     border-top-left-radius: 0.3125em;
 }
 
 div[data-role=controlgroup] a[data-role=button]:last-child {
-    -webkit-border-bottom-right-radius: 0.3125em;
     border-bottom-right-radius: 0.3125em;
-    -webkit-border-top-right-radius: 0.3125em;
     border-top-right-radius: 0.3125em;
 }
 
@@ -191,23 +180,14 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .dashboardSections {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
     flex-direction: column;
 }
 
 .dashboardColumn {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
 }
 
@@ -216,7 +196,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .sessionNowPlayingContent {
-    -webkit-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -233,7 +212,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .dashboardSection {
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
     margin: 0 0 2em;
 }
@@ -334,7 +312,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .sessionAppInfo {
     flex-grow: 1;
-    padding: 0.5em;
+    padding: 1em;
     overflow: hidden;
 }
 
@@ -374,14 +352,18 @@ div[data-role=controlgroup] a.ui-btn-active {
 .sessionNowPlayingInfo {
     flex-grow: 1;
     text-overflow: ellipsis;
-    padding: 0.8em 0.5em;
+    padding: 1em;
+}
+
+.sessionNowPlayingName {
+    font-size: 0.8em;
 }
 
 .sessionNowPlayingTime {
     flex-shrink: 0;
     align-self: flex-end;
     text-overflow: ellipsis;
-    padding: 0.8em 0.5em;
+    padding: 1em;
 }
 
 .playbackProgress,
@@ -389,11 +371,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin: 0;
     width: 100%;
     background: transparent !important;
-}
-
-.activeDevices.itemsContainer {
-    /* offset for cardBox margin */
-    margin: -0.6em;
 }
 
 .activeSession .backgroundProgress,
@@ -434,7 +411,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .disabledUser {
-    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
 }
 
@@ -450,37 +426,21 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin-left: 5px;
 }
 
-@-webkit-keyframes rotating {
-    from {
-        -webkit-transform: rotate(0);
-        transform: rotate(0);
-    }
-
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
 @keyframes rotating {
     from {
-        -webkit-transform: rotate(0);
         transform: rotate(0);
     }
 
     to {
-        -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
 
 .rotatingCircle {
-    -webkit-animation: rotating 2s linear infinite;
     animation: rotating 2s linear infinite;
 }
 
 .pluginPreviewImg {
-    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 

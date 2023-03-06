@@ -294,10 +294,9 @@ class FavoritesTab {
     }
 
     onPause() {
-        const elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
-
-        for (const elem of elems) {
-            elem.pause();
+        if (this.sectionsContainer) {
+            Array.from(this.sectionsContainer.querySelectorAll('.itemsContainer'))
+                .forEach(e => { e.pause(); });
         }
     }
 

@@ -2,7 +2,9 @@ import { authorize } from './helper';
 import globalize from '../../../scripts/globalize';
 import toast from '../../../components/toast/toast';
 
-export default function (view) {
+export default function (view, params) {
+    const userId = params.userId || ApiClient.getCurrentUserId();
+
     view.addEventListener('viewshow', function () {
         const codeElement = view.querySelector('#txtQuickConnectCode');
 
@@ -17,7 +19,7 @@ export default function (view) {
 
             // Remove spaces from code
             const normalizedCode = codeElement.value.replace(/\s/g, '');
-            authorize(normalizedCode);
+            authorize(normalizedCode, userId);
         });
     });
 }

@@ -53,24 +53,24 @@ function renderPackage(pkg, installedPlugins, page) {
     populateVersions(pkg, page, installedPlugin);
     populateHistory(pkg, page);
 
-    $('.pluginName', page).html(pkg.name);
+    $('.pluginName', page).text(pkg.name);
     $('#btnInstallDiv', page).removeClass('hide');
     $('#pSelectVersion', page).removeClass('hide');
 
     if (pkg.overview) {
-        $('#overview', page).show().html(pkg.overview);
+        $('#overview', page).show().text(pkg.overview);
     } else {
         $('#overview', page).hide();
     }
 
-    $('#description', page).html(pkg.description);
-    $('#developer', page).html(pkg.owner);
+    $('#description', page).text(pkg.description);
+    $('#developer', page).text(pkg.owner);
 
     if (installedPlugin) {
         const currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
-        $('#pCurrentVersion', page).show().html(currentVersionText);
+        $('#pCurrentVersion', page).show().text(currentVersionText);
     } else {
-        $('#pCurrentVersion', page).hide().html('');
+        $('#pCurrentVersion', page).hide().text('');
     }
 
     loading.hide();

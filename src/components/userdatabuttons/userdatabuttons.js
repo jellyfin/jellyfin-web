@@ -9,8 +9,6 @@ import ServerConnections from '../ServerConnections';
 
 const userDataMethods = {
     markPlayed: markPlayed,
-    markDislike: markDislike,
-    markLike: markLike,
     markFavorite: markFavorite
 };
 
@@ -138,40 +136,6 @@ function markFavorite(link) {
     }
 }
 
-function markLike(link) {
-    const id = link.getAttribute('data-itemid');
-    const serverId = link.getAttribute('data-serverid');
-
-    if (!link.classList.contains('btnUserDataOn')) {
-        likes(id, serverId, true);
-
-        link.classList.add('btnUserDataOn');
-    } else {
-        clearLike(id, serverId);
-
-        link.classList.remove('btnUserDataOn');
-    }
-
-    link.parentNode.querySelector('.btnDislike').classList.remove('btnUserDataOn');
-}
-
-function markDislike(link) {
-    const id = link.getAttribute('data-itemid');
-    const serverId = link.getAttribute('data-serverid');
-
-    if (!link.classList.contains('btnUserDataOn')) {
-        likes(id, serverId, false);
-
-        link.classList.add('btnUserDataOn');
-    } else {
-        clearLike(id, serverId);
-
-        link.classList.remove('btnUserDataOn');
-    }
-
-    link.parentNode.querySelector('.btnLike').classList.remove('btnUserDataOn');
-}
-
 function markPlayed(link) {
     const id = link.getAttribute('data-itemid');
     const serverId = link.getAttribute('data-serverid');
@@ -187,11 +151,6 @@ function markPlayed(link) {
     }
 }
 
-function likes(id, serverId, isLiked) {
-    const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.updateUserItemRating(apiClient.getCurrentUserId(), id, isLiked);
-}
-
 function played(id, serverId, isPlayed) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -204,12 +163,6 @@ function favorite(id, serverId, isFavorite) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
     return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, isFavorite);
-}
-
-function clearLike(id, serverId) {
-    const apiClient = ServerConnections.getApiClient(serverId);
-
-    return apiClient.clearUserItemRating(apiClient.getCurrentUserId(), id);
 }
 
 export default {

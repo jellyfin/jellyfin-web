@@ -154,7 +154,7 @@
                     </div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectTonemappingAlgorithm" label="${LabelTonemappingAlgorithm}">
-                            <option value="none">None</option>
+                            <option value="none">${None}</option>
                             <option value="clip">Clip</option>
                             <option value="linear">Linear</option>
                             <option value="gamma">Gamma</option>
@@ -263,6 +263,14 @@
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtDownMixAudioBoost" pattern="[0-9]*" required="required" min=".5" max="3" step=".1" label="${LabelDownMixAudioScale}" />
                     <div class="fieldDescription">${LabelDownMixAudioScaleHelp}</div>
+                </div>
+                <div class="selectContainer">
+                    <select is="emby-select" id="selectStereoDownmixAlgorithm" label="${LabelStereoDownmixAlgorithm}">
+                        <option value="None">${None}</option>
+                        <option value="Dave750">Dave750</option>
+                        <option value="NightmodeDialogue">NightmodeDialogue</option>
+                    </select>
+                    <div class="fieldDescription">${StereoDownmixAlgorithmHelp}</div>
                 </div>
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtMaxMuxingQueueSize" pattern="[0-9]*" required="required" min="128" max="2147483647" step="1" label="${LabelMaxMuxingQueueSize}" />

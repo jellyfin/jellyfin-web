@@ -1,5 +1,6 @@
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 import escapeHtml from 'escape-html';
 import isEqual from 'lodash-es/isEqual';
 
@@ -22,7 +23,7 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
@@ -96,33 +97,26 @@ function getContextMenuOptions(item, user, button) {
     };
 }
 
-function getProgramScheduleHtml(items) {
-    let html = '';
-
-    html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
-    html += listView.getListViewHtml({
+function getProgramScheduleHtml(items, action = 'none') {
+    return listView.getListViewHtml({
         items: items,
         enableUserDataButtons: false,
         image: true,
         imageSource: 'channel',
         showProgramDateTime: true,
         showChannel: false,
-        mediaInfo: false,
-        action: 'none',
+        mediaInfo: true,
+        runtime: false,
+        action,
         moreButton: false,
         recordButton: false
     });
-
-    html += '</div>';
-
-    return html;
 }
 
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
     apiClient.getLiveTvTimers({
         UserId: apiClient.getCurrentUserId(),
         ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Thumb',
         SortBy: 'StartDate',
         EnableTotalRecordCount: false,
         EnableUserData: false,
@@ -134,7 +128,7 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
         }
 
         const html = getProgramScheduleHtml(result.Items);
-        const scheduleTab = page.querySelector('.seriesTimerSchedule');
+        const scheduleTab = page.querySelector('#seriesTimerSchedule');
         scheduleTab.innerHTML = html;
         imageLoader.lazyChildren(scheduleTab);
     });
@@ -162,13 +156,13 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
             });
         });
 
-        page.querySelector('.seriesTimerScheduleSection').classList.remove('hide');
+        page.querySelector('#seriesTimerScheduleSection').classList.remove('hide');
         hideAll(page, 'btnCancelSeriesTimer', true);
         renderSeriesTimerSchedule(page, apiClient, item.Id);
         return;
     }
 
-    page.querySelector('.seriesTimerScheduleSection').classList.add('hide');
+    page.querySelector('#seriesTimerScheduleSection').classList.add('hide');
     hideAll(page, 'btnCancelSeriesTimer');
 }
 
@@ -184,34 +178,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
         return;
     }
 
-    let mediaSources = item.MediaSources;
-
-    const resolutionNames = [];
-    const sourceNames = [];
-    mediaSources.forEach(function (v) {
-        (v.Name.endsWith('p') || v.Name.endsWith('i')) && !Number.isNaN(parseInt(v.Name, 10)) ? resolutionNames.push(v) : sourceNames.push(v);
-    });
-
-    resolutionNames.sort((a, b) => parseInt(b.Name, 10) - parseInt(a.Name, 10));
-    sourceNames.sort((a, b) => {
-        const nameA = a.Name.toUpperCase();
-        const nameB = b.Name.toUpperCase();
-        if (nameA < nameB) {
-            return -1;
-        } else if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
-    });
-
-    mediaSources = [];
-    resolutionNames.forEach(v => {
-        mediaSources.push(v);
-    });
-    sourceNames.forEach(v => {
-        mediaSources.push(v);
-    });
-
+    const mediaSources = item.MediaSources;
     instance._currentPlaybackMediaSources = mediaSources;
 
     page.querySelector('.trackSelections').classList.remove('hide');
@@ -911,7 +878,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = DOMPurify.sanitize(item.Overview || '');
+        const overview = DOMPurify.sanitize(marked(item.Overview || ''));
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
@@ -1031,6 +998,29 @@ function renderDirector(page, item, context) {
     }
 }
 
+function renderStudio(page, item, context) {
+    const studios = item.Studios || [];
+
+    const html = studios.map(function (studio) {
+        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+            Name: studio.Name,
+            Type: 'Studio',
+            ServerId: item.ServerId,
+            Id: studio.Id
+        }, {
+            context: context
+        }) + '">' + escapeHtml(studio.Name) + '</a>';
+    }).join(', ');
+
+    const studiosLabel = page.querySelector('.studiosLabel');
+    studiosLabel.innerText = globalize.translate(studios.length > 1 ? 'Studios' : 'Studio');
+    const studiosValue = page.querySelector('.studios');
+    studiosValue.innerHTML = html;
+
+    const studiosGroup = page.querySelector('.studiosGroup');
+    studiosGroup.classList.toggle('hide', !studios.length);
+}
+
 function renderMiscInfo(page, item) {
     const primaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
 
@@ -1074,11 +1064,12 @@ function renderTagline(page, item) {
     }
 }
 
-function renderDetails(page, item, apiClient, context, isStatic) {
+function renderDetails(page, item, apiClient, context) {
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
     renderDirector(page, item, context);
+    renderStudio(page, item, context);
     renderWriter(page, item, context);
     renderGenres(page, item, context);
     renderChannelGuide(page, apiClient, item);
@@ -1093,7 +1084,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     }
 
     renderTags(page, item);
-    renderSeriesAirTime(page, item, isStatic);
+    renderSeriesAirTime(page, item);
 }
 
 function enableScrollX() {
@@ -1166,12 +1157,7 @@ function renderMoreFromArtist(view, item, apiClient) {
     const section = view.querySelector('.moreFromArtistSection');
 
     if (section) {
-        if (item.Type === 'MusicArtist') {
-            if (!apiClient.isMinServerVersion('3.4.1.19')) {
-                section.classList.add('hide');
-                return;
-            }
-        } else if (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length) {
+        if (item.Type !== 'MusicArtist' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
             section.classList.add('hide');
             return;
         }
@@ -1272,7 +1258,7 @@ function renderSimilarItems(page, item, context) {
     }
 }
 
-function renderSeriesAirTime(page, item, isStatic) {
+function renderSeriesAirTime(page, item) {
     const seriesAirTime = page.querySelector('#seriesAirTime');
     if (item.Type != 'Series') {
         seriesAirTime.classList.add('hide');
@@ -1290,19 +1276,6 @@ function renderSeriesAirTime(page, item, isStatic) {
     }
     if (item.AirTime) {
         html += ' at ' + item.AirTime;
-    }
-    if (item.Studios.length) {
-        if (isStatic) {
-            html += ' on ' + escapeHtml(item.Studios[0].Name);
-        } else {
-            const context = inferContext(item);
-            const href = appRouter.getRouteUrl(item.Studios[0], {
-                context: context,
-                itemType: 'Studio',
-                serverId: item.ServerId
-            });
-            html += ' on <a class="textlink button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(item.Studios[0].Name) + '</a>';
-        }
     }
     if (html) {
         html = (item.Status == 'Ended' ? 'Aired ' : 'Airs ') + html;
@@ -1599,13 +1572,13 @@ function renderSeriesSchedule(page, item) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     apiClient.getLiveTvPrograms({
         UserId: apiClient.getCurrentUserId(),
+        ImageTypeLimit: 1,
         HasAired: false,
         SortBy: 'StartDate',
         EnableTotalRecordCount: false,
-        EnableImages: false,
-        ImageTypeLimit: 0,
         Limit: 50,
         EnableUserData: false,
+        Fields: 'ChannelInfo,ChannelImage',
         LibrarySeriesId: item.Id
     }).then(function (result) {
         if (result.Items.length) {
@@ -1614,17 +1587,11 @@ function renderSeriesSchedule(page, item) {
             page.querySelector('#seriesScheduleSection').classList.add('hide');
         }
 
-        page.querySelector('#seriesScheduleList').innerHTML = listView.getListViewHtml({
-            items: result.Items,
-            enableUserDataButtons: false,
-            showParentTitle: false,
-            image: false,
-            showProgramDateTime: true,
-            mediaInfo: false,
-            showTitle: true,
-            moreButton: false,
-            action: 'programdialog'
-        });
+        const html = getProgramScheduleHtml(result.Items, 'programdialog');
+        const scheduleTab = page.querySelector('#seriesScheduleList');
+        scheduleTab.innerHTML = html;
+        imageLoader.lazyChildren(scheduleTab);
+
         loading.hide();
     });
 }

@@ -223,7 +223,7 @@ const UserParentalControl: FunctionComponent = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value || '0', 10);
+            const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
             user.Policy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
             user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
                 return i.checked;
@@ -379,9 +379,9 @@ const UserParentalControl: FunctionComponent = () => {
                             isLinkVisible={false}
                         />
                         <div className='blockedTags' style={{marginTop: '.5em'}}>
-                            {blockedTags.map((tag, index) => {
+                            {blockedTags.map(tag => {
                                 return <BlockedTagList
-                                    key={index}
+                                    key={tag}
                                     tag={tag}
                                 />;
                             })}
@@ -401,7 +401,7 @@ const UserParentalControl: FunctionComponent = () => {
                         <div className='accessScheduleList paperList'>
                             {accessSchedules.map((accessSchedule, index) => {
                                 return <AccessScheduleList
-                                    key={index}
+                                    key={accessSchedule.Id}
                                     index={index}
                                     Id={accessSchedule.Id}
                                     DayOfWeek={accessSchedule.DayOfWeek}

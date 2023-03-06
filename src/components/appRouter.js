@@ -124,7 +124,7 @@ class AppRouter {
                 isBack: action === Action.Pop
             });
         } else {
-            console.info('[appRouter] "%s" route not found', normalizedPath, location);
+            // The route is not registered here, so it should be handled by react-router
             this.currentRouteInfo = {
                 route: {},
                 path: normalizedPath + location.search

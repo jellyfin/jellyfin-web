@@ -82,7 +82,6 @@
 .headerSelectedPlayer,
 .itemMiscInfo,
 .navMenuOptionText {
-    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -273,20 +272,21 @@
     flex-shrink: 0;
 
     [dir="ltr"] & {
-        margin-right: 1.2em;
+        margin-right: 1em;
     }
 
     [dir="rtl"] & {
-        margin-left: 1.2em;
+        margin-left: 1em;
     }
 }
 
 .navMenuOptionText {
+    line-height: 1.35em;
     white-space: nowrap;
-    margin-top: 0.25em;
 }
 
 .sidebarHeader {
+    font-size: 1em;
     margin: 1em 0 0.5em;
 
     [dir="ltr"] & {
@@ -564,7 +564,7 @@
 .itemBackdrop {
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center 0;
+    background-position: center center;
     background-attachment: fixed;
     height: 40vh;
     position: relative;
@@ -572,6 +572,7 @@
 
     .layout-mobile & {
         background-attachment: initial;
+        background-position: top center;
         margin-top: 3rem;
 
         @media all and (orientation: portrait) and (max-width: 40em) {
@@ -596,11 +597,6 @@
     display: flex;
     flex-direction: column;
 
-    .layout-mobile & {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
     .layout-desktop &,
     .layout-tv & {
         .emby-scroller {
@@ -622,6 +618,11 @@
     [dir="rtl"] & {
         padding-right: 32.45vw;
         padding-left: 2%;
+    }
+
+    .layout-mobile & {
+        padding-left: 5%;
+        padding-right: 5%;
     }
 }
 
@@ -666,11 +667,6 @@
     display: flex;
     align-items: center;
     margin: 1em 0;
-}
-
-.detailButton,
-.mainDetailButtons {
-    display: flex;
 }
 
 .itemName {
@@ -749,6 +745,10 @@
 .layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
+}
+
+.layout-mobile [dir="ltr"] .mainDetailButtons {
+    margin-left: 0;
 
     @include header-poster-padding;
 
@@ -757,20 +757,16 @@
         margin-bottom: 0;
         padding-left: 0;
     }
+}
 
-    [dir="ltr"] & {
-        margin-left: 0;
-    }
+.layout-mobile [dir="rtl"] .mainDetailButtons {
+    margin-right: 0;
 
-    [dir="rtl"] & {
-        margin-right: 0;
-        padding-left: unset !important;
+    @include header-poster-padding-rtl;
 
-        @include header-poster-padding-rtl;
-
-        @media all and (max-width: 32em) {
-            padding-right: 0 !important;
-        }
+    @media all and (max-width: 32em) {
+        margin-bottom: 0;
+        padding-right: 0;
     }
 }
 
@@ -806,22 +802,16 @@
     .layout-tv & {
         display: block;
     }
-}
 
-.layout-desktop [dir="rtl"] .detailPagePrimaryContainer {
-    padding-right: 32.45vw;
-}
+    .layout-desktop [dir="rtl"] &,
+    .layout-tv [dir="rtl"] & {
+        padding-right: 32.45vw;
+    }
 
-.layout-desktop [dir="ltr"] .detailPagePrimaryContainer {
-    padding-left: 32.45vw;
-}
-
-.layout-tv [dir="rtl"] .detailPagePrimaryContainer {
-    padding-right: 32.45vw;
-}
-
-.layout-tv [dir="ltr"] .detailPagePrimaryContainer {
-    padding-left: 32.45vw;
+    .layout-desktop [dir="ltr"] &,
+    .layout-tv [dir="ltr"] & {
+        padding-left: 32.45vw;
+    }
 }
 
 .layout-desktop .detailRibbon {
@@ -840,31 +830,23 @@
     flex: 1 0 0;
 
     .layout-mobile & {
-        [dir="ltr"] {
-            @include header-poster-padding;
-        }
-
-        [dir="rtl"] & {
-            @include header-poster-padding-rtl;
-        }
-
         @media all and (max-width: 32em) {
             position: relative;
         }
+    }
+
+    .layout-mobile [dir="ltr"] & {
+        @include header-poster-padding;
+    }
+
+    .layout-mobile [dir="rtl"] & {
+        @include header-poster-padding-rtl;
     }
 }
 
 .infoText {
     min-width: 0;
     max-width: 100%;
-
-    [dir="ltr"] & {
-        text-align: left;
-    }
-
-    [dir="rtl"] & {
-        text-align: right;
-    }
 }
 
 .detailPageSecondaryContainer {
@@ -1140,10 +1122,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 @media all and (max-width: 62.5em) {
-    .mainDetailButtons {
-        margin-left: -0.5em;
-    }
-
     .detailButtonHideonMobile {
         display: none !important;
     }
@@ -1527,13 +1505,13 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .detail-clamp-text {
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 12;
-    -webkit-box-orient: vertical;
+    display: flex;
+    flex-direction: column;
+    line-clamp: 12;
 }
 
 @media all and (min-width: 40em) {
     .detail-clamp-text {
-        -webkit-line-clamp: 6;
+        line-clamp: 6;
     }
 }

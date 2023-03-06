@@ -21,7 +21,6 @@ html {
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background-color: rgba(0, 0, 0, 0.3);
@@ -48,7 +47,6 @@ html {
 
 .backgroundContainer {
     background: url(bg.jpg) center top no-repeat #030322;
-    -webkit-background-size: cover;
     background-size: cover;
 }
 
@@ -321,8 +319,6 @@ a[data-role=button] {
 
 .detailRibbon {
     background: #000420;
-    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
-    background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
 }
 
@@ -373,7 +369,6 @@ a[data-role=button] {
     color: inherit;
     background: rgba(0, 0, 0, 0.5);
     border: 0.16em solid transparent;
-    -webkit-border-radius: 0.2em;
     border-radius: 0.2em;
 }
 
@@ -546,7 +541,6 @@ a[data-role=button] {
     color: #0e0f2d;
     background: #dbe6ff;
     padding: 1em;
-    -webkit-border-radius: 0.25em;
     border-radius: 0.25em;
 }
 
@@ -598,7 +592,6 @@ a[data-role=button] {
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -615,7 +608,6 @@ a[data-role=button] {
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
     border-radius: 2px;
-    -webkit-border-radius: 2px;
     background: center no-repeat #888;
 }
 

@@ -428,8 +428,8 @@
     "Folders": "Dosare",
     "HeaderAlbumArtists": "Artiști album",
     "Movies": "Filme",
-    "Playlists": "Liste redare",
-    "Shows": "Spectacole",
+    "Playlists": "Liste de redare",
+    "Shows": "Seriale",
     "Songs": "Melodii",
     "ValueSpecialEpisodeName": "Special - {0}",
     "EnableStreamLoopingHelp": "Activați acestă opțiune dacă fluxurile live conțin doar câteva secunde de date și trebuie solicitate în mod continuu. Activarea acestei opțiuni atunci când nu este necesar poate provoca probleme.",
@@ -1660,5 +1660,11 @@
     "RememberAudioSelectionsHelp": "Încercați să setați pista audio la cea mai apropiată potrivire cu ultimul videoclip.",
     "RememberAudioSelections": "Setați pista audio pe baza celui anterior",
     "IgnoreDtsHelp": "Dezactivarea acestei opțiuni poate rezolva unele probleme, de ex. audio lipsește pe canalele cu fluxuri audio și video separate.",
-    "IgnoreDts": "Ignoră DTS (marca de timp a decodării)"
+    "IgnoreDts": "Ignoră DTS (marca de timp a decodării)",
+    "DownloadAll": "Descărcați tot",
+    "MessageNoItemsAvailable": "Niciun articol nu este valabil în momentul actual.",
+    "MessageRenameMediaFolder": "Redenumirea unei biblioteci va cauza toate metadatele să fie pierdute, continuați cu grijă.",
+    "OptionDateEpisodeAdded": "Dată Adăugare Episod",
+    "OptionDateShowAdded": "Dată Adăugare Serial",
+    "MessageNoFavoritesAvailable": "Niciun favorit nu este valabil în momentul actual."
 }

@@ -143,8 +143,8 @@ const SuggestionsView: FC<LibraryViewProps> = ({topParentId}) => {
             {!recommendations.length ? <div className='noItemsMessage centerMessage'>
                 <h1>{globalize.translate('MessageNothingHere')}</h1>
                 <p>{globalize.translate('MessageNoMovieSuggestionsAvailable')}</p>
-            </div> : recommendations.map((recommendation, index) => {
-                return <RecommendationContainer key={index} getPortraitShape={getPortraitShape} enableScrollX={enableScrollX} recommendation={recommendation} />;
+            </div> : recommendations.map(recommendation => {
+                return <RecommendationContainer key={recommendation.CategoryId} getPortraitShape={getPortraitShape} enableScrollX={enableScrollX} recommendation={recommendation} />;
             })}
         </div>
     );

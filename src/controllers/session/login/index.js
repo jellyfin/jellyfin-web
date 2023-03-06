@@ -48,7 +48,7 @@ import './login.scss';
 
     function authenticateQuickConnect(apiClient) {
         const url = apiClient.getUrl('/QuickConnect/Initiate');
-        apiClient.getJSON(url).then(function (json) {
+        apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then(function (json) {
             if (!json.Secret || !json.Code) {
                 console.error('Malformed quick connect response', json);
                 return false;
@@ -284,11 +284,11 @@ import './login.scss';
                 loading.hide();
             });
             apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
-                const disclaimer = view.querySelector('.disclaimer');
+                const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
-                disclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
+                loginDisclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
 
-                for (const elem of disclaimer.querySelectorAll('a')) {
+                for (const elem of loginDisclaimer.querySelectorAll('a')) {
                     elem.rel = 'noopener noreferrer';
                     elem.target = '_blank';
                     elem.classList.add('button-link');

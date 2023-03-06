@@ -6,7 +6,7 @@ import imageLoader from './images/imageLoader';
 import globalize from '../scripts/globalize';
 import layoutManager from './layoutManager';
 import { getParameterByName } from '../utils/url.ts';
-import '../assets/css/scrollstyles.scss';
+import '../styles/scrollstyles.scss';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */

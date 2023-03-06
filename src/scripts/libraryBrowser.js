@@ -81,16 +81,15 @@ export function getQueryPagingHtml (options) {
     const limit = options.limit;
     const totalRecordCount = options.totalRecordCount;
     let html = '';
-    const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
-    const showControls = limit < totalRecordCount;
+    const recordsStart = totalRecordCount ? startIndex + 1 : 0;
+    const recordsEnd = limit ? Math.min(startIndex + limit, totalRecordCount) : totalRecordCount;
+    const showControls = limit > 0 && limit < totalRecordCount;
 
     html += '<div class="listPaging">';
 
-    if (showControls) {
-        html += '<span style="vertical-align:middle;">';
-        html += globalize.translate('ListPaging', totalRecordCount ? startIndex + 1 : 0, recordsEnd, totalRecordCount);
-        html += '</span>';
-    }
+    html += '<span style="vertical-align:middle;">';
+    html += globalize.translate('ListPaging', recordsStart, recordsEnd, totalRecordCount);
+    html += '</span>';
 
     if (showControls || options.viewButton || options.filterButton || options.sortButton || options.addLayoutButton) {
         html += '<div style="display:inline-block;">';

@@ -3,6 +3,7 @@
  * @module components/input/keyboardnavigation
  */
 
+import browser from './browser';
 import inputManager from './inputManager';
 import layoutManager from '../components/layoutManager';
 import appSettings from './settings/appSettings';
@@ -43,6 +44,11 @@ const KeyNames = {
  * Keys used for keyboard navigation.
  */
 const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+
+/**
+ * Elements for which navigation should be constrained.
+ */
+const InteractiveElements = ['INPUT', 'TEXTAREA'];
 
 let hasFieldKey = false;
 try {
@@ -91,13 +97,21 @@ export function enable() {
 
         switch (key) {
             case 'ArrowLeft':
-                inputManager.handleCommand('left');
+                if (!InteractiveElements.includes(document.activeElement?.tagName)) {
+                    inputManager.handleCommand('left');
+                } else {
+                    capture = false;
+                }
                 break;
             case 'ArrowUp':
                 inputManager.handleCommand('up');
                 break;
             case 'ArrowRight':
-                inputManager.handleCommand('right');
+                if (!InteractiveElements.includes(document.activeElement?.tagName)) {
+                    inputManager.handleCommand('right');
+                } else {
+                    capture = false;
+                }
                 break;
             case 'ArrowDown':
                 inputManager.handleCommand('down');
@@ -105,6 +119,15 @@ export function enable() {
 
             case 'Back':
                 inputManager.handleCommand('back');
+                break;
+
+            // HACK: Hisense TV (VIDAA OS) uses Backspace for Back action
+            case 'Backspace':
+                if (browser.tv && browser.hisense && browser.vidaa) {
+                    inputManager.handleCommand('back');
+                } else {
+                    capture = false;
+                }
                 break;
 
             case 'Escape':
