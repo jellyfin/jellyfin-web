@@ -15,7 +15,6 @@ function getItemsSplit(apiClient: ApiClient, userId: string, options: any) {
             nextI = options.Limit;
         }
         const idsSlice = ids.slice(i, nextI);
-        console.log(idsSlice);
         optionsTemplate.Ids = idsSlice.join(',');
         results.push(apiClient.getItems(userId, optionsTemplate));
     }
