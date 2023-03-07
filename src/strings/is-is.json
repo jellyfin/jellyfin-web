@@ -447,6 +447,13 @@
     "Mute": "Þagga",
     "MusicArtist": "Tónlistarmaður",
     "MusicAlbum": "Tónlistaralbúm",
-    "ButtonCast": "Senda efni út í tæki",
-    "AddToFavorites": "Bæta við eftirlæti"
+    "ButtonCast": "Senda út í tæki",
+    "AddToFavorites": "Bæta við eftirlæti",
+    "ButtonPlayer": "Spilari",
+    "AgeValue": "({0} ára)",
+    "ApiKeysCaption": "Listi yfir núverandi virkum API lyklum",
+    "ButtonActivate": "Virkja",
+    "ButtonClose": "Loka",
+    "ButtonSpace": "Bil",
+    "Authorize": "Heimila"
 }
