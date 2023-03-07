@@ -35,8 +35,7 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
             continue;
         }
         if (result.TotalRecordCount == null) {
-            console.log(`Retrieved TotalRecordCount is invalid: ${
-                result.TotalRecordCount}`);
+            console.log('[getItems] Retrieved TotalRecordCount is invalid', result.TotalRecordCount);
             continue;
         }
         if (result.StartIndex == null) {
