@@ -1157,12 +1157,7 @@ function renderMoreFromArtist(view, item, apiClient) {
     const section = view.querySelector('.moreFromArtistSection');
 
     if (section) {
-        if (item.Type === 'MusicArtist') {
-            if (!apiClient.isMinServerVersion('3.4.1.19')) {
-                section.classList.add('hide');
-                return;
-            }
-        } else if (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length) {
+        if (item.Type !== 'MusicArtist' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
             section.classList.add('hide');
             return;
         }
