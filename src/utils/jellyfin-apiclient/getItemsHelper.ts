@@ -54,7 +54,7 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 export function getItems(apiClient: ApiClient, userId: string, options?: any):
     Promise<BaseItemDtoQueryResult> {
     if (options.Ids === undefined ||
-        options.Ids.split(',').ength <= idsPerItemRequestLimit) {
+        options.Ids.split(',').length <= idsPerItemRequestLimit) {
         return apiClient.getItems(apiClient.getCurrentUserId(), options);
     }
     const results = getItemsSplit(apiClient, userId, options);
