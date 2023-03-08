@@ -12,7 +12,7 @@ import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { includesAny } from '../../utils/container.ts';
-import { getItems } from '../../utils/jellyfin-apiclient/getItemsHelper.ts';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -127,7 +127,7 @@ function getItemsForPlayback(serverId, query) {
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
 
-        // call getItems from getItemsHelper instead of apiClient.getItems()
+        // call getItems from jellyfin-apiclient/getItems.ts instead of apiClient.getItems()
         // to split up into multiple requests if necessary (URL might get too long)
         return getItems(apiClient, apiClient.getCurrentUserId(), query);
     }

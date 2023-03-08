@@ -2,7 +2,7 @@ import serverNotifications from '../../scripts/serverNotifications';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import globalize from '../../scripts/globalize';
-import { getItems } from '../../utils/jellyfin-apiclient/getItemsHelper.ts';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
 import NotificationIcon from './notificationicon.png';
 
@@ -131,7 +131,7 @@ function onLibraryChanged(data, apiClient) {
         newItems.length = 12;
     }
 
-    // call getItems from getItemsHelper instead of apiClient.getItems()
+    // call getItems from jellyfin-apiclient/getItems.ts instead of apiClient.getItems()
     // to split up into multiple requests if necessary (URL might get too long)
     getItems(apiClient, apiClient.getCurrentUserId(), {
 
