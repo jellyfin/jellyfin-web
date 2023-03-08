@@ -240,7 +240,8 @@ export class BookPlayer {
     rotateTheme() {
         if (this.loaded) {
             const newTheme = this.themeOrder[(this.themeOrder.indexOf(this.theme) + 1) % this.themeOrder.length];
-            this.rendition.themes.select(newTheme);
+            this.rendition.themes.register('default', this.themes[newTheme]);
+            this.rendition.themes.update('default');
             this.theme = newTheme;
         }
     }
@@ -343,10 +344,8 @@ export class BookPlayer {
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;
 
-                for (const theme of Object.keys(this.themes)) {
-                    rendition.themes.register(theme, this.themes[theme]);
-                }
-                rendition.themes.select(this.theme);
+                rendition.themes.register('default', this.themes[this.theme])
+                rendition.themes.select('default');
 
                 return rendition.display().then(() => {
                     const epubElem = document.querySelector('.epub-container');
