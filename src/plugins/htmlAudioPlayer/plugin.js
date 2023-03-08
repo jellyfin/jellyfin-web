@@ -3,6 +3,7 @@ import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 function getDefaultProfile() {
@@ -85,7 +86,7 @@ class HtmlAudioPlayer {
         const self = this;
 
         self.name = 'Html Audio Player';
-        self.type = 'mediaplayer';
+        self.type = PluginType.MediaPlayer;
         self.id = 'htmlaudioplayer';
 
         // Let any players created by plugins take priority

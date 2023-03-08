@@ -30,6 +30,7 @@ import ServerConnections from '../../components/ServerConnections';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 
@@ -166,7 +167,7 @@ function tryRemoveElement(elem) {
         /**
          * @type {string}
          */
-        type = 'mediaplayer';
+        type = PluginType.MediaPlayer;
         /**
          * @type {string}
          */
