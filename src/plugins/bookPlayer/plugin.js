@@ -344,7 +344,7 @@ export class BookPlayer {
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;
 
-                rendition.themes.register('default', this.themes[this.theme])
+                rendition.themes.register('default', this.themes[this.theme]);
                 rendition.themes.select('default');
 
                 return rendition.display().then(() => {
