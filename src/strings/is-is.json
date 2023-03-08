@@ -466,5 +466,17 @@
     "ColorSpace": "Litarými",
     "Copied": "Aftritað",
     "Copy": "Afrita",
-    "CopyFailed": "Gat ekki afritað"
+    "CopyFailed": "Gat ekki afritað",
+    "ButtonExitApp": "Fara úr forriti",
+    "EnableFasterAnimations": "Hraðari hreyfimyndir",
+    "EnablePlugin": "Virkja",
+    "Bwdif": "BWDIF",
+    "DisablePlugin": "Slökkva",
+    "EnableAutoCast": "Setja sem Sjálfgefið",
+    "EnableDetailsBanner": "Upplýsingar borði",
+    "DeleteAll": "Eyða Öllu",
+    "ButtonBackspace": "Backspace",
+    "ButtonUseQuickConnect": "Nota hraðtengingu",
+    "Digital": "Stafrænt",
+    "DownloadAll": "Sækja allt"
 }
