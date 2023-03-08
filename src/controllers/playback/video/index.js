@@ -1,6 +1,5 @@
 import escapeHtml from 'escape-html';
 import { playbackManager } from '../../../components/playback/playbackmanager';
-import SyncPlay from '../../../plugins/syncPlay/core';
 import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
@@ -25,6 +24,8 @@ import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/appRouter';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
+import { pluginManager } from '../../../components/pluginManager';
+import { PluginType } from '../../../types/plugin.ts';
 
 /* eslint-disable indent */
     const TICKS_PER_MINUTE = 600000000;
@@ -1774,38 +1775,39 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             }, iconVisibilityTime);
         };
 
-        Events.on(SyncPlay.Manager, 'enabled', (event, enabled) => {
-            if (enabled) {
-                // SyncPlay enabled
-            } else {
-                const syncPlayIcon = view.querySelector('#syncPlayIcon');
-                syncPlayIcon.style.visibility = 'hidden';
-            }
-        });
+        const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+        if (SyncPlay) {
+            Events.on(SyncPlay.Manager, 'enabled', (_event, enabled) => {
+                if (!enabled) {
+                    const syncPlayIcon = view.querySelector('#syncPlayIcon');
+                    syncPlayIcon.style.visibility = 'hidden';
+                }
+            });
 
-        Events.on(SyncPlay.Manager, 'notify-osd', (event, action) => {
-            showIcon(action);
-        });
+            Events.on(SyncPlay.Manager, 'notify-osd', (_event, action) => {
+                showIcon(action);
+            });
 
-        Events.on(SyncPlay.Manager, 'group-state-update', (event, state, reason) => {
-            if (state === 'Playing' && reason === 'Unpause') {
-                showIcon('schedule-play');
-            } else if (state === 'Playing' && reason === 'Ready') {
-                showIcon('schedule-play');
-            } else if (state === 'Paused' && reason === 'Pause') {
-                showIcon('pause');
-            } else if (state === 'Paused' && reason === 'Ready') {
-                showIcon('clear');
-            } else if (state === 'Waiting' && reason === 'Seek') {
-                showIcon('seek');
-            } else if (state === 'Waiting' && reason === 'Buffer') {
-                showIcon('buffering');
-            } else if (state === 'Waiting' && reason === 'Pause') {
-                showIcon('wait-pause');
-            } else if (state === 'Waiting' && reason === 'Unpause') {
-                showIcon('wait-unpause');
-            }
-        });
+            Events.on(SyncPlay.Manager, 'group-state-update', (_event, state, reason) => {
+                if (state === 'Playing' && reason === 'Unpause') {
+                    showIcon('schedule-play');
+                } else if (state === 'Playing' && reason === 'Ready') {
+                    showIcon('schedule-play');
+                } else if (state === 'Paused' && reason === 'Pause') {
+                    showIcon('pause');
+                } else if (state === 'Paused' && reason === 'Ready') {
+                    showIcon('clear');
+                } else if (state === 'Waiting' && reason === 'Seek') {
+                    showIcon('seek');
+                } else if (state === 'Waiting' && reason === 'Buffer') {
+                    showIcon('buffering');
+                } else if (state === 'Waiting' && reason === 'Pause') {
+                    showIcon('wait-pause');
+                } else if (state === 'Waiting' && reason === 'Unpause') {
+                    showIcon('wait-unpause');
+                }
+            });
+        }
     }
 
 /* eslint-enable indent */
