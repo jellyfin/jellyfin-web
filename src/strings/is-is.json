@@ -455,5 +455,16 @@
     "ButtonActivate": "Virkja",
     "ButtonClose": "Loka",
     "ButtonSpace": "Bil",
-    "Authorize": "Heimila"
+    "Authorize": "Heimila",
+    "ChangingMetadataImageSettingsNewContent": "Breytingar á niðurhali lýsigögnum eða myndum mun aðeins gilda um ný efni sem bætt hafa verið í safnið. Til að breyta núverandi titla þarftu að endurnýja lýsigögnin handvirkt.",
+    "ColorTransfer": "Litaflutningur",
+    "Data": "Gögn",
+    "ClearQueue": "Hreinsa biðröð",
+    "DailyAt": "Daglega um {0}",
+    "DashboardServerName": "Þjónn: {0}",
+    "DashboardVersionNumber": "Útgáfa: {0}",
+    "ColorSpace": "Litarými",
+    "Copied": "Aftritað",
+    "Copy": "Afrita",
+    "CopyFailed": "Gat ekki afritað"
 }
