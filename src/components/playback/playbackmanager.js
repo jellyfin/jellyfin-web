@@ -302,20 +302,20 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
-function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxAudioSampleRate, maxAudioBitDepth, maxAudioBitrate, startPosition) {
+function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
 
     startingPlaySession++;
     return apiClient.getUrl(url, {
         UserId: apiClient.getCurrentUserId(),
         DeviceId: apiClient.deviceId(),
-        MaxStreamingBitrate: maxAudioBitrate || maxBitrate,
+        MaxStreamingBitrate: maxValues.maxAudioBitrate || maxValues.maxBitrate,
         Container: directPlayContainers,
         TranscodingContainer: transcodingProfile.Container || null,
         TranscodingProtocol: transcodingProfile.Protocol || null,
         AudioCodec: transcodingProfile.AudioCodec,
-        MaxAudioSampleRate: maxAudioSampleRate,
-        MaxAudioBitDepth: maxAudioBitDepth,
+        MaxAudioSampleRate: maxValues.maxAudioSampleRate,
+        MaxAudioBitDepth: maxValues.maxAudioBitDepth,
         api_key: apiClient.accessToken(),
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
@@ -347,7 +347,7 @@ function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, api
 
     const maxValues = getAudioMaxValues(deviceProfile);
 
-    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, maxValues.maxAudioBitrate, startPosition);
+    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
 }
 
 function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -380,7 +380,7 @@ function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
         let streamUrl;
 
         if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
-            streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, maxValues.maxAudioBitrate, startPosition);
+            streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
         }
 
         streamUrls.push(streamUrl || '');
@@ -411,27 +411,12 @@ function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
     });
 }
 
-function getPlaybackInfo(player,
-    apiClient,
-    item,
-    deviceProfile,
-    maxBitrate,
-    startPosition,
-    isPlayback,
-    mediaSourceId,
-    audioStreamIndex,
-    subtitleStreamIndex,
-    liveStreamId,
-    enableDirectPlay,
-    enableDirectStream,
-    allowVideoStreamCopy,
-    allowAudioStreamCopy,
-    secondarySubtitleStreamIndex) {
+function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
         return Promise.resolve({
             MediaSources: [
                 {
-                    StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition),
+                    StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, options.maxBitrate, apiClient, options.startPosition),
                     Id: item.Id,
                     MediaStreams: [],
                     RunTimeTicks: item.RunTimeTicks
@@ -449,10 +434,10 @@ function getPlaybackInfo(player,
 
     const query = {
         UserId: apiClient.getCurrentUserId(),
-        StartTimeTicks: startPosition || 0
+        StartTimeTicks: options.startPosition || 0
     };
 
-    if (isPlayback) {
+    if (options.isPlayback) {
         query.IsPlayback = true;
         query.AutoOpenLiveStream = true;
     } else {
@@ -460,27 +445,26 @@ function getPlaybackInfo(player,
         query.AutoOpenLiveStream = false;
     }
 
-    if (audioStreamIndex != null) {
-        query.AudioStreamIndex = audioStreamIndex;
+    if (options.audioStreamIndex != null) {
+        query.AudioStreamIndex = options.audioStreamIndex;
     }
-    if (subtitleStreamIndex != null) {
-        query.SubtitleStreamIndex = subtitleStreamIndex;
+    if (options.subtitleStreamIndex != null) {
+        query.SubtitleStreamIndex = options.subtitleStreamIndex;
     }
-    if (secondarySubtitleStreamIndex != null) {
-        query.SecondarySubtitleStreamIndex = secondarySubtitleStreamIndex;
+    if (options.secondarySubtitleStreamIndex != null) {
+        query.SecondarySubtitleStreamIndex = options.secondarySubtitleStreamIndex;
     }
-    if (enableDirectPlay != null) {
-        query.EnableDirectPlay = enableDirectPlay;
+    if (options.enableDirectPlay != null) {
+        query.EnableDirectPlay = options.enableDirectPlay;
     }
-
-    if (enableDirectStream != null) {
-        query.EnableDirectStream = enableDirectStream;
+    if (options.enableDirectStream != null) {
+        query.EnableDirectStream = options.enableDirectStream;
     }
-    if (allowVideoStreamCopy != null) {
-        query.AllowVideoStreamCopy = allowVideoStreamCopy;
+    if (options.allowVideoStreamCopy != null) {
+        query.AllowVideoStreamCopy = options.allowVideoStreamCopy;
     }
-    if (allowAudioStreamCopy != null) {
-        query.AllowAudioStreamCopy = allowAudioStreamCopy;
+    if (options.allowAudioStreamCopy != null) {
+        query.AllowAudioStreamCopy = options.allowAudioStreamCopy;
     }
     if (mediaSourceId) {
         query.MediaSourceId = mediaSourceId;
@@ -488,8 +472,8 @@ function getPlaybackInfo(player,
     if (liveStreamId) {
         query.LiveStreamId = liveStreamId;
     }
-    if (maxBitrate) {
-        query.MaxStreamingBitrate = maxBitrate;
+    if (options.maxBitrate) {
+        query.MaxStreamingBitrate = options.maxBitrate;
     }
     if (player.enableMediaProbe && !player.enableMediaProbe(item)) {
         query.EnableMediaProbe = false;
@@ -540,7 +524,7 @@ function getOptimalMediaSource(apiClient, item, versions) {
     });
 }
 
-function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex) {
+function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, mediaSource, options) {
     const postData = {
         DeviceProfile: deviceProfile,
         OpenToken: mediaSource.OpenToken
@@ -548,19 +532,19 @@ function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, ma
 
     const query = {
         UserId: apiClient.getCurrentUserId(),
-        StartTimeTicks: startPosition || 0,
+        StartTimeTicks: options.startPosition || 0,
         ItemId: item.Id,
         PlaySessionId: playSessionId
     };
 
-    if (maxBitrate) {
-        query.MaxStreamingBitrate = maxBitrate;
+    if (options.maxBitrate) {
+        query.MaxStreamingBitrate = options.maxBitrate;
     }
-    if (audioStreamIndex != null) {
-        query.AudioStreamIndex = audioStreamIndex;
+    if (options.audioStreamIndex != null) {
+        query.AudioStreamIndex = options.audioStreamIndex;
     }
-    if (subtitleStreamIndex != null) {
-        query.SubtitleStreamIndex = subtitleStreamIndex;
+    if (options.subtitleStreamIndex != null) {
+        query.SubtitleStreamIndex = options.subtitleStreamIndex;
     }
 
     // lastly, enforce player overrides for special situations
@@ -1740,7 +1724,19 @@ class PlaybackManager {
 
                 const currentPlayOptions = currentItem.playOptions || getDefaultPlayOptions();
 
-                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, true, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
+                const options = {
+                    maxBitrate,
+                    startPosition: ticks,
+                    isPlayback: true,
+                    audioStreamIndex,
+                    subtitleStreamIndex,
+                    enableDirectPlay: params.EnableDirectPlay,
+                    enableDirectStream: params.EnableDirectStream,
+                    allowVideoStreamCopy: params.AllowVideoStreamCopy,
+                    allowAudioStreamCopy: params.AllowAudioStreamCopy
+                };
+
+                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, currentMediaSource.Id, liveStreamId, options).then(function (result) {
                     if (validatePlaybackInfoResult(self, result)) {
                         currentMediaSource = result.MediaSources[0];
 
@@ -2306,17 +2302,17 @@ class PlaybackManager {
             }, reject);
         }
 
-        function sendPlaybackListToPlayer(player, items, deviceProfile, maxBitrate, apiClient, startPositionTicks, mediaSourceId, audioStreamIndex, subtitleStreamIndex, startIndex) {
-            return setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositionTicks).then(function () {
+        function sendPlaybackListToPlayer(player, items, deviceProfile, apiClient, mediaSourceId, options) {
+            return setStreamUrls(items, deviceProfile, options.maxBitrate, apiClient, options.startPosition).then(function () {
                 loading.hide();
 
                 return player.play({
-                    items: items,
-                    startPositionTicks: startPositionTicks || 0,
-                    mediaSourceId: mediaSourceId,
-                    audioStreamIndex: audioStreamIndex,
-                    subtitleStreamIndex: subtitleStreamIndex,
-                    startIndex: startIndex
+                    items,
+                    startPositionTicks: options.startPosition || 0,
+                    mediaSourceId,
+                    audioStreamIndex: options.audioStreamIndex,
+                    subtitleStreamIndex: options.subtitleStreamIndex,
+                    startIndex: options.startIndex
                 });
             });
         }
@@ -2477,15 +2473,27 @@ class PlaybackManager {
                 const mediaSourceId = playOptions.mediaSourceId;
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
+                const options = {
+                    maxBitrate,
+                    startPosition,
+                    isPlayback: null,
+                    audioStreamIndex,
+                    subtitleStreamIndex,
+                    startIndex: playOptions.startIndex,
+                    enableDirectPlay: null,
+                    enableDirectStream: null,
+                    allowVideoStreamCopy: null,
+                    allowAudioStreamCopy: null
+                };
 
                 if (player && !enableLocalPlaylistManagement(player)) {
-                    return sendPlaybackListToPlayer(player, playOptions.items, deviceProfile, maxBitrate, apiClient, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex, playOptions.startIndex);
+                    return sendPlaybackListToPlayer(player, playOptions.items, deviceProfile, apiClient, mediaSourceId, options);
                 }
 
                 // this reference was only needed by sendPlaybackListToPlayer
                 playOptions.items = null;
 
-                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(async (mediaSource) => {
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {
                     const user = await apiClient.getCurrentUser();
                     autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
 
@@ -2543,7 +2551,20 @@ class PlaybackManager {
                 const maxBitrate = getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType);
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
-                    return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
+                    const mediaOptions = {
+                        maxBitrate,
+                        startPosition,
+                        isPlayback: null,
+                        audioStreamIndex: options.audioStreamIndex,
+                        subtitleStreamIndex: options.subtitleStreamIndex,
+                        startIndex: null,
+                        enableDirectPlay: null,
+                        enableDirectStream: null,
+                        allowVideoStreamCopy: null,
+                        allowAudioStreamCopy: null
+                    };
+
+                    return getPlaybackMediaSource(player, apiClient, deviceProfile, item, options.mediaSourceId, mediaOptions).then(function (mediaSource) {
                         return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
                     });
                 });
@@ -2563,7 +2584,19 @@ class PlaybackManager {
                 const maxBitrate = getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType);
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
-                    return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, false, null, null, null, null).then(function (playbackInfoResult) {
+                    const mediaOptions = {
+                        maxBitrate,
+                        startPosition,
+                        isPlayback: true,
+                        audioStreamIndex: null,
+                        subtitleStreamIndex: null,
+                        enableDirectPlay: null,
+                        enableDirectStream: null,
+                        allowVideoStreamCopy: null,
+                        allowAudioStreamCopy: null
+                    };
+
+                    return getPlaybackInfo(player, apiClient, item, deviceProfile, null, null, mediaOptions).then(function (playbackInfoResult) {
                         return playbackInfoResult.MediaSources;
                     });
                 });
@@ -2704,13 +2737,18 @@ class PlaybackManager {
             return tracks;
         }
 
-        function getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex) {
-            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, true, mediaSourceId, audioStreamIndex, subtitleStreamIndex, null).then(function (playbackInfoResult) {
+        function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options) {
+            options.isPlayback = true;
+
+            return getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options).then(function (playbackInfoResult) {
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
-                                return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, maxBitrate, startPosition, mediaSource, null, null).then(function (openLiveStreamResult) {
+                                options.audioStreamIndex = null;
+                                options.subtitleStreamIndex = null;
+
+                                return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
                                     return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
                                         openLiveStreamResult.MediaSource.enableDirectPlay = result;
                                         return openLiveStreamResult.MediaSource;
