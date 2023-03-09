@@ -32,6 +32,7 @@ import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
+import debounce from 'lodash-es/debounce';
 
 /**
  * Returns resolved URL.
@@ -571,7 +572,12 @@ function tryRemoveElement(elem) {
             }
         }
 
-        setSubtitleOffset(offset) {
+        setSubtitleOffset = debounce(this._setSubtitleOffset, 100);
+
+        /**
+         * @private
+         */
+        _setSubtitleOffset(offset) {
             const offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
@@ -622,6 +628,41 @@ function tryRemoveElement(elem) {
 
         /**
          * @private
+         * These browsers will not clear the existing active cue when setting an offset
+         * for native TextTracks.
+         * Any previous text tracks that are on the screen when the offset changes will remain next
+         * to the new tracks until they reach the end time of the new offset's instance of the track.
+         */
+        requiresHidingActiveCuesOnOffsetChange() {
+            return !!browser.firefox;
+        }
+
+        /**
+         * @private
+         */
+        hideTextTrackWithActiveCues(currentTrack) {
+            if (currentTrack.activeCues) {
+                currentTrack.mode = 'hidden';
+            }
+        }
+
+        /**
+         * Forces the active cue to clear by disabling then re-enabling the track.
+         * The track mode is reverted inside of a 0ms timeout to free up the track
+         * and allow it to disable and clear the active cue.
+         * @private
+         */
+        forceClearTextTrackActiveCues(currentTrack) {
+            if (currentTrack.activeCues) {
+                currentTrack.mode = 'disabled';
+                setTimeout(() => {
+                    currentTrack.mode = 'showing';
+                }, 0);
+            }
+        }
+
+        /**
+         * @private
          */
         setTextTrackSubtitleOffset(currentTrack, offsetValue, currentTrackIndex) {
             if (currentTrack.cues) {
@@ -629,11 +670,21 @@ function tryRemoveElement(elem) {
                 if (offsetValue === 0) {
                     return;
                 }
+
+                const shouldClearActiveCues = this.requiresHidingActiveCuesOnOffsetChange();
+                if (shouldClearActiveCues) {
+                    this.hideTextTrackWithActiveCues(currentTrack);
+                }
+
                 Array.from(currentTrack.cues)
                     .forEach(function (cue) {
                         cue.startTime -= offsetValue;
                         cue.endTime -= offsetValue;
                     });
+
+                if (shouldClearActiveCues) {
+                    this.forceClearTextTrackActiveCues(currentTrack);
+                }
             }
         }
 
@@ -771,6 +822,8 @@ function tryRemoveElement(elem) {
         }
 
         destroy() {
+            this.setSubtitleOffset.cancel();
+
             destroyHlsPlayer(this);
             destroyFlvPlayer(this);
 
