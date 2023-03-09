@@ -12,8 +12,6 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './recordingfields.template.html';
 
-/*eslint prefer-const: "error"*/
-
 function loadData(parent, program) {
     if (program.IsSeries) {
         parent.querySelector('.recordSeriesContainer').classList.remove('hide');
