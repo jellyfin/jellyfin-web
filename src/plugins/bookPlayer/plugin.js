@@ -17,6 +17,14 @@ import '../../elements/emby-button/paper-icon-button-light';
 import html from './template.html';
 import './style.scss';
 
+const THEMES = {
+    'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
+    'sepia': { 'body': { 'color': '#d8a262', 'background': '#000', 'font-size': 'medium' } },
+    'light': { 'body': { 'color': '#000', 'background': '#fff', 'font-size': 'medium' } }
+};
+const THEME_ORDER = ['dark', 'sepia', 'light'];
+const FONT_SIZES = ['x-small', 'small', 'medium', 'large', 'x-large'];
+
 export class BookPlayer {
     constructor() {
         this.name = 'Book Player';
@@ -28,16 +36,7 @@ export class BookPlayer {
         } else {
             this.theme = 'light';
         }
-        this.themes = {
-            'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
-            'sepia': { 'body': { 'color': '#d8a262', 'background': '#000', 'font-size': 'medium' } },
-            'light': { 'body': { 'color': '#000', 'background': '#fff', 'font-size': 'medium' } }
-        };
-        this.themeOrder = ['dark', 'sepia', 'light'];
-
         this.fontSize = 'medium';
-        this.fontSizeOrder = ['x-small', 'small', 'medium', 'large', 'x-large'];
-
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
         this.rotateTheme = this.rotateTheme.bind(this);
@@ -239,24 +238,24 @@ export class BookPlayer {
 
     rotateTheme() {
         if (this.loaded) {
-            const newTheme = this.themeOrder[(this.themeOrder.indexOf(this.theme) + 1) % this.themeOrder.length];
-            this.rendition.themes.register('default', this.themes[newTheme]);
+            const newTheme = THEME_ORDER[(THEME_ORDER.indexOf(this.theme) + 1) % THEME_ORDER.length];
+            this.rendition.themes.register('default', THEMES[newTheme]);
             this.rendition.themes.update('default');
             this.theme = newTheme;
         }
     }
 
     increaseFontSize() {
-        if (this.loaded && this.fontSize !== this.fontSizeOrder[this.fontSizeOrder.length - 1]) {
-            const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) + 1)];
+        if (this.loaded && this.fontSize !== FONT_SIZES[FONT_SIZES.length - 1]) {
+            const newFontSize = FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize) + 1)];
             this.rendition.themes.fontSize(newFontSize);
             this.fontSize = newFontSize;
         }
     }
 
     decreaseFontSize() {
-        if (this.loaded && this.fontSize !== this.fontSizeOrder[0]) {
-            const newFontSize = this.fontSizeOrder[(this.fontSizeOrder.indexOf(this.fontSize) - 1)];
+        if (this.loaded && this.fontSize !== FONT_SIZES[0]) {
+            const newFontSize = FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize) - 1)];
             this.rendition.themes.fontSize(newFontSize);
             this.fontSize = newFontSize;
         }
@@ -344,7 +343,7 @@ export class BookPlayer {
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;
 
-                rendition.themes.register('default', this.themes[this.theme]);
+                rendition.themes.register('default', THEMES[this.theme]);
                 rendition.themes.select('default');
 
                 return rendition.display().then(() => {
