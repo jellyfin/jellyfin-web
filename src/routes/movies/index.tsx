@@ -55,7 +55,7 @@ const getTabs = () => {
 
 const Movies: FC = () => {
     const [ searchParams ] = useSearchParams();
-    const currentTabIndex = parseInt(searchParams.get('tab') || getDefaultTabIndex(searchParams.get('topParentId')).toString());
+    const currentTabIndex = parseInt(searchParams.get('tab') || getDefaultTabIndex(searchParams.get('topParentId')).toString(), 10);
     const [ selectedIndex, setSelectedIndex ] = useState(currentTabIndex);
     const element = useRef<HTMLDivElement>(null);
 
@@ -95,7 +95,7 @@ const Movies: FC = () => {
     };
 
     const onTabChange = useCallback((e: { detail: { selectedTabIndex: string; }; }) => {
-        const newIndex = parseInt(e.detail.selectedTabIndex);
+        const newIndex = parseInt(e.detail.selectedTabIndex, 10);
         setSelectedIndex(newIndex);
     }, []);
 

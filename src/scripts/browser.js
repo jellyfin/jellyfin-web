@@ -224,7 +224,7 @@ const uaMatch = function (ua) {
 
     version = version || match[2] || '0';
 
-    let versionMajor = parseInt(version.split('.')[0]);
+    let versionMajor = parseInt(version.split('.')[0], 10);
 
     if (isNaN(versionMajor)) {
         versionMajor = 0;
@@ -295,7 +295,7 @@ if (browser.web0s) {
     delete browser.safari;
 
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
-    browser.tizenVersion = parseInt(v[1]);
+    browser.tizenVersion = parseInt(v[1], 10);
 } else {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }

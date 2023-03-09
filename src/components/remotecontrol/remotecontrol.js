@@ -20,8 +20,6 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
 
-/*eslint prefer-const: "error"*/
-
 let showMuteButton = true;
 let showVolumeSlider = true;
 
@@ -46,7 +44,7 @@ function showAudioMenu(context, player, button) {
             items: menuItems,
             positionTo: button,
             callback: function (id) {
-                playbackManager.setAudioStreamIndex(parseInt(id), player);
+                playbackManager.setAudioStreamIndex(parseInt(id, 10), player);
             }
         });
     });
@@ -78,7 +76,7 @@ function showSubtitleMenu(context, player, button) {
             items: menuItems,
             positionTo: button,
             callback: function (id) {
-                playbackManager.setSubtitleStreamIndex(parseInt(id), player);
+                playbackManager.setSubtitleStreamIndex(parseInt(id, 10), player);
             }
         });
     });

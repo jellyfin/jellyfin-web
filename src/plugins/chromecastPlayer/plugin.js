@@ -683,7 +683,7 @@ class ChromecastPlayer {
     }
 
     seek(position) {
-        position = parseInt(position);
+        position = parseInt(position, 10);
 
         position = position / 10000000;
 
