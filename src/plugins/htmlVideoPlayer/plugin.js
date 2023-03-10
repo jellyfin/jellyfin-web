@@ -1211,10 +1211,11 @@ function tryRemoveElement(elem) {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 fonts: avaliableFonts,
+                fallbackFont: 'liberation sans',
+                availableFonts: {'liberation sans': `${appRouter.baseUrl()}/libraries/default.woff2`},
                 workerUrl: `${appRouter.baseUrl()}/libraries/jassub-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/jassub-worker-legacy.js`,
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-
                 // new jassub options; override all, even defaults
                 blendMode: 'js',
                 asyncRender: true,
@@ -1240,6 +1241,12 @@ function tryRemoveElement(elem) {
                     options.workerUrl = workerUrl;
                     options.legacyWorkerUrl = legacyWorkerUrl;
 
+                    const cleanup = () => {
+                        this.#currentJASSUB.destroy();
+                        this.#currentJASSUB = null;
+                        onErrorInternal(this, 'mediadecodeerror');
+                    };
+
                     if (config.EnableFallbackFont) {
                         apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
                             fontFiles.forEach(font => {
@@ -1249,16 +1256,12 @@ function tryRemoveElement(elem) {
                                 avaliableFonts.push(fontUrl);
                             });
                             this.#currentJASSUB = new JASSUB(options);
+                            this.#currentJASSUB.addEventListener('error', cleanup, { once: true });
                         });
                     } else {
                         this.#currentJASSUB = new JASSUB(options);
+                        this.#currentJASSUB.addEventListener('error', cleanup, { once: true });
                     }
-
-                    this.#currentJASSUB.addEventListener('error', ()=>{
-                        this.#currentJASSUB.destroy();
-                        this.#currentJASSUB = null;
-                        onErrorInternal(this, 'mediadecodeerror');
-                    }, { once: true });
                 });
             });
         }

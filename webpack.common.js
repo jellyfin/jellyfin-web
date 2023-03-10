@@ -12,6 +12,7 @@ const Assets = [
     'jassub/dist/jassub-worker.wasm',
     'jassub/dist/jassub-worker-legacy.js',
     'jassub/dist/jassub-worker-legacy.mem',
+    'jassub/dist/default.woff2',
     'pdfjs-dist/build/pdf.worker.js'
 ];
 
