@@ -4,6 +4,7 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import { appRouter } from '../../components/appRouter';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 import './style.scss';
@@ -12,7 +13,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 export class PdfPlayer {
     constructor() {
         this.name = 'PDF Player';
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.id = 'pdfplayer';
         this.priority = 1;
 

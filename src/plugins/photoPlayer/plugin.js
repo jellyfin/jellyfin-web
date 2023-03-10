@@ -1,9 +1,10 @@
 import ServerConnections from '../../components/ServerConnections';
+import { PluginType } from '../../types/plugin.ts';
 
 export default class PhotoPlayer {
     constructor() {
         this.name = 'Photo Player';
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.id = 'photoplayer';
         this.priority = 1;
     }

@@ -9,6 +9,7 @@ import TableOfContents from './tableOfContents';
 import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 import '../../elements/emby-button/paper-icon-button-light';
@@ -19,7 +20,7 @@ import './style.scss';
 export class BookPlayer {
     constructor() {
         this.name = 'Book Player';
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.id = 'bookplayer';
         this.priority = 1;
 
