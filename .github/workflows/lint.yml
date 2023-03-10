@@ -24,8 +24,6 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
-        env:
-          SKIP_PREPARE: true
 
       - name: Run a production build
         run: npm run build:production
