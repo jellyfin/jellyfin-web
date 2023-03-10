@@ -382,7 +382,7 @@ function tryRemoveElement(elem) {
 
             this.#currentTime = null;
 
-            this.resetSubtitleOffset();
+            if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
             return this.createMediaElement(options).then(elem => {
                 return this.updateVideoUrl(options).then(() => {

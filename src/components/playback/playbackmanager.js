@@ -1740,6 +1740,7 @@ class PlaybackManager {
                         const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
                         streamInfo.fullscreen = currentPlayOptions.fullscreen;
                         streamInfo.lastMediaInfoQuery = lastMediaInfoQuery;
+                        streamInfo.resetSubtitleOffset = false;
 
                         if (!streamInfo.url) {
                             showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
