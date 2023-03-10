@@ -1525,7 +1525,7 @@
     "VideoFramerateNotSupported": "Videoens bildefrekvens støttes ikke",
     "VideoBitDepthNotSupported": "Videoens bitdybde støttes ikke",
     "RefFramesNotSupported": "Referanse-bilder støttes ikke",
-    "EnableGamepadHelp": "Lytt til inndata fra tilkoblet kontroller.",
+    "EnableGamepadHelp": "Lytt til inndata fra tilkoblet kontroller. (Krever: \"TV\"-visningsmodus)",
     "LabelEnableGamepad": "Aktiver spillkontroller",
     "AudioBitDepthNotSupported": "Lydens bitdybde støttes ikke",
     "ThemeSong": "Tema-låt",
@@ -1683,5 +1683,14 @@
     "MessageRenameMediaFolder": "Endring av navnet til et mediebibliotek vil føre til at alle metadata går tapt, fortsett med forsiktighet.",
     "EnableCardLayout": "Vis visuell CardBox",
     "MessageNoItemsAvailable": "Ingen filer er tilgjengelige for øyeblikket.",
-    "OptionDateShowAdded": "Dato serien ble lagt til"
+    "OptionDateShowAdded": "Dato serien ble lagt til",
+    "Experimental": "Eksperimentell",
+    "DownloadAll": "Laste ned alt",
+    "LabelDummyChapterCountHelp": "Maksimalt antall kapittelbilder som vil bli ekstrahert for hver mediefil.",
+    "LabelStereoDownmixAlgorithm": "Stereo nedmiksingsalgoritme",
+    "HeaderDummyChapter": "Kapittel Bilder",
+    "LabelDummyChapterCount": "Grense:",
+    "LabelChapterImageResolution": "Oppløsning:",
+    "LabelDummyChapterDuration": "Intervall:",
+    "HeaderRecordingMetadataSaving": "Opptak metadata"
 }

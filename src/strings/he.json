@@ -773,7 +773,7 @@
     "EnableDecodingColorDepth10Hevc": "אפשר פענוח חומרה של 10 סיביות עבור HEVC",
     "EnableBackdropsHelp": "הצג את התפאורות ברקע של כמה דפים בעת גלישה בספרייה.",
     "DisplayMissingEpisodesWithinSeasonsHelp": "יש להפעיל זאת גם עבור ספריות טלוויזיה בתצורת השרת.",
-    "DisplayInOtherHomeScreenSections": "הצג בקטעי מסך הבית כגון המדיה העדכנית והמשיך בצפייה",
+    "DisplayInOtherHomeScreenSections": "הצג במסך הבית מחיצות כגון \"התוכן, שנוסף לאחרונה\" ו-\"המשיך בצפייה\"",
     "DeinterlaceMethodHelp": "בחר בשיטת deinterlacing לשימוש בהמרת תוכנה מקושרת לתוכן. כאשר מופעלת האצת חומרה התומכת בפירוק חומרה של חומרה, ישתמש במתקן החומרה במקום בהגדרה זו.",
     "DefaultSubtitlesHelp": "כתוביות נטענות על סמך ברירת המחדל והדגלים המאולצים במטא הנתונים המוטמעים. העדפות שפה נחשבות כאשר קיימות אפשרויות מרובות.",
     "ColorTransfer": "העברת צבע",
@@ -1033,7 +1033,7 @@
     "LabelCustomCertificatePathHelp": "נתיב",
     "IgnoreDtsHelp": "השבתת אפשרות זו עשויה לפתור בעיות מסוימות, למשל. אודיו חסר בערוצים עם זרמי אודיו ווידאו נפרדים.",
     "HeaderContainerProfileHelp": "פרופילי קונטיינר מציינים את המגבלות של מכשיר בעת הפעלת קידודים ספציפיים. אם חלה מגבלה אז המדיה תקודד מחדש, גם אם הקידוד מוגדר להפעלה ישירה.",
-    "LabelAutoDiscoveryTracingHelp": "כאשר מופעל, חבילות רשת המתקבלות ביציאת הגילוי האוטומטי יתועדו.",
+    "LabelAutoDiscoveryTracingHelp": "כאשר מופעל, חבילות רשת המתקבלות בפורט הגילוי האוטומטי יתועדו.",
     "LabelAutomaticDiscoveryHelp": "אפשר ליישומים לזהות באופן אוטומטי את Jellyfin באמצעות שימוש ב-UDP דרך יציאה 7359.",
     "LabelBaseUrlHelp": "הוסף תת-תיקייה מותאמת אישית לכתובת ה-URL של השרת. לדוגמא:<code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelBindToLocalNetworkAddressHelp": "דרוס את כתובת ה-IP המקומית של שרת ה-HTTP. אם ריק, השרת ייצמד לכל הכתובות הזמינות. שינוי ערך זה דורש הפעלה מחדש.",
@@ -1045,5 +1045,10 @@
     "LabelBindToLocalNetworkAddress": "היצמד לכתובת רשת מקומית:",
     "LabelCertificatePasswordHelp": "אם התעודה שלך דורשת סיסמא, נא הקלד אותה כאן.",
     "LabelColorTransfer": "העברת צבע:",
-    "LabelCreateHttpPortMap": "אפשר מיפוי פורטים אוטומטי לכל תעבורת ה-HTTP וגם ה-HTTPS."
+    "LabelCreateHttpPortMap": "אפשר מיפוי פורטים אוטומטי לכל תעבורת ה-HTTP וגם ה-HTTPS.",
+    "DownloadAll": "הורד הכל",
+    "Experimental": "ניסיוני",
+    "LabelDisableCustomCss": "אפשר קוד css מותאם אישית בשביל עיצובים מהשרת",
+    "LabelEasyPinCode": "קוד PIN קל",
+    "EnableCardLayout": "הצג מערך ארגז חזותי"
 }

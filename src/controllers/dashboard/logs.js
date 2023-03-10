@@ -3,7 +3,7 @@ import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../components/listview/listview.scss';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 

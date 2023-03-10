@@ -57,6 +57,9 @@
  - [Meet Pandya](https://github.com/meet-k-pandya)
  - [Peter Spenler](https://github.com/peterspenler)
  - [Vankerkom](https://github.com/vankerkom)
+ - [edvwib](https://github.com/edvwib)
+ - [Rob Farraher](https://github.com/farraherbg)
+ - [Pier-Luc Ducharme](https://github.com/pl-ducharme)
 
 # Emby Contributors
 

@@ -1,4 +1,4 @@
-@import "../../styles/noto-sans/index.scss";
+@import "../styles/noto-sans/index.scss";
 
 @mixin font($weight: null, $size: null) {
     font-weight: $weight;

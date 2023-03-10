@@ -15,10 +15,10 @@ import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import keyboardnavigation from '../../../scripts/keyboardNavigation';
-import '../../../assets/css/scrollstyles.scss';
+import '../../../styles/scrollstyles.scss';
 import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
-import '../../../assets/css/videoosd.scss';
+import '../../../styles/videoosd.scss';
 import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
@@ -585,7 +585,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             if (isEnabled && currentItem) {
                 const now = new Date().getTime();
 
-                if (!(now - lastUpdateTime < 700)) {
+                if (now - lastUpdateTime >= 700) {
                     lastUpdateTime = now;
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
@@ -787,12 +787,18 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                     nowPlayingPositionText.classList.add('hide');
                 }
 
-                const leftTicks = runtimeTicks - positionTicks;
-                if (leftTicks >= 0) {
-                    updateTimeText(nowPlayingDurationText, leftTicks);
-                    nowPlayingDurationText.classList.remove('hide');
+                if (userSettings.enableVideoRemainingTime()) {
+                    const leftTicks = runtimeTicks - positionTicks;
+                    if (leftTicks >= 0) {
+                        updateTimeText(nowPlayingDurationText, leftTicks);
+                        nowPlayingDurationText.innerHTML = '-' + nowPlayingDurationText.innerHTML;
+                        nowPlayingDurationText.classList.remove('hide');
+                    } else {
+                        nowPlayingPositionText.classList.add('hide');
+                    }
                 } else {
-                    nowPlayingPositionText.classList.add('hide');
+                    updateTimeText(nowPlayingDurationText, runtimeTicks);
+                    nowPlayingDurationText.classList.remove('hide');
                 }
             }
         }
@@ -869,6 +875,15 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             }
 
             elem.innerHTML = html;
+        }
+
+        function nowPlayingDurationTextClick() {
+            userSettings.enableVideoRemainingTime(!userSettings.enableVideoRemainingTime());
+            // immediately update the text, without waiting for the next tick update or if the player is paused
+            const state = playbackManager.getPlayerState(currentPlayer);
+            const playState = state.PlayState;
+            const nowPlayingItem = state.NowPlayingItem;
+            updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
         }
 
         function onSettingsButtonClick() {
@@ -973,9 +988,57 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             });
         }
 
+        function showSecondarySubtitlesMenu(actionsheet, positionTo) {
+            const player = currentPlayer;
+            if (!playbackManager.playerHasSecondarySubtitleSupport(player)) return;
+            let currentIndex = playbackManager.getSecondarySubtitleStreamIndex(player);
+            const streams = playbackManager.secondarySubtitleTracks(player);
+
+            if (currentIndex == null) {
+                currentIndex = -1;
+            }
+
+            streams.unshift({
+                Index: -1,
+                DisplayTitle: globalize.translate('Off')
+            });
+
+            const menuItems = streams.map(function (stream) {
+                const opt = {
+                    name: stream.DisplayTitle,
+                    id: stream.Index
+                };
+
+                if (stream.Index === currentIndex) {
+                    opt.selected = true;
+                }
+
+                return opt;
+            });
+
+            actionsheet.show({
+                title: globalize.translate('SecondarySubtitles'),
+                items: menuItems,
+                positionTo
+            }).then(function (id) {
+                if (id) {
+                    const index = parseInt(id);
+                    if (index !== currentIndex) {
+                        playbackManager.setSecondarySubtitleStreamIndex(index, player);
+                    }
+                }
+            })
+            .finally(() => {
+                resetIdle();
+            });
+
+            setTimeout(resetIdle, 0);
+        }
+
         function showSubtitleTrackSelection() {
             const player = currentPlayer;
             const streams = playbackManager.subtitleTracks(player);
+            const secondaryStreams = playbackManager.secondarySubtitleTracks(player);
             let currentIndex = playbackManager.getSubtitleStreamIndex(player);
 
             if (currentIndex == null) {
@@ -998,6 +1061,29 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 
                 return opt;
             });
+
+            /**
+            * Only show option if:
+            * - player has support
+            * - has more than 1 subtitle track
+            * - has valid secondary tracks
+            * - primary subtitle is not off
+            * - primary subtitle has support
+            */
+            const currentTrackCanAddSecondarySubtitle = playbackManager.playerHasSecondarySubtitleSupport(player)
+                && streams.length > 1
+                && secondaryStreams.length > 0
+                && currentIndex !== -1
+                && playbackManager.trackHasSecondarySubtitleSupport(playbackManager.getSubtitleStream(player, currentIndex), player);
+
+            if (currentTrackCanAddSecondarySubtitle) {
+                const secondarySubtitleMenuItem = {
+                    name: globalize.translate('SecondarySubtitles'),
+                    id: 'secondarysubtitle'
+                };
+                menuItems.unshift(secondarySubtitleMenuItem);
+            }
+
             const positionTo = this;
 
             import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
@@ -1006,10 +1092,18 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                     items: menuItems,
                     positionTo: positionTo
                 }).then(function (id) {
-                    const index = parseInt(id);
+                    if (id === 'secondarysubtitle') {
+                        try {
+                            showSecondarySubtitlesMenu(actionsheet, positionTo);
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    } else {
+                        const index = parseInt(id);
 
-                    if (index !== currentIndex) {
-                        playbackManager.setSubtitleStreamIndex(index, player);
+                        if (index !== currentIndex) {
+                            playbackManager.setSubtitleStreamIndex(index, player);
+                        }
                     }
 
                     toggleSubtitleSync();
@@ -1329,6 +1423,8 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         if (layoutManager.tv) {
             nowPlayingPositionSlider.classList.add('focusable');
         }
+
+        nowPlayingDurationText.addEventListener('click', nowPlayingDurationTextClick);
 
         view.addEventListener('viewbeforeshow', function () {
             headerElement.classList.add('osdHeader');

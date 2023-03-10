@@ -31,8 +31,6 @@
     background: none !important;
     border-color: transparent !important;
     color: inherit !important;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
 }
 
@@ -59,7 +57,6 @@
 
 .emby-select-focusscale {
     transition: transform 180ms ease-out !important;
-    -webkit-transform-origin: center center;
     transform-origin: center center;
 }
 
@@ -99,7 +96,6 @@
 }
 
 .emby-select-withcolor {
-    -webkit-appearance: none;
     appearance: none;
     border-radius: 0.2em;
 }

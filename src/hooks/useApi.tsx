@@ -1,7 +1,7 @@
 import type { Api } from '@jellyfin/sdk';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient, Event } from 'jellyfin-apiclient';
-import React, { createContext, FC, useContext, useEffect, useState } from 'react';
+import React, { createContext, FC, useContext, useEffect, useMemo, useState } from 'react';
 
 import ServerConnections from '../components/ServerConnections';
 import events from '../utils/events';
@@ -20,6 +20,12 @@ export const ApiProvider: FC = ({ children }) => {
     const [ legacyApiClient, setLegacyApiClient ] = useState<ApiClient>();
     const [ api, setApi ] = useState<Api>();
     const [ user, setUser ] = useState<UserDto>();
+
+    const context = useMemo(() => ({
+        __legacyApiClient__: legacyApiClient,
+        api,
+        user
+    }), [ api, legacyApiClient, user ]);
 
     useEffect(() => {
         ServerConnections.currentApiClient()
@@ -56,11 +62,7 @@ export const ApiProvider: FC = ({ children }) => {
     }, [ legacyApiClient, setApi ]);
 
     return (
-        <ApiContext.Provider value={{
-            __legacyApiClient__: legacyApiClient,
-            api,
-            user
-        }}>
+        <ApiContext.Provider value={context}>
             {children}
         </ApiContext.Provider>
     );

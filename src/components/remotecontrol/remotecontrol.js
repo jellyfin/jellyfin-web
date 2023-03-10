@@ -614,7 +614,7 @@ export default function () {
     function onTimeUpdate() {
         const now = new Date().getTime();
 
-        if (!(now - lastUpdateTime < 700)) {
+        if (now - lastUpdateTime >= 700) {
             lastUpdateTime = now;
             const player = this;
             currentRuntimeTicks = playbackManager.duration(player);
