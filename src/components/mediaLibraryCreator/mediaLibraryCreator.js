@@ -19,7 +19,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-toggle/emby-toggle';
 import '../listview/listview.scss';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import './style.scss';
 import toast from '../toast/toast';
 import alert from '../alert';

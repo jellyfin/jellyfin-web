@@ -137,7 +137,7 @@
     "Disconnect": "Disconnetti",
     "Display": "Schermo",
     "DisplayInMyMedia": "Visualizza nella schermata di home",
-    "DisplayInOtherHomeScreenSections": "Mostra le sezioni della schermata home come 'Ultimi media' e 'Continua a guardare'",
+    "DisplayInOtherHomeScreenSections": "Visualizza nelle sezioni della schermata iniziale come \"Media aggiunti di recente\" e \"Continua a guardare\"",
     "DisplayMissingEpisodesWithinSeasons": "Visualizza gli episodi mancanti nelle stagioni",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Questo deve anche essere abilitato per le librerie TV nella configurazione del server.",
     "DisplayModeHelp": "Seleziona lo stile del layout che vuoi per l'interfaccia.",

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ConnectResponse } from 'jellyfin-apiclient';
 
 import alert from './alert';
@@ -31,11 +31,11 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     isUserRequired = true
 }) => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [ isLoading, setIsLoading ] = useState(true);
 
     useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bounce = async (connectionResponse: ConnectResponse) => {
             switch (connectionResponse.State) {
                 case ConnectionState.SignedIn:
@@ -45,12 +45,12 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                     return;
                 case ConnectionState.ServerSignIn:
                     // Bounce to the login page
-                    console.debug('[ConnectionRequired] not logged in, redirecting to login page');
-                    navigate(BounceRoutes.Login, {
-                        state: {
-                            serverid: connectionResponse.ApiClient.serverId()
-                        }
-                    });
+                    if (location.pathname === BounceRoutes.Login) {
+                        setIsLoading(false);
+                    } else {
+                        console.debug('[ConnectionRequired] not logged in, redirecting to login page');
+                        navigate(`${BounceRoutes.Login}?serverid=${connectionResponse.ApiClient.serverId()}`);
+                    }
                     return;
                 case ConnectionState.ServerSelection:
                     // Bounce to select server page
@@ -144,7 +144,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         };
 
         validateConnection();
-    }, [ isAdminRequired, isUserRequired, navigate ]);
+    }, [ isAdminRequired, isUserRequired, location.pathname, navigate ]);
 
     if (isLoading) {
         return <Loading />;

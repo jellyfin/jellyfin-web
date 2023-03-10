@@ -1,5 +1,6 @@
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 import escapeHtml from 'escape-html';
 import isEqual from 'lodash-es/isEqual';
 
@@ -22,7 +23,7 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
@@ -177,34 +178,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
         return;
     }
 
-    let mediaSources = item.MediaSources;
-
-    const resolutionNames = [];
-    const sourceNames = [];
-    mediaSources.forEach(function (v) {
-        (v.Name.endsWith('p') || v.Name.endsWith('i')) && !Number.isNaN(parseInt(v.Name, 10)) ? resolutionNames.push(v) : sourceNames.push(v);
-    });
-
-    resolutionNames.sort((a, b) => parseInt(b.Name, 10) - parseInt(a.Name, 10));
-    sourceNames.sort((a, b) => {
-        const nameA = a.Name.toUpperCase();
-        const nameB = b.Name.toUpperCase();
-        if (nameA < nameB) {
-            return -1;
-        } else if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
-    });
-
-    mediaSources = [];
-    resolutionNames.forEach(v => {
-        mediaSources.push(v);
-    });
-    sourceNames.forEach(v => {
-        mediaSources.push(v);
-    });
-
+    const mediaSources = item.MediaSources;
     instance._currentPlaybackMediaSources = mediaSources;
 
     page.querySelector('.trackSelections').classList.remove('hide');
@@ -904,7 +878,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = DOMPurify.sanitize(item.Overview || '');
+        const overview = DOMPurify.sanitize(marked(item.Overview || ''));
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
@@ -1090,7 +1064,7 @@ function renderTagline(page, item) {
     }
 }
 
-function renderDetails(page, item, apiClient, context, isStatic) {
+function renderDetails(page, item, apiClient, context) {
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
@@ -1110,7 +1084,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     }
 
     renderTags(page, item);
-    renderSeriesAirTime(page, item, isStatic);
+    renderSeriesAirTime(page, item);
 }
 
 function enableScrollX() {
@@ -1183,12 +1157,7 @@ function renderMoreFromArtist(view, item, apiClient) {
     const section = view.querySelector('.moreFromArtistSection');
 
     if (section) {
-        if (item.Type === 'MusicArtist') {
-            if (!apiClient.isMinServerVersion('3.4.1.19')) {
-                section.classList.add('hide');
-                return;
-            }
-        } else if (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length) {
+        if (item.Type !== 'MusicArtist' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
             section.classList.add('hide');
             return;
         }
@@ -1289,7 +1258,7 @@ function renderSimilarItems(page, item, context) {
     }
 }
 
-function renderSeriesAirTime(page, item, isStatic) {
+function renderSeriesAirTime(page, item) {
     const seriesAirTime = page.querySelector('#seriesAirTime');
     if (item.Type != 'Series') {
         seriesAirTime.classList.add('hide');
@@ -1307,19 +1276,6 @@ function renderSeriesAirTime(page, item, isStatic) {
     }
     if (item.AirTime) {
         html += ' at ' + item.AirTime;
-    }
-    if (item.Studios.length) {
-        if (isStatic) {
-            html += ' on ' + escapeHtml(item.Studios[0].Name);
-        } else {
-            const context = inferContext(item);
-            const href = appRouter.getRouteUrl(item.Studios[0], {
-                context: context,
-                itemType: 'Studio',
-                serverId: item.ServerId
-            });
-            html += ' on <a class="textlink button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(item.Studios[0].Name) + '</a>';
-        }
     }
     if (html) {
         html = (item.Status == 'Ended' ? 'Aired ' : 'Airs ') + html;

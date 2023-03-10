@@ -4,7 +4,7 @@ import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-collapse/emby-collapse';
 import '../../elements/emby-input/emby-input';
@@ -12,7 +12,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import './recordingcreator.scss';
 import 'material-design-icons-iconfont';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './recordingeditor.template.html';
 

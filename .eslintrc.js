@@ -46,6 +46,7 @@ module.exports = {
         'keyword-spacing': ['error'],
         'no-throw-literal': ['error'],
         'max-statements-per-line': ['error'],
+        'max-params': ['error', 7],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
         'no-floating-decimal': ['error'],

@@ -1686,5 +1686,18 @@
     "StereoDownmixAlgorithmHelp": "Algoritem uporabljen za downmix večkanalnega zvoka v stereo.",
     "Experimental": "Poskusno",
     "LabelStereoDownmixAlgorithm": "Stereo Downmix algoritem",
-    "DownloadAll": "Prenesi vse"
+    "DownloadAll": "Prenesi vse",
+    "HeaderDummyChapter": "Slike poglavja",
+    "SaveRecordingNFO": "Shrani posnete EPG metapodatke v NFO",
+    "SaveRecordingImagesHelp": "Shrani prenešene slike v mapo datoteke.",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Raje uporabi vdelane naslove kot imena datotek",
+    "SaveRecordingNFOHelp": "Shrani metapodatke v isto mapo",
+    "LabelDummyChapterDuration": "interval:",
+    "LabelDummyChapterDurationHelp": "Interval ekstrakcije slike poglavja v sekundah.",
+    "LabelDummyChapterCount": "Limit:",
+    "LabelDummyChapterCountHelp": "Največje število slik poglavij, ki bodo ekstrahirane za vsako medijsko datoteko.",
+    "LabelChapterImageResolution": "Resolucija:",
+    "LabelChapterImageResolutionHelp": "Ločljivost slik poglavij.",
+    "ResolutionMatchSource": "ujemanje z virom",
+    "HeaderRecordingMetadataSaving": "Snemanje metapodatkov"
 }

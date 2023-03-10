@@ -773,7 +773,7 @@
     "EnableDecodingColorDepth10Hevc": "אפשר פענוח חומרה של 10 סיביות עבור HEVC",
     "EnableBackdropsHelp": "הצג את התפאורות ברקע של כמה דפים בעת גלישה בספרייה.",
     "DisplayMissingEpisodesWithinSeasonsHelp": "יש להפעיל זאת גם עבור ספריות טלוויזיה בתצורת השרת.",
-    "DisplayInOtherHomeScreenSections": "הצג בקטעי מסך הבית כגון המדיה העדכנית והמשיך בצפייה",
+    "DisplayInOtherHomeScreenSections": "הצג במסך הבית מחיצות כגון \"התוכן, שנוסף לאחרונה\" ו-\"המשיך בצפייה\"",
     "DeinterlaceMethodHelp": "בחר בשיטת deinterlacing לשימוש בהמרת תוכנה מקושרת לתוכן. כאשר מופעלת האצת חומרה התומכת בפירוק חומרה של חומרה, ישתמש במתקן החומרה במקום בהגדרה זו.",
     "DefaultSubtitlesHelp": "כתוביות נטענות על סמך ברירת המחדל והדגלים המאולצים במטא הנתונים המוטמעים. העדפות שפה נחשבות כאשר קיימות אפשרויות מרובות.",
     "ColorTransfer": "העברת צבע",
@@ -1049,5 +1049,6 @@
     "DownloadAll": "הורד הכל",
     "Experimental": "ניסיוני",
     "LabelDisableCustomCss": "אפשר קוד css מותאם אישית בשביל עיצובים מהשרת",
-    "LabelEasyPinCode": "קוד PIN קל"
+    "LabelEasyPinCode": "קוד PIN קל",
+    "EnableCardLayout": "הצג מערך ארגז חזותי"
 }

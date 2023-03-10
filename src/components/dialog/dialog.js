@@ -10,7 +10,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import template from './dialog.template.html';
 
 /* eslint-disable indent */

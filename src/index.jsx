@@ -6,7 +6,7 @@ import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
-import './assets/css/site.scss';
+import './styles/site.scss';
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import Events from './utils/events.ts';
@@ -24,7 +24,6 @@ import { appRouter, history } from './components/appRouter';
 import './elements/emby-button/emby-button';
 import './scripts/autoThemes';
 import './scripts/libraryMenu';
-import './scripts/routes';
 import './components/themeMediaPlayer';
 import './scripts/autoBackdrops';
 import { pageClassOn, serverAddress } from './utils/dashboard';
@@ -38,6 +37,10 @@ import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
 import App from './App.tsx';
+
+import './styles/livetv.scss';
+import './styles/dashboard.scss';
+import './styles/detailtable.scss';
 
 function loadCoreDictionary() {
     const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es_419', 'es-ar', 'es_do', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'lv', 'mr', 'ms', 'nb', 'nl', 'nn', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
@@ -89,13 +92,13 @@ function onGlobalizeInit() {
 
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
-        import('./assets/css/fonts.sized.scss');
+        import('./styles/fonts.sized.scss');
     } else {
         console.debug('using default fonts');
-        import('./assets/css/fonts.scss');
+        import('./styles/fonts.scss');
     }
 
-    import('./assets/css/librarybrowser.scss');
+    import('./styles/librarybrowser.scss');
 
     loadPlugins().then(onAppReady);
 }
@@ -135,7 +138,7 @@ async function onAppReady() {
     console.debug('onAppReady: loading dependencies');
 
     if (browser.iOS) {
-        import('./assets/css/ios.scss');
+        import('./styles/ios.scss');
     }
 
     Events.on(appHost, 'resume', () => {
