@@ -235,7 +235,7 @@ import { getParameterByName } from '../../../utils/url.ts';
             const btnDeleteTrigger = dom.parentWithClass(e.target, 'btnDeleteTrigger');
 
             if (btnDeleteTrigger) {
-                ScheduledTaskPage.confirmDeleteTrigger(view, parseInt(btnDeleteTrigger.getAttribute('data-index')));
+                ScheduledTaskPage.confirmDeleteTrigger(view, parseInt(btnDeleteTrigger.getAttribute('data-index'), 10));
             }
         });
         view.addEventListener('viewshow', function () {

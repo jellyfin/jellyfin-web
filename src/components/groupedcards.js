@@ -13,7 +13,7 @@ import ServerConnections from './ServerConnections';
         const playedIndicator = card.querySelector('.playedIndicator');
         const playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;
         const options = {
-            Limit: parseInt(playedIndicatorHtml || '10'),
+            Limit: parseInt(playedIndicatorHtml || '10', 10),
             Fields: 'PrimaryImageAspectRatio,DateCreated',
             ParentId: itemId,
             GroupItems: false

@@ -52,7 +52,7 @@ import datetime from '../../scripts/datetime';
 
             if (value) {
                 if (identifyField[i].type === 'number') {
-                    value = parseInt(value);
+                    value = parseInt(value, 10);
                 }
 
                 lookupInfo[identifyField[i].getAttribute('data-lookup')] = value;
@@ -123,7 +123,7 @@ import datetime from '../../scripts/datetime';
         elem.innerHTML = html;
 
         function onSearchImageClick() {
-            const index = parseInt(this.getAttribute('data-index'));
+            const index = parseInt(this.getAttribute('data-index'), 10);
 
             const currentResult = results[index];
 

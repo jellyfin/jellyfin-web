@@ -1149,12 +1149,12 @@ function Guide(options) {
     guideContext.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
         const allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
 
-        const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
+        const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex, 10)];
         if (tabButton) {
-            const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
+            const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex, 10)];
 
             const date = new Date();
-            date.setTime(parseInt(tabButton.getAttribute('data-date')));
+            date.setTime(parseInt(tabButton.getAttribute('data-date'), 10));
 
             const scrollWidth = programGrid.scrollWidth;
             let scrollToTimeMs;
@@ -1166,7 +1166,7 @@ function Guide(options) {
 
             if (previousButton) {
                 const previousDate = new Date();
-                previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
+                previousDate.setTime(parseInt(previousButton.getAttribute('data-date'), 10));
 
                 scrollToTimeMs += (previousDate.getHours() * 60 * 60 * 1000);
                 scrollToTimeMs += (previousDate.getMinutes() * 60 * 1000);
