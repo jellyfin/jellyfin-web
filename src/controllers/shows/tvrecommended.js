@@ -224,11 +224,11 @@ import autoFocuser from '../../components/autoFocuser';
 
     export default function (view, params) {
         function onBeforeTabChange(e) {
-            preLoadTab(view, parseInt(e.detail.selectedTabIndex));
+            preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
         }
 
         function onTabChange(e) {
-            const newIndex = parseInt(e.detail.selectedTabIndex);
+            const newIndex = parseInt(e.detail.selectedTabIndex, 10);
             loadTab(view, newIndex);
         }
 
@@ -340,7 +340,7 @@ import autoFocuser from '../../components/autoFocuser';
         }
 
         const self = this;
-        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
         const suggestionsTabIndex = 1;
 
         self.initTab = function () {

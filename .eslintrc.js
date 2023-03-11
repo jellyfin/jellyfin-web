@@ -68,6 +68,7 @@ module.exports = {
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+        'radix': ['error'],
         '@babel/semi': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',

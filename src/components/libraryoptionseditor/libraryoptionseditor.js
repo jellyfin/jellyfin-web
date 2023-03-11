@@ -531,7 +531,7 @@ import template from './libraryoptionseditor.template.html';
             PreferredMetadataLanguage: parent.querySelector('#selectLanguage').value,
             MetadataCountryCode: parent.querySelector('#selectCountry').value,
             SeasonZeroDisplayName: parent.querySelector('#txtSeasonZeroName').value,
-            AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value),
+            AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value, 10),
             EnableEmbeddedTitles: parent.querySelector('#chkEnableEmbeddedTitles').checked,
             EnableEmbeddedExtrasTitles: parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked,
             EnableEmbeddedEpisodeInfos: parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked,

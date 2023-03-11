@@ -75,11 +75,11 @@ import '../../styles/scrollstyles.scss';
                 current.classList.remove(activeButtonClass);
             }
 
-            const previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
+            const previousIndex = current ? parseInt(current.getAttribute('data-index'), 10) : null;
 
             setActiveTabButton(tabButton);
 
-            const index = parseInt(tabButton.getAttribute('data-index'));
+            const index = parseInt(tabButton.getAttribute('data-index'), 10);
 
             triggerBeforeTabChange(tabs, index, previousIndex);
 
@@ -194,7 +194,7 @@ import '../../styles/scrollstyles.scss';
         initScroller(this);
 
         const current = this.querySelector('.' + activeButtonClass);
-        const currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
+        const currentIndex = current ? parseInt(current.getAttribute('data-index'), 10) : parseInt(this.getAttribute('data-index') || '0', 10);
 
         if (currentIndex !== -1) {
             this.selectedTabIndex = currentIndex;

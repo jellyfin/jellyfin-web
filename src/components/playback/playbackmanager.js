@@ -11,6 +11,7 @@ import { appHost } from '../apphost';
 import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
+import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 
 const UNLIMITED_ITEMS = -1;
@@ -1690,7 +1691,7 @@ class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
-                player.currentTime(parseInt(ticks / 10000));
+                player.currentTime(parseInt(ticks / 10000, 10));
                 return;
             }
 
@@ -1714,7 +1715,7 @@ class PlaybackManager {
                 const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
                 if (ticks) {
-                    ticks = parseInt(ticks);
+                    ticks = parseInt(ticks, 10);
                 }
 
                 const maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
@@ -2265,7 +2266,7 @@ class PlaybackManager {
 
         function runInterceptors(item, playOptions) {
             return new Promise(function (resolve, reject) {
-                const interceptors = pluginManager.ofType('preplayintercept');
+                const interceptors = pluginManager.ofType(PluginType.PreplayIntercept);
 
                 interceptors.sort(function (a, b) {
                     return (a.order || 0) - (b.order || 0);
@@ -3426,12 +3427,12 @@ class PlaybackManager {
         }
 
         Events.on(pluginManager, 'registered', function (e, plugin) {
-            if (plugin.type === 'mediaplayer') {
+            if (plugin.type === PluginType.MediaPlayer) {
                 initMediaPlayer(plugin);
             }
         });
 
-        pluginManager.ofType('mediaplayer').forEach(initMediaPlayer);
+        pluginManager.ofType(PluginType.MediaPlayer).forEach(initMediaPlayer);
 
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
             if (!player) {
@@ -3646,7 +3647,7 @@ class PlaybackManager {
 
         percent /= 100;
         ticks *= percent;
-        this.seek(parseInt(ticks), player);
+        this.seek(parseInt(ticks, 10), player);
     }
 
     seekMs(ms, player = this._currentPlayer) {
@@ -4033,13 +4034,13 @@ class PlaybackManager {
                 this.setBrightness(cmd.Arguments.Brightness, player);
                 break;
             case 'SetAudioStreamIndex':
-                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
+                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10), player);
                 break;
             case 'SetSubtitleStreamIndex':
-                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
+                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10), player);
                 break;
             case 'SetMaxStreamingBitrate':
-                this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
+                this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate, 10), player);
                 break;
             case 'ToggleFullscreen':
                 this.toggleFullscreen(player);

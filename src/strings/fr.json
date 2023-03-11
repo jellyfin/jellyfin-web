@@ -1614,7 +1614,7 @@
     "AudioIsExternal": "Le flux audio est externe",
     "SelectAll": "Tout sélectionner",
     "ButtonExitApp": "Quitter l'application",
-    "Clip": "Court-métrage",
+    "Clip": "Clip",
     "ThemeVideo": "Générique",
     "ThemeSong": "Thème musical",
     "Sample": "Échantillon",
@@ -1714,5 +1714,7 @@
     "SubtitleMagenta": "Magenta",
     "SubtitleRed": "Rouge",
     "SubtitleWhite": "Blanc",
-    "SubtitleYellow": "Jaune"
+    "SubtitleYellow": "Jaune",
+    "Featurette": "Featurette",
+    "Short": "Court-métrage"
 }

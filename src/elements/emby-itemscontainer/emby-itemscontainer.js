@@ -414,7 +414,7 @@ import Sortable from 'sortablejs';
         clearRefreshInterval(itemsContainer);
 
         if (!intervalMs) {
-            intervalMs = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0');
+            intervalMs = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0', 10);
         }
 
         if (intervalMs) {

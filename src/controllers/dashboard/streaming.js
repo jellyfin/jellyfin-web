@@ -15,7 +15,7 @@ import Dashboard from '../../utils/dashboard';
         loading.show();
         const form = this;
         ApiClient.getServerConfiguration().then(function (config) {
-            config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', form).val() || '0'));
+            config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', form).val() || '0'), 10);
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
 

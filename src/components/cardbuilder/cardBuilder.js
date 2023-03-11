@@ -663,7 +663,7 @@ import { appRouter } from '../appRouter';
                 const character = String(str.slice(charIndex, charIndex + 1).charCodeAt());
                 let sum = 0;
                 for (let i = 0; i < character.length; i++) {
-                    sum += parseInt(character.charAt(i));
+                    sum += parseInt(character.charAt(i), 10);
                 }
                 const index = String(sum).slice(-1);
 
