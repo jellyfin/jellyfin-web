@@ -1380,7 +1380,7 @@
     "UnknownAudioStreamInfo": "Інфармацыя аб аўдыяплыні невядомая",
     "DirectPlayError": "Узнікла памылка пры запуску прамога прайгравання",
     "SelectAll": "Абраць усё",
-    "Clip": "Художнік",
+    "Clip": "Кліп",
     "Sample": "Прыклад",
     "LabelVppTonemappingBrightness": "Узмацненне яркасці танальнага адлюстравання VPP:",
     "LabelVppTonemappingBrightnessHelp": "Прымяніць узмацненне яркасці ў танальным адлюстраванні VPP. І рэкамендаванае, і стандартнае значэнне роўна 0.",
@@ -1700,5 +1700,7 @@
     "SubtitleMagenta": "Пурпурны",
     "SubtitleRed": "Чырвоны",
     "SubtitleWhite": "Белы",
-    "SubtitleYellow": "Жоўты"
+    "SubtitleYellow": "Жоўты",
+    "Featurette": "Кароткаметражка",
+    "Short": "Кароткаметражка"
 }
