@@ -158,7 +158,6 @@ const config = {
                     path.resolve(__dirname, 'node_modules/dom7'),
                     path.resolve(__dirname, 'node_modules/epubjs'),
                     path.resolve(__dirname, 'node_modules/flv.js'),
-                    path.resolve(__dirname, 'node_modules/hls.js'),
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
                     path.resolve(__dirname, 'node_modules/marked'),
                     path.resolve(__dirname, 'node_modules/react-router'),
