@@ -1,10 +1,11 @@
 /* eslint-disable indent */
 import ServerConnections from '../../components/ServerConnections';
+import { PluginType } from '../../types/plugin.ts';
 
 class BackdropScreensaver {
     constructor() {
         this.name = 'Backdrop ScreenSaver';
-        this.type = 'screensaver';
+        this.type = PluginType.Screensaver;
         this.id = 'backdropscreensaver';
         this.supportsAnonymous = false;
     }

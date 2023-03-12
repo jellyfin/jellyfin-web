@@ -114,8 +114,8 @@ import shell from '../../scripts/shell';
         const itemId = item.Id;
 
         // Convert to ms
-        const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-        const currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0);
+        const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0, 10);
+        const currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0, 10);
 
         const isPaused = playState.IsPaused || false;
         const canSeek = playState.CanSeek || false;
@@ -247,7 +247,7 @@ import shell from '../../scripts/shell';
         navigator.mediaSession.setActionHandler('seekto', function (object) {
             const item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
             // Convert to ms
-            const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+            const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0, 10);
             const wantedTime = object.seekTime * 1000;
             playbackManager.seekPercent(wantedTime / duration * 100, currentPlayer);
         });

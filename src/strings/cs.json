@@ -1622,7 +1622,7 @@
     "DeletedScene": "Vymazaná scéna",
     "BehindTheScenes": "Z natáčení",
     "Trailer": "Upoutávka",
-    "Clip": "Krátký film",
+    "Clip": "Filmový klip",
     "AllowEmbeddedSubtitlesHelp": "Zakázat titulky, které jsou vložené v kontejneru média. Vyžaduje kompletní přeskenování knihovny.",
     "AllowEmbeddedSubtitlesAllowTextOption": "Povolit textové titulky",
     "AllowEmbeddedSubtitlesAllowImageOption": "Povolit grafické titulky",
@@ -1704,5 +1704,17 @@
     "ResolutionMatchSource": "Stejné jako zdroj",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Preferovat vložené názvy před názvy souborů pro doplňky",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Doplňky většinou mají stejný vložený název jako nadřazená položka. Zaškrtnutím je i přesto můžete upřednostnit.",
-    "SecondarySubtitles": "Sekundární titulky"
+    "SecondarySubtitles": "Sekundární titulky",
+    "SubtitleBlack": "Černá",
+    "SubtitleBlue": "Modrá",
+    "SubtitleCyan": "Tyrkysová",
+    "SubtitleGray": "Šedá",
+    "SubtitleGreen": "Zelená",
+    "SubtitleLightGray": "Světle šedá",
+    "SubtitleMagenta": "Fialová",
+    "SubtitleRed": "Červená",
+    "SubtitleWhite": "Bílá",
+    "SubtitleYellow": "Žlutá",
+    "Featurette": "Středně dlouhý film",
+    "Short": "Krátký film"
 }

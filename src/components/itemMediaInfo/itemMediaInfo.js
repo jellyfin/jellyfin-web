@@ -20,7 +20,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import 'material-design-icons-iconfont';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './itemMediaInfo.template.html';
 
@@ -138,7 +138,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
                 attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), `${stream.Channels} ch`));
             }
             if (stream.BitRate) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000)} kbps`));
+                attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000, 10)} kbps`));
             }
             if (stream.SampleRate) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoSampleRate'), `${stream.SampleRate} Hz`));

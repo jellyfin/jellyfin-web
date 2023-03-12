@@ -68,7 +68,7 @@ function renderPackage(pkg, installedPlugins, page) {
 
     if (installedPlugin) {
         const currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
-        $('#pCurrentVersion', page).show().text(currentVersionText);
+        $('#pCurrentVersion', page).show().html(currentVersionText);
     } else {
         $('#pCurrentVersion', page).hide().text('');
     }

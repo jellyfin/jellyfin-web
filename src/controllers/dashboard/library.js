@@ -92,7 +92,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
     function showCardMenu(page, elem, virtualFolders) {
         const card = dom.parentWithClass(elem, 'card');
-        const index = parseInt(card.getAttribute('data-index'));
+        const index = parseInt(card.getAttribute('data-index'), 10);
         const virtualFolder = virtualFolders[index];
         const menuItems = [];
         menuItems.push({
@@ -192,7 +192,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         });
         $('.editLibrary', divVirtualFolders).on('click', function () {
             const card = $(this).parents('.card')[0];
-            const index = parseInt(card.getAttribute('data-index'));
+            const index = parseInt(card.getAttribute('data-index'), 10);
             const virtualFolder = virtualFolders[index];
 
             if (virtualFolder.ItemId) {

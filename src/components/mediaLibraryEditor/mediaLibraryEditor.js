@@ -17,7 +17,7 @@ import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../elements/emby-toggle/emby-toggle';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import './style.scss';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
@@ -93,7 +93,7 @@ import template from './mediaLibraryEditor.template.html';
         const listItem = dom.parentWithClass(e.target, 'listItem');
 
         if (listItem) {
-            const index = parseInt(listItem.getAttribute('data-index'));
+            const index = parseInt(listItem.getAttribute('data-index'), 10);
             const pathInfos = (currentOptions.library.LibraryOptions || {}).PathInfos || [];
             const pathInfo = index == null ? {} : pathInfos[index] || {};
             const originalPath = pathInfo.Path || (index == null ? null : currentOptions.library.Locations[index]);

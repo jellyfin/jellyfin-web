@@ -1,8 +1,10 @@
+import { PluginType } from '../../types/plugin.ts';
+
 export default function () {
     const self = this;
 
     self.name = 'Logo ScreenSaver';
-    self.type = 'screensaver';
+    self.type = PluginType.Screensaver;
     self.id = 'logoscreensaver';
     self.supportsAnonymous = true;
 

@@ -9,11 +9,11 @@ import imageLoader from '../../components/images/imageLoader';
 import libraryMenu from '../../scripts/libraryMenu';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import globalize from '../../scripts/globalize';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import Dashboard from '../../utils/dashboard';
 
 /* eslint-disable indent */
@@ -245,11 +245,11 @@ import Dashboard from '../../utils/dashboard';
         }
 
         function onBeforeTabChange(e) {
-            preLoadTab(view, parseInt(e.detail.selectedTabIndex));
+            preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
         }
 
         function onTabChange(e) {
-            loadTab(view, parseInt(e.detail.selectedTabIndex));
+            loadTab(view, parseInt(e.detail.selectedTabIndex, 10));
         }
 
         function getTabContainers() {
@@ -350,7 +350,7 @@ import Dashboard from '../../utils/dashboard';
             }
         }
 
-        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
         const suggestionsTabIndex = 1;
 
         this.initTab = function () {

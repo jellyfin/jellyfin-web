@@ -16,14 +16,15 @@ import imageHelper from './imagehelper';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
+import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
 
 import '../elements/emby-button/paper-icon-button-light';
 
 import 'material-design-icons-iconfont';
-import '../assets/css/scrollstyles.scss';
-import '../assets/css/flexstyles.scss';
+import '../styles/scrollstyles.scss';
+import '../styles/flexstyles.scss';
 
 /* eslint-disable indent */
 
@@ -159,7 +160,7 @@ import '../assets/css/flexstyles.scss';
                 // Button is present
                 headerSyncButton
                 // SyncPlay plugin is loaded
-                && pluginManager.plugins.filter(plugin => plugin.id === 'syncplay').length > 0
+                && pluginManager.ofType(PluginType.SyncPlay).length > 0
                 // SyncPlay enabled for user
                 && policy?.SyncPlayAccess !== 'None'
             ) {

@@ -15,8 +15,8 @@ import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
-import '../../assets/css/clearbutton.scss';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/clearbutton.scss';
+import '../../styles/flexstyles.scss';
 import './style.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
@@ -357,14 +357,14 @@ import template from './metadataEditor.template.html';
             let index;
             const btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
             if (btnDeletePerson) {
-                index = parseInt(btnDeletePerson.getAttribute('data-index'));
+                index = parseInt(btnDeletePerson.getAttribute('data-index'), 10);
                 currentItem.People.splice(index, 1);
                 populatePeople(context, currentItem.People);
             }
 
             const btnEditPerson = dom.parentWithClass(e.target, 'btnEditPerson');
             if (btnEditPerson) {
-                index = parseInt(btnEditPerson.getAttribute('data-index'));
+                index = parseInt(btnEditPerson.getAttribute('data-index'), 10);
                 editPerson(context, currentItem.People[index], index);
             }
         });

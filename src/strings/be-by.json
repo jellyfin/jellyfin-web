@@ -1380,7 +1380,7 @@
     "UnknownAudioStreamInfo": "Інфармацыя аб аўдыяплыні невядомая",
     "DirectPlayError": "Узнікла памылка пры запуску прамога прайгравання",
     "SelectAll": "Абраць усё",
-    "Clip": "Художнік",
+    "Clip": "Кліп",
     "Sample": "Прыклад",
     "LabelVppTonemappingBrightness": "Узмацненне яркасці танальнага адлюстравання VPP:",
     "LabelVppTonemappingBrightnessHelp": "Прымяніць узмацненне яркасці ў танальным адлюстраванні VPP. І рэкамендаванае, і стандартнае значэнне роўна 0.",
@@ -1689,5 +1689,18 @@
     "LabelDummyChapterCountHelp": "Максімальная колькасць выяваў раздзелаў, якія будуць выняты для кожнага медыяфайла.",
     "LabelChapterImageResolution": "Дазвол:",
     "LabelChapterImageResolutionHelp": "Дазвол вынятых малюнкаў раздзелаў.",
-    "ResolutionMatchSource": "Супадзенне з крыніцай"
+    "ResolutionMatchSource": "Супадзенне з крыніцай",
+    "SecondarySubtitles": "Дадатковыя субтытры",
+    "SubtitleBlack": "Чорны",
+    "SubtitleBlue": "Сіні",
+    "SubtitleCyan": "Блакітны",
+    "SubtitleGray": "Шэры",
+    "SubtitleGreen": "Зялёны",
+    "SubtitleLightGray": "Светла-шэры",
+    "SubtitleMagenta": "Пурпурны",
+    "SubtitleRed": "Чырвоны",
+    "SubtitleWhite": "Белы",
+    "SubtitleYellow": "Жоўты",
+    "Featurette": "Кароткаметражка",
+    "Short": "Кароткаметражка"
 }

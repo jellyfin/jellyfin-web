@@ -100,7 +100,7 @@ import { getParameterByName } from '../../../utils/url.ts';
         }).join('') + '</div>';
         const elem = $('.httpHeaderIdentificationList', page).html(html).trigger('create');
         $('.btnDeleteIdentificationHeader', elem).on('click', function () {
-            const itemIndex = parseInt(this.getAttribute('data-index'));
+            const itemIndex = parseInt(this.getAttribute('data-index'), 10);
             currentProfile.Identification.Headers.splice(itemIndex, 1);
             renderIdentificationHeaders(page, currentProfile.Identification.Headers);
         });
@@ -154,7 +154,7 @@ import { getParameterByName } from '../../../utils/url.ts';
         }).join('') + '</div>';
         const elem = $('.xmlDocumentAttributeList', page).html(html).trigger('create');
         $('.btnDeleteXmlAttribute', elem).on('click', function () {
-            const itemIndex = parseInt(this.getAttribute('data-index'));
+            const itemIndex = parseInt(this.getAttribute('data-index'), 10);
             currentProfile.XmlRootAttributes.splice(itemIndex, 1);
             renderXmlDocumentAttributes(page, currentProfile.XmlRootAttributes);
         });
@@ -198,12 +198,12 @@ import { getParameterByName } from '../../../utils/url.ts';
         }).join('') + '</div>';
         const elem = $('.subtitleProfileList', page).html(html).trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
-            const itemIndex = parseInt(this.getAttribute('data-index'));
+            const itemIndex = parseInt(this.getAttribute('data-index'), 10);
             currentProfile.SubtitleProfiles.splice(itemIndex, 1);
             renderSubtitleProfiles(page, currentProfile.SubtitleProfiles);
         });
         $('.lnkEditSubProfile', elem).on('click', function () {
-            const itemIndex = parseInt(this.getAttribute('data-index'));
+            const itemIndex = parseInt(this.getAttribute('data-index'), 10);
             editSubtitleProfile(page, currentProfile.SubtitleProfiles[itemIndex]);
         });
     }
@@ -292,7 +292,7 @@ import { getParameterByName } from '../../../utils/url.ts';
             deleteDirectPlayProfile(page, index);
         });
         $('.lnkEditSubProfile', elem).on('click', function () {
-            const index = parseInt(this.getAttribute('data-profileindex'));
+            const index = parseInt(this.getAttribute('data-profileindex'), 10);
             editDirectPlayProfile(page, currentProfile.DirectPlayProfiles[index]);
         });
     }
@@ -353,7 +353,7 @@ import { getParameterByName } from '../../../utils/url.ts';
             deleteTranscodingProfile(page, index);
         });
         $('.lnkEditSubProfile', elem).on('click', function () {
-            const index = parseInt(this.getAttribute('data-profileindex'));
+            const index = parseInt(this.getAttribute('data-profileindex'), 10);
             editTranscodingProfile(page, currentProfile.TranscodingProfiles[index]);
         });
     }
@@ -437,7 +437,7 @@ import { getParameterByName } from '../../../utils/url.ts';
             deleteContainerProfile(page, index);
         });
         $('.lnkEditSubProfile', elem).on('click', function () {
-            const index = parseInt(this.getAttribute('data-profileindex'));
+            const index = parseInt(this.getAttribute('data-profileindex'), 10);
             editContainerProfile(page, currentProfile.ContainerProfiles[index]);
         });
     }
@@ -509,7 +509,7 @@ import { getParameterByName } from '../../../utils/url.ts';
             deleteCodecProfile(page, index);
         });
         $('.lnkEditSubProfile', elem).on('click', function () {
-            const index = parseInt(this.getAttribute('data-profileindex'));
+            const index = parseInt(this.getAttribute('data-profileindex'), 10);
             editCodecProfile(page, currentProfile.CodecProfiles[index]);
         });
     }
@@ -589,7 +589,7 @@ import { getParameterByName } from '../../../utils/url.ts';
             deleteResponseProfile(page, index);
         });
         $('.lnkEditSubProfile', elem).on('click', function () {
-            const index = parseInt(this.getAttribute('data-profileindex'));
+            const index = parseInt(this.getAttribute('data-profileindex'), 10);
             editResponseProfile(page, currentProfile.ResponseProfiles[index]);
         });
     }

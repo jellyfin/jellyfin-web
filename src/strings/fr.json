@@ -1614,7 +1614,7 @@
     "AudioIsExternal": "Le flux audio est externe",
     "SelectAll": "Tout sélectionner",
     "ButtonExitApp": "Quitter l'application",
-    "Clip": "Court-métrage",
+    "Clip": "Clip",
     "ThemeVideo": "Générique",
     "ThemeSong": "Thème musical",
     "Sample": "Échantillon",
@@ -1704,5 +1704,17 @@
     "LabelDummyChapterCountHelp": "Nombre maximal d’images de chapitre à extraire pour chaque fichier multimédia.",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Préférer les titres intégrés aux médias pour les bonus",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Les bonus possèdent souvent un titre intégré identique au média parent, cocher l'option pour utiliser ce titre quoi qu'il en soit.",
-    "SecondarySubtitles": "Sous-titres secondaires"
+    "SecondarySubtitles": "Sous-titres secondaires",
+    "SubtitleBlack": "Noir",
+    "SubtitleBlue": "Bleu",
+    "SubtitleCyan": "Cyan",
+    "SubtitleGray": "Gris",
+    "SubtitleGreen": "Vert",
+    "SubtitleLightGray": "Gris clair",
+    "SubtitleMagenta": "Magenta",
+    "SubtitleRed": "Rouge",
+    "SubtitleWhite": "Blanc",
+    "SubtitleYellow": "Jaune",
+    "Featurette": "Featurette",
+    "Short": "Court-métrage"
 }

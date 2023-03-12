@@ -1,5 +1,3 @@
-/*eslint prefer-const: "error"*/
-
 let currentId = 0;
 function addUniquePlaylistItemId(item) {
     if (!item.PlaylistItemId) {

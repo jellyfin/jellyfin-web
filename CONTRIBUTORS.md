@@ -60,6 +60,7 @@
  - [edvwib](https://github.com/edvwib)
  - [Rob Farraher](https://github.com/farraherbg)
  - [TelepathicWalrus](https://github.com/TelepathicWalrus)
+ - [Pier-Luc Ducharme](https://github.com/pl-ducharme)
 
 # Emby Contributors
 

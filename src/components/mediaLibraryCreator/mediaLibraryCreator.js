@@ -19,7 +19,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-toggle/emby-toggle';
 import '../listview/listview.scss';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import './style.scss';
 import toast from '../toast/toast';
 import alert from '../alert';
@@ -168,7 +168,7 @@ import template from './mediaLibraryCreator.template.html';
 
     function onRemoveClick(e) {
         const button = dom.parentWithClass(e.target, 'btnRemovePath');
-        const index = parseInt(button.getAttribute('data-index'));
+        const index = parseInt(button.getAttribute('data-index'), 10);
         const location = pathInfos[index].Path;
         const locationLower = location.toLowerCase();
         pathInfos = pathInfos.filter(p => {
