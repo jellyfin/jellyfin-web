@@ -131,7 +131,6 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "webpack serve --config webpack.dev.js",
-    "prepare": "node ./scripts/prepare.js",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "cross-env NODE_ENV=\"production\" webpack --config webpack.prod.js",
     "build:check": "tsc --noEmit",
