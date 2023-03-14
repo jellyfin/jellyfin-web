@@ -1,3 +1,5 @@
+import { randomInt } from '../../utils/number.ts';
+
 let currentId = 0;
 function addUniquePlaylistItemId(item) {
     if (!item.PlaylistItemId) {
@@ -56,7 +58,7 @@ class PlayQueueManager {
         const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
 
         for (let i = this._playlist.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * i);
+            const j = randomInt(0, i - 1);
             const temp = this._playlist[i];
             this._playlist[i] = this._playlist[j];
             this._playlist[j] = temp;
