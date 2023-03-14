@@ -64,10 +64,10 @@ import { toBoolean } from '../utils/string.ts';
 
     function reloadData(instance, elem, apiClient, startIndex, limit) {
         if (startIndex == null) {
-            startIndex = parseInt(elem.getAttribute('data-activitystartindex') || '0');
+            startIndex = parseInt(elem.getAttribute('data-activitystartindex') || '0', 10);
         }
 
-        limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7');
+        limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7', 10);
         const minDate = new Date();
         const hasUserId = toBoolean(elem.getAttribute('data-useractivity'), true);
 

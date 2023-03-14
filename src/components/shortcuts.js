@@ -150,7 +150,7 @@ import toast from './toast/toast';
             StartDate: card.getAttribute('data-startdate'),
             EndDate: card.getAttribute('data-enddate'),
             UserData: {
-                PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0')
+                PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0', 10)
             }
         };
     }
@@ -201,7 +201,7 @@ import toast from './toast/toast';
                 ServerId: serverId
             });
         } else if (action === 'play' || action === 'resume') {
-            const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
+            const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
 
             if (playbackManager.canPlay(item)) {
                 playbackManager.play({

@@ -15,6 +15,7 @@ fi
 
 # build archives
 npm ci --no-audit --unsafe-perm
+npm run build:production
 mv dist jellyfin-web_${version}
 tar -czf jellyfin-web_${version}_portable.tar.gz jellyfin-web_${version}
 rm -rf dist

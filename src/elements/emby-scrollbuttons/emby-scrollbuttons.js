@@ -91,7 +91,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
             return 0;
         }
 
-        value = parseInt(value);
+        value = parseInt(value, 10);
         if (isNaN(value)) {
             return 0;
         }

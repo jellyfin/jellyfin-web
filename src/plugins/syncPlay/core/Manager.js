@@ -254,7 +254,7 @@ class Manager {
         if (typeof cmd.When === 'string') {
             cmd.When = new Date(cmd.When);
             cmd.EmittedAt = new Date(cmd.EmittedAt);
-            cmd.PositionTicks = cmd.PositionTicks ? parseInt(cmd.PositionTicks) : null;
+            cmd.PositionTicks = cmd.PositionTicks ? parseInt(cmd.PositionTicks, 10) : null;
         }
 
         if (!this.isSyncPlayEnabled()) {

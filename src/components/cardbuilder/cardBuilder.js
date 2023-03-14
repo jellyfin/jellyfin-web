@@ -18,6 +18,7 @@ import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import itemShortcuts from '../shortcuts';
 import imageHelper from '../../scripts/imagehelper';
+import { randomInt } from '../../utils/number.ts';
 import './card.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../guide/programs.scss';
@@ -641,16 +642,6 @@ import { appRouter } from '../appRouter';
         }
 
         /**
-         * Generates a random integer in a given range.
-         * @param {number} min - Minimum of the range.
-         * @param {number} max - Maximum of the range.
-         * @returns {number} Randomly generated number.
-         */
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        /**
          * Generates an index used to select the default color of a card based on a string.
          * @param {?string} [str] - String to use for generating the index.
          * @returns {number} Index of the color.
@@ -663,13 +654,13 @@ import { appRouter } from '../appRouter';
                 const character = String(str.slice(charIndex, charIndex + 1).charCodeAt());
                 let sum = 0;
                 for (let i = 0; i < character.length; i++) {
-                    sum += parseInt(character.charAt(i));
+                    sum += parseInt(character.charAt(i), 10);
                 }
                 const index = String(sum).slice(-1);
 
                 return (index % numRandomColors) + 1;
             } else {
-                return getRandomInt(1, numRandomColors);
+                return randomInt(1, numRandomColors);
             }
         }
 

@@ -5,6 +5,7 @@ import globalize from '../../scripts/globalize';
 import castSenderApiLoader from './castSenderApi';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
@@ -572,7 +573,7 @@ class ChromecastPlayer {
     constructor() {
         // playbackManager needs this
         this.name = PlayerName;
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.id = 'chromecast';
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
@@ -686,7 +687,7 @@ class ChromecastPlayer {
     }
 
     seek(position) {
-        position = parseInt(position);
+        position = parseInt(position, 10);
 
         position = position / 10000000;
 

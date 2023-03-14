@@ -278,9 +278,9 @@ import template from './imageeditor.template.html';
         const apiClient = ServerConnections.getApiClient(serverId);
 
         const type = imageCard.getAttribute('data-imagetype');
-        const index = parseInt(imageCard.getAttribute('data-index'));
-        const providerCount = parseInt(imageCard.getAttribute('data-providers'));
-        const numImages = parseInt(imageCard.getAttribute('data-numimages'));
+        const index = parseInt(imageCard.getAttribute('data-index'), 10);
+        const providerCount = parseInt(imageCard.getAttribute('data-providers'), 10);
+        const numImages = parseInt(imageCard.getAttribute('data-numimages'), 10);
 
         import('../actionSheet/actionSheet').then(({default: actionSheet}) => {
             const commands = [];
@@ -385,7 +385,7 @@ import template from './imageeditor.template.html';
         addListeners(context, 'btnDeleteImage', 'click', function () {
             const type = this.getAttribute('data-imagetype');
             let index = this.getAttribute('data-index');
-            index = index === 'null' ? null : parseInt(index);
+            index = index === 'null' ? null : parseInt(index, 10);
             const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
             deleteImage(context, currentItem.Id, type, index, apiClient, true);
         });
