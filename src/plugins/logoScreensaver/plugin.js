@@ -1,4 +1,5 @@
 import { PluginType } from '../../types/plugin.ts';
+import { randomInt } from '../../utils/number.ts';
 
 export default function () {
     const self = this;
@@ -25,14 +26,10 @@ export default function () {
         const elem = document.querySelector('.logoScreenSaverImage');
 
         if (elem && elem.animate) {
-            const random = getRandomInt(0, animations.length - 1);
+            const random = randomInt(0, animations.length - 1);
 
             animations[random](elem, 1);
         }
-    }
-
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     function bounceInLeft(elem, iterations) {

@@ -1714,5 +1714,7 @@
     "SubtitleMagenta": "Magenta",
     "SubtitleRed": "Rot",
     "SubtitleWhite": "Weiß",
-    "SubtitleYellow": "Gelb"
+    "SubtitleYellow": "Gelb",
+    "Featurette": "Featurette",
+    "Short": "Kurzfilm"
 }

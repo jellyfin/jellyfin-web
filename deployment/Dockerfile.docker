@@ -8,4 +8,6 @@ RUN apk add autoconf g++ make libpng-dev gifsicle alpine-sdk automake libtool ma
 WORKDIR ${SOURCE_DIR}
 COPY . .
 
-RUN npm ci --no-audit --unsafe-perm && mv dist ${ARTIFACT_DIR}
+RUN npm ci --no-audit --unsafe-perm \
+ && npm run build:production \
+ && mv dist ${ARTIFACT_DIR}
