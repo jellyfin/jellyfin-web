@@ -1622,7 +1622,7 @@
     "DeletedScene": "Vymazaná scéna",
     "BehindTheScenes": "Z natáčení",
     "Trailer": "Upoutávka",
-    "Clip": "Krátký film",
+    "Clip": "Filmový klip",
     "AllowEmbeddedSubtitlesHelp": "Zakázat titulky, které jsou vložené v kontejneru média. Vyžaduje kompletní přeskenování knihovny.",
     "AllowEmbeddedSubtitlesAllowTextOption": "Povolit textové titulky",
     "AllowEmbeddedSubtitlesAllowImageOption": "Povolit grafické titulky",
@@ -1714,5 +1714,10 @@
     "SubtitleMagenta": "Fialová",
     "SubtitleRed": "Červená",
     "SubtitleWhite": "Bílá",
-    "SubtitleYellow": "Žlutá"
+    "SubtitleYellow": "Žlutá",
+    "Featurette": "Středně dlouhý film",
+    "Short": "Krátký film",
+    "HeaderPerformance": "Výkon",
+    "LabelParallelImageEncodingLimit": "Počet paralelních kódování obrázků",
+    "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Nastavením na 0 bude limit nastaven dle parametrů systému."
 }

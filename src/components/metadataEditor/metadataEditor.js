@@ -357,14 +357,14 @@ import template from './metadataEditor.template.html';
             let index;
             const btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
             if (btnDeletePerson) {
-                index = parseInt(btnDeletePerson.getAttribute('data-index'));
+                index = parseInt(btnDeletePerson.getAttribute('data-index'), 10);
                 currentItem.People.splice(index, 1);
                 populatePeople(context, currentItem.People);
             }
 
             const btnEditPerson = dom.parentWithClass(e.target, 'btnEditPerson');
             if (btnEditPerson) {
-                index = parseInt(btnEditPerson.getAttribute('data-index'));
+                index = parseInt(btnEditPerson.getAttribute('data-index'), 10);
                 editPerson(context, currentItem.People[index], index);
             }
         });

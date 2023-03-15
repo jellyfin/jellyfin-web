@@ -6,13 +6,14 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/appRouter';
 import ServerConnections from '../../components/ServerConnections';
 import * as userSettings from '../../scripts/settings/userSettings';
+import { PluginType } from '../../types/plugin.ts';
 
 import './style.scss';
 
 export class ComicsPlayer {
     constructor() {
         this.name = 'Comics Player';
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.id = 'comicsplayer';
         this.priority = 1;
         this.imageMap = new Map();

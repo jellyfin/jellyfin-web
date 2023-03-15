@@ -245,11 +245,11 @@ import Dashboard from '../../utils/dashboard';
         }
 
         function onBeforeTabChange(e) {
-            preLoadTab(view, parseInt(e.detail.selectedTabIndex));
+            preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
         }
 
         function onTabChange(e) {
-            loadTab(view, parseInt(e.detail.selectedTabIndex));
+            loadTab(view, parseInt(e.detail.selectedTabIndex, 10));
         }
 
         function getTabContainers() {
@@ -350,7 +350,7 @@ import Dashboard from '../../utils/dashboard';
             }
         }
 
-        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
         const suggestionsTabIndex = 1;
 
         this.initTab = function () {

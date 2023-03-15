@@ -234,7 +234,7 @@
     "HeaderApiKeys": "Clés API",
     "HeaderApiKeysHelp": "Les applications externes ont besoin d'une clé d'API pour communiquer avec le serveur. Les clés sont distribuées lors d'une connexion avec un compte normal ou en accordant manuellement une clé à une application.",
     "HeaderApp": "Application",
-    "HeaderAppearsOn": "Apparait dans",
+    "HeaderAppearsOn": "Apparaît dans",
     "HeaderAudioBooks": "Livres audio",
     "HeaderAudioSettings": "Réglages audio",
     "HeaderBlockItemsWithNoRating": "Bloquer les éléments avec des informations de classification inconnues ou n'en disposant pas :",
@@ -1614,7 +1614,7 @@
     "AudioIsExternal": "Le flux audio est externe",
     "SelectAll": "Tout sélectionner",
     "ButtonExitApp": "Quitter l'application",
-    "Clip": "Court-métrage",
+    "Clip": "Clip",
     "ThemeVideo": "Générique",
     "ThemeSong": "Thème musical",
     "Sample": "Échantillon",
@@ -1714,5 +1714,10 @@
     "SubtitleMagenta": "Magenta",
     "SubtitleRed": "Rouge",
     "SubtitleWhite": "Blanc",
-    "SubtitleYellow": "Jaune"
+    "SubtitleYellow": "Jaune",
+    "Featurette": "Featurette",
+    "Short": "Court-métrage",
+    "HeaderPerformance": "Performance",
+    "LabelParallelImageEncodingLimit": "Limite de parallélisation de l'encodage d'image",
+    "LabelParallelImageEncodingLimitHelp": "Nombre maximal d’encodages d’image autorisés à s’exécuter en parallèle. Si vous définissez cette valeur sur 0, vous choisirez une limite en fonction des spécifications de votre système."
 }

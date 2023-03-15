@@ -8,6 +8,7 @@ import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -35,7 +36,7 @@ import template from './displaySettings.template.html';
 
     function loadScreensavers(context, userSettings) {
         const selectScreensaver = context.querySelector('.selectScreensaver');
-        const options = pluginManager.ofType('screensaver').map(plugin => {
+        const options = pluginManager.ofType(PluginType.Screensaver).map(plugin => {
             return {
                 name: plugin.name,
                 value: plugin.id

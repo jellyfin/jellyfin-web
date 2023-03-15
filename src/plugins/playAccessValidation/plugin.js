@@ -1,6 +1,7 @@
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
+import { PluginType } from '../../types/plugin.ts';
 
 function showErrorMessage() {
     return alert(globalize.translate('MessagePlayAccessRestricted'));
@@ -9,7 +10,7 @@ function showErrorMessage() {
 class PlayAccessValidation {
     constructor() {
         this.name = 'Playback validation';
-        this.type = 'preplayintercept';
+        this.type = PluginType.PreplayIntercept;
         this.id = 'playaccessvalidation';
         this.order = -2;
     }

@@ -1621,7 +1621,7 @@
     "DeletedScene": "删减场景",
     "BehindTheScenes": "幕后花絮",
     "Trailer": "预告片",
-    "Clip": "花絮",
+    "Clip": "片段",
     "ButtonExitApp": "退出应用",
     "ShowParentImages": "显示系列图片",
     "AllowEmbeddedSubtitlesAllowTextOption": "允许文本",
@@ -1714,5 +1714,7 @@
     "SubtitleGreen": "绿色",
     "SubtitleMagenta": "品红色",
     "SubtitleRed": "红色",
-    "SubtitleYellow": "黄色"
+    "SubtitleYellow": "黄色",
+    "Featurette": "花絮",
+    "Short": "短片"
 }

@@ -1439,7 +1439,7 @@
     "SubtitleDownloadersHelp": "Увімкніть та оцініть бажані завантажувачі субтитрів у порядку пріоритету.",
     "SubtitleAppearanceSettingsDisclaimer": "Наведені нижче налаштування не застосовуються до графічних субтитрів, згаданих вище, або субтитрів ASS/SSA, які вбудовують власні стилі.",
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ці налаштування також застосовуються до будь-якого відтворення Google Cast, запущеного цим пристроєм.",
-    "Subtitle": "Підзаголовок",
+    "Subtitle": "Субтитри",
     "Studios": "Студії",
     "StopRecording": "Зупинити запис",
     "StopPlayback": "Зупинити відтворення",

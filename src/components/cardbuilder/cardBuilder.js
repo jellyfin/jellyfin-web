@@ -18,6 +18,7 @@ import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import itemShortcuts from '../shortcuts';
 import imageHelper from '../../scripts/imagehelper';
+import { randomInt } from '../../utils/number.ts';
 import './card.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../guide/programs.scss';
@@ -641,16 +642,6 @@ import { appRouter } from '../appRouter';
         }
 
         /**
-         * Generates a random integer in a given range.
-         * @param {number} min - Minimum of the range.
-         * @param {number} max - Maximum of the range.
-         * @returns {number} Randomly generated number.
-         */
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        /**
          * Generates an index used to select the default color of a card based on a string.
          * @param {?string} [str] - String to use for generating the index.
          * @returns {number} Index of the color.
@@ -663,13 +654,13 @@ import { appRouter } from '../appRouter';
                 const character = String(str.slice(charIndex, charIndex + 1).charCodeAt());
                 let sum = 0;
                 for (let i = 0; i < character.length; i++) {
-                    sum += parseInt(character.charAt(i));
+                    sum += parseInt(character.charAt(i), 10);
                 }
                 const index = String(sum).slice(-1);
 
                 return (index % numRandomColors) + 1;
             } else {
-                return getRandomInt(1, numRandomColors);
+                return randomInt(1, numRandomColors);
             }
         }
 
@@ -773,27 +764,24 @@ import { appRouter } from '../appRouter';
          * @param {Object} item - Item used to generate the footer text.
          * @param {Object} apiClient - API client instance.
          * @param {Object} options - Options used to generate the footer text.
-         * @param {string} showTitle - Flag to show the title in the footer.
-         * @param {boolean} forceName - Flag to force showing the name of the item.
-         * @param {boolean} overlayText - Flag to show overlay text.
-         * @param {Object} imgUrl - Object representing the card's image URL.
          * @param {string} footerClass - CSS classes of the footer element.
          * @param {string} progressHtml - HTML markup of the progress bar element.
-         * @param {string} logoUrl - URL of the logo for the item.
-         * @param {boolean} isOuterFooter - Flag to mark the text as outer footer.
+         * @param {Object} flags - Various flags for the footer
+         * @param {Object} urls - Various urls for the footer
          * @returns {string} HTML markup of the card's footer text element.
          */
-        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
+        function getCardFooterText(item, apiClient, options, footerClass, progressHtml, flags, urls) {
             item = item.ProgramInfo || item;
             let html = '';
 
-            if (logoUrl) {
-                html += '<div class="lazy cardFooterLogo" data-src="' + logoUrl + '"></div>';
+            if (urls.logoUrl) {
+                html += '<div class="lazy cardFooterLogo" data-src="' + urls.logoUrl + '"></div>';
             }
 
-            const showOtherText = isOuterFooter ? !overlayText : overlayText;
+            const showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
+            const showOtherText = flags.isOuterFooter ? !flags.overlayText : flags.overlayText;
 
-            if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== 'none') {
+            if (flags.isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== 'none') {
                 html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
             }
 
@@ -805,7 +793,7 @@ import { appRouter } from '../appRouter';
             let titleAdded;
 
             if (showOtherText && (options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
-                if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
+                if (flags.isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
                     if (item.SeriesId) {
                         lines.push(getTextActionButton({
                             Id: item.SeriesId,
@@ -835,7 +823,7 @@ import { appRouter } from '../appRouter';
             }
 
             let showMediaTitle = (showTitle && !titleAdded) || (options.showParentTitleOrTitle && !lines.length);
-            if (!showMediaTitle && !titleAdded && (showTitle || forceName)) {
+            if (!showMediaTitle && !titleAdded && (showTitle || flags.forceName)) {
                 showMediaTitle = true;
             }
 
@@ -856,7 +844,7 @@ import { appRouter } from '../appRouter';
 
             if (showOtherText) {
                 if (options.showParentTitle && parentTitleUnderneath) {
-                    if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
+                    if (flags.isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
@@ -991,23 +979,23 @@ import { appRouter } from '../appRouter';
                 }
             }
 
-            if ((showTitle || !imgUrl) && forceName && overlayText && lines.length === 1) {
+            if ((showTitle || !urls.imgUrl) && flags.forceName && flags.overlayText && lines.length === 1) {
                 lines = [];
             }
 
-            if (overlayText && showTitle) {
+            if (flags.overlayText && showTitle) {
                 lines = [escapeHtml(item.Name)];
             }
 
-            const addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
+            const addRightTextMargin = flags.isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
-            html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
+            html += getCardTextLines(lines, cssClass, !options.overlayText, flags.isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
 
             if (progressHtml) {
                 html += progressHtml;
             }
 
-            if (html && (!isOuterFooter || logoUrl || options.cardLayout)) {
+            if (html && (!flags.isOuterFooter || urls.logoUrl || options.cardLayout)) {
                 html = '<div class="' + footerClass + '">' + html;
 
                 //cardFooter
@@ -1217,7 +1205,6 @@ import { appRouter } from '../appRouter';
 
             const forceName = imgInfo.forceName;
 
-            const showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
             const overlayText = options.overlayText;
 
             let cardImageContainerClass = 'cardImageContainer';
@@ -1265,7 +1252,7 @@ import { appRouter } from '../appRouter';
                 logoUrl = null;
 
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
-                innerCardFooter += getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, false);
+                innerCardFooter += getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: false }, { imgUrl, logoUrl });
                 footerOverlayed = true;
             } else if (progressHtml) {
                 innerCardFooter += '<div class="innerCardFooter fullInnerCardFooter innerCardFooterClear">';
@@ -1292,7 +1279,7 @@ import { appRouter } from '../appRouter';
                     logoUrl = null;
                 }
 
-                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, true);
+                outerCardFooter = getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: true }, { imgUrl, logoUrl });
             }
 
             if (outerCardFooter && !options.cardLayout) {
