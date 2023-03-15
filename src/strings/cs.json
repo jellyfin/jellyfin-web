@@ -1716,5 +1716,8 @@
     "SubtitleWhite": "Bílá",
     "SubtitleYellow": "Žlutá",
     "Featurette": "Středně dlouhý film",
-    "Short": "Krátký film"
+    "Short": "Krátký film",
+    "HeaderPerformance": "Výkon",
+    "LabelParallelImageEncodingLimit": "Počet paralelních kódování obrázků",
+    "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Nastavením na 0 bude limit nastaven dle parametrů systému."
 }
