@@ -1213,8 +1213,10 @@ function tryRemoveElement(elem) {
                 fonts: avaliableFonts,
                 fallbackFont: 'liberation sans',
                 availableFonts: {'liberation sans': `${appRouter.baseUrl()}/libraries/default.woff2`},
-                workerUrl: `${appRouter.baseUrl()}/libraries/jassub-worker.js`,
-                legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/jassub-worker-legacy.js`,
+                // eslint-disable-next-line compat/compat
+                workerUrl: `${appRouter.baseUrl()}/${new URL('jassub/dist/jassub-worker.js', import.meta.url)}`,
+                // eslint-disable-next-line compat/compat
+                legacyWorkerUrl: `${appRouter.baseUrl()}/${new URL('jassub/dist/jassub-worker-legacy.js', import.meta.url)}`,
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
                 // new jassub options; override all, even defaults
                 blendMode: 'js',

@@ -8,9 +8,7 @@ const { DefinePlugin } = require('webpack');
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
-    'jassub/dist/jassub-worker.js',
     'jassub/dist/jassub-worker.wasm',
-    'jassub/dist/jassub-worker-legacy.js',
     'jassub/dist/jassub-worker-legacy.mem',
     'jassub/dist/default.woff2',
     'pdfjs-dist/build/pdf.worker.js'
@@ -146,7 +144,6 @@ const config = {
             {
                 test: /\.(js|jsx)$/,
                 include: [
-                    path.resolve(__dirname, 'node_modules/jassub'),
                     path.resolve(__dirname, 'node_modules/rvfc-polyfill'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),
@@ -171,6 +168,20 @@ const config = {
                     options: {
                         cacheCompression: false,
                         cacheDirectory: true
+                    }
+                }]
+            },
+            {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/jassub')
+                ],
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true,
+                        presets: ['@babel/preset-env']
                     }
                 }]
             },
