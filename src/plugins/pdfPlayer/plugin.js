@@ -281,7 +281,8 @@ export class PdfPlayer {
         this.book.getPage(number).then(page => {
             const width = dom.getWindowSize().innerWidth;
             const height = dom.getWindowSize().innerHeight;
-            const viewport = page.getViewport({ scale: 5 });
+            const scale = Math.ceil(window.devicePixelRatio || 1);
+            const viewport = page.getViewport({ scale });
             const context = canvas.getContext('2d');
             canvas.width = viewport.width;
             canvas.height = viewport.height;
