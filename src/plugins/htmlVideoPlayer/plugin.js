@@ -1292,7 +1292,7 @@ function tryRemoveElement(elem) {
                 maxRenderHeight: 2160
             };
             import('event-target-polyfill').then(() => {
-                    import('jassub').then(({ default: JASSUB }) => {
+                import('jassub').then(({ default: JASSUB }) => {
                     Promise.all([
                         apiClient.getNamedConfiguration('encoding'),
                         // Worker in Tizen 5 doesn't resolve relative path with async request
