@@ -69,6 +69,10 @@ import LibraryMenu from '../scripts/libraryMenu';
             query.IsAiring = false;
         }
 
+        if (userSettings.libraryPageSize() === 0){
+            query.Limit = 0;
+        }
+
         return modifyQueryWithFilters(instance, query);
     }
 
