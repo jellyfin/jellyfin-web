@@ -25,7 +25,7 @@ import toast from '../toast/toast';
 import alert from '../alert';
 import template from './mediaLibraryCreator.template.html';
 
-    function onAddLibrary() {
+    function onAddLibrary(e) {
         if (isCreating) {
             return false;
         }
@@ -62,7 +62,7 @@ import template from './mediaLibraryCreator.template.html';
             isCreating = false;
             loading.hide();
         });
-        return false;
+        e.preventDefault();
     }
 
     function getCollectionTypeOptionsHtml(collectionTypeOptions) {
@@ -96,7 +96,7 @@ import template from './mediaLibraryCreator.template.html';
             $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
         });
         page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
-        page.querySelector('.btnSubmit').addEventListener('click', onAddLibrary);
+        page.querySelector('.addLibraryForm').addEventListener('submit', onAddLibrary);
         page.querySelector('.folderList').addEventListener('click', onRemoveClick);
     }
 
