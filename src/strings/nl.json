@@ -1715,5 +1715,8 @@
     "SubtitleWhite": "Wit",
     "SubtitleYellow": "Geel",
     "Featurette": "Featurette",
-    "Short": "Korte film"
+    "Short": "Korte film",
+    "HeaderPerformance": "Prestaties",
+    "LabelParallelImageEncodingLimitHelp": "Maximum aantal afbeeldingscoderingen dat tegelijkertijd mag lopen. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op je systeemspecificaties.",
+    "LabelParallelImageEncodingLimit": "Limiet gelijktijdige afbeeldingscoderingen"
 }
