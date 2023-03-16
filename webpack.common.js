@@ -8,10 +8,13 @@ const { DefinePlugin } = require('webpack');
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
+    'pdfjs-dist/build/pdf.worker.js'
+];
+
+const JassubWasm = [
     'jassub/dist/jassub-worker.wasm',
     'jassub/dist/jassub-worker-legacy.mem',
-    'jassub/dist/default.woff2',
-    'pdfjs-dist/build/pdf.worker.js'
+    'jassub/dist/default.woff2'
 ];
 
 const LibarchiveWasm = [
@@ -80,6 +83,14 @@ const config = {
                     to: path.resolve(__dirname, './dist/libraries/wasm-gen')
                 };
             })
+        }),
+        new CopyPlugin({
+            patterns: JassubWasm.map(asset => {
+                return {
+                    from: path.resolve(__dirname, `./node_modules/${asset}`),
+                    to: path.resolve(__dirname, './dist')
+                };
+            })
         })
     ],
     output: {
@@ -144,6 +155,7 @@ const config = {
             {
                 test: /\.(js|jsx)$/,
                 include: [
+                    path.resolve(__dirname, 'node_modules/event-target-polyfill'),
                     path.resolve(__dirname, 'node_modules/rvfc-polyfill'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),

@@ -1270,10 +1270,11 @@ function tryRemoveElement(elem) {
                 fonts: avaliableFonts,
                 fallbackFont: 'liberation sans',
                 availableFonts: {'liberation sans': `${appRouter.baseUrl()}/libraries/default.woff2`},
+                // Disabled eslint compat, but is safe as corejs3 polyfills URL
                 // eslint-disable-next-line compat/compat
-                workerUrl: `${appRouter.baseUrl()}/${new URL('jassub/dist/jassub-worker.js', import.meta.url)}`,
+                workerUrl: `${appRouter.baseUrl()}${new URL('jassub/dist/jassub-worker.js', import.meta.url).pathname}`,
                 // eslint-disable-next-line compat/compat
-                legacyWorkerUrl: `${appRouter.baseUrl()}/${new URL('jassub/dist/jassub-worker-legacy.js', import.meta.url)}`,
+                legacyWorkerUrl: `${appRouter.baseUrl()}${new URL('jassub/dist/jassub-worker-legacy.js', import.meta.url).pathname}`,
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
                 // new jassub options; override all, even defaults
                 blendMode: 'js',
@@ -1290,37 +1291,39 @@ function tryRemoveElement(elem) {
                 prescaleHeightLimit: 1080,
                 maxRenderHeight: 2160
             };
-            import('jassub').then(({ default: JASSUB }) => {
-                Promise.all([
-                    apiClient.getNamedConfiguration('encoding'),
-                    // Worker in Tizen 5 doesn't resolve relative path with async request
-                    resolveUrl(options.workerUrl),
-                    resolveUrl(options.legacyWorkerUrl)
-                ]).then(([config, workerUrl, legacyWorkerUrl]) => {
-                    options.workerUrl = workerUrl;
-                    options.legacyWorkerUrl = legacyWorkerUrl;
+            import('event-target-polyfill').then(() => {
+                    import('jassub').then(({ default: JASSUB }) => {
+                    Promise.all([
+                        apiClient.getNamedConfiguration('encoding'),
+                        // Worker in Tizen 5 doesn't resolve relative path with async request
+                        resolveUrl(options.workerUrl),
+                        resolveUrl(options.legacyWorkerUrl)
+                    ]).then(([config, workerUrl, legacyWorkerUrl]) => {
+                        options.workerUrl = workerUrl;
+                        options.legacyWorkerUrl = legacyWorkerUrl;
 
-                    const cleanup = () => {
-                        this.#currentJASSUB.destroy();
-                        this.#currentJASSUB = null;
-                        onErrorInternal(this, 'mediadecodeerror');
-                    };
+                        const cleanup = () => {
+                            this.#currentJASSUB.destroy();
+                            this.#currentJASSUB = null;
+                            onErrorInternal(this, 'mediadecodeerror');
+                        };
 
-                    if (config.EnableFallbackFont) {
-                        apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
-                            fontFiles.forEach(font => {
-                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
-                                    api_key: apiClient.accessToken()
+                        if (config.EnableFallbackFont) {
+                            apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                                fontFiles.forEach(font => {
+                                    const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
+                                        api_key: apiClient.accessToken()
+                                    });
+                                    avaliableFonts.push(fontUrl);
                                 });
-                                avaliableFonts.push(fontUrl);
+                                this.#currentJASSUB = new JASSUB(options);
+                                this.#currentJASSUB.addEventListener('error', cleanup, { once: true });
                             });
+                        } else {
                             this.#currentJASSUB = new JASSUB(options);
                             this.#currentJASSUB.addEventListener('error', cleanup, { once: true });
-                        });
-                    } else {
-                        this.#currentJASSUB = new JASSUB(options);
-                        this.#currentJASSUB.addEventListener('error', cleanup, { once: true });
-                    }
+                        }
+                    });
                 });
             });
         }
