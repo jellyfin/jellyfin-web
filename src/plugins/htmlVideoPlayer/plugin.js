@@ -1269,12 +1269,12 @@ function tryRemoveElement(elem) {
                 subUrl: getTextTrackUrl(track, item),
                 fonts: avaliableFonts,
                 fallbackFont: 'liberation sans',
-                availableFonts: {'liberation sans': `${appRouter.baseUrl()}/libraries/default.woff2`},
+                availableFonts: {'liberation sans': `${appRouter.baseUrl()}/default.woff2`},
                 // Disabled eslint compat, but is safe as corejs3 polyfills URL
                 // eslint-disable-next-line compat/compat
-                workerUrl: `${appRouter.baseUrl()}${new URL('jassub/dist/jassub-worker.js', import.meta.url).pathname}`,
+                workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url),
                 // eslint-disable-next-line compat/compat
-                legacyWorkerUrl: `${appRouter.baseUrl()}${new URL('jassub/dist/jassub-worker-legacy.js', import.meta.url).pathname}`,
+                legacyWorkerUrl: new URL('jassub/dist/jassub-worker-legacy.js', import.meta.url),
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
                 // new jassub options; override all, even defaults
                 blendMode: 'js',
@@ -1291,6 +1291,7 @@ function tryRemoveElement(elem) {
                 prescaleHeightLimit: 1080,
                 maxRenderHeight: 2160
             };
+            // TODO: replace with `event-target-polyfill` once https://github.com/benlesh/event-target-polyfill/pull/12 or 11 is merged
             import('event-target-polyfill').then(() => {
                 import('jassub').then(({ default: JASSUB }) => {
                     Promise.all([
