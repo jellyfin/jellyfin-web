@@ -634,7 +634,7 @@
     "LabelSerialNumber": "Seriennummer:",
     "LabelSeriesRecordingPath": "Serien Aufnahmepfad:",
     "LabelServerHost": "Adresse:",
-    "LabelServerHostHelp": "192.168.1.100 oder https://myserver.com",
+    "LabelServerHostHelp": "192.168.1.100:8096 oder https://myserver.com",
     "LabelSimultaneousConnectionLimit": "Paralleler Streamlimit:",
     "LabelSkipBackLength": "Sprungweite rückwärts:",
     "LabelSkipForwardLength": "Sprungweite vorwärts:",
