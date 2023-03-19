@@ -1,5 +1,5 @@
 {
-    "Absolute": "Bezwzględnie",
+    "Absolute": "Absolutny",
     "AccessRestrictedTryAgainLater": "Dostęp jest aktualnie ograniczony. Spróbuj ponownie później.",
     "Actor": "Aktor",
     "Add": "Dodaj",
@@ -1621,7 +1621,7 @@
     "DeletedScene": "Usunięte sceny",
     "BehindTheScenes": "Za kulisami",
     "Trailer": "Zwiastun",
-    "Clip": "Film średniometrażowy",
+    "Clip": "Urywek",
     "ButtonExitApp": "Wyjdź z aplikacji",
     "AllowEmbeddedSubtitlesAllowTextOption": "Zezwól na tekst",
     "AllowEmbeddedSubtitlesAllowImageOption": "Zezwól na obrazy",
@@ -1714,5 +1714,10 @@
     "SubtitleRed": "Czerwony",
     "SubtitleWhite": "Biały",
     "SubtitleYellow": "Żółty",
-    "SecondarySubtitles": "Napisy drugorzędne"
+    "SecondarySubtitles": "Napisy drugorzędne",
+    "HeaderPerformance": "Wydajność",
+    "Featurette": "Film średniometrażowy",
+    "Short": "Film krótkometrażowy",
+    "LabelParallelImageEncodingLimitHelp": "Maksymalna liczba kodowań obrazów, które mogą być uruchomione równolegle. Ustawienie wartości na 0 spowoduje wybór limitu w oparciu o specyfikacje Twojego systemu.",
+    "LabelParallelImageEncodingLimit": "Limit kodowań obrazów, które mogą być uruchomione równolegle"
 }
