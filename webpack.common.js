@@ -13,7 +13,6 @@ const Assets = [
 
 const JassubWasm = [
     'jassub/dist/jassub-worker.wasm',
-    'jassub/dist/jassub-worker-legacy.mem',
     'jassub/dist/default.woff2'
 ];
 
