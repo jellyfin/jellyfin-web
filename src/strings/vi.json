@@ -1705,5 +1705,9 @@
     "SubtitleLightGray": "Xám Nhạt",
     "SubtitleMagenta": "Đỏ Sậm",
     "SubtitleRed": "Đỏ",
-    "SubtitleWhite": "Trắng"
+    "SubtitleWhite": "Trắng",
+    "LabelParallelImageEncodingLimitHelp": "Lượng mã hóa hình ảnh tối đa được phép chạy song song. Đặt giá trị này thành 0 sẽ chọn giới hạn dựa trên thông số kỹ thuật hệ thống của bạn.",
+    "SecondarySubtitles": "Phụ đề phụ",
+    "HeaderPerformance": "Hiệu suất",
+    "LabelParallelImageEncodingLimit": "Giới hạn mã hóa hình ảnh song song"
 }
