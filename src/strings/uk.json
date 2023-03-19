@@ -1619,7 +1619,7 @@
     "DeletedScene": "Видалена сцена",
     "BehindTheScenes": "За лаштунками",
     "Trailer": "Трейлер",
-    "Clip": "Художник",
+    "Clip": "Кліп",
     "ShowParentImages": "Показати зображення серіалу",
     "AllowEmbeddedSubtitlesAllowTextOption": "Дозволити текст",
     "AllowEmbeddedSubtitlesAllowImageOption": "Дозволити зображення",
@@ -1711,5 +1711,10 @@
     "SubtitleWhite": "Білий",
     "SubtitleYellow": "Жовтий",
     "SecondarySubtitles": "Додаткові субтитри",
-    "SubtitleGreen": "Зелений"
+    "SubtitleGreen": "Зелений",
+    "Short": "Короткометражка",
+    "Featurette": "Художник",
+    "HeaderPerformance": "Продуктивність",
+    "LabelParallelImageEncodingLimit": "Обмеження паралельного кодування зображень",
+    "LabelParallelImageEncodingLimitHelp": "Максимальна кількість зображень, які дозволено кодувати паралельно. Якщо встановити значення 0, буде обрано обмеження на основі специфікацій вашої системи."
 }

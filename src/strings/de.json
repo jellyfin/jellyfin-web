@@ -557,7 +557,7 @@
     "LabelMethod": "Methode:",
     "LabelMinBackdropDownloadWidth": "Minimale Breite der zu herunterladenden Hintergründe:",
     "LabelMinResumeDuration": "Minimale Dauer für Wiederaufnahme:",
-    "LabelMinResumeDurationHelp": "Die Mindestfilmlänge in Sekunden, welche die Abspielzeit speichert und dich fortsetzen lässt.",
+    "LabelMinResumeDurationHelp": "Die kürzeste Videolänge in Sekunden, die den Wiedergabeort speichert und Sie fortfahren lässt.",
     "LabelMinResumePercentage": "Minimale Prozent für Wiederaufnahme:",
     "LabelMinResumePercentageHelp": "Titel werden als ungesehen eingetragen, wenn sie vor dieser Zeit gestoppt werden.",
     "LabelMinScreenshotDownloadWidth": "Minimale Breite für zu herunterladende Screenshot:",
@@ -634,7 +634,7 @@
     "LabelSerialNumber": "Seriennummer:",
     "LabelSeriesRecordingPath": "Serien Aufnahmepfad:",
     "LabelServerHost": "Adresse:",
-    "LabelServerHostHelp": "192.168.1.100 oder https://myserver.com",
+    "LabelServerHostHelp": "192.168.1.100:8096 oder https://myserver.com",
     "LabelSimultaneousConnectionLimit": "Paralleler Streamlimit:",
     "LabelSkipBackLength": "Sprungweite rückwärts:",
     "LabelSkipForwardLength": "Sprungweite vorwärts:",
@@ -1621,7 +1621,7 @@
     "DeletedScene": "Gelöschte Scene",
     "BehindTheScenes": "Hinter den Kulissen",
     "Trailer": "Vorschau",
-    "Clip": "Featurette",
+    "Clip": "Clip",
     "ShowParentImages": "Serienbilder anzeigen",
     "AllowEmbeddedSubtitlesAllowTextOption": "Text erlauben",
     "AllowEmbeddedSubtitlesAllowImageOption": "Bilder erlauben",
@@ -1716,5 +1716,8 @@
     "SubtitleWhite": "Weiß",
     "SubtitleYellow": "Gelb",
     "Featurette": "Featurette",
-    "Short": "Kurzfilm"
+    "Short": "Kurzfilm",
+    "LabelParallelImageEncodingLimit": "Grenze der parallelen Bildkodierung",
+    "LabelParallelImageEncodingLimitHelp": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden können. Wenn Sie diesen Wert auf 0 setzen, wird eine Grenze auf der Grundlage Ihrer Systemspezifikationen gewählt.",
+    "HeaderPerformance": "Leistung"
 }

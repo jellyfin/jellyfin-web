@@ -1714,5 +1714,8 @@
     "Short": "Lyhytfilmi",
     "MediaInfoBlPresentFlag": "DV BL havaittu",
     "MediaInfoRpuPresentFlag": "DV RPU havaittu",
-    "MediaInfoDvVersionMinor": "DV-väliversio"
+    "MediaInfoDvVersionMinor": "DV-väliversio",
+    "LabelParallelImageEncodingLimitHelp": "Rinnakkain suoritettavien kuvaenkoodauksien enimmäismäärä. Asettamalla arvoksi \"0\" rajoitus asetetaan automaattisesti järjestelmän perusteella.",
+    "HeaderPerformance": "Suorituskyky",
+    "LabelParallelImageEncodingLimit": "Rinnakkaisten kuvaenkoodauksien rajoitus"
 }

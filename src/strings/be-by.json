@@ -1702,5 +1702,8 @@
     "SubtitleWhite": "Белы",
     "SubtitleYellow": "Жоўты",
     "Featurette": "Кароткаметражка",
-    "Short": "Кароткаметражка"
+    "Short": "Кароткаметражка",
+    "HeaderPerformance": "Прадукцыйнасць",
+    "LabelParallelImageEncodingLimit": "Ліміт паралельнага кадавання выявы",
+    "LabelParallelImageEncodingLimitHelp": "Максімальная колькасць кадавання малюнкаў, якія могуць працаваць паралельна. Пры ўсталёўцы 0 вы выбіраеце ліміт на аснове спецыфікацый вашай сістэмы."
 }
