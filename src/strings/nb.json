@@ -1692,5 +1692,7 @@
     "LabelDummyChapterCount": "Grense:",
     "LabelChapterImageResolution": "Oppløsning:",
     "LabelDummyChapterDuration": "Intervall:",
-    "HeaderRecordingMetadataSaving": "Opptak metadata"
+    "HeaderRecordingMetadataSaving": "Opptak metadata",
+    "HeaderPerformance": "Ytelse",
+    "LabelDummyChapterDurationHelp": "Tid mellom innsamling av kapittelbilder i sekunder."
 }
