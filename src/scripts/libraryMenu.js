@@ -19,6 +19,7 @@ import ServerConnections from '../components/ServerConnections';
 import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
+import datetime from '../scripts/datetime';
 
 import '../elements/emby-button/paper-icon-button-light';
 
@@ -44,6 +45,7 @@ import '../styles/flexstyles.scss';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
+        html += '<div class="currentTimeText hide"></div>';
         html += '</div>';
         html += '</div>';
         html += '<div class="headerTabs sectionTabs hide">';
@@ -61,11 +63,13 @@ import '../styles/flexstyles.scss';
         headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
         headerSearchButton = skinHeader.querySelector('.headerSearchButton');
         headerSyncButton = skinHeader.querySelector('.headerSyncButton');
+        currentTimeText = skinHeader.querySelector('.currentTimeText');
 
         retranslateUi();
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
         updateCastIcon();
+        updateClock();
     }
 
     function getCurrentApiClient() {
@@ -186,6 +190,17 @@ import '../styles/flexstyles.scss';
         } else {
             headerUserButton.classList.remove('headerUserButtonRound');
             headerUserButton.innerHTML = '<span class="material-icons person" aria-hidden="true"></span>';
+        }
+    }
+
+    function updateClock() {
+        if (layoutManager.tv) {
+            currentTimeText.classList.remove('hide');
+            setInterval(function() {
+                 currentTimeText.innerHTML = datetime.getDisplayTime(new Date());
+            }, 1000);
+        } else {
+            currentTimeText.classList.add('hide');
         }
     }
 
@@ -940,6 +955,7 @@ import '../styles/flexstyles.scss';
     let headerSearchButton;
     let headerAudioPlayerButton;
     let headerSyncButton;
+    let currentTimeText;
     const enableLibraryNavDrawer = layoutManager.desktop;
     const enableLibraryNavDrawerHome = !layoutManager.tv;
     const skinHeader = document.querySelector('.skinHeader');
