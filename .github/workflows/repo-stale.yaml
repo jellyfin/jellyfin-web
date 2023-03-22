@@ -41,6 +41,8 @@ jobs:
         with:
           repo-token: ${{ secrets.JF_BOT_TOKEN }}
           operations-per-run: 75
+          # The merge conflict action will remove the label when updated
+          remove-stale-when-updated: false
           days-before-stale: -1
           days-before-close: 90
           days-before-issue-close: -1
