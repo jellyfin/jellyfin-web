@@ -1281,7 +1281,8 @@ function tryRemoveElement(elem) {
                 asyncRender: true,
                 // firefox implements offscreen canvas, but not according to spec which causes errors
                 offscreenRender: !browser.firefox,
-                onDemandRender: true,
+                // RVFC is polyfilled everywhere, but webOS 2 reports polyfill API's as functional even tho they aren't
+                onDemandRender: browser.web0sVersion !== 2,
                 useLocalFonts: true,
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
