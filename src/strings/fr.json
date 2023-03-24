@@ -979,7 +979,7 @@
     "Rate": "Débit",
     "RecentlyWatched": "Vu récemment",
     "RecommendationBecauseYouLike": "Parce que vous aimez {0}",
-    "RecommendationBecauseYouWatched": "Parce-que vous avez regardé {0}",
+    "RecommendationBecauseYouWatched": "Parce que vous avez regardé {0}",
     "RecommendationDirectedBy": "Réalisé par {0}",
     "RecommendationStarring": "Avec {0}",
     "Record": "Enregistrer",
@@ -1716,5 +1716,8 @@
     "SubtitleWhite": "Blanc",
     "SubtitleYellow": "Jaune",
     "Featurette": "Featurette",
-    "Short": "Court-métrage"
+    "Short": "Court-métrage",
+    "HeaderPerformance": "Performance",
+    "LabelParallelImageEncodingLimit": "Limite de parallélisation de l'encodage d'image",
+    "LabelParallelImageEncodingLimitHelp": "Nombre maximal d’encodages d’image autorisés à s’exécuter en parallèle. Si vous définissez cette valeur sur 0, vous choisirez une limite en fonction des spécifications de votre système."
 }
