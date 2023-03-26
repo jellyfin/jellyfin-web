@@ -1685,6 +1685,7 @@
     "Interview": "Interview",
     "Scene": "Scene",
     "Sample": "Sample",
+    "Select": "Select",
     "ThemeSong": "Theme Song",
     "ThemeVideo": "Theme Video",
     "EnableEnhancedNvdecDecoderHelp": "Experimental NVDEC implementation, do not enable this option unless you encounter decoding errors.",
