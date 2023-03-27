@@ -557,7 +557,7 @@
     "LabelMethod": "Methode:",
     "LabelMinBackdropDownloadWidth": "Minimale Breite der zu herunterladenden Hintergründe:",
     "LabelMinResumeDuration": "Minimale Dauer für Wiederaufnahme:",
-    "LabelMinResumeDurationHelp": "Die kürzeste Videolänge in Sekunden, die den Wiedergabeort speichert und Sie fortfahren lässt.",
+    "LabelMinResumeDurationHelp": "Die kürzeste Wiedergabezeit in Sekunden, die gespeichert wird und von der Sie fortfahren können.",
     "LabelMinResumePercentage": "Minimale Prozent für Wiederaufnahme:",
     "LabelMinResumePercentageHelp": "Titel werden als ungesehen eingetragen, wenn sie vor dieser Zeit gestoppt werden.",
     "LabelMinScreenshotDownloadWidth": "Minimale Breite für zu herunterladende Screenshot:",
