@@ -35,6 +35,7 @@ chown root:root -R .
 
 %build
 npm ci --no-audit --unsafe-perm
+npm run build:production
 
 
 %install

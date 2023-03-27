@@ -1716,5 +1716,8 @@
     "SubtitleRed": "红色",
     "SubtitleYellow": "黄色",
     "Featurette": "花絮",
-    "Short": "短片"
+    "Short": "短片",
+    "LabelParallelImageEncodingLimitHelp": "允许并行运行的图像编码的最大数量。设为 0 以根据您的系统配置自动设置。",
+    "HeaderPerformance": "性能",
+    "LabelParallelImageEncodingLimit": "并行图像编码限制"
 }

@@ -26,8 +26,6 @@ jobs:
 
   - script: 'npm ci --no-audit'
     displayName: 'Install Dependencies'
-    env:
-      SKIP_PREPARE: 'true'
 
   - script: 'npm run build:development'
     displayName: 'Build Development'

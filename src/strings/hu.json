@@ -1290,7 +1290,7 @@
     "SaveChanges": "Változtatások mentése",
     "MessageSyncPlayGroupWait": "{0} pufferel…",
     "MessageSyncPlayUserLeft": "{0} elhagyta a csoportot.",
-    "MessageSyncPlayUserJoined": "{0}csatlakozott a csoporthoz.",
+    "MessageSyncPlayUserJoined": "{0} csatlakozott a csoporthoz.",
     "MessageSyncPlayDisabled": "SyncPlay letiltva.",
     "MessageSyncPlayEnabled": "SyncPlay engedélyezve.",
     "LabelSyncPlayAccess": "SyncPlay hozzáférés:",
@@ -1710,5 +1710,6 @@
     "LabelDummyChapterDuration": "Intervallum:",
     "LabelDummyChapterCount": "Határvonal:",
     "LabelChapterImageResolution": "Felbontás:",
-    "LabelChapterImageResolutionHelp": "A kinyert fejezetképek felbontása."
+    "LabelChapterImageResolutionHelp": "A kinyert fejezetképek felbontása.",
+    "HeaderPerformance": "Teljesítmény"
 }

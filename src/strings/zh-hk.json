@@ -650,7 +650,7 @@
     "LabelEmbedAlbumArtDidl": "於 DIDL 中嵌入專輯封面",
     "LabelEasyPinCode": "簡易PIN代碼：",
     "LabelDynamicExternalId": "{0} Id:",
-    "LabelDropSubtitleHere": "將字幕檔丟到這裡，或點擊瀏覽。",
+    "LabelDropSubtitleHere": "將字幕檔拖動到這裡，或點擊瀏覽。",
     "LabelDropShadow": "陰影：",
     "LabelDroppedFrames": "丟棄的幀：",
     "LabelDropImageHere": "拖移圖片到這裡，或是點擊來選取。",
@@ -1096,5 +1096,11 @@
     "LabelSyncPlaySettingsSyncCorrection": "同步校正",
     "HomeVideosPhotos": "家庭影片及相片",
     "MessageConfirmRevokeApiKey": "你是否確定要廢除此 API Key？有關程序將無法再連接此伺服器。",
-    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "為目標裝置調較 SyncPlay 延遲時間（毫秒）以改善不同步問題，請小心調較。"
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "為目標裝置調較 SyncPlay 延遲時間（毫秒）以改善不同步問題，請小心調較。",
+    "Experimental": "試驗性",
+    "HeaderDummyChapter": "章節圖片",
+    "IgnoreDtsHelp": "禁用此選項或可解決部份問題，如無法正常播放外部音訊。",
+    "DownloadAll": "全部下載",
+    "LabelDummyChapterDuration": "間距：",
+    "LabelDummyChapterDurationHelp": "章節圖片擷取間距（秒）"
 }
