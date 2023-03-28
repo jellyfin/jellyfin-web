@@ -1719,5 +1719,7 @@
     "Short": "Court-métrage",
     "HeaderPerformance": "Performance",
     "LabelParallelImageEncodingLimit": "Limite de parallélisation de l'encodage d'image",
-    "LabelParallelImageEncodingLimitHelp": "Nombre maximal d’encodages d’image autorisés à s’exécuter en parallèle. Si vous définissez cette valeur sur 0, vous choisirez une limite en fonction des spécifications de votre système."
+    "LabelParallelImageEncodingLimitHelp": "Nombre maximal d’encodages d’image autorisés à s’exécuter en parallèle. Si vous définissez cette valeur sur 0, vous choisirez une limite en fonction des spécifications de votre système.",
+    "LabelEnableAudioVbr": "Activer l’encodage audio VBR",
+    "LabelEnableAudioVbrHelp": "Le débit binaire variable offre une qualité supérieure à la moyenne mais peut, dans de rares cas, causer des problèmes de mise en mémoire tampon et de compatibilité."
 }
