@@ -83,7 +83,7 @@
     "core-js": "3.29.0",
     "date-fns": "2.29.3",
     "dompurify": "3.0.1",
-    "epubjs": "0.4.2",
+    "epubjs": "0.3.93",
     "escape-html": "1.0.3",
     "fast-text-encoding": "1.0.6",
     "flv.js": "1.6.2",
