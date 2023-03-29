@@ -39,8 +39,7 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
             continue;
         }
         if (result.StartIndex == null) {
-            console.log(
-                `Retrieved StartIndex is invalid: ${result.StartIndex}`);
+            console.log('[getItems] Retrieved StartIndex is invalid', result.StartIndex);
             continue;
         }
         merged.Items = merged.Items.concat(result.Items);
