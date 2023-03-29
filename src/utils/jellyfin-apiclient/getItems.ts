@@ -1,7 +1,7 @@
 import type {BaseItemDtoQueryResult} from '@jellyfin/sdk/lib/generated-client';
 import {ApiClient} from 'jellyfin-apiclient';
 
-const idsPerItemRequestLimit = 25;
+const ITEMS_PER_REQUEST_LIMIT = 25;
 
 function getItemsSplit(apiClient: ApiClient, userId: string, options: any) {
     const optionsTemplate = {...options};
@@ -10,7 +10,7 @@ function getItemsSplit(apiClient: ApiClient, userId: string, options: any) {
 
     let nextI;
     for (let i = 0; i < ids.length && i < options.Limit; i = nextI) {
-        nextI = i + idsPerItemRequestLimit;
+        nextI = i + ITEMS_PER_REQUEST_LIMIT;
         if (nextI > options.Limit) {
             nextI = options.Limit;
         }
@@ -52,7 +52,7 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 export function getItems(apiClient: ApiClient, userId: string, options?: any):
     Promise<BaseItemDtoQueryResult> {
     if (options.Ids === undefined ||
-        options.Ids.split(',').length <= idsPerItemRequestLimit) {
+        options.Ids.split(',').length <= ITEMS_PER_REQUEST_LIMIT) {
         return apiClient.getItems(apiClient.getCurrentUserId(), options);
     }
     const results = getItemsSplit(apiClient, userId, options);
