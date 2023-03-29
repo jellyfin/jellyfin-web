@@ -131,8 +131,6 @@ function onLibraryChanged(data, apiClient) {
         newItems.length = 12;
     }
 
-    // call getItems from jellyfin-apiclient/getItems.ts instead of apiClient.getItems()
-    // to split up into multiple requests if necessary (URL might get too long)
     getItems(apiClient, apiClient.getCurrentUserId(), {
 
         Recursive: true,

@@ -89,8 +89,6 @@ export function getItemsForPlayback(apiClient, query) {
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
 
-        // call getItems from jellyfin-apiclient/getItems.ts instead of apiClient.getItems()
-        // to split up into multiple requests if necessary (URL might get too long)
         return getItems(apiClient, apiClient.getCurrentUserId(), query);
     }
 }

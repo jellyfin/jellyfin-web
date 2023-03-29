@@ -483,8 +483,6 @@ function getItemsForPlayback(apiClient, query) {
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
 
-        // call getItems from jellyfin-apiclient/getItems.ts instead of apiClient.getItems()
-        // to split up into multiple requests if necessary (URL might get too long)
         return getItems(apiClient, userId, query);
     }
 }

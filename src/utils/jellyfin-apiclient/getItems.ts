@@ -49,6 +49,14 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
     return merged;
 }
 
+/**
+ * Transparently handles the call to apiClient.getItems splitting the
+ * call into multiple ones if the URL might get too long.
+ * @param apiClient The ApiClient to use
+ * @param userId User id to pass to actual getItems call
+ * @param options Options object to specify getItems option. This includes a possibly long Items list that will be split up.
+ * @returns A promise that resolves to the merged result of all getItems calls
+ */
 export function getItems(apiClient: ApiClient, userId: string, options?: any) {
     if (options.Ids?.split(',').length <= ITEMS_PER_REQUEST_LIMIT) {
         return apiClient.getItems(apiClient.getCurrentUserId(), options);
