@@ -23,10 +23,11 @@ function getItemsSplit(apiClient: ApiClient, userId: string, options: any) {
 }
 
 function mergeResults(results: BaseItemDtoQueryResult[]) {
-    const merged: BaseItemDtoQueryResult = {};
-    merged.Items = [];
-    merged.TotalRecordCount = 0;
-    merged.StartIndex = 0;
+    const merged: BaseItemDtoQueryResult = {
+        Items: [],
+        TotalRecordCount: 0,
+        StartIndex: 0
+    };
 
     for (const result of results) {
         if (result.Items == null) {
