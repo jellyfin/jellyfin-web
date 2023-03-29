@@ -127,7 +127,7 @@
     "Sunday": "Duminică",
     "TabAccess": "Acces",
     "TabAdvanced": "Avansat",
-    "TabLatest": "Cele mai recente",
+    "TabLatest": "Adăugate recent",
     "TabMusic": "Muzică",
     "TabMyPlugins": "Plugin-urile mele",
     "TabNetworks": "Trusturi TV",
@@ -946,7 +946,7 @@
     "List": "Listă",
     "LeaveBlankToNotSetAPassword": "Puteți lăsa acest câmp necompletat pentru a nu seta o parolă.",
     "LearnHowYouCanContribute": "Aflați cum puteți contribui.",
-    "LatestFromLibrary": "Ultimele {0}",
+    "LatestFromLibrary": "Ultimele adăugate {0}",
     "Large": "Mare",
     "LanNetworksHelp": "Lista separată de virgule a adreselor IP sau a intrărilor de tip IP/mască de rețea pentru rețelele care vor fi luate în considerare în rețeaua locală atunci când se aplică restricțiile de lățime de bandă. Dacă este setat, toate celelalte adrese IP vor fi considerate a fi în rețeaua externă și vor fi supuse restricțiilor de lățime de bandă externe. Dacă este lăsat necompletat, numai subnetul serverului este considerat a fi în rețeaua locală.",
     "LabelffmpegPathHelp": "Calea către executabilul FFmpeg sau dosarul care conține FFmpeg.",
@@ -1614,7 +1614,7 @@
     "DeletedScene": "Scene șterse",
     "BehindTheScenes": "În spatele scenei",
     "Trailer": "Trailer",
-    "Clip": "Featurette",
+    "Clip": "Clip",
     "SelectAll": "Selectează Tot",
     "DirectPlayError": "A apărut o eroare la pornirea redării directe",
     "UnknownAudioStreamInfo": "Informațiile fluxului audio sunt necunoscute",
@@ -1663,7 +1663,7 @@
     "IgnoreDts": "Ignoră DTS (marca de timp a decodării)",
     "DownloadAll": "Descărcați tot",
     "MessageNoItemsAvailable": "Niciun articol nu este valabil în momentul actual.",
-    "MessageRenameMediaFolder": "Redenumirea unei biblioteci va cauza toate metadatele să fie pierdute, continuați cu grijă.",
+    "MessageRenameMediaFolder": "Redenumirea unei biblioteci va șterge toate fisierele metadata, continuați cu grijă.",
     "OptionDateEpisodeAdded": "Dată Adăugare Episod",
     "OptionDateShowAdded": "Dată Adăugare Serial",
     "MessageNoFavoritesAvailable": "Niciun favorit nu este valabil în momentul actual.",
@@ -1680,5 +1680,6 @@
     "LabelParallelImageEncodingLimit": "Limita encodărilor simultane",
     "LabelParallelImageEncodingLimitHelp": "Numărul maxim de encodări ale imaginilor care sunt permise să ruleze simultan. Setarea acestei valori la 0 va alege automat o limită bazată pe specificațiile tehnice ale sistemului.",
     "HeaderDummyChapter": "Imaginile Capitolelor",
-    "HeaderRecordingMetadataSaving": "Înregistrarea Metadatelor"
+    "HeaderRecordingMetadataSaving": "Înregistrarea Metadatelor",
+    "EnableSplashScreen": "Activează ecranul splash"
 }
