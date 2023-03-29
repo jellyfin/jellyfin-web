@@ -49,8 +49,7 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
     return merged;
 }
 
-export function getItems(apiClient: ApiClient, userId: string, options?: any):
-    Promise<BaseItemDtoQueryResult> {
+export function getItems(apiClient: ApiClient, userId: string, options?: any) {
     if (options.Ids === undefined ||
         options.Ids.split(',').length <= ITEMS_PER_REQUEST_LIMIT) {
         return apiClient.getItems(apiClient.getCurrentUserId(), options);
