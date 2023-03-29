@@ -349,7 +349,7 @@ import LibraryMenu from '../scripts/libraryMenu';
     function showViewSettingsMenu() {
         const instance = this;
 
-        import('../components/viewSettings/viewSettings').then(({default: ViewSettings}) => {
+        import('../components/viewSettings/viewSettings').then(({ default: ViewSettings }) => {
             new ViewSettings().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getViewSettings(),
@@ -364,7 +364,7 @@ import LibraryMenu from '../scripts/libraryMenu';
     function showFilterMenu() {
         const instance = this;
 
-        import('../components/filtermenu/filtermenu').then(({default: FilterMenu}) => {
+        import('../components/filtermenu/filtermenu').then(({ default: FilterMenu }) => {
             new FilterMenu().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getFilters(),
@@ -383,7 +383,7 @@ import LibraryMenu from '../scripts/libraryMenu';
     function showSortMenu() {
         const instance = this;
 
-        import('../components/sortmenu/sortmenu').then(({default: SortMenu}) => {
+        import('../components/sortmenu/sortmenu').then(({ default: SortMenu }) => {
             new SortMenu().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getSortValues(),
@@ -401,7 +401,7 @@ import LibraryMenu from '../scripts/libraryMenu';
     function onNewItemClick() {
         const instance = this;
 
-        import('../components/playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
+        import('../components/playlisteditor/playlisteditor').then(({ default: playlistEditor }) => {
             new playlistEditor({
                 items: [],
                 serverId: instance.params.serverId
@@ -772,7 +772,7 @@ class ItemsView {
         }
 
         function autoFocus() {
-            import('../components/autoFocuser').then(({default: autoFocuser}) => {
+            import('../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(view);
             });
         }

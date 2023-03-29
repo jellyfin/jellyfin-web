@@ -69,7 +69,7 @@ import shell from '../../scripts/shell';
         const list = [];
 
         imageSizes.forEach((size) => {
-            const url = getImageUrl(item, {height: size});
+            const url = getImageUrl(item, { height: size });
             if (url !== null) {
                 list.push(url);
             }

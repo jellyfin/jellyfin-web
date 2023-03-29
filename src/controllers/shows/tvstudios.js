@@ -50,7 +50,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             });
             loading.hide();
 
-            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(context);
             });
         });

@@ -211,7 +211,7 @@ import template from './metadataEditor.template.html';
     }
 
     function addElementToList(source, sortCallback) {
-        import('../prompt/prompt').then(({default: prompt}) => {
+        import('../prompt/prompt').then(({ default: prompt }) => {
             prompt({
                 label: 'Value:'
             }).then(function (text) {
@@ -229,7 +229,7 @@ import template from './metadataEditor.template.html';
     }
 
     function editPerson(context, person, index) {
-        import('./personEditor').then(({default: personEditor}) => {
+        import('./personEditor').then(({ default: personEditor }) => {
             personEditor.show(person).then(function (updatedPerson) {
                 const isNew = index === -1;
 
@@ -253,7 +253,7 @@ import template from './metadataEditor.template.html';
     }
 
     function showMoreMenu(context, button, user) {
-        import('../itemContextMenu').then(({default: itemContextMenu}) => {
+        import('../itemContextMenu').then(({ default: itemContextMenu }) => {
             const item = currentItem;
 
             itemContextMenu.show({
@@ -588,12 +588,12 @@ import template from './metadataEditor.template.html';
             hideElement('#collapsibleSpecialEpisodeInfo', context);
         }
 
-        if (item.Type === 'Person' ||
-            item.Type === 'Genre' ||
-            item.Type === 'Studio' ||
-            item.Type === 'MusicGenre' ||
-            item.Type === 'TvChannel' ||
-            item.Type === 'Book') {
+        if (item.Type === 'Person'
+            || item.Type === 'Genre'
+            || item.Type === 'Studio'
+            || item.Type === 'MusicGenre'
+            || item.Type === 'TvChannel'
+            || item.Type === 'Book') {
             hideElement('#peopleCollapsible', context);
         } else {
             showElement('#peopleCollapsible', context);

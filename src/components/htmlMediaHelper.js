@@ -26,8 +26,8 @@ import Events from '../utils/events.ts';
     function canPlayNativeHls() {
         const media = document.createElement('video');
 
-        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
-            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
+        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '')
+            || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
     }
 
     export function enableHlsJsPlayer(runTimeTicks, mediaType) {
@@ -201,8 +201,8 @@ import Events from '../utils/events.ts';
                 .catch((e) => {
                     const errorName = (e.name || '').toLowerCase();
                     // safari uses aborterror
-                    if (errorName === 'notallowederror' ||
-                        errorName === 'aborterror') {
+                    if (errorName === 'notallowederror'
+                        || errorName === 'aborterror') {
                         // swallow this error because the user can still click the play button on the video element
                         return Promise.resolve();
                     }

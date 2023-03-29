@@ -177,13 +177,13 @@ import * as userSettings from '../../scripts/settings/userSettings';
 
         if (options.year !== false && item.ProductionYear && item.Type === 'Series') {
             if (item.Status === 'Continuing') {
-                miscInfo.push(globalize.translate('SeriesYearToPresent', datetime.toLocaleString(item.ProductionYear, {useGrouping: false})));
+                miscInfo.push(globalize.translate('SeriesYearToPresent', datetime.toLocaleString(item.ProductionYear, { useGrouping: false })));
             } else if (item.ProductionYear) {
-                text = datetime.toLocaleString(item.ProductionYear, {useGrouping: false});
+                text = datetime.toLocaleString(item.ProductionYear, { useGrouping: false });
 
                 if (item.EndDate) {
                     try {
-                        const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), {useGrouping: false});
+                        const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
 
                         if (endYear !== item.ProductionYear) {
                             text += `-${endYear}`;
@@ -253,7 +253,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
                 miscInfo.push(item.ProductionYear);
             } else if (item.PremiereDate) {
                 try {
-                    text = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), {useGrouping: false});
+                    text = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                     miscInfo.push(text);
                 } catch (e) {
                     console.error('error parsing date:', item.PremiereDate);

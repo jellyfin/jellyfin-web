@@ -65,7 +65,7 @@ import confirm from '../../components/confirm/confirm';
     }
 
     function showSendMessageForm(btn, session) {
-        import('../../components/prompt/prompt').then(({default: prompt}) => {
+        import('../../components/prompt/prompt').then(({ default: prompt }) => {
             prompt({
                 title: globalize.translate('HeaderSendMessage'),
                 label: globalize.translate('LabelMessageText'),
@@ -82,7 +82,7 @@ import confirm from '../../components/confirm/confirm';
     }
 
     function showOptionsMenu(btn, session) {
-        import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+        import('../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
             const menuItems = [];
 
             if (session.ServerId && session.DeviceId !== ServerConnections.deviceId()) {

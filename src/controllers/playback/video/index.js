@@ -64,7 +64,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 
             ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
-                    import('../../../components/recordingcreator/recordingbutton').then(({default: RecordingButton}) => {
+                    import('../../../components/recordingcreator/recordingbutton').then(({ default: RecordingButton }) => {
                         if (recordingButtonManager) {
                             recordingButtonManager.refreshItem(item);
                             return;
@@ -216,7 +216,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             let title = itemName;
             if (item.PremiereDate) {
                 try {
-                    const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), {useGrouping: false});
+                    const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                     title += ` (${year})`;
                 } catch (e) {
                     console.error(e);
@@ -622,7 +622,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         }
 
         function showComingUpNext(player) {
-            import('../../../components/upnextdialog/upnextdialog').then(({default: UpNextDialog}) => {
+            import('../../../components/upnextdialog/upnextdialog').then(({ default: UpNextDialog }) => {
                 if (!(currentVisibleMenu || currentUpNextDialog)) {
                     currentVisibleMenu = 'upnext';
                     comingUpNextDisplayed = true;
@@ -896,8 +896,8 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                     const state = playbackManager.getPlayerState(player);
 
                     // show subtitle offset feature only if player and media support it
-                    const showSubOffset = playbackManager.supportSubtitleOffset(player) &&
-                        playbackManager.canHandleOffsetOnCurrentSubtitle(player);
+                    const showSubOffset = playbackManager.supportSubtitleOffset(player)
+                        && playbackManager.canHandleOffsetOnCurrentSubtitle(player);
 
                     playerSettingsMenu.show({
                         mediaType: 'Video',
@@ -929,7 +929,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         }
 
         function toggleStats() {
-            import('../../../components/playerstats/playerstats').then(({default: PlayerStats}) => {
+            import('../../../components/playerstats/playerstats').then(({ default: PlayerStats }) => {
                 const player = currentPlayer;
 
                 if (player) {
@@ -969,7 +969,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
             });
             const positionTo = this;
 
-            import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+            import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
                 actionsheet.show({
                     items: menuItems,
                     title: globalize.translate('Audio'),
@@ -1086,7 +1086,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 
             const positionTo = this;
 
-            import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+            import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,

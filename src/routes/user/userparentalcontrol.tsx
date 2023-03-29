@@ -239,7 +239,7 @@ const UserParentalControl: FunctionComponent = () => {
 
         const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
-            import('../../components/accessSchedule/accessSchedule').then(({default: accessschedule}) => {
+            import('../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
                 accessschedule.show({
                     schedule: schedule
                 }).then(function (updatedSchedule) {
@@ -272,7 +272,7 @@ const UserParentalControl: FunctionComponent = () => {
         };
 
         const showBlockedTagPopup = () => {
-            import('../../components/prompt/prompt').then(({default: prompt}) => {
+            import('../../components/prompt/prompt').then(({ default: prompt }) => {
                 prompt({
                     label: globalize.translate('LabelTag')
                 }).then(function (value) {
@@ -367,7 +367,7 @@ const UserParentalControl: FunctionComponent = () => {
                         </div>
                     </div>
                     <br />
-                    <div className='verticalSection' style={{marginBottom: '2em'}}>
+                    <div className='verticalSection' style={{ marginBottom: '2em' }}>
                         <SectionTitleContainer
                             SectionClassName='detailSectionHeader'
                             title={globalize.translate('LabelBlockContentWithTags')}
@@ -378,7 +378,7 @@ const UserParentalControl: FunctionComponent = () => {
                             btnIcon='add'
                             isLinkVisible={false}
                         />
-                        <div className='blockedTags' style={{marginTop: '.5em'}}>
+                        <div className='blockedTags' style={{ marginTop: '.5em' }}>
                             {blockedTags.map(tag => {
                                 return <BlockedTagList
                                     key={tag}
@@ -387,7 +387,7 @@ const UserParentalControl: FunctionComponent = () => {
                             })}
                         </div>
                     </div>
-                    <div className='accessScheduleSection verticalSection' style={{marginBottom: '2em'}}>
+                    <div className='accessScheduleSection verticalSection' style={{ marginBottom: '2em' }}>
                         <SectionTitleContainer
                             title={globalize.translate('HeaderAccessSchedule')}
                             isBtnVisible={true}

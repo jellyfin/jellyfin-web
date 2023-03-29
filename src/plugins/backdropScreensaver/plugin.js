@@ -25,7 +25,7 @@ class BackdropScreensaver {
             const apiClient = ServerConnections.currentApiClient();
             apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
                 if (result.Items.length) {
-                    import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {
+                    import('../../components/slideshow/slideshow').then(({ default: Slideshow }) => {
                         const newSlideShow = new Slideshow({
                             showTitle: true,
                             cover: true,
