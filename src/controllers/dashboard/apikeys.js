@@ -52,7 +52,7 @@ import { pageIdOn } from '../../utils/dashboard';
     }
 
     function showNewKeyPrompt(page) {
-        import('../../components/prompt/prompt').then(({default: prompt}) => {
+        import('../../components/prompt/prompt').then(({ default: prompt }) => {
             prompt({
                 title: globalize.translate('HeaderNewApiKey'),
                 label: globalize.translate('LabelAppName'),

@@ -28,7 +28,7 @@ import ServerConnections from '../ServerConnections';
         }
 
         const mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
-        const videoStream = mediaStreams.filter(({Type}) => {
+        const videoStream = mediaStreams.filter(({ Type }) => {
             return Type === 'Video';
         })[0] || {};
 
@@ -68,7 +68,7 @@ import ServerConnections from '../ServerConnections';
         return html;
     }
 
-    function getImgUrl({Id}, {ImageTag}, index, maxWidth, apiClient) {
+    function getImgUrl({ Id }, { ImageTag }, index, maxWidth, apiClient) {
         if (ImageTag) {
             return apiClient.getScaledImageUrl(Id, {
 
@@ -82,7 +82,7 @@ import ServerConnections from '../ServerConnections';
         return null;
     }
 
-    function buildChapterCard(item, apiClient, chapter, index, {width, coverImage}, className, shape) {
+    function buildChapterCard(item, apiClient, chapter, index, { width, coverImage }, className, shape) {
         const imgUrl = getImgUrl(item, chapter, index, width || 400, apiClient);
 
         let cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';

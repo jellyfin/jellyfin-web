@@ -201,7 +201,7 @@ import './login.scss';
             view.querySelector('.manualLoginForm').classList.add('hide');
             view.querySelector('.btnManual').classList.remove('hide');
 
-            import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
+            import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(view);
             });
         }

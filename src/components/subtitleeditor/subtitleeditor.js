@@ -342,7 +342,7 @@ function showDownloadOptions(button, context, subtitleId) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then(({default: scrollHelper}) => {
+    import('../../scripts/scrollHelper').then(({ default: scrollHelper }) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -353,7 +353,7 @@ function onOpenUploadMenu(e) {
     const selectLanguage = dialog.querySelector('#selectLanguage');
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
-    import('../subtitleuploader/subtitleuploader').then(({default: subtitleUploader}) => {
+    import('../subtitleuploader/subtitleuploader').then(({ default: subtitleUploader }) => {
         subtitleUploader.show({
             languages: {
                 list: selectLanguage.innerHTML,

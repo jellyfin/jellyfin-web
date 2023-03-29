@@ -239,7 +239,7 @@ import alert from '../../components/alert';
             setDecodingCodecsVisible(page, this.value);
         });
         $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     includeFiles: true,
@@ -254,7 +254,7 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -271,7 +271,7 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     includeDirectories: true,

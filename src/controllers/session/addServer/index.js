@@ -54,7 +54,7 @@ import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionSta
         view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
         view.querySelector('.btnCancel').addEventListener('click', goBack);
 
-        import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
+        import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(view);
         });
 
@@ -65,7 +65,7 @@ import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionSta
         }
 
         function goBack() {
-            import('../../../components/appRouter').then(({appRouter}) => {
+            import('../../../components/appRouter').then(({ appRouter }) => {
                 appRouter.back();
             });
         }

@@ -124,7 +124,7 @@ export default function (view, params, tabContent) {
             loading.hide();
             isLoading = false;
 
-            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(page);
             });
         });
@@ -135,7 +135,7 @@ export default function (view, params, tabContent) {
     let isLoading = false;
 
     self.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+        import('../../components/filterdialog/filterdialog').then(({ default: filterDialogFactory }) => {
             const filterDialog = new filterDialogFactory({
                 query: getQuery(tabContent),
                 mode: 'songs',

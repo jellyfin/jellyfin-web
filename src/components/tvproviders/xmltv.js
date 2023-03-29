@@ -48,7 +48,7 @@ function refreshTunerDevices(page, providerInfo, devices) {
 function onSelectPathClick(e) {
     const page = $(e.target).parents('.xmltvForm')[0];
 
-    import('../directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+    import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
             includeFiles: true,

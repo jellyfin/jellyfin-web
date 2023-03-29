@@ -17,11 +17,11 @@ import browser from './browser';
         }
 
         // hevc main level 4.0
-        return !!videoTestElement.canPlayType &&
-        (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '') ||
-        videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '') ||
-        videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.0.L120"').replace(/no/, '') ||
-        videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''));
+        return !!videoTestElement.canPlayType
+        && (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.0.L120"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''));
     }
 
     let _supportsTextTracks;
@@ -53,8 +53,8 @@ import browser from './browser';
         }
 
         const media = document.createElement('video');
-        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
-            media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
+        return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '')
+            || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
     }
 
     function canPlayHlsWithMSE() {
@@ -96,8 +96,8 @@ import browser from './browser';
         }
 
         if (videoTestElement.canPlayType) {
-            return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
-                videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
+            return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '')
+                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
         }
 
         return false;
@@ -146,8 +146,8 @@ import browser from './browser';
             return true;
         }
 
-        if (videoTestElement.canPlayType('video/x-matroska').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mkv').replace(/no/, '')) {
+        if (videoTestElement.canPlayType('video/x-matroska').replace(/no/, '')
+            || videoTestElement.canPlayType('video/mkv').replace(/no/, '')) {
             return true;
         }
 
@@ -815,19 +815,19 @@ export function canPlaySecondaryAudio(videoTestElement) {
         let maxH264Level = 42;
         let h264Profiles = 'high|main|baseline|constrained baseline';
 
-        if (browser.tizen || browser.web0s ||
-            videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
+        if (browser.tizen || browser.web0s
+            || videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
             maxH264Level = 51;
         }
 
         // Support H264 Level 52 (Tizen 5.0) - app only
-        if ((browser.tizenVersion >= 5 && window.NativeShell) ||
-            videoTestElement.canPlayType('video/mp4; codecs="avc1.640834"').replace(/no/, '')) {
+        if ((browser.tizenVersion >= 5 && window.NativeShell)
+            || videoTestElement.canPlayType('video/mp4; codecs="avc1.640834"').replace(/no/, '')) {
             maxH264Level = 52;
         }
 
-        if ((browser.tizen ||
-            videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, ''))
+        if ((browser.tizen
+            || videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, ''))
             // These tests are passing in safari, but playback is failing
             && !browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile
         ) {
@@ -838,28 +838,28 @@ export function canPlaySecondaryAudio(videoTestElement) {
         let hevcProfiles = 'main';
 
         // hevc main level 4.1
-        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.4.L123"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.4.L123"').replace(/no/, '')) {
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.4.L123"').replace(/no/, '')
+            || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.4.L123"').replace(/no/, '')) {
             maxHevcLevel = 123;
         }
 
         // hevc main10 level 4.1
-        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L123"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L123"').replace(/no/, '')) {
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L123"').replace(/no/, '')
+            || videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L123"').replace(/no/, '')) {
             maxHevcLevel = 123;
             hevcProfiles = 'main|main 10';
         }
 
         // hevc main10 level 5.1
-        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L153"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L153"').replace(/no/, '')) {
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L153"').replace(/no/, '')
+            || videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L153"').replace(/no/, '')) {
             maxHevcLevel = 153;
             hevcProfiles = 'main|main 10';
         }
 
         // hevc main10 level 6.1
-        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L183"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L183"').replace(/no/, '')) {
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L183"').replace(/no/, '')
+            || videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L183"').replace(/no/, '')) {
             maxHevcLevel = 183;
             hevcProfiles = 'main|main 10';
         }

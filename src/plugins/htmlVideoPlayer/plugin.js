@@ -107,7 +107,7 @@ function tryRemoveElement(elem) {
     }
 
     function requireHlsPlayer(callback) {
-        import('hls.js').then(({default: hls}) => {
+        import('hls.js').then(({ default: hls }) => {
             hls.DefaultConfig.lowLatencyMode = false;
             hls.DefaultConfig.backBufferLength = Infinity;
             hls.DefaultConfig.liveBackBufferLength = 90;
@@ -396,7 +396,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSrcWithFlvJs(elem, options, url) {
-            return import('flv.js').then(({default: flvjs}) => {
+            return import('flv.js').then(({ default: flvjs }) => {
                 const flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url
@@ -1296,7 +1296,7 @@ function tryRemoveElement(elem) {
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            import('@jellyfin/libass-wasm').then(({default: SubtitlesOctopus}) => {
+            import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
                 Promise.all([
                     apiClient.getNamedConfiguration('encoding'),
                     // Worker in Tizen 5 doesn't resolve relative path with async request

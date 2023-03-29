@@ -19,7 +19,7 @@ const Sort: FC<SortProps> = ({
     const element = useRef<HTMLDivElement>(null);
 
     const showSortMenu = useCallback(() => {
-        import('../sortmenu/sortmenu').then(({default: SortMenu}) => {
+        import('../sortmenu/sortmenu').then(({ default: SortMenu }) => {
             const sortMenu = new SortMenu();
             sortMenu.show({
                 settings: viewQuerySettings,

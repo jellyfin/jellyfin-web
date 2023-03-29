@@ -106,7 +106,7 @@ function submitForm(page) {
 }
 
 function getDetectedDevice() {
-    return import('../components/tunerPicker').then(({default: tunerPicker}) => {
+    return import('../components/tunerPicker').then(({ default: tunerPicker }) => {
         return new tunerPicker().show({
             serverId: ApiClient.serverId()
         });
@@ -222,7 +222,7 @@ export default function (view, params) {
         });
     });
     view.querySelector('.btnSelectPath').addEventListener('click', function () {
-        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+        import('../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 includeFiles: true,

@@ -147,7 +147,7 @@ function showProviderOptions(page, providerId, button) {
         id: 'map'
     });
 
-    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: items,
             positionTo: button
@@ -165,7 +165,7 @@ function showProviderOptions(page, providerId, button) {
 }
 
 function mapChannels(page, providerId) {
-    import('../components/channelMapper/channelMapper').then(({default: channelMapper}) => {
+    import('../components/channelMapper/channelMapper').then(({ default: channelMapper }) => {
         new channelMapper({
             serverId: ApiClient.serverInfo().Id,
             providerId: providerId
@@ -237,7 +237,7 @@ function addProvider(button) {
         id: 'xmltv'
     });
 
-    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -263,7 +263,7 @@ function showDeviceMenu(button, tunerDeviceId) {
         id: 'edit'
     });
 
-    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: items,
             positionTo: button

@@ -23,7 +23,7 @@ async function fetchLocal(url, options) {
             }
 
             /* eslint-disable-next-line compat/compat */
-            resolve(new Response(xhr.responseText, {status: status}));
+            resolve(new Response(xhr.responseText, { status: status }));
         };
 
         xhr.onerror = () => {
