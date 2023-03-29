@@ -31,7 +31,7 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 
     for (const result of results) {
         if (result.Items == null) {
-            console.log(`Retrieved Items array is invalid: ${result.Items}`);
+            console.log('[getItems] Retrieved Items array is invalid', result.Items);
             continue;
         }
         if (result.TotalRecordCount == null) {
