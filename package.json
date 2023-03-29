@@ -22,7 +22,7 @@
     "@typescript-eslint/eslint-plugin": "5.56.0",
     "@typescript-eslint/parser": "5.56.0",
     "@uupaa/dynamic-import-polyfill": "1.0.2",
-    "autoprefixer": "10.4.13",
+    "autoprefixer": "10.4.14",
     "babel-loader": "9.1.2",
     "babel-plugin-dynamic-import-polyfill": "1.0.0",
     "clean-webpack-plugin": "4.0.0",
