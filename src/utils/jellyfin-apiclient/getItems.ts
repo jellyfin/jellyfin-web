@@ -8,13 +8,13 @@ function getItemsSplit(apiClient: ApiClient, userId: string, options: any) {
     const ids = options.Ids.split(',');
     const results = [];
 
-    let nextI;
-    for (let i = 0; i < ids.length && i < options.Limit; i = nextI) {
-        nextI = i + ITEMS_PER_REQUEST_LIMIT;
-        if (nextI > options.Limit) {
-            nextI = options.Limit;
+    let end;
+    for (let start = 0; start < ids.length && start < options.Limit; start = end) {
+        end = start + ITEMS_PER_REQUEST_LIMIT;
+        if (end > options.Limit) {
+            end = options.Limit;
         }
-        const idsSlice = ids.slice(i, nextI);
+        const idsSlice = ids.slice(start, end);
         optionsTemplate.Ids = idsSlice.join(',');
         results.push(apiClient.getItems(userId, optionsTemplate));
     }
