@@ -169,18 +169,22 @@ import { appRouter } from '../appRouter';
 
         elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
             if (currentPlayer) {
-                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
-                    // Cancel this event if doubleclick is fired
-                    if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
+                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio') {
+                    // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
+                    if (e.detail > 1 ) {
                         return;
                     }
-                    playbackManager.seekPercent(0, currentPlayer);
-                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
-                    // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
-                    positionSlider.value = 0;
-                } else {
-                    playbackManager.previousTrack(currentPlayer);
+                    // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
+                    // to the previous track, unless we are at the first track so no previous track exists.
+                    if (currentPlayer._currentTime >= 2 || lastPlayerState.NowPlayingItem.IndexNumber == 1 ) {
+                        playbackManager.seekPercent(0, currentPlayer);
+                        // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
+                        // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
+                        positionSlider.value = 0;
+                        return;
+                    }
                 }
+                playbackManager.previousTrack(currentPlayer);
             }
         });
 
