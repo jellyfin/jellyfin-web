@@ -1614,7 +1614,7 @@
     "ContainerBitrateExceedsLimit": "A videó bitrátája meghaladja a limitet",
     "SelectAll": "Összes kiválasztása",
     "ButtonExitApp": "Kilépés az alkalmazásból",
-    "Clip": "Rövidfilm",
+    "Clip": "Klip",
     "ThemeVideo": "Téma Videó",
     "ThemeSong": "Főcímdal",
     "Sample": "Minta",
@@ -1711,5 +1711,10 @@
     "LabelDummyChapterCount": "Határvonal:",
     "LabelChapterImageResolution": "Felbontás:",
     "LabelChapterImageResolutionHelp": "A kinyert fejezetképek felbontása.",
-    "HeaderPerformance": "Teljesítmény"
+    "HeaderPerformance": "Teljesítmény",
+    "Short": "Rövidfilm",
+    "Featurette": "Mellékfilm",
+    "LabelParallelImageEncodingLimitHelp": "Maximálisan engedélyezett egyidejűleg futó képkódolások száma. 0-ra állítva a rendszer specifikációja alapján lesz kiválasztva a limit.",
+    "ResolutionMatchSource": "Forrásnak megfelelő",
+    "LabelParallelImageEncodingLimit": "Egyidejű képkódolási limit"
 }

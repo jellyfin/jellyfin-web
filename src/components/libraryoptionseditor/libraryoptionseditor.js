@@ -316,7 +316,7 @@ import template from './libraryoptionseditor.template.html';
     }
 
     function showImageOptionsForType(type) {
-        import('../imageOptionsEditor/imageOptionsEditor').then(({default: ImageOptionsEditor}) => {
+        import('../imageOptionsEditor/imageOptionsEditor').then(({ default: ImageOptionsEditor }) => {
             let typeOptions = getTypeOptions(currentLibraryOptions, type);
             if (!typeOptions) {
                 typeOptions = {

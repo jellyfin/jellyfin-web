@@ -55,7 +55,7 @@ export function showLayoutMenu (button, currentLayout, views) {
         };
     });
 
-    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -122,7 +122,7 @@ export function showSortMenu (options) {
     Promise.all([
         import('../components/dialogHelper/dialogHelper'),
         import('../elements/emby-radio/emby-radio')
-    ]).then(([{default: dialogHelper}]) => {
+    ]).then(([{ default: dialogHelper }]) => {
         function onSortByChange() {
             const newValue = this.value;
 

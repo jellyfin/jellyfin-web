@@ -22,6 +22,7 @@ import alert from '../../components/alert';
         page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
+        page.querySelector('#chkEnableAudioVbr').checked = config.EnableAudioVbr;
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
         $('#selectStereoDownmixAlgorithm').val(config.DownMixStereoAlgorithm || 'None');
         page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
@@ -78,6 +79,7 @@ import alert from '../../components/alert';
         const onDecoderConfirmed = function () {
             loading.show();
             ApiClient.getNamedConfiguration('encoding').then(function (config) {
+                config.EnableAudioVbr = form.querySelector('#chkEnableAudioVbr').checked;
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
                 config.DownMixStereoAlgorithm = $('#selectStereoDownmixAlgorithm', form).val() || 'None';
                 config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
@@ -237,7 +239,7 @@ import alert from '../../components/alert';
             setDecodingCodecsVisible(page, this.value);
         });
         $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     includeFiles: true,
@@ -252,7 +254,7 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -269,7 +271,7 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     includeDirectories: true,

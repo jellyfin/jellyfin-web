@@ -309,8 +309,8 @@ function askForExit() {
         exitPromise = actionsheet.show({
             title: globalize.translate('MessageConfirmAppExit'),
             items: [
-                {id: 'yes', name: globalize.translate('Yes')},
-                {id: 'no', name: globalize.translate('No')}
+                { id: 'yes', name: globalize.translate('Yes') },
+                { id: 'no', name: globalize.translate('No') }
             ]
         }).then(function (value) {
             if (value === 'yes') {
@@ -366,20 +366,20 @@ export const appHost = {
         };
     },
     deviceName: function () {
-        return window.NativeShell?.AppHost?.deviceName
-            ? window.NativeShell.AppHost.deviceName() : getDeviceName();
+        return window.NativeShell?.AppHost?.deviceName ?
+            window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell?.AppHost?.deviceId
-            ? window.NativeShell.AppHost.deviceId() : getDeviceId();
+        return window.NativeShell?.AppHost?.deviceId ?
+            window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
-        return window.NativeShell?.AppHost?.appName
-            ? window.NativeShell.AppHost.appName() : appName;
+        return window.NativeShell?.AppHost?.appName ?
+            window.NativeShell.AppHost.appName() : appName;
     },
     appVersion: function () {
-        return window.NativeShell?.AppHost?.appVersion
-            ? window.NativeShell.AppHost.appVersion() : Package.version;
+        return window.NativeShell?.AppHost?.appVersion ?
+            window.NativeShell.AppHost.appVersion() : Package.version;
     },
     getPushTokenInfo: function () {
         return {};

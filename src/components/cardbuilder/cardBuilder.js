@@ -896,13 +896,13 @@ import { appRouter } from '../appRouter';
                 }
 
                 if (options.showYear || options.showSeriesYear) {
-                    const productionYear = item.ProductionYear && datetime.toLocaleString(item.ProductionYear, {useGrouping: false});
+                    const productionYear = item.ProductionYear && datetime.toLocaleString(item.ProductionYear, { useGrouping: false });
                     if (item.Type === 'Series') {
                         if (item.Status === 'Continuing') {
                             lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
                         } else {
                             if (item.EndDate && item.ProductionYear) {
-                                const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), {useGrouping: false});
+                                const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
                                 lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                             } else {
                                 lines.push(productionYear || '');

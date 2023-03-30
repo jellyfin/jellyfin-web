@@ -37,7 +37,7 @@ import template from './accessSchedule.template.html';
         context.querySelector('#selectEnd').innerHTML = html;
     }
 
-    function loadSchedule(context, {DayOfWeek, StartHour, EndHour}) {
+    function loadSchedule(context, { DayOfWeek, StartHour, EndHour }) {
         context.querySelector('#selectDay').value = DayOfWeek || 'Sunday';
         context.querySelector('#selectStart').value = StartHour || 0;
         context.querySelector('#selectEnd').value = EndHour || 0;

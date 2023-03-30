@@ -1662,7 +1662,7 @@
     "RememberAudioSelectionsHelp": "Cố gắng đặt bản âm thanh phù hợp nhất với video cuối cùng.",
     "RememberAudioSelections": "Đặt bản nhạc dựa trên mục trước đó",
     "LabelMaxVideoResolution": "Độ Phân Giải Chuyển Mã Video Tối Đa Được Phép",
-    "VideoRangeTypeNotSupported": "Loại phạm vi của video không được hỗ trợ",
+    "VideoRangeTypeNotSupported": "Không hỗ trợ loại dải động của video",
     "Interview": "Phỏng vấn",
     "Sample": "Mẫu",
     "Trailer": "",
@@ -1709,5 +1709,8 @@
     "LabelParallelImageEncodingLimitHelp": "Lượng mã hóa hình ảnh tối đa được phép chạy song song. Đặt giá trị này thành 0 sẽ chọn giới hạn dựa trên thông số kỹ thuật hệ thống của bạn.",
     "SecondarySubtitles": "Phụ đề phụ",
     "HeaderPerformance": "Hiệu suất",
-    "LabelParallelImageEncodingLimit": "Giới hạn mã hóa hình ảnh song song"
+    "LabelParallelImageEncodingLimit": "Giới hạn mã hóa hình ảnh song song",
+    "MediaInfoDvBlSignalCompatibilityId": "Id tương thích tính hiệu DV bl",
+    "LabelEnableAudioVbr": "Bật mã hóa âm thanh VBR",
+    "LabelEnableAudioVbrHelp": "Tốc độ bit thay đổi mang lại chất lượng tốt hơn so với tỷ lệ bit trung bình, nhưng trong một số trường hợp hiếm gặp, có thể gây ra sự cố về khả năng tương thích và bộ đệm."
 }

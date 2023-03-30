@@ -4,7 +4,8 @@ import Events from '../../utils/events.ts';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
-import SyncPlay from '../../plugins/syncPlay/core';
+import { pluginManager } from '../pluginManager';
+import { PluginType } from '../../types/plugin.ts';
 import './playerstats.scss';
 import ServerConnections from '../ServerConnections';
 
@@ -325,6 +326,12 @@ import ServerConnections from '../ServerConnections';
     }
 
     function getSyncPlayStats() {
+        const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+
+        if (!SyncPlay?.Manager.isSyncPlayEnabled()) {
+            return [];
+        }
+
         const syncStats = [];
         const stats = SyncPlay.Manager.getStats();
 
@@ -422,10 +429,10 @@ import ServerConnections from '../ServerConnections';
                 name: globalize.translate('LabelOriginalMediaInfo')
             });
 
-            const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
-            if (SyncPlay.Manager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
+            const syncPlayStats = getSyncPlayStats();
+            if (syncPlayStats.length > 0) {
                 categories.push({
-                    stats: getSyncPlayStats(),
+                    stats: syncPlayStats,
                     name: globalize.translate('LabelSyncPlayInfo')
                 });
             }

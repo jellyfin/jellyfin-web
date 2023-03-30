@@ -64,7 +64,9 @@ module.exports = {
         'no-var': ['error'],
         'no-void': ['error', { 'allowAsStatement': true }],
         'no-warning-comments': ['warn', { 'terms': ['fixme', 'hack', 'xxx'] }],
+        'object-curly-spacing': ['error', 'always'],
         'one-var': ['error', 'never'],
+        'operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
@@ -267,7 +269,6 @@ module.exports = {
                 'no-useless-constructor': ['off'],
                 '@typescript-eslint/no-useless-constructor': ['error'],
 
-                'max-params': ['error', 7],
                 'sonarjs/cognitive-complexity': ['warn']
             }
         }

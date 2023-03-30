@@ -107,7 +107,7 @@ function tryRemoveElement(elem) {
     }
 
     function requireHlsPlayer(callback) {
-        import('hls.js').then(({default: hls}) => {
+        import('hls.js').then(({ default: hls }) => {
             hls.DefaultConfig.lowLatencyMode = false;
             hls.DefaultConfig.backBufferLength = Infinity;
             hls.DefaultConfig.liveBackBufferLength = 90;
@@ -396,7 +396,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSrcWithFlvJs(elem, options, url) {
-            return import('flv.js').then(({default: flvjs}) => {
+            return import('flv.js').then(({ default: flvjs }) => {
                 const flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url

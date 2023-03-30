@@ -60,7 +60,7 @@ import alert from '../../components/alert';
     const brandingConfigKey = 'branding';
     export default function (view) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -77,7 +77,7 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),

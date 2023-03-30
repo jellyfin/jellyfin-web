@@ -282,7 +282,7 @@ import template from './imageeditor.template.html';
         const providerCount = parseInt(imageCard.getAttribute('data-providers'), 10);
         const numImages = parseInt(imageCard.getAttribute('data-numimages'), 10);
 
-        import('../actionSheet/actionSheet').then(({default: actionSheet}) => {
+        import('../actionSheet/actionSheet').then(({ default: actionSheet }) => {
             const commands = [];
 
             commands.push({
@@ -353,7 +353,7 @@ import template from './imageeditor.template.html';
         addListeners(context, 'btnOpenUploadMenu', 'click', function () {
             const imageType = this.getAttribute('data-imagetype');
 
-            import('../imageUploader/imageUploader').then(({default: imageUploader}) => {
+            import('../imageUploader/imageUploader').then(({ default: imageUploader }) => {
                 imageUploader.show({
 
                     theme: options.theme,

@@ -267,7 +267,7 @@ import datetime from '../../scripts/datetime';
                                     }
                                     break;
                                 case 'addtocollection':
-                                    import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+                                    import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
                                         const collectionEditor = new CollectionEditor();
                                         collectionEditor.show({
                                             items: items,
@@ -308,7 +308,7 @@ import datetime from '../../scripts/datetime';
                                     dispatchNeedsRefresh();
                                     break;
                                 case 'refresh':
-                                    import('../refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
+                                    import('../refreshdialog/refreshdialog').then(({ default: refreshDialog }) => {
                                         new refreshDialog({
                                             itemIds: items,
                                             serverId: serverId

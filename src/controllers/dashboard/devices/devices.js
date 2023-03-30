@@ -68,7 +68,7 @@ import confirm from '../../../components/confirm/confirm';
             });
         }
 
-        import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+        import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: btn,

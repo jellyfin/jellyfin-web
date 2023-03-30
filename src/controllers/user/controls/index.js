@@ -21,7 +21,7 @@ export default function (view) {
         view.querySelector('form').addEventListener('submit', submit);
         view.querySelector('.btnSave').classList.remove('hide');
 
-        import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
+        import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(view);
         });
     });
