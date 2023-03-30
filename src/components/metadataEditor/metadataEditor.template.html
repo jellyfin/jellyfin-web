@@ -142,8 +142,15 @@
                         <select is="emby-select" id="selectCustomRating" label="${LabelCustomRating}"></select>
                     </div>
                 </div>
-                <div id="fldHeight" class="inputContainer hide">
-                    <input is="emby-input" id="txtHeight" type="number" pattern="[0-9]*" label="${LabelHeight}" />
+                <div id="fldHeight" class="selectContainer hide">
+                    <select is="emby-select" id="selectHeight" label="${LabelHeight}">
+                        <option value="0"></option>
+                        <option>480</option>
+                        <option>576</option>
+                        <option>720</option>
+                        <option>1080</option>
+                        <option>2160</option>
+                    </select>
                     <div class="fieldDescription">${ChannelHeightHelp}</div>
                 </div>
                 <div class="inlineForm">
