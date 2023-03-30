@@ -4,10 +4,12 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import SyncPlay from '../../plugins/syncPlay/core';
+import { pluginManager } from '../pluginManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
+import { PluginType } from '../../types/plugin.ts';
+
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -117,10 +119,12 @@ import ServerConnections from '../ServerConnections';
         };
 
         const apiClient = ServerConnections.getApiClient(currentServerId);
+        const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 
-            if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay.Manager.isSyncPlayEnabled()) {
+            if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
                 html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
             }
 
