@@ -1719,5 +1719,7 @@
     "Short": "Short",
     "HeaderPerformance": "Performance",
     "LabelParallelImageEncodingLimit": "Parallel image encoding limit",
-    "LabelParallelImageEncodingLimitHelp": "Maximum amount of image encodings that are allowed to run in parallel. Setting this to 0 will choose a limit based on your system specs."
+    "LabelParallelImageEncodingLimitHelp": "Maximum amount of image encodings that are allowed to run in parallel. Setting this to 0 will choose a limit based on your system specs.",
+    "LabelEnableAudioVbr": "Enable VBR audio encoding",
+    "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues."
 }
