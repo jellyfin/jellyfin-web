@@ -1694,5 +1694,7 @@
     "LabelDummyChapterDuration": "Intervall:",
     "HeaderRecordingMetadataSaving": "Opptak metadata",
     "HeaderPerformance": "Ytelse",
-    "LabelDummyChapterDurationHelp": "Tid mellom innsamling av kapittelbilder i sekunder."
+    "LabelDummyChapterDurationHelp": "Tid mellom innsamling av kapittelbilder i sekunder.",
+    "LabelEnableAudioVbrHelp": "Variabel bithastighet tilbyr bedre forhold mellom kvalitet og gjennomsnittlig bithastighet, men kan i visse tilfeller forårsake buffering og problemer med kompatibilitet.",
+    "LabelEnableAudioVbr": "Aktiver VBR lydkoding"
 }
