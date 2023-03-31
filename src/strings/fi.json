@@ -1717,5 +1717,7 @@
     "MediaInfoDvVersionMinor": "DV-väliversio",
     "LabelParallelImageEncodingLimitHelp": "Rinnakkain suoritettavien kuvaenkoodauksien enimmäismäärä. Asettamalla arvoksi \"0\" rajoitus asetetaan automaattisesti järjestelmän perusteella.",
     "HeaderPerformance": "Suorituskyky",
-    "LabelParallelImageEncodingLimit": "Rinnakkaisten kuvaenkoodauksien rajoitus"
+    "LabelParallelImageEncodingLimit": "Rinnakkaisten kuvaenkoodauksien rajoitus",
+    "LabelEnableAudioVbr": "Käytä äänen VBR-enkoodausta",
+    "LabelEnableAudioVbrHelp": "Muuttuva bittinopeus (variable bitrate, VBR) tuottaa keskitasoista paremman laadun, mutta saattaa joissakin harvoissa tapauksissa aiheuttaa puskurointi ja yhteensopivuusongelmia."
 }
