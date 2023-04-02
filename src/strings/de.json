@@ -1719,5 +1719,7 @@
     "Short": "Kurzfilm",
     "LabelParallelImageEncodingLimit": "Grenze der parallelen Bildkodierung",
     "LabelParallelImageEncodingLimitHelp": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden können. Wenn Sie diesen Wert auf 0 setzen, wird eine Grenze auf der Grundlage Ihrer Systemspezifikationen gewählt.",
-    "HeaderPerformance": "Leistung"
+    "HeaderPerformance": "Leistung",
+    "LabelEnableAudioVbr": "Aktiviere Audio-Konvertierung mit variabler Bitrate (VBR)",
+    "LabelEnableAudioVbrHelp": "Eine variable Bitrate bietet bessere Qualität im Vergleich zu einer konstanten, kann jedoch in manchen Fällen zu Problemen beim Buffering und der Kompatibilität führen."
 }
