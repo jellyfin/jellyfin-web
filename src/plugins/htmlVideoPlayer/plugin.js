@@ -1269,7 +1269,7 @@ function tryRemoveElement(elem) {
                 subUrl: getTextTrackUrl(track, item),
                 fonts: avaliableFonts,
                 fallbackFont: 'liberation sans',
-                availableFonts: {'liberation sans': `${appRouter.baseUrl()}/default.woff2`},
+                availableFonts: { 'liberation sans': `${appRouter.baseUrl()}/default.woff2` },
                 // Disabled eslint compat, but is safe as corejs3 polyfills URL
                 // eslint-disable-next-line compat/compat
                 workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url),
