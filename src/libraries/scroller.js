@@ -509,8 +509,6 @@ const scrollerFactory = function (frame, options) {
             }
         }
 
-        //event.preventDefault();
-
         // Disable click on a source element, as it is unwelcome when dragging
         if (!dragging.locked && dragging.path > dragging.pathToLock) {
             dragging.locked = 1;
@@ -606,7 +604,7 @@ const scrollerFactory = function (frame, options) {
         if (transform) {
             // Trap scrolling only when necessary and/or requested
             if (delta > 0 && pos.dest < pos.end || delta < 0 && pos.dest > pos.start) {
-                //stopDefault(event, 1);
+                
             }
 
             self.slideBy(o.scrollBy * delta);
