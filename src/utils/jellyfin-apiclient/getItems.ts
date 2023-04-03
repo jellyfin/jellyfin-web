@@ -1,18 +1,24 @@
 import type {BaseItemDtoQueryResult} from '@jellyfin/sdk/lib/generated-client';
 import {ApiClient} from 'jellyfin-apiclient';
 
+interface GetItemsRequest {
+    Ids?: string;
+    Limit?: number;
+}
+
 const ITEMS_PER_REQUEST_LIMIT = 25;
 
-function getItemsSplit(apiClient: ApiClient, userId: string, options: any) {
+function getItemsSplit(apiClient: ApiClient, userId: string, options: GetItemsRequest) {
     const optionsTemplate = {...options};
-    const ids = options.Ids.split(',');
+    const ids = options.Ids!.split(',');
     const results = [];
+    const limit = options.Limit ?? Infinity;
 
     let end;
-    for (let start = 0; start < ids.length && start < options.Limit; start = end) {
+    for (let start: number = 0; start < ids.length && start < limit; start = end) {
         end = start + ITEMS_PER_REQUEST_LIMIT;
-        if (end > options.Limit) {
-            end = options.Limit;
+        if (end > limit) {
+            end = limit;
         }
         const idsSlice = ids.slice(start, end);
         optionsTemplate.Ids = idsSlice.join(',');
@@ -57,8 +63,9 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
  * @param options Options object to specify getItems option. This includes a possibly long Items list that will be split up.
  * @returns A promise that resolves to the merged result of all getItems calls
  */
-export function getItems(apiClient: ApiClient, userId: string, options?: any) {
-    if (options.Ids?.split(',').length <= ITEMS_PER_REQUEST_LIMIT) {
+export function getItems(apiClient: ApiClient, userId: string, options?: GetItemsRequest) {
+    const ids = options?.Ids?.split(',');
+    if (!options || !ids || ids.length <= ITEMS_PER_REQUEST_LIMIT) {
         return apiClient.getItems(apiClient.getCurrentUserId(), options);
     }
     const results = getItemsSplit(apiClient, userId, options);
