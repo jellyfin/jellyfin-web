@@ -1102,5 +1102,18 @@
     "IgnoreDtsHelp": "禁用此選項或可解決部份問題，如無法正常播放外部音訊。",
     "DownloadAll": "全部下載",
     "LabelDummyChapterDuration": "間距：",
-    "LabelDummyChapterDurationHelp": "章節圖片擷取間距（秒）"
+    "LabelDummyChapterDurationHelp": "章節圖片擷取間距（秒）",
+    "DeletedScene": "刪減片段",
+    "EnableSplashScreen": "啟用 「啟動畫面」（Splash Screen）",
+    "Unreleased": "尚未發佈／發行",
+    "ThemeSong": "主題曲",
+    "Scene": "場景",
+    "YoutubeDenied": "所選的影片不被允許在嵌入式播放器（Embedded Player）中播放。",
+    "SelectAll": "選擇全部",
+    "Trailer": "預告",
+    "YoutubePlaybackError": "未能播放所選的影片。",
+    "YoutubeNotFound": "影片不存在。",
+    "EnableEnhancedNvdecDecoder": "啟用加強版 NVDEC 解碼器",
+    "Interview": "訪談",
+    "BehindTheScenes": "幕後花絮"
 }
