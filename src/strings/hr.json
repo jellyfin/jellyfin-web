@@ -1358,5 +1358,7 @@
     "LabelEnableIP6Help": "Omogući IPv6 funkcionalnost.",
     "ButtonSpace": "Razmak",
     "IgnoreDts": "Ignoriraj DTS (vremenska oznaka decodera)",
-    "LabelAutomaticallyAddToCollectionHelp": "Kada najmanje 2 filma imaju isti naziv kolekcije, automatski će se dodati u kolekciju."
+    "LabelAutomaticallyAddToCollectionHelp": "Kada najmanje 2 filma imaju isti naziv kolekcije, automatski će se dodati u kolekciju.",
+    "Suggestions": "Prijedlozi",
+    "Trailers": "Najave"
 }
