@@ -1693,5 +1693,6 @@
     "LabelChapterImageResolution": "Разрешение изображения:",
     "HeaderDummyChapter": "Изображения глав",
     "LabelDummyChapterCount": "Лимит:",
-    "HeaderRecordingMetadataSaving": "Метаданные записей"
+    "HeaderRecordingMetadataSaving": "Метаданные записей",
+    "LabelDummyChapterCountHelp": "Максимальное количество изображений глав, которые будут извлечены для каждого медиафайла."
 }
