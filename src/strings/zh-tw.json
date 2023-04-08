@@ -1453,7 +1453,7 @@
     "AspectRatioCover": "覆蓋",
     "EnableFallbackFontHelp": "啟用自定義備用字體。這選項可以避免字幕渲染錯誤發生。",
     "EnableFallbackFont": "啟用備用字體",
-    "LabelFallbackFontPathHelp": "指定一個包含備用字體的路徑，用於渲染 ASS/SSA 字幕。最大允許的總字體大小為 20MB。建議使用羽量級且適合網頁用的字體格式，如：woff2。",
+    "LabelFallbackFontPathHelp": "指定一個包含備用字體的路徑，用於渲染 ASS/SSA 字幕。最大允許的總字體大小為 20MB。建議使用輕量化且適合網頁用的字體格式，如：woff2。",
     "LabelFallbackFontPath": "備用字體資料夾路徑：",
     "HeaderSelectFallbackFontPathHelp": "瀏覽或輸入用於渲染 ASS/SSA 字幕的備用字體資料夾的路徑。",
     "HeaderSelectFallbackFontPath": "選擇備用字體資料夾的路徑",
