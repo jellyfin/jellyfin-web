@@ -1016,7 +1016,7 @@
     "MessageForgotPasswordFileCreated": "已在伺服器上建立了以下檔案，並包含有關後續步驟說明：",
     "MessageNoAvailablePlugins": "沒有可用的附加元件。",
     "MessageNoServersAvailable": "無法自動偵測伺服器。",
-    "MessageLeaveEmptyToInherit": "保留為空以繼承父項或全域預設值的設定。",
+    "MessageLeaveEmptyToInherit": "留空以使用上級設定或全域預設值。",
     "MessageNoCollectionsAvailable": "分組能夠讓您享受個性化的影片、劇集和專輯。點擊\"＋\"按鈕開始建立分組。",
     "MessagePlayAccessRestricted": "此內容的播放受到限制，聯繫您的伺服器管理員以獲取更多訊息。",
     "MessagePluginConfigurationRequiresLocalAccess": "請直接登入你的本地伺服器以設定這個附加元件。",
