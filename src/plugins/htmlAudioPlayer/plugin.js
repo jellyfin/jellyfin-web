@@ -347,6 +347,10 @@ class HtmlAudioPlayer {
         return getDefaultProfile();
     }
 
+    toggleAirPlay() {
+        return this.setAirPlayEnabled(!this.isAirPlayEnabled());
+    }
+
     // Save this for when playback stops, because querying the time at that point might return 0
     currentTime(val) {
         const mediaElement = this._mediaElement;
@@ -486,6 +490,33 @@ class HtmlAudioPlayer {
             return mediaElement.muted;
         }
         return false;
+    }
+
+    isAirPlayEnabled() {
+        if (document.AirPlayEnabled) {
+            return !!document.AirplayElement;
+        }
+        return false;
+    }
+
+    setAirPlayEnabled(isEnabled) {
+        const mediaElement = this._mediaElement;
+
+        if (document.AirPlayEnabled) {
+            if (mediaElement) {
+                if (isEnabled) {
+                    mediaElement.requestAirPlay().catch(function(err) {
+                        console.error('Error requesting AirPlay', err);
+                    });
+                } else {
+                    document.exitAirPLay().catch(function(err) {
+                        console.error('Error exiting AirPlay', err);
+                    });
+                }
+            }
+        } else {
+            mediaElement.webkitShowPlaybackTargetPicker();
+        }
     }
 
     supports(feature) {
