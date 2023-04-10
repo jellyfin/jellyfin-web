@@ -347,6 +347,10 @@ class HtmlAudioPlayer {
         return getDefaultProfile();
     }
 
+    toggleAirPlay() {
+        return this.setAirPlayEnabled(!this.isAirPlayEnabled());
+    }
+
     // Save this for when playback stops, because querying the time at that point might return 0
     currentTime(val) {
         const mediaElement = this._mediaElement;
@@ -488,6 +492,33 @@ class HtmlAudioPlayer {
         return false;
     }
 
+    isAirPlayEnabled() {
+        if (document.AirPlayEnabled) {
+            return !!document.AirplayElement;
+        }
+        return false;
+    }
+
+    setAirPlayEnabled(isEnabled) {
+        const mediaElement = this._mediaElement;
+
+        if (document.AirPlayEnabled) {
+            if (mediaElement) {
+                if (isEnabled) {
+                    mediaElement.requestAirPlay().catch(function(err) {
+                        console.error('Error requesting AirPlay', err);
+                    });
+                } else {
+                    document.exitAirPLay().catch(function(err) {
+                        console.error('Error exiting AirPlay', err);
+                    });
+                }
+            }
+        } else {
+            mediaElement.webkitShowPlaybackTargetPicker();
+        }
+    }
+
     supports(feature) {
         if (!supportedFeatures) {
             supportedFeatures = getSupportedFeatures();
@@ -505,6 +536,10 @@ function getSupportedFeatures() {
 
     if (typeof audio.playbackRate === 'number') {
         list.push('PlaybackRate');
+    }
+
+    if (browser.safari || browser.iOS || browser.iPad) {
+        list.push('AirPlay');
     }
 
     return list;

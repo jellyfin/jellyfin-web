@@ -32,6 +32,7 @@ import { appRouter } from '../appRouter';
     let volumeSliderContainer;
     let playPauseButtons;
     let positionSlider;
+    let toggleAirPlayButton;
     let toggleRepeatButton;
     let toggleRepeatButtonIcon;
 
@@ -79,6 +80,8 @@ import { appRouter } from '../appRouter';
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
+
+        html += '<button is="paper-icon-button-light" class="btnAirPlay mediaButton"><span class="material-icons airplay" aria-hidden="true"></span></button>';
 
         html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat" aria-hidden="true"></span></button>';
         html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle" aria-hidden="true"></span></button>';
@@ -187,6 +190,13 @@ import { appRouter } from '../appRouter';
         elem.querySelector('.previousTrackButton').addEventListener('dblclick', function () {
             if (currentPlayer) {
                 playbackManager.previousTrack(currentPlayer);
+            }
+        });
+
+        toggleAirPlayButton = elem.querySelector('.btnAirPlay');
+        toggleAirPlayButton.addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.toggleAirPlay(currentPlayer);
             }
         });
 
@@ -324,6 +334,12 @@ import { appRouter } from '../appRouter';
             toggleRepeatButton.classList.add('hide');
         } else {
             toggleRepeatButton.classList.remove('hide');
+        }
+
+        if (supportedCommands.indexOf('AirPlay') === -1) {
+            toggleAirPlayButton.classList.add('hide');
+        } else {
+            toggleAirPlayButton.classList.remove('hide');
         }
 
         updateRepeatModeDisplay(playbackManager.getRepeatMode());
