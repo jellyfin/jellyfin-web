@@ -32,6 +32,7 @@ import { appRouter } from '../appRouter';
     let volumeSliderContainer;
     let playPauseButtons;
     let positionSlider;
+    let toggleAirPlayButton;
     let toggleRepeatButton;
     let toggleRepeatButtonIcon;
 
@@ -192,7 +193,8 @@ import { appRouter } from '../appRouter';
             }
         });
 
-        elem.querySelector('.btnAirPlay').addEventListener('click', function () {
+        toggleAirPlayButton = elem.querySelector('.btnAirPlay');
+        toggleAirPlayButton.addEventListener('click', function () { 
             if (currentPlayer) {
                 playbackManager.toggleAirPlay(currentPlayer);
             }
@@ -332,6 +334,12 @@ import { appRouter } from '../appRouter';
             toggleRepeatButton.classList.add('hide');
         } else {
             toggleRepeatButton.classList.remove('hide');
+        }
+
+        if (supportedCommands.indexOf('AirPlay') === -1) {
+            toggleAirPlayButton.classList.add('hide');
+        } else {
+            toggleAirPlayButton.classList.remove('hide');
         }
 
         updateRepeatModeDisplay(playbackManager.getRepeatMode());

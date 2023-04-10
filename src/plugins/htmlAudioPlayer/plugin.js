@@ -538,6 +538,10 @@ function getSupportedFeatures() {
         list.push('PlaybackRate');
     }
 
+    if (browser.safari || browser.iOS || browser.iPad) {
+        list.push('AirPlay');
+    }
+
     return list;
 }
 
