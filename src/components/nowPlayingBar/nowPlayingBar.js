@@ -194,7 +194,7 @@ import { appRouter } from '../appRouter';
         });
 
         toggleAirPlayButton = elem.querySelector('.btnAirPlay');
-        toggleAirPlayButton.addEventListener('click', function () { 
+        toggleAirPlayButton.addEventListener('click', function () {
             if (currentPlayer) {
                 playbackManager.toggleAirPlay(currentPlayer);
             }
