@@ -62,8 +62,6 @@ function saveUser(page) {
         Name: $('#txtUsername', page).val(),
         Password: $('#txtPassword', page).val()
     };
-        //user.Name = $('#txtUsername', page).val();
-        //user.Password = $('#txtPassword', page).val();
     ApiClient.createUser(_user).then(function (user) {
         user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
         user.Policy.EnabledFolders = [];

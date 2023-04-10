@@ -36,7 +36,7 @@ export default function (view, params, tabContent) {
     }
 
     function getSavedQueryKey() {
-        return libraryBrowser.getSavedQueryKey('moviegenres');
+        return params.topParentId + '-' + 'moviegenres';
     }
 
     function getPromise() {

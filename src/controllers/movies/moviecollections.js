@@ -8,8 +8,8 @@ import globalize from '../../scripts/globalize';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
-    function getPageData(context) {
-        const key = getSavedQueryKey(context);
+    function getPageData() {
+        const key = getSavedQueryKey();
         let pageData = data[key];
 
         if (!pageData) {
@@ -38,16 +38,12 @@ export default function (view, params, tabContent) {
         return pageData;
     }
 
-    function getQuery(context) {
-        return getPageData(context).query;
+    function getQuery() {
+        return getPageData().query;
     }
 
-    function getSavedQueryKey(context) {
-        if (!context.savedQueryKey) {
-            context.savedQueryKey = libraryBrowser.getSavedQueryKey('moviecollections');
-        }
-
-        return context.savedQueryKey;
+    function getSavedQueryKey() {
+        return params.topParentId + '-' + 'moviecollections';
     }
 
     const onViewStyleChange = () => {
@@ -68,7 +64,7 @@ export default function (view, params, tabContent) {
     const reloadItems = (page) => {
         loading.show();
         isLoading = true;
-        const query = getQuery(page);
+        const query = getQuery();
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
@@ -187,7 +183,7 @@ export default function (view, params, tabContent) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
             loading.hide();
             isLoading = false;
 
@@ -201,7 +197,7 @@ export default function (view, params, tabContent) {
     let isLoading = false;
 
     this.getCurrentViewStyle = function () {
-        return getPageData(tabContent).view;
+        return getPageData().view;
     };
 
     const initPage = (tabElement) => {
@@ -224,10 +220,10 @@ export default function (view, params, tabContent) {
                     id: 'PremiereDate,SortName'
                 }],
                 callback: function () {
-                    getQuery(tabElement).StartIndex = 0;
+                    getQuery().StartIndex = 0;
                     reloadItems(tabElement);
                 },
-                query: getQuery(tabElement),
+                query: getQuery(),
                 button: e.target
             });
         });
@@ -237,16 +233,17 @@ export default function (view, params, tabContent) {
         });
         btnSelectView.addEventListener('layoutchange', function (e) {
             const viewStyle = e.detail.viewStyle;
-            getPageData(tabElement).view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(tabElement), viewStyle);
-            getQuery(tabElement).StartIndex = 0;
+            getPageData().view = viewStyle;
+            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+            getQuery().StartIndex = 0;
             onViewStyleChange();
             reloadItems(tabElement);
         });
         tabElement.querySelector('.btnNewCollection').addEventListener('click', () => {
-            import('../../components/collectionEditor/collectionEditor').then(({ default: collectionEditor }) => {
+            import('../../components/collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
                 const serverId = ApiClient.serverInfo().Id;
-                new collectionEditor({
+                const collectionEditor = new CollectionEditor();
+                collectionEditor.show({
                     items: [],
                     serverId: serverId
                 });
