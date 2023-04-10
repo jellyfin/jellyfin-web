@@ -448,6 +448,15 @@ import globalize from '../../scripts/globalize';
     }
 
     /**
+     * Do step by delta.
+     *
+     * @param {Object} elem slider itself
+     * @param {number} delta step amount
+     */
+    //The stepKeyboard function does pretty much all we need
+    const stepWheel = stepKeyboard;
+
+    /**
      * Handle KeyDown event
      */
     function onKeyDown(e) {
@@ -467,6 +476,21 @@ import globalize from '../../scripts/globalize';
         }
     }
 
+    /*
+     * Handle Wheel event
+     */
+    function onWheel(e) {
+        if (e.deltaY > 0) {
+            stepWheel(this, -this.wheelStepDown || -1);
+            e.preventDefault();
+            e.stopPropagation();
+        } else if (e.deltaY < 0) {
+            stepWheel(this, this.wheelStepUp || 1);
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+
     /**
      * Enable keyboard dragging.
      */
@@ -474,6 +498,16 @@ import globalize from '../../scripts/globalize';
         if (!this.keyboardDraggingEnabled) {
             this.addEventListener('keydown', onKeyDown);
             this.keyboardDraggingEnabled = true;
+        }
+    };
+
+    /**
+     * Enable scroll wheel dragging
+     */
+    EmbySliderPrototype.enableWheelDragging = function () {
+        if (!this.wheelDraggingEnabled) {
+            this.addEventListener('wheel', onWheel);
+            this.wheelDraggingEnabled = true;
         }
     };
 
@@ -486,6 +520,17 @@ import globalize from '../../scripts/globalize';
     EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
         this.keyboardStepDown = stepDown || stepUp || 1;
         this.keyboardStepUp = stepUp || stepDown || 1;
+    };
+
+    /**
+     * Set steps for scrollwheel input.
+     *
+     * @param {number} stepDown step to reduce
+     * @param {number} stepUp step to increase
+     */
+    EmbySliderPrototype.setWheelSteps = function (stepDown, stepUp) {
+        this.wheelStepDown = stepDown || stepUp || 1;
+        this.wheelStepUp = stepUp || stepDown || 1;
     };
 
     function setRange(elem, startPercent, endPercent) {

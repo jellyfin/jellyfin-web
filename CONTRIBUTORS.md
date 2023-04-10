@@ -60,6 +60,7 @@
  - [edvwib](https://github.com/edvwib)
  - [Rob Farraher](https://github.com/farraherbg)
  - [Pier-Luc Ducharme](https://github.com/pl-ducharme)
+ - [Hyxogen](https://github.com/Hyxogen)
 
 # Emby Contributors
 

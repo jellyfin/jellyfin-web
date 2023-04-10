@@ -1288,6 +1288,10 @@ import { PluginType } from '../../../types/plugin.ts';
             resetIdle();
         }
 
+        function onWheelCapture() {
+            resetIdle();
+        }
+
         function onWindowMouseDown(e) {
             clickedElement = e.target;
             mouseIsDown = true;
@@ -1420,6 +1424,7 @@ import { PluginType } from '../../../types/plugin.ts';
 
         nowPlayingPositionSlider.enableKeyboardDragging();
         nowPlayingVolumeSlider.enableKeyboardDragging();
+        nowPlayingVolumeSlider.enableWheelDragging();
 
         if (layoutManager.tv) {
             nowPlayingPositionSlider.classList.add('focusable');
@@ -1443,6 +1448,10 @@ import { PluginType } from '../../../types/plugin.ts';
                 inputManager.on(window, onInputCommand);
                 document.addEventListener('keydown', onKeyDown);
                 dom.addEventListener(document, 'keydown', onKeyDownCapture, {
+                    capture: true,
+                    passive: true
+                });
+                dom.addEventListener(document, 'wheel', onWheelCapture, {
                     capture: true,
                     passive: true
                 });
