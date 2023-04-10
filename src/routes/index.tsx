@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES, toAsyncPageRoute } from './asyncRoutes';
+import { ASYNC_USER_ROUTES, toAsyncPageRoute } from './asyncRoutes';
 import ConnectionRequired from '../components/ConnectionRequired';
 import ServerContentPage from '../components/ServerContentPage';
 import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES, toViewManagerPageRoute } from './legacyRoutes';
@@ -17,7 +17,6 @@ const AppRoutes = () => (
 
             {/* Admin routes */}
             <Route path='/' element={<ConnectionRequired isAdminRequired />}>
-                {ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute)}
                 {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
 
                 <Route path='configurationpage' element={
