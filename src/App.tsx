@@ -3,13 +3,14 @@ import React from 'react';
 
 import { HistoryRouter } from './components/HistoryRouter';
 import { ApiProvider } from './hooks/useApi';
-import AppRoutes from './routes/index';
+import { AppRoutes, ExperimentalAppRoutes } from './routes';
 
 const App = ({ history }: { history: History }) => {
+    const layoutMode = localStorage.getItem('layout');
     return (
         <ApiProvider>
             <HistoryRouter history={history}>
-                <AppRoutes />
+                {layoutMode === 'experimental' ? <ExperimentalAppRoutes /> : <AppRoutes /> }
             </HistoryRouter>
         </ApiProvider>
     );
