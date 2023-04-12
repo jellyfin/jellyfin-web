@@ -3,7 +3,7 @@ import React from 'react';
 
 import { HistoryRouter } from './components/HistoryRouter';
 import { ApiProvider } from './hooks/useApi';
-import AppRoutes from './routes/index';
+import { AppRoutes } from './routes';
 
 const App = ({ history }: { history: History }) => {
     return (
