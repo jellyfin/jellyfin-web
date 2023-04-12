@@ -1720,5 +1720,6 @@
     "Short": "Film krótkometrażowy",
     "LabelParallelImageEncodingLimitHelp": "Maksymalna liczba kodowań obrazów, które mogą być uruchomione równolegle. Ustawienie wartości na 0 spowoduje wybór limitu w oparciu o specyfikacje Twojego systemu.",
     "LabelParallelImageEncodingLimit": "Limit kodowań obrazów, które mogą być uruchomione równolegle",
-    "LabelEnableAudioVbrHelp": "Zmienna przepływność bitów oferuje lepsze proporcje jakości do przepustowości w porównaniu z przepływnością średnią, ale w niektórych rzadkich przypadkach może powodować problemy z buforowaniem i zgodnością."
+    "LabelEnableAudioVbrHelp": "Zmienna przepływność bitów oferuje lepsze proporcje jakości do przepustowości w porównaniu z przepływnością średnią, ale w niektórych rzadkich przypadkach może powodować problemy z buforowaniem i zgodnością.",
+    "LabelEnableAudioVbr": "Włącz kodowanie audio VBR"
 }
