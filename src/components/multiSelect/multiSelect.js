@@ -205,7 +205,6 @@ import datetime from '../../scripts/datetime';
 
                 if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                     // Disabled because there is no callback for this item
-                    
                 }
 
                 if (user.Policy.IsAdministrator) {
