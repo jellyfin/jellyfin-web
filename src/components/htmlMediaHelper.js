@@ -51,10 +51,6 @@ import Events from '../utils/events.ts';
                 return true;
             }
 
-            if (browser.edge && mediaType === 'Video') {
-
-            }
-
             // simple playback should use the native support
             if (runTimeTicks) {
                 return false;

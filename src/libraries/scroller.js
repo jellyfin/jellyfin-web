@@ -602,11 +602,6 @@ const scrollerFactory = function (frame, options) {
         let delta = normalizeWheelDelta(event);
 
         if (transform) {
-            // Trap scrolling only when necessary and/or requested
-            if (delta > 0 && pos.dest < pos.end || delta < 0 && pos.dest > pos.start) {
-                
-            }
-
             self.slideBy(o.scrollBy * delta);
         } else {
             if (isSmoothScrollSupported) {
