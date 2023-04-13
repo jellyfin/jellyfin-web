@@ -205,13 +205,6 @@ import datetime from '../../scripts/datetime';
 
                 if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                     // Disabled because there is no callback for this item
-                    /*
-                    menuItems.push({
-                        name: globalize.translate('Download'),
-                        id: 'download',
-                        icon: 'file_download'
-                    });
-                    */
                 }
 
                 if (user.Policy.IsAdministrator) {
