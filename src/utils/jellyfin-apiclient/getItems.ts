@@ -1,5 +1,5 @@
-import type {BaseItemDtoQueryResult} from '@jellyfin/sdk/lib/generated-client';
-import {ApiClient} from 'jellyfin-apiclient';
+import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
+import { ApiClient } from 'jellyfin-apiclient';
 
 interface GetItemsRequest {
     Ids?: string;
@@ -9,13 +9,13 @@ interface GetItemsRequest {
 const ITEMS_PER_REQUEST_LIMIT = 25;
 
 function getItemsSplit(apiClient: ApiClient, userId: string, options: GetItemsRequest) {
-    const optionsTemplate = {...options};
+    const optionsTemplate = { ...options };
     const ids = options.Ids!.split(',');
     const results = [];
     const limit = options.Limit ?? Infinity;
 
     let end;
-    for (let start: number = 0; start < ids.length && start < limit; start = end) {
+    for (let start = 0; start < ids.length && start < limit; start = end) {
         end = start + ITEMS_PER_REQUEST_LIMIT;
         if (end > limit) {
             end = limit;
