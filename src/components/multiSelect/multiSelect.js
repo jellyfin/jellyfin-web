@@ -205,13 +205,6 @@ import datetime from '../../scripts/datetime';
 
                 if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                     // Disabled because there is no callback for this item
-                    /*
-                    menuItems.push({
-                        name: globalize.translate('Download'),
-                        id: 'download',
-                        icon: 'file_download'
-                    });
-                    */
                 }
 
                 if (user.Policy.IsAdministrator) {
@@ -267,7 +260,7 @@ import datetime from '../../scripts/datetime';
                                     }
                                     break;
                                 case 'addtocollection':
-                                    import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+                                    import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
                                         const collectionEditor = new CollectionEditor();
                                         collectionEditor.show({
                                             items: items,
@@ -308,7 +301,7 @@ import datetime from '../../scripts/datetime';
                                     dispatchNeedsRefresh();
                                     break;
                                 case 'refresh':
-                                    import('../refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
+                                    import('../refreshdialog/refreshdialog').then(({ default: refreshDialog }) => {
                                         new refreshDialog({
                                             itemIds: items,
                                             serverId: serverId

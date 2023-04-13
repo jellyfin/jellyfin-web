@@ -21,6 +21,7 @@ import alert from '../../components/alert';
         $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
         })).val(config.UICulture);
+        page.querySelector('#txtParallelImageEncodingLimit').value = config.ParallelImageEncodingLimit || '';
 
         loading.hide();
     }
@@ -36,6 +37,7 @@ import alert from '../../components/alert';
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
             config.QuickConnectAvailable = form.querySelector('#chkQuickConnectAvailable').checked;
+            config.ParallelImageEncodingLimit = parseInt(form.querySelector('#txtParallelImageEncodingLimit').value || '0', 10);
 
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
@@ -58,7 +60,7 @@ import alert from '../../components/alert';
     const brandingConfigKey = 'branding';
     export default function (view) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -75,7 +77,7 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
                 const picker = new DirectoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),

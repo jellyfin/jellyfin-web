@@ -92,7 +92,7 @@ import loading from '../../components/loading/loading';
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
 
-                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
+                import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                     autoFocuser.autoFocus(context);
                 });
             });

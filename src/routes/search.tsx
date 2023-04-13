@@ -19,8 +19,8 @@ const Search: FunctionComponent = () => {
             className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage'
         >
             <SearchFields onSearch={setQuery} />
-            {!query &&
-                <SearchSuggestions
+            {!query
+                && <SearchSuggestions
                     parentId={searchParams.get('parentId')}
                 />
             }

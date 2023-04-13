@@ -75,7 +75,7 @@ import Dashboard from '../../utils/dashboard';
             imageLoader.lazyChildren(elem);
             loading.hide();
 
-            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(page);
             });
         });
@@ -171,7 +171,7 @@ import Dashboard from '../../utils/dashboard';
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);
 
-        import('../../components/favoriteitems').then(({default: favoriteItems}) => {
+        import('../../components/favoriteitems').then(({ default: favoriteItems }) => {
             favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
         });
     }
@@ -290,7 +290,7 @@ import Dashboard from '../../utils/dashboard';
                     break;
             }
 
-            import(`../music/${depends}`).then(({default: controllerFactory}) => {
+            import(`../music/${depends}`).then(({ default: controllerFactory }) => {
                 let tabContent;
 
                 if (index == 1) {

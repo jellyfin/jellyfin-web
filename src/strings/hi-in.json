@@ -147,5 +147,7 @@
     "Normal": "सामान्य",
     "Songs": "गाने",
     "Larger": "और बड़ा",
-    "ListPaging": "{2} का {0}-{1}"
+    "ListPaging": "{2} का {0}-{1}",
+    "Shows": "शो",
+    "ValueSpecialEpisodeName": "विशेष"
 }

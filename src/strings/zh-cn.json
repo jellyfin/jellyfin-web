@@ -1380,10 +1380,10 @@
     "Preview": "预览",
     "SubtitleVerticalPositionHelp": "文字出现的行号。正数表示由上到下，负数表示由下到上。",
     "LabelSubtitleVerticalPosition": "垂直位置：",
-    "PreviousTrack": "上一曲",
+    "PreviousTrack": "上一集",
     "MessageGetInstalledPluginsError": "获取已安装插件列表时出现错误。",
     "MessagePluginInstallError": "安装插件时出现错误。",
-    "NextTrack": "下一曲",
+    "NextTrack": "下一集",
     "LabelUnstable": "不稳定",
     "PlaybackRate": "播放速度",
     "LabelMaxMuxingQueueSize": "最大混合器队列大小：",
@@ -1716,5 +1716,10 @@
     "SubtitleRed": "红色",
     "SubtitleYellow": "黄色",
     "Featurette": "花絮",
-    "Short": "短片"
+    "Short": "短片",
+    "LabelParallelImageEncodingLimitHelp": "允许并行运行的图像编码的最大数量。设为 0 以根据您的系统配置自动设置。",
+    "HeaderPerformance": "性能",
+    "LabelParallelImageEncodingLimit": "并行图像编码限制",
+    "LabelEnableAudioVbr": "启用 VBR 音频编码",
+    "LabelEnableAudioVbrHelp": "可变比特率（VBR）相比平均比特率（ABR）可以提供更好的质量，但在少见情况中可能造成缓冲和兼容性问题。"
 }

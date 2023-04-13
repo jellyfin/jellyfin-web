@@ -15,7 +15,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 /* eslint-disable indent */
 
     function addVirtualFolder(page) {
-        import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({default: medialibrarycreator}) => {
+        import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: medialibrarycreator }) => {
             new medialibrarycreator({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
@@ -30,7 +30,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
     }
 
     function editVirtualFolder(page, virtualFolder) {
-        import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({default: medialibraryeditor}) => {
+        import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: medialibraryeditor }) => {
             new medialibraryeditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
@@ -64,7 +64,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
     }
 
     function refreshVirtualFolder(page, virtualFolder) {
-        import('../../components/refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
+        import('../../components/refreshdialog/refreshdialog').then(({ default: refreshDialog }) => {
             new refreshDialog({
                 itemIds: [virtualFolder.ItemId],
                 serverId: ApiClient.serverId(),
@@ -74,7 +74,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
     }
 
     function renameVirtualFolder(page, virtualFolder) {
-        import('../../components/prompt/prompt').then(({default: prompt}) => {
+        import('../../components/prompt/prompt').then(({ default: prompt }) => {
             prompt({
                 label: globalize.translate('LabelNewName'),
                 description: globalize.translate('MessageRenameMediaFolder'),

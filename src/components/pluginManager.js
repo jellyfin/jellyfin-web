@@ -119,9 +119,14 @@ class PluginManager {
     }
 
     ofType(type) {
-        return this.pluginsList.filter((o) => {
-            return o.type === type;
-        });
+        return this.pluginsList.filter(plugin => plugin.type === type);
+    }
+
+    firstOfType(type) {
+        // Get all plugins of the specified type
+        return this.ofType(type)
+            // Return the plugin with the "highest" (lowest numeric value) priority
+            .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0];
     }
 
     #mapRoute(plugin, route) {

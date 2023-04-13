@@ -14,7 +14,7 @@ type IProps = {
     userId: string;
 }
 
-const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
+const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     const loadUser = useCallback(() => {
@@ -76,7 +76,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
 
                 chkEnableLocalEasyPassword.checked = user.Configuration.EnableLocalPassword || false;
 
-                import('../../autoFocuser').then(({default: autoFocuser}) => {
+                import('../../autoFocuser').then(({ default: autoFocuser }) => {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -214,7 +214,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
         <div ref={element}>
             <form
                 className='updatePasswordForm passwordSection hide'
-                style={{margin: '0 auto 2em'}}
+                style={{ margin: '0 auto 2em' }}
             >
                 <div className='detailSection'>
                     <div id='fldCurrentPassword' className='inputContainer hide'>
@@ -260,7 +260,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
             <br />
             <form
                 className='localAccessForm localAccessSection'
-                style={{margin: '0 auto'}}
+                style={{ margin: '0 auto' }}
             >
                 <div className='detailSection'>
                     <div className='detailSectionHeader'>

@@ -389,13 +389,13 @@ import layoutManager from './layoutManager';
 
         if (xScroller !== yScroller) {
             if (xScroller) {
-                scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
+                scrollToHelper(xScroller, { left: scrollX, behavior: scrollBehavior });
             }
             if (yScroller) {
-                scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
+                scrollToHelper(yScroller, { top: scrollY, behavior: scrollBehavior });
             }
         } else if (xScroller) {
-            scrollToHelper(xScroller, {left: scrollX, top: scrollY, behavior: scrollBehavior});
+            scrollToHelper(xScroller, { left: scrollX, top: scrollY, behavior: scrollBehavior });
         }
     }
 
@@ -597,7 +597,7 @@ import layoutManager from './layoutManager';
             setTimeout(function() {
                 scrollToElement(e.target, useSmoothScroll());
             }, 0);
-        }, {capture: true});
+        }, { capture: true });
     }
 
 /* eslint-enable indent */

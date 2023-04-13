@@ -269,7 +269,7 @@ import autoFocuser from '../../components/autoFocuser';
                     break;
             }
 
-            import(`../shows/${depends}`).then(({default: controllerFactory}) => {
+            import(`../shows/${depends}`).then(({ default: controllerFactory }) => {
                 let tabContent;
 
                 if (index === 1) {
