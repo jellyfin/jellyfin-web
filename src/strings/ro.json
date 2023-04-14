@@ -1681,5 +1681,22 @@
     "LabelParallelImageEncodingLimitHelp": "Numărul maxim de encodări ale imaginilor care sunt permise să ruleze simultan. Setarea acestei valori la 0 va alege automat o limită bazată pe specificațiile tehnice ale sistemului.",
     "HeaderDummyChapter": "Imaginile Capitolelor",
     "HeaderRecordingMetadataSaving": "Înregistrarea Metadatelor",
-    "EnableSplashScreen": "Activează ecranul splash"
+    "EnableSplashScreen": "Activează ecranul splash",
+    "StereoDownmixAlgorithmHelp": "Algoritm utilizat pentru downmix multi-canale audio la stereo",
+    "Short": "Scurt",
+    "MediaInfoDoViTitle": "Titlu DV",
+    "ResolutionMatchSource": "Potrivire Sursa",
+    "LabelVideoRangeType": "Tip interval video",
+    "SubtitleBlack": "Negru",
+    "SubtitleBlue": "Albastru",
+    "SubtitleCyan": "Cian",
+    "SubtitleGray": "Gri",
+    "SubtitleLightGray": "Verde Deschis",
+    "SubtitleMagenta": "Magenta",
+    "SubtitleRed": "Rosu",
+    "SecondarySubtitles": "Subtitrari Secundare",
+    "SubtitleGreen": "Verde",
+    "SubtitleWhite": "Alb",
+    "SubtitleYellow": "Galben",
+    "VideoRangeTypeNotSupported": "Tipul intervalului video nu este suportat"
 }
