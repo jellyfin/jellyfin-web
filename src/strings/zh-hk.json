@@ -449,7 +449,7 @@
     "DisplayModeHelp": "選擇您想要的介面樣式。",
     "DisplayMissingEpisodesWithinSeasonsHelp": "必須在 Jellyfin 伺服器的電視媒體庫設定中啟用該功能。",
     "DisplayMissingEpisodesWithinSeasons": "顯示每季缺少的劇集",
-    "DisplayInOtherHomeScreenSections": "在主頁中顯示「最新媒體」和「繼續觀看」等",
+    "DisplayInOtherHomeScreenSections": "在主頁中顯示「新增的媒體」和「繼續觀看」等",
     "DisableCustomCss": "停用伺服器提供的自定義 CSS",
     "DisablePlugin": "停用",
     "EnablePlugin": "啟用",
@@ -1025,7 +1025,7 @@
     "GuestStar": "客串",
     "GroupVersions": "按版本分組",
     "GroupBySeries": "按系列分組",
-    "Genre": "類型",
+    "Genre": "風格",
     "General": "一般",
     "Fullscreen": "全螢幕",
     "Framerate": "幀數",
@@ -1138,5 +1138,7 @@
     "LabelDummyChapterCountHelp": "媒體的章節圖片的擷取數量上限。",
     "LabelChapterImageResolution": "解像度：",
     "LabelChapterImageResolutionHelp": "章節圖片擷取的解像度。",
-    "HeaderRecordingMetadataSaving": "錄影節目元數據"
+    "HeaderRecordingMetadataSaving": "錄影節目元數據",
+    "UseEpisodeImagesInNextUp": "在「接下來」及「繼續觀看」區中，以相關集數的圖片作顯示",
+    "UseEpisodeImagesInNextUpHelp": "在「接下來」及「繼續觀看」區中，以相關集數的圖片取代該劇集的縮圖作顯示。"
 }
