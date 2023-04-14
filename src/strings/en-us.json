@@ -1663,5 +1663,7 @@
     "MediaInfoRpuPresentFlag": "DV rpu preset flag",
     "MediaInfoElPresentFlag": "DV el preset flag",
     "MediaInfoBlPresentFlag": "DV bl preset flag",
-    "MediaInfoDvBlSignalCompatibilityId": "DV bl signal compatibility id"
+    "MediaInfoDvBlSignalCompatibilityId": "DV bl signal compatibility id",
+    "LabelTonemappingMode": "Tone mapping mode:",
+    "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode."
 }

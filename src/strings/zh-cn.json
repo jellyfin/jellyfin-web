@@ -1648,5 +1648,7 @@
     "StoryArc": "故事线",
     "OriginalAirDate": "原始播出日期",
     "Digital": "数字的",
-    "MessageUnauthorizedUser": "您目前无权访问服务器。请联系您的服务器管理员以获取更多信息。"
+    "MessageUnauthorizedUser": "您目前无权访问服务器。请联系您的服务器管理员以获取更多信息。",
+    "LabelTonemappingMode": "色调映射模式：",
+    "TonemappingModeHelp": "如果您遇到高光过曝问题，请尝试切换到 RGB 模式。"
 }

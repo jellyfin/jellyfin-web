@@ -167,6 +167,14 @@
                         </div>
                     </div>
                     <div class="selectContainer">
+                        <select is="emby-select" id="selectTonemappingMode" label="${LabelTonemappingMode}">
+                            <option value="auto">${Auto}</option>
+                            <option value="max">MAX</option>
+                            <option value="rgb">RGB</option>
+                        </select>
+                        <div class="fieldDescription">${TonemappingModeHelp}</div>
+                    </div>
+                    <div class="selectContainer">
                         <select is="emby-select" id="selectTonemappingRange" label="${LabelTonemappingRange}">
                             <option value="auto">${Auto}</option>
                             <option value="tv">TV</option>
@@ -177,10 +185,6 @@
                     <div class="inputContainer">
                         <input is="emby-input" type="number" id="txtTonemappingDesat" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingDesat}" />
                         <div class="fieldDescription">${LabelTonemappingDesatHelp}</div>
-                    </div>
-                    <div class="inputContainer">
-                        <input is="emby-input" type="number" id="txtTonemappingThreshold" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingThreshold}" />
-                        <div class="fieldDescription">${LabelTonemappingThresholdHelp}</div>
                     </div>
                     <div class="inputContainer">
                         <input is="emby-input" type="number" id="txtTonemappingPeak" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingPeak}" />
