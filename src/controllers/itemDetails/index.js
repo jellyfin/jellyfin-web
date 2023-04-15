@@ -1065,6 +1065,7 @@ function renderTagline(page, item) {
 }
 
 function renderDetails(page, item, apiClient, context) {
+    renderCollectionsItemIsIn(page, item, context);
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
@@ -1204,6 +1205,79 @@ function renderMoreFromArtist(view, item, apiClient) {
                 overlayPlayButton: true,
                 showYear: true
             });
+        });
+    }
+}
+
+function getCollectionsItemIsIn(item) {
+    const collections = [];
+    return new Promise(function (resolve, reject) {
+        try {
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
+            const options = {
+                Recursive: true,
+                IncludeItemTypes: 'BoxSet',
+                SortBy: 'SortName',
+                EnableTotalRecordCount: false,
+                fields: 'PrimaryImageAspectRatio,CanDelete'
+            };
+            apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
+                if (result.Items.length === 0) resolve(collections);
+                for (let i = 0; i < result.Items.length; i++) {
+                    const resultItem = result.Items[i];
+                    const query = {
+                        SortBy: 'SortName',
+                        EnableTotalRecordCount: false,
+                        ParentId: resultItem.Id
+                    };
+                    apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (boxSetResults) {
+                        for (const itemDetail of boxSetResults.Items) {
+                            if (itemDetail.Id === item.Id) {
+                                collections.push(resultItem);
+                            }
+                        }
+                        if (i === result.Items.length - 1) resolve(collections);
+                    });
+                }
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+function renderCollectionsItemIsIn(page, item, context) {
+    const collectionsCollapsible = page.querySelector('#collectionsItemIsInCollapsible');
+
+    if (collectionsCollapsible) {
+        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist') {
+            collectionsCollapsible.classList.add('hide');
+            return;
+        }
+        collectionsCollapsible.classList.remove('hide');
+        getCollectionsItemIsIn(item).then(function (collections) {
+            if (collections.length === 0) {
+                collectionsCollapsible.classList.add('hide');
+                return;
+            }
+            let html = '';
+            html += cardBuilder.getCardsHtml({
+                items: collections,
+                shape: 'autooverflow',
+                showParentTitle: item.Type == 'MusicAlbum',
+                centerText: true,
+                showTitle: true,
+                context: context,
+                lazy: true,
+                showDetailsMenu: true,
+                coverImage: item.Type == 'MusicAlbum' || item.Type == 'MusicArtist',
+                overlayPlayButton: true,
+                overlayText: false,
+                showYear: item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Series'
+            });
+            const collectionContent = collectionsCollapsible.querySelector('.collectionsItemIsInContent');
+            collectionContent.innerHTML = html;
+            imageLoader.lazyChildren(collectionContent);
         });
     }
 }
