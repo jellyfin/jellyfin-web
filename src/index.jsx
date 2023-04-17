@@ -23,9 +23,7 @@ import packageManager from './components/packageManager';
 import { appRouter, history } from './components/appRouter';
 import './elements/emby-button/emby-button';
 import './scripts/autoThemes';
-import './scripts/libraryMenu';
 import './components/themeMediaPlayer';
-import './scripts/autoBackdrops';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import './scripts/screensavermanager';
 import './scripts/serverNotifications';
@@ -145,13 +143,17 @@ async function onAppReady() {
         ServerConnections.currentApiClient()?.ensureWebSocket();
     });
 
+    const root = document.getElementById('reactRoot');
+    // Remove the splash logo
+    root.innerHTML = '';
+
     await appRouter.start();
 
     ReactDOM.render(
         <StrictMode>
             <App history={history} />
         </StrictMode>,
-        document.getElementById('reactRoot')
+        root
     );
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {

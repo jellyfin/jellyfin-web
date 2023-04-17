@@ -69,9 +69,9 @@ import '../../styles/flexstyles.scss';
         const elem = instance.options.parent;
 
         elem.querySelector('.upNextDialog-mediainfo').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(item, {
-            criticRating: false,
+            criticRating: true,
             originalAirDate: false,
-            starRating: false,
+            starRating: true,
             subtitles: false
         });
 

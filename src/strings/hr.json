@@ -1036,7 +1036,7 @@
     "CommunityRating": "Ocjena zajednice",
     "Browse": "Pretraži",
     "BoxRear": "Kutija (stražnja)",
-    "ButtonSyncPlay": "SyncPlay",
+    "ButtonSyncPlay": "Sinkronizirana reprodukcija (SyncPlay)",
     "DirectStreaming": "Direktno strujanje",
     "DirectStreamHelp2": "Snaga koji koristi direktan prijenos ovisi o profilu zvuka. Samo je video zapis bez gubitaka.",
     "Desktop": "Stolno računalo",
@@ -1237,7 +1237,7 @@
     "LabelSyncPlaySettingsMinDelaySkipToSync": "SkipToSync minimalno kašnjenje",
     "LabelSyncPlaySettingsSpeedToSync": "Omogući SpeedToSync",
     "LabelRepositoryNameHelp": "Prilagođeno ime za razlikovanje ovog repozitorija od ostalih dodanih na vaš server.",
-    "Large": "Velika",
+    "Large": "Veliko",
     "Bold": "Podebljano",
     "LabelTextWeight": "Težina teksta",
     "LabelTonemappingRange": "Raspon mapiranja tonova",
@@ -1277,7 +1277,7 @@
     "Vertical": "Okomito",
     "OptionAllowMediaPlaybackTranscodingHelp": "Ograničavanje pristupa transkodiranju može uzrokovati neuspjehe reprodukcije u klijentima zbog nepodržanih formata medija.",
     "LabelSubtitleVerticalPosition": "Vertikalni položaj",
-    "OptionRegex": "Regex",
+    "OptionRegex": "Regularna ekspresija (Regex)",
     "LabelSyncPlayResumePlaybackDescription": "Pridružite se grupnoj reprodukciji",
     "LabelRequireHttps": "Zahtijevaj HTTPS",
     "PlayNext": "Pokreni sljedeće",
@@ -1360,5 +1360,6 @@
     "IgnoreDts": "Ignoriraj DTS (vremenska oznaka decodera)",
     "LabelAutomaticallyAddToCollectionHelp": "Kada najmanje 2 filma imaju isti naziv kolekcije, automatski će se dodati u kolekciju.",
     "Suggestions": "Prijedlozi",
-    "Trailers": "Najave"
+    "Trailers": "Najave",
+    "Small": "Malo"
 }
