@@ -5,11 +5,8 @@ import ConnectionRequired from '../../components/ConnectionRequired';
 import ServerContentPage from '../../components/ServerContentPage';
 import { toAsyncPageRoute } from '../AsyncRoute';
 import { toViewManagerPageRoute } from '../LegacyRoute';
-import { ASYNC_ADMIN_ROUTES } from './asyncRoutes/admin';
-import { ASYNC_USER_ROUTES } from './asyncRoutes/user';
-import { LEGACY_ADMIN_ROUTES } from './legacyRoutes/admin';
-import { LEGACY_PUBLIC_ROUTES } from './legacyRoutes/public';
-import { LEGACY_USER_ROUTES } from './legacyRoutes/user';
+import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './asyncRoutes';
+import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 
 export const ExperimentalAppRoutes = () => (
     <Routes>
