@@ -26,3 +26,10 @@ jobs:
         uses: cirrus-actions/rebase@b87d48154a87a85666003575337e27b8cd65f691 # 1.8
         env:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+      - name: Comment on failure
+        if: failure()
+        uses: peter-evans/create-or-update-comment@3383acd359705b10cb1eeef05c0e88c056ea4666 # v3.0.0
+        with:
+          token: ${{ secrets.JF_BOT_TOKEN }}
+          body: |
+            I'm sorry @${{github.event.comment.user.login}}, I'm afraid I can't do that.
