@@ -751,6 +751,9 @@ function setPeopleHeader(page, item) {
     } else {
         page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
     }
+    if (item.Type === 'Episode') {
+        page.querySelector('#guestCastHeader').innerHTML = globalize.translate('HeaderGuestCast');
+    }
 }
 
 function renderNextUp(page, item, user) {
@@ -823,6 +826,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     }
 
     renderCast(page, item);
+    renderGuestCast(page, item);
 
     if (item.PartCount && item.PartCount > 1) {
         page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
@@ -1805,11 +1809,36 @@ function renderCast(page, item) {
     });
 }
 
+function renderGuestCast(page, item) {
+    const people = (item.People || []).filter(function (p) {
+        return p.Type === 'GuestStar';
+    });
+
+    if (!people.length) {
+        page.querySelector('#guestCastCollapsible').classList.add('hide');
+        return;
+    }
+
+    page.querySelector('#guestCastCollapsible').classList.remove('hide');
+    const guestCastContent = page.querySelector('#guestCastContent');
+
+    import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
+        peoplecardbuilder.buildPeopleCards(people, {
+            itemsContainer: guestCastContent,
+            coverImage: true,
+            serverId: item.ServerId,
+            shape: 'overflowPortrait',
+            imageBlurhashes: item.ImageBlurHashes
+        });
+    });
+}
+
 function ItemDetailPage() {
     const self = this;
     self.setInitialCollapsibleState = setInitialCollapsibleState;
     self.renderDetails = renderDetails;
     self.renderCast = renderCast;
+    self.renderGuestCast = renderGuestCast;
 }
 
 function bindAll(view, selector, eventName, fn) {
