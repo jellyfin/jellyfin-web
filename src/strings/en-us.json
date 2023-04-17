@@ -32,7 +32,7 @@
     "AllowOnTheFlySubtitleExtractionHelp": "Embedded subtitles can be extracted from videos and delivered to clients in plain text, in order to help prevent video transcoding. On some systems this can take a long time and cause video playback to stall during the extraction process. Disable this to have embedded subtitles burned in with video transcoding when they are not natively supported by the client device.",
     "AllowRemoteAccess": "Allow remote connections to this server",
     "AllowRemoteAccessHelp": "If unchecked, all remote connections will be blocked.",
-    "AllowTonemappingHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only with HDR10 or HLG videos. This requires the corresponding OpenCL or CUDA runtime.",
+    "AllowTonemappingHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only with 10bit HDR10，HLG and DoVi videos. This requires the corresponding OpenCL or CUDA runtime.",
     "AlwaysPlaySubtitles": "Always Play",
     "AlwaysPlaySubtitlesHelp": "Subtitles matching the language preference will be loaded regardless of the audio language.",
     "AnyLanguage": "Any Language",
@@ -1649,9 +1649,9 @@
     "ThemeVideo": "Theme Video",
     "EnableSplashScreen": "Enable the splash screen",
     "LabelVppTonemappingBrightness": "VPP Tone mapping brightness gain:",
-    "LabelVppTonemappingBrightnessHelp": "Apply brightness gain in VPP tone mapping. Both recommended and default values are 0.",
+    "LabelVppTonemappingBrightnessHelp": "Apply brightness gain in VPP tone mapping. The recommended and default values are 16 and 0.",
     "LabelVppTonemappingContrast": "VPP Tone mapping contrast gain:",
-    "LabelVppTonemappingContrastHelp": "Apply contrast gain in VPP tone mapping. The recommended and default values are 1.2 and 1.",
+    "LabelVppTonemappingContrastHelp": "Apply contrast gain in VPP tone mapping. Both recommended and default values are 1.",
     "VideoRangeTypeNotSupported": "The video's range type is not supported",
     "LabelVideoRangeType": "Video range type:",
     "MediaInfoVideoRangeType": "Video range type",
@@ -1663,5 +1663,7 @@
     "MediaInfoRpuPresentFlag": "DV rpu preset flag",
     "MediaInfoElPresentFlag": "DV el preset flag",
     "MediaInfoBlPresentFlag": "DV bl preset flag",
-    "MediaInfoDvBlSignalCompatibilityId": "DV bl signal compatibility id"
+    "MediaInfoDvBlSignalCompatibilityId": "DV bl signal compatibility id",
+    "LabelTonemappingMode": "Tone mapping mode:",
+    "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode."
 }
