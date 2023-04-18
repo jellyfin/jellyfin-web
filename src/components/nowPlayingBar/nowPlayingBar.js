@@ -336,11 +336,8 @@ import { appRouter } from '../appRouter';
             toggleRepeatButton.classList.remove('hide');
         }
 
-        if (supportedCommands.indexOf('AirPlay') === -1) {
-            toggleAirPlayButton.classList.add('hide');
-        } else {
-            toggleAirPlayButton.classList.remove('hide');
-        }
+        const hideAirPlayButton = supportedCommands.indexOf('AirPlay') === -1;
+        toggleAirPlayButton.classList.toggle('hide', hideAirPlayButton);
 
         updateRepeatModeDisplay(playbackManager.getRepeatMode());
         onQueueShuffleModeChange();
