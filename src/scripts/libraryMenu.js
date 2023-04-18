@@ -197,7 +197,7 @@ import '../styles/flexstyles.scss';
         if (layoutManager.tv) {
             currentTimeText.classList.remove('hide');
             setInterval(function() {
-                 currentTimeText.innerHTML = datetime.getDisplayTime(new Date());
+                 currentTimeText.innerText = datetime.getDisplayTime(new Date());
             }, 1000);
         } else {
             currentTimeText.classList.add('hide');
