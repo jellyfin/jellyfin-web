@@ -209,7 +209,7 @@ function tryRemoveElement(elem) {
         /**
          * @type {any | null | undefined}
          */
-        #currentJASSUB;
+        #currentAssRenderer;
         /**
          * @type {null | undefined}
          */
@@ -585,9 +585,9 @@ function tryRemoveElement(elem) {
             const offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if (this.#currentJASSUB) {
+            if (this.#currentAssRenderer) {
                 this.updateCurrentTrackOffset(offsetValue);
-                this.#currentJASSUB.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+                this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
             } else {
                 const trackElements = this.getTextTracks();
                 // if .vtt currently rendering
@@ -978,8 +978,8 @@ function tryRemoveElement(elem) {
                 loading.hide();
 
                 seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
-                    if (this.#currentJASSUB) {
-                        this.#currentJASSUB.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    if (this.#currentAssRenderer) {
+                        this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
                     }
                 });
 
@@ -1167,11 +1167,11 @@ function tryRemoveElement(elem) {
             this.#currentClock = null;
             this._currentAspectRatio = null;
 
-            const jassub = this.#currentJASSUB;
+            const jassub = this.#currentAssRenderer;
             if (jassub) {
                 jassub.destroy();
             }
-            this.#currentJASSUB = null;
+            this.#currentAssRenderer = null;
 
             const renderer = this.#currentAssRenderer;
             if (renderer) {
@@ -1305,8 +1305,8 @@ function tryRemoveElement(elem) {
                         options.legacyWorkerUrl = legacyWorkerUrl;
 
                         const cleanup = () => {
-                            this.#currentJASSUB.destroy();
-                            this.#currentJASSUB = null;
+                            this.#currentAssRenderer.destroy();
+                            this.#currentAssRenderer = null;
                             onErrorInternal(this, 'mediadecodeerror');
                         };
 
@@ -1318,12 +1318,12 @@ function tryRemoveElement(elem) {
                                     });
                                     avaliableFonts.push(fontUrl);
                                 });
-                                this.#currentJASSUB = new JASSUB(options);
-                                this.#currentJASSUB.addEventListener('error', cleanup, { once: true });
+                                this.#currentAssRenderer = new JASSUB(options);
+                                this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
                             });
                         } else {
-                            this.#currentJASSUB = new JASSUB(options);
-                            this.#currentJASSUB.addEventListener('error', cleanup, { once: true });
+                            this.#currentAssRenderer = new JASSUB(options);
+                            this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
                         }
                     });
                 });
