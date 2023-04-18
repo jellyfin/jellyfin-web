@@ -1,4 +1,4 @@
-import { LegacyRoute } from '.';
+import { LegacyRoute } from '../../LegacyRoute';
 
 export const LEGACY_USER_ROUTES: LegacyRoute[] = [
     {
@@ -91,6 +91,24 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             isFullscreen: true,
             isNowPlayingBarEnabled: false,
             isThemeMediaSupported: true
+        }
+    }, {
+        path: 'userprofile.html',
+        pageProps: {
+            controller: 'user/profile/index',
+            view: 'user/profile/index.html'
+        }
+    }, {
+        path: 'home.html',
+        pageProps: {
+            controller: 'home',
+            view: 'home.html'
+        }
+    }, {
+        path: 'movies.html',
+        pageProps: {
+            controller: 'movies/moviesrecommended',
+            view: 'movies/movies.html'
         }
     }
 ];

@@ -2,6 +2,14 @@ import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.scss';
 import Dashboard from '../utils/dashboard';
 
+const getMainAnimatedPages = () => {
+    if (!mainAnimatedPages) {
+        mainAnimatedPages = document.querySelector('.mainAnimatedPages');
+    }
+
+    return mainAnimatedPages;
+};
+
 /* eslint-disable indent */
 
     function setControllerClass(view, options) {
@@ -54,6 +62,11 @@ import Dashboard from '../utils/dashboard';
             }
 
             view.classList.add('mainAnimatedPage');
+
+            if (!getMainAnimatedPages()) {
+                console.warn('[viewContainer] main animated pages element is not present');
+                return;
+            }
 
             if (currentPage) {
                 if (newViewInfo.hasScript && window.$) {
@@ -225,18 +238,18 @@ import Dashboard from '../utils/dashboard';
     export function reset() {
         allPages = [];
         currentUrls = [];
-        mainAnimatedPages.innerHTML = '';
+        if (mainAnimatedPages) mainAnimatedPages.innerHTML = '';
         selectedPageIndex = -1;
     }
 
     let onBeforeChange;
-    const mainAnimatedPages = document.querySelector('.mainAnimatedPages');
+    let mainAnimatedPages;
     let allPages = [];
     let currentUrls = [];
     const pageContainerCount = 3;
     let selectedPageIndex = -1;
     reset();
-    mainAnimatedPages.classList.remove('hide');
+    getMainAnimatedPages()?.classList.remove('hide');
 
 /* eslint-enable indent */
 

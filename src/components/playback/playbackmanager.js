@@ -1038,7 +1038,6 @@ class PlaybackManager {
                 }
             }
 
-            //var mediaType = item.MediaType;
             return getPlayer(item, getDefaultPlayOptions()) != null;
         };
 

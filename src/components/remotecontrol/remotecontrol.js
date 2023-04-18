@@ -325,10 +325,11 @@ export default function () {
         if (layoutManager.mobile) {
             const playingVideo = playbackManager.isPlayingVideo() && item !== null;
             const playingAudio = !playbackManager.isPlayingVideo() && item !== null;
-            buttonVisible(context.querySelector('.btnRepeat'), playingAudio);
-            buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio);
-            buttonVisible(context.querySelector('.btnRewind'), playingVideo);
-            buttonVisible(context.querySelector('.btnFastForward'), playingVideo);
+            const playingAudioBook = playingAudio && item.Type == 'AudioBook';
+            buttonVisible(context.querySelector('.btnRepeat'), playingAudio && !playingAudioBook);
+            buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio && !playingAudioBook);
+            buttonVisible(context.querySelector('.btnRewind'), playingVideo || playingAudioBook);
+            buttonVisible(context.querySelector('.btnFastForward'), playingVideo || playingAudioBook);
             buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnShuffleQueue'), playingVideo);
             buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnRepeat'), playingVideo);
         } else {
