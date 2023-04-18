@@ -213,10 +213,6 @@ function tryRemoveElement(elem) {
         /**
          * @type {null | undefined}
          */
-        #currentAssRenderer;
-        /**
-         * @type {number | undefined}
-         */
         #customTrackIndex;
         /**
          * @type {number | undefined}
@@ -1170,12 +1166,6 @@ function tryRemoveElement(elem) {
             const jassub = this.#currentAssRenderer;
             if (jassub) {
                 jassub.destroy();
-            }
-            this.#currentAssRenderer = null;
-
-            const renderer = this.#currentAssRenderer;
-            if (renderer) {
-                renderer.setEnabled(false);
             }
             this.#currentAssRenderer = null;
         }
