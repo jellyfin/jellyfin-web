@@ -13,6 +13,7 @@ import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -127,7 +128,7 @@ function getItemsForPlayback(serverId, query) {
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
 
-        return apiClient.getItems(apiClient.getCurrentUserId(), query);
+        return getItems(apiClient, apiClient.getCurrentUserId(), query);
     }
 }
 

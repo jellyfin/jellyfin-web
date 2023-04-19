@@ -7,6 +7,7 @@ import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -482,7 +483,7 @@ function getItemsForPlayback(apiClient, query) {
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
 
-        return apiClient.getItems(userId, query);
+        return getItems(apiClient, userId, query);
     }
 }
 
