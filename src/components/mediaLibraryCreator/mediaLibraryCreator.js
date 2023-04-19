@@ -86,7 +86,9 @@ function initEditor(page, collectionTypeOptions) {
             const index = this.selectedIndex;
 
             if (index != -1) {
-                const name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
+                const name = this.options[index].innerHTML
+                    .replaceAll('*', '')
+                    .replaceAll('&amp;', '&');
                 $('#txtValue', dlg).val(name);
             }
         }
