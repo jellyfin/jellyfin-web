@@ -48,7 +48,7 @@
     "postcss-loader": "7.2.4",
     "postcss-preset-env": "8.3.1",
     "postcss-scss": "4.0.6",
-    "sass": "1.60.0",
+    "sass": "1.62.0",
     "sass-loader": "13.2.2",
     "source-map-loader": "4.0.1",
     "style-loader": "3.3.2",
