@@ -13,7 +13,6 @@
     "@babel/plugin-transform-modules-umd": "7.18.6",
     "@babel/preset-env": "7.20.2",
     "@babel/preset-react": "7.18.6",
-    "@babel/preset-typescript": "7.21.0",
     "@types/escape-html": "1.0.2",
     "@types/loadable__component": "5.13.4",
     "@types/lodash-es": "4.17.7",
