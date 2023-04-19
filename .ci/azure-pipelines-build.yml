@@ -28,10 +28,14 @@ jobs:
     displayName: 'Install Dependencies'
 
   - script: 'npm run build:development'
+    env:
+        NODE_OPTIONS: --max_old_space_size=6144
     displayName: 'Build Development'
     condition: eq(variables['BuildConfiguration'], 'development')
 
   - script: 'npm run build:production'
+    env:
+        NODE_OPTIONS: --max_old_space_size=6144
     displayName: 'Build Production'
     condition: eq(variables['BuildConfiguration'], 'production')
 
