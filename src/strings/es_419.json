@@ -1389,7 +1389,7 @@
     "MediaInfoColorPrimaries": "Colores primarios",
     "MediaInfoColorTransfer": "Transferencia de Color",
     "MediaInfoColorSpace": "Espacio de Color",
-    "MediaInfoVideoRange": "Rango del Video",
+    "MediaInfoVideoRange": "Rango de video",
     "Bwdif": "BWDIF (Filtro desentrelazado Bob Weaver)",
     "VideoAudio": "Audio del Video",
     "Video": "Vídeo",
@@ -1510,7 +1510,7 @@
     "Framerate": "Cuadros por segundo",
     "DirectPlayHelp": "El archivo de origen es totalmente compatible con este cliente y la sesión esta recibiendo el archivo sin modificaciones.",
     "HeaderContinueReading": "Continuar leyendo",
-    "EnableGamepadHelp": "Esperando por entradas desde cualquier controlador conectado.",
+    "EnableGamepadHelp": "Esperando por entrada desde cualquier controlador conectado. (Requiere: ‘TV’ Modo Pantalla)",
     "LabelEnableGamepad": "Habilitar Gamepad",
     "Controls": "Controles",
     "TextSent": "Texto enviado.",
@@ -1575,5 +1575,8 @@
     "LabelDummyChapterCount": "Límite",
     "LabelChapterImageResolution": "Resolución",
     "LabelChapterImageResolutionHelp": "La resolución de las imágenes de capítulos extraídas.",
-    "LabelMaxDaysForNextUp": "Días máximos en «A continuación»"
+    "LabelMaxDaysForNextUp": "Días máximos en «A continuación»",
+    "LabelEnableAudioVbrHelp": "La tasa de bits variable ofrece mejor calidad a la tasa media de bits promedio, pero en algunos raros casos puede causar almacenamiento en búfer y problemas de compatibilidad.",
+    "LabelEnableAudioVbr": "Habilitar codificación VBR de audio",
+    "HeaderPerformance": "Rendimiento"
 }
