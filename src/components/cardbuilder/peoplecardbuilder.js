@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 
 /**
  * Module for building cards from item data.
@@ -7,20 +6,18 @@
 
 import cardBuilder from './cardBuilder';
 
-    export function buildPeopleCards(items, options) {
-        options = Object.assign(options || {}, {
-            cardLayout: false,
-            centerText: true,
-            showTitle: true,
-            cardFooterAside: 'none',
-            showPersonRoleOrType: true,
-            cardCssClass: 'personCard',
-            defaultCardImageIcon: 'person'
-        });
-        cardBuilder.buildCards(items, options);
-    }
-
- /* eslint-enable indent */
+export function buildPeopleCards(items, options) {
+    options = Object.assign(options || {}, {
+        cardLayout: false,
+        centerText: true,
+        showTitle: true,
+        cardFooterAside: 'none',
+        showPersonRoleOrType: true,
+        cardCssClass: 'personCard',
+        defaultCardImageIcon: 'person'
+    });
+    cardBuilder.buildCards(items, options);
+}
 
 export default {
     buildPeopleCards: buildPeopleCards
