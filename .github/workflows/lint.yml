@@ -26,6 +26,8 @@ jobs:
         run: npm ci --no-audit
 
       - name: Run a production build
+        env:
+            NODE_OPTIONS: --max_old_space_size=6144
         run: npm run build:production
 
       - name: Run es-check
