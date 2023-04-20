@@ -113,6 +113,11 @@ function getProgramScheduleHtml(items, action = 'none') {
     });
 }
 
+function getSelectedMediaSource(page, mediaSources) {
+    const mediaSourceId = page.querySelector('.selectSource').value;
+    return mediaSources.filter(m => m.Id === mediaSourceId)[0];
+}
+
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
     apiClient.getLiveTvTimers({
         UserId: apiClient.getCurrentUserId(),
@@ -206,10 +211,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
 }
 
 function renderVideoSelections(page, mediaSources) {
-    const mediaSourceId = page.querySelector('.selectSource').value;
-    const mediaSource = mediaSources.filter(function (m) {
-        return m.Id === mediaSourceId;
-    })[0];
+    const mediaSource = getSelectedMediaSource(page, mediaSources);
 
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Video';
@@ -243,10 +245,8 @@ function renderVideoSelections(page, mediaSources) {
 }
 
 function renderAudioSelections(page, mediaSources) {
-    const mediaSourceId = page.querySelector('.selectSource').value;
-    const mediaSource = mediaSources.filter(function (m) {
-        return m.Id === mediaSourceId;
-    })[0];
+    const mediaSource = getSelectedMediaSource(page, mediaSources);
+
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Audio';
     });
@@ -273,10 +273,8 @@ function renderAudioSelections(page, mediaSources) {
 }
 
 function renderSubtitleSelections(page, mediaSources) {
-    const mediaSourceId = page.querySelector('.selectSource').value;
-    const mediaSource = mediaSources.filter(function (m) {
-        return m.Id === mediaSourceId;
-    })[0];
+    const mediaSource = getSelectedMediaSource(page, mediaSources);
+
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Subtitle';
     });
@@ -2029,6 +2027,7 @@ export default function (view, params) {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
+            updateMiscInfo();
         });
         view.addEventListener('viewshow', function (e) {
             const page = this;
@@ -2060,6 +2059,15 @@ export default function (view, params) {
             currentItem = null;
             self._currentPlaybackMediaSources = null;
             self.currentRecordingFields = null;
+        });
+    }
+
+    function updateMiscInfo() {
+        const selectedMediaSource = getSelectedMediaSource(view, self._currentPlaybackMediaSources);
+        renderMiscInfo(view, {
+            // patch currentItem (primary item) with details from the selected MediaSource:
+            ...currentItem,
+            ...selectedMediaSource
         });
     }
 

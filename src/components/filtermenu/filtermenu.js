@@ -297,10 +297,8 @@ class FilterMenu {
                 }
 
                 if (submitted) {
-                    //if (!options.onChange) {
                     saveValues(dlg, options.settings, options.settingsKey, options.setfilters);
                     return resolve();
-                    //}
                 }
                 return resolve();
             });
