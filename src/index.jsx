@@ -1,5 +1,3 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import 'jquery';
 import 'fast-text-encoding';
 import 'intersection-observer';

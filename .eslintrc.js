@@ -187,7 +187,6 @@ module.exports = {
         // Config files and development scripts
         {
             files: [
-                './babel.config.js',
                 './.eslintrc.js',
                 './postcss.config.js',
                 './webpack.*.js',

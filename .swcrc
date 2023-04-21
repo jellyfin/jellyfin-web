@@ -1,0 +1,26 @@
+[
+    {
+        "$schema": "https://json.schemastore.org/swcrc",
+        "test": ".tsx?$",
+        "jsc": {
+            "parser": {
+                "syntax": "typescript",
+                "tsx": true,
+                "dynamicImport": true
+            },
+            "target": "es5"
+        }
+    },
+    {
+        "$schema": "https://json.schemastore.org/swcrc",
+        "test": ".jsx?$",
+        "jsc": {
+            "parser": {
+                "syntax": "ecmascript",
+                "jsx": true,
+                "dynamicImport": true
+            },
+            "target": "es5"
+        }
+    }
+]

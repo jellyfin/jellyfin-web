@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
 
 const Assets = [
-    'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
     'pdfjs-dist/build/pdf.worker.js'
 ];
@@ -152,48 +151,9 @@ const config = {
                 }
             },
             {
-                test: /\.(js|jsx)$/,
-                include: [
-                    path.resolve(__dirname, 'node_modules/event-target-polyfill'),
-                    path.resolve(__dirname, 'node_modules/rvfc-polyfill'),
-                    path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
-                    path.resolve(__dirname, 'node_modules/@remix-run/router'),
-                    path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
-                    path.resolve(__dirname, 'node_modules/axios'),
-                    path.resolve(__dirname, 'node_modules/blurhash'),
-                    path.resolve(__dirname, 'node_modules/compare-versions'),
-                    path.resolve(__dirname, 'node_modules/date-fns'),
-                    path.resolve(__dirname, 'node_modules/dom7'),
-                    path.resolve(__dirname, 'node_modules/epubjs'),
-                    path.resolve(__dirname, 'node_modules/flv.js'),
-                    path.resolve(__dirname, 'node_modules/libarchive.js'),
-                    path.resolve(__dirname, 'node_modules/marked'),
-                    path.resolve(__dirname, 'node_modules/react-router'),
-                    path.resolve(__dirname, 'node_modules/screenfull'),
-                    path.resolve(__dirname, 'node_modules/ssr-window'),
-                    path.resolve(__dirname, 'node_modules/swiper'),
-                    path.resolve(__dirname, 'src')
-                ],
+                test: /\.(js|ts)x?$/,
                 use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true
-                    }
-                }]
-            },
-            {
-                test: /\.js$/,
-                include: [
-                    path.resolve(__dirname, 'node_modules/jassub')
-                ],
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true,
-                        presets: ['@babel/preset-env']
-                    }
+                    loader: 'swc-loader'
                 }]
             },
             {
@@ -201,33 +161,8 @@ const config = {
                 exclude: /node_modules/,
                 use: [
                     'worker-loader',
-                    'ts-loader'
+                    'swc-loader'
                 ]
-            },
-            {
-                test: /\.(ts|tsx)$/,
-                exclude: /node_modules/,
-                use: [{
-                    loader: 'ts-loader'
-                }]
-            },
-            /* modules that Babel breaks when transforming to ESM */
-            {
-                test: /\.js$/,
-                include: [
-                    path.resolve(__dirname, 'node_modules/pdfjs-dist'),
-                    path.resolve(__dirname, 'node_modules/xmldom')
-                ],
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true,
-                        plugins: [
-                            '@babel/transform-modules-umd'
-                        ]
-                    }
-                }]
             },
             {
                 test: /\.s[ac]ss$/i,
