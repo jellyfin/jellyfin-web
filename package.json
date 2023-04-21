@@ -80,7 +80,7 @@
     "classnames": "2.3.2",
     "core-js": "3.30.1",
     "date-fns": "2.29.3",
-    "dompurify": "3.0.1",
+    "dompurify": "3.0.2",
     "epubjs": "0.3.93",
     "escape-html": "1.0.3",
     "event-target-polyfill": "github:ThaUnknown/event-target-polyfill",
