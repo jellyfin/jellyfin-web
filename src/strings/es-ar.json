@@ -1695,5 +1695,14 @@
     "LabelDummyChapterCount": "Límite",
     "LabelDummyChapterCountHelp": "El número máximo de imágenes de capítulos que se extraerán para cada archivo multimedia.",
     "LabelChapterImageResolution": "Resolución",
-    "LabelChapterImageResolutionHelp": "La resolución de las imágenes de los capítulos extraídos."
+    "LabelChapterImageResolutionHelp": "La resolución de las imágenes de los capítulos extraídos.",
+    "LabelParallelImageEncodingLimitHelp": "Cantidad máxima de codificaciones de imágenes que pueden ejecutarse en paralelo. Establecer esto en 0 elegirá un límite basado en las especificaciones de su sistema.",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Prefiere títulos incrustados sobre nombres de archivo para extras",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Los extras a menudo tienen el mismo nombre incrustado que el padre, marque esto para usar títulos incrustados para ellos de todos modos.",
+    "SaveRecordingNFO": "Guardar la grabación de metadatos de EPG en NFO",
+    "LabelEnableAudioVbr": "Habilitar la codificación de audio VBR",
+    "LabelEnableAudioVbrHelp": "La tasa de bits variable ofrece una mejor relación entre calidad y tasa de bits promedio, pero en algunos casos raros puede causar problemas de almacenamiento en búfer y compatibilidad.",
+    "LabelParallelImageEncodingLimit": "Límite de codificación de imágenes en paralelo",
+    "ResolutionMatchSource": "Fuente de coincidencia",
+    "HeaderPerformance": "Rendimiento"
 }
