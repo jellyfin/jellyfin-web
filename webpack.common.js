@@ -8,13 +8,12 @@ const { DefinePlugin } = require('webpack');
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.data',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.data',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem',
     'pdfjs-dist/build/pdf.worker.js'
+];
+
+const JassubWasm = [
+    'jassub/dist/jassub-worker.wasm',
+    'jassub/dist/default.woff2'
 ];
 
 const LibarchiveWasm = [
@@ -83,6 +82,14 @@ const config = {
                     to: path.resolve(__dirname, './dist/libraries/wasm-gen')
                 };
             })
+        }),
+        new CopyPlugin({
+            patterns: JassubWasm.map(asset => {
+                return {
+                    from: path.resolve(__dirname, `./node_modules/${asset}`),
+                    to: path.resolve(__dirname, './dist')
+                };
+            })
         })
     ],
     output: {
@@ -147,7 +154,8 @@ const config = {
             {
                 test: /\.(js|jsx)$/,
                 include: [
-                    path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
+                    path.resolve(__dirname, 'node_modules/event-target-polyfill'),
+                    path.resolve(__dirname, 'node_modules/rvfc-polyfill'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),
                     path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
@@ -171,6 +179,20 @@ const config = {
                     options: {
                         cacheCompression: false,
                         cacheDirectory: true
+                    }
+                }]
+            },
+            {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/jassub')
+                ],
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true,
+                        presets: ['@babel/preset-env']
                     }
                 }]
             },

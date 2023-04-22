@@ -61,7 +61,7 @@ function loadRecommendedPrograms(page) {
         });
         loading.hide();
 
-        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(page);
         });
     });
@@ -273,7 +273,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../livetv/${depends}`).then(({default: controllerFactory}) => {
+        import(`../livetv/${depends}`).then(({ default: controllerFactory }) => {
             let tabContent;
 
             if (index === 0) {

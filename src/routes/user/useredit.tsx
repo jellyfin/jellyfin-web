@@ -172,7 +172,7 @@ const UserEdit: FunctionComponent = () => {
         (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = user.Policy.ForceRemoteSourceTranscoding;
         (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
         (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy.RemoteClientBitrateLimit > 0 ?
-            (user.Policy.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, {maximumFractionDigits: 6}) : '';
+            (user.Policy.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = user.Policy.LoginAttemptsBeforeLockout || '0';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = user.Policy.MaxActiveSessions || '0';
         if (window.ApiClient.isMinServerVersion('10.6.0')) {
@@ -314,7 +314,7 @@ const UserEdit: FunctionComponent = () => {
                 <SectionTabs activeTab='useredit'/>
                 <div
                     className='lnkEditUserPreferencesContainer'
-                    style={{paddingBottom: '1em'}}
+                    style={{ paddingBottom: '1em' }}
                 >
                     <LinkEditUserPreferences
                         className= 'lnkEditUserPreferences button-link'
@@ -327,7 +327,7 @@ const UserEdit: FunctionComponent = () => {
                             <div>
                                 {globalize.translate('HeaderThisUserIsCurrentlyDisabled')}
                             </div>
-                            <div style={{marginTop: 5}}>
+                            <div style={{ marginTop: 5 }}>
                                 {globalize.translate('MessageReenableUser')}
                             </div>
                         </div>
@@ -386,7 +386,7 @@ const UserEdit: FunctionComponent = () => {
                         <h2 className='paperListLabel'>
                             {globalize.translate('HeaderFeatureAccess')}
                         </h2>
-                        <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
+                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                             <CheckBoxElement
                                 className='chkEnableLiveTvAccess'
                                 title='OptionAllowBrowsingLiveTv'
@@ -401,7 +401,7 @@ const UserEdit: FunctionComponent = () => {
                         <h2 className='paperListLabel'>
                             {globalize.translate('HeaderPlayback')}
                         </h2>
-                        <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
+                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                             <CheckBoxElement
                                 className='chkEnableMediaPlayback'
                                 title='OptionAllowMediaPlayback'
@@ -458,7 +458,7 @@ const UserEdit: FunctionComponent = () => {
                         </div>
                     </div>
                     <div className='verticalSection'>
-                        <h2 className='checkboxListLabel' style={{marginBottom: '1em'}}>
+                        <h2 className='checkboxListLabel' style={{ marginBottom: '1em' }}>
                             {globalize.translate('HeaderAllowMediaDeletionFrom')}
                         </h2>
                         <div className='checkboxList paperList checkboxList-paperList'>
@@ -484,7 +484,7 @@ const UserEdit: FunctionComponent = () => {
                         <h2 className='checkboxListLabel'>
                             {globalize.translate('HeaderRemoteControl')}
                         </h2>
-                        <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
+                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                             <CheckBoxElement
                                 className='chkEnableRemoteControlOtherUsers'
                                 title='OptionAllowRemoteControlOthers'

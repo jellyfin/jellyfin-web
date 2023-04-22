@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import ViewManagerPage, { ViewManagerPageProps } from '../../components/viewManager/ViewManagerPage';
+import ViewManagerPage, { ViewManagerPageProps } from '../components/viewManager/ViewManagerPage';
 
 export interface LegacyRoute {
     path: string,
@@ -19,7 +19,3 @@ export function toViewManagerPageRoute(route: LegacyRoute) {
         />
     );
 }
-
-export * from './admin';
-export * from './public';
-export * from './user';

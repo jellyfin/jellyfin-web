@@ -85,8 +85,8 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
                     dangerouslySetInnerHTML={createInputElement()}
                 />
             </div>
-            {layoutManager.tv && !browser.tv &&
-                <AlphaPicker onAlphaPicked={onAlphaPicked} />
+            {layoutManager.tv && !browser.tv
+                && <AlphaPicker onAlphaPicked={onAlphaPicked} />
             }
         </div>
     );

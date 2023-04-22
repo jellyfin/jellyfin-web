@@ -29,7 +29,7 @@ import ServerConnections from '../ServerConnections';
 import template from './tvguide.template.html';
 
 function showViewSettings(instance) {
-    import('./guide-settings').then(({default: guideSettingsDialog}) => {
+    import('./guide-settings').then(({ default: guideSettingsDialog }) => {
         guideSettingsDialog.show(instance.categoryOptions).then(function () {
             instance.refresh();
         });

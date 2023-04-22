@@ -48,7 +48,7 @@ function supportsFade() {
 }
 
 function requireHlsPlayer(callback) {
-    import('hls.js').then(({ default: hls }) => {
+    import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
         hls.DefaultConfig.liveBackBufferLength = 90;

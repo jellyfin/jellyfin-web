@@ -94,9 +94,9 @@ function init(instance) {
 
     subtitleSyncSlider.getBubbleHtml = function (value) {
         const newOffset = getOffsetFromPercentage(value);
-        return '<h1 class="sliderBubbleText">' +
-            (newOffset > 0 ? '+' : '') + parseFloat(newOffset) + 's' +
-            '</h1>';
+        return '<h1 class="sliderBubbleText">'
+            + (newOffset > 0 ? '+' : '') + parseFloat(newOffset) + 's'
+            + '</h1>';
     };
 
     subtitleSyncCloseButton.addEventListener('click', function () {

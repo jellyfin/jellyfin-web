@@ -10,6 +10,7 @@
     "strict": true,
     "module": "ESNext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "outDir": "./dist/",
     "checkJs": false,
     "strictNullChecks": true,

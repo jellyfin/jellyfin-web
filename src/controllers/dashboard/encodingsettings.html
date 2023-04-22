@@ -111,7 +111,7 @@
                                 <span>${EnableIntelLowPowerHevcHwEncoder}</span>
                             </label>
                             <div class="fieldDescription">
-                                <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://01.org/linuxgraphics/downloads/firmware" target="_blank">${IntelLowPowerEncHelp}</a>
+                                <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://jellyfin.org/docs/general/administration/hardware-acceleration/intel#configure-and-verify-lp-mode-on-linux" target="_blank">${IntelLowPowerEncHelp}</a>
                             </div>
                         </div>
                     </div>
@@ -252,6 +252,13 @@
                         <span>${EnableFallbackFont}</span>
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${EnableFallbackFontHelp}</div>
+                </div>
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableAudioVbr" />
+                        <span>${LabelEnableAudioVbr}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${LabelEnableAudioVbrHelp}</div>
                 </div>
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtDownMixAudioBoost" pattern="[0-9]*" required="required" min=".5" max="3" step=".1" label="${LabelDownMixAudioScale}" />

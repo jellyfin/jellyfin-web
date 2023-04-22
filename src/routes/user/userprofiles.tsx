@@ -1,5 +1,5 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, {FunctionComponent, useEffect, useState, useRef} from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import Dashboard from '../../utils/dashboard';
 import globalize from '../../scripts/globalize';
 import loading from '../../components/loading/loading';
@@ -75,7 +75,7 @@ const UserProfiles: FunctionComponent = () => {
                 icon: 'delete'
             });
 
-            import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+            import('../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: card,

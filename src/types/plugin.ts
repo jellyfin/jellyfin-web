@@ -9,5 +9,5 @@ export interface Plugin {
     name: string
     id: string
     type: PluginType | string
-    priority: number
+    priority?: number
 }

@@ -1,4 +1,4 @@
-FROM centos:8
+FROM quay.io/centos/centos:stream8
 
 # Docker build arguments
 ARG SOURCE_DIR=/jellyfin
@@ -12,7 +12,7 @@ ENV IS_DOCKER=YES
 # Prepare CentOS environment
 RUN yum update -y \
   && yum install -y epel-release \
-  && yum install -y @buildsys-build rpmdevtools git yum-plugins-core autoconf automake glibc-devel gcc-c++ make \
+  && yum install -y rpmdevtools git autoconf automake glibc-devel gcc-c++ make \
   && curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - \
   && yum install -y nodejs
 
