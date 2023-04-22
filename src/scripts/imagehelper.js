@@ -1,5 +1,6 @@
 
 /* eslint-disable indent */
+// audit note: this module is expected to return safe text for use in HTML
 
     export function getDeviceIcon(device) {
         const baseUrl = 'assets/img/devices/';
