@@ -96,11 +96,12 @@ import confirm from '../../../components/confirm/confirm';
         let html = '';
         html += devices.map(function (device) {
             let deviceHtml = '';
-            deviceHtml += "<div data-id='" + device.Id + "' class='card backdropCard'>";
+            deviceHtml += "<div data-id='" + escapeHtml(device.Id) + "' class='card backdropCard'>";
             deviceHtml += '<div class="cardBox visualCardBox">';
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
-            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#!/device.html?id=' + device.Id : '#'}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
+            deviceHtml += `<a is="emby-linkbutton" href="${canEdit ? '#!/device.html?id=' + escapeHtml(device.Id) : '#'}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
+            // audit note: getDeviceIcon returns static text
             const iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {
@@ -116,7 +117,7 @@ import confirm from '../../../components/confirm/confirm';
 
             if (canEdit || canDelete(device.Id)) {
                 deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
-                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
+                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + escapeHtml(device.Id) + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
                 deviceHtml += '</div>';
             }
 
