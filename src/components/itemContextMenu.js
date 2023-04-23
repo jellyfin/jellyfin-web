@@ -99,6 +99,16 @@ export function getCommands(options) {
     }
 
     if (!browser.tv) {
+        // Multiselect is currrently only ran on long clicks of card components
+        // This disables Select on any context menu not originating from a card i.e songs
+        if (options.positionTo && (dom.parentWithClass(options.positionTo, 'card') !== null)) {
+            commands.push({
+                name:  globalize.translate('Select'),
+                id: 'multiSelect',
+                icon: 'library_add_check'
+            });
+        }
+
         if (itemHelper.supportsAddingToCollection(item) && options.EnableCollectionManagement) {
             commands.push({
                 name: globalize.translate('AddToCollection'),
@@ -114,16 +124,6 @@ export function getCommands(options) {
                 icon: 'playlist_add'
             });
         }
-    }
-
-    // Multiselect is currrently only ran on long clicks of card components
-    // This disables Select on any context menu not originating from a card i.e songs
-    if (options.positionTo && (dom.parentWithClass(options.positionTo, 'card') !== null)) {
-        commands.push({
-            name:  globalize.translate('Select'),
-            id: 'multiSelect',
-            icon: 'library_add_check'
-        });
     }
 
     if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
