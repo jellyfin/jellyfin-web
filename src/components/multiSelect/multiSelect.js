@@ -564,3 +564,6 @@ export default function (options) {
     };
 }
 
+export const startMultiSelect = (card) => {
+    showSelections(card);
+};

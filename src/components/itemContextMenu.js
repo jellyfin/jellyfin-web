@@ -1,5 +1,6 @@
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
+import dom from '../scripts/dom';
 import globalize from '../scripts/globalize';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
@@ -98,6 +99,16 @@ export function getCommands(options) {
     }
 
     if (!browser.tv) {
+        // Multiselect is currrently only ran on long clicks of card components
+        // This disables Select on any context menu not originating from a card i.e songs
+        if (options.positionTo && (dom.parentWithClass(options.positionTo, 'card') !== null)) {
+            commands.push({
+                name:  globalize.translate('Select'),
+                id: 'multiSelect',
+                icon: 'library_add_check'
+            });
+        }
+
         if (itemHelper.supportsAddingToCollection(item) && options.EnableCollectionManagement) {
             commands.push({
                 name: globalize.translate('AddToCollection'),
@@ -430,6 +441,12 @@ function executeCommand(item, id, options) {
             case 'moremediainfo':
                 import('./itemMediaInfo/itemMediaInfo').then((itemMediaInfo) => {
                     itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
+                });
+                break;
+            case 'multiSelect':
+                import('./multiSelect/multiSelect').then(({ startMultiSelect: startMultiSelect }) => {
+                    const card = dom.parentWithClass(options.positionTo, 'card');
+                    startMultiSelect(card);
                 });
                 break;
             case 'refresh':
