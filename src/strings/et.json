@@ -1647,5 +1647,10 @@
     "BehindTheScenes": "Kulisside taga",
     "DeletedScene": "Kustutatud stseen",
     "Interview": "Intervjuu",
-    "EnableSplashScreen": "Luba käivituskuva"
+    "EnableSplashScreen": "Luba käivituskuva",
+    "DownloadAll": "Lae kõik alla",
+    "Experimental": "Eksperimentaalne",
+    "HeaderRecordingMetadataSaving": "Salvestise metaandmed",
+    "HeaderPerformance": "Jõudlus",
+    "IgnoreDts": "Ignoreeri DTS-i (dekodeerimise ajatempel)"
 }
