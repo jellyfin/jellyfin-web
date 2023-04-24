@@ -1721,5 +1721,6 @@
     "LabelParallelImageEncodingLimit": "Počet paralelních kódování obrázků",
     "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Nastavením na 0 bude limit nastaven dle parametrů systému.",
     "LabelEnableAudioVbr": "Povolit kódování zvuku VBR",
-    "LabelEnableAudioVbrHelp": "Proměnlivý bitový tok (VBR) nabízí lepší poměr mezi kvalitou a průměrným bitovým tokem, ale někdy může způsobit dodatečné načítání či problémy s kompatibilitou."
+    "LabelEnableAudioVbrHelp": "Proměnlivý bitový tok (VBR) nabízí lepší poměr mezi kvalitou a průměrným bitovým tokem, ale někdy může způsobit dodatečné načítání či problémy s kompatibilitou.",
+    "Select": "Vybrat"
 }
