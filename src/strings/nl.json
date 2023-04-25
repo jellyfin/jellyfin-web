@@ -1720,5 +1720,6 @@
     "LabelParallelImageEncodingLimitHelp": "Maximum aantal afbeeldingscoderingen dat tegelijkertijd mag lopen. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op je systeemspecificaties.",
     "LabelParallelImageEncodingLimit": "Limiet gelijktijdige afbeeldingscoderingen",
     "LabelEnableAudioVbr": "VBR-audiocodering inschakelen",
-    "LabelEnableAudioVbrHelp": "Een variabele bitsnelheid biedt betere kwaliteit bij een vergelijkbare gemiddelde bitsnelheid, maar kan in zeldzame gevallen tot bufferen of compatibiliteitsproblemen leiden."
+    "LabelEnableAudioVbrHelp": "Een variabele bitsnelheid biedt betere kwaliteit bij een vergelijkbare gemiddelde bitsnelheid, maar kan in zeldzame gevallen tot bufferen of compatibiliteitsproblemen leiden.",
+    "Select": "Selecteren"
 }
