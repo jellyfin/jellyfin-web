@@ -1707,6 +1707,6 @@
     "MediaInfoBlPresentFlag": "DV bl preset flag",
     "MediaInfoDvBlSignalCompatibilityId": "DV bl signal compatibility id",
     "Unreleased": "Not yet released",
-    "LabelTonemappingMode": "Tone mapping mode:",
+    "LabelTonemappingMode": "Tone mapping mode",
     "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode."
 }
