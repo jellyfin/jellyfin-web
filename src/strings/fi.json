@@ -1719,5 +1719,6 @@
     "HeaderPerformance": "Suorituskyky",
     "LabelParallelImageEncodingLimit": "Rinnakkaisten kuvaenkoodauksien rajoitus",
     "LabelEnableAudioVbr": "Käytä äänen VBR-enkoodausta",
-    "LabelEnableAudioVbrHelp": "Muuttuva bittinopeus (variable bitrate, VBR) tuottaa keskitasoista paremman laadun, mutta saattaa joissakin harvoissa tapauksissa aiheuttaa puskurointi ja yhteensopivuusongelmia."
+    "LabelEnableAudioVbrHelp": "Muuttuva bittinopeus (variable bitrate, VBR) tuottaa keskitasoista paremman laadun, mutta saattaa joissakin harvoissa tapauksissa aiheuttaa puskurointi ja yhteensopivuusongelmia.",
+    "Select": "Valitse"
 }
