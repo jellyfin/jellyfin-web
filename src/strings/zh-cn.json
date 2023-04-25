@@ -1721,5 +1721,7 @@
     "HeaderPerformance": "性能",
     "LabelParallelImageEncodingLimit": "并行图像编码限制",
     "LabelEnableAudioVbr": "启用 VBR 音频编码",
-    "LabelEnableAudioVbrHelp": "可变比特率（VBR）相比平均比特率（ABR）可以提供更好的质量，但在少见情况中可能造成缓冲和兼容性问题。"
+    "LabelEnableAudioVbrHelp": "可变比特率（VBR）相比平均比特率（ABR）可以提供更好的质量，但在少见情况中可能造成缓冲和兼容性问题。",
+    "LabelTonemappingMode": "色调映射模式",
+    "TonemappingModeHelp": "如果您遇到高光过曝问题，请尝试切换到 RGB 模式。"
 }
