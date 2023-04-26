@@ -25,6 +25,17 @@ type AuthProvider = {
     Id?: string;
 }
 
+const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
+    Array.prototype.filter.call(elements, e => e.checked)
+        .map(e => e.getAttribute('data-id'))
+);
+
+function onSaveComplete() {
+    Dashboard.navigate('userprofiles.html');
+    loading.hide();
+    toast(globalize.translate('SettingsSaved'));
+}
+
 const UserEdit: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
@@ -56,7 +67,7 @@ const UserEdit: FunctionComponent = () => {
         }
 
         const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider') as HTMLDivElement;
-        providers.length > 1 ? fldSelectLoginProvider.classList.remove('hide') : fldSelectLoginProvider.classList.add('hide');
+        fldSelectLoginProvider.classList.toggle('hide', providers.length <= 1);
 
         setAuthProviders(providers);
 
@@ -73,7 +84,7 @@ const UserEdit: FunctionComponent = () => {
         }
 
         const fldSelectPasswordResetProvider = page.querySelector('.fldSelectPasswordResetProvider') as HTMLDivElement;
-        providers.length > 1 ? fldSelectPasswordResetProvider.classList.remove('hide') : fldSelectPasswordResetProvider.classList.add('hide');
+        fldSelectPasswordResetProvider.classList.toggle('hide', providers.length <= 1);
 
         setPasswordResetProviders(providers);
 
@@ -145,7 +156,7 @@ const UserEdit: FunctionComponent = () => {
         });
 
         const disabledUserBanner = page.querySelector('.disabledUserBanner') as HTMLDivElement;
-        user.Policy.IsDisabled ? disabledUserBanner.classList.remove('hide') : disabledUserBanner.classList.add('hide');
+        disabledUserBanner.classList.toggle('hide', !user.Policy.IsDisabled);
 
         const txtUserName = page.querySelector('#txtUserName') as HTMLInputElement;
         txtUserName.disabled = false;
@@ -198,19 +209,9 @@ const UserEdit: FunctionComponent = () => {
 
         loadData();
 
-        function onSaveComplete() {
-            Dashboard.navigate('userprofiles.html');
-            loading.hide();
-            toast(globalize.translate('SettingsSaved'));
-        }
-
         const saveUser = (user: UserDto) => {
-            if (!user.Id) {
-                throw new Error('Unexpected null user.Id');
-            }
-
-            if (!user.Policy) {
-                throw new Error('Unexpected null user.Policy');
+            if (!user.Id || !user.Policy) {
+                throw new Error('Unexpected null user id or policy');
             }
 
             user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value;
@@ -235,19 +236,15 @@ const UserEdit: FunctionComponent = () => {
             user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
             user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
-            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
-                return c.checked;
-            }).map(function (c) {
-                return c.getAttribute('data-id');
-            });
-            if (window.ApiClient.isMinServerVersion('10.6.0')) {
-                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
-            }
-            window.ApiClient.updateUser(user).then(function () {
-                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {}).then(function () {
+            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
+            user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
+
+            window.ApiClient.updateUser(user)
+                .then(() => (
+                    window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {})
+                )).then(() => {
                     onSaveComplete();
                 });
-            });
         };
 
         const onSubmit = (e: Event) => {
@@ -261,16 +258,11 @@ const UserEdit: FunctionComponent = () => {
         };
 
         (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
-            if (this.checked) {
-                (page.querySelector('.deleteAccess') as HTMLDivElement).classList.add('hide');
-            } else {
-                (page.querySelector('.deleteAccess') as HTMLDivElement).classList.remove('hide');
-            }
+            (page.querySelector('.deleteAccess') as HTMLDivElement).classList.toggle('hide', this.checked);
         });
 
         window.ApiClient.getNamedConfiguration('network').then(function (config) {
-            const fldRemoteAccess = page.querySelector('.fldRemoteAccess') as HTMLDivElement;
-            config.EnableRemoteAccess ? fldRemoteAccess.classList.remove('hide') : fldRemoteAccess.classList.add('hide');
+            (page.querySelector('.fldRemoteAccess') as HTMLDivElement).classList.toggle('hide', !config.EnableRemoteAccess);
         });
 
         (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
