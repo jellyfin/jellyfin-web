@@ -64,7 +64,10 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
         };
 
         loadPage();
-    }, [
+    },
+    // location.state is NOT included as a dependency here since dialogs will update state while the current view stays the same
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
         controller,
         view,
         type,
@@ -74,8 +77,6 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
         transition,
         location.pathname,
         location.search
-        // location.state is NOT included as a dependency here since dialogs will update state while the current view
-        // stays the same
     ]);
 
     return <></>;

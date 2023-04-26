@@ -47,12 +47,13 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
         };
 
         loadPage();
-    }, [
+    },
+    // location.state is NOT included as a dependency here since dialogs will update state while the current view stays the same
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
         view,
         location.pathname,
         location.search
-        // location.state is NOT included as a dependency here since dialogs will update state while the current view
-        // stays the same
     ]);
 
     return <></>;
