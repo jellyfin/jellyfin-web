@@ -1386,7 +1386,7 @@
     "LabelTonemappingRange": "Rozsah mapování tónů",
     "TonemappingAlgorithmHelp": "Mapování tonů je možné dále ladit. Pokud možnostem zde nerozumíte, je možné ponechat vše ve výchozím nastavení. Doporučená hodnota je 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Algoritmus mapování tónů",
-    "AllowTonemappingHelp": "Mapování tónů umožňuje změnit dynamický rozsah videa z HDR na SDR bez ztráty detailů a barev, tj. důležitých informací původního obrazu. Tato funkce momentálně funguje pouze u videí, které obsahují HDR10 nebo HLG, a vyžaduje buď OpenCL nebo CUDA.",
+    "AllowTonemappingHelp": "Mapování tónů umožňuje změnit dynamický rozsah videa z HDR na SDR bez ztráty detailů a barev, tj. důležitých informací původního obrazu. Tato funkce momentálně funguje pouze u videí, které obsahují 10bitové HDR10, HLG nebo Dolby Vision. Funkce rovněž vyžaduje OpenCL nebo CUDA.",
     "EnableTonemapping": "Zapnout mapování tónů",
     "LabelOpenclDeviceHelp": "Zařízení OpenCL použité pro mapování tónů. Nalevo od tečky je číslo platformy, napravo pak číslo zařízení na této platformě. Výchozí hodnota je 0.0. Soubor aplikace FFmpeg, který obsahuje metodu pro hardwarovou akceleraci OpenCL, je povinný.",
     "LabelOpenclDevice": "Zařízení OpenCL",
@@ -1666,9 +1666,9 @@
     "MediaInfoVideoRangeType": "Typ rozsahu videa",
     "LabelVideoRangeType": "Typ rozsahu videa",
     "VideoRangeTypeNotSupported": "Typ rozsahu videa není podporován",
-    "LabelVppTonemappingContrastHelp": "Zvýší kontrast při mapování tonů VPP. Doporučená hodnota je 1.2, výchozí hodnota je 1.",
+    "LabelVppTonemappingContrastHelp": "Zvýší kontrast při mapování tonů VPP. Doporučená i výchozí hodnota je 1.",
     "LabelVppTonemappingContrast": "Zvýšení kontrastu mapování tónů VPP",
-    "LabelVppTonemappingBrightnessHelp": "Zvýší jas při mapování tonů VPP. Doporučená i výchozí hodnota je 0.",
+    "LabelVppTonemappingBrightnessHelp": "Zvýší jas při mapování tonů VPP. Doporučená hodnota je 16, výchozí hodnota je 0.",
     "LabelVppTonemappingBrightness": "Zvýšení jasu mapování tónů VPP",
     "ScreenResolution": "Rozlišení obrazovky",
     "RememberSubtitleSelectionsHelp": "Pokusí se nastavit titulkovou stopu co nejpodobněji předchozímu videu.",
@@ -1722,5 +1722,7 @@
     "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Nastavením na 0 bude limit nastaven dle parametrů systému.",
     "LabelEnableAudioVbr": "Povolit kódování zvuku VBR",
     "LabelEnableAudioVbrHelp": "Proměnlivý bitový tok (VBR) nabízí lepší poměr mezi kvalitou a průměrným bitovým tokem, ale někdy může způsobit dodatečné načítání či problémy s kompatibilitou.",
-    "Select": "Vybrat"
+    "Select": "Vybrat",
+    "LabelTonemappingMode": "Režim mapování tónů",
+    "TonemappingModeHelp": "Určute režim mapování tónů. Pokud narazíte na přeexponovaná světlá místa, zkuste přepnout do režimu RGB."
 }
