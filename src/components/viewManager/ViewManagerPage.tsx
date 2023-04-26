@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import globalize from '../../scripts/globalize';
+import type { RestoreViewFailResponse } from '../../types/viewManager';
 import viewManager from './viewManager';
 
 export interface ViewManagerPageProps {
@@ -45,7 +46,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
             };
 
             viewManager.tryRestoreView(viewOptions)
-                .catch(async (result?: any) => {
+                .catch(async (result?: RestoreViewFailResponse) => {
                     if (!result || !result.cancelled) {
                         const [ controllerFactory, viewHtml ] = await Promise.all([
                             import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),

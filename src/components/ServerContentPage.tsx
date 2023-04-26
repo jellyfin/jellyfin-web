@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import ServerConnections from './ServerConnections';
 import viewManager from './viewManager/viewManager';
 import globalize from '../scripts/globalize';
+import type { RestoreViewFailResponse } from '../types/viewManager';
 
 interface ServerContentPageProps {
     view: string
@@ -29,7 +30,7 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
             };
 
             viewManager.tryRestoreView(viewOptions)
-                .catch(async (result?: any) => {
+                .catch(async (result?: RestoreViewFailResponse) => {
                     if (!result || !result.cancelled) {
                         const apiClient = ServerConnections.currentApiClient();
 
