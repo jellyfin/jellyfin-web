@@ -1,4 +1,4 @@
-import { AsyncRoute } from '../../AsyncRoute';
+import { AsyncRoute } from '../../../../components/router/AsyncRoute';
 
 export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'usernew.html', page: 'user/usernew' },

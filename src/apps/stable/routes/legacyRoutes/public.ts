@@ -1,4 +1,4 @@
-import { LegacyRoute } from '../../LegacyRoute';
+import { LegacyRoute } from '../../../../components/router/LegacyRoute';
 
 export const LEGACY_PUBLIC_ROUTES: LegacyRoute[] = [
     {
