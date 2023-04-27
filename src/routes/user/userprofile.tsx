@@ -30,12 +30,8 @@ const UserProfile: FunctionComponent = () => {
 
         loading.show();
         window.ApiClient.getUser(userId).then(function (user) {
-            if (!user.Name) {
-                throw new Error('Unexpected null user.Name');
-            }
-
-            if (!user.Id) {
-                throw new Error('Unexpected null user.Id');
+            if (!user.Name || !user.Id) {
+                throw new Error('Unexpected null user name or id');
             }
 
             setUserName(user.Name);

@@ -215,12 +215,8 @@ const UserParentalControl: FunctionComponent = () => {
         };
 
         const saveUser = (user: UserDto) => {
-            if (!user.Id) {
-                throw new Error('Unexpected null user.Id');
-            }
-
-            if (!user.Policy) {
-                throw new Error('Unexpected null user.Policy');
+            if (!user.Id || !user.Policy) {
+                throw new Error('Unexpected null user id or policy');
             }
 
             const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
