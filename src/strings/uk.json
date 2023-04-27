@@ -370,7 +370,7 @@
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Автоматично оновлювати метадані з інтернету",
     "LabelAuthProvider": "Провайдер аутентіфікаціі",
     "LabelAudioLanguagePreference": "Бажана мова аудіо",
-    "LabelAudioCodec": "Кодек аудіо",
+    "LabelAudioCodec": "Аудіокодек",
     "LabelAudioChannels": "Аудіоканали",
     "LabelAudioBitrate": "Бітрейт аудіо",
     "LabelArtists": "Виконавці",
