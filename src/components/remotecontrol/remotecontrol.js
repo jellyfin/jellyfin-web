@@ -222,7 +222,8 @@ function updateNowPlayingInfo(context, state, serverId) {
                 contextButton.addEventListener('click', function () {
                     itemContextMenu.show(Object.assign({
                         item: fullItem,
-                        user: user
+                        user: user,
+                        isMobile: layoutManager.mobile
                     }, options))
                         .catch(() => { /* no-op */ });
                 });
@@ -323,6 +324,7 @@ export default function () {
             context.querySelector('.remoteControlSection').classList.add('hide');
         }
 
+        buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio' && !layoutManager.mobile);
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
@@ -769,6 +771,10 @@ export default function () {
                 playbackManager.fastForward(currentPlayer);
             }
         });
+        context.querySelector('.btnLyrics').addEventListener('click', function () {
+            appRouter.show('lyrics');
+        });
+
         for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
             shuffleButton.addEventListener('click', function () {
                 if (currentPlayer) {
