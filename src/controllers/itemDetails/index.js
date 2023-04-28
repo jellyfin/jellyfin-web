@@ -41,6 +41,7 @@ import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-select/emby-select';
 
 import 'styles/scrollstyles.scss';
+import '../../styles/lyrics.scss';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -1055,6 +1056,7 @@ function renderDetails(page, item, apiClient, context) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
+    renderLyricsContainer(page, item, apiClient);
 
     // Don't allow redirection to other websites from the TV layout
     if (!layoutManager.tv && appHost.supports('externallinks')) {
@@ -1067,6 +1069,37 @@ function renderDetails(page, item, apiClient, context) {
 
 function enableScrollX() {
     return browser.mobile && window.screen.availWidth <= 1000;
+}
+
+function renderLyricsContainer(view, item, apiClient) {
+    const lyricContainer = view.querySelector('.lyricsContainer');
+    if (lyricContainer && item.HasLyrics) {
+        if (item.Type !== 'Audio') {
+            lyricContainer.classList.add('hide');
+            return;
+        }
+        //get lyrics
+        const userId = apiClient.getCurrentUserId();
+        apiClient.ajax({
+            url: apiClient.getUrl('Users/' + userId + '/Items/' + item.Id + '/Lyrics'),
+            type: 'GET'
+        }).then(response => response.json())
+            .then((json) => {
+                if (!json.Lyrics) {
+                    lyricContainer.classList.add('hide');
+                    return;
+                }
+                lyricContainer.classList.remove('hide');
+                const itemsContainer = lyricContainer.querySelector('.itemsContainer');
+                if (itemsContainer) {
+                    const html = json.Lyrics.reduce((htmlAccumulator, lyric) => {
+                        htmlAccumulator += `<p class="lyrics">${lyric.Text}</p>`;
+                        return htmlAccumulator;
+                    }, '');
+                    itemsContainer.innerHTML = html;
+                }
+            });
+    }
 }
 
 function renderMoreFromSeason(view, item, apiClient) {
