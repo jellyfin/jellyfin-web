@@ -285,7 +285,7 @@
     "CustomDlnaProfilesHelp": "Loo kohandatud profiil uue seadme jaoks või tühista süsteemi profiil.",
     "ConfigureDateAdded": "Seadista, kuidas lisamise kuupäev kuvatakse juhtpaneeli meediakogu seadetes",
     "Banner": "Bänner",
-    "AllowTonemappingHelp": "Värvikaardistus võib muuta video dünaamilise ulatuse HDR -st SDR -ks, säilitades samal ajal pildi üksikasjad ja värvid, mis on algse stseeni kujutamisel väga oluline teave. Praegu töötab ainult HDR10 või HLG videotega. See vajab vastavat OpenGL või CUDA käitusaega.",
+    "AllowTonemappingHelp": "Värvikaardistus võib muuta video dünaamilise ulatuse HDR -st SDR -ks, säilitades samal ajal pildi üksikasjad ja värvid, mis on algse stseeni kujutamisel väga oluline teave. Praegu töötab ainult 10-bitise HDR10, HLG või DoVi videotega. See vajab vastavat OpenGL või CUDA käitusaega.",
     "HeaderDirectPlayProfile": "Otse-esituse profiil",
     "HeaderContainerProfileHelp": "Konteineri profiilid näitavad seadme piiranguid teatud vormingute esitamisel. Kui kehtib piirang, meedium transkooditakse, isegi kui vorming on seadistatud otse-esituseks.",
     "HeaderCodecProfileHelp": "Koodeki profiilid näitavad seadme piiranguid konkreetsete koodekite esitamisel. Kui kehtivad piirangud, transkooditakse meedia, isegi kui koodek on seadistatud otse-esituseks.",
@@ -1652,5 +1652,8 @@
     "Experimental": "Eksperimentaalne",
     "HeaderRecordingMetadataSaving": "Salvestise metaandmed",
     "HeaderPerformance": "Jõudlus",
-    "IgnoreDts": "Ignoreeri DTS-i (dekodeerimise ajatempel)"
+    "IgnoreDts": "Ignoreeri DTS-i (dekodeerimise ajatempel)",
+    "Select": "Vali",
+    "EnableIntelLowPowerH264HwEncoder": "Luba Intel Low-Power H.264 riistvara kodeerija",
+    "HeaderDummyChapter": "Peatükipildid"
 }
