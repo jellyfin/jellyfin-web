@@ -760,7 +760,7 @@
     "MediaInfoAnamorphic": "Анаморфность",
     "MediaInfoAspectRatio": "Соотношение сторон",
     "MediaInfoBitDepth": "Разрядность",
-    "MediaInfoBitrate": "Потоковая скорость",
+    "MediaInfoBitrate": "Битрейт",
     "MediaInfoChannels": "Каналы",
     "MediaInfoCodec": "Кодек",
     "MediaInfoCodecTag": "Тег кодека",
