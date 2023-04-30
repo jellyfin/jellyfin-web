@@ -1392,7 +1392,7 @@
     "LabelTonemappingRange": "Tone mapping range",
     "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default. The recommended value is 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Select the Tone mapping algorithm to use",
-    "AllowTonemappingHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only with HDR10 or HLG videos. This requires the corresponding OpenCL or CUDA runtime.",
+    "AllowTonemappingHelp": "Tone mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only with 10bit HDR10，HLG and DoVi videos. This requires the corresponding OpenCL or CUDA runtime.",
     "EnableTonemapping": "Enable Tone mapping",
     "LabelOpenclDeviceHelp": "This is the OpenCL device that is used for tone mapping. The left side of the dot is the platform number, and the right side is the device number on the platform. The default value is 0.0. The FFmpeg application file containing the OpenCL hardware acceleration method is required.",
     "LabelOpenclDevice": "OpenCL Device",
@@ -1666,9 +1666,9 @@
     "MediaInfoVideoRangeType": "Video range type",
     "LabelVideoRangeType": "Video range type",
     "VideoRangeTypeNotSupported": "The video's range type is not supported",
-    "LabelVppTonemappingContrastHelp": "Apply contrast gain in VPP tone mapping. The recommended and default values are 1.2 and 1.",
+    "LabelVppTonemappingContrastHelp": "Apply contrast gain in VPP tone mapping. Both recommended and default values are 1.",
     "LabelVppTonemappingContrast": "VPP Tone mapping contrast gain",
-    "LabelVppTonemappingBrightnessHelp": "Apply brightness gain in VPP tone mapping. Both recommended and default values are 0.",
+    "LabelVppTonemappingBrightnessHelp": "Apply brightness gain in VPP tone mapping. The recommended and default values are 16 and 0.",
     "LabelVppTonemappingBrightness": "VPP Tone mapping brightness gain",
     "ScreenResolution": "Screen Resolution",
     "RememberSubtitleSelectionsHelp": "Try to set the subtitle track to the closest match to the last video.",
@@ -1721,5 +1721,8 @@
     "LabelParallelImageEncodingLimit": "Parallel image encoding limit",
     "LabelParallelImageEncodingLimitHelp": "Maximum amount of image encodings that are allowed to run in parallel. Setting this to 0 will choose a limit based on your system specs.",
     "LabelEnableAudioVbr": "Enable VBR audio encoding",
-    "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues."
+    "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues.",
+    "LabelTonemappingMode": "Tone mapping mode",
+    "Select": "Select",
+    "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode."
 }
