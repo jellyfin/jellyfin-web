@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import Page from '../components/Page';
-import SearchFields from '../components/search/SearchFields';
-import SearchResults from '../components/search/SearchResults';
-import SearchSuggestions from '../components/search/SearchSuggestions';
-import LiveTVSearchResults from '../components/search/LiveTVSearchResults';
-import globalize from '../scripts/globalize';
+import Page from '../../../components/Page';
+import SearchFields from '../../../components/search/SearchFields';
+import SearchResults from '../../../components/search/SearchResults';
+import SearchSuggestions from '../../../components/search/SearchSuggestions';
+import LiveTVSearchResults from '../../../components/search/LiveTVSearchResults';
+import globalize from '../../../scripts/globalize';
 
 const Search: FunctionComponent = () => {
     const [ query, setQuery ] = useState<string>();

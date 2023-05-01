@@ -1,9 +1,9 @@
 import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
-import loading from '../../components/loading/loading';
-import GenresItemsContainer from '../../components/common/GenresItemsContainer';
-import { LibraryViewProps } from '../../types/interface';
+import loading from '../../../../components/loading/loading';
+import GenresItemsContainer from '../../../../components/common/GenresItemsContainer';
+import { LibraryViewProps } from '../../../../types/interface';
 
 const GenresView: FC<LibraryViewProps> = ({ topParentId }) => {
     const [ itemsResult, setItemsResult ] = useState<BaseItemDtoQueryResult>({});

@@ -1,17 +1,17 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 
-import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
-import toast from '../../components/toast/toast';
-import SectionTabs from '../../components/dashboard/users/SectionTabs';
-import ButtonElement from '../../elements/ButtonElement';
-import { getParameterByName } from '../../utils/url';
-import SectionTitleContainer from '../../elements/SectionTitleContainer';
-import AccessContainer from '../../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../../elements/CheckBoxElement';
-import Page from '../../components/Page';
+import loading from '../../../../components/loading/loading';
+import libraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../scripts/globalize';
+import toast from '../../../../components/toast/toast';
+import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
+import ButtonElement from '../../../../elements/ButtonElement';
+import { getParameterByName } from '../../../../utils/url';
+import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
+import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
+import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import Page from '../../../../components/Page';
 
 type ItemsArr = {
     Name?: string;
