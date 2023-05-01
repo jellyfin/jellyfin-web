@@ -1671,7 +1671,7 @@
     "ShowParentImages": "Mostrar imágenes de la serie",
     "StoryArc": "Arco narrativo",
     "Clip": "Ficha técnica",
-    "LabelVppTonemappingBrightnessHelp": "Aplicar ganancia de brillo en el mapeo de tonos VPP. Tanto los valores recomendados como los predeterminados son 0.",
+    "LabelVppTonemappingBrightnessHelp": "Aplicar ganancia de brillo en el mapeo de tonos VPP. El valor predeterminado es 0 y el recomendado es 16.",
     "LabelVppTonemappingContrastHelp": "Aplicar ganancia de contraste en el mapeo de tonos VPP. Los valores recomendados y predeterminados son 1.2 y 1.",
     "VideoRangeTypeNotSupported": "El tipo de rango del video no es compatible",
     "MediaInfoRpuPresentFlag": "Bandera preestablecida de DV rpu",
