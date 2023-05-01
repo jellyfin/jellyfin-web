@@ -76,21 +76,24 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ```
 .
 └── src
-    ├── assets         # Static assets
-    ├── components     # Higher order visual components and React components
-    ├── controllers    # Legacy page views and controllers 🧹
-    ├── elements       # Basic webcomponents and React wrappers 🧹
-    ├── hooks          # Custom React hooks
-    ├── legacy         # Polyfills for legacy browsers
-    ├── libraries      # Third party libraries 🧹
-    ├── plugins        # Client plugins
-    ├── routes         # React routes/pages
-    ├── scripts        # Random assortment of visual components and utilities 🐉
-    ├── strings        # Translation files
-    ├── styles         # Common app Sass stylesheets
-    ├── themes         # CSS themes
-    ├── types          # Common TypeScript interfaces/types
-    └── utils          # Utility functions
+    ├── apps
+    │   ├── experimental  # New experimental app layout
+    │   └── stable        # Classic (stable) app layout
+    ├── assets            # Static assets
+    ├── components        # Higher order visual components and React components
+    ├── controllers       # Legacy page views and controllers 🧹
+    ├── elements          # Basic webcomponents and React wrappers 🧹
+    ├── hooks             # Custom React hooks
+    ├── legacy            # Polyfills for legacy browsers
+    ├── libraries         # Third party libraries 🧹
+    ├── plugins           # Client plugins
+    ├── routes            # React routes/pages
+    ├── scripts           # Random assortment of visual components and utilities 🐉
+    ├── strings           # Translation files
+    ├── styles            # Common app Sass stylesheets
+    ├── themes            # CSS themes
+    ├── types             # Common TypeScript interfaces/types
+    └── utils             # Utility functions
 ```
 
 - 🧹 &mdash; Needs cleanup

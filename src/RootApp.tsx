@@ -1,13 +1,16 @@
+import loadable from '@loadable/component';
 import { History } from '@remix-run/router';
 import React from 'react';
 
+import StableApp from './apps/stable/App';
 import AppHeader from './components/AppHeader';
 import Backdrop from './components/Backdrop';
 import { HistoryRouter } from './components/HistoryRouter';
 import { ApiProvider } from './hooks/useApi';
-import { AppRoutes, ExperimentalAppRoutes } from './routes';
 
-const App = ({ history }: { history: History }) => {
+const ExperimentalApp = loadable(() => import('./apps/experimental/App'));
+
+const RootApp = ({ history }: { history: History }) => {
     const layoutMode = localStorage.getItem('layout');
 
     return (
@@ -18,11 +21,15 @@ const App = ({ history }: { history: History }) => {
 
                 <div className='mainAnimatedPages skinBody' />
                 <div className='skinBody'>
-                    {layoutMode === 'experimental' ? <ExperimentalAppRoutes /> : <AppRoutes /> }
+                    {
+                        layoutMode === 'experimental' ?
+                            <ExperimentalApp /> :
+                            <StableApp />
+                    }
                 </div>
             </HistoryRouter>
         </ApiProvider>
     );
 };
 
-export default App;
+export default RootApp;

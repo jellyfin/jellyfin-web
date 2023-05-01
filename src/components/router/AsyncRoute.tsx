@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import AsyncPage from '../components/AsyncPage';
+import AsyncPage from '../AsyncPage';
 
 export interface AsyncRoute {
     /** The URL path for this route. */

@@ -34,7 +34,7 @@ import './legacy/htmlMediaElement';
 import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
-import App from './App.tsx';
+import RootApp from './RootApp.tsx';
 
 import './styles/livetv.scss';
 import './styles/dashboard.scss';
@@ -151,7 +151,7 @@ async function onAppReady() {
 
     ReactDOM.render(
         <StrictMode>
-            <App history={history} />
+            <RootApp history={history} />
         </StrictMode>,
         root
     );
