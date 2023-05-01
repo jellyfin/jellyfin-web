@@ -6,7 +6,7 @@ import isEqual from 'lodash-es/isEqual';
 
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
-import { appRouter } from '../../components/appRouter';
+import { appRouter } from '../../components/router/appRouter';
 import layoutManager from '../../components/layoutManager';
 import Events from '../../utils/events.ts';
 import * as userSettings from '../../scripts/settings/userSettings';

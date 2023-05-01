@@ -1,15 +1,15 @@
 import { Action, createHashHistory } from 'history';
 
-import { appHost } from './apphost';
-import { clearBackdrop, setBackdropTransparency } from './backdrop/backdrop';
-import globalize from '../scripts/globalize';
-import Events from '../utils/events.ts';
-import itemHelper from './itemHelper';
-import loading from './loading/loading';
-import viewManager from './viewManager/viewManager';
-import ServerConnections from './ServerConnections';
-import alert from './alert';
-import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState.ts';
+import { appHost } from '../apphost';
+import { clearBackdrop, setBackdropTransparency } from '../backdrop/backdrop';
+import globalize from '../../scripts/globalize';
+import Events from '../../utils/events.ts';
+import itemHelper from '../itemHelper';
+import loading from '../loading/loading';
+import viewManager from '../viewManager/viewManager';
+import ServerConnections from '../ServerConnections';
+import alert from '../alert';
+import { ConnectionState } from '../../utils/jellyfin-apiclient/ConnectionState.ts';
 
 export const history = createHashHistory();
 
@@ -247,7 +247,7 @@ class AppRouter {
             url = apiClient.getUrl(`/web${url}`);
             promise = apiClient.get(url);
         } else {
-            promise = import(/* webpackChunkName: "[request]" */ `../controllers/${url}`);
+            promise = import(/* webpackChunkName: "[request]" */ `../../controllers/${url}`);
         }
 
         promise.then((html) => {
@@ -267,7 +267,7 @@ class AppRouter {
         };
 
         if (route.controller) {
-            import(/* webpackChunkName: "[request]" */ '../controllers/' + route.controller).then(onInitComplete);
+            import(/* webpackChunkName: "[request]" */ '../../controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
         }

@@ -5,7 +5,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import escapeHtml from 'escape-html';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import { useApi } from '../../hooks/useApi';
 import globalize from '../../scripts/globalize';
 

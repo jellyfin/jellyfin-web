@@ -1,5 +1,5 @@
 import dom from '../scripts/dom';
-import { appRouter } from './appRouter';
+import { appRouter } from './router/appRouter';
 import Dashboard from '../utils/dashboard';
 import ServerConnections from './ServerConnections';
 

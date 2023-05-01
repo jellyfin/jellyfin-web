@@ -3,7 +3,7 @@ import cardBuilder from '../cardbuilder/cardBuilder';
 import layoutManager from '../layoutManager';
 import imageLoader from '../images/imageLoader';
 import globalize from '../../scripts/globalize';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import imageHelper from '../../scripts/imagehelper';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';

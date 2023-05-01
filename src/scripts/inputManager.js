@@ -1,6 +1,6 @@
 import { playbackManager } from '../components/playback/playbackmanager';
 import focusManager from '../components/focusManager';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import dom from './dom';
 import { appHost } from '../components/apphost';
 

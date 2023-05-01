@@ -20,7 +20,7 @@ import '../../styles/flexstyles.scss';
 import './style.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
 
 let currentContext;

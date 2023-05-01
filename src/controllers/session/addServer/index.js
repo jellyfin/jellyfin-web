@@ -63,7 +63,7 @@ export default function(view) {
     }
 
     function goBack() {
-        import('../../../components/appRouter').then(({ appRouter }) => {
+        import('../../../components/router/appRouter').then(({ appRouter }) => {
             appRouter.back();
         });
     }

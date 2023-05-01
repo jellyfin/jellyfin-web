@@ -1,4 +1,4 @@
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import dom from '../scripts/dom';
 import globalize from '../scripts/globalize';

@@ -22,7 +22,7 @@ import './card.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../guide/programs.scss';
 import ServerConnections from '../ServerConnections';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 

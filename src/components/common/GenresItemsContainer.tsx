@@ -5,7 +5,7 @@ import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client'
 import escapeHTML from 'escape-html';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import layoutManager from '../layoutManager';
 import lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
