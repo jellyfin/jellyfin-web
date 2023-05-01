@@ -597,11 +597,6 @@
     display: flex;
     flex-direction: column;
 
-    .layout-mobile & {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
     .layout-desktop &,
     .layout-tv & {
         .emby-scroller {
@@ -623,6 +618,11 @@
     [dir="rtl"] & {
         padding-right: 32.45vw;
         padding-left: 2%;
+    }
+
+    .layout-mobile & {
+        padding-left: 5%;
+        padding-right: 5%;
     }
 }
 
@@ -667,11 +667,6 @@
     display: flex;
     align-items: center;
     margin: 1em 0;
-}
-
-.detailButton,
-.mainDetailButtons {
-    display: flex;
 }
 
 .itemName {
@@ -750,6 +745,10 @@
 .layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
+}
+
+.layout-mobile [dir="ltr"] .mainDetailButtons {
+    margin-left: 0;
 
     @include header-poster-padding;
 
@@ -758,20 +757,16 @@
         margin-bottom: 0;
         padding-left: 0;
     }
+}
 
-    [dir="ltr"] & {
-        margin-left: 0;
-    }
+.layout-mobile [dir="rtl"] .mainDetailButtons {
+    margin-right: 0;
 
-    [dir="rtl"] & {
-        margin-right: 0;
-        padding-left: unset !important;
+    @include header-poster-padding-rtl;
 
-        @include header-poster-padding-rtl;
-
-        @media all and (max-width: 32em) {
-            padding-right: 0 !important;
-        }
+    @media all and (max-width: 32em) {
+        margin-bottom: 0;
+        padding-right: 0;
     }
 }
 
@@ -807,22 +802,16 @@
     .layout-tv & {
         display: block;
     }
-}
 
-.layout-desktop [dir="rtl"] .detailPagePrimaryContainer {
-    padding-right: 32.45vw;
-}
+    .layout-desktop [dir="rtl"] &,
+    .layout-tv [dir="rtl"] & {
+        padding-right: 32.45vw;
+    }
 
-.layout-desktop [dir="ltr"] .detailPagePrimaryContainer {
-    padding-left: 32.45vw;
-}
-
-.layout-tv [dir="rtl"] .detailPagePrimaryContainer {
-    padding-right: 32.45vw;
-}
-
-.layout-tv [dir="ltr"] .detailPagePrimaryContainer {
-    padding-left: 32.45vw;
+    .layout-desktop [dir="ltr"] &,
+    .layout-tv [dir="ltr"] & {
+        padding-left: 32.45vw;
+    }
 }
 
 .layout-desktop .detailRibbon {
@@ -841,31 +830,23 @@
     flex: 1 0 0;
 
     .layout-mobile & {
-        [dir="ltr"] {
-            @include header-poster-padding;
-        }
-
-        [dir="rtl"] & {
-            @include header-poster-padding-rtl;
-        }
-
         @media all and (max-width: 32em) {
             position: relative;
         }
+    }
+
+    .layout-mobile [dir="ltr"] & {
+        @include header-poster-padding;
+    }
+
+    .layout-mobile [dir="rtl"] & {
+        @include header-poster-padding-rtl;
     }
 }
 
 .infoText {
     min-width: 0;
     max-width: 100%;
-
-    [dir="ltr"] & {
-        text-align: left;
-    }
-
-    [dir="rtl"] & {
-        text-align: right;
-    }
 }
 
 .detailPageSecondaryContainer {
@@ -1141,10 +1122,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 @media all and (max-width: 62.5em) {
-    .mainDetailButtons {
-        margin-left: -0.5em;
-    }
-
     .detailButtonHideonMobile {
         display: none !important;
     }
@@ -1537,4 +1514,9 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     .detail-clamp-text {
         line-clamp: 6;
     }
+}
+
+.currentTimeText {
+    padding-left: 0.8em;
+    padding-right: 0.8em;
 }

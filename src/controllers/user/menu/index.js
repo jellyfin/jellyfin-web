@@ -68,7 +68,7 @@ export default function (view, params) {
             page.querySelector('.lnkControlsPreferences').classList.add('hide');
         }
 
-        import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
+        import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(view);
         });
     });

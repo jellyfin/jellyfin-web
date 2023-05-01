@@ -30,12 +30,8 @@ const UserProfile: FunctionComponent = () => {
 
         loading.show();
         window.ApiClient.getUser(userId).then(function (user) {
-            if (!user.Name) {
-                throw new Error('Unexpected null user.Name');
-            }
-
-            if (!user.Id) {
-                throw new Error('Unexpected null user.Id');
+            if (!user.Name || !user.Id) {
+                throw new Error('Unexpected null user name or id');
             }
 
             setUserName(user.Name);
@@ -153,25 +149,25 @@ const UserProfile: FunctionComponent = () => {
             <div ref={element} className='padded-left padded-right padded-bottom-page'>
                 <div
                     className='readOnlyContent'
-                    style={{margin: '0 auto', marginBottom: '1.8em', padding: '0 1em', display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+                    style={{ margin: '0 auto', marginBottom: '1.8em', padding: '0 1em', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
                 >
                     <div
                         className='imagePlaceHolder'
-                        style={{position: 'relative', display: 'inline-block', maxWidth: 200 }}
+                        style={{ position: 'relative', display: 'inline-block', maxWidth: 200 }}
                     >
                         <input
                             id='uploadImage'
                             type='file'
                             accept='image/*'
-                            style={{position: 'absolute', right: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer'}}
+                            style={{ position: 'absolute', right: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
                         />
                         <div
                             id='image'
-                            style={{width: 200, height: 200, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderRadius: '100%', backgroundSize: 'cover'}}
+                            style={{ width: 200, height: 200, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderRadius: '100%', backgroundSize: 'cover' }}
                         />
                     </div>
-                    <div style={{verticalAlign: 'top', margin: '1em 2em', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                        <h2 className='username' style={{margin: 0, fontSize: 'xx-large'}}>
+                    <div style={{ verticalAlign: 'top', margin: '1em 2em', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <h2 className='username' style={{ margin: 0, fontSize: 'xx-large' }}>
                             {userName}
                         </h2>
                         <br />

@@ -6,7 +6,7 @@ import globalize from '../../scripts/globalize';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
-import '../../assets/css/scrollstyles.scss';
+import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
@@ -61,7 +61,7 @@ function loadRecommendedPrograms(page) {
         });
         loading.hide();
 
-        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(page);
         });
     });
@@ -222,17 +222,17 @@ export default function (view, params) {
     }
 
     function onBeforeTabChange(evt) {
-        preLoadTab(view, parseInt(evt.detail.selectedTabIndex));
+        preLoadTab(view, parseInt(evt.detail.selectedTabIndex, 10));
     }
 
     function onTabChange(evt) {
-        const previousTabController = tabControllers[parseInt(evt.detail.previousIndex)];
+        const previousTabController = tabControllers[parseInt(evt.detail.previousIndex, 10)];
 
         if (previousTabController && previousTabController.onHide) {
             previousTabController.onHide();
         }
 
-        loadTab(view, parseInt(evt.detail.selectedTabIndex));
+        loadTab(view, parseInt(evt.detail.selectedTabIndex, 10));
     }
 
     function getTabContainers() {
@@ -273,7 +273,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../livetv/${depends}`).then(({default: controllerFactory}) => {
+        import(`../livetv/${depends}`).then(({ default: controllerFactory }) => {
             let tabContent;
 
             if (index === 0) {
@@ -339,7 +339,7 @@ export default function (view, params) {
 
     let isViewRestored;
     const self = this;
-    let currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'));
+    let currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'), 10);
     let initialTabIndex = currentTabIndex;
     let lastFullRender = 0;
     [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {

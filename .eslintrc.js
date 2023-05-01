@@ -46,6 +46,7 @@ module.exports = {
         'keyword-spacing': ['error'],
         'no-throw-literal': ['error'],
         'max-statements-per-line': ['error'],
+        'max-params': ['error', 7],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
         'no-floating-decimal': ['error'],
@@ -63,10 +64,13 @@ module.exports = {
         'no-var': ['error'],
         'no-void': ['error', { 'allowAsStatement': true }],
         'no-warning-comments': ['warn', { 'terms': ['fixme', 'hack', 'xxx'] }],
+        'object-curly-spacing': ['error', 'always'],
         'one-var': ['error', 'never'],
+        'operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+        'radix': ['error'],
         '@babel/semi': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
@@ -265,7 +269,6 @@ module.exports = {
                 'no-useless-constructor': ['off'],
                 '@typescript-eslint/no-useless-constructor': ['error'],
 
-                'max-params': ['error', 7],
                 'sonarjs/cognitive-complexity': ['warn']
             }
         }

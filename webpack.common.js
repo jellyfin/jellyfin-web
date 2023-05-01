@@ -8,13 +8,12 @@ const { DefinePlugin } = require('webpack');
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.data',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.data',
-    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem',
     'pdfjs-dist/build/pdf.worker.js'
+];
+
+const JassubWasm = [
+    'jassub/dist/jassub-worker.wasm',
+    'jassub/dist/default.woff2'
 ];
 
 const LibarchiveWasm = [
@@ -83,6 +82,14 @@ const config = {
                     to: path.resolve(__dirname, './dist/libraries/wasm-gen')
                 };
             })
+        }),
+        new CopyPlugin({
+            patterns: JassubWasm.map(asset => {
+                return {
+                    from: path.resolve(__dirname, `./node_modules/${asset}`),
+                    to: path.resolve(__dirname, './dist')
+                };
+            })
         })
     ],
     output: {
@@ -146,12 +153,46 @@ const config = {
             },
             {
                 test: /\.(js|jsx)$/,
-                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|@jellyfin[\\/]sdk|@remix-run[\\/]router|axios|blurhash|compare-versions|date-fns|dom7|epubjs|flv.js|libarchive.js|marked|react-router|screenfull|ssr-window|swiper)/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/event-target-polyfill'),
+                    path.resolve(__dirname, 'node_modules/rvfc-polyfill'),
+                    path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
+                    path.resolve(__dirname, 'node_modules/@remix-run/router'),
+                    path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
+                    path.resolve(__dirname, 'node_modules/axios'),
+                    path.resolve(__dirname, 'node_modules/blurhash'),
+                    path.resolve(__dirname, 'node_modules/compare-versions'),
+                    path.resolve(__dirname, 'node_modules/date-fns'),
+                    path.resolve(__dirname, 'node_modules/dom7'),
+                    path.resolve(__dirname, 'node_modules/epubjs'),
+                    path.resolve(__dirname, 'node_modules/flv.js'),
+                    path.resolve(__dirname, 'node_modules/libarchive.js'),
+                    path.resolve(__dirname, 'node_modules/marked'),
+                    path.resolve(__dirname, 'node_modules/react-router'),
+                    path.resolve(__dirname, 'node_modules/screenfull'),
+                    path.resolve(__dirname, 'node_modules/ssr-window'),
+                    path.resolve(__dirname, 'node_modules/swiper'),
+                    path.resolve(__dirname, 'src')
+                ],
                 use: [{
                     loader: 'babel-loader',
                     options: {
                         cacheCompression: false,
                         cacheDirectory: true
+                    }
+                }]
+            },
+            {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/jassub')
+                ],
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true,
+                        presets: ['@babel/preset-env']
                     }
                 }]
             },
@@ -172,7 +213,11 @@ const config = {
             },
             /* modules that Babel breaks when transforming to ESM */
             {
-                test: /node_modules[\\/](pdfjs-dist|xmldom)[\\/].*\.js$/,
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/pdfjs-dist'),
+                    path.resolve(__dirname, 'node_modules/xmldom')
+                ],
                 use: [{
                     loader: 'babel-loader',
                     options: {

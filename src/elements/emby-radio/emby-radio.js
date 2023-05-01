@@ -3,80 +3,77 @@ import browser from '../../scripts/browser';
 import 'webcomponents.js/webcomponents-lite';
 import './emby-radio.scss';
 
-/* eslint-disable indent */
+const EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
-    const EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
+function onKeyDown(e) {
+    // Don't submit form on enter
+    // Real (non-emulator) Tizen does nothing on Space
+    if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
+        e.preventDefault();
 
-    function onKeyDown(e) {
-        // Don't submit form on enter
-        // Real (non-emulator) Tizen does nothing on Space
-        if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
-            e.preventDefault();
+        if (!this.checked) {
+            this.checked = true;
 
-            if (!this.checked) {
-                this.checked = true;
-
-                this.dispatchEvent(new CustomEvent('change', {
-                    bubbles: true
-                }));
-            }
-
-            return false;
+            this.dispatchEvent(new CustomEvent('change', {
+                bubbles: true
+            }));
         }
+
+        return false;
+    }
+}
+
+EmbyRadioPrototype.attachedCallback = function () {
+    const showFocus = !layoutManager.mobile;
+
+    if (this.getAttribute('data-radio') === 'true') {
+        return;
     }
 
-    EmbyRadioPrototype.attachedCallback = function () {
-        const showFocus = !layoutManager.mobile;
+    this.setAttribute('data-radio', 'true');
 
-        if (this.getAttribute('data-radio') === 'true') {
-            return;
-        }
+    this.classList.add('mdl-radio__button');
 
-        this.setAttribute('data-radio', 'true');
+    const labelElement = this.parentNode;
+    labelElement.classList.add('mdl-radio');
+    labelElement.classList.add('mdl-js-radio');
+    labelElement.classList.add('mdl-js-ripple-effect');
+    if (showFocus) {
+        labelElement.classList.add('show-focus');
+    }
 
-        this.classList.add('mdl-radio__button');
+    const labelTextElement = labelElement.querySelector('span');
 
-        const labelElement = this.parentNode;
-        labelElement.classList.add('mdl-radio');
-        labelElement.classList.add('mdl-js-radio');
-        labelElement.classList.add('mdl-js-ripple-effect');
-        if (showFocus) {
-            labelElement.classList.add('show-focus');
-        }
+    labelTextElement.classList.add('radioButtonLabel');
+    labelTextElement.classList.add('mdl-radio__label');
 
-        const labelTextElement = labelElement.querySelector('span');
+    let html = '';
 
-        labelTextElement.classList.add('radioButtonLabel');
-        labelTextElement.classList.add('mdl-radio__label');
+    html += '<div class="mdl-radio__circles">';
 
-        let html = '';
+    html += '<svg>';
+    html += '<defs>';
+    html += '<clipPath id="cutoff">';
+    html += '<circle cx="50%" cy="50%" r="50%" />';
+    html += '</clipPath>';
+    html += '</defs>';
+    html += '<circle class="mdl-radio__outer-circle" cx="50%" cy="50%" r="50%" fill="none" stroke="currentcolor" stroke-width="0.26em" clip-path="url(#cutoff)" />';
+    html += '<circle class="mdl-radio__inner-circle" cx="50%" cy="50%" r="25%" fill="currentcolor" />';
+    html += '</svg>';
 
-        html += '<div class="mdl-radio__circles">';
+    if (showFocus) {
+        html += '<div class="mdl-radio__focus-circle"></div>';
+    }
 
-        html += '<svg>';
-        html += '<defs>';
-        html += '<clipPath id="cutoff">';
-        html += '<circle cx="50%" cy="50%" r="50%" />';
-        html += '</clipPath>';
-        html += '</defs>';
-        html += '<circle class="mdl-radio__outer-circle" cx="50%" cy="50%" r="50%" fill="none" stroke="currentcolor" stroke-width="0.26em" clip-path="url(#cutoff)" />';
-        html += '<circle class="mdl-radio__inner-circle" cx="50%" cy="50%" r="25%" fill="currentcolor" />';
-        html += '</svg>';
+    html += '</div>';
 
-        if (showFocus) {
-            html += '<div class="mdl-radio__focus-circle"></div>';
-        }
+    this.insertAdjacentHTML('afterend', html);
 
-        html += '</div>';
+    this.addEventListener('keydown', onKeyDown);
+};
 
-        this.insertAdjacentHTML('afterend', html);
+document.registerElement('emby-radio', {
+    prototype: EmbyRadioPrototype,
+    extends: 'input'
+});
 
-        this.addEventListener('keydown', onKeyDown);
-    };
-
-    document.registerElement('emby-radio', {
-        prototype: EmbyRadioPrototype,
-        extends: 'input'
-    });
-
-/* eslint-enable indent */

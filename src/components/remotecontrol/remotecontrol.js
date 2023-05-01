@@ -20,8 +20,6 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
 
-/*eslint prefer-const: "error"*/
-
 let showMuteButton = true;
 let showVolumeSlider = true;
 
@@ -46,7 +44,7 @@ function showAudioMenu(context, player, button) {
             items: menuItems,
             positionTo: button,
             callback: function (id) {
-                playbackManager.setAudioStreamIndex(parseInt(id), player);
+                playbackManager.setAudioStreamIndex(parseInt(id, 10), player);
             }
         });
     });
@@ -78,7 +76,7 @@ function showSubtitleMenu(context, player, button) {
             items: menuItems,
             positionTo: button,
             callback: function (id) {
-                playbackManager.setSubtitleStreamIndex(parseInt(id), player);
+                playbackManager.setSubtitleStreamIndex(parseInt(id, 10), player);
             }
         });
     });
@@ -327,10 +325,11 @@ export default function () {
         if (layoutManager.mobile) {
             const playingVideo = playbackManager.isPlayingVideo() && item !== null;
             const playingAudio = !playbackManager.isPlayingVideo() && item !== null;
-            buttonVisible(context.querySelector('.btnRepeat'), playingAudio);
-            buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio);
-            buttonVisible(context.querySelector('.btnRewind'), playingVideo);
-            buttonVisible(context.querySelector('.btnFastForward'), playingVideo);
+            const playingAudioBook = playingAudio && item.Type == 'AudioBook';
+            buttonVisible(context.querySelector('.btnRepeat'), playingAudio && !playingAudioBook);
+            buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio && !playingAudioBook);
+            buttonVisible(context.querySelector('.btnRewind'), playingVideo || playingAudioBook);
+            buttonVisible(context.querySelector('.btnFastForward'), playingVideo || playingAudioBook);
             buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnShuffleQueue'), playingVideo);
             buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnRepeat'), playingVideo);
         } else {
@@ -765,18 +764,22 @@ export default function () {
 
         context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
             if (currentPlayer) {
-                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
-                    // Cancel this event if doubleclick is fired
-                    if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
+                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio') {
+                    // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
+                    if (e.detail > 1 ) {
                         return;
                     }
-                    playbackManager.seekPercent(0, currentPlayer);
-                    // This is done automatically by playbackManager. However, setting this here gives instant visual feedback.
-                    // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
-                    positionSlider.value = 0;
-                } else {
-                    playbackManager.previousTrack(currentPlayer);
+                    // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
+                    // to the previous track, unless we are at the first track so no previous track exists.
+                    if (currentPlayer._currentTime >= 5 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 1) {
+                        playbackManager.seekPercent(0, currentPlayer);
+                        // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
+                        // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
+                        positionSlider.value = 0;
+                        return;
+                    }
                 }
+                playbackManager.previousTrack(currentPlayer);
             }
         });
 

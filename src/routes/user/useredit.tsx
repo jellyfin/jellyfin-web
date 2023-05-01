@@ -25,6 +25,17 @@ type AuthProvider = {
     Id?: string;
 }
 
+const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
+    Array.prototype.filter.call(elements, e => e.checked)
+        .map(e => e.getAttribute('data-id'))
+);
+
+function onSaveComplete() {
+    Dashboard.navigate('userprofiles.html');
+    loading.hide();
+    toast(globalize.translate('SettingsSaved'));
+}
+
 const UserEdit: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
@@ -56,7 +67,7 @@ const UserEdit: FunctionComponent = () => {
         }
 
         const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider') as HTMLDivElement;
-        providers.length > 1 ? fldSelectLoginProvider.classList.remove('hide') : fldSelectLoginProvider.classList.add('hide');
+        fldSelectLoginProvider.classList.toggle('hide', providers.length <= 1);
 
         setAuthProviders(providers);
 
@@ -73,7 +84,7 @@ const UserEdit: FunctionComponent = () => {
         }
 
         const fldSelectPasswordResetProvider = page.querySelector('.fldSelectPasswordResetProvider') as HTMLDivElement;
-        providers.length > 1 ? fldSelectPasswordResetProvider.classList.remove('hide') : fldSelectPasswordResetProvider.classList.add('hide');
+        fldSelectPasswordResetProvider.classList.toggle('hide', providers.length <= 1);
 
         setPasswordResetProviders(providers);
 
@@ -145,7 +156,7 @@ const UserEdit: FunctionComponent = () => {
         });
 
         const disabledUserBanner = page.querySelector('.disabledUserBanner') as HTMLDivElement;
-        user.Policy.IsDisabled ? disabledUserBanner.classList.remove('hide') : disabledUserBanner.classList.add('hide');
+        disabledUserBanner.classList.toggle('hide', !user.Policy.IsDisabled);
 
         const txtUserName = page.querySelector('#txtUserName') as HTMLInputElement;
         txtUserName.disabled = false;
@@ -159,6 +170,7 @@ const UserEdit: FunctionComponent = () => {
         (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = user.Policy.IsAdministrator;
         (page.querySelector('.chkDisabled') as HTMLInputElement).checked = user.Policy.IsDisabled;
         (page.querySelector('.chkIsHidden') as HTMLInputElement).checked = user.Policy.IsHidden;
+        (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked = user.Policy.EnableCollectionManagement;
         (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = user.Policy.EnableSharedDeviceControl;
         (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked = user.Policy.EnableRemoteControlOfOtherUsers;
         (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = user.Policy.EnableContentDownloading;
@@ -171,7 +183,7 @@ const UserEdit: FunctionComponent = () => {
         (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = user.Policy.ForceRemoteSourceTranscoding;
         (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
         (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy.RemoteClientBitrateLimit > 0 ?
-            (user.Policy.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, {maximumFractionDigits: 6}) : '';
+            (user.Policy.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = user.Policy.LoginAttemptsBeforeLockout || '0';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = user.Policy.MaxActiveSessions || '0';
         if (window.ApiClient.isMinServerVersion('10.6.0')) {
@@ -197,19 +209,9 @@ const UserEdit: FunctionComponent = () => {
 
         loadData();
 
-        function onSaveComplete() {
-            Dashboard.navigate('userprofiles.html');
-            loading.hide();
-            toast(globalize.translate('SettingsSaved'));
-        }
-
         const saveUser = (user: UserDto) => {
-            if (!user.Id) {
-                throw new Error('Unexpected null user.Id');
-            }
-
-            if (!user.Policy) {
-                throw new Error('Unexpected null user.Policy');
+            if (!user.Id || !user.Policy) {
+                throw new Error('Unexpected null user id or policy');
             }
 
             user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value;
@@ -224,28 +226,25 @@ const UserEdit: FunctionComponent = () => {
             user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked;
             user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked;
             user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
+            user.Policy.EnableCollectionManagement = (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked;
             user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
             user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
             user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
             user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
-            user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0');
-            user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0');
+            user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0', 10);
+            user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0', 10);
             user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
             user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
-            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
-                return c.checked;
-            }).map(function (c) {
-                return c.getAttribute('data-id');
-            });
-            if (window.ApiClient.isMinServerVersion('10.6.0')) {
-                user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
-            }
-            window.ApiClient.updateUser(user).then(function () {
-                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {}).then(function () {
+            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
+            user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
+
+            window.ApiClient.updateUser(user)
+                .then(() => (
+                    window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {})
+                )).then(() => {
                     onSaveComplete();
                 });
-            });
         };
 
         const onSubmit = (e: Event) => {
@@ -259,16 +258,11 @@ const UserEdit: FunctionComponent = () => {
         };
 
         (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
-            if (this.checked) {
-                (page.querySelector('.deleteAccess') as HTMLDivElement).classList.add('hide');
-            } else {
-                (page.querySelector('.deleteAccess') as HTMLDivElement).classList.remove('hide');
-            }
+            (page.querySelector('.deleteAccess') as HTMLDivElement).classList.toggle('hide', this.checked);
         });
 
         window.ApiClient.getNamedConfiguration('network').then(function (config) {
-            const fldRemoteAccess = page.querySelector('.fldRemoteAccess') as HTMLDivElement;
-            config.EnableRemoteAccess ? fldRemoteAccess.classList.remove('hide') : fldRemoteAccess.classList.add('hide');
+            (page.querySelector('.fldRemoteAccess') as HTMLDivElement).classList.toggle('hide', !config.EnableRemoteAccess);
         });
 
         (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
@@ -312,7 +306,7 @@ const UserEdit: FunctionComponent = () => {
                 <SectionTabs activeTab='useredit'/>
                 <div
                     className='lnkEditUserPreferencesContainer'
-                    style={{paddingBottom: '1em'}}
+                    style={{ paddingBottom: '1em' }}
                 >
                     <LinkEditUserPreferences
                         className= 'lnkEditUserPreferences button-link'
@@ -325,7 +319,7 @@ const UserEdit: FunctionComponent = () => {
                             <div>
                                 {globalize.translate('HeaderThisUserIsCurrentlyDisabled')}
                             </div>
-                            <div style={{marginTop: 5}}>
+                            <div style={{ marginTop: 5 }}>
                                 {globalize.translate('MessageReenableUser')}
                             </div>
                         </div>
@@ -375,11 +369,16 @@ const UserEdit: FunctionComponent = () => {
                         className='chkIsAdmin'
                         title='OptionAllowUserToManageServer'
                     />
+                    <CheckBoxElement
+                        labelClassName='checkboxContainer'
+                        className='chkEnableCollectionManagement'
+                        title='AllowCollectionManagement'
+                    />
                     <div id='featureAccessFields' className='verticalSection'>
                         <h2 className='paperListLabel'>
                             {globalize.translate('HeaderFeatureAccess')}
                         </h2>
-                        <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
+                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                             <CheckBoxElement
                                 className='chkEnableLiveTvAccess'
                                 title='OptionAllowBrowsingLiveTv'
@@ -394,7 +393,7 @@ const UserEdit: FunctionComponent = () => {
                         <h2 className='paperListLabel'>
                             {globalize.translate('HeaderPlayback')}
                         </h2>
-                        <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
+                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                             <CheckBoxElement
                                 className='chkEnableMediaPlayback'
                                 title='OptionAllowMediaPlayback'
@@ -451,7 +450,7 @@ const UserEdit: FunctionComponent = () => {
                         </div>
                     </div>
                     <div className='verticalSection'>
-                        <h2 className='checkboxListLabel' style={{marginBottom: '1em'}}>
+                        <h2 className='checkboxListLabel' style={{ marginBottom: '1em' }}>
                             {globalize.translate('HeaderAllowMediaDeletionFrom')}
                         </h2>
                         <div className='checkboxList paperList checkboxList-paperList'>
@@ -477,7 +476,7 @@ const UserEdit: FunctionComponent = () => {
                         <h2 className='checkboxListLabel'>
                             {globalize.translate('HeaderRemoteControl')}
                         </h2>
-                        <div className='checkboxList paperList' style={{padding: '.5em 1em'}}>
+                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                             <CheckBoxElement
                                 className='chkEnableRemoteControlOtherUsers'
                                 title='OptionAllowRemoteControlOthers'

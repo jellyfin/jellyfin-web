@@ -7,12 +7,10 @@ import recordingHelper from './recordinghelper';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import './recordingfields.scss';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './recordingfields.template.html';
-
-/*eslint prefer-const: "error"*/
 
 function loadData(parent, program) {
     if (program.IsSeries) {
@@ -143,7 +141,7 @@ function onManageRecordingClick() {
     }
 
     const self = this;
-    import('./recordingeditor').then(({default: recordingEditor}) => {
+    import('./recordingeditor').then(({ default: recordingEditor }) => {
         recordingEditor.show(self.TimerId, options.serverId, {
             enableCancel: false
         }).then(function () {
@@ -161,7 +159,7 @@ function onManageSeriesRecordingClick() {
 
     const self = this;
 
-    import('./seriesrecordingeditor').then(({default: seriesRecordingEditor}) => {
+    import('./seriesrecordingeditor').then(({ default: seriesRecordingEditor }) => {
         seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
 
             enableCancel: false

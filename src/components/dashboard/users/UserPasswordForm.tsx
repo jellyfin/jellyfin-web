@@ -1,4 +1,3 @@
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../scripts/globalize';
@@ -14,10 +13,10 @@ type IProps = {
     userId: string;
 }
 
-const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
+const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
 
-    const loadUser = useCallback(() => {
+    const loadUser = useCallback(async () => {
         const page = element.current;
 
         if (!page) {
@@ -25,61 +24,48 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
             return;
         }
 
-        window.ApiClient.getUser(userId).then(function (user) {
-            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
-                if (!user.Policy) {
-                    throw new Error('Unexpected null user.Policy');
-                }
+        const user = await window.ApiClient.getUser(userId);
+        const loggedInUser = await Dashboard.getCurrentUser();
 
-                if (!user.Configuration) {
-                    throw new Error('Unexpected null user.Configuration');
-                }
+        if (!user.Policy || !user.Configuration) {
+            throw new Error('Unexpected null user policy or configuration');
+        }
 
-                LibraryMenu.setTitle(user.Name);
+        LibraryMenu.setTitle(user.Name);
 
-                let showLocalAccessSection = false;
+        let showLocalAccessSection = false;
 
-                if (user.HasConfiguredPassword) {
-                    (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
-                    (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
-                    showLocalAccessSection = true;
-                } else {
-                    (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
-                    (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
-                }
+        if (user.HasConfiguredPassword) {
+            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
+            showLocalAccessSection = true;
+        } else {
+            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
+            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
+        }
 
-                if (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess) {
-                    (page.querySelector('.passwordSection') as HTMLDivElement).classList.remove('hide');
-                } else {
-                    (page.querySelector('.passwordSection') as HTMLDivElement).classList.add('hide');
-                }
+        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
+        (page.querySelector('.passwordSection') as HTMLDivElement).classList.toggle('hide', !canChangePassword);
+        (page.querySelector('.localAccessSection') as HTMLDivElement).classList.toggle('hide', !(showLocalAccessSection && canChangePassword));
 
-                if (showLocalAccessSection && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                    (page.querySelector('.localAccessSection') as HTMLDivElement).classList.remove('hide');
-                } else {
-                    (page.querySelector('.localAccessSection') as HTMLDivElement).classList.add('hide');
-                }
+        const txtEasyPassword = page.querySelector('#txtEasyPassword') as HTMLInputElement;
+        txtEasyPassword.value = '';
 
-                const txtEasyPassword = page.querySelector('#txtEasyPassword') as HTMLInputElement;
-                txtEasyPassword.value = '';
+        if (user.HasConfiguredEasyPassword) {
+            txtEasyPassword.placeholder = '******';
+            (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.remove('hide');
+        } else {
+            txtEasyPassword.removeAttribute('placeholder');
+            txtEasyPassword.placeholder = '';
+            (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.add('hide');
+        }
 
-                if (user.HasConfiguredEasyPassword) {
-                    txtEasyPassword.placeholder = '******';
-                    (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.remove('hide');
-                } else {
-                    txtEasyPassword.removeAttribute('placeholder');
-                    txtEasyPassword.placeholder = '';
-                    (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.add('hide');
-                }
+        const chkEnableLocalEasyPassword = page.querySelector('.chkEnableLocalEasyPassword') as HTMLInputElement;
 
-                const chkEnableLocalEasyPassword = page.querySelector('.chkEnableLocalEasyPassword') as HTMLInputElement;
+        chkEnableLocalEasyPassword.checked = user.Configuration.EnableLocalPassword || false;
 
-                chkEnableLocalEasyPassword.checked = user.Configuration.EnableLocalPassword || false;
-
-                import('../../autoFocuser').then(({default: autoFocuser}) => {
-                    autoFocuser.autoFocus(page);
-                });
-            });
+        import('../../autoFocuser').then(({ default: autoFocuser }) => {
+            autoFocuser.autoFocus(page);
         });
 
         (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value = '';
@@ -214,7 +200,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
         <div ref={element}>
             <form
                 className='updatePasswordForm passwordSection hide'
-                style={{margin: '0 auto 2em'}}
+                style={{ margin: '0 auto 2em' }}
             >
                 <div className='detailSection'>
                     <div id='fldCurrentPassword' className='inputContainer hide'>
@@ -260,7 +246,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({userId}: IProps) => {
             <br />
             <form
                 className='localAccessForm localAccessSection'
-                style={{margin: '0 auto'}}
+                style={{ margin: '0 auto' }}
             >
                 <div className='detailSection'>
                     <div className='detailSectionHeader'>

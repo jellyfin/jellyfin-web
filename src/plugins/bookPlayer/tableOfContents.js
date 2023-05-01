@@ -23,8 +23,8 @@ export default class TableOfContents {
     bindEvents() {
         const elem = this.elem;
 
-        elem.addEventListener('close', this.onDialogClosed, {once: true});
-        elem.querySelector('.btnBookplayerTocClose').addEventListener('click', this.onDialogClosed, {once: true});
+        elem.addEventListener('close', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnBookplayerTocClose').addEventListener('click', this.onDialogClosed, { once: true });
     }
 
     unbindEvents() {

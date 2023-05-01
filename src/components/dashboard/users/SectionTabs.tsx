@@ -36,7 +36,7 @@ const createLinkElement = (activeTab: string) => ({
     </a>`
 });
 
-const SectionTabs: FunctionComponent<IProps> = ({activeTab}: IProps) => {
+const SectionTabs: FunctionComponent<IProps> = ({ activeTab }: IProps) => {
     return (
         <div
             data-role='controlgroup'

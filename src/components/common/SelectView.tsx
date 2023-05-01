@@ -16,7 +16,7 @@ const SelectView: FC<SelectViewProps> = ({
     const element = useRef<HTMLDivElement>(null);
 
     const showViewSettingsMenu = useCallback(() => {
-        import('../viewSettings/viewSettings').then(({default: ViewSettings}) => {
+        import('../viewSettings/viewSettings').then(({ default: ViewSettings }) => {
             const viewsettings = new ViewSettings();
             viewsettings.show({
                 settings: viewQuerySettings,

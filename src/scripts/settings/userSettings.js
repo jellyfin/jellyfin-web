@@ -170,6 +170,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Video Remaining/Total Time' state.
+     * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
+     * @return {boolean} 'Video Remaining/Total Time' state.
+     */
+    enableVideoRemainingTime(val) {
+        if (val !== undefined) {
+            return this.set('enableVideoRemainingTime', val.toString());
+        }
+
+        return toBoolean(this.get('enableVideoRemainingTime', false), true);
+    }
+
+    /**
      * Get or set 'Theme Songs' state.
      * @param {boolean|undefined} val - Flag to enable 'Theme Songs' or undefined.
      * @return {boolean} 'Theme Songs' state.
@@ -335,7 +348,7 @@ export class UserSettings {
             return this.set('skipBackLength', val.toString());
         }
 
-        return parseInt(this.get('skipBackLength') || '10000');
+        return parseInt(this.get('skipBackLength') || '10000', 10);
     }
 
     /**
@@ -348,7 +361,7 @@ export class UserSettings {
             return this.set('skipForwardLength', val.toString());
         }
 
-        return parseInt(this.get('skipForwardLength') || '30000');
+        return parseInt(this.get('skipForwardLength') || '30000', 10);
     }
 
     /**
@@ -580,6 +593,7 @@ export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(cu
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
+export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);

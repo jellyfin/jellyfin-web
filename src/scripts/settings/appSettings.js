@@ -70,7 +70,7 @@ class AppSettings {
             // return a huge number so that it always direct plays
             return 150000000;
         } else {
-            return parseInt(this.get(key) || '0') || 1500000;
+            return parseInt(this.get(key) || '0', 10) || 1500000;
         }
     }
 
@@ -80,7 +80,7 @@ class AppSettings {
         }
 
         const defaultValue = 320000;
-        return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
+        return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString(), 10) || defaultValue;
     }
 
     maxChromecastBitrate(val) {
@@ -89,7 +89,7 @@ class AppSettings {
         }
 
         val = this.get('chromecastBitrate1');
-        return val ? parseInt(val) : null;
+        return val ? parseInt(val, 10) : null;
     }
 
     /**

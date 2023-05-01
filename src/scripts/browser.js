@@ -187,25 +187,25 @@ function supportsCssAnimation(allowPrefix) {
 const uaMatch = function (ua) {
     ua = ua.toLowerCase();
 
-    const match = /(edg)[ /]([\w.]+)/.exec(ua) ||
-        /(edga)[ /]([\w.]+)/.exec(ua) ||
-        /(edgios)[ /]([\w.]+)/.exec(ua) ||
-        /(edge)[ /]([\w.]+)/.exec(ua) ||
-        /(opera)[ /]([\w.]+)/.exec(ua) ||
-        /(opr)[ /]([\w.]+)/.exec(ua) ||
-        /(chrome)[ /]([\w.]+)/.exec(ua) ||
-        /(safari)[ /]([\w.]+)/.exec(ua) ||
-        /(firefox)[ /]([\w.]+)/.exec(ua) ||
-        ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
-        [];
+    const match = /(edg)[ /]([\w.]+)/.exec(ua)
+        || /(edga)[ /]([\w.]+)/.exec(ua)
+        || /(edgios)[ /]([\w.]+)/.exec(ua)
+        || /(edge)[ /]([\w.]+)/.exec(ua)
+        || /(opera)[ /]([\w.]+)/.exec(ua)
+        || /(opr)[ /]([\w.]+)/.exec(ua)
+        || /(chrome)[ /]([\w.]+)/.exec(ua)
+        || /(safari)[ /]([\w.]+)/.exec(ua)
+        || /(firefox)[ /]([\w.]+)/.exec(ua)
+        || ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua)
+        || [];
 
     const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
-    let platform_match = /(ipad)/.exec(ua) ||
-        /(iphone)/.exec(ua) ||
-        /(windows)/.exec(ua) ||
-        /(android)/.exec(ua) ||
-        [];
+    let platform_match = /(ipad)/.exec(ua)
+        || /(iphone)/.exec(ua)
+        || /(windows)/.exec(ua)
+        || /(android)/.exec(ua)
+        || [];
 
     let browser = match[1] || '';
 
@@ -224,7 +224,7 @@ const uaMatch = function (ua) {
 
     version = version || match[2] || '0';
 
-    let versionMajor = parseInt(version.split('.')[0]);
+    let versionMajor = parseInt(version.split('.')[0], 10);
 
     if (isNaN(versionMajor)) {
         versionMajor = 0;
@@ -295,7 +295,7 @@ if (browser.web0s) {
     delete browser.safari;
 
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
-    browser.tizenVersion = parseInt(v[1]);
+    browser.tizenVersion = parseInt(v[1], 10);
 } else {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }
