@@ -193,41 +193,5 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'dashboard/streaming.html',
             controller: 'dashboard/streaming'
         }
-    }, {
-        path: 'usernew.html',
-        pageProps: {
-            view: 'dashboard/users/usernew.html',
-            controller: 'dashboard/users/usernew'
-        }
-    }, {
-        path: 'userprofiles.html',
-        pageProps: {
-            view: 'dashboard/users/userprofiles.html',
-            controller: 'dashboard/users/userprofilespage'
-        }
-    }, {
-        path: 'useredit.html',
-        pageProps: {
-            view: 'dashboard/users/useredit.html',
-            controller: 'dashboard/users/useredit'
-        }
-    }, {
-        path: 'userlibraryaccess.html',
-        pageProps: {
-            view: 'dashboard/users/userlibraryaccess.html',
-            controller: 'dashboard/users/userlibraryaccess'
-        }
-    }, {
-        path: 'userparentalcontrol.html',
-        pageProps: {
-            view: 'dashboard/users/userparentalcontrol.html',
-            controller: 'dashboard/users/userparentalcontrol'
-        }
-    }, {
-        path: 'userpassword.html',
-        pageProps: {
-            view: 'dashboard/users/userpassword.html',
-            controller: 'dashboard/users/userpasswordpage'
-        }
     }
 ];

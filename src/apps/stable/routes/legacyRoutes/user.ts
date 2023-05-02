@@ -93,12 +93,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             isThemeMediaSupported: true
         }
     }, {
-        path: 'userprofile.html',
-        pageProps: {
-            controller: 'user/profile/index',
-            view: 'user/profile/index.html'
-        }
-    }, {
         path: 'home.html',
         pageProps: {
             controller: 'home',
