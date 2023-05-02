@@ -2,8 +2,9 @@ const restrictedGlobals = require('confusing-browser-globals');
 
 module.exports = {
     root: true,
+    parser: '@typescript-eslint/parser',
     plugins: [
-        '@babel',
+        '@typescript-eslint',
         'react',
         'promise',
         'import',
@@ -15,14 +16,6 @@ module.exports = {
         es6: true,
         es2017: true,
         es2020: true
-    },
-    parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: 'module',
-        ecmaFeatures: {
-            impliedStrict: true,
-            jsx: true
-        }
     },
     extends: [
         'eslint:recommended',
@@ -53,14 +46,19 @@ module.exports = {
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-nested-ternary': ['error'],
+        'no-redeclare': ['off'],
+        '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: false }],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-return-assign': ['error'],
         'no-return-await': ['error'],
         'no-sequences': ['error', { 'allowInParentheses': false }],
-        'no-shadow': ['error'],
+        'no-shadow': ['off'],
+        '@typescript-eslint/no-shadow': ['error'],
         'no-trailing-spaces': ['error'],
-        '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
-        'no-useless-constructor': ['error'],
+        'no-unused-expressions': ['off'],
+        '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        'no-useless-constructor': ['off'],
+        '@typescript-eslint/no-useless-constructor': ['error'],
         'no-var': ['error'],
         'no-void': ['error', { 'allowAsStatement': true }],
         'no-warning-comments': ['warn', { 'terms': ['fixme', 'hack', 'xxx'] }],
@@ -71,7 +69,7 @@ module.exports = {
         'prefer-const': ['error', { 'destructuring': 'all' }],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'radix': ['error'],
-        '@babel/semi': ['error'],
+        '@typescript-eslint/semi': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
@@ -201,9 +199,9 @@ module.exports = {
             files: [
                 './src/**/*.js',
                 './src/**/*.jsx',
-                './src/**/*.ts'
+                './src/**/*.ts',
+                './src/**/*.tsx'
             ],
-            parser: '@babel/eslint-parser',
             env: {
                 node: false,
                 amd: true,
@@ -241,8 +239,6 @@ module.exports = {
                 'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'
-            },
-            rules: {
             }
         },
         // TypeScript source files
@@ -251,8 +247,6 @@ module.exports = {
                 './src/**/*.ts',
                 './src/**/*.tsx'
             ],
-            parser: '@typescript-eslint/parser',
-            plugins: ['@typescript-eslint'],
             extends: [
                 'eslint:recommended',
                 'plugin:import/typescript',
@@ -263,12 +257,6 @@ module.exports = {
                 'plugin:jsx-a11y/recommended'
             ],
             rules: {
-                // Use TypeScript equivalent rules when required
-                'no-shadow': ['off'],
-                '@typescript-eslint/no-shadow': ['error'],
-                'no-useless-constructor': ['off'],
-                '@typescript-eslint/no-useless-constructor': ['error'],
-
                 'sonarjs/cognitive-complexity': ['warn']
             }
         }
