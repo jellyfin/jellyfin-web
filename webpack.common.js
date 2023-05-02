@@ -31,6 +31,7 @@ const config = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         modules: [
+            path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
         ]
     },
