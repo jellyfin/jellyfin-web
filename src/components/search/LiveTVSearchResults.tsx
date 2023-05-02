@@ -24,7 +24,7 @@ type LiveTVSearchResultsProps = {
     parentId?: string | null;
     collectionType?: string | null;
     query?: string;
-}
+};
 
 /*
  * React component to display search result rows for live tv library search

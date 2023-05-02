@@ -35,13 +35,13 @@ type CardOptions = {
     showChannelName?: boolean,
     showTitle?: boolean,
     showYear?: boolean
-}
+};
 
 type SearchResultsRowProps = {
     title?: string;
     items?: BaseItemDto[];
     cardOptions?: CardOptions;
-}
+};
 
 const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {
     const element = useRef<HTMLDivElement>(null);

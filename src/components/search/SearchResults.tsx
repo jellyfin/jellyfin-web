@@ -12,7 +12,7 @@ type SearchResultsProps = {
     parentId?: string | null;
     collectionType?: string | null;
     query?: string;
-}
+};
 
 const ensureNonNullItems = (result: BaseItemDtoQueryResult) => ({
     ...result,

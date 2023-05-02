@@ -14,7 +14,7 @@ import Page from '../components/Page';
 type OnResumeOptions = {
     autoFocus?: boolean;
     refresh?: boolean
-}
+};
 
 type ControllerProps = {
     onResume: (
@@ -23,7 +23,7 @@ type ControllerProps = {
     refreshed: boolean;
     onPause: () => void;
     destroy: () => void;
-}
+};
 
 const Home: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();

@@ -3,7 +3,7 @@ import globalize from '../../../scripts/globalize';
 
 type IProps = {
     activeTab: string;
-}
+};
 
 const createLinkElement = (activeTab: string) => ({
     __html: `<a href="#"

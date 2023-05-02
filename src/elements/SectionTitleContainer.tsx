@@ -12,7 +12,7 @@ type IProps = {
     btnIcon?: string;
     isLinkVisible?: boolean;
     url?: string;
-}
+};
 const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, isLinkVisible = true, url }: IProps) => {
     return (
         <div className={`${SectionClassName} sectionTitleContainer flex align-items-center`}>

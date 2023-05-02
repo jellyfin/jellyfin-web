@@ -12,7 +12,7 @@ type IProps = {
     listTitle?: string;
     description?: string;
     children?: React.ReactNode
-}
+};
 
 const AccessContainer: FunctionComponent<IProps> = ({ containerClassName, headerTitle, checkBoxClassName, checkBoxTitle, listContainerClassName, accessClassName, listTitle, description, children }: IProps) => {
     return (
