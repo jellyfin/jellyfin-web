@@ -1,4 +1,3 @@
-import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
 import focusManager from '../focusManager';
@@ -139,15 +138,6 @@ import template from './playbackSettings.template.html';
         });
     }
 
-    function showOrHideEpisodesField(context) {
-        if (browser.tizen || browser.web0s) {
-            context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
-            return;
-        }
-
-        context.querySelector('.fldEpisodeAutoPlay').classList.remove('hide');
-    }
-
     function loadForm(context, user, userSettings, apiClient) {
         const loggedInUserId = apiClient.getCurrentUserId();
         const userId = user.Id;
@@ -209,8 +199,6 @@ import template from './playbackSettings.template.html';
         const selectSkipBackLength = context.querySelector('.selectSkipBackLength');
         fillSkipLengths(selectSkipBackLength);
         selectSkipBackLength.value = userSettings.skipBackLength();
-
-        showOrHideEpisodesField(context);
 
         loading.hide();
     }
