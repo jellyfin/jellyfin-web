@@ -203,6 +203,9 @@ module.exports = {
                 './src/**/*.ts',
                 './src/**/*.tsx'
             ],
+            parserOptions: {
+                project: ['./tsconfig.json']
+            },
             env: {
                 node: false,
                 amd: true,
@@ -240,6 +243,9 @@ module.exports = {
                 'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'
+            },
+            rules: {
+                '@typescript-eslint/no-floating-promises': ['error']
             }
         },
         // TypeScript source files
