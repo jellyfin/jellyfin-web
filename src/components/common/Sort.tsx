@@ -25,7 +25,11 @@ const Sort: FC<SortProps> = ({
                 settings: viewQuerySettings,
                 sortOptions: getSortMenuOptions(),
                 setSortValues: setViewQuerySettings
+            }).catch(() => {
+                // sort menu closed
             });
+        }).catch(err => {
+            console.error('[Sort] failed to load sort menu', err);
         });
     }, [getSortMenuOptions, viewQuerySettings, setViewQuerySettings]);
 

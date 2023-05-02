@@ -148,6 +148,8 @@ const UserLibraryAccess: FunctionComponent = () => {
         const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
         Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
             loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
+        }).catch(err => {
+            console.error('[userlibraryaccess] failed to load data', err);
         });
     }, [loadUser]);
 
@@ -166,6 +168,8 @@ const UserLibraryAccess: FunctionComponent = () => {
             const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
+            }).catch(err => {
+                console.error('[userlibraryaccess] failed to fetch user', err);
             });
             e.preventDefault();
             e.stopPropagation();
@@ -203,6 +207,8 @@ const UserLibraryAccess: FunctionComponent = () => {
             user.Policy.BlockedMediaFolders = null;
             window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
                 onSaveComplete();
+            }).catch(err => {
+                console.error('[userlibraryaccess] failed to update user policy', err);
             });
         };
 

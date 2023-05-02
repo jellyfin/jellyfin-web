@@ -335,9 +335,13 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
 
             import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(page);
+            }).catch(err => {
+                console.error('[ViewItemsContainer] failed to load autofocuser', err);
             });
             loading.hide();
             setisLoading(true);
+        }).catch(err => {
+            console.error('[ViewItemsContainer] failed to fetch data', err);
         });
     }, [fetchData]);
 

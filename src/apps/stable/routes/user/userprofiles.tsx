@@ -31,6 +31,8 @@ const UserProfiles: FunctionComponent = () => {
         window.ApiClient.getUsers().then(function (result) {
             setUsers(result);
             loading.hide();
+        }).catch(err => {
+            console.error('[userprofiles] failed to fetch users', err);
         });
     };
 
@@ -83,22 +85,35 @@ const UserProfiles: FunctionComponent = () => {
                     callback: function (id: string) {
                         switch (id) {
                             case 'open':
-                                Dashboard.navigate('useredit.html?userId=' + userId);
+                                Dashboard.navigate('useredit.html?userId=' + userId)
+                                    .catch(err => {
+                                        console.error('[userprofiles] failed to navigate to user edit page', err);
+                                    });
                                 break;
 
                             case 'access':
-                                Dashboard.navigate('userlibraryaccess.html?userId=' + userId);
+                                Dashboard.navigate('userlibraryaccess.html?userId=' + userId)
+                                    .catch(err => {
+                                        console.error('[userprofiles] failed to navigate to user library page', err);
+                                    });
                                 break;
 
                             case 'parentalcontrol':
-                                Dashboard.navigate('userparentalcontrol.html?userId=' + userId);
+                                Dashboard.navigate('userparentalcontrol.html?userId=' + userId)
+                                    .catch(err => {
+                                        console.error('[userprofiles] failed to navigate to parental control page', err);
+                                    });
                                 break;
 
                             case 'delete':
                                 deleteUser(userId);
                         }
                     }
+                }).catch(() => {
+                    // action sheet closed
                 });
+            }).catch(err => {
+                console.error('[userprofiles] failed to load action sheet', err);
             });
         };
 
@@ -114,7 +129,11 @@ const UserProfiles: FunctionComponent = () => {
                 loading.show();
                 window.ApiClient.deleteUser(id).then(function () {
                     loadData();
+                }).catch(err => {
+                    console.error('[userprofiles] failed to delete user', err);
                 });
+            }).catch(() => {
+                // confirm dialog closed
             });
         };
 
@@ -127,7 +146,10 @@ const UserProfiles: FunctionComponent = () => {
         });
 
         (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
-            Dashboard.navigate('usernew.html');
+            Dashboard.navigate('usernew.html')
+                .catch(err => {
+                    console.error('[userprofiles] failed to navigate to new user page', err);
+                });
         });
     }, []);
 

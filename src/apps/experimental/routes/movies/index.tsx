@@ -114,6 +114,8 @@ const Movies: FC = () => {
                 window.ApiClient.getItem(window.ApiClient.getCurrentUserId(), parentId).then((item) => {
                     page.setAttribute('data-title', item.Name as string);
                     libraryMenu.setTitle(item.Name);
+                }).catch(err => {
+                    console.error('[movies] failed to fetch library', err);
                 });
             } else {
                 page.setAttribute('data-title', globalize.translate('Movies'));

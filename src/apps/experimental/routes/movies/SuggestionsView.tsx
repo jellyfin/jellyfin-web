@@ -30,6 +30,8 @@ const SuggestionsView: FC<LibraryViewProps> = ({ topParentId }) => {
     const autoFocus = useCallback((page) => {
         import('../../../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(page);
+        }).catch(err => {
+            console.error('[SuggestionsView] failed to load data', err);
         });
     }, []);
 
@@ -55,6 +57,8 @@ const SuggestionsView: FC<LibraryViewProps> = ({ topParentId }) => {
 
             loading.hide();
             autoFocus(page);
+        }).catch(err => {
+            console.error('[SuggestionsView] failed to fetch items', err);
         });
     }, [autoFocus]);
 
@@ -72,6 +76,8 @@ const SuggestionsView: FC<LibraryViewProps> = ({ topParentId }) => {
             setLatestItems(items);
 
             autoFocus(page);
+        }).catch(err => {
+            console.error('[SuggestionsView] failed to fetch latest items', err);
         });
     }, [autoFocus]);
 
@@ -95,6 +101,8 @@ const SuggestionsView: FC<LibraryViewProps> = ({ topParentId }) => {
             setRecommendations(result);
 
             autoFocus(page);
+        }).catch(err => {
+            console.error('[SuggestionsView] failed to fetch recommendations', err);
         });
     }, [autoFocus]);
 

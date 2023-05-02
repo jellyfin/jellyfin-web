@@ -93,6 +93,8 @@ const UserNew: FunctionComponent = () => {
             loadMediaFolders(responses[0].Items);
             loadChannels(responses[1].Items);
             loading.hide();
+        }).catch(err => {
+            console.error('[usernew] failed to load data', err);
         });
     }, [loadChannels, loadMediaFolders]);
 
@@ -138,7 +140,12 @@ const UserNew: FunctionComponent = () => {
                 }
 
                 window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                    Dashboard.navigate('useredit.html?userId=' + user.Id);
+                    Dashboard.navigate('useredit.html?userId=' + user.Id)
+                        .catch(err => {
+                            console.error('[usernew] failed to navigate to edit user page', err);
+                        });
+                }).catch(err => {
+                    console.error('[usernew] failed to update user policy', err);
                 });
             }, function () {
                 toast(globalize.translate('ErrorDefault'));

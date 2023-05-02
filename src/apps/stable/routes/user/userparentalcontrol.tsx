@@ -197,6 +197,8 @@ const UserParentalControl: FunctionComponent = () => {
         const promise2 = window.ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {
             loadUser(responses[0], responses[1]);
+        }).catch(err => {
+            console.error('[userparentalcontrol] failed to load data', err);
         });
     }, [loadUser]);
 
@@ -231,6 +233,8 @@ const UserParentalControl: FunctionComponent = () => {
             user.Policy.BlockedTags = getBlockedTagsFromPage();
             window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
                 onSaveComplete();
+            }).catch(err => {
+                console.error('[userparentalcontrol] failed to update user policy', err);
             });
         };
 
@@ -248,7 +252,11 @@ const UserParentalControl: FunctionComponent = () => {
 
                     schedules[index] = updatedSchedule;
                     renderAccessSchedule(schedules);
+                }).catch(() => {
+                    // access schedule closed
                 });
+            }).catch(err => {
+                console.error('[userparentalcontrol] failed to load access schedule', err);
             });
         };
 
@@ -279,7 +287,11 @@ const UserParentalControl: FunctionComponent = () => {
                         tags.push(value);
                         loadBlockedTags(tags);
                     }
+                }).catch(() => {
+                    // prompt closed
                 });
+            }).catch(err => {
+                console.error('[userparentalcontrol] failed to load prompt', err);
             });
         };
 
@@ -288,6 +300,8 @@ const UserParentalControl: FunctionComponent = () => {
             const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
+            }).catch(err => {
+                console.error('[userparentalcontrol] failed to fetch user', err);
             });
             e.preventDefault();
             e.stopPropagation();

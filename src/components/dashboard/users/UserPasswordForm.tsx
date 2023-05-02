@@ -66,6 +66,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
 
         import('../../autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(page);
+        }).catch(err => {
+            console.error('[UserPasswordForm] failed to load autofocuser', err);
         });
 
         (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value = '';
@@ -81,7 +83,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             return;
         }
 
-        loadUser();
+        loadUser().catch(err => {
+            console.error('[UserPasswordForm] failed to load user', err);
+        });
 
         const onSubmit = (e: Event) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
@@ -109,7 +113,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                 loading.hide();
                 toast(globalize.translate('PasswordSaved'));
 
-                loadUser();
+                loadUser().catch(err => {
+                    console.error('[UserPasswordForm] failed to load user', err);
+                });
             }, function () {
                 loading.hide();
                 Dashboard.alert({
@@ -132,6 +138,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             if (easyPassword) {
                 window.ApiClient.updateEasyPassword(userId, easyPassword).then(function () {
                     onEasyPasswordSaved();
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to update easy password', err);
                 });
             } else {
                 onEasyPasswordSaved();
@@ -153,8 +161,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                     loading.hide();
                     toast(globalize.translate('SettingsSaved'));
 
-                    loadUser();
+                    loadUser().catch(err => {
+                        console.error('[UserPasswordForm] failed to load user', err);
+                    });
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to update user configuration', err);
                 });
+            }).catch(err => {
+                console.error('[UserPasswordForm] failed to fetch user', err);
             });
         };
 
@@ -169,8 +183,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                         message: globalize.translate('PinCodeResetComplete'),
                         title: globalize.translate('HeaderPinCodeReset')
                     });
-                    loadUser();
+                    loadUser().catch(err => {
+                        console.error('[UserPasswordForm] failed to load user', err);
+                    });
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to reset easy password', err);
                 });
+            }).catch(() => {
+                // confirm dialog was closed
             });
         };
 
@@ -184,8 +204,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                         message: globalize.translate('PasswordResetComplete'),
                         title: globalize.translate('ResetPassword')
                     });
-                    loadUser();
+                    loadUser().catch(err => {
+                        console.error('[UserPasswordForm] failed to load user', err);
+                    });
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to reset user password', err);
                 });
+            }).catch(() => {
+                // confirm dialog was closed
             });
         };
 
