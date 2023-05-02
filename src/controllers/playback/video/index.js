@@ -510,11 +510,11 @@ import { appRouter } from '../../../components/appRouter';
         }
 
         function onBeginFetch() {
-            document.querySelector('.osdMediaStatus').classList.remove('hide');
+            view.querySelector('.osdMediaStatus').classList.remove('hide');
         }
 
         function onEndFetch() {
-            document.querySelector('.osdMediaStatus').classList.add('hide');
+            view.querySelector('.osdMediaStatus').classList.add('hide');
         }
 
         function bindToPlayer(player) {
@@ -1308,7 +1308,7 @@ import { appRouter } from '../../../components/appRouter';
         const btnFastForward = view.querySelector('.btnFastForward');
         const transitionEndEventName = dom.whichTransitionEvent();
         const headerElement = document.querySelector('.skinHeader');
-        const osdBottomElement = document.querySelector('.videoOsdBottom-maincontrols');
+        const osdBottomElement = view.querySelector('.videoOsdBottom-maincontrols');
 
         nowPlayingPositionSlider.enableKeyboardDragging();
         nowPlayingVolumeSlider.enableKeyboardDragging();
