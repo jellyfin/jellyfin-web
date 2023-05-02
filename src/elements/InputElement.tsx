@@ -16,7 +16,7 @@ type IProps = {
     id?: string;
     label?: string;
     options?: string
-}
+};
 
 const InputElement: FunctionComponent<IProps> = ({ type, id, label, options }: IProps) => {
     return (

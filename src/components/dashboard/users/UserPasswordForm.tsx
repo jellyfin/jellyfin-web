@@ -11,7 +11,7 @@ import InputElement from '../../../elements/InputElement';
 
 type IProps = {
     userId: string;
-}
+};
 
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);

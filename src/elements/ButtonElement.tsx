@@ -21,7 +21,7 @@ type IProps = {
     title?: string;
     leftIcon?: string;
     rightIcon?: string;
-}
+};
 
 const ButtonElement: FunctionComponent<IProps> = ({ type, id, className, title, leftIcon, rightIcon }: IProps) => {
     return (

@@ -18,7 +18,7 @@ type MenuEntry = {
     name?: string;
     id?: string;
     icon?: string;
-}
+};
 
 const UserProfiles: FunctionComponent = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);

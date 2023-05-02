@@ -25,7 +25,7 @@ const createSuggestionLink = ({ name, href }: { name: string, href: string }) =>
 
 type SearchSuggestionsProps = {
     parentId?: string | null;
-}
+};
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }: SearchSuggestionsProps) => {
     const [ suggestions, setSuggestions ] = useState<BaseItemDto[]>([]);
