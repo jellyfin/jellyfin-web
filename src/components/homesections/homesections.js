@@ -100,10 +100,10 @@ export function loadSections(elem, apiClient, user, userSettings) {
 
 export function destroySections(elem) {
     const elems = elem.querySelectorAll('.itemsContainer');
-    for (let i = 0; i < elems.length; i++) {
-        elems[i].fetchData = null;
-        elems[i].parentContainer = null;
-        elems[i].getItemsHtml = null;
+    for (const e of elems) {
+        e.fetchData = null;
+        e.parentContainer = null;
+        e.getItemsHtml = null;
     }
 
     elem.innerHTML = '';
@@ -111,8 +111,8 @@ export function destroySections(elem) {
 
 export function pause(elem) {
     const elems = elem.querySelectorAll('.itemsContainer');
-    for (let i = 0; i < elems.length; i++) {
-        elems[i].pause();
+    for (const e of elems) {
+        e.pause();
     }
 }
 
