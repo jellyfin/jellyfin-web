@@ -536,7 +536,7 @@ export default function (options) {
 
     if (canPlayHevc(videoTestElement, options)) {
         // safari is lying on HDR and 60fps videos, use fMP4 instead
-        if (!browser.safari) {
+        if (!browser.safari || (browser.safari && browser.version >= 13)) {
             mp4VideoCodecs.push('hevc');
         }
 
