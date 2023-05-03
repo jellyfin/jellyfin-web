@@ -39,9 +39,9 @@ try {
     const elem = document.createElement('div');
 
     const opts = Object.defineProperty({}, 'behavior', {
-        // eslint-disable-next-line getter-return
         get: function () {
             supportsScrollToOptions = true;
+            return null;
         }
     });
 

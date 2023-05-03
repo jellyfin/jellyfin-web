@@ -20,7 +20,7 @@ type UnratedItem = {
     name: string;
     value: string;
     checkedAttribute: string
-}
+};
 
 const UserParentalControl: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');

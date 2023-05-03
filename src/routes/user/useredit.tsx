@@ -18,12 +18,12 @@ import Page from '../../components/Page';
 
 type ResetProvider = AuthProvider & {
     checkedAttribute: string
-}
+};
 
 type AuthProvider = {
     Name?: string;
     Id?: string;
-}
+};
 
 const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
     Array.prototype.filter.call(elements, e => e.checked)

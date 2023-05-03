@@ -14,12 +14,12 @@ import Page from '../../components/Page';
 type userInput = {
     Name?: string;
     Password?: string;
-}
+};
 
 type ItemsArr = {
     Name?: string;
     Id?: string;
-}
+};
 
 const UserNew: FunctionComponent = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);

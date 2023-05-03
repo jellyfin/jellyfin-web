@@ -29,7 +29,7 @@ type IProps = {
     itemCheckedAttribute?: string;
     itemName?: string
     title?: string
-}
+};
 
 const CheckBoxElement: FunctionComponent<IProps> = ({ labelClassName, className, elementId, dataFilter, itemType, itemId, itemAppName, itemCheckedAttribute, itemName, title }: IProps) => {
     const appName = itemAppName ? `- ${itemAppName}` : '';

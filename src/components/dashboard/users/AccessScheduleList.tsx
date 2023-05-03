@@ -9,7 +9,7 @@ type AccessScheduleListProps = {
     DayOfWeek?: string;
     StartHour?: number ;
     EndHour?: number;
-}
+};
 
 function getDisplayTime(hours = 0) {
     let minutes = 0;

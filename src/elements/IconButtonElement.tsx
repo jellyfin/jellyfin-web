@@ -10,7 +10,7 @@ type IProps = {
     dataIndex?: string | number;
     dataTag?: string | number;
     dataProfileid?: string | number;
-}
+};
 
 const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => ({
     __html: `<button

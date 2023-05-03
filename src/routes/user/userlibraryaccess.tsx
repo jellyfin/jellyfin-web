@@ -18,7 +18,7 @@ type ItemsArr = {
     Id?: string;
     AppName?: string;
     checkedAttribute?: string
-}
+};
 
 const UserLibraryAccess: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');

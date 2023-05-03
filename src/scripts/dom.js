@@ -87,9 +87,9 @@ export function parentWithClass(elem, classNames) {
 let supportsCaptureOption = false;
 try {
     const opts = Object.defineProperty({}, 'capture', {
-        // eslint-disable-next-line getter-return
         get: function () {
             supportsCaptureOption = true;
+            return null;
         }
     });
     window.addEventListener('test', null, opts);
