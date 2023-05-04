@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import loading from '../../../components/loading/loading';
-import { appRouter } from '../../../components/appRouter';
+import { appRouter } from '../../../components/router/appRouter';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import appSettings from '../../../scripts/settings/appSettings';

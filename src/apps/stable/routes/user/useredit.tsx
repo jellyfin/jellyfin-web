@@ -1,20 +1,21 @@
 import type { SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
-import Dashboard from '../../utils/dashboard';
-import globalize from '../../scripts/globalize';
-import LibraryMenu from '../../scripts/libraryMenu';
-import ButtonElement from '../../elements/ButtonElement';
-import CheckBoxElement from '../../elements/CheckBoxElement';
-import InputElement from '../../elements/InputElement';
-import LinkEditUserPreferences from '../../components/dashboard/users/LinkEditUserPreferences';
-import SectionTitleContainer from '../../elements/SectionTitleContainer';
-import SectionTabs from '../../components/dashboard/users/SectionTabs';
-import loading from '../../components/loading/loading';
-import toast from '../../components/toast/toast';
-import { getParameterByName } from '../../utils/url';
 import escapeHTML from 'escape-html';
-import SelectElement from '../../elements/SelectElement';
-import Page from '../../components/Page';
+
+import Dashboard from '../../../../utils/dashboard';
+import globalize from '../../../../scripts/globalize';
+import LibraryMenu from '../../../../scripts/libraryMenu';
+import ButtonElement from '../../../../elements/ButtonElement';
+import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import InputElement from '../../../../elements/InputElement';
+import LinkEditUserPreferences from '../../../../components/dashboard/users/LinkEditUserPreferences';
+import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
+import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
+import loading from '../../../../components/loading/loading';
+import toast from '../../../../components/toast/toast';
+import { getParameterByName } from '../../../../utils/url';
+import SelectElement from '../../../../elements/SelectElement';
+import Page from '../../../../components/Page';
 
 type ResetProvider = AuthProvider & {
     checkedAttribute: string

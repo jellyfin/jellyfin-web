@@ -5,7 +5,7 @@ import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
 import viewManager from '../components/viewManager/viewManager';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';

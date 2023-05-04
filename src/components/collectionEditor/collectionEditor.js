@@ -3,7 +3,7 @@ import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';

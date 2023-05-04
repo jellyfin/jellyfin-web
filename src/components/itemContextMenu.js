@@ -4,7 +4,7 @@ import dom from '../scripts/dom';
 import globalize from '../scripts/globalize';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
-import { appRouter } from './appRouter';
+import { appRouter } from './router/appRouter';
 import itemHelper from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';

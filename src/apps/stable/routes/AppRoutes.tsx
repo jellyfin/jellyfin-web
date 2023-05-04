@@ -5,7 +5,7 @@ import ConnectionRequired from '../../../components/ConnectionRequired';
 import ServerContentPage from '../../../components/ServerContentPage';
 import { toAsyncPageRoute } from '../../../components/router/AsyncRoute';
 import { toViewManagerPageRoute } from '../../../components/router/LegacyRoute';
-import { ASYNC_USER_ROUTES } from './asyncRoutes';
+import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 
 export const AppRoutes = () => (
@@ -19,6 +19,7 @@ export const AppRoutes = () => (
 
             {/* Admin routes */}
             <Route path='/' element={<ConnectionRequired isAdminRequired />}>
+                {ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute)}
                 {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
 
                 <Route path='configurationpage' element={

@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../scripts/globalize';
-import LibraryMenu from '../scripts/libraryMenu';
-import { clearBackdrop } from '../components/backdrop/backdrop';
-import layoutManager from '../components/layoutManager';
-import * as mainTabsManager from '../components/maintabsmanager';
-import '../elements/emby-tabs/emby-tabs';
-import '../elements/emby-button/emby-button';
-import '../elements/emby-scroller/emby-scroller';
-import Page from '../components/Page';
+import globalize from '../../../scripts/globalize';
+import LibraryMenu from '../../../scripts/libraryMenu';
+import { clearBackdrop } from '../../../components/backdrop/backdrop';
+import layoutManager from '../../../components/layoutManager';
+import * as mainTabsManager from '../../../components/maintabsmanager';
+import '../../../elements/emby-tabs/emby-tabs';
+import '../../../elements/emby-button/emby-button';
+import '../../../elements/emby-scroller/emby-scroller';
+import Page from '../../../components/Page';
 
 type OnResumeOptions = {
     autoFocus?: boolean;
@@ -65,7 +65,7 @@ const Home: FunctionComponent = () => {
                 depends = 'favorites';
         }
 
-        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: controllerFactory }) => {
+        return import(/* webpackChunkName: "[request]" */ `../../../controllers/${depends}`).then(({ default: controllerFactory }) => {
             let controller = tabControllers[index];
 
             if (!controller) {

@@ -1,20 +1,21 @@
 import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
-import globalize from '../../scripts/globalize';
-import LibraryMenu from '../../scripts/libraryMenu';
-import AccessScheduleList from '../../components/dashboard/users/AccessScheduleList';
-import BlockedTagList from '../../components/dashboard/users/BlockedTagList';
-import ButtonElement from '../../elements/ButtonElement';
-import SectionTitleContainer from '../../elements/SectionTitleContainer';
-import SectionTabs from '../../components/dashboard/users/SectionTabs';
-import loading from '../../components/loading/loading';
-import toast from '../../components/toast/toast';
-import { getParameterByName } from '../../utils/url';
-import CheckBoxElement from '../../elements/CheckBoxElement';
 import escapeHTML from 'escape-html';
-import SelectElement from '../../elements/SelectElement';
-import Page from '../../components/Page';
+
+import globalize from '../../../../scripts/globalize';
+import LibraryMenu from '../../../../scripts/libraryMenu';
+import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
+import BlockedTagList from '../../../../components/dashboard/users/BlockedTagList';
+import ButtonElement from '../../../../elements/ButtonElement';
+import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
+import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
+import loading from '../../../../components/loading/loading';
+import toast from '../../../../components/toast/toast';
+import { getParameterByName } from '../../../../utils/url';
+import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import SelectElement from '../../../../elements/SelectElement';
+import Page from '../../../../components/Page';
 
 type UnratedItem = {
     name: string;
@@ -235,7 +236,7 @@ const UserParentalControl: FunctionComponent = () => {
 
         const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
-            import('../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
+            import('../../../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
                 accessschedule.show({
                     schedule: schedule
                 }).then(function (updatedSchedule) {
@@ -268,7 +269,7 @@ const UserParentalControl: FunctionComponent = () => {
         };
 
         const showBlockedTagPopup = () => {
-            import('../../components/prompt/prompt').then(({ default: prompt }) => {
+            import('../../../../components/prompt/prompt').then(({ default: prompt }) => {
                 prompt({
                     label: globalize.translate('LabelTag')
                 }).then(function (value) {

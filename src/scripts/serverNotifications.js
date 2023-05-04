@@ -2,7 +2,7 @@ import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import alert from '../components/alert';

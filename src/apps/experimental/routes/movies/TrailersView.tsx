@@ -1,8 +1,8 @@
 
 import React, { FC, useCallback } from 'react';
 
-import ViewItemsContainer from '../../components/common/ViewItemsContainer';
-import { LibraryViewProps } from '../../types/interface';
+import ViewItemsContainer from '../../../../components/common/ViewItemsContainer';
+import { LibraryViewProps } from '../../../../types/interface';
 
 const TrailersView: FC<LibraryViewProps> = ({ topParentId }) => {
     const getBasekey = useCallback(() => {

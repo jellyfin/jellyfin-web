@@ -4,7 +4,7 @@ import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import globalize from '../../scripts/globalize';
 import { appHost } from '../apphost';
 import { enable, isEnabled, supported } from '../../scripts/autocast';

@@ -3,7 +3,7 @@ import { History } from '@remix-run/router';
 import React from 'react';
 
 import StableApp from './apps/stable/App';
-import { HistoryRouter } from './components/HistoryRouter';
+import { HistoryRouter } from './components/router/HistoryRouter';
 import { ApiProvider } from './hooks/useApi';
 
 const ExperimentalApp = loadable(() => import('./apps/experimental/App'));

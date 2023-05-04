@@ -15,7 +15,7 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];

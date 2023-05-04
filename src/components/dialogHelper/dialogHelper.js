@@ -1,4 +1,4 @@
-import { history } from '../appRouter';
+import { history } from '../router/appRouter';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';

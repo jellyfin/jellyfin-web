@@ -1,13 +1,13 @@
 import type { BaseItemDto, BaseItemDtoQueryResult, RecommendationDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
-import layoutManager from '../../components/layoutManager';
-import loading from '../../components/loading/loading';
-import dom from '../../scripts/dom';
-import globalize from '../../scripts/globalize';
-import RecommendationContainer from '../../components/common/RecommendationContainer';
-import SectionContainer from '../../components/common/SectionContainer';
-import { LibraryViewProps } from '../../types/interface';
+import layoutManager from '../../../../components/layoutManager';
+import loading from '../../../../components/loading/loading';
+import dom from '../../../../scripts/dom';
+import globalize from '../../../../scripts/globalize';
+import RecommendationContainer from '../../../../components/common/RecommendationContainer';
+import SectionContainer from '../../../../components/common/SectionContainer';
+import { LibraryViewProps } from '../../../../types/interface';
 
 const SuggestionsView: FC<LibraryViewProps> = ({ topParentId }) => {
     const [ latestItems, setLatestItems ] = useState<BaseItemDto[]>([]);
@@ -28,7 +28,7 @@ const SuggestionsView: FC<LibraryViewProps> = ({ topParentId }) => {
     }, [enableScrollX]);
 
     const autoFocus = useCallback((page) => {
-        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
+        import('../../../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(page);
         });
     }, []);

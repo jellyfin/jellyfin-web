@@ -6,7 +6,7 @@ import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import globalize from '../../scripts/globalize';
 import { PluginType } from '../../types/plugin.ts';
 

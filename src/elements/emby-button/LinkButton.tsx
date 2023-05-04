@@ -2,7 +2,7 @@ import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';
-import { appRouter } from '../../components/appRouter';
+import { appRouter } from '../../components/router/appRouter';
 import { appHost } from '../../components/apphost';
 import './emby-button.scss';
 
