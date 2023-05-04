@@ -67,6 +67,7 @@ module.exports = {
         'operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
+        '@typescript-eslint/prefer-for-of': ['error'],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'radix': ['error'],
         '@typescript-eslint/semi': ['error'],
