@@ -257,7 +257,7 @@ module.exports = {
                 'plugin:jsx-a11y/recommended'
             ],
             rules: {
-                'sonarjs/cognitive-complexity': ['warn']
+                'sonarjs/cognitive-complexity': ['error']
             }
         }
     ]
