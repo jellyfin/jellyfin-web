@@ -853,11 +853,9 @@ class PlaybackManager {
                         user: user
                     });
 
-                    for (let i = 0; i < responses.length; i++) {
-                        const subTargets = responses[i];
-
-                        for (let j = 0; j < subTargets.length; j++) {
-                            targets.push(subTargets[j]);
+                    for (const subTargets of responses) {
+                        for (const subTarget of subTargets) {
+                            targets.push(subTarget);
                         }
                     }
 
