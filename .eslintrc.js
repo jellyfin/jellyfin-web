@@ -245,7 +245,7 @@ module.exports = {
                 'Windows': 'readonly'
             },
             rules: {
-                '@typescript-eslint/no-floating-promises': ['error']
+                '@typescript-eslint/no-floating-promises': ['warn']
             }
         },
         // TypeScript source files
@@ -264,6 +264,8 @@ module.exports = {
                 'plugin:jsx-a11y/recommended'
             ],
             rules: {
+                '@typescript-eslint/no-floating-promises': ['error'],
+
                 'sonarjs/cognitive-complexity': ['error']
             }
         }
