@@ -955,8 +955,7 @@ function populatePeople(context, people) {
 
 function getLockedFieldsHtml(fields, currentFields) {
     let html = '';
-    for (let i = 0; i < fields.length; i++) {
-        const field = fields[i];
+    for (const field of fields) {
         const name = field.name;
         const value = field.value || field.name;
         const checkedHtml = currentFields.indexOf(value) === -1 ? ' checked' : '';

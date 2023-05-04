@@ -28,8 +28,7 @@ function populateVersions(packageInfo, page, installedPlugin) {
         return b.timestamp < a.timestamp ? -1 : 1;
     });
 
-    for (let i = 0; i < packageInfo.versions.length; i++) {
-        const version = packageInfo.versions[i];
+    for (const version of packageInfo.versions) {
         html += '<option value="' + version.version + '">' + globalize.translate('PluginFromRepo', version.version, version.repositoryName) + '</option>';
     }
 
