@@ -108,7 +108,7 @@ function getDateValue(form, element, property) {
         const parts = date.toISOString().split('T');
 
         // If the date is the same, preserve the time
-        if (parts[0].indexOf(val) === 0) {
+        if (parts[0].startsWith(val)) {
             const iso = parts[1];
 
             val += 'T' + iso;
