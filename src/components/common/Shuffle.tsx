@@ -18,6 +18,8 @@ const Shuffle: FC<ShuffleProps> = ({ itemsResult = {}, topParentId }) => {
             topParentId as string
         ).then((item) => {
             playbackManager.shuffle(item);
+        }).catch(err => {
+            console.error('[Shuffle] failed to fetch items', err);
         });
     }, [topParentId]);
 

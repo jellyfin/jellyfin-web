@@ -99,7 +99,10 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         }
 
         // Bounce to the correct page in the login flow
-        bounce(firstConnection);
+        bounce(firstConnection)
+            .catch(err => {
+                console.error('[ConnectionRequired] failed to bounce', err);
+            });
     }, [bounce, navigate]);
 
     const validateUserAccess = useCallback(async () => {
@@ -109,7 +112,10 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         if ((isAdminRequired || isUserRequired) && !client?.isLoggedIn()) {
             try {
                 console.warn('[ConnectionRequired] unauthenticated user attempted to access user route');
-                bounce(await ServerConnections.connect());
+                bounce(await ServerConnections.connect())
+                    .catch(err => {
+                        console.error('[ConnectionRequired] failed to bounce', err);
+                    });
             } catch (ex) {
                 console.warn('[ConnectionRequired] error bouncing from user route', ex);
             }
@@ -122,7 +128,10 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 const user = await client?.getCurrentUser();
                 if (!user?.Policy?.IsAdministrator) {
                     console.warn('[ConnectionRequired] normal user attempted to access admin route');
-                    bounce(await ServerConnections.connect());
+                    bounce(await ServerConnections.connect())
+                        .catch(err => {
+                            console.error('[ConnectionRequired] failed to bounce', err);
+                        });
                     return;
                 }
             } catch (ex) {
@@ -143,9 +152,15 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         appRouter.firstConnectionResult = null;
 
         if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
-            handleIncompleteWizard(firstConnection);
+            handleIncompleteWizard(firstConnection)
+                .catch(err => {
+                    console.error('[ConnectionRequired] failed to start wizard', err);
+                });
         } else {
-            validateUserAccess();
+            validateUserAccess()
+                .catch(err => {
+                    console.error('[ConnectionRequired] failed to validate user access', err);
+                });
         }
     }, [handleIncompleteWizard, validateUserAccess]);
 

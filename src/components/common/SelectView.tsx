@@ -22,7 +22,11 @@ const SelectView: FC<SelectViewProps> = ({
                 settings: viewQuerySettings,
                 visibleSettings: getVisibleViewSettings(),
                 setviewsettings: setViewQuerySettings
+            }).catch(() => {
+                // view settings closed
             });
+        }).catch(err => {
+            console.error('[SelectView] failed to load view settings', err);
         });
     }, [getVisibleViewSettings, viewQuerySettings, setViewQuerySettings]);
 

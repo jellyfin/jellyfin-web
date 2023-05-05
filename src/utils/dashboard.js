@@ -107,6 +107,12 @@ export function getConfigurationResourceUrl(name) {
     });
 }
 
+/**
+ * Navigate to a url.
+ * @param {string} url - The url to navigate to.
+ * @param {boolean} [preserveQueryString] - A flag to indicate the current query string should be appended to the new url.
+ * @returns {Promise<any>}
+ */
 export function navigate(url, preserveQueryString) {
     if (!url) {
         throw new Error('url cannot be null or empty');

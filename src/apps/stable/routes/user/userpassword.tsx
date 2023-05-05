@@ -19,6 +19,8 @@ const UserPassword: FunctionComponent = () => {
             }
             setUserName(user.Name);
             loading.hide();
+        }).catch(err => {
+            console.error('[userpassword] failed to fetch user', err);
         });
     }, [userId]);
     useEffect(() => {

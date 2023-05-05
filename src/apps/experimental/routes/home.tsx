@@ -101,6 +101,8 @@ const Home: FunctionComponent = () => {
 
             controller.refreshed = true;
             tabController.current = controller;
+        }).catch(err => {
+            console.error('[Home] failed to get tab controller', err);
         });
     }, [ getTabController ]);
 

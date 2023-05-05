@@ -59,8 +59,12 @@ const UserProfile: FunctionComponent = () => {
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }
+            }).catch(err => {
+                console.error('[userprofile] failed to get current user', err);
             });
             loading.hide();
+        }).catch(err => {
+            console.error('[userprofile] failed to load data', err);
         });
     }, [userId]);
 
@@ -110,6 +114,8 @@ const UserProfile: FunctionComponent = () => {
                 window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
                     loading.hide();
                     reloadUser();
+                }).catch(err => {
+                    console.error('[userprofile] failed to upload image', err);
                 });
             };
 
@@ -125,7 +131,11 @@ const UserProfile: FunctionComponent = () => {
                 window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
                     loading.hide();
                     reloadUser();
+                }).catch(err => {
+                    console.error('[userprofile] failed to delete image', err);
                 });
+            }).catch(() => {
+                // confirm dialog closed
             });
         });
 

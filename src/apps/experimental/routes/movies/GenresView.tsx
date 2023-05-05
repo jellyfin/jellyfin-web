@@ -23,6 +23,8 @@ const GenresView: FC<LibraryViewProps> = ({ topParentId }) => {
         ).then((result) => {
             setItemsResult(result);
             loading.hide();
+        }).catch(err => {
+            console.error('[GenresView] failed to fetch genres', err);
         });
     }, [topParentId]);
 

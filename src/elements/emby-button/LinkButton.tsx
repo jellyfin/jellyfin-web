@@ -33,7 +33,10 @@ const LinkButton: React.FC<LinkButtonProps> = ({
                 }
             } else {
                 e.preventDefault();
-                appRouter.show(url);
+                appRouter.show(url)
+                    .catch(err => {
+                        console.error('[LinkButton] failed to show url', url, err);
+                    });
             }
         } else {
             e.preventDefault();

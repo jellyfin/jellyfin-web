@@ -45,7 +45,11 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
                     parentId: parentId || undefined,
                     enableTotalRecordCount: false
                 })
-                .then(result => setSuggestions(result.data.Items || []));
+                .then(result => setSuggestions(result.data.Items || []))
+                .catch(err => {
+                    console.error('[SearchSuggestions] failed to fetch search suggestions', err);
+                    setSuggestions([]);
+                });
         }
     }, [ api, parentId, user ]);
 

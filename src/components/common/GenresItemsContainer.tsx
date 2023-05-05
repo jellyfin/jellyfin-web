@@ -73,6 +73,8 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
                 centerText: true,
                 showYear: true
             });
+        }).catch(err => {
+            console.error('[GenresItemsContainer] failed to fetch items', err);
         });
     }, [getPortraitShape, topParentId]);
 
