@@ -1705,7 +1705,7 @@
     "LabelDummyChapterDuration": "Intervallo",
     "LabelDummyChapterDurationHelp": "Intervallo in secondi tra le estrazioni delle immagini in capitoli.",
     "LabelDummyChapterCountHelp": "Numero massimo di capitoli da estrarre per ciascun file.",
-    "LabelChapterImageResolutionHelp": "Risoluzione delle immagini per l'estrazione",
+    "LabelChapterImageResolutionHelp": "Risoluzione delle immagini per l'estrazione.",
     "HeaderDummyChapter": "Immagini Capitolo",
     "SaveRecordingNFO": "Salva i metadati EPG in NFO",
     "HeaderRecordingMetadataSaving": "Registrazione Metadati",
