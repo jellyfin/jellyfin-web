@@ -1567,7 +1567,7 @@
     "TypeOptionPluralMusicAlbum": "Muusika albumid",
     "TypeOptionPluralMovie": "Filmid",
     "SortByValue": "Järjesta {0}",
-    "EnableGamepadHelp": "Kuula ühendatud juhtseadmete sisendit.",
+    "EnableGamepadHelp": "Kuula ühendatud juhtseadmete sisendit",
     "LabelOriginalMediaInfo": "Algsed meedia andmed",
     "RemuxHelp2": "Remuksimine kasutab väga vähe jõudlust, ilma et meedia kvaliteet väheneks.",
     "WeeklyAt": "{0}s kell {1}",
