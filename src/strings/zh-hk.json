@@ -1146,5 +1146,6 @@
     "EnableCardLayout": "顯示 visual CardBox",
     "NewCollectionHelp": "「系列」功能讓你可以自訂電影、劇集和音樂組合，將不同的媒體加至同一個系列中。",
     "RemoveFromCollection": "從系列中移除",
-    "MessageNoCollectionsAvailable": "「系列」功能讓你可以自訂電影、劇集和音樂組合，將不同的媒體加至系列／集合中。點撃「+」以新增系列。"
+    "MessageNoCollectionsAvailable": "「系列」功能讓你可以自訂電影、劇集和音樂組合，將不同的媒體加至系列／集合中。點撃「+」以新增系列。",
+    "HeaderPerformance": "效能"
 }
