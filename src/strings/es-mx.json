@@ -1525,7 +1525,7 @@
     "SubtitleCodecNotSupported": "El formato de subtitulo no está soportado",
     "ContainerNotSupported": "El contenedor no está soportado",
     "AudioCodecNotSupported": "El formato de audio no está soportado",
-    "EnableGamepadHelp": "Recibir entrada de cualquier control conectado.",
+    "EnableGamepadHelp": "Recibir entrada de cualquier control conectado",
     "LabelEnableGamepad": "Habilitar Gamepad",
     "Controls": "Controles",
     "UseEpisodeImagesInNextUpHelp": "Las secciones 'Siguiente' y 'Continuar viendo' usarán imágenes de episodios como miniaturas en lugar de la miniatura principal del programa.",
