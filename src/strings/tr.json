@@ -1510,7 +1510,7 @@
     "MessageSyncPlayPlaybackPermissionRequired": "Oynatma izni gerekiyor.",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "Aşağıdaki medya konumları kitaplığınızdan kaldırılacak",
     "MessageSyncPlayCreateGroupDenied": "Grup oluşturmak için izin gerekiyor.",
-    "EnableGamepadHelp": "Bağlı herhangi bir kontrolcüden gelen girişi dinleyin.",
+    "EnableGamepadHelp": "Bağlı herhangi bir kontrolcüden gelen girişi dinleyin",
     "MessagePluginInstalled": "Eklenti başarıyla kuruldu. Değişikliklerin etkili olması için sunucunun yeniden başlatılması gerekecek.",
     "MessagePluginConfigurationRequiresLocalAccess": "Bu eklentiyi kurmak için lütfen doğrudan yerel sunucunuzda oturum açın.",
     "MessageNoPluginsInstalled": "Yüklü hiçbir eklentiniz yok.",
