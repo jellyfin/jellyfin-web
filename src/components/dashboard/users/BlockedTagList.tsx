@@ -3,7 +3,7 @@ import IconButtonElement from '../../../elements/IconButtonElement';
 
 type IProps = {
     tag?: string;
-}
+};
 
 const BlockedTagList: FunctionComponent<IProps> = ({ tag }: IProps) => {
     return (

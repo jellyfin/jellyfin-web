@@ -20,7 +20,7 @@ import { appHost } from './components/apphost';
 import { getPlugins } from './scripts/settings/webSettings';
 import { pluginManager } from './components/pluginManager';
 import packageManager from './components/packageManager';
-import { appRouter, history } from './components/appRouter';
+import { appRouter, history } from './components/router/appRouter';
 import './elements/emby-button/emby-button';
 import './scripts/autoThemes';
 import './components/themeMediaPlayer';
@@ -34,7 +34,7 @@ import './legacy/htmlMediaElement';
 import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
-import App from './App.tsx';
+import RootApp from './RootApp.tsx';
 
 import './styles/livetv.scss';
 import './styles/dashboard.scss';
@@ -151,7 +151,7 @@ async function onAppReady() {
 
     ReactDOM.render(
         <StrictMode>
-            <App history={history} />
+            <RootApp history={history} />
         </StrictMode>,
         root
     );

@@ -19,7 +19,7 @@ const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl
 
 type IProps = {
     user?: UserDto;
-}
+};
 
 const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {

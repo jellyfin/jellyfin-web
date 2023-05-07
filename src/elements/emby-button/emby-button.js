@@ -2,7 +2,7 @@ import 'webcomponents.js/webcomponents-lite';
 import { removeEventListener, addEventListener } from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';
-import { appRouter } from '../../components/appRouter';
+import { appRouter } from '../../components/router/appRouter';
 import { appHost } from '../../components/apphost';
 import './emby-button.scss';
 

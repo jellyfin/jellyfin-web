@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';
 import 'material-design-icons-iconfont';

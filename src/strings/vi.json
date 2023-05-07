@@ -1334,7 +1334,7 @@
     "LabelTonemappingDesat": "Khử bão hòa tông màu",
     "LabelTonemappingDesatHelp": "Áp dụng khử bão hòa cho các điểm sáng vượt quá độ sáng này. Thông số này càng cao thì thông tin màu càng được bảo toàn. Cài đặt này giúp ngăn các màu bị lóa không tự nhiên để tạo ra những vùng siêu nổi bật, bằng cách chuyển thành màu trắng (mềm mại). Nó làm cho hình ảnh trông tự nhiên, với hao phí giảm thông tin về các màu nằm ngoài phạm vi. Các giá trị được đề xuất và mặc định là 0 và 0,5.",
     "LabelTonemappingRange": "Phạm vi ánh xạ tông màu",
-    "AllowTonemappingHelp": "Ánh xạ tông màu có thể biến đổi dải động video từ HDR sang SDR mà vẫn duy trì chi tiết và màu sắc hình ảnh, đây là thông tin rất quan trọng để thể hiện cảnh gốc. Hiện chỉ hoạt động với video HDR10 hoặc HLG. Điều này yêu cầu thời gian chạy OpenCL hoặc CUDA tương ứng.",
+    "AllowTonemappingHelp": "Ánh xạ tông màu có thể biến đổi dải động video từ HDR sang SDR mà vẫn giữ chi tiết và màu sắc hình ảnh, đó là thông tin rất quan trọng để thể hiện cảnh gốc. Hiện chỉ hoạt động với video 10bit HDR10, HLG và DoVi. Việc này yêu cầu OpenCL hoặc CUDA runtime tương ứng.",
     "EnableTonemapping": "Bật Ánh xạ tông màu",
     "LabelOpenclDevice": "Thiết bị OpenCL",
     "LabelColorPrimaries": "Màu cơ bản",
@@ -1652,9 +1652,9 @@
     "MediaInfoDoViTitle": "Tiêu đề DV",
     "MediaInfoVideoRangeType": "Loại dải động video",
     "LabelVideoRangeType": "Loại dải động video",
-    "LabelVppTonemappingContrastHelp": "Áp dụng độ tăng tương phản trong ánh xạ tông màu VPP. Giá trị đề xuất và mặc định là 1,2 và 1.",
+    "LabelVppTonemappingContrastHelp": "Áp dụng tăng tương phản trong ánh xạ tông màu VPP. Cả giá trị đề xuất và mặc định đều là 1.",
     "LabelVppTonemappingContrast": "Độ tương phản ánh xạ tông màu VPP",
-    "LabelVppTonemappingBrightnessHelp": "Áp dụng tăng độ sáng trong ánh xạ tông màu VPP. Giá trị đề xuất và giá trị mặc định đều là 0.",
+    "LabelVppTonemappingBrightnessHelp": "Áp dụng tăng độ sáng trong ánh xạ tông màu VPP. Giá trị đề xuất và mặc định là 16 và 0.",
     "LabelVppTonemappingBrightness": "Tăng độ sáng ánh xạ tông màu VPP",
     "ScreenResolution": "Độ Phân Giải Màn Hình",
     "RememberSubtitleSelectionsHelp": "Cố gắng đặt phụ đề phù hợp nhất với video cuối cùng.",
@@ -1712,5 +1712,9 @@
     "LabelParallelImageEncodingLimit": "Giới hạn mã hóa hình ảnh song song",
     "MediaInfoDvBlSignalCompatibilityId": "Id tương thích tính hiệu DV bl",
     "LabelEnableAudioVbr": "Bật mã hóa âm thanh VBR",
-    "LabelEnableAudioVbrHelp": "Tốc độ bit thay đổi mang lại chất lượng tốt hơn so với tỷ lệ bit trung bình, nhưng trong một số trường hợp hiếm gặp, có thể gây ra sự cố về khả năng tương thích và bộ đệm."
+    "LabelEnableAudioVbrHelp": "Tốc độ bit thay đổi mang lại chất lượng tốt hơn so với tỷ lệ bit trung bình, nhưng trong một số trường hợp hiếm gặp, có thể gây ra sự cố về khả năng tương thích và bộ đệm.",
+    "LabelTonemappingMode": "Chế độ ánh xạ tông màu",
+    "Short": "Ngắn",
+    "Select": "Chọn",
+    "TonemappingModeHelp": "Chọn chế độ ánh xạ tông màu. Nếu bạn thấy các điểm sáng bị cháy sáng, hãy thử chuyển sang chế độ RGB."
 }

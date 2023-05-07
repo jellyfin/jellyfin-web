@@ -1396,7 +1396,7 @@
     "HeaderAddUser": "Dodaj użytkownika",
     "HeaderAddUpdateSubtitle": "Dodaj/Zaktualizuj napisy",
     "EnableTonemapping": "Włącz Tone mapping",
-    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z filmami HDR10 lub HLG. Wymaga to odpowiedniego środowiska uruchomieniowego OpenCL lub CUDA.",
+    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z filmami 10bit HDR10, HLG i DoVi. Wymaga to odpowiedniego środowiska uruchomieniowego OpenCL lub CUDA.",
     "TonemappingAlgorithmHelp": "Mapowanie tonów może zostać dostrojone. Jeśli nie znasz tych opcji, pozostaw domyślne wartości. Domyślna wartość to 'BT.2390'.",
     "PreferFmp4HlsContainerHelp": "Preferuj fMP4 jako domyślny format dla HLS, pozwalając na bezpośrednie odtwarzanie zawartości HEVC na wspieranych urządzeniach.",
     "PreferFmp4HlsContainer": "Preferuj format fMP4-HLS",

@@ -1,4 +1,3 @@
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../scripts/globalize';
@@ -12,12 +11,12 @@ import InputElement from '../../../elements/InputElement';
 
 type IProps = {
     userId: string;
-}
+};
 
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
 
-    const loadUser = useCallback(() => {
+    const loadUser = useCallback(async () => {
         const page = element.current;
 
         if (!page) {
@@ -25,61 +24,50 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             return;
         }
 
-        window.ApiClient.getUser(userId).then(function (user) {
-            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
-                if (!user.Policy) {
-                    throw new Error('Unexpected null user.Policy');
-                }
+        const user = await window.ApiClient.getUser(userId);
+        const loggedInUser = await Dashboard.getCurrentUser();
 
-                if (!user.Configuration) {
-                    throw new Error('Unexpected null user.Configuration');
-                }
+        if (!user.Policy || !user.Configuration) {
+            throw new Error('Unexpected null user policy or configuration');
+        }
 
-                LibraryMenu.setTitle(user.Name);
+        LibraryMenu.setTitle(user.Name);
 
-                let showLocalAccessSection = false;
+        let showLocalAccessSection = false;
 
-                if (user.HasConfiguredPassword) {
-                    (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
-                    (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
-                    showLocalAccessSection = true;
-                } else {
-                    (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
-                    (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
-                }
+        if (user.HasConfiguredPassword) {
+            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
+            showLocalAccessSection = true;
+        } else {
+            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
+            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
+        }
 
-                if (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess) {
-                    (page.querySelector('.passwordSection') as HTMLDivElement).classList.remove('hide');
-                } else {
-                    (page.querySelector('.passwordSection') as HTMLDivElement).classList.add('hide');
-                }
+        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
+        (page.querySelector('.passwordSection') as HTMLDivElement).classList.toggle('hide', !canChangePassword);
+        (page.querySelector('.localAccessSection') as HTMLDivElement).classList.toggle('hide', !(showLocalAccessSection && canChangePassword));
 
-                if (showLocalAccessSection && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                    (page.querySelector('.localAccessSection') as HTMLDivElement).classList.remove('hide');
-                } else {
-                    (page.querySelector('.localAccessSection') as HTMLDivElement).classList.add('hide');
-                }
+        const txtEasyPassword = page.querySelector('#txtEasyPassword') as HTMLInputElement;
+        txtEasyPassword.value = '';
 
-                const txtEasyPassword = page.querySelector('#txtEasyPassword') as HTMLInputElement;
-                txtEasyPassword.value = '';
+        if (user.HasConfiguredEasyPassword) {
+            txtEasyPassword.placeholder = '******';
+            (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.remove('hide');
+        } else {
+            txtEasyPassword.removeAttribute('placeholder');
+            txtEasyPassword.placeholder = '';
+            (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.add('hide');
+        }
 
-                if (user.HasConfiguredEasyPassword) {
-                    txtEasyPassword.placeholder = '******';
-                    (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.remove('hide');
-                } else {
-                    txtEasyPassword.removeAttribute('placeholder');
-                    txtEasyPassword.placeholder = '';
-                    (page.querySelector('#btnResetEasyPassword') as HTMLDivElement).classList.add('hide');
-                }
+        const chkEnableLocalEasyPassword = page.querySelector('.chkEnableLocalEasyPassword') as HTMLInputElement;
 
-                const chkEnableLocalEasyPassword = page.querySelector('.chkEnableLocalEasyPassword') as HTMLInputElement;
+        chkEnableLocalEasyPassword.checked = user.Configuration.EnableLocalPassword || false;
 
-                chkEnableLocalEasyPassword.checked = user.Configuration.EnableLocalPassword || false;
-
-                import('../../autoFocuser').then(({ default: autoFocuser }) => {
-                    autoFocuser.autoFocus(page);
-                });
-            });
+        import('../../autoFocuser').then(({ default: autoFocuser }) => {
+            autoFocuser.autoFocus(page);
+        }).catch(err => {
+            console.error('[UserPasswordForm] failed to load autofocuser', err);
         });
 
         (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value = '';
@@ -95,7 +83,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             return;
         }
 
-        loadUser();
+        loadUser().catch(err => {
+            console.error('[UserPasswordForm] failed to load user', err);
+        });
 
         const onSubmit = (e: Event) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
@@ -123,7 +113,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                 loading.hide();
                 toast(globalize.translate('PasswordSaved'));
 
-                loadUser();
+                loadUser().catch(err => {
+                    console.error('[UserPasswordForm] failed to load user', err);
+                });
             }, function () {
                 loading.hide();
                 Dashboard.alert({
@@ -146,6 +138,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             if (easyPassword) {
                 window.ApiClient.updateEasyPassword(userId, easyPassword).then(function () {
                     onEasyPasswordSaved();
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to update easy password', err);
                 });
             } else {
                 onEasyPasswordSaved();
@@ -167,8 +161,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                     loading.hide();
                     toast(globalize.translate('SettingsSaved'));
 
-                    loadUser();
+                    loadUser().catch(err => {
+                        console.error('[UserPasswordForm] failed to load user', err);
+                    });
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to update user configuration', err);
                 });
+            }).catch(err => {
+                console.error('[UserPasswordForm] failed to fetch user', err);
             });
         };
 
@@ -183,8 +183,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                         message: globalize.translate('PinCodeResetComplete'),
                         title: globalize.translate('HeaderPinCodeReset')
                     });
-                    loadUser();
+                    loadUser().catch(err => {
+                        console.error('[UserPasswordForm] failed to load user', err);
+                    });
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to reset easy password', err);
                 });
+            }).catch(() => {
+                // confirm dialog was closed
             });
         };
 
@@ -198,8 +204,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                         message: globalize.translate('PasswordResetComplete'),
                         title: globalize.translate('ResetPassword')
                     });
-                    loadUser();
+                    loadUser().catch(err => {
+                        console.error('[UserPasswordForm] failed to load user', err);
+                    });
+                }).catch(err => {
+                    console.error('[UserPasswordForm] failed to reset user password', err);
                 });
+            }).catch(() => {
+                // confirm dialog was closed
             });
         };
 

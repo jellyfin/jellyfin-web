@@ -13,8 +13,8 @@ function calculateOffset(textarea) {
     const props = ['paddingTop', 'paddingBottom'];
     let offset = 0;
 
-    for (let i = 0; i < props.length; i++) {
-        offset += parseInt(style[props[i]], 10);
+    for (const prop of props) {
+        offset += parseInt(style[prop], 10);
     }
     return offset;
 }

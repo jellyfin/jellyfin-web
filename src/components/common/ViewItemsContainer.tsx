@@ -1,4 +1,4 @@
-import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
+import { type BaseItemDtoQueryResult, ItemFields, ItemFilter } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import loading from '../loading/loading';
@@ -31,6 +31,41 @@ interface ViewItemsContainerProps {
 
 const getDefaultSortBy = () => {
     return 'SortName';
+};
+
+const getFields = (viewQuerySettings: ViewQuerySettings) => {
+    const fields: ItemFields[] = [
+        ItemFields.BasicSyncInfo,
+        ItemFields.MediaSourceCount
+    ];
+
+    if (viewQuerySettings.imageType === 'primary') {
+        fields.push(ItemFields.PrimaryImageAspectRatio);
+    }
+
+    return fields.join(',');
+};
+
+const getFilters = (viewQuerySettings: ViewQuerySettings) => {
+    const filters: ItemFilter[] = [];
+
+    if (viewQuerySettings.IsPlayed) {
+        filters.push(ItemFilter.IsPlayed);
+    }
+
+    if (viewQuerySettings.IsUnplayed) {
+        filters.push(ItemFilter.IsUnplayed);
+    }
+
+    if (viewQuerySettings.IsFavorite) {
+        filters.push(ItemFilter.IsFavorite);
+    }
+
+    if (viewQuerySettings.IsResumable) {
+        filters.push(ItemFilter.IsResumable);
+    }
+
+    return filters;
 };
 
 const getVisibleViewSettings = () => {
@@ -228,33 +263,7 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
     }, [getCardOptions, getContext, itemsResult.Items, getNoItemsMessage, viewQuerySettings.imageType]);
 
     const getQuery = useCallback(() => {
-        let fields = 'BasicSyncInfo,MediaSourceCount';
-
-        if (viewQuerySettings.imageType === 'primary') {
-            fields += ',PrimaryImageAspectRatio';
-        }
-
-        if (viewQuerySettings.showYear) {
-            fields += ',ProductionYear';
-        }
-
-        const queryFilters: string[] = [];
-
-        if (viewQuerySettings.IsPlayed) {
-            queryFilters.push('IsPlayed');
-        }
-
-        if (viewQuerySettings.IsUnplayed) {
-            queryFilters.push('IsUnplayed');
-        }
-
-        if (viewQuerySettings.IsFavorite) {
-            queryFilters.push('IsFavorite');
-        }
-
-        if (viewQuerySettings.IsResumable) {
-            queryFilters.push('IsResumable');
-        }
+        const queryFilters = getFilters(viewQuerySettings);
 
         let queryIsHD;
 
@@ -271,7 +280,7 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             SortOrder: viewQuerySettings.SortOrder,
             IncludeItemTypes: getItemTypes().join(','),
             Recursive: true,
-            Fields: fields,
+            Fields: getFields(viewQuerySettings),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb,Disc,Logo',
             Limit: userSettings.libraryPageSize(undefined) || undefined,
@@ -293,28 +302,7 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
             ParentId: topParentId
         };
     }, [
-        viewQuerySettings.imageType,
-        viewQuerySettings.showYear,
-        viewQuerySettings.IsPlayed,
-        viewQuerySettings.IsUnplayed,
-        viewQuerySettings.IsFavorite,
-        viewQuerySettings.IsResumable,
-        viewQuerySettings.IsHD,
-        viewQuerySettings.IsSD,
-        viewQuerySettings.SortBy,
-        viewQuerySettings.SortOrder,
-        viewQuerySettings.VideoTypes,
-        viewQuerySettings.GenreIds,
-        viewQuerySettings.Is4K,
-        viewQuerySettings.Is3D,
-        viewQuerySettings.HasSubtitles,
-        viewQuerySettings.HasTrailer,
-        viewQuerySettings.HasSpecialFeature,
-        viewQuerySettings.HasThemeSong,
-        viewQuerySettings.HasThemeVideo,
-        viewQuerySettings.StartIndex,
-        viewQuerySettings.NameLessThan,
-        viewQuerySettings.NameStartsWith,
+        viewQuerySettings,
         getItemTypes,
         getBasekey,
         topParentId
@@ -347,9 +335,13 @@ const ViewItemsContainer: FC<ViewItemsContainerProps> = ({
 
             import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(page);
+            }).catch(err => {
+                console.error('[ViewItemsContainer] failed to load autofocuser', err);
             });
             loading.hide();
             setisLoading(true);
+        }).catch(err => {
+            console.error('[ViewItemsContainer] failed to fetch data', err);
         });
     }, [fetchData]);
 

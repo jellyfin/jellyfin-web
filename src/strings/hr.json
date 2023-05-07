@@ -1319,7 +1319,7 @@
     "AspectRatioFill": "Ispunite",
     "Controls": "Kontrole",
     "LabelEnableGamepad": "Omogući Gamepad",
-    "EnableGamepadHelp": "Osluškujte unos bilo kojeg povezanog kontrolera.",
+    "EnableGamepadHelp": "Osluškujte unos bilo kojeg povezanog kontrolera",
     "AudioCodecNotSupported": "Audio kodek nije podržan",
     "SecondaryAudioNotSupported": "Sekundarni zvučni zapisi nisu podržani",
     "RefFramesNotSupported": "Referentni okviri nisu podržani",

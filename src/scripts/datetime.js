@@ -114,6 +114,7 @@ export function getDisplayRunningTime(ticks) {
 
 const toLocaleTimeStringSupportsLocales = function () {
     try {
+        // eslint-disable-next-line sonarjs/no-ignored-return
         new Date().toLocaleTimeString('i');
     } catch (e) {
         return e.name === 'RangeError';

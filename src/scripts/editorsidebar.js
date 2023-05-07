@@ -300,7 +300,6 @@ let selectedNodeId;
 $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
     updateEditorNode(this, item);
 }).on('pagebeforeshow', '.metadataEditorPage', function () {
-    /* eslint-disable-next-line  @babel/no-unused-expressions */
     import('../styles/metadataeditor.scss');
 }).on('pagebeforeshow', '.metadataEditorPage', function () {
     const page = this;

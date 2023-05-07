@@ -4,7 +4,7 @@ import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';
 import { appHost } from '../components/apphost';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from './router/appRouter';
 import * as inputManager from '../scripts/inputManager';
 import toast from '../components/toast/toast';
 import confirm from '../components/confirm/confirm';

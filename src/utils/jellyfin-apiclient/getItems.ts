@@ -31,25 +31,26 @@ function getItemsSplit(apiClient: ApiClient, userId: string, options: GetItemsRe
 function mergeResults(results: BaseItemDtoQueryResult[]) {
     const merged: BaseItemDtoQueryResult = {
         Items: [],
-        TotalRecordCount: 0,
         StartIndex: 0
     };
+    // set TotalRecordCount separately so TS knows it is defined
+    merged.TotalRecordCount = 0;
 
     for (const result of results) {
-        if (result.Items == null) {
+        if (!result.Items) {
             console.log('[getItems] Retrieved Items array is invalid', result.Items);
             continue;
         }
-        if (result.TotalRecordCount == null) {
+        if (!result.TotalRecordCount) {
             console.log('[getItems] Retrieved TotalRecordCount is invalid', result.TotalRecordCount);
             continue;
         }
-        if (result.StartIndex == null) {
+        if (typeof result.StartIndex === 'undefined') {
             console.log('[getItems] Retrieved StartIndex is invalid', result.StartIndex);
             continue;
         }
         merged.Items = merged.Items?.concat(result.Items);
-        merged.TotalRecordCount! += result.TotalRecordCount;
+        merged.TotalRecordCount += result.TotalRecordCount;
         merged.StartIndex = Math.min(merged.StartIndex || 0, result.StartIndex);
     }
     return merged;

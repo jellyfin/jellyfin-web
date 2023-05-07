@@ -149,5 +149,6 @@
     "Larger": "और बड़ा",
     "ListPaging": "{2} का {0}-{1}",
     "Shows": "शो",
-    "ValueSpecialEpisodeName": "विशेष"
+    "ValueSpecialEpisodeName": "विशेष - {0}",
+    "Sync": "समाकलयति"
 }

@@ -1404,7 +1404,7 @@
     "LabelTonemappingRange": "Tonemapping-bereik",
     "TonemappingAlgorithmHelp": "Tonemapping kan worden verfijnd. Als je niet bekend bent met deze opties, behoud je gewoon de standaardwaarde. De aanbevolen waarde is 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Selecteer het te gebruiken tonemapping-algoritme",
-    "AllowTonemappingHelp": "Tone-mapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met HDR10 of HLG videos. Dit vereist de bijbehorende OpenCL- of CUDA-runtime.",
+    "AllowTonemappingHelp": "Tone-mapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10-, HLG- en DoVi-videos. Dit vereist de bijbehorende OpenCL- of CUDA-runtime.",
     "EnableTonemapping": "Tonemapping inschakelen",
     "LabelOpenclDeviceHelp": "Dit is het OpenCL-apparaat dat wordt gebruikt voor tonemapping. De linkerkant van het punt is het platformnummer en de rechterkant is het apparaatnummer op het platform. De standaardwaarde is 0,0. Het FFmpeg-toepassingsbestand met de OpenCL-hardwareversnellingsmethode is vereist.",
     "LabelOpenclDevice": "OpenCL-apparaat",
@@ -1662,7 +1662,7 @@
     "VideoRangeTypeNotSupported": "Het bereiktype van de video wordt niet ondersteund",
     "LabelVppTonemappingContrastHelp": "Pas contrastversterking toe in VPP-tonemapping. De aanbevolen en standaardwaarden zijn 1.2 en 1.",
     "LabelVppTonemappingContrast": "Contrastversterking VPP-tonemapping",
-    "LabelVppTonemappingBrightnessHelp": "Pas helderheidsversterking toe bij VPP-tonemapping. Zowel de aanbevolen als de standaardwaarden zijn 0.",
+    "LabelVppTonemappingBrightnessHelp": "Pas helderheidsversterking toe bij VPP-tonemapping. De aanbevolen en standaardwaarden zijn 0.",
     "LabelVppTonemappingBrightness": "Helderheidsversterking VPP-tonemapping",
     "EnableSplashScreen": "Opstartscherm inschakelen",
     "EnableEnhancedNvdecDecoderHelp": "Experimentele NVDEC-implementatie; deze instelling niet inschakelen tenzij u decoderingsfouten tegenkomt.",
@@ -1720,5 +1720,8 @@
     "LabelParallelImageEncodingLimitHelp": "Maximum aantal afbeeldingscoderingen dat tegelijkertijd mag lopen. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op je systeemspecificaties.",
     "LabelParallelImageEncodingLimit": "Limiet gelijktijdige afbeeldingscoderingen",
     "LabelEnableAudioVbr": "VBR-audiocodering inschakelen",
-    "LabelEnableAudioVbrHelp": "Een variabele bitsnelheid biedt betere kwaliteit bij een vergelijkbare gemiddelde bitsnelheid, maar kan in zeldzame gevallen tot bufferen of compatibiliteitsproblemen leiden."
+    "LabelEnableAudioVbrHelp": "Een variabele bitsnelheid biedt betere kwaliteit bij een vergelijkbare gemiddelde bitsnelheid, maar kan in zeldzame gevallen tot bufferen of compatibiliteitsproblemen leiden.",
+    "Select": "Selecteren",
+    "LabelTonemappingMode": "Tonemapping-modus",
+    "TonemappingModeHelp": "Selecteer de tonemapping-modus. Indien je overbelichtingsfouten ervaart, probeer dan de RGB-modus."
 }

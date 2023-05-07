@@ -23,8 +23,7 @@ function populateLanguages(parent) {
 function populateLanguagesIntoSelect(select, languages) {
     let html = '';
     html += "<option value=''></option>";
-    for (let i = 0; i < languages.length; i++) {
-        const culture = languages[i];
+    for (const culture of languages) {
         html += `<option value='${culture.TwoLetterISOLanguageName}'>${culture.DisplayName}</option>`;
     }
     select.innerHTML = html;
@@ -32,8 +31,7 @@ function populateLanguagesIntoSelect(select, languages) {
 
 function populateLanguagesIntoList(element, languages) {
     let html = '';
-    for (let i = 0; i < languages.length; i++) {
-        const culture = languages[i];
+    for (const culture of languages) {
         html += `<label><input type="checkbox" is="emby-checkbox" class="chkSubtitleLanguage" data-lang="${culture.ThreeLetterISOLanguageName.toLowerCase()}" /><span>${culture.DisplayName}</span></label>`;
     }
     element.innerHTML = html;
@@ -43,8 +41,7 @@ function populateCountries(select) {
     return ApiClient.getCountries().then(allCountries => {
         let html = '';
         html += "<option value=''></option>";
-        for (let i = 0; i < allCountries.length; i++) {
-            const culture = allCountries[i];
+        for (const culture of allCountries) {
             html += `<option value='${culture.TwoLetterISORegionName}'>${culture.DisplayName}</option>`;
         }
         select.innerHTML = html;
@@ -109,8 +106,7 @@ function renderMetadataSavers(page, metadataSavers) {
     }
     html += `<h3 class="checkboxListLabel">${globalize.translate('LabelMetadataSavers')}</h3>`;
     html += '<div class="checkboxList paperList checkboxList-paperList">';
-    for (let i = 0; i < metadataSavers.length; i++) {
-        const plugin = metadataSavers[i];
+    for (const plugin of metadataSavers) {
         html += `<label><input type="checkbox" data-defaultenabled="${plugin.DefaultEnabled}" is="emby-checkbox" class="chkMetadataSaver" data-pluginname="${escapeHtml(plugin.Name)}" ${false}><span>${escapeHtml(plugin.Name)}</span></label>`;
     }
     html += '</div>';
@@ -157,8 +153,7 @@ function getMetadataFetchersForTypeHtml(availableTypeOptions, libraryOptionsForT
 
 function getTypeOptions(allOptions, type) {
     const allTypeOptions = allOptions.TypeOptions || [];
-    for (let i = 0; i < allTypeOptions.length; i++) {
-        const typeOptions = allTypeOptions[i];
+    for (const typeOptions of allTypeOptions) {
         if (typeOptions.Type === type) return typeOptions;
     }
     return null;
@@ -167,8 +162,7 @@ function getTypeOptions(allOptions, type) {
 function renderMetadataFetchers(page, availableOptions, libraryOptions) {
     let html = '';
     const elem = page.querySelector('.metadataFetchers');
-    for (let i = 0; i < availableOptions.TypeOptions.length; i++) {
-        const availableTypeOptions = availableOptions.TypeOptions[i];
+    for (const availableTypeOptions of availableOptions.TypeOptions) {
         html += getMetadataFetchersForTypeHtml(availableTypeOptions, getTypeOptions(libraryOptions, availableTypeOptions.Type) || {});
     }
     elem.innerHTML = html;
@@ -262,8 +256,7 @@ function getImageFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType
 function renderImageFetchers(page, availableOptions, libraryOptions) {
     let html = '';
     const elem = page.querySelector('.imageFetchers');
-    for (let i = 0; i < availableOptions.TypeOptions.length; i++) {
-        const availableTypeOptions = availableOptions.TypeOptions[i];
+    for (const availableTypeOptions of availableOptions.TypeOptions) {
         html += getImageFetchersForTypeHtml(availableTypeOptions, getTypeOptions(libraryOptions, availableTypeOptions.Type) || {});
     }
     elem.innerHTML = html;
@@ -460,8 +453,7 @@ function setSubtitleFetchersIntoOptions(parent, options) {
 
 function setMetadataFetchersIntoOptions(parent, options) {
     const sections = parent.querySelectorAll('.metadataFetcher');
-    for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
+    for (const section of sections) {
         const type = section.getAttribute('data-type');
         let typeOptions = getTypeOptions(options, type);
         if (!typeOptions) {
@@ -484,8 +476,7 @@ function setMetadataFetchersIntoOptions(parent, options) {
 
 function setImageFetchersIntoOptions(parent, options) {
     const sections = parent.querySelectorAll('.imageFetcher');
-    for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
+    for (const section of sections) {
         const type = section.getAttribute('data-type');
         let typeOptions = getTypeOptions(options, type);
         if (!typeOptions) {
@@ -509,8 +500,7 @@ function setImageFetchersIntoOptions(parent, options) {
 
 function setImageOptionsIntoOptions(options) {
     const originalTypeOptions = (currentLibraryOptions || {}).TypeOptions || [];
-    for (let i = 0; i < originalTypeOptions.length; i++) {
-        const originalTypeOption = originalTypeOptions[i];
+    for (const originalTypeOption of originalTypeOptions) {
         let typeOptions = getTypeOptions(options, originalTypeOption.Type);
 
         if (!typeOptions) {

@@ -21,7 +21,7 @@ import '../../../styles/videoosd.scss';
 import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
-import { appRouter } from '../../../components/appRouter';
+import { appRouter } from '../../../components/router/appRouter';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
@@ -539,11 +539,11 @@ export default function (view) {
     }
 
     function onBeginFetch() {
-        document.querySelector('.osdMediaStatus').classList.remove('hide');
+        view.querySelector('.osdMediaStatus').classList.remove('hide');
     }
 
     function onEndFetch() {
-        document.querySelector('.osdMediaStatus').classList.add('hide');
+        view.querySelector('.osdMediaStatus').classList.add('hide');
     }
 
     function bindToPlayer(player) {
@@ -1437,7 +1437,7 @@ export default function (view) {
     const btnFastForward = view.querySelector('.btnFastForward');
     const transitionEndEventName = dom.whichTransitionEvent();
     const headerElement = document.querySelector('.skinHeader');
-    const osdBottomElement = document.querySelector('.videoOsdBottom-maincontrols');
+    const osdBottomElement = view.querySelector('.videoOsdBottom-maincontrols');
 
     nowPlayingPositionSlider.enableKeyboardDragging();
     nowPlayingVolumeSlider.enableKeyboardDragging();

@@ -22,7 +22,7 @@ import './card.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../guide/programs.scss';
 import ServerConnections from '../ServerConnections';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -679,9 +679,8 @@ function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout
 
     let valid = 0;
 
-    for (let i = 0; i < lines.length; i++) {
+    for (const text of lines) {
         let currentCssClass = cssClass;
-        const text = lines[i];
 
         if (valid > 0 && isOuterFooter) {
             currentCssClass += ' cardText-secondary';
@@ -862,8 +861,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
         if (options.textLines) {
             const additionalLines = options.textLines(item);
-            for (let i = 0; i < additionalLines.length; i++) {
-                lines.push(additionalLines[i]);
+            for (const additionalLine of additionalLines) {
+                lines.push(additionalLine);
             }
         }
 
@@ -1118,7 +1117,6 @@ let refreshIndicatorLoaded;
 function importRefreshIndicator() {
     if (!refreshIndicatorLoaded) {
         refreshIndicatorLoaded = true;
-        /* eslint-disable-next-line  @babel/no-unused-expressions */
         import('../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator');
     }
 }
@@ -1469,7 +1467,6 @@ function getHoverMenuHtml(item, action) {
     const userData = item.UserData || {};
 
     if (itemHelper.canMarkPlayed(item)) {
-        /* eslint-disable-next-line  @babel/no-unused-expressions */
         import('../../elements/emby-playstatebutton/emby-playstatebutton');
         html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check" aria-hidden="true"></span></button>';
     }
@@ -1477,7 +1474,6 @@ function getHoverMenuHtml(item, action) {
     if (itemHelper.canRate(item)) {
         const likes = userData.Likes == null ? '' : userData.Likes;
 
-        /* eslint-disable-next-line  @babel/no-unused-expressions */
         import('../../elements/emby-ratingbutton/emby-ratingbutton');
         html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite" aria-hidden="true"></span></button>';
     }
@@ -1724,8 +1720,7 @@ export function onTimerCreated(programId, newTimerId, itemsContainer) {
 export function onTimerCancelled(timerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
 
-    for (let i = 0; i < cells.length; i++) {
-        const cell = cells[i];
+    for (const cell of cells) {
         const icon = cell.querySelector('.timerIndicator');
         if (icon) {
             icon.parentNode.removeChild(icon);
@@ -1742,8 +1737,7 @@ export function onTimerCancelled(timerId, itemsContainer) {
 export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + cancelledTimerId + '"]');
 
-    for (let i = 0; i < cells.length; i++) {
-        const cell = cells[i];
+    for (const cell of cells) {
         const icon = cell.querySelector('.timerIndicator');
         if (icon) {
             icon.parentNode.removeChild(icon);
