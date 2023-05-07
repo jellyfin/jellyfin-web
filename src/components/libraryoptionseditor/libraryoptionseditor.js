@@ -423,6 +423,12 @@ export function setContentType(parent, contentType) {
         }
     }
 
+    if (contentType === 'music') {
+        parent.querySelector('.chkEnableLUFSScan').classList.remove('hide');
+    } else {
+        parent.querySelector('.chkEnableLUFSScan').classList.add('hide');
+    }
+
     if (contentType === 'tvshows') {
         parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.remove('hide');
     } else {
@@ -522,6 +528,7 @@ export function getLibraryOptions(parent) {
         EnableArchiveMediaFiles: false,
         EnablePhotos: parent.querySelector('.chkEnablePhotos').checked,
         EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
+        EnableLUFSScan: parent.querySelector('.chkEnableLUFSScan').checked,
         ExtractChapterImagesDuringLibraryScan: parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked,
         EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
         EnableInternetProviders: true,
@@ -583,6 +590,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#txtSeasonZeroName').value = options.SeasonZeroDisplayName || 'Specials';
     parent.querySelector('.chkEnablePhotos').checked = options.EnablePhotos;
     parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
+    parent.querySelector('.chkEnableLUFSScan').checked = options.EnableLUFSScan;
     parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked = options.ExtractChapterImagesDuringLibraryScan;
     parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
     parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
