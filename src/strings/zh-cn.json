@@ -371,7 +371,7 @@
     "HideWatchedContentFromLatestMedia": "隐藏来自“新增媒体”的已观看内容",
     "Home": "首页",
     "HttpsRequiresCert": "要启用安全连接, 您需要提供一个受信任的 SSL 证书, 如 \"Let's Encrypt\"。请提供证书或禁用安全连接。",
-    "Identify": "识别",
+    "Identify": "刮削元数据",
     "Images": "图片",
     "ImportFavoriteChannelsHelp": "只有在协调器设备中被标记为我的最爱的频道才会被导入。",
     "InstallingPackage": "正在安装 {0}（版本 {1}）",
