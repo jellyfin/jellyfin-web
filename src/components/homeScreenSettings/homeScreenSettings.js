@@ -13,6 +13,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './homeScreenSettings.template.html';
+import { LibraryTab } from '../../types/libraryTab.ts';
 
 const numConfigurableSections = 7;
 
@@ -48,110 +49,110 @@ function getLandingScreenOptions(type) {
     if (type === 'movies') {
         list.push({
             name: globalize.translate('Movies'),
-            value: 'movies',
+            value: LibraryTab.Movies,
             isDefault: true
         });
         list.push({
             name: globalize.translate('Suggestions'),
-            value: 'suggestions'
+            value: LibraryTab.Suggestions
         });
         list.push({
             name: globalize.translate('Trailers'),
-            value: 'trailers'
+            value: LibraryTab.Trailers
         });
         list.push({
             name: globalize.translate('Favorites'),
-            value: 'favorites'
+            value: LibraryTab.Favorites
         });
         list.push({
             name: globalize.translate('Collections'),
-            value: 'collections'
+            value: LibraryTab.Collections
         });
         list.push({
             name: globalize.translate('Genres'),
-            value: 'genres'
+            value: LibraryTab.Genres
         });
     } else if (type === 'tvshows') {
         list.push({
             name: globalize.translate('Shows'),
-            value: 'shows',
+            value: LibraryTab.Shows,
             isDefault: true
         });
         list.push({
             name: globalize.translate('Suggestions'),
-            value: 'suggestions'
+            value: LibraryTab.Suggestions
         });
         list.push({
             name: globalize.translate('TabUpcoming'),
-            value: 'upcoming'
+            value: LibraryTab.Upcoming
         });
         list.push({
             name: globalize.translate('Genres'),
-            value: 'genres'
+            value: LibraryTab.Genres
         });
         list.push({
             name: globalize.translate('TabNetworks'),
-            value: 'networks'
+            value: LibraryTab.Networks
         });
         list.push({
             name: globalize.translate('Episodes'),
-            value: 'episodes'
+            value: LibraryTab.Episodes
         });
     } else if (type === 'music') {
         list.push({
             name: globalize.translate('Albums'),
-            value: 'albums',
+            value: LibraryTab.Albums,
             isDefault: true
         });
         list.push({
             name: globalize.translate('Suggestions'),
-            value: 'suggestions'
+            value: LibraryTab.Suggestions
         });
         list.push({
             name: globalize.translate('HeaderAlbumArtists'),
-            value: 'albumartists'
+            value: LibraryTab.AlbumArtists
         });
         list.push({
             name: globalize.translate('Artists'),
-            value: 'artists'
+            value: LibraryTab.Artists
         });
         list.push({
             name: globalize.translate('Playlists'),
-            value: 'playlists'
+            value: LibraryTab.Playlists
         });
         list.push({
             name: globalize.translate('Songs'),
-            value: 'songs'
+            value: LibraryTab.Songs
         });
         list.push({
             name: globalize.translate('Genres'),
-            value: 'genres'
+            value: LibraryTab.Genres
         });
     } else if (type === 'livetv') {
         list.push({
             name: globalize.translate('Programs'),
-            value: 'programs',
+            value: LibraryTab.Programs,
             isDefault: true
         });
         list.push({
             name: globalize.translate('Guide'),
-            value: 'guide'
+            value: LibraryTab.Guide
         });
         list.push({
             name: globalize.translate('Channels'),
-            value: 'channels'
+            value: LibraryTab.Channels
         });
         list.push({
             name: globalize.translate('Recordings'),
-            value: 'recordings'
+            value: LibraryTab.Recordings
         });
         list.push({
             name: globalize.translate('Schedule'),
-            value: 'schedule'
+            value: LibraryTab.Schedule
         });
         list.push({
             name: globalize.translate('Series'),
-            value: 'series'
+            value: LibraryTab.Series
         });
     }
 

@@ -12,6 +12,7 @@ import globalize from '../../scripts/globalize';
 import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
+import { LibraryTab } from '../../types/libraryTab.ts';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
 import autoFocuser from '../../components/autoFocuser';
@@ -34,19 +35,19 @@ function getTabs() {
 
 function getDefaultTabIndex(folderId) {
     switch (userSettings.get('landing-' + folderId)) {
-        case 'suggestions':
+        case LibraryTab.Suggestions:
             return 1;
 
-        case 'upcoming':
+        case LibraryTab.Upcoming:
             return 2;
 
-        case 'genres':
+        case LibraryTab.Genres:
             return 3;
 
-        case 'networks':
+        case LibraryTab.Networks:
             return 4;
 
-        case 'episodes':
+        case LibraryTab.Episodes:
             return 5;
 
         default:
