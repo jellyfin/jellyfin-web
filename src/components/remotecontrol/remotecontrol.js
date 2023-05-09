@@ -472,8 +472,8 @@ export default function () {
             }
         }
 
-        context.querySelector('.positionTime').innerHTML = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-        context.querySelector('.runtime').innerHTML = runtimeTicks != null ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+        context.querySelector('.positionTime').innerHTML = Number.isFinite(positionTicks) ? datetime.getDisplayRunningTime(positionTicks) : '--:--';
+        context.querySelector('.runtime').innerHTML = Number.isFinite(runtimeTicks) ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
     }
 
     function getPlaylistItems(player) {
