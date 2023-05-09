@@ -253,7 +253,8 @@ module.exports = {
                 'Windows': 'readonly'
             },
             rules: {
-                '@typescript-eslint/no-floating-promises': ['warn']
+                '@typescript-eslint/no-floating-promises': ['warn'],
+                '@typescript-eslint/prefer-string-starts-ends-with': ['error']
             }
         },
         // TypeScript source files
