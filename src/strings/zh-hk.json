@@ -470,7 +470,7 @@
     "ConfigureDateAdded": "在控制台 > 媒體庫 > NFO 設定中，設定判斷「新增日期」的方法",
     "ClearQueue": "清空佇列",
     "Bwdif": "BWDIF",
-    "AllowTonemappingHelp": "色調映射（Tone-mapping）可以將影片的動態範圍從 HDR 轉換為 SDR，同時保留原始畫面的關鍵數據（細節和顏色）。目前僅適用於使用 HDR10 或 HLG 的影片。（注：而此功能需要相應的 OpenCL 或 CUDA。）",
+    "AllowTonemappingHelp": "色調映射（Tone-mapping）可以將影片的動態範圍從 HDR 轉換為 SDR，同時保留原始畫面的關鍵數據（細節和顏色）。目前僅適用於使用 HDR10、HLG及 DoVi 的影片。而此功能需要相應的 OpenCL 或 CUDA 執行程序。",
     "ManageLibrary": "管理媒體庫",
     "Logo": "標誌",
     "LiveTV": "電視直播",
@@ -1121,7 +1121,7 @@
     "Cursive": "手寫體",
     "MessageSyncPlayUserJoined": "{0} 已加入至群組。",
     "MetadataManager": "元數據管理員",
-    "MessageSyncPlayGroupWait": "正在緩衝 {0}",
+    "MessageSyncPlayGroupWait": "{0}正在緩衝中…",
     "MessageSyncPlayPlaybackPermissionRequired": "需要播放權限。",
     "MessageUnsetContentHelp": "所有內容將會以資料夾分類及顯示。建議使用元數據管理員來編輯子資料夾的內容類型。",
     "MessageSyncPlayIsDisabled": "需要授權才能使用 SyncPlay。",
@@ -1150,5 +1150,9 @@
     "HeaderPerformance": "效能",
     "MessageAddRepository": "如果你想新增一個資源庫，請點擊標題旁邊的「＋」按鈕並填寫所需的資料。",
     "MessageDeleteTaskTrigger": "您是否確認刪除這個工作觸發條件？",
-    "PluginFromRepo": "來自{1}的{0}"
+    "PluginFromRepo": "來自{1}的{0}",
+    "MinutesAfter": "分鐘後",
+    "ValueMinutes": "{0}分",
+    "MinutesBefore": "分鐘前",
+    "MessagePleaseWait": "請稍等。"
 }
