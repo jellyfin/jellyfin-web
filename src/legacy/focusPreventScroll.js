@@ -19,8 +19,8 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
             });
 
             focusElem.focus(opts);
-        } catch (e) {
-            console.error('error checking preventScroll support');
+        } catch {
+            // no preventScroll supported
         }
 
         if (!supportsPreventScrollOption) {
