@@ -1243,7 +1243,7 @@
     "OnlyForcedSubtitlesHelp": "Nur subtekstoj ŝarĝitos markitaj kiel forcitaj.",
     "LabelSelectFolderGroupsHelp": "Dosierujoj malelektitaj montriĝos mem laŭ sia propra vido.",
     "AllowRemoteAccessHelp": "Se malelektita, ĉiuj foraj konektoj estos blokitaj.",
-    "EnableGamepadHelp": "Aŭskulti pri enigo de iuj konektitaj regiloj.",
+    "EnableGamepadHelp": "Aŭskulti pri enigo de iuj konektitaj regiloj",
     "OptionEnableM2tsModeHelp": "Ebligi M2TS-reĝimon dum kodado al MPEG-TS.",
     "SubtitleAppearanceSettingsDisclaimer": "La sekvaj parametroj ne validas por la grafikaj subtekstoj menciitaj supre aŭ ASS/SSA subtekstoj kiuj enigas siajn proprajn stilojn.",
     "KnownProxiesHelp": "Komo apartigita listo de IP-adresoj aŭ gastignomoj de konataj prokuriloj uzataj kiam vi konektas al via Jellyfin-ekzemplo. Ĉi tio estas bezonata por ĝuste uzi \"X-Forwarded-For\" ĉapojn. Necesas relanĉon post savado.",

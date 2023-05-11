@@ -274,7 +274,7 @@
     "AudioBitrateNotSupported": "ऑडियो बिटरेट समर्थित नाही",
     "VideoCodecNotSupported": "व्हिडियो कोडेक समर्थित नाही",
     "AudioCodecNotSupported": "ऑडियो कोडेक समर्थित नाही",
-    "EnableGamepadHelp": "कोणत्याही जोडलेल्या कंट्रोलरपासून इन्पुट येतं का ऐका.",
+    "EnableGamepadHelp": "कोणत्याही जोडलेल्या कंट्रोलरपासून इन्पुट येतं का ऐका",
     "ContainerBitrateExceedsLimit": "व्हिडियोचा बिटरेट मर्यादेपेक्षा जास्त आहे",
     "LabelHardwareEncodingOptions": "हार्डवेअर एन्कोडिंग पर्याय",
     "Sync": "सिंक",

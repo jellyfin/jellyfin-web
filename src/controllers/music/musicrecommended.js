@@ -9,12 +9,14 @@ import imageLoader from '../../components/images/imageLoader';
 import libraryMenu from '../../scripts/libraryMenu';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import globalize from '../../scripts/globalize';
+import { LibraryTab } from '../../types/libraryTab.ts';
+import Dashboard from '../../utils/dashboard';
+
 import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
 import '../../styles/flexstyles.scss';
-import Dashboard from '../../utils/dashboard';
 
 function itemsPerRow() {
     const screenWidth = dom.getWindowSize().innerWidth;
@@ -194,22 +196,22 @@ function getTabs() {
 
 function getDefaultTabIndex(folderId) {
     switch (userSettings.get('landing-' + folderId)) {
-        case 'suggestions':
+        case LibraryTab.Suggestions:
             return 1;
 
-        case 'albumartists':
+        case LibraryTab.AlbumArtists:
             return 2;
 
-        case 'artists':
+        case LibraryTab.Artists:
             return 3;
 
-        case 'playlists':
+        case LibraryTab.Playlists:
             return 4;
 
-        case 'songs':
+        case LibraryTab.Songs:
             return 5;
 
-        case 'genres':
+        case LibraryTab.Genres:
             return 6;
 
         default:

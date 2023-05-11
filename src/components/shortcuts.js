@@ -5,7 +5,7 @@
 
 import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
-import { appRouter } from './appRouter';
+import { appRouter } from './router/appRouter';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';

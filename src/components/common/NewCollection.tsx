@@ -12,7 +12,11 @@ const NewCollection: FC = () => {
             collectionEditor.show({
                 items: [],
                 serverId: serverId
+            }).catch(() => {
+                // closed collection editor
             });
+        }).catch(err => {
+            console.error('[NewCollection] failed to load collection editor', err);
         });
     }, []);
 

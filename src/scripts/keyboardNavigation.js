@@ -202,7 +202,6 @@ export function enable() {
 function attachGamepadScript() {
     console.log('Gamepad connected! Attaching gamepadtokey.js script');
     window.removeEventListener('gamepadconnected', attachGamepadScript);
-    /* eslint-disable-next-line  @babel/no-unused-expressions */
     import('./gamepadtokey');
 }
 

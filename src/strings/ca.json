@@ -319,7 +319,7 @@
     "LabelPersonRoleHelp": "Exemple: Conductor de camió de gelats",
     "LabelPlaceOfBirth": "Lloc de naixement",
     "LabelPlayDefaultAudioTrack": "Reprodueix la pista d'àudio per defecte independentment de l'idioma",
-    "LabelPlaylist": "Llista de rep.",
+    "LabelPlaylist": "Llista de reproducció",
     "LabelPreferredDisplayLanguage": "Idioma de visualització preferit",
     "LabelPreferredSubtitleLanguage": "Idioma preferit de subtítols",
     "LabelProfileAudioCodecs": "Còdecs d'àudio",
@@ -657,7 +657,7 @@
     "AllowOnTheFlySubtitleExtractionHelp": "Els subtítols incrustats es poden extreure de vídeos i lliurar-los als clients en text pla, per tal d’evitar la transcodificació de vídeos. En alguns sistemes, això pot trigar molt de temps i fer que la reproducció de vídeo s’aturés durant el procés d’extracció. Desactiveu aquesta opció perquè els subtítols incrustats es gravin amb la transcodificació de vídeo quan el dispositiu client no els admeti de forma nativa.",
     "AlbumArtist": "Artista de l'àlbum",
     "Album": "Àlbum",
-    "ButtonSyncPlay": "SyncPlay",
+    "ButtonSyncPlay": "Reproducció sincronitzada",
     "CriticRating": "Valoració dels сrítics",
     "CopyStreamURLSuccess": "L'URL s'ha copiat correctament.",
     "CopyStreamURL": "Copia l'URL de reproducció",
@@ -1716,5 +1716,6 @@
     "SubtitleYellow": "Groc",
     "StereoDownmixAlgorithmHelp": "Algoritme utilitzat per barrejar àudio multicanal a estèreo.",
     "DownloadAll": "Descarrega-ho tot",
-    "LabelEnableAudioVbr": "Activar la codificació d'àudio VBR"
+    "LabelEnableAudioVbr": "Activar la codificació d'àudio VBR",
+    "LabelEnableAudioVbrHelp": "La taxa de bits variable ofereix una millor relació entre la qualitat i velocitat de bits mitjana, però en alguns casos rars pot provocar problemes de compatibilitat i de memòria intermèdia (buffering)."
 }

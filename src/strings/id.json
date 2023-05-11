@@ -1157,7 +1157,7 @@
     "SubtitleCodecNotSupported": "Kodek subjudul tidak didukung",
     "ContainerNotSupported": "Kontainer tidak didukung",
     "AudioCodecNotSupported": "Kodek audio tidak didukung",
-    "EnableGamepadHelp": "Dengarkan masukan dari pengontrol yang terhubung.",
+    "EnableGamepadHelp": "Dengarkan masukan dari pengontrol yang terhubung",
     "LabelEnableGamepad": "Aktifkan Gamepad",
     "Controls": "Kontrol",
     "AllowVppTonemappingHelp": "Pemetaan nada berbasis driver Intel penuh. Saat ini hanya berfungsi pada perangkat keras tertentu dengan video HDR10. Ini memiliki prioritas lebih tinggi dibandingkan dengan implementasi OpenCL lainnya.",

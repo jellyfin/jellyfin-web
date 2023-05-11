@@ -10,6 +10,7 @@ import '../../styles/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';
+import { LibraryTab } from '../../types/libraryTab.ts';
 import Dashboard from '../../utils/dashboard';
 
 function enableScrollX() {
@@ -201,15 +202,15 @@ function setScrollClasses(elem, scrollX) {
 
 function getDefaultTabIndex(folderId) {
     switch (userSettings.get('landing-' + folderId)) {
-        case 'guide':
+        case LibraryTab.Guide:
             return 1;
-        case 'channels':
+        case LibraryTab.Channels:
             return 2;
-        case 'recordings':
+        case LibraryTab.Recordings:
             return 3;
-        case 'schedule':
+        case LibraryTab.Schedule:
             return 4;
-        case 'series':
+        case LibraryTab.Series:
             return 5;
         default:
             return 0;

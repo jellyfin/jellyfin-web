@@ -20,7 +20,7 @@ import '../../styles/flexstyles.scss';
 import './style.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
 
 let currentContext;
@@ -108,7 +108,7 @@ function getDateValue(form, element, property) {
         const parts = date.toISOString().split('T');
 
         // If the date is the same, preserve the time
-        if (parts[0].indexOf(val) === 0) {
+        if (parts[0].startsWith(val)) {
             const iso = parts[1];
 
             val += 'T' + iso;
@@ -955,8 +955,7 @@ function populatePeople(context, people) {
 
 function getLockedFieldsHtml(fields, currentFields) {
     let html = '';
-    for (let i = 0; i < fields.length; i++) {
-        const field = fields[i];
+    for (const field of fields) {
         const name = field.name;
         const value = field.value || field.name;
         const checkedHtml = currentFields.indexOf(value) === -1 ? ' checked' : '';

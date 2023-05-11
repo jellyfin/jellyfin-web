@@ -35,7 +35,7 @@
     "AllowHevcEncoding": "Avela hamadika format HEVC",
     "AllowHWTranscodingHelp": "Avela ny tuner hiasa sady mamadika format. Mety hanampy amin'ny fampihenana ny asa takian'ny serveur izany.",
     "AllowMediaConversionHelp": "Avela na lavina ny fidirana amin'ny asa famadihana format.",
-    "AllowOnTheFlySubtitleExtraction": "Avela hamaky dikanteny eny ampandehanana.",
+    "AllowOnTheFlySubtitleExtraction": "Avela hamaky dikanteny eny ampandehanana",
     "AllowOnTheFlySubtitleExtractionHelp": "Azo alaina avy amin'ilay video ny dikanteny ao anatiny ary aseho amin'ny soratra tsotra, mba hisorohana ny famadihana video. Mety haharitra ela izany ka hampiato ny famakiana horonan-tsary mandritra ny dingan'ny fitrandrahana. Atsaharo raha avela ho dikanteny miaraka amin'ny famadihana horonan-tsary.",
     "AllowRemoteAccess": "Avela hifandray amin'ny hafa ity serveur ity",
     "AllowRemoteAccessHelp": "Raha tsy marihina dia ho voasakana ny fifandraisana lavitra rehetra."

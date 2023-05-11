@@ -18,7 +18,7 @@ import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -472,8 +472,8 @@ export default function () {
             }
         }
 
-        context.querySelector('.positionTime').innerHTML = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-        context.querySelector('.runtime').innerHTML = runtimeTicks != null ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+        context.querySelector('.positionTime').innerHTML = Number.isFinite(positionTicks) ? datetime.getDisplayRunningTime(positionTicks) : '--:--';
+        context.querySelector('.runtime').innerHTML = Number.isFinite(runtimeTicks) ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
     }
 
     function getPlaylistItems(player) {

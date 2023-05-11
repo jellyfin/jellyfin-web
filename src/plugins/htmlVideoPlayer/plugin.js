@@ -3,7 +3,7 @@ import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import { appRouter } from '../../components/appRouter';
+import { appRouter } from '../../components/router/appRouter';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,

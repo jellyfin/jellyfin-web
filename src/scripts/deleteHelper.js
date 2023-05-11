@@ -1,6 +1,6 @@
 
 import confirm from '../components/confirm/confirm';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import globalize from './globalize';
 import ServerConnections from '../components/ServerConnections';
 import alert from '../components/alert';

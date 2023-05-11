@@ -3,7 +3,7 @@ import cardBuilder from '../cardbuilder/cardBuilder';
 import layoutManager from '../layoutManager';
 import imageLoader from '../images/imageLoader';
 import globalize from '../../scripts/globalize';
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import imageHelper from '../../scripts/imagehelper';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
@@ -100,10 +100,10 @@ export function loadSections(elem, apiClient, user, userSettings) {
 
 export function destroySections(elem) {
     const elems = elem.querySelectorAll('.itemsContainer');
-    for (let i = 0; i < elems.length; i++) {
-        elems[i].fetchData = null;
-        elems[i].parentContainer = null;
-        elems[i].getItemsHtml = null;
+    for (const e of elems) {
+        e.fetchData = null;
+        e.parentContainer = null;
+        e.getItemsHtml = null;
     }
 
     elem.innerHTML = '';
@@ -111,8 +111,8 @@ export function destroySections(elem) {
 
 export function pause(elem) {
     const elems = elem.querySelectorAll('.itemsContainer');
-    for (let i = 0; i < elems.length; i++) {
-        elems[i].pause();
+    for (const e of elems) {
+        e.pause();
     }
 }
 

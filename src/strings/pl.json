@@ -1396,7 +1396,7 @@
     "HeaderAddUser": "Dodaj użytkownika",
     "HeaderAddUpdateSubtitle": "Dodaj/Zaktualizuj napisy",
     "EnableTonemapping": "Włącz Tone mapping",
-    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z filmami HDR10 lub HLG. Wymaga to odpowiedniego środowiska uruchomieniowego OpenCL lub CUDA.",
+    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z filmami 10bit HDR10, HLG i DoVi. Wymaga to odpowiedniego środowiska uruchomieniowego OpenCL lub CUDA.",
     "TonemappingAlgorithmHelp": "Mapowanie tonów może zostać dostrojone. Jeśli nie znasz tych opcji, pozostaw domyślne wartości. Domyślna wartość to 'BT.2390'.",
     "PreferFmp4HlsContainerHelp": "Preferuj fMP4 jako domyślny format dla HLS, pozwalając na bezpośrednie odtwarzanie zawartości HEVC na wspieranych urządzeniach.",
     "PreferFmp4HlsContainer": "Preferuj format fMP4-HLS",
@@ -1664,9 +1664,9 @@
     "MediaInfoVideoRangeType": "Typ zakresu wideo",
     "LabelVideoRangeType": "Typ zakresu wideo",
     "VideoRangeTypeNotSupported": "Typ zakresu wideo nie jest obsługiwany",
-    "LabelVppTonemappingContrastHelp": "Zastosuj wzmocnienie kontrastu w mapowaniu tonów VPP. Zalecane i domyślne wartości to 1.2 i 1.",
+    "LabelVppTonemappingContrastHelp": "Zastosuj wzmocnienie kontrastu w mapowaniu tonów VPP. Zalecane jak i domyślne wartości to 1.",
     "LabelVppTonemappingContrast": "VPP Wzmocnienie kontrastu mapowania tonów",
-    "LabelVppTonemappingBrightnessHelp": "Zastosuj wzmocnienie jasności w mapowaniu tonów VPP. Zarówno zalecane, jak i domyślne wartości to 0.",
+    "LabelVppTonemappingBrightnessHelp": "Zastosuj wzmocnienie jasności w mapowaniu tonów VPP. Zalecane, i domyślne wartości to 16 i 0.",
     "LabelVppTonemappingBrightness": "Wzmocnienie jasności mapowania tonów VPP",
     "EnableSplashScreen": "Włącz ekran powitalny",
     "ScreenResolution": "Rozdzielczość ekranu",
@@ -1721,5 +1721,8 @@
     "LabelParallelImageEncodingLimitHelp": "Maksymalna liczba kodowań obrazów, które mogą być uruchomione równolegle. Ustawienie wartości na 0 spowoduje wybór limitu w oparciu o specyfikacje Twojego systemu.",
     "LabelParallelImageEncodingLimit": "Limit kodowań obrazów, które mogą być uruchomione równolegle",
     "LabelEnableAudioVbrHelp": "Zmienna przepływność bitów oferuje lepsze proporcje jakości do przepustowości w porównaniu z przepływnością średnią, ale w niektórych rzadkich przypadkach może powodować problemy z buforowaniem i zgodnością.",
-    "LabelEnableAudioVbr": "Włącz kodowanie audio VBR"
+    "LabelEnableAudioVbr": "Włącz kodowanie audio VBR",
+    "LabelTonemappingMode": "Tryb mapowania tonów",
+    "Select": "Wybierz",
+    "TonemappingModeHelp": "Wybierz tryb mapowania tonalnego. Jeśli zauważysz artefakty, spróbuj przełączyć się na tryb RGB."
 }

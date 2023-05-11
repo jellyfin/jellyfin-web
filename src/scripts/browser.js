@@ -167,8 +167,8 @@ function supportsCssAnimation(allowPrefix) {
     }
 
     if (animation === false && allowPrefix) {
-        for (let i = 0; i < domPrefixes.length; i++) {
-            if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
+        for (const domPrefix of domPrefixes) {
+            if (elm.style[domPrefix + 'AnimationName'] !== undefined) {
                 animation = true;
                 break;
             }

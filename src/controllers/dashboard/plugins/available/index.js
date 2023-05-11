@@ -66,8 +66,7 @@ function populateList(options) {
     let currentCategory = null;
     let html = '';
 
-    for (let i = 0; i < availablePlugins.length; i++) {
-        const plugin = availablePlugins[i];
+    for (const plugin of availablePlugins) {
         const category = plugin.categoryDisplayName;
         if (category != currentCategory) {
             if (currentCategory) {

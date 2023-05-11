@@ -135,9 +135,7 @@ function showManualForm(context, showCancel, focusPassword) {
 function loadUserList(context, apiClient, users) {
     let html = '';
 
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-
+    for (const user of users) {
         // TODO move card creation code to Card component
         let cssClass = 'card squareCard scalableCard squareCard-scalable';
 

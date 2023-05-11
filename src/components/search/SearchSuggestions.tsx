@@ -5,7 +5,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import escapeHtml from 'escape-html';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import { useApi } from '../../hooks/useApi';
 import globalize from '../../scripts/globalize';
 
@@ -25,7 +25,7 @@ const createSuggestionLink = ({ name, href }: { name: string, href: string }) =>
 
 type SearchSuggestionsProps = {
     parentId?: string | null;
-}
+};
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }: SearchSuggestionsProps) => {
     const [ suggestions, setSuggestions ] = useState<BaseItemDto[]>([]);
@@ -45,7 +45,11 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
                     parentId: parentId || undefined,
                     enableTotalRecordCount: false
                 })
-                .then(result => setSuggestions(result.data.Items || []));
+                .then(result => setSuggestions(result.data.Items || []))
+                .catch(err => {
+                    console.error('[SearchSuggestions] failed to fetch search suggestions', err);
+                    setSuggestions([]);
+                });
         }
     }, [ api, parentId, user ]);
 
