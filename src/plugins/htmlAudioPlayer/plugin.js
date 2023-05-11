@@ -538,7 +538,7 @@ function getSupportedFeatures() {
         list.push('PlaybackRate');
     }
 
-    if (browser.safari || browser.iOS || browser.iPad) {
+    if (browser.safari) {
         list.push('AirPlay');
     }
 
