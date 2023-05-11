@@ -1722,5 +1722,7 @@
     "LabelParallelImageEncodingLimit": "Limit kodowań obrazów, które mogą być uruchomione równolegle",
     "LabelEnableAudioVbrHelp": "Zmienna przepływność bitów oferuje lepsze proporcje jakości do przepustowości w porównaniu z przepływnością średnią, ale w niektórych rzadkich przypadkach może powodować problemy z buforowaniem i zgodnością.",
     "LabelEnableAudioVbr": "Włącz kodowanie audio VBR",
-    "LabelTonemappingMode": "Tryb mapowania tonów"
+    "LabelTonemappingMode": "Tryb mapowania tonów",
+    "Select": "Wybierz",
+    "TonemappingModeHelp": "Wybierz tryb mapowania tonalnego. Jeśli zauważysz artefakty, spróbuj przełączyć się na tryb RGB."
 }
