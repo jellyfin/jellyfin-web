@@ -1724,5 +1724,8 @@
     "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues.",
     "LabelTonemappingMode": "Tone mapping mode",
     "Select": "Select",
-    "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode."
+    "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode.",
+    "UserMenu": "User Menu",
+    "MenuOpen": "Open Menu",
+    "MenuClose": "Close Menu"
 }
