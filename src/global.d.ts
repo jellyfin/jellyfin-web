@@ -4,5 +4,6 @@ export declare global {
     interface Window {
         ApiClient: ApiClient;
         Events: Events;
+        NativeShell: any;
     }
 }
