@@ -1715,7 +1715,7 @@
     "SubtitleRed": "Rouge",
     "SubtitleWhite": "Blanc",
     "SubtitleYellow": "Jaune",
-    "Featurette": "Moyen-Métrage",
+    "Featurette": "Featurette",
     "Short": "Court-métrage",
     "HeaderPerformance": "Performance",
     "LabelParallelImageEncodingLimit": "Limite de parallélisation de l'encodage d'image",
@@ -1724,5 +1724,8 @@
     "LabelEnableAudioVbrHelp": "Le débit binaire variable offre une qualité supérieure à la moyenne mais peut, dans de rares cas, causer des problèmes de mise en mémoire tampon et de compatibilité.",
     "LabelTonemappingMode": "Mode de mappage tonal",
     "TonemappingModeHelp": "Sélectionnez le mode de mappage tonal. Si vous rencontrez des reflets soufflés, essayez le mode RVB.",
-    "Select": "Sélectionner"
+    "Select": "Sélectionner",
+    "MenuOpen": "Ouvrir le menu",
+    "MenuClose": "Fermer le menu",
+    "UserMenu": "Menu utilisateur"
 }
