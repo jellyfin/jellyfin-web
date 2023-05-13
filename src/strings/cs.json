@@ -1724,5 +1724,8 @@
     "LabelEnableAudioVbrHelp": "Proměnlivý bitový tok (VBR) nabízí lepší poměr mezi kvalitou a průměrným bitovým tokem, ale někdy může způsobit dodatečné načítání či problémy s kompatibilitou.",
     "Select": "Vybrat",
     "LabelTonemappingMode": "Režim mapování tónů",
-    "TonemappingModeHelp": "Určute režim mapování tónů. Pokud narazíte na přeexponovaná světlá místa, zkuste přepnout do režimu RGB."
+    "TonemappingModeHelp": "Určute režim mapování tónů. Pokud narazíte na přeexponovaná světlá místa, zkuste přepnout do režimu RGB.",
+    "MenuOpen": "Otevřít nabídku",
+    "MenuClose": "Zavřít nabídku",
+    "UserMenu": "Uživatelská nabídka"
 }

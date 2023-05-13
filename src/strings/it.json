@@ -1724,5 +1724,8 @@
     "LabelParallelImageEncodingLimitHelp": "Numero massimo di codifiche di immagini che possono essere eseguite in parallelo. Impostandolo su 0 sceglierai un limite basato sulle specifiche del tuo sistema.",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Preferisci i titoli incorporati ai nomi dei file per gli extra",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Gli extra hanno spesso lo stesso nome incorporato del parent, controlla questo per usare comunque titoli incorporati per loro.",
-    "SaveRecordingImagesHelp": "Salva le immagini dal fornitore di elenchi EPG insieme ai media."
+    "SaveRecordingImagesHelp": "Salva le immagini dal fornitore di elenchi EPG insieme ai media.",
+    "MenuOpen": "Apri Menù",
+    "MenuClose": "Chiudi Menù",
+    "UserMenu": "Menù Utente"
 }

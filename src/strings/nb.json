@@ -1696,5 +1696,19 @@
     "HeaderPerformance": "Ytelse",
     "LabelDummyChapterDurationHelp": "Tid mellom innsamling av kapittelbilder i sekunder.",
     "LabelEnableAudioVbrHelp": "Variabel bithastighet tilbyr bedre forhold mellom kvalitet og gjennomsnittlig bithastighet, men kan i visse tilfeller forårsake buffering og problemer med kompatibilitet.",
-    "LabelEnableAudioVbr": "Aktiver VBR lydkoding"
+    "LabelEnableAudioVbr": "Aktiver VBR lydkoding",
+    "SubtitleBlack": "Svart",
+    "SubtitleBlue": "Blå",
+    "SubtitleGray": "Grå",
+    "SubtitleGreen": "Grønn",
+    "SubtitleLightGray": "Lyse grå",
+    "SubtitleMagenta": "Magenta",
+    "MenuOpen": "Åpne menyen",
+    "MenuClose": "Lukk menyen",
+    "SecondarySubtitles": "Sekundære undertekster",
+    "Short": "Kort",
+    "SubtitleRed": "Rød",
+    "SubtitleYellow": "Gul",
+    "SubtitleWhite": "Hvit",
+    "Select": "Velg"
 }
