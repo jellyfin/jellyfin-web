@@ -1705,5 +1705,10 @@
     "SubtitleMagenta": "Magenta",
     "MenuOpen": "Åpne menyen",
     "MenuClose": "Lukk menyen",
-    "SecondarySubtitles": "Sekundære undertekster"
+    "SecondarySubtitles": "Sekundære undertekster",
+    "Short": "Kort",
+    "SubtitleRed": "Rød",
+    "SubtitleYellow": "Gul",
+    "SubtitleWhite": "Hvit",
+    "Select": "Velg"
 }
