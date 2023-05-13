@@ -8,23 +8,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .episodeSelectProgressBar {
     flex: 1;
 }
 
-
 .episodeSelectorOverview {
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    max-height: 100px;
     margin-bottom: 1em;
 }
-
 
 .episodeSelectorCard {
     width: 40%;
