@@ -274,6 +274,7 @@ export function show(items, currentItem, positionTo, title) {
             disableHoverMenu: true,
             disableIndicators: true,
             overlayPlayButton: false,
+            forceDiv: true,
             cardCssClass: 'episodeSelectorCard',
             height: 320,
             width: 180
