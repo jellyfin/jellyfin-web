@@ -118,11 +118,10 @@ class HtmlAudioPlayer {
                 } else {
                     self.gainNode.gain.value = 1;
                 }
+                console.debug('gain:' + self.gainNode.gain.value);
             }).catch((err)=> {
                 console.error('[UserSettings] failed to load userSettings', err);
             });
-
-            console.debug('gain:' + self.gainNode.gain.value);
 
             // Convert to seconds
             const seconds = (options.playerStartPositionTicks || 0) / 10000000;
