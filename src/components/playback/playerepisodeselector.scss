@@ -1,0 +1,35 @@
+.episodeSelector {
+    width: 32rem;
+    margin-right: 1rem;
+}
+
+.episodeSelectorEpisodeName {
+    flex: 0 1 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.episodeSelectProgressBar {
+    flex: 1;
+}
+
+
+.episodeSelectorOverview {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    margin-bottom: 1em;
+}
+
+
+.episodeSelectorCard {
+    width: 40%;
+
+    @media (max-width: 640px) {
+        display: none;
+    }
+}
