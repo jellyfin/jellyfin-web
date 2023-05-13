@@ -1723,5 +1723,8 @@
     "SubtitleYellow": "Amarillo",
     "Short": "Cortometraje",
     "LabelTonemappingMode": "Modo de mapeo de tono",
-    "TonemappingModeHelp": "Seleccionar el modo de mapeo de tono. Si experimenta sobreexposición intente cambiar al modo RGB."
+    "TonemappingModeHelp": "Seleccionar el modo de mapeo de tono. Si experimenta sobreexposición intente cambiar al modo RGB.",
+    "MenuOpen": "Abrir menú",
+    "MenuClose": "Cerrar menú",
+    "UserMenu": "Menú del usuario"
 }
