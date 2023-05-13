@@ -100,10 +100,12 @@ const ExperimentalApp = () => {
                             easing: theme.transitions.easing.sharp,
                             duration: theme.transitions.duration.leavingScreen
                         }),
-                        marginLeft: {
-                            xs: 0,
-                            sm: `-${DRAWER_WIDTH}px`
-                        },
+                        marginLeft: 0,
+                        ...(isDrawerAvailable && {
+                            marginLeft: {
+                                sm: `-${DRAWER_WIDTH}px`
+                            }
+                        }),
                         ...(isDrawerActive && {
                             transition: theme.transitions.create('margin', {
                                 easing: theme.transitions.easing.easeOut,
