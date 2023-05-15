@@ -1730,5 +1730,7 @@
     "MachineTranslated": "Machine Translated",
     "ForeignPartsOnly": "Forced/Foreign parts only",
     "HearingImpairedShort": "HI/SDH",
-    "LabelIsHearingImpaired": "For hearing impaired (SDH)"
+    "LabelIsHearingImpaired": "For hearing impaired (SDH)",
+    "AudioLanguages": "Audio languages",
+    "SubtitleLanguages": "Subtitle languages"
 }
