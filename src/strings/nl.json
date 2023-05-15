@@ -1723,5 +1723,8 @@
     "LabelEnableAudioVbrHelp": "Een variabele bitsnelheid biedt betere kwaliteit bij een vergelijkbare gemiddelde bitsnelheid, maar kan in zeldzame gevallen tot bufferen of compatibiliteitsproblemen leiden.",
     "Select": "Selecteren",
     "LabelTonemappingMode": "Tonemapping-modus",
-    "TonemappingModeHelp": "Selecteer de tonemapping-modus. Indien je overbelichtingsfouten ervaart, probeer dan de RGB-modus."
+    "TonemappingModeHelp": "Selecteer de tonemapping-modus. Indien je overbelichtingsfouten ervaart, probeer dan de RGB-modus.",
+    "MenuOpen": "Open Menu",
+    "MenuClose": "Menu Sluiten",
+    "UserMenu": "Gebruiker Menu"
 }
