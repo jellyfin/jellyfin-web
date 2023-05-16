@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import appIcon from 'assets/img/icon-transparent.png';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 
@@ -72,7 +73,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
             >
                 <Box
                     component='img'
-                    src='/assets/img/icon-transparent.png'
+                    src={appIcon}
                     sx={{
                         height: '2rem',
                         marginInlineEnd: 1
