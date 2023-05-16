@@ -1724,5 +1724,8 @@
     "HeaderPerformance": "Rendimiento",
     "LabelTonemappingMode": "Modo de mapeo de tono",
     "TonemappingModeHelp": "Seleccione el modo de mapeado de tono. Si experimenta sobreiluminación intente cambiar al modo RGB.",
-    "Select": "Seleccionar"
+    "Select": "Seleccionar",
+    "MenuOpen": "Abrir Menú",
+    "MenuClose": "Cerrar Menú",
+    "UserMenu": "Menú de Usuario"
 }
