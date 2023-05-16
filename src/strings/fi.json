@@ -69,7 +69,7 @@
     "AnyLanguage": "Mikä tahansa",
     "Anytime": "Milloin tahansa",
     "AroundTime": "Noin {0}",
-    "Art": "Kirkas taide",
+    "Art": "Clearart",
     "Artists": "Esittäjät",
     "AsManyAsPossible": "Niin monta kuin mahdollista",
     "Ascending": "Nousevassa järjestyksessä",
@@ -1021,7 +1021,7 @@
     "ErrorGettingTvLineups": "Ladattaessa televisiokokoonpanoja tapahtui virhe. Varmista, että tiedot ovat oikein ja yritä uudelleen.",
     "EnableDetailsBannerHelp": "Näyttää julistekuvan yksityiskohdat -sivun ylälaidassa.",
     "EnableDetailsBanner": "Yksityiskohtien julistekuva",
-    "ButtonSyncPlay": "Synkronisoitu toisto",
+    "ButtonSyncPlay": "SyncPlay",
     "HeaderAccessSchedule": "Käyttöaikataulu",
     "HeaderAccessScheduleHelp": "Rajoita käyttö tiettyihin aikoihin luomalla käyttöaikataulu.",
     "HardwareAccelerationWarning": "Laitteistokiihdytyksen käyttöönotto voi joissain ympäristöissä aiheuttaa epävakautta. Varmista, että käyttöjärjestelmän ja näytönohjaimen ajurit ovat ajan tasalla. Mikäli huomaat videotoistossa ongelmia käyttöönoton jälkeen, palauta \"Ei mitään\" -asetus.",
@@ -1361,7 +1361,7 @@
     "OptionDisplayFolderViewHelp": "Näyttää kansiot mediakirjastojen yhteydessä. Tämä on hyödyllistä, jos haluat käyttää puhdasta kansionäkymää.",
     "OptionDisplayFolderView": "Näytä kansionäkymä mediakansioiden kansiorakenteen selaukseen",
     "OptionDisableUserHelp": "Palvelin ei salli yhteyksiä tältä käyttäjältä. Olemassa olevat yhteydet katkaistaan välittömästi.",
-    "OptionCaptionInfoExSamsung": "OtsikkoInfoEx (Samsung)",
+    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
     "OptionAutomaticallyGroupSeriesHelp": "Tämän kirjaston sarjat, jotka ovat hajautettu useisiin kansioihin yhdistetään automaattisesti yhdeksi.",
     "OptionAutomaticallyGroupSeries": "Yhdistä automaattisesti sarjat, jotka ovat hajautettu useisiin kansioihin",
     "OptionAllowContentDownloadHelp": "Käyttäjät voivat ladata mediaa ja tallentaa sen laitteilleen. Tämä ei ole sama asia kuin synkronointi. Kirjoja sisältävät kirjastot tarvitsevat tämän toimiakseen oikein.",
@@ -1725,5 +1725,5 @@
     "TonemappingModeHelp": "Valitse sävykartoituksen tila. Jos esiintyy ylikorostuneita värejä, kokeile RGB>-tilaa.",
     "MenuOpen": "Avaa valikko",
     "MenuClose": "Sulje valikko",
-    "UserMenu": "Käyttäjä valikko"
+    "UserMenu": "Käyttäjä-valikko"
 }
