@@ -120,7 +120,7 @@ class HtmlAudioPlayer {
                 }
                 console.debug('gain:' + self.gainNode.gain.value);
             }).catch((err)=> {
-                console.error('[UserSettings] failed to load userSettings', err);
+                console.error('Failed to add/change gainNode', err);
             });
 
             // Convert to seconds
@@ -263,16 +263,19 @@ class HtmlAudioPlayer {
         }
 
         function addGainElement(elem) {
-            const audioCtx = new AudioContext(); /* eslint-disable-line compat/compat */
+            try {
+                const audioCtx = new AudioContext(); /* eslint-disable-line compat/compat */
+                const source = audioCtx.createMediaElementSource(elem);
 
-            const source = audioCtx.createMediaElementSource(elem);
+                const gainNode = audioCtx.createGain();
 
-            const gainNode = audioCtx.createGain();
+                source.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
 
-            source.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            self.gainNode = gainNode;
+                self.gainNode = gainNode;
+            } catch (e) {
+                console.error('Web Audio API is not supported in this browser', e);
+            }
         }
 
         function onEnded() {
