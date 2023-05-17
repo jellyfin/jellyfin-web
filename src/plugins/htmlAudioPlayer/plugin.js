@@ -263,7 +263,7 @@ class HtmlAudioPlayer {
         }
 
         function addGainElement(elem) {
-            const audioCtx = new AudioContext();
+            const audioCtx = new AudioContext(); /* eslint-disable-line compat/compat */
 
             const source = audioCtx.createMediaElementSource(elem);
 
