@@ -30,7 +30,7 @@
     "AlwaysPlaySubtitlesHelp": "Napisy pasujące do preferowanego języka będą wczytywane, niezależnie od języka ścieżki dźwiękowej.",
     "AnyLanguage": "W dowolnym języku",
     "Anytime": "O dowolnej porze",
-    "AroundTime": "Około",
+    "AroundTime": "Około {0}",
     "Art": "Przezrocze",
     "Artists": "Wykonawcy",
     "AsManyAsPossible": "Tak wiele jak to możliwe",
@@ -948,7 +948,7 @@
     "Overview": "Opis",
     "PackageInstallCancelled": "Instalacja {0} (wersja {1}) anulowana.",
     "PackageInstallCompleted": "Instalacja {0} (wersja {1}) zakończona.",
-    "PackageInstallFailed": "Instalacja {0} nieudana.",
+    "PackageInstallFailed": "Instalacja {0} (wersja {1}) nieudana.",
     "ParentalRating": "Kategoria wiekowa",
     "PasswordMatchError": "Hasło i potwierdzenie hasła muszą się zgadzać.",
     "PasswordResetComplete": "Hasło zostało zresetowane.",
@@ -1724,5 +1724,8 @@
     "LabelEnableAudioVbr": "Włącz kodowanie audio VBR",
     "LabelTonemappingMode": "Tryb mapowania tonów",
     "Select": "Wybierz",
-    "TonemappingModeHelp": "Wybierz tryb mapowania tonalnego. Jeśli zauważysz artefakty, spróbuj przełączyć się na tryb RGB."
+    "TonemappingModeHelp": "Wybierz tryb mapowania tonalnego. Jeśli zauważysz artefakty, spróbuj przełączyć się na tryb RGB.",
+    "MenuOpen": "Otwórz Menu",
+    "MenuClose": "Zamknij Menu",
+    "UserMenu": "Menu Użytkownika"
 }
