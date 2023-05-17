@@ -111,7 +111,7 @@ const Home: FunctionComponent = () => {
         const previousIndex = e.detail.previousIndex;
 
         const previousTabController = previousIndex == null ? null : tabControllers[previousIndex];
-        if (previousTabController && previousTabController.onPause) {
+        if (previousTabController?.onPause) {
             previousTabController.onPause();
         }
 
@@ -126,7 +126,7 @@ const Home: FunctionComponent = () => {
 
         if (!currentTabController) {
             mainTabsManager.selectedTabIndex(initialTabIndex);
-        } else if (currentTabController && currentTabController.onResume) {
+        } else if (currentTabController?.onResume) {
             currentTabController.onResume({});
         }
         (document.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
@@ -134,7 +134,7 @@ const Home: FunctionComponent = () => {
 
     const onPause = useCallback(() => {
         const currentTabController = tabController.current;
-        if (currentTabController && currentTabController.onPause) {
+        if (currentTabController?.onPause) {
             currentTabController.onPause();
         }
         (document.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
