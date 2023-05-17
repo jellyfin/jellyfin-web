@@ -1724,7 +1724,7 @@
     "Select": "Selecteren",
     "LabelTonemappingMode": "Tonemapping-modus",
     "TonemappingModeHelp": "Selecteer de tonemapping-modus. Indien je overbelichtingsfouten ervaart, probeer dan de RGB-modus.",
-    "MenuOpen": "Open Menu",
-    "MenuClose": "Menu Sluiten",
-    "UserMenu": "Gebruiker Menu"
+    "MenuOpen": "Menu openen",
+    "MenuClose": "Menu sluiten",
+    "UserMenu": "Gebruikersmenu"
 }
