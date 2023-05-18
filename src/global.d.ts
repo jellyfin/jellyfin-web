@@ -6,4 +6,8 @@ export declare global {
         Events: Events;
         NativeShell: any;
     }
+
+    interface DocumentEventMap {
+        'viewshow': CustomEvent;
+    }
 }
