@@ -1,4 +1,11 @@
-import { Lan, VpnKey, Article, EditNotifications, Extension, Schedule, ExpandLess, ExpandMore } from '@mui/icons-material';
+import Article from '@mui/icons-material/Article';
+import EditNotifications from '@mui/icons-material/EditNotifications';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Extension from '@mui/icons-material/Extension';
+import Lan from '@mui/icons-material/Lan';
+import Schedule from '@mui/icons-material/Schedule';
+import VpnKey from '@mui/icons-material/VpnKey';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -62,7 +69,7 @@ const AdvancedDrawerSection = () => {
                     <ListItemIcon>
                         <EditNotifications />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabNotifications')} />
+                    <ListItemText primary={globalize.translate('Notifications')} />
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
