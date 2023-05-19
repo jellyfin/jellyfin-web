@@ -16,7 +16,7 @@
     "AlwaysPlaySubtitles": "Vždy zobrazovat",
     "AlwaysPlaySubtitlesHelp": "Titulky odpovídající jazykové předvolbě se načtou bez ohledu na jazyk audia.",
     "Anytime": "Kdykoliv",
-    "AroundTime": "Okolo",
+    "AroundTime": "Okolo {0}",
     "Art": "Čistý obrázek",
     "Artists": "Umělci",
     "AsManyAsPossible": "Tolikrát jak je možné",
@@ -1727,5 +1727,6 @@
     "TonemappingModeHelp": "Určute režim mapování tónů. Pokud narazíte na přeexponovaná světlá místa, zkuste přepnout do režimu RGB.",
     "MenuOpen": "Otevřít nabídku",
     "MenuClose": "Zavřít nabídku",
-    "UserMenu": "Uživatelská nabídka"
+    "UserMenu": "Uživatelská nabídka",
+    "Studio": "Studio"
 }
