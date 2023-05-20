@@ -1728,5 +1728,6 @@
     "MenuOpen": "Menü öffnen",
     "MenuClose": "Menü schließen",
     "UserMenu": "Benutzermenü",
-    "Studio": "Studio"
+    "Studio": "Studio",
+    "AllowCollectionManagement": "Dieser Benutzer darf Sammlungen verwalten"
 }
