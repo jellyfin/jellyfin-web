@@ -1660,9 +1660,9 @@
     "MediaInfoVideoRangeType": "Type videobereik",
     "LabelVideoRangeType": "Type videobereik",
     "VideoRangeTypeNotSupported": "Het bereiktype van de video wordt niet ondersteund",
-    "LabelVppTonemappingContrastHelp": "Pas contrastversterking toe in VPP-tonemapping. De aanbevolen en standaardwaarden zijn 1.2 en 1.",
+    "LabelVppTonemappingContrastHelp": "Pas contrastversterking toe in VPP-tonemapping. De aanbevolen en standaardwaarden zijn 1.",
     "LabelVppTonemappingContrast": "Contrastversterking VPP-tonemapping",
-    "LabelVppTonemappingBrightnessHelp": "Pas helderheidsversterking toe bij VPP-tonemapping. De aanbevolen en standaardwaarden zijn 0.",
+    "LabelVppTonemappingBrightnessHelp": "Pas helderheidsversterking toe bij VPP-tonemapping. De aanbevolen en standaardwaarden zijn 16 en 0.",
     "LabelVppTonemappingBrightness": "Helderheidsversterking VPP-tonemapping",
     "EnableSplashScreen": "Opstartscherm inschakelen",
     "EnableEnhancedNvdecDecoderHelp": "Experimentele NVDEC-implementatie; deze instelling niet inschakelen tenzij u decoderingsfouten tegenkomt.",
@@ -1726,5 +1726,6 @@
     "TonemappingModeHelp": "Selecteer de tonemapping-modus. Indien je overbelichtingsfouten ervaart, probeer dan de RGB-modus.",
     "MenuOpen": "Menu openen",
     "MenuClose": "Menu sluiten",
-    "UserMenu": "Gebruikersmenu"
+    "UserMenu": "Gebruikersmenu",
+    "Studio": "Studio"
 }
