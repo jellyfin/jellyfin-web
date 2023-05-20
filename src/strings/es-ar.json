@@ -1726,5 +1726,7 @@
     "TonemappingModeHelp": "Seleccionar el modo de mapeo de tono. Si experimenta sobreexposición intente cambiar al modo RGB.",
     "MenuOpen": "Abrir menú",
     "MenuClose": "Cerrar menú",
-    "UserMenu": "Menú del usuario"
+    "UserMenu": "Menú del usuario",
+    "Studio": "Estudio",
+    "AllowCollectionManagement": "Permitir que este usuario administre colecciones"
 }
