@@ -1739,6 +1739,9 @@ export default function (view) {
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
     view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
 
+    // HACK: Remove `emby-button` from the rating button to make it look like the other buttons
+    view.querySelector('.btnUserRating').classList.remove('emby-button');
+
     // Register to SyncPlay playback events and show big animated icon
     const showIcon = (action) => {
         let primary_icon_name = '';
