@@ -717,7 +717,7 @@
     "MySubtitles": "Mé titulky",
     "Name": "Název",
     "NewCollection": "Nová kolekce",
-    "NewCollectionHelp": "Kolekce dovolí vytvořit personalizované seskupení filmů a dalšího obsahu knihoven.",
+    "NewCollectionHelp": "Kolekce umožňují vytvořit vlastní skupiny filmů a dalšího obsahu knihoven.",
     "NewCollectionNameExample": "Příklad: Kolekce Star Wars",
     "NewEpisodes": "Nové episody",
     "NewEpisodesOnly": "Jen nové epizody",
@@ -1728,5 +1728,6 @@
     "MenuOpen": "Otevřít nabídku",
     "MenuClose": "Zavřít nabídku",
     "UserMenu": "Uživatelská nabídka",
-    "Studio": "Studio"
+    "Studio": "Studio",
+    "AllowCollectionManagement": "Povolit tomuto uživateli spravovat kolekce"
 }
