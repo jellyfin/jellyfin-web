@@ -1727,5 +1727,6 @@
     "MenuOpen": "Menu openen",
     "MenuClose": "Menu sluiten",
     "UserMenu": "Gebruikersmenu",
-    "Studio": "Studio"
+    "Studio": "Studio",
+    "AllowCollectionManagement": "Sta deze gebruiker toe om verzamelingen te beheren"
 }
