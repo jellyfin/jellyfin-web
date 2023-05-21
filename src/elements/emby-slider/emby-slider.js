@@ -305,6 +305,8 @@ import '../emby-input/emby-input';
         } else {
             startInterval(this);
         }
+
+        updateValues.call(this);
     };
 
     /**
