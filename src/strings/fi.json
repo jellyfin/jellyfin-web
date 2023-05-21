@@ -1725,5 +1725,7 @@
     "TonemappingModeHelp": "Valitse sävykartoituksen tila. Jos esiintyy ylikorostuneita värejä, kokeile RGB>-tilaa.",
     "MenuOpen": "Avaa valikko",
     "MenuClose": "Sulje valikko",
-    "UserMenu": "Käyttäjä-valikko"
+    "UserMenu": "Käyttäjä-valikko",
+    "Studio": "Studio",
+    "AllowCollectionManagement": "Salli tämän käyttäjän hallita kokoelmia"
 }
