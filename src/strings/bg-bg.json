@@ -1459,5 +1459,15 @@
     "IgnoreDtsHelp": "Изключването на опцията може да теши някои проблеми, напр. липсващ звук на канали с отделни звукови и видео потоци.",
     "LabelHDHomerunPortRangeHelp": "Ограничи портовете на HDHomeRun UDP до тези стойности. (По подразбиране 1024 - 645535).",
     "LabelHDHomerunPortRange": "HDHomeRun диапазон на портове",
-    "DownloadAll": "Изтегли всички"
+    "DownloadAll": "Изтегли всички",
+    "LabelChapterImageResolution": "Резолюция",
+    "LabelMaxDaysForNextUpHelp": "Задайте максималния брой дни, през които едно шоу би трябвало да остане в списъка „Next Up“, без да го гледате.",
+    "LabelEnableAudioVbr": "Разреши VBR звуково кодиране",
+    "HeaderPerformance": "Производителност",
+    "LabelChapterImageResolutionHelp": "Резолюцията на извлечените снимки към раздела.",
+    "AllowCollectionManagement": "Позволи този потребител да управлява колекции",
+    "LabelDummyChapterDuration": "Интервал",
+    "LabelDummyChapterCount": "Граница",
+    "LabelEnableAudioVbrHelp": "Динамичният битрейт предлага по-добро съотношение между качество и среден битрейт, но в някои редки случаи може да причини проблеми с буферирането и съвместимостта.",
+    "LabelIconMaxResHelp": "Максимална резолюция на изображенията предоставена чрез \"upnp:icon\" полето."
 }
