@@ -1728,5 +1728,6 @@
     "MenuOpen": "打开菜单",
     "MenuClose": "关闭菜单",
     "UserMenu": "用户菜单",
-    "Studio": "广播"
+    "Studio": "广播",
+    "AllowCollectionManagement": "允许该用户管理收藏夹"
 }
