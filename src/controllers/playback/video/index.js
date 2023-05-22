@@ -1230,12 +1230,10 @@ export default function (view) {
             case 'f':
                 if (!e.ctrlKey && !e.metaKey) {
                     playbackManager.toggleFullscreen(currentPlayer);
-                    showOsd();
                 }
                 break;
             case 'm':
                 playbackManager.toggleMute(currentPlayer);
-                showOsd();
                 break;
             case 'p':
             case 'P':
