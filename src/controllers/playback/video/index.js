@@ -1056,6 +1056,21 @@ import { appRouter } from '../../../components/appRouter';
                 return;
             }
 
+            if (layoutManager.tv && !currentVisibleMenu) {
+                // Change the behavior of some keys when the OSD is hidden
+                switch (key) {
+                    case 'ArrowLeft':
+                    case 'ArrowRight':
+                        showOsd(nowPlayingPositionSlider);
+                        nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
+                        return;
+                    case 'Enter':
+                        playbackManager.playPause(currentPlayer);
+                        showOsd(btnPlayPause);
+                        return;
+                }
+            }
+
             if (layoutManager.tv && keyboardnavigation.isNavigationKey(key)) {
                 showOsd();
                 return;
