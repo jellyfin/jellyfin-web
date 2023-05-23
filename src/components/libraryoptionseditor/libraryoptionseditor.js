@@ -416,11 +416,7 @@ export function setContentType(parent, contentType) {
         }
     }
 
-    if (contentType === 'music') {
-        parent.querySelector('.chkEnableLUFSScan').classList.remove('hide');
-    } else {
-        parent.querySelector('.chkEnableLUFSScan').classList.add('hide');
-    }
+    parent.querySelector('.chkEnableLUFSScan').classList.toggle('hide', contentType !== 'music');
 
     if (contentType === 'tvshows') {
         parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.remove('hide');
