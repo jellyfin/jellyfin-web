@@ -31,7 +31,7 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
 
             viewManager.tryRestoreView(viewOptions)
                 .catch(async (result?: RestoreViewFailResponse) => {
-                    if (!result || !result.cancelled) {
+                    if (!result?.cancelled) {
                         const apiClient = ServerConnections.currentApiClient();
 
                         // Fetch the view html from the server and translate it
