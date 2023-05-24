@@ -119,7 +119,7 @@ class HtmlAudioPlayer {
                     self.gainNode.gain.value = 1;
                 }
                 console.debug('gain:' + self.gainNode.gain.value);
-            }).catch((err)=> {
+            }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
 
