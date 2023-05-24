@@ -111,7 +111,7 @@ class HtmlAudioPlayer {
 
             let val = options.url;
             console.debug('playing url: ' + val);
-            import('../../scripts/settings/userSettings').then((userSettings)=> {
+            import('../../scripts/settings/userSettings').then((userSettings) => {
                 if (userSettings.enableAudioNormalization() && options.item.LUFS != null) {
                     const dbGain = -18 - options.item.LUFS;
                     self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
