@@ -132,7 +132,7 @@
     "ChannelNumber": "Channel number",
     "Channels": "Channels",
     "CinemaModeConfigurationHelp": "Cinema mode brings the theater experience straight to your living room with the ability to play trailers and custom intros before the main feature.",
-    "EnableAudioNormalizationHelp": "Audio normalization will add a constant gain to keep the average at a desired level(-18db). ",
+    "EnableAudioNormalizationHelp": "Audio normalization will add a constant gain to keep the average at a desired level (-18dB).",
     "ClearQueue": "Clear queue",
     "ClientSettings": "Client Settings",
     "Collections": "Collections",
