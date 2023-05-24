@@ -661,7 +661,7 @@
     "LabelEnableIP6": "Enable IPv6",
     "LabelEnableIP6Help": "Enable IPv6 functionality.",
     "LabelEnableLUFSScan": "Enable LUFS scan",
-    "LabelEnableLUFSScanHelp": "Enable LUFS scan for music (This will take longer and more resources)",
+    "LabelEnableLUFSScanHelp": "Enable LUFS scan for music (This will take longer and more resources).",
     "LabelEnableRealtimeMonitor": "Enable real time monitoring",
     "LabelEnableRealtimeMonitorHelp": "Changes to files will be processed immediately on supported file systems.",
     "LabelEnableSingleImageInDidlLimit": "Limit to single embedded image",
