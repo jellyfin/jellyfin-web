@@ -1705,5 +1705,6 @@
     "LabelChapterImageResolutionHelp": "Разрешение извлеченных изображений глав.",
     "ResolutionMatchSource": "Соответствовать источнику",
     "MenuOpen": "Открыть Меню",
-    "MenuClose": "Закрыть Меню"
+    "MenuClose": "Закрыть Меню",
+    "AllowCollectionManagement": "Разрешить этому пользователю управлять настройками коллекций"
 }
