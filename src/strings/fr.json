@@ -1728,5 +1728,6 @@
     "MenuOpen": "Ouvrir le menu",
     "MenuClose": "Fermer le menu",
     "UserMenu": "Menu utilisateur",
-    "Studio": "Studio"
+    "Studio": "Studio",
+    "AllowCollectionManagement": "Autoriser cet utilisateur à gérer les collections"
 }
