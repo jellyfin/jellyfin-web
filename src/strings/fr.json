@@ -1729,5 +1729,9 @@
     "MenuClose": "Fermer le menu",
     "UserMenu": "Menu utilisateur",
     "Studio": "Studio",
-    "AllowCollectionManagement": "Autoriser cet utilisateur à gérer les collections"
+    "AllowCollectionManagement": "Autoriser cet utilisateur à gérer les collections",
+    "EnableAudioNormalizationHelp": "La normalisation audio ajoutera un gain constant pour maintenir la moyenne au niveau souhaité (-18dB).",
+    "EnableAudioNormalization": "Normalisation audio",
+    "LabelEnableLUFSScan": "Activer l’analyse LUFS",
+    "LabelEnableLUFSScanHelp": "Activer l’analyse LUFS pour la musique (cela prendra plus de temps et de ressources)."
 }
