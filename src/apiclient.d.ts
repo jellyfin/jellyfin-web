@@ -299,6 +299,7 @@ declare module 'jellyfin-apiclient' {
         updateUserPolicy(userId: string, policy: UserPolicy): Promise<void>;
         updateUser(user: UserDto): Promise<void>;
         updateVirtualFolderOptions(id: string, libraryOptions?: any): Promise<void>;
+        updateMyListStatus(userId: string, itemId: string, isMyList: boolean): Promise<UserItemDataDto>;
         uploadItemImage(itemId: string, imageType: ImageType, file: File): Promise<void>;
         uploadItemSubtitle(itemId: string, language: string, isForced: boolean, file: File): Promise<void>;
         uploadUserImage(userId: string, imageType: ImageType, file: File): Promise<void>;

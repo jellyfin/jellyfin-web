@@ -1478,6 +1478,11 @@ function getHoverMenuHtml(item, action) {
         html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite" aria-hidden="true"></span></button>';
     }
 
+    if (itemHelper.canMyList(item)) {
+        import('../../elements/emby-mylistbutton/emby-mylistbutton');
+        html += '<button is="emby-mylistbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-ismylist="' + (userData.IsMyList) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover remove_red_eye mylist-icon-on" aria-hidden="true"></span></button>';
+    }
+
     html += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert" aria-hidden="true"></span></button>`;
     html += '</div>';
     html += '</div>';

@@ -544,6 +544,10 @@ class AppRouter {
                 urlForList += '&IsFavorite=true';
             }
 
+            if (options.isMyList) {
+                urlForList += '&IsMyList=true';
+            }
+
             return urlForList;
         }
 
@@ -733,6 +737,10 @@ class AppRouter {
 
     showFavorites() {
         return this.show('home.html?tab=1');
+    }
+
+    showMyList() {
+        return this.show('home.html?tab=2');
     }
 }
 

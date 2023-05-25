@@ -64,6 +64,7 @@
  - [Merlin Sievers](https://github.com/dann-merlin)
  - [Fishbigger](https://github.com/fishbigger)
  - [sleepycatcoding](https://github.com/sleepycatcoding)
+ - [rickparrish](https://github.com/rickparrish)
 
 # Emby Contributors
 

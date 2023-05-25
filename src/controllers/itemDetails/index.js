@@ -29,6 +29,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import '../../elements/emby-mylistbutton/emby-mylistbutton';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-select/emby-select';
 import itemShortcuts from '../../components/shortcuts';
@@ -374,6 +375,20 @@ function reloadUserDataButtons(page, item) {
         } else {
             btnUserRating.classList.add('hide');
             btnUserRating.setItem(null);
+        }
+    }
+
+    const btnMyLists = page.querySelectorAll('.btnMyList');
+
+    for (i = 0, length = btnMyLists.length; i < length; i++) {
+        const btnMyList = btnMyLists[i];
+
+        if (itemHelper.canMyList(item)) {
+            btnMyList.classList.remove('hide');
+            btnMyList.setItem(item);
+        } else {
+            btnMyList.classList.add('hide');
+            btnMyList.setItem(null);
         }
     }
 }

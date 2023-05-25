@@ -280,6 +280,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
             Recursive: true,
             IsFavorite: params.IsFavorite === 'true' || null,
+            IsMyList: params.IsMyList === 'true' || null,
             ArtistIds: params.artistId || null,
             SortBy: sortBy
         }));

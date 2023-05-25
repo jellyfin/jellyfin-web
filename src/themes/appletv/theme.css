@@ -459,6 +459,10 @@ a[data-role=button] {
     color: #c33;
 }
 
+.mylist-icon-on {
+    color: #c33;
+}
+
 .downloadbutton-icon-complete,
 .downloadbutton-icon-on {
     color: #4285f4;

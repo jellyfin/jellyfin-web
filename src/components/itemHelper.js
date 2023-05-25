@@ -227,6 +227,18 @@ export function canRate (item) {
         && item.UserData;
 }
 
+export function canMyList (item) {
+    if (!item.UserData) {
+        return false;
+    }
+
+    return item.Type === 'Movie'
+        || item.Type === 'Series'
+        || item.Type === 'Video'
+        || item.Type === 'MusicAlbum'
+        || item.Type === 'Book';
+}
+
 export function canConvert (item, user) {
     if (!user.Policy.EnableMediaConversion) {
         return false;
@@ -316,6 +328,7 @@ export default {
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,
     canRate: canRate,
+    canMyList: canMyList,
     canConvert: canConvert,
     canRefreshMetadata: canRefreshMetadata,
     supportsMediaSourceSelection: supportsMediaSourceSelection,
