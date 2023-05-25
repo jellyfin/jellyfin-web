@@ -1040,5 +1040,11 @@
     "LabelMetadataPath": "Chemin des métadonnées",
     "LabelDummyChapterDuration": "Intervalle",
     "LabelDummyChapterCount": "Limite",
-    "LabelChapterImageResolution": "Résolution"
+    "LabelChapterImageResolution": "Résolution",
+    "HeaderPerformance": "Performance",
+    "LabelEnableAudioVbrHelp": "Le débit binaire variable offre une qualité supérieure à la moyenne mais peut, dans de rares cas, causer des problèmes de mise en mémoire tampon et de compatibilité.",
+    "HeaderRecordingMetadataSaving": "Enregistrement des métadonnées",
+    "HeaderDummyChapter": "Images des chapitres",
+    "LabelDummyChapterCountHelp": "Le nombre maximum d'images de chapitre qui seront extraites pour chaque fichier média.",
+    "LabelChapterImageResolutionHelp": "La résolution des images de chapitre."
 }

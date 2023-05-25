@@ -10,7 +10,6 @@ import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 
 import AppToolbar from './components/AppToolbar';
-import AppUserMenu from './components/AppUserMenu';
 import AppDrawer, { DRAWER_WIDTH, isDrawerPath } from './components/drawers/AppDrawer';
 import ElevationScroll from './components/ElevationScroll';
 import { ExperimentalAppRoutes } from './routes/AppRoutes';
@@ -35,9 +34,6 @@ const ExperimentalApp = () => {
     const isDrawerAvailable = isDrawerPath(location.pathname);
     const isDrawerOpen = isDrawerActive && isDrawerAvailable && Boolean(user);
 
-    const [ userMenuAnchorEl, setUserMenuAnchorEl ] = useState<null | HTMLElement>(null);
-    const isUserMenuOpen = Boolean(userMenuAnchorEl);
-
     useEffect(() => {
         if (isDrawerActive !== appSettings.isDrawerPinned) {
             setAppSettings({
@@ -50,14 +46,6 @@ const ExperimentalApp = () => {
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
     }, [ isDrawerActive, setIsDrawerActive ]);
-
-    const onUserButtonClick = useCallback((event) => {
-        setUserMenuAnchorEl(event.currentTarget);
-    }, [ setUserMenuAnchorEl ]);
-
-    const onUserMenuClose = useCallback(() => {
-        setUserMenuAnchorEl(null);
-    }, [ setUserMenuAnchorEl ]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -80,7 +68,6 @@ const ExperimentalApp = () => {
                         <AppToolbar
                             isDrawerOpen={isDrawerOpen}
                             onDrawerButtonClick={onToggleDrawer}
-                            onUserButtonClick={onUserButtonClick}
                         />
                     </AppBar>
                 </ElevationScroll>
@@ -120,12 +107,6 @@ const ExperimentalApp = () => {
                         <ExperimentalAppRoutes />
                     </div>
                 </Box>
-
-                <AppUserMenu
-                    open={isUserMenuOpen}
-                    anchorEl={userMenuAnchorEl}
-                    onMenuClose={onUserMenuClose}
-                />
             </Box>
         </ThemeProvider>
     );

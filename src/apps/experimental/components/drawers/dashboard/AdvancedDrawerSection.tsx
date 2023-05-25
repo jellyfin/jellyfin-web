@@ -16,6 +16,7 @@ const PLUGIN_PATHS = [
     '/installedplugins.html',
     '/availableplugins.html',
     '/repositories.html',
+    '/addplugin.html',
     '/configurationpage'
 ];
 

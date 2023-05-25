@@ -62,6 +62,8 @@
  - [Pier-Luc Ducharme](https://github.com/pl-ducharme)
  - [Anantharaju S](https://github.com/Anantharajus)
  - [Merlin Sievers](https://github.com/dann-merlin)
+ - [Fishbigger](https://github.com/fishbigger)
+ - [sleepycatcoding](https://github.com/sleepycatcoding)
 
 # Emby Contributors
 

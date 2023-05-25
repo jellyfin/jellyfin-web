@@ -1727,5 +1727,7 @@
     "TonemappingModeHelp": "Dynamikkompressionsmodus auswählen. Falls etwas überbelichtet ist, versuche in den RGB-Modus zu wechseln.",
     "MenuOpen": "Menü öffnen",
     "MenuClose": "Menü schließen",
-    "UserMenu": "Benutzermenü"
+    "UserMenu": "Benutzermenü",
+    "Studio": "Studio",
+    "AllowCollectionManagement": "Dieser Benutzer darf Sammlungen verwalten"
 }

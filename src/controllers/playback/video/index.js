@@ -17,6 +17,7 @@ import keyboardnavigation from '../../../scripts/keyboardNavigation';
 import '../../../styles/scrollstyles.scss';
 import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../../styles/videoosd.scss';
 import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
@@ -132,6 +133,17 @@ export default function (view) {
             endTimeText.innerHTML = '';
             programStartDateMs = 0;
             programEndDateMs = 0;
+        }
+
+        // Set currently playing item for favorite button
+        const btnUserRating = view.querySelector('.btnUserRating');
+
+        if (itemHelper.canRate(currentItem)) {
+            btnUserRating.classList.remove('hide');
+            btnUserRating.setItem(currentItem);
+        } else {
+            btnUserRating.classList.add('hide');
+            btnUserRating.setItem(null);
         }
     }
 
@@ -1726,6 +1738,9 @@ export default function (view) {
     });
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
     view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
+
+    // HACK: Remove `emby-button` from the rating button to make it look like the other buttons
+    view.querySelector('.btnUserRating').classList.remove('emby-button');
 
     // Register to SyncPlay playback events and show big animated icon
     const showIcon = (action) => {

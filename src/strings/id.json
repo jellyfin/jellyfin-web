@@ -1039,7 +1039,7 @@
     "ClearQueue": "Hapus antrian",
     "Bwdif": "BWDIF",
     "ButtonCast": "Putar ke perangkat",
-    "AllowTonemappingHelp": "Pemetaan corak dapat mengubah rentang dinamis sebuah video dari HDR menjadi SDR sembari mempertahankan detail dan warna gambar, yang merupakan informasi yang sangat penting untuk merepresentasikan adegan orisinal. Saat ini hanya bekerja dengan video HDR10 atau HLG. Hal ini memerlukan waktu proses OpenCL atau CUDA yang sesuai.",
+    "AllowTonemappingHelp": "Tone-mapping dapat mengubah jangkauan dinamis video dari HDR ke SDR dengan tetap mempertahankan detail dan warna gambar, yang merupakan informasi yang sangat penting untuk merepresentasikan pemandangan aslinya. Saat ini hanya berfungsi dengan video 10bit HDR10，HLG dan DoVi. Fitur ini membutuhkan runtime OpenCL atau CUDA yang sesuai.",
     "HeaderPortRanges": "Pengaturan Proxy dan Firewall",
     "HeaderUninstallPlugin": "Copot Plugin",
     "LabelTonemappingAlgorithm": "Pilih algoritma Tone Mapping untuk digunakan",

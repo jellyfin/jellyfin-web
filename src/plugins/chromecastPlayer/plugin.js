@@ -624,6 +624,7 @@ class ChromecastPlayer {
             isLocalPlayer: false,
             appName: PlayerName,
             deviceName: appName,
+            deviceType: 'cast',
             supportedCommands: [
                 'VolumeUp',
                 'VolumeDown',
