@@ -1390,7 +1390,7 @@ function buildCard(index, item, apiClient, options) {
         cardImageContainerOpen += getDefaultText(item, options);
     }
 
-    const tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
+    const tagName = (layoutManager.tv && !overlayButtons && !options.forceDiv) ? 'button' : 'div';
 
     const nameWithPrefix = (item.SortName || item.Name || '');
     let prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
