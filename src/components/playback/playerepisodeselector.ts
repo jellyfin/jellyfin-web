@@ -14,23 +14,47 @@ import cardBuilder from '../cardbuilder/cardBuilder';
 import ServerConnections from '../ServerConnections';
 import { playbackManager } from './playbackmanager';
 import actionsheet from '../actionSheet/actionSheet';
-import './playerepisodeselector.scss';
+import scrollHelper from '../../scripts/scrollHelper';
+import '../../styles/playerepisodeselector.scss';
+import { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
-// seasons: seasonId: {seasonData: seasonItem, episodes: [episode]}
-let seriesData = {
+interface SeriesData {
+    seriesId: string | null,
+    currentItem: BaseItemDto | null,
+    seasons: {
+        [seasonId: string]: {
+            seasonData: BaseItemDto,
+            episodes: BaseItemDto[],
+        }
+    }
+}
+
+interface Result {
+    top: number,
+    left: number,
+    width: number,
+    height: number
+}
+
+let data: SeriesData = {
     seriesId: null,
     currentItem: null,
     seasons: {}
 };
 
-function fillSeriesData(item, callback) {
-    if (item.SeriesId == seriesData.seriesId && Object.keys(seriesData.seasons).length !== 0) {
-        seriesData.currentItem = item;
+type NoArgumentFunction = () => void;
+
+function fillSeriesData(item: BaseItemDto, callback: NoArgumentFunction) {
+    if (!item.SeriesId || !item.ServerId || !item.Id) {
+        return;
+    }
+    if (item.SeriesId == data.seriesId && Object.keys(data.seasons).length !== 0) {
+        data.currentItem = item;
         callback();
         return;
     }
 
-    seriesData = {
+    data = {
         seriesId: item.SeriesId,
         currentItem: item,
         seasons: {}
@@ -41,8 +65,14 @@ function fillSeriesData(item, callback) {
     apiClient.getSeasons(item.SeriesId).then((seasons) => {
         return seasons.Items;
     }).then((seasons) => {
+        if (!seasons) {
+            return;
+        }
         for (const season of seasons) {
-            seriesData.seasons[season.Id] = {
+            if (!season.Id) {
+                continue;
+            }
+            data.seasons[season.Id] = {
                 seasonData: season,
                 episodes: []
             };
@@ -55,66 +85,75 @@ function fillSeriesData(item, callback) {
         IncludeItemTypes: 'Episode',
         Recursive: true
     }).then((episodes) => {
+        if (!episodes || !episodes.Items) {
+            return;
+        }
         for (const episode of episodes.Items) {
-            seriesData.seasons[episode.SeasonId].episodes.push(episode);
+            if (!episode.SeasonId) {
+                continue;
+            }
+            data.seasons[episode.SeasonId].episodes.push(episode);
         }
     }).then(() => {
         callback();
     });
 }
 
-function showSeasonSelector(positionTo) {
-    const items = Object.entries(seriesData.seasons).map(([seasonId, season]) => {
+function showSeasonSelector(positionTo: Element) {
+    const items = Object.entries(data.seasons).map(([seasonId, season]) => {
         return {
             name: season.seasonData.Name,
             id: seasonId,
-            selected: season.seasonData.Id == seriesData.currentItem.SeasonId
+            selected: data.currentItem ? season.seasonData.Id == data.currentItem.SeasonId : false
         };
     });
 
     actionsheet.show({
         items: items,
-        title: seriesData.currentItem.SeriesName,
+        title: data.currentItem ? data.currentItem.SeriesName : '',
         positionTo: positionTo
     }).then(function (id) {
         showEpisodeSelector(id, positionTo);
     });
 }
 
-function showEpisodeSelector(seasonId, positionTo) {
-    if (!(seasonId in seriesData.seasons)) {
+function showEpisodeSelector(seasonId: string, positionTo: Element) {
+    if (!(seasonId in data.seasons)) {
         return;
     }
 
-    const episodes = seriesData.seasons[seasonId].episodes;
+    const episodes = data.seasons[seasonId].episodes;
     if (!episodes || episodes.length === 0) {
         return;
     }
 
+    if (!data.currentItem) {
+        return;
+    }
     show(
         episodes,
-        seriesData.currentItem,
+        data.currentItem,
         positionTo,
-        episodes[0].SeasonName
+        episodes.length > 0 && episodes[0].SeasonName ? episodes[0].SeasonName : ''
     ).then((id) => {
         if (id === '-1') {
             showSeasonSelector(positionTo);
             return;
         }
 
-        if (id === seriesData.currentItem.Id) {
+        if (id === data.currentItem?.Id || !data.currentItem?.ServerId) {
             return;
         }
 
         playbackManager.play({
             ids: [id],
-            serverId: seriesData.currentItem.ServerId
+            serverId: data.currentItem.ServerId
         });
     });
 }
 
-function getOffsets(elems) {
-    const results = [];
+function getOffsets(elems: Element[]) {
+    const results: Result[] = [];
 
     if (!document) {
         return results;
@@ -134,7 +173,7 @@ function getOffsets(elems) {
     return results;
 }
 
-function getPosition(positionTo, dlg) {
+function getPosition(positionTo: Element, dlg: HTMLElement) {
     const windowSize = dom.getWindowSize();
     const windowHeight = windowSize.innerHeight;
     const windowWidth = windowSize.innerWidth;
@@ -168,22 +207,13 @@ function getPosition(positionTo, dlg) {
     return pos;
 }
 
-function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
-        const fn = on ? 'on' : 'off';
-        scrollHelper.centerFocus[fn](elem, horiz);
-    });
-}
-
-export function show(items, currentItem, positionTo, title) {
-    // items (jellyfin_items)
-    // currentItem (jellyfin_item)
-    // positionTo
-    // title
-
+export function show(items: BaseItemDto[], currentItem: BaseItemDto, positionTo: Element, title: string) {
     const dialogOptions = {
         removeOnClose: true,
-        scrollY: false
+        scrollY: false,
+        size: '',
+        autoFocus: false,
+        modal: false
     };
 
     let isFullscreen;
@@ -192,9 +222,6 @@ export function show(items, currentItem, positionTo, title) {
         dialogOptions.size = 'fullscreen';
         isFullscreen = true;
         dialogOptions.autoFocus = true;
-    } else {
-        dialogOptions.modal = false;
-        dialogOptions.autoFocus = false;
     }
 
     const dlg = dialogHelper.createDialog(dialogOptions);
@@ -274,6 +301,7 @@ export function show(items, currentItem, positionTo, title) {
             disableHoverMenu: true,
             disableIndicators: true,
             overlayPlayButton: false,
+            forceDiv: true,
             cardCssClass: 'episodeSelectorCard',
             height: 320,
             width: 180
@@ -309,7 +337,7 @@ export function show(items, currentItem, positionTo, title) {
     dlg.innerHTML = html;
 
     if (layoutManager.tv) {
-        centerFocus(dlg.querySelector('.actionSheetScroller'), false, true);
+        scrollHelper.centerFocus.on(dlg.querySelector('.actionSheetScroller'), false);
     }
 
     const btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
@@ -319,24 +347,28 @@ export function show(items, currentItem, positionTo, title) {
         });
     }
 
-    let selectedId;
+    let selectedId: string | null = null;
 
     return new Promise(function (resolve, reject) {
-        let isResolved;
-
+        let isResolved = false;
         dlg.addEventListener('click', function (e) {
+            if (!(e.target instanceof HTMLElement)) {
+                return;
+            }
+
             const actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
-
                 dialogHelper.close(dlg);
             }
+            isResolved = true;
+            resolve(selectedId);
         });
 
         dlg.addEventListener('close', function () {
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.actionSheetScroller'), false, false);
+                scrollHelper.centerFocus.off(dlg.querySelector('.actionSheetScroller'), false);
             }
 
             if (!isResolved) {
@@ -353,24 +385,26 @@ export function show(items, currentItem, positionTo, title) {
         const pos = positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(positionTo, dlg) : null;
 
         const seasons = dlg.querySelector('.scrollY');
-        const selected = dlg.querySelector(`[data-id="${currentItem.Id}"]`);
+        const currentSelected = dlg.querySelector(`[data-id="${currentItem.Id}"]`);
 
-        if (selected && seasons) {
-            seasons.scrollTop = seasons.scrollTop + selected.offsetTop - 100;
+        if (currentSelected && seasons) {
+            seasons.scrollTop = seasons.scrollTop + currentSelected.scrollTop - 100;
         }
 
         imageLoader.lazyChildren(seasons);
-        for (const img of seasons.querySelectorAll('a')) {
-            img.removeAttribute('href');
-            const footer = img.querySelector('.innerCardFooter');
-            if (footer) {
-                footer.classList.add('hide');
+        if (seasons) {
+            for (const img of seasons.querySelectorAll('a')) {
+                img.removeAttribute('href');
+                const footer = img.querySelector('.innerCardFooter');
+                if (footer) {
+                    footer.classList.add('hide');
+                }
             }
         }
 
         if (pos) {
             dlg.style.position = 'fixed';
-            dlg.style.margin = 0;
+            dlg.style.margin = '0';
             dlg.style.left = pos.left + 'px';
             dlg.style.top = pos.top + 'px';
         }
