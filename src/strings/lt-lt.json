@@ -34,7 +34,7 @@
     "CancelRecording": "Atšaukti įrašymą",
     "CancelSeries": "Atšaukti laidą",
     "Categories": "Kategorijos",
-    "ChannelAccessHelp": "Pasirinkite kanalus, kuriuos norite dalintis su šiuo vartotoju. Administratoriai galės redaguoti visus kanalus per metaduomenų valdymą.",
+    "ChannelAccessHelp": "Pasirinkite kanalus, kuriuos norite dalintis su šiuo vartotoju. Administratoriai galės redaguoti visus kanalus naudojantis metaduomenų valdymą.",
     "ChannelNameOnly": "Kanalas tik {0}",
     "ChannelNumber": "Kanalo numeris",
     "Composer": "Kompozitorius",
