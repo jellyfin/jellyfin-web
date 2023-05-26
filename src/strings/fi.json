@@ -1727,5 +1727,9 @@
     "MenuClose": "Sulje valikko",
     "UserMenu": "Käyttäjä-valikko",
     "Studio": "Studio",
-    "AllowCollectionManagement": "Salli tämän käyttäjän hallita kokoelmia"
+    "AllowCollectionManagement": "Salli tämän käyttäjän hallita kokoelmia",
+    "EnableAudioNormalizationHelp": "Äänen normalisointi asettaa äänelle kiinteän vahvistuksen keskivoimakkuuden vakiotasolla (-18 dB).",
+    "EnableAudioNormalization": "Äänen normalisointi",
+    "LabelEnableLUFSScan": "Suorita LUFS-tarkistus",
+    "LabelEnableLUFSScanHelp": "Käytä musiikin LUFS-tarkistusta (tämä vaatii enemmän aikaa ja resurseja)."
 }
