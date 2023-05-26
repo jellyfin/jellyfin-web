@@ -1732,5 +1732,6 @@
     "AllowCollectionManagement": "Povolit tomuto uživateli spravovat kolekce",
     "EnableAudioNormalizationHelp": "Normalizace hlasitosti udržuje průměrnou hlasitost na požadované úrovni (-18 dB) přidáním konstantního zisku.",
     "EnableAudioNormalization": "Normalizace hlasitosti",
-    "LabelEnableLUFSScan": "Povolit skenování LUFS"
+    "LabelEnableLUFSScan": "Povolit skenování LUFS",
+    "LabelEnableLUFSScanHelp": "Povolit tvorbu informací LUFS při skenování hudby. Prodlužuje skenování a je náročnější na výkon."
 }
