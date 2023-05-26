@@ -1726,5 +1726,9 @@
     "MenuClose": "Закрити меню",
     "UserMenu": "Меню користувача",
     "Studio": "Студія",
-    "AllowCollectionManagement": "Дозволити цьому користувачеві керувати колекціями"
+    "AllowCollectionManagement": "Дозволити цьому користувачеві керувати колекціями",
+    "EnableAudioNormalizationHelp": "Нормалізація звуку додасть постійний коефіцієнт підсилення, щоб утримати середній рівень на потрібному рівні (-18 дБ).",
+    "LabelEnableLUFSScanHelp": "Увімкніть сканування LUFS для пошуку музики (це займе більше часу і ресурсів).",
+    "EnableAudioNormalization": "Нормалізація звуку",
+    "LabelEnableLUFSScan": "Увімкнути сканування LUFS"
 }
