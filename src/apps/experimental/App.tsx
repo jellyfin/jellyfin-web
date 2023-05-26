@@ -1,30 +1,51 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
+import { useLocation } from 'react-router-dom';
 
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
+import { useApi } from 'hooks/useApi';
+import { useLocalStorage } from 'hooks/useLocalStorage';
 
 import AppToolbar from './components/AppToolbar';
-import AppUserMenu from './components/AppUserMenu';
+import AppDrawer, { DRAWER_WIDTH, isDrawerPath } from './components/drawers/AppDrawer';
 import ElevationScroll from './components/ElevationScroll';
 import { ExperimentalAppRoutes } from './routes/AppRoutes';
 import theme from './theme';
 
 import './AppOverrides.scss';
 
+interface ExperimentalAppSettings {
+    isDrawerPinned: boolean
+}
+
+const DEFAULT_EXPERIMENTAL_APP_SETTINGS: ExperimentalAppSettings = {
+    isDrawerPinned: false
+};
+
 const ExperimentalApp = () => {
-    const [ userMenuAnchorEl, setUserMenuAnchorEl ] = useState<null | HTMLElement>(null);
-    const isUserMenuOpen = Boolean(userMenuAnchorEl);
+    const [ appSettings, setAppSettings ] = useLocalStorage<ExperimentalAppSettings>('ExperimentalAppSettings', DEFAULT_EXPERIMENTAL_APP_SETTINGS);
+    const [ isDrawerActive, setIsDrawerActive ] = useState(appSettings.isDrawerPinned);
+    const { user } = useApi();
+    const location = useLocation();
 
-    const onUserButtonClick = useCallback((event) => {
-        setUserMenuAnchorEl(event.currentTarget);
-    }, [ setUserMenuAnchorEl ]);
+    const isDrawerAvailable = isDrawerPath(location.pathname);
+    const isDrawerOpen = isDrawerActive && isDrawerAvailable && Boolean(user);
 
-    const onUserMenuClose = useCallback(() => {
-        setUserMenuAnchorEl(null);
-    }, [ setUserMenuAnchorEl ]);
+    useEffect(() => {
+        if (isDrawerActive !== appSettings.isDrawerPinned) {
+            setAppSettings({
+                ...appSettings,
+                isDrawerPinned: isDrawerActive
+            });
+        }
+    }, [ appSettings, isDrawerActive, setAppSettings ]);
+
+    const onToggleDrawer = useCallback(() => {
+        setIsDrawerActive(!isDrawerActive);
+    }, [ isDrawerActive, setIsDrawerActive ]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -39,16 +60,23 @@ const ExperimentalApp = () => {
             </div>
 
             <Box sx={{ display: 'flex' }}>
-                <ElevationScroll>
+                <ElevationScroll elevate={isDrawerOpen}>
                     <AppBar
                         position='fixed'
                         sx={{ zIndex: (muiTheme) => muiTheme.zIndex.drawer + 1 }}
                     >
                         <AppToolbar
-                            onUserButtonClick={onUserButtonClick}
+                            isDrawerOpen={isDrawerOpen}
+                            onDrawerButtonClick={onToggleDrawer}
                         />
                     </AppBar>
                 </ElevationScroll>
+
+                <AppDrawer
+                    open={isDrawerOpen}
+                    onClose={onToggleDrawer}
+                    onOpen={onToggleDrawer}
+                />
 
                 <Box
                     component='main'
@@ -59,7 +87,19 @@ const ExperimentalApp = () => {
                             easing: theme.transitions.easing.sharp,
                             duration: theme.transitions.duration.leavingScreen
                         }),
-                        marginLeft: 0
+                        marginLeft: 0,
+                        ...(isDrawerAvailable && {
+                            marginLeft: {
+                                sm: `-${DRAWER_WIDTH}px`
+                            }
+                        }),
+                        ...(isDrawerActive && {
+                            transition: theme.transitions.create('margin', {
+                                easing: theme.transitions.easing.easeOut,
+                                duration: theme.transitions.duration.enteringScreen
+                            }),
+                            marginLeft: 0
+                        })
                     }}
                 >
                     <div className='mainAnimatedPages skinBody' />
@@ -67,12 +107,6 @@ const ExperimentalApp = () => {
                         <ExperimentalAppRoutes />
                     </div>
                 </Box>
-
-                <AppUserMenu
-                    open={isUserMenuOpen}
-                    anchorEl={userMenuAnchorEl}
-                    onMenuClose={onUserMenuClose}
-                />
             </Box>
         </ThemeProvider>
     );

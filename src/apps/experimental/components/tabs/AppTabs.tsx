@@ -2,12 +2,21 @@ import { Theme } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { FC, useCallback } from 'react';
+import { debounce } from 'lodash-es';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
 
 import TabRoutes, { getDefaultTabIndex } from './tabRoutes';
 
-const AppTabs: FC = () => {
+interface AppTabsParams {
+    isDrawerOpen: boolean
+}
+
+const handleResize = debounce(() => window.dispatchEvent(new Event('resize')), 100);
+
+const AppTabs: FC<AppTabsParams> = ({
+    isDrawerOpen
+}) => {
     const isBigScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const location = useLocation();
     const [ searchParams, setSearchParams ] = useSearchParams();
@@ -17,6 +26,12 @@ const AppTabs: FC = () => {
     const activeTab = searchParamsTab !== null ?
         parseInt(searchParamsTab, 10) :
         getDefaultTabIndex(location.pathname, libraryId);
+
+    // HACK: Force resizing to workaround upstream bug with tab resizing
+    // https://github.com/mui/material-ui/issues/24011
+    useEffect(() => {
+        handleResize();
+    }, [ isDrawerOpen ]);
 
     const onTabClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();

@@ -17,6 +17,7 @@ import keyboardnavigation from '../../../scripts/keyboardNavigation';
 import '../../../styles/scrollstyles.scss';
 import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../../styles/videoosd.scss';
 import playerepisodeselector from '../../../components/playback/playerepisodeselector';
 import ServerConnections from '../../../components/ServerConnections';
@@ -134,13 +135,21 @@ export default function (view) {
             programStartDateMs = 0;
             programEndDateMs = 0;
         }
-
         const episodeSelector = view.querySelector('.btnSelectEpisode');
         episodeSelector.classList.add('hide');
         if (displayItem.Type === 'Episode') {
             playerepisodeselector.fillSeriesData(displayItem, () => {
                 episodeSelector.classList.remove('hide');
             });
+        }
+        // Set currently playing item for favorite button
+        const btnUserRating = view.querySelector('.btnUserRating');
+        if (itemHelper.canRate(currentItem)) {
+            btnUserRating.classList.remove('hide');
+            btnUserRating.setItem(currentItem);
+        } else {
+            btnUserRating.classList.add('hide');
+            btnUserRating.setItem(null);
         }
     }
 
@@ -1746,6 +1755,9 @@ export default function (view) {
     view.querySelector('.btnSelectEpisode').addEventListener('click', showEpisodeSelector);
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
     view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
+
+    // HACK: Remove `emby-button` from the rating button to make it look like the other buttons
+    view.querySelector('.btnUserRating').classList.remove('emby-button');
 
     // Register to SyncPlay playback events and show big animated icon
     const showIcon = (action) => {

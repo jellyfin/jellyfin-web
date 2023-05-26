@@ -1220,7 +1220,7 @@
     "Bwdif": "BWDIF",
     "ButtonPlayer": "Reprodutor",
     "ButtonCast": "Transmitir para o dispositivo",
-    "AllowTonemappingHelp": "O mapeamento de tons pode mudar a gama dinâmica de um vídeo de HDR para SDR, mantendo as detalhes e as cores, as quais são importantes para reproduzir a imagem original. Atualmente, funciona apenas quando transcodificam-se vídeos com metadados HDR10 ou HLG incorporados. Se a reprodução não estiver suave, ou se falhar, por favor considere desativar o descodificador por hardware correspondente.",
+    "AllowTonemappingHelp": "O mapeamento de tons pode mudar a gama dinâmica de um vídeo de HDR para SDR, mantendo os detalhes e as cores, as quais são importantes para reproduzir a imagem original. Atualmente, funciona apenas quando transcodificam-se vídeos com metadados HDR10 ou HLG incorporados. Se a reprodução não estiver suave, ou se falhar, por favor considere desativar o descodificador por hardware correspondente.",
     "MusicVideos": "Videoclipes",
     "LabelTonemappingPeak": "Pico de mapeamento de Tom",
     "LabelTonemappingParamHelp": "Ajuste o algoritmo de mapeamento de tom. Os valores recomendados e padrão são NaN. Geralmente, deixa-se em branco.",
@@ -1407,5 +1407,6 @@
     "HeaderRecordingMetadataSaving": "Gravando Metadados",
     "AllowEmbeddedSubtitlesAllowTextOption": "Permitir texto",
     "Premiere": "Estréia",
-    "PreviousChapter": "Capitulo anterior"
+    "PreviousChapter": "Capitulo anterior",
+    "LabelDummyChapterDurationHelp": "The chapter image extraction interval in seconds."
 }

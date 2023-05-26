@@ -1,30 +1,35 @@
+import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
+import appIcon from 'assets/img/icon-transparent.png';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 
-import { ID as UserMenuId } from './AppUserMenu';
-import AppTabs from './tabs/AppTabs';
+import AppTabs from '../tabs/AppTabs';
+import { isDrawerPath } from '../drawers/AppDrawer';
+import UserMenuButton from './UserMenuButton';
 
 interface AppToolbarProps {
-    onUserButtonClick: (event: React.MouseEvent<HTMLElement>) => void
+    isDrawerOpen: boolean
+    onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 const AppToolbar: FC<AppToolbarProps> = ({
-    onUserButtonClick
+    isDrawerOpen,
+    onDrawerButtonClick
 }) => {
-    const theme = useTheme();
-    const { api, user } = useApi();
+    const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
+    const location = useLocation();
+
+    const isDrawerAvailable = isDrawerPath(location.pathname);
 
     return (
         <Toolbar
@@ -36,6 +41,21 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 }
             }}
         >
+            {isUserLoggedIn && isDrawerAvailable && (
+                <Tooltip title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}>
+                    <IconButton
+                        size='large'
+                        edge='start'
+                        color='inherit'
+                        aria-label={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}
+                        sx={{ mr: 2 }}
+                        onClick={onDrawerButtonClick}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+
             <Box
                 component={Link}
                 to='/'
@@ -48,7 +68,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
             >
                 <Box
                     component='img'
-                    src='/assets/img/icon-transparent.png'
+                    src={appIcon}
                     sx={{
                         height: '2rem',
                         marginInlineEnd: 1
@@ -64,7 +84,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 </Typography>
             </Box>
 
-            <AppTabs />
+            <AppTabs isDrawerOpen={isDrawerOpen} />
 
             {isUserLoggedIn && (
                 <>
@@ -83,31 +103,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title={globalize.translate('UserMenu')}>
-                            <IconButton
-                                size='large'
-                                edge='end'
-                                aria-label={globalize.translate('UserMenu')}
-                                aria-controls={UserMenuId}
-                                aria-haspopup='true'
-                                onClick={onUserButtonClick}
-                                color='inherit'
-                                sx={{ padding: 0 }}
-                            >
-                                <Avatar
-                                    alt={user?.Name || undefined}
-                                    src={
-                                        api && user?.Id ?
-                                            `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :
-                                            undefined
-                                    }
-                                    sx={{
-                                        bgcolor: theme.palette.primary.dark,
-                                        color: 'inherit'
-                                    }}
-                                />
-                            </IconButton>
-                        </Tooltip>
+                        <UserMenuButton />
                     </Box>
                 </>
             )}
