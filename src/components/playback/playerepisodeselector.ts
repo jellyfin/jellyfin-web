@@ -403,17 +403,16 @@ export function show(items: BaseItemDto[], currentItem: BaseItemDto, positionTo:
     let selectedId: string | null = null;
 
     return new Promise(function (resolve, reject) {
-        let isResolved = false;
         dlg.addEventListener('click', function (e) {
             if (!(e.target instanceof HTMLElement)) {
                 return;
             }
 
             const actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
-            selectedId = actionSheetMenuItem ? actionSheetMenuItem.getAttribute('data-id') : null;
-            isResolved = true;
-            resolve(selectedId);
-            dialogHelper.close(dlg);
+            if (actionSheetMenuItem) {
+                selectedId = actionSheetMenuItem.getAttribute('data-id');
+                dialogHelper.close(dlg);
+            }
         });
 
         dlg.addEventListener('close', function () {
@@ -421,11 +420,11 @@ export function show(items: BaseItemDto[], currentItem: BaseItemDto, positionTo:
                 scrollHelper.centerFocus.off(dlg.querySelector('.actionSheetScroller'), false);
             }
 
-            if (!isResolved && selectedId != null) {
+            if (selectedId != null) {
                 resolve(selectedId);
-            } else if (!isResolved) {
-                reject('ActionSheet closed without resolving');
+                return;
             }
+            reject('ActionSheet closed without resolving');
         });
 
         dialogHelper.open(dlg).catch(() => {
