@@ -17,7 +17,6 @@ import actionsheet from '../actionSheet/actionSheet';
 import scrollHelper from '../../scripts/scrollHelper';
 import '../../styles/playerepisodeselector.scss';
 import { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import { be } from 'date-fns/locale';
 
 interface SeriesData {
     seriesId: string | null,
@@ -159,9 +158,9 @@ function showEpisodeSelector(seasonId: string, positionTo: Element) {
             ids: [id],
             serverId: data.currentItem.ServerId
         });
-    }).catch(() => {
-        console.log('error while showing episode selector');
-    });
+    }).catch(
+        () => { return; }
+    );
 }
 
 function getOffsets(elems: Element[]) {
@@ -389,11 +388,17 @@ function setDLGPosition(dlg: HTMLElement, positionTo: Element) {
     }
 }
 
+function centerIfTV(dlg: HTMLElement) {
+    if (layoutManager.tv) {
+        scrollHelper.centerFocus.on(dlg.querySelector('.actionSheetScroller'), false);
+    }
+}
+
 export function show(items: BaseItemDto[], currentItem: BaseItemDto, positionTo: Element, title: string) {
     const dlg = createDialog();
     dlg.innerHTML = getInnerHTML(items, currentItem, title);
 
-    scrollHelper.centerFocus.on(dlg.querySelector('.actionSheetScroller'), false);
+    centerIfTV(dlg);
 
     let selectedId: string | null = null;
 
@@ -424,11 +429,10 @@ export function show(items: BaseItemDto[], currentItem: BaseItemDto, positionTo:
         });
 
         dialogHelper.open(dlg).catch(() => {
-            reject('ActionSheet closed without resolving');
+            return;
         });
 
         scrollToCurrent(dlg, currentItem);
-        window.scroll = () => scrollToCurrent(dlg, currentItem);
         loadImages();
         setDLGPosition(dlg, positionTo);
     });
