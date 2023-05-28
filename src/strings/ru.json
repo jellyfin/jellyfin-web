@@ -1706,5 +1706,22 @@
     "ResolutionMatchSource": "Соответствовать источнику",
     "MenuOpen": "Открыть Меню",
     "MenuClose": "Закрыть Меню",
-    "AllowCollectionManagement": "Разрешить этому пользователю управлять настройками коллекций"
+    "AllowCollectionManagement": "Разрешить этому пользователю управлять настройками коллекций",
+    "EnableAudioNormalization": "Нормализация звука",
+    "SubtitleGreen": "Зелёный",
+    "Featurette": "Короткометражка",
+    "Short": "Короткометражка",
+    "Studio": "Студия",
+    "SubtitleGray": "Серый",
+    "SubtitleBlack": "Чёрный",
+    "SubtitleCyan": "Циан",
+    "SubtitleWhite": "Белый",
+    "SubtitleRed": "Красный",
+    "SubtitleYellow": "Жёлтый",
+    "Select": "Выбрать",
+    "SubtitleBlue": "Синий",
+    "SecondarySubtitles": "Дополнительные субтитры",
+    "SubtitleLightGray": "Светло-серый",
+    "UserMenu": "Меню пользователя",
+    "SubtitleMagenta": "Пурпурный"
 }
