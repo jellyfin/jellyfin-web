@@ -50,8 +50,6 @@ function renderPackage(pkg, installedPlugins, page) {
         return ip.Name == pkg.name;
     })[0];
 
-    console.log(pkg)
-
     populateVersions(pkg, page, installedPlugin);
     populateHistory(pkg, page);
 
