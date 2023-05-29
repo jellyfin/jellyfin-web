@@ -50,6 +50,8 @@ function renderPackage(pkg, installedPlugins, page) {
         return ip.Name == pkg.name;
     })[0];
 
+    console.log(pkg)
+
     populateVersions(pkg, page, installedPlugin);
     populateHistory(pkg, page);
 
@@ -65,6 +67,11 @@ function renderPackage(pkg, installedPlugins, page) {
 
     $('#description', page).text(pkg.description);
     $('#developer', page).text(pkg.owner);
+    // This is a hack; the repository name and URL should be part of the global values
+    // for the plugin, not each individual version. So we just use the top (latest)
+    // version to get this information.
+    $('#repositoryName', page).text(pkg.versions[0].repositoryName);
+    $('#repositoryUrl', page).text(pkg.versions[0].repositoryUrl);
 
     if (installedPlugin) {
         const currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
@@ -82,6 +89,7 @@ function alertText(options) {
 
 function performInstallation(page, name, guid, version) {
     const developer = $('#developer', page).html().toLowerCase();
+    const repository_url = $('#repositoryUrl', page).html().toLowerCase();
 
     const alertCallback = function () {
         loading.show();
@@ -94,7 +102,9 @@ function performInstallation(page, name, guid, version) {
         });
     };
 
-    if (developer !== 'jellyfin') {
+    // Check the repository URL for the official Jellyfin repository domain, or
+    // present the warning for 3rd party plugins.
+    if (!repository_url.startsWith("https://repo.jellyfin.org/")) {
         loading.hide();
         let msg = globalize.translate('MessagePluginInstallDisclaimer');
         msg += '<br/>';
