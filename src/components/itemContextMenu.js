@@ -109,7 +109,7 @@ export function getCommands(options) {
             });
         }
 
-        if (itemHelper.supportsAddingToCollection(item) && options.EnableCollectionManagement) {
+        if (itemHelper.supportsAddingToCollection(item) && (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement)) {
             commands.push({
                 name: globalize.translate('AddToCollection'),
                 id: 'addtocollection',
