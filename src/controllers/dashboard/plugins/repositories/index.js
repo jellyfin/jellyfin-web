@@ -167,7 +167,7 @@ export default function(view) {
         dialog.querySelector('.newPluginForm').addEventListener('submit', e => {
             e.preventDefault();
 
-            const repository_url = dialog.querySelector('#txtRepositoryUrl').value.toLowerCase();
+            const repositoryUrl = dialog.querySelector('#txtRepositoryUrl').value.toLowerCase();
         
             const alertCallback = function () {
                 repositories.push({
@@ -181,7 +181,7 @@ export default function(view) {
         
             // Check the repository URL for the official Jellyfin repository domain, or
             // present the warning for 3rd party plugins.
-            if (!repository_url.startsWith("https://repo.jellyfin.org/")) {
+            if (!repositoryUrl.startsWith("https://repo.jellyfin.org/")) {
                 let msg = globalize.translate('MessageRepositoryInstallDisclaimer');
                 msg += '<br/>';
                 msg += '<br/>';

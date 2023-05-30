@@ -87,7 +87,7 @@ function alertText(options) {
 
 function performInstallation(page, name, guid, version) {
     const developer = $('#developer', page).html().toLowerCase();
-    const repository_url = $('#repositoryUrl', page).html().toLowerCase();
+    const repositoryUrl = $('#repositoryUrl', page).html().toLowerCase();
 
     const alertCallback = function () {
         loading.show();
@@ -102,7 +102,7 @@ function performInstallation(page, name, guid, version) {
 
     // Check the repository URL for the official Jellyfin repository domain, or
     // present the warning for 3rd party plugins.
-    if (!repository_url.startsWith("https://repo.jellyfin.org/")) {
+    if (!repositoryUrl.startsWith("https://repo.jellyfin.org/")) {
         loading.hide();
         let msg = globalize.translate('MessagePluginInstallDisclaimer');
         msg += '<br/>';
