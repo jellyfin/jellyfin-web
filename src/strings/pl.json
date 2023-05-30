@@ -1729,5 +1729,9 @@
     "MenuClose": "Zamknij Menu",
     "UserMenu": "Menu Użytkownika",
     "AllowCollectionManagement": "Zezwól temu użytkownikowi na zarządzanie kolekcjami",
-    "Studio": "Wytwórnia"
+    "Studio": "Wytwórnia",
+    "EnableAudioNormalizationHelp": "Normalizacja dźwięku doda stałe wzmocnienie, aby utrzymać średnią na pożądanym poziomie (-18dB).",
+    "EnableAudioNormalization": "Normalizacja dźwięku",
+    "LabelEnableLUFSScan": "Włącz skanowanie głośności dźwięku",
+    "LabelEnableLUFSScanHelp": "Włącz skanowanie głośności dźwięku dla muzyki (To zajmie więcej czasu i więcej zasobów)."
 }
