@@ -67,11 +67,14 @@ function renderPackage(pkg, installedPlugins, page) {
     $('#developer', page).text(pkg.owner);
     // This is a hack; the repository name and URL should be part of the global values
     // for the plugin, not each individual version. So we just use the top (latest)
-    // version to get this information.
-if (pkg.versions.length) {
-    $('#repositoryName', page).text(pkg.versions[0].repositoryName);
-    $('#repositoryUrl', page).text(pkg.versions[0].repositoryUrl);
- }
+    // version to get this information. If it's missing (no versions), then say so.
+    if (pkg.versions.length) {
+        $('#repositoryName', page).text(pkg.versions[0].repositoryName);
+        $('#repositoryUrl', page).text(pkg.versions[0].repositoryUrl);
+    } else {
+        $('#repositoryName', page).text('Unknown (no versions)');
+        $('#repositoryUrl', page).text('Unknown (no versions)');
+    }
 
     if (installedPlugin) {
         const currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
