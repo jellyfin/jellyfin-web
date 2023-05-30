@@ -168,7 +168,7 @@ export default function(view) {
             e.preventDefault();
 
             const repositoryUrl = dialog.querySelector('#txtRepositoryUrl').value.toLowerCase();
-        
+
             const alertCallback = function () {
                 repositories.push({
                     Name: dialog.querySelector('#txtRepositoryName').value,
@@ -178,15 +178,15 @@ export default function(view) {
                 saveList(view);
                 dialogHelper.close(dialog);
             };
-        
+
             // Check the repository URL for the official Jellyfin repository domain, or
             // present the warning for 3rd party plugins.
-            if (!repositoryUrl.startsWith("https://repo.jellyfin.org/")) {
+            if (!repositoryUrl.startsWith('https://repo.jellyfin.org/')) {
                 let msg = globalize.translate('MessageRepositoryInstallDisclaimer');
                 msg += '<br/>';
                 msg += '<br/>';
                 msg += globalize.translate('PleaseConfirmRepositoryInstallation');
-        
+
                 confirm(msg, globalize.translate('HeaderConfirmRepositoryInstallation')).then(function () {
                     alertCallback();
                 }).catch(() => {
