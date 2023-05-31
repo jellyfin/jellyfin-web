@@ -1727,5 +1727,11 @@
     "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode.",
     "UserMenu": "User Menu",
     "MenuOpen": "Open Menu",
-    "MenuClose": "Close Menu"
+    "MenuClose": "Close Menu",
+    "Studio": "Studio",
+    "EnableAudioNormalizationHelp": "Audio normalisation will add a constant gain to keep the average at a desired level (-18dB).",
+    "EnableAudioNormalization": "Audio Normalisation",
+    "LabelEnableLUFSScan": "Enable LUFS scan",
+    "LabelEnableLUFSScanHelp": "Enable LUFS scan for music (This will take longer and more resources).",
+    "AllowCollectionManagement": "Allow this user to manage collections"
 }

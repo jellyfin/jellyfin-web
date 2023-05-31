@@ -29,7 +29,7 @@
     "AlwaysPlaySubtitlesHelp": "Les sous-titres correspondant à la langue préférée seront chargés indépendamment de la langue de l'audio.",
     "AnyLanguage": "N'importe quel langage",
     "Anytime": "N'importe quand",
-    "AroundTime": "Aux environs de",
+    "AroundTime": "Aux environs de {0}",
     "Artists": "Artistes",
     "AsManyAsPossible": "Autant que possible",
     "Ascending": "Croissant",
@@ -1694,10 +1694,10 @@
     "HeaderRecordingMetadataSaving": "Enregistrement des métadonnées",
     "SaveRecordingNFO": "Enregistrer les métadonnées du fournisseur dans le fichier NFO",
     "SaveRecordingImages": "Enregistrer les images des métadonnées du fournisseur",
-    "LabelDummyChapterDurationHelp": "Intervalle d’extraction des images de chapitre en secondes.",
+    "LabelDummyChapterDurationHelp": "Intervalle de temps entre chapitres factices. La valeur 0 désactive la génération des chapitres. Un changement de valeur n’affectera pas les chapitres existants.",
     "LabelDummyChapterCount": "Limite",
     "LabelChapterImageResolution": "Résolution",
-    "LabelChapterImageResolutionHelp": "La résolution des images de chapitre.",
+    "LabelChapterImageResolutionHelp": "La résolution des images de chapitre. Changer cette valeur n’aura pas d'effet sur les chapitres factices existants.",
     "ResolutionMatchSource": "Résolution de la source",
     "HeaderDummyChapter": "Images des chapitres",
     "LabelDummyChapterDuration": "Intervalle",
@@ -1729,5 +1729,9 @@
     "MenuClose": "Fermer le menu",
     "UserMenu": "Menu utilisateur",
     "Studio": "Studio",
-    "AllowCollectionManagement": "Autoriser cet utilisateur à gérer les collections"
+    "AllowCollectionManagement": "Autoriser cet utilisateur à gérer les collections",
+    "EnableAudioNormalizationHelp": "La normalisation audio ajoutera un gain constant pour maintenir la moyenne au niveau souhaité (-18dB).",
+    "EnableAudioNormalization": "Normalisation audio",
+    "LabelEnableLUFSScan": "Activer l’analyse LUFS",
+    "LabelEnableLUFSScanHelp": "Activer l’analyse LUFS pour la musique (cela prendra plus de temps et de ressources)."
 }
