@@ -137,7 +137,10 @@ function zoomIn(elem) {
 }
 
 function normalizeTrackEventText(text, useHtml) {
-    const result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
+    const result = text
+        .replace(/\\N/gi, '\n') // Correct newline characters
+        .replace(/\r/gi, '') // Remove carriage return characters
+        .replace(/{\\.*?}/gi, ''); // Remove ass/ssa tags
     return useHtml ? result.replace(/\n/gi, '<br>') : result;
 }
 
