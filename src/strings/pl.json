@@ -1375,7 +1375,7 @@
     "Other": "Inne",
     "QuickConnectActivationSuccessful": "Aktywowano pomyślnie",
     "LabelCurrentStatus": "Bieżący status",
-    "EnableAutoCast": "Ustaw jako Domyślny",
+    "EnableAutoCast": "Ustaw jako domyślny",
     "ButtonActivate": "Aktywuj",
     "EnableQuickConnect": "Aktywuj Szybkie Połączenie na tym serwerze",
     "ButtonUseQuickConnect": "Użyj szybkiego połączenia",
@@ -1733,5 +1733,6 @@
     "EnableAudioNormalizationHelp": "Normalizacja dźwięku doda stałe wzmocnienie, aby utrzymać średnią na pożądanym poziomie (-18dB).",
     "EnableAudioNormalization": "Normalizacja dźwięku",
     "LabelEnableLUFSScan": "Włącz skanowanie głośności dźwięku",
-    "LabelEnableLUFSScanHelp": "Włącz skanowanie głośności dźwięku dla muzyki (To zajmie więcej czasu i więcej zasobów)."
+    "LabelEnableLUFSScanHelp": "Włącz skanowanie głośności dźwięku dla muzyki (To zajmie więcej czasu i więcej zasobów).",
+    "Notifications": "Powiadomienia"
 }
