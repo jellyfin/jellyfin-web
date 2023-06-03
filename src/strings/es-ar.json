@@ -1728,5 +1728,8 @@
     "MenuClose": "Cerrar menú",
     "UserMenu": "Menú del usuario",
     "Studio": "Estudio",
-    "AllowCollectionManagement": "Permitir que este usuario administre colecciones"
+    "AllowCollectionManagement": "Permitir que este usuario administre colecciones",
+    "EnableAudioNormalization": "Normalización de audio",
+    "LabelEnableLUFSScan": "Habilitar escaneo LUFS",
+    "GetThePlugin": "Obtener el complemento"
 }
