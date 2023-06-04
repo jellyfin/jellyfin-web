@@ -1681,8 +1681,8 @@
     "DownloadAll": "Tải Xuống Tất Cả",
     "LabelStereoDownmixAlgorithm": "Thuật Toán Trộn Âm Thanh Nổi",
     "StereoDownmixAlgorithmHelp": "Thuật toán được sử dụng để trộn âm thanh đa kênh thành âm thanh nổi.",
-    "LabelDummyChapterDurationHelp": "Khoảng thời gian trích xuất hình ảnh phân đoạn tính bằng giây.",
-    "LabelChapterImageResolutionHelp": "Độ phân giải của hình ảnh phân đoạn trích xuất.",
+    "LabelDummyChapterDurationHelp": "Khoảng thời gian giữa các phân đoạn giả. Đặt thành 0 để tắt tạo phân đoạn giả. Việc thay đổi điều này sẽ không ảnh hưởng đến các phân đoạn giả hiện có.",
+    "LabelChapterImageResolutionHelp": "Độ phân giải của hình ảnh đoạn trích xuất. Việc thay đổi điều này sẽ không ảnh hưởng đến các đoạn giả hiện có.",
     "SaveRecordingNFO": "Lưu bản ghi dữ liệu mô tả EPG trong NFO",
     "SaveRecordingImagesHelp": "Lưu hình ảnh từ nhà cung cấp danh sách EPG bên cạnh phương tiện.",
     "LabelDummyChapterDuration": "Khoảng thời gian",
@@ -1720,5 +1720,9 @@
     "AllowCollectionManagement": "Cho phép người dùng này quản lý bộ sưu tập",
     "EnableAudioNormalizationHelp": "Chuẩn hóa âm thanh sẽ thêm mức tăng không đổi để giữ mức trung bình ở mức mong muốn (-18dB).",
     "EnableAudioNormalization": "Chuẩn hóa âm thanh",
-    "GetThePlugin": "Nhận phần bổ sung"
+    "GetThePlugin": "Nhận phần bổ sung",
+    "Notifications": "Thông báo",
+    "NotificationsMovedMessage": "Chức năng thông báo đã chuyển sang plugin Webhook.",
+    "LabelEnableLUFSScan": "Bật tính năng quét LUFS",
+    "LabelEnableLUFSScanHelp": "Bật tính năng quét LUFS để tìm nhạc (Việc này sẽ mất nhiều thời gian hơn và tốn nhiều tài nguyên hơn)."
 }
