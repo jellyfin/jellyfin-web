@@ -1,6 +1,4 @@
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useCallback, useState } from 'react';
 
@@ -8,10 +6,10 @@ import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 
 import AppUserMenu, { ID } from './menus/AppUserMenu';
+import UserAvatar from 'components/UserAvatar';
 
 const UserMenuButton = () => {
-    const theme = useTheme();
-    const { api, user } = useApi();
+    const { user } = useApi();
 
     const [ userMenuAnchorEl, setUserMenuAnchorEl ] = useState<null | HTMLElement>(null);
     const isUserMenuOpen = Boolean(userMenuAnchorEl);
@@ -37,18 +35,7 @@ const UserMenuButton = () => {
                     color='inherit'
                     sx={{ padding: 0 }}
                 >
-                    <Avatar
-                        alt={user?.Name || undefined}
-                        src={
-                            api && user?.Id ?
-                                `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :
-                                undefined
-                        }
-                        sx={{
-                            bgcolor: theme.palette.primary.dark,
-                            color: 'inherit'
-                        }}
-                    />
+                    <UserAvatar user={user} />
                 </IconButton>
             </Tooltip>
 
