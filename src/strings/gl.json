@@ -391,5 +391,17 @@
     "HeaderAccessScheduleHelp": "Cre unha restrición horaria para limitar o acceso durante determinadas horas.",
     "HeaderAudioBooks": "Audiolibros",
     "HeaderConfirmRevokeApiKey": "Revocar Clave da API",
-    "HeaderContainerProfileHelp": "Os Perfís do Contedor indican as limitacións do dispositivo ao reproducir formatos específicos. Se unha limitación ocorrer, o ficheiro multimedia sería transcodificado, aínda se o formato estiver configurado para reprodución directa."
+    "HeaderContainerProfileHelp": "Os Perfís do Contedor indican as limitacións do dispositivo ao reproducir formatos específicos. Se unha limitación ocorrer, o ficheiro multimedia sería transcodificado, aínda se o formato estiver configurado para reprodución directa.",
+    "Conductor": "Condutor",
+    "EnableStreamLooping": "Habilitar bucle automático de emisións en directo",
+    "HeaderDefaultRecordingSettings": "Configuración por defecto das gravacións",
+    "AllowFfmpegThrottlingHelp": "Cando unha transcodificación ou remux estiver suficientemente adiantado da actual reprodución, pause o proceso para consumir menos recursos. Isto é moi útil ao ver sen saltar frecuentemente a outros tramos do vídeo. Desactíveo se experimenta problemas na reprodución.",
+    "HeaderBlockItemsWithNoRating": "Bloquear elementos sen ou con valoracións non recoñecidas",
+    "EnableAudioNormalizationHelp": "A normalización do audio engadirá unha ganancia constante para así manter a media ao nivel desexado (-18dB).",
+    "GuideProviderSelectListings": "Seleccionar Listados",
+    "DisplayModeHelp": "Seleccione o tipo de pantalla a usar pola interface.",
+    "EnableAudioNormalization": "Normalización do Audio",
+    "GetThePlugin": "Obter o Plugin",
+    "HeaderAutoDiscovery": "Descoberta de rede",
+    "HeaderDownloadSync": "Descarregar e sincronizar"
 }
