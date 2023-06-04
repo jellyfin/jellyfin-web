@@ -1387,7 +1387,7 @@
     "RecommendationBecauseYouLike": "Perquè t'agrada {0}",
     "Rate": "Rati",
     "Raised": "Elevat",
-    "QuickConnectNotAvailable": "Demani a l'administrador del servidor que activi el Quick Connect",
+    "QuickConnectNotAvailable": "Demaneu a l'administrador del servidor que activi el Quick Connect",
     "QuickConnectNotActive": "Quick Connect no està activat en aquest servidor",
     "QuickConnectInvalidCode": "Codi de Quick Connect no vàlid",
     "QuickConnectDescription": "Per iniciar sessió amb Quick Connect, seleccioneu el botó 'Quick Connect' al dispositiu des del que us esteu connectant i introduïu el codi que apareix a continuació.",
