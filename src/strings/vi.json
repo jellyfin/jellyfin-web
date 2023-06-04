@@ -1400,7 +1400,7 @@
     "OptionEmbedSubtitles": "Nhúng trong định dạng",
     "MediaInfoContainer": "Định dạng",
     "Raised": "Nhô Lên",
-    "EnableAutoCast": "Đặt làm mặc định",
+    "EnableAutoCast": "Đặt mặc định",
     "Studios": "Hãng Phim",
     "Bwdif": "BWDIF",
     "Yadif": "YADIF",
@@ -1716,5 +1716,9 @@
     "LabelTonemappingMode": "Chế độ ánh xạ tông màu",
     "Short": "Ngắn",
     "Select": "Chọn",
-    "TonemappingModeHelp": "Chọn chế độ ánh xạ tông màu. Nếu bạn thấy các điểm sáng bị cháy sáng, hãy thử chuyển sang chế độ RGB."
+    "TonemappingModeHelp": "Chọn chế độ ánh xạ tông màu. Nếu bạn thấy các điểm sáng bị cháy sáng, hãy thử chuyển sang chế độ RGB.",
+    "AllowCollectionManagement": "Cho phép người dùng này quản lý bộ sưu tập",
+    "EnableAudioNormalizationHelp": "Chuẩn hóa âm thanh sẽ thêm mức tăng không đổi để giữ mức trung bình ở mức mong muốn (-18dB).",
+    "EnableAudioNormalization": "Chuẩn hóa âm thanh",
+    "GetThePlugin": "Nhận phần bổ sung"
 }
