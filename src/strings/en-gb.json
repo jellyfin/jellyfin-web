@@ -1736,5 +1736,6 @@
     "AllowCollectionManagement": "Allow this user to manage collections",
     "GetThePlugin": "Get the Plugin",
     "Notifications": "Notifications",
-    "NotificationsMovedMessage": "The notifications functionality has moved to the Webhook plugin."
+    "NotificationsMovedMessage": "The notifications functionality has moved to the Webhook plugin.",
+    "PasswordRequiredForAdmin": "A password is required for admin accounts."
 }
