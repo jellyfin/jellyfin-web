@@ -29,7 +29,7 @@
     "AlwaysPlaySubtitlesHelp": "As legendas que combinarem com a preferência de idioma serão carregadas independente do idioma do áudio.",
     "AnyLanguage": "Qualquer idioma",
     "Anytime": "A qualquer momento",
-    "AroundTime": "Aproximadamente",
+    "AroundTime": "Aproximadamente {0}",
     "Art": "Arte",
     "Artists": "Artistas",
     "AsManyAsPossible": "Quantos forem possíveis",
@@ -918,9 +918,9 @@
     "OptionWeekly": "Semanal",
     "OriginalAirDateValue": "Data de exibição original: {0}",
     "Overview": "Sinopse",
-    "PackageInstallCancelled": "Instalação da versão {0} cancelada.",
-    "PackageInstallCompleted": "Instalação da versão {0} concluída.",
-    "PackageInstallFailed": "A Instalação da versão {0} falhou.",
+    "PackageInstallCancelled": "Instalação do {0} (versão {1}) cancelada.",
+    "PackageInstallCompleted": "Instalação do {0} (versão {1}) concluída.",
+    "PackageInstallFailed": "Instalação do {0} (versão {1}) falhou.",
     "ParentalRating": "Classificação etária",
     "PasswordMatchError": "A senha e a confirmação da senha devem ser iguais.",
     "PasswordResetComplete": "A senha foi redefinida.",
@@ -1733,5 +1733,6 @@
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Os extras geralmente têm o mesmo nome incorporado do título principal, verifique isso para usar títulos incorporados para eles de qualquer maneira.",
     "TonemappingModeHelp": "Selecione o modo de mapeamento de tom. Se você experimentar realces estourados, tente mudar para o modo RGB.",
     "HeaderRecordingMetadataSaving": "Salvando os metadados",
-    "AllowCollectionManagement": "Permitir que este usuário administre as coleções"
+    "AllowCollectionManagement": "Permitir que este usuário administre as coleções",
+    "PasswordRequiredForAdmin": "Uma senha é necessária para contas de administrador."
 }
