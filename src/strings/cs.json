@@ -1736,5 +1736,6 @@
     "LabelEnableLUFSScanHelp": "Povolit tvorbu informací LUFS při skenování hudby. Prodlužuje skenování a je náročnější na výkon.",
     "GetThePlugin": "Získat zásuvný modul",
     "Notifications": "Oznámení",
-    "NotificationsMovedMessage": "Funkce oznámení se přesunula do zásuvného modulu Webhook."
+    "NotificationsMovedMessage": "Funkce oznámení se přesunula do zásuvného modulu Webhook.",
+    "PasswordRequiredForAdmin": "Administrátorské účty musejí mít nastaveno heslo."
 }
