@@ -1287,6 +1287,7 @@
     "PackageInstallFailed": "{0} (version {1}) installation failed.",
     "ParentalRating": "Parental rating",
     "PasswordMatchError": "Password and password confirmation must match.",
+    "PasswordRequiredForAdmin": "A password is required for admin accounts.",
     "PasswordResetComplete": "The password has been reset.",
     "PasswordResetConfirmation": "Are you sure you wish to reset the password?",
     "PasswordResetProviderHelp": "Pick a password reset provider to be used when this user requests a password reset.",
