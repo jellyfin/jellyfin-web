@@ -734,7 +734,7 @@
     "MessageConfirmRestart": "Weet je zeker dat je Jellyfin wilt herstarten?",
     "MessageConfirmRevokeApiKey": "Weet je zeker dat je deze API-sleutel in wilt trekken? De verbinding van de applicatie met deze server zal plotseling verbroken worden.",
     "MessageConfirmShutdown": "Weet je zeker dat je de server wilt afsluiten?",
-    "MessageContactAdminToResetPassword": "Neem contact op met de serverbeheerder om uw wachtwoord te resetten.",
+    "MessageContactAdminToResetPassword": "Neem contact op met de serverbeheerder om je wachtwoord te herstellen.",
     "MessageCreateAccountAt": "Account aanmaken bij {0}",
     "MessageDeleteTaskTrigger": "Weet je zeker dat je deze taaktrigger wilt verwijderen?",
     "MessageDirectoryPickerBSDInstruction": "Voor BSD moet u mogelijk de opslag in uw FreeNAS Jail opzetten, zodat Jellyfin toegang heeft tot uw media.",
@@ -755,7 +755,7 @@
     "MessageNoTrailersFound": "Installeer het trailerkanaal om een bibliotheek met internettrailers toe te voegen en zo je filmervaring te verbeteren.",
     "MessageNothingHere": "Lijst is leeg.",
     "MessagePasswordResetForUsers": "De wachtwoorden van de volgende gebruikers zijn hersteld. Zij kunnen nu inloggen met de Easy-pincodes die voor het herstellen zijn gebruikt.",
-    "MessagePlayAccessRestricted": "Afspelen hiervan is op dit moment niet toegestaan. Neem contact op met je serverbeheerder voor meer informatie.",
+    "MessagePlayAccessRestricted": "Het afspelen van deze inhoud wordt momenteel beperkt. Neem contact op met je serverbeheerder voor meer informatie.",
     "MessagePleaseEnsureInternetMetadata": "Zorg ervoor dat het downloaden van internet-metadata is ingeschakeld.",
     "MessagePleaseWait": "Even geduld. Dit kan even duren.",
     "MessagePluginConfigurationRequiresLocalAccess": "Om deze plug-in te configuren moet je je direct op de lokale server aanmelden.",
@@ -1735,5 +1735,6 @@
     "NotificationsMovedMessage": "De meldingsfunctionaliteit is verplaatst naar de Webhook-plug-in.",
     "EnableAudioNormalizationHelp": "Geluidsnormalisatie past een constante versterking toe om het gemiddelde op een gewenst niveau (-18dB) te houden.",
     "LabelEnableLUFSScan": "LUFS-scan inschakelen",
-    "LabelEnableLUFSScanHelp": "LUFS-scan voor muziek inschakelen. Dit duurt langer en is systeemintensief."
+    "LabelEnableLUFSScanHelp": "LUFS-scan voor muziek inschakelen. Dit duurt langer en is systeemintensief.",
+    "PasswordRequiredForAdmin": "Voor beheerdersaccounts is een wachtwoord vereist."
 }
