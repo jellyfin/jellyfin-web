@@ -1736,5 +1736,6 @@
     "LabelEnableLUFSScanHelp": "Activer l’analyse LUFS pour la musique (cela prendra plus de temps et de ressources).",
     "GetThePlugin": "Obtenir le plugin",
     "Notifications": "Notifications",
-    "NotificationsMovedMessage": "La fonctionnalité de notifications a été transférée au plugin Webhook."
+    "NotificationsMovedMessage": "La fonctionnalité de notifications a été transférée au plugin Webhook.",
+    "PasswordRequiredForAdmin": "Un mot de passe est requis pour les comptes administrateur."
 }
