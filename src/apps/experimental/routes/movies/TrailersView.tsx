@@ -1,10 +1,10 @@
 
 import React, { FC, useCallback } from 'react';
 
-import ViewItemsContainer from '../../../../components/common/ViewItemsContainer';
-import { LibraryViewProps } from '../../../../types/interface';
+import ViewItemsContainer from 'components/common/ViewItemsContainer';
+import { LibraryViewProps } from 'types/library';
 
-const TrailersView: FC<LibraryViewProps> = ({ topParentId }) => {
+const TrailersView: FC<LibraryViewProps> = ({ parentId }) => {
     const getBasekey = useCallback(() => {
         return 'trailers';
     }, []);
@@ -19,7 +19,7 @@ const TrailersView: FC<LibraryViewProps> = ({ topParentId }) => {
 
     return (
         <ViewItemsContainer
-            topParentId={topParentId}
+            topParentId={parentId}
             getBasekey={getBasekey}
             getItemTypes={getItemTypes}
             getNoItemsMessage={getNoItemsMessage}

@@ -1,9 +1,9 @@
 import React, { FC, useCallback } from 'react';
 
-import ViewItemsContainer from '../../../../components/common/ViewItemsContainer';
-import { LibraryViewProps } from '../../../../types/interface';
+import ViewItemsContainer from 'components/common/ViewItemsContainer';
+import { LibraryViewProps } from 'types/library';
 
-const MoviesView: FC<LibraryViewProps> = ({ topParentId }) => {
+const MoviesView: FC<LibraryViewProps> = ({ parentId }) => {
     const getBasekey = useCallback(() => {
         return 'movies';
     }, []);
@@ -18,7 +18,7 @@ const MoviesView: FC<LibraryViewProps> = ({ topParentId }) => {
 
     return (
         <ViewItemsContainer
-            topParentId={topParentId}
+            topParentId={parentId}
             isBtnShuffleEnabled={true}
             getBasekey={getBasekey}
             getItemTypes={getItemTypes}

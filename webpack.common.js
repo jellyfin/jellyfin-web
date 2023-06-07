@@ -161,12 +161,14 @@ const config = {
                 }
             },
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|mjs)$/,
                 include: [
                     path.resolve(__dirname, 'node_modules/event-target-polyfill'),
                     path.resolve(__dirname, 'node_modules/rvfc-polyfill'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),
+                    path.resolve(__dirname, 'node_modules/@tanstack/query-core'),
+                    path.resolve(__dirname, 'node_modules/@tanstack/react-query'),
                     path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
                     path.resolve(__dirname, 'node_modules/axios'),
                     path.resolve(__dirname, 'node_modules/blurhash'),
