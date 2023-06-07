@@ -83,9 +83,6 @@ const AppTabs: FC<AppTabsParams> = ({
                     />
                 ))
             }
-
-            {/* Suppress warnings for unhandled routes */}
-            <Route path='*' element={null} />
         </Routes>
     );
 };

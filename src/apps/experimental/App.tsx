@@ -13,15 +13,15 @@ import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from '.
 const ExperimentalApp = () => {
     return (
         <Routes>
-            <Route element={<AppLayout />}>
+            <Route path='/*' element={<AppLayout />}>
                 {/* User routes */}
-                <Route path='/' element={<ConnectionRequired />}>
+                <Route element={<ConnectionRequired />}>
                     {ASYNC_USER_ROUTES.map(toAsyncPageRoute)}
                     {LEGACY_USER_ROUTES.map(toViewManagerPageRoute)}
                 </Route>
 
                 {/* Admin routes */}
-                <Route path='/' element={<ConnectionRequired isAdminRequired />}>
+                <Route element={<ConnectionRequired isAdminRequired />}>
                     {ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute)}
                     {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
 
@@ -31,14 +31,11 @@ const ExperimentalApp = () => {
                 </Route>
 
                 {/* Public routes */}
-                <Route path='/' element={<ConnectionRequired isUserRequired={false} />}>
+                <Route element={<ConnectionRequired isUserRequired={false} />}>
                     <Route index element={<Navigate replace to='/home.html' />} />
 
                     {LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)}
                 </Route>
-
-                {/* Suppress warnings for unhandled routes */}
-                <Route path='*' element={null} />
             </Route>
         </Routes>
     );
