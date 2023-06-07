@@ -1733,5 +1733,6 @@
     "LabelEnableLUFSScan": "Увімкнути сканування LUFS",
     "GetThePlugin": "Отримати плагін",
     "NotificationsMovedMessage": "Функціонал сповіщень переїхав до плагіна Webhook.",
-    "Notifications": "Сповіщення"
+    "Notifications": "Сповіщення",
+    "PasswordRequiredForAdmin": "Для облікових записів адміністратора потрібен пароль."
 }
