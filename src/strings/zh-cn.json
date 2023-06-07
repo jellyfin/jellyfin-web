@@ -1736,5 +1736,6 @@
     "LabelEnableLUFSScanHelp": "启用音乐的LUFS扫描（这将需要更长时间和更多资源）。",
     "GetThePlugin": "获取插件",
     "Notifications": "通知",
-    "NotificationsMovedMessage": "通知功能已经转移到Webhook插件中。"
+    "NotificationsMovedMessage": "通知功能已经转移到Webhook插件中。",
+    "PasswordRequiredForAdmin": "管理员账户需要密码。"
 }
