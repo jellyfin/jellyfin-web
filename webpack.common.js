@@ -40,7 +40,8 @@ const config = {
             '@mui/private-theming': '@mui/private-theming/legacy',
             '@mui/styled-engine': '@mui/styled-engine/legacy',
             '@mui/system': '@mui/system/legacy',
-            '@mui/utils': '@mui/utils/legacy'
+            '@mui/utils': '@mui/utils/legacy',
+            '@mui/x-data-grid': '@mui/x-data-grid/legacy'
         }
     },
     plugins: [
