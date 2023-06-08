@@ -80,9 +80,6 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
                 />
             ))
         }
-
-        {/* Suppress warnings for unhandled routes */}
-        <Route path='*' element={null} />
     </Routes>
 );
 

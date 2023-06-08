@@ -1,114 +1,43 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import { ThemeProvider } from '@mui/material/styles';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import AppHeader from 'components/AppHeader';
-import Backdrop from 'components/Backdrop';
-import { useApi } from 'hooks/useApi';
-import { useLocalStorage } from 'hooks/useLocalStorage';
+import ConnectionRequired from 'components/ConnectionRequired';
+import ServerContentPage from 'components/ServerContentPage';
+import { toAsyncPageRoute } from 'components/router/AsyncRoute';
+import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 
-import AppToolbar from './components/AppToolbar';
-import AppDrawer, { DRAWER_WIDTH, isDrawerPath } from './components/drawers/AppDrawer';
-import ElevationScroll from './components/ElevationScroll';
-import { ExperimentalAppRoutes } from './routes/AppRoutes';
-import theme from './theme';
-
-import './AppOverrides.scss';
-
-interface ExperimentalAppSettings {
-    isDrawerPinned: boolean
-}
-
-const DEFAULT_EXPERIMENTAL_APP_SETTINGS: ExperimentalAppSettings = {
-    isDrawerPinned: false
-};
+import AppLayout from './AppLayout';
+import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './routes/asyncRoutes';
+import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
 
 const ExperimentalApp = () => {
-    const [ appSettings, setAppSettings ] = useLocalStorage<ExperimentalAppSettings>('ExperimentalAppSettings', DEFAULT_EXPERIMENTAL_APP_SETTINGS);
-    const [ isDrawerActive, setIsDrawerActive ] = useState(appSettings.isDrawerPinned);
-    const { user } = useApi();
-    const location = useLocation();
-
-    const isDrawerAvailable = isDrawerPath(location.pathname);
-    const isDrawerOpen = isDrawerActive && isDrawerAvailable && Boolean(user);
-
-    useEffect(() => {
-        if (isDrawerActive !== appSettings.isDrawerPinned) {
-            setAppSettings({
-                ...appSettings,
-                isDrawerPinned: isDrawerActive
-            });
-        }
-    }, [ appSettings, isDrawerActive, setAppSettings ]);
-
-    const onToggleDrawer = useCallback(() => {
-        setIsDrawerActive(!isDrawerActive);
-    }, [ isDrawerActive, setIsDrawerActive ]);
-
     return (
-        <ThemeProvider theme={theme}>
-            <Backdrop />
+        <Routes>
+            <Route path='/*' element={<AppLayout />}>
+                {/* User routes */}
+                <Route element={<ConnectionRequired />}>
+                    {ASYNC_USER_ROUTES.map(toAsyncPageRoute)}
+                    {LEGACY_USER_ROUTES.map(toViewManagerPageRoute)}
+                </Route>
 
-            <div style={{ display: 'none' }}>
-                {/*
-                  * TODO: These components are not used, but views interact with them directly so the need to be
-                  * present in the dom. We add them in a hidden element to prevent errors.
-                  */}
-                <AppHeader />
-            </div>
+                {/* Admin routes */}
+                <Route element={<ConnectionRequired isAdminRequired />}>
+                    {ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute)}
+                    {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
 
-            <Box sx={{ display: 'flex' }}>
-                <ElevationScroll elevate={isDrawerOpen}>
-                    <AppBar
-                        position='fixed'
-                        sx={{ zIndex: (muiTheme) => muiTheme.zIndex.drawer + 1 }}
-                    >
-                        <AppToolbar
-                            isDrawerOpen={isDrawerOpen}
-                            onDrawerButtonClick={onToggleDrawer}
-                        />
-                    </AppBar>
-                </ElevationScroll>
+                    <Route path='configurationpage' element={
+                        <ServerContentPage view='/web/configurationpage' />
+                    } />
+                </Route>
 
-                <AppDrawer
-                    open={isDrawerOpen}
-                    onClose={onToggleDrawer}
-                    onOpen={onToggleDrawer}
-                />
+                {/* Public routes */}
+                <Route element={<ConnectionRequired isUserRequired={false} />}>
+                    <Route index element={<Navigate replace to='/home.html' />} />
 
-                <Box
-                    component='main'
-                    sx={{
-                        width: '100%',
-                        flexGrow: 1,
-                        transition: theme.transitions.create('margin', {
-                            easing: theme.transitions.easing.sharp,
-                            duration: theme.transitions.duration.leavingScreen
-                        }),
-                        marginLeft: 0,
-                        ...(isDrawerAvailable && {
-                            marginLeft: {
-                                sm: `-${DRAWER_WIDTH}px`
-                            }
-                        }),
-                        ...(isDrawerActive && {
-                            transition: theme.transitions.create('margin', {
-                                easing: theme.transitions.easing.easeOut,
-                                duration: theme.transitions.duration.enteringScreen
-                            }),
-                            marginLeft: 0
-                        })
-                    }}
-                >
-                    <div className='mainAnimatedPages skinBody' />
-                    <div className='skinBody'>
-                        <ExperimentalAppRoutes />
-                    </div>
-                </Box>
-            </Box>
-        </ThemeProvider>
+                    {LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)}
+                </Route>
+            </Route>
+        </Routes>
     );
 };
 
