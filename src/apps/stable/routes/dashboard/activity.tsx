@@ -1,18 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
+import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Typography from '@mui/material/Typography';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
+import { useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';
 import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
+import { toBoolean } from 'utils/string';
 
 const DEFAULT_PAGE_SIZE = 25;
+const VIEW_PARAM = 'useractivity';
+
+const enum ActivityView {
+    All,
+    User,
+    System
+}
+
+const getActivityView = (param: string | null) => {
+    if (param === null) return ActivityView.All;
+    if (toBoolean(param)) return ActivityView.User;
+    return ActivityView.System;
+};
 
 const getRowId = (row: ActivityLogEntry) => row.Id ?? -1;
 
@@ -45,6 +64,7 @@ const LogLevelChip = ({ level }: { level: LogLevel }) => {
 
 const Activity = () => {
     const { api } = useApi();
+    const [ searchParams, setSearchParams ] = useSearchParams();
 
     const columns: GridColDef[] = [
         {
@@ -94,14 +114,22 @@ const Activity = () => {
         }
     ];
 
+    const [ activityView, setActivityView ] = useState(
+        getActivityView(searchParams.get(VIEW_PARAM)));
     const [ isLoading, setIsLoading ] = useState(true);
-    const [paginationModel, setPaginationModel] = useState({
+    const [ paginationModel, setPaginationModel ] = useState({
         page: 0,
         pageSize: DEFAULT_PAGE_SIZE
     });
     const [ rowCount, setRowCount ] = useState(0);
     const [ rows, setRows ] = useState<ActivityLogEntry[]>([]);
     const [ users, setUsers ] = useState<Record<string, UserDto>>({});
+
+    const onViewChange = useCallback((_e, newView: ActivityView | null) => {
+        if (newView !== null) {
+            setActivityView(newView);
+        }
+    }, []);
 
     useEffect(() => {
         if (api) {
@@ -127,11 +155,20 @@ const Activity = () => {
     useEffect(() => {
         if (api) {
             const fetchActivity = async () => {
+                const params: {
+                    startIndex: number,
+                    limit: number,
+                    hasUserId?: boolean
+                } = {
+                    startIndex: paginationModel.page * paginationModel.pageSize,
+                    limit: paginationModel.pageSize
+                };
+                if (activityView !== ActivityView.All) {
+                    params.hasUserId = activityView === ActivityView.User;
+                }
+
                 const { data } = await getActivityLogApi(api)
-                    .getLogEntries({
-                        startIndex: paginationModel.page * paginationModel.pageSize,
-                        limit: paginationModel.pageSize
-                    });
+                    .getLogEntries(params);
 
                 setRowCount(data.TotalRecordCount ?? 0);
                 setRows(data.Items ?? []);
@@ -143,7 +180,19 @@ const Activity = () => {
                     console.error('[activity] failed to fetch activity log entries', err);
                 });
         }
-    }, [ api, paginationModel ]);
+    }, [ activityView, api, paginationModel ]);
+
+    useEffect(() => {
+        const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
+        if (currentViewParam !== activityView) {
+            if (activityView === ActivityView.All) {
+                searchParams.delete(VIEW_PARAM);
+            } else {
+                searchParams.set(VIEW_PARAM, `${activityView === ActivityView.User}`);
+            }
+            setSearchParams(searchParams);
+        }
+    }, [ activityView, searchParams, setSearchParams ]);
 
     return (
         <Page
@@ -152,7 +201,34 @@ const Activity = () => {
             className='mainAnimatedPage type-interior'
         >
             <div className='content-primary'>
-                <h2>{globalize.translate('HeaderActivity')}</h2>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'baseline',
+                        marginY: 2
+                    }}
+                >
+                    <Box sx={{ flexGrow: 1 }}>
+                        <Typography variant='h2'>
+                            {globalize.translate('HeaderActivity')}
+                        </Typography>
+                    </Box>
+                    <ToggleButtonGroup
+                        value={activityView}
+                        onChange={onViewChange}
+                        exclusive
+                    >
+                        <ToggleButton value={ActivityView.All}>
+                            {globalize.translate('All')}
+                        </ToggleButton>
+                        <ToggleButton value={ActivityView.User}>
+                            {globalize.translate('LabelUser')}
+                        </ToggleButton>
+                        <ToggleButton value={ActivityView.System}>
+                            {globalize.translate('LabelSystem')}
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                </Box>
                 <DataGrid
                     columns={columns}
                     rows={rows}
