@@ -1,13 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
+import Info from '@mui/icons-material/Info';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import IconButton from '@mui/material/IconButton';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import { useSearchParams } from 'react-router-dom';
@@ -15,6 +19,7 @@ import { useSearchParams } from 'react-router-dom';
 import Page from 'components/Page';
 import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';
+import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'scripts/datetime';
 import globalize from 'scripts/globalize';
 import { toBoolean } from 'utils/string';
 
@@ -62,57 +67,64 @@ const LogLevelChip = ({ level }: { level: LogLevel }) => {
     );
 };
 
+const OverviewCell: FC<ActivityLogEntry> = ({ Overview, ShortOverview }) => {
+    const displayValue = ShortOverview ?? Overview;
+    const [ open, setOpen ] = useState(false);
+
+    const onTooltipClose = useCallback(() => {
+        setOpen(false);
+    }, []);
+
+    const onTooltipOpen = useCallback(() => {
+        setOpen(true);
+    }, []);
+
+    if (!displayValue) return null;
+
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                width: '100%',
+                alignItems: 'center'
+            }}
+        >
+            <Box
+                sx={{
+                    flexGrow: 1,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}
+                component='div'
+                title={displayValue}
+            >
+                {displayValue}
+            </Box>
+            {ShortOverview && Overview && (
+                <ClickAwayListener onClickAway={onTooltipClose}>
+                    <Tooltip
+                        title={Overview}
+                        placement='top'
+                        arrow
+                        onClose={onTooltipClose}
+                        open={open}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                    >
+                        <IconButton onClick={onTooltipOpen}>
+                            <Info />
+                        </IconButton>
+                    </Tooltip>
+                </ClickAwayListener>
+            )}
+        </Box>
+    );
+};
+
 const Activity = () => {
     const { api } = useApi();
     const [ searchParams, setSearchParams ] = useSearchParams();
-
-    const columns: GridColDef[] = [
-        {
-            field: 'Date',
-            headerName: globalize.translate('LabelDate'),
-            width: 180,
-            type: 'dateTime',
-            valueGetter: ({ row }) => new Date(row.Date)
-        },
-        {
-            field: 'Severity',
-            headerName: globalize.translate('LabelLevel'),
-            width: 110,
-            renderCell: ({ row }) => (
-                row.Severity ? (
-                    <LogLevelChip level={row.Severity} />
-                ) : undefined
-            )
-        },
-        {
-            field: 'User',
-            headerName: globalize.translate('LabelUser'),
-            width: 60,
-            valueGetter: ({ row }) => users[row.UserId]?.Name,
-            renderCell: ({ row }) => (
-                <UserAvatar
-                    user={users[row.UserId]}
-                    showTitle
-                />
-            )
-        },
-        {
-            field: 'Name',
-            headerName: globalize.translate('LabelName'),
-            width: 200
-        },
-        {
-            field: 'Overview',
-            headerName: globalize.translate('LabelOverview'),
-            width: 200,
-            valueGetter: ({ row }) => row.Overview ?? row.ShortOverview
-        },
-        {
-            field: 'Type',
-            headerName: globalize.translate('LabelType'),
-            width: 150
-        }
-    ];
 
     const [ activityView, setActivityView ] = useState(
         getActivityView(searchParams.get(VIEW_PARAM)));
@@ -124,6 +136,70 @@ const Activity = () => {
     const [ rowCount, setRowCount ] = useState(0);
     const [ rows, setRows ] = useState<ActivityLogEntry[]>([]);
     const [ users, setUsers ] = useState<Record<string, UserDto>>({});
+
+    const userColDef: GridColDef[] = activityView !== ActivityView.System ? [
+        {
+            field: 'User',
+            headerName: globalize.translate('LabelUser'),
+            width: 60,
+            valueGetter: ({ row }) => users[row.UserId]?.Name,
+            renderCell: ({ row }) => (
+                <UserAvatar
+                    user={users[row.UserId]}
+                    showTitle
+                />
+            )
+        }
+    ] : [];
+
+    const columns: GridColDef[] = [
+        {
+            field: 'Date',
+            headerName: globalize.translate('LabelDate'),
+            width: 90,
+            type: 'date',
+            valueGetter: ({ value }) => parseISO8601Date(value),
+            valueFormatter: ({ value }) => toLocaleDateString(value)
+        },
+        {
+            field: 'Time',
+            headerName: globalize.translate('LabelTime'),
+            width: 100,
+            type: 'dateTime',
+            valueGetter: ({ row }) => parseISO8601Date(row.Date),
+            valueFormatter: ({ value }) => toLocaleTimeString(value)
+        },
+        {
+            field: 'Severity',
+            headerName: globalize.translate('LabelLevel'),
+            width: 110,
+            renderCell: ({ value }) => (
+                value ? (
+                    <LogLevelChip level={value} />
+                ) : undefined
+            )
+        },
+        ...userColDef,
+        {
+            field: 'Name',
+            headerName: globalize.translate('LabelName'),
+            width: 200
+        },
+        {
+            field: 'Overview',
+            headerName: globalize.translate('LabelOverview'),
+            width: 220,
+            valueGetter: ({ row }) => row.ShortOverview ?? row.Overview,
+            renderCell: ({ row }) => (
+                <OverviewCell {...row} />
+            )
+        },
+        {
+            field: 'Type',
+            headerName: globalize.translate('LabelType'),
+            width: 150
+        }
+    ];
 
     const onViewChange = useCallback((_e, newView: ActivityView | null) => {
         if (newView !== null) {
@@ -175,6 +251,7 @@ const Activity = () => {
                 setIsLoading(false);
             };
 
+            setIsLoading(true);
             fetchActivity()
                 .catch(err => {
                     console.error('[activity] failed to fetch activity log entries', err);
