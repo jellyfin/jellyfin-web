@@ -7,7 +7,7 @@ import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import './style.scss';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';

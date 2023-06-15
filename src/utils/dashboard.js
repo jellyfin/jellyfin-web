@@ -1,7 +1,7 @@
 import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
@@ -19,7 +19,7 @@ export function getCurrentUser() {
 
 // TODO: investigate url prefix support for serverAddress function
 export async function serverAddress() {
-    const apiClient = window.ApiClient;
+    const apiClient = window.ApiClient ?? ServerConnections.currentApiClient();
 
     if (apiClient) {
         return Promise.resolve(apiClient.serverAddress());
@@ -107,6 +107,12 @@ export function getConfigurationResourceUrl(name) {
     });
 }
 
+/**
+ * Navigate to a url.
+ * @param {string} url - The url to navigate to.
+ * @param {boolean} [preserveQueryString] - A flag to indicate the current query string should be appended to the new url.
+ * @returns {Promise<any>}
+ */
 export function navigate(url, preserveQueryString) {
     if (!url) {
         throw new Error('url cannot be null or empty');

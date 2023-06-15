@@ -1,5 +1,6 @@
 const BASE_DEVICE_IMAGE_URL = 'assets/img/devices/';
 
+// audit note: this module is expected to return safe text for use in HTML
 function getWebDeviceIcon(browser) {
     switch (browser) {
         case 'Opera':
@@ -30,71 +31,67 @@ function getWebDeviceIcon(browser) {
     }
 }
 
-/* eslint-disable indent */
-
-    export function getDeviceIcon(device) {
-        switch (device.AppName || device.Client) {
-            case 'Samsung Smart TV':
-                return BASE_DEVICE_IMAGE_URL + 'samsung.svg';
-            case 'Xbox One':
-                return BASE_DEVICE_IMAGE_URL + 'xbox.svg';
-            case 'Sony PS4':
-                return BASE_DEVICE_IMAGE_URL + 'playstation.svg';
-            case 'Kodi':
-            case 'Kodi JellyCon':
-                return BASE_DEVICE_IMAGE_URL + 'kodi.svg';
-            case 'Jellyfin Android':
-            case 'AndroidTV':
-            case 'Android TV':
-                return BASE_DEVICE_IMAGE_URL + 'android.svg';
-            case 'Jellyfin Mobile (iOS)':
-            case 'Jellyfin Mobile (iPadOS)':
-            case 'Jellyfin iOS':
-            case 'Infuse':
-                return BASE_DEVICE_IMAGE_URL + 'apple.svg';
-            case 'Home Assistant':
-                return BASE_DEVICE_IMAGE_URL + 'home-assistant.svg';
-            case 'Jellyfin Roku':
-                return BASE_DEVICE_IMAGE_URL + 'roku.svg';
-            case 'Finamp':
-                return BASE_DEVICE_IMAGE_URL + 'finamp.svg';
-            case 'Jellyfin Web':
-                return getWebDeviceIcon(device.Name || device.DeviceName);
-            default:
-                return BASE_DEVICE_IMAGE_URL + 'other.svg';
-        }
+export function getDeviceIcon(device) {
+    switch (device.AppName || device.Client) {
+        case 'Samsung Smart TV':
+            return BASE_DEVICE_IMAGE_URL + 'samsung.svg';
+        case 'Xbox One':
+            return BASE_DEVICE_IMAGE_URL + 'xbox.svg';
+        case 'Sony PS4':
+            return BASE_DEVICE_IMAGE_URL + 'playstation.svg';
+        case 'Kodi':
+        case 'Kodi JellyCon':
+            return BASE_DEVICE_IMAGE_URL + 'kodi.svg';
+        case 'Jellyfin Android':
+        case 'AndroidTV':
+        case 'Android TV':
+            return BASE_DEVICE_IMAGE_URL + 'android.svg';
+        case 'Jellyfin Mobile (iOS)':
+        case 'Jellyfin Mobile (iPadOS)':
+        case 'Jellyfin iOS':
+        case 'Infuse':
+            return BASE_DEVICE_IMAGE_URL + 'apple.svg';
+        case 'Home Assistant':
+            return BASE_DEVICE_IMAGE_URL + 'home-assistant.svg';
+        case 'Jellyfin Roku':
+            return BASE_DEVICE_IMAGE_URL + 'roku.svg';
+        case 'Finamp':
+            return BASE_DEVICE_IMAGE_URL + 'finamp.svg';
+        case 'Jellyfin Web':
+            return getWebDeviceIcon(device.Name || device.DeviceName);
+        default:
+            return BASE_DEVICE_IMAGE_URL + 'other.svg';
     }
+}
 
-    export function getLibraryIcon(library) {
-        switch (library) {
-            case 'movies':
-                return 'video_library';
-            case 'music':
-                return 'library_music';
-            case 'photos':
-                return 'photo_library';
-            case 'livetv':
-                return 'live_tv';
-            case 'tvshows':
-                return 'tv';
-            case 'trailers':
-                return 'local_movies';
-            case 'homevideos':
-                return 'photo_library';
-            case 'musicvideos':
-                return 'music_video';
-            case 'books':
-                return 'library_books';
-            case 'channels':
-                return 'videocam';
-            case 'playlists':
-                return 'view_list';
-            default:
-                return 'folder';
-        }
+export function getLibraryIcon(library) {
+    switch (library) {
+        case 'movies':
+            return 'video_library';
+        case 'music':
+            return 'library_music';
+        case 'photos':
+            return 'photo_library';
+        case 'livetv':
+            return 'live_tv';
+        case 'tvshows':
+            return 'tv';
+        case 'trailers':
+            return 'local_movies';
+        case 'homevideos':
+            return 'photo_library';
+        case 'musicvideos':
+            return 'music_video';
+        case 'books':
+            return 'library_books';
+        case 'channels':
+            return 'videocam';
+        case 'playlists':
+            return 'view_list';
+        default:
+            return 'folder';
     }
-
-/* eslint-enable indent */
+}
 
 export default {
     getDeviceIcon: getDeviceIcon,

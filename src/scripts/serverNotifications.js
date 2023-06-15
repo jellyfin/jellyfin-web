@@ -1,12 +1,13 @@
 import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlay from '../plugins/syncPlay/core';
+import { pluginManager } from '../components/pluginManager';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import alert from '../components/alert';
 import Events from '../utils/events.ts';
+import { PluginType } from '../types/plugin.ts';
 
 const serverNotifications = {};
 
@@ -98,11 +99,11 @@ function processGeneralCommand(cmd, apiClient) {
             break;
         case 'SetAudioStreamIndex':
             notifyApp();
-            playbackManager.setAudioStreamIndex(parseInt(cmd.Arguments.Index));
+            playbackManager.setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10));
             break;
         case 'SetSubtitleStreamIndex':
             notifyApp();
-            playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index));
+            playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10));
             break;
         case 'ToggleFullscreen':
             inputManager.handleCommand('togglefullscreen');
@@ -140,6 +141,8 @@ function processGeneralCommand(cmd, apiClient) {
 
 function onMessageReceived(e, msg) {
     const apiClient = this;
+    const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+
     if (msg.MessageType === 'Play') {
         notifyApp();
         const serverId = apiClient.serverInfo().Id;
@@ -186,9 +189,9 @@ function onMessageReceived(e, msg) {
             }
         }
     } else if (msg.MessageType === 'SyncPlayCommand') {
-        SyncPlay.Manager.processCommand(msg.Data, apiClient);
+        SyncPlay?.Manager.processCommand(msg.Data, apiClient);
     } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
-        SyncPlay.Manager.processGroupUpdate(msg.Data, apiClient);
+        SyncPlay?.Manager.processGroupUpdate(msg.Data, apiClient);
     } else {
         Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
     }

@@ -3,7 +3,7 @@ import globalize from '../../../scripts/globalize';
 
 type IProps = {
     activeTab: string;
-}
+};
 
 const createLinkElement = (activeTab: string) => ({
     __html: `<a href="#"
@@ -36,7 +36,7 @@ const createLinkElement = (activeTab: string) => ({
     </a>`
 });
 
-const SectionTabs: FunctionComponent<IProps> = ({activeTab}: IProps) => {
+const SectionTabs: FunctionComponent<IProps> = ({ activeTab }: IProps) => {
     return (
         <div
             data-role='controlgroup'

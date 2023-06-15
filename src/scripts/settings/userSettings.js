@@ -157,6 +157,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Enable Audio Normalization' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
+     * @return {boolean} 'Enable Audio Normalization' state.
+     */
+    enableAudioNormalization(val) {
+        if (val !== undefined) {
+            return this.set('enableAudioNormalization', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableAudioNormalization', false), true);
+    }
+
+    /**
      * Get or set 'Next Video Info Overlay' state.
      * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
@@ -167,6 +180,19 @@ export class UserSettings {
         }
 
         return toBoolean(this.get('enableNextVideoInfoOverlay', false), true);
+    }
+
+    /**
+     * Get or set 'Video Remaining/Total Time' state.
+     * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
+     * @return {boolean} 'Video Remaining/Total Time' state.
+     */
+    enableVideoRemainingTime(val) {
+        if (val !== undefined) {
+            return this.set('enableVideoRemainingTime', val.toString());
+        }
+
+        return toBoolean(this.get('enableVideoRemainingTime', false), true);
     }
 
     /**
@@ -335,7 +361,7 @@ export class UserSettings {
             return this.set('skipBackLength', val.toString());
         }
 
-        return parseInt(this.get('skipBackLength') || '10000');
+        return parseInt(this.get('skipBackLength') || '10000', 10);
     }
 
     /**
@@ -348,7 +374,7 @@ export class UserSettings {
             return this.set('skipForwardLength', val.toString());
         }
 
-        return parseInt(this.get('skipForwardLength') || '30000');
+        return parseInt(this.get('skipForwardLength') || '30000', 10);
     }
 
     /**
@@ -579,7 +605,9 @@ export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
+export const enableAudioNormalization = currentSettings.enableAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
+export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);

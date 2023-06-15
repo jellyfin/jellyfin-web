@@ -28,8 +28,7 @@ function populateVersions(packageInfo, page, installedPlugin) {
         return b.timestamp < a.timestamp ? -1 : 1;
     });
 
-    for (let i = 0; i < packageInfo.versions.length; i++) {
-        const version = packageInfo.versions[i];
+    for (const version of packageInfo.versions) {
         html += '<option value="' + version.version + '">' + globalize.translate('PluginFromRepo', version.version, version.repositoryName) + '</option>';
     }
 
@@ -53,24 +52,24 @@ function renderPackage(pkg, installedPlugins, page) {
     populateVersions(pkg, page, installedPlugin);
     populateHistory(pkg, page);
 
-    $('.pluginName', page).html(pkg.name);
+    $('.pluginName', page).text(pkg.name);
     $('#btnInstallDiv', page).removeClass('hide');
     $('#pSelectVersion', page).removeClass('hide');
 
     if (pkg.overview) {
-        $('#overview', page).show().html(pkg.overview);
+        $('#overview', page).show().text(pkg.overview);
     } else {
         $('#overview', page).hide();
     }
 
-    $('#description', page).html(pkg.description);
-    $('#developer', page).html(pkg.owner);
+    $('#description', page).text(pkg.description);
+    $('#developer', page).text(pkg.owner);
 
     if (installedPlugin) {
         const currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
         $('#pCurrentVersion', page).show().html(currentVersionText);
     } else {
-        $('#pCurrentVersion', page).hide().html('');
+        $('#pCurrentVersion', page).hide().text('');
     }
 
     loading.hide();

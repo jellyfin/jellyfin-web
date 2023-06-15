@@ -79,6 +79,14 @@
                         </label>
                     </div>
                 </div>
+
+                <div class="verticalSection">
+                    <h2>${HeaderPerformance}</h2>
+                    <div class="inputContainer">
+                        <input is="emby-input" id="txtParallelImageEncodingLimit" label="${LabelParallelImageEncodingLimit}" type="number" pattern="[0-9]*" min="0" step="1" />
+                        <div class="fieldDescription">${LabelParallelImageEncodingLimitHelp}</div>
+                    </div>
+                </div>
                 <br />
                 <div>
                     <button is="emby-button" type="submit" class="raised button-submit block">

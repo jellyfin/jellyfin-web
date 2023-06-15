@@ -19,7 +19,7 @@ const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl
 
 type IProps = {
     user?: UserDto;
-}
+};
 
 const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
@@ -74,7 +74,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                 </div>
                 <div className='cardFooter visualCardBox-cardFooter'>
                     <div
-                        style={{textAlign: 'right', float: 'right', paddingTop: '5px'}}
+                        style={{ textAlign: 'right', float: 'right', paddingTop: '5px' }}
                     >
                         <IconButtonElement
                             is='paper-icon-button-light'

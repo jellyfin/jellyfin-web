@@ -1,7 +1,7 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient } from 'jellyfin-apiclient';
 import classNames from 'classnames';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
@@ -12,7 +12,18 @@ type SearchResultsProps = {
     parentId?: string | null;
     collectionType?: string | null;
     query?: string;
-}
+};
+
+const ensureNonNullItems = (result: BaseItemDtoQueryResult) => ({
+    ...result,
+    Items: result.Items || []
+});
+
+const isMovies = (collectionType: string) => collectionType === 'movies';
+
+const isMusic = (collectionType: string) => collectionType === 'music';
+
+const isTVShows = (collectionType: string) => collectionType === 'tvshows' || collectionType === 'tv';
 
 /*
  * React component to display search result rows for global search and non-live tv library search
@@ -35,55 +46,55 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
     const [ people, setPeople ] = useState<BaseItemDto[]>([]);
     const [ collections, setCollections ] = useState<BaseItemDto[]>([]);
 
-    useEffect(() => {
-        const getDefaultParameters = () => ({
-            ParentId: parentId,
-            searchTerm: query,
-            Limit: 24,
-            Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
-            Recursive: true,
-            EnableTotalRecordCount: false,
-            ImageTypeLimit: 1,
-            IncludePeople: false,
-            IncludeMedia: false,
-            IncludeGenres: false,
-            IncludeStudios: false,
-            IncludeArtists: false
-        });
+    const getDefaultParameters = useCallback(() => ({
+        ParentId: parentId,
+        searchTerm: query,
+        Limit: 24,
+        Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
+        Recursive: true,
+        EnableTotalRecordCount: false,
+        ImageTypeLimit: 1,
+        IncludePeople: false,
+        IncludeMedia: false,
+        IncludeGenres: false,
+        IncludeStudios: false,
+        IncludeArtists: false
+    }), [parentId, query]);
 
-        const fetchArtists = (apiClient: ApiClient, params = {}) => apiClient?.getArtists(
-            apiClient?.getCurrentUserId(),
+    const fetchArtists = useCallback((apiClient: ApiClient, params = {}) => (
+        apiClient?.getArtists(
+            apiClient.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
                 IncludeArtists: true,
                 ...params
             }
-        );
+        ).then(ensureNonNullItems)
+    ), [getDefaultParameters]);
 
-        const fetchItems = (apiClient: ApiClient, params = {}) => apiClient?.getItems(
-            apiClient?.getCurrentUserId(),
+    const fetchItems = useCallback((apiClient: ApiClient, params = {}) => (
+        apiClient?.getItems(
+            apiClient.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
                 IncludeMedia: true,
                 ...params
             }
-        );
+        ).then(ensureNonNullItems)
+    ), [getDefaultParameters]);
 
-        const fetchPeople = (apiClient: ApiClient, params = {}) => apiClient?.getPeople(
-            apiClient?.getCurrentUserId(),
+    const fetchPeople = useCallback((apiClient: ApiClient, params = {}) => (
+        apiClient?.getPeople(
+            apiClient.getCurrentUserId(),
             {
                 ...getDefaultParameters(),
                 IncludePeople: true,
                 ...params
             }
-        );
+        ).then(ensureNonNullItems)
+    ), [getDefaultParameters]);
 
-        const isMovies = () => collectionType === 'movies';
-
-        const isMusic = () => collectionType === 'music';
-
-        const isTVShows = () => collectionType === 'tvshows' || collectionType === 'tv';
-
+    useEffect(() => {
         // Reset state
         setMovies([]);
         setShows([]);
@@ -102,78 +113,99 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
         setPeople([]);
         setCollections([]);
 
-        if (query) {
-            const apiClient = ServerConnections.getApiClient(serverId);
-
-            // Movie libraries
-            if (!collectionType || isMovies()) {
-                // Movies row
-                fetchItems(apiClient, { IncludeItemTypes: 'Movie' })
-                    .then(result => setMovies(result.Items || []));
-            }
-
-            // TV Show libraries
-            if (!collectionType || isTVShows()) {
-                // Shows row
-                fetchItems(apiClient, { IncludeItemTypes: 'Series' })
-                    .then(result => setShows(result.Items || []));
-                // Episodes row
-                fetchItems(apiClient, { IncludeItemTypes: 'Episode' })
-                    .then(result => setEpisodes(result.Items || []));
-            }
-
-            // People are included for Movies and TV Shows
-            if (!collectionType || isMovies() || isTVShows()) {
-                // People row
-                fetchPeople(apiClient).then(result => setPeople(result.Items || []));
-            }
-
-            // Music libraries
-            if (!collectionType || isMusic()) {
-                // Playlists row
-                fetchItems(apiClient, { IncludeItemTypes: 'Playlist' })
-                    .then(results => setPlaylists(results.Items || []));
-                // Artists row
-                fetchArtists(apiClient).then(result => setArtists(result.Items || []));
-                // Albums row
-                fetchItems(apiClient, { IncludeItemTypes: 'MusicAlbum' })
-                    .then(result => setAlbums(result.Items || []));
-                // Songs row
-                fetchItems(apiClient, { IncludeItemTypes: 'Audio' })
-                    .then(result => setSongs(result.Items || []));
-            }
-
-            // Other libraries do not support in-library search currently
-            if (!collectionType) {
-                // Videos row
-                fetchItems(apiClient, {
-                    MediaTypes: 'Video',
-                    ExcludeItemTypes: 'Movie,Episode,TvChannel'
-                }).then(result => setVideos(result.Items || []));
-                // Programs row
-                fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
-                    .then(result => setPrograms(result.Items || []));
-                // Channels row
-                fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
-                    .then(result => setChannels(result.Items || []));
-                // Photo Albums row
-                fetchItems(apiClient, { IncludeItemTypes: 'PhotoAlbum' })
-                    .then(results => setPhotoAlbums(results.Items || []));
-                // Photos row
-                fetchItems(apiClient, { IncludeItemTypes: 'Photo' })
-                    .then(results => setPhotos(results.Items || []));
-                // Audio Books row
-                fetchItems(apiClient, { IncludeItemTypes: 'AudioBook' })
-                    .then(results => setAudioBooks(results.Items || []));
-                // Books row
-                fetchItems(apiClient, { IncludeItemTypes: 'Book' })
-                    .then(results => setBooks(results.Items || []));
-                // Collections row
-                fetchItems(apiClient, { IncludeItemTypes: 'BoxSet' })
-                    .then(result => setCollections(result.Items || []));
-            }
+        if (!query) {
+            return;
         }
-    }, [collectionType, parentId, query, serverId]);
+
+        const apiClient = ServerConnections.getApiClient(serverId);
+
+        // Movie libraries
+        if (!collectionType || isMovies(collectionType)) {
+            // Movies row
+            fetchItems(apiClient, { IncludeItemTypes: 'Movie' })
+                .then(result => setMovies(result.Items))
+                .catch(() => setMovies([]));
+        }
+
+        // TV Show libraries
+        if (!collectionType || isTVShows(collectionType)) {
+            // Shows row
+            fetchItems(apiClient, { IncludeItemTypes: 'Series' })
+                .then(result => setShows(result.Items))
+                .catch(() => setShows([]));
+            // Episodes row
+            fetchItems(apiClient, { IncludeItemTypes: 'Episode' })
+                .then(result => setEpisodes(result.Items))
+                .catch(() => setEpisodes([]));
+        }
+
+        // People are included for Movies and TV Shows
+        if (!collectionType || isMovies(collectionType) || isTVShows(collectionType)) {
+            // People row
+            fetchPeople(apiClient)
+                .then(result => setPeople(result.Items))
+                .catch(() => setPeople([]));
+        }
+
+        // Music libraries
+        if (!collectionType || isMusic(collectionType)) {
+            // Playlists row
+            fetchItems(apiClient, { IncludeItemTypes: 'Playlist' })
+                .then(results => setPlaylists(results.Items))
+                .catch(() => setPlaylists([]));
+            // Artists row
+            fetchArtists(apiClient)
+                .then(result => setArtists(result.Items))
+                .catch(() => setArtists([]));
+            // Albums row
+            fetchItems(apiClient, { IncludeItemTypes: 'MusicAlbum' })
+                .then(result => setAlbums(result.Items))
+                .catch(() => setAlbums([]));
+            // Songs row
+            fetchItems(apiClient, { IncludeItemTypes: 'Audio' })
+                .then(result => setSongs(result.Items))
+                .catch(() => setSongs([]));
+        }
+
+        // Other libraries do not support in-library search currently
+        if (!collectionType) {
+            // Videos row
+            fetchItems(apiClient, {
+                MediaTypes: 'Video',
+                ExcludeItemTypes: 'Movie,Episode,TvChannel'
+            })
+                .then(result => setVideos(result.Items))
+                .catch(() => setVideos([]));
+            // Programs row
+            fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
+                .then(result => setPrograms(result.Items))
+                .catch(() => setPrograms([]));
+            // Channels row
+            fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
+                .then(result => setChannels(result.Items))
+                .catch(() => setChannels([]));
+            // Photo Albums row
+            fetchItems(apiClient, { IncludeItemTypes: 'PhotoAlbum' })
+                .then(result => setPhotoAlbums(result.Items))
+                .catch(() => setPhotoAlbums([]));
+            // Photos row
+            fetchItems(apiClient, { IncludeItemTypes: 'Photo' })
+                .then(result => setPhotos(result.Items))
+                .catch(() => setPhotos([]));
+            // Audio Books row
+            fetchItems(apiClient, { IncludeItemTypes: 'AudioBook' })
+                .then(result => setAudioBooks(result.Items))
+                .catch(() => setAudioBooks([]));
+            // Books row
+            fetchItems(apiClient, { IncludeItemTypes: 'Book' })
+                .then(result => setBooks(result.Items))
+                .catch(() => setBooks([]));
+            // Collections row
+            fetchItems(apiClient, { IncludeItemTypes: 'BoxSet' })
+                .then(result => setCollections(result.Items))
+                .catch(() => setCollections([]));
+        }
+    }, [collectionType, fetchArtists, fetchItems, fetchPeople, query, serverId]);
 
     return (
         <div

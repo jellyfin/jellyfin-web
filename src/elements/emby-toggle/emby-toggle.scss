@@ -10,9 +10,6 @@
     padding: 0;
     overflow: visible;
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     flex-direction: row-reverse;
     justify-content: flex-end;
@@ -28,9 +25,6 @@
     margin: 0;
     padding: 0;
     opacity: 0;
-    -ms-appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     appearance: none;
     border: none;
 }
@@ -96,7 +90,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     display: inline-block;
     box-sizing: border-box;

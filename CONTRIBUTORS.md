@@ -56,6 +56,15 @@
  - [is343](https://github.com/is343)
  - [Meet Pandya](https://github.com/meet-k-pandya)
  - [Peter Spenler](https://github.com/peterspenler)
+ - [Vankerkom](https://github.com/vankerkom)
+ - [edvwib](https://github.com/edvwib)
+ - [Rob Farraher](https://github.com/farraherbg)
+ - [TelepathicWalrus](https://github.com/TelepathicWalrus)
+ - [Pier-Luc Ducharme](https://github.com/pl-ducharme)
+ - [Anantharaju S](https://github.com/Anantharajus)
+ - [Merlin Sievers](https://github.com/dann-merlin)
+ - [Fishbigger](https://github.com/fishbigger)
+ - [sleepycatcoding](https://github.com/sleepycatcoding)
 
 # Emby Contributors
 

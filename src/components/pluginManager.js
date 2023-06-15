@@ -4,10 +4,12 @@ import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';
 import { appHost } from '../components/apphost';
-import { appRouter } from '../components/appRouter';
+import { appRouter } from './router/appRouter';
 import * as inputManager from '../scripts/inputManager';
 import toast from '../components/toast/toast';
 import confirm from '../components/confirm/confirm';
+import * as dashboard from '../utils/dashboard';
+import ServerConnections from '../components/ServerConnections';
 
 // TODO: replace with each plugin version
 const cacheParam = new Date().getTime();
@@ -86,7 +88,9 @@ class PluginManager {
                     appRouter,
                     inputManager,
                     toast,
-                    confirm
+                    confirm,
+                    dashboard,
+                    ServerConnections
                 });
             } else {
                 console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
@@ -115,9 +119,14 @@ class PluginManager {
     }
 
     ofType(type) {
-        return this.pluginsList.filter((o) => {
-            return o.type === type;
-        });
+        return this.pluginsList.filter(plugin => plugin.type === type);
+    }
+
+    firstOfType(type) {
+        // Get all plugins of the specified type
+        return this.ofType(type)
+            // Return the plugin with the "highest" (lowest numeric value) priority
+            .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0];
     }
 
     #mapRoute(plugin, route) {

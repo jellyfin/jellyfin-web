@@ -19,13 +19,17 @@ const Sort: FC<SortProps> = ({
     const element = useRef<HTMLDivElement>(null);
 
     const showSortMenu = useCallback(() => {
-        import('../sortmenu/sortmenu').then(({default: SortMenu}) => {
+        import('../sortmenu/sortmenu').then(({ default: SortMenu }) => {
             const sortMenu = new SortMenu();
             sortMenu.show({
                 settings: viewQuerySettings,
                 sortOptions: getSortMenuOptions(),
                 setSortValues: setViewQuerySettings
+            }).catch(() => {
+                // sort menu closed
             });
+        }).catch(err => {
+            console.error('[Sort] failed to load sort menu', err);
         });
     }, [getSortMenuOptions, viewQuerySettings, setViewQuerySettings]);
 

@@ -12,6 +12,7 @@ override_dh_clistrip:
 
 override_dh_auto_build:
 	npm ci --no-audit --unsafe-perm
+	npm run build:production
 	mv $(CURDIR)/dist $(CURDIR)/web
 
 override_dh_auto_clean:

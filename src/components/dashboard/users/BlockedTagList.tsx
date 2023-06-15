@@ -3,9 +3,9 @@ import IconButtonElement from '../../../elements/IconButtonElement';
 
 type IProps = {
     tag?: string;
-}
+};
 
-const BlockedTagList: FunctionComponent<IProps> = ({tag}: IProps) => {
+const BlockedTagList: FunctionComponent<IProps> = ({ tag }: IProps) => {
     return (
         <div className='paperList'>
             <div className='listItem'>

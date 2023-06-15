@@ -16,6 +16,8 @@ function loadPage(page, config) {
     page.querySelector('#txtSeriesRecordingPath').value = config.SeriesRecordingPath || '';
     page.querySelector('#txtPostProcessor').value = config.RecordingPostProcessor || '';
     page.querySelector('#txtPostProcessorArguments').value = config.RecordingPostProcessorArguments || '';
+    page.querySelector('#chkSaveRecordingNFO').checked = config.SaveRecordingNFO;
+    page.querySelector('#chkSaveRecordingImages').checked = config.SaveRecordingImages;
     loading.hide();
 }
 
@@ -36,6 +38,8 @@ function onSubmit() {
         config.PostPaddingSeconds = 60 * $('#txtPostPaddingMinutes', form).val();
         config.RecordingPostProcessor = $('#txtPostProcessor', form).val();
         config.RecordingPostProcessorArguments = $('#txtPostProcessorArguments', form).val();
+        config.SaveRecordingNFO = form.querySelector('#chkSaveRecordingNFO').checked;
+        config.SaveRecordingImages = form.querySelector('#chkSaveRecordingImages').checked;
         ApiClient.updateNamedConfiguration('livetv', config).then(function () {
             Dashboard.processServerConfigurationUpdateResult();
             showSaveMessage(recordingPathChanged);
@@ -60,7 +64,7 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
     const page = this;
     $('.liveTvSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
     $('#btnSelectRecordingPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+        import('../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
@@ -75,7 +79,7 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
         });
     });
     $('#btnSelectMovieRecordingPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+        import('../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
@@ -90,7 +94,7 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
         });
     });
     $('#btnSelectSeriesRecordingPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+        import('../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
@@ -105,7 +109,7 @@ $(document).on('pageinit', '#liveTvSettingsPage', function () {
         });
     });
     $('#btnSelectPostProcessorPath', page).on('click.selectDirectory', function () {
-        import('../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
+        import('../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 includeFiles: true,

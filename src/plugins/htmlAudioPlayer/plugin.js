@@ -3,6 +3,7 @@ import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 function getDefaultProfile() {
@@ -47,7 +48,10 @@ function supportsFade() {
 }
 
 function requireHlsPlayer(callback) {
-    import('hls.js').then(({ default: hls }) => {
+    import('hls.js/dist/hls.js').then(({ default: hls }) => {
+        hls.DefaultConfig.lowLatencyMode = false;
+        hls.DefaultConfig.backBufferLength = Infinity;
+        hls.DefaultConfig.liveBackBufferLength = 90;
         window.Hls = hls;
         callback();
     });
@@ -85,7 +89,7 @@ class HtmlAudioPlayer {
         const self = this;
 
         self.name = 'Html Audio Player';
-        self.type = 'mediaplayer';
+        self.type = PluginType.MediaPlayer;
         self.id = 'htmlaudioplayer';
 
         // Let any players created by plugins take priority
@@ -97,6 +101,7 @@ class HtmlAudioPlayer {
             self._currentTime = null;
 
             const elem = createMediaElement();
+
             return setCurrentSrc(elem, options);
         };
 
@@ -106,6 +111,17 @@ class HtmlAudioPlayer {
 
             let val = options.url;
             console.debug('playing url: ' + val);
+            import('../../scripts/settings/userSettings').then((userSettings) => {
+                if (userSettings.enableAudioNormalization() && options.item.LUFS != null) {
+                    const dbGain = -18 - options.item.LUFS;
+                    self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
+                } else {
+                    self.gainNode.gain.value = 1;
+                }
+                console.debug('gain:' + self.gainNode.gain.value);
+            }).catch((err) => {
+                console.error('Failed to add/change gainNode', err);
+            });
 
             // Convert to seconds
             const seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -241,7 +257,27 @@ class HtmlAudioPlayer {
 
             self._mediaElement = elem;
 
+            addGainElement(elem);
+
             return elem;
+        }
+
+        function addGainElement(elem) {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
+
+                const audioCtx = new AudioContext();
+                const source = audioCtx.createMediaElementSource(elem);
+
+                const gainNode = audioCtx.createGain();
+
+                source.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                self.gainNode = gainNode;
+            } catch (e) {
+                console.error('Web Audio API is not supported in this browser', e);
+            }
         }
 
         function onEnded() {

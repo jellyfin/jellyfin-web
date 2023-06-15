@@ -74,6 +74,14 @@
 
         <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
+                <input type="checkbox" is="emby-checkbox" class="chkEnableAudioNormalization" />
+                <span>${EnableAudioNormalization}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${EnableAudioNormalizationHelp}</div>
+        </div>
+
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
                 <input type="checkbox" is="emby-checkbox" class="chkPreferFmp4HlsContainer" />
                 <span>${PreferFmp4HlsContainer}</span>
             </label>
@@ -88,7 +96,7 @@
             <div class="fieldDescription checkboxFieldDescription">${CinemaModeConfigurationHelp}</div>
         </div>
 
-        <div class="checkboxContainer fldEpisodeAutoPlay hide">
+        <div class="checkboxContainer fldEpisodeAutoPlay">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkEpisodeAutoPlay" />
                 <span>${PlayNextEpisodeAutomatically}</span>
@@ -102,7 +110,7 @@
             </label>
             <div class="fieldDescription checkboxFieldDescription">${RememberAudioSelectionsHelp}</div>
         </div>
-        
+
         <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkRememberSubtitleSelections" />

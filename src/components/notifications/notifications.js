@@ -2,6 +2,7 @@ import serverNotifications from '../../scripts/serverNotifications';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import globalize from '../../scripts/globalize';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
 import NotificationIcon from './notificationicon.png';
 
@@ -130,7 +131,7 @@ function onLibraryChanged(data, apiClient) {
         newItems.length = 12;
     }
 
-    apiClient.getItems(apiClient.getCurrentUserId(), {
+    getItems(apiClient, apiClient.getCurrentUserId(), {
 
         Recursive: true,
         Limit: 3,

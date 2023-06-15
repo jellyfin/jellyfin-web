@@ -12,17 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify as seen
-        uses: peter-evans/create-or-update-comment@5adcb0bb0f9fb3f95ef05400558bdb3f329ee808 # tag=v2.1.0
+        uses: peter-evans/create-or-update-comment@ca08ebd5dc95aa0cd97021e9708fcd6b87138c9b # v3.0.1
         with:
           token: ${{ secrets.JF_BOT_TOKEN }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
       - name: Checkout the latest code
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3.1.0
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           token: ${{ secrets.JF_BOT_TOKEN }}
           fetch-depth: 0
       - name: Automatic Rebase
-        uses: cirrus-actions/rebase@6e572f08c244e2f04f9beb85a943eb618218714d # tag=1.7
+        uses: cirrus-actions/rebase@b87d48154a87a85666003575337e27b8cd65f691 # 1.8
         env:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+      - name: Comment on failure
+        if: failure()
+        uses: peter-evans/create-or-update-comment@ca08ebd5dc95aa0cd97021e9708fcd6b87138c9b # v3.0.1
+        with:
+          token: ${{ secrets.JF_BOT_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            I'm sorry @${{ github.event.comment.user.login }}, I'm afraid I can't do that.

@@ -111,7 +111,7 @@
                                 <span>${EnableIntelLowPowerHevcHwEncoder}</span>
                             </label>
                             <div class="fieldDescription">
-                                <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://01.org/linuxgraphics/downloads/firmware" target="_blank">${IntelLowPowerEncHelp}</a>
+                                <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://jellyfin.org/docs/general/administration/hardware-acceleration/intel#configure-and-verify-lp-mode-on-linux" target="_blank">${IntelLowPowerEncHelp}</a>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectTonemappingAlgorithm" label="${LabelTonemappingAlgorithm}">
-                            <option value="none">None</option>
+                            <option value="none">${None}</option>
                             <option value="clip">Clip</option>
                             <option value="linear">Linear</option>
                             <option value="gamma">Gamma</option>
@@ -168,6 +168,14 @@
                         </div>
                     </div>
                     <div class="selectContainer">
+                        <select is="emby-select" id="selectTonemappingMode" label="${LabelTonemappingMode}">
+                            <option value="auto">${Auto}</option>
+                            <option value="max">MAX</option>
+                            <option value="rgb">RGB</option>
+                        </select>
+                        <div class="fieldDescription">${TonemappingModeHelp}</div>
+                    </div>
+                    <div class="selectContainer">
                         <select is="emby-select" id="selectTonemappingRange" label="${LabelTonemappingRange}">
                             <option value="auto">${Auto}</option>
                             <option value="tv">TV</option>
@@ -178,10 +186,6 @@
                     <div class="inputContainer">
                         <input is="emby-input" type="number" id="txtTonemappingDesat" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingDesat}" />
                         <div class="fieldDescription">${LabelTonemappingDesatHelp}</div>
-                    </div>
-                    <div class="inputContainer">
-                        <input is="emby-input" type="number" id="txtTonemappingThreshold" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingThreshold}" />
-                        <div class="fieldDescription">${LabelTonemappingThresholdHelp}</div>
                     </div>
                     <div class="inputContainer">
                         <input is="emby-input" type="number" id="txtTonemappingPeak" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingPeak}" />
@@ -253,9 +257,24 @@
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${EnableFallbackFontHelp}</div>
                 </div>
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableAudioVbr" />
+                        <span>${LabelEnableAudioVbr}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${LabelEnableAudioVbrHelp}</div>
+                </div>
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtDownMixAudioBoost" pattern="[0-9]*" required="required" min=".5" max="3" step=".1" label="${LabelDownMixAudioScale}" />
                     <div class="fieldDescription">${LabelDownMixAudioScaleHelp}</div>
+                </div>
+                <div class="selectContainer">
+                    <select is="emby-select" id="selectStereoDownmixAlgorithm" label="${LabelStereoDownmixAlgorithm}">
+                        <option value="None">${None}</option>
+                        <option value="Dave750">Dave750</option>
+                        <option value="NightmodeDialogue">NightmodeDialogue</option>
+                    </select>
+                    <div class="fieldDescription">${StereoDownmixAlgorithmHelp}</div>
                 </div>
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtMaxMuxingQueueSize" pattern="[0-9]*" required="required" min="128" max="2147483647" step="1" label="${LabelMaxMuxingQueueSize}" />

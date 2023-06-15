@@ -6,13 +6,17 @@ const NewCollection: FC = () => {
     const element = useRef<HTMLDivElement>(null);
 
     const showCollectionEditor = useCallback(() => {
-        import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+        import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
             const serverId = window.ApiClient.serverId();
             const collectionEditor = new CollectionEditor();
             collectionEditor.show({
                 items: [],
                 serverId: serverId
+            }).catch(() => {
+                // closed collection editor
             });
+        }).catch(err => {
+            console.error('[NewCollection] failed to load collection editor', err);
         });
     }, []);
 

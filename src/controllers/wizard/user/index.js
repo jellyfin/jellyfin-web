@@ -1,6 +1,6 @@
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
-import '../../../assets/css/dashboard.scss';
+import '../../../styles/dashboard.scss';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
@@ -11,27 +11,40 @@ function getApiClient() {
 }
 
 function nextWizardPage() {
-    Dashboard.navigate('wizardlibrary.html');
+    Dashboard.navigate('wizardlibrary.html')
+        .catch(err => {
+            console.error('[Wizard > User] error navigating to library setup', err);
+        });
 }
 
 function onUpdateUserComplete(result) {
-    console.debug('user update complete: ' + result);
+    console.debug('[Wizard > User] user update complete:', result);
     loading.hide();
     nextWizardPage();
+}
+
+async function onUpdateUserError(result) {
+    const message = await result.text();
+    console.warn('[Wizard > User] user update failed:', message);
+    toast(globalize.translate('ErrorDefault'));
+    loading.hide();
 }
 
 function submit(form) {
     loading.show();
     const apiClient = getApiClient();
-    apiClient.ajax({
-        type: 'POST',
-        data: JSON.stringify({
-            Name: form.querySelector('#txtUsername').value,
-            Password: form.querySelector('#txtManualPassword').value
-        }),
-        url: apiClient.getUrl('Startup/User'),
-        contentType: 'application/json'
-    }).then(onUpdateUserComplete);
+    apiClient
+        .ajax({
+            type: 'POST',
+            data: JSON.stringify({
+                Name: form.querySelector('#txtUsername').value,
+                Password: form.querySelector('#txtManualPassword').value
+            }),
+            url: apiClient.getUrl('Startup/User'),
+            contentType: 'application/json'
+        })
+        .then(onUpdateUserComplete)
+        .catch(onUpdateUserError);
 }
 
 function onSubmit(e) {

@@ -16,13 +16,17 @@ const SelectView: FC<SelectViewProps> = ({
     const element = useRef<HTMLDivElement>(null);
 
     const showViewSettingsMenu = useCallback(() => {
-        import('../viewSettings/viewSettings').then(({default: ViewSettings}) => {
+        import('../viewSettings/viewSettings').then(({ default: ViewSettings }) => {
             const viewsettings = new ViewSettings();
             viewsettings.show({
                 settings: viewQuerySettings,
                 visibleSettings: getVisibleViewSettings(),
                 setviewsettings: setViewQuerySettings
+            }).catch(() => {
+                // view settings closed
             });
+        }).catch(err => {
+            console.error('[SelectView] failed to load view settings', err);
         });
     }, [getVisibleViewSettings, viewQuerySettings, setViewQuerySettings]);
 

@@ -1,0 +1,96 @@
+.editPageSidebar {
+    display: block;
+}
+
+.editPageSidebar-withcontent {
+    display: none;
+}
+
+.libraryTree {
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
+}
+
+.offlineEditorNode {
+    color: #c33;
+}
+
+.editorNode img {
+    height: 18px;
+    margin: 0 0.35em;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+.jstree-anchor {
+    font-weight: 400 !important;
+}
+
+.jstree-wholerow-hovered {
+    background: #38c !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.jstree-default .jstree-hovered {
+    background: 0 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: #fff !important;
+}
+
+.jstree-default .jstree-wholerow-clicked {
+    background: #00a4dc !important;
+}
+
+.metadataSidebarIcon {
+    margin-right: 0.4em;
+}
+
+@media all and (min-width: 50em) {
+    .editPageSidebar {
+        position: fixed;
+        top: 5.2em;
+        bottom: 0;
+        width: 30%;
+        display: block;
+
+        [dir="ltr"] & {
+            left: 0;
+            border-right: 1px solid #555;
+        }
+
+        [dir="rtl"] & {
+            right: 0;
+            border-left: 1px solid #555;
+        }
+    }
+
+    .editPageInnerContent {
+        width: 68.5%;
+
+        [dir="ltr"] & {
+            float: right;
+        }
+
+        [dir="rtl"] & {
+            float: left;
+        }
+    }
+}
+
+@media all and (min-width: 112.5em) {
+    .editPageSidebar {
+        width: 25%;
+    }
+
+    .editPageInnerContent {
+        width: 73.5%;
+    }
+}

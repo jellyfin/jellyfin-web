@@ -3,6 +3,7 @@
  * @module components/input/keyboardnavigation
  */
 
+import browser from './browser';
 import inputManager from './inputManager';
 import layoutManager from '../components/layoutManager';
 import appSettings from './settings/appSettings';
@@ -44,6 +45,16 @@ const KeyNames = {
  */
 const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
+/**
+ * Elements for which navigation should be constrained.
+ */
+const InteractiveElements = ['INPUT', 'TEXTAREA'];
+
+/**
+ * Types of INPUT element for which navigation shouldn't be constrained.
+ */
+const NonInteractiveInputElements = ['button', 'checkbox', 'color', 'file', 'hidden', 'image', 'radio', 'reset', 'submit'];
+
 let hasFieldKey = false;
 try {
     hasFieldKey = 'key' in new KeyboardEvent('keydown');
@@ -78,6 +89,24 @@ export function isNavigationKey(key) {
     return NavigationKeys.indexOf(key) != -1;
 }
 
+/**
+ * Returns _true_ if the element is interactive.
+ *
+ * @param {Element} element - Element.
+ * @return {boolean} _true_ if the element is interactive.
+ */
+export function isInteractiveElement(element) {
+    if (element && InteractiveElements.includes(element.tagName)) {
+        if (element.tagName === 'INPUT') {
+            return !NonInteractiveInputElements.includes(element.type);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
 export function enable() {
     window.addEventListener('keydown', function (e) {
         const key = getKeyName(e);
@@ -91,13 +120,21 @@ export function enable() {
 
         switch (key) {
             case 'ArrowLeft':
-                inputManager.handleCommand('left');
+                if (!isInteractiveElement(document.activeElement)) {
+                    inputManager.handleCommand('left');
+                } else {
+                    capture = false;
+                }
                 break;
             case 'ArrowUp':
                 inputManager.handleCommand('up');
                 break;
             case 'ArrowRight':
-                inputManager.handleCommand('right');
+                if (!isInteractiveElement(document.activeElement)) {
+                    inputManager.handleCommand('right');
+                } else {
+                    capture = false;
+                }
                 break;
             case 'ArrowDown':
                 inputManager.handleCommand('down');
@@ -105,6 +142,15 @@ export function enable() {
 
             case 'Back':
                 inputManager.handleCommand('back');
+                break;
+
+            // HACK: Hisense TV (VIDAA OS) uses Backspace for Back action
+            case 'Backspace':
+                if (browser.tv && browser.hisense && browser.vidaa) {
+                    inputManager.handleCommand('back');
+                } else {
+                    capture = false;
+                }
                 break;
 
             case 'Escape':
@@ -156,7 +202,6 @@ export function enable() {
 function attachGamepadScript() {
     console.log('Gamepad connected! Attaching gamepadtokey.js script');
     window.removeEventListener('gamepadconnected', attachGamepadScript);
-    /* eslint-disable-next-line  @babel/no-unused-expressions */
     import('./gamepadtokey');
 }
 

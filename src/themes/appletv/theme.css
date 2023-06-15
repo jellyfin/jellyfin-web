@@ -51,14 +51,10 @@ html {
 .nowPlayingPlaylist,
 .nowPlayingContextMenu {
     background: #d5e9f2;
-    -webkit-background-size: 100% 100%;
     background-size: 100% 100%;
 }
 
 .backgroundContainer.withBackdrop {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(192, 212, 222, 0.94)), color-stop(rgba(235, 250, 254, 0.94)), color-stop(rgba(227, 220, 212, 0.94)), color-stop(rgba(206, 214, 216, 0.94)), to(rgba(192, 211, 218, 0.94)));
-    background: -webkit-linear-gradient(top, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
-    background: -o-linear-gradient(top, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
     background: linear-gradient(to bottom, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
 }
 
@@ -209,9 +205,6 @@ a[data-role=button] {
 .playlistSectionButton {
     color: rgba(0, 0, 0, 0.7);
     background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
-    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
-    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
     background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
 }
 
@@ -294,7 +287,6 @@ a[data-role=button] {
     color: inherit;
     background: rgba(255, 255, 255, 0.9);
     border: 0.16em solid rgba(0, 0, 0, 0.158);
-    -webkit-border-radius: 0.2em;
     border-radius: 0.2em;
 }
 
@@ -460,7 +452,6 @@ a[data-role=button] {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    -webkit-border-radius: 0.25em;
     border-radius: 0.25em;
 }
 

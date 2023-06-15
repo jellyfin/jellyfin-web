@@ -12,15 +12,15 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
             }, true);
 
             const opts = Object.defineProperty({}, 'preventScroll', {
-                // eslint-disable-next-line getter-return
                 get: function () {
                     supportsPreventScrollOption = true;
+                    return null;
                 }
             });
 
             focusElem.focus(opts);
-        } catch (e) {
-            console.error('error checking preventScroll support');
+        } catch {
+            // no preventScroll supported
         }
 
         if (!supportsPreventScrollOption) {

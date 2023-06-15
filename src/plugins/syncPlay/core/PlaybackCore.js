@@ -133,9 +133,9 @@ class PlaybackCore {
      */
     async sendBufferingRequest(isBuffering = true) {
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPosition = (playerWrapper.currentTimeAsync
-            ? await playerWrapper.currentTimeAsync()
-            : playerWrapper.currentTime());
+        const currentPosition = (playerWrapper.currentTimeAsync ?
+            await playerWrapper.currentTimeAsync() :
+            playerWrapper.currentTime());
         const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
         const isPlaying = playerWrapper.isPlaying();
 
@@ -172,11 +172,11 @@ class PlaybackCore {
      */
     async applyCommand(command) {
         // Check if duplicate.
-        if (this.lastCommand &&
-            this.lastCommand.When.getTime() === command.When.getTime() &&
-            this.lastCommand.PositionTicks === command.PositionTicks &&
-            this.lastCommand.Command === command.Command &&
-            this.lastCommand.PlaylistItemId === command.PlaylistItemId
+        if (this.lastCommand
+            && this.lastCommand.When.getTime() === command.When.getTime()
+            && this.lastCommand.PositionTicks === command.PositionTicks
+            && this.lastCommand.Command === command.Command
+            && this.lastCommand.PlaylistItemId === command.PlaylistItemId
         ) {
             // Duplicate command found, check playback state and correct if needed.
             console.debug('SyncPlay applyCommand: duplicate command received!', command);
@@ -192,9 +192,9 @@ class PlaybackCore {
             } else {
                 // Check if playback state matches requested command.
                 const playerWrapper = this.manager.getPlayerWrapper();
-                const currentPositionTicks = Math.round((playerWrapper.currentTimeAsync
-                    ? await playerWrapper.currentTimeAsync()
-                    : playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
+                const currentPositionTicks = Math.round((playerWrapper.currentTimeAsync ?
+                    await playerWrapper.currentTimeAsync() :
+                    playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
                 const isPlaying = playerWrapper.isPlaying();
 
                 switch (command.Command) {
@@ -279,9 +279,9 @@ class PlaybackCore {
         const playAtTimeLocal = this.timeSyncCore.remoteDateToLocal(playAtTime);
 
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPositionTicks = (playerWrapper.currentTimeAsync
-            ? await playerWrapper.currentTimeAsync()
-            : playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
+        const currentPositionTicks = (playerWrapper.currentTimeAsync ?
+            await playerWrapper.currentTimeAsync() :
+            playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
 
         if (playAtTimeLocal > currentTime) {
             const playTimeout = playAtTimeLocal - currentTime;

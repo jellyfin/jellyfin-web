@@ -174,9 +174,9 @@ class QueueCore {
 
             const currentTime = new Date();
             const now = this.manager.timeSyncCore.localDateToRemote(currentTime);
-            const currentPosition = (playerWrapper.currentTimeAsync
-                ? await playerWrapper.currentTimeAsync()
-                : playerWrapper.currentTime());
+            const currentPosition = (playerWrapper.currentTimeAsync ?
+                await playerWrapper.currentTimeAsync() :
+                playerWrapper.currentTime());
             const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
             const isPlaying = playerWrapper.isPlaying();
 

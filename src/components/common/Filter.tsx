@@ -22,7 +22,7 @@ const Filter: FC<FilterProps> = ({
     const element = useRef<HTMLDivElement>(null);
 
     const showFilterMenu = useCallback(() => {
-        import('../filtermenu/filtermenu').then(({default: FilterMenu}) => {
+        import('../filtermenu/filtermenu').then(({ default: FilterMenu }) => {
             const filterMenu = new FilterMenu();
             filterMenu.show({
                 settings: viewQuerySettings,
@@ -32,7 +32,11 @@ const Filter: FC<FilterProps> = ({
                 serverId: window.ApiClient.serverId(),
                 filterMenuOptions: getFilterMenuOptions(),
                 setfilters: setViewQuerySettings
+            }).catch(() => {
+                // filter menu closed
             });
+        }).catch(err => {
+            console.error('[Filter] failed to load filter menu', err);
         });
     }, [viewQuerySettings, getVisibleFilters, topParentId, getItemTypes, getFilterMenuOptions, setViewQuerySettings]);
 

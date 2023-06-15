@@ -9,7 +9,7 @@ type AccessScheduleListProps = {
     DayOfWeek?: string;
     StartHour?: number ;
     EndHour?: number;
-}
+};
 
 function getDisplayTime(hours = 0) {
     let minutes = 0;
@@ -22,7 +22,7 @@ function getDisplayTime(hours = 0) {
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
-const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({index, DayOfWeek, StartHour, EndHour}: AccessScheduleListProps) => {
+const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour }: AccessScheduleListProps) => {
     return (
         <div
             className='liSchedule listItem'

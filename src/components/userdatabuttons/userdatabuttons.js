@@ -9,12 +9,13 @@ import ServerConnections from '../ServerConnections';
 
 const userDataMethods = {
     markPlayed: markPlayed,
-    markDislike: markDislike,
-    markLike: markLike,
     markFavorite: markFavorite
 };
 
-function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCssClass, icon, tooltip, style) {
+function getUserDataButtonHtml(method, itemId, serverId, icon, tooltip, style, classes) {
+    let buttonCssClass = classes.buttonCssClass;
+    let iconCssClass = classes.iconCssClass;
+
     if (style === 'fab-mini') {
         style = 'fab';
         buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
@@ -98,7 +99,7 @@ function getIconsHtml(options) {
     }
 
     const iconCssClass = options.iconCssClass;
-
+    const classes = { buttonCssClass: btnCssClass, iconCssClass: iconCssClass };
     const serverId = item.ServerId;
 
     if (includePlayed !== false) {
@@ -106,18 +107,21 @@ function getIconsHtml(options) {
 
         if (itemHelper.canMarkPlayed(item)) {
             if (userData.Played) {
-                html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass + ' btnUserDataOn', iconCssClass, 'check', tooltipPlayed, style);
+                const buttonCssClass = classes.buttonCssClass + ' btnUserDataOn';
+                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, { buttonCssClass, ...classes });
             } else {
-                html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass, iconCssClass, 'check', tooltipPlayed, style);
+                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, classes);
             }
         }
     }
 
     const tooltipFavorite = globalize.translate('Favorite');
     if (userData.IsFavorite) {
-        html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData btnUserDataOn', iconCssClass, 'favorite', tooltipFavorite, style);
+        const buttonCssClass = classes.buttonCssClass + ' btnUserData btnUserDataOn';
+        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, { buttonCssClass, ...classes });
     } else {
-        html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData', iconCssClass, 'favorite', tooltipFavorite, style);
+        classes.buttonCssClass += ' btnUserData';
+        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, classes);
     }
 
     return html;
@@ -138,40 +142,6 @@ function markFavorite(link) {
     }
 }
 
-function markLike(link) {
-    const id = link.getAttribute('data-itemid');
-    const serverId = link.getAttribute('data-serverid');
-
-    if (!link.classList.contains('btnUserDataOn')) {
-        likes(id, serverId, true);
-
-        link.classList.add('btnUserDataOn');
-    } else {
-        clearLike(id, serverId);
-
-        link.classList.remove('btnUserDataOn');
-    }
-
-    link.parentNode.querySelector('.btnDislike').classList.remove('btnUserDataOn');
-}
-
-function markDislike(link) {
-    const id = link.getAttribute('data-itemid');
-    const serverId = link.getAttribute('data-serverid');
-
-    if (!link.classList.contains('btnUserDataOn')) {
-        likes(id, serverId, false);
-
-        link.classList.add('btnUserDataOn');
-    } else {
-        clearLike(id, serverId);
-
-        link.classList.remove('btnUserDataOn');
-    }
-
-    link.parentNode.querySelector('.btnLike').classList.remove('btnUserDataOn');
-}
-
 function markPlayed(link) {
     const id = link.getAttribute('data-itemid');
     const serverId = link.getAttribute('data-serverid');
@@ -187,11 +157,6 @@ function markPlayed(link) {
     }
 }
 
-function likes(id, serverId, isLiked) {
-    const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.updateUserItemRating(apiClient.getCurrentUserId(), id, isLiked);
-}
-
 function played(id, serverId, isPlayed) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -204,12 +169,6 @@ function favorite(id, serverId, isFavorite) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
     return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, isFavorite);
-}
-
-function clearLike(id, serverId) {
-    const apiClient = ServerConnections.getApiClient(serverId);
-
-    return apiClient.clearUserItemRating(apiClient.getCurrentUserId(), id);
 }
 
 export default {

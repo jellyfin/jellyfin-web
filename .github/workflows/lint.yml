@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
       - name: Setup node environment
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: 16
           check-latest: true
@@ -24,8 +24,6 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
-        env:
-          SKIP_PREPARE: true
 
       - name: Run a production build
         run: npm run build:production
@@ -39,10 +37,10 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
       - name: Setup node environment
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: 16
           check-latest: true
@@ -50,8 +48,6 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
-        env:
-          SKIP_PREPARE: true
 
       - name: Run eslint
         run: npm run lint
@@ -62,10 +58,10 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
       - name: Setup node environment
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: 16
           check-latest: true
@@ -76,8 +72,6 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
-        env:
-          SKIP_PREPARE: true
 
       - name: Run stylelint
         run: npm run stylelint:css
@@ -88,10 +82,10 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
       - name: Setup node environment
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: 16
           check-latest: true
@@ -102,8 +96,6 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci --no-audit
-        env:
-          SKIP_PREPARE: true
 
       - name: Run stylelint
         run: npm run stylelint:scss

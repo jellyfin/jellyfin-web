@@ -1,5 +1,5 @@
 import debounce from 'lodash-es/debounce';
-import React, { FunctionComponent, useEffect, useMemo, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import AlphaPicker from '../alphaPicker/AlphaPickerComponent';
 import globalize from '../../scripts/globalize';
@@ -7,7 +7,7 @@ import globalize from '../../scripts/globalize';
 import 'material-design-icons-iconfont';
 
 import '../../elements/emby-input/emby-input';
-import '../../assets/css/flexstyles.scss';
+import '../../styles/flexstyles.scss';
 import './searchfields.scss';
 import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';
@@ -53,7 +53,7 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
         };
     }, [debouncedOnSearch]);
 
-    const onAlphaPicked = (e: Event) => {
+    const onAlphaPicked = useCallback((e: Event) => {
         const value = (e as CustomEvent).detail.value;
         const searchInput = getSearchInput();
 
@@ -70,7 +70,7 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
         }
 
         searchInput.dispatchEvent(new CustomEvent('input', { bubbles: true }));
-    };
+    }, []);
 
     return (
         <div
@@ -85,8 +85,8 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
                     dangerouslySetInnerHTML={createInputElement()}
                 />
             </div>
-            {layoutManager.tv && !browser.tv &&
-                <AlphaPicker onAlphaPicked={onAlphaPicked} />
+            {layoutManager.tv && !browser.tv
+                && <AlphaPicker onAlphaPicked={onAlphaPicked} />
             }
         </div>
     );

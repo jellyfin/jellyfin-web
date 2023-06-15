@@ -1,0 +1,21 @@
+{
+    "Favorites": "পছন্দসমূহ",
+    "Albums": "অ্যালবামসমূহ",
+    "Artists": "শিল্পীগণ",
+    "Books": "পুস্তকসমূহ",
+    "Channels": "চ্যানেলসমূহ",
+    "Collections": "সংগ্রহশালা",
+    "Folders": "ফোল্ডারসমূহ",
+    "Genres": "শৈলীধারাসমূহ",
+    "HeaderAlbumArtists": "অ্যালবাম শিল্পীবৃন্দ",
+    "HeaderContinueWatching": "দেখতে থাকুন",
+    "Movies": "চলচ্চিত্রসমূহ",
+    "MusicVideos": "সঙ্গীত ভিডিয়ো সমূহ",
+    "Photos": "চিত্রসমূহ",
+    "Playlists": "প্লে লিস্ট সমূহ",
+    "Songs": "সঙ্গীতসমূহ",
+    "Sync": "সমলয় স্থাপন",
+    "ValueSpecialEpisodeName": "বিশেষ পর্ব - {0}",
+    "Default": "ডিফল্ট",
+    "Shows": "টিভি পর্ব"
+}

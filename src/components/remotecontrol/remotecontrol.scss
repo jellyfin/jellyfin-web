@@ -3,14 +3,8 @@
 }
 
 .nowPlayingInfoContainer {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
@@ -65,7 +59,6 @@
 
 .infoContainer,
 .sliderContainer {
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
@@ -85,27 +78,19 @@
 }
 
 .nowPlayingInfoButtons {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
 .nowPlayingInfoControls,
 .nowPlayingTime {
     display: flex;
-    display: -webkit-box;
-    display: -webkit-flex;
 }
 
 .nowPlayingPageImageContainer {
     width: 16%;
     position: relative;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 
     [dir="ltr"] & {
@@ -138,16 +123,9 @@
 }
 
 .nowPlayingInfoControls {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
 }
 
@@ -158,14 +136,9 @@
     right: 0;
     margin: 0 auto;
     width: 100%;
-    -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
     border-radius: 0.2em;
     user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }
 
 .contextMenuList {
@@ -307,12 +280,7 @@
     }
 
     .nowPlayingInfoContainer {
-        -webkit-box-orient: vertical !important;
-        -webkit-box-direction: normal !important;
-        -webkit-flex-direction: column !important;
         flex-direction: column !important;
-        -webkit-box-align: center;
-        -webkit-align-items: center;
         align-items: center;
         width: 100%;
         height: calc(100% - 4.2em);
@@ -339,8 +307,6 @@
     }
 
     .nowPlayingInfoButtons {
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
         justify-content: center;
         font-size: 1.5em;
         margin-left: -0.5em;
@@ -369,14 +335,10 @@
         flex-shrink: 1;
         margin: 0.5em 0 0;
         width: 100%;
-        -webkit-box-pack: start !important;
-        -webkit-justify-content: start !important;
         justify-content: start !important;
     }
 
     .nowPlayingSecondaryButtons {
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
         justify-content: center;
     }
 
@@ -467,8 +429,6 @@
 
 .nowPlayingTime {
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     margin: 0 1em;
 }
@@ -479,13 +439,11 @@
 
 .smallBackdropPosterItem .cardOverlayInner > div {
     white-space: nowrap;
-    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
 .playlistIndexIndicatorImage {
-    -webkit-background-size: initial initial !important;
     background-size: initial !important;
     background-image: url(../../assets/img/equalizer.gif) !important;
 }

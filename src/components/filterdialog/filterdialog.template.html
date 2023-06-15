@@ -23,15 +23,6 @@
                         data-filter="IsFavorite" />
                     <span>${Favorites}</span>
                 </label>
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkLikes" data-filter="Likes" />
-                    <span>${OptionLikes}</span>
-                </label>
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkDislikes"
-                        data-filter="Dislikes" />
-                    <span>${OptionDislikes}</span>
-                </label>
                 <label class="episodeFilter hide">
                     <input type="checkbox" is="emby-checkbox" id="chkSpecialEpisode" />
                     <span>${OptionSpecialEpisode}</span>
@@ -58,6 +49,10 @@
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Ended" />
                     <span>${Ended}</span>
+                </label>
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Unreleased" />
+                    <span>${Unreleased}</span>
                 </label>
             </div>
         </div>
