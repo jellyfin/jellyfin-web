@@ -45,7 +45,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
     open,
     onMenuClose
 }) => {
-    const [ SyncPlay, setSyncPlay ] = useState<SyncPlayInstance>();
+    const [ syncPlay, setSyncPlay ] = useState<SyncPlayInstance>();
     const { __legacyApiClient__, api, user } = useApi();
     const [ groups, setGroups ] = useState<GroupInfoDto[]>([]);
     const [ currentGroup, setCurrentGroup ] = useState<GroupInfoDto>();
@@ -113,13 +113,13 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
     }, [ api, onMenuClose ]);
 
     const onGroupSettingsClick = useCallback(async () => {
-        if (!SyncPlay) return;
+        if (!syncPlay) return;
 
         // TODO: Rewrite settings UI
         const SyncPlaySettingsEditor = (await import('../../../../../plugins/syncPlay/ui/settings/SettingsEditor')).default;
         new SyncPlaySettingsEditor(
             __legacyApiClient__,
-            SyncPlay.Manager.getTimeSyncCore(),
+            syncPlay.Manager.getTimeSyncCore(),
             {
                 groupInfo: currentGroup
             })
@@ -131,43 +131,43 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             });
 
         onMenuClose();
-    }, [ __legacyApiClient__, currentGroup, onMenuClose, SyncPlay ]);
+    }, [ __legacyApiClient__, currentGroup, onMenuClose, syncPlay ]);
 
     const onStartGroupPlaybackClick = useCallback(() => {
         if (__legacyApiClient__) {
-            SyncPlay?.Manager.resumeGroupPlayback(__legacyApiClient__);
+            syncPlay?.Manager.resumeGroupPlayback(__legacyApiClient__);
             onMenuClose();
         }
-    }, [ __legacyApiClient__, onMenuClose, SyncPlay ]);
+    }, [ __legacyApiClient__, onMenuClose, syncPlay ]);
 
     const onStopGroupPlaybackClick = useCallback(() => {
         if (__legacyApiClient__) {
-            SyncPlay?.Manager.haltGroupPlayback(__legacyApiClient__);
+            syncPlay?.Manager.haltGroupPlayback(__legacyApiClient__);
             onMenuClose();
         }
-    }, [ __legacyApiClient__, onMenuClose, SyncPlay ]);
+    }, [ __legacyApiClient__, onMenuClose, syncPlay ]);
 
     const updateSyncPlayGroup = useCallback((_e, enabled) => {
-        if (SyncPlay && enabled) {
-            setCurrentGroup(SyncPlay.Manager.getGroupInfo() ?? undefined);
+        if (syncPlay && enabled) {
+            setCurrentGroup(syncPlay.Manager.getGroupInfo() ?? undefined);
         } else {
             setCurrentGroup(undefined);
         }
-    }, [ SyncPlay ]);
+    }, [ syncPlay ]);
 
     useEffect(() => {
-        if (!SyncPlay) return;
+        if (!syncPlay) return;
 
-        Events.on(SyncPlay.Manager, 'enabled', updateSyncPlayGroup);
+        Events.on(syncPlay.Manager, 'enabled', updateSyncPlayGroup);
 
         return () => {
-            Events.off(SyncPlay.Manager, 'enabled', updateSyncPlayGroup);
+            Events.off(syncPlay.Manager, 'enabled', updateSyncPlayGroup);
         };
-    }, [ updateSyncPlayGroup, SyncPlay ]);
+    }, [ updateSyncPlayGroup, syncPlay ]);
 
     const menuItems = [];
     if (isSyncPlayEnabled) {
-        if (!SyncPlay?.Manager.isPlaylistEmpty() && !SyncPlay?.Manager.isPlaybackActive()) {
+        if (!syncPlay?.Manager.isPlaylistEmpty() && !syncPlay?.Manager.isPlaybackActive()) {
             menuItems.push(
                 <MenuItem
                     key='sync-play-start-playback'
@@ -179,7 +179,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
                     <ListItemText primary={globalize.translate('LabelSyncPlayResumePlayback')} />
                 </MenuItem>
             );
-        } else if (SyncPlay?.Manager.isPlaybackActive()) {
+        } else if (syncPlay?.Manager.isPlaybackActive()) {
             menuItems.push(
                 <MenuItem
                     key='sync-play-stop-playback'
