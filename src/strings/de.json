@@ -1204,7 +1204,7 @@
     "LabelAudioBitrate": "Audio-Bitrate",
     "ButtonAddImage": "Bild hinzufügen",
     "LabelSize": "Größe",
-    "LabelTranscodes": "Transcodes",
+    "LabelTranscodes": "Transkodierungen",
     "LabelTranscodingProgress": "Transkodierungsfortschritt",
     "LabelAudioBitDepth": "Audio-Bittiefe",
     "LabelPleaseRestart": "Die Änderungen werden nach dem manuellen Neuladen des Webclients wirksam.",
@@ -1621,7 +1621,7 @@
     "DeletedScene": "Gelöschte Szene",
     "BehindTheScenes": "Hinter den Kulissen",
     "Trailer": "Vorschau",
-    "Clip": "Clip",
+    "Clip": "Ausschnitt",
     "ShowParentImages": "Serienbilder anzeigen",
     "AllowEmbeddedSubtitlesAllowTextOption": "Text erlauben",
     "AllowEmbeddedSubtitlesAllowImageOption": "Bilder erlauben",
@@ -1724,5 +1724,10 @@
     "LabelEnableAudioVbrHelp": "Eine variable Bitrate bietet bessere Qualität im Vergleich zu einer konstanten, kann jedoch in manchen Fällen zu Problemen beim Buffering und der Kompatibilität führen.",
     "Select": "Auswählen",
     "LabelTonemappingMode": "Dynamikkompressionsmodus",
-    "TonemappingModeHelp": "Dynamikkompressionsmodus auswählen. Falls etwas überbelichtet ist, versuche in den RGB-Modus zu wechseln."
+    "TonemappingModeHelp": "Dynamikkompressionsmodus auswählen. Falls etwas überbelichtet ist, versuche in den RGB-Modus zu wechseln.",
+    "MenuOpen": "Menü öffnen",
+    "MenuClose": "Menü schließen",
+    "UserMenu": "Benutzermenü",
+    "Studio": "Studio",
+    "AllowCollectionManagement": "Dieser Benutzer darf Sammlungen verwalten"
 }

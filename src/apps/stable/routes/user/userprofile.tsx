@@ -102,7 +102,7 @@ const UserProfile: FunctionComponent = () => {
             const target = evt.target as HTMLInputElement;
             const file = (target.files as FileList)[0];
 
-            if (!file || !file.type.match('image.*')) {
+            if (!file || !/image.*/.exec(file.type)) {
                 return false;
             }
 

@@ -1601,7 +1601,7 @@
     "TypeOptionPluralMusicAlbum": "音樂專輯",
     "TypeOptionPluralMusicArtist": "音樂藝術家",
     "PreferSystemNativeHwDecoder": "偏好作業系統原生 DXVA 或 VA-API 硬體解碼器",
-    "AllowEmbeddedSubtitlesHelp": "禁用封裝在媒體容器中的字幕。 需要對媒體庫進行完整的重新整理。",
+    "AllowEmbeddedSubtitlesHelp": "禁用封裝在媒體容器中的字幕。 需要對媒體庫進行完整的重新掃描。",
     "RememberAudioSelections": "根據上一項設定音軌",
     "RememberAudioSelectionsHelp": "嘗試將音軌設定為與上一個影片最接近的匹配。",
     "ShowParentImages": "顯示系列圖片",

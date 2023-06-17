@@ -179,7 +179,7 @@ export class AlphaPicker {
 
             if (item) {
                 const prefix = item.getAttribute('data-prefix');
-                if (prefix && prefix.length) {
+                if (prefix?.length) {
                     itemFocusValue = prefix[0];
                     if (itemFocusTimeout) {
                         clearTimeout(itemFocusTimeout);

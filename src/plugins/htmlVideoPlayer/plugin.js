@@ -137,7 +137,10 @@ function zoomIn(elem) {
 }
 
 function normalizeTrackEventText(text, useHtml) {
-    const result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
+    const result = text
+        .replace(/\\N/gi, '\n') // Correct newline characters
+        .replace(/\r/gi, '') // Remove carriage return characters
+        .replace(/{\\.*?}/gi, ''); // Remove ass/ssa tags
     return useHtml ? result.replace(/\n/gi, '<br>') : result;
 }
 
@@ -1252,37 +1255,45 @@ export class HtmlVideoPlayer {
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
             api_key: apiClient.accessToken()
         });
-        const options = {
-            video: videoElement,
-            subUrl: getTextTrackUrl(track, item),
-            fonts: avaliableFonts,
-            fallbackFont: 'liberation sans',
-            availableFonts: { 'liberation sans': `${appRouter.baseUrl()}/default.woff2` },
-            // Disabled eslint compat, but is safe as corejs3 polyfills URL
-            // eslint-disable-next-line compat/compat
-            workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url),
-            // eslint-disable-next-line compat/compat
-            legacyWorkerUrl: new URL('jassub/dist/jassub-worker-legacy.js', import.meta.url),
-            timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-            // new jassub options; override all, even defaults
-            blendMode: 'js',
-            asyncRender: true,
-            // firefox implements offscreen canvas, but not according to spec which causes errors
-            offscreenRender: !browser.firefox,
-            // RVFC is polyfilled everywhere, but webOS 2 reports polyfill API's as functional even tho they aren't
-            onDemandRender: browser.web0sVersion !== 2,
-            useLocalFonts: true,
-            dropAllAnimations: false,
-            libassMemoryLimit: 40,
-            libassGlyphLimit: 40,
-            targetFps: 24,
-            prescaleFactor: 0.8,
-            prescaleHeightLimit: 1080,
-            maxRenderHeight: 2160
-        };
             // TODO: replace with `event-target-polyfill` once https://github.com/benlesh/event-target-polyfill/pull/12 or 11 is merged
         import('event-target-polyfill').then(() => {
             import('jassub').then(({ default: JASSUB }) => {
+                // test SIMD support
+                JASSUB._test();
+
+                const options = {
+                    video: videoElement,
+                    subUrl: getTextTrackUrl(track, item),
+                    fonts: avaliableFonts,
+                    fallbackFont: 'liberation sans',
+                    availableFonts: { 'liberation sans': `${appRouter.baseUrl()}/default.woff2` },
+                    // Disabled eslint compat, but is safe as corejs3 polyfills URL
+                    // eslint-disable-next-line compat/compat
+                    workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url),
+                    // eslint-disable-next-line compat/compat
+                    wasmUrl: new URL('jassub/dist/jassub-worker.wasm', import.meta.url),
+                    // eslint-disable-next-line compat/compat
+                    legacyWasmUrl: new URL('jassub/dist/jassub-worker.wasm.js', import.meta.url),
+                    // eslint-disable-next-line compat/compat
+                    modernWasmUrl : new URL('jassub/dist/jassub-worker-modern.wasm', import.meta.url),
+                    timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                    // new jassub options; override all, even defaults
+                    blendMode: 'js',
+                    asyncRender: true,
+                    offscreenRender: true,
+                    // RVFC is polyfilled everywhere, but webOS 2 reports polyfill API's as functional even tho they aren't
+                    onDemandRender: browser.web0sVersion !== 2,
+                    useLocalFonts: true,
+                    dropAllAnimations: false,
+                    dropAllBlur: !JASSUB._supportsSIMD,
+                    libassMemoryLimit: 40,
+                    libassGlyphLimit: 40,
+                    targetFps: 24,
+                    prescaleFactor: 0.8,
+                    prescaleHeightLimit: 1080,
+                    maxRenderHeight: 2160
+                };
+
                 Promise.all([
                     apiClient.getNamedConfiguration('encoding'),
                     // Worker in Tizen 5 doesn't resolve relative path with async request

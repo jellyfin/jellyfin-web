@@ -1,19 +1,44 @@
 import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import AppHeader from '../../components/AppHeader';
-import Backdrop from '../../components/Backdrop';
-import { ExperimentalAppRoutes } from './routes/AppRoutes';
+import ConnectionRequired from 'components/ConnectionRequired';
+import ServerContentPage from 'components/ServerContentPage';
+import { toAsyncPageRoute } from 'components/router/AsyncRoute';
+import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 
-const ExperimentalApp = () => (
-    <>
-        <Backdrop />
-        <AppHeader />
+import AppLayout from './AppLayout';
+import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './routes/asyncRoutes';
+import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
 
-        <div className='mainAnimatedPages skinBody' />
-        <div className='skinBody'>
-            <ExperimentalAppRoutes />
-        </div>
-    </>
-);
+const ExperimentalApp = () => {
+    return (
+        <Routes>
+            <Route path='/*' element={<AppLayout />}>
+                {/* User routes */}
+                <Route element={<ConnectionRequired />}>
+                    {ASYNC_USER_ROUTES.map(toAsyncPageRoute)}
+                    {LEGACY_USER_ROUTES.map(toViewManagerPageRoute)}
+                </Route>
+
+                {/* Admin routes */}
+                <Route element={<ConnectionRequired isAdminRequired />}>
+                    {ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute)}
+                    {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
+
+                    <Route path='configurationpage' element={
+                        <ServerContentPage view='/web/configurationpage' />
+                    } />
+                </Route>
+
+                {/* Public routes */}
+                <Route element={<ConnectionRequired isUserRequired={false} />}>
+                    <Route index element={<Navigate replace to='/home.html' />} />
+
+                    {LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)}
+                </Route>
+            </Route>
+        </Routes>
+    );
+};
 
 export default ExperimentalApp;

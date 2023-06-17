@@ -4,5 +4,10 @@ export declare global {
     interface Window {
         ApiClient: ApiClient;
         Events: Events;
+        NativeShell: any;
+    }
+
+    interface DocumentEventMap {
+        'viewshow': CustomEvent;
     }
 }

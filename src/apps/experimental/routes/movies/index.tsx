@@ -3,60 +3,26 @@ import '../../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../../elements/emby-tabs/emby-tabs';
 import '../../../../elements/emby-button/emby-button';
 
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { FC, useEffect, useRef } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
-import * as mainTabsManager from '../../../../components/maintabsmanager';
 import Page from '../../../../components/Page';
 import globalize from '../../../../scripts/globalize';
 import libraryMenu from '../../../../scripts/libraryMenu';
-import * as userSettings from '../../../../scripts/settings/userSettings';
 import CollectionsView from './CollectionsView';
 import FavoritesView from './FavoritesView';
 import GenresView from './GenresView';
 import MoviesView from './MoviesView';
 import SuggestionsView from './SuggestionsView';
 import TrailersView from './TrailersView';
-
-const getDefaultTabIndex = (folderId: string | null) => {
-    switch (userSettings.get('landing-' + folderId, false)) {
-        case 'suggestions':
-            return 1;
-
-        case 'favorites':
-            return 3;
-
-        case 'collections':
-            return 4;
-
-        case 'genres':
-            return 5;
-
-        default:
-            return 0;
-    }
-};
-
-const getTabs = () => {
-    return [{
-        name: globalize.translate('Movies')
-    }, {
-        name: globalize.translate('Suggestions')
-    }, {
-        name: globalize.translate('Trailers')
-    }, {
-        name: globalize.translate('Favorites')
-    }, {
-        name: globalize.translate('Collections')
-    }, {
-        name: globalize.translate('Genres')
-    }];
-};
+import { getDefaultTabIndex } from '../../components/tabs/tabRoutes';
 
 const Movies: FC = () => {
+    const location = useLocation();
     const [ searchParams ] = useSearchParams();
-    const currentTabIndex = parseInt(searchParams.get('tab') || getDefaultTabIndex(searchParams.get('topParentId')).toString(), 10);
-    const [ selectedIndex, setSelectedIndex ] = useState(currentTabIndex);
+    const searchParamsTab = searchParams.get('tab');
+    const currentTabIndex = searchParamsTab !== null ? parseInt(searchParamsTab, 10) :
+        getDefaultTabIndex(location.pathname, searchParams.get('topParentId'));
     const element = useRef<HTMLDivElement>(null);
 
     const getTabComponent = (index: number) => {
@@ -94,11 +60,6 @@ const Movies: FC = () => {
         return component;
     };
 
-    const onTabChange = useCallback((e: { detail: { selectedTabIndex: string; }; }) => {
-        const newIndex = parseInt(e.detail.selectedTabIndex, 10);
-        setSelectedIndex(newIndex);
-    }, []);
-
     useEffect(() => {
         const page = element.current;
 
@@ -106,7 +67,7 @@ const Movies: FC = () => {
             console.error('Unexpected null reference');
             return;
         }
-        mainTabsManager.setTabs(page, selectedIndex, getTabs, undefined, undefined, onTabChange);
+
         if (!page.getAttribute('data-title')) {
             const parentId = searchParams.get('topParentId');
 
@@ -116,13 +77,15 @@ const Movies: FC = () => {
                     libraryMenu.setTitle(item.Name);
                 }).catch(err => {
                     console.error('[movies] failed to fetch library', err);
+                    page.setAttribute('data-title', globalize.translate('Movies'));
+                    libraryMenu.setTitle(globalize.translate('Movies'));
                 });
             } else {
                 page.setAttribute('data-title', globalize.translate('Movies'));
                 libraryMenu.setTitle(globalize.translate('Movies'));
             }
         }
-    }, [onTabChange, searchParams, selectedIndex]);
+    }, [ searchParams ]);
 
     return (
         <div ref={element}>
@@ -131,7 +94,7 @@ const Movies: FC = () => {
                 className='mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs'
                 backDropType='movie'
             >
-                {getTabComponent(selectedIndex)}
+                {getTabComponent(currentTabIndex)}
 
             </Page>
         </div>

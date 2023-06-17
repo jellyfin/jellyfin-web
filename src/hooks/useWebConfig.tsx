@@ -13,7 +13,7 @@ export const WebConfigProvider: FC = ({ children }) => {
     useEffect(() => {
         const fetchConfig = async () => {
             try {
-                const response = await fetchLocal('config.json', { cache: 'no-cache' });
+                const response = await fetchLocal('config.json', { cache: 'no-store' });
 
                 if (!response.ok) {
                     throw new Error('network response was not ok');

@@ -1,3 +1,5 @@
+import escapeHTML from 'escape-html';
+
 import datetime from '../../scripts/datetime';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
@@ -23,13 +25,13 @@ function renderKeys(page, keys) {
         let html = '';
         html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
         html += '<td class="detailTableBodyCell">';
-        html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
+        html += '<button type="button" is="emby-button" data-token="' + escapeHTML(item.AccessToken) + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
         html += '</td>';
         html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-        html += item.AccessToken;
+        html += escapeHTML(item.AccessToken);
         html += '</td>';
         html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-        html += item.AppName || '';
+        html += escapeHTML(item.AppName) || '';
         html += '</td>';
         html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
         const date = datetime.parseISO8601Date(item.DateCreated, true);

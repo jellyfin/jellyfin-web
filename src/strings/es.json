@@ -98,7 +98,7 @@
     "ConfirmDeleteItem": "Al borrar este elemento se borrará del sistema de archivos y de la biblioteca. ¿Quieres continuar?",
     "ConfirmDeleteItems": "Al borrar este elemento se borrará del sistema de archivos y de la biblioteca. ¿Quieres continuar?",
     "ConfirmDeletion": "Confirmar borrado",
-    "ConfirmEndPlayerSession": "¿Quieres cerrar Jellyfin en el dispositivo?",
+    "ConfirmEndPlayerSession": "¿Quieres cerrar Jellyfin en el dispositivo {0}?",
     "Connect": "Conectar",
     "Continuing": "Continuando",
     "CustomDlnaProfilesHelp": "Crear un perfil personalizado para un nuevo dispositivo o reemplazar un perfil del sistema.",
@@ -1055,7 +1055,7 @@
     "Aired": "Emitido",
     "AnyLanguage": "Cualquier idioma",
     "Anytime": "En cualquier momento",
-    "AroundTime": "Aproximadamente",
+    "AroundTime": "Aproximadamente {0}",
     "Ascending": "Ascendente",
     "Audio": "Audio",
     "Auto": "Automático",
@@ -1724,5 +1724,10 @@
     "HeaderPerformance": "Rendimiento",
     "LabelTonemappingMode": "Modo de mapeo de tono",
     "TonemappingModeHelp": "Seleccione el modo de mapeado de tono. Si experimenta sobreiluminación intente cambiar al modo RGB.",
-    "Select": "Seleccionar"
+    "Select": "Seleccionar",
+    "MenuOpen": "Abrir Menú",
+    "MenuClose": "Cerrar Menú",
+    "UserMenu": "Menú de Usuario",
+    "Studio": "Estudio",
+    "AllowCollectionManagement": "Permitir que este usuario administre colecciones"
 }

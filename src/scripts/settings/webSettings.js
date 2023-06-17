@@ -7,7 +7,7 @@ async function getConfig() {
     if (data) return Promise.resolve(data);
     try {
         const response = await fetchLocal('config.json', {
-            cache: 'no-cache'
+            cache: 'no-store'
         });
 
         if (!response.ok) {

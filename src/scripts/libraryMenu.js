@@ -516,10 +516,9 @@ function createToolsMenuList(pluginItems) {
         icon: 'bug_report'
     });
     links.push({
-        name: globalize.translate('TabNotifications'),
+        name: globalize.translate('Notifications'),
         icon: 'notifications',
-        href: '#/notificationsettings.html',
-        pageIds: ['notificationSettingsPage', 'notificationSettingPage']
+        href: '#/notificationsettings.html'
     });
     links.push({
         name: globalize.translate('TabPlugins'),
