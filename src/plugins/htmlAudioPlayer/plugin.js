@@ -502,8 +502,8 @@ class HtmlAudioPlayer {
     setAirPlayEnabled(isEnabled) {
         const mediaElement = this._mediaElement;
 
-        if (document.AirPlayEnabled) {
-            if (mediaElement) {
+        if (mediaElement) {
+            if (document.AirPlayEnabled) {
                 if (isEnabled) {
                     mediaElement.requestAirPlay().catch(function(err) {
                         console.error('Error requesting AirPlay', err);
@@ -513,9 +513,9 @@ class HtmlAudioPlayer {
                         console.error('Error exiting AirPlay', err);
                     });
                 }
+            } else {
+                mediaElement.webkitShowPlaybackTargetPicker();
             }
-        } else {
-            mediaElement.webkitShowPlaybackTargetPicker();
         }
     }
 
