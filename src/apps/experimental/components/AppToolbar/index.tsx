@@ -16,6 +16,7 @@ import AppTabs from '../tabs/AppTabs';
 import { isDrawerPath } from '../drawers/AppDrawer';
 import UserMenuButton from './UserMenuButton';
 import RemotePlayButton from './RemotePlayButton';
+import SyncPlayButton from './SyncPlayButton';
 
 interface AppToolbarProps {
     isDrawerOpen: boolean
@@ -90,6 +91,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
             {isUserLoggedIn && (
                 <>
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+                        <SyncPlayButton />
                         <RemotePlayButton />
 
                         <Tooltip title={globalize.translate('Search')}>
