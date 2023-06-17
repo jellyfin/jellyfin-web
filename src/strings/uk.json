@@ -1734,5 +1734,6 @@
     "GetThePlugin": "Отримати плагін",
     "NotificationsMovedMessage": "Функціонал сповіщень переїхав до плагіна Webhook.",
     "Notifications": "Сповіщення",
-    "PasswordRequiredForAdmin": "Для облікових записів адміністратора потрібен пароль."
+    "PasswordRequiredForAdmin": "Для облікових записів адміністратора потрібен пароль.",
+    "LabelSyncPlayNoGroups": "Групи не доступні"
 }
