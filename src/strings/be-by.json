@@ -1684,11 +1684,11 @@
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Extras часта маюць такое ж убудаванае імя, што і бацькоўскі, пазначце гэта, каб у любым выпадку выкарыстоўваць для іх убудаваныя загалоўкі.",
     "HeaderDummyChapter": "Выявы раздзела",
     "LabelDummyChapterDuration": "Інтэрвал",
-    "LabelDummyChapterDurationHelp": "Інтэрвал вымання выявы главы ў секундах.",
+    "LabelDummyChapterDurationHelp": "Інтэрвал паміж малюнкамі раздзелаў. Усталюйце 0, каб адключыць стварэнне вобразаў раздзелаў. Змена гэтай опцыі не паўплывае на існуючыя выявы раздзелаў.",
     "LabelDummyChapterCount": "Ліміт",
     "LabelDummyChapterCountHelp": "Максімальная колькасць выяваў раздзелаў, якія будуць выняты для кожнага медыяфайла.",
     "LabelChapterImageResolution": "Дазвол",
-    "LabelChapterImageResolutionHelp": "Дазвол вынятых малюнкаў раздзелаў.",
+    "LabelChapterImageResolutionHelp": "Разрозненне створаных малюнкаў раздзелаў. Змена гэтай опцыі не паўплывае на існуючыя выявы раздзелаў.",
     "ResolutionMatchSource": "Супадзенне з крыніцай",
     "SecondarySubtitles": "Дадатковыя субтытры",
     "SubtitleBlack": "Чорны",
@@ -1719,5 +1719,10 @@
     "MenuOpen": "Адкрыць меню",
     "MenuClose": "Зачыніць меню",
     "AllowCollectionManagement": "Дазволіць гэтаму карыстальніку кіраваць калекцыямі",
-    "UserMenu": "Меню карыстальніка"
+    "UserMenu": "Меню карыстальніка",
+    "PasswordRequiredForAdmin": "Для ўліковых запісаў адміністратара патрабуецца пароль.",
+    "GetThePlugin": "Атрымаць плагін",
+    "LabelSyncPlayNoGroups": "Няма даступных груп",
+    "Notifications": "Апавяшчэнні",
+    "NotificationsMovedMessage": "Функцыянальнасць апавяшчэнняў перанесена ў плагін Webhook."
 }
