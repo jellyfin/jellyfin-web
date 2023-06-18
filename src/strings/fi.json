@@ -1734,5 +1734,7 @@
     "LabelEnableLUFSScanHelp": "Käytä musiikin LUFS-tarkistusta (tämä vaatii enemmän aikaa ja resurseja).",
     "GetThePlugin": "Hanki laajennus",
     "Notifications": "Ilmoitukset",
-    "NotificationsMovedMessage": "Ilmoitustoiminnallisuus on siirtynyt Webhook-laajennukseen."
+    "NotificationsMovedMessage": "Ilmoitustoiminnallisuus on siirtynyt Webhook-laajennukseen.",
+    "PasswordRequiredForAdmin": "Ylläpitotileille on määritettävä salasana.",
+    "LabelSyncPlayNoGroups": "Ryhmiä ei ole käytettävissä"
 }
