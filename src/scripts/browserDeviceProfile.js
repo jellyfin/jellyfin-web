@@ -1,6 +1,7 @@
 import appSettings from './settings/appSettings';
 import * as userSettings from './settings/userSettings';
 import browser from './browser';
+import { enableShakaPlayer } from '../components/htmlMediaHelper';
 
 function canPlayH264(videoTestElement) {
     return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -54,6 +55,14 @@ function canPlayNativeHls() {
     const media = document.createElement('video');
     return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '')
             || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
+}
+
+function canPlayNativeHlsInFmp4() {
+    if (browser.tizenVersion >= 3 || browser.web0sVersion >= 3.5) {
+        return true;
+    }
+
+    return (browser.iOS && browser.iOSVersion >= 11) || browser.osx;
 }
 
 function canPlayHlsWithMSE() {
@@ -437,8 +446,15 @@ export default function (options) {
     // Do not use AC3 for audio transcoding unless AAC and MP3 are not supported.
     if (canPlayAc3VideoAudio) {
         videoAudioCodecs.push('ac3');
+        if (browser.edgeChromium) {
+            hlsInFmp4VideoAudioCodecs.push('ac3');
+        }
+
         if (canPlayEac3VideoAudio) {
             videoAudioCodecs.push('eac3');
+            if (browser.edgeChromium) {
+                hlsInFmp4VideoAudioCodecs.push('eac3');
+            }
         }
 
         if (canPlayAc3VideoAudioInHls) {
@@ -492,6 +508,9 @@ export default function (options) {
         if (browser.tizen) {
             hlsInTsVideoAudioCodecs.push('opus');
         }
+        if (!browser.safari) {
+            hlsInFmp4VideoAudioCodecs.push('opus');
+        }
     }
 
     if (canPlayAudioFormat('flac')) {
@@ -521,17 +540,17 @@ export default function (options) {
     const hlsInTsVideoCodecs = [];
     const hlsInFmp4VideoCodecs = [];
 
-    if ((browser.safari || browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
+    if (canPlayHevc(videoTestElement, options)) {
+        if (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s) {
+            hlsInFmp4VideoCodecs.push('hevc');
+        }
         hlsInFmp4VideoCodecs.push('hevc');
     }
 
     if (canPlayH264(videoTestElement)) {
         mp4VideoCodecs.push('h264');
         hlsInTsVideoCodecs.push('h264');
-
-        if (browser.safari || browser.tizen || browser.web0s) {
-            hlsInFmp4VideoCodecs.push('h264');
-        }
+        hlsInFmp4VideoCodecs.push('h264');
     }
 
     if (canPlayHevc(videoTestElement, options)) {
@@ -687,7 +706,8 @@ export default function (options) {
     });
 
     if (canPlayHls() && options.enableHls !== false) {
-        if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && userSettings.preferFmp4HlsContainer() && (browser.safari || browser.tizen || browser.web0s)) {
+        const enableFmp4Hls = userSettings.preferFmp4HlsContainer() && (canPlayNativeHlsInFmp4() || enableShakaPlayer());
+        if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && enableFmp4Hls) {
             profile.TranscodingProfiles.push({
                 Container: 'mp4',
                 Type: 'Video',
@@ -830,12 +850,18 @@ export default function (options) {
     }
 
     if (browser.tizen || browser.web0s) {
-        hevcVideoRangeTypes += '|HDR10|HLG|DOVI';
+        hevcVideoRangeTypes += '|HDR10|HLG';
         vp9VideoRangeTypes += '|HDR10|HLG';
         av1VideoRangeTypes += '|HDR10|HLG';
     }
 
-    if (browser.edgeChromium || browser.chrome || browser.firefox) {
+    if (browser.chrome && !browser.mobile) {
+        hevcVideoRangeTypes += '|HDR10|HLG';
+        vp9VideoRangeTypes += '|HDR10|HLG';
+        av1VideoRangeTypes += '|HDR10|HLG';
+    }
+
+    if (browser.edgeChromium || browser.firefox) {
         vp9VideoRangeTypes += '|HDR10|HLG';
         av1VideoRangeTypes += '|HDR10|HLG';
     }

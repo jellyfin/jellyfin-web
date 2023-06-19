@@ -27,6 +27,27 @@ function canPlayNativeHls() {
             || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
 }
 
+export function enableShakaPlayer() {
+    /* eslint-disable-next-line compat/compat */
+    if (!!window.MediaSource && !!window.MediaSource.isTypeSupported) {
+        // safari support native hls.
+        if (browser.iOS || browser.osx) {
+            return false;
+        }
+
+        // The native players on these devices support seeking live streams, no need to use shaka here
+        if (browser.tizen || browser.web0s) {
+            return false;
+        }
+
+        if (browser.edgeChromium || browser.firefox || browser.chrome) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     if (window.MediaSource == null) {
         return false;
@@ -233,6 +254,18 @@ export function destroyHlsPlayer(instance) {
     }
 }
 
+export function destroyShakaPlayer(instance) {
+    const player = instance._shakaPlayer;
+    if (player) {
+        instance._shakaPlayer = null;
+        return player.destroy().catch((err) => {
+            console.error(err);
+        });
+    }
+
+    return Promise.resolve();
+}
+
 export function destroyFlvPlayer(instance) {
     const player = instance._flvPlayer;
     if (player) {
@@ -333,6 +366,7 @@ export function onEndedInternal(instance, elem, onErrorFn) {
 
     resetSrc(elem);
 
+    destroyShakaPlayer(instance);
     destroyHlsPlayer(instance);
     destroyFlvPlayer(instance);
     destroyCastPlayer(instance);
