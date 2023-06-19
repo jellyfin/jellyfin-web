@@ -1736,5 +1736,6 @@
     "EnableAudioNormalizationHelp": "Geluidsnormalisatie past een constante versterking toe om het gemiddelde op een gewenst niveau (-18dB) te houden.",
     "LabelEnableLUFSScan": "LUFS-scan inschakelen",
     "LabelEnableLUFSScanHelp": "LUFS-scan voor muziek inschakelen. Dit duurt langer en is systeemintensief.",
-    "PasswordRequiredForAdmin": "Voor beheerdersaccounts is een wachtwoord vereist."
+    "PasswordRequiredForAdmin": "Voor beheerdersaccounts is een wachtwoord vereist.",
+    "LabelSyncPlayNoGroups": "Geen groepen beschikbaar"
 }
