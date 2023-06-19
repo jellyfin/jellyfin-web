@@ -1737,5 +1737,6 @@
     "GetThePlugin": "Obtenir le plugin",
     "Notifications": "Notifications",
     "NotificationsMovedMessage": "La fonctionnalité de notifications a été transférée au plugin Webhook.",
-    "PasswordRequiredForAdmin": "Un mot de passe est requis pour les comptes administrateur."
+    "PasswordRequiredForAdmin": "Un mot de passe est requis pour les comptes administrateur.",
+    "LabelSyncPlayNoGroups": "Pas de groupes disponibles"
 }
