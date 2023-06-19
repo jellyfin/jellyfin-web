@@ -24,6 +24,17 @@ function canPlayHevc(videoTestElement, options) {
         || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''));
 }
 
+function canPlayAv1(videoTestElement) {
+    if (browser.tizenVersion >= 5.5 || browser.web0sVersion >= 5) {
+        return true;
+    }
+
+    // av1 main level 5.3
+    return !!videoTestElement.canPlayType
+        && (videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.08"').replace(/no/, '')
+        && videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.10"').replace(/no/, ''));
+}
+
 let _supportsTextTracks;
 function supportsTextTracks() {
     if (browser.tizen) {
@@ -164,14 +175,6 @@ function testCanPlayMkv(videoTestElement) {
     }
 
     return !!browser.edgeUwp;
-}
-
-function testCanPlayAv1(videoTestElement) {
-    if (browser.tizenVersion >= 5.5 || browser.web0sVersion >= 5) {
-        return true;
-    }
-
-    return videoTestElement.canPlayType('video/webm; codecs="av01.0.15M.10"').replace(/no/, '');
 }
 
 function testCanPlayTs() {
@@ -540,10 +543,15 @@ export default function (options) {
     const hlsInTsVideoCodecs = [];
     const hlsInFmp4VideoCodecs = [];
 
-    if (canPlayHevc(videoTestElement, options)) {
-        if (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s) {
-            hlsInFmp4VideoCodecs.push('hevc');
-        }
+    if (canPlayAv1(videoTestElement)
+        && !browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)) {
+        // disable av1 on mobile since it can be software decoding
+        hlsInFmp4VideoCodecs.push('av1');
+    }
+
+    if (canPlayHevc(videoTestElement, options)
+        && (browser.edgeChromium || browser.safari || (browser.chrome && (!browser.android || browser.chrome.versionMajor >= 105)))) {
+        // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
 
@@ -585,7 +593,7 @@ export default function (options) {
         webmVideoCodecs.push('vp9');
     }
 
-    if (testCanPlayAv1(videoTestElement)) {
+    if (canPlayAv1(videoTestElement)) {
         mp4VideoCodecs.push('av1');
         webmVideoCodecs.push('av1');
     }
@@ -837,6 +845,33 @@ export default function (options) {
         hevcProfiles = 'main|main 10';
     }
 
+    let maxAv1Level = 15; // level 5.3
+    const av1Profiles = 'main'; // av1 main covers 4:2:0 8 & 10 bits
+
+    // av1 main level 6.0
+    if (videoTestElement.canPlayType('video/mp4; codecs="av01.0.16M.08"').replace(/no/, '')
+            && videoTestElement.canPlayType('video/mp4; codecs="av01.0.16M.10"').replace(/no/, '')) {
+        maxAv1Level = 16;
+    }
+
+    // av1 main level 6.1
+    if (videoTestElement.canPlayType('video/mp4; codecs="av01.0.17M.08"').replace(/no/, '')
+            && videoTestElement.canPlayType('video/mp4; codecs="av01.0.17M.10"').replace(/no/, '')) {
+        maxAv1Level = 17;
+    }
+
+    // av1 main level 6.2
+    if (videoTestElement.canPlayType('video/mp4; codecs="av01.0.18M.08"').replace(/no/, '')
+            && videoTestElement.canPlayType('video/mp4; codecs="av01.0.18M.10"').replace(/no/, '')) {
+        maxAv1Level = 18;
+    }
+
+    // av1 main level 6.3
+    if (videoTestElement.canPlayType('video/mp4; codecs="av01.0.19M.08"').replace(/no/, '')
+            && videoTestElement.canPlayType('video/mp4; codecs="av01.0.19M.10"').replace(/no/, '')) {
+        maxAv1Level = 19;
+    }
+
     const h264VideoRangeTypes = 'SDR';
     let hevcVideoRangeTypes = 'SDR';
     let vp9VideoRangeTypes = 'SDR';
@@ -931,9 +966,27 @@ export default function (options) {
 
     const av1CodecProfileConditions = [
         {
+            Condition: 'NotEquals',
+            Property: 'IsAnamorphic',
+            Value: 'true',
+            IsRequired: false
+        },
+        {
+            Condition: 'EqualsAny',
+            Property: 'VideoProfile',
+            Value: av1Profiles,
+            IsRequired: false
+        },
+        {
             Condition: 'EqualsAny',
             Property: 'VideoRangeType',
             Value: av1VideoRangeTypes,
+            IsRequired: false
+        },
+        {
+            Condition: 'LessThanEqual',
+            Property: 'VideoLevel',
+            Value: maxAv1Level.toString(),
             IsRequired: false
         }
     ];
@@ -968,6 +1021,13 @@ export default function (options) {
             Value: maxVideoWidth.toString(),
             IsRequired: false
         });
+
+        av1CodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'Width',
+            Value: maxVideoWidth.toString(),
+            IsRequired: false
+        });
     }
 
     const globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
@@ -975,6 +1035,8 @@ export default function (options) {
     const h264MaxVideoBitrate = globalMaxVideoBitrate;
 
     const hevcMaxVideoBitrate = globalMaxVideoBitrate;
+
+    const av1MaxVideoBitrate = globalMaxVideoBitrate;
 
     if (h264MaxVideoBitrate) {
         h264CodecProfileConditions.push({
@@ -990,6 +1052,15 @@ export default function (options) {
             Condition: 'LessThanEqual',
             Property: 'VideoBitrate',
             Value: hevcMaxVideoBitrate,
+            IsRequired: true
+        });
+    }
+
+    if (av1MaxVideoBitrate) {
+        av1CodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'VideoBitrate',
+            Value: av1MaxVideoBitrate,
             IsRequired: true
         });
     }
