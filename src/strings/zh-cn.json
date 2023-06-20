@@ -1737,5 +1737,6 @@
     "GetThePlugin": "获取插件",
     "Notifications": "通知",
     "NotificationsMovedMessage": "通知功能已经转移到Webhook插件中。",
-    "PasswordRequiredForAdmin": "管理员账户需要密码。"
+    "PasswordRequiredForAdmin": "管理员账户需要密码。",
+    "LabelSyncPlayNoGroups": "没有可用的组"
 }
