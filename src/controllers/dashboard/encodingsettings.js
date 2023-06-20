@@ -108,8 +108,8 @@ function onSubmit() {
             config.EnableSubtitleExtraction = form.querySelector('#chkEnableSubtitleExtraction').checked;
             config.EnableThrottling = form.querySelector('#chkEnableThrottling').checked;
             config.EnableSegmentDeletion = form.querySelector('#chkEnableSegmentDeletion').checked;
-            config.ThrottleDelaySeconds = parseInt(form.querySelector('#txtThrottleDelaySeconds').value || '0');
-            config.SegmentKeepSeconds = parseInt(form.querySelector('#txtSegmentKeepSeconds').value || '0');
+            config.ThrottleDelaySeconds = parseInt(form.querySelector('#txtThrottleDelaySeconds').value || '0', 10);
+            config.SegmentKeepSeconds = parseInt(form.querySelector('#txtSegmentKeepSeconds').value || '0', 10);
             config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll('.chkDecodeCodec'), function (c) {
                 return c.checked;
             }), function (c) {
