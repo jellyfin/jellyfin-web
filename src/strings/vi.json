@@ -1724,5 +1724,7 @@
     "Notifications": "Thông báo",
     "NotificationsMovedMessage": "Chức năng thông báo đã chuyển sang plugin Webhook.",
     "LabelEnableLUFSScan": "Bật tính năng quét LUFS",
-    "LabelEnableLUFSScanHelp": "Bật tính năng quét LUFS để tìm nhạc (Việc này sẽ mất nhiều thời gian hơn và tốn nhiều tài nguyên hơn)."
+    "LabelEnableLUFSScanHelp": "Bật tính năng quét LUFS để tìm nhạc (Việc này sẽ mất nhiều thời gian hơn và tốn nhiều tài nguyên hơn).",
+    "PasswordRequiredForAdmin": "Cần có mật khẩu cho tài khoản quản trị viên.",
+    "LabelSyncPlayNoGroups": "Không có nhóm nào"
 }
