@@ -1731,5 +1731,10 @@
     "Studio": "Studio",
     "GetThePlugin": "Ottieni il Plugin",
     "Notifications": "Notifiche",
-    "AllowCollectionManagement": "Permetti a questo utente di gestire le collezioni"
+    "AllowCollectionManagement": "Permetti a questo utente di gestire le collezioni",
+    "PasswordRequiredForAdmin": "La password è obbligatoria per gli account amministratori.",
+    "LabelSyncPlayNoGroups": "Nessun gruppo disponibile",
+    "NotificationsMovedMessage": "Le notifiche sono state spostate nel plugin Webhook.",
+    "EnableAudioNormalizationHelp": "La normalizzazione dell'audio aggiunge un guadagno per mantenerlo ad un livello desiderato (-18dB).",
+    "EnableAudioNormalization": "Normalizzazione Audio"
 }
