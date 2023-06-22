@@ -530,6 +530,10 @@ export class UserSettings {
             values.SortOrder = query.SortOrder;
         }
 
+        if (query.Filters) {
+            values.Filters = query.Filters;
+        }
+
         return this.set(key, JSON.stringify(values));
     }
 
