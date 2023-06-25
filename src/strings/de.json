@@ -1729,5 +1729,11 @@
     "MenuClose": "Menü schließen",
     "UserMenu": "Benutzermenü",
     "Studio": "Studio",
-    "AllowCollectionManagement": "Dieser Benutzer darf Sammlungen verwalten"
+    "AllowCollectionManagement": "Dieser Benutzer darf Sammlungen verwalten",
+    "PasswordRequiredForAdmin": "Für Admin Konten wird ein Passwort benötigt.",
+    "LabelEnableLUFSScan": "LUFS scan aktivieren",
+    "LabelSyncPlayNoGroups": "Keine Gruppen verfügbar",
+    "LabelEnableLUFSScanHelp": "LUFS scan für Musik aktivieren (Dies erfodert mehr Zeit und Ressourcen)",
+    "Notifications": "Benachrichtigungen",
+    "NotificationsMovedMessage": "Die Benachrichtigungsfunktion wurde zum Webhook Plugin verschoben."
 }
