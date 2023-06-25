@@ -17,11 +17,9 @@ import { useQuery } from '@tanstack/react-query';
 import { JellyfinApiContext, useApi } from './useApi';
 import { Sections, SectionsViewType } from 'types/suggestionsSections';
 
-type ParentId = string | null | undefined;
-
 const fetchGetItem = async (
     currentApi: JellyfinApiContext,
-    parentId: ParentId,
+    parentId?: string | null,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -39,7 +37,7 @@ const fetchGetItem = async (
     }
 };
 
-export const useGetItem = (parentId: ParentId) => {
+export const useGetItem = (parentId?: string | null) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['Item', parentId],
@@ -78,13 +76,14 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
             }
         ],
         queryFn: ({ signal }) =>
-            fetchGetItems(currentApi, parametersOptions, { signal })
+            fetchGetItems(currentApi, parametersOptions, { signal }),
+        cacheTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined
     });
 };
 
 const fetchGetMovieRecommendations = async (
     currentApi: JellyfinApiContext,
-    parentId: ParentId,
+    parentId?: string | null,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -109,7 +108,7 @@ const fetchGetMovieRecommendations = async (
     }
 };
 
-export const useGetMovieRecommendations = (parentId: ParentId) => {
+export const useGetMovieRecommendations = (parentId?: string | null) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['MovieRecommendations', parentId],
@@ -122,7 +121,7 @@ export const useGetMovieRecommendations = (parentId: ParentId) => {
 const fetchGetItemsBySuggestionsType = async (
     currentApi: JellyfinApiContext,
     sections: Sections,
-    parentId: ParentId,
+    parentId?: string | null,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -235,7 +234,7 @@ const fetchGetItemsBySuggestionsType = async (
 
 export const useGetItemsBySectionType = (
     sections: Sections,
-    parentId: ParentId
+    parentId?: string | null
 ) => {
     const currentApi = useApi();
     return useQuery({
@@ -253,8 +252,8 @@ export const useGetItemsBySectionType = (
 
 const fetchGetGenres = async (
     currentApi: JellyfinApiContext,
-    parentId: ParentId,
     itemType: BaseItemKind,
+    parentId?: string | null,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -276,12 +275,12 @@ const fetchGetGenres = async (
     }
 };
 
-export const useGetGenres = (parentId: ParentId, itemType: BaseItemKind) => {
+export const useGetGenres = (itemType: BaseItemKind, parentId?: string | null) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['Genres', parentId],
         queryFn: ({ signal }) =>
-            fetchGetGenres(currentApi, parentId, itemType, { signal }),
+            fetchGetGenres(currentApi, itemType, parentId, { signal }),
         enabled: !!parentId
     });
 };

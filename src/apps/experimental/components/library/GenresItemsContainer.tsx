@@ -18,8 +18,8 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     itemType
 }) => {
     const { isLoading, data: genresResult } = useGetGenres(
-        parentId,
-        itemType
+        itemType,
+        parentId
     );
 
     if (isLoading) {
@@ -34,8 +34,7 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
                     <p>{globalize.translate('MessageNoGenresAvailable')}</p>
                 </div>
             ) : (
-                genresResult?.Items
-                && genresResult?.Items.map((genre) => (
+                genresResult?.Items?.map((genre) => (
                     <GenresSectionContainer
                         key={genre.Id}
                         collectionType={collectionType}

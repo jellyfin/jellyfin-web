@@ -19,6 +19,7 @@ import cardBuilder from '../cardbuilder/cardBuilder';
 
 import { ViewQuerySettings } from '../../types/interface';
 import { CardOptions } from '../../types/cardOptions';
+
 interface ViewItemsContainerProps {
     topParentId: string | null;
     isBtnShuffleEnabled?: boolean;

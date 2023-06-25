@@ -1,5 +1,13 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import { CardOptions } from './cardOptions';
-import { ParametersOptions } from './library';
+
+interface ParametersOptions {
+    sortBy?: ItemSortBy[];
+    sortOrder?: SortOrder[];
+    includeItemTypes?: BaseItemKind[];
+}
 
 export enum SectionsViewType {
     ResumeItems = 'resumeItems',

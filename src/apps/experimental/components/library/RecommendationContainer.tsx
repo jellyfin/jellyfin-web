@@ -52,7 +52,12 @@ const RecommendationContainer: FC<RecommendationContainerProps> = ({
             items={recommendation.Items || []}
             cardOptions={{
                 shape: 'overflowPortrait',
-                showYear: true
+                showYear: true,
+                scalable: true,
+                overlayPlayButton: true,
+                showTitle: true,
+                centerText: true,
+                cardLayout: false
             }}
         />
     );

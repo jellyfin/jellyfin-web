@@ -39,7 +39,7 @@ const SuggestionsView: FC<LibraryViewProps> = ({ parentId }) => {
                     return (
                         <RecommendationContainer
                             // eslint-disable-next-line react/no-array-index-key
-                            key={index} // use a unique id return value may have duplicate id
+                            key={`${recommendation.CategoryId}-${index}`} // use a unique id return value may have duplicate id
                             recommendation={recommendation}
                         />
                     );
