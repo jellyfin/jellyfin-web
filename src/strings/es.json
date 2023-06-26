@@ -1695,7 +1695,7 @@
     "SaveRecordingImages": "Guardar grabación de imágenes EPG",
     "SaveRecordingImagesHelp": "Guardar imágenes del proveedor de listados EPG junto con los archivos multimedia.",
     "LabelDummyChapterDuration": "Intervalo",
-    "LabelDummyChapterDurationHelp": "Intervalo de extracción de imágenes de los capítulos en segundos.",
+    "LabelDummyChapterDurationHelp": "Intervalo entre capítulos dummy. Dejar a 0 para deshabilitar la generación de capítulos dummy. Cambiar esta opción no tendrá efecto para capítulos dummy ya existentes.",
     "HeaderDummyChapter": "Imágenes de capítulos",
     "LabelDummyChapterCount": "Límite",
     "Featurette": "Reportaje extra",
@@ -1704,7 +1704,7 @@
     "SecondarySubtitles": "Subtítulos secundarios",
     "LabelParallelImageEncodingLimit": "Límite de codificación de imágenes en paralelo",
     "LabelEnableAudioVbr": "Habilitar codificación de audio VBR",
-    "LabelChapterImageResolutionHelp": "Resolución de las imágenes de los capítulos extraídos.",
+    "LabelChapterImageResolutionHelp": "Resolución de las imágenes extraídas de los capítulos. Cambiar esta opción no tendrá efecto sobre capítulos dummy ya existentes.",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Prefiere títulos incrustados sobre nombres de archivo para extras",
     "LabelDummyChapterCountHelp": "Número máximo de imágenes de capítulos que se extraerán para cada archivo multimedia.",
     "LabelEnableAudioVbrHelp": "La tasa de bits variable ofrece una mejor relación entre calidad y tasa de bits promedio, pero en algunos casos raros puede causar problemas de almacenamiento de búfer y compatibilidad.",
@@ -1729,5 +1729,14 @@
     "MenuClose": "Cerrar Menú",
     "UserMenu": "Menú de Usuario",
     "Studio": "Estudio",
-    "AllowCollectionManagement": "Permitir que este usuario administre colecciones"
+    "AllowCollectionManagement": "Permitir que este usuario administre colecciones",
+    "EnableAudioNormalizationHelp": "La normalización de audio añadirá una ganancia constante para mantener la media en el nivel deseado (-18dB).",
+    "LabelEnableLUFSScan": "Habilitar escaneo LUFS",
+    "PasswordRequiredForAdmin": "Se requiere contraseña para las cuentas de administrador.",
+    "GetThePlugin": "Obtener el Plugin",
+    "NotificationsMovedMessage": "La funcionalidad de notificaciones se ha movido al plugin Webhook.",
+    "LabelSyncPlayNoGroups": "No hay grupos disponibles",
+    "Notifications": "Notificaciones",
+    "EnableAudioNormalization": "Normalización de audio",
+    "LabelEnableLUFSScanHelp": "Habilitar escaneo LUFS para música (Esto tardará más y consumirá más recursos)."
 }
