@@ -7,17 +7,15 @@ import { useApi } from 'hooks/useApi';
 
 interface UserAvatarProps {
     user?: UserDto
-    showTitle?: boolean
 }
 
-const UserAvatar: FC<UserAvatarProps> = ({ user, showTitle = false }) => {
+const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
     const { api } = useApi();
     const theme = useTheme();
 
     return user ? (
         <Avatar
             alt={user.Name ?? undefined}
-            title={showTitle && user.Name ? user.Name : undefined}
             src={
                 api && user.Id && user.PrimaryImageTag ?
                     `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :

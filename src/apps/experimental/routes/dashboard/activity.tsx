@@ -1,20 +1,16 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
-import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import Info from '@mui/icons-material/Info';
+import PermMedia from '@mui/icons-material/PermMedia';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import IconButton from '@mui/material/IconButton';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';
 import UserAvatar from 'components/UserAvatar';
@@ -22,6 +18,10 @@ import { useApi } from 'hooks/useApi';
 import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'scripts/datetime';
 import globalize from 'scripts/globalize';
 import { toBoolean } from 'utils/string';
+
+import LogLevelChip from '../../components/activityTable/LogLevelChip';
+import OverviewCell from '../../components/activityTable/OverviewCell';
+import GridActionsCellLink from '../../components/GridActionsCellLink';
 
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';
@@ -39,88 +39,6 @@ const getActivityView = (param: string | null) => {
 };
 
 const getRowId = (row: ActivityLogEntry) => row.Id ?? -1;
-
-const LogLevelChip = ({ level }: { level: LogLevel }) => {
-    let color: 'info' | 'warning' | 'error' | undefined = undefined;
-    switch (level) {
-        case LogLevel.Information:
-            color = 'info';
-            break;
-        case LogLevel.Warning:
-            color = 'warning';
-            break;
-        case LogLevel.Error:
-        case LogLevel.Critical:
-            color = 'error';
-            break;
-    }
-
-    const levelText = globalize.translate(`LogLevel.${level}`);
-
-    return (
-        <Chip
-            size='small'
-            color={color}
-            label={levelText}
-            title={levelText}
-        />
-    );
-};
-
-const OverviewCell: FC<ActivityLogEntry> = ({ Overview, ShortOverview }) => {
-    const displayValue = ShortOverview ?? Overview;
-    const [ open, setOpen ] = useState(false);
-
-    const onTooltipClose = useCallback(() => {
-        setOpen(false);
-    }, []);
-
-    const onTooltipOpen = useCallback(() => {
-        setOpen(true);
-    }, []);
-
-    if (!displayValue) return null;
-
-    return (
-        <Box
-            sx={{
-                display: 'flex',
-                width: '100%',
-                alignItems: 'center'
-            }}
-        >
-            <Box
-                sx={{
-                    flexGrow: 1,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                }}
-                component='div'
-                title={displayValue}
-            >
-                {displayValue}
-            </Box>
-            {ShortOverview && Overview && (
-                <ClickAwayListener onClickAway={onTooltipClose}>
-                    <Tooltip
-                        title={Overview}
-                        placement='top'
-                        arrow
-                        onClose={onTooltipClose}
-                        open={open}
-                        disableFocusListener
-                        disableHoverListener
-                        disableTouchListener
-                    >
-                        <IconButton onClick={onTooltipOpen}>
-                            <Info />
-                        </IconButton>
-                    </Tooltip>
-                </ClickAwayListener>
-            )}
-        </Box>
-    );
-};
 
 const Activity = () => {
     const { api } = useApi();
@@ -144,10 +62,16 @@ const Activity = () => {
             width: 60,
             valueGetter: ({ row }) => users[row.UserId]?.Name,
             renderCell: ({ row }) => (
-                <UserAvatar
-                    user={users[row.UserId]}
-                    showTitle
-                />
+                <IconButton
+                    size='large'
+                    color='inherit'
+                    sx={{ padding: 0 }}
+                    title={users[row.UserId]?.Name ?? undefined}
+                    component={Link}
+                    to={`/useredit.html?userId=${row.UserId}`}
+                >
+                    <UserAvatar user={users[row.UserId]} />
+                </IconButton>
             )
         }
     ] : [];
@@ -188,7 +112,7 @@ const Activity = () => {
         {
             field: 'Overview',
             headerName: globalize.translate('LabelOverview'),
-            width: 220,
+            width: 200,
             valueGetter: ({ row }) => row.ShortOverview ?? row.Overview,
             renderCell: ({ row }) => (
                 <OverviewCell {...row} />
@@ -197,7 +121,28 @@ const Activity = () => {
         {
             field: 'Type',
             headerName: globalize.translate('LabelType'),
-            width: 150
+            width: 120
+        },
+        {
+            field: 'actions',
+            type: 'actions',
+            getActions: ({ row }) => {
+                const actions = [];
+
+                if (row.ItemId) {
+                    actions.push(
+                        <GridActionsCellLink
+                            size='large'
+                            icon={<PermMedia />}
+                            label={globalize.translate('LabelMediaDetails')}
+                            title={globalize.translate('LabelMediaDetails')}
+                            to={`/details?id=${row.ItemId}`}
+                        />
+                    );
+                }
+
+                return actions;
+            }
         }
     ];
 
