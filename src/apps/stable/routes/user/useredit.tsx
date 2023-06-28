@@ -196,6 +196,8 @@ const UserEdit: FunctionComponent = () => {
         (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
         (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy.RemoteClientBitrateLimit > 0 ?
             (user.Policy.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
+        (page.querySelector('#txtRemoteClientDownloadLimit') as HTMLInputElement).value = user.Policy.RemoteDownloadSpeedLimit > 0 ?
+            (user.Policy.RemoteDownloadSpeedLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';     
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = user.Policy.LoginAttemptsBeforeLockout || '0';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = user.Policy.MaxActiveSessions || '0';
         if (window.ApiClient.isMinServerVersion('10.6.0')) {
@@ -245,6 +247,7 @@ const UserEdit: FunctionComponent = () => {
             user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
             user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
             user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
+            user.Policy.RemoteDownloadSpeedLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientDownloadLimit') as HTMLInputElement).value || '0'));
             user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0', 10);
             user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0', 10);
             user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
@@ -452,6 +455,22 @@ const UserEdit: FunctionComponent = () => {
                             </div>
                             <div className='fieldDescription'>
                                 {globalize.translate('LabelUserRemoteClientBitrateLimitHelp')}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='verticalSection'>
+                        <div className='inputContainer'>
+                            <InputElement
+                                type='number'
+                                id='txtRemoteClientDownloadLimit'
+                                label='LabelRemoteClientDownloadLimit'
+                                options={'inputMode="decimal" pattern="[0-9]*(.[0-9]+)?" min="{0}" step=".25"'}
+                            />
+                            <div className='fieldDescription'>
+                                {globalize.translate('LabelRemoteClientDownloadLimitHelp')}
+                            </div>
+                            <div className='fieldDescription'>
+                                {globalize.translate('LabelUserRemoteClientDownloadLimitHelp')}
                             </div>
                         </div>
                     </div>
