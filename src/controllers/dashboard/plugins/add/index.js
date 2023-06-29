@@ -72,8 +72,8 @@ function renderPackage(pkg, installedPlugins, page) {
         $('#repositoryName', page).text(pkg.versions[0].repositoryName);
         $('#repositoryUrl', page).text(pkg.versions[0].repositoryUrl);
     } else {
-        $('#repositoryName', page).text('Unknown (no versions)');
-        $('#repositoryUrl', page).text('Unknown (no versions)');
+        $('#repositoryName', page).text(globalize.translate('Unknown'));
+        $('#repositoryUrl', page).text(globalize.translate('Unknown'));
     }
 
     if (installedPlugin) {
