@@ -1700,7 +1700,7 @@
     "HeaderDummyChapter": "Kapitel Bilder",
     "HeaderRecordingMetadataSaving": "Aufzeichnung von Metadaten",
     "LabelDummyChapterDuration": "Intervall",
-    "LabelDummyChapterDurationHelp": "Das Intervall für die Extraktion des Kapitelbildes in Sekunden.",
+    "LabelDummyChapterDurationHelp": "Das Intervall zwischen Dummy-Kapiteln. Auf 0 setzen, um die Erzeugung von Dummy-Kapiteln zu deaktivieren. Eine Änderung dieses Wertes hat keine Auswirkung auf bestehende Dummy-Kapitel.",
     "LabelDummyChapterCount": "Limit",
     "LabelDummyChapterCountHelp": "Die maximale Anzahl von Kapitelbildern, die für jede Mediendatei extrahiert werden.",
     "LabelChapterImageResolution": "Auflösung",
@@ -1733,7 +1733,10 @@
     "PasswordRequiredForAdmin": "Für Admin Konten wird ein Passwort benötigt.",
     "LabelEnableLUFSScan": "LUFS scan aktivieren",
     "LabelSyncPlayNoGroups": "Keine Gruppen verfügbar",
-    "LabelEnableLUFSScanHelp": "LUFS scan für Musik aktivieren (Dies erfodert mehr Zeit und Ressourcen)",
+    "LabelEnableLUFSScanHelp": "LUFS scan für Musik aktivieren (Dies erfodert mehr Zeit und Ressourcen).",
     "Notifications": "Benachrichtigungen",
-    "NotificationsMovedMessage": "Die Benachrichtigungsfunktion wurde zum Webhook Plugin verschoben."
+    "NotificationsMovedMessage": "Die Benachrichtigungsfunktion wurde zum Webhook Plugin verschoben.",
+    "EnableAudioNormalizationHelp": "Die Audionormalisierung fügt eine konstante Verstärkung hinzu, um den Durchschnitt auf einem gewünschten Pegel zu halten (-18 dB).",
+    "EnableAudioNormalization": "Audionormalisierung",
+    "GetThePlugin": "Plugin laden"
 }
