@@ -130,7 +130,7 @@ import browser from './browser';
 
             typeString = 'audio/ogg; codecs="opus"';
         } else if (format === 'alac') {
-            if (browser.iOS || browser.osx) {
+            if (browser.iOS || browser.osx && browser.safari) {
                 return true;
             }
         } else if (format === 'mp2') {
