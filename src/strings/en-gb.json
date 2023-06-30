@@ -1517,7 +1517,7 @@
     "MessagePlaybackError": "There was an error playing this file on your Google Cast receiver.",
     "MessageChromecastConnectionError": "Your Google Cast receiver is unable to contact the Jellyfin server. Please check the connection and try again.",
     "Framerate": "Framerate",
-    "DirectPlayHelp": "The source file is entirely compatible with this client, and the session is receiving the file without modifications.",
+    "DirectPlayHelp": "The source file is entirely compatible with this client and the session is receiving the file without modifications.",
     "EnableGamepadHelp": "Listen for input from any connected controllers. (Requires: 'TV' Display Mode)",
     "LabelEnableGamepad": "Enable Gamepad",
     "Controls": "Controls",
