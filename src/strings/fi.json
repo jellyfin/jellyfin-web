@@ -1259,7 +1259,7 @@
     "Framerate": "Virkistystaajuus",
     "DisablePlugin": "Poista käytöstä",
     "EnablePlugin": "Ota käyttöön",
-    "DirectPlayHelp": "Lähdetiedosto on täysin yhteensopiva päätesovelluksen kanssa ja istunto vastaanottaa tiedoston ilman muuntoa.",
+    "DirectPlayHelp": "Lähdetiedosto on täysin yhteensopiva tämän päätesovelluksen kanssa ja istunto vastaanottaa tiedoston ilman muuntoa.",
     "LabelMaxStreamingBitrateHelp": "Määritä suoratoiston enimmäisbittinopeus.",
     "LabelMinAudiobookResumeHelp": "Kohteita pidetään toistamattomina, jos toisto keskeytetään ennen tätä aikaa.",
     "LabelMaxStreamingBitrate": "Suoratoiston enimmäislaatu",
