@@ -1508,7 +1508,7 @@
     "DisablePlugin": "Deaktivieren",
     "EnablePlugin": "Aktivieren",
     "Framerate": "Bildrate",
-    "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel, und die Sitzung empfängt die Datei ohne Änderungen.",
+    "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel und die Sitzung empfängt die Datei ohne Änderungen.",
     "HeaderContinueReading": "Weiterlesen",
     "EnableGamepadHelp": "Auf Eingaben aller verbundenen Controller hören. (Erfordert: 'TV'-Anzeigemodus)",
     "LabelEnableGamepad": "Gamepad aktivieren",
@@ -1738,5 +1738,10 @@
     "NotificationsMovedMessage": "Die Benachrichtigungsfunktion wurde zum Webhook Plugin verschoben.",
     "EnableAudioNormalizationHelp": "Die Audionormalisierung fügt eine konstante Verstärkung hinzu, um den Durchschnitt auf einem gewünschten Pegel zu halten (-18 dB).",
     "EnableAudioNormalization": "Audionormalisierung",
-    "GetThePlugin": "Plugin laden"
+    "GetThePlugin": "Plugin laden",
+    "HeaderConfirmRepositoryInstallation": "Plugin-Repository-Installation bestätigen",
+    "LabelDeveloper": "Entwickler",
+    "MessageRepositoryInstallDisclaimer": "WARNUNG: Eine Drittanbieterquelle für Plugins kann instabilen oder schadhaften Code beinhalten und kann sich zu jedem Zeitpunkt ändern. Bitte installiere nur Quellen von Autoren, denen du vertraust.",
+    "PleaseConfirmRepositoryInstallation": "Bitte klicke auf OK um zu bestätigen, dass du den obigen Text gelesen hast und mit Plugin-Quellen-Installation fortfahren willst.",
+    "Unknown": "Unbekannt"
 }
