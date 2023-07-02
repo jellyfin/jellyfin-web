@@ -759,7 +759,7 @@
     "MessagePleaseEnsureInternetMetadata": "Zorg ervoor dat het downloaden van internet-metadata is ingeschakeld.",
     "MessagePleaseWait": "Even geduld. Dit kan even duren.",
     "MessagePluginConfigurationRequiresLocalAccess": "Om deze plug-in te configuren moet je je direct op de lokale server aanmelden.",
-    "MessagePluginInstallDisclaimer": "Plug-ins ontwikkeld door leden van de gemeenschap zijn een geweldige manier om uw ervaring met extra functies en voordelen te verbeteren. Wees voor het installeren bewust van de effecten die zij op uw server kunnen hebben, zoals langere bibliotheekscans, meer achtergrondverwerking en een verminderde stabiliteit van het systeem.",
+    "MessagePluginInstallDisclaimer": "WAARSCHUWING: het installeren van een plug-in van derden brengt risico's met zich mee. De plug-in kan ieder moment veranderen en instabiele of kwaadaardige code bevatten. Installeer alleen plug-ins van auteurs die je vertrouwt en wees je bewust van de mogelijke gevolgen, zoals verbindingen met externe diensten, langer durende bibliotheekscans of meer achtergrondverwerking.",
     "MessageReenableUser": "Zie hieronder hoe opnieuw in te schakelen",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "De volgende medialocaties worden verwijderd uit je bibliotheek",
     "MessageUnableToConnectToServer": "Het is momenteel niet mogelijk met de geselecteerde server te verbinden. Controleer of deze draait en probeer het opnieuw.",
@@ -1737,5 +1737,10 @@
     "LabelEnableLUFSScan": "LUFS-scan inschakelen",
     "LabelEnableLUFSScanHelp": "LUFS-scan voor muziek inschakelen. Dit duurt langer en is systeemintensief.",
     "PasswordRequiredForAdmin": "Voor beheerdersaccounts is een wachtwoord vereist.",
-    "LabelSyncPlayNoGroups": "Geen groepen beschikbaar"
+    "LabelSyncPlayNoGroups": "Geen groepen beschikbaar",
+    "HeaderConfirmRepositoryInstallation": "Installatie plug-in-repository bevestigen",
+    "LabelDeveloper": "Ontwikkelaar",
+    "MessageRepositoryInstallDisclaimer": "WAARSCHUWING: het installeren van een plug-in-repository van derden brengt risico's met zich mee. De repository kan ieder moment veranderen en instabiele of kwaadaardige code bevatten. Installeer alleen repository's van auteurs die je vertrouwt.",
+    "PleaseConfirmRepositoryInstallation": "Druk op OK als je bovenstaande gelezen hebt en wenst door te gaan met de installatie van de plug-in-repository.",
+    "Unknown": "Onbekend"
 }
