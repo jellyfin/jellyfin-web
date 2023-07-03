@@ -1375,7 +1375,7 @@
     "MessageSent": "Viesti lähetetty.",
     "MessagePluginInstallError": "Asennettaessa lisäosaa tapahtui virhe.",
     "MessagePluginInstalled": "Lisäosan asennus onnistui. Palvelin on käynnistettävä uudelleen, jotta muutokset tulevat voimaan.",
-    "MessagePluginInstallDisclaimer": "Yhteisön kehittämät lisäosat ovat mainio tapa parantaa käyttökokemustasi lisäominaisuuksilla. Huomioi ennen lisäosien asennusta, että ne voivat vaikuttaa palvelimen toimintaan, mm. pidentämällä kirjastopäivityksiä ja lisäämällä taustakuormitusta, sekä aiheuttaa järjestelmän epävakautta.",
+    "MessagePluginInstallDisclaimer": "VAROITUS: Ulkopuolisten tahojen kehittämien lisäosien asennus on aina riskialtista ja ne voivat sisältää epävakaata tai haitallista koodia, ja muuttua koska tahansa. Asenna lisäosia vain kehittäjiltä, joihin luotat ja ymmärrä niiden mahdolliset vaikutukset, kuten yhteydenotot ulkoisiin palveluihin, pidentyvät kirjastotarkistukset tai erilaiset taustaprosessit.",
     "MessagePlayAccessRestricted": "Tämän sisällön toistoa on rajoitettu. Lisätietoja saat palvelimen ylläpidolta.",
     "MessagePasswordResetForUsers": "Seuraavien käyttäjien salasanat on tyhjennetty ja he voivat nyt kirjautua käyttäen tyhjennykseen käytettäjä Helppo PIN -koodeja.",
     "MessageNoTrailersFound": "Asenna trailerit-kanava parantaaksesi elokuvakokemusta lisäämällä internet-trailereiden kirjasto.",
@@ -1732,9 +1732,14 @@
     "EnableAudioNormalization": "Äänen normalisointi",
     "LabelEnableLUFSScan": "Suorita LUFS-tarkistus",
     "LabelEnableLUFSScanHelp": "Käytä musiikin LUFS-tarkistusta (tämä vaatii enemmän aikaa ja resurseja).",
-    "GetThePlugin": "Hanki laajennus",
+    "GetThePlugin": "Hanki lisäosa",
     "Notifications": "Ilmoitukset",
-    "NotificationsMovedMessage": "Ilmoitustoiminnallisuus on siirtynyt Webhook-laajennukseen.",
+    "NotificationsMovedMessage": "Ilmoitustoiminnallisuus on siirtynyt Webhook-lisäosaan.",
     "PasswordRequiredForAdmin": "Ylläpitotileille on määritettävä salasana.",
-    "LabelSyncPlayNoGroups": "Ryhmiä ei ole käytettävissä"
+    "LabelSyncPlayNoGroups": "Ryhmiä ei ole käytettävissä",
+    "HeaderConfirmRepositoryInstallation": "Vahvista lisäosahakemiston asennus",
+    "LabelDeveloper": "Kehittäjä",
+    "MessageRepositoryInstallDisclaimer": "VAROITUS: Ulkopuolisten tahojen kehittämien lisäosien asennus on aina riskialtista ja ne voivat sisältää epävakaata tai haitallista koodia, ja muuttua koska tahansa. Asenna lisäosia vain kehittäjiltä, joihin luotat.",
+    "Unknown": "Tuntematon",
+    "PleaseConfirmRepositoryInstallation": "Vahvista lukeneesi yllä olevan tekstin ja jatkaaksesi lisäosan asennusta painamalla OK."
 }
