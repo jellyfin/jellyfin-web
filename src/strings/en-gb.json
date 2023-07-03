@@ -584,7 +584,7 @@
     "MinutesBefore": "minutes before",
     "MetadataSettingChangeHelp": "Changing metadata settings will affect new content added going forward. To refresh existing content, open the detail screen and click the 'Refresh' button, or do bulk refreshes using the 'Metadata Manager'.",
     "MetadataManager": "Metadata Manager",
-    "MessagePluginInstallDisclaimer": "Plugins built by community members are a great way to enhance your experience with additional features and benefits. Before installing, please be aware of the effects they may have on your server, such as longer library scans, additional background processing, and decreased system stability.",
+    "MessagePluginInstallDisclaimer": "WARNING: Installing a third party plugin carries risks. It may contain unstable or malicious code, and may change at any time. Only install plugins from authors that you trust, and please be aware of the potential effects it may have, including external service queries, longer library scans, or additional background processing.",
     "MessagePluginConfigurationRequiresLocalAccess": "To configure this plugin please sign in to your local server directly.",
     "MessagePleaseWait": "Please wait. This may take a minute.",
     "MessagePleaseEnsureInternetMetadata": "Please ensure downloading of internet metadata is enabled.",
@@ -1738,5 +1738,10 @@
     "Notifications": "Notifications",
     "NotificationsMovedMessage": "The notifications functionality has moved to the Webhook plugin.",
     "PasswordRequiredForAdmin": "A password is required for admin accounts.",
-    "LabelSyncPlayNoGroups": "No groups available"
+    "LabelSyncPlayNoGroups": "No groups available",
+    "HeaderConfirmRepositoryInstallation": "Confirm Plugin Repository Installation",
+    "LabelDeveloper": "Developer",
+    "MessageRepositoryInstallDisclaimer": "WARNING: Installing a third party plugin repository carries risks. It may contain unstable or malicious code, and may change at any time. Only install repositories from authors that you trust.",
+    "PleaseConfirmRepositoryInstallation": "Please click OK to confirm you've read the above and wish to proceed with the plugin repository installation.",
+    "Unknown": "Unknown"
 }
