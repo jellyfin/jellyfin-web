@@ -1742,6 +1742,6 @@
     "HeaderConfirmRepositoryInstallation": "Confirmer l'installation du dépôt d'extensions",
     "LabelDeveloper": "Développeur",
     "Unknown": "Inconnu",
-    "MessageRepositoryInstallDisclaimer": "ATTENTION : Installer un dépôt d'extensions tierces comporte des risques. Celui-ci peut contenir du code instable ou malveillant et peut être modifiée à tout moment. N'installez que des dépôts provenant d'auteurs en qui vous avez confiance.",
+    "MessageRepositoryInstallDisclaimer": "ATTENTION : Installer un dépôt d'extensions tierces comporte des risques. Celui-ci peut contenir du code instable ou malveillant et peut être modifié à tout moment. N'installez que des dépôts provenant d'auteurs en qui vous avez confiance.",
     "PleaseConfirmRepositoryInstallation": "Veuillez cliquer sur OK pour confirmer que vous avez lu ce qui précède et que vous souhaitez poursuivre l'installation du dépôt d'extensions."
 }
