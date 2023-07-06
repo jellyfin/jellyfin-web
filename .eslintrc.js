@@ -46,6 +46,7 @@ module.exports = {
         ],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
+        'no-extend-native': ['error'],
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],

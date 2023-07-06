@@ -24,12 +24,6 @@ function fillTimeOfDay(select) {
     }).join('');
 }
 
-Array.prototype.remove = function (from, to) {
-    const rest = this.slice((to || from) + 1 || this.length);
-    this.length = from < 0 ? this.length + from : from;
-    return this.push.apply(this, rest);
-};
-
 const ScheduledTaskPage = {
     refreshScheduledTask: function (view) {
         loading.show();
@@ -143,7 +137,7 @@ const ScheduledTaskPage = {
         loading.show();
         const id = getParameterByName('id');
         ApiClient.getScheduledTask(id).then(function (task) {
-            task.Triggers.remove(index);
+            task.Triggers.splice(index, 1);
             ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
                 ScheduledTaskPage.refreshScheduledTask(view);
             });
