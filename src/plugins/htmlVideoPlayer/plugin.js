@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
@@ -1535,7 +1537,8 @@ export class HtmlVideoPlayer {
                 }
 
                 if (selectedTrackEvent && selectedTrackEvent.Text) {
-                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
+                    subtitleTextElement.innerHTML = DOMPurify.sanitize(
+                        normalizeTrackEventText(selectedTrackEvent.Text, true));
                     subtitleTextElement.classList.remove('hide');
                 } else {
                     subtitleTextElement.classList.add('hide');

@@ -10,7 +10,6 @@ enum Direction {
   }
 
 interface ScrollButtonsProps {
-    scrollRef?: React.MutableRefObject<HTMLElement | null>;
     scrollerFactoryRef: React.MutableRefObject<scrollerFactory | null>;
     scrollState: {
         scrollSize: number;

@@ -382,6 +382,8 @@ EmbySliderPrototype.attachedCallback = function () {
     } else {
         startInterval(this);
     }
+
+    updateValues.call(this);
 };
 
 /**

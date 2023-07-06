@@ -2,6 +2,7 @@ import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
 import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
+import confirm from '../../../../components/confirm/confirm';
 
 import '../../../../elements/emby-button/emby-button';
 import '../../../../elements/emby-checkbox/emby-checkbox';
@@ -166,14 +167,36 @@ export default function(view) {
         dialog.querySelector('.newPluginForm').addEventListener('submit', e => {
             e.preventDefault();
 
-            repositories.push({
-                Name: dialog.querySelector('#txtRepositoryName').value,
-                Url: dialog.querySelector('#txtRepositoryUrl').value,
-                Enabled: true
-            });
+            const repositoryUrl = dialog.querySelector('#txtRepositoryUrl').value.toLowerCase();
 
-            saveList(view);
-            dialogHelper.close(dialog);
+            const alertCallback = function () {
+                repositories.push({
+                    Name: dialog.querySelector('#txtRepositoryName').value,
+                    Url: dialog.querySelector('#txtRepositoryUrl').value,
+                    Enabled: true
+                });
+                saveList(view);
+                dialogHelper.close(dialog);
+            };
+
+            // Check the repository URL for the official Jellyfin repository domain, or
+            // present the warning for 3rd party plugins.
+            if (!repositoryUrl.startsWith('https://repo.jellyfin.org/')) {
+                let msg = globalize.translate('MessageRepositoryInstallDisclaimer');
+                msg += '<br/>';
+                msg += '<br/>';
+                msg += globalize.translate('PleaseConfirmRepositoryInstallation');
+
+                confirm(msg, globalize.translate('HeaderConfirmRepositoryInstallation')).then(function () {
+                    alertCallback();
+                }).catch(() => {
+                    console.debug('repository not installed');
+                    dialogHelper.close(dialog);
+                });
+            } else {
+                alertCallback();
+            }
+
             return false;
         });
 

@@ -696,7 +696,7 @@
     "MessagePlayAccessRestricted": "Přehrávání tohoto obsahu je aktuálně omezeno. Další informace získáte od správce serveru.",
     "MessagePleaseEnsureInternetMetadata": "Prosím zkontrolujte, zda máte povoleno stahování metadat z internetu.",
     "MessagePluginConfigurationRequiresLocalAccess": "Pro konfiguraci zásuvného modulu se přihlaste přímo na lokální server.",
-    "MessagePluginInstallDisclaimer": "Zásuvné moduly vytvořené členy komunity jsou skvělým způsobem, jak si zlepšit prožitek pomocí dalších funkcí. Před instalací se prosím seznamte se všemi dopady, které mohou doplňky na server mít, např.: pomalejší skenování knihovny, delší zpracování na pozadí nebo snížená stabilita systému.",
+    "MessagePluginInstallDisclaimer": "UPOZORNĚNÍ: Instalace zásuvného modulu třetí strany má určitá rizika. Může obsahovat nestabilní nebo zákeřný kód, a může se kdykoliv změnit. Instalujte zásuvné moduly jen těch autorů, kterým důvěřujete, a mějte na vědomi, jaké potenciální dopady to může mít, včetně kontaktování externích služeb, delšího skenování knihovny, nebo dalších procesů na pozadí.",
     "MessageReenableUser": "Viz níže pro znovuzapnutí",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "Z vaší knihovny budou odstraněny následující zdroje médií",
     "MessageUnableToConnectToServer": "Nejsme schopni se připojit k vybranému serveru právě teď. Prosím, ujistěte se, že je spuštěn a zkuste to znovu.",
@@ -1737,5 +1737,11 @@
     "GetThePlugin": "Získat zásuvný modul",
     "Notifications": "Oznámení",
     "NotificationsMovedMessage": "Funkce oznámení se přesunula do zásuvného modulu Webhook.",
-    "PasswordRequiredForAdmin": "Administrátorské účty musejí mít nastaveno heslo."
+    "PasswordRequiredForAdmin": "Administrátorské účty musejí mít nastaveno heslo.",
+    "PleaseConfirmRepositoryInstallation": "Kliknutím na OK potvrďte, ze jste si přečetli text uvedený výše, a že chcete pokračovat v instalaci repozitáře zásuvného modulu.",
+    "Unknown": "Neznámý",
+    "LabelSyncPlayNoGroups": "Žádné skupiny nejsou k dispozici",
+    "HeaderConfirmRepositoryInstallation": "Potvrdit instalaci repozitáře zásuvných modulů",
+    "LabelDeveloper": "Vývojář",
+    "MessageRepositoryInstallDisclaimer": "UPOZORNĚNÍ: Instalace zásuvného modulu třetí strany má určitá rizika. Může obsahovat nestabilní nebo zákeřný kód, a může se kdykoliv změnit. Instalujte zásuvné moduly jen těch autorů, kterým důvěřujete."
 }
