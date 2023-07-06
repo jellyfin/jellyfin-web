@@ -466,7 +466,7 @@ function createToolsMenuList(pluginItems) {
     });
     links.push({
         name: globalize.translate('HeaderActivity'),
-        href: '#/serveractivity.html',
+        href: '#/dashboard/activity',
         pageIds: ['serverActivityPage'],
         icon: 'assessment'
     });

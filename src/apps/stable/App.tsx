@@ -51,6 +51,9 @@ const StableApp = () => (
 
             {/* Suppress warnings for unhandled routes */}
             <Route path='*' element={null} />
+
+            {/* Redirects for old paths */}
+            <Route path='/serveractivity.html' element={<Navigate replace to='/dashboard/activity' />} />
         </Route>
     </Routes>
 );

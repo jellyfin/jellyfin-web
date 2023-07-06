@@ -21,6 +21,15 @@ const theme = createTheme({
         fontFamily: '"Noto Sans", sans-serif',
         button: {
             textTransform: 'none'
+        },
+        h1: {
+            fontSize: '1.8rem'
+        },
+        h2: {
+            fontSize: '1.5rem'
+        },
+        h3: {
+            fontSize: '1.17rem'
         }
     },
     components: {
