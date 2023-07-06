@@ -1740,5 +1740,16 @@
     "LabelDeveloper": "Розробник",
     "MessageRepositoryInstallDisclaimer": "ПОПЕРЕДЖЕННЯ: Встановлення стороннього репозиторію плагінів несе певні ризики. Він може містити нестабільний або шкідливий код і може змінюватися в будь-який час. Встановлюйте репозиторії лише від авторів, яким ви довіряєте.",
     "PleaseConfirmRepositoryInstallation": "Будь ласка, натисніть OK, щоб підтвердити, що ви прочитали вищезазначене і бажаєте продовжити встановлення репозиторію плагінів.",
-    "Unknown": "Невідомо"
+    "Unknown": "Невідомо",
+    "LabelDate": "Дата",
+    "LabelLevel": "Рівень",
+    "LabelMediaDetails": "Деталі про медіа",
+    "LabelSystem": "Система",
+    "LogLevel.Debug": "Налагодження",
+    "LogLevel.Information": "Інформація",
+    "LogLevel.Error": "Помилка",
+    "LogLevel.Critical": "Критично",
+    "LogLevel.None": "Нічого",
+    "LogLevel.Trace": "Відстеження",
+    "LogLevel.Warning": "Попередження"
 }
