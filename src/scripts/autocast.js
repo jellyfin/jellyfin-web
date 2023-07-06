@@ -12,7 +12,7 @@ export function enable(enabled) {
     if (enabled) {
         const currentPlayerInfo = playbackManager.getPlayerInfo();
 
-        if (currentPlayerInfo && currentPlayerInfo.id) {
+        if (currentPlayerInfo?.id) {
             localStorage.setItem('autocastPlayerId', currentPlayerInfo.id);
         }
     } else {

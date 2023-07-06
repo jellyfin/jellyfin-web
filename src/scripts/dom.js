@@ -15,7 +15,7 @@ export function parentWithAttribute(elem, name, value) {
     while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
         elem = elem.parentNode;
 
-        if (!elem || !elem.getAttribute) {
+        if (!elem?.getAttribute) {
             return null;
         }
     }

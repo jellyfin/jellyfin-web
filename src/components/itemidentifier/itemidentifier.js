@@ -79,7 +79,7 @@ function searchForIdentificationResults(page) {
         SearchInfo: lookupInfo
     };
 
-    if (currentItem && currentItem.Id) {
+    if (currentItem?.Id) {
         lookupInfo.ItemId = currentItem.Id;
     } else {
         lookupInfo.IncludeDisabledProviders = true;

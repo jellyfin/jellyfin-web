@@ -37,7 +37,7 @@ class Backdrop {
             parent.appendChild(backdropImage);
 
             if (!enableAnimation()) {
-                if (existingBackdropImage && existingBackdropImage.parentNode) {
+                if (existingBackdropImage?.parentNode) {
                     existingBackdropImage.parentNode.removeChild(existingBackdropImage);
                 }
                 internalBackdrop(true);
@@ -51,7 +51,7 @@ class Backdrop {
                 if (backdropImage === self.currentAnimatingElement) {
                     self.currentAnimatingElement = null;
                 }
-                if (existingBackdropImage && existingBackdropImage.parentNode) {
+                if (existingBackdropImage?.parentNode) {
                     existingBackdropImage.parentNode.removeChild(existingBackdropImage);
                 }
             };

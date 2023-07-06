@@ -74,7 +74,7 @@ if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
     const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
 
     // descriptor returning null in webos
-    if (descriptor && descriptor.configurable) {
+    if (descriptor?.configurable) {
         const baseSetMethod = descriptor.set;
         descriptor.set = function (value) {
             baseSetMethod.call(this, value);

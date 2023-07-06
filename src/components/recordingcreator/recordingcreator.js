@@ -170,7 +170,7 @@ function showEditor(itemId, serverId) {
             Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
             executeCloseAction(closeAction, itemId, serverId);
 
-            if (currentRecordingFields && currentRecordingFields.hasChanged()) {
+            if (currentRecordingFields?.hasChanged()) {
                 resolve();
             } else {
                 reject();

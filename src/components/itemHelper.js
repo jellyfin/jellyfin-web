@@ -117,7 +117,7 @@ export function canEdit(user, item) {
 }
 
 export function isLocalItem(item) {
-    return item && item.Id && typeof item.Id === 'string' && item.Id.indexOf('local') === 0;
+    return item?.Id && typeof item.Id === 'string' && item.Id.indexOf('local') === 0;
 }
 
 export function canIdentify (user, item) {

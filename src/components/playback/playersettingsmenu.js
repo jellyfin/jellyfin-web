@@ -248,7 +248,7 @@ export function show(options) {
     const player = options.player;
     const currentItem = playbackManager.currentItem(player);
 
-    if (!currentItem || !currentItem.ServerId) {
+    if (!currentItem?.ServerId) {
         return showWithUser(options, player, null);
     }
 

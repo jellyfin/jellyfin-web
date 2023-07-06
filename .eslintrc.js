@@ -73,6 +73,7 @@ module.exports = {
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
         '@typescript-eslint/prefer-for-of': ['error'],
+        '@typescript-eslint/prefer-optional-chain': ['error'],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'radix': ['error'],
         '@typescript-eslint/semi': ['error'],

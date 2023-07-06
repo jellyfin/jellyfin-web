@@ -41,7 +41,7 @@ function onFileReaderError(evt) {
 function setFiles(page, files) {
     const file = files[0];
 
-    if (!file || !file.type.match('image.*')) {
+    if (!file?.type.match('image.*')) {
         page.querySelector('#imageOutput').innerHTML = '';
         page.querySelector('#fldUpload').classList.add('hide');
         currentFile = null;

@@ -229,7 +229,7 @@ export default function (view, params) {
     function onTabChange(evt) {
         const previousTabController = tabControllers[parseInt(evt.detail.previousIndex, 10)];
 
-        if (previousTabController && previousTabController.onHide) {
+        if (previousTabController?.onHide) {
             previousTabController.onHide();
         }
 
@@ -388,7 +388,7 @@ export default function (view, params) {
         inputManager.on(window, onInputCommand);
     });
     view.addEventListener('viewbeforehide', function () {
-        if (currentTabController && currentTabController.onHide) {
+        if (currentTabController?.onHide) {
             currentTabController.onHide();
         }
 

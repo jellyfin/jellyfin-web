@@ -320,7 +320,7 @@ class AppRouter {
                 path: ctx.path
             };
         }).catch((result) => {
-            if (!result || !result.cancelled) {
+            if (!result?.cancelled) {
                 onNewViewNeeded();
             }
         });
@@ -402,7 +402,7 @@ class AppRouter {
         const isCurrentRouteStartup = this.currentRouteInfo ? this.currentRouteInfo.route.startup : true;
         const shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
-        if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
+        if (!shouldExitApp && (!apiClient?.isLoggedIn()) && !route.anonymous) {
             console.debug('[appRouter] route does not allow anonymous access: redirecting to login');
             this.#beginConnectionWizard();
             return;
@@ -416,7 +416,7 @@ class AppRouter {
             return;
         }
 
-        if (apiClient && apiClient.isLoggedIn()) {
+        if (apiClient?.isLoggedIn()) {
             console.debug('[appRouter] user is authenticated');
 
             if (route.roles) {

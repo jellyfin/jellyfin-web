@@ -68,7 +68,7 @@ export function handleHlsJsMediaError(instance, reject) {
 
     let now = Date.now();
 
-    if (window.performance && window.performance.now) {
+    if (window.performance?.now) {
         now = performance.now(); // eslint-disable-line compat/compat
     }
 

@@ -47,7 +47,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
 
             viewManager.tryRestoreView(viewOptions)
                 .catch(async (result?: RestoreViewFailResponse) => {
-                    if (!result || !result.cancelled) {
+                    if (!result?.cancelled) {
                         const [ controllerFactory, viewHtml ] = await Promise.all([
                             import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
                             import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)

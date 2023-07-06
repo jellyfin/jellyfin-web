@@ -166,7 +166,7 @@ function getTranscodingStats(session, player, displayPlayMethod) {
                 value: session.TranscodingInfo.Framerate + ' fps'
             });
         }
-        if (session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+        if (session.TranscodingInfo.TranscodeReasons?.length) {
             sessionStats.push({
                 label: globalize.translate('LabelReasonForTranscoding'),
                 value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')

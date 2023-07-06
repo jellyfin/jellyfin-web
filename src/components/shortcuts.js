@@ -33,7 +33,7 @@ function playAllFromHere(card, serverId, queue) {
     }
 
     const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
-    if (itemsContainer && itemsContainer.fetchData) {
+    if (itemsContainer?.fetchData) {
         const queryOptions = queue ? { StartIndex: startIndex } : {};
 
         return itemsContainer.fetchData(queryOptions).then(result => {

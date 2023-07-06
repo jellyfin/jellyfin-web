@@ -1010,7 +1010,7 @@ export class HtmlVideoPlayer {
         }
 
         if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-            const mediaSource = (this._currentPlayOptions || {}).mediaSource;
+            const mediaSource = this._currentPlayOptions?.mediaSource;
 
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
@@ -1536,7 +1536,7 @@ export class HtmlVideoPlayer {
                     }
                 }
 
-                if (selectedTrackEvent && selectedTrackEvent.Text) {
+                if (selectedTrackEvent?.Text) {
                     subtitleTextElement.innerHTML = DOMPurify.sanitize(
                         normalizeTrackEventText(selectedTrackEvent.Text, true));
                     subtitleTextElement.classList.remove('hide');
@@ -1812,7 +1812,7 @@ export class HtmlVideoPlayer {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
-            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+            if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
                 video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
             }
         }
@@ -1891,7 +1891,7 @@ export class HtmlVideoPlayer {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             const seekable = mediaElement.seekable;
-            if (seekable && seekable.length) {
+            if (seekable?.length) {
                 let start = seekable.start(0);
                 let end = seekable.end(0);
 

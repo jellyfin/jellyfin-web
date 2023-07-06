@@ -9,7 +9,7 @@ worker.addEventListener(
     'message',
     ({ data: { pixels, hsh, width, height } }) => {
         const elems = targetDic[hsh];
-        if (elems && elems.length) {
+        if (elems?.length) {
             for (const elem of elems) {
                 drawBlurhash(elem, pixels, width, height);
             }

@@ -406,7 +406,7 @@ function renderName(item, container, context) {
     if (item.AlbumArtists) {
         parentNameHtml.push(getArtistLinksHtml(item.AlbumArtists, item.ServerId, context));
         parentNameLast = true;
-    } else if (item.ArtistItems && item.ArtistItems.length && item.Type === 'MusicVideo') {
+    } else if (item.ArtistItems?.length && item.Type === 'MusicVideo') {
         parentNameHtml.push(getArtistLinksHtml(item.ArtistItems, item.ServerId, context));
         parentNameLast = true;
     } else if (item.SeriesName && item.Type === 'Episode') {
@@ -475,7 +475,7 @@ function renderName(item, container, context) {
 }
 
 function setTrailerButtonVisibility(page, item) {
-    if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
+    if ((item.LocalTrailerCount || item.RemoteTrailers?.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
         hideAll(page, 'btnPlayTrailer', true);
     } else {
         hideAll(page, 'btnPlayTrailer');
@@ -505,7 +505,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    if (item.BackdropImageTags && item.BackdropImageTags.length) {
+    if (item.BackdropImageTags?.length) {
         imgUrl = apiClient.getScaledImageUrl(item.Id, {
             type: 'Backdrop',
             maxWidth: dom.getScreenWidth(),
@@ -523,7 +523,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
         });
         imageLoader.lazyImage(itemBackdropElement, imgUrl);
         hasbackdrop = true;
-    } else if (item.ImageTags && item.ImageTags.Primary) {
+    } else if (item.ImageTags?.Primary) {
         imgUrl = apiClient.getScaledImageUrl(item.Id, {
             type: 'Primary',
             maxWidth: dom.getScreenWidth(),
@@ -660,7 +660,7 @@ function logoImageUrl(item, apiClient, options) {
     options = options || {};
     options.type = 'Logo';
 
-    if (item.ImageTags && item.ImageTags.Logo) {
+    if (item.ImageTags?.Logo) {
         options.tag = item.ImageTags.Logo;
         return apiClient.getScaledImageUrl(item.Id, options);
     }
@@ -1054,7 +1054,7 @@ function renderMiscInfo(page, item) {
 function renderTagline(page, item) {
     const taglineElement = page.querySelector('.tagline');
 
-    if (item.Taglines && item.Taglines.length) {
+    if (item.Taglines?.length) {
         taglineElement.classList.remove('hide');
         taglineElement.innerHTML = '<bdi>' + escapeHtml(item.Taglines[0]) + '</bdi>';
     } else {
@@ -1263,7 +1263,7 @@ function renderSeriesAirTime(page, item) {
         return;
     }
     let html = '';
-    if (item.AirDays && item.AirDays.length) {
+    if (item.AirDays?.length) {
         if (item.AirDays.length == 7) {
             html += 'daily';
         } else {
