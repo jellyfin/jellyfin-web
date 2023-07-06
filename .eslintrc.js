@@ -6,7 +6,6 @@ module.exports = {
     plugins: [
         '@typescript-eslint',
         'react',
-        'promise',
         'import',
         'eslint-comments',
         'sonarjs'
@@ -20,7 +19,6 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:react/recommended',
-        // 'plugin:promise/recommended',
         'plugin:import/errors',
         'plugin:eslint-comments/recommended',
         'plugin:compat/recommended',
