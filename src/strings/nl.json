@@ -1742,5 +1742,16 @@
     "LabelDeveloper": "Ontwikkelaar",
     "MessageRepositoryInstallDisclaimer": "WAARSCHUWING: het installeren van een plug-in-repository van derden brengt risico's met zich mee. De repository kan ieder moment veranderen en instabiele of kwaadaardige code bevatten. Installeer alleen repository's van auteurs die je vertrouwt.",
     "PleaseConfirmRepositoryInstallation": "Druk op OK als je bovenstaande gelezen hebt en wenst door te gaan met de installatie van de plug-in-repository.",
-    "Unknown": "Onbekend"
+    "Unknown": "Onbekend",
+    "LabelDate": "Datum",
+    "LabelLevel": "Niveau",
+    "LabelMediaDetails": "Mediadetails",
+    "LabelSystem": "Systeem",
+    "LogLevel.Debug": "Foutopsporing",
+    "LogLevel.Trace": "Spoor",
+    "LogLevel.Information": "Informatie",
+    "LogLevel.Warning": "Waarschuwing",
+    "LogLevel.Error": "Fout",
+    "LogLevel.Critical": "Kritiek",
+    "LogLevel.None": "Geen"
 }
