@@ -290,7 +290,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../music/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../music/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index == 1) {
@@ -306,7 +306,7 @@ export default function (view, params) {
                 if (index === 1) {
                     controller = this;
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
+                    controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 if (index == 2) {

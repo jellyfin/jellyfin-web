@@ -19,7 +19,7 @@ function calculateOffset(textarea) {
     return offset;
 }
 
-function autoGrow(textarea, maxLines) {
+function AutoGrow(textarea, maxLines) {
     const self = this;
 
     if (maxLines === undefined) {
@@ -125,7 +125,7 @@ EmbyTextAreaPrototype.attachedCallback = function () {
         label.innerText = text;
     };
 
-    new autoGrow(this);
+    new AutoGrow(this);
 };
 
 document.registerElement('emby-textarea', {

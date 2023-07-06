@@ -904,6 +904,7 @@ scrollerFactory.prototype.toCenter = function (item, immediate) {
 };
 
 scrollerFactory.create = function (frame, options) {
+    // eslint-disable-next-line new-cap
     const instance = new scrollerFactory(frame, options);
     return Promise.resolve(instance);
 };

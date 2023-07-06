@@ -268,7 +268,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../shows/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../shows/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 1) {
@@ -284,7 +284,7 @@ export default function (view, params) {
                 if (index === 1) {
                     controller = self;
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
+                    controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 tabControllers[index] = controller;

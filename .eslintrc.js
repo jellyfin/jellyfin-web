@@ -35,9 +35,15 @@ module.exports = {
         'indent': ['error', 4, { 'SwitchCase': 1 }],
         'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
-        'no-throw-literal': ['error'],
         'max-statements-per-line': ['error'],
         'max-params': ['error', 7],
+        'new-cap': [
+            'error',
+            {
+                'capIsNewExceptions': ['jQuery.Deferred'],
+                'newIsCapExceptionPattern': '\\.default$'
+            }
+        ],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
         'no-floating-decimal': ['error'],
@@ -52,6 +58,7 @@ module.exports = {
         'no-sequences': ['error', { 'allowInParentheses': false }],
         'no-shadow': ['off'],
         '@typescript-eslint/no-shadow': ['error'],
+        'no-throw-literal': ['error'],
         'no-trailing-spaces': ['error'],
         'no-unused-expressions': ['off'],
         '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],

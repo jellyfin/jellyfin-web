@@ -691,8 +691,8 @@ function showRecordingFields(instance, page, item, user) {
         const recordingFieldsElement = page.querySelector('.recordingFields');
 
         if (item.Type == 'Program' && user.Policy.EnableLiveTvManagement) {
-            import('../../components/recordingcreator/recordingfields').then(({ default: recordingFields }) => {
-                instance.currentRecordingFields = new recordingFields({
+            import('../../components/recordingcreator/recordingfields').then(({ default: RecordingFields }) => {
+                instance.currentRecordingFields = new RecordingFields({
                     parent: recordingFieldsElement,
                     programId: item.Id,
                     serverId: item.ServerId
@@ -1826,7 +1826,7 @@ function renderCast(page, item) {
     });
 }
 
-function itemDetailPage() {
+function ItemDetailPage() {
     const self = this;
     self.setInitialCollapsibleState = setInitialCollapsibleState;
     self.renderDetails = renderDetails;
@@ -1846,7 +1846,7 @@ function onTrackSelectionsSubmit(e) {
     return false;
 }
 
-window.ItemDetailPage = new itemDetailPage();
+window.ItemDetailPage = new ItemDetailPage();
 
 export default function (view, params) {
     function getApiClient() {

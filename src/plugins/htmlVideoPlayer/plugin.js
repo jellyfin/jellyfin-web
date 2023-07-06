@@ -1490,8 +1490,8 @@ export class HtmlVideoPlayer {
                 // add some cues to show the text
                 // in safari, the cues need to be added before setting the track mode to showing
                 for (const trackEvent of data.TrackEvents) {
-                    const trackCueObject = window.VTTCue || window.TextTrackCue;
-                    const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                    const TrackCue = window.VTTCue || window.TextTrackCue;
+                    const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     if (cue.line === 'auto') {
                         cue.line = cueLine;

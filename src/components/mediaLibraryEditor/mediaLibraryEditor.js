@@ -197,7 +197,7 @@ function onDialogClosed() {
     currentDeferred.resolveWith(null, [hasChanges]);
 }
 
-export class showEditor {
+export class MediaLibraryEditor {
     constructor(options) {
         const deferred = jQuery.Deferred();
         currentOptions = options;
@@ -231,4 +231,4 @@ let currentOptions;
 let hasChanges = false;
 let isCreating = false;
 
-export default showEditor;
+export default MediaLibraryEditor;

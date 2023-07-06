@@ -270,8 +270,8 @@ function executeAction(card, target, action) {
 }
 
 function addToPlaylist(item) {
-    import('./playlisteditor/playlisteditor').then(({ default: playlistEditor }) => {
-        new playlistEditor().show({
+    import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+        new PlaylistEditor().show({
             items: [item.Id],
             serverId: item.ServerId
 

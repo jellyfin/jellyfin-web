@@ -314,7 +314,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../movies/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../movies/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === suggestionsTabIndex) {
@@ -330,11 +330,11 @@ export default function (view, params) {
                 if (index === suggestionsTabIndex) {
                     controller = this;
                 } else if (index == 0 || index == 3) {
-                    controller = new controllerFactory(view, params, tabContent, {
+                    controller = new ControllerFactory(view, params, tabContent, {
                         mode: index ? 'favorites' : 'movies'
                     });
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
+                    controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 tabControllers[index] = controller;

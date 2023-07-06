@@ -2,7 +2,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import castSenderApiLoader from './castSenderApi';
+import CastSenderApi from './castSenderApi';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import { PluginType } from '../../types/plugin.ts';
@@ -576,7 +576,7 @@ class ChromecastPlayer {
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
 
-        new castSenderApiLoader().load().then(initializeChromecast.bind(this));
+        new CastSenderApi().load().then(initializeChromecast.bind(this));
     }
 
     tryPair() {

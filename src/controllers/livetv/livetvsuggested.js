@@ -274,7 +274,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../livetv/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../livetv/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 0) {
@@ -290,7 +290,7 @@ export default function (view, params) {
                 if (index === 0) {
                     controller = self;
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
+                    controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 tabControllers[index] = controller;

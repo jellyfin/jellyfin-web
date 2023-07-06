@@ -9,8 +9,8 @@ function onListingsSubmitted() {
 }
 
 function init(page, type, providerId) {
-    import(`../components/tvproviders/${type}`).then(({ default: factory }) => {
-        const instance = new factory(page, providerId, {});
+    import(`../components/tvproviders/${type}`).then(({ default: ProviderFactory }) => {
+        const instance = new ProviderFactory(page, providerId, {});
         Events.on(instance, 'submitted', onListingsSubmitted);
         instance.init();
     });

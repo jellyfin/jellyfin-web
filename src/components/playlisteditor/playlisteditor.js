@@ -221,7 +221,7 @@ function centerFocus(elem, horiz, on) {
     });
 }
 
-export class showEditor {
+export class PlaylistEditor {
     constructor(options) {
         const items = options.items || {};
         currentServerId = options.serverId;
@@ -280,4 +280,4 @@ export class showEditor {
     }
 }
 
-export default showEditor;
+export default PlaylistEditor;

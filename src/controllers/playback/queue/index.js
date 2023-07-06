@@ -1,9 +1,9 @@
-import remotecontrolFactory from '../../../components/remotecontrol/remotecontrol';
+import RemoteControl from '../../../components/remotecontrol/remotecontrol';
 import libraryMenu from '../../../scripts/libraryMenu';
 import '../../../elements/emby-button/emby-button';
 
 export default function (view) {
-    const remoteControl = new remotecontrolFactory();
+    const remoteControl = new RemoteControl();
     remoteControl.init(view, view.querySelector('.remoteControlContent'));
     view.addEventListener('viewshow', function () {
         libraryMenu.setTransparentMenu(true);

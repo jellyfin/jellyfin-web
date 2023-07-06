@@ -6,7 +6,7 @@ import dom from '../../scripts/dom';
 import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
-import playlistEditor from '../playlisteditor/playlisteditor';
+import PlaylistEditor from '../playlisteditor/playlisteditor';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
 import datetime from '../../scripts/datetime';
@@ -269,7 +269,7 @@ function showMenuForSelectedItems(e) {
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                new playlistEditor({
+                                new PlaylistEditor({
                                     items: items,
                                     serverId: serverId
                                 });
@@ -299,8 +299,8 @@ function showMenuForSelectedItems(e) {
                                 dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
-                                import('../refreshdialog/refreshdialog').then(({ default: refreshDialog }) => {
-                                    new refreshDialog({
+                                import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
+                                    new RefreshDialog({
                                         itemIds: items,
                                         serverId: serverId
                                     }).show();
