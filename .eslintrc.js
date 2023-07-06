@@ -204,10 +204,7 @@ module.exports = {
         // JavaScript source files
         {
             files: [
-                './src/**/*.js',
-                './src/**/*.jsx',
-                './src/**/*.ts',
-                './src/**/*.tsx'
+                './src/**/*.{js,jsx,ts,tsx}'
             ],
             parserOptions: {
                 project: ['./tsconfig.json']
@@ -258,8 +255,7 @@ module.exports = {
         // TypeScript source files
         {
             files: [
-                './src/**/*.ts',
-                './src/**/*.tsx'
+                './src/**/*.{ts,tsx}'
             ],
             extends: [
                 'eslint:recommended',
