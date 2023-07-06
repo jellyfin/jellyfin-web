@@ -1743,5 +1743,16 @@
     "LabelEnableLUFSScan": "Abilita LUFS scan",
     "LabelEnableLUFSScanHelp": "Abilita LUFS scan per la musica (Impiegherà più tempo e più risorse).",
     "MessageRepositoryInstallDisclaimer": "ATTENZIONE: L'installazione di repository di plugin di terze parti può portare dei rischi. Può contenere codice instabile o malevolo e può cambiare in qualsiasi momento. Installa solo plugin degli autori di cui ti fidi.",
-    "Unknown": "Sconosciuto"
+    "Unknown": "Sconosciuto",
+    "LabelDate": "Data",
+    "LabelLevel": "Livello",
+    "LabelMediaDetails": "Dettagli Media",
+    "LabelSystem": "Sistema",
+    "LogLevel.Debug": "Debug",
+    "LogLevel.Trace": "Trace",
+    "LogLevel.Information": "Information",
+    "LogLevel.Warning": "Warning",
+    "LogLevel.Error": "Error",
+    "LogLevel.Critical": "Critical",
+    "LogLevel.None": "None"
 }
