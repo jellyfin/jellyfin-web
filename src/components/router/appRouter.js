@@ -167,12 +167,13 @@ class AppRouter {
 
     canGoBack() {
         const { path, route } = this.currentRouteInfo;
+        const pathOnly = path?.split('?')[0] ?? '';
 
         if (!route) {
             return false;
         }
 
-        if (!document.querySelector('.dialogContainer') && (START_PAGE_TYPES.includes(route.type) || START_PAGE_PATHS.includes(path))) {
+        if (!document.querySelector('.dialogContainer') && (START_PAGE_TYPES.includes(route.type) || START_PAGE_PATHS.includes(pathOnly))) {
             return false;
         }
 
