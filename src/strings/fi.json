@@ -1741,5 +1741,16 @@
     "LabelDeveloper": "Kehittäjä",
     "MessageRepositoryInstallDisclaimer": "VAROITUS: Ulkopuolisten tahojen kehittämien lisäosien asennus on aina riskialtista ja ne voivat sisältää epävakaata tai haitallista koodia, ja muuttua koska tahansa. Asenna lisäosia vain kehittäjiltä, joihin luotat.",
     "Unknown": "Tuntematon",
-    "PleaseConfirmRepositoryInstallation": "Vahvista lukeneesi yllä olevan tekstin ja jatkaaksesi lisäosan asennusta painamalla OK."
+    "PleaseConfirmRepositoryInstallation": "Vahvista lukeneesi yllä olevan tekstin ja jatkaaksesi lisäosan asennusta painamalla OK.",
+    "LabelDate": "Päiväys",
+    "LabelLevel": "Taso",
+    "LabelMediaDetails": "Median tiedot",
+    "LabelSystem": "Järjestelmä",
+    "LogLevel.Trace": "Jäljitys",
+    "LogLevel.Debug": "Vianselvitys",
+    "LogLevel.Information": "Tietoja",
+    "LogLevel.Warning": "Varoitus",
+    "LogLevel.Error": "Virhe",
+    "LogLevel.Critical": "Kriittinen",
+    "LogLevel.None": "Ei mitään"
 }
