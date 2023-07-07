@@ -1743,5 +1743,16 @@
     "LabelDeveloper": "Developer",
     "MessageRepositoryInstallDisclaimer": "WARNING: Installing a third party plugin repository carries risks. It may contain unstable or malicious code, and may change at any time. Only install repositories from authors that you trust.",
     "PleaseConfirmRepositoryInstallation": "Please click OK to confirm you've read the above and wish to proceed with the plugin repository installation.",
-    "Unknown": "Unknown"
+    "Unknown": "Unknown",
+    "LabelDate": "Date",
+    "LabelLevel": "Level",
+    "LabelMediaDetails": "Media details",
+    "LabelSystem": "System",
+    "LogLevel.Trace": "Trace",
+    "LogLevel.Debug": "Debug",
+    "LogLevel.Information": "Information",
+    "LogLevel.Error": "Error",
+    "LogLevel.Warning": "Warning",
+    "LogLevel.Critical": "Critical",
+    "LogLevel.None": "None"
 }
