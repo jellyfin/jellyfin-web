@@ -14,6 +14,7 @@ import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { getRandomItemBackdropImageUrl } from '../../utils/url';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -152,28 +153,6 @@ function mergePlaybackQueries(obj1, obj2) {
     }
     query.Filters = filters.join(',');
     return query;
-}
-
-function backdropImageUrl(apiClient, item, options) {
-    options = options || {};
-    options.type = options.type || 'Backdrop';
-
-    // If not resizing, get the original image
-    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height && !options.fillWidth && !options.fillHeight) {
-        options.quality = 100;
-    }
-
-    if (item.BackdropImageTags?.length) {
-        options.tag = item.BackdropImageTags[0];
-        return apiClient.getScaledImageUrl(item.Id, options);
-    }
-
-    if (item.ParentBackdropImageTags?.length) {
-        options.tag = item.ParentBackdropImageTags[0];
-        return apiClient.getScaledImageUrl(item.ParentBackdropItemId, options);
-    }
-
-    return null;
 }
 
 function getMimeType(type, container) {
@@ -2693,7 +2672,7 @@ class PlaybackManager {
                 title: item.Name
             };
 
-            const backdropUrl = backdropImageUrl(apiClient, item, {});
+            const backdropUrl = getRandomItemBackdropImageUrl(apiClient, item);
             if (backdropUrl) {
                 resultInfo.backdropUrl = backdropUrl;
             }
