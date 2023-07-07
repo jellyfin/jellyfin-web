@@ -1743,5 +1743,16 @@
     "LabelSyncPlayNoGroups": "Žádné skupiny nejsou k dispozici",
     "HeaderConfirmRepositoryInstallation": "Potvrdit instalaci repozitáře zásuvných modulů",
     "LabelDeveloper": "Vývojář",
-    "MessageRepositoryInstallDisclaimer": "UPOZORNĚNÍ: Instalace zásuvného modulu třetí strany má určitá rizika. Může obsahovat nestabilní nebo zákeřný kód, a může se kdykoliv změnit. Instalujte zásuvné moduly jen těch autorů, kterým důvěřujete."
+    "MessageRepositoryInstallDisclaimer": "UPOZORNĚNÍ: Instalace zásuvného modulu třetí strany má určitá rizika. Může obsahovat nestabilní nebo zákeřný kód, a může se kdykoliv změnit. Instalujte zásuvné moduly jen těch autorů, kterým důvěřujete.",
+    "LabelDate": "Datum",
+    "LabelLevel": "Úroveň",
+    "LabelMediaDetails": "Podrobnosti i médii",
+    "LabelSystem": "Systém",
+    "LogLevel.Trace": "Stopa",
+    "LogLevel.Debug": "Lazení",
+    "LogLevel.Information": "Informace",
+    "LogLevel.Warning": "Varování",
+    "LogLevel.Error": "Chyba",
+    "LogLevel.Critical": "Kritická",
+    "LogLevel.None": "Žádný"
 }
