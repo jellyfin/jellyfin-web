@@ -36,6 +36,7 @@ import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';
+import { getRandomItemBackdropImageUrl } from '../../utils/url';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -501,34 +502,12 @@ function renderDetailPageBackdrop(page, item, apiClient) {
         return false;
     }
 
-    let imgUrl;
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    if (item.BackdropImageTags?.length) {
-        imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: 'Backdrop',
-            maxWidth: dom.getScreenWidth(),
-            index: 0,
-            tag: item.BackdropImageTags[0]
-        });
-        imageLoader.lazyImage(itemBackdropElement, imgUrl);
-        hasbackdrop = true;
-    } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
-        imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-            type: 'Backdrop',
-            maxWidth: dom.getScreenWidth(),
-            index: 0,
-            tag: item.ParentBackdropImageTags[0]
-        });
-        imageLoader.lazyImage(itemBackdropElement, imgUrl);
-        hasbackdrop = true;
-    } else if (item.ImageTags?.Primary) {
-        imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: 'Primary',
-            maxWidth: dom.getScreenWidth(),
-            tag: item.ImageTags.Primary
-        });
+    const imgUrl = getRandomItemBackdropImageUrl(apiClient, item, { maxWitdh: dom.getScreenWidth() });
+
+    if (imgUrl) {
         imageLoader.lazyImage(itemBackdropElement, imgUrl);
         hasbackdrop = true;
     } else {
