@@ -188,7 +188,7 @@ function initLibraryOptions(dlg) {
     });
 }
 
-export class showEditor {
+export class MediaLibraryCreator {
     constructor(options) {
         return new Promise((resolve) => {
             currentOptions = options;
@@ -224,4 +224,4 @@ let currentOptions;
 let hasChanges = false;
 let isCreating = false;
 
-export default showEditor;
+export default MediaLibraryCreator;

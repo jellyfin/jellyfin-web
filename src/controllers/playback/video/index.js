@@ -666,7 +666,7 @@ export default function (view) {
         if (item.Type === 'TvChannel') {
             const program = item.CurrentProgram;
 
-            if (program && program.EndDate) {
+            if (program?.EndDate) {
                 try {
                     const endDate = datetime.parseISO8601Date(program.EndDate);
 
@@ -1685,7 +1685,7 @@ export default function (view) {
         ticks *= value;
         const item = currentItem;
 
-        if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
+        if (item?.Chapters?.length && item.Chapters[0].ImageTag) {
             const html = getChapterBubbleHtml(ServerConnections.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
             if (html) {

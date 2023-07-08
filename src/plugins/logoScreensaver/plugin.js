@@ -25,7 +25,7 @@ export default function () {
 
         const elem = document.querySelector('.logoScreenSaverImage');
 
-        if (elem && elem.animate) {
+        if (elem?.animate) {
             const random = randomInt(0, animations.length - 1);
 
             animations[random](elem, 1);

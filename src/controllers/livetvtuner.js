@@ -106,8 +106,8 @@ function submitForm(page) {
 }
 
 function getDetectedDevice() {
-    return import('../components/tunerPicker').then(({ default: tunerPicker }) => {
-        return new tunerPicker().show({
+    return import('../components/tunerPicker').then(({ default: TunerPicker }) => {
+        return new TunerPicker().show({
             serverId: ApiClient.serverId()
         });
     });

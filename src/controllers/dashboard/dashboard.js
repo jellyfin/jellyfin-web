@@ -47,7 +47,7 @@ function showPlaybackInfo(btn, session) {
         text.push(globalize.translate('MediaIsBeingConverted'));
         text.push(DashboardPage.getSessionNowPlayingStreamInfo(session));
 
-        if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+        if (session.TranscodingInfo?.TranscodeReasons?.length) {
             text.push('<br/>');
             text.push(globalize.translate('LabelReasonForTranscoding'));
             session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
@@ -90,7 +90,7 @@ function showOptionsMenu(btn, session) {
             });
         }
 
-        if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+        if (session.TranscodingInfo?.TranscodeReasons?.length) {
             menuItems.push({
                 name: globalize.translate('ViewPlaybackInfo'),
                 id: 'transcodinginfo'
@@ -402,7 +402,7 @@ window.DashboardPage = {
         } else if (displayPlayMethod === 'DirectStream') {
             html += globalize.translate('DirectStreaming');
         } else if (displayPlayMethod === 'Transcode') {
-            if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
+            if (session.TranscodingInfo?.Framerate) {
                 html += `${globalize.translate('Framerate')}: ${session.TranscodingInfo.Framerate}fps`;
             }
 
@@ -481,7 +481,7 @@ window.DashboardPage = {
         let topText = escapeHtml(itemHelper.getDisplayName(nowPlayingItem));
         let bottomText = '';
 
-        if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
+        if (nowPlayingItem.Artists?.length) {
             bottomText = topText;
             topText = escapeHtml(nowPlayingItem.Artists[0]);
         } else {
@@ -493,7 +493,7 @@ window.DashboardPage = {
             }
         }
 
-        if (nowPlayingItem.ImageTags && nowPlayingItem.ImageTags.Logo) {
+        if (nowPlayingItem.ImageTags?.Logo) {
             imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.Id, {
                 tag: nowPlayingItem.ImageTags.Logo,
                 maxHeight: 24,
@@ -571,7 +571,7 @@ window.DashboardPage = {
 
         const btnSessionPlayPauseIcon = btnSessionPlayPause.querySelector('.material-icons');
         btnSessionPlayPauseIcon.classList.remove('play_arrow', 'pause');
-        btnSessionPlayPauseIcon.classList.add(session.PlayState && session.PlayState.IsPaused ? 'play_arrow' : 'pause');
+        btnSessionPlayPauseIcon.classList.add(session.PlayState?.IsPaused ? 'play_arrow' : 'pause');
 
         row.querySelector('.sessionNowPlayingTime').innerText = DashboardPage.getSessionNowPlayingTime(session);
         row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
@@ -620,7 +620,7 @@ window.DashboardPage = {
     getNowPlayingImageUrl: function (item) {
         /* Screen width is multiplied by 0.2, as the there is currently no way to get the width of
             elements that aren't created yet. */
-        if (item && item.BackdropImageTags && item.BackdropImageTags.length) {
+        if (item?.BackdropImageTags?.length) {
             return ApiClient.getScaledImageUrl(item.Id, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Backdrop',
@@ -628,7 +628,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+        if (item?.ParentBackdropImageTags?.length) {
             return ApiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Backdrop',
@@ -636,7 +636,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.BackdropImageTag) {
+        if (item?.BackdropImageTag) {
             return ApiClient.getScaledImageUrl(item.BackdropItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Backdrop',
@@ -644,7 +644,7 @@ window.DashboardPage = {
             });
         }
 
-        const imageTags = (item || {}).ImageTags || {};
+        const imageTags = item?.ImageTags || {};
 
         if (item && imageTags.Thumb) {
             return ApiClient.getScaledImageUrl(item.Id, {
@@ -654,7 +654,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.ParentThumbImageTag) {
+        if (item?.ParentThumbImageTag) {
             return ApiClient.getScaledImageUrl(item.ParentThumbItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Thumb',
@@ -662,7 +662,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.ThumbImageTag) {
+        if (item?.ThumbImageTag) {
             return ApiClient.getScaledImageUrl(item.ThumbItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Thumb',
@@ -678,7 +678,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.PrimaryImageTag) {
+        if (item?.PrimaryImageTag) {
             return ApiClient.getScaledImageUrl(item.PrimaryImageItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Primary',
@@ -686,7 +686,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.AlbumPrimaryImageTag) {
+        if (item?.AlbumPrimaryImageTag) {
             return ApiClient.getScaledImageUrl(item.AlbumId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Primary',

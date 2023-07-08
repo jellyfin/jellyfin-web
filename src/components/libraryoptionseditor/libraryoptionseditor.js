@@ -495,7 +495,7 @@ function setImageFetchersIntoOptions(parent, options) {
 }
 
 function setImageOptionsIntoOptions(options) {
-    const originalTypeOptions = (currentLibraryOptions || {}).TypeOptions || [];
+    const originalTypeOptions = currentLibraryOptions?.TypeOptions || [];
     for (const originalTypeOption of originalTypeOptions) {
         let typeOptions = getTypeOptions(options, originalTypeOption.Type);
 

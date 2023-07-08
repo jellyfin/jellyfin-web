@@ -6,7 +6,7 @@ import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
-import recordingFields from './recordingfields';
+import RecordingFields from './recordingfields';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -170,7 +170,7 @@ function showEditor(itemId, serverId) {
             Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
             executeCloseAction(closeAction, itemId, serverId);
 
-            if (currentRecordingFields && currentRecordingFields.hasChanged()) {
+            if (currentRecordingFields?.hasChanged()) {
                 resolve();
             } else {
                 reject();
@@ -185,7 +185,7 @@ function showEditor(itemId, serverId) {
 
         reload(dlg, itemId, serverId);
 
-        currentRecordingFields = new recordingFields({
+        currentRecordingFields = new RecordingFields({
             parent: dlg.querySelector('.recordingFields'),
             programId: itemId,
             serverId: serverId

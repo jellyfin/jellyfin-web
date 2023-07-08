@@ -13,8 +13,8 @@ import confirm from '../../components/confirm/confirm';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
 function addVirtualFolder(page) {
-    import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: medialibrarycreator }) => {
-        new medialibrarycreator({
+    import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
+        new MediaLibraryCreator({
             collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                 return !f.hidden;
             }),
@@ -28,8 +28,8 @@ function addVirtualFolder(page) {
 }
 
 function editVirtualFolder(page, virtualFolder) {
-    import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: medialibraryeditor }) => {
-        new medialibraryeditor({
+    import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: MediaLibraryEditor }) => {
+        new MediaLibraryEditor({
             refresh: shouldRefreshLibraryAfterChanges(page),
             library: virtualFolder
         }).then(function (hasChanges) {
@@ -62,8 +62,8 @@ function deleteVirtualFolder(page, virtualFolder) {
 }
 
 function refreshVirtualFolder(page, virtualFolder) {
-    import('../../components/refreshdialog/refreshdialog').then(({ default: refreshDialog }) => {
-        new refreshDialog({
+    import('../../components/refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
+        new RefreshDialog({
             itemIds: [virtualFolder.ItemId],
             serverId: ApiClient.serverId(),
             mode: 'scan'

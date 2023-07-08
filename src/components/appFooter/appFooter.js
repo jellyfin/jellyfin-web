@@ -9,7 +9,7 @@ function render() {
     return elem;
 }
 
-class appFooter {
+class AppFooter {
     constructor() {
         const self = this;
 
@@ -33,4 +33,4 @@ class appFooter {
     }
 }
 
-export default new appFooter();
+export default new AppFooter();

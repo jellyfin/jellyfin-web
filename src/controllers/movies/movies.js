@@ -289,8 +289,8 @@ export default function (view, params, tabContent, options) {
     query = userSettings.loadQuerySettings(savedQueryKey, query);
 
     this.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({ default: filterDialogFactory }) => {
-            const filterDialog = new filterDialogFactory({
+        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
+            const filterDialog = new FilterDialog({
                 query: query,
                 mode: 'movies',
                 serverId: ApiClient.serverId()

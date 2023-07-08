@@ -759,7 +759,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtName').value = item.Name || '';
     context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
     context.querySelector('#txtOverview').value = item.Overview || '';
-    context.querySelector('#txtTagline').value = (item.Taglines && item.Taglines.length ? item.Taglines[0] : '');
+    context.querySelector('#txtTagline').value = (item.Taglines?.length ? item.Taglines[0] : '');
     context.querySelector('#txtSortName').value = item.ForcedSortName || '';
     context.querySelector('#txtCommunityRating').value = item.CommunityRating || '';
 
@@ -826,7 +826,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
 
     context.querySelector('#txtAirTime').value = item.AirTime || '';
 
-    const placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
+    const placeofBirth = item.ProductionLocations?.length ? item.ProductionLocations[0] : '';
     context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
 
     context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || '';

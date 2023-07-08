@@ -165,8 +165,8 @@ function showProviderOptions(page, providerId, button) {
 }
 
 function mapChannels(page, providerId) {
-    import('../components/channelMapper/channelMapper').then(({ default: channelMapper }) => {
-        new channelMapper({
+    import('../components/channelMapper/channelMapper').then(({ default: ChannelMapper }) => {
+        new ChannelMapper({
             serverId: ApiClient.serverInfo().Id,
             providerId: providerId
         }).show();

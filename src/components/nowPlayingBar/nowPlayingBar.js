@@ -233,7 +233,7 @@ function bindEvents(elem) {
     positionSlider.getBubbleText = function (value) {
         const state = lastPlayerState;
 
-        if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
+        if (!state?.NowPlayingItem || !currentRuntimeTicks) {
             return '--:--';
         }
 
@@ -476,7 +476,7 @@ function imageUrl(item, options) {
     options = options || {};
     options.type = options.type || 'Primary';
 
-    if (item.ImageTags && item.ImageTags[options.type]) {
+    if (item.ImageTags?.[options.type]) {
         options.tag = item.ImageTags[options.type];
         return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
     }

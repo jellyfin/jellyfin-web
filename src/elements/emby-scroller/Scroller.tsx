@@ -5,7 +5,7 @@ import layoutManager from '../../components/layoutManager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
-import scrollerFactory from '../../libraries/scroller';
+import ScrollerFactory from '../../libraries/scroller';
 import ScrollButtons from '../emby-scrollbuttons/ScrollButtons';
 import './emby-scroller.scss';
 
@@ -41,7 +41,7 @@ const Scroller: FC<ScrollerProps> = ({
         scrollPos: 0,
         scrollWidth: 0
     });
-    const scrollerFactoryRef = useRef<scrollerFactory | null>(null);
+    const scrollerFactoryRef = useRef<ScrollerFactory | null>(null);
 
     const getScrollSlider = useCallback(() => {
         if (scrollerFactoryRef.current) {
@@ -126,7 +126,7 @@ const Scroller: FC<ScrollerProps> = ({
         });
     }, [getScrollPosition, getScrollSize, getScrollWidth]);
 
-    const initCenterFocus = useCallback((elem, scrollerInstance: scrollerFactory) => {
+    const initCenterFocus = useCallback((elem, scrollerInstance: ScrollerFactory) => {
         dom.addEventListener(elem, 'focus', function (e: FocusEvent) {
             const focused = focusManager.focusableParent(e.target);
             if (focused) {
@@ -179,7 +179,7 @@ const Scroller: FC<ScrollerProps> = ({
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
-        scrollerFactoryRef.current = new scrollerFactory(scrollRef.current, options);
+        scrollerFactoryRef.current = new ScrollerFactory(scrollRef.current, options);
         scrollerFactoryRef.current.init();
         scrollerFactoryRef.current.reload();
 

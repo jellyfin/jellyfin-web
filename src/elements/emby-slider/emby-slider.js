@@ -14,7 +14,7 @@ let supportsValueSetOverride = false;
 if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
     const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
     // descriptor returning null in webos
-    if (descriptor && descriptor.configurable) {
+    if (descriptor?.configurable) {
         supportsValueSetOverride = true;
     }
 }
@@ -167,7 +167,7 @@ function setMarker(range, valueMarker, marker, valueProgress) {
 }
 
 function updateMarkers(range, currentValue) {
-    if (range.markerInfo && range.markerInfo.length && range.markerElements && range.markerElements.length) {
+    if (range.markerInfo?.length && range.markerElements?.length) {
         for (let i = 0, length = range.markerElements.length; i < length; i++) {
             if (range.markerInfo.length > i) {
                 setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
