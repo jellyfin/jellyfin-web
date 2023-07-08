@@ -763,7 +763,7 @@
     "MessagePleaseEnsureInternetMetadata": "Bitte sicherstellen, dass das Herunterladen von Internet Metadaten aktiviert ist.",
     "MessagePleaseWait": "Bitte warten, dies kann eine Minute dauern.",
     "MessagePluginConfigurationRequiresLocalAccess": "Melde dich bitte direkt an deinem lokalen Server an, um dieses Plugin einzurichten.",
-    "MessagePluginInstallDisclaimer": "Plugins aus der Community sind eine gute Möglichkeit um dein Erlebnis mit weiteren Funktionen und Vorteilen aufzuwerten. Bevor du diese installierst, sei dir den daraus resultierenden möglichen Umständen für deinen Server bewusst. Dies können z.B. längere Bibliotheken Scans, weiterführende Verarbeitung von Daten im Hintergrund sowie Systeminstabilität sein.",
+    "MessagePluginInstallDisclaimer": "WARNUNG: Mit dem Installieren eines Drittanbieterplugins entstehen Risiken. Es könnte nicht stabilen oder bösartigen Code enthalten und kann jederzeit von seinem Entwickler verändert werden. Installiere daher nur Plugins von Entwicklern, denen du vertraust. Sei dir den möglichen Auswirkungen bewusst, die eine Installation haben kann, einschließlich Anfragen an externe Dienste, verlängerte Bibliotheksscans oder zusätzliche Hintergrundverarbeitungen.",
     "MessageReenableUser": "Siehe unten zur Reaktivierung",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "Die folgenden Medienverzeichnisse werden aus der Bibliothek entfernt",
     "MessageUnableToConnectToServer": "Wir können gerade keine Verbindung zum gewählten Server herstellen. Bitte stelle sicher, dass dieser läuft und versuche es erneut.",
@@ -1743,5 +1743,16 @@
     "LabelDeveloper": "Entwickler",
     "MessageRepositoryInstallDisclaimer": "WARNUNG: Eine Drittanbieterquelle für Plugins kann instabilen oder schadhaften Code beinhalten und kann sich zu jedem Zeitpunkt ändern. Bitte installiere nur Quellen von Autoren, denen du vertraust.",
     "PleaseConfirmRepositoryInstallation": "Bitte klicke auf OK um zu bestätigen, dass du den obigen Text gelesen hast und mit Plugin-Quellen-Installation fortfahren willst.",
-    "Unknown": "Unbekannt"
+    "Unknown": "Unbekannt",
+    "LabelDate": "Datum",
+    "LabelLevel": "Level",
+    "LabelMediaDetails": "Mediendetails",
+    "LabelSystem": "System",
+    "LogLevel.Trace": "Trace",
+    "LogLevel.Debug": "Debug",
+    "LogLevel.Information": "Information",
+    "LogLevel.Warning": "Warnung",
+    "LogLevel.Error": "Fehler",
+    "LogLevel.Critical": "Kritisch",
+    "LogLevel.None": "Nichts"
 }
