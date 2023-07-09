@@ -359,7 +359,7 @@
     "HDPrograms": "Programas en HD",
     "HardwareAccelerationWarning": "Habilitar a aceleración por hardware pode causar inestabilidade nalgúns entornos. Verifique que o seu sistema operativo e drivers de vídeo estean actualizados. Se tiver dificultades durante a reprodución após a súa habilitación, precisará cambiar a configuración novamente a Ningunha.",
     "EnableDecodingColorDepth10Vp9": "Habilitar decodificación en hardware de 10 bits para VP9",
-    "EnableFasterAnimationsHelp": "Usar animacións e transicións máis rápidas",
+    "EnableFasterAnimationsHelp": "Usar animacións e transicións máis rápidas.",
     "GoogleCastUnsupported": "Google Cast non soportado",
     "HeaderActiveDevices": "Dispositivos activos",
     "HeaderConfirmProfileDeletion": "Configurar Borrado de Perfil",
