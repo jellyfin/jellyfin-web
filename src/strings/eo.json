@@ -181,7 +181,7 @@
     "MessageNoNextUpItems": "Nenio estis trovita. Komencu spekti viajn seriojn!",
     "Shows": "Serioj",
     "Arranger": "Aranĝanto",
-    "AroundTime": "Ĉirkaŭe",
+    "AroundTime": "Ĉirkaŭe {0}",
     "Anytime": "Iam ajn",
     "AnyLanguage": "Ajna Lingvo",
     "AgeValue": "({0} jarojn aĝa)",
