@@ -614,7 +614,7 @@
     "Ascending": "Kasvav",
     "Artist": "Esitaja",
     "Art": "Graafika",
-    "AroundTime": "Umbes",
+    "AroundTime": "Umbes {0}",
     "ApiKeysCaption": "Praegu lubatud API võtmete loend",
     "Anytime": "Igal ajal",
     "AnyLanguage": "Mis tahes keel",
