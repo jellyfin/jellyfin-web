@@ -141,7 +141,7 @@
     "AskAdminToCreateLibrary": "از کاربر مدیر بخواهید که یک کتابخانه ایجاد کند.",
     "Ascending": "افزایشی",
     "AsManyAsPossible": "تا جای ممکن",
-    "AroundTime": "حدود",
+    "AroundTime": "حدود {0}",
     "Anytime": "هر زمانی",
     "AnyLanguage": "هر زبانی",
     "AlwaysPlaySubtitles": "همیشه پخش کن",
