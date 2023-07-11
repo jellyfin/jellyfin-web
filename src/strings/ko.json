@@ -652,7 +652,7 @@
     "AlwaysPlaySubtitles": "항상 표시",
     "AlwaysPlaySubtitlesHelp": "오디오 언어를 불문하고 언어 설정에 적합한 자막을 불러옵니다.",
     "AnyLanguage": "모든 언어",
-    "AroundTime": "대략",
+    "AroundTime": "대략 {0}",
     "Art": "클리어아트",
     "AsManyAsPossible": "최대한 많이",
     "Ascending": "오름차순",
