@@ -154,7 +154,7 @@
     "Ascending": "Duke u ngjitur",
     "Artist": "Artisti",
     "Art": "Arti",
-    "AroundTime": "Përreth",
+    "AroundTime": "Përreth {0}",
     "ApiKeysCaption": "Lista e çelësave API aktualisht të aktivizuar",
     "Anytime": "Kurdo",
     "AnyLanguage": "Çfarëdo Gjuhë",
