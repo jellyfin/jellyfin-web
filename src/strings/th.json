@@ -29,7 +29,7 @@
     "AlbumArtist": "อัลบั้มศิลปิน",
     "Album": "อัลบั้ม",
     "AirDate": "วันที่ออกอากาศ",
-    "AddedOnValue": "เพิ่มแล้ว",
+    "AddedOnValue": "เพิ่มแล้ว {0}",
     "Framerate": "เฟรมเรต",
     "Folders": "โฟลเดอร์",
     "FileNotFound": "ไม่พบไฟล์",
