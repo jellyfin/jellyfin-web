@@ -1472,7 +1472,7 @@
     "Artists": "కళాకారులు",
     "Artist": "ఆర్టిస్ట్",
     "Art": "కళ",
-    "AroundTime": "చుట్టూ",
+    "AroundTime": "చుట్టూ {0}",
     "ApiKeysCaption": "ప్రస్తుతం ప్రారంభించబడిన API కీల జాబితా",
     "Anytime": "ఎప్పుడైనా",
     "AnyLanguage": "ఏదైనా భాష",
