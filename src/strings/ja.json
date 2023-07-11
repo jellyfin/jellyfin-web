@@ -30,7 +30,7 @@
     "AlwaysPlaySubtitlesHelp": "言語に合った字幕が音声言語に関係なく読み込まれます。",
     "AnyLanguage": "任意の言語",
     "Anytime": "いつでも",
-    "AroundTime": "だいたい",
+    "AroundTime": "だいたい {0}",
     "Art": "アート",
     "Artists": "アーティスト",
     "AsManyAsPossible": "できるだけ多く",
