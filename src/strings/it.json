@@ -27,7 +27,7 @@
     "AlwaysPlaySubtitlesHelp": "I sottotitoli corrispondenti alla lingua preferita saranno caricati a prescindere dalla lingua dell'audio.",
     "AnyLanguage": "Qualsiasi lingua",
     "Anytime": "In qualsiasi momento",
-    "AroundTime": "Circa",
+    "AroundTime": "Circa {0}",
     "Artists": "Artisti",
     "AsManyAsPossible": "Tutto il possibile",
     "Ascending": "Crescente",
