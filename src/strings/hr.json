@@ -8,7 +8,7 @@
     "AllEpisodes": "Sve epizode",
     "AllowHWTranscodingHelp": "Dopusti tuneru konverziju strujanja tokom reprodukcije. Smanjuje broj konverzija koje obavlja server.",
     "Anytime": "Bilo kada",
-    "AroundTime": "Oko",
+    "AroundTime": "Oko {0}",
     "AsManyAsPossible": "Što je više moguće",
     "Backdrops": "Pozadine",
     "BirthDateValue": "Rođen: {0}",
