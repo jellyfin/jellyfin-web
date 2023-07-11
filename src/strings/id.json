@@ -123,7 +123,7 @@
     "Ascending": "Urutan naik",
     "AsManyAsPossible": "Sebanyak mungkin",
     "Art": "Clearart",
-    "AroundTime": "Sekitar",
+    "AroundTime": "Sekitar {0}",
     "Anytime": "Kapanpun",
     "AnyLanguage": "Bahasa apapun",
     "AlwaysPlaySubtitlesHelp": "Subtitle yang cocok dengan preferensi bahasa akan dimuat terlepas dari bahasa audionya.",
