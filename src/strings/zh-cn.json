@@ -1743,5 +1743,16 @@
     "MessageRepositoryInstallDisclaimer": "警告：安装第三方插件仓库有风险。它可能包含不稳定或恶意的代码，并且可能随时变化。请仅安装您信任的作者提供的插件仓库。",
     "PleaseConfirmRepositoryInstallation": "请点击确定键来确认您已经阅读了上述内容，并希望继续进行插件仓库的安装。",
     "Unknown": "未知",
-    "HeaderConfirmRepositoryInstallation": "确认安装插件仓库"
+    "HeaderConfirmRepositoryInstallation": "确认安装插件仓库",
+    "LabelDate": "日期",
+    "LabelLevel": "等级",
+    "LabelMediaDetails": "媒体详情",
+    "LabelSystem": "系统",
+    "LogLevel.Trace": "追踪",
+    "LogLevel.Debug": "调试",
+    "LogLevel.Information": "信息",
+    "LogLevel.Warning": "警告",
+    "LogLevel.Error": "错误",
+    "LogLevel.Critical": "严重",
+    "LogLevel.None": "无"
 }
