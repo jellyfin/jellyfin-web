@@ -1298,7 +1298,7 @@
     "AsManyAsPossible": "Tantos como sea posible",
     "Artist": "Artista",
     "Art": "Clearart",
-    "AroundTime": "Alrededor de",
+    "AroundTime": "Alrededor de {0}",
     "Anytime": "En cualquier momento",
     "AnyLanguage": "Cualquier idioma",
     "AlwaysPlaySubtitlesHelp": "Los subtítulos que coincidan con el idioma preferido serán cargados independientemente del idioma del audio.",
