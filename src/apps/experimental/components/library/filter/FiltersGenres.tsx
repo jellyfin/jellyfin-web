@@ -6,13 +6,13 @@ import Checkbox from '@mui/material/Checkbox';
 import { LibraryViewSettings } from 'types/library';
 
 interface FiltersGenresProps {
-    filtes?: QueryFiltersLegacy;
+    filters?: QueryFiltersLegacy;
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
 const FiltersGenres: FC<FiltersGenresProps> = ({
-    filtes,
+    filters,
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
@@ -47,7 +47,7 @@ const FiltersGenres: FC<FiltersGenresProps> = ({
 
     return (
         <FormGroup>
-            {filtes?.Genres?.map((filter) => (
+            {filters?.Genres?.map((filter) => (
                 <FormControlLabel
                     key={filter}
                     control={

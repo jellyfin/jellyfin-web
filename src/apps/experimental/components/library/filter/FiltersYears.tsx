@@ -6,13 +6,13 @@ import Checkbox from '@mui/material/Checkbox';
 import { LibraryViewSettings } from 'types/library';
 
 interface FiltersYearsProps {
-    filtes?: QueryFiltersLegacy;
+    filters?: QueryFiltersLegacy;
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
 const FiltersYears: FC<FiltersYearsProps> = ({
-    filtes,
+    filters,
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
@@ -47,7 +47,7 @@ const FiltersYears: FC<FiltersYearsProps> = ({
 
     return (
         <FormGroup>
-            {filtes?.Years?.map((filter) => (
+            {filters?.Years?.map((filter) => (
                 <FormControlLabel
                     key={filter}
                     control={
