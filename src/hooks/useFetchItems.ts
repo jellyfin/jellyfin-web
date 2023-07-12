@@ -18,10 +18,11 @@ import { useQuery } from '@tanstack/react-query';
 
 import { JellyfinApiContext, useApi } from './useApi';
 import { Sections, SectionsViewType } from 'types/suggestionsSections';
+import { ParentId } from 'types/library';
 
 const fetchGetItem = async (
     currentApi: JellyfinApiContext,
-    parentId: string | null | undefined,
+    parentId: ParentId,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -39,7 +40,7 @@ const fetchGetItem = async (
     }
 };
 
-export const useGetItem = (parentId: string | null | undefined) => {
+export const useGetItem = (parentId: ParentId) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['Item', parentId],
@@ -85,7 +86,7 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
 
 const fetchGetMovieRecommendations = async (
     currentApi: JellyfinApiContext,
-    parentId: string | null | undefined,
+    parentId: ParentId,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -110,7 +111,7 @@ const fetchGetMovieRecommendations = async (
     }
 };
 
-export const useGetMovieRecommendations = (parentId: string | null | undefined) => {
+export const useGetMovieRecommendations = (parentId: ParentId) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['MovieRecommendations', parentId],
@@ -123,7 +124,7 @@ export const useGetMovieRecommendations = (parentId: string | null | undefined) 
 const fetchGetItemsBySuggestionsType = async (
     currentApi: JellyfinApiContext,
     sections: Sections,
-    parentId: string | null | undefined,
+    parentId: ParentId,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -236,7 +237,7 @@ const fetchGetItemsBySuggestionsType = async (
 
 export const useGetItemsBySectionType = (
     sections: Sections,
-    parentId: string | null | undefined
+    parentId: ParentId
 ) => {
     const currentApi = useApi();
     return useQuery({
@@ -255,7 +256,7 @@ export const useGetItemsBySectionType = (
 const fetchGetGenres = async (
     currentApi: JellyfinApiContext,
     itemType: BaseItemKind,
-    parentId: string | null | undefined,
+    parentId: ParentId,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -277,7 +278,7 @@ const fetchGetGenres = async (
     }
 };
 
-export const useGetGenres = (itemType: BaseItemKind, parentId: string | null | undefined) => {
+export const useGetGenres = (itemType: BaseItemKind, parentId: ParentId) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['Genres', parentId],
@@ -289,7 +290,7 @@ export const useGetGenres = (itemType: BaseItemKind, parentId: string | null | u
 
 const fetchGetStudios = async (
     currentApi: JellyfinApiContext,
-    parentId: string | null | undefined,
+    parentId: ParentId,
     itemType: BaseItemKind,
     options?: AxiosRequestConfig
 ) => {
@@ -315,7 +316,7 @@ const fetchGetStudios = async (
     }
 };
 
-export const useGetStudios = (parentId: string | null | undefined, itemType: BaseItemKind) => {
+export const useGetStudios = (parentId: ParentId, itemType: BaseItemKind) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['Studios', parentId, itemType],
@@ -327,7 +328,7 @@ export const useGetStudios = (parentId: string | null | undefined, itemType: Bas
 
 const fetchGetQueryFiltersLegacy = async (
     currentApi: JellyfinApiContext,
-    parentId: string | null | undefined,
+    parentId: ParentId,
     itemType: BaseItemKind,
     options?: AxiosRequestConfig
 ) => {
@@ -348,7 +349,7 @@ const fetchGetQueryFiltersLegacy = async (
 };
 
 export const useGetQueryFiltersLegacy = (
-    parentId: string | null | undefined,
+    parentId: ParentId,
     itemType: BaseItemKind
 ) => {
     const currentApi = useApi();

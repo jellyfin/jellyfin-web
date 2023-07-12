@@ -4,6 +4,8 @@ import type { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-o
 import type { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 
+export type ParentId = string | null | undefined;
+
 export interface LibraryViewProps {
     parentId: string | null;
 }
