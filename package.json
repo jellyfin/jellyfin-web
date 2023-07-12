@@ -114,8 +114,8 @@
     "swiper": "9.3.2",
     "webcomponents.js": "0.7.24",
     "whatwg-fetch": "3.6.2",
-    "workbox-core": "6.5.4",
-    "workbox-precaching": "6.5.4"
+    "workbox-core": "6.6.0",
+    "workbox-precaching": "6.6.0"
   },
   "browserslist": [
     "last 2 Firefox versions",
