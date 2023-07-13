@@ -692,7 +692,7 @@
     "MessageNoPluginsInstalled": "Nemáte instalovány žádné zásuvné moduly.",
     "MessageNoTrailersFound": "Chcete-li si zlepšit zážitek ze sledování, nainstalujte si kanál s upoutávkami.",
     "MessageNothingHere": "Tady nic není.",
-    "MessagePasswordResetForUsers": "Následujícím uživatelům bylo resetováno heslo. Nyní se mohou přihlásit pomocí kódů Easy PIN, které byly použity k provedení resetu.",
+    "MessagePasswordResetForUsers": "Následujícím uživatelům bylo resetováno heslo. Nyní se mohou přihlásit pomocí kódu PIN, který byl použit k provedení resetu.",
     "MessagePlayAccessRestricted": "Přehrávání tohoto obsahu je aktuálně omezeno. Další informace získáte od správce serveru.",
     "MessagePleaseEnsureInternetMetadata": "Prosím zkontrolujte, zda máte povoleno stahování metadat z internetu.",
     "MessagePluginConfigurationRequiresLocalAccess": "Pro konfiguraci zásuvného modulu se přihlaste přímo na lokální server.",
