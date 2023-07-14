@@ -1,5 +1,8 @@
-import { AppSettingsAlt, Close } from '@mui/icons-material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
+import Close from '@mui/icons-material/Close';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import Edit from '@mui/icons-material/Edit';
 import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
 import Settings from '@mui/icons-material/Settings';
@@ -103,6 +106,34 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     <ListItemText>
                         {globalize.translate('ClientSettings')}
                     </ListItemText>
+                </MenuItem>
+            ])}
+
+            {/* ADMIN LINKS */}
+            {user?.Policy?.IsAdministrator && ([
+                <Divider key='admin-links-divider' />,
+                <MenuItem
+                    key='admin-dashboard-link'
+                    component={Link}
+                    to='/dashboard.html'
+                    onClick={onMenuClose}
+                >
+
+                    <ListItemIcon>
+                        <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={globalize.translate('TabDashboard')} />
+                </MenuItem>,
+                <MenuItem
+                    key='admin-metadata-link'
+                    component={Link}
+                    to='/edititemmetadata.html'
+                    onClick={onMenuClose}
+                >
+                    <ListItemIcon>
+                        <Edit />
+                    </ListItemIcon>
+                    <ListItemText primary={globalize.translate('MetadataManager')} />
                 </MenuItem>
             ])}
 
