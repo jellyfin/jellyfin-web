@@ -11,8 +11,8 @@ import Events from '../../utils/events.ts';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
-    function getPageData(context) {
-        const key = getSavedQueryKey(context);
+    function getPageData() {
+        const key = getSavedQueryKey();
         let pageData = data[key];
 
         if (!pageData) {
@@ -27,7 +27,7 @@ export default function (view, params, tabContent) {
                     EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                     StartIndex: 0
                 },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
+                view: userSettings.getSavedView(key) || 'Poster'
             };
 
             if (userSettings.libraryPageSize() > 0) {
@@ -35,22 +35,18 @@ export default function (view, params, tabContent) {
             }
 
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
     }
 
-    function getQuery(context) {
-        return getPageData(context).query;
+    function getQuery() {
+        return getPageData().query;
     }
 
-    function getSavedQueryKey(context) {
-        if (!context.savedQueryKey) {
-            context.savedQueryKey = libraryBrowser.getSavedQueryKey('series');
-        }
-
-        return context.savedQueryKey;
+    function getSavedQueryKey() {
+        return `${params.topParentId}-series`;
     }
 
     const onViewStyleChange = () => {
@@ -71,7 +67,7 @@ export default function (view, params, tabContent) {
     const reloadItems = (page) => {
         loading.show();
         isLoading = true;
-        const query = getQuery(page);
+        const query = getQuery();
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
@@ -185,7 +181,7 @@ export default function (view, params, tabContent) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
             isLoading = false;
 
@@ -201,12 +197,12 @@ export default function (view, params, tabContent) {
     this.showFilterMenu = function () {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
-                query: getQuery(tabContent),
+                query: getQuery(),
                 mode: 'series',
                 serverId: ApiClient.serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
-                getQuery(tabContent).StartIndex = 0;
+                getQuery().StartIndex = 0;
                 reloadItems(tabContent);
             });
             filterDialog.show();
@@ -214,7 +210,7 @@ export default function (view, params, tabContent) {
     };
 
     this.getCurrentViewStyle = function () {
-        return getPageData(tabContent).view;
+        return getPageData().view;
     };
 
     const initPage = (tabElement) => {
@@ -223,7 +219,7 @@ export default function (view, params, tabContent) {
 
         alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
             const newValue = e.detail.value;
-            const query = getQuery(tabElement);
+            const query = getQuery();
             if (newValue === '#') {
                 query.NameLessThan = 'A';
                 delete query.NameStartsWith;
@@ -274,10 +270,10 @@ export default function (view, params, tabContent) {
                     id: 'PremiereDate,SortName'
                 }],
                 callback: function () {
-                    getQuery(tabElement).StartIndex = 0;
+                    getQuery().StartIndex = 0;
                     reloadItems(tabElement);
                 },
-                query: getQuery(tabElement),
+                query: getQuery(),
                 button: e.target
             });
         });
@@ -287,9 +283,9 @@ export default function (view, params, tabContent) {
         });
         btnSelectView.addEventListener('layoutchange', function (e) {
             const viewStyle = e.detail.viewStyle;
-            getPageData(tabElement).view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(tabElement), viewStyle);
-            getQuery(tabElement).StartIndex = 0;
+            getPageData().view = viewStyle;
+            userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
+            getQuery().StartIndex = 0;
             onViewStyleChange();
             reloadItems(tabElement);
         });
@@ -300,7 +296,7 @@ export default function (view, params, tabContent) {
 
     this.renderTab = () => {
         reloadItems(tabContent);
-        this.alphaPicker?.updateControls(getQuery(tabContent));
+        this.alphaPicker?.updateControls(getQuery());
     };
 }
 

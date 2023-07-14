@@ -534,6 +534,24 @@ export class UserSettings {
     }
 
     /**
+     * Get view layout setting.
+     * @param {string} key - View Setting key.
+     * @return {string} View Setting value.
+     */
+    getSavedView(key) {
+        return this.get(key + '-_view');
+    }
+
+    /**
+     * Set view layout setting.
+     * @param {string} key - View Setting key.
+     * @param {string} value - View Setting value.
+     */
+    saveViewSetting(key, value) {
+        return this.set(key + '-_view', value);
+    }
+
+    /**
      * Get subtitle appearance settings.
      * @param {string|undefined} key - Settings key.
      * @return {Object} Subtitle appearance settings.
@@ -638,3 +656,5 @@ export const setFilter = currentSettings.setFilter.bind(currentSettings);
 export const getFilter = currentSettings.getFilter.bind(currentSettings);
 export const customCss = currentSettings.customCss.bind(currentSettings);
 export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);
+export const getSavedView = currentSettings.getSavedView.bind(currentSettings);
+export const saveViewSetting = currentSettings.saveViewSetting.bind(currentSettings);
