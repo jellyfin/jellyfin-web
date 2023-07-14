@@ -1377,7 +1377,7 @@
     "MessagePluginInstalled": "Lisäosan asennus onnistui. Palvelin on käynnistettävä uudelleen, jotta muutokset tulevat voimaan.",
     "MessagePluginInstallDisclaimer": "VAROITUS: Ulkopuolisten tahojen kehittämien lisäosien asennus on aina riskialtista ja ne voivat sisältää epävakaata tai haitallista koodia, ja muuttua koska tahansa. Asenna lisäosia vain kehittäjiltä, joihin luotat ja ymmärrä niiden mahdolliset vaikutukset, kuten yhteydenotot ulkoisiin palveluihin, pidentyvät kirjastotarkistukset tai erilaiset taustaprosessit.",
     "MessagePlayAccessRestricted": "Tämän sisällön toistoa on rajoitettu. Lisätietoja saat palvelimen ylläpidolta.",
-    "MessagePasswordResetForUsers": "Seuraavien käyttäjien salasanat on tyhjennetty ja he voivat nyt kirjautua käyttäen tyhjennykseen käytettäjä Helppo PIN -koodeja.",
+    "MessagePasswordResetForUsers": "Seuraavat käyttäjät ovat nollanneet salasanansa ja he voivat nyt kirjautua nollaukseen käyttämillään PIN-koodeilla.",
     "MessageNoTrailersFound": "Asenna trailerit-kanava parantaaksesi elokuvakokemusta lisäämällä internet-trailereiden kirjasto.",
     "MessageNoRepositories": "Ei ohjelmavarastoja.",
     "MessageNoNextUpItems": "Ei tuloksia. Aloita sarjojesi katselu!",
