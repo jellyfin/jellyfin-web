@@ -366,6 +366,7 @@
     "HeaderEditImages": "Edit Images",
     "HeaderEnabledFields": "Enabled Fields",
     "HeaderEnabledFieldsHelp": "Uncheck a field to lock it and prevent its data from being changed.",
+    "HeaderEpisodesStatus": "Episodes Status",
     "HeaderError": "Error",
     "HeaderExternalIds": "External IDs",
     "HeaderFeatureAccess": "Feature access",
