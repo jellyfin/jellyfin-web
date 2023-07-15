@@ -1741,5 +1741,10 @@
     "Unknown": "Không rõ",
     "HeaderConfirmRepositoryInstallation": "Xác Nhận Cài Đặt Kho Lưu Trữ Plugin",
     "LabelDeveloper": "Nhà phát triển",
-    "PleaseConfirmRepositoryInstallation": "Vui lòng nhấp vào OK để xác nhận rằng bạn đã đọc phần trên và muốn tiếp tục cài đặt kho plugin."
+    "PleaseConfirmRepositoryInstallation": "Vui lòng nhấp vào OK để xác nhận rằng bạn đã đọc phần trên và muốn tiếp tục cài đặt kho plugin.",
+    "AllowSegmentDeletionHelp": "Xóa các phân đoạn cũ sau khi chúng đã được gửi cho khách hàng. Điều này tránh phải lưu trữ toàn bộ tệp đã chuyển mã trên đĩa. Sẽ chỉ hoạt động khi bật điều chỉnh. Tắt tính năng này nếu bạn gặp sự cố phát lại.",
+    "LabelThrottleDelaySecondsHelp": "Thời gian tính bằng giây sau đó bộ chuyển mã sẽ được điều chỉnh. Phải đủ lớn để khách hàng duy trì bộ đệm khỏe mạnh. Chỉ hoạt động nếu điều chỉnh được bật.",
+    "AllowSegmentDeletion": "Xóa phân đoạn",
+    "LabelSegmentKeepSeconds": "Thời gian giữ phân đoạn",
+    "HeaderEpisodesStatus": "Trạng Thái Tập"
 }
