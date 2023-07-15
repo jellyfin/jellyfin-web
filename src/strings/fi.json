@@ -1752,5 +1752,12 @@
     "LogLevel.Warning": "Varoitus",
     "LogLevel.Error": "Virhe",
     "LogLevel.Critical": "Kriittinen",
-    "LogLevel.None": "Ei mitään"
+    "LogLevel.None": "Ei mitään",
+    "HeaderEpisodesStatus": "Jaksojen tila",
+    "AllowSegmentDeletionHelp": "Poista vanhat osiot kun ne on lähetetty päätteelle. Tämän ansiosta transkoodattua tiedostoa ei tarvitse säilyttää kokonaan. Toimii vain rauhoituksen ollessa käytössä. Poista käytöstä, jos kohtaat toisto-ongelmia.",
+    "AllowSegmentDeletion": "Poista osiot",
+    "LabelThrottleDelaySeconds": "Rauhoita kun on kulunut",
+    "LabelThrottleDelaySecondsHelp": "Aika sekunneissa, jonka kuluttua transkooderi rauhoitetaan. Tämän on oltava riittävän suuri, jotta päätelaite kykenee ylläpitämään reilua puskuria. Toimii vain rauhoituksen ollessa käytössä.",
+    "LabelSegmentKeepSeconds": "Osioiden säilytysaika",
+    "LabelSegmentKeepSecondsHelp": "Aika sekunteina, jonka osiot säilytetään ennen päällekirjoitusta. Oltava \"Rahoita kun on kulunut\" -aikaa suurempi. Toimii vain osioiden poiston ollessa käytössä."
 }
