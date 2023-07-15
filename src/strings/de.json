@@ -826,7 +826,7 @@
     "OptionAutomaticallyGroupSeries": "Automatisches Zusammenführen von Serieninhalten, die über mehrere Ordner verteilt sind",
     "OptionAutomaticallyGroupSeriesHelp": "Inhalte einer Serie in verschiedenen Ordnern werden innerhalb einer Bibliothek als eine Serie angezeigt.",
     "OptionCommunityRating": "Community Bewertung",
-    "OptionCriticRating": "Kritiker Bewertung",
+    "OptionCriticRating": "Kritikerbewertung",
     "OptionCustomUsers": "Benutzerdefiniert",
     "OptionDaily": "Täglich",
     "OptionDateAdded": "Hinzugefügt am",
