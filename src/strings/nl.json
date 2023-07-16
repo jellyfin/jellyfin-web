@@ -754,7 +754,7 @@
     "MessageNoPluginsInstalled": "U heeft geen plug-ins geïnstalleerd.",
     "MessageNoTrailersFound": "Installeer het trailerkanaal om een bibliotheek met internettrailers toe te voegen en zo je filmervaring te verbeteren.",
     "MessageNothingHere": "Lijst is leeg.",
-    "MessagePasswordResetForUsers": "De wachtwoorden van de volgende gebruikers zijn hersteld. Zij kunnen nu inloggen met de Easy-pincodes die voor het herstellen zijn gebruikt.",
+    "MessagePasswordResetForUsers": "De wachtwoorden van de volgende gebruikers zijn hersteld. Zij kunnen zich nu aanmelden met de pincodes die voor het herstellen zijn gebruikt.",
     "MessagePlayAccessRestricted": "Het afspelen van deze inhoud wordt momenteel beperkt. Neem contact op met je serverbeheerder voor meer informatie.",
     "MessagePleaseEnsureInternetMetadata": "Zorg ervoor dat het downloaden van internet-metadata is ingeschakeld.",
     "MessagePleaseWait": "Even geduld. Dit kan even duren.",
@@ -1753,5 +1753,12 @@
     "LogLevel.Warning": "Waarschuwing",
     "LogLevel.Error": "Fout",
     "LogLevel.Critical": "Kritiek",
-    "LogLevel.None": "Geen"
+    "LogLevel.None": "Geen",
+    "AllowSegmentDeletionHelp": "Oude segmenten verwijderen nadat deze naar de cliënt zijn verzonden. Zo hoeft niet het gehele getranscodeerde bestand op de schijf te worden opgeslagen. Werkt alleen als afknijpen is ingeschakeld. Schakel dit uit als je afspeelproblemen ondervindt.",
+    "LabelSegmentKeepSecondsHelp": "Tijd in seconden die segmenten moeten worden bewaard voordat ze worden overschreven. Moet langer zijn dan \"Afknijpen na\". Werkt alleen als segmenten verwijderen is ingeschakeld.",
+    "HeaderEpisodesStatus": "Status afleveringen",
+    "AllowSegmentDeletion": "Segmenten verwijderen",
+    "LabelThrottleDelaySeconds": "Afknijpen na",
+    "LabelThrottleDelaySecondsHelp": "Tijd in seconden waarna de transcoder wordt afgeknepen. Deze tijd moet voldoende lang zijn zodat de cliënt een gezonde buffer in stand kan houden. Werkt alleen als afknijpen is ingeschakeld.",
+    "LabelSegmentKeepSeconds": "Bewaartijd segmenten"
 }
