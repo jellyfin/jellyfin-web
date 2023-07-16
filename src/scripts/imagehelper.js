@@ -59,6 +59,8 @@ export function getDeviceIcon(device) {
             return BASE_DEVICE_IMAGE_URL + 'finamp.svg';
         case 'Jellyfin Web':
             return getWebDeviceIcon(device.Name || device.DeviceName);
+        case 'JellyBook':
+            return BASE_DEVICE_IMAGE_URL + 'jellybook.svg';
         default:
             return BASE_DEVICE_IMAGE_URL + 'other.svg';
     }
