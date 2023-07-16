@@ -884,7 +884,7 @@
     "ButtonActivate": "Kích hoạt",
     "Authorize": "Ủy quyền",
     "MessagePlayAccessRestricted": "Việc phát lại nội dung này hiện bị hạn chế. Vui lòng liên hệ với quản trị viên máy chủ của bạn để biết thêm thông tin.",
-    "MessagePasswordResetForUsers": "Những người dùng này đã đặt lại mật khẩu của họ. Họ có thể đăng nhập với mã PIN Tiện Lợi đã được dùng để thiết lập lại.",
+    "MessagePasswordResetForUsers": "Những người dùng này đã đặt lại mật khẩu của họ. Giờ đây, họ có thể đăng nhập bằng mã PIN đã được sử dụng để thực hiện đặt lại.",
     "MessageNoTrailersFound": "Cài đặt kênh đoạn giới thiệu để nâng cao trải nghiệm phim của bạn bằng cách thêm thư viện đoạn giới thiệu trên internet.",
     "MessageNoServersAvailable": "Không tìm thấy máy chủ nào qua tính năng phát hiện máy chủ tự động.",
     "MessageNoPluginsInstalled": "Bạn chưa cài đặt plugin nào.",
