@@ -589,7 +589,7 @@
     "MessagePleaseWait": "Please wait. This may take a minute.",
     "MessagePleaseEnsureInternetMetadata": "Please ensure downloading of internet metadata is enabled.",
     "MessagePlayAccessRestricted": "Playback of this content is currently restricted. Please contact your server administrator for more information.",
-    "MessagePasswordResetForUsers": "The following users have had their passwords reset. They can now sign in with the Easy PIN codes that were used to do the reset.",
+    "MessagePasswordResetForUsers": "The following users have had their passwords reset. They can now sign in with the PIN codes that were used to do the reset.",
     "MessageNothingHere": "Nothing here.",
     "MessageNoTrailersFound": "Install the trailers channel to enhance your cinema experience by adding a library of internet trailers.",
     "MessageNoServersAvailable": "No servers have been found using the automatic server discovery.",
@@ -1754,5 +1754,12 @@
     "LogLevel.Error": "Error",
     "LogLevel.Warning": "Warning",
     "LogLevel.Critical": "Critical",
-    "LogLevel.None": "None"
+    "LogLevel.None": "None",
+    "HeaderEpisodesStatus": "Episodes Status",
+    "AllowSegmentDeletion": "Delete segments",
+    "AllowSegmentDeletionHelp": "Delete old segments after they have been sent to the client. This prevents having to store the entire transcoded file on disk. Will only work with throttling enabled. Turn this off if you experience playback issues.",
+    "LabelThrottleDelaySeconds": "Throttle after",
+    "LabelThrottleDelaySecondsHelp": "Time in seconds after which the transcoder will be throttled. Must be large enough for the client to maintain a healthy buffer. Only works if throttling is enabled.",
+    "LabelSegmentKeepSeconds": "Time to keep segments",
+    "LabelSegmentKeepSecondsHelp": "Time in seconds for which segments should be kept before they are overwritten. Must be greater than \"Throttle after\". Only works if segment deletion is enabled."
 }
