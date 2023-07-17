@@ -1716,5 +1716,7 @@
     "Featurette": "Mellékfilm",
     "LabelParallelImageEncodingLimitHelp": "Maximálisan engedélyezett egyidejűleg futó képkódolások száma. 0-ra állítva a rendszer specifikációja alapján lesz kiválasztva a limit.",
     "ResolutionMatchSource": "Forrásnak megfelelő",
-    "LabelParallelImageEncodingLimit": "Egyidejű képkódolási limit"
+    "LabelParallelImageEncodingLimit": "Egyidejű képkódolási limit",
+    "AllowCollectionManagement": "Ez a felhasználó módosíthatja a gyűjteményeket",
+    "AllowSegmentDeletion": "Szegmensek törlése"
 }
