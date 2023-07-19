@@ -36,7 +36,7 @@ import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';
-import { getRandomItemBackdropImageUrl } from '../../utils/url';
+import { getItemBackdropImageUrl } from '../../utils/url';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -505,7 +505,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    const imgUrl = getRandomItemBackdropImageUrl(apiClient, item, { maxWitdh: dom.getScreenWidth() });
+    const imgUrl = getItemBackdropImageUrl(apiClient, item, false, { maxWitdh: dom.getScreenWidth() });
 
     if (imgUrl) {
         imageLoader.lazyImage(itemBackdropElement, imgUrl);

@@ -14,7 +14,7 @@ import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
-import { getRandomItemBackdropImageUrl } from '../../utils/url';
+import { getItemBackdropImageUrl } from '../../utils/url';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -2672,7 +2672,7 @@ class PlaybackManager {
                 title: item.Name
             };
 
-            const backdropUrl = getRandomItemBackdropImageUrl(apiClient, item);
+            const backdropUrl = getItemBackdropImageUrl(apiClient, item, true);
             if (backdropUrl) {
                 resultInfo.backdropUrl = backdropUrl;
             }

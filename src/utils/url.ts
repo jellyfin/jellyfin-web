@@ -49,20 +49,21 @@ export interface ScaleImageOptions {
 }
 
 /**
- * Returns the url of a random backdrop image of an item.
- * If the item has no backdrop image, the url of a random backdrop image of the parent item is returned.
+ * Returns the url of the first or a random backdrop image of an item.
+ * If the item has no backdrop image, the url of the first or a random backdrop image of the parent item is returned.
  * Falls back to the primary image (cover) of the item, if neither the item nor it's parent have at least one backdrop image.
  * Returns undefined if no usable image was found.
  * @param apiClient The ApiClient to generate the url.
  * @param item The item for which the backdrop image is requested.
+ * @param random If set to true and the item has more than one backdrop, a random image is returned.
  * @param options Optional; allows to scale the backdrop image.
- * @returns The url of a random backdrop image of the provided item.
+ * @returns The url of the first or a random backdrop image of the provided item.
  */
-export const getRandomItemBackdropImageUrl = (apiClient: ApiClient, item: BaseItemDto, options: ScaleImageOptions = {}): string | undefined => {
+export const getItemBackdropImageUrl = (apiClient: ApiClient, item: BaseItemDto, random = false, options: ScaleImageOptions = {}): string | undefined => {
     let imgUrl;
 
-    if (item.BackdropImageTags && item.BackdropImageTags.length) {
-        const backdropImgIndex = randomInt(0, item.BackdropImageTags.length - 1);
+    if (item.BackdropImageTags?.length) {
+        const backdropImgIndex = random ? randomInt(0, item.BackdropImageTags.length - 1) : 0;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         imgUrl = apiClient.getScaledImageUrl(item.Id!, {
             type: 'Backdrop',
@@ -70,15 +71,15 @@ export const getRandomItemBackdropImageUrl = (apiClient: ApiClient, item: BaseIt
             tag: item.BackdropImageTags[backdropImgIndex],
             ...options
         });
-    } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
-        const backdropImgIndex = randomInt(0, item.ParentBackdropImageTags.length - 1);
+    } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags?.length) {
+        const backdropImgIndex = random ? randomInt(0, item.ParentBackdropImageTags.length - 1) : 0;
         imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
             type: 'Backdrop',
             index: backdropImgIndex,
             tag: item.ParentBackdropImageTags[backdropImgIndex],
             ...options
         });
-    } else if (item.ImageTags && item.ImageTags.Primary) {
+    } else if (item.ImageTags?.Primary) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         imgUrl = apiClient.getScaledImageUrl(item.Id!, {
             type: 'Primary',
