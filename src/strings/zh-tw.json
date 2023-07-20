@@ -222,7 +222,7 @@
     "AlwaysPlaySubtitlesHelp": "將會載入符合語音設定的字幕，無論語音是哪一個語言。",
     "AnyLanguage": "任何語言",
     "Anytime": "任何時間",
-    "AroundTime": "大概",
+    "AroundTime": "大概 {0}",
     "Art": "視覺圖",
     "Artists": "演出者",
     "AsManyAsPossible": "越多越好",

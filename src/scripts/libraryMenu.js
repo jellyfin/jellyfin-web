@@ -71,7 +71,7 @@ function renderHeader() {
 }
 
 function getCurrentApiClient() {
-    if (currentUser && currentUser.localUser) {
+    if (currentUser?.localUser) {
         return ServerConnections.getApiClient(currentUser.localUser.ServerId);
     }
 
@@ -127,7 +127,7 @@ function updateUserInHeader(user) {
 
     let hasImage;
 
-    if (user && user.name) {
+    if (user?.name) {
         if (user.imageUrl) {
             const url = user.imageUrl;
             updateHeaderUserButton(url);
@@ -143,7 +143,7 @@ function updateUserInHeader(user) {
         updateHeaderUserButton(null);
     }
 
-    if (user && user.localUser) {
+    if (user?.localUser) {
         if (headerHomeButton) {
             headerHomeButton.classList.remove('hide');
         }
@@ -322,7 +322,7 @@ function refreshLibraryInfoInDrawer(user) {
     // libraries are added here
     html += '<div class="libraryMenuOptions"></div>';
 
-    if (user.localUser && user.localUser.Policy.IsAdministrator) {
+    if (user.localUser?.Policy.IsAdministrator) {
         html += '<div class="adminMenuOptions">';
         html += '<h3 class="sidebarHeader">';
         html += globalize.translate('HeaderAdmin');
@@ -466,7 +466,7 @@ function createToolsMenuList(pluginItems) {
     });
     links.push({
         name: globalize.translate('HeaderActivity'),
-        href: '#/serveractivity.html',
+        href: '#/dashboard/activity',
         pageIds: ['serverActivityPage'],
         icon: 'assessment'
     });

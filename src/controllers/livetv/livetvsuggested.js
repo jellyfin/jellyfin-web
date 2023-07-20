@@ -229,7 +229,7 @@ export default function (view, params) {
     function onTabChange(evt) {
         const previousTabController = tabControllers[parseInt(evt.detail.previousIndex, 10)];
 
-        if (previousTabController && previousTabController.onHide) {
+        if (previousTabController?.onHide) {
             previousTabController.onHide();
         }
 
@@ -274,7 +274,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../livetv/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../livetv/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 0) {
@@ -290,7 +290,7 @@ export default function (view, params) {
                 if (index === 0) {
                     controller = self;
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
+                    controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 tabControllers[index] = controller;
@@ -388,7 +388,7 @@ export default function (view, params) {
         inputManager.on(window, onInputCommand);
     });
     view.addEventListener('viewbeforehide', function () {
-        if (currentTabController && currentTabController.onHide) {
+        if (currentTabController?.onHide) {
             currentTabController.onHide();
         }
 

@@ -1,3 +1,4 @@
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
@@ -9,6 +10,7 @@ import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import appIcon from 'assets/img/icon-transparent.png';
+import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 
@@ -23,6 +25,13 @@ interface AppToolbarProps {
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
+const onBackButtonClick = () => {
+    appRouter.back()
+        .catch(err => {
+            console.error('[AppToolbar] error calling appRouter.back', err);
+        });
+};
+
 const AppToolbar: FC<AppToolbarProps> = ({
     isDrawerOpen,
     onDrawerButtonClick
@@ -32,6 +41,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
     const location = useLocation();
 
     const isDrawerAvailable = isDrawerPath(location.pathname);
+    const isBackButtonAvailable = appRouter.canGoBack();
 
     return (
         <Toolbar
@@ -50,10 +60,24 @@ const AppToolbar: FC<AppToolbarProps> = ({
                         edge='start'
                         color='inherit'
                         aria-label={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}
-                        sx={{ mr: 2 }}
                         onClick={onDrawerButtonClick}
                     >
                         <MenuIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+
+            {isBackButtonAvailable && (
+                <Tooltip title={globalize.translate('ButtonBack')}>
+                    <IconButton
+                        size='large'
+                        // Set the edge if the drawer button is not shown
+                        edge={!(isUserLoggedIn && isDrawerAvailable) ? 'start' : undefined}
+                        color='inherit'
+                        aria-label={globalize.translate('ButtonBack')}
+                        onClick={onBackButtonClick}
+                    >
+                        <ArrowBack />
                     </IconButton>
                 </Tooltip>
             )}
@@ -64,6 +88,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 color='inherit'
                 aria-label={globalize.translate('Home')}
                 sx={{
+                    ml: 2,
                     display: 'inline-flex',
                     textDecoration: 'none'
                 }}

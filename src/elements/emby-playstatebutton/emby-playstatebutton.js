@@ -132,7 +132,7 @@ EmbyPlaystateButtonPrototype.setItem = function (item) {
         this.setAttribute('data-serverid', item.ServerId);
         this.setAttribute('data-type', item.Type);
 
-        const played = item.UserData && item.UserData.Played;
+        const played = item.UserData?.Played;
         setState(this, played);
         bindEvents(this);
     } else {

@@ -93,7 +93,7 @@ function onListItemClick(e) {
 
     if (listItem) {
         const index = parseInt(listItem.getAttribute('data-index'), 10);
-        const pathInfos = (currentOptions.library.LibraryOptions || {}).PathInfos || [];
+        const pathInfos = currentOptions.library.LibraryOptions?.PathInfos || [];
         const pathInfo = index == null ? {} : pathInfos[index] || {};
         const originalPath = pathInfo.Path || (index == null ? null : currentOptions.library.Locations[index]);
         const btnRemovePath = dom.parentWithClass(e.target, 'btnRemovePath');
@@ -139,7 +139,7 @@ function refreshLibraryFromServer(page) {
 }
 
 function renderLibrary(page, options) {
-    let pathInfos = (options.library.LibraryOptions || {}).PathInfos || [];
+    let pathInfos = options.library.LibraryOptions?.PathInfos || [];
 
     if (!pathInfos.length) {
         pathInfos = options.library.Locations.map(p => {
@@ -197,7 +197,7 @@ function onDialogClosed() {
     currentDeferred.resolveWith(null, [hasChanges]);
 }
 
-export class showEditor {
+export class MediaLibraryEditor {
     constructor(options) {
         const deferred = jQuery.Deferred();
         currentOptions = options;
@@ -231,4 +231,4 @@ let currentOptions;
 let hasChanges = false;
 let isCreating = false;
 
-export default showEditor;
+export default MediaLibraryEditor;

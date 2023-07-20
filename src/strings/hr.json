@@ -8,7 +8,7 @@
     "AllEpisodes": "Sve epizode",
     "AllowHWTranscodingHelp": "Dopusti tuneru konverziju strujanja tokom reprodukcije. Smanjuje broj konverzija koje obavlja server.",
     "Anytime": "Bilo kada",
-    "AroundTime": "Oko",
+    "AroundTime": "Oko {0}",
     "AsManyAsPossible": "Što je više moguće",
     "Backdrops": "Pozadine",
     "BirthDateValue": "Rođen: {0}",
@@ -1361,5 +1361,14 @@
     "LabelAutomaticallyAddToCollectionHelp": "Kada najmanje 2 filma imaju isti naziv kolekcije, automatski će se dodati u kolekciju.",
     "Suggestions": "Prijedlozi",
     "Trailers": "Najave",
-    "Small": "Malo"
+    "Small": "Malo",
+    "HeaderDummyChapter": "Slike Poglavlja",
+    "EnableAudioNormalization": "Normalizacija zvuka",
+    "Experimental": "Eksperimentalno",
+    "HeaderPerformance": "Performanse",
+    "DownloadAll": "Preuzmi sve",
+    "HeaderRecordingMetadataSaving": "Snimanje metapodataka",
+    "LabelChapterImageResolution": "Rezolucija",
+    "AllowCollectionManagement": "Dozvoli ovom korisniku da upravlja kolekcijama",
+    "LabelDummyChapterDuration": "Interval"
 }

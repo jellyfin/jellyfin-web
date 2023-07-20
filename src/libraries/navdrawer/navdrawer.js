@@ -131,7 +131,7 @@ class NavDrawer {
         if (this.isPeeking) {
             this.onMenuTouchMove(e);
         } else {
-            if (((getTouches(e)[0] || {}).clientX || 0) <= options.handleSize) {
+            if ((getTouches(e)[0]?.clientX || 0) <= options.handleSize) {
                 this.isPeeking = true;
 
                 if (e.type === 'touchstart') {

@@ -72,13 +72,13 @@ class PluginManager {
                     throw new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
                 }
 
-                const pluginClass = await pluginDefinition();
-                if (typeof pluginClass !== 'function') {
+                const PluginClass = await pluginDefinition();
+                if (typeof PluginClass !== 'function') {
                     throw new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
                 }
 
                 // init plugin and pass basic dependencies
-                plugin = new pluginClass({
+                plugin = new PluginClass({
                     events: Events,
                     loading,
                     appSettings,

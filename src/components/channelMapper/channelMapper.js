@@ -12,7 +12,7 @@ import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
 
-export default class channelMapper {
+export default class ChannelMapper {
     constructor(options) {
         function mapChannel(button, channelId, providerChannelId) {
             loading.show();

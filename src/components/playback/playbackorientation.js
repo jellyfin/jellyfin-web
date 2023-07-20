@@ -1,4 +1,3 @@
-
 import { playbackManager } from './playbackmanager';
 import layoutManager from '../layoutManager';
 import Events from '../../utils/events.ts';
@@ -19,7 +18,7 @@ Events.on(playbackManager, 'playbackstart', function (e, player) {
 
     if (isLocalVideo && layoutManager.mobile) {
         /* eslint-disable-next-line compat/compat */
-        const lockOrientation = window.screen.lockOrientation || window.screen.mozLockOrientation || window.screen.msLockOrientation || (window.screen.orientation && window.screen.orientation.lock);
+        const lockOrientation = window.screen.lockOrientation || window.screen.mozLockOrientation || window.screen.msLockOrientation || (window.screen.orientation?.lock);
 
         if (lockOrientation) {
             try {
@@ -40,7 +39,7 @@ Events.on(playbackManager, 'playbackstart', function (e, player) {
 Events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
     if (orientationLocked && !playbackStopInfo.nextMediaType) {
         /* eslint-disable-next-line compat/compat */
-        const unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation && window.screen.orientation.unlock);
+        const unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation?.unlock);
 
         if (unlockOrientation) {
             try {

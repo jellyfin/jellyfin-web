@@ -61,7 +61,7 @@ function getMediaSourceHtml(user, item, version) {
     if (version.Container) {
         html += `${createAttribute(globalize.translate('MediaInfoContainer'), version.Container)}<br/>`;
     }
-    if (version.Formats && version.Formats.length) {
+    if (version.Formats?.length) {
         html += `${createAttribute(globalize.translate('MediaInfoFormat'), version.Formats.join(','))}<br/>`;
     }
     if (version.Path && user && user.Policy.IsAdministrator) {

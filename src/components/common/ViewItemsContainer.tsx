@@ -12,11 +12,13 @@ import Shuffle from './Shuffle';
 import Sort from './Sort';
 import NewCollection from './NewCollection';
 import globalize from '../../scripts/globalize';
-import { CardOptions, ViewQuerySettings } from '../../types/interface';
 import ServerConnections from '../ServerConnections';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import listview from '../listview/listview';
 import cardBuilder from '../cardbuilder/cardBuilder';
+
+import { ViewQuerySettings } from '../../types/interface';
+import { CardOptions } from '../../types/cardOptions';
 
 interface ViewItemsContainerProps {
     topParentId: string | null;

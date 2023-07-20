@@ -121,7 +121,7 @@
     "HeaderConnectionFailure": "فشل في الاتصال",
     "HeaderContainerProfile": "عريضة الحاوية",
     "HeaderContainerProfileHelp": "تشير ملفات تعريف الحاوية إلى قيود الجهاز عند تشغيل تنسيقات معينة. إذا تم تطبيق قيود ، فسيتم تحويل ترميز الوسائط ، حتى إذا تم تكوين التنسيق للتشغيل المباشر.",
-    "HeaderContinueWatching": "استئناف المشاهدة",
+    "HeaderContinueWatching": "أستئناف المشاهدة",
     "HeaderCustomDlnaProfiles": "الحسابات المخصوصة",
     "HeaderDateIssued": "تاريخ الإصدار",
     "HeaderDefaultRecordingSettings": "إعدادات التسجيل الافتراضية",
@@ -803,7 +803,7 @@
     "ConfirmDeleteItems": "حذف هذه العناصر سوف يحذفها من نظام الملفات ومن مكتبة الوسائط. هل ترغب حقاً فى الاستمرار؟",
     "EveryNDays": "كل {0} يوم",
     "ConfirmDeleteItem": "حذف هذا العنصر سوف يحذفه من نظام الملفات ومن مكتبة الوسائط. هل ترغب حقاً فى الاستمرار؟",
-    "DropShadow": "إضافة ظل خلفي‏",
+    "DropShadow": "ظل خلفي‏",
     "LabelDropShadow": "اسقاط الظل",
     "EditSubtitles": "تعديل الترجمات",
     "EditMetadata": "تعديل البيانات التعريفية",
@@ -886,7 +886,7 @@
     "ButtonTogglePlaylist": "قائمة التشغيل",
     "BoxSet": "طقم",
     "ButtonSplit": "تقسيم",
-    "AllowFfmpegThrottlingHelp": "عند تفعيلها؛ فسوف تتوقف عملية الترميز transcoding توقفا مؤقتا كلما تقدمت العملية عن موضع التشغيل بنسبة كافية، تهدف هذه الخاصية إلى التقليل من استهلاك الطاقة، وتكون ذات منفعة كبيرة عندما تتم عملية المشاهدة بانتظام دون القفز عدة دقائق في المشاهدة ما بين الحينة والأخرى. كما ينطبق الأمر ذاته على عملية نسخ الملف إلى حاوية أخرى لتتوافق مع الجهاز remuxing.",
+    "AllowFfmpegThrottlingHelp": "عندما يتقدم تحويل الشفرة (transcode) أو remux بدرجة كافية من موضع التشغيل الحالي، تتوقف العملية مؤقتا حتى تستهلك موارد أقل. هذا مفيد للغاية عند المشاهدة دون القفز كثيرا. قم بإقاف تشغيل هذه الخاصية أذا واجهت مشاكل في تشغيل الفديو.",
     "InstallingPackage": "تثبيت {0} (الإصدار {1})",
     "Images": "الصور",
     "Identify": "التعرف على الوسائط",
@@ -1694,5 +1694,6 @@
     "LabelDummyChapterCount": "الحد",
     "LabelDummyChapterCountHelp": "العدد الأقصى لصور الفصول التي سيتم استئصالها من كل ملف للوسائط.",
     "LabelChapterImageResolution": "الدقة",
-    "LabelEnableAudioVbr": "فعل تشفير VBR الصوتي"
+    "LabelEnableAudioVbr": "فعل تشفير VBR الصوتي",
+    "AllowCollectionManagement": "السماح لهذا المستخدم بإدارة المجموعات"
 }

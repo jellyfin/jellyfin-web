@@ -3,7 +3,7 @@ import * as userSettings from './settings/userSettings';
 import browser from './browser';
 
 function canPlayH264(videoTestElement) {
-    return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
+    return !!(videoTestElement.canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
 }
 
 function canPlayHevc(videoTestElement, options) {
@@ -121,7 +121,7 @@ function canPlayAudioFormat(format) {
 
         typeString = 'audio/ogg; codecs="opus"';
     } else if (format === 'alac') {
-        if (browser.iOS || browser.osx) {
+        if (browser.iOS || browser.osx && browser.safari) {
             return true;
         }
     } else if (format === 'mp2') {

@@ -86,7 +86,7 @@ function getImageUrl(item, size) {
         type: 'Primary'
     };
 
-    if (item.ImageTags && item.ImageTags.Primary) {
+    if (item.ImageTags?.Primary) {
         options.tag = item.ImageTags.Primary;
         itemId = item.Id;
     } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
@@ -235,7 +235,7 @@ export function getListViewHtml(options) {
 
         const playlistItemId = item.PlaylistItemId ? (` data-playlistitemid="${item.PlaylistItemId}"`) : '';
 
-        const positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (` data-positionticks="${item.UserData.PlaybackPositionTicks}"`) : '';
+        const positionTicksData = item.UserData?.PlaybackPositionTicks ? (` data-positionticks="${item.UserData.PlaybackPositionTicks}"`) : '';
         const collectionIdData = options.collectionId ? (` data-collectionid="${options.collectionId}"`) : '';
         const playlistIdData = options.playlistId ? (` data-playlistid="${options.playlistId}"`) : '';
         const mediaTypeData = item.MediaType ? (` data-mediatype="${item.MediaType}"`) : '';

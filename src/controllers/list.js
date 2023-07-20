@@ -399,8 +399,8 @@ function showSortMenu() {
 function onNewItemClick() {
     const instance = this;
 
-    import('../components/playlisteditor/playlisteditor').then(({ default: playlistEditor }) => {
-        new playlistEditor({
+    import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+        new PlaylistEditor({
             items: [],
             serverId: instance.params.serverId
         });

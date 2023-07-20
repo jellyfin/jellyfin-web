@@ -40,7 +40,7 @@ const DevicesDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/serveractivity.html'>
+                <ListItemLink to='/dashboard/activity'>
                     <ListItemIcon>
                         <Analytics />
                     </ListItemIcon>

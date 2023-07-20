@@ -2,7 +2,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import castSenderApiLoader from './castSenderApi';
+import CastSenderApi from './castSenderApi';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import { PluginType } from '../../types/plugin.ts';
@@ -103,7 +103,7 @@ class CastPlayer {
             return;
         }
 
-        if (!chrome.cast || !chrome.cast.isAvailable) {
+        if (!chrome.cast?.isAvailable) {
             setTimeout(this.initializeCastPlayer.bind(this), 1000);
             return;
         }
@@ -322,14 +322,14 @@ class CastPlayer {
 
         const session = player.session;
 
-        if (session && session.receiver && session.receiver.friendlyName) {
+        if (session?.receiver?.friendlyName) {
             receiverName = session.receiver.friendlyName;
         }
 
         let apiClient;
-        if (message.options && message.options.ServerId) {
+        if (message.options?.ServerId) {
             apiClient = ServerConnections.getApiClient(message.options.ServerId);
-        } else if (message.options && message.options.items && message.options.items.length) {
+        } else if (message.options?.items?.length) {
             apiClient = ServerConnections.getApiClient(message.options.items[0].ServerId);
         } else {
             apiClient = ServerConnections.currentApiClient();
@@ -350,7 +350,7 @@ class CastPlayer {
             message.maxBitrate = bitrateSetting;
         }
 
-        if (message.options && message.options.items) {
+        if (message.options?.items) {
             message.subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             message.subtitleBurnIn = appSettings.get('subtitleburnin') || '';
         }
@@ -451,10 +451,10 @@ function onVolumeDownKeyDown() {
 }
 
 function normalizeImages(state) {
-    if (state && state.NowPlayingItem) {
+    if (state?.NowPlayingItem) {
         const item = state.NowPlayingItem;
 
-        if ((!item.ImageTags || !item.ImageTags.Primary) && item.PrimaryImageTag) {
+        if ((!item.ImageTags?.Primary) && item.PrimaryImageTag) {
             item.ImageTags = item.ImageTags || {};
             item.ImageTags.Primary = item.PrimaryImageTag;
         }
@@ -576,7 +576,7 @@ class ChromecastPlayer {
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
 
-        new castSenderApiLoader().load().then(initializeChromecast.bind(this));
+        new CastSenderApi().load().then(initializeChromecast.bind(this));
     }
 
     tryPair() {
@@ -599,7 +599,7 @@ class ChromecastPlayer {
     getTargets() {
         const targets = [];
 
-        if (this._castPlayer && this._castPlayer.hasReceivers) {
+        if (this._castPlayer?.hasReceivers) {
             targets.push(this.getCurrentTargetInfo());
         }
 
@@ -612,7 +612,7 @@ class ChromecastPlayer {
 
         const castPlayer = this._castPlayer;
 
-        if (castPlayer.session && castPlayer.session.receiver && castPlayer.session.receiver.friendlyName) {
+        if (castPlayer.session?.receiver?.friendlyName) {
             appName = castPlayer.session.receiver.friendlyName;
         }
 

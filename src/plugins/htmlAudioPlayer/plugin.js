@@ -417,7 +417,7 @@ class HtmlAudioPlayer {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             const seekable = mediaElement.seekable;
-            if (seekable && seekable.length) {
+            if (seekable?.length) {
                 let start = seekable.start(0);
                 let end = seekable.end(0);
 

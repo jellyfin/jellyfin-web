@@ -384,7 +384,7 @@ export class BookPlayer {
     }
 
     canPlayItem(item) {
-        return item.Path && item.Path.endsWith('epub');
+        return item.Path?.endsWith('epub');
     }
 }
 

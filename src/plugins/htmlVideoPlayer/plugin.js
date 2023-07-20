@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
@@ -434,6 +436,7 @@ export class HtmlVideoPlayer {
                 const includeCorsCredentials = await getIncludeCorsCredentials();
 
                 const hls = new Hls({
+                    startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
                     xhrSetup(xhr) {
@@ -1008,7 +1011,7 @@ export class HtmlVideoPlayer {
         }
 
         if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-            const mediaSource = (this._currentPlayOptions || {}).mediaSource;
+            const mediaSource = this._currentPlayOptions?.mediaSource;
 
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
@@ -1269,13 +1272,13 @@ export class HtmlVideoPlayer {
                     availableFonts: { 'liberation sans': `${appRouter.baseUrl()}/default.woff2` },
                     // Disabled eslint compat, but is safe as corejs3 polyfills URL
                     // eslint-disable-next-line compat/compat
-                    workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url),
+                    workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url).href,
                     // eslint-disable-next-line compat/compat
-                    wasmUrl: new URL('jassub/dist/jassub-worker.wasm', import.meta.url),
+                    wasmUrl: new URL('jassub/dist/jassub-worker.wasm', import.meta.url).href,
                     // eslint-disable-next-line compat/compat
-                    legacyWasmUrl: new URL('jassub/dist/jassub-worker.wasm.js', import.meta.url),
+                    legacyWasmUrl: new URL('jassub/dist/jassub-worker.wasm.js', import.meta.url).href,
                     // eslint-disable-next-line compat/compat
-                    modernWasmUrl : new URL('jassub/dist/jassub-worker-modern.wasm', import.meta.url),
+                    modernWasmUrl : new URL('jassub/dist/jassub-worker-modern.wasm', import.meta.url).href,
                     timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
                     // new jassub options; override all, even defaults
                     blendMode: 'js',
@@ -1488,8 +1491,8 @@ export class HtmlVideoPlayer {
                 // add some cues to show the text
                 // in safari, the cues need to be added before setting the track mode to showing
                 for (const trackEvent of data.TrackEvents) {
-                    const trackCueObject = window.VTTCue || window.TextTrackCue;
-                    const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                    const TrackCue = window.VTTCue || window.TextTrackCue;
+                    const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     if (cue.line === 'auto') {
                         cue.line = cueLine;
@@ -1534,8 +1537,9 @@ export class HtmlVideoPlayer {
                     }
                 }
 
-                if (selectedTrackEvent && selectedTrackEvent.Text) {
-                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
+                if (selectedTrackEvent?.Text) {
+                    subtitleTextElement.innerHTML = DOMPurify.sanitize(
+                        normalizeTrackEventText(selectedTrackEvent.Text, true));
                     subtitleTextElement.classList.remove('hide');
                 } else {
                     subtitleTextElement.classList.add('hide');
@@ -1809,7 +1813,7 @@ export class HtmlVideoPlayer {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
-            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+            if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
                 video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
             }
         }
@@ -1888,7 +1892,7 @@ export class HtmlVideoPlayer {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             const seekable = mediaElement.seekable;
-            if (seekable && seekable.length) {
+            if (seekable?.length) {
                 let start = seekable.start(0);
                 let end = seekable.end(0);
 

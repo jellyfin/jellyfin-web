@@ -335,6 +335,24 @@
                     <div class="fieldDescription checkboxFieldDescription">${AllowFfmpegThrottlingHelp}</div>
                 </div>
 
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableSegmentDeletion" />
+                        <span>${AllowSegmentDeletion}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${AllowSegmentDeletionHelp}</div>
+                </div>
+
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtThrottleDelaySeconds" pattern="[0-9]*" min="10" max="3600" step="1" label="${LabelThrottleDelaySeconds}" />
+                    <div class="fieldDescription">${LabelThrottleDelaySecondsHelp}</div>
+                </div>
+
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtSegmentKeepSeconds" pattern="[0-9]*" min="15" max="3600" step="1" label="${LabelSegmentKeepSeconds}" />
+                    <div class="fieldDescription">${LabelSegmentKeepSecondsHelp}</div>
+                </div>
+
                 <div>
                     <button is="emby-button" type="submit" class="raised button-submit block">
                         <span>${Save}</span>

@@ -120,7 +120,7 @@ function discoverDevices(view) {
     });
 }
 
-function tunerPicker() {
+function TunerPicker() {
     this.show = function () {
         const dialogOptions = {
             removeOnClose: true,
@@ -182,4 +182,4 @@ function tunerPicker() {
 
 let currentDevices = [];
 
-export default tunerPicker;
+export default TunerPicker;

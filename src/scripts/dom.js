@@ -15,7 +15,7 @@ export function parentWithAttribute(elem, name, value) {
     while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
         elem = elem.parentNode;
 
-        if (!elem || !elem.getAttribute) {
+        if (!elem?.getAttribute) {
             return null;
         }
     }
@@ -65,7 +65,7 @@ function containsAnyClass(classList, classNames) {
      * Returns parent of element with one of specified class names.
      * @param {HTMLElement} elem - Element whose parent need to find.
      * @param {(string|Array)} classNames - Class name or array of class names.
-     * @returns {HTMLElement} Parent with one of specified class names.
+     * @returns {HTMLElement|null} Parent with one of specified class names.
      */
 export function parentWithClass(elem, classNames) {
     // accept both string and array passed in

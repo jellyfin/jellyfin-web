@@ -546,7 +546,7 @@ function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
-    } else if (item.ImageTags && item.ImageTags.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
+    } else if (item.ImageTags?.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
         imgType = 'Primary';
         imgTag = item.ImageTags.Primary;
         height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -591,10 +591,10 @@ function getCardImageUrl(item, apiClient, options, shape) {
     } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
-    } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
+    } else if (item.BackdropImageTags?.length) {
         imgType = 'Backdrop';
         imgTag = item.BackdropImageTags[0];
-    } else if (item.ImageTags && item.ImageTags.Thumb) {
+    } else if (item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
     } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
@@ -605,7 +605,7 @@ function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Thumb';
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
-    } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
+    } else if (item.ParentBackdropImageTags?.length && options.inheritThumb !== false) {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
@@ -634,7 +634,7 @@ function getCardImageUrl(item, apiClient, options, shape) {
 
     return {
         imgUrl: imgUrl,
-        blurhash: (blurHashes[imgType] || {})[imgTag],
+        blurhash: blurHashes[imgType]?.[imgTag],
         forceName: forceName,
         coverImage: coverImage
     };
@@ -1422,7 +1422,7 @@ function buildCard(index, item, apiClient, options) {
         className += ' card-withuserdata';
     }
 
-    const positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
+    const positionTicksData = item.UserData?.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
     const collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
     const playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
     const mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';

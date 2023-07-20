@@ -65,12 +65,12 @@ const Home: FunctionComponent = () => {
                 depends = 'favorites';
         }
 
-        return import(/* webpackChunkName: "[request]" */ `../../../controllers/${depends}`).then(({ default: controllerFactory }) => {
+        return import(/* webpackChunkName: "[request]" */ `../../../controllers/${depends}`).then(({ default: ControllerFactory }) => {
             let controller = tabControllers[index];
 
             if (!controller) {
                 const tabContent = element.current?.querySelector(".tabContent[data-index='" + index + "']");
-                controller = new controllerFactory(tabContent, null);
+                controller = new ControllerFactory(tabContent, null);
                 tabControllers[index] = controller;
             }
 

@@ -36,6 +36,9 @@ const ExperimentalApp = () => {
 
                     {LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)}
                 </Route>
+
+                {/* Redirects for old paths */}
+                <Route path='serveractivity.html' element={<Navigate replace to='/dashboard/activity' />} />
             </Route>
         </Routes>
     );

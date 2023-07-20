@@ -420,7 +420,7 @@
     "Items": "Itens",
     "ItemCount": "{0} itens",
     "InstantMix": "Mistura instântanea",
-    "InstallingPackage": "A instalar {0}",
+    "InstallingPackage": "A instalar {0} (version {1})",
     "ImportFavoriteChannelsHelp": "Apenas os canais marcados como favoritos no dispositivo sintonizador serão importados.",
     "Images": "Imagens",
     "Identify": "Identificar",

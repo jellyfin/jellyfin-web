@@ -12,7 +12,7 @@ export function enableProgressIndicator(item) {
 
 export function getProgressHtml(pct, options) {
     let containerClass = 'itemProgressBar';
-    if (options && options.containerClass) {
+    if (options?.containerClass) {
         containerClass += ' ' + options.containerClass;
     }
 
@@ -21,7 +21,7 @@ export function getProgressHtml(pct, options) {
 
 function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
     let containerClass = 'itemProgressBar';
-    if (options && options.containerClass) {
+    if (options?.containerClass) {
         containerClass += ' ' + options.containerClass;
     }
 
@@ -36,7 +36,7 @@ function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
 export function getProgressBarHtml(item, options) {
     let pct;
     if (enableProgressIndicator(item) && item.Type !== 'Recording') {
-        const userData = options && options.userData ? options.userData : item.UserData;
+        const userData = options?.userData ? options.userData : item.UserData;
 
         if (userData) {
             pct = userData.PlayedPercentage;
@@ -90,7 +90,7 @@ export function getPlayedIndicatorHtml(item) {
 }
 
 export function getChildCountIndicatorHtml(item, options) {
-    const minCount = options && options.minCount ? options.minCount : 0;
+    const minCount = options?.minCount ? options.minCount : 0;
 
     if (item.ChildCount && item.ChildCount > minCount) {
         return '<div class="countIndicator indicator">' + datetime.toLocaleString(item.ChildCount) + '</div>';

@@ -349,7 +349,7 @@ function isGamepadConnected() {
     const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
     for (let i = 0, len = gamepads.length; i < len; i++) {
         const gamepad = gamepads[i];
-        if (gamepad && gamepad.connected) {
+        if (gamepad?.connected) {
             return true;
         }
     }

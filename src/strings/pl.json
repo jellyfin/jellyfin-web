@@ -1693,10 +1693,10 @@
     "SaveRecordingNFOHelp": "Zapisz metadane od dostawcy list EPG wraz z mediami.",
     "HeaderDummyChapter": "Obrazy rozdziału",
     "LabelDummyChapterDuration": "Interwał",
-    "LabelDummyChapterDurationHelp": "Interwał ekstrakcji obrazu rozdziału w sekundach.",
+    "LabelDummyChapterDurationHelp": "Odstęp między fikcyjnymi rozdziałami. Ustaw na 0, aby wyłączyć generowanie fikcyjnych rozdziałów. Zmiana tego nie będzie miała wpływu na istniejące fikcyjne rozdziały.",
     "LabelDummyChapterCount": "Ograniczenie",
     "LabelChapterImageResolution": "Rozdzielczość",
-    "LabelChapterImageResolutionHelp": "Rozdzielczość wyodrębnionych obrazów rozdziałów.",
+    "LabelChapterImageResolutionHelp": "Rozdzielczość wyodrębnionych obrazów rozdziałów. Zmiana tego ustawienia nie ma wpływu na istniejące rozdziały.",
     "ResolutionMatchSource": "Źródło dopasowania",
     "SaveRecordingNFO": "Zapisz nagrane metadane EPG w NFO",
     "SaveRecordingImages": "Zapisywanie obrazów EPG",
@@ -1734,5 +1734,14 @@
     "EnableAudioNormalization": "Normalizacja dźwięku",
     "LabelEnableLUFSScan": "Włącz skanowanie głośności dźwięku",
     "LabelEnableLUFSScanHelp": "Włącz skanowanie głośności dźwięku dla muzyki (To zajmie więcej czasu i więcej zasobów).",
-    "Notifications": "Powiadomienia"
+    "Notifications": "Powiadomienia",
+    "PasswordRequiredForAdmin": "Hasło jest wymagane do kont administratorów.",
+    "LabelSyncPlayNoGroups": "Brak dostępnych grup",
+    "GetThePlugin": "Pobierz wtyczkę",
+    "NotificationsMovedMessage": "Funkcjonalność powiadomień została przeniesiona do wtyczki Webhook.",
+    "HeaderConfirmRepositoryInstallation": "Potwierdź instalację repozytorium wtyczek",
+    "LabelDeveloper": "Programista",
+    "MessageRepositoryInstallDisclaimer": "OSTRZEŻENIE: Instalacja repozytorium wtyczek stron trzecich wiąże się z ryzykiem. Może ono zawierać niestabilny lub złośliwy kod i może ulec zmianie w dowolnym momencie. Instaluj tylko repozytoria od zaufanych autorów.",
+    "PleaseConfirmRepositoryInstallation": "Kliknij OK, aby potwierdzić, że przeczytałeś powyższe informacje i chcesz kontynuować instalację repozytorium wtyczek.",
+    "Unknown": "Nieznane"
 }

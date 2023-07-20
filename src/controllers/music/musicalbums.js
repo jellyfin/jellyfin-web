@@ -189,8 +189,8 @@ export default function (view, params, tabContent) {
     let isLoading = false;
 
     this.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({ default: filterDialogFactory }) => {
-            const filterDialog = new filterDialogFactory({
+        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
+            const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'albums',
                 serverId: ApiClient.serverId()

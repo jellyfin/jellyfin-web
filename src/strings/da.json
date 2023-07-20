@@ -20,7 +20,7 @@
     "AllowRemoteAccessHelp": "Hvis ikke markeret, vil alle forbindelser udefra blive blokeret.",
     "AllowedRemoteAddressesHelp": "Komma separeret liste over IP-adresser eller IP/rundsendings-adresser til netværk som har tilladelse til at forbinde udefra. Hvis dette felt er tomt, er alle eksterne adresser tilladt.",
     "Anytime": "Altid",
-    "AroundTime": "Cirka [0]",
+    "AroundTime": "Cirka {0}",
     "AsManyAsPossible": "Så mange som muligt",
     "AspectRatio": "Billedformat",
     "Audio": "Lyd",

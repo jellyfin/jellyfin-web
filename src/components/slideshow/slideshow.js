@@ -41,7 +41,7 @@ function getImageUrl(item, options, apiClient) {
         return apiClient.getScaledImageUrl(item, options);
     }
 
-    if (item.ImageTags && item.ImageTags[options.type]) {
+    if (item.ImageTags?.[options.type]) {
         options.tag = item.ImageTags[options.type];
         return apiClient.getScaledImageUrl(item.Id, options);
     }
@@ -70,7 +70,7 @@ function getBackdropImageUrl(item, options, apiClient) {
         options.quality = 100;
     }
 
-    if (item.BackdropImageTags && item.BackdropImageTags.length) {
+    if (item.BackdropImageTags?.length) {
         options.tag = item.BackdropImageTags[0];
         return apiClient.getScaledImageUrl(item.Id, options);
     }
@@ -87,7 +87,7 @@ function getImgUrl(item, user) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     const imageOptions = {};
 
-    if (item.BackdropImageTags && item.BackdropImageTags.length) {
+    if (item.BackdropImageTags?.length) {
         return getBackdropImageUrl(item, imageOptions, apiClient);
     } else {
         if (item.MediaType === 'Photo' && user && user.Policy.EnableContentDownloading) {
