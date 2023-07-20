@@ -1047,6 +1047,7 @@ function renderDetails(page, item, apiClient, context) {
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
+    renderMoreFromAlbum(page, item, apiClient);
     renderDirector(page, item, context);
     renderStudio(page, item, context);
     renderWriter(page, item, context);
@@ -1093,7 +1094,7 @@ function renderLyricsContainer(view, item, apiClient) {
                 const itemsContainer = lyricContainer.querySelector('.itemsContainer');
                 if (itemsContainer) {
                     const html = json.Lyrics.reduce((htmlAccumulator, lyric) => {
-                        htmlAccumulator += `<p class="lyrics">${lyric.Text}</p>`;
+                        htmlAccumulator += lyric.Text + '<br/>';
                         return htmlAccumulator;
                     }, '');
                     itemsContainer.innerHTML = html;
@@ -1148,11 +1149,53 @@ function renderMoreFromSeason(view, item, apiClient) {
     }
 }
 
+function renderMoreFromAlbum(view, item, apiClient) {
+    const section = view.querySelector('.moreFromAlbumSection');
+
+    if (section) {
+        if (item.Type !== 'Audio') {
+            section.classList.add('hide');
+            return;
+        }
+
+        const query = {
+            ParentId: item.AlbumId,
+            Fields: 'ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount',
+            SortBy: 'ParentIndexNumber,IndexNumber,SortName'
+        };
+
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
+            if (!result.Items.length) {
+                section.classList.add('hide');
+                return;
+            }
+
+            section.classList.remove('hide');
+            section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.Album);
+
+            cardBuilder.buildCards(result.Items, {
+                parentContainer: section,
+                itemsContainer: section.querySelector('.itemsContainer'),
+                shape: 'autooverflow',
+                sectionTitleTagName: 'h2',
+                scalable: true,
+                coverImage: item.Type === 'MusicArtist' || item.Type === 'MusicAlbum',
+                showTitle: true,
+                showParentTitle: false,
+                centerText: true,
+                overlayText: false,
+                overlayPlayButton: true,
+                showYear: true
+            });
+        });
+    }
+}
+
 function renderMoreFromArtist(view, item, apiClient) {
     const section = view.querySelector('.moreFromArtistSection');
 
     if (section) {
-        if (item.Type !== 'MusicArtist' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
+        if (item.Type !== 'MusicArtist' && item.Type !== 'Audio' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
             section.classList.add('hide');
             return;
         }
@@ -1207,7 +1250,7 @@ function renderSimilarItems(page, item, context) {
     const similarCollapsible = page.querySelector('#similarCollapsible');
 
     if (similarCollapsible) {
-        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist') {
+        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist' && item.Type != 'Audio') {
             similarCollapsible.classList.add('hide');
             return;
         }

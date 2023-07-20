@@ -1640,6 +1640,7 @@ class PlaybackManager {
             }
 
             changeStream(player, ticks);
+            Events.trigger(player, 'seek', [ticks]);
         };
 
         self.seekRelative = function (offsetTicks, player) {

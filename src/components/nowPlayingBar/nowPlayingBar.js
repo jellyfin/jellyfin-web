@@ -33,6 +33,7 @@ let positionSlider;
 let toggleAirPlayButton;
 let toggleRepeatButton;
 let toggleRepeatButtonIcon;
+let lyricButton;
 
 let lastUpdateTime = 0;
 let lastPlayerState = {};
@@ -40,6 +41,9 @@ let isEnabled;
 let currentRuntimeTicks = 0;
 
 let isVisibilityAllowed = true;
+
+let lyricPageActive = false;
+let isAudio = false;
 
 function getNowPlayingBarHtml() {
     let html = '';
@@ -80,6 +84,8 @@ function getNowPlayingBarHtml() {
     html += '</div>';
 
     html += '<button is="paper-icon-button-light" class="btnAirPlay mediaButton"><span class="material-icons airplay" aria-hidden="true"></span></button>';
+
+    html += '<button is="paper-icon-button-light" class="openLyricsButton mediaButton"><span class="material-icons mic_external_on" aria-hidden="true"></span></button>';
 
     html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle" aria-hidden="true"></span></button>';
@@ -145,6 +151,7 @@ function bindEvents(elem) {
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
     volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
     volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
+    lyricButton = nowPlayingBarElement.querySelector('.openLyricsButton');
 
     muteButton.addEventListener('click', function () {
         if (currentPlayer) {
@@ -208,6 +215,14 @@ function bindEvents(elem) {
     elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
         if (currentPlayer) {
             playbackManager.toggleQueueShuffleMode();
+        }
+    });
+
+    lyricButton.addEventListener('click', function() {
+        if (lyricPageActive) {
+            appRouter.back();
+        } else {
+            appRouter.show('Lyrics');
         }
     });
 
@@ -361,6 +376,7 @@ function updatePlayerStateInternal(event, state, player) {
     updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
     updateNowPlayingInfo(state);
+    updateLyricButton();
 }
 
 function updateRepeatModeDisplay(repeatMode) {
@@ -448,6 +464,22 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
             volumeSlider.value = volumeLevel || 0;
         }
     }
+}
+
+function updateLyricButton() {
+    if (!isEnabled) {
+        return;
+    }
+
+    isAudio ? showButton(lyricButton) : hideButton(lyricButton);
+    setLyricButtonActiveStatus();
+}
+
+function setLyricButtonActiveStatus() {
+    if (!isEnabled) {
+        return;
+    }
+    lyricPageActive ? lyricButton.classList.add('buttonActive') : lyricButton.classList.remove('buttonActive');
 }
 
 function seriesImageUrl(item, options) {
@@ -592,6 +624,9 @@ function updateNowPlayingInfo(state) {
 function onPlaybackStart(e, state) {
     console.debug('nowplaying event: ' + e.type);
     const player = this;
+
+    state.NowPlayingItem.Type === 'Audio' ? isAudio = true : isAudio = false;
+
     onStateChanged.call(player, e, state);
 }
 
@@ -695,6 +730,7 @@ function onStateChanged(event, state) {
     }
 
     getNowPlayingBar();
+    updateLyricButton();
     updatePlayerStateInternal(event, state, player);
 }
 
@@ -751,6 +787,7 @@ function refreshFromPlayer(player, type) {
 }
 
 function bindToPlayer(player) {
+    appRouter.currentRouteInfo.path === '/Lyrics' ? lyricPageActive = true : lyricPageActive = false;
     if (player === currentPlayer) {
         return;
     }
@@ -783,6 +820,8 @@ Events.on(playbackManager, 'playerchange', function () {
 bindToPlayer(playbackManager.getCurrentPlayer());
 
 document.addEventListener('viewbeforeshow', function (e) {
+    appRouter.currentRouteInfo.path === '/Lyrics' ? lyricPageActive = true : lyricPageActive = false;
+    setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {
         if (isVisibilityAllowed) {
             isVisibilityAllowed = false;
