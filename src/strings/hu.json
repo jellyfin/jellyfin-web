@@ -1664,7 +1664,7 @@
     "VideoRangeTypeNotSupported": "A videó tartománytípusa nem támogatott",
     "LabelVppTonemappingContrastHelp": "Kontraszt növelésének mértéke VPP tónusleképezés használatakor. Az ajánlott és az alapértelmezett érték 1.",
     "LabelVppTonemappingContrast": "VPP tónusleképezés kontrasztszintje",
-    "LabelVppTonemappingBrightnessHelp": "Fényerő növelésének mértéke VPP tónusleképezés használatakor. Az ajánlott és az alapértelmezett érték 0.",
+    "LabelVppTonemappingBrightnessHelp": "Fényerő növelésének mértéke VPP tónusleképezés használatakor. Az ajánlott és az alapértelmezett értékek 16 és 0.",
     "LabelVppTonemappingBrightness": "VPP tónusleképezés fényerőszintje",
     "ScreenResolution": "Képernyőfelbontás",
     "RememberSubtitleSelectionsHelp": "Próbálja meg úgy beállítani a feliratsávot, hogy a legközelebb legyen az utolsó videóhoz.",
