@@ -1754,5 +1754,12 @@
     "LogLevel.Warning": "Warnung",
     "LogLevel.Error": "Fehler",
     "LogLevel.Critical": "Kritisch",
-    "LogLevel.None": "Nichts"
+    "LogLevel.None": "Nichts",
+    "HeaderEpisodesStatus": "Episodenstatus",
+    "AllowSegmentDeletion": "Segmente löschen",
+    "AllowSegmentDeletionHelp": "Alte Segmente löschen, nachdem sie zum Client gesendet wurden. Damit muss nicht die gesamte transkodierte Datei zwischengespeichert werden. Sollten Wiedergabeprobleme auftreten, kann diese Einstellung deaktiviert werden.",
+    "LabelThrottleDelaySeconds": "Limitieren nach",
+    "LabelThrottleDelaySecondsHelp": "Zeit, in Sekunden, nach der die Transkodierung limitiert wird. Muss groß genug sein um dem Client eine problemlose Wiedergabe zu ermöglichen. Funktioniert nur wenn \"Transkodierung drosseln\" aktiviert ist.",
+    "LabelSegmentKeepSeconds": "Zeit um Segmente zu behalten",
+    "LabelSegmentKeepSecondsHelp": "Zeit, in Sekunden, in der Segmente nicht überschrieben werden dürfen. Muss größer sein als \"Limitieren nach\". Funktioniert nur wenn \"Segmente löschen\" aktiviert ist."
 }
