@@ -1748,5 +1748,10 @@
     "Unknown": "Bilinmeyen",
     "AllowSegmentDeletion": "Segmenti sil",
     "LabelThrottleDelaySeconds": "…dan sonra sınılandır",
-    "LabelSegmentKeepSeconds": "Segmenteleri saklanma süresi"
+    "LabelSegmentKeepSeconds": "Segmenteleri saklanma süresi",
+    "LabelSegmentKeepSecondsHelp": "Parçaların üzerine yazılmadan önce tutulması gereken saniye cinsinden süre. \"Throttle after\" değerinden büyük olmalıdır. Yalnızca segment silme etkinleştirildiğinde çalışır.",
+    "PleaseConfirmRepositoryInstallation": "Yukarıdakileri bilgilendirmeleri okuduğunuzu ve eklenti deposu kurulumuna devam etmek istediğinizi onaylamak için lütfen Tamam'ı tıklayın.",
+    "MessageRepositoryInstallDisclaimer": "UYARI: Üçüncü taraf eklenti havuzu kurmak riskler taşır. Kararsız veya kötü amaçlı kod içerebilir ve her an değişebilir. Yalnızca güvendiğiniz yazarların depolarını kurmanız önerilir.",
+    "LogLevel.None": "Hiçbiri",
+    "LabelThrottleDelaySecondsHelp": "Kodek dönüştürmenin kısılacağı saniye cinsinden süre. İstemcinin sağlıklı bir arabellek tutması için yeterince büyük olmalıdır. Yalnızca kısıtlama etkinleştirildiğinde çalışır."
 }
