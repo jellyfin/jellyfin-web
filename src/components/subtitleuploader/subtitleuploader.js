@@ -1,5 +1,7 @@
 import escapeHtml from 'escape-html';
 
+import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../ServerConnections';
 import dom from '../../scripts/dom';
@@ -75,7 +77,20 @@ function setFiles(page, files) {
     reader.readAsDataURL(file);
 }
 
-function onSubmit(e) {
+function getStringFromFile(file) {
+    return new Promise(function (resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            // Split by a comma to remove the url: prefix
+            const data = e.target.result.split(',')[1];
+            resolve(data);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+async function onSubmit(e) {
     const file = currentFile;
 
     if (!isValidSubtitleFile(file)) {
@@ -89,8 +104,17 @@ function onSubmit(e) {
     const dlg = dom.parentWithClass(this, 'dialog');
     const language = dlg.querySelector('#selectLanguage').value;
     const isForced = dlg.querySelector('#chkIsForced').checked;
+    const isHearingImpaired = dlg.querySelector('#chkIsHearingImpaired').checked;
 
-    ServerConnections.getApiClient(currentServerId).uploadItemSubtitle(currentItemId, language, isForced, file).then(function () {
+    const subtitleApi = getSubtitleApi(toApi(ServerConnections.getApiClient(currentServerId)));
+
+    const data = await getStringFromFile(file);
+    const format = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
+
+    subtitleApi.uploadSubtitle({
+        itemId: currentItemId,
+        uploadSubtitleDto: { Data: data, Language: language, IsForced: isForced, Format: format, IsHearingImpaired: isHearingImpaired }
+    }).then(function () {
         dlg.querySelector('#uploadSubtitle').value = '';
         loading.hide();
         hasChanges = true;
