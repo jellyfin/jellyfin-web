@@ -1,4 +1,4 @@
-import { appRouter } from '../components/appRouter';
+import { appRouter } from '../components/router/appRouter';
 import { playbackManager } from '../components/playback/playbackmanager';
 import ServerConnections from '../components/ServerConnections';
 
@@ -130,13 +130,10 @@ export default function (view) {
             type: 'Get',
             dataType: 'json'
         }).then((response) => {
-            console.log(response);
             if (!response.Lyrics) {
                 throw new Error();
             }
             return response.Lyrics;
-        }).catch (function() {
-            renderNoLyricMessage();
         });
     }
 
@@ -215,7 +212,7 @@ export default function (view) {
             const serverId = state.NowPlayingItem.ServerId;
             const itemId = state.NowPlayingItem.Id;
 
-            getLyrics(serverId, itemId).then(updateLyrics);
+            getLyrics(serverId, itemId).then(updateLyrics).catch(renderNoLyricMessage);
         } else {
             // if nothing is currently playing, no lyrics to display redirect to home
             appRouter.goHome();
