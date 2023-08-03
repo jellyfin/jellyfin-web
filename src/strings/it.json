@@ -1754,5 +1754,6 @@
     "LogLevel.Warning": "Warning",
     "LogLevel.Error": "Error",
     "LogLevel.Critical": "Critical",
-    "LogLevel.None": "None"
+    "LogLevel.None": "None",
+    "AllowSegmentDeletion": "Rimuovi segmenti"
 }
