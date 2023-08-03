@@ -1755,5 +1755,11 @@
     "LogLevel.Error": "Error",
     "LogLevel.Critical": "Critical",
     "LogLevel.None": "None",
-    "AllowSegmentDeletion": "Rimuovi segmenti"
+    "AllowSegmentDeletion": "Rimuovi segmenti",
+    "HeaderEpisodesStatus": "Stato episodio",
+    "AllowSegmentDeletionHelp": "Elimina i vecchi segmenti dopo che sono stati inviati al client. Evita di dover memorizzare l'intero file transcodificato su disco. Funziona solo con throttling abilitato. Disabilita se riscontri problemi di riproduzione.",
+    "LabelThrottleDelaySeconds": "Throttle dopo",
+    "LabelThrottleDelaySecondsHelp": "Tempo in secondi dopo cui il transcodificatore sarà messo in throttle. Deve essere sufficientemente grande perché il client mantenga un buon buffer. Funziona solo se il throttling è abilitato.",
+    "LabelSegmentKeepSeconds": "Il tempo per cui tenere i segmenti",
+    "LabelSegmentKeepSecondsHelp": "Tempo in secondi per cui i segmenti saranno tenuti prima di essere sovrascritti. Deve essere più grande di \"Throttle dopo\". Funziona solo se l'eliminazione dei segmenti è abilitata."
 }
