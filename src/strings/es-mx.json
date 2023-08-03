@@ -1752,5 +1752,6 @@
     "LabelVppTonemappingContrastHelp": "Aplicar ganancia de contraste en el mapeado de tonos VPP. Los valores recomendados y seleccionados por defecto son 1.",
     "MediaInfoVideoRangeType": "Tipo de rango de vídeo",
     "MediaInfoDvVersionMinor": "Versión DV menor",
-    "TonemappingModeHelp": "Seleccione el modo de mapeado de tono. Si experimenta sobreiluminación intente cambiar al modo RGB."
+    "TonemappingModeHelp": "Seleccione el modo de mapeado de tono. Si experimenta sobreiluminación intente cambiar al modo RGB.",
+    "AllowSegmentDeletion": "Borrar segmentos"
 }
