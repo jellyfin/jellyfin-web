@@ -161,12 +161,12 @@ export class UserSettings {
      * @param {string|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
      * @return {string} 'Enable Audio Normalization' state.
      */
-    audioNormalization(val) {
+    selectAudioNormalization(val) {
         if (val !== undefined) {
             return this.set('selectAudioNormalization', val, false);
         }
 
-        return this.get('selectAudioNormalization', false) || "TrackGain";
+        return this.get('selectAudioNormalization', false);
     }
 
     /**
@@ -636,7 +636,7 @@ export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
-export const enableAudioNormalization = currentSettings.enableAudioNormalization.bind(currentSettings);
+export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);

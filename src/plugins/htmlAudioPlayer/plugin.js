@@ -112,12 +112,15 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
-                if (userSettings.udioNormalization() == "TrackGain" && options.item.LUFS != null) {
+                console.debug(userSettings.selectAudioNormalization());
+                if (userSettings.selectAudioNormalization() == "TrackGain" && options.item.LUFS != null) {
                     const dbGain = -18 - options.item.LUFS;
                     self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
-                } else if (userSettings.AudioNormalization == "AlbumGain" && options.item.LUFSAlbum != null) {
+                    console.debug("using trackgain")
+                } else if (userSettings.selectAudioNormalization() == "AlbumGain" && options.item.LUFSAlbum != null) {
                     const dbGain = -18 - options.item.LUFSAlbum;
                     self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
+                    console.debug("using albumgain")
                 } else {
                     self.gainNode.gain.value = 1;
                 }
