@@ -158,15 +158,15 @@ export class UserSettings {
 
     /**
      * Get or set 'Enable Audio Normalization' state.
-     * @param {boolean|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
-     * @return {boolean} 'Enable Audio Normalization' state.
+     * @param {string|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
+     * @return {string} 'Enable Audio Normalization' state.
      */
-    enableAudioNormalization(val) {
+    audioNormalization(val) {
         if (val !== undefined) {
-            return this.set('enableAudioNormalization', val.toString(), false);
+            return this.set('selectAudioNormalization', val, false);
         }
 
-        return toBoolean(this.get('enableAudioNormalization', false), true);
+        return this.get('selectAudioNormalization', false) || "TrackGain";
     }
 
     /**
