@@ -166,7 +166,7 @@ export class UserSettings {
             return this.set('selectAudioNormalization', val, false);
         }
 
-        return this.get('selectAudioNormalization', false);
+        return this.get('selectAudioNormalization', false) || 'TrackGain';
     }
 
     /**
