@@ -1242,7 +1242,7 @@
     "Person": "사람",
     "People": "인물",
     "OptionSaveMetadataAsHiddenHelp": "이를 변경하면 앞으로 저장되는 새 메타 데이터에 적용됩니다. 기존 메타 데이터 파일은 다음에 서버에서 저장 될 때 업데이트됩니다.",
-    "OptionRequirePerfectSubtitleMatchHelp": "완벽한 일치를 요구하면 정확한 비디오 파일로 테스트 및 확인 된 자막 만 포함하도록 자막이 필터링됩니다. 선택을 취소하면 자막이 다운로드 될 가능성이 높아지지만 시간이 잘못되었거나 잘못된 자막 텍스트가 발생할 가능성이 높아집니다.",
+    "OptionRequirePerfectSubtitleMatchHelp": "완벽한 일치를 요구하면 정확한 비디오 파일로 테스트 및 확인된 자막만 포함하도록 자막이 필터링됩니다. 선택을 취소하면 자막이 다운로드될 가능성이 높아지지만 시간이 안맞거나 잘못된 자막 텍스트가 발생할 가능성이 높아집니다.",
     "OptionRequirePerfectSubtitleMatch": "비디오 파일과 완벽하게 일치하는 자막만 다운로드",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "이것은 시간을 잘 찾지 못하는 일부 장치에 필요합니다.",
     "OptionReportByteRangeSeekingWhenTranscoding": "트랜스 코딩시 서버가 byte seeking을 지원한다고 보고",
