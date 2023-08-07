@@ -1700,5 +1700,6 @@
     "LabelDummyChapterCountHelp": "Största antal kapitelbilder som kommer hämtas in för varje enskild mediafil.",
     "LabelChapterImageResolution": "Upplösning",
     "LabelChapterImageResolutionHelp": "Upplösning för inhämtade kapitelbilder.",
-    "HeaderRecordingMetadataSaving": "Metadata för inspelning"
+    "HeaderRecordingMetadataSaving": "Metadata för inspelning",
+    "AllowCollectionManagement": "Tillåt denna använda att hantera samlingar"
 }
