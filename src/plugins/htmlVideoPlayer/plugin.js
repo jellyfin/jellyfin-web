@@ -1350,6 +1350,20 @@ export class HtmlVideoPlayer {
             return true;
         }
 
+        if (browser.windows) {
+            if (browser.chrome) {
+                return true;
+            }
+    
+            if (browser.edgeUwp) {
+                return true;
+            }
+    
+            if (browser.edg) {
+                return true;
+            }
+        }
+
         if (browser.iOS) {
             const userAgent = navigator.userAgent.toLowerCase();
             // works in the browser but not the native app
