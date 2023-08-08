@@ -339,8 +339,9 @@ class CastPlayer {
          * Use the local address (ULA, Unique Local Address) in that case.
 	 */
         const srvAddress = apiClient.serverAddress();
-        const srvLocalAddress = srvAddress.startsWith('http://localhost') || srvAddress.startsWith('http://127.') || srvAddress.startsWith('http://[::1]')
-                                ? apiClient.serverInfo().LocalAddress : srvAddress;
+        const prefix = 'http' + ':' + '//';
+        const checkLocalhost = srvAddress.startsWith(prefix + 'localhost') || srvAddress.startsWith(prefix + '127.') || srvAddress.startsWith(prefix + '[::1]')
+        const srvLocalAddress = checkLocalhost ? apiClient.serverInfo().LocalAddress : srvAddress;
 
         message = Object.assign(message, {
             userId: apiClient.getCurrentUserId(),
@@ -352,7 +353,7 @@ class CastPlayer {
             receiverName: receiverName
         });
 
-        console.debug('cc: message{'+message.command+'; '+srvAddress+' -> '+srvLocalAddress+'}');
+        console.debug('cc: message{' + message.command + '; ' + srvAddress + ' -> ' + srvLocalAddress + '}');
 
         const bitrateSetting = appSettings.maxChromecastBitrate();
         if (bitrateSetting) {
