@@ -27,12 +27,10 @@ function sendConnectionResult(isOk) {
         if (resolve) {
             resolve();
         }
+    } else if (reject) {
+        reject();
     } else {
-        if (reject) {
-            reject();
-        } else {
-            playbackManager.removeActivePlayer(PlayerName);
-        }
+        playbackManager.removeActivePlayer(PlayerName);
     }
 }
 
@@ -294,7 +292,7 @@ class CastPlayer {
     loadMedia(options, command) {
         if (!this.session) {
             console.debug('no session');
-            return Promise.reject();
+            return Promise.reject(new Error('no session'));
         }
 
         // convert items to smaller stubs to send minimal amount of information
@@ -602,7 +600,7 @@ class ChromecastPlayer {
             currentResolve = null;
             currentReject = null;
 
-            return Promise.reject();
+            return Promise.reject(new Error('tryPair failed'));
         }
     }
 
