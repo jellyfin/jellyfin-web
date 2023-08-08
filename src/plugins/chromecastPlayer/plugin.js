@@ -340,7 +340,7 @@ class CastPlayer {
 	 */
         const srvAddress = apiClient.serverAddress();
         const prefix = 'http' + ':' + '//';
-        const checkLocalhost = srvAddress.startsWith(prefix + 'localhost') || srvAddress.startsWith(prefix + '127.') || srvAddress.startsWith(prefix + '[::1]')
+        const checkLocalhost = srvAddress.startsWith(prefix + 'localhost') || srvAddress.startsWith(prefix + '127.') || srvAddress.startsWith(prefix + '[::1]');
         const srvLocalAddress = checkLocalhost ? apiClient.serverInfo().LocalAddress : srvAddress;
 
         message = Object.assign(message, {
