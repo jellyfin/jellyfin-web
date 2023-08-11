@@ -2723,7 +2723,10 @@ class PlaybackManager {
                                     });
                                 });
                             } else {
-                                return mediaSource;
+                                return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
+                                    mediaSource.albumLUFS = result.LUFS;
+                                    return mediaSource;
+                                });
                             }
                         } else {
                             showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');

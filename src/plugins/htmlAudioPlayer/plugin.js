@@ -116,8 +116,8 @@ class HtmlAudioPlayer {
                     const dbGain = -18 - options.item.LUFS;
                     self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
                     console.debug('Using track gain');
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain' && options.item.LUFSAlbum != null) {
-                    const dbGain = -18 - options.item.LUFSAlbum;
+                } else if (userSettings.selectAudioNormalization() == 'AlbumGain' && options.mediaSource.albumLUFS != null) {
+                    const dbGain = -18 - options.mediaSource.albumLUFS;
                     self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
                     console.debug('Using album gain');
                 } else {
