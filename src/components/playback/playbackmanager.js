@@ -2723,10 +2723,14 @@ class PlaybackManager {
                                     });
                                 });
                             } else {
-                                return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
-                                    mediaSource.albumLUFS = result.LUFS;
+                                if (item.AlbumId != null) {
+                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
+                                        mediaSource.albumLUFS = result.LUFS;
+                                        return mediaSource;
+                                    });
+                                } else {
                                     return mediaSource;
-                                });
+                                }
                             }
                         } else {
                             showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
