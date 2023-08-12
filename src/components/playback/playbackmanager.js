@@ -2728,9 +2728,8 @@ class PlaybackManager {
                                         mediaSource.albumLUFS = result.LUFS;
                                         return mediaSource;
                                     });
-                                } else {
-                                    return mediaSource;
                                 }
+                                return mediaSource;
                             }
                         } else {
                             showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
