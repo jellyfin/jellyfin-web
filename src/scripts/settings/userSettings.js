@@ -436,7 +436,7 @@ export class UserSettings {
      */
     backdropScreensaverInterval(val) {
         if (val !== undefined) {
-            return this.set('backdropScreensaverInterval', parseInt(val, 10), false);
+            return this.set('backdropScreensaverInterval', val.toString(), false);
         }
 
         return parseInt(this.get('backdropScreensaverInterval', false), 10) || 5;
@@ -449,7 +449,7 @@ export class UserSettings {
      */
     libraryPageSize(val) {
         if (val !== undefined) {
-            return this.set('libraryPageSize', parseInt(val, 10), false);
+            return this.set('libraryPageSize', val.toString(), false);
         }
 
         const libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
@@ -468,7 +468,7 @@ export class UserSettings {
      */
     maxDaysForNextUp(val) {
         if (val !== undefined) {
-            return this.set('maxDaysForNextUp', parseInt(val, 10), false);
+            return this.set('maxDaysForNextUp', val.toString(), false);
         }
 
         const maxDaysForNextUp = parseInt(this.get('maxDaysForNextUp', false), 10);
@@ -487,7 +487,7 @@ export class UserSettings {
      */
     enableRewatchingInNextUp(val) {
         if (val !== undefined) {
-            return this.set('enableRewatchingInNextUp', val, false);
+            return this.set('enableRewatchingInNextUp', val.toString(), false);
         }
 
         return toBoolean(this.get('enableRewatchingInNextUp', false), false);
