@@ -431,8 +431,8 @@ export class UserSettings {
 
     /**
      * Get or set the interval between backdrops when using the backdrop screensaver.
-     * @param {number|undefined} val - The interval between backdrops in milliseconds.
-     * @return {number} The interval between backdrops in milliseconds.
+     * @param {number|undefined} val - The interval between backdrops in seconds.
+     * @return {number} The interval between backdrops in seconds.
      */
     backdropScreensaverInterval(val) {
         if (val !== undefined) {
