@@ -148,14 +148,11 @@ let _supportsCssAnimation;
 let _supportsCssAnimationWithPrefix;
 function supportsCssAnimation(allowPrefix) {
     // TODO: Assess if this is still needed, as all of our targets should natively support CSS animations.
-    if (allowPrefix) {
-        if (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false) {
-            return _supportsCssAnimationWithPrefix;
-        }
-    } else {
-        if (_supportsCssAnimation === true || _supportsCssAnimation === false) {
-            return _supportsCssAnimation;
-        }
+    if (allowPrefix && (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false)) {
+        return _supportsCssAnimationWithPrefix;
+    }
+    if (_supportsCssAnimation === true || _supportsCssAnimation === false) {
+        return _supportsCssAnimation;
     }
 
     let animation = false;
