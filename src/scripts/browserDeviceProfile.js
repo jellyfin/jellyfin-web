@@ -188,6 +188,27 @@ function supportsVc1(videoTestElement) {
     return browser.tizen || browser.web0s || browser.edgeUwp || videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '');
 }
 
+function supportsHdr10(options) {
+    return options.supportsHdr10 ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
+            || browser.tizen
+            || browser.web0s
+            || browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)
+            // Chrome mobile and Firefox have no client side tone-mapping
+            // Edge Chromium on Nvidia is known to have color issues on 10-bit video
+            || browser.chrome && !browser.mobile
+    );
+}
+
+function supportsHlg(options) {
+    return options.supportsHlg ?? supportsHdr10(options);
+}
+
+function supportsDolbyVision(options) {
+    return options.supportsDolbyVision ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
+            || browser.safari && ((browser.iOS && browser.iOSVersion >= 13) || browser.osx)
+    );
+}
+
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
     let supported = false;
     let profileContainer = container;
@@ -897,25 +918,20 @@ export default function (options) {
     let vp9VideoRangeTypes = 'SDR';
     let av1VideoRangeTypes = 'SDR';
 
-    if (browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)) {
-        hevcVideoRangeTypes += '|HDR10|HLG';
-        if ((browser.iOS && browser.iOSVersion >= 13) || browser.osx) {
-            hevcVideoRangeTypes += '|DOVI';
-        }
+    if (supportsHdr10(options)) {
+        hevcVideoRangeTypes += '|HDR10';
+        vp9VideoRangeTypes += '|HDR10';
+        av1VideoRangeTypes += '|HDR10';
     }
 
-    if (browser.tizen || browser.web0s) {
-        hevcVideoRangeTypes += '|HDR10|HLG';
-        vp9VideoRangeTypes += '|HDR10|HLG';
-        av1VideoRangeTypes += '|HDR10|HLG';
+    if (supportsHlg(options)) {
+        hevcVideoRangeTypes += '|HLG';
+        vp9VideoRangeTypes += '|HLG';
+        av1VideoRangeTypes += '|HLG';
     }
 
-    // Chrome mobile and Firefox have no client side tone-mapping
-    // Edge Chromium on Nvidia is known to have color issues on 10-bit video
-    if (browser.chrome && !browser.mobile) {
-        hevcVideoRangeTypes += '|HDR10|HLG';
-        vp9VideoRangeTypes += '|HDR10|HLG';
-        av1VideoRangeTypes += '|HDR10|HLG';
+    if (supportsDolbyVision(options)) {
+        hevcVideoRangeTypes += '|DOVI';
     }
 
     const h264CodecProfileConditions = [
