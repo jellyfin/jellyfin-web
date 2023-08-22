@@ -1354,11 +1354,11 @@ export class HtmlVideoPlayer {
             if (browser.chrome) {
                 return true;
             }
-    
+
             if (browser.edgeUwp) {
                 return true;
             }
-    
+
             if (browser.edg) {
                 return true;
             }
