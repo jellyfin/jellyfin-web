@@ -21,6 +21,27 @@ import '../emby-input/emby-input';
     }
 
     /**
+     * Returns normalized slider step.
+     *
+     * @param {HTMLInputElement} range slider itself
+     * @param {number|undefined} step step
+     * @returns {number} normalized slider step.
+     */
+    function normalizeSliderStep(range, step) {
+        if (step > 0) {
+            return step;
+        }
+
+        step = parseFloat(range.step);
+
+        if (step > 0) {
+            return step;
+        }
+
+        return 1;
+    }
+
+    /**
      * Returns slider fraction corresponding to client position.
      *
      * @param {Object} range slider itself
@@ -35,7 +56,7 @@ import '../emby-input/emby-input';
         // Snap to step
         const valueRange = range.max - range.min;
         if (range.step !== 'any' && valueRange !== 0) {
-            const step = (range.step || 1) / valueRange;
+            const step = normalizeSliderStep(range) / valueRange;
             fraction = Math.round(fraction / step) * step;
         }
 
@@ -54,7 +75,7 @@ import '../emby-input/emby-input';
 
         // Snap to step
         if (range.step !== 'any') {
-            const step = range.step || 1;
+            const step = normalizeSliderStep(range);
             value = Math.round(value / step) * step;
         }
 
@@ -377,13 +398,13 @@ import '../emby-input/emby-input';
         switch (keyboardnavigation.getKeyName(e)) {
             case 'ArrowLeft':
             case 'Left':
-                stepKeyboard(this, -this.keyboardStepDown || -1);
+                stepKeyboard(this, -normalizeSliderStep(this, this.keyboardStepDown));
                 e.preventDefault();
                 e.stopPropagation();
                 break;
             case 'ArrowRight':
             case 'Right':
-                stepKeyboard(this, this.keyboardStepUp || 1);
+                stepKeyboard(this, normalizeSliderStep(this, this.keyboardStepUp));
                 e.preventDefault();
                 e.stopPropagation();
                 break;
