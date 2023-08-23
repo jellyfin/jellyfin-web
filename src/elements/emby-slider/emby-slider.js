@@ -146,12 +146,12 @@ function updateValues(isValueSet) {
     });
 }
 
-function updateBubble(range, value, bubble) {
+function updateBubble(range, percent, value, bubble) {
     requestAnimationFrame(function () {
         const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
         const bubbleRect = bubble.getBoundingClientRect();
 
-        let bubblePos = bubbleTrackRect.width * value / 100;
+        let bubblePos = bubbleTrackRect.width * percent / 100;
         if (globalize.getIsElementRTL(range)) {
             bubblePos = bubbleTrackRect.width - bubblePos;
         }
@@ -159,18 +159,20 @@ function updateBubble(range, value, bubble) {
 
         bubble.style.left = bubblePos + 'px';
 
+        let html;
+
         if (range.getBubbleHtml) {
-            value = range.getBubbleHtml(value);
+            html = range.getBubbleHtml(percent, value);
         } else {
             if (range.getBubbleText) {
-                value = range.getBubbleText(value);
+                html = range.getBubbleText(percent, value);
             } else {
-                value = mapFractionToValue(range, value / 100).toLocaleString();
+                html = value.toLocaleString();
             }
-            value = '<h1 class="sliderBubbleText">' + value + '</h1>';
+            html = '<h1 class="sliderBubbleText">' + html + '</h1>';
         }
 
-        bubble.innerHTML = value;
+        bubble.innerHTML = html;
     });
 }
 
@@ -306,8 +308,8 @@ EmbySliderPrototype.attachedCallback = function () {
             updateValues.call(this);
         }
 
-        const bubbleValue = mapValueToFraction(this, this.value) * 100;
-        updateBubble(this, bubbleValue, sliderBubble);
+        const percent = mapValueToFraction(this, this.value) * 100;
+        updateBubble(this, percent, parseFloat(this.value), sliderBubble);
 
         if (hasHideBubbleClass) {
             sliderBubble.classList.remove('hide');
@@ -333,9 +335,11 @@ EmbySliderPrototype.attachedCallback = function () {
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
         if (!this.dragging) {
-            const bubbleValue = mapClientToFraction(this, e.clientX) * 100;
+            const fraction = mapClientToFraction(this, e.clientX);
+            const percent = fraction * 100;
+            const value = mapFractionToValue(this, fraction);
 
-            updateBubble(this, bubbleValue, sliderBubble);
+            updateBubble(this, percent, value, sliderBubble);
 
             if (hasHideBubbleClass) {
                 sliderBubble.classList.remove('hide');
