@@ -416,7 +416,7 @@ export function setContentType(parent, contentType) {
         }
     }
 
-    parent.querySelector('.chkEnableLUFSScan').classList.toggle('hide', contentType !== 'music');
+    parent.querySelector('.chkEnableLUFSScanContainer').classList.toggle('hide', contentType !== 'music');
 
     if (contentType === 'tvshows') {
         parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.remove('hide');
