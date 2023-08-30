@@ -1761,5 +1761,7 @@
     "LabelThrottleDelaySeconds": "Omezit po",
     "LabelThrottleDelaySecondsHelp": "Čas v sekundách po kterém bude překódování pozastaveno. Musí být dost velké na to, aby měl klient dostatečné množství přehrávaného souboru v záloze. Funguje pouze se zapnutou funkcí Omezit překódování.",
     "LabelSegmentKeepSeconds": "Doba ponechání částí",
-    "LabelSegmentKeepSecondsHelp": "Čas v sekundách, po který budou části překódovaného souboru uloženy. Musí být delší než čas určený v \"Omezit po\". Funguje pouze při zapnuté funkci Odstranění částí."
+    "LabelSegmentKeepSecondsHelp": "Čas v sekundách, po který budou části překódovaného souboru uloženy. Musí být delší než čas určený v \"Omezit po\". Funguje pouze při zapnuté funkci Odstranění částí.",
+    "LabelBackdropScreensaverInterval": "Interval šetřiče \"Pozadí\"",
+    "LabelBackdropScreensaverIntervalHelp": "Čas v sekundách mezi změnou pozadí při použití šetřiče \"Pozadí\"."
 }
