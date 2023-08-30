@@ -1760,5 +1760,7 @@
     "AllowSegmentDeletion": "Segmenten verwijderen",
     "LabelThrottleDelaySeconds": "Afknijpen na",
     "LabelThrottleDelaySecondsHelp": "Tijd in seconden waarna de transcoder wordt afgeknepen. Deze tijd moet voldoende lang zijn zodat de cliënt een gezonde buffer in stand kan houden. Werkt alleen als afknijpen is ingeschakeld.",
-    "LabelSegmentKeepSeconds": "Bewaartijd segmenten"
+    "LabelSegmentKeepSeconds": "Bewaartijd segmenten",
+    "LabelBackdropScreensaverIntervalHelp": "Het aantal seconden dat een achtergrondafbeelding wordt getoond als onderdeel van de schermbeveiliging.",
+    "LabelBackdropScreensaverInterval": "Interval schermbeveiliging"
 }
