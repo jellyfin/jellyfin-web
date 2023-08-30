@@ -352,7 +352,7 @@ export default function (options) {
                     minRatio: 1,
                     toggle: true
                 },
-                autoplay: !swiperOptions.interactive || !!swiperOptions.autoplay,
+                autoplay: swiperOptions.autoplay ?? !swiperOptions.interactive,
                 keyboard: {
                     enabled: true
                 },

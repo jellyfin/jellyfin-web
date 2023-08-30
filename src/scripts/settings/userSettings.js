@@ -430,13 +430,26 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the interval between backdrops when using the backdrop screensaver.
+     * @param {number|undefined} val - The interval between backdrops in seconds.
+     * @return {number} The interval between backdrops in seconds.
+     */
+    backdropScreensaverInterval(val) {
+        if (val !== undefined) {
+            return this.set('backdropScreensaverInterval', val.toString(), false);
+        }
+
+        return parseInt(this.get('backdropScreensaverInterval', false), 10) || 5;
+    }
+
+    /**
      * Get or set library page size.
      * @param {number|undefined} val - Library page size.
      * @return {number} Library page size.
      */
     libraryPageSize(val) {
         if (val !== undefined) {
-            return this.set('libraryPageSize', parseInt(val, 10), false);
+            return this.set('libraryPageSize', val.toString(), false);
         }
 
         const libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
@@ -455,7 +468,7 @@ export class UserSettings {
      */
     maxDaysForNextUp(val) {
         if (val !== undefined) {
-            return this.set('maxDaysForNextUp', parseInt(val, 10), false);
+            return this.set('maxDaysForNextUp', val.toString(), false);
         }
 
         const maxDaysForNextUp = parseInt(this.get('maxDaysForNextUp', false), 10);
@@ -474,7 +487,7 @@ export class UserSettings {
      */
     enableRewatchingInNextUp(val) {
         if (val !== undefined) {
-            return this.set('enableRewatchingInNextUp', val, false);
+            return this.set('enableRewatchingInNextUp', val.toString(), false);
         }
 
         return toBoolean(this.get('enableRewatchingInNextUp', false), false);
@@ -624,6 +637,7 @@ export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSetting
 export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
+export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
