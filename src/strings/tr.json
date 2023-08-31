@@ -181,7 +181,7 @@
     "Favorites": "Favoriler",
     "Folders": "Klasörler",
     "Genres": "Türler",
-    "HeaderAlbumArtists": "Albüm Sanatçıları",
+    "HeaderAlbumArtists": "Albüm sanatçıları",
     "Movies": "Filmler",
     "Photos": "Fotoğraflar",
     "Playlists": "Çalma listeleri",
@@ -1114,7 +1114,7 @@
     "LabelEnableIP4Help": "IPv4 işlevini etkinleştirin.",
     "LabelEnableIP4": "IPv4'ü etkinleştirin",
     "LabelDropSubtitleHere": "Altyazıyı buraya bırakın veya göz atmak için tıklayın.",
-    "MusicVideos": "Müzik videoları",
+    "MusicVideos": "Müzik Videoları",
     "MusicVideo": "Müzik Videosu",
     "MusicAlbum": "Müzik Albümü",
     "LabelSelectFolderGroups": "Aşağıdaki klasörlerdeki içeriği otomatik olarak \"Filmler\", \"Müzik\" ve \"TV\" gibi görünümlerde gruplandırın",
@@ -1753,5 +1753,7 @@
     "PleaseConfirmRepositoryInstallation": "Yukarıdakileri bilgilendirmeleri okuduğunuzu ve eklenti deposu kurulumuna devam etmek istediğinizi onaylamak için lütfen Tamam'ı tıklayın.",
     "MessageRepositoryInstallDisclaimer": "UYARI: Üçüncü taraf eklenti havuzu kurmak riskler taşır. Kararsız veya kötü amaçlı kod içerebilir ve her an değişebilir. Yalnızca güvendiğiniz yazarların depolarını kurmanız önerilir.",
     "LogLevel.None": "Hiçbiri",
-    "LabelThrottleDelaySecondsHelp": "Kodek dönüştürmenin kısılacağı saniye cinsinden süre. İstemcinin sağlıklı bir arabellek tutması için yeterince büyük olmalıdır. Yalnızca kısıtlama etkinleştirildiğinde çalışır."
+    "LabelThrottleDelaySecondsHelp": "Kodek dönüştürmenin kısılacağı saniye cinsinden süre. İstemcinin sağlıklı bir arabellek tutması için yeterince büyük olmalıdır. Yalnızca kısıtlama etkinleştirildiğinde çalışır.",
+    "LabelBackdropScreensaverInterval": "Arka Plan Ekran Koruyucu Arlığı",
+    "LabelBackdropScreensaverIntervalHelp": "Arka plan ekran koruyucusu kullanımdayken farklı arka planlar arasında geçen saniye cinsinden süre."
 }
