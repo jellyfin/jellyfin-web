@@ -18,6 +18,7 @@ function loadPage(page, config, systemInfo) {
     page.querySelector('#chkIntelLpHevcHwEncoder').checked = config.EnableIntelLowPowerHevcHwEncoder;
     page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
     page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
+    page.querySelector('#chkAllowAv1Encoding').checked = config.AllowAv1Encoding;
     $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
     $('#selectThreadCount', page).val(config.EncodingThreadCount);
     page.querySelector('#chkEnableAudioVbr').checked = config.EnableAudioVbr;
@@ -123,6 +124,7 @@ function onSubmit() {
             config.EnableIntelLowPowerHevcHwEncoder = form.querySelector('#chkIntelLpHevcHwEncoder').checked;
             config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
             config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
+            config.AllowAv1Encoding = form.querySelector('#chkAllowAv1Encoding').checked;
             ApiClient.updateNamedConfiguration('encoding', config).then(function () {
                 updateEncoder(form);
             }, function () {

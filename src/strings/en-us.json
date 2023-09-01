@@ -1715,5 +1715,6 @@
     "Unreleased": "Not yet released",
     "LabelTonemappingMode": "Tone mapping mode",
     "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode.",
-    "Unknown": "Unknown"
+    "Unknown": "Unknown",
+    "AllowAv1Encoding": "Allow encoding in AV1 format"
 }

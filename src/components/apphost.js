@@ -16,10 +16,13 @@ function getBaseProfileOptions(item) {
         if (browser.edge) {
             disableHlsVideoAudioCodecs.push('mp3');
         }
-
-        disableHlsVideoAudioCodecs.push('ac3');
-        disableHlsVideoAudioCodecs.push('eac3');
-        disableHlsVideoAudioCodecs.push('opus');
+        if (!browser.edgeChromium) {
+            disableHlsVideoAudioCodecs.push('ac3');
+            disableHlsVideoAudioCodecs.push('eac3');
+        }
+        if (!(browser.chrome || browser.edgeChromium || browser.firefox)) {
+            disableHlsVideoAudioCodecs.push('opus');
+        }
     }
 
     return {
