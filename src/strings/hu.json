@@ -1761,5 +1761,7 @@
     "LogLevel.None": "Egyik sem",
     "MessageRepositoryInstallDisclaimer": "FIGYELMEZTETÉS: Harmadik féltől származó beépülő modulok tárolójának telepítése kockázatokkal jár. Instabil vagy rosszindulatú kódot tartalmazhat, és bármikor megváltozhat. Csak olyan szerzők tárolóit telepítse, akikben megbízik.",
     "TonemappingModeHelp": "Válassza ki a tónus leképezési módot. Ha kiégett fénypontokat tapasztal, próbáljon átváltani RGB módra.",
-    "Unknown": "Ismeretlen"
+    "Unknown": "Ismeretlen",
+    "LabelBackdropScreensaverInterval": "Háttér Képernyővédő intervallum",
+    "LabelBackdropScreensaverIntervalHelp": "A különböző hátterek közötti idő másodpercben a háttér képernyővédő használatakor."
 }
