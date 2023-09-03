@@ -1021,7 +1021,7 @@
     "ErrorGettingTvLineups": "Ladattaessa televisiokokoonpanoja tapahtui virhe. Varmista, että tiedot ovat oikein ja yritä uudelleen.",
     "EnableDetailsBannerHelp": "Näyttää julistekuvan yksityiskohdat -sivun ylälaidassa.",
     "EnableDetailsBanner": "Yksityiskohtien julistekuva",
-    "ButtonSyncPlay": "Synkronoitu toisto",
+    "ButtonSyncPlay": "SyncPlay",
     "HeaderAccessSchedule": "Käyttöaikataulu",
     "HeaderAccessScheduleHelp": "Rajoita käyttö tiettyihin aikoihin luomalla käyttöaikataulu.",
     "HardwareAccelerationWarning": "Laitteistokiihdytyksen käyttöönotto voi joissain ympäristöissä aiheuttaa epävakautta. Varmista, että käyttöjärjestelmän ja näytönohjaimen ajurit ovat ajan tasalla. Mikäli huomaat videotoistossa ongelmia käyttöönoton jälkeen, palauta \"Ei mitään\" -asetus.",
@@ -1062,7 +1062,7 @@
     "LabelDownMixAudioScale": "Äänen tehostus alasmiksatessa",
     "LabelDateAddedBehavior": "Uudelle sisällölle käytettävä päiväys",
     "LabelBlastMessageInterval": "Hereiläolo-viestin väli",
-    "LabelBindToLocalNetworkAddress": "Kiinnitä verkko-osoitteeseen",
+    "LabelBindToLocalNetworkAddress": "Sido lähiverkon osoitteeseen",
     "LabelAirsBeforeSeason": "Lähetetään ennen kautta",
     "LabelAirsBeforeEpisode": "Lähetetään ennen jaksoa",
     "LabelAirsAfterSeason": "Lähetetään kauden jälkeen",
@@ -1760,6 +1760,6 @@
     "LabelThrottleDelaySecondsHelp": "Aika sekunneissa, jonka kuluttua transkooderi rauhoitetaan. Tämän on oltava riittävän suuri, jotta päätelaite kykenee ylläpitämään reilua puskuria. Toimii vain rauhoituksen ollessa käytössä.",
     "LabelSegmentKeepSeconds": "Osioiden säilytysaika",
     "LabelSegmentKeepSecondsHelp": "Aika sekunteina, jonka osiot säilytetään ennen päällekirjoitusta. Oltava \"Rahoita kun on kulunut\" -aikaa suurempi. Toimii vain osioiden poiston ollessa käytössä.",
-    "LabelBackdropScreensaverInterval": "Taustan näytönsäästäjän aikaväli",
-    "LabelBackdropScreensaverIntervalHelp": "Aikaväli sekuntteina eri taustojen välillä, kun taustan näytönsäästäjä on käytössä."
+    "LabelBackdropScreensaverInterval": "Taustanäytönsäästäjän ajoitus",
+    "LabelBackdropScreensaverIntervalHelp": "Aika sekuntteina, jonka kuluttua kuva vaihtuu taustanäytönsäästäjää käytettäessä."
 }
