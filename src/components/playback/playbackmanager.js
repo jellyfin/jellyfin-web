@@ -1884,7 +1884,7 @@ class PlaybackManager {
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
                 if (options.shuffle) {
-                    sortBy = 'Random';
+                    sortBy = 'IsPlayed,Random';
                 } else if (firstItem.Type !== 'BoxSet') {
                     sortBy = 'SortName';
                 }
