@@ -474,7 +474,7 @@
     "LabelEnableDlnaClientDiscoveryInterval": "Interval voor het zoeken naar clients",
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Bepaalt de duur in seconden tussen twee SSDP-zoekopdrachten.",
     "LabelEnableDlnaDebugLogging": "DLNA-foutopsporingslogboek inschakelen",
-    "LabelEnableDlnaDebugLoggingHelp": "Genereer grote logboekbestanden en is alleen bedoeld voor het troubleshooting doeleinden.",
+    "LabelEnableDlnaDebugLoggingHelp": "Genereert grote logboekbestanden en is alleen bedoeld voor troubleshooting-doeleinden.",
     "LabelEnableDlnaPlayTo": "'Play to' DLNA-functie inschakelen",
     "LabelEnableDlnaPlayToHelp": "Apparaten detecteren binnen uw netwerk en maak het mogelijk om ze op afstand te gebruiken.",
     "LabelEnableDlnaServer": "DLNA-server inschakelen",
