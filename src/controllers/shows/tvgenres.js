@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
+import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
@@ -25,7 +25,7 @@ export default function (view, params, tabContent) {
                 view: 'Poster'
             };
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
@@ -36,7 +36,7 @@ export default function (view, params, tabContent) {
     }
 
     function getSavedQueryKey() {
-        return libraryBrowser.getSavedQueryKey('seriesgenres');
+        return `${params.topParentId}-seriesgenres`;
     }
 
     function getPromise() {
@@ -176,7 +176,7 @@ export default function (view, params, tabContent) {
 
             elem.innerHTML = html;
             lazyLoader.lazyChildren(elem, fillItemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
         });
     }
@@ -199,7 +199,7 @@ export default function (view, params, tabContent) {
 
     self.setCurrentViewStyle = function (viewStyle) {
         getPageData().view = viewStyle;
-        libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+        userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
         fullyReload();
     };
 

@@ -27,14 +27,14 @@ export default function (view, params, tabContent) {
                     EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                     StartIndex: 0
                 },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
+                view: userSettings.getSavedView(key) || 'Poster'
             };
 
             if (userSettings.libraryPageSize() > 0) {
                 pageData.query['Limit'] = userSettings.libraryPageSize();
             }
 
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
@@ -172,7 +172,7 @@ export default function (view, params, tabContent) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
             isLoading = false;
         });

@@ -9,8 +9,8 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import Dashboard from '../utils/dashboard';
 
 export default function (view) {
-    function getPageData(context) {
-        const key = getSavedQueryKey(context);
+    function getPageData() {
+        const key = getSavedQueryKey();
         let pageData = data[key];
 
         if (!pageData) {
@@ -23,7 +23,7 @@ export default function (view) {
                     Fields: 'PrimaryImageAspectRatio,SortName,CumulativeRunTimeTicks,CanDelete',
                     StartIndex: 0
                 },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
+                view: userSettings.getSavedView(key) || 'Poster'
             };
 
             if (userSettings.libraryPageSize() > 0) {
@@ -31,22 +31,18 @@ export default function (view) {
             }
 
             pageData.query.ParentId = libraryMenu.getTopParentId();
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
     }
 
-    function getQuery(context) {
-        return getPageData(context).query;
+    function getQuery() {
+        return getPageData().query;
     }
 
-    function getSavedQueryKey(context) {
-        if (!context.savedQueryKey) {
-            context.savedQueryKey = libraryBrowser.getSavedQueryKey();
-        }
-
-        return context.savedQueryKey;
+    function getSavedQueryKey() {
+        return `${libraryMenu.getTopParentId()}-playlists`;
     }
 
     function showLoadingMessage() {
@@ -58,7 +54,7 @@ export default function (view) {
     }
 
     function onViewStyleChange() {
-        const viewStyle = getPageData(view).view;
+        const viewStyle = getPageData().view;
         const itemsContainer = view.querySelector('.itemsContainer');
 
         if (viewStyle == 'List') {
@@ -74,7 +70,7 @@ export default function (view) {
 
     function reloadItems() {
         showLoadingMessage();
-        const query = getQuery(view);
+        const query = getQuery();
         const promise1 = ApiClient.getItems(Dashboard.getCurrentUserId(), query);
         // TODO: promise2 is unused, check if necessary.
         const promise2 = Dashboard.getCurrentUser();
@@ -83,7 +79,7 @@ export default function (view) {
             // TODO: Is the scroll necessary?
             window.scrollTo(0, 0);
             let html = '';
-            const viewStyle = getPageData(view).view;
+            const viewStyle = getPageData().view;
             view.querySelector('.listTopPaging').innerHTML = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
@@ -172,14 +168,14 @@ export default function (view) {
             if (btnChangeLayout) {
                 btnChangeLayout.addEventListener('layoutchange', function (e) {
                     const layout = e.detail.viewStyle;
-                    getPageData(view).view = layout;
-                    libraryBrowser.saveViewSetting(getSavedQueryKey(view), layout);
+                    getPageData().view = layout;
+                    userSettings.saveViewSetting(getSavedQueryKey(), layout);
                     onViewStyleChange();
                     reloadItems();
                 });
             }
 
-            libraryBrowser.saveQueryValues(getSavedQueryKey(view), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             hideLoadingMessage();
         });
     }

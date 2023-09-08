@@ -42,7 +42,7 @@ export default function (view, params, tabContent) {
                     EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                     StartIndex: 0
                 },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
+                view: userSettings.getSavedView(key) || 'Poster'
             };
 
             if (userSettings.libraryPageSize() > 0) {
@@ -50,7 +50,7 @@ export default function (view, params, tabContent) {
             }
 
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
@@ -61,11 +61,7 @@ export default function (view, params, tabContent) {
     }
 
     function getSavedQueryKey() {
-        if (!savedQueryKey) {
-            savedQueryKey = libraryBrowser.getSavedQueryKey('musicalbums');
-        }
-
-        return savedQueryKey;
+        return `${params.topParentId}-musicalbums`;
     }
 
     const onViewStyleChange = () => {
@@ -174,7 +170,7 @@ export default function (view, params, tabContent) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
             isLoading = false;
 
@@ -184,7 +180,6 @@ export default function (view, params, tabContent) {
         });
     };
 
-    let savedQueryKey;
     let pageData;
     let isLoading = false;
 
@@ -280,7 +275,7 @@ export default function (view, params, tabContent) {
         btnSelectView.addEventListener('layoutchange', function (e) {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+            userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
             getQuery().StartIndex = 0;
             onViewStyleChange();
             reloadItems();
