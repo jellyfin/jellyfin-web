@@ -27,6 +27,10 @@ export function saveQueryValues(key, query) {
         values.SortOrder = query.SortOrder;
     }
 
+    if (query.Filters) {
+        values.Filters = query.Filters;
+    }
+
     userSettings.set(key, JSON.stringify(values));
 }
 
