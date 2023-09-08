@@ -771,7 +771,7 @@
     "MessageNoPluginsInstalled": "你没有安装插件。",
     "MessageNoTrailersFound": "安装 Trailer channel 以通过添加一个网络预告片媒体库来增强你的电影体验。",
     "MessageNothingHere": "这里没有可显示的内容。",
-    "MessagePasswordResetForUsers": "以下用户已重置密码。 他们现在可以使用用于重置的 简单PIN 码登录。",
+    "MessagePasswordResetForUsers": "以下用户已重置密码。 他们现在可以使用用于重置的 PIN 码登录。",
     "MessagePleaseEnsureInternetMetadata": "请确认已启用从网络上下载媒体资料的选项。",
     "MessagePleaseWait": "请稍等。这将花费大约1分钟的时间。",
     "MessagePluginConfigurationRequiresLocalAccess": "请直接登录你的本地服务器以设置这个插件。",
@@ -1754,5 +1754,14 @@
     "LogLevel.Warning": "警告",
     "LogLevel.Error": "错误",
     "LogLevel.Critical": "严重",
-    "LogLevel.None": "无"
+    "LogLevel.None": "无",
+    "LabelThrottleDelaySecondsHelp": "转码被限制的时间，以秒为单位。必须足够长，以便客户端能够保持有效的缓冲时长。仅在启用了限速功能时生效。",
+    "AllowSegmentDeletion": "删除片段",
+    "AllowSegmentDeletionHelp": "将已发送给客户端的旧片段删除。这样可以避免在磁盘上存储整个转码文件。启用了限流功能时才能生效。如果出现播放问题，请关闭此选项。",
+    "LabelThrottleDelaySeconds": "向后缓存限制",
+    "LabelSegmentKeepSeconds": "缓存片段时长",
+    "LabelSegmentKeepSecondsHelp": "在覆盖之前应保留片段的时间（以秒为单位）。必须大于“向后缓存限制”。仅在启用片段删除时生效。",
+    "HeaderEpisodesStatus": "剧集状态",
+    "LabelBackdropScreensaverInterval": "屏幕保护程序间隔",
+    "LabelBackdropScreensaverIntervalHelp": "不同屏幕保护切换的时间间隔秒数。"
 }

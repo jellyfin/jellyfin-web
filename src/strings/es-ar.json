@@ -1731,5 +1731,6 @@
     "AllowCollectionManagement": "Permitir que este usuario administre colecciones",
     "EnableAudioNormalization": "Normalización de audio",
     "LabelEnableLUFSScan": "Habilitar escaneo LUFS",
-    "GetThePlugin": "Obtener el complemento"
+    "GetThePlugin": "Obtener el complemento",
+    "AllowSegmentDeletion": "Eliminar segmentos"
 }

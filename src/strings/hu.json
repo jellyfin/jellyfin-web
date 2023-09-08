@@ -1664,7 +1664,7 @@
     "VideoRangeTypeNotSupported": "A videó tartománytípusa nem támogatott",
     "LabelVppTonemappingContrastHelp": "Kontraszt növelésének mértéke VPP tónusleképezés használatakor. Az ajánlott és az alapértelmezett érték 1.",
     "LabelVppTonemappingContrast": "VPP tónusleképezés kontrasztszintje",
-    "LabelVppTonemappingBrightnessHelp": "Fényerő növelésének mértéke VPP tónusleképezés használatakor. Az ajánlott és az alapértelmezett érték 0.",
+    "LabelVppTonemappingBrightnessHelp": "Fényerő növelésének mértéke VPP tónusleképezés használatakor. Az ajánlott és az alapértelmezett értékek 16 és 0.",
     "LabelVppTonemappingBrightness": "VPP tónusleképezés fényerőszintje",
     "ScreenResolution": "Képernyőfelbontás",
     "RememberSubtitleSelectionsHelp": "Próbálja meg úgy beállítani a feliratsávot, hogy a legközelebb legyen az utolsó videóhoz.",
@@ -1761,5 +1761,7 @@
     "LogLevel.None": "Egyik sem",
     "MessageRepositoryInstallDisclaimer": "FIGYELMEZTETÉS: Harmadik féltől származó beépülő modulok tárolójának telepítése kockázatokkal jár. Instabil vagy rosszindulatú kódot tartalmazhat, és bármikor megváltozhat. Csak olyan szerzők tárolóit telepítse, akikben megbízik.",
     "TonemappingModeHelp": "Válassza ki a tónus leképezési módot. Ha kiégett fénypontokat tapasztal, próbáljon átváltani RGB módra.",
-    "Unknown": "Ismeretlen"
+    "Unknown": "Ismeretlen",
+    "LabelBackdropScreensaverInterval": "Háttér Képernyővédő intervallum",
+    "LabelBackdropScreensaverIntervalHelp": "A különböző hátterek közötti idő másodpercben a háttér képernyővédő használatakor."
 }

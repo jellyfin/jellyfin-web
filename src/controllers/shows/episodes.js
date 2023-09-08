@@ -11,8 +11,8 @@ import Events from '../../utils/events.ts';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
-    function getPageData(context) {
-        const key = getSavedQueryKey(context);
+    function getPageData() {
+        const key = getSavedQueryKey();
         let pageData = data[key];
 
         if (!pageData) {
@@ -28,7 +28,7 @@ export default function (view, params, tabContent) {
                     EnableImageTypes: 'Primary,Backdrop,Thumb',
                     StartIndex: 0
                 },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
+                view: userSettings.getSavedView(key) || 'Poster'
             };
 
             if (userSettings.libraryPageSize() > 0) {
@@ -36,22 +36,18 @@ export default function (view, params, tabContent) {
             }
 
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
     }
 
-    function getQuery(context) {
-        return getPageData(context).query;
+    function getQuery() {
+        return getPageData().query;
     }
 
-    function getSavedQueryKey(context) {
-        if (!context.savedQueryKey) {
-            context.savedQueryKey = libraryBrowser.getSavedQueryKey('episodes');
-        }
-
-        return context.savedQueryKey;
+    function getSavedQueryKey() {
+        return `${params.topParentId}-episodes`;
     }
 
     function onViewStyleChange() {
@@ -72,7 +68,7 @@ export default function (view, params, tabContent) {
     function reloadItems(page) {
         loading.show();
         isLoading = true;
-        const query = getQuery(page);
+        const query = getQuery();
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
             function onNextPageClick() {
                 if (isLoading) {
@@ -156,7 +152,7 @@ export default function (view, params, tabContent) {
 
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
             isLoading = false;
 
@@ -173,7 +169,7 @@ export default function (view, params, tabContent) {
     self.showFilterMenu = function () {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
-                query: getQuery(tabContent),
+                query: getQuery(),
                 mode: 'episodes',
                 serverId: ApiClient.serverId()
             });
@@ -185,7 +181,7 @@ export default function (view, params, tabContent) {
     };
 
     self.getCurrentViewStyle = function () {
-        return getPageData(tabContent).view;
+        return getPageData().view;
     };
 
     function initPage(tabElement) {
@@ -222,7 +218,7 @@ export default function (view, params, tabContent) {
                 callback: function () {
                     reloadItems(tabElement);
                 },
-                query: getQuery(tabElement),
+                query: getQuery(),
                 button: e.target
             });
         });
@@ -232,8 +228,8 @@ export default function (view, params, tabContent) {
         });
         btnSelectView.addEventListener('layoutchange', function (e) {
             const viewStyle = e.detail.viewStyle;
-            getPageData(tabElement).view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(tabElement), viewStyle);
+            getPageData().view = viewStyle;
+            userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
             onViewStyleChange();
             reloadItems(tabElement);
         });

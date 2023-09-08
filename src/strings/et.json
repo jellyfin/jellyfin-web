@@ -917,7 +917,7 @@
     "MessagePleaseWait": "Palun oota. See võib veidi aega võtta.",
     "MessagePleaseEnsureInternetMetadata": "Veendu, et interneti metaandmete allalaadimine on lubatud.",
     "MessagePlayAccessRestricted": "Selle sisu taasesitamine on praegu piiratud. Lisateabe saamiseks võta ühendust oma serveri administraatoriga.",
-    "MessagePasswordResetForUsers": "Järgmiste kasutajate paroolid on lähtestatud. Nüüd saavad nad sisse logida LIHTNE PIN koodidega, mida kasutati lähtestamiseks.",
+    "MessagePasswordResetForUsers": "Järgmiste kasutajate paroolid on lähtestatud. Nüüd saavad nad sisse logida PIN koodidega, mida kasutati lähtestamiseks.",
     "MessageNoTrailersFound": "Paigalda treilerite kanal ja paranda oma filmikogemust lisades interneti treilerite kogu.",
     "MessageNothingHere": "Siin pole midagi.",
     "MessageNoServersAvailable": "Automaatse serveriotsingu abil ei leitud ühtegi serverit.",

@@ -1752,5 +1752,12 @@
     "LabelVppTonemappingContrastHelp": "Aplicar ganancia de contraste en el mapeado de tonos VPP. Los valores recomendados y seleccionados por defecto son 1.",
     "MediaInfoVideoRangeType": "Tipo de rango de vídeo",
     "MediaInfoDvVersionMinor": "Versión DV menor",
-    "TonemappingModeHelp": "Seleccione el modo de mapeado de tono. Si experimenta sobreiluminación intente cambiar al modo RGB."
+    "TonemappingModeHelp": "Seleccione el modo de mapeado de tono. Si experimenta sobreiluminación intente cambiar al modo RGB.",
+    "AllowSegmentDeletion": "Borrar segmentos",
+    "HeaderEpisodesStatus": "Estatus de los Episodios",
+    "AllowSegmentDeletionHelp": "Borrar los viejos segmentos después de que hayan sido enviados  al cliente. Esto previene que se tenga almacenado la totalidad de la transcodificación en el disco.  Esto funciona unicamente cuando se tenga habilitado el throttling.  Apagar esta opción cuando se tengan  problemas de reproducción.",
+    "LabelThrottleDelaySeconds": "Acelerar después",
+    "LabelThrottleDelaySecondsHelp": "Tiempo en segundos después  de que la   transcodificación entre en throttled. Deben ser los suficientes para que el  buffer del cliente siga operando. Unicamente funciona si el throtting está habilitdo.",
+    "LabelSegmentKeepSeconds": "Tiempo para que permanescan los segmentos",
+    "LabelSegmentKeepSecondsHelp": "Tiempo en segundos  en los que los segmentos deben permanecer antes de que sean  sobrescritos. Estos deben de ser mayores  a los indicados en \"Acelerar despues de\". Esto funciona unicamente si esta habilitada la opción de eliminar  el segmento."
 }

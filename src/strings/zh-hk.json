@@ -1154,5 +1154,6 @@
     "MinutesAfter": "分鐘後",
     "ValueMinutes": "{0}分",
     "MinutesBefore": "分鐘前",
-    "MessagePleaseWait": "請稍等。"
+    "MessagePleaseWait": "請稍等。",
+    "AllowCollectionManagement": "允許用戶管理合輯"
 }
