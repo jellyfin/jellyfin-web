@@ -13,26 +13,30 @@
         width: 100vw;
         overflow: scroll;
 
-        &:not(.fullPage) {
-            canvas {
-                max-height: 150vmax;
-                max-width: 75vmax;
-            }
-            canvas:only-child {
-                max-width: 150vmax !important;
-            }
-        }
         &.fullPage {
             display: flex !important;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+
             canvas {
                 max-height: 100%;
                 max-width: 50%;
             }
+
             canvas:only-child {
                 max-width: 100% !important;
+            }
+        }
+        
+        &:not(.fullPage) {
+            canvas {
+                max-height: 150vmax;
+                max-width: 75vmax;
+            }
+
+            canvas:only-child {
+                max-width: 150vmax !important;
             }
         }
     }

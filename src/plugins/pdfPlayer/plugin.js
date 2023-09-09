@@ -18,6 +18,7 @@ export class PdfPlayer {
         this.priority = 1;
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
+        this.onScreenResize = this.onScreenResize.bind(this);
         this.onFullPage = this.onFullPage.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -126,7 +127,11 @@ export class PdfPlayer {
     }
 
     onFullPage() {
-        document.getElementById('pdfContainer').classList.toggle('fullPage');
+        this.mediaElement.querySelector('#pdfContainer').classList.toggle('fullPage');
+    }
+
+    onScreenResize() {
+        this.reloadPage();
     }
 
     onDialogClosed() {
@@ -137,7 +142,7 @@ export class PdfPlayer {
         const elem = this.mediaElement;
 
         elem.addEventListener('close', this.onDialogClosed, { once: true });
-        document.getElementById('pdfContainer').addEventListener('click', this.onClick);
+        elem.querySelector('#pdfContainer').addEventListener('click', this.onClick);
         elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
         elem.querySelector('.btnFull').addEventListener('click', this.onFullPage);
     }
@@ -146,13 +151,14 @@ export class PdfPlayer {
         this.bindMediaElementEvents();
 
         document.addEventListener('keyup', this.onWindowKeyUp);
+        screen.orientation.addEventListener("change", this.onScreenResize);
     }
 
     unbindMediaElementEvents() {
         const elem = this.mediaElement;
 
         elem.removeEventListener('close', this.onDialogClosed);
-        document.getElementById('pdfContainer').removeEventListener('click', this.onClick);
+        elem.querySelector('#pdfContainer').removeEventListener('click', this.onClick);
         elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
         elem.querySelector('.btnFull').removeEventListener('click', this.onFullPage);
     }
@@ -163,6 +169,7 @@ export class PdfPlayer {
         }
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
+        screen.orientation.removeEventListener("change", this.onScreenResize);
     }
 
     createMediaElement() {
@@ -183,7 +190,7 @@ export class PdfPlayer {
             });
 
             let html = '';
-            html += '<div id="pdfContainer"  class="fullPage"></div>';
+            html += '<div id="pdfContainer" class="fullPage"></div>';
             html += '<div class="actionButtons">';
             html += '<button is="paper-icon-button-light" class="autoSize btnFull" tabindex="-1"><span class="material-icons actionButtonIcon fullscreen" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
@@ -239,15 +246,19 @@ export class PdfPlayer {
     }
 
     next() {
-        const visiblePages = document.getElementById('pdfContainer').childElementCount;
+        const visiblePages = this.mediaElement.querySelector('#pdfContainer').childElementCount;
         const newPage = 1 + Math.min(this.progress + visiblePages, this.duration() - 1);
         this.setPage(newPage);
     }
 
     previous() {
-        const visiblePages = document.getElementById('pdfContainer').childElementCount;
+        const visiblePages = this.mediaElement.querySelector('#pdfContainer').childElementCount;
         const newPage = 1 + Math.max(this.progress - visiblePages, 0);
         this.setPage(newPage);
+    }
+
+    reloadPage() {
+        this.loadPage(this.progress + 1)
     }
 
     setPage(pageNumber) {
@@ -264,15 +275,13 @@ export class PdfPlayer {
         Events.trigger(this, 'pause');
     }
 
-    // TODO save container element so we don't have to look it up everytime
     replaceCanvas(...canvas) {
-        const container = document.getElementById('pdfContainer');
+        const container = this.mediaElement.querySelector('#pdfContainer');
         container.replaceChildren(...canvas.filter(item => item !== undefined));
     }
 
-    // TODO reload page on browser-size / phone-orientation change
     loadPage(number) {
-        const bookMode = (window.innerWidth >= window.innerHeight && number != 1) ? true : false;
+        const bookMode = (window.innerWidth >= window.innerHeight && number != 1);
         const prefix = 'page';
         const pad = 3;
 
