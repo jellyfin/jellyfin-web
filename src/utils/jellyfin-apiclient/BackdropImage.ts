@@ -24,12 +24,9 @@ export interface ScaleImageOptions {
  * @returns The url of the first or a random backdrop image of the provided item.
  */
 export const getItemBackdropImageUrl = (apiClient: ApiClient, item: BaseItemDto, random = false, options: ScaleImageOptions = {}): string | undefined => {
-    let imgUrl;
-
-    if (item.BackdropImageTags?.length) {
+    if (item.Id && item.BackdropImageTags?.length) {
         const backdropImgIndex = random ? randomInt(0, item.BackdropImageTags.length - 1) : 0;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        imgUrl = apiClient.getScaledImageUrl(item.Id!, {
+        return apiClient.getScaledImageUrl(item.Id, {
             type: 'Backdrop',
             index: backdropImgIndex,
             tag: item.BackdropImageTags[backdropImgIndex],
@@ -37,19 +34,19 @@ export const getItemBackdropImageUrl = (apiClient: ApiClient, item: BaseItemDto,
         });
     } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags?.length) {
         const backdropImgIndex = random ? randomInt(0, item.ParentBackdropImageTags.length - 1) : 0;
-        imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+        return apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
             type: 'Backdrop',
             index: backdropImgIndex,
             tag: item.ParentBackdropImageTags[backdropImgIndex],
             ...options
         });
-    } else if (item.ImageTags?.Primary) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        imgUrl = apiClient.getScaledImageUrl(item.Id!, {
+    } else if (item.Id && item.ImageTags?.Primary) {
+        return apiClient.getScaledImageUrl(item.Id, {
             type: 'Primary',
             tag: item.ImageTags.Primary,
             ...options
         });
+    } else {
+        return undefined;
     }
-    return imgUrl;
 };
