@@ -36,7 +36,7 @@ import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';
-import { getItemBackdropImageUrl } from '../../utils/url';
+import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/BackdropImage';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {

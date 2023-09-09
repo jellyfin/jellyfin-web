@@ -14,7 +14,7 @@ import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
-import { getItemBackdropImageUrl } from '../../utils/url';
+import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/BackdropImage';
 
 const UNLIMITED_ITEMS = -1;
 
