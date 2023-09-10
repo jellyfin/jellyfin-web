@@ -1746,5 +1746,7 @@
     "LabelThrottleDelaySecondsHelp": "Thời gian tính bằng giây sau đó bộ chuyển mã sẽ được điều chỉnh. Phải đủ lớn để khách hàng duy trì bộ đệm khỏe mạnh. Chỉ hoạt động nếu điều chỉnh được bật.",
     "AllowSegmentDeletion": "Xóa phân đoạn",
     "LabelSegmentKeepSeconds": "Thời gian giữ phân đoạn",
-    "HeaderEpisodesStatus": "Trạng Thái Tập"
+    "HeaderEpisodesStatus": "Trạng Thái Tập",
+    "LabelBackdropScreensaverInterval": "Thời Gian Phông Nền Màn Hình Bảo Vệ",
+    "LabelBackdropScreensaverIntervalHelp": "Thời gian tính bằng giây giữa các phông nền khác nhau khi sử dụng trình bảo vệ màn hình phông nền."
 }

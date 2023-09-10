@@ -1474,7 +1474,7 @@
     "SeriesCancelled": "Серіал скасовано.",
     "Series": "Серіал",
     "SendMessage": "Відправити повідомлення",
-    "SelectServer": "Виберіть Сервер",
+    "SelectServer": "Вибрати Сервер",
     "SelectAdminUsername": "Будь ласка, виберіть ім’я користувача для облікового запису адміністратора.",
     "Season": "Сезон",
     "SearchResults": "Результати пошуку",
@@ -1758,5 +1758,7 @@
     "HeaderEpisodesStatus": "Статус епізодів",
     "LabelThrottleDelaySeconds": "Обмежити після",
     "LabelSegmentKeepSecondsHelp": "Час у секундах, протягом якого сегменти мають зберігатися перед перезаписом. Має бути більшим за \"Обмежити після\". Працює тільки якщо увімкнено видалення сегментів.",
-    "LabelSegmentKeepSeconds": "Час збереження сегментів"
+    "LabelSegmentKeepSeconds": "Час збереження сегментів",
+    "LabelBackdropScreensaverIntervalHelp": "Час у секундах між різними фонами при використанні фонової заставки.",
+    "LabelBackdropScreensaverInterval": "Інтервал між фоновими заставками"
 }

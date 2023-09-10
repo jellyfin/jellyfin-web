@@ -1761,5 +1761,7 @@
     "AllowSegmentDeletion": "Supprimer les segments",
     "LabelThrottleDelaySecondsHelp": "Durée en secondes après laquelle le débit du transcodage sera ajusté. Doit être suffisamment grande pour que le client puisse conserver une mémoire tampon saine. Ne fonctionne que si l'adaptation de la vitesse de transcodage est activée.",
     "LabelSegmentKeepSeconds": "Durée de conservation des segments",
-    "LabelSegmentKeepSecondsHelp": "Durée en secondes de conservation des segments avant écrasement. La valeur doit être supérieure au délai d'ajustement. Ne fonctionne que si la suppression des segments est activée."
+    "LabelSegmentKeepSecondsHelp": "Durée en secondes de conservation des segments avant écrasement. La valeur doit être supérieure au délai d'ajustement. Ne fonctionne que si la suppression des segments est activée.",
+    "LabelBackdropScreensaverIntervalHelp": "Le temps en secondes entre différents fonds d'écran lors de l'utilisation de l'économiseur d'écran à fonds d'écran.",
+    "LabelBackdropScreensaverInterval": "Intervalle de l'économiseur d'écran à fonds d'écran"
 }

@@ -311,7 +311,7 @@
     "HeaderLibraryFolders": "Foldery biblioteki",
     "HeaderLibraryOrder": "Kolejność biblioteki",
     "HeaderLibrarySettings": "Ustawienia biblioteki",
-    "HeaderLiveTvTunerSetup": "Konfiguracja tunera telewizyjnego",
+    "HeaderLiveTvTunerSetup": "Konfiguracja tunera TV",
     "HeaderLoginFailure": "Niepowodzenie logowania",
     "HeaderMedia": "Multimedia",
     "HeaderMediaFolders": "Foldery mediów",
@@ -1396,7 +1396,7 @@
     "HeaderAddUser": "Dodaj użytkownika",
     "HeaderAddUpdateSubtitle": "Dodaj/Zaktualizuj napisy",
     "EnableTonemapping": "Włącz Tone mapping",
-    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z filmami 10bit HDR10, HLG i DoVi. Wymaga to odpowiedniego środowiska uruchomieniowego OpenCL lub CUDA.",
+    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z 10-bitowymi filmami HDR10, HLG i DoVi. Wymaga to odpowiedniego środowiska wykonawczego OpenCL lub CUDA.",
     "TonemappingAlgorithmHelp": "Mapowanie tonów może zostać dostrojone. Jeśli nie znasz tych opcji, pozostaw domyślne wartości. Domyślna wartość to 'BT.2390'.",
     "PreferFmp4HlsContainerHelp": "Preferuj fMP4 jako domyślny format dla HLS, pozwalając na bezpośrednie odtwarzanie zawartości HEVC na wspieranych urządzeniach.",
     "PreferFmp4HlsContainer": "Preferuj format fMP4-HLS",
@@ -1761,5 +1761,7 @@
     "LabelSegmentKeepSeconds": "Czas przechowywania segmentów",
     "LabelSegmentKeepSecondsHelp": "Czas w sekundach, przez który segmenty powinny być przechowywane, zanim zostaną nadpisane. Musi być większy niż „Ograniczaj po”. Działa tylko wtedy, gdy włączone jest usuwanie segmentów.",
     "LabelThrottleDelaySeconds": "Ograniczaj po",
-    "LabelThrottleDelaySecondsHelp": "Czas w sekundach, po którym transkoder zostanie ograniczony. Musi być wystarczająco duży, aby klient mógł utrzymać właściwy bufor. Działa tylko wtedy, gdy włączone jest ograniczanie."
+    "LabelThrottleDelaySecondsHelp": "Czas w sekundach, po którym transkoder zostanie ograniczony. Musi być wystarczająco duży, aby klient mógł utrzymać właściwy bufor. Działa tylko wtedy, gdy włączone jest ograniczanie.",
+    "LabelBackdropScreensaverIntervalHelp": "Czas w sekundach między różnymi fototapetami podczas korzystania z wygaszacza ekranu z fototapetami.",
+    "LabelBackdropScreensaverInterval": "Interwał fototapet wygaszacza ekranu"
 }

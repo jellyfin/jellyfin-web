@@ -1761,5 +1761,7 @@
     "LabelThrottleDelaySecondsHelp": "Tiempo en segundos después del cual se acelerará el transcodificador. Debe ser lo suficientemente grande para que el cliente mantenga un búfer saludable. Solo funciona si el estrangulamiento \"throttling\" está habilitada.",
     "LabelSegmentKeepSeconds": "Tiempo que se mantendrán los segmentos",
     "LabelThrottleDelaySeconds": "Limitar trás",
-    "LabelSegmentKeepSecondsHelp": "Tiempo en segundos durante el cual se deben conservar los segmentos antes de que se sobrescriban. Debe ser mayor que \"Acelerar después\". Solo funciona si la eliminación de segmentos está habilitada."
+    "LabelSegmentKeepSecondsHelp": "Tiempo en segundos durante el cual se deben conservar los segmentos antes de que se sobrescriban. Debe ser mayor que \"Acelerar después\". Solo funciona si la eliminación de segmentos está habilitada.",
+    "LabelBackdropScreensaverInterval": "Intervalo del fondo protector de pantalla",
+    "LabelBackdropScreensaverIntervalHelp": "El tiempo en segundos entre diferentes fondos cuando se utiliza el fondo protector de pantalla."
 }

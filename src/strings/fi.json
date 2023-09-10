@@ -1062,7 +1062,7 @@
     "LabelDownMixAudioScale": "Äänen tehostus alasmiksatessa",
     "LabelDateAddedBehavior": "Uudelle sisällölle käytettävä päiväys",
     "LabelBlastMessageInterval": "Hereiläolo-viestin väli",
-    "LabelBindToLocalNetworkAddress": "Kiinnitä verkko-osoitteeseen",
+    "LabelBindToLocalNetworkAddress": "Sido lähiverkon osoitteeseen",
     "LabelAirsBeforeSeason": "Lähetetään ennen kautta",
     "LabelAirsBeforeEpisode": "Lähetetään ennen jaksoa",
     "LabelAirsAfterSeason": "Lähetetään kauden jälkeen",
@@ -1759,5 +1759,7 @@
     "LabelThrottleDelaySeconds": "Rauhoita kun on kulunut",
     "LabelThrottleDelaySecondsHelp": "Aika sekunneissa, jonka kuluttua transkooderi rauhoitetaan. Tämän on oltava riittävän suuri, jotta päätelaite kykenee ylläpitämään reilua puskuria. Toimii vain rauhoituksen ollessa käytössä.",
     "LabelSegmentKeepSeconds": "Osioiden säilytysaika",
-    "LabelSegmentKeepSecondsHelp": "Aika sekunteina, jonka osiot säilytetään ennen päällekirjoitusta. Oltava \"Rahoita kun on kulunut\" -aikaa suurempi. Toimii vain osioiden poiston ollessa käytössä."
+    "LabelSegmentKeepSecondsHelp": "Aika sekunteina, jonka osiot säilytetään ennen päällekirjoitusta. Oltava \"Rahoita kun on kulunut\" -aikaa suurempi. Toimii vain osioiden poiston ollessa käytössä.",
+    "LabelBackdropScreensaverInterval": "Taustanäytönsäästäjän ajoitus",
+    "LabelBackdropScreensaverIntervalHelp": "Aika sekuntteina, jonka kuluttua kuva vaihtuu taustanäytönsäästäjää käytettäessä."
 }

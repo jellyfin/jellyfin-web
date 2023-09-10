@@ -831,7 +831,7 @@
     "HeaderMyMedia": "我的媒體",
     "HeaderMyDevice": "我的裝置",
     "HeaderMusicQuality": "音質",
-    "HeaderMoreLikeThis": "類似影片",
+    "HeaderMoreLikeThis": "更多類似的",
     "HeaderMetadataSettings": "中繼資料設定",
     "HeaderMedia": "媒體",
     "HeaderLoginFailure": "登入失敗",
@@ -1154,5 +1154,6 @@
     "MinutesAfter": "分鐘後",
     "ValueMinutes": "{0}分",
     "MinutesBefore": "分鐘前",
-    "MessagePleaseWait": "請稍等。"
+    "MessagePleaseWait": "請稍等。",
+    "AllowCollectionManagement": "允許用戶管理合輯"
 }

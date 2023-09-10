@@ -1,6 +1,7 @@
 
 import ServerConnections from '../../components/ServerConnections';
 import { PluginType } from '../../types/plugin.ts';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 class BackdropScreensaver {
     constructor() {
@@ -29,7 +30,10 @@ class BackdropScreensaver {
                     const newSlideShow = new Slideshow({
                         showTitle: true,
                         cover: true,
-                        items: result.Items
+                        items: result.Items,
+                        autoplay: {
+                            delay: userSettings.backdropScreensaverInterval() * 1000
+                        }
                     });
 
                     newSlideShow.show();

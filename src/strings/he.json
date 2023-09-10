@@ -1176,5 +1176,10 @@
     "LabelModelUrl": "כתובת דגם",
     "Restart": "הפעלה מחדש",
     "TabStreaming": "הזרמה",
-    "Metadata": "נתוני על"
+    "Metadata": "נתוני על",
+    "AllowSegmentDeletion": "מחק אותות",
+    "AllowSegmentDeletionHelp": "מחק אותות ישנים אחרי שהם נשלחו ללקוח. זה ימנע שמירת כל הקובץ המפוענח על הדיסק. עובד רק כאשר מצב חנק פעיל. כבה אפשרות זו אם הינך חווה בעיות בנגן.",
+    "LabelThrottleDelaySeconds": "חנוק אחרי",
+    "LabelSegmentKeepSeconds": "זמן שמירת אותות",
+    "LabelSegmentKeepSecondsHelp": "זמן בשניות שבהן הקטעים צריכים להישאר לפני שהם נדרסים. צריך להיות גדול מ\"חנוק אחרי\". עובד רק כאשר מחיקת אות מאופשרת."
 }

@@ -382,7 +382,7 @@
     "HeaderYears": "Jaren",
     "Help": "Hulp",
     "Hide": "Verbergen",
-    "HideWatchedContentFromLatestMedia": "Bekeken inhoud verbergen uit 'Onlangs toegevoegde media'",
+    "HideWatchedContentFromLatestMedia": "Gekeken inhoud verbergen uit 'Onlangs toegevoegde media'",
     "Home": "Start",
     "Horizontal": "Horizontaal",
     "HttpsRequiresCert": "Om beveiligde verbindingen in te schakelen, is een vertrouwd SSL-certificaat vereist (zoals Let's Encrypt). Geef een certificaat op of schakel beveiligde verbindingen uit.",
@@ -474,7 +474,7 @@
     "LabelEnableDlnaClientDiscoveryInterval": "Interval voor het zoeken naar clients",
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Bepaalt de duur in seconden tussen twee SSDP-zoekopdrachten.",
     "LabelEnableDlnaDebugLogging": "DLNA-foutopsporingslogboek inschakelen",
-    "LabelEnableDlnaDebugLoggingHelp": "Genereer grote logboekbestanden en is alleen bedoeld voor het troubleshooting doeleinden.",
+    "LabelEnableDlnaDebugLoggingHelp": "Genereert grote logboekbestanden en is alleen bedoeld voor troubleshooting-doeleinden.",
     "LabelEnableDlnaPlayTo": "'Play to' DLNA-functie inschakelen",
     "LabelEnableDlnaPlayToHelp": "Apparaten detecteren binnen uw netwerk en maak het mogelijk om ze op afstand te gebruiken.",
     "LabelEnableDlnaServer": "DLNA-server inschakelen",
@@ -927,7 +927,7 @@
     "Quality": "Kwaliteit",
     "Raised": "Verhoogd",
     "Rate": "Beoordelen",
-    "RecentlyWatched": "Onlangs bekeken",
+    "RecentlyWatched": "Onlangs gekeken",
     "RecommendationBecauseYouLike": "Omdat je {0} leuk vindt",
     "RecommendationBecauseYouWatched": "Omdat je {0} hebt gekeken",
     "RecommendationDirectedBy": "Geregisseerd door {0}",
@@ -1760,5 +1760,7 @@
     "AllowSegmentDeletion": "Segmenten verwijderen",
     "LabelThrottleDelaySeconds": "Afknijpen na",
     "LabelThrottleDelaySecondsHelp": "Tijd in seconden waarna de transcoder wordt afgeknepen. Deze tijd moet voldoende lang zijn zodat de cliënt een gezonde buffer in stand kan houden. Werkt alleen als afknijpen is ingeschakeld.",
-    "LabelSegmentKeepSeconds": "Bewaartijd segmenten"
+    "LabelSegmentKeepSeconds": "Bewaartijd segmenten",
+    "LabelBackdropScreensaverIntervalHelp": "Het aantal seconden dat een achtergrondafbeelding wordt getoond als onderdeel van de schermbeveiliging.",
+    "LabelBackdropScreensaverInterval": "Interval schermbeveiliging"
 }
