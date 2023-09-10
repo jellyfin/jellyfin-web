@@ -336,22 +336,22 @@ class CastPlayer {
         /* If serverAddress is localhost,this address can not be used for the cast receiver device.
          * Use the local address (ULA, Unique Local Address) in that case.
 	 */
-        const srvAddress = apiClient.serverAddress();
-        const prefix = 'http' + ':' + '//';
-        const checkLocalhost = srvAddress.startsWith(prefix + 'localhost') || srvAddress.startsWith(prefix + '127.') || srvAddress.startsWith(prefix + '[::1]');
-        const srvLocalAddress = checkLocalhost ? apiClient.serverInfo().LocalAddress : srvAddress;
+        const serverAddress = apiClient.serverAddress();
+        const hostname = (new URL(serverAddress)).hostname;
+        const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
+        const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
 
         message = Object.assign(message, {
             userId: apiClient.getCurrentUserId(),
             deviceId: apiClient.deviceId(),
             accessToken: apiClient.accessToken(),
-            serverAddress: srvLocalAddress,
+            serverAddress: serverLocalAddress,
             serverId: apiClient.serverId(),
             serverVersion: apiClient.serverVersion(),
             receiverName: receiverName
         });
 
-        console.debug('cc: message{' + message.command + '; ' + srvAddress + ' -> ' + srvLocalAddress + '}');
+        console.debug('cc: message{' + message.command + '; ' + serverAddress + ' -> ' + serverLocalAddress + '}');
 
         const bitrateSetting = appSettings.maxChromecastBitrate();
         if (bitrateSetting) {
