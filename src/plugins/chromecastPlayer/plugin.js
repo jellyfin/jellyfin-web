@@ -337,6 +337,7 @@ class CastPlayer {
          * Use the local address (ULA, Unique Local Address) in that case.
 	 */
         const serverAddress = apiClient.serverAddress();
+        // eslint-disable-next-line compat/compat
         const hostname = (new URL(serverAddress)).hostname;
         const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
         const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
