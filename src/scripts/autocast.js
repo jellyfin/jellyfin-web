@@ -26,7 +26,7 @@ export function isEnabled() {
     const playerId = localStorage.getItem('autocastPlayerId');
     const currentPlayerInfo = playbackManager.getPlayerInfo();
 
-    return (currentPlayerInfo && playerId && currentPlayerInfo.id === playerId);
+    return playerId && currentPlayerInfo?.id === playerId;
 }
 
 function onOpen() {
