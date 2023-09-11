@@ -1386,7 +1386,7 @@
     "LabelTonemappingRange": "Rozsah mapování tónů",
     "TonemappingAlgorithmHelp": "Mapování tonů je možné dále ladit. Pokud možnostem zde nerozumíte, je možné ponechat vše ve výchozím nastavení. Doporučená hodnota je 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Algoritmus mapování tónů",
-    "AllowTonemappingHelp": "Mapování tónů umožňuje změnit dynamický rozsah videa z HDR na SDR bez ztráty detailů a barev, tj. důležitých informací původního obrazu. Tato funkce momentálně funguje pouze u videí, které obsahují 10bitové HDR10, HLG nebo Dolby Vision. Funkce rovněž vyžaduje OpenCL nebo CUDA.",
+    "AllowTonemappingHelp": "Mapování tónů umožňuje změnit dynamický rozsah videa z HDR na SDR bez ztráty důležitých informací původního obrazu, jako jsou detaily a barvy. Tato funkce momentálně funguje pouze u videí, které obsahují 10bitové HDR10, HLG nebo Dolby Vision. Funkce rovněž vyžaduje OpenCL nebo CUDA.",
     "EnableTonemapping": "Zapnout mapování tónů",
     "LabelOpenclDeviceHelp": "Zařízení OpenCL použité pro mapování tónů. Nalevo od tečky je číslo platformy, napravo pak číslo zařízení na této platformě. Výchozí hodnota je 0.0. Soubor aplikace FFmpeg, který obsahuje metodu pro hardwarovou akceleraci OpenCL, je povinný.",
     "LabelOpenclDevice": "Zařízení OpenCL",
