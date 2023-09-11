@@ -43,8 +43,8 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     }
 
     if (canPlayNativeHls()) {
-        // Having trouble with chrome's native support and transcoded music
-        if (browser.android && mediaType === 'Audio') {
+        // Android Webview's native HLS has performance and compatiblity issues
+        if (browser.android && (mediaType === 'Audio' || mediaType === 'Video')) {
             return true;
         }
 

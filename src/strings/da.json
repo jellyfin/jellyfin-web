@@ -1700,5 +1700,7 @@
     "EnableCardLayout": "Vis visuel CardBox",
     "ResolutionMatchSource": "Match kilde",
     "SubtitleCyan": "Cyan",
-    "SubtitleMagenta": "Magenta"
+    "SubtitleMagenta": "Magenta",
+    "AllowCollectionManagement": "Tillad denne bruger at administrere samlinger",
+    "AllowSegmentDeletion": "Slet segmenter"
 }
