@@ -36,7 +36,7 @@ import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
 import { download } from '../../scripts/fileDownloader';
-import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/BackdropImage';
+import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -505,7 +505,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    const imgUrl = getItemBackdropImageUrl(apiClient, item, false, { maxWitdh: dom.getScreenWidth() });
+    const imgUrl = getItemBackdropImageUrl(apiClient, item, { maxWitdh: dom.getScreenWidth() }, false);
 
     if (imgUrl) {
         imageLoader.lazyImage(itemBackdropElement, imgUrl);
