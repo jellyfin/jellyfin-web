@@ -13,6 +13,10 @@
         width: 100vw;
         overflow: scroll;
 
+        // stylelint has a problem with the selector order
+        // but grouping it this way simply makes the most sense
+        // so we turn it off for this block:
+        /* stylelint-disable no-descending-specificity */
         &.fullPage {
             display: flex !important;
             align-items: center;
@@ -28,7 +32,7 @@
                 max-width: 100% !important;
             }
         }
-        
+
         &:not(.fullPage) {
             canvas {
                 max-height: 150vmax;
@@ -39,6 +43,7 @@
                 max-width: 150vmax !important;
             }
         }
+        /* stylelint-enable no-descending-specificity */
     }
 
     .actionButtons {

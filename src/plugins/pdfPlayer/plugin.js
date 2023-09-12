@@ -151,7 +151,8 @@ export class PdfPlayer {
         this.bindMediaElementEvents();
 
         document.addEventListener('keyup', this.onWindowKeyUp);
-        screen.orientation.addEventListener("change", this.onScreenResize);
+        if ('screen' in window) window.screen.orientation.addEventListener('change', this.onScreenResize);
+        else document.addEventListener('orientationchange', this.onScreenResize);
     }
 
     unbindMediaElementEvents() {
@@ -169,7 +170,8 @@ export class PdfPlayer {
         }
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
-        screen.orientation.removeEventListener("change", this.onScreenResize);
+        if ('screen' in window) window.screen.orientation.removeEventListener('change', this.onScreenResize);
+        else document.removeEventListener('orientationchange', this.onScreenResize);
     }
 
     createMediaElement() {
@@ -258,7 +260,7 @@ export class PdfPlayer {
     }
 
     reloadPage() {
-        this.loadPage(this.progress + 1)
+        this.loadPage(this.progress + 1);
     }
 
     setPage(pageNumber) {
