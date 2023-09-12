@@ -22,15 +22,13 @@ export default async function (text, title) {
         return Promise.resolve();
     }
 
-    const items = [
+    options.buttons = [
         {
             name: globalize.translate('ButtonGotIt'),
             id: 'ok',
             type: 'submit'
         }
     ];
-
-    options.buttons = items;
 
     return dialog.show(options);
 }
