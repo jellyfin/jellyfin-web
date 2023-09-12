@@ -1763,5 +1763,6 @@
     "LabelThrottleDelaySeconds": "Ograniczaj po",
     "LabelThrottleDelaySecondsHelp": "Czas w sekundach, po którym transkoder zostanie ograniczony. Musi być wystarczająco duży, aby klient mógł utrzymać właściwy bufor. Działa tylko wtedy, gdy włączone jest ograniczanie.",
     "LabelBackdropScreensaverIntervalHelp": "Czas w sekundach między różnymi fototapetami podczas korzystania z wygaszacza ekranu z fototapetami.",
-    "LabelBackdropScreensaverInterval": "Interwał fototapet wygaszacza ekranu"
+    "LabelBackdropScreensaverInterval": "Interwał fototapet wygaszacza ekranu",
+    "AllowAv1Encoding": "Zezwalaj na kodowanie w formacie AV1"
 }

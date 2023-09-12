@@ -169,7 +169,7 @@
     "EnableThemeSongsHelp": "Speel titelmuziek af tijdens het bladeren door de bibliotheek.",
     "EnableThemeVideosHelp": "Speel titelfilms af op de achtergrond tijdens het bladeren door de bibliotheek.",
     "Ended": "Gestopt",
-    "EndsAtValue": "Eindigt om {0}",
+    "EndsAtValue": "Afgelopen om {0}",
     "Episodes": "Afleveringen",
     "ErrorAddingListingsToSchedulesDirect": "Er ging iets mis bij het toevoegen van de lineup aan uw Schedules Direct account. Schedules Direct staat maar een beperkt aantal lineups per account toe. Het kan nodig zijn dat u zich aan moet melden op de Schedules Direct-website en andere lineups moet verwijderen voordat u verder kunt.",
     "ErrorAddingMediaPathToVirtualFolder": "Er ging iets mis bij het toevoegen van het mediapad. Controleer of het pad klopt en of Jellyfin toegang heeft tot de locatie.",
@@ -1762,5 +1762,6 @@
     "LabelThrottleDelaySecondsHelp": "Tijd in seconden waarna de transcoder wordt afgeknepen. Deze tijd moet voldoende lang zijn zodat de cliënt een gezonde buffer in stand kan houden. Werkt alleen als afknijpen is ingeschakeld.",
     "LabelSegmentKeepSeconds": "Bewaartijd segmenten",
     "LabelBackdropScreensaverIntervalHelp": "Het aantal seconden dat een achtergrondafbeelding wordt getoond als onderdeel van de schermbeveiliging.",
-    "LabelBackdropScreensaverInterval": "Interval schermbeveiliging"
+    "LabelBackdropScreensaverInterval": "Interval schermbeveiliging",
+    "AllowAv1Encoding": "Coderen in AV1-formaat toestaan"
 }

@@ -230,7 +230,6 @@ export function getDisplayTime(date) {
     const timeLower = time.toLowerCase();
 
     if (timeLower.indexOf('am') !== -1 || timeLower.indexOf('pm') !== -1) {
-        time = timeLower;
         let hour = date.getHours() % 12;
         const suffix = date.getHours() > 11 ? 'pm' : 'am';
         if (!hour) {
