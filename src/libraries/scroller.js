@@ -257,12 +257,10 @@ const scrollerFactory = function (frame, options) {
             } else {
                 container.scrollTo(0, Math.round(pos));
             }
+        } else if (o.horizontal) {
+            container.scrollLeft = Math.round(pos);
         } else {
-            if (o.horizontal) {
-                container.scrollLeft = Math.round(pos);
-            } else {
-                container.scrollTop = Math.round(pos);
-            }
+            container.scrollTop = Math.round(pos);
         }
     }
 
@@ -506,14 +504,12 @@ const scrollerFactory = function (frame, options) {
                 // If the pointer was released, the path will not become longer and it's
                 // definitely not a drag. If not released yet, decide on next iteration
                 return dragging.released ? dragEnd() : undefined;
-            } else {
+            } else if (o.horizontal ? Math.abs(dragging.pathX) > Math.abs(dragging.pathY) : Math.abs(dragging.pathX) < Math.abs(dragging.pathY)) {
                 // If dragging path is sufficiently long we can confidently start a drag
                 // if drag is in different direction than scroll, ignore it
-                if (o.horizontal ? Math.abs(dragging.pathX) > Math.abs(dragging.pathY) : Math.abs(dragging.pathX) < Math.abs(dragging.pathY)) {
-                    dragging.init = 1;
-                } else {
-                    return dragEnd();
-                }
+                dragging.init = 1;
+            } else {
+                return dragEnd();
             }
         }
 

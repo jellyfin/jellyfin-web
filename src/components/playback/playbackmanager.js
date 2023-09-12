@@ -1437,15 +1437,13 @@ class PlaybackManager {
 
             if (Screenfull.isEnabled) {
                 Screenfull.toggle();
-            } else {
+            } else if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
                 // iOS Safari
-                if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
-                    document.webkitCancelFullscreen();
-                } else {
-                    const elem = document.querySelector('video');
-                    if (elem?.webkitEnterFullscreen) {
-                        elem.webkitEnterFullscreen();
-                    }
+                document.webkitCancelFullscreen();
+            } else {
+                const elem = document.querySelector('video');
+                if (elem?.webkitEnterFullscreen) {
+                    elem.webkitEnterFullscreen();
                 }
             }
         };

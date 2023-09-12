@@ -76,20 +76,18 @@ export function handleHlsJsMediaError(instance, reject) {
         recoverDecodingErrorDate = now;
         console.debug('try to recover media Error ...');
         hlsPlayer.recoverMediaError();
+    } else if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
+        recoverSwapAudioCodecDate = now;
+        console.debug('try to swap Audio Codec and recover media Error ...');
+        hlsPlayer.swapAudioCodec();
+        hlsPlayer.recoverMediaError();
     } else {
-        if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
-            recoverSwapAudioCodecDate = now;
-            console.debug('try to swap Audio Codec and recover media Error ...');
-            hlsPlayer.swapAudioCodec();
-            hlsPlayer.recoverMediaError();
-        } else {
-            console.error('cannot recover, last media error recovery failed ...');
+        console.error('cannot recover, last media error recovery failed ...');
 
-            if (reject) {
-                reject();
-            } else {
-                onErrorInternal(instance, 'mediadecodeerror');
-            }
+        if (reject) {
+            reject();
+        } else {
+            onErrorInternal(instance, 'mediadecodeerror');
         }
     }
 }

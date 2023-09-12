@@ -374,14 +374,12 @@ export function getListViewHtml(options) {
             if (options.artist !== false && item.AlbumArtist && item.Type === 'MusicAlbum') {
                 textlines.push(item.AlbumArtist);
             }
-        } else {
-            if (options.artist) {
-                const artistItems = item.ArtistItems;
-                if (artistItems && item.Type !== 'MusicAlbum') {
-                    textlines.push(artistItems.map(a => {
-                        return a.Name;
-                    }).join(', '));
-                }
+        } else if (options.artist) {
+            const artistItems = item.ArtistItems;
+            if (artistItems && item.Type !== 'MusicAlbum') {
+                textlines.push(artistItems.map(a => {
+                    return a.Name;
+                }).join(', '));
             }
         }
 
