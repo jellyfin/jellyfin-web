@@ -64,8 +64,9 @@ function checkAndProcessDir(culture) {
 function setDocumentDirection(direction) {
     document.getElementsByTagName('body')[0].setAttribute('dir', direction);
     document.getElementsByTagName('html')[0].setAttribute('dir', direction);
-    if (direction === Direction.rtl)
+    if (direction === Direction.rtl) {
         import('../styles/rtl.scss');
+    }
 }
 
 export function getIsElementRTL(element) {

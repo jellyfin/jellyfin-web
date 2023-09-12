@@ -110,10 +110,11 @@ function load(page, devices) {
         deviceHtml += '<div class="cardFooter">';
 
         if (canDelete(device.Id)) {
-            if (globalize.getIsRTL())
+            if (globalize.getIsRTL()) {
                 deviceHtml += '<div style="text-align:left; float:left;padding-top:5px;">';
-            else
+            } else {
                 deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
+            }
             deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + escapeHtml(device.Id) + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
             deviceHtml += '</div>';
         }

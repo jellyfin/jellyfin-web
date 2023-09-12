@@ -306,8 +306,7 @@ export default function (view) {
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
-        if (elem != osdBottomElement)
-            return;
+        if (elem != osdBottomElement) return;
         elem.classList.add('hide');
         dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
             once: true
