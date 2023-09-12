@@ -223,7 +223,7 @@ function renderSearchResults(context, results) {
         if (hasAnyFlags) {
             html += '<div class="secondary listItemBodyText">';
 
-            const spanOpen = '<span class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;margin-right:0.25em;">';
+            const spanOpen = '<span class="inline-flex align-items-center justify-content-center subtitleFeaturePillow">';
 
             if (result.IsHashMatch) {
                 html += spanOpen + globalize.translate('PerfectMatch') + '</span>';
