@@ -352,7 +352,7 @@ class CastPlayer {
             receiverName: receiverName
         });
 
-        console.debug('cc: message{' + message.command + '; ' + serverAddress + ' -> ' + serverLocalAddress + '}');
+        console.debug('[chromecastPlayer] message{' + message.command + '; ' + serverAddress + ' -> ' + serverLocalAddress + '}');
 
         const bitrateSetting = appSettings.maxChromecastBitrate();
         if (bitrateSetting) {
