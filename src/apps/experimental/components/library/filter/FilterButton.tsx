@@ -10,6 +10,7 @@ import MuiAccordionSummary, {
     AccordionSummaryProps
 } from '@mui/material/AccordionSummary';
 import IconButton from '@mui/material/IconButton';
+import { Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
@@ -152,6 +153,9 @@ const FilterButton: FC<FilterButtonProps> = ({
         return viewType === LibraryTab.Episodes;
     };
 
+    const hasFilters =
+        Object.values(libraryViewSettings.Filters || {}).some((filter) => !!filter);
+
     return (
         <Box>
             <IconButton
@@ -161,7 +165,9 @@ const FilterButton: FC<FilterButtonProps> = ({
                 className='paper-icon-button-light btnShuffle autoSize'
                 onClick={handleClick}
             >
-                <FilterListIcon />
+                <Badge color='info' variant='dot' invisible={!hasFilters}>
+                    <FilterListIcon />
+                </Badge>
             </IconButton>
             <Popover
                 id={id}
@@ -239,7 +245,9 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 id='filtersEpisodesStatus-header'
                             >
                                 <Typography>
-                                    {globalize.translate('HeaderEpisodesStatus')}
+                                    {globalize.translate(
+                                        'HeaderEpisodesStatus'
+                                    )}
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
