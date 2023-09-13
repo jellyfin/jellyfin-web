@@ -19,30 +19,23 @@ const FiltersStudios: FC<FiltersStudiosProps> = ({
     const onFiltersStudiosChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            const value = String(event.target.value);
-            const existingValue = libraryViewSettings?.Filters?.StudioIds;
+            const value = event.target.value;
+            const existingStudioIds = libraryViewSettings?.Filters?.StudioIds ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: string) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, StudioIds: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        StudioIds: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedStudioIds = existingStudioIds.includes(value) ?
+                existingStudioIds.filter((filter) => filter !== value) :
+                [...existingStudioIds, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    StudioIds: updatedStudioIds.length ? updatedStudioIds : undefined
+                }
+            }));
         },
-        [setLibraryViewSettings, libraryViewSettings?.Filters?.StudioIds]
+        [setLibraryViewSettings, libraryViewSettings.Filters?.StudioIds]
     );
 
     return (

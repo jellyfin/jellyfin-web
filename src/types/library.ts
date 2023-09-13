@@ -2,8 +2,8 @@ import type { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-
 import type { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-type';
 import type { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import type { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
+import type { ImageType } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
-import { ImageType } from '@jellyfin/sdk/lib/generated-client';
 
 export type ParentId = string | null | undefined;
 
@@ -11,15 +11,38 @@ export interface LibraryViewProps {
     parentId: string | null;
 }
 
-interface Filters {
-    Features?: string[];
+export enum FeatureFilters {
+    HasSubtitles = 'HasSubtitles',
+    HasTrailer = 'HasTrailer',
+    HasSpecialFeature = 'HasSpecialFeature',
+    HasThemeSong = 'HasThemeSong',
+    HasThemeVideo = 'HasThemeVideo',
+}
+
+export enum EpisodeFilter {
+    ParentIndexNumber = 'ParentIndexNumber',
+    IsMissing = 'IsMissing',
+    IsUnaired = 'IsUnaired',
+}
+
+export enum VideoBasicFilter {
+    IsSD = 'IsSD',
+    IsHD = 'IsHD',
+    Is4K = 'Is4K',
+    Is3D = 'Is3D',
+}
+
+export interface Filters {
+    Features?: FeatureFilters[];
     Genres?: string[];
     OfficialRatings?: string[];
+    EpisodeFilter?: EpisodeFilter[];
     Status?: ItemFilter[];
     EpisodesStatus?: string[];
     SeriesStatus?: SeriesStatus[];
     StudioIds?: string[];
     Tags?: string[];
+    VideoBasicFilter?: VideoBasicFilter[];
     VideoTypes?: VideoType[];
     Years?: number[];
 }
@@ -39,10 +62,6 @@ export interface LibraryViewSettings {
     ShowTitle: boolean;
     ShowYear?: boolean;
     Filters?: Filters;
-    IsSD?: boolean;
-    IsHD?: boolean;
-    Is4K?: boolean;
-    Is3D?: boolean;
     NameLessThan?: string | null;
     NameStartsWith?: string | null;
 }

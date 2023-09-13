@@ -20,27 +20,20 @@ const FiltersYears: FC<FiltersYearsProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = Number(event.target.value);
-            const existingValue = libraryViewSettings?.Filters?.Years;
+            const existingYears = libraryViewSettings?.Filters?.Years ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: number) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, Years: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        Years: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedYears = existingYears.includes(value) ?
+                existingYears.filter((filter) => filter !== value) :
+                [...existingYears, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    Years: updatedYears.length ? updatedYears : undefined
+                }
+            }));
         },
         [setLibraryViewSettings, libraryViewSettings?.Filters?.Years]
     );

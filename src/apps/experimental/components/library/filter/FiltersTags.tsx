@@ -19,30 +19,23 @@ const FiltersTags: FC<FiltersTagsProps> = ({
     const onFiltersTagsChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            const value = String(event.target.value);
-            const existingValue = libraryViewSettings?.Filters?.Tags;
+            const value = event.target.value;
+            const existingTags = libraryViewSettings?.Filters?.Tags ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: string) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, Tags: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        Tags: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedTags = existingTags.includes(value) ?
+                existingTags.filter((filter) => filter !== value) :
+                [...existingTags, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    Tags: updatedTags.length ? updatedTags : undefined
+                }
+            }));
         },
-        [setLibraryViewSettings, libraryViewSettings?.Filters?.Tags]
+        [setLibraryViewSettings, libraryViewSettings.Filters?.Tags]
     );
 
     return (

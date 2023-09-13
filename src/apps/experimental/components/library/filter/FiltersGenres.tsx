@@ -19,28 +19,21 @@ const FiltersGenres: FC<FiltersGenresProps> = ({
     const onFiltersGenresChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            const value = String(event.target.value);
-            const existingValue = libraryViewSettings?.Filters?.Genres;
+            const value = event.target.value;
+            const existingGenres = libraryViewSettings?.Filters?.Genres ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: string) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, Genres: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        Genres: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedGenres = existingGenres.includes(value) ?
+                existingGenres.filter((filter) => filter !== value) :
+                [...existingGenres, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    Genres: updatedGenres.length ? updatedGenres : undefined
+                }
+            }));
         },
         [setLibraryViewSettings, libraryViewSettings?.Filters?.Genres]
     );

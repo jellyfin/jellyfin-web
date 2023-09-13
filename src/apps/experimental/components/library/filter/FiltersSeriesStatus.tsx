@@ -25,27 +25,20 @@ const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as SeriesStatus;
-            const existingValue = libraryViewSettings?.Filters?.SeriesStatus;
+            const existingSeriesStatus = libraryViewSettings?.Filters?.SeriesStatus ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: SeriesStatus) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, SeriesStatus: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        SeriesStatus: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedSeriesStatus = existingSeriesStatus.includes(value) ?
+                existingSeriesStatus.filter((filter) => filter !== value) :
+                [...existingSeriesStatus, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    SeriesStatus: updatedSeriesStatus.length ? updatedSeriesStatus : undefined
+                }
+            }));
         },
         [setLibraryViewSettings, libraryViewSettings?.Filters?.SeriesStatus]
     );
