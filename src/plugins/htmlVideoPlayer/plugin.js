@@ -35,6 +35,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
+import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
 
 /**
@@ -74,7 +75,7 @@ function enableNativeTrackSupport(mediaSource, track) {
         return true;
     }
 
-    if (browser.firefox && (mediaSource?.TranscodingSubProtocol || mediaSource?.Container) === 'hls') {
+    if (browser.firefox && isHls(mediaSource)) {
         return false;
     }
 
@@ -344,12 +345,10 @@ export class HtmlVideoPlayer {
         const mediaSource = streamInfo.mediaSource;
         const item = streamInfo.item;
 
-        const isHls = (mediaSource?.TranscodingSubProtocol || mediaSource?.Container) === 'hls';
-
         // Huge hack alert. Safari doesn't seem to like if the segments aren't available right away when playback starts
         // This will start the transcoding process before actually feeding the video url into the player
         // Edit: Also seeing stalls from hls.js
-        if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
+        if (mediaSource && item && !mediaSource.RunTimeTicks && isHls(mediaSource) && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
             const hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
 
             loading.show();
@@ -513,7 +512,7 @@ export class HtmlVideoPlayer {
             elem.crossOrigin = crossOrigin;
         }
 
-        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && (options.mediaSource.TranscodingSubProtocol || options.mediaSource.Container) === 'hls') {
+        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
         } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
             return this.setSrcWithFlvJs(elem, options, val);
