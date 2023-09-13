@@ -278,10 +278,6 @@ export class HtmlVideoPlayer {
          */
     #currentTime;
     /**
-         * @type {any | undefined}
-         */
-    #flvPlayer;
-    /**
          * @private (used in other files)
          * @type {any | undefined}
          */

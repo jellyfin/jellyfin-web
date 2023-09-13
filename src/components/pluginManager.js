@@ -129,22 +129,6 @@ class PluginManager {
             .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0];
     }
 
-    #mapRoute(plugin, route) {
-        if (typeof plugin === 'string') {
-            plugin = this.pluginsList.filter((p) => {
-                return (p.id || p.packageName) === plugin;
-            })[0];
-        }
-
-        route = route.path || route;
-
-        if (route.toLowerCase().startsWith('http')) {
-            return route;
-        }
-
-        return '/plugins/' + plugin.id + '/' + route;
-    }
-
     mapPath(plugin, path, addCacheParam) {
         if (typeof plugin === 'string') {
             plugin = this.pluginsList.filter((p) => {
