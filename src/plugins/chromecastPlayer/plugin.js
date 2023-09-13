@@ -27,12 +27,10 @@ function sendConnectionResult(isOk) {
         if (resolve) {
             resolve();
         }
+    } else if (reject) {
+        reject();
     } else {
-        if (reject) {
-            reject();
-        } else {
-            playbackManager.removeActivePlayer(PlayerName);
-        }
+        playbackManager.removeActivePlayer(PlayerName);
     }
 }
 
@@ -294,7 +292,7 @@ class CastPlayer {
     loadMedia(options, command) {
         if (!this.session) {
             console.debug('no session');
-            return Promise.reject();
+            return Promise.reject(new Error('no session'));
         }
 
         // convert items to smaller stubs to send minimal amount of information
@@ -335,15 +333,26 @@ class CastPlayer {
             apiClient = ServerConnections.currentApiClient();
         }
 
+        /* If serverAddress is localhost,this address can not be used for the cast receiver device.
+         * Use the local address (ULA, Unique Local Address) in that case.
+	 */
+        const serverAddress = apiClient.serverAddress();
+        // eslint-disable-next-line compat/compat
+        const hostname = (new URL(serverAddress)).hostname;
+        const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
+        const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
+
         message = Object.assign(message, {
             userId: apiClient.getCurrentUserId(),
             deviceId: apiClient.deviceId(),
             accessToken: apiClient.accessToken(),
-            serverAddress: apiClient.serverAddress(),
+            serverAddress: serverLocalAddress,
             serverId: apiClient.serverId(),
             serverVersion: apiClient.serverVersion(),
             receiverName: receiverName
         });
+
+        console.debug('[chromecastPlayer] message{' + message.command + '; ' + serverAddress + ' -> ' + serverLocalAddress + '}');
 
         const bitrateSetting = appSettings.maxChromecastBitrate();
         if (bitrateSetting) {
@@ -592,7 +601,7 @@ class ChromecastPlayer {
             currentResolve = null;
             currentReject = null;
 
-            return Promise.reject();
+            return Promise.reject(new Error('tryPair failed'));
         }
     }
 
