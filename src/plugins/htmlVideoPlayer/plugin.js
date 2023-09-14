@@ -169,137 +169,140 @@ const SECONDARY_TEXT_TRACK_INDEX = 1;
 
 export class HtmlVideoPlayer {
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     name;
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     type = PluginType.MediaPlayer;
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     id = 'htmlvideoplayer';
     /**
-         * Let any players created by plugins take priority
-         *
-         * @type {number}
-         */
+     * Let any players created by plugins take priority
+     *
+     * @type {number}
+     */
     priority = 1;
     /**
-         * @type {boolean}
-         */
+     * @type {boolean}
+     */
     isFetching = false;
     /**
-         * @type {HTMLDivElement | null | undefined}
-         */
+     * @type {HTMLDivElement | null | undefined}
+     */
     #videoDialog;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #subtitleTrackIndexToSetOnPlaying;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #secondarySubtitleTrackIndexToSetOnPlaying;
     /**
-         * @type {number | null}
-         */
+     * @type {number | null}
+     */
     #audioTrackIndexToSetOnPlaying;
     /**
-         * @type {null | undefined}
-         */
+     * @type {null | undefined}
+     */
     #currentClock;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentAssRenderer;
     /**
-         * @type {null | undefined}
-         */
+     * @type {null | undefined}
+     */
     #customTrackIndex;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #customSecondaryTrackIndex;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #showTrackOffset;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #currentTrackOffset;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #secondaryTrackOffset;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #videoSubtitlesElem;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #videoSecondarySubtitlesElem;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentTrackEvents;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentSecondaryTrackEvents;
     /**
-         * @type {string[] | undefined}
-         */
+     * @type {string[] | undefined}
+     */
     #supportedFeatures;
     /**
-         * @type {HTMLVideoElement | null | undefined}
-         */
+     * @type {HTMLVideoElement | null | undefined}
+     */
     #mediaElement;
     /**
-         * @type {number}
-         */
+     * @type {number}
+     */
     #fetchQueue = 0;
     /**
-         * @type {string | undefined}
-         */
+     * @type {string | undefined}
+     */
     #currentSrc;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #started;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #timeUpdated;
     /**
-         * @type {number | null | undefined}
-         */
+     * @type {number | null | undefined}
+     */
     #currentTime;
+
     /**
-         * @type {any | undefined}
-         */
-    #flvPlayer;
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
+    _flvPlayer;
+
     /**
-         * @private (used in other files)
-         * @type {any | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
     _hlsPlayer;
     /**
-         * @private (used in other files)
-         * @type {any | null | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | null | undefined}
+     */
     _castPlayer;
     /**
-         * @private (used in other files)
-         * @type {any | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
     _currentPlayOptions;
     /**
-         * @type {any | undefined}
-         */
+     * @type {any | undefined}
+     */
     #lastProfile;
 
     constructor() {
@@ -407,7 +410,7 @@ export class HtmlVideoPlayer {
             flvPlayer.attachMediaElement(elem);
             flvPlayer.load();
 
-            this.#flvPlayer = flvPlayer;
+            this._flvPlayer = flvPlayer;
 
             // This is needed in setCurrentTrackElement
             this.#currentSrc = url;
