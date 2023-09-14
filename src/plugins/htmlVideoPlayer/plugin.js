@@ -864,11 +864,9 @@ export class HtmlVideoPlayer {
 
         if (Screenfull.isEnabled) {
             Screenfull.exit();
-        } else {
+        } else if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
             // iOS Safari
-            if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
-                document.webkitCancelFullscreen();
-            }
+            document.webkitCancelFullscreen();
         }
     }
 
@@ -1106,15 +1104,14 @@ export class HtmlVideoPlayer {
                 tryRemoveElement(this.#videoSecondarySubtitlesElem);
                 this.#videoSecondarySubtitlesElem = null;
             }
-        } else { // destroy all
-            if (this.#videoSubtitlesElem) {
-                const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
-                if (subtitlesContainer) {
-                    tryRemoveElement(subtitlesContainer);
-                }
-                this.#videoSubtitlesElem = null;
-                this.#videoSecondarySubtitlesElem = null;
+        } else if (this.#videoSubtitlesElem) {
+            // destroy all
+            const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
+            if (subtitlesContainer) {
+                tryRemoveElement(subtitlesContainer);
             }
+            this.#videoSubtitlesElem = null;
+            this.#videoSecondarySubtitlesElem = null;
         }
     }
 
@@ -1818,10 +1815,8 @@ export class HtmlVideoPlayer {
             } else {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
-        } else {
-            if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
-                video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
-            }
+        } else if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+            video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
         }
     }
 

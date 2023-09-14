@@ -391,11 +391,9 @@ export default function (view) {
             case 'left':
                 if (currentVisibleMenu === 'osd') {
                     showOsd();
-                } else {
-                    if (!currentVisibleMenu) {
-                        e.preventDefault();
-                        playbackManager.rewind(player);
-                    }
+                } else if (!currentVisibleMenu) {
+                    e.preventDefault();
+                    playbackManager.rewind(player);
                 }
 
                 break;

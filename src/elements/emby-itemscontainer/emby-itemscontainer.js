@@ -285,10 +285,8 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     if (browser.touch) {
         this.addEventListener('contextmenu', disableEvent);
-    } else {
-        if (this.getAttribute('data-contextmenu') !== 'false') {
-            this.addEventListener('contextmenu', onContextMenu);
-        }
+    } else if (this.getAttribute('data-contextmenu') !== 'false') {
+        this.addEventListener('contextmenu', onContextMenu);
     }
 
     if (layoutManager.desktop || layoutManager.mobile && this.getAttribute('data-multiselect') !== 'false') {

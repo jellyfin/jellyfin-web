@@ -649,10 +649,8 @@ function onPlaybackStopped(e, state) {
         if (state.NextMediaType !== 'Audio') {
             hideNowPlayingBar();
         }
-    } else {
-        if (!state.NextMediaType) {
-            hideNowPlayingBar();
-        }
+    } else if (!state.NextMediaType) {
+        hideNowPlayingBar();
     }
 }
 

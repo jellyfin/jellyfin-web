@@ -73,12 +73,10 @@ export function loadView(options) {
             } else {
                 mainAnimatedPages.replaceChild(view, currentPage);
             }
+        } else if (newViewInfo.hasScript && window.$) {
+            view = $(view).appendTo(mainAnimatedPages)[0];
         } else {
-            if (newViewInfo.hasScript && window.$) {
-                view = $(view).appendTo(mainAnimatedPages)[0];
-            } else {
-                mainAnimatedPages.appendChild(view);
-            }
+            mainAnimatedPages.appendChild(view);
         }
 
         if (options.type) {

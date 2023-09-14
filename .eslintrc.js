@@ -49,6 +49,7 @@ module.exports = {
         'no-empty-function': ['error'],
         'no-extend-native': ['error'],
         'no-floating-decimal': ['error'],
+        'no-lonely-if': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-nested-ternary': ['error'],

@@ -216,14 +216,12 @@ function getFetchLatestItemsFn(serverId, parentId, collectionType) {
             if (collectionType === 'music') {
                 limit = 30;
             }
+        } else if (collectionType === 'tvshows') {
+            limit = 5;
+        } else if (collectionType === 'music') {
+            limit = 9;
         } else {
-            if (collectionType === 'tvshows') {
-                limit = 5;
-            } else if (collectionType === 'music') {
-                limit = 9;
-            } else {
-                limit = 8;
-            }
+            limit = 8;
         }
 
         const options = {

@@ -762,12 +762,10 @@ function Guide(options) {
             } else {
                 container.scrollTo(0, pos);
             }
+        } else if (horizontal) {
+            container.scrollLeft = Math.round(pos);
         } else {
-            if (horizontal) {
-                container.scrollLeft = Math.round(pos);
-            } else {
-                container.scrollTop = Math.round(pos);
-            }
+            container.scrollTop = Math.round(pos);
         }
     }
 

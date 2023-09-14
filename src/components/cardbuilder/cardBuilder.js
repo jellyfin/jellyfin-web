@@ -803,19 +803,17 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             } else {
                 lines.push(escapeHtml(item.SeriesName));
             }
+        } else if (isUsingLiveTvNaming(item)) {
+            lines.push(escapeHtml(item.Name));
+
+            if (!item.EpisodeTitle && !item.IndexNumber) {
+                titleAdded = true;
+            }
         } else {
-            if (isUsingLiveTvNaming(item)) {
-                lines.push(escapeHtml(item.Name));
+            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
-                if (!item.EpisodeTitle && !item.IndexNumber) {
-                    titleAdded = true;
-                }
-            } else {
-                const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
-
-                if (parentTitle || showTitle) {
-                    lines.push(escapeHtml(parentTitle));
-                }
+            if (parentTitle || showTitle) {
+                lines.push(escapeHtml(parentTitle));
             }
         }
     }
@@ -898,13 +896,11 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (item.Type === 'Series') {
                 if (item.Status === 'Continuing') {
                     lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
+                } else if (item.EndDate && item.ProductionYear) {
+                    const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
+                    lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                 } else {
-                    if (item.EndDate && item.ProductionYear) {
-                        const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
-                        lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
-                    } else {
-                        lines.push(productionYear || '');
-                    }
+                    lines.push(productionYear || '');
                 }
             } else {
                 lines.push(productionYear || '');
