@@ -95,10 +95,11 @@ export class ComicsPlayer {
     onDirChanged = () => {
         let langDir = this.comicsPlayerSettings.langDir;
 
-        if (!langDir || langDir === 'ltr')
+        if (!langDir || langDir === 'ltr') {
             langDir = 'rtl';
-        else
+        } else {
             langDir = 'ltr';
+        }
 
         this.changeLanguageDirection(langDir);
 
@@ -125,10 +126,11 @@ export class ComicsPlayer {
     onViewChanged = () => {
         let view = this.comicsPlayerSettings.pagesPerView;
 
-        if (!view || view === 1)
+        if (!view || view === 1) {
             view = 2;
-        else
+        } else {
             view = 1;
+        }
 
         this.changeView(view);
 

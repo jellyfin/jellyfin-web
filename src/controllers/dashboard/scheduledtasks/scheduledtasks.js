@@ -57,9 +57,7 @@ function populateList(page, tasks) {
         html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
         html += '</a>';
         html += '<div class="listItemBody two-line">';
-        let textAlignStyle = 'left';
-        if (globalize.getIsRTL())
-            textAlignStyle = 'right';
+        const textAlignStyle = globalize.getIsRTL() ? 'right' : 'left';
         html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:" + textAlignStyle + ";' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
         html += "<h3 class='listItemBodyText'>" + task.Name + '</h3>';
         html += "<div class='secondary listItemBodyText' id='taskProgress" + task.Id + "'>" + getTaskProgressHtml(task) + '</div>';

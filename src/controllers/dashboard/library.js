@@ -309,9 +309,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
 
     if (virtualFolder.showMenu !== false) {
-        let dirTextAlign = 'right';
-        if (globalize.getIsRTL())
-            dirTextAlign = 'left';
+        const dirTextAlign = globalize.getIsRTL() ? 'left' : 'right';
         html += '<div style="text-align:' + dirTextAlign + '; float:' + dirTextAlign + ';padding-top:5px;">';
         html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
         html += '</div>';

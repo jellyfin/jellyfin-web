@@ -189,8 +189,9 @@ const scrollerFactory = function (frame, options) {
 
             // Set position limits & relatives
             self._pos.end = Math.max(slideeSize - frameSize, 0);
-            if (globalize.getIsRTL())
+            if (globalize.getIsRTL()) {
                 self._pos.end *= -1;
+            }
         }
     }
 

@@ -30,6 +30,7 @@ module.exports = {
         'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
         'comma-spacing': ['error'],
+        'curly': ['error', 'multi-line', 'consistent'],
         'default-case-last': ['error'],
         'eol-last': ['error'],
         'indent': ['error', 4, { 'SwitchCase': 1 }],
