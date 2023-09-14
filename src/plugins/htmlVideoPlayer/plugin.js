@@ -1665,7 +1665,13 @@ export class HtmlVideoPlayer {
                 }
             }
 
-            return Promise.resolve(dlg.querySelector('video'));
+            const videoElement = dlg.querySelector('video');
+            if (options.backdropUrl) {
+                // update backdrop image
+                videoElement.poster = options.backdropUrl;
+            }
+
+            return Promise.resolve(videoElement);
         }
     }
 
