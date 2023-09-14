@@ -242,7 +242,7 @@ function renderSearchResults(context, results) {
             }
 
             if (result.HearingImpaired) {
-                html += spanOpen.replace('margin-right:0.25em;', '') + globalize.translate('HearingImpairedShort') + '</span>';
+                html += spanOpen + globalize.translate('HearingImpairedShort') + '</span>';
             }
 
             html += '</div>';
