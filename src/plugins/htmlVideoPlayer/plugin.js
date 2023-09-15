@@ -35,6 +35,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
+import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
 
 /**
@@ -69,12 +70,12 @@ function tryRemoveElement(elem) {
     }
 }
 
-function enableNativeTrackSupport(currentSrc, track) {
+function enableNativeTrackSupport(mediaSource, track) {
     if (track?.DeliveryMethod === 'Embed') {
         return true;
     }
 
-    if (browser.firefox && (currentSrc || '').toLowerCase().includes('.m3u8')) {
+    if (browser.firefox && isHls(mediaSource)) {
         return false;
     }
 
@@ -168,137 +169,140 @@ const SECONDARY_TEXT_TRACK_INDEX = 1;
 
 export class HtmlVideoPlayer {
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     name;
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     type = PluginType.MediaPlayer;
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     id = 'htmlvideoplayer';
     /**
-         * Let any players created by plugins take priority
-         *
-         * @type {number}
-         */
+     * Let any players created by plugins take priority
+     *
+     * @type {number}
+     */
     priority = 1;
     /**
-         * @type {boolean}
-         */
+     * @type {boolean}
+     */
     isFetching = false;
     /**
-         * @type {HTMLDivElement | null | undefined}
-         */
+     * @type {HTMLDivElement | null | undefined}
+     */
     #videoDialog;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #subtitleTrackIndexToSetOnPlaying;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #secondarySubtitleTrackIndexToSetOnPlaying;
     /**
-         * @type {number | null}
-         */
+     * @type {number | null}
+     */
     #audioTrackIndexToSetOnPlaying;
     /**
-         * @type {null | undefined}
-         */
+     * @type {null | undefined}
+     */
     #currentClock;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentAssRenderer;
     /**
-         * @type {null | undefined}
-         */
+     * @type {null | undefined}
+     */
     #customTrackIndex;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #customSecondaryTrackIndex;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #showTrackOffset;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #currentTrackOffset;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #secondaryTrackOffset;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #videoSubtitlesElem;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #videoSecondarySubtitlesElem;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentTrackEvents;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentSecondaryTrackEvents;
     /**
-         * @type {string[] | undefined}
-         */
+     * @type {string[] | undefined}
+     */
     #supportedFeatures;
     /**
-         * @type {HTMLVideoElement | null | undefined}
-         */
+     * @type {HTMLVideoElement | null | undefined}
+     */
     #mediaElement;
     /**
-         * @type {number}
-         */
+     * @type {number}
+     */
     #fetchQueue = 0;
     /**
-         * @type {string | undefined}
-         */
+     * @type {string | undefined}
+     */
     #currentSrc;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #started;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #timeUpdated;
     /**
-         * @type {number | null | undefined}
-         */
+     * @type {number | null | undefined}
+     */
     #currentTime;
+
     /**
-         * @type {any | undefined}
-         */
-    #flvPlayer;
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
+    _flvPlayer;
+
     /**
-         * @private (used in other files)
-         * @type {any | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
     _hlsPlayer;
     /**
-         * @private (used in other files)
-         * @type {any | null | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | null | undefined}
+     */
     _castPlayer;
     /**
-         * @private (used in other files)
-         * @type {any | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
     _currentPlayOptions;
     /**
-         * @type {any | undefined}
-         */
+     * @type {any | undefined}
+     */
     #lastProfile;
 
     constructor() {
@@ -341,15 +345,13 @@ export class HtmlVideoPlayer {
          * @private
          */
     updateVideoUrl(streamInfo) {
-        const isHls = streamInfo.url.toLowerCase().includes('.m3u8');
-
         const mediaSource = streamInfo.mediaSource;
         const item = streamInfo.item;
 
         // Huge hack alert. Safari doesn't seem to like if the segments aren't available right away when playback starts
         // This will start the transcoding process before actually feeding the video url into the player
         // Edit: Also seeing stalls from hls.js
-        if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
+        if (mediaSource && item && !mediaSource.RunTimeTicks && isHls(mediaSource) && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
             const hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
 
             loading.show();
@@ -408,7 +410,7 @@ export class HtmlVideoPlayer {
             flvPlayer.attachMediaElement(elem);
             flvPlayer.load();
 
-            this.#flvPlayer = flvPlayer;
+            this._flvPlayer = flvPlayer;
 
             // This is needed in setCurrentTrackElement
             this.#currentSrc = url;
@@ -513,7 +515,7 @@ export class HtmlVideoPlayer {
             elem.crossOrigin = crossOrigin;
         }
 
-        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
+        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
         } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
             return this.setSrcWithFlvJs(elem, options, val);
@@ -864,11 +866,9 @@ export class HtmlVideoPlayer {
 
         if (Screenfull.isEnabled) {
             Screenfull.exit();
-        } else {
+        } else if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
             // iOS Safari
-            if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
-                document.webkitCancelFullscreen();
-            }
+            document.webkitCancelFullscreen();
         }
     }
 
@@ -1106,15 +1106,14 @@ export class HtmlVideoPlayer {
                 tryRemoveElement(this.#videoSecondarySubtitlesElem);
                 this.#videoSecondarySubtitlesElem = null;
             }
-        } else { // destroy all
-            if (this.#videoSubtitlesElem) {
-                const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
-                if (subtitlesContainer) {
-                    tryRemoveElement(subtitlesContainer);
-                }
-                this.#videoSubtitlesElem = null;
-                this.#videoSecondarySubtitlesElem = null;
+        } else if (this.#videoSubtitlesElem) {
+            // destroy all
+            const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
+            if (subtitlesContainer) {
+                tryRemoveElement(subtitlesContainer);
             }
+            this.#videoSubtitlesElem = null;
+            this.#videoSecondarySubtitlesElem = null;
         }
     }
 
@@ -1561,7 +1560,7 @@ export class HtmlVideoPlayer {
         })[0];
 
         this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
-        if (enableNativeTrackSupport(this.#currentSrc, track)) {
+        if (enableNativeTrackSupport(this._currentPlayOptions?.mediaSource, track)) {
             if (streamIndex !== -1) {
                 this.setCueAppearance();
             }
@@ -1665,7 +1664,13 @@ export class HtmlVideoPlayer {
                 }
             }
 
-            return Promise.resolve(dlg.querySelector('video'));
+            const videoElement = dlg.querySelector('video');
+            if (options.backdropUrl) {
+                // update backdrop image
+                videoElement.poster = options.backdropUrl;
+            }
+
+            return Promise.resolve(videoElement);
         }
     }
 
@@ -1812,10 +1817,8 @@ export class HtmlVideoPlayer {
             } else {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
-        } else {
-            if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
-                video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
-            }
+        } else if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+            video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
         }
     }
 

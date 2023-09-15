@@ -14,6 +14,7 @@ import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -152,28 +153,6 @@ function mergePlaybackQueries(obj1, obj2) {
     }
     query.Filters = filters.join(',');
     return query;
-}
-
-function backdropImageUrl(apiClient, item, options) {
-    options = options || {};
-    options.type = options.type || 'Backdrop';
-
-    // If not resizing, get the original image
-    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height && !options.fillWidth && !options.fillHeight) {
-        options.quality = 100;
-    }
-
-    if (item.BackdropImageTags?.length) {
-        options.tag = item.BackdropImageTags[0];
-        return apiClient.getScaledImageUrl(item.Id, options);
-    }
-
-    if (item.ParentBackdropImageTags?.length) {
-        options.tag = item.ParentBackdropImageTags[0];
-        return apiClient.getScaledImageUrl(item.ParentBackdropItemId, options);
-    }
-
-    return null;
 }
 
 function getMimeType(type, container) {
@@ -1437,15 +1416,13 @@ class PlaybackManager {
 
             if (Screenfull.isEnabled) {
                 Screenfull.toggle();
-            } else {
+            } else if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
                 // iOS Safari
-                if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
-                    document.webkitCancelFullscreen();
-                } else {
-                    const elem = document.querySelector('video');
-                    if (elem?.webkitEnterFullscreen) {
-                        elem.webkitEnterFullscreen();
-                    }
+                document.webkitCancelFullscreen();
+            } else {
+                const elem = document.querySelector('video');
+                if (elem?.webkitEnterFullscreen) {
+                    elem.webkitEnterFullscreen();
                 }
             }
         };
@@ -2345,30 +2322,23 @@ class PlaybackManager {
 
             let prevRelIndex = 0;
             for (const stream of prevSource.MediaStreams) {
-                if (stream.Type != streamType)
-                    continue;
+                if (stream.Type != streamType) continue;
 
-                if (stream.Index == prevIndex)
-                    break;
+                if (stream.Index == prevIndex) break;
 
                 prevRelIndex += 1;
             }
 
             let newRelIndex = 0;
             for (const stream of mediaSource.MediaStreams) {
-                if (stream.Type != streamType)
-                    continue;
+                if (stream.Type != streamType) continue;
 
                 let score = 0;
 
-                if (prevStream.Codec == stream.Codec)
-                    score += 1;
-                if (prevRelIndex == newRelIndex)
-                    score += 1;
-                if (prevStream.DisplayTitle && prevStream.DisplayTitle == stream.DisplayTitle)
-                    score += 2;
-                if (prevStream.Language && prevStream.Language != 'und' && prevStream.Language == stream.Language)
-                    score += 2;
+                if (prevStream.Codec == stream.Codec) score += 1;
+                if (prevRelIndex == newRelIndex) score += 1;
+                if (prevStream.DisplayTitle && prevStream.DisplayTitle == stream.DisplayTitle) score += 2;
+                if (prevStream.Language && prevStream.Language != 'und' && prevStream.Language == stream.Language) score += 2;
 
                 console.debug(`AutoSet ${streamType} - Score ${score} for ${stream.Index} - ${stream.DisplayTitle}`);
                 if (score > bestStreamScore && score >= 3) {
@@ -2388,8 +2358,9 @@ class PlaybackManager {
                         mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
                     }
                 }
-                if (streamType == 'Audio')
+                if (streamType == 'Audio') {
                     mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
+                }
             } else {
                 console.debug(`AutoSet ${streamType} - Threshold not met. Using default.`);
             }
@@ -2693,7 +2664,7 @@ class PlaybackManager {
                 title: item.Name
             };
 
-            const backdropUrl = backdropImageUrl(apiClient, item, {});
+            const backdropUrl = getItemBackdropImageUrl(apiClient, item, {}, true);
             if (backdropUrl) {
                 resultInfo.backdropUrl = backdropUrl;
             }

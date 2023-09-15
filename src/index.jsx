@@ -227,10 +227,8 @@ async function onAppReady() {
                     document.body.appendChild(localStyle);
                 }
                 localStyle.textContent = localCss;
-            } else {
-                if (localStyle) {
-                    localStyle.textContent = '';
-                }
+            } else if (localStyle) {
+                localStyle.textContent = '';
             }
         };
 

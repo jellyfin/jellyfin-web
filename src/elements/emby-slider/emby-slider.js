@@ -30,8 +30,9 @@ function mapClientToFraction(range, clientX) {
     const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
     let fraction = (clientX - rect.left) / rect.width;
-    if (globalize.getIsElementRTL(range))
+    if (globalize.getIsElementRTL(range)) {
         fraction = (rect.right - clientX) / rect.width;
+    }
 
     // Snap to step
     const valueRange = range.max - range.min;
@@ -490,10 +491,11 @@ EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
 
 function setRange(elem, startPercent, endPercent) {
     const style = elem.style;
-    if (globalize.getIsRTL())
+    if (globalize.getIsRTL()) {
         style.right = Math.max(startPercent, 0) + '%';
-    else
+    } else {
         style.left = Math.max(startPercent, 0) + '%';
+    }
 
     const widthPercent = endPercent - startPercent;
     style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';

@@ -838,23 +838,21 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
             if (navDrawerInstance) {
                 navDrawerInstance.setEdgeSwipeEnabled(true);
             }
+        } else if (isDashboardPage) {
+            bodyClassList.remove('libraryDocument');
+            bodyClassList.add('dashboardDocument');
+            bodyClassList.remove('hideMainDrawer');
+
+            if (navDrawerInstance) {
+                navDrawerInstance.setEdgeSwipeEnabled(true);
+            }
         } else {
-            if (isDashboardPage) {
-                bodyClassList.remove('libraryDocument');
-                bodyClassList.add('dashboardDocument');
-                bodyClassList.remove('hideMainDrawer');
+            bodyClassList.remove('libraryDocument');
+            bodyClassList.remove('dashboardDocument');
+            bodyClassList.add('hideMainDrawer');
 
-                if (navDrawerInstance) {
-                    navDrawerInstance.setEdgeSwipeEnabled(true);
-                }
-            } else {
-                bodyClassList.remove('libraryDocument');
-                bodyClassList.remove('dashboardDocument');
-                bodyClassList.add('hideMainDrawer');
-
-                if (navDrawerInstance) {
-                    navDrawerInstance.setEdgeSwipeEnabled(false);
-                }
+            if (navDrawerInstance) {
+                navDrawerInstance.setEdgeSwipeEnabled(false);
             }
         }
     }

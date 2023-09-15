@@ -718,6 +718,15 @@ export default function (options) {
             enableFmp4Hls = false;
         }
         if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && enableFmp4Hls) {
+            // HACK: Since there is no filter for TS/MP4 in the API, specify HLS support in general and rely on retry after DirectPlay error
+            // FIXME: Need support for {Container: 'mp4', Protocol: 'hls'} or {Container: 'hls', SubContainer: 'mp4'}
+            profile.DirectPlayProfiles.push({
+                Container: 'hls',
+                Type: 'Video',
+                VideoCodec: hlsInFmp4VideoCodecs.join(','),
+                AudioCodec: hlsInFmp4VideoAudioCodecs.join(',')
+            });
+
             profile.TranscodingProfiles.push({
                 Container: 'mp4',
                 Type: 'Video',
@@ -732,6 +741,15 @@ export default function (options) {
         }
 
         if (hlsInTsVideoCodecs.length && hlsInTsVideoAudioCodecs.length) {
+            // HACK: Since there is no filter for TS/MP4 in the API, specify HLS support in general and rely on retry after DirectPlay error
+            // FIXME: Need support for {Container: 'ts', Protocol: 'hls'} or {Container: 'hls', SubContainer: 'ts'}
+            profile.DirectPlayProfiles.push({
+                Container: 'hls',
+                Type: 'Video',
+                VideoCodec: hlsInTsVideoCodecs.join(','),
+                AudioCodec: hlsInTsVideoAudioCodecs.join(',')
+            });
+
             profile.TranscodingProfiles.push({
                 Container: 'ts',
                 Type: 'Video',

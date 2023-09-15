@@ -298,6 +298,7 @@
     "Genres": "Genres",
     "GetThePlugin": "Get the Plugin",
     "GoogleCastUnsupported": "Google Cast Unsupported",
+    "GridView": "Grid View",
     "GroupBySeries": "Group by series",
     "GroupVersions": "Group versions",
     "GuestStar": "Guest star",
@@ -999,6 +1000,7 @@
     "LeaveBlankToNotSetAPassword": "You can leave this field blank to set no password.",
     "LibraryAccessHelp": "Select the libraries to share with this user. Administrators will be able to edit all folders using the metadata manager.",
     "List": "List",
+    "ListView": "List View",
     "ListPaging": "{0}-{1} of {2}",
     "Live": "Live",
     "LiveBroadcasts": "Live broadcasts",
@@ -1717,5 +1719,9 @@
     "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode.",
     "Unknown": "Unknown",
     "AllowAv1Encoding": "Allow encoding in AV1 format",
+    "AiTranslated": "AI Translated",
+    "MachineTranslated": "Machine Translated",
+    "ForeignPartsOnly": "Forced/Foreign parts only",
+    "HearingImpairedShort": "HI/SDH",
     "LabelIsHearingImpaired": "For hearing impaired (SDH)"
 }

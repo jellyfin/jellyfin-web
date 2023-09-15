@@ -1760,5 +1760,6 @@
     "LabelSegmentKeepSecondsHelp": "Час у секундах, протягом якого сегменти мають зберігатися перед перезаписом. Має бути більшим за \"Обмежити після\". Працює тільки якщо увімкнено видалення сегментів.",
     "LabelSegmentKeepSeconds": "Час збереження сегментів",
     "LabelBackdropScreensaverIntervalHelp": "Час у секундах між різними фонами при використанні фонової заставки.",
-    "LabelBackdropScreensaverInterval": "Інтервал між фоновими заставками"
+    "LabelBackdropScreensaverInterval": "Інтервал між фоновими заставками",
+    "AllowAv1Encoding": "Дозволити кодування у форматі AV1"
 }

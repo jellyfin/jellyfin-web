@@ -484,13 +484,11 @@ window.DashboardPage = {
         if (nowPlayingItem.Artists?.length) {
             bottomText = topText;
             topText = escapeHtml(nowPlayingItem.Artists[0]);
-        } else {
-            if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
-                bottomText = topText;
-                topText = escapeHtml(nowPlayingItem.SeriesName || nowPlayingItem.Album);
-            } else if (nowPlayingItem.ProductionYear) {
-                bottomText = nowPlayingItem.ProductionYear;
-            }
+        } else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
+            bottomText = topText;
+            topText = escapeHtml(nowPlayingItem.SeriesName || nowPlayingItem.Album);
+        } else if (nowPlayingItem.ProductionYear) {
+            bottomText = nowPlayingItem.ProductionYear;
         }
 
         if (nowPlayingItem.ImageTags?.Logo) {

@@ -272,10 +272,8 @@ function renderDirectPlayProfiles(page, profiles) {
         if (profile.Type == 'Video') {
             html += '<p>' + globalize.translate('ValueVideoCodec', profile.VideoCodec || allText) + '</p>';
             html += '<p>' + globalize.translate('ValueAudioCodec', profile.AudioCodec || allText) + '</p>';
-        } else {
-            if (profile.Type == 'Audio') {
-                html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
-            }
+        } else if (profile.Type == 'Audio') {
+            html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
         }
 
         html += '</a>';
@@ -333,10 +331,8 @@ function renderTranscodingProfiles(page, profiles) {
         if (profile.Type == 'Video') {
             html += '<p>' + globalize.translate('ValueVideoCodec', profile.VideoCodec || allText) + '</p>';
             html += '<p>' + globalize.translate('ValueAudioCodec', profile.AudioCodec || allText) + '</p>';
-        } else {
-            if (profile.Type == 'Audio') {
-                html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
-            }
+        } else if (profile.Type == 'Audio') {
+            html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
         }
 
         html += '</a>';
@@ -561,10 +557,8 @@ function renderResponseProfiles(page, profiles) {
         if (profile.Type == 'Video') {
             html += '<p>' + globalize.translate('ValueVideoCodec', profile.VideoCodec || allText) + '</p>';
             html += '<p>' + globalize.translate('ValueAudioCodec', profile.AudioCodec || allText) + '</p>';
-        } else {
-            if (profile.Type == 'Audio') {
-                html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
-            }
+        } else if (profile.Type == 'Audio') {
+            html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
         }
 
         if (profile.Conditions?.length) {

@@ -1384,7 +1384,7 @@
     "LabelTonemappingRange": "Gamme de mappage tonal",
     "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces réglages, il est conseillé de choisir les valeurs recommandées. L'algorithme de mappage recommandé est 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Sélectionner l'algorithme de mappage tonal à utiliser",
-    "AllowTonemappingHelp": "Le mappage tonal est capable de convertir une gamme dynamique HDR en SDR tout en maintenant les détails et les couleurs d'image si importants au rendu de la scène originale. Pour le moment, ne fonctionne qu'avec les vidéos 10bits HDR10, HLG, DoVi et requiert les environnements d'exécution OpenCL et CUDA correspondant.",
+    "AllowTonemappingHelp": "Le mappage tonal est capable de convertir une gamme dynamique HDR en SDR tout en maintenant les détails et les couleurs d'image si importants au rendu de la scène originale. Pour le moment, ne fonctionne qu'avec les vidéos HDR10 10bits, HLG, DoVi et requiert les environnements d'exécution OpenCL et CUDA correspondant.",
     "EnableTonemapping": "Activer le mappage tonal",
     "LabelOpenclDeviceHelp": "Ce dispositif OpenCL est utilisé pour le mappage tonal. La partie à gauche du point est le numéro de plate-forme et la partie à droite est le numéro du dispositif sur la plate-forme. La valeur par défaut est 0,0. Le fichier de l'application FFmpeg contenant l'accélération matérielle OpenCL est nécessaire.",
     "LabelOpenclDevice": "Dispositif OpenCL",
@@ -1748,7 +1748,7 @@
     "LabelLevel": "Niveau",
     "LabelMediaDetails": "Détails du média",
     "LabelSystem": "Système",
-    "LogLevel.Trace": "Trace",
+    "LogLevel.Trace": "Suivi",
     "LogLevel.Debug": "Debug",
     "LogLevel.Information": "Information",
     "LogLevel.Warning": "Avertissement",
@@ -1763,5 +1763,6 @@
     "LabelSegmentKeepSeconds": "Durée de conservation des segments",
     "LabelSegmentKeepSecondsHelp": "Durée en secondes de conservation des segments avant écrasement. La valeur doit être supérieure au délai d'ajustement. Ne fonctionne que si la suppression des segments est activée.",
     "LabelBackdropScreensaverIntervalHelp": "Le temps en secondes entre différents fonds d'écran lors de l'utilisation de l'économiseur d'écran à fonds d'écran.",
-    "LabelBackdropScreensaverInterval": "Intervalle de l'économiseur d'écran à fonds d'écran"
+    "LabelBackdropScreensaverInterval": "Intervalle de l'économiseur d'écran à fonds d'écran",
+    "AllowAv1Encoding": "Autoriser l'encodage au format AV1"
 }

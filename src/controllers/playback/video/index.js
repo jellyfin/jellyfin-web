@@ -306,8 +306,7 @@ export default function (view) {
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
-        if (elem != osdBottomElement)
-            return;
+        if (elem != osdBottomElement) return;
         elem.classList.add('hide');
         dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
             once: true
@@ -392,11 +391,9 @@ export default function (view) {
             case 'left':
                 if (currentVisibleMenu === 'osd') {
                     showOsd();
-                } else {
-                    if (!currentVisibleMenu) {
-                        e.preventDefault();
-                        playbackManager.rewind(player);
-                    }
+                } else if (!currentVisibleMenu) {
+                    e.preventDefault();
+                    playbackManager.rewind(player);
                 }
 
                 break;
