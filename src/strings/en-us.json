@@ -1718,5 +1718,9 @@
     "LabelTonemappingMode": "Tone mapping mode",
     "TonemappingModeHelp": "Select the tone mapping mode. If you experience blown out highlights try switching to the RGB mode.",
     "Unknown": "Unknown",
-    "AllowAv1Encoding": "Allow encoding in AV1 format"
+    "AllowAv1Encoding": "Allow encoding in AV1 format",
+    "AiTranslated": "AI Translated",
+    "MachineTranslated": "Machine Translated",
+    "ForeignPartsOnly": "Forced/Foreign parts only",
+    "HearingImpairedShort": "HI/SDH"
 }
