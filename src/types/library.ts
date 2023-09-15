@@ -3,6 +3,7 @@ import type { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-
 import type { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import type { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client';
 
 export type ParentId = string | null | undefined;
 
@@ -23,12 +24,18 @@ interface Filters {
     Years?: number[];
 }
 
+export enum ViewMode {
+    GridView = 'grid',
+    ListView = 'list',
+}
+
 export interface LibraryViewSettings {
     SortBy: ItemSortBy;
     SortOrder: SortOrder;
     StartIndex: number;
     CardLayout: boolean;
-    ImageType: string;
+    ImageType: ImageType;
+    ViewMode: ViewMode;
     ShowTitle: boolean;
     ShowYear?: boolean;
     Filters?: Filters;
