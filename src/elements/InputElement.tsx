@@ -28,7 +28,7 @@ type InputElementProps = {
 
 const InputElement: FC<InputElementProps> = ({
     containerClassName,
-    initialValue: initialValue,
+    initialValue,
     onChange = () => { /* no-op */ },
     type,
     id,
