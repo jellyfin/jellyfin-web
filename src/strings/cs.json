@@ -1764,5 +1764,11 @@
     "LabelSegmentKeepSecondsHelp": "Čas v sekundách, po který budou části překódovaného souboru uloženy. Musí být delší než čas určený v \"Omezit po\". Funguje pouze při zapnuté funkci Odstranění částí.",
     "LabelBackdropScreensaverInterval": "Interval šetřiče \"Pozadí\"",
     "LabelBackdropScreensaverIntervalHelp": "Čas v sekundách mezi změnou pozadí při použití šetřiče \"Pozadí\".",
-    "AllowAv1Encoding": "Povolit kódování do formátu AV1"
+    "AllowAv1Encoding": "Povolit kódování do formátu AV1",
+    "GridView": "Mřížka",
+    "ListView": "Seznam",
+    "MachineTranslated": "Strojově přeloženo",
+    "ForeignPartsOnly": "Pouze vynucené",
+    "HearingImpairedShort": "Titulky pro neslyšící",
+    "AiTranslated": "Přeložené pomocí UI"
 }
