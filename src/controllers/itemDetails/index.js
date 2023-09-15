@@ -751,9 +751,6 @@ function setPeopleHeader(page, item) {
     } else {
         page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
     }
-    if (item.Type === 'Episode') {
-        page.querySelector('#guestCastHeader').innerHTML = globalize.translate('HeaderGuestCast');
-    }
 }
 
 function renderNextUp(page, item, user) {
@@ -1810,9 +1807,7 @@ function renderCast(page, item) {
 }
 
 function renderGuestCast(page, item) {
-    const people = (item.People || []).filter(function (p) {
-        return p.Type === 'GuestStar';
-    });
+    const people = (item.People || []).filter(p => p.Type === 'GuestStar');
 
     if (!people.length) {
         page.querySelector('#guestCastCollapsible').classList.add('hide');
