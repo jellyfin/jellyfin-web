@@ -9,6 +9,8 @@ import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 import AppLayout from './AppLayout';
 import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './routes/asyncRoutes';
 import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
+import { REDIRECTS } from 'apps/stable/routes/_redirects';
+import { toRedirectRoute } from 'components/router/Redirect';
 
 const ExperimentalApp = () => {
     return (
@@ -38,7 +40,7 @@ const ExperimentalApp = () => {
                 </Route>
 
                 {/* Redirects for old paths */}
-                <Route path='serveractivity.html' element={<Navigate replace to='/dashboard/activity' />} />
+                {REDIRECTS.map(toRedirectRoute)}
             </Route>
         </Routes>
     );

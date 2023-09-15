@@ -140,7 +140,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             <Divider />
             <MenuItem
                 component={Link}
-                to='/mypreferencesquickconnect.html'
+                to='/quickconnect'
                 onClick={onMenuClose}
             >
                 <ListItemIcon>
