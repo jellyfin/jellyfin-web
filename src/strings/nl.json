@@ -1765,8 +1765,10 @@
     "LabelBackdropScreensaverInterval": "Interval schermbeveiliging",
     "AllowAv1Encoding": "Coderen in AV1-formaat toestaan",
     "GridView": "Rasterweergave",
-    "ForeignPartsOnly": "Alleen gedwongen/vreemde delen",
-    "MachineTranslated": "Machine vertaald",
+    "ForeignPartsOnly": "Alleen geforceerde/anderstalige delen",
+    "MachineTranslated": "Automatisch vertaald",
     "ListView": "Lijstweergave",
-    "AiTranslated": "AI Vertaald"
+    "AiTranslated": "Vertaald door AI",
+    "HeaderGuestCast": "Gastrollen",
+    "HearingImpairedShort": "Voor slechthorenden"
 }
