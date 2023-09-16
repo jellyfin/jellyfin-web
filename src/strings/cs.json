@@ -1770,5 +1770,6 @@
     "MachineTranslated": "Strojově přeloženo",
     "ForeignPartsOnly": "Pouze vynucené",
     "HearingImpairedShort": "Titulky pro neslyšící",
-    "AiTranslated": "Přeložené pomocí UI"
+    "AiTranslated": "Přeložené pomocí UI",
+    "HeaderGuestCast": "Zvláštní hosté"
 }
