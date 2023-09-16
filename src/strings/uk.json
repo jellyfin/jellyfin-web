@@ -1761,5 +1761,12 @@
     "LabelSegmentKeepSeconds": "Час збереження сегментів",
     "LabelBackdropScreensaverIntervalHelp": "Час у секундах між різними фонами при використанні фонової заставки.",
     "LabelBackdropScreensaverInterval": "Інтервал між фоновими заставками",
-    "AllowAv1Encoding": "Дозволити кодування у форматі AV1"
+    "AllowAv1Encoding": "Дозволити кодування у форматі AV1",
+    "HeaderGuestCast": "Запрошені Зірки",
+    "MachineTranslated": "Машинний переклад",
+    "ForeignPartsOnly": "Тільки примусові/іноземні частини",
+    "HearingImpairedShort": "HI/SDH",
+    "GridView": "У вигляді сітки",
+    "ListView": "У вигляді списку",
+    "AiTranslated": "Перекладено за допомогою ШІ"
 }
