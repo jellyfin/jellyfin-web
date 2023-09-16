@@ -1,13 +1,14 @@
 import { getQuickConnectApi } from '@jellyfin/sdk/lib/utils/api/quick-connect-api';
 import React, { FC, FormEvent, useCallback, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';
 import globalize from 'scripts/globalize';
 import InputElement from 'elements/InputElement';
 import ButtonElement from 'elements/ButtonElement';
-import toast from 'components/toast/toast';
 import { useApi } from 'hooks/useApi';
+
+import './quickConnect.scss';
 
 const QuickConnectPage: FC = () => {
     const { api, user } = useApi();
@@ -15,6 +16,8 @@ const QuickConnectPage: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const initialValue = useMemo(() => searchParams.get('code') ?? '', []);
     const [ code, setCode ] = useState(initialValue);
+    const [ error, setError ] = useState<string>();
+    const [ success, setSuccess ] = useState(false);
 
     const onCodeChange = useCallback((value: string) => {
         setCode(value);
@@ -22,15 +25,17 @@ const QuickConnectPage: FC = () => {
 
     const onSubmitCode = useCallback((e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const form = e.currentTarget;
+        setError(undefined);
 
+        const form = e.currentTarget;
         if (!form.checkValidity()) {
-            toast(globalize.translate('QuickConnectInvalidCode'));
+            setError('QuickConnectInvalidCode');
             return;
         }
 
         if (!api) {
             console.error('[QuickConnect] cannot authorize, missing api instance');
+            setError('UnknownError');
             return;
         }
 
@@ -44,10 +49,10 @@ const QuickConnectPage: FC = () => {
                 userId
             })
             .then(() => {
-                toast(globalize.translate('QuickConnectAuthorizeSuccess'));
+                setSuccess(true);
             })
             .catch(() => {
-                toast(globalize.translate('QuickConnectAuthorizeFail'));
+                setError('QuickConnectAuthorizeFail');
             });
     }, [api, code, searchParams, user?.Id]);
 
@@ -67,20 +72,40 @@ const QuickConnectPage: FC = () => {
                             {globalize.translate('QuickConnectDescription')}
                         </div>
                         <br />
-                        <InputElement
-                            containerClassName='inputContainer'
-                            initialValue={initialValue}
-                            onChange={onCodeChange}
-                            id='txtQuickConnectCode'
-                            label='LabelQuickConnectCode'
-                            type='text'
-                            options="inputmode='numeric' pattern='[0-9\s]*' minlength='6' required autocomplete='off'"
-                        />
-                        <ButtonElement
-                            type='submit'
-                            className='raised button-submit block'
-                            title={globalize.translate('Authorize')}
-                        />
+
+                        {error && (
+                            <div className='quickConnectError'>
+                                {globalize.translate(error)}
+                            </div>
+                        )}
+
+                        {success ? (
+                            <div style={{ textAlign: 'center' }}>
+                                <p>
+                                    {globalize.translate('QuickConnectAuthorizeSuccess')}
+                                </p>
+                                <Link to='/home.html' className='button-link emby-button'>
+                                    {globalize.translate('GoHome')}
+                                </Link>
+                            </div>
+                        ) : (
+                            <>
+                                <InputElement
+                                    containerClassName='inputContainer'
+                                    initialValue={initialValue}
+                                    onChange={onCodeChange}
+                                    id='txtQuickConnectCode'
+                                    label='LabelQuickConnectCode'
+                                    type='text'
+                                    options="inputmode='numeric' pattern='[0-9\s]*' minlength='6' required autocomplete='off'"
+                                />
+                                <ButtonElement
+                                    type='submit'
+                                    className='raised button-submit block'
+                                    title={globalize.translate('Authorize')}
+                                />
+                            </>
+                        )}
                     </div>
                 </form>
             </div>
