@@ -722,11 +722,13 @@ class ItemsView {
 
         function play() {
             const currentItem = self.currentItem;
+            const values = self.getSortValues();
 
             if (currentItem && !self.hasFilters) {
                 playbackManager.play({
                     items: [currentItem],
-                    autoplay: true
+                    autoplay: true,
+                    sortOptions: values
                 });
             } else {
                 getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {

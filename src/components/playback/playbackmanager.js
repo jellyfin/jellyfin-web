@@ -1806,12 +1806,18 @@ class PlaybackManager {
                     MediaTypes: 'Audio'
                 });
             } else if (firstItem.MediaType === 'Photo') {
+                const sortOptions = options.sortOptions || {};
+                let sortByValue = options.shuffle ? 'Random' : sortOptions.sortBy;
+                if (sortByValue == null) {
+                    sortByValue = 'SortName';
+                }
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    SortBy: sortByValue,
+                    SortOrder: sortOptions.sortOrder,
                     MediaTypes: 'Photo,Video',
                     Limit: UNLIMITED_ITEMS
                 }).then(function (result) {
@@ -1849,11 +1855,17 @@ class PlaybackManager {
                     MediaTypes: 'Audio'
                 });
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
+                const sortOptions = options.sortOptions || {};
+                let sortByValue = options.shuffle ? 'Random' : sortOptions.sortBy;
+                if (sortByValue == null) {
+                    sortByValue = 'SortName';
+                }
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    SortBy: sortByValue,
+                    SortOrder: sortOptions.sortOrder,
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
