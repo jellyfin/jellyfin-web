@@ -1762,5 +1762,12 @@
     "LabelSegmentKeepSecondsHelp": "Aika sekunteina, jonka osiot säilytetään ennen päällekirjoitusta. Oltava \"Rahoita kun on kulunut\" -aikaa suurempi. Toimii vain osioiden poiston ollessa käytössä.",
     "LabelBackdropScreensaverInterval": "Taustanäytönsäästäjän ajoitus",
     "LabelBackdropScreensaverIntervalHelp": "Aika sekuntteina, jonka kuluttua kuva vaihtuu taustanäytönsäästäjää käytettäessä.",
-    "AllowAv1Encoding": "Salli enkoodaus AV1-muodossa"
+    "AllowAv1Encoding": "Salli enkoodaus AV1-muodossa",
+    "GridView": "Ruudukkonäkymä",
+    "ListView": "Listanäkymä",
+    "AiTranslated": "Tekoälyn kääntämä",
+    "MachineTranslated": "Konekäännetty",
+    "ForeignPartsOnly": "Pakotettu/vain vieraskieliset osat",
+    "HearingImpairedShort": "HI/SDH",
+    "HeaderGuestCast": "Vierailevat pääosat"
 }
