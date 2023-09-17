@@ -47,6 +47,7 @@ const config = {
     },
     plugins: [
         new DefinePlugin({
+            __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
             __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
         }),
         new CleanWebpackPlugin(),
