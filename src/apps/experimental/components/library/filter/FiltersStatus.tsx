@@ -29,27 +29,20 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as ItemFilter;
-            const existingValue = libraryViewSettings?.Filters?.Status;
+            const existingStatus = libraryViewSettings?.Filters?.Status ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: ItemFilter) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, Status: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        Status: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedStatus = existingStatus.includes(value) ?
+                existingStatus.filter((filter) => filter !== value) :
+                [...existingStatus, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    Status: updatedStatus.length ? updatedStatus : undefined
+                }
+            }));
         },
         [setLibraryViewSettings, libraryViewSettings?.Filters?.Status]
     );

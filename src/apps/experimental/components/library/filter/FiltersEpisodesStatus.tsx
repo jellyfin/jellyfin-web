@@ -3,12 +3,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import globalize from 'scripts/globalize';
-import { LibraryViewSettings } from 'types/library';
+import { EpisodeFilter, LibraryViewSettings } from 'types/library';
 
-const episodesStatusOptions = [
-    { label: 'OptionSpecialEpisode', value: 'ParentIndexNumber' },
-    { label: 'OptionMissingEpisode', value: 'IsMissing' },
-    { label: 'OptionUnairedEpisode', value: 'IsUnaired' }
+const episodeFilterOptions = [
+    { label: 'OptionSpecialEpisode', value: EpisodeFilter.ParentIndexNumber },
+    { label: 'OptionMissingEpisode', value: EpisodeFilter.IsMissing },
+    { label: 'OptionUnairedEpisode', value: EpisodeFilter.IsUnaired }
 ];
 
 interface FiltersEpisodesStatusProps {
@@ -23,46 +23,39 @@ const FiltersEpisodesStatus: FC<FiltersEpisodesStatusProps> = ({
     const onFiltersEpisodesStatusChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            const value = String(event.target.value);
-            const existingValue = libraryViewSettings?.Filters?.EpisodesStatus;
+            const value = event.target.value as EpisodeFilter;
+            const existingEpisodeFilter = libraryViewSettings?.Filters?.EpisodeFilter ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: string) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, EpisodesStatus: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        EpisodesStatus: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedEpisodeFilter = existingEpisodeFilter.includes(value) ?
+                existingEpisodeFilter.filter((filter) => filter !== value) :
+                [...existingEpisodeFilter, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    EpisodeFilter: updatedEpisodeFilter.length ? updatedEpisodeFilter : undefined
+                }
+            }));
         },
-        [setLibraryViewSettings, libraryViewSettings?.Filters?.EpisodesStatus]
+        [setLibraryViewSettings, libraryViewSettings?.Filters?.EpisodeFilter]
     );
 
     return (
         <FormGroup>
-            {episodesStatusOptions.map((filter) => (
+            {episodeFilterOptions.map((filter) => (
                 <FormControlLabel
                     key={filter.value}
                     control={
                         <Checkbox
                             checked={
-                                !!libraryViewSettings?.Filters?.EpisodesStatus?.includes(
-                                    String( filter.value)
+                                !!libraryViewSettings?.Filters?.EpisodeFilter?.includes(
+                                    filter.value
                                 )
                             }
                             onChange={onFiltersEpisodesStatusChange}
-                            value={String(filter.value)}
+                            value={filter.value}
                         />
                     }
                     label={globalize.translate(filter.label)}

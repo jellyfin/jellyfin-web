@@ -3,14 +3,14 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import globalize from 'scripts/globalize';
-import { LibraryViewSettings } from 'types/library';
+import { FeatureFilters, LibraryViewSettings } from 'types/library';
 
 const featuresOptions = [
-    { label: 'Subtitles', value: 'HasSubtitles' },
-    { label: 'Trailers', value: 'HasTrailer' },
-    { label: 'Extras', value: 'HasSpecialFeature' },
-    { label: 'ThemeSongs', value: 'HasThemeSong' },
-    { label: 'ThemeVideos', value: 'HasThemeVideo' }
+    { label: 'Subtitles', value: FeatureFilters.HasSubtitles },
+    { label: 'Trailers', value: FeatureFilters.HasTrailer },
+    { label: 'Extras', value: FeatureFilters.HasSpecialFeature },
+    { label: 'ThemeSongs', value: FeatureFilters.HasThemeSong },
+    { label: 'ThemeVideos', value: FeatureFilters.HasThemeVideo }
 ];
 
 interface FiltersFeaturesProps {
@@ -27,29 +27,21 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({
     const onFiltersFeaturesChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            const value = String(event.target.value);
-            const existingValue =
-                libraryViewSettings?.Filters?.Features;
+            const value = event.target.value as FeatureFilters;
+            const existingFeatures = libraryViewSettings?.Filters?.Features ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: string) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, Features: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        Features: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedFeatures = existingFeatures.includes(value) ?
+                existingFeatures.filter((filter) => filter !== value) :
+                [...existingFeatures, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    Features: updatedFeatures.length ? updatedFeatures : undefined
+                }
+            }));
         },
         [setLibraryViewSettings, libraryViewSettings?.Filters?.Features]
     );
@@ -64,11 +56,11 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({
                             <Checkbox
                                 checked={
                                     !!libraryViewSettings?.Filters?.Features?.includes(
-                                        String(filter.value)
+                                        filter.value
                                     )
                                 }
                                 onChange={onFiltersFeaturesChange}
-                                value={String(filter.value)}
+                                value={filter.value}
                             />
                         }
                         label={globalize.translate(filter.label)}

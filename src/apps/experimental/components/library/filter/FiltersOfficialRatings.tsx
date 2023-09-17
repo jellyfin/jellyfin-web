@@ -19,28 +19,21 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
     const onFiltersOfficialRatingsChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            const value = String(event.target.value);
-            const existingValue = libraryViewSettings?.Filters?.OfficialRatings;
+            const value = event.target.value;
+            const existingOfficialRatings = libraryViewSettings?.Filters?.OfficialRatings ?? [];
 
-            if (existingValue?.includes(value)) {
-                const newValue = existingValue?.filter(
-                    (prevState: string) => prevState !== value
-                );
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: { ...prevState.Filters, OfficialRatings: newValue }
-                }));
-            } else {
-                setLibraryViewSettings((prevState) => ({
-                    ...prevState,
-                    StartIndex: 0,
-                    Filters: {
-                        ...prevState.Filters,
-                        OfficialRatings: [...(existingValue ?? []), value]
-                    }
-                }));
-            }
+            const updatedOfficialRatings = existingOfficialRatings.includes(value) ?
+                existingOfficialRatings.filter((filter) => filter !== value) :
+                [...existingOfficialRatings, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    OfficialRatings: updatedOfficialRatings.length ? updatedOfficialRatings : undefined
+                }
+            }));
         },
         [setLibraryViewSettings, libraryViewSettings?.Filters?.OfficialRatings]
     );
