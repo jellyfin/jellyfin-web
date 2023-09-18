@@ -66,6 +66,7 @@
  - [Fishbigger](https://github.com/fishbigger)
  - [sleepycatcoding](https://github.com/sleepycatcoding)
  - [TheMelmacian](https://github.com/TheMelmacian)
+ - [v0idMrK](https://github.com/v0idMrK)
 
 # Emby Contributors
 
@@ -132,4 +133,3 @@
  - [jomp16](https://github.com/jomp16)
  - [Leon de Klerk](https://github.com/leondeklerk)
  - [CrispyBaguette](https://github.com/CrispyBaguette)
- - [v0idMrK](https://github.com/v0idMrK)

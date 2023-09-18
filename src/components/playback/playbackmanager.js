@@ -1773,6 +1773,18 @@ class PlaybackManager {
             });
         }
 
+        function getSortOptions(options) {
+            const sortOptions = options.sortOptions || {};
+            let sortByValue = options.shuffle ? 'Random' : sortOptions.sortBy;
+            if (sortByValue == null) {
+                sortByValue = 'SortName';
+            }
+            return {
+                sortBy: sortByValue,
+                sortOrder: sortOptions.sortOrder
+            };
+        }
+
         function translateItemsForPlayback(items, options) {
             if (items.length > 1 && options && options.ids) {
                 // Use the original request id array for sorting the result in the proper order
@@ -1788,6 +1800,8 @@ class PlaybackManager {
 
             const queryOptions = options.queryOptions || {};
 
+            const sortOptions = getSortOptions(options);
+
             if (firstItem.Type === 'Program') {
                 promise = getItemsForPlayback(serverId, {
                     Ids: firstItem.ChannelId
@@ -1802,21 +1816,17 @@ class PlaybackManager {
                     ArtistIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    SortBy: sortOptions.sortBy,
+                    SortOrder: sortOptions.sortOrder,
                     MediaTypes: 'Audio'
                 });
             } else if (firstItem.MediaType === 'Photo') {
-                const sortOptions = options.sortOptions || {};
-                let sortByValue = options.shuffle ? 'Random' : sortOptions.sortBy;
-                if (sortByValue == null) {
-                    sortByValue = 'SortName';
-                }
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
-                    SortBy: sortByValue,
+                    SortBy: sortOptions.sortBy,
                     SortOrder: sortOptions.sortOrder,
                     MediaTypes: 'Photo,Video',
                     Limit: UNLIMITED_ITEMS
@@ -1841,7 +1851,8 @@ class PlaybackManager {
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    SortBy: sortOptions.sortBy,
+                    SortOrder: sortOptions.sortOrder,
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
@@ -1851,20 +1862,16 @@ class PlaybackManager {
                     GenreIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    SortBy: sortOptions.sortBy,
+                    SortOrder: sortOptions.sortOrder,
                     MediaTypes: 'Audio'
                 });
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
-                const sortOptions = options.sortOptions || {};
-                let sortByValue = options.shuffle ? 'Random' : sortOptions.sortBy;
-                if (sortByValue == null) {
-                    sortByValue = 'SortName';
-                }
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
-                    SortBy: sortByValue,
+                    SortBy: sortOptions.sortBy,
                     SortOrder: sortOptions.sortOrder,
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
@@ -1872,10 +1879,12 @@ class PlaybackManager {
                 }, queryOptions));
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
+                let sortOrder = null;
                 if (options.shuffle) {
                     sortBy = 'Random';
                 } else if (firstItem.Type !== 'BoxSet') {
-                    sortBy = 'SortName';
+                    sortBy = sortOptions.sortBy;
+                    sortOrder = sortOptions.sortOrder;
                 }
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
@@ -1883,6 +1892,7 @@ class PlaybackManager {
                     Recursive: true,
                     // These are pre-sorted
                     SortBy: sortBy,
+                    SortOrder: sortOrder,
                     MediaTypes: 'Audio,Video'
                 }, queryOptions));
             } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
