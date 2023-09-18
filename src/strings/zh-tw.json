@@ -1762,5 +1762,6 @@
     "HeaderConfirmRepositoryInstallation": "確認外掛來源庫",
     "MessageRepositoryInstallDisclaimer": "警告：安裝第三方外掛程式庫有風險。其中可能包不穩定或含惡意的程式，並且可能隨時變化。請只安裝你信任的作者提供的外掛程式庫。",
     "LabelEnableLUFSScanHelp": "針對音樂啟用 LUFS 掃描（需要更多時間和資源）。",
-    "AllowCollectionManagement": "允許用戶管理合輯"
+    "AllowCollectionManagement": "允許用戶管理合輯",
+    "GridView": "網格檢視"
 }
