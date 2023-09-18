@@ -213,7 +213,6 @@ function executeAction(card, target, action) {
         });
     } else if (action === 'play' || action === 'resume') {
         const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
-        
         if (playbackManager.canPlay(item)) {
             playbackManager.play({
                 ids: [playableItemId],
