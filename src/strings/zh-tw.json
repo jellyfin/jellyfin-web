@@ -336,7 +336,7 @@
     "DoNotRecord": "不錄製",
     "Down": "下",
     "DownloadsValue": "{0} 個下載",
-    "DrmChannelsNotImported": "受 DMR 保護的頻道將不會被導入。",
+    "DrmChannelsNotImported": "受 DRM 保護的頻道將不會被導入。",
     "DropShadow": "陰影",
     "EasyPasswordHelp": "你的簡易 PIN 碼將會用於在支援的 Jellyfin 應用上進行離線存取，同時也可被用於區域網路的登入。",
     "EditMetadata": "編輯媒體資訊",
@@ -1763,5 +1763,10 @@
     "MessageRepositoryInstallDisclaimer": "警告：安裝第三方外掛程式庫有風險。其中可能包不穩定或含惡意的程式，並且可能隨時變化。請只安裝你信任的作者提供的外掛程式庫。",
     "LabelEnableLUFSScanHelp": "針對音樂啟用 LUFS 掃描（需要更多時間和資源）。",
     "AllowCollectionManagement": "允許用戶管理合輯",
-    "GridView": "網格檢視"
+    "GridView": "網格檢視",
+    "AllowAv1Encoding": "允許以 AV1 格式編碼",
+    "ListView": "清單檢視",
+    "AiTranslated": "AI翻譯",
+    "MachineTranslated": "機器翻譯",
+    "ForeignPartsOnly": "僅限強制或外語部分"
 }
