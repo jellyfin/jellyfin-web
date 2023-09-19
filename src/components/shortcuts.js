@@ -166,14 +166,6 @@ function showPlayMenu(card, target) {
     });
 }
 
-function getSortValues(parentId) {
-    const basekey = 'items-' + parentId + '-Folder';
-    return {
-        sortBy: userSettings.getFilter(basekey + '-sortby'),
-        sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
-    };
-}
-
 function executeAction(card, target, action) {
     target = target || card;
 
@@ -184,11 +176,11 @@ function executeAction(card, target, action) {
         id = card.getAttribute('data-id');
     }
 
+    const item = getItemInfoFromCard(card);
+
     const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
 
-    const parentId = itemsContainer.getAttribute('data-parentid');
-
-    const item = getItemInfoFromCard(card);
+    const sortParentId = 'items-' + (item.IsFolder ? item.Id : itemsContainer.getAttribute('data-parentid')) + '-Folder';
 
     const serverId = item.ServerId;
     const type = item.Type;
@@ -219,7 +211,7 @@ function executeAction(card, target, action) {
                 ids: [playableItemId],
                 startPositionTicks: startPositionTicks,
                 serverId: serverId,
-                sortOptions: getSortValues(parentId)
+                sortOptions: userSettings.getSortValues(sortParentId)
             });
         } else {
             console.warn('Unable to play item', item);

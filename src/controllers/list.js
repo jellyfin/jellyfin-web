@@ -962,10 +962,7 @@ class ItemsView {
 
     getSortValues() {
         const basekey = this.getSettingsKey();
-        return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
-            sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
-        };
+        return userSettings.getSortValues(basekey);
     }
 
     getDefaultSortBy() {

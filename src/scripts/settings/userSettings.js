@@ -622,6 +622,18 @@ export class UserSettings {
     getFilter(key) {
         return this.get(key, true);
     }
+
+    /**
+     * Gets the current sort values
+     * @param {string} key - Filter key.
+     * @return {Object} sortOptions object
+     */
+    getSortValues(key) {
+        return {
+            sortBy: this.getFilter(key + '-sortby'),
+            sortOrder: this.getFilter(key + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
+        };
+    }
 }
 
 export const currentSettings = new UserSettings;
@@ -672,3 +684,4 @@ export const customCss = currentSettings.customCss.bind(currentSettings);
 export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);
 export const getSavedView = currentSettings.getSavedView.bind(currentSettings);
 export const saveViewSetting = currentSettings.saveViewSetting.bind(currentSettings);
+export const getSortValues = currentSettings.getSortValues.bind(currentSettings);
