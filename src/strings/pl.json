@@ -1461,7 +1461,7 @@
     "SyncPlayGroupDefaultTitle": "Grupa {0}",
     "QuickConnectNotAvailable": "Poproś administratora serwera, aby włączył szybkie łączenie",
     "QuickConnectNotActive": "Szybkie łączenie nie jest aktywne na tym serwerze",
-    "QuickConnectAuthorizeSuccess": "Żądanie autoryzowane",
+    "QuickConnectAuthorizeSuccess": "Pomyślnie uwierzytelniono urządzenie!",
     "QuickConnectAuthorizeCode": "Wpisz kod {0}, aby się zalogować",
     "PluginFromRepo": "{0} z repozytorium {1}",
     "OptionMaxActiveSessionsHelp": "Wartość \"0\" wyłączy tę funkcję.",
@@ -1771,5 +1771,7 @@
     "AiTranslated": "Przetłumaczono przez SI",
     "MachineTranslated": "Przetłumaczono maszynowo",
     "ForeignPartsOnly": "Tylko części wymuszone/obce",
-    "HearingImpairedShort": "HI/SDH"
+    "HearingImpairedShort": "HI/SDH",
+    "GoHome": "Wróć na start",
+    "UnknownError": "Wystąpił nieznany błąd."
 }
