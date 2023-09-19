@@ -336,7 +336,7 @@
     "Help": "Nápověda",
     "Hide": "Skrýt",
     "HideWatchedContentFromLatestMedia": "Skrýt zhlédnuté položky v seznamu Nedávno přidaná média",
-    "Home": "Domů",
+    "Home": "Domovská obrazovka",
     "Identify": "Identifikovat",
     "Images": "Obrázky",
     "ImportFavoriteChannelsHelp": "Jen kanály označené jako oblíbené na zařízení tuneru budou importovány.",
@@ -1112,7 +1112,7 @@
     "LabelSortOrder": "Pořadí řazení",
     "LabelSpecialSeasonsDisplayName": "Zobrazovaný název pro zvláštní sezónu",
     "LabelSubtitleDownloaders": "Stahovače titulků",
-    "LabelTVHomeScreen": "Hlavní obrazovka TV režimu",
+    "LabelTVHomeScreen": "Domovská obrazovka TV režimu",
     "LabelTag": "Tag",
     "LabelTypeMetadataDownloaders": "Stahovače metadat ({0})",
     "LabelTypeText": "Text",
@@ -1408,7 +1408,7 @@
     "QuickConnectDescription": "Chcete-li se připojit snadněji, na přihlašovaném zařízení stiskněte tlačítko Rychlé připojení a zadejte níže uvedený kód.",
     "QuickConnectDeactivated": "Rychlé připojení bylo vypnuto dříve, než mohl být požadavek schválen",
     "QuickConnectAuthorizeFail": "Neznámý kód pro rychlé připojení",
-    "QuickConnectAuthorizeSuccess": "Požadavek autorizován",
+    "QuickConnectAuthorizeSuccess": "Vaše zařízení bylo úspěšně ověřeno!",
     "QuickConnectAuthorizeCode": "Pro přihlášení zadejte kód {0}",
     "QuickConnectActivationSuccessful": "Úspěšně aktivováno",
     "QuickConnect": "Rychlé připojení",
@@ -1771,5 +1771,7 @@
     "ForeignPartsOnly": "Pouze vynucené",
     "HearingImpairedShort": "Titulky pro neslyšící",
     "AiTranslated": "Přeložené pomocí UI",
-    "HeaderGuestCast": "Zvláštní hosté"
+    "HeaderGuestCast": "Zvláštní hosté",
+    "GoHome": "Přejít na domovskou obrazovku",
+    "UnknownError": "Došlo k neznámé chybě."
 }
