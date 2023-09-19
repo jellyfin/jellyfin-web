@@ -1229,7 +1229,7 @@
     "QuickConnectInvalidCode": "Недійсний код швидкого підключення",
     "QuickConnectDescription": "Щоб увійти за допомогою швидкого підключення, виберіть кнопку «Швидке підключення» на пристрої, з якого ви входите, і введіть код, що відображається нижче.",
     "QuickConnectDeactivated": "Швидке підключення було деактивовано до того, як запит на вхід було схвалено",
-    "QuickConnectAuthorizeSuccess": "Запит авторизований",
+    "QuickConnectAuthorizeSuccess": "Ви успішно автентифікували свій пристрій!",
     "QuickConnectAuthorizeFail": "Невідомий код швидкого підключення",
     "QuickConnectAuthorizeCode": "Введіть код {0} для входу",
     "QuickConnectActivationSuccessful": "Успішно активовано",
@@ -1768,5 +1768,6 @@
     "HearingImpairedShort": "HI/SDH",
     "GridView": "У вигляді сітки",
     "ListView": "У вигляді списку",
-    "AiTranslated": "Перекладено за допомогою ШІ"
+    "AiTranslated": "Перекладено за допомогою ШІ",
+    "UnknownError": "Виникла невідома помилка."
 }
