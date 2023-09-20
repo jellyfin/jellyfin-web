@@ -9,8 +9,6 @@ import itemHelper from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
-import * as userSettings from '../scripts/settings/userSettings';
-import libraryMenu from '../scripts/libraryMenu';
 
 export function getCommands(options) {
     const item = options.item;
