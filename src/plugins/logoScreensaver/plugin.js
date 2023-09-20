@@ -4,7 +4,7 @@ import { randomInt } from '../../utils/number.ts';
 export default function () {
     const self = this;
 
-    self.name = 'Logo ScreenSaver';
+    self.name = 'LogoScreensaver';
     self.type = PluginType.Screensaver;
     self.id = 'logoscreensaver';
     self.supportsAnonymous = true;
