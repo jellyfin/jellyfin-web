@@ -569,29 +569,6 @@ function deleteSeriesTimer(apiClient, item, resolve, command) {
     });
 }
 
-function getSettingsKey(item) {
-    if (item.IsFolder) {
-        return 'Folder';
-    }
-    const itemType = item.MediaType;
-    switch (itemType) {
-        case 'Movie':
-        case 'BoxSet':
-        case 'Video':
-            return 'movies';
-        case 'Audio':
-            return 'songs';
-        case 'MusicAlbum':
-            return 'musicalbums';
-        case 'MusicArtist':
-            return 'musicartists';
-        case 'MusicGenre':
-            return 'genres';
-        case 'MusicPlaylist':
-            return 'musicplaylists';
-    }
-}
-
 function play(item, resume, queue, queueNext) {
     let method = 'play';
     if (queue) {
@@ -614,12 +591,9 @@ function play(item, resume, queue, queueNext) {
             serverId: item.ServerId
         });
     } else {
-        const sortParentId = item.IsFolder ? ('items-' + item.Id) : libraryMenu.getTopParentId() + '-' + getSettingsKey(item);
-        const sortValues = userSettings.getSortValues(sortParentId);
         playbackManager[method]({
             items: [item],
-            startPositionTicks: startPosition,
-            queryOptions: sortValues
+            startPositionTicks: startPosition
         });
     }
 }
