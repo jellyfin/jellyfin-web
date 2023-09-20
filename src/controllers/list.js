@@ -728,7 +728,7 @@ class ItemsView {
                 playbackManager.play({
                     items: [currentItem],
                     autoplay: true,
-                    sortOptions: values
+                    queryOptions: values
                 });
             } else {
                 getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
@@ -962,7 +962,7 @@ class ItemsView {
 
     getSortValues() {
         const basekey = this.getSettingsKey();
-        return userSettings.getSortValues(basekey);
+        return userSettings.getSortValuesLegacy(basekey, this.getDefaultSortBy());
     }
 
     getDefaultSortBy() {

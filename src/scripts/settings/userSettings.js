@@ -624,15 +624,28 @@ export class UserSettings {
     }
 
     /**
-     * Gets the current sort values
+     * Gets the current sort values (Legacy - Non-JSON)
+     * (old views such as list.js [Photos] will
+     * use this one)
+     * @param {string} key - Filter key.
+     * @return {Object} sortOptions object
+     */
+    getSortValuesLegacy(key, defaultSortBy) {
+        return {
+            sortBy: this.getFilter(key + '-sortby') || defaultSortBy,
+            sortOrder: this.getFilter(key + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
+        };
+    }
+
+    /**
+     * Gets the current sort values (JSON)
+     * (new views such as MoviesView will use
+     * this one)
      * @param {string} key - Filter key.
      * @return {Object} sortOptions object
      */
     getSortValues(key) {
-        return {
-            sortBy: this.getFilter(key + '-sortby'),
-            sortOrder: this.getFilter(key + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
-        };
+        return this.loadQuerySettings(key, {});
     }
 }
 
@@ -684,4 +697,5 @@ export const customCss = currentSettings.customCss.bind(currentSettings);
 export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);
 export const getSavedView = currentSettings.getSavedView.bind(currentSettings);
 export const saveViewSetting = currentSettings.saveViewSetting.bind(currentSettings);
+export const getSortValuesLegacy = currentSettings.getSortValuesLegacy.bind(currentSettings);
 export const getSortValues = currentSettings.getSortValues.bind(currentSettings);

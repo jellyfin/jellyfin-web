@@ -180,7 +180,7 @@ function executeAction(card, target, action) {
 
     const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
 
-    const sortParentId = 'items-' + (item.IsFolder ? item.Id : itemsContainer.getAttribute('data-parentid')) + '-Folder';
+    const sortParentId = 'items-' + (item.IsFolder ? item.Id : itemsContainer?.getAttribute('data-parentid')) + '-Folder';
 
     const serverId = item.ServerId;
     const type = item.Type;
@@ -211,7 +211,7 @@ function executeAction(card, target, action) {
                 ids: [playableItemId],
                 startPositionTicks: startPositionTicks,
                 serverId: serverId,
-                sortOptions: userSettings.getSortValues(sortParentId)
+                queryOptions: userSettings.getSortValuesLegacy(sortParentId, 'SortName')
             });
         } else {
             console.warn('Unable to play item', item);

@@ -145,7 +145,10 @@ function createStreamInfoFromUrlItem(item) {
 }
 
 function mergePlaybackQueries(obj1, obj2) {
-    const query = Object.assign(obj1, obj2);
+    const query = obj1;
+    for (const key in obj2) {
+        if (obj2[key] !== undefined) query[key] = obj2[key];
+    }
 
     const filters = query.Filters ? query.Filters.split(',') : [];
     if (filters.indexOf('IsNotFolder') === -1) {
@@ -1773,18 +1776,6 @@ class PlaybackManager {
             });
         }
 
-        function getSortOptions(options) {
-            const sortOptions = options.sortOptions || {};
-            let sortByValue = options.shuffle ? 'Random' : sortOptions.sortBy;
-            if (sortByValue == null) {
-                sortByValue = 'SortName';
-            }
-            return {
-                sortBy: sortByValue,
-                sortOrder: sortOptions.sortOrder
-            };
-        }
-
         function translateItemsForPlayback(items, options) {
             if (items.length > 1 && options && options.ids) {
                 // Use the original request id array for sorting the result in the proper order
@@ -1800,8 +1791,6 @@ class PlaybackManager {
 
             const queryOptions = options.queryOptions || {};
 
-            const sortOptions = getSortOptions(options);
-
             if (firstItem.Type === 'Program') {
                 promise = getItemsForPlayback(serverId, {
                     Ids: firstItem.ChannelId
@@ -1812,25 +1801,23 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : null
                 });
             } else if (firstItem.Type === 'MusicArtist') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ArtistIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
-                    SortBy: sortOptions.sortBy,
-                    SortOrder: sortOptions.sortOrder,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
-                });
+                }, queryOptions));
             } else if (firstItem.MediaType === 'Photo') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
-                    SortBy: sortOptions.sortBy,
-                    SortOrder: sortOptions.sortOrder,
                     MediaTypes: 'Photo,Video',
+                    sortBy: options.shuffle ? 'Random' : 'SortName',
                     Limit: UNLIMITED_ITEMS
-                }).then(function (result) {
+                }, queryOptions)).then(function (result) {
                     const playbackItems = result.Items;
 
                     let index = playbackItems.map(function (i) {
@@ -1846,45 +1833,40 @@ class PlaybackManager {
                     return Promise.resolve(result);
                 });
             } else if (firstItem.Type === 'PhotoAlbum') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
-                    SortBy: sortOptions.sortBy,
-                    SortOrder: sortOptions.sortOrder,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
-                });
+                }, queryOptions));
             } else if (firstItem.Type === 'MusicGenre') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     GenreIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
-                    SortBy: sortOptions.sortBy,
-                    SortOrder: sortOptions.sortOrder,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
-                });
+                }));
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
-                    SortBy: sortOptions.sortBy,
-                    SortOrder: sortOptions.sortOrder,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
-                let sortOrder = null;
                 if (options.shuffle) {
                     sortBy = 'Random';
                 } else if (firstItem.Type !== 'BoxSet') {
-                    sortBy = sortOptions.sortBy;
-                    sortOrder = sortOptions.sortOrder;
+                    sortBy = 'SortName';
                 }
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
@@ -1892,7 +1874,6 @@ class PlaybackManager {
                     Recursive: true,
                     // These are pre-sorted
                     SortBy: sortBy,
-                    SortOrder: sortOrder,
                     MediaTypes: 'Audio,Video'
                 }, queryOptions));
             } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
