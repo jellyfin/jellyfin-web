@@ -3,8 +3,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
 
-import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from '../../routes/asyncRoutes';
-import { LEGACY_ADMIN_ROUTES, LEGACY_USER_ROUTES } from '../../routes/legacyRoutes';
+import { ASYNC_USER_ROUTES } from '../../routes/asyncRoutes';
+import { LEGACY_USER_ROUTES } from '../../routes/legacyRoutes';
 
 import AdvancedDrawerSection from './dashboard/AdvancedDrawerSection';
 import DevicesDrawerSection from './dashboard/DevicesDrawerSection';
@@ -27,8 +27,8 @@ const MAIN_DRAWER_ROUTES = [
 ].filter(route => !DRAWERLESS_ROUTES.includes(route.path));
 
 const ADMIN_DRAWER_ROUTES = [
-    ...ASYNC_ADMIN_ROUTES,
-    ...LEGACY_ADMIN_ROUTES,
+    // ...ASYNC_ADMIN_ROUTES,
+    // ...LEGACY_ADMIN_ROUTES,
     { path: '/configurationpage' } // Plugin configuration page
 ].filter(route => !DRAWERLESS_ROUTES.includes(route.path));
 

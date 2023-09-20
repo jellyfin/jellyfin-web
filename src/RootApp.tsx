@@ -12,6 +12,7 @@ import { ApiProvider } from 'hooks/useApi';
 import { WebConfigProvider } from 'hooks/useWebConfig';
 import theme from 'themes/theme';
 
+const DashboardApp = loadable(() => import('./apps/dashboard/App'));
 const ExperimentalApp = loadable(() => import('./apps/experimental/App'));
 const StableApp = loadable(() => import('./apps/stable/App'));
 
@@ -31,6 +32,8 @@ const RootAppLayout = () => {
                     <ExperimentalApp /> :
                     <StableApp />
             }
+
+            <DashboardApp />
         </>
     );
 };

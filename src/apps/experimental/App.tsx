@@ -3,14 +3,13 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { REDIRECTS } from 'apps/stable/routes/_redirects';
 import ConnectionRequired from 'components/ConnectionRequired';
-import ServerContentPage from 'components/ServerContentPage';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 import { toRedirectRoute } from 'components/router/Redirect';
 
 import AppLayout from './AppLayout';
-import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './routes/asyncRoutes';
-import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
+import { ASYNC_USER_ROUTES } from './routes/asyncRoutes';
+import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
 
 const ExperimentalApp = () => {
     return (
@@ -20,16 +19,6 @@ const ExperimentalApp = () => {
                 <Route element={<ConnectionRequired />}>
                     {ASYNC_USER_ROUTES.map(toAsyncPageRoute)}
                     {LEGACY_USER_ROUTES.map(toViewManagerPageRoute)}
-                </Route>
-
-                {/* Admin routes */}
-                <Route element={<ConnectionRequired isAdminRequired />}>
-                    {ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute)}
-                    {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
-
-                    <Route path='configurationpage' element={
-                        <ServerContentPage view='/web/configurationpage' />
-                    } />
                 </Route>
 
                 {/* Public routes */}
@@ -42,6 +31,11 @@ const ExperimentalApp = () => {
 
             {/* Redirects for old paths */}
             {REDIRECTS.map(toRedirectRoute)}
+
+            {/* Ignore dashboard routes */}
+            <Route path='/configurationpage/*' element={null} />
+            <Route path='/dashboard/*' element={null} />
+            <Route path='/metadata/*' element={null} />
         </Routes>
     );
 };
