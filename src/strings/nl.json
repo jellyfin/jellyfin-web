@@ -1380,7 +1380,7 @@
     "QuickConnectDescription": "Om je aan te melden met Quick Connect selecteer je de 'Quick Connect'-knop op het apparaat waarop je je wilt aanmelden en en voer je de weergegeven code hieronder in.",
     "QuickConnectDeactivated": "Quick Connect is gedeactiveerd voordat het aanmeldverzoek goedgekeurd kon worden",
     "QuickConnectAuthorizeFail": "Onbekende Quick Connect-code",
-    "QuickConnectAuthorizeSuccess": "Verzoek goedgekeurd",
+    "QuickConnectAuthorizeSuccess": "Je hebt je apparaat succesvol goedgekeurd!",
     "QuickConnectAuthorizeCode": "Vul code {0} in om aan te melden",
     "QuickConnectActivationSuccessful": "Succesvol geactiveerd",
     "LabelKnownProxies": "Bekende proxy's",
@@ -1770,5 +1770,7 @@
     "ListView": "Lijstweergave",
     "AiTranslated": "Vertaald door AI",
     "HeaderGuestCast": "Gastrollen",
-    "HearingImpairedShort": "Voor slechthorenden"
+    "HearingImpairedShort": "Voor slechthorenden",
+    "GoHome": "Startpagina",
+    "UnknownError": "Er is een onbekende fout opgetreden."
 }
