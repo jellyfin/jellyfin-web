@@ -628,6 +628,7 @@ export class UserSettings {
      * (old views such as list.js [Photos] will
      * use this one)
      * @param {string} key - Filter key.
+     * @param {string} defaultSortBy - Default SortBy value.
      * @return {Object} sortOptions object
      */
     getSortValuesLegacy(key, defaultSortBy) {

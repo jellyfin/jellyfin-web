@@ -1850,7 +1850,7 @@ class PlaybackManager {
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
-                }));
+                }, queryOptions));
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
