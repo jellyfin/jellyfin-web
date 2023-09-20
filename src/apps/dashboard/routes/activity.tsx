@@ -19,9 +19,9 @@ import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'script
 import globalize from 'scripts/globalize';
 import { toBoolean } from 'utils/string';
 
-import LogLevelChip from '../../components/activityTable/LogLevelChip';
-import OverviewCell from '../../components/activityTable/OverviewCell';
-import GridActionsCellLink from '../../components/GridActionsCellLink';
+import LogLevelChip from '../components/activityTable/LogLevelChip';
+import OverviewCell from '../components/activityTable/OverviewCell';
+import GridActionsCellLink from '../components/dataGrid/GridActionsCellLink';
 
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';

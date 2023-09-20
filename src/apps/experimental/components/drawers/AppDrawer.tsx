@@ -27,8 +27,6 @@ const MAIN_DRAWER_ROUTES = [
 ].filter(route => !DRAWERLESS_ROUTES.includes(route.path));
 
 const ADMIN_DRAWER_ROUTES = [
-    // ...ASYNC_ADMIN_ROUTES,
-    // ...LEGACY_ADMIN_ROUTES,
     { path: '/configurationpage' } // Plugin configuration page
 ].filter(route => !DRAWERLESS_ROUTES.includes(route.path));
 
