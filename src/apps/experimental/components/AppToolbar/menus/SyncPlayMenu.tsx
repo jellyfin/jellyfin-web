@@ -56,9 +56,12 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
     }, []);
 
     useEffect(() => {
+        let isMounted = true;
+
         const fetchGroups = async () => {
             if (api) {
-                setGroups((await getSyncPlayApi(api).syncPlayGetGroups()).data);
+                const response = await getSyncPlayApi(api).syncPlayGetGroups();
+                if (isMounted) setGroups(response.data);
             }
         };
 
@@ -66,6 +69,10 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             .catch(err => {
                 console.error('[SyncPlayMenu] unable to fetch SyncPlay groups', err);
             });
+
+        return () => {
+            isMounted = false;
+        };
     }, [ api ]);
 
     const onGroupAddClick = useCallback(() => {
