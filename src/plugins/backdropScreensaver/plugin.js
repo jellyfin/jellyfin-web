@@ -5,7 +5,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 
 class BackdropScreensaver {
     constructor() {
-        this.name = "BackdropScreensaver";
+        this.name = 'BackdropScreensaver';
         this.type = PluginType.Screensaver;
         this.id = 'backdropscreensaver';
         this.supportsAnonymous = false;
