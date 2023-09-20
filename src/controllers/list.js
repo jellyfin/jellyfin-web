@@ -724,8 +724,13 @@ class ItemsView {
             const currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
+                const values = self.getSortValues();
                 playbackManager.play({
                     items: [currentItem],
+                    queryOptions: {
+                        SortBy: values.sortBy,
+                        SortOrder: values.sortOrder
+                    },
                     autoplay: true
                 });
             } else {
