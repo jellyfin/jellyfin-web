@@ -553,3 +553,41 @@ export const useGetQueryFiltersLegacy = (
         enabled: !!parentId
     });
 };
+
+const fetchGetUpcomingEpisodes = async (
+    currentApi: JellyfinApiContext,
+    parentId: ParentId,
+    signal: AbortSignal | undefined
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getTvShowsApi(api).getUpcomingEpisodes(
+            {
+                userId: user.Id,
+                limit: 25,
+                fields: [ItemFields.AirTime],
+                parentId: parentId ?? undefined,
+                imageTypeLimit: 1,
+                enableImageTypes: [
+                    ImageType.Primary,
+                    ImageType.Backdrop,
+                    ImageType.Thumb
+                ]
+            },
+            {
+                signal: signal
+            }
+        );
+        return response.data;
+    }
+};
+
+export const useGetUpcomingEpisodes = (parentId: ParentId) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: ['UpcomingEpisodes', parentId],
+        queryFn: ({ signal }) =>
+            fetchGetUpcomingEpisodes(currentApi, parentId, signal),
+        enabled: !!parentId
+    });
+};
