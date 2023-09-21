@@ -1,13 +1,14 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { FC } from 'react';
-import { useGetGenres } from 'hooks/useFetchItems';
+import { useGetGroupsGenres } from 'hooks/useFetchItems';
 import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import GenresSectionContainer from './GenresSectionContainer';
 import { CollectionType } from 'types/collectionType';
+import { ParentId } from 'types/library';
 
 interface GenresItemsContainerProps {
-    parentId?: string | null;
+    parentId?: ParentId;
     collectionType?: CollectionType;
     itemType: BaseItemKind;
 }
@@ -17,7 +18,7 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     collectionType,
     itemType
 }) => {
-    const { isLoading, data: genresResult } = useGetGenres(
+    const { isLoading, data: groupsGenres } = useGetGroupsGenres(
         itemType,
         parentId
     );
@@ -28,19 +29,20 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
 
     return (
         <>
-            {!genresResult?.Items?.length ? (
+            {!groupsGenres?.length ? (
                 <div className='noItemsMessage centerMessage'>
                     <h1>{globalize.translate('MessageNothingHere')}</h1>
                     <p>{globalize.translate('MessageNoGenresAvailable')}</p>
                 </div>
             ) : (
-                genresResult?.Items?.map((genre) => (
+                groupsGenres.map(({ genre, items }) => (
                     <GenresSectionContainer
                         key={genre.Id}
                         collectionType={collectionType}
                         parentId={parentId}
                         itemType={itemType}
                         genre={genre}
+                        items={items}
                     />
                 ))
             )}

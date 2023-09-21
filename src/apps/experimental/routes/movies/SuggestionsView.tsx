@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+
 import { useGetMovieRecommendations } from 'hooks/useFetchItems';
 import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';

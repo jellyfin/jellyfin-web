@@ -49,7 +49,7 @@ const RecommendationContainer: FC<RecommendationContainerProps> = ({
     return (
         <SectionContainer
             sectionTitle={escapeHTML(title)}
-            items={recommendation.Items || []}
+            items={recommendation.Items ?? []}
             cardOptions={{
                 shape: 'overflowPortrait',
                 showYear: true,

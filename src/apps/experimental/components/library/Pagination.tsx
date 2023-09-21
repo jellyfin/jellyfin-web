@@ -13,15 +13,17 @@ interface PaginationProps {
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
     totalRecordCount: number;
+    isPreviousData: boolean
 }
 
 const Pagination: FC<PaginationProps> = ({
     libraryViewSettings,
     setLibraryViewSettings,
-    totalRecordCount
+    totalRecordCount,
+    isPreviousData
 }) => {
     const limit = userSettings.libraryPageSize(undefined);
-    const startIndex = libraryViewSettings.StartIndex || 0;
+    const startIndex = libraryViewSettings.StartIndex ?? 0;
     const recordsStart = totalRecordCount ? startIndex + 1 : 0;
     const recordsEnd = limit ?
         Math.min(startIndex + limit, totalRecordCount) :
@@ -29,23 +31,19 @@ const Pagination: FC<PaginationProps> = ({
     const showControls = limit > 0 && limit < totalRecordCount;
 
     const onNextPageClick = useCallback(() => {
-        if (limit > 0) {
-            const newIndex = startIndex + limit;
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                StartIndex: newIndex
-            }));
-        }
+        const newIndex = startIndex + limit;
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: newIndex
+        }));
     }, [limit, setLibraryViewSettings, startIndex]);
 
     const onPreviousPageClick = useCallback(() => {
-        if (limit > 0) {
-            const newIndex = Math.max(0, startIndex - limit);
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                StartIndex: newIndex
-            }));
-        }
+        const newIndex = Math.max(0, startIndex - limit);
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: newIndex
+        }));
     }, [limit, setLibraryViewSettings, startIndex]);
 
     return (
@@ -67,7 +65,7 @@ const Pagination: FC<PaginationProps> = ({
                         <IconButton
                             title={globalize.translate('Previous')}
                             className='paper-icon-button-light btnPreviousPage autoSize'
-                            disabled={startIndex == 0}
+                            disabled={startIndex == 0 || isPreviousData}
                             onClick={onPreviousPageClick}
                         >
                             <ArrowBackIcon />
@@ -76,7 +74,7 @@ const Pagination: FC<PaginationProps> = ({
                         <IconButton
                             title={globalize.translate('Next')}
                             className='paper-icon-button-light btnNextPage autoSize'
-                            disabled={startIndex + limit >= totalRecordCount }
+                            disabled={startIndex + limit >= totalRecordCount || isPreviousData }
                             onClick={onNextPageClick}
                         >
                             <ArrowForwardIcon />
