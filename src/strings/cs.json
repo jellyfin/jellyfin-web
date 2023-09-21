@@ -1733,7 +1733,7 @@
     "EnableAudioNormalizationHelp": "Normalizace hlasitosti udržuje průměrnou hlasitost na požadované úrovni (-18 dB) přidáním konstantního zisku.",
     "EnableAudioNormalization": "Normalizace hlasitosti",
     "LabelEnableLUFSScan": "Povolit skenování LUFS",
-    "LabelEnableLUFSScanHelp": "Povolit tvorbu informací LUFS při skenování hudby. Prodlužuje skenování a je náročnější na výkon.",
+    "LabelEnableLUFSScanHelp": "Umožňuje klientům normalizovat hlasitost u přehrávaných skladeb. Prodlužuje skenování knihovny a je náročnější na výkon.",
     "GetThePlugin": "Získat zásuvný modul",
     "Notifications": "Oznámení",
     "NotificationsMovedMessage": "Funkce oznámení se přesunula do zásuvného modulu Webhook.",
@@ -1773,5 +1773,7 @@
     "AiTranslated": "Přeložené pomocí UI",
     "HeaderGuestCast": "Zvláštní hosté",
     "GoHome": "Přejít na domovskou obrazovku",
-    "UnknownError": "Došlo k neznámé chybě."
+    "UnknownError": "Došlo k neznámé chybě.",
+    "BackdropScreensaver": "Pozadí",
+    "LogoScreensaver": "Logo"
 }
