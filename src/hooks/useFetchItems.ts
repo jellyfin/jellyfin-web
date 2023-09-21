@@ -1,7 +1,11 @@
-import type { BaseItemDto, ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client';
+import {
+    LocationType,
+    type BaseItemDto,
+    type ItemsApiGetItemsRequest,
+    type BaseItemKind
+} from '@jellyfin/sdk/lib/generated-client';
 import { AxiosRequestConfig } from 'axios';
 
-import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
@@ -14,11 +18,17 @@ import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getMoviesApi } from '@jellyfin/sdk/lib/utils/api/movies-api';
 import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
 import { getTvShowsApi } from '@jellyfin/sdk/lib/utils/api/tv-shows-api';
+import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
 import { useQuery } from '@tanstack/react-query';
 
 import { type JellyfinApiContext, useApi } from './useApi';
-import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
+import {
+    getAlphaPickerQuery,
+    getFieldsQuery,
+    getFiltersQuery,
+    getLimitQuery
+} from 'utils/items';
 import { Sections, SectionsViewType } from 'types/suggestionsSections';
 import { LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
@@ -83,7 +93,9 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
         ],
         queryFn: ({ signal }) =>
             fetchGetItems(currentApi, parametersOptions, { signal }),
-        cacheTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined
+        cacheTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ?
+            0 :
+            undefined
     });
 };
 
@@ -246,12 +258,9 @@ export const useGetItemsBySectionType = (
     return useQuery({
         queryKey: ['ItemsBySuggestionsType', sections.view],
         queryFn: ({ signal }) =>
-            fetchGetItemsBySuggestionsType(
-                currentApi,
-                sections,
-                parentId,
-                { signal }
-            ),
+            fetchGetItemsBySuggestionsType(currentApi, sections, parentId, {
+                signal
+            }),
         enabled: !!sections.view
     });
 };
@@ -322,7 +331,10 @@ const fetchGetGroupsGenres = async (
     }
 };
 
-export const useGetGroupsGenres = (itemType: BaseItemKind, parentId: ParentId) => {
+export const useGetGroupsGenres = (
+    itemType: BaseItemKind,
+    parentId: ParentId
+) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: ['GroupsGenres', itemType, parentId],
@@ -389,7 +401,10 @@ const fetchGetItemsViewByType = async (
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
-                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        enableImageTypes: [
+                            libraryViewSettings.ImageType,
+                            ImageType.Backdrop
+                        ],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
@@ -410,7 +425,10 @@ const fetchGetItemsViewByType = async (
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
-                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        enableImageTypes: [
+                            libraryViewSettings.ImageType,
+                            ImageType.Backdrop
+                        ],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
@@ -448,12 +466,18 @@ const fetchGetItemsViewByType = async (
                         recursive: true,
                         imageTypeLimit: 1,
                         parentId: parentId ?? undefined,
-                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        enableImageTypes: [
+                            libraryViewSettings.ImageType,
+                            ImageType.Backdrop
+                        ],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
+                        isFavorite:
+                            viewType === LibraryTab.Favorites ?
+                                true :
+                                undefined,
                         sortBy: [libraryViewSettings.SortBy],
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
@@ -495,7 +519,7 @@ export const useGetItemsViewByType = (
                 { signal }
             ),
         refetchOnWindowFocus: false,
-        keepPreviousData : true,
+        keepPreviousData: true,
         enabled:
             [
                 LibraryTab.Movies,
@@ -589,5 +613,106 @@ export const useGetUpcomingEpisodes = (parentId: ParentId) => {
         queryFn: ({ signal }) =>
             fetchGetUpcomingEpisodes(currentApi, parentId, signal),
         enabled: !!parentId
+    });
+};
+
+const fetchGetItemsByFavoriteType = async (
+    currentApi: JellyfinApiContext,
+    parentId: ParentId,
+    sections: Sections,
+    signal: AbortSignal | undefined
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        let response;
+        switch (sections.viewType) {
+            case SectionsViewType.Artists: {
+                response = (
+                    await getArtistsApi(api).getArtists(
+                        {
+                            userId: user.Id,
+                            parentId: parentId ?? undefined,
+                            sortBy: [ItemSortBy.SortName],
+                            sortOrder: [SortOrder.Ascending],
+                            fields: [
+                                ItemFields.PrimaryImageAspectRatio,
+                                ItemFields.BasicSyncInfo
+                            ],
+                            isFavorite: true,
+                            limit: 25,
+                            enableTotalRecordCount: false,
+                            ...sections.parametersOptions
+                        },
+                        {
+                            signal: signal
+                        }
+                    )
+                ).data.Items;
+                break;
+            }
+            case SectionsViewType.Persons: {
+                response = (
+                    await getPersonsApi(api).getPersons(
+                        {
+                            userId: user.Id,
+                            sortBy: [ItemSortBy.SortName],
+                            sortOrder: [SortOrder.Ascending],
+                            fields: [
+                                ItemFields.PrimaryImageAspectRatio,
+                                ItemFields.BasicSyncInfo
+                            ],
+                            isFavorite: true,
+                            limit: 25,
+                            ...sections.parametersOptions
+                        },
+                        {
+                            signal: signal
+                        }
+                    )
+                ).data.Items;
+                break;
+            }
+            default: {
+                response = (
+                    await getItemsApi(api).getItems(
+                        {
+                            userId: user.Id,
+                            parentId: parentId ?? undefined,
+                            sortBy: [ItemSortBy.SortName],
+                            sortOrder: [SortOrder.Ascending],
+                            fields: [
+                                ItemFields.PrimaryImageAspectRatio,
+                                ItemFields.BasicSyncInfo
+                            ],
+                            isFavorite: true,
+                            collapseBoxSetItems: false,
+                            limit: 25,
+                            enableTotalRecordCount: false,
+                            recursive: true,
+                            excludeLocationTypes: [LocationType.Virtual],
+                            ...sections.parametersOptions
+                        },
+                        {
+                            signal: signal
+                        }
+                    )
+                ).data.Items;
+                break;
+            }
+        }
+        return response;
+    }
+};
+
+export const useGetItemsByFavoriteType = (
+    sections: Sections,
+    parentId: ParentId
+) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: ['ItemsByFavoriteType', sections.view],
+        queryFn: ({ signal }) =>
+            fetchGetItemsByFavoriteType(currentApi, parentId, sections, signal),
+        enabled: !!sections.view
     });
 };

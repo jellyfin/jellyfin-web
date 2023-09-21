@@ -13,6 +13,8 @@ export enum SectionsViewType {
     ResumeItems = 'resumeItems',
     LatestMedia = 'latestMedia',
     NextUp = 'nextUp',
+    Artists = 'artists',
+    Persons = 'persons',
 }
 
 export enum SectionsView {
@@ -24,6 +26,17 @@ export enum SectionsView {
     LatestMusic = 'latestmusic',
     RecentlyPlayedMusic = 'recentlyplayedmusic',
     FrequentlyPlayedMusic = 'frequentlyplayedmusic',
+    FavoriteMovies = 'favoriteMovies',
+    FavoriteShows = 'favoriteShows',
+    FavoriteEpisode = 'favoriteEpisode',
+    FavoriteVideos = 'favoriteVideos',
+    FavoriteCollections = 'favoriteCollections',
+    FavoritePlaylists = 'favoritePlaylists',
+    FavoritePeople = 'favoritePeople',
+    FavoriteArtists = 'favoriteArtists',
+    FavoriteAlbums = 'favoriteAlbums',
+    FavoriteSongs = 'favoriteSongs',
+    FavoriteBooks = 'favoriteBooks',
 }
 
 export interface Sections {
