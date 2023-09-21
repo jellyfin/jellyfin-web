@@ -32,6 +32,7 @@ import '../components/playback/playerSelectionMenu';
 import '../legacy/domParserTextHtml';
 import '../legacy/focusPreventScroll';
 import '../legacy/htmlMediaElement';
+import '../legacy/keyboardEvent';
 import '../legacy/vendorStyles';
 import SyncPlay from '../components/syncPlay/core';
 import { playbackManager } from '../components/playback/playbackmanager';
