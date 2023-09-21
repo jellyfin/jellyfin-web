@@ -32,12 +32,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'dashboard/devices/device.html'
         }
     }, {
-        path: 'quickConnect.html',
-        pageProps: {
-            controller: 'dashboard/quickConnect',
-            view: 'dashboard/quickConnect.html'
-        }
-    }, {
         path: 'dlnaprofile.html',
         pageProps: {
             controller: 'dashboard/dlna/profile',
