@@ -10,6 +10,7 @@ import { toRedirectRoute } from 'components/router/Redirect';
 import AppLayout from './AppLayout';
 import { ASYNC_USER_ROUTES } from './routes/asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
 
 const ExperimentalApp = () => {
     return (
@@ -33,9 +34,13 @@ const ExperimentalApp = () => {
             {REDIRECTS.map(toRedirectRoute)}
 
             {/* Ignore dashboard routes */}
-            <Route path='/configurationpage/*' element={null} />
-            <Route path='/dashboard/*' element={null} />
-            <Route path='/metadata/*' element={null} />
+            {Object.entries(DASHBOARD_APP_PATHS).map(([ key, path ]) => (
+                <Route
+                    key={key}
+                    path={`/${path}/*`}
+                    element={null}
+                />
+            ))}
         </Routes>
     );
 };

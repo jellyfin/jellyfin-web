@@ -5,11 +5,12 @@ import AppBody from 'components/AppBody';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
+import { toRedirectRoute } from 'components/router/Redirect';
 
 import { ASYNC_USER_ROUTES } from './routes/asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
 import { REDIRECTS } from './routes/_redirects';
-import { toRedirectRoute } from 'components/router/Redirect';
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
 
 const Layout = () => (
     <AppBody>
@@ -34,9 +35,13 @@ const StableApp = () => (
             </Route>
 
             {/* Ignore dashboard routes */}
-            <Route path='/configurationpage/*' element={null} />
-            <Route path='/dashboard/*' element={null} />
-            <Route path='/metadata/*' element={null} />
+            {Object.entries(DASHBOARD_APP_PATHS).map(([ key, path ]) => (
+                <Route
+                    key={key}
+                    path={`/${path}/*`}
+                    element={null}
+                />
+            ))}
 
             {/* Suppress warnings for unhandled routes */}
             <Route path='*' element={null} />

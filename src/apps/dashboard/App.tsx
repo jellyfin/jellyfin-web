@@ -25,25 +25,31 @@ const toDashboardAsyncPageRoute = (route: AsyncRoute) => (
     })
 );
 
+export const DASHBOARD_APP_PATHS = {
+    Dashboard: 'dashboard',
+    MetadataManager: 'metadata',
+    PluginConfig: 'configurationpage'
+};
+
 const DashboardApp = () => (
     <Routes>
         <Route element={<ConnectionRequired isAdminRequired />}>
             <Route element={<AppLayout />}>
-                <Route path='dashboard'>
+                <Route path={DASHBOARD_APP_PATHS.Dashboard}>
                     {ASYNC_ADMIN_ROUTES.map(toDashboardAsyncPageRoute)}
                     {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
                 </Route>
 
                 {/* TODO: Should the metadata manager be a separate app? */}
                 {toViewManagerPageRoute({
-                    path: 'metadata',
+                    path: DASHBOARD_APP_PATHS.MetadataManager,
                     pageProps: {
                         controller: 'edititemmetadata',
                         view: 'edititemmetadata.html'
                     }
                 })}
 
-                <Route path='configurationpage' element={
+                <Route path={DASHBOARD_APP_PATHS.PluginConfig} element={
                     <ServerContentPage view='/web/configurationpage' />
                 } />
 
