@@ -21,7 +21,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const handelValue = useCallback(
+    const handleValue = useCallback(
         (
             event: React.MouseEvent<HTMLElement>,
             newValue: string | null | undefined
@@ -66,7 +66,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 exclusive
                 color='primary'
                 size='small'
-                onChange={handelValue}
+                onChange={handleValue}
             >
                 {letters.map((l) => (
                     <ToggleButton
