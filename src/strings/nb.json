@@ -1734,7 +1734,7 @@
     "LabelParallelImageEncodingLimitHelp": "Høyeste antall bildeenkodinger som tillates å kjøre parallelt. Å sette denne til 0 vil velge en grensse basert på systemspesifikasjonene dine.",
     "LabelChapterImageResolutionHelp": "Oppløsningen til kapittelbildene. Enring av dette vil ikke ha noen effekt på eksisterende kapittelbilder.",
     "LabelParallelImageEncodingLimit": "Parallell bildeenkodingsgrense",
-    "LabelEnableLUFSScanHelp": "Slå på LUFS-skanning for musikk (dette vil ta lengre tid og mere ressurser).",
+    "LabelEnableLUFSScanHelp": "Klienter kan normalisere lydnivå for å få lik lydstyrke på tvers av spor. Dette vil gjøre bibliotekskanning lengre og bruke flere ressurser.",
     "ResolutionMatchSource": "Bruk kildetreff",
     "SaveRecordingNFOHelp": "Lagre metadata fra EPG-listekilde sammen med media.",
     "AllowCollectionManagement": "La denne brukeren organisere samlinger",
@@ -1768,5 +1768,7 @@
     "AllowAv1Encoding": "Tillat enkoding i AV1-format",
     "AiTranslated": "AI-oversatt",
     "MachineTranslated": "Maskinoversatt",
-    "HeaderGuestCast": "Gjestestjerner"
+    "HeaderGuestCast": "Gjestestjerner",
+    "HearingImpairedShort": "HI/SDH",
+    "LogoScreensaver": "Logoskjermsparer"
 }
