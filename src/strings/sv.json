@@ -1760,5 +1760,13 @@
     "LabelDeveloper": "Utväcklare",
     "Notifications": "Notifieringar",
     "UserMenu": "Användarmeny",
-    "LabelTonemappingMode": "Tonmappningsläge"
+    "LabelTonemappingMode": "Tonmappningsläge",
+    "AllowAv1Encoding": "Tillåt kodning i AV1-format",
+    "GoHome": "Hem",
+    "UnknownError": "Ett okänt fel har uppstått.",
+    "HeaderGuestCast": "Gästroller",
+    "LabelBackdropScreensaverIntervalHelp": "Tiden i sekunder mellan olika bakgrunder när bakgrunds-skärmsläckaren används.",
+    "AiTranslated": "AI-översatt",
+    "MachineTranslated": "Maskinöversatt",
+    "HearingImpairedShort": "HI/SDH"
 }
