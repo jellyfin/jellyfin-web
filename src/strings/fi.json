@@ -1731,7 +1731,7 @@
     "EnableAudioNormalizationHelp": "Äänen normalisointi asettaa äänelle kiinteän vahvistuksen keskivoimakkuuden vakiotasolla (-18 dB).",
     "EnableAudioNormalization": "Äänen normalisointi",
     "LabelEnableLUFSScan": "Suorita LUFS-tarkistus",
-    "LabelEnableLUFSScanHelp": "Käytä musiikin LUFS-tarkistusta (tämä vaatii enemmän aikaa ja resurseja).",
+    "LabelEnableLUFSScanHelp": "Päätteet voivat nyt tasoittaa ääniraitojen välisiä äänenvoimakkuuseroja. Tämä pidentää kirjastotarkistuksia ja kuormittaa laitteistoa enemmän.",
     "GetThePlugin": "Hanki lisäosa",
     "Notifications": "Ilmoitukset",
     "NotificationsMovedMessage": "Ilmoitustoiminnallisuus on siirtynyt Webhook-lisäosaan.",
@@ -1771,5 +1771,7 @@
     "HearingImpairedShort": "HI/SDH",
     "HeaderGuestCast": "Vierailevat pääosat",
     "GoHome": "Siirry aloitusnäyttöön",
-    "UnknownError": "Tapahtui tuntematon virhe."
+    "UnknownError": "Tapahtui tuntematon virhe.",
+    "BackdropScreensaver": "Backdrop-näytönsäästäjä",
+    "LogoScreensaver": "Logo-näytönsäästäjä"
 }
