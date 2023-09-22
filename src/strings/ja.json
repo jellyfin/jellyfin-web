@@ -1758,5 +1758,11 @@
     "LogLevel.Error": "エラー",
     "LogLevel.Critical": "致命的なエラー",
     "MessageRepositoryInstallDisclaimer": "【警告】コミュニティメンバーによって作成されたプラグインはリスクを伴います。不安定、または悪質な挙動、予期せぬ時に変更されるなどの可能性があります。信用性の高い開発者からのプラグインのみをインストールすることをお勧めします。",
-    "Select": "選択"
+    "Select": "選択",
+    "AllowAv1Encoding": "AV1フォーマットのエンコードを許可する",
+    "GoHome": "ホームへ",
+    "UnknownError": "未知のエラーが発生しました。",
+    "LogoScreensaver": "ロゴスクリーンセーバー",
+    "AiTranslated": "AI翻訳",
+    "MachineTranslated": "機械翻訳"
 }
