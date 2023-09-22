@@ -1,4 +1,5 @@
 import escapeHtml from 'escape-html';
+import debounce from 'lodash-es/debounce';
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
@@ -258,9 +259,9 @@ export default function (view) {
 
     let mouseIsDown = false;
 
-    function showOsd() {
+    function showOsd(focusElement) {
         slideDownToShow(headerElement);
-        showMainOsdControls();
+        showMainOsdControls(focusElement);
         resetIdle();
     }
 
@@ -313,7 +314,9 @@ export default function (view) {
         });
     }
 
-    function showMainOsdControls() {
+    const _focus = debounce((focusElement) => focusManager.focus(focusElement), 50);
+
+    function showMainOsdControls(focusElement) {
         if (!currentVisibleMenu) {
             const elem = osdBottomElement;
             currentVisibleMenu = 'osd';
@@ -321,12 +324,14 @@ export default function (view) {
             elem.classList.remove('hide');
             elem.classList.remove('videoOsdBottom-hidden');
 
+            focusElement ||= elem.querySelector('.btnPause');
+
             if (!layoutManager.mobile) {
-                setTimeout(function () {
-                    focusManager.focus(elem.querySelector('.btnPause'));
-                }, 50);
+                _focus(focusElement);
             }
             toggleSubtitleSync();
+        } else if (currentVisibleMenu === 'osd' && focusElement && !layoutManager.mobile) {
+            _focus(focusElement);
         }
     }
 
@@ -1174,16 +1179,35 @@ export default function (view) {
         const key = keyboardnavigation.getKeyName(e);
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
 
+        const btnPlayPause = osdBottomElement.querySelector('.btnPause');
+
         if (e.keyCode === 32) {
             if (e.target.tagName !== 'BUTTON' || !layoutManager.tv) {
                 playbackManager.playPause(currentPlayer);
+                showOsd(btnPlayPause);
                 e.preventDefault();
                 e.stopPropagation();
                 // Trick Firefox with a null element to skip next click
                 clickedElement = null;
+            } else {
+                showOsd();
             }
-            showOsd();
             return;
+        }
+
+        if (layoutManager.tv && !currentVisibleMenu) {
+            // Change the behavior of some keys when the OSD is hidden
+            switch (key) {
+                case 'ArrowLeft':
+                case 'ArrowRight':
+                    showOsd(nowPlayingPositionSlider);
+                    nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
+                    return;
+                case 'Enter':
+                    playbackManager.playPause(currentPlayer);
+                    showOsd(btnPlayPause);
+                    return;
+            }
         }
 
         if (layoutManager.tv && keyboardnavigation.isNavigationKey(key)) {
@@ -1205,7 +1229,7 @@ export default function (view) {
                 break;
             case 'k':
                 playbackManager.playPause(currentPlayer);
-                showOsd();
+                showOsd(btnPlayPause);
                 break;
             case 'ArrowUp':
             case 'Up':
@@ -1219,23 +1243,21 @@ export default function (view) {
             case 'ArrowRight':
             case 'Right':
                 playbackManager.fastForward(currentPlayer);
-                showOsd();
+                showOsd(btnFastForward);
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
                 playbackManager.rewind(currentPlayer);
-                showOsd();
+                showOsd(btnRewind);
                 break;
             case 'f':
                 if (!e.ctrlKey && !e.metaKey) {
                     playbackManager.toggleFullscreen(currentPlayer);
-                    showOsd();
                 }
                 break;
             case 'm':
                 playbackManager.toggleMute(currentPlayer);
-                showOsd();
                 break;
             case 'p':
             case 'P':
@@ -1255,7 +1277,7 @@ export default function (view) {
                 // Ignores gamepad events that are always triggered, even when not focused.
                 if (document.hasFocus()) { /* eslint-disable-line compat/compat */
                     playbackManager.rewind(currentPlayer);
-                    showOsd();
+                    showOsd(btnRewind);
                 }
                 break;
             case 'NavigationRight':
@@ -1264,7 +1286,7 @@ export default function (view) {
                 // Ignores gamepad events that are always triggered, even when not focused.
                 if (document.hasFocus()) { /* eslint-disable-line compat/compat */
                     playbackManager.fastForward(currentPlayer);
-                    showOsd();
+                    showOsd(btnFastForward);
                 }
                 break;
             case 'Home':
