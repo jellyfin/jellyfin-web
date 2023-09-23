@@ -106,10 +106,9 @@ class CastPlayer {
             return;
         }
 
-        let applicationID = applicationStable;
-        if (userSettings.chromecastVersion() === 'unstable') {
-            applicationID = applicationUnstable;
-        }
+        let applicationID = userSettings.chromecastVersion();
+        if (applicationID === 'stable') applicationID = applicationStable;
+        if (applicationID === 'unstable') applicationID = applicationUnstable;
 
         // request session
         const sessionRequest = new chrome.cast.SessionRequest(applicationID);
@@ -117,7 +116,7 @@ class CastPlayer {
             this.sessionListener.bind(this),
             this.receiverListener.bind(this));
 
-        console.debug('chromecast.initialize');
+        console.debug(`chromecast.initialize (applicationId=${applicationID})`);
         chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
     }
 
