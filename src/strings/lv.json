@@ -1480,5 +1480,7 @@
     "QuickConnectInvalidCode": "Nederīgs Quick Connect kods",
     "OptionAutomaticallyGroupSeries": "Automātiski apvienot sērijas, kuras izvietotas vairākās mapēs",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Noteikt redzamo nosaukumu, kas jāizmanto, ja nav pieejami interneta metadati vai vietējie metadati.",
-    "OptionSpecialEpisode": "Speciālizlaidumi"
+    "OptionSpecialEpisode": "Speciālizlaidumi",
+    "AllowSegmentDeletion": "Dzēst segmentus",
+    "AllowSegmentDeletionHelp": "atskaņošanas"
 }
