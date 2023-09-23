@@ -1421,5 +1421,11 @@
     "LabelParallelImageEncodingLimit": "Limite de codificação de imagens em paralelo",
     "LabelEnableLUFSScan": "Habilitar busca LUFS",
     "LabelEnableLUFSScanHelp": "Habilitar busca LUFS para música (Isto necessitará de mais tempo e recursos).",
-    "LabelParallelImageEncodingLimitHelp": "Quantidade máxima de imagens codificadas que são permitidas rodar em paralelo. Ajustar este valor para 0 ira selecionar um limite baseado nas especificaçõrs do seu sistema."
+    "LabelParallelImageEncodingLimitHelp": "Quantidade máxima de imagens codificadas que são permitidas rodar em paralelo. Ajustar este valor para 0 ira selecionar um limite baseado nas especificaçõrs do seu sistema.",
+    "GoHome": "Ir ao início",
+    "GridView": "Visão em grade",
+    "HeaderConfirmRepositoryInstallation": "Confirme a instalação do repositório de plugin",
+    "AllowSegmentDeletion": "Deletar segmentos",
+    "AllowSegmentDeletionHelp": "Exclua segmentos antigos após terem sido enviados ao cliente. Isso evita ter que armazenar todo o arquivo transcodificado no disco. Funcionará apenas com throttling habilitado. Desligue esta opção se tiver problemas de reprodução.",
+    "LabelSegmentKeepSeconds": "Tempo em segundos para manter os segmentos"
 }
