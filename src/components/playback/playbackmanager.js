@@ -1815,7 +1815,7 @@ class PlaybackManager {
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     MediaTypes: 'Photo,Video',
-                    sortBy: options.shuffle ? 'Random' : 'SortName',
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions)).then(function (result) {
                     const playbackItems = result.Items;
