@@ -1761,5 +1761,13 @@
     "LabelThrottleDelaySeconds": "Limitieren nach",
     "LabelThrottleDelaySecondsHelp": "Zeit, in Sekunden, nach der die Transkodierung limitiert wird. Muss groß genug sein um dem Client eine problemlose Wiedergabe zu ermöglichen. Funktioniert nur wenn \"Transkodierung drosseln\" aktiviert ist.",
     "LabelSegmentKeepSeconds": "Zeit um Segmente zu behalten",
-    "LabelSegmentKeepSecondsHelp": "Zeit, in Sekunden, in der Segmente nicht überschrieben werden dürfen. Muss größer sein als \"Limitieren nach\". Funktioniert nur wenn \"Segmente löschen\" aktiviert ist."
+    "LabelSegmentKeepSecondsHelp": "Zeit, in Sekunden, in der Segmente nicht überschrieben werden dürfen. Muss größer sein als \"Limitieren nach\". Funktioniert nur wenn \"Segmente löschen\" aktiviert ist.",
+    "LogoScreensaver": "Logo Bildschirmschoner",
+    "UnknownError": "Ein unbekannter Fehler trat auf.",
+    "GridView": "Kachelansicht",
+    "ListView": "Listenansicht",
+    "GoHome": "Startseite",
+    "AiTranslated": "AI übersetzt",
+    "MachineTranslated": "maschinenübersetzt",
+    "AllowAv1Encoding": "Encodierung ins AV1 Format erlauben"
 }
