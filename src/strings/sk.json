@@ -1736,5 +1736,6 @@
     "UserMenu": "Užívateľská ponuka",
     "LabelEnableLUFSScan": "Povoliť skenovanie LUFS",
     "LabelEnableLUFSScanHelp": "Povoliť skenovanie LUFS pre hudbu (Predlžuje skenovanie a je náročnejšie na výkon).",
-    "MenuOpen": "Otvoriť ponuku"
+    "MenuOpen": "Otvoriť ponuku",
+    "AllowSegmentDeletion": "Zmazať oddiel"
 }
