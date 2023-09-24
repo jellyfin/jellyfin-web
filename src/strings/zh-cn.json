@@ -1733,7 +1733,7 @@
     "EnableAudioNormalizationHelp": "音频标准化将添加一个恒定的增益，以保持平均音量在所需的级别（-18dB）。",
     "EnableAudioNormalization": "音频标准化",
     "LabelEnableLUFSScan": "启用 LUFS 扫描",
-    "LabelEnableLUFSScanHelp": "启用音乐的LUFS扫描（这将需要更长时间和更多资源）。",
+    "LabelEnableLUFSScanHelp": "客户端可以将音频播放进行归一化，以实现曲目之间的音量均衡。这将导致库扫描时间更长，并消耗更多的资源。",
     "GetThePlugin": "获取插件",
     "Notifications": "通知",
     "NotificationsMovedMessage": "通知功能已经转移到Webhook插件中。",
@@ -1772,5 +1772,6 @@
     "MachineTranslated": "机器翻译",
     "ForeignPartsOnly": "仅限强制开启/外语部分",
     "HearingImpairedShort": "听障/聋哑人士字幕",
-    "UnknownError": "发生未知错误。"
+    "UnknownError": "发生未知错误。",
+    "GoHome": "回家"
 }
