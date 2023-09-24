@@ -1735,7 +1735,7 @@
     "NotificationsMovedMessage": "De meldingsfunctionaliteit is verplaatst naar de Webhook-plug-in.",
     "EnableAudioNormalizationHelp": "Geluidsnormalisatie past een constante versterking toe om het gemiddelde op een gewenst niveau (-18dB) te houden.",
     "LabelEnableLUFSScan": "LUFS-scan inschakelen",
-    "LabelEnableLUFSScanHelp": "LUFS-scan voor muziek inschakelen. Dit duurt langer en is systeemintensief.",
+    "LabelEnableLUFSScanHelp": "Cliënten kunnen audio normaliseren zodat verschillende nummers even luid zijn. Dit is systeemintensief en bibliotheekscans zullen langer duren.",
     "PasswordRequiredForAdmin": "Voor beheerdersaccounts is een wachtwoord vereist.",
     "LabelSyncPlayNoGroups": "Geen groepen beschikbaar",
     "HeaderConfirmRepositoryInstallation": "Installatie plug-in-repository bevestigen",
@@ -1772,5 +1772,7 @@
     "HeaderGuestCast": "Gastrollen",
     "HearingImpairedShort": "Voor slechthorenden",
     "GoHome": "Startpagina",
-    "UnknownError": "Er is een onbekende fout opgetreden."
+    "UnknownError": "Er is een onbekende fout opgetreden.",
+    "BackdropScreensaver": "Schermbeveiliging met achtergronden",
+    "LogoScreensaver": "Schermbeveiliging met logo"
 }
