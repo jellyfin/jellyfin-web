@@ -1,7 +1,7 @@
 %global         debug_package %{nil}
 
 Name:           jellyfin-web
-Version:        10.8.10
+Version:        10.8.11
 Release:        1%{?dist}
 Summary:        The Free Software Media System web client
 License:        GPLv2
@@ -46,6 +46,8 @@ npm ci --no-audit --unsafe-perm
 
 
 %changelog
+* Sat Sep 23 2023 Jellyfin Packaging Team <packaging@jellyfin.org>
+- New upstream version 10.8.11; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v10.8.11
 * Sun Apr 23 2023 Jellyfin Packaging Team <packaging@jellyfin.org>
 - New upstream version 10.8.10; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v10.8.10
 * Sun Jan 22 2023 Jellyfin Packaging Team <packaging@jellyfin.org>
