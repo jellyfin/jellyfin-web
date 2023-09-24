@@ -15,11 +15,10 @@ interface ItemsContainerI {
     libraryViewSettings: LibraryViewSettings;
     viewType: LibraryTab;
     collectionType?: CollectionType;
-    noItemsMessage: string;
     items: BaseItemDto[];
 }
 
-const ItemsContainer: FC<ItemsContainerI> = ({ libraryViewSettings, viewType, collectionType, noItemsMessage, items }) => {
+const ItemsContainer: FC<ItemsContainerI> = ({ libraryViewSettings, viewType, collectionType, items }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const getCardOptions = useCallback(() => {
@@ -37,7 +36,7 @@ const ItemsContainer: FC<ItemsContainerI> = ({ libraryViewSettings, viewType, co
         } else if (libraryViewSettings.ImageType === ImageType.Logo) {
             shape = 'backdrop';
             preferLogo = true;
-        } else if (libraryViewSettings.ImageType === ImageType.Thumb) {
+        } else if (libraryViewSettings.ImageType === ImageType.Thumb || viewType === LibraryTab.Networks) {
             shape = 'backdrop';
             preferThumb = true;
         } else {
@@ -104,7 +103,7 @@ const ItemsContainer: FC<ItemsContainerI> = ({ libraryViewSettings, viewType, co
             html += '<div class="noItemsMessage centerMessage">';
             html
                 += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
-            html += '<p>' + globalize.translate(noItemsMessage) + '</p>';
+            html += '<p>' + globalize.translate('MessageNoItemsAvailable') + '</p>';
             html += '</div>';
         }
 
@@ -113,7 +112,6 @@ const ItemsContainer: FC<ItemsContainerI> = ({ libraryViewSettings, viewType, co
         getCardOptions,
         collectionType,
         items,
-        noItemsMessage,
         libraryViewSettings.ViewMode
     ]);
 

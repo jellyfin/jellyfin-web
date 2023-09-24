@@ -199,6 +199,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/screenfull'),
                     path.resolve(__dirname, 'node_modules/ssr-window'),
                     path.resolve(__dirname, 'node_modules/swiper'),
+                    path.resolve(__dirname, 'node_modules/use-local-storage-state'),
                     path.resolve(__dirname, 'src')
                 ],
                 use: [{

@@ -23,12 +23,9 @@ const Pagination: FC<PaginationProps> = ({
     isPreviousData
 }) => {
     const limit = userSettings.libraryPageSize(undefined);
-    const startIndex = libraryViewSettings.StartIndex ?? 0;
+    const startIndex = libraryViewSettings.StartIndex || 0;
     const recordsStart = totalRecordCount ? startIndex + 1 : 0;
-    const recordsEnd = limit ?
-        Math.min(startIndex + limit, totalRecordCount) :
-        totalRecordCount;
-    const showControls = limit > 0 && limit < totalRecordCount;
+    const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
 
     const onNextPageClick = useCallback(() => {
         const newIndex = startIndex + limit;
@@ -47,41 +44,38 @@ const Pagination: FC<PaginationProps> = ({
     }, [limit, setLibraryViewSettings, startIndex]);
 
     return (
-        <Box className='paging'>
-            <Box
-                className='listPaging'
-                style={{ display: 'flex', alignItems: 'center' }}
-            >
-                <span>
-                    {globalize.translate(
-                        'ListPaging',
-                        recordsStart,
-                        recordsEnd,
-                        totalRecordCount
-                    )}
-                </span>
-                {showControls && (
-                    <ButtonGroup>
-                        <IconButton
-                            title={globalize.translate('Previous')}
-                            className='paper-icon-button-light btnPreviousPage autoSize'
-                            disabled={startIndex == 0 || isPreviousData}
-                            onClick={onPreviousPageClick}
-                        >
-                            <ArrowBackIcon />
-                        </IconButton>
-
-                        <IconButton
-                            title={globalize.translate('Next')}
-                            className='paper-icon-button-light btnNextPage autoSize'
-                            disabled={startIndex + limit >= totalRecordCount || isPreviousData }
-                            onClick={onNextPageClick}
-                        >
-                            <ArrowForwardIcon />
-                        </IconButton>
-                    </ButtonGroup>
+        <Box
+            className='listPaging'
+            style={{ display: 'flex', alignItems: 'center' }}
+        >
+            <span>
+                {globalize.translate(
+                    'ListPaging',
+                    recordsStart,
+                    recordsEnd,
+                    totalRecordCount
                 )}
-            </Box>
+            </span>
+
+            <ButtonGroup>
+                <IconButton
+                    title={globalize.translate('Previous')}
+                    className='paper-icon-button-light btnPreviousPage autoSize'
+                    disabled={startIndex == 0 || isPreviousData}
+                    onClick={onPreviousPageClick}
+                >
+                    <ArrowBackIcon />
+                </IconButton>
+
+                <IconButton
+                    title={globalize.translate('Next')}
+                    className='paper-icon-button-light btnNextPage autoSize'
+                    disabled={startIndex + limit >= totalRecordCount || isPreviousData }
+                    onClick={onNextPageClick}
+                >
+                    <ArrowForwardIcon />
+                </IconButton>
+            </ButtonGroup>
         </Box>
     );
 };

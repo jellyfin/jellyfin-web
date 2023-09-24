@@ -21,6 +21,7 @@ export enum LibraryTab {
     Trailers = 'trailers',
     Upcoming = 'upcoming',
     Photos = 'photos',
+    PhotoAlbums = 'photoalbums',
     Videos = 'videos',
-    Books = 'books',
+    Books = 'books'
 }

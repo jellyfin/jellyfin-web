@@ -599,6 +599,12 @@ class AppRouter {
             return '#/details?seriesTimerId=' + id + '&serverId=' + serverId;
         }
 
+        const layoutMode = localStorage.getItem('layout');
+
+        if (layoutMode === 'experimental' && item.CollectionType == 'livetv') {
+            return '#/livetv';
+        }
+
         if (item.CollectionType == 'livetv') {
             return '#/livetv.html';
         }
@@ -635,6 +641,50 @@ class AppRouter {
             }
 
             return url;
+        }
+
+        if (layoutMode === 'experimental' && context !== 'folders' && !itemHelper.isLocalItem(item)) {
+            if (item.CollectionType == 'movies') {
+                url = '#/movies?topParentId=' + item.Id + '&collectionType=' + item.CollectionType;
+
+                if (options && options.section === 'latest') {
+                    url += '&tab=1';
+                }
+
+                return url;
+            }
+
+            if (item.CollectionType == 'tvshows') {
+                url = '#/tv?topParentId=' + item.Id + '&collectionType=' + item.CollectionType;
+
+                if (options && options.section === 'latest') {
+                    url += '&tab=1';
+                }
+
+                return url;
+            }
+
+            if (item.CollectionType == 'music') {
+                url = '#/music?topParentId=' + item.Id + '&collectionType=' + item.CollectionType;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+
+                return url;
+            }
+
+            if (item.CollectionType == 'books') {
+                url = '#/books?topParentId=' + item.Id + '&collectionType=' + item.CollectionType;
+
+                return url;
+            }
+
+            if (item.CollectionType == 'homevideos') {
+                url = '#/homevideos?topParentId=' + item.Id + '&collectionType=' + item.CollectionType;
+
+                return url;
+            }
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {

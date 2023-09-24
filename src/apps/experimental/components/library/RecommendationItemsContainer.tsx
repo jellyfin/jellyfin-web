@@ -1,31 +1,26 @@
 import React, { FC } from 'react';
-
 import { useGetMovieRecommendations } from 'hooks/useFetchItems';
-import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
-import RecommendationContainer from '../../components/library/RecommendationContainer';
-import SuggestionsItemsContainer from '../../components/library/SuggestionsItemsContainer';
+import globalize from 'scripts/globalize';
+import RecommendationContainer from './RecommendationContainer';
+import { ParentId } from 'types/library';
 
-import { LibraryViewProps } from 'types/library';
-import { SectionsView } from 'types/suggestionsSections';
+interface RecommendationItemsContainerProps {
+    parentId?: ParentId;
+}
 
-const SuggestionsView: FC<LibraryViewProps> = ({ parentId }) => {
+const RecommendationItemsContainer: FC<RecommendationItemsContainerProps> = ({
+    parentId
+}) => {
     const {
         isLoading,
         data: movieRecommendationsItems
     } = useGetMovieRecommendations(parentId);
 
-    if (isLoading) {
-        return <Loading />;
-    }
+    if (isLoading) return <Loading />;
 
     return (
         <>
-            <SuggestionsItemsContainer
-                parentId={parentId}
-                sectionsView={[SectionsView.ContinueWatchingMovies, SectionsView.LatestMovies]}
-            />
-
             {!movieRecommendationsItems?.length ? (
                 <div className='noItemsMessage centerMessage'>
                     <h1>{globalize.translate('MessageNothingHere')}</h1>
@@ -50,4 +45,4 @@ const SuggestionsView: FC<LibraryViewProps> = ({ parentId }) => {
     );
 };
 
-export default SuggestionsView;
+export default RecommendationItemsContainer;

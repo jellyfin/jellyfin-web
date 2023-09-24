@@ -54,10 +54,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
             sx={{
                 position: 'fixed',
                 bottom: '1.5em',
-                fontSize: {
-                    xs: '80%',
-                    lg: '88%'
-                }
+                fontSize: '80%'
             }}
         >
             <ToggleButtonGroup

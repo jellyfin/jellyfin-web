@@ -115,6 +115,7 @@
     "screenfull": "6.0.2",
     "sortablejs": "1.15.0",
     "swiper": "9.3.2",
+    "use-local-storage-state": "17.3.0",
     "webcomponents.js": "0.7.24",
     "whatwg-fetch": "3.6.2",
     "workbox-core": "6.6.0",

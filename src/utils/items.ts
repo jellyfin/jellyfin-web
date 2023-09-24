@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
@@ -5,6 +6,89 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import * as userSettings from 'scripts/settings/userSettings';
 import { EpisodeFilter, FeatureFilters, LibraryViewSettings, ParentId, VideoBasicFilter, ViewMode } from '../types/library';
 import { LibraryTab } from 'types/libraryTab';
+import { CollectionType } from 'types/collectionType';
+
+export const getVisibleitemType = (collectionType: CollectionType) => {
+    const itemType: BaseItemKind[] = [];
+
+    if (collectionType === CollectionType.Movies) {
+        itemType.push(BaseItemKind.Movie);
+    }
+
+    if (collectionType === CollectionType.TvShows) {
+        itemType.push(BaseItemKind.Series);
+    }
+
+    if (collectionType === CollectionType.Music) {
+        itemType.push(BaseItemKind.MusicAlbum);
+    }
+
+    return itemType;
+};
+
+export const getItemTypesEnum = (viewType: LibraryTab) => {
+    const itemType: BaseItemKind[] = [];
+
+    if (viewType === LibraryTab.Movies || viewType === LibraryTab.Favorites) {
+        itemType.push(BaseItemKind.Movie);
+    }
+
+    if (viewType === LibraryTab.Collections) {
+        itemType.push(BaseItemKind.BoxSet);
+    }
+
+    if (viewType === LibraryTab.Trailers) {
+        itemType.push(BaseItemKind.Trailer);
+    }
+
+    if (viewType === LibraryTab.Series) {
+        itemType.push(BaseItemKind.Series);
+    }
+
+    if (viewType === LibraryTab.Episodes) {
+        itemType.push(BaseItemKind.Episode);
+    }
+
+    if (viewType === LibraryTab.Albums) {
+        itemType.push(BaseItemKind.MusicAlbum);
+    }
+
+    if (viewType === LibraryTab.Songs) {
+        itemType.push(BaseItemKind.Audio);
+    }
+
+    if (viewType === LibraryTab.Playlists) {
+        itemType.push(BaseItemKind.Playlist);
+    }
+
+    if (viewType === LibraryTab.Books) {
+        itemType.push(BaseItemKind.Book);
+    }
+
+    if (viewType === LibraryTab.PhotoAlbums) {
+        itemType.push(BaseItemKind.PhotoAlbum);
+    }
+
+    if (viewType === LibraryTab.Photos) {
+        itemType.push(BaseItemKind.Photo);
+    }
+
+    if (viewType === LibraryTab.Videos) {
+        itemType.push(BaseItemKind.Video);
+    }
+
+    if (viewType === LibraryTab.Channels) {
+        itemType.push(BaseItemKind.Channel);
+    }
+
+    return itemType;
+};
+
+export const getItemTypesQuery = (viewType: LibraryTab) => {
+    return {
+        includeItemTypes: getItemTypesEnum(viewType)
+    };
+};
 
 export const getVideoBasicFilter = (libraryViewSettings: LibraryViewSettings) => {
     let isHd;
