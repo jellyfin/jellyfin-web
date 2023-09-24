@@ -34,21 +34,21 @@ const StableApp = () => (
                 {LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)}
             </Route>
 
-            {/* Ignore dashboard routes */}
-            {Object.entries(DASHBOARD_APP_PATHS).map(([ key, path ]) => (
-                <Route
-                    key={key}
-                    path={`/${path}/*`}
-                    element={null}
-                />
-            ))}
-
             {/* Suppress warnings for unhandled routes */}
             <Route path='*' element={null} />
         </Route>
 
         {/* Redirects for old paths */}
         {REDIRECTS.map(toRedirectRoute)}
+
+        {/* Ignore dashboard routes */}
+        {Object.entries(DASHBOARD_APP_PATHS).map(([ key, path ]) => (
+            <Route
+                key={key}
+                path={`/${path}/*`}
+                element={null}
+            />
+        ))}
     </Routes>
 );
 
