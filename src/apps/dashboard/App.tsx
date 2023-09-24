@@ -52,10 +52,10 @@ const DashboardApp = () => (
                 <Route path={DASHBOARD_APP_PATHS.PluginConfig} element={
                     <ServerContentPage view='/web/configurationpage' />
                 } />
-
-                {/* Suppress warnings for unhandled routes */}
-                <Route path='*' element={null} />
             </Route>
+
+            {/* Suppress warnings for unhandled routes */}
+            <Route path='*' element={null} />
         </Route>
 
         {/* Redirects for old paths */}
