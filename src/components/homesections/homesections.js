@@ -69,11 +69,14 @@ export function loadSections(elem, apiClient, user, userSettings) {
                 promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
             }
 
-            return Promise.all(promises).then(function () {
-                return resume(elem, {
-                    refresh: true
+            return Promise.all(promises)
+                // Timeout for polyfilled CustomElements (webOS 1.2)
+                .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
+                .then(() => {
+                    return resume(elem, {
+                        refresh: true
+                    });
                 });
-            });
         } else {
             let noLibDescription;
             if (user.Policy?.IsAdministrator) {
