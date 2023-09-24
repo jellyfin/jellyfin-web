@@ -1696,5 +1696,7 @@
     "LabelDummyChapterCount": "Όριο",
     "LabelDummyChapterCountHelp": "Ο μέγιστος αριθμός εικόνων κεφαλαίου που θα εξαχθεί για κάθε αρχείο πολυμέσων.",
     "LabelChapterImageResolution": "Ανάλυση",
-    "LabelChapterImageResolutionHelp": "Η ανάλυση των εξαγόμενων εικόνων κεφαλαίου."
+    "LabelChapterImageResolutionHelp": "Η ανάλυση των εξαγόμενων εικόνων κεφαλαίου.",
+    "AllowCollectionManagement": "Επίτρεψε στον χρήστη να διαχειρίζεται συλλογές",
+    "AllowSegmentDeletion": "Διαγραφή τμημάτων"
 }
