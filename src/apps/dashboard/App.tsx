@@ -34,7 +34,7 @@ export const DASHBOARD_APP_PATHS = {
 const DashboardApp = () => (
     <Routes>
         <Route element={<ConnectionRequired isAdminRequired />}>
-            <Route element={<AppLayout />}>
+            <Route element={<AppLayout drawerlessPaths={[ DASHBOARD_APP_PATHS.MetadataManager ]} />}>
                 <Route path={DASHBOARD_APP_PATHS.Dashboard}>
                     {ASYNC_ADMIN_ROUTES.map(toDashboardAsyncPageRoute)}
                     {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}

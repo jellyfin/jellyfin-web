@@ -1,10 +1,11 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
+import AppToolbar from 'components/toolbar/AppToolbar';
 import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
 import { useApi } from 'hooks/useApi';
@@ -12,9 +13,11 @@ import { useLocalStorage } from 'hooks/useLocalStorage';
 
 import AppDrawer from './components/drawer/AppDrawer';
 
-// FIXME: Remove main app override styles
-import '../experimental/AppOverrides.scss';
-import AppToolbar from 'components/toolbar/AppToolbar';
+import './AppOverrides.scss';
+
+interface AppLayoutProps {
+    drawerlessPaths: string[]
+}
 
 interface DashboardAppSettings {
     isDrawerPinned: boolean
@@ -24,15 +27,16 @@ const DEFAULT_APP_SETTINGS: DashboardAppSettings = {
     isDrawerPinned: false
 };
 
-const AppLayout = () => {
+const AppLayout: FC<AppLayoutProps> = ({
+    drawerlessPaths
+}) => {
     const [ appSettings, setAppSettings ] = useLocalStorage<DashboardAppSettings>('DashboardAppSettings', DEFAULT_APP_SETTINGS);
     const [ isDrawerActive, setIsDrawerActive ] = useState(appSettings.isDrawerPinned);
     const location = useLocation();
     const theme = useTheme();
     const { user } = useApi();
 
-    // FIXME: Use const for metadata editor
-    const isDrawerAvailable = !location.pathname.startsWith('/metadata');
+    const isDrawerAvailable = !drawerlessPaths.some(path => location.pathname.startsWith(`/${path}`));
     const isDrawerOpen = isDrawerActive && isDrawerAvailable && Boolean(user);
 
     useEffect(() => {
