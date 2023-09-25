@@ -32,3 +32,16 @@ export function toPercent(value: number | null | undefined, locale: string): str
 
     return `${Math.round(value * 100)}%`;
 }
+
+/**
+ * Gets decimal count of a Number.
+ * @param {number} value Number.
+ * @returns {number} Decimal count of a Number.
+ */
+export function decimalCount(value: number): number {
+    if (Number.isInteger(value)) return 0;
+
+    const arr = value.toString().split('.');
+
+    return arr[1].length;
+}

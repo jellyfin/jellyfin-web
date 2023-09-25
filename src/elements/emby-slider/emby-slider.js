@@ -6,6 +6,7 @@ import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 import globalize from '../../scripts/globalize';
+import { decimalCount } from '../../utils/number';
 
 const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
@@ -75,13 +76,23 @@ function mapClientToFraction(range, clientX) {
 function mapFractionToValue(range, fraction) {
     let value = (range.max - range.min) * fraction;
 
+    let decimals = null;
+
     // Snap to step
     if (range.step !== 'any') {
         const step = normalizeSliderStep(range);
+        decimals = decimalCount(step);
         value = Math.round(value / step) * step;
     }
 
-    value += parseFloat(range.min);
+    const min = parseFloat(range.min);
+
+    value += min;
+
+    if (decimals != null) {
+        decimals = Math.max(decimals, decimalCount(min));
+        value = parseFloat(value.toFixed(decimals));
+    }
 
     return Math.min(Math.max(value, range.min), range.max);
 }
