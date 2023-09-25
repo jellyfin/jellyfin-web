@@ -26,7 +26,6 @@ export const REDIRECTS: Redirect[] = [
     { from: 'networking.html', to: '/dashboard/networking' },
     { from: 'notificationsettings.html', to: '/dashboard/notifications' },
     { from: 'playbackconfiguration.html', to: '/dashboard/playback/resume' },
-    { from: 'quickConnect.html', to: '/dashboard/quickconnect' },
     { from: 'repositories.html', to: '/dashboard/plugins/repositories' },
     { from: 'scheduledtask.html', to: '/dashboard/tasks/edit' },
     { from: 'scheduledtasks.html', to: '/dashboard/tasks' },

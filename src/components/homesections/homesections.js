@@ -94,7 +94,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
             const createNowLink = elem.querySelector('#button-createLibrary');
             if (createNowLink) {
                 createNowLink.addEventListener('click', function () {
-                    Dashboard.navigate('library.html');
+                    Dashboard.navigate('dashboard/libraries');
                 });
             }
         }

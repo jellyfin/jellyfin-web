@@ -68,7 +68,7 @@ const Activity = () => {
                     sx={{ padding: 0 }}
                     title={users[row.UserId]?.Name ?? undefined}
                     component={Link}
-                    to={`/useredit.html?userId=${row.UserId}`}
+                    to={`/dashboard/users/profile?userId=${row.UserId}`}
                 >
                     <UserAvatar user={users[row.UserId]} />
                 </IconButton>

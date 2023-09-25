@@ -17,7 +17,7 @@ import { isTabPath } from '../tabs/tabRoutes';
 export const DRAWER_WIDTH = 240;
 
 const DRAWERLESS_ROUTES = [
-    'edititemmetadata.html', // metadata manager
+    'metadata', // metadata manager
     'video' // video player
 ];
 

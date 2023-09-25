@@ -327,8 +327,8 @@ function refreshLibraryInfoInDrawer(user) {
         html += '<h3 class="sidebarHeader">';
         html += globalize.translate('HeaderAdmin');
         html += '</h3>';
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
         html += '</div>';
     }
 
@@ -429,28 +429,28 @@ function createToolsMenuList(pluginItems) {
         name: globalize.translate('TabServer')
     }, {
         name: globalize.translate('TabDashboard'),
-        href: '#/dashboard.html',
+        href: '#/dashboard',
         pageIds: ['dashboardPage'],
         icon: 'dashboard'
     }, {
         name: globalize.translate('General'),
-        href: '#/dashboardgeneral.html',
+        href: '#/dashboard/settings',
         pageIds: ['dashboardGeneralPage'],
         icon: 'settings'
     }, {
         name: globalize.translate('HeaderUsers'),
-        href: '#/userprofiles.html',
+        href: '#/dashboard/users',
         pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
         icon: 'people'
     }, {
         name: globalize.translate('HeaderLibraries'),
-        href: '#/library.html',
+        href: '#/dashboard/libraries',
         pageIds: ['mediaLibraryPage', 'librarySettingsPage', 'libraryDisplayPage', 'metadataImagesConfigurationPage', 'metadataNfoPage'],
         icon: 'folder'
     }, {
         name: globalize.translate('TitlePlayback'),
         icon: 'play_arrow',
-        href: '#/encodingsettings.html',
+        href: '#/dashboard/playback/transcoding',
         pageIds: ['encodingSettingsPage', 'playbackConfigurationPage', 'streamingSettingsPage']
     }];
     addPluginPagesToMainMenu(links, pluginItems, 'server');
@@ -460,7 +460,7 @@ function createToolsMenuList(pluginItems) {
     });
     links.push({
         name: globalize.translate('HeaderDevices'),
-        href: '#/devices.html',
+        href: '#/dashboard/devices',
         pageIds: ['devicesPage', 'devicePage'],
         icon: 'devices'
     });
@@ -472,7 +472,7 @@ function createToolsMenuList(pluginItems) {
     });
     links.push({
         name: globalize.translate('DLNA'),
-        href: '#/dlnasettings.html',
+        href: '#/dashboard/dlna',
         pageIds: ['dlnaSettingsPage', 'dlnaProfilesPage', 'dlnaProfilePage'],
         icon: 'input'
     });
@@ -482,13 +482,13 @@ function createToolsMenuList(pluginItems) {
     });
     links.push({
         name: globalize.translate('LiveTV'),
-        href: '#/livetvstatus.html',
+        href: '#/dashboard/livetv',
         pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
         icon: 'live_tv'
     });
     links.push({
         name: globalize.translate('HeaderDVR'),
-        href: '#/livetvsettings.html',
+        href: '#/dashboard/recordings',
         pageIds: ['liveTvSettingsPage'],
         icon: 'dvr'
     });
@@ -500,35 +500,35 @@ function createToolsMenuList(pluginItems) {
     links.push({
         name: globalize.translate('TabNetworking'),
         icon: 'cloud',
-        href: '#/networking.html',
+        href: '#/dashboard/networking',
         pageIds: ['networkingPage']
     });
     links.push({
         name: globalize.translate('HeaderApiKeys'),
         icon: 'vpn_key',
-        href: '#/apikeys.html',
+        href: '#/dashboard/keys',
         pageIds: ['apiKeysPage']
     });
     links.push({
         name: globalize.translate('TabLogs'),
-        href: '#/log.html',
+        href: '#/dashboard/logs',
         pageIds: ['logPage'],
         icon: 'bug_report'
     });
     links.push({
         name: globalize.translate('Notifications'),
         icon: 'notifications',
-        href: '#/notificationsettings.html'
+        href: '#/dashboard/notifications'
     });
     links.push({
         name: globalize.translate('TabPlugins'),
         icon: 'shopping_cart',
-        href: '#/installedplugins.html',
+        href: '#/dashboard/plugins',
         pageIds: ['pluginsPage', 'pluginCatalogPage']
     });
     links.push({
         name: globalize.translate('TabScheduledTasks'),
-        href: '#/scheduledtasks.html',
+        href: '#/dashboard/tasks',
         pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
         icon: 'schedule'
     });
