@@ -1409,7 +1409,7 @@
     "QuickConnectDescription": "Pour utiliser la connexion rapide, appuyez sur le bouton 'Connexion rapide' de l'appareil à connecter et entrez le code affiché ci-dessous.",
     "QuickConnectDeactivated": "La connexion rapide a été désactivée avant que la requête ne puisse être approuvée",
     "QuickConnectAuthorizeFail": "Code de connexion rapide inconnu",
-    "QuickConnectAuthorizeSuccess": "Vous avez authentifié votre appareil avec succès !",
+    "QuickConnectAuthorizeSuccess": "Vous avez authentifié votre appareil avec succès !",
     "QuickConnectAuthorizeCode": "Saisir le code {0} pour se connecter",
     "QuickConnectActivationSuccessful": "Activé avec succès",
     "QuickConnect": "Connexion rapide",
@@ -1749,7 +1749,7 @@
     "LabelMediaDetails": "Détails du média",
     "LabelSystem": "Système",
     "LogLevel.Trace": "Trace",
-    "LogLevel.Debug": "Debug",
+    "LogLevel.Debug": "Débogage",
     "LogLevel.Information": "Information",
     "LogLevel.Warning": "Avertissement",
     "LogLevel.Error": "Erreur",
@@ -1773,7 +1773,7 @@
     "UnknownError": "Une erreur inconnue s’est produite.",
     "MachineTranslated": "Traduction automatique",
     "AiTranslated": "Traduction par IA",
-    "ForeignPartsOnly": "Parties forcées/étrangères uniquement",
+    "ForeignPartsOnly": "Parties forcées/en langues étrangères uniquement",
     "HearingImpairedShort": "HI/SDH",
-    "HeaderGuestCast": "Stars invitées"
+    "HeaderGuestCast": "Invités vedettes"
 }
