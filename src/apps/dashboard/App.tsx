@@ -40,7 +40,7 @@ const DashboardApp = () => (
                     {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
                 </Route>
 
-                {/* TODO: Should the metadata manager be a separate app? */}
+                {/* NOTE: The metadata editor might deserve a dedicated app in the future */}
                 {toViewManagerPageRoute({
                     path: DASHBOARD_APP_PATHS.MetadataManager,
                     pageProps: {
