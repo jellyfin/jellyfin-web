@@ -1731,5 +1731,10 @@
     "Notifications": "Notificacions",
     "NotificationsMovedMessage": "Les funcions de notificacions s'han mogut al plugin Webhook.",
     "UserMenu": "Menú d'usuari",
-    "AllowCollectionManagement": "Permet a aquest usuari gestionar col·leccions"
+    "AllowCollectionManagement": "Permet a aquest usuari gestionar col·leccions",
+    "AllowSegmentDeletion": "Suprimeix segments",
+    "AllowSegmentDeletionHelp": "Suprimeix els segments antics després d'haver estat enviats al client. Això impedeix haver d'emmagatzemar tot el fitxer transcodificat al disc. Només funcionarà amb l'activació de transcodes de l'acceleració. Desactiveu-ho si teniu problemes de reproducció.",
+    "LabelThrottleDelaySeconds": "Acceleració després de",
+    "LabelThrottleDelaySecondsHelp": "Temps en segons després del qual el transcodificador s'accelerarà. Ha de ser prou gran perquè el client mantingui una memòria intermèdia saludable. Només funciona si s'habilita l'acceleració.",
+    "LabelSegmentKeepSeconds": "Temps per mantenir els segments"
 }
