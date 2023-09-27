@@ -15,6 +15,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
 import '../formdialog.scss';
 import './style.scss';
+import { readFileAsBase64 } from 'utils/file';
 
 let currentItemId;
 let currentServerId;
@@ -77,19 +78,6 @@ function setFiles(page, files) {
     reader.readAsDataURL(file);
 }
 
-function getStringFromFile(file) {
-    return new Promise(function (resolve, reject) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            // Split by a comma to remove the url: prefix
-            const data = e.target.result.split(',')[1];
-            resolve(data);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-}
-
 async function onSubmit(e) {
     const file = currentFile;
 
@@ -108,7 +96,7 @@ async function onSubmit(e) {
 
     const subtitleApi = getSubtitleApi(toApi(ServerConnections.getApiClient(currentServerId)));
 
-    const data = await getStringFromFile(file);
+    const data = await readFileAsBase64(file);
     const format = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
 
     subtitleApi.uploadSubtitle({
