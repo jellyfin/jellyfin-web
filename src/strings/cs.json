@@ -1775,5 +1775,6 @@
     "GoHome": "Přejít na domovskou obrazovku",
     "UnknownError": "Došlo k neznámé chybě.",
     "BackdropScreensaver": "Pozadí",
-    "LogoScreensaver": "Logo"
+    "LogoScreensaver": "Logo",
+    "LabelIsHearingImpaired": "Titulky pro neslyšící"
 }
