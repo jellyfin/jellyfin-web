@@ -1,16 +1,16 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
+import { REDIRECTS } from 'apps/stable/routes/_redirects';
 import ConnectionRequired from 'components/ConnectionRequired';
 import ServerContentPage from 'components/ServerContentPage';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
+import { toRedirectRoute } from 'components/router/Redirect';
 
 import AppLayout from './AppLayout';
 import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './routes/asyncRoutes';
 import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
-import { REDIRECTS } from 'apps/stable/routes/_redirects';
-import { toRedirectRoute } from 'components/router/Redirect';
 
 const ExperimentalApp = () => {
     return (
@@ -38,10 +38,10 @@ const ExperimentalApp = () => {
 
                     {LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)}
                 </Route>
-
-                {/* Redirects for old paths */}
-                {REDIRECTS.map(toRedirectRoute)}
             </Route>
+
+            {/* Redirects for old paths */}
+            {REDIRECTS.map(toRedirectRoute)}
         </Routes>
     );
 };

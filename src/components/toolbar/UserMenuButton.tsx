@@ -2,11 +2,11 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useCallback, useState } from 'react';
 
+import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 
-import AppUserMenu, { ID } from './menus/AppUserMenu';
-import UserAvatar from 'components/UserAvatar';
+import AppUserMenu, { ID } from './AppUserMenu';
 
 const UserMenuButton = () => {
     const { user } = useApi();

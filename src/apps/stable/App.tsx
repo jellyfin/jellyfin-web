@@ -1,8 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
-import AppHeader from 'components/AppHeader';
-import Backdrop from 'components/Backdrop';
+import AppBody from 'components/AppBody';
 import ServerContentPage from 'components/ServerContentPage';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
@@ -14,15 +13,9 @@ import { REDIRECTS } from './routes/_redirects';
 import { toRedirectRoute } from 'components/router/Redirect';
 
 const Layout = () => (
-    <>
-        <Backdrop />
-        <AppHeader />
-
-        <div className='mainAnimatedPages skinBody' />
-        <div className='skinBody'>
-            <Outlet />
-        </div>
-    </>
+    <AppBody>
+        <Outlet />
+    </AppBody>
 );
 
 const StableApp = () => (
@@ -53,10 +46,10 @@ const StableApp = () => (
 
             {/* Suppress warnings for unhandled routes */}
             <Route path='*' element={null} />
-
-            {/* Redirects for old paths */}
-            {REDIRECTS.map(toRedirectRoute)}
         </Route>
+
+        {/* Redirects for old paths */}
+        {REDIRECTS.map(toRedirectRoute)}
     </Routes>
 );
 

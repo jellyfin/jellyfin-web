@@ -6,9 +6,8 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 
+import ListItemLink from 'components/ListItemLink';
 import globalize from 'scripts/globalize';
-
-import ListItemLink from '../ListItemLink';
 
 const LiveTvDrawerSection = () => {
     return (
