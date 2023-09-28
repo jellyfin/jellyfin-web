@@ -260,6 +260,14 @@ export default function (view, params) {
         mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
     }
 
+    function getMode(index) {
+        if (index === 2) {
+            return 'albumartists';
+        } else if (index === 3) {
+            return 'artists';
+        }
+    }
+
     const getTabController = (page, index, callback) => {
         let depends;
 
@@ -306,13 +314,9 @@ export default function (view, params) {
                 if (index === 1) {
                     controller = this;
                 } else {
-                    controller = new ControllerFactory(view, params, tabContent);
-                }
-
-                if (index == 2) {
-                    controller.mode = 'albumartists';
-                } else if (index == 3) {
-                    controller.mode = 'artists';
+                    controller = new ControllerFactory(view, params, tabContent, {
+                        mode: getMode(index)
+                    });
                 }
 
                 tabControllers[index] = controller;
