@@ -7,7 +7,7 @@ RELEASE := $(shell set -x; sed -ne '/^Release:/s/.*  *\(.*\)%{.*}.*/\1/p' $(DIR)
 SRPM    := jellyfin-web-$(subst -,~,$(VERSION))-$(RELEASE)$(shell rpm --eval %dist).src.rpm
 TARBALL :=$(NAME)-$(subst -,~,$(VERSION)).tar.gz
 
-epel-7-x86_64_repos := https://rpm.nodesource.com/pub_16.x/el/\$$releasever/\$$basearch/
+epel-7-x86_64_repos := https://rpm.nodesource.com/pub_20.x/nodistro/\$$basearch/
 
 fed_ver := $(shell rpm -E %fedora)
 # fallback when not running on Fedora
