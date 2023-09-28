@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:20-alpine
 
 ARG SOURCE_DIR=/src
 ARG ARTIFACT_DIR=/jellyfin-web
