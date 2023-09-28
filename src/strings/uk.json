@@ -1770,5 +1770,8 @@
     "ListView": "У вигляді списку",
     "AiTranslated": "Перекладено за допомогою ШІ",
     "UnknownError": "Виникла невідома помилка.",
-    "GoHome": "На головну"
+    "GoHome": "На головну",
+    "BackdropScreensaver": "Фонова заставка",
+    "LogoScreensaver": "Заставка з логотипом",
+    "LabelIsHearingImpaired": "Для людей з вадами слуху (SDH)"
 }
