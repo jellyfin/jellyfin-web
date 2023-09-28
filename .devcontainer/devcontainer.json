@@ -12,7 +12,8 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "nvm install 20"
+	//https://github.com/microsoft/vscode-dev-containers/issues/559
+	"postCreateCommand": "source $NVM_DIR/nvm.sh && nvm install 20"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
