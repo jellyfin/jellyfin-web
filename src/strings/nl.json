@@ -1770,9 +1770,10 @@
     "ListView": "Lijstweergave",
     "AiTranslated": "Vertaald door AI",
     "HeaderGuestCast": "Gastrollen",
-    "HearingImpairedShort": "Voor slechthorenden",
+    "HearingImpairedShort": "ODS",
     "GoHome": "Startpagina",
     "UnknownError": "Er is een onbekende fout opgetreden.",
     "BackdropScreensaver": "Schermbeveiliging met achtergronden",
-    "LogoScreensaver": "Schermbeveiliging met logo"
+    "LogoScreensaver": "Schermbeveiliging met logo",
+    "LabelIsHearingImpaired": "Voor slechthorenden (ODS)"
 }
