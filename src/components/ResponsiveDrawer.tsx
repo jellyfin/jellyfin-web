@@ -5,14 +5,13 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { FC, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import browser from 'scripts/browser';
 
-import { DRAWER_WIDTH } from './AppDrawer';
-import { isTabPath } from '../tabs/tabRoutes';
+export const DRAWER_WIDTH = 240;
 
 export interface ResponsiveDrawerProps {
+    hasSecondaryToolBar?: boolean
     open: boolean
     onClose: () => void
     onOpen: () => void
@@ -20,18 +19,17 @@ export interface ResponsiveDrawerProps {
 
 const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
     children,
+    hasSecondaryToolBar = false,
     open = false,
     onClose,
     onOpen
 }) => {
-    const location = useLocation();
     const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const isLargeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
-    const isTallToolbar = isTabPath(location.pathname) && !isLargeScreen;
 
     const getToolbarStyles = useCallback((theme: Theme) => ({
-        marginBottom: isTallToolbar ? theme.spacing(6) : 0
-    }), [ isTallToolbar ]);
+        marginBottom: (hasSecondaryToolBar && !isLargeScreen) ? theme.spacing(6) : 0
+    }), [ hasSecondaryToolBar, isLargeScreen ]);
 
     return ( isSmallScreen ? (
         /* DESKTOP DRAWER */

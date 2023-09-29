@@ -8,11 +8,10 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import React, { useEffect, useState } from 'react';
 
+import ListItemLink from 'components/ListItemLink';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 import Dashboard from 'utils/dashboard';
-
-import ListItemLink from '../ListItemLink';
 
 const PluginDrawerSection = () => {
     const { api } = useApi();

@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
+
+import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
 
 import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from '../../routes/asyncRoutes';
 import { LEGACY_ADMIN_ROUTES, LEGACY_USER_ROUTES } from '../../routes/legacyRoutes';
@@ -10,7 +12,7 @@ import LiveTvDrawerSection from './dashboard/LiveTvDrawerSection';
 import PluginDrawerSection from './dashboard/PluginDrawerSection';
 import ServerDrawerSection from './dashboard/ServerDrawerSection';
 import MainDrawerContent from './MainDrawerContent';
-import ResponsiveDrawer, { ResponsiveDrawerProps } from './ResponsiveDrawer';
+import { isTabPath } from '../tabs/tabRoutes';
 
 export const DRAWER_WIDTH = 240;
 
@@ -36,6 +38,20 @@ export const isDrawerPath = (path: string) => (
         || ADMIN_DRAWER_ROUTES.some(route => route.path === path || `/${route.path}` === path)
 );
 
+const Drawer: FC<ResponsiveDrawerProps> = ({ children, ...props }) => {
+    const location = useLocation();
+    const hasSecondaryToolBar = isTabPath(location.pathname);
+
+    return (
+        <ResponsiveDrawer
+            {...props}
+            hasSecondaryToolBar={hasSecondaryToolBar}
+        >
+            {children}
+        </ResponsiveDrawer>
+    );
+};
+
 const AppDrawer: FC<ResponsiveDrawerProps> = ({
     open = false,
     onClose,
@@ -48,13 +64,13 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
                     key={route.path}
                     path={route.path}
                     element={
-                        <ResponsiveDrawer
+                        <Drawer
                             open={open}
                             onClose={onClose}
                             onOpen={onOpen}
                         >
                             <MainDrawerContent />
-                        </ResponsiveDrawer>
+                        </Drawer>
                     }
                 />
             ))
@@ -65,7 +81,7 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
                     key={route.path}
                     path={route.path}
                     element={
-                        <ResponsiveDrawer
+                        <Drawer
                             open={open}
                             onClose={onClose}
                             onOpen={onOpen}
@@ -75,7 +91,7 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
                             <LiveTvDrawerSection />
                             <AdvancedDrawerSection />
                             <PluginDrawerSection />
-                        </ResponsiveDrawer>
+                        </Drawer>
                     }
                 />
             ))

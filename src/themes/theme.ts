@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
+/** The default Jellyfin app theme for mui */
 const theme = createTheme({
     palette: {
         mode: 'dark',

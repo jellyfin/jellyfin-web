@@ -15,9 +15,8 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+import ListItemLink from 'components/ListItemLink';
 import globalize from 'scripts/globalize';
-
-import ListItemLink from '../ListItemLink';
 
 const PLUGIN_PATHS = [
     '/installedplugins.html',
