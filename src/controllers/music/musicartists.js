@@ -9,7 +9,7 @@ import Events from '../../utils/events.ts';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-export default function (view, params, tabContent) {
+export default function (view, params, tabContent, options) {
     function getPageData() {
         const key = getSavedQueryKey();
         let pageData = data[key];
@@ -45,7 +45,7 @@ export default function (view, params, tabContent) {
     }
 
     function getSavedQueryKey() {
-        return `${params.topParentId}-${this.mode}`;
+        return `${params.topParentId}-${options.mode}`;
     }
 
     const onViewStyleChange = () => {
@@ -67,7 +67,7 @@ export default function (view, params, tabContent) {
         loading.show();
         isLoading = true;
         const query = getQuery();
-        const promise = this.mode == 'albumartists' ?
+        const promise = options.mode == 'albumartists' ?
             ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query) :
             ApiClient.getArtists(ApiClient.getCurrentUserId(), query);
         promise.then((result) => {
@@ -169,7 +169,7 @@ export default function (view, params, tabContent) {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
-                mode: this.mode,
+                mode: options.mode,
                 serverId: ApiClient.serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
