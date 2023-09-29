@@ -1194,5 +1194,13 @@
     "LabelEnableAudioVbrHelp": "קידוד בקצב משתנה מציע איכות טובה יותר בהשוואה לקצב ממוצע, אבל במקרים נדירים עלול לגרום לבעיות טעינה (buffering) ותאימות.",
     "LabelEnableDlnaPlayToHelp": "מצא מכשירים ברשת שלך ואפשר שליטה מרחוק בהם.",
     "LabelCreateHttpPortMapHelp": "אפשר מיפוי פורטים אוטומטי כדי לייצר כלל עבור תעבורת HTTP, בנוסף לתעבורת HTTPS.",
-    "LabelChapterImageResolutionHelp": "רזולוציה של תמונות הפרקים שיופקו. שינוי הערך לא ישפיע על פרקי דמה קיימים."
+    "LabelChapterImageResolutionHelp": "רזולוציה של תמונות הפרקים שיופקו. שינוי הערך לא ישפיע על פרקי דמה קיימים.",
+    "LabelKodiMetadataEnablePathSubstitution": "אפשר החלפות בשדה path",
+    "LabelH264Crf": "CRF של קידוד H.264",
+    "LabelHardwareAccelerationTypeHelp": "האצת חומרה דורשת הגדרות נוספות.",
+    "LabelH265Crf": "CRF של קידוד H.265",
+    "LabelKodiMetadataEnableExtraThumbsHelp": "תמונות שהורדו יכולות להישמר לשדות extrafanart ו-extrathumbs בו זמנית לצורך התאמה מירבית לסקינים של קודי.",
+    "LabelKodiMetadataEnableExtraThumbs": "העתק extrafanart לשדה extrathumbs",
+    "LabelGroupMoviesIntoCollectionsHelp": "כל הסרטים באוסף יופיעו בתור פריט מקובץ אחד ברשימות סרטים.",
+    "LabelHomeScreenSectionValue": "איזור {0} בעמוד הבית"
 }
