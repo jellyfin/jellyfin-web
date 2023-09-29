@@ -14,7 +14,7 @@ on:
 
 jobs:
   codeql:
-    name: CodeQL
+    name: Run CodeQL
     runs-on: ubuntu-latest
 
     steps:
