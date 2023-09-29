@@ -5,7 +5,6 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import StableApp from 'apps/stable/App';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
 import { HistoryRouter } from 'components/router/HistoryRouter';
@@ -14,6 +13,7 @@ import { WebConfigProvider } from 'hooks/useWebConfig';
 import theme from 'themes/theme';
 
 const ExperimentalApp = loadable(() => import('./apps/experimental/App'));
+const StableApp = loadable(() => import('./apps/stable/App'));
 
 const queryClient = new QueryClient();
 
