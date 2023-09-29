@@ -408,6 +408,13 @@ import '../emby-input/emby-input';
                 e.preventDefault();
                 e.stopPropagation();
                 break;
+            case 'Enter':
+                if (this.keyboardDragging) {
+                    finishKeyboardDragging(this);
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                break;
         }
     }
 
