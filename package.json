@@ -150,8 +150,8 @@
     "stylelint:scss": "stylelint --config=\".stylelintrc.scss.json\" \"src/**/*.scss\""
   },
   "engines": {
-    "node": ">=20.7.0",
-    "npm": ">=10.1.0",
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0",
     "yarn": "YARN NO LONGER USED - use npm instead."
   }
 }
