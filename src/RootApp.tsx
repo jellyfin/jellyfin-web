@@ -1,18 +1,18 @@
 import loadable from '@loadable/component';
 import { ThemeProvider } from '@mui/material/styles';
 import { History } from '@remix-run/router';
-import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
 import { HistoryRouter } from 'components/router/HistoryRouter';
 import { ApiProvider } from 'hooks/useApi';
 import { WebConfigProvider } from 'hooks/useWebConfig';
 import theme from 'themes/theme';
-import { useLocation } from 'react-router-dom';
-import { DASHBOARD_APP_PATHS } from './apps/dashboard/App';
 
 const DashboardApp = loadable(() => import('./apps/dashboard/App'));
 const ExperimentalApp = loadable(() => import('./apps/experimental/App'));

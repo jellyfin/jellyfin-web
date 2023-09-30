@@ -5,9 +5,9 @@ import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDr
 
 import { ASYNC_USER_ROUTES } from '../../routes/asyncRoutes';
 import { LEGACY_USER_ROUTES } from '../../routes/legacyRoutes';
+import { isTabPath } from '../tabs/tabRoutes';
 
 import MainDrawerContent from './MainDrawerContent';
-import { isTabPath } from '../tabs/tabRoutes';
 
 const DRAWERLESS_ROUTES = [
     'video' // video player

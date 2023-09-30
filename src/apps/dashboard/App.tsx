@@ -8,10 +8,10 @@ import { AsyncPageProps, AsyncRoute, toAsyncPageRoute } from 'components/router/
 import { toRedirectRoute } from 'components/router/Redirect';
 import ServerContentPage from 'components/ServerContentPage';
 
+import AppLayout from './AppLayout';
 import { REDIRECTS } from './routes/_redirects';
 import { ASYNC_ADMIN_ROUTES } from './routes/_asyncRoutes';
 import { LEGACY_ADMIN_ROUTES } from './routes/_legacyRoutes';
-import AppLayout from './AppLayout';
 
 const DashboardAsyncPage = loadable(
     (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `./routes/${props.page}`),

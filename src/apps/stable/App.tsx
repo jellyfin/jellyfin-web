@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
 import AppBody from 'components/AppBody';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
@@ -10,7 +11,6 @@ import { toRedirectRoute } from 'components/router/Redirect';
 import { ASYNC_USER_ROUTES } from './routes/asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
 import { REDIRECTS } from './routes/_redirects';
-import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
 
 const Layout = () => (
     <AppBody>
