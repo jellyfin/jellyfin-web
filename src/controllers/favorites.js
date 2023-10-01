@@ -1,35 +1,25 @@
-import { appRouter } from '../components/router/appRouter';
-import cardBuilder from '../components/cardbuilder/cardBuilder';
-import dom from '../scripts/dom';
-import globalize from '../scripts/globalize';
-import { appHost } from '../components/apphost';
-import layoutManager from '../components/layoutManager';
-import focusManager from '../components/focusManager';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-scroller/emby-scroller';
-import ServerConnections from '../components/ServerConnections';
+import { appHost } from 'components/apphost';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import focusManager from 'components/focusManager';
+import layoutManager from 'components/layoutManager';
+import { appRouter } from 'components/router/appRouter';
+import ServerConnections from 'components/ServerConnections';
+import dom from 'scripts/dom';
+import globalize from 'scripts/globalize';
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-scroller/emby-scroller';
 
 function enableScrollX() {
     return true;
-}
-
-function getThumbShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-}
-
-function getPosterShape() {
-    return enableScrollX() ? 'overflowPortrait' : 'portrait';
-}
-
-function getSquareShape() {
-    return enableScrollX() ? 'overflowSquare' : 'square';
 }
 
 function getSections() {
     return [{
         name: 'Movies',
         types: 'Movie',
-        shape: getPosterShape(),
+        shape: getPortraitShape(enableScrollX()),
         showTitle: true,
         showYear: true,
         overlayPlayButton: true,
@@ -38,7 +28,7 @@ function getSections() {
     }, {
         name: 'Shows',
         types: 'Series',
-        shape: getPosterShape(),
+        shape: getPortraitShape(enableScrollX()),
         showTitle: true,
         showYear: true,
         overlayPlayButton: true,
@@ -47,7 +37,7 @@ function getSections() {
     }, {
         name: 'Episodes',
         types: 'Episode',
-        shape: getThumbShape(),
+        shape: getBackdropShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         showParentTitle: true,
@@ -57,7 +47,7 @@ function getSections() {
     }, {
         name: 'Videos',
         types: 'Video',
-        shape: getThumbShape(),
+        shape: getBackdropShape(enableScrollX()),
         preferThumb: true,
         showTitle: true,
         overlayPlayButton: true,
@@ -66,7 +56,7 @@ function getSections() {
     }, {
         name: 'Collections',
         types: 'BoxSet',
-        shape: getPosterShape(),
+        shape: getPortraitShape(enableScrollX()),
         showTitle: true,
         overlayPlayButton: true,
         overlayText: false,
@@ -74,7 +64,7 @@ function getSections() {
     }, {
         name: 'Playlists',
         types: 'Playlist',
-        shape: getSquareShape(),
+        shape: getSquareShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -85,7 +75,7 @@ function getSections() {
     }, {
         name: 'People',
         types: 'Person',
-        shape: getPosterShape(),
+        shape: getPortraitShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -96,7 +86,7 @@ function getSections() {
     }, {
         name: 'Artists',
         types: 'MusicArtist',
-        shape: getSquareShape(),
+        shape: getSquareShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -107,7 +97,7 @@ function getSections() {
     }, {
         name: 'Albums',
         types: 'MusicAlbum',
-        shape: getSquareShape(),
+        shape: getSquareShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -118,7 +108,7 @@ function getSections() {
     }, {
         name: 'Songs',
         types: 'Audio',
-        shape: getSquareShape(),
+        shape: getSquareShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -130,7 +120,7 @@ function getSections() {
     }, {
         name: 'Books',
         types: 'Book',
-        shape: getPosterShape(),
+        shape: getPortraitShape(enableScrollX()),
         showTitle: true,
         showYear: true,
         overlayPlayButton: true,

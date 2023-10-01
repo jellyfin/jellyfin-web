@@ -1,21 +1,23 @@
+import autoFocuser from 'components/autoFocuser';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import * as mainTabsManager from 'components/maintabsmanager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import dom from 'scripts/dom';
+import globalize from 'scripts/globalize';
+import inputManager from 'scripts/inputManager';
+import libraryMenu from 'scripts/libraryMenu';
+import * as userSettings from 'scripts/settings/userSettings';
+import { LibraryTab } from 'types/libraryTab';
+import { getBackdropShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+import Events from 'utils/events';
 
-import inputManager from '../../scripts/inputManager';
-import libraryMenu from '../../scripts/libraryMenu';
-import layoutManager from '../../components/layoutManager';
-import loading from '../../components/loading/loading';
-import dom from '../../scripts/dom';
-import * as userSettings from '../../scripts/settings/userSettings';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import * as mainTabsManager from '../../components/maintabsmanager';
-import globalize from '../../scripts/globalize';
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-button/emby-button';
-import { LibraryTab } from '../../types/libraryTab.ts';
-import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
-import autoFocuser from '../../components/autoFocuser';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-button/emby-button';
+
+import 'styles/scrollstyles.scss';
 
 function getTabs() {
     return [{
@@ -119,7 +121,7 @@ function loadResume(view, userId, parentId) {
             itemsContainer: container,
             preferThumb: true,
             inheritThumb: !userSettings.useEpisodeImagesInNextUpAndResume(),
-            shape: getThumbShape(),
+            shape: getBackdropShape(enableScrollX()),
             scalable: true,
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding,
@@ -215,10 +217,6 @@ function loadNextUp(view, userId, parentId) {
 
 function enableScrollX() {
     return !layoutManager.desktop;
-}
-
-function getThumbShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
 }
 
 export default function (view, params) {
