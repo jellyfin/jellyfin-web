@@ -10,7 +10,7 @@ const ITEMS_PER_REQUEST_LIMIT = 40;
 
 function getItemsSplit(apiClient: ApiClient, userId: string, options: GetItemsRequest) {
     const optionsTemplate = { ...options };
-    const ids = options.Ids?.split(',') || [];
+    const ids =  [] ?? options.Ids?.split(',');
     const results = [];
     const limit = options.Limit ?? Infinity;
 
