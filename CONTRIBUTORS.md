@@ -70,6 +70,7 @@
  - [tehciolo](https://github.com/tehciolo)
  - [scampower3](https://github.com/scampower3)
  - [LittleBigOwI] (https://github.com/LittleBigOwI/)
+ - [Nate G](https://github.com/GGProGaming)
 
 # Emby Contributors
 
