@@ -45,6 +45,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
     const [ books, setBooks ] = useState<BaseItemDto[]>([]);
     const [ people, setPeople ] = useState<BaseItemDto[]>([]);
     const [ collections, setCollections ] = useState<BaseItemDto[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getDefaultParameters = useCallback(() => ({
         ParentId: parentId,
@@ -112,100 +113,123 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
         setBooks([]);
         setPeople([]);
         setCollections([]);
+        setIsLoading(true);
 
         if (!query) {
+            setIsLoading(false);
             return;
         }
 
         const apiClient = ServerConnections.getApiClient(serverId);
+        const fetchPromises = [];
 
         // Movie libraries
         if (!collectionType || isMovies(collectionType)) {
-            // Movies row
-            fetchItems(apiClient, { IncludeItemTypes: 'Movie' })
-                .then(result => setMovies(result.Items))
-                .catch(() => setMovies([]));
+            fetchPromises.push(
+                // Movies row
+                fetchItems(apiClient, { IncludeItemTypes: 'Movie' })
+                    .then(result => setMovies(result.Items))
+                    .catch(() => setMovies([]))
+            );
         }
 
         // TV Show libraries
         if (!collectionType || isTVShows(collectionType)) {
-            // Shows row
-            fetchItems(apiClient, { IncludeItemTypes: 'Series' })
-                .then(result => setShows(result.Items))
-                .catch(() => setShows([]));
-            // Episodes row
-            fetchItems(apiClient, { IncludeItemTypes: 'Episode' })
-                .then(result => setEpisodes(result.Items))
-                .catch(() => setEpisodes([]));
+            fetchPromises.push(
+                // Shows row
+                fetchItems(apiClient, { IncludeItemTypes: 'Series' })
+                    .then(result => setShows(result.Items))
+                    .catch(() => setShows([])),
+                // Episodes row
+                fetchItems(apiClient, { IncludeItemTypes: 'Episode' })
+                    .then(result => setEpisodes(result.Items))
+                    .catch(() => setEpisodes([]))
+            );
         }
 
         // People are included for Movies and TV Shows
         if (!collectionType || isMovies(collectionType) || isTVShows(collectionType)) {
-            // People row
-            fetchPeople(apiClient)
-                .then(result => setPeople(result.Items))
-                .catch(() => setPeople([]));
+            fetchPromises.push(
+                // People row
+                fetchPeople(apiClient)
+                    .then(result => setPeople(result.Items))
+                    .catch(() => setPeople([]))
+            );
         }
 
         // Music libraries
         if (!collectionType || isMusic(collectionType)) {
-            // Playlists row
-            fetchItems(apiClient, { IncludeItemTypes: 'Playlist' })
-                .then(results => setPlaylists(results.Items))
-                .catch(() => setPlaylists([]));
-            // Artists row
-            fetchArtists(apiClient)
-                .then(result => setArtists(result.Items))
-                .catch(() => setArtists([]));
-            // Albums row
-            fetchItems(apiClient, { IncludeItemTypes: 'MusicAlbum' })
-                .then(result => setAlbums(result.Items))
-                .catch(() => setAlbums([]));
-            // Songs row
-            fetchItems(apiClient, { IncludeItemTypes: 'Audio' })
-                .then(result => setSongs(result.Items))
-                .catch(() => setSongs([]));
+            fetchPromises.push(
+                // Playlists row
+                fetchItems(apiClient, { IncludeItemTypes: 'Playlist' })
+                    .then(results => setPlaylists(results.Items))
+                    .catch(() => setPlaylists([])),
+                // Artists row
+                fetchArtists(apiClient)
+                    .then(result => setArtists(result.Items))
+                    .catch(() => setArtists([])),
+                // Albums row
+                fetchItems(apiClient, { IncludeItemTypes: 'MusicAlbum' })
+                    .then(result => setAlbums(result.Items))
+                    .catch(() => setAlbums([])),
+                // Songs row
+                fetchItems(apiClient, { IncludeItemTypes: 'Audio' })
+                    .then(result => setSongs(result.Items))
+                    .catch(() => setSongs([]))
+            );
         }
 
         // Other libraries do not support in-library search currently
         if (!collectionType) {
-            // Videos row
-            fetchItems(apiClient, {
-                MediaTypes: 'Video',
-                ExcludeItemTypes: 'Movie,Episode,TvChannel'
-            })
-                .then(result => setVideos(result.Items))
-                .catch(() => setVideos([]));
-            // Programs row
-            fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
-                .then(result => setPrograms(result.Items))
-                .catch(() => setPrograms([]));
-            // Channels row
-            fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
-                .then(result => setChannels(result.Items))
-                .catch(() => setChannels([]));
-            // Photo Albums row
-            fetchItems(apiClient, { IncludeItemTypes: 'PhotoAlbum' })
-                .then(result => setPhotoAlbums(result.Items))
-                .catch(() => setPhotoAlbums([]));
-            // Photos row
-            fetchItems(apiClient, { IncludeItemTypes: 'Photo' })
-                .then(result => setPhotos(result.Items))
-                .catch(() => setPhotos([]));
-            // Audio Books row
-            fetchItems(apiClient, { IncludeItemTypes: 'AudioBook' })
-                .then(result => setAudioBooks(result.Items))
-                .catch(() => setAudioBooks([]));
-            // Books row
-            fetchItems(apiClient, { IncludeItemTypes: 'Book' })
-                .then(result => setBooks(result.Items))
-                .catch(() => setBooks([]));
-            // Collections row
-            fetchItems(apiClient, { IncludeItemTypes: 'BoxSet' })
-                .then(result => setCollections(result.Items))
-                .catch(() => setCollections([]));
+            fetchPromises.push(
+                // Videos row
+                fetchItems(apiClient, {
+                    MediaTypes: 'Video',
+                    ExcludeItemTypes: 'Movie,Episode,TvChannel'
+                })
+                    .then(result => setVideos(result.Items))
+                    .catch(() => setVideos([])),
+                // Programs row
+                fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
+                    .then(result => setPrograms(result.Items))
+                    .catch(() => setPrograms([])),
+                // Channels row
+                fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
+                    .then(result => setChannels(result.Items))
+                    .catch(() => setChannels([])),
+                // Photo Albums row
+                fetchItems(apiClient, { IncludeItemTypes: 'PhotoAlbum' })
+                    .then(result => setPhotoAlbums(result.Items))
+                    .catch(() => setPhotoAlbums([])),
+                // Photos row
+                fetchItems(apiClient, { IncludeItemTypes: 'Photo' })
+                    .then(result => setPhotos(result.Items))
+                    .catch(() => setPhotos([])),
+                // Audio Books row
+                fetchItems(apiClient, { IncludeItemTypes: 'AudioBook' })
+                    .then(result => setAudioBooks(result.Items))
+                    .catch(() => setAudioBooks([])),
+                // Books row
+                fetchItems(apiClient, { IncludeItemTypes: 'Book' })
+                    .then(result => setBooks(result.Items))
+                    .catch(() => setBooks([])),
+                // Collections row
+                fetchItems(apiClient, { IncludeItemTypes: 'BoxSet' })
+                    .then(result => setCollections(result.Items))
+                    .catch(() => setCollections([]))
+            );
         }
+        Promise.all(fetchPromises)
+            .then(() => {
+                setIsLoading(false); // Set loading to false when all fetch calls are done
+            })
+            .catch((error) => {
+                console.error('An error occurred while fetching data:', error);
+                setIsLoading(false); // Set loading to false even if an error occurs
+            });
     }, [collectionType, fetchArtists, fetchItems, fetchPeople, query, serverId]);
+
+    const allEmpty = [movies, shows, episodes, videos, programs, channels, playlists, artists, albums, songs, photoAlbums, photos, audioBooks, books, people, collections].every(arr => arr.length === 0);
 
     return (
         <div
@@ -216,93 +240,104 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                 { 'hide': !query || collectionType === 'livetv' }
             )}
         >
-            <SearchResultsRow
-                title={globalize.translate('Movies')}
-                items={movies}
-                cardOptions={{ showYear: true }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Shows')}
-                items={shows}
-                cardOptions={{ showYear: true }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Episodes')}
-                items={episodes}
-                cardOptions={{
-                    coverImage: true,
-                    showParentTitle: true
-                }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('HeaderVideos')}
-                items={videos}
-                cardOptions={{ showParentTitle: true }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Programs')}
-                items={programs}
-                cardOptions={{
-                    preferThumb: true,
-                    inheritThumb: false,
-                    showParentTitleOrTitle: true,
-                    showTitle: false,
-                    coverImage: true,
-                    overlayMoreButton: true,
-                    showAirTime: true,
-                    showAirDateTime: true,
-                    showChannelName: true
-                }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Channels')}
-                items={channels}
-                cardOptions={{ shape: 'square' }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Playlists')}
-                items={playlists}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Artists')}
-                items={artists}
-                cardOptions={{ coverImage: true }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Albums')}
-                items={albums}
-                cardOptions={{ showParentTitle: true }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Songs')}
-                items={songs}
-                cardOptions={{ showParentTitle: true }}
-            />
-            <SearchResultsRow
-                title={globalize.translate('HeaderPhotoAlbums')}
-                items={photoAlbums}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Photos')}
-                items={photos}
-            />
-            <SearchResultsRow
-                title={globalize.translate('HeaderAudioBooks')}
-                items={audioBooks}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Books')}
-                items={books}
-            />
-            <SearchResultsRow
-                title={globalize.translate('Collections')}
-                items={collections}
-            />
-            <SearchResultsRow
-                title={globalize.translate('People')}
-                items={people}
-                cardOptions={{ coverImage: true }}
-            />
+            {isLoading ? (
+                <div>Loading...</div> // Replace this with your preferred progress indicator
+            ) : (
+                <>
+                    <SearchResultsRow
+                        title={globalize.translate('Movies')}
+                        items={movies}
+                        cardOptions={{ showYear: true }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Shows')}
+                        items={shows}
+                        cardOptions={{ showYear: true }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Episodes')}
+                        items={episodes}
+                        cardOptions={{
+                            coverImage: true,
+                            showParentTitle: true
+                        }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('HeaderVideos')}
+                        items={videos}
+                        cardOptions={{ showParentTitle: true }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Programs')}
+                        items={programs}
+                        cardOptions={{
+                            preferThumb: true,
+                            inheritThumb: false,
+                            showParentTitleOrTitle: true,
+                            showTitle: false,
+                            coverImage: true,
+                            overlayMoreButton: true,
+                            showAirTime: true,
+                            showAirDateTime: true,
+                            showChannelName: true
+                        }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Channels')}
+                        items={channels}
+                        cardOptions={{ shape: 'square' }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Playlists')}
+                        items={playlists}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Artists')}
+                        items={artists}
+                        cardOptions={{ coverImage: true }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Albums')}
+                        items={albums}
+                        cardOptions={{ showParentTitle: true }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Songs')}
+                        items={songs}
+                        cardOptions={{ showParentTitle: true }}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('HeaderPhotoAlbums')}
+                        items={photoAlbums}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Photos')}
+                        items={photos}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('HeaderAudioBooks')}
+                        items={audioBooks}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Books')}
+                        items={books}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('Collections')}
+                        items={collections}
+                    />
+                    <SearchResultsRow
+                        title={globalize.translate('People')}
+                        items={people}
+                        cardOptions={{ coverImage: true }}
+                    />
+
+                    {allEmpty && !isLoading && (
+                        <div>Sorry, nothing&apos;s here :/</div>
+                    )}
+                </>
+            )}
+
         </div>
     );
 };
