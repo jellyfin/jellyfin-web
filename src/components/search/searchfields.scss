@@ -9,34 +9,3 @@
     font-size: 2em;
     align-self: flex-end;
 }
-
-.sorry-text {
-    font-size: 2em;
-    text-align: center;
-    font-family: inherit;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-// New styles for loading circle
-.loading-circle {
-    border: 5px solid #557ece;
-    border-radius: 50%;
-    border-top: 5px solid #1b1b1bd7;
-    width: 65px;
-    height: 65px;
-    animation: spin 1s linear infinite;
-    margin: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-@keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
