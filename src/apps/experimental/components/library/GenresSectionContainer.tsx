@@ -71,7 +71,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             cardLayout: false,
             shape: itemType === BaseItemKind.MusicAlbum ? 'overflowSquare' : 'overflowPortrait',
             showParentTitle: (itemType === BaseItemKind.MusicAlbum),
-            showYear: !(itemType === BaseItemKind.MusicAlbum)
+            showYear: (itemType !== BaseItemKind.MusicAlbum)
         }}
     />;
 };
