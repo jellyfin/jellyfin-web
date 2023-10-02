@@ -66,6 +66,7 @@
  - [Fishbigger](https://github.com/fishbigger)
  - [sleepycatcoding](https://github.com/sleepycatcoding)
  - [TheMelmacian](https://github.com/TheMelmacian)
+ - [Nate G](https://github.com/GGProGaming)
 
 # Emby Contributors
 
