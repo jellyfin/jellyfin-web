@@ -10,7 +10,6 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
-import libraryMenu from '../scripts/libraryMenu';
 
 export function getCommands(options) {
     const item = options.item;
@@ -569,29 +568,6 @@ function deleteSeriesTimer(apiClient, item, resolve, command) {
     });
 }
 
-function getSettingsKey(item) {
-    if (item.IsFolder) {
-        return 'Folder';
-    }
-    const itemType = item.MediaType;
-    switch (itemType) {
-        case 'Movie':
-        case 'BoxSet':
-        case 'Video':
-            return 'movies';
-        case 'Audio':
-            return 'songs';
-        case 'MusicAlbum':
-            return 'musicalbums';
-        case 'MusicArtist':
-            return 'musicartists';
-        case 'MusicGenre':
-            return 'genres';
-        case 'MusicPlaylist':
-            return 'musicplaylists';
-    }
-}
-
 function play(item, resume, queue, queueNext) {
     let method = 'play';
     if (queue) {
@@ -614,8 +590,8 @@ function play(item, resume, queue, queueNext) {
             serverId: item.ServerId
         });
     } else {
-        const sortParentId = item.IsFolder ? ('items-' + item.Id) : libraryMenu.getTopParentId() + '-' + getSettingsKey(item);
-        const sortValues = userSettings.getSortValues(sortParentId);
+        const sortParentId = 'items-' + (item.IsFolder ? item.Id : item.ParentId) + '-Folder';
+        const sortValues = userSettings.getSortValuesLegacy(sortParentId);
 
         playbackManager[method]({
             items: [item],
