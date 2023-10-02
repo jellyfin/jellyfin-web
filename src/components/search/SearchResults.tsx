@@ -241,7 +241,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
             )}
         >
             {isLoading ? (
-                <div>Loading...</div> // Replace this with your preferred progress indicator
+                <div className='loading-circle'></div>
             ) : (
                 <>
                     <SearchResultsRow
@@ -333,7 +333,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                     />
 
                     {allEmpty && !isLoading && (
-                        <div>Sorry, nothing&apos;s here :/</div>
+                        <div className='sorry-text'>Sorry! No results found for &quot;{query}&quot;</div>
                     )}
                 </>
             )}
