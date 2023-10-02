@@ -1371,7 +1371,7 @@
     "EnableQuickConnect": "Aktivera snabbanslutning på denna server",
     "QuickConnectDeactivated": "Snabbanslutning inaktiverades innan inloggningsförsöket kunde godkännas",
     "QuickConnectAuthorizeFail": "Okänd snabbanslutningskod",
-    "QuickConnectAuthorizeSuccess": "Anrop auktoriserat",
+    "QuickConnectAuthorizeSuccess": "Du har autentiserat din enhet!",
     "QuickConnectAuthorizeCode": "Ange kod {0} för att logga in",
     "QuickConnectActivationSuccessful": "Aktivering lyckades",
     "QuickConnect": "Snabbanslutning",
@@ -1768,5 +1768,12 @@
     "LabelBackdropScreensaverIntervalHelp": "Tiden i sekunder mellan olika bakgrunder när bakgrunds-skärmsläckaren används.",
     "AiTranslated": "AI-översatt",
     "MachineTranslated": "Maskinöversatt",
-    "HearingImpairedShort": "HI/SDH"
+    "HearingImpairedShort": "HI/SDH",
+    "BackdropScreensaver": "Bakgrunds skärmsläckare",
+    "LogoScreensaver": "Logotyp skärmsläckare",
+    "LabelIsHearingImpaired": "För hörselskadade (SDH)",
+    "LabelBackdropScreensaverInterval": "Bakgrunds skärmsläckare intervall",
+    "GridView": "Rutnätsvy",
+    "ListView": "Listvy",
+    "ForeignPartsOnly": "Forcerad/Främmande delar enbart"
 }
