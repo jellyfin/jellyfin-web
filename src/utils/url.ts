@@ -31,5 +31,5 @@ export const getParameterByName = (name: string, url?: string | null | undefined
     }
 
     // eslint-disable-next-line compat/compat
-    return new URLSearchParams(url).get(name) || '';
+    return new URLSearchParams(url).get(name) ?? '';
 };

@@ -42,7 +42,7 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
                     recursive: true,
                     imageTypeLimit: 0,
                     enableImages: false,
-                    parentId: parentId || undefined,
+                    parentId: parentId ?? undefined,
                     enableTotalRecordCount: false
                 })
                 .then(result => setSuggestions(result.data.Items || []))
