@@ -5,24 +5,29 @@
  */
 
 import escapeHtml from 'escape-html';
-import datetime from '../../scripts/datetime';
-import imageLoader from '../images/imageLoader';
-import itemHelper from '../itemHelper';
+
+import browser from 'scripts/browser';
+import datetime from 'scripts/datetime';
+import dom from 'scripts/dom';
+import globalize from 'scripts/globalize';
+import imageHelper from 'scripts/imagehelper';
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import { randomInt } from 'utils/number';
+
 import focusManager from '../focusManager';
+import imageLoader from '../images/imageLoader';
 import indicators from '../indicators/indicators';
-import globalize from '../../scripts/globalize';
+import itemHelper from '../itemHelper';
 import layoutManager from '../layoutManager';
-import dom from '../../scripts/dom';
-import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
-import itemShortcuts from '../shortcuts';
-import imageHelper from '../../scripts/imagehelper';
-import { randomInt } from '../../utils/number.ts';
-import './card.scss';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../guide/programs.scss';
-import ServerConnections from '../ServerConnections';
 import { appRouter } from '../router/appRouter';
+import ServerConnections from '../ServerConnections';
+import itemShortcuts from '../shortcuts';
+
+import 'elements/emby-button/paper-icon-button-light';
+
+import './card.scss';
+import '../guide/programs.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -301,16 +306,16 @@ function setCardData(items, options) {
                 options.shape = 'banner';
                 options.coverImage = true;
             } else if (primaryImageAspectRatio >= 1.33) {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                options.shape = getBackdropShape(requestedShape === 'autooverflow');
             } else if (primaryImageAspectRatio > 0.71) {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
+                options.shape = getSquareShape(requestedShape === 'autooverflow');
             } else {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                options.shape = getPortraitShape(requestedShape === 'autooverflow');
             }
         }
 
         if (!options.shape) {
-            options.shape = options.defaultShape || (requestedShape === 'autooverflow' ? 'overflowSquare' : 'square');
+            options.shape = options.defaultShape || getSquareShape(requestedShape === 'autooverflow');
         }
     }
 

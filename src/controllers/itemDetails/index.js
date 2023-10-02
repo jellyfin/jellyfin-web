@@ -4,39 +4,42 @@ import { marked } from 'marked';
 import escapeHtml from 'escape-html';
 import isEqual from 'lodash-es/isEqual';
 
-import { appHost } from '../../components/apphost';
-import loading from '../../components/loading/loading';
-import { appRouter } from '../../components/router/appRouter';
-import layoutManager from '../../components/layoutManager';
-import Events from '../../utils/events.ts';
-import * as userSettings from '../../scripts/settings/userSettings';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import datetime from '../../scripts/datetime';
-import mediaInfo from '../../components/mediainfo/mediainfo';
-import { clearBackdrop, setBackdrops } from '../../components/backdrop/backdrop';
-import listView from '../../components/listview/listview';
-import itemContextMenu from '../../components/itemContextMenu';
-import itemHelper from '../../components/itemHelper';
-import dom from '../../scripts/dom';
-import imageLoader from '../../components/images/imageLoader';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
-import browser from '../../scripts/browser';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-playstatebutton/emby-playstatebutton';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-select/emby-select';
-import itemShortcuts from '../../components/shortcuts';
-import Dashboard from '../../utils/dashboard';
-import ServerConnections from '../../components/ServerConnections';
-import confirm from '../../components/confirm/confirm';
-import { download } from '../../scripts/fileDownloader';
-import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import { appHost } from 'components/apphost';
+import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import confirm from 'components/confirm/confirm';
+import imageLoader from 'components/images/imageLoader';
+import itemContextMenu from 'components/itemContextMenu';
+import itemHelper from 'components/itemHelper';
+import mediaInfo from 'components/mediainfo/mediainfo';
+import layoutManager from 'components/layoutManager';
+import listView from 'components/listview/listview';
+import loading from 'components/loading/loading';
+import { playbackManager } from 'components/playback/playbackmanager';
+import { appRouter } from 'components/router/appRouter';
+import itemShortcuts from 'components/shortcuts';
+import ServerConnections from 'components/ServerConnections';
+import browser from 'scripts/browser';
+import datetime from 'scripts/datetime';
+import dom from 'scripts/dom';
+import { download } from 'scripts/fileDownloader';
+import globalize from 'scripts/globalize';
+import libraryMenu from 'scripts/libraryMenu';
+import * as userSettings from 'scripts/settings/userSettings';
+import { getPortraitShape, getSquareShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+import Events from 'utils/events';
+import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-checkbox/emby-checkbox';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-playstatebutton/emby-playstatebutton';
+import 'elements/emby-ratingbutton/emby-ratingbutton';
+import 'elements/emby-scroller/emby-scroller';
+import 'elements/emby-select/emby-select';
+
+import 'styles/scrollstyles.scss';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -1067,22 +1070,6 @@ function renderDetails(page, item, apiClient, context) {
 
 function enableScrollX() {
     return browser.mobile && window.screen.availWidth <= 1000;
-}
-
-function getPortraitShape(scrollX) {
-    if (scrollX == null) {
-        scrollX = enableScrollX();
-    }
-
-    return scrollX ? 'overflowPortrait' : 'portrait';
-}
-
-function getSquareShape(scrollX) {
-    if (scrollX == null) {
-        scrollX = enableScrollX();
-    }
-
-    return scrollX ? 'overflowSquare' : 'square';
 }
 
 function renderMoreFromSeason(view, item, apiClient) {

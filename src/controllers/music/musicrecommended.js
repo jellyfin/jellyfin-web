@@ -1,22 +1,24 @@
-import browser from '../../scripts/browser';
-import layoutManager from '../../components/layoutManager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import inputManager from '../../scripts/inputManager';
-import loading from '../../components/loading/loading';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import dom from '../../scripts/dom';
-import imageLoader from '../../components/images/imageLoader';
-import libraryMenu from '../../scripts/libraryMenu';
-import * as mainTabsManager from '../../components/maintabsmanager';
-import globalize from '../../scripts/globalize';
-import { LibraryTab } from '../../types/libraryTab.ts';
-import Dashboard from '../../utils/dashboard';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import * as mainTabsManager from 'components/maintabsmanager';
+import browser from 'scripts/browser';
+import dom from 'scripts/dom';
+import globalize from 'scripts/globalize';
+import inputManager from 'scripts/inputManager';
+import libraryMenu from 'scripts/libraryMenu';
+import * as userSettings from 'scripts/settings/userSettings';
+import { LibraryTab } from 'types/libraryTab';
+import Dashboard from 'utils/dashboard';
+import { getSquareShape } from 'utils/card';
 
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-tabs/emby-tabs';
+import 'elements/emby-button/emby-button';
+
+import 'styles/flexstyles.scss';
+import 'styles/scrollstyles.scss';
 
 function itemsPerRow() {
     const screenWidth = dom.getWindowSize().innerWidth;
@@ -40,10 +42,6 @@ function enableScrollX() {
     return !layoutManager.desktop;
 }
 
-function getSquareShape() {
-    return enableScrollX() ? 'overflowSquare' : 'square';
-}
-
 function loadLatest(page, parentId) {
     loading.show();
     const userId = ApiClient.getCurrentUserId();
@@ -62,7 +60,7 @@ function loadLatest(page, parentId) {
             items: items,
             showUnplayedIndicator: false,
             showLatestItemsPopup: false,
-            shape: getSquareShape(),
+            shape: getSquareShape(enableScrollX()),
             showTitle: true,
             showParentTitle: true,
             lazy: true,
@@ -108,7 +106,7 @@ function loadRecentlyPlayed(page, parentId) {
         itemsContainer.innerHTML = cardBuilder.getCardsHtml({
             items: result.Items,
             showUnplayedIndicator: false,
-            shape: getSquareShape(),
+            shape: getSquareShape(enableScrollX()),
             showTitle: true,
             showParentTitle: true,
             action: 'instantmix',
@@ -150,7 +148,7 @@ function loadFrequentlyPlayed(page, parentId) {
         itemsContainer.innerHTML = cardBuilder.getCardsHtml({
             items: result.Items,
             showUnplayedIndicator: false,
-            shape: getSquareShape(),
+            shape: getSquareShape(enableScrollX()),
             showTitle: true,
             showParentTitle: true,
             action: 'instantmix',
