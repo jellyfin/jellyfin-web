@@ -113,12 +113,13 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
         setBooks([]);
         setPeople([]);
         setCollections([]);
-        setIsLoading(true);
 
         if (!query) {
             setIsLoading(false);
             return;
         }
+
+        setIsLoading(true);
 
         const apiClient = ServerConnections.getApiClient(serverId);
         const fetchPromises = [];
