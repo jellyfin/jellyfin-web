@@ -51,5 +51,14 @@
     "AllowHWTranscodingHelp": "avkoda ambætarinum",
     "AllowMediaConversionHelp": "miðla",
     "AllowOnTheFlySubtitleExtractionHelp": "Íkervnir undirtekstir avspæling íkervnar undirtekstir",
-    "AllowRemoteAccess": "ambætaran"
+    "AllowRemoteAccess": "ambætaran",
+    "HeaderPassword": "Loyniorð",
+    "HeaderLibraries": "Søvn",
+    "HeaderParentalRatings": "Aldursmark",
+    "HeaderSecondsValue": "{0} sekund",
+    "HeaderSendMessage": "Send boð",
+    "Kids": "Børn",
+    "LabelArtists": "Listafólk",
+    "LabelCountry": "Land",
+    "LabelDeveloper": "Mennari"
 }
