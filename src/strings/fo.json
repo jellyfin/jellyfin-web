@@ -5,5 +5,21 @@
     "AddedOnValue": "{0} lagt afturat",
     "AddToCollection": "Koyr í samling",
     "AddToFavorites": "Legg til yndislistan",
-    "AddToPlaylist": "Legg til spælilistan"
+    "AddToPlaylist": "Legg til spælilistan",
+    "Alerts": "Ávaringar",
+    "All": "Øll",
+    "AllEpisodes": "Allir partar",
+    "AllLanguages": "Øll tungumál",
+    "LabelTonemappingMode": "Tónaavmyndingarháttur",
+    "HearingImpairedShort": "Hoyriveik/SDH",
+    "MachineTranslated": "Maskintýðing",
+    "AiTranslated": "Vitlíkistýðing",
+    "AllowAv1Encoding": "Loyva koding í AV1 bygnaði",
+    "LabelIsHearingImpaired": "Til hoyriveik (SDH)",
+    "Unknown": "Ókend",
+    "TonemappingModeHelp": "Vel tónaavmyndingarháttin. Um tú verður fyri útblástum hálýsingum, royn so heldur RGB-støðuna.",
+    "Unreleased": "Ikki latið út enn",
+    "AlbumArtist": "Album Listafólk",
+    "AllChannels": "Allar rásir",
+    "AllComplexFormats": "Allar Kompleksu Formatir (ASS, SSA, VobSub, PGS, SUB, IDX, ...)"
 }
