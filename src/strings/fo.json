@@ -21,5 +21,22 @@
     "Unreleased": "Ikki latið út enn",
     "AlbumArtist": "Album Listafólk",
     "AllChannels": "Allar rásir",
-    "AllComplexFormats": "Allar Kompleksu Formatir (ASS, SSA, VobSub, PGS, SUB, IDX, ...)"
+    "AllComplexFormats": "Allar Kompleksu Formatir (ASS, SSA, VobSub, PGS, SUB, IDX, ...)",
+    "Directors": "Leikstjórar",
+    "AgeValue": "({0} ára gamalt)",
+    "AllLibraries": "Øll søvn",
+    "Artist": "Listafólk",
+    "Artists": "Listafólk",
+    "Books": "Bøkur",
+    "Composer": "Tónaskald",
+    "DailyAt": "Dagligani kl. {0}",
+    "DashboardVersionNumber": "Útgáva: {0}",
+    "DeathDateValue": "Deyð(ur): {0}",
+    "Digital": "Talgilt",
+    "Director": "Leikstjóri",
+    "Friday": "Fríggjadag",
+    "HeaderAdmin": "Umsiting",
+    "HeaderDevices": "Eindir",
+    "HeaderError": "Feilur",
+    "HeaderForKids": "Fyri Børn"
 }
