@@ -1,4 +1,9 @@
 {
     "AccessRestrictedTryAgainLater": "Atgongd er avmarkað. Vinaliga royn aftur seinni.",
-    "Actor": "Sjónleikari"
+    "Actor": "Sjónleikari",
+    "Add": "Legg afturat",
+    "AddedOnValue": "{0} lagt afturat",
+    "AddToCollection": "Koyr í samling",
+    "AddToFavorites": "Legg til yndislistan",
+    "AddToPlaylist": "Legg til spælilistan"
 }
