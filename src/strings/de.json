@@ -1771,9 +1771,10 @@
     "MachineTranslated": "maschinenübersetzt",
     "AllowAv1Encoding": "Encodierung ins AV1 Format erlauben",
     "LabelIsHearingImpaired": "Für Hörgeschädigte (SDH)",
-    "LabelBackdropScreensaverInterval": "Hintergrund Bildschirmschoner Interval",
+    "LabelBackdropScreensaverInterval": "Hintergrund-Bildschirmschoner-Intervall",
     "BackdropScreensaver": "Hintergrund Bildschirmschoner",
     "ForeignPartsOnly": "Erzwungen/Nur ausländische Teile",
     "HearingImpairedShort": "BaFa/SDH",
-    "HeaderGuestCast": "Gast Stars"
+    "HeaderGuestCast": "Gast Stars",
+    "LabelBackdropScreensaverIntervalHelp": "Die Zeit in Sekunden zwischen dem Wechsel verschiedener Hintergrundbilder im Bildschirmschoner"
 }
