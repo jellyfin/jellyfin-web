@@ -441,8 +441,20 @@ function renderName(item, container, context) {
     if (parentNameHtml.length) {
         if (parentNameLast) {
             // Music
+            // Determine if there are over 10 artists in the album. If so, concat with 'and X others.'
+            const artists = parentNameHtml[0].split(' / ');
+            const otherArtistCount = artists.length - 10;
+            let newParentNameHtml = artists.slice(0, 10).join(' / ');
+            newParentNameHtml = `${newParentNameHtml} and ${otherArtistCount} other artists.</br>`;
+
             if (layoutManager.mobile) {
-                html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
+                if (artists.length > 10) {
+                    html = '<h3 class="parentName musicParentName ">' + newParentNameHtml + '</h3>';
+                } else {
+                    html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
+                }
+            } else if (artists.length > 10) {
+                html = '<h3 class="parentName musicParentName">' + newParentNameHtml + '</h3>';
             } else {
                 html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
