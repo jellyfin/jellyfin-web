@@ -103,35 +103,27 @@ function onInputCommand(e) {
     }
 }
 function saveValues(context, settings, settingsKey, setfilters) {
-    let elems;
-
     // Video type
     const videoTypes = [];
-    elems = context.querySelectorAll('.chkVideoTypeFilter');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            videoTypes.push(elems[i].getAttribute('data-filter'));
+    for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
+        if (elem.checked) {
+            videoTypes.push(elem.getAttribute('data-filter'));
         }
     }
 
     // Series status
     const seriesStatuses = [];
-    elems = context.querySelectorAll('.chkSeriesStatus');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            seriesStatuses.push(elems[i].getAttribute('data-filter'));
+    for (const elem of context.querySelectorAll('.chkSeriesStatus')) {
+        if (elem.checked) {
+            seriesStatuses.push(elem.getAttribute('data-filter'));
         }
     }
 
     // Genres
     const genres = [];
-    elems = context.querySelectorAll('.chkGenreFilter');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            genres.push(elems[i].getAttribute('data-filter'));
+    for (const elem of context.querySelectorAll('.chkGenreFilter')) {
+        if (elem.checked) {
+            genres.push(elem.getAttribute('data-filter'));
         }
     }
 
@@ -157,13 +149,11 @@ function saveValues(context, settings, settingsKey, setfilters) {
             GenreIds: genres.join(',')
         }));
     } else {
-        elems = context.querySelectorAll('.simpleFilter');
-
-        for (let i = 0, length = elems.length; i < length; i++) {
-            if (elems[i].tagName === 'INPUT') {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
+        for (const elem of context.querySelectorAll('.simpleFilter')) {
+            if (elem.tagName === 'INPUT') {
+                setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
             } else {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
+                setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
             }
         }
 
