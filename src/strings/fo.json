@@ -38,5 +38,18 @@
     "HeaderAdmin": "Umsiting",
     "HeaderDevices": "Eindir",
     "HeaderError": "Feilur",
-    "HeaderForKids": "Fyri Børn"
+    "HeaderForKids": "Fyri Børn",
+    "AllowSegmentDeletion": "Strika partar",
+    "LabelThrottleDelaySeconds": "Kyrkja",
+    "AllowMediaConversion": "miðla",
+    "AllowOnTheFlySubtitleExtraction": "undirteksta",
+    "AllowCollectionManagement": "brúkara",
+    "AllowFfmpegThrottling": "Kyrkja",
+    "AllowFfmpegThrottlingHelp": "umkoding avspæling avspælingar",
+    "AllowSegmentDeletionHelp": "avspælingar",
+    "LabelSegmentKeepSecondsHelp": "Kyrkja parta",
+    "AllowHWTranscodingHelp": "avkoda ambætarinum",
+    "AllowMediaConversionHelp": "miðla",
+    "AllowOnTheFlySubtitleExtractionHelp": "Íkervnir undirtekstir avspæling íkervnar undirtekstir",
+    "AllowRemoteAccess": "ambætaran"
 }
