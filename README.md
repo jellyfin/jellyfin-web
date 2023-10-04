@@ -77,8 +77,9 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 .
 └── src
     ├── apps
-    │   ├── experimental  # New experimental app layout
-    │   └── stable        # Classic (stable) app layout
+    │   ├── dashboard     # Admin dashboard app layout and routes
+    │   ├── experimental  # New experimental app layout and routes
+    │   └── stable        # Classic (stable) app layout and routes
     ├── assets            # Static assets
     ├── components        # Higher order visual components and React components
     ├── controllers       # Legacy page views and controllers 🧹
@@ -87,7 +88,6 @@ Jellyfin Web is the frontend used for most of the clients available for end user
     ├── legacy            # Polyfills for legacy browsers
     ├── libraries         # Third party libraries 🧹
     ├── plugins           # Client plugins
-    ├── routes            # React routes/pages
     ├── scripts           # Random assortment of visual components and utilities 🐉
     ├── strings           # Translation files
     ├── styles            # Common app Sass stylesheets

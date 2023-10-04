@@ -7,16 +7,16 @@ import Dashboard from '../../utils/dashboard';
 
 function getTabs() {
     return [{
-        href: '#/library.html',
+        href: '#/dashboard/libraries',
         name: globalize.translate('HeaderLibraries')
     }, {
-        href: '#/librarydisplay.html',
+        href: '#/dashboard/libraries/display',
         name: globalize.translate('Display')
     }, {
-        href: '#/metadataimages.html',
+        href: '#/dashboard/libraries/metadata',
         name: globalize.translate('Metadata')
     }, {
-        href: '#/metadatanfo.html',
+        href: '#/dashboard/libraries/nfo',
         name: globalize.translate('TabNfoSettings')
     }];
 }

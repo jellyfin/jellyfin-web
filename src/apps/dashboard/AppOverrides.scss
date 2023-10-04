@@ -1,0 +1,22 @@
+// Default MUI breakpoints
+// https://mui.com/material-ui/customization/breakpoints/#default-breakpoints
+$mui-bp-sm: 600px;
+$mui-bp-md: 900px;
+$mui-bp-lg: 1200px;
+$mui-bp-xl: 1536px;
+
+// Fix dashboard pages layout to work with drawer
+.dashboardDocument {
+    .mainAnimatedPage {
+        position: relative;
+    }
+
+    .skinBody {
+        position: unset !important;
+    }
+
+    // Fix the padding of dashboard pages
+    .content-primary.content-primary {
+        padding-top: 3.25rem !important;
+    }
+}

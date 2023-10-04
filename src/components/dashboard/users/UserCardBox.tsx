@@ -11,7 +11,7 @@ const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl
     __html: `<a
         is="emby-linkbutton"
         class="cardContent"
-        href="#/useredit.html?userId=${user.Id}"
+        href="#/dashboard/users/profile?userId=${user.Id}"
         >
         ${renderImgUrl}
     </a>`

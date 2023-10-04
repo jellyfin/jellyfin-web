@@ -639,7 +639,7 @@ function saveProfile(page, profile) {
             data: JSON.stringify(profile),
             contentType: 'application/json'
         }).then(function () {
-            Dashboard.navigate('dlnaprofiles.html');
+            Dashboard.navigate('dashboard/dlna/profiles');
         }, Dashboard.processErrorResponse);
     }
 
