@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { FC, ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, matchPath } from 'react-router-dom';
 
 import appIcon from 'assets/img/icon-transparent.png';
 import { appRouter } from 'components/router/appRouter';
@@ -40,6 +40,19 @@ const AppToolbar: FC<AppToolbarProps> = ({
     const isUserLoggedIn = Boolean(user);
 
     const isBackButtonAvailable = appRouter.canGoBack();
+
+    // handles the case to disable UserMenuButton on selectserver.html
+    let isUserMenuAvailable = true;
+    const location = useLocation();
+    const match = matchPath<string, string>(location.pathname, '/selectserver.html')
+    
+    // if (location.pathname == '/selectserver.html') {
+    //     isUserMenuAvailable = false;
+    // } 
+
+    if(match != null) {
+        isUserMenuAvailable = false;
+    }
 
     return (
         <Toolbar
@@ -111,7 +124,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
 
             {children}
 
-            {isUserLoggedIn && isDrawerAvailable && (
+            {isUserLoggedIn && isUserMenuAvailable && (
                 <>
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
                         {buttons}
