@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { FC, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import appIcon from 'assets/img/icon-transparent.png';
 import { appRouter } from 'components/router/appRouter';
@@ -111,7 +111,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
 
             {children}
 
-            {isUserLoggedIn && (
+            {isUserLoggedIn && isDrawerAvailable && (
                 <>
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
                         {buttons}
