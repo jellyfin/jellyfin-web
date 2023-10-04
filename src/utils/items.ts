@@ -107,7 +107,7 @@ export const getFieldsQuery = (
 
 export const getLimitQuery = () => {
     return {
-        limit: userSettings.libraryPageSize(undefined) || undefined
+        limit: userSettings.libraryPageSize(undefined) ?? undefined
     };
 };
 
@@ -144,12 +144,12 @@ export const getSettingsKey = (viewType: LibraryTab, parentId: ParentId) => {
     return `${viewType} - ${parentId}`;
 };
 
-export const getDefaultLibraryViewSettings = (): LibraryViewSettings => {
+export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
     return {
         ShowTitle: true,
         ShowYear: false,
-        ViewMode: ViewMode.GridView,
-        ImageType: ImageType.Primary,
+        ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
+        ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
         CardLayout: false,
         SortBy: ItemSortBy.SortName,
         SortOrder: SortOrder.Ascending,

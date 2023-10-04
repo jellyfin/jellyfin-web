@@ -5,10 +5,11 @@ import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import GenresSectionContainer from './GenresSectionContainer';
 import { CollectionType } from 'types/collectionType';
+import { ParentId } from 'types/library';
 
 interface GenresItemsContainerProps {
-    parentId?: string | null;
-    collectionType?: CollectionType;
+    parentId: ParentId;
+    collectionType: CollectionType;
     itemType: BaseItemKind;
 }
 
