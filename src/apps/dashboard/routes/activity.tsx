@@ -19,9 +19,9 @@ import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'script
 import globalize from 'scripts/globalize';
 import { toBoolean } from 'utils/string';
 
-import LogLevelChip from '../../components/activityTable/LogLevelChip';
-import OverviewCell from '../../components/activityTable/OverviewCell';
-import GridActionsCellLink from '../../components/GridActionsCellLink';
+import LogLevelChip from '../components/activityTable/LogLevelChip';
+import OverviewCell from '../components/activityTable/OverviewCell';
+import GridActionsCellLink from '../components/dataGrid/GridActionsCellLink';
 
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';
@@ -68,7 +68,7 @@ const Activity = () => {
                     sx={{ padding: 0 }}
                     title={users[row.UserId]?.Name ?? undefined}
                     component={Link}
-                    to={`/useredit.html?userId=${row.UserId}`}
+                    to={`/dashboard/users/profile?userId=${row.UserId}`}
                 >
                     <UserAvatar user={users[row.UserId]} />
                 </IconButton>

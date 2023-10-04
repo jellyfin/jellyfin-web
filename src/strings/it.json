@@ -1762,5 +1762,7 @@
     "LabelThrottleDelaySecondsHelp": "Tempo in secondi dopo cui il transcodificatore sarà messo in throttle. Deve essere sufficientemente grande perché il client mantenga un buon buffer. Funziona solo se il throttling è abilitato.",
     "LabelSegmentKeepSeconds": "Il tempo per cui tenere i segmenti",
     "LabelSegmentKeepSecondsHelp": "Tempo in secondi per cui i segmenti saranno tenuti prima di essere sovrascritti. Deve essere più grande di \"Throttle dopo\". Funziona solo se l'eliminazione dei segmenti è abilitata.",
-    "AllowAv1Encoding": "Permetti la codifica nel formato AV1"
+    "AllowAv1Encoding": "Permetti la codifica nel formato AV1",
+    "GoHome": "Vai alla Home",
+    "GridView": "Vista Griglia"
 }

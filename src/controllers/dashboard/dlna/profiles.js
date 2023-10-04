@@ -40,7 +40,7 @@ function renderProfiles(page, element, profiles) {
         html += '<div class="listItem listItem-border">';
         html += '<span class="listItemIcon material-icons live_tv" aria-hidden="true"></span>';
         html += '<div class="listItemBody two-line">';
-        html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#/dlnaprofile.html?id=" + profile.Id + "'>";
+        html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#/dashboard/dlna/profiles/edit?id=" + profile.Id + "'>";
         html += '<div>' + escapeHtml(profile.Name) + '</div>';
         html += '</a>';
         html += '</div>';
@@ -78,10 +78,10 @@ function deleteProfile(page, id) {
 
 function getTabs() {
     return [{
-        href: '#/dlnasettings.html',
+        href: '#/dashboard/dlna',
         name: globalize.translate('Settings')
     }, {
-        href: '#/dlnaprofiles.html',
+        href: '#/dashboard/dlna/profiles',
         name: globalize.translate('TabProfiles')
     }];
 }

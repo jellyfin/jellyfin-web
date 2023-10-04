@@ -1,17 +1,22 @@
 import escapeHtml from 'escape-html';
+
+import globalize from 'scripts/globalize';
+import imageHelper from 'scripts/imagehelper';
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+
 import cardBuilder from '../cardbuilder/cardBuilder';
-import layoutManager from '../layoutManager';
 import imageLoader from '../images/imageLoader';
-import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
 import { appRouter } from '../router/appRouter';
-import imageHelper from '../../scripts/imagehelper';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-button/emby-button';
-import './homesections.scss';
-import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../ServerConnections';
+
+import 'elements/emby-button/paper-icon-button-light';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-scroller/emby-scroller';
+import 'elements/emby-button/emby-button';
+
+import './homesections.scss';
 
 export function getDefaultSection(index) {
     switch (index) {
@@ -94,7 +99,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
             const createNowLink = elem.querySelector('#button-createLibrary');
             if (createNowLink) {
                 createNowLink.addEventListener('click', function () {
-                    Dashboard.navigate('library.html');
+                    Dashboard.navigate('dashboard/libraries');
                 });
             }
         }
@@ -169,18 +174,6 @@ function enableScrollX() {
     return true;
 }
 
-function getSquareShape() {
-    return enableScrollX() ? 'overflowSquare' : 'square';
-}
-
-function getThumbShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-}
-
-function getPortraitShape() {
-    return enableScrollX() ? 'overflowPortrait' : 'portrait';
-}
-
 function getLibraryButtonsHtml(items) {
     let html = '';
 
@@ -244,11 +237,11 @@ function getLatestItemsHtmlFn(itemType, viewType) {
         const cardLayout = false;
         let shape;
         if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
-            shape = getPortraitShape();
+            shape = getPortraitShape(enableScrollX());
         } else if (viewType === 'music' || viewType === 'homevideos') {
-            shape = getSquareShape();
+            shape = getSquareShape(enableScrollX());
         } else {
-            shape = getThumbShape();
+            shape = getBackdropShape(enableScrollX());
         }
 
         return cardBuilder.getCardsHtml({
@@ -345,7 +338,7 @@ export function loadLibraryTiles(elem, apiClient, user, userSettings, shape, use
 
         html += cardBuilder.getCardsHtml({
             items: userViews,
-            shape: getThumbShape(),
+            shape: getBackdropShape(enableScrollX()),
             showTitle: true,
             centerText: true,
             overlayText: false,
@@ -423,7 +416,9 @@ function getItemsToResumeHtmlFn(useEpisodeImages, mediaType) {
             items: items,
             preferThumb: true,
             inheritThumb: !useEpisodeImages,
-            shape: (mediaType === 'Book') ? getPortraitShape() : getThumbShape(),
+            shape: (mediaType === 'Book') ?
+                getPortraitShape(enableScrollX()) :
+                getBackdropShape(enableScrollX()),
             overlayText: false,
             showTitle: true,
             showParentTitle: true,
@@ -471,7 +466,7 @@ function getOnNowItemsHtml(items) {
         showChannelName: false,
         showAirDateTime: false,
         showAirEndTime: true,
-        defaultShape: getThumbShape(),
+        defaultShape: getBackdropShape(enableScrollX()),
         lines: 3,
         overlayPlayButton: true
     });
@@ -614,7 +609,7 @@ function getNextUpItemsHtmlFn(useEpisodeImages) {
             items: items,
             preferThumb: true,
             inheritThumb: !useEpisodeImages,
-            shape: getThumbShape(),
+            shape: getBackdropShape(enableScrollX()),
             overlayText: false,
             showTitle: true,
             showParentTitle: true,

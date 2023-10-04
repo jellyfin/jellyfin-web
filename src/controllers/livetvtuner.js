@@ -96,7 +96,7 @@ function submitForm(page) {
         contentType: 'application/json'
     }).then(function () {
         Dashboard.processServerConfigurationUpdateResult();
-        Dashboard.navigate('livetvstatus.html');
+        Dashboard.navigate('dashboard/livetv');
     }, function () {
         loading.hide();
         Dashboard.alert({

@@ -1775,5 +1775,6 @@
     "AiTranslated": "Traducido por IA",
     "MachineTranslated": "Traducido por Máquina",
     "HeaderGuestCast": "Estrellas Invitadas",
-    "ForeignPartsOnly": "Partes Forzadas/Foráneas solamente"
+    "ForeignPartsOnly": "Partes Forzadas/Foráneas solamente",
+    "LabelIsHearingImpaired": "Para personas con discapacidad auditiva (SDH)"
 }

@@ -105,13 +105,13 @@ function getRepositoryElement(repository) {
 
 function getTabs() {
     return [{
-        href: '#/installedplugins.html',
+        href: '#/dashboard/plugins',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: '#/availableplugins.html',
+        href: '#/dashboard/plugins/catalog',
         name: globalize.translate('TabCatalog')
     }, {
-        href: '#/repositories.html',
+        href: '#/dashboard/plugins/repositories',
         name: globalize.translate('TabRepositories')
     }];
 }

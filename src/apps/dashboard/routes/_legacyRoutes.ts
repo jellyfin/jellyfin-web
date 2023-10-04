@@ -1,170 +1,164 @@
-import { LegacyRoute } from '../../../../components/router/LegacyRoute';
+import type { LegacyRoute } from 'components/router/LegacyRoute';
 
 export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
     {
-        path: 'dashboard.html',
+        path: '/dashboard',
         pageProps: {
             controller: 'dashboard/dashboard',
             view: 'dashboard/dashboard.html'
         }
     }, {
-        path: 'dashboardgeneral.html',
+        path: 'settings',
         pageProps: {
             controller: 'dashboard/general',
             view: 'dashboard/general.html'
         }
     }, {
-        path: 'networking.html',
+        path: 'networking',
         pageProps: {
             controller: 'dashboard/networking',
             view: 'dashboard/networking.html'
         }
     }, {
-        path: 'devices.html',
+        path: 'devices',
         pageProps: {
             controller: 'dashboard/devices/devices',
             view: 'dashboard/devices/devices.html'
         }
     }, {
-        path: 'device.html',
+        path: 'devices/edit',
         pageProps: {
             controller: 'dashboard/devices/device',
             view: 'dashboard/devices/device.html'
         }
     }, {
-        path: 'dlnaprofile.html',
+        path: 'dlna/profiles/edit',
         pageProps: {
             controller: 'dashboard/dlna/profile',
             view: 'dashboard/dlna/profile.html'
         }
     }, {
-        path: 'dlnaprofiles.html',
+        path: 'dlna/profiles',
         pageProps: {
             controller: 'dashboard/dlna/profiles',
             view: 'dashboard/dlna/profiles.html'
         }
     }, {
-        path: 'dlnasettings.html',
+        path: 'dlna',
         pageProps: {
             controller: 'dashboard/dlna/settings',
             view: 'dashboard/dlna/settings.html'
         }
     }, {
-        path: 'addplugin.html',
+        path: 'plugins/add',
         pageProps: {
             controller: 'dashboard/plugins/add/index',
             view: 'dashboard/plugins/add/index.html'
         }
     }, {
-        path: 'library.html',
+        path: 'libraries',
         pageProps: {
             controller: 'dashboard/library',
             view: 'dashboard/library.html'
         }
     }, {
-        path: 'librarydisplay.html',
+        path: 'libraries/display',
         pageProps: {
             controller: 'dashboard/librarydisplay',
             view: 'dashboard/librarydisplay.html'
         }
     }, {
-        path: 'edititemmetadata.html',
-        pageProps: {
-            controller: 'edititemmetadata',
-            view: 'edititemmetadata.html'
-        }
-    }, {
-        path: 'encodingsettings.html',
+        path: 'playback/transcoding',
         pageProps: {
             controller: 'dashboard/encodingsettings',
             view: 'dashboard/encodingsettings.html'
         }
     }, {
-        path: 'log.html',
+        path: 'logs',
         pageProps: {
             controller: 'dashboard/logs',
             view: 'dashboard/logs.html'
         }
     }, {
-        path: 'metadataimages.html',
+        path: 'libraries/metadata',
         pageProps: {
             controller: 'dashboard/metadataImages',
             view: 'dashboard/metadataimages.html'
         }
     }, {
-        path: 'metadatanfo.html',
+        path: 'libraries/nfo',
         pageProps: {
             controller: 'dashboard/metadatanfo',
             view: 'dashboard/metadatanfo.html'
         }
     }, {
-        path: 'playbackconfiguration.html',
+        path: 'playback/resume',
         pageProps: {
             controller: 'dashboard/playback',
             view: 'dashboard/playback.html'
         }
     }, {
-        path: 'availableplugins.html',
+        path: 'plugins/catalog',
         pageProps: {
             controller: 'dashboard/plugins/available/index',
             view: 'dashboard/plugins/available/index.html'
         }
     }, {
-        path: 'repositories.html',
+        path: 'plugins/repositories',
         pageProps: {
             controller: 'dashboard/plugins/repositories/index',
             view: 'dashboard/plugins/repositories/index.html'
         }
     }, {
-        path: 'livetvguideprovider.html',
+        path: 'livetv/guide',
         pageProps: {
             controller: 'livetvguideprovider',
             view: 'livetvguideprovider.html'
         }
     }, {
-        path: 'livetvsettings.html',
+        path: 'recordings',
         pageProps: {
             controller: 'livetvsettings',
             view: 'livetvsettings.html'
         }
     }, {
-        path: 'livetvstatus.html',
+        path: 'livetv',
         pageProps: {
             controller: 'livetvstatus',
             view: 'livetvstatus.html'
         }
     }, {
-        path: 'livetvtuner.html',
+        path: 'livetv/tuner',
         pageProps: {
             controller: 'livetvtuner',
             view: 'livetvtuner.html'
         }
     }, {
-        path: 'installedplugins.html',
+        path: 'plugins',
         pageProps: {
             controller: 'dashboard/plugins/installed/index',
             view: 'dashboard/plugins/installed/index.html'
         }
     }, {
-        path: 'scheduledtask.html',
+        path: 'tasks/edit',
         pageProps: {
             controller: 'dashboard/scheduledtasks/scheduledtask',
             view: 'dashboard/scheduledtasks/scheduledtask.html'
         }
     }, {
-        path: 'scheduledtasks.html',
+        path: 'tasks',
         pageProps: {
             controller: 'dashboard/scheduledtasks/scheduledtasks',
             view: 'dashboard/scheduledtasks/scheduledtasks.html'
         }
     }, {
-        path: 'apikeys.html',
+        path: 'keys',
         pageProps: {
             controller: 'dashboard/apikeys',
             view: 'dashboard/apikeys.html'
         }
     }, {
-        path: 'streamingsettings.html',
+        path: 'playback/streaming',
         pageProps: {
             view: 'dashboard/streaming.html',
             controller: 'dashboard/streaming'

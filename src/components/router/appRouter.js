@@ -527,7 +527,7 @@ class AppRouter {
         }
 
         if (item === 'manageserver') {
-            return '#/dashboard.html';
+            return '#/dashboard';
         }
 
         if (item === 'recordedtv') {
