@@ -445,7 +445,7 @@ function renderName(item, container, context) {
             const artists = parentNameHtml[0].split(' / ');
             const otherArtistCount = artists.length - 10;
             let newParentNameHtml = artists.slice(0, 10).join(' / ');
-            newParentNameHtml = `${newParentNameHtml} and ${otherArtistCount} other artists.</br>`;
+            newParentNameHtml = `${newParentNameHtml} ${globalize.translate('AndOtherArtists', otherArtistCount)}</br>`;
 
             if (layoutManager.mobile) {
                 if (artists.length > 10) {
