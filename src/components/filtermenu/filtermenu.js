@@ -103,7 +103,7 @@ function onInputCommand(e) {
     }
 }
 function saveValues(context, settings, settingsKey, setfilters) {
-    let elems = context.querySelectorAll('.simpleFilter');
+    let elems;
 
     // Video type
     const videoTypes = [];
@@ -157,6 +157,8 @@ function saveValues(context, settings, settingsKey, setfilters) {
             GenreIds: genres.join(',')
         }));
     } else {
+        elems = context.querySelectorAll('.simpleFilter');
+
         for (let i = 0, length = elems.length; i < length; i++) {
             if (elems[i].tagName === 'INPUT') {
                 setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
