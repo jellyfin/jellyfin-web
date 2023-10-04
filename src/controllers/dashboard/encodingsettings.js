@@ -167,13 +167,13 @@ function setDecodingCodecsVisible(context, value) {
 
 function getTabs() {
     return [{
-        href: '#/encodingsettings.html',
+        href: '#/dashboard/playback/transcoding',
         name: globalize.translate('Transcoding')
     }, {
-        href: '#/playbackconfiguration.html',
+        href: '#/dashboard/playback/resume',
         name: globalize.translate('ButtonResume')
     }, {
-        href: '#/streamingsettings.html',
+        href: '#/dashboard/playback/streaming',
         name: globalize.translate('TabStreaming')
     }];
 }

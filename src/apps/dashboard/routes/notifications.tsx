@@ -9,7 +9,7 @@ const PluginLink = () => (
             __html: `<a
                 is='emby-linkbutton'
                 class='button-link'
-                href='#/addplugin.html?name=Webhook&guid=71552a5a5c5c4350a2aeebe451a30173'
+                href='#/dashboard/plugins/add?name=Webhook&guid=71552a5a5c5c4350a2aeebe451a30173'
             >
                 ${globalize.translate('GetThePlugin')}
             </a>`
