@@ -120,7 +120,7 @@ function onSearchBarType(searchBar) {
 
 function getPluginHtml(plugin, options, installedPlugins) {
     let html = '';
-    let href = plugin.externalUrl ? plugin.externalUrl : '#/addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+    let href = plugin.externalUrl ? plugin.externalUrl : '#/dashboard/plugins/add?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
 
     if (options.context) {
         href += '&context=' + options.context;
@@ -161,13 +161,13 @@ function getPluginHtml(plugin, options, installedPlugins) {
 
 function getTabs() {
     return [{
-        href: '#/installedplugins.html',
+        href: '#/dashboard/plugins',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: '#/availableplugins.html',
+        href: '#/dashboard/plugins/catalog',
         name: globalize.translate('TabCatalog')
     }, {
-        href: '#/repositories.html',
+        href: '#/dashboard/plugins/repositories',
         name: globalize.translate('TabRepositories')
     }];
 }

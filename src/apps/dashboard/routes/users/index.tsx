@@ -85,21 +85,21 @@ const UserProfiles: FunctionComponent = () => {
                     callback: function (id: string) {
                         switch (id) {
                             case 'open':
-                                Dashboard.navigate('useredit.html?userId=' + userId)
+                                Dashboard.navigate('/dashboard/users/profile?userId=' + userId)
                                     .catch(err => {
                                         console.error('[userprofiles] failed to navigate to user edit page', err);
                                     });
                                 break;
 
                             case 'access':
-                                Dashboard.navigate('userlibraryaccess.html?userId=' + userId)
+                                Dashboard.navigate('/dashboard/users/access?userId=' + userId)
                                     .catch(err => {
                                         console.error('[userprofiles] failed to navigate to user library page', err);
                                     });
                                 break;
 
                             case 'parentalcontrol':
-                                Dashboard.navigate('userparentalcontrol.html?userId=' + userId)
+                                Dashboard.navigate('/dashboard/users/parentalcontrol?userId=' + userId)
                                     .catch(err => {
                                         console.error('[userprofiles] failed to navigate to parental control page', err);
                                     });
@@ -146,7 +146,7 @@ const UserProfiles: FunctionComponent = () => {
         });
 
         (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
-            Dashboard.navigate('usernew.html')
+            Dashboard.navigate('/dashboard/users/add')
                 .catch(err => {
                     console.error('[userprofiles] failed to navigate to new user page', err);
                 });

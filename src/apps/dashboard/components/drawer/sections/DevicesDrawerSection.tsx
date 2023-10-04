@@ -12,8 +12,8 @@ import ListItemLink from 'components/ListItemLink';
 import globalize from 'scripts/globalize';
 
 const DLNA_PATHS = [
-    '/dlnasettings.html',
-    '/dlnaprofiles.html'
+    '/dashboard/dlna',
+    '/dashboard/dlna/profiles'
 ];
 
 const DevicesDrawerSection = () => {
@@ -31,7 +31,7 @@ const DevicesDrawerSection = () => {
             }
         >
             <ListItem disablePadding>
-                <ListItemLink to='/devices.html'>
+                <ListItemLink to='/dashboard/devices'>
                     <ListItemIcon>
                         <Devices />
                     </ListItemIcon>
@@ -47,7 +47,7 @@ const DevicesDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dlnasettings.html' selected={false}>
+                <ListItemLink to='/dashboard/dlna' selected={false}>
                     <ListItemIcon>
                         <Input />
                     </ListItemIcon>
@@ -57,10 +57,10 @@ const DevicesDrawerSection = () => {
             </ListItem>
             <Collapse in={isDlnaSectionOpen} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding>
-                    <ListItemLink to='/dlnasettings.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/dlna' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('Settings')} />
                     </ListItemLink>
-                    <ListItemLink to='/dlnaprofiles.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/dlna/profiles' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabProfiles')} />
                     </ListItemLink>
                 </List>

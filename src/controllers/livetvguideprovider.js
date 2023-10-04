@@ -5,7 +5,7 @@ import { getParameterByName } from '../utils/url.ts';
 import Events from '../utils/events.ts';
 
 function onListingsSubmitted() {
-    Dashboard.navigate('livetvstatus.html');
+    Dashboard.navigate('dashboard/livetv');
 }
 
 function init(page, type, providerId) {
