@@ -38,16 +38,17 @@ const AppToolbar: FC<AppToolbarProps> = ({
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
+    
+    const currentLocation = useLocation();
+    let isUserMenuAvailable = true;
 
     const isBackButtonAvailable = appRouter.canGoBack();
-
-    //handle the case where the user is on the select server page
-    let isUserMenuAvailable = true;
-    const currentLocation = useLocation();
+    
+ 
     if (currentLocation.pathname == '/selectserver.html') {
-        isUserMenuAvailable = false;
-    } 
-
+            isUserMenuAvailable = false;
+        }
+    
  
     return (
         <Toolbar
