@@ -637,17 +637,6 @@ export class UserSettings {
             sortOrder: this.getFilter(key + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
         };
     }
-
-    /**
-     * Gets the current sort values (JSON)
-     * (new views such as MoviesView will use
-     * this one)
-     * @param {string} key - Filter key.
-     * @return {Object} sortOptions object
-     */
-    getSortValues(key) {
-        return this.loadQuerySettings(key, {});
-    }
 }
 
 export const currentSettings = new UserSettings;
@@ -699,4 +688,3 @@ export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSet
 export const getSavedView = currentSettings.getSavedView.bind(currentSettings);
 export const saveViewSetting = currentSettings.saveViewSetting.bind(currentSettings);
 export const getSortValuesLegacy = currentSettings.getSortValuesLegacy.bind(currentSettings);
-export const getSortValues = currentSettings.getSortValues.bind(currentSettings);
