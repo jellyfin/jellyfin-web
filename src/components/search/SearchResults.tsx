@@ -6,6 +6,7 @@ import React, { FunctionComponent, useCallback, useEffect, useState } from 'reac
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
 import SearchResultsRow from './SearchResultsRow';
+import Loading from '../loading/LoadingComponent';
 
 type SearchResultsProps = {
     serverId?: string;
@@ -242,7 +243,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
             )}
         >
             {isLoading ? (
-                <div className='loading-circle'></div>
+                <Loading />
             ) : (
                 <>
                     <SearchResultsRow
