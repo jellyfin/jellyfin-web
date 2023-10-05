@@ -822,7 +822,7 @@
     "LabelFormat": "格式",
     "LabelFriendlyName": "好聽的名字",
     "LabelGroupMoviesIntoCollections": "將電影分組",
-    "LabelKodiMetadataDateFormat": "釋出日期格式",
+    "LabelKodiMetadataDateFormat": "發行日期格式",
     "LabelIconMaxWidth": "Icon 最寬寬度",
     "LabelGroupMoviesIntoCollectionsHelp": "選擇檢視電影清單時，集合中的電影將作為一個分組項目顯示。",
     "LabelEncoderPreset": "預設編碼",
