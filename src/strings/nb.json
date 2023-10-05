@@ -1770,5 +1770,10 @@
     "MachineTranslated": "Maskinoversatt",
     "HeaderGuestCast": "Gjestestjerner",
     "HearingImpairedShort": "HI/SDH",
-    "LogoScreensaver": "Logoskjermsparer"
+    "LogoScreensaver": "Logoskjermsparer",
+    "LabelIsHearingImpaired": "For hørselshemmede (SDH)",
+    "LabelBackdropScreensaverInterval": "Skjermsparingsbakgrunn-intervall",
+    "LabelBackdropScreensaverIntervalHelp": "Tid i milisekunder mellom forskjellige bakgrunner ved bruk av skjermsparingsbakgrunner.",
+    "BackdropScreensaver": "Skjermsparingsbakgrunn",
+    "ForeignPartsOnly": "Kun tvungne/fremmede deler"
 }
