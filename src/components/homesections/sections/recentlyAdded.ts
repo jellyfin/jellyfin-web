@@ -139,20 +139,13 @@ export function loadRecentlyAdded(
     const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
     const userExcludeItems = user.Configuration?.LatestItemsExcludes ?? [];
 
-    for (let i = 0, length = userViews.length; i < length; i++) {
-        const item = userViews[i];
-        if (
-            !item.Id
-            || userExcludeItems.indexOf(item.Id) !== -1
-        ) {
-            continue;
+    userViews.forEach(item => {
+        if (!item.Id || userExcludeItems.indexOf(item.Id) !== -1) {
+            return;
         }
 
-        if (
-            !item.CollectionType
-            || excludeViewTypes.indexOf(item.CollectionType) !== -1
-        ) {
-            continue;
+        if (!item.CollectionType || excludeViewTypes.indexOf(item.CollectionType) !== -1) {
+            return;
         }
 
         const frag = document.createElement('div');
@@ -161,5 +154,5 @@ export function loadRecentlyAdded(
         elem.appendChild(frag);
 
         renderLatestSection(frag, apiClient, user, item, options);
-    }
+    });
 }
