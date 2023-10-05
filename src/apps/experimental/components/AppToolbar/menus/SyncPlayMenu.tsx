@@ -19,6 +19,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
+import { useSyncPlayGroups } from 'hooks/useSyncPlayGroups';
 import globalize from 'scripts/globalize';
 import { PluginType } from 'types/plugin';
 import Events from 'utils/events';
@@ -47,7 +48,6 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
 }) => {
     const [ syncPlay, setSyncPlay ] = useState<SyncPlayInstance>();
     const { __legacyApiClient__, api, user } = useApi();
-    const [ groups, setGroups ] = useState<GroupInfoDto[]>([]);
     const [ currentGroup, setCurrentGroup ] = useState<GroupInfoDto>();
     const isSyncPlayEnabled = Boolean(currentGroup);
 
@@ -55,18 +55,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
         setSyncPlay(pluginManager.firstOfType(PluginType.SyncPlay)?.instance);
     }, []);
 
-    useEffect(() => {
-        const fetchGroups = async () => {
-            if (api) {
-                setGroups((await getSyncPlayApi(api).syncPlayGetGroups()).data);
-            }
-        };
-
-        fetchGroups()
-            .catch(err => {
-                console.error('[SyncPlayMenu] unable to fetch SyncPlay groups', err);
-            });
-    }, [ api ]);
+    const { data: groups } = useSyncPlayGroups();
 
     const onGroupAddClick = useCallback(() => {
         if (api && user) {
@@ -224,7 +213,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
                 />
             </MenuItem>
         );
-    } else if (groups.length === 0 && user?.Policy?.SyncPlayAccess !== SyncPlayUserAccessType.CreateAndJoinGroups) {
+    } else if (!groups?.length && user?.Policy?.SyncPlayAccess !== SyncPlayUserAccessType.CreateAndJoinGroups) {
         menuItems.push(
             <MenuItem key='sync-play-unavailable' disabled>
                 <ListItemIcon>
@@ -234,7 +223,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             </MenuItem>
         );
     } else {
-        if (groups.length > 0) {
+        if (groups && groups.length > 0) {
             groups.forEach(group => {
                 menuItems.push(
                     <MenuItem

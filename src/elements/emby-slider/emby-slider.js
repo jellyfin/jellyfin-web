@@ -6,6 +6,7 @@ import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 import globalize from '../../scripts/globalize';
+import { decimalCount } from '../../utils/number';
 
 const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
@@ -17,6 +18,27 @@ if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
     if (descriptor?.configurable) {
         supportsValueSetOverride = true;
     }
+}
+
+/**
+ * Returns normalized slider step.
+ *
+ * @param {HTMLInputElement} range slider itself
+ * @param {number|undefined} step step
+ * @returns {number} normalized slider step.
+ */
+function normalizeSliderStep(range, step) {
+    if (step > 0) {
+        return step;
+    }
+
+    step = parseFloat(range.step);
+
+    if (step > 0) {
+        return step;
+    }
+
+    return 1;
 }
 
 /**
@@ -37,7 +59,7 @@ function mapClientToFraction(range, clientX) {
     // Snap to step
     const valueRange = range.max - range.min;
     if (range.step !== 'any' && valueRange !== 0) {
-        const step = (range.step || 1) / valueRange;
+        const step = normalizeSliderStep(range) / valueRange;
         fraction = Math.round(fraction / step) * step;
     }
 
@@ -54,13 +76,23 @@ function mapClientToFraction(range, clientX) {
 function mapFractionToValue(range, fraction) {
     let value = (range.max - range.min) * fraction;
 
+    let decimals = null;
+
     // Snap to step
     if (range.step !== 'any') {
-        const step = range.step || 1;
+        const step = normalizeSliderStep(range);
+        decimals = decimalCount(step);
         value = Math.round(value / step) * step;
     }
 
-    value += parseFloat(range.min);
+    const min = parseFloat(range.min);
+
+    value += min;
+
+    if (decimals != null) {
+        decimals = Math.max(decimals, decimalCount(min));
+        value = parseFloat(value.toFixed(decimals));
+    }
 
     return Math.min(Math.max(value, range.min), range.max);
 }
@@ -114,12 +146,12 @@ function updateValues(isValueSet) {
     });
 }
 
-function updateBubble(range, value, bubble) {
+function updateBubble(range, percent, value, bubble) {
     requestAnimationFrame(function () {
         const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
         const bubbleRect = bubble.getBoundingClientRect();
 
-        let bubblePos = bubbleTrackRect.width * value / 100;
+        let bubblePos = bubbleTrackRect.width * percent / 100;
         if (globalize.getIsElementRTL(range)) {
             bubblePos = bubbleTrackRect.width - bubblePos;
         }
@@ -127,18 +159,20 @@ function updateBubble(range, value, bubble) {
 
         bubble.style.left = bubblePos + 'px';
 
+        let html;
+
         if (range.getBubbleHtml) {
-            value = range.getBubbleHtml(value);
+            html = range.getBubbleHtml(percent, value);
         } else {
             if (range.getBubbleText) {
-                value = range.getBubbleText(value);
+                html = range.getBubbleText(percent, value);
             } else {
-                value = mapFractionToValue(range, value / 100).toLocaleString();
+                html = value.toLocaleString();
             }
-            value = '<h1 class="sliderBubbleText">' + value + '</h1>';
+            html = '<h1 class="sliderBubbleText">' + html + '</h1>';
         }
 
-        bubble.innerHTML = value;
+        bubble.innerHTML = html;
     });
 }
 
@@ -274,8 +308,8 @@ EmbySliderPrototype.attachedCallback = function () {
             updateValues.call(this);
         }
 
-        const bubbleValue = mapValueToFraction(this, this.value) * 100;
-        updateBubble(this, bubbleValue, sliderBubble);
+        const percent = mapValueToFraction(this, this.value) * 100;
+        updateBubble(this, percent, parseFloat(this.value), sliderBubble);
 
         if (hasHideBubbleClass) {
             sliderBubble.classList.remove('hide');
@@ -301,9 +335,11 @@ EmbySliderPrototype.attachedCallback = function () {
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
         if (!this.dragging) {
-            const bubbleValue = mapClientToFraction(this, e.clientX) * 100;
+            const fraction = mapClientToFraction(this, e.clientX);
+            const percent = fraction * 100;
+            const value = mapFractionToValue(this, fraction);
 
-            updateBubble(this, bubbleValue, sliderBubble);
+            updateBubble(this, percent, value, sliderBubble);
 
             if (hasHideBubbleClass) {
                 sliderBubble.classList.remove('hide');
@@ -455,15 +491,22 @@ function onKeyDown(e) {
     switch (keyboardnavigation.getKeyName(e)) {
         case 'ArrowLeft':
         case 'Left':
-            stepKeyboard(this, -this.keyboardStepDown || -1);
+            stepKeyboard(this, -normalizeSliderStep(this, this.keyboardStepDown));
             e.preventDefault();
             e.stopPropagation();
             break;
         case 'ArrowRight':
         case 'Right':
-            stepKeyboard(this, this.keyboardStepUp || 1);
+            stepKeyboard(this, normalizeSliderStep(this, this.keyboardStepUp));
             e.preventDefault();
             e.stopPropagation();
+            break;
+        case 'Enter':
+            if (this.keyboardDragging) {
+                finishKeyboardDragging(this);
+                e.preventDefault();
+                e.stopPropagation();
+            }
             break;
     }
 }

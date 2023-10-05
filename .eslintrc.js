@@ -66,6 +66,7 @@ module.exports = {
         'no-unused-expressions': ['off'],
         '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
         'no-unused-private-class-members': ['error'],
+        'no-useless-rename': ['error'],
         'no-useless-constructor': ['off'],
         '@typescript-eslint/no-useless-constructor': ['error'],
         'no-var': ['error'],

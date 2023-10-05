@@ -445,7 +445,7 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'multiSelect':
-                import('./multiSelect/multiSelect').then(({ startMultiSelect: startMultiSelect }) => {
+                import('./multiSelect/multiSelect').then(({ startMultiSelect }) => {
                     const card = dom.parentWithClass(options.positionTo, 'card');
                     startMultiSelect(card);
                 });

@@ -17,12 +17,12 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import ListItemLink from 'components/ListItemLink';
+import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'scripts/globalize';
-import { appRouter } from 'components/router/appRouter';
 
-import ListItemLink from './ListItemLink';
 import LibraryIcon from '../LibraryIcon';
 
 const MainDrawerContent = () => {
@@ -150,7 +150,7 @@ const MainDrawerContent = () => {
                         }
                     >
                         <ListItem disablePadding>
-                            <ListItemLink to='/dashboard.html'>
+                            <ListItemLink to='/dashboard'>
                                 <ListItemIcon>
                                     <Dashboard />
                                 </ListItemIcon>
@@ -158,7 +158,7 @@ const MainDrawerContent = () => {
                             </ListItemLink>
                         </ListItem>
                         <ListItem disablePadding>
-                            <ListItemLink to='/edititemmetadata.html'>
+                            <ListItemLink to='/metadata'>
                                 <ListItemIcon>
                                     <Edit />
                                 </ListItemIcon>

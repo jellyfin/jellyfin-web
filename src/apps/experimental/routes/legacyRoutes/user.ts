@@ -50,12 +50,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'user/home/index.html'
         }
     }, {
-        path: 'mypreferencesquickconnect.html',
-        pageProps: {
-            controller: 'user/quickConnect/index',
-            view: 'user/quickConnect/index.html'
-        }
-    }, {
         path: 'mypreferencesplayback.html',
         pageProps: {
             controller: 'user/playback/index',

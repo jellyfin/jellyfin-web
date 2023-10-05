@@ -14,10 +14,10 @@ BuildArch:		noarch
 BuildRequires:	nodejs
 %else
 BuildRequires:	git
-# Nodejs 16 is required and npm >= 8 should bring in NodeJS 16
-# This requires the build environment to use the nodejs:16 module stream:
-# dnf module {install|switch-to}:web nodejs:16
-BuildRequires:	npm >= 8
+# Nodejs 20 is required and npm >= 10 should bring in NodeJS 20
+# This requires the build environment to use the nodejs:20 module stream:
+# dnf module {install|switch-to}:web nodejs:20
+BuildRequires:	npm >= 10
 %endif
 
 %description

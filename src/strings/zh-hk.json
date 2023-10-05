@@ -1155,5 +1155,8 @@
     "ValueMinutes": "{0}分",
     "MinutesBefore": "分鐘前",
     "MessagePleaseWait": "請稍等。",
-    "AllowCollectionManagement": "允許用戶管理合輯"
+    "AllowCollectionManagement": "允許用戶管理合輯",
+    "AllowAv1Encoding": "允許AV1格式轉碼",
+    "AllowSegmentDeletion": "移除選段",
+    "AiTranslated": "AI 翻譯"
 }

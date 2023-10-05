@@ -1390,7 +1390,7 @@
     "QuickConnectInvalidCode": "Codice Quick Connect non valido",
     "QuickConnectDescription": "Per registrarsi usando Quick Connect, seleziona il pulsante Quick Connect nel dispositivo che stai usando per accedere ed inserisci il codice sottostante.",
     "QuickConnectDeactivated": "Quick Connect è stato disattivato prima che la richiesta di login venisse approvata",
-    "QuickConnectAuthorizeSuccess": "Richiesta autorizzata",
+    "QuickConnectAuthorizeSuccess": "Device autenticato con successo!",
     "QuickConnectActivationSuccessful": "Attivato con successo",
     "QuickConnect": "Connessione Rapida",
     "LabelQuickConnectCode": "Codice Quick Connect",
@@ -1741,7 +1741,7 @@
     "HeaderConfirmRepositoryInstallation": "Conferma dell'installazione del repository dei plugin",
     "LabelDeveloper": "Sviluppatore",
     "LabelEnableLUFSScan": "Abilita LUFS scan",
-    "LabelEnableLUFSScanHelp": "Abilita LUFS scan per la musica (Impiegherà più tempo e più risorse).",
+    "LabelEnableLUFSScanHelp": "I client possono normalizzare la riproduzione dell'audio per avere un uguale volume tra le tracce. Ciò impiegherà più tempo durante lo scan delle librerie e più risorse.",
     "MessageRepositoryInstallDisclaimer": "ATTENZIONE: L'installazione di repository di plugin di terze parti può portare dei rischi. Può contenere codice instabile o malevolo e può cambiare in qualsiasi momento. Installa solo plugin degli autori di cui ti fidi.",
     "Unknown": "Sconosciuto",
     "LabelDate": "Data",
@@ -1761,5 +1761,8 @@
     "LabelThrottleDelaySeconds": "Throttle dopo",
     "LabelThrottleDelaySecondsHelp": "Tempo in secondi dopo cui il transcodificatore sarà messo in throttle. Deve essere sufficientemente grande perché il client mantenga un buon buffer. Funziona solo se il throttling è abilitato.",
     "LabelSegmentKeepSeconds": "Il tempo per cui tenere i segmenti",
-    "LabelSegmentKeepSecondsHelp": "Tempo in secondi per cui i segmenti saranno tenuti prima di essere sovrascritti. Deve essere più grande di \"Throttle dopo\". Funziona solo se l'eliminazione dei segmenti è abilitata."
+    "LabelSegmentKeepSecondsHelp": "Tempo in secondi per cui i segmenti saranno tenuti prima di essere sovrascritti. Deve essere più grande di \"Throttle dopo\". Funziona solo se l'eliminazione dei segmenti è abilitata.",
+    "AllowAv1Encoding": "Permetti la codifica nel formato AV1",
+    "GoHome": "Vai alla Home",
+    "GridView": "Vista Griglia"
 }

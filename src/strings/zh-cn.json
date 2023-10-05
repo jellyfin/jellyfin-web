@@ -1188,7 +1188,7 @@
     "PlayNextEpisodeAutomatically": "自动播放下一集",
     "Premieres": "首映",
     "Raised": "提高",
-    "Recordings": "录音",
+    "Recordings": "录制",
     "RefreshDialogHelp": "元数据根据设置和仪表盘中启用的网络服务进行刷新。",
     "RepeatEpisodes": "重复剧集",
     "Schedule": "日程",
@@ -1415,7 +1415,7 @@
     "QuickConnectDescription": "要使用快速连接登录，请点击要登录的设备上的快速连接按钮，然后在下方输入显示的验证码。",
     "QuickConnectDeactivated": "在批准登录请求之前，快速连接已被禁用",
     "QuickConnectAuthorizeFail": "未知的快速连接验证码",
-    "QuickConnectAuthorizeSuccess": "请求已被授权成功",
+    "QuickConnectAuthorizeSuccess": "您的设备验证成功！",
     "QuickConnectAuthorizeCode": "输入验证码 {0} 以登陆",
     "QuickConnectActivationSuccessful": "启用成功",
     "QuickConnect": "快速连接",
@@ -1733,7 +1733,7 @@
     "EnableAudioNormalizationHelp": "音频标准化将添加一个恒定的增益，以保持平均音量在所需的级别（-18dB）。",
     "EnableAudioNormalization": "音频标准化",
     "LabelEnableLUFSScan": "启用 LUFS 扫描",
-    "LabelEnableLUFSScanHelp": "启用音乐的LUFS扫描（这将需要更长时间和更多资源）。",
+    "LabelEnableLUFSScanHelp": "客户端可以将音频播放进行归一化，以实现曲目之间的音量均衡。这将导致库扫描时间更长，并消耗更多的资源。",
     "GetThePlugin": "获取插件",
     "Notifications": "通知",
     "NotificationsMovedMessage": "通知功能已经转移到Webhook插件中。",
@@ -1771,5 +1771,7 @@
     "AiTranslated": "AI翻译",
     "MachineTranslated": "机器翻译",
     "ForeignPartsOnly": "仅限强制开启/外语部分",
-    "HearingImpairedShort": "听障/聋哑人士字幕"
+    "HearingImpairedShort": "听障/聋哑人士字幕",
+    "UnknownError": "发生未知错误。",
+    "GoHome": "回家"
 }

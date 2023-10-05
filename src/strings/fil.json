@@ -1666,5 +1666,9 @@
     "HeaderPerformance": "Pagsasagawa",
     "LabelStereoDownmixAlgorithm": "Stereo Downmix Algorithm",
     "LabelDummyChapterCount": "Hangganan",
-    "LabelDummyChapterCountHelp": "Ang pinakamataas na bilang ng mga larawan ng kabanata na kukunin para sa bawat media file."
+    "LabelDummyChapterCountHelp": "Ang pinakamataas na bilang ng mga larawan ng kabanata na kukunin para sa bawat media file.",
+    "AllowCollectionManagement": "Payagan ang user na pangasiwaan ang koleksyon",
+    "AllowSegmentDeletion": "Burahin ang segment",
+    "AllowSegmentDeletionHelp": "Burahin ang lumang segment pagkatapos mapadala sa kliyente. Pinipigilan nito ang pag-imbak ng buong transcoded file sa disk. Gumagana lamang kapag nakabukas ang throttling. Patayin ito kung nakakaranas ng problema sa playback.",
+    "LabelThrottleDelaySeconds": "I-throttle pagkatapos"
 }

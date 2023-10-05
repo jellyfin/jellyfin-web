@@ -5,24 +5,30 @@
  */
 
 import escapeHtml from 'escape-html';
-import datetime from '../../scripts/datetime';
-import imageLoader from '../images/imageLoader';
-import itemHelper from '../itemHelper';
+
+import cardBuilderUtils from './cardBuilderUtils';
+import browser from 'scripts/browser';
+import datetime from 'scripts/datetime';
+import dom from 'scripts/dom';
+import globalize from 'scripts/globalize';
+import imageHelper from 'scripts/imagehelper';
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import { randomInt } from 'utils/number';
+
 import focusManager from '../focusManager';
+import imageLoader from '../images/imageLoader';
 import indicators from '../indicators/indicators';
-import globalize from '../../scripts/globalize';
+import itemHelper from '../itemHelper';
 import layoutManager from '../layoutManager';
-import dom from '../../scripts/dom';
-import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
-import itemShortcuts from '../shortcuts';
-import imageHelper from '../../scripts/imagehelper';
-import { randomInt } from '../../utils/number.ts';
-import './card.scss';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../guide/programs.scss';
-import ServerConnections from '../ServerConnections';
 import { appRouter } from '../router/appRouter';
+import ServerConnections from '../ServerConnections';
+import itemShortcuts from '../shortcuts';
+
+import 'elements/emby-button/paper-icon-button-light';
+
+import './card.scss';
+import '../guide/programs.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -39,217 +45,6 @@ export function getCardsHtml(items, options) {
     }
 
     return buildCardsHtmlInternal(items, options);
-}
-
-/**
-         * Computes the number of posters per row.
-         * @param {string} shape - Shape of the cards.
-         * @param {number} screenWidth - Width of the screen.
-         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
-         * @returns {number} Number of cards per row for an itemsContainer.
-         */
-function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
-    switch (shape) {
-        case 'portrait':
-            if (layoutManager.tv) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 2200) {
-                return 100 / 10;
-            }
-            if (screenWidth >= 1920) {
-                return 100 / 11.1111111111;
-            }
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.28571428571;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 800) {
-                return 5;
-            }
-            if (screenWidth >= 700) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 100 / 33.33333333;
-        case 'square':
-            if (layoutManager.tv) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 2200) {
-                return 100 / 10;
-            }
-            if (screenWidth >= 1920) {
-                return 100 / 11.1111111111;
-            }
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.28571428571;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 800) {
-                return 5;
-            }
-            if (screenWidth >= 700) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 2;
-        case 'banner':
-            if (screenWidth >= 2200) {
-                return 100 / 25;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 33.33333333;
-            }
-            if (screenWidth >= 800) {
-                return 2;
-            }
-            return 1;
-        case 'backdrop':
-            if (layoutManager.tv) {
-                return 100 / 25;
-            }
-            if (screenWidth >= 2500) {
-                return 6;
-            }
-            if (screenWidth >= 1600) {
-                return 5;
-            }
-            if (screenWidth >= 1200) {
-                return 4;
-            }
-            if (screenWidth >= 770) {
-                return 3;
-            }
-            if (screenWidth >= 420) {
-                return 2;
-            }
-            return 1;
-        case 'smallBackdrop':
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.2857142857;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 1000) {
-                return 5;
-            }
-            if (screenWidth >= 800) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 2;
-        case 'overflowSmallBackdrop':
-            if (layoutManager.tv) {
-                return 100 / 18.9;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 800) {
-                    return 100 / 15.5;
-                }
-                return 100 / 23.3;
-            } else {
-                if (screenWidth >= 540) {
-                    return 100 / 30;
-                }
-                return 100 / 72;
-            }
-        case 'overflowPortrait':
-
-            if (layoutManager.tv) {
-                return 100 / 15.5;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 11.6;
-                }
-                return 100 / 15.5;
-            } else {
-                if (screenWidth >= 1400) {
-                    return 100 / 15;
-                }
-                if (screenWidth >= 1200) {
-                    return 100 / 18;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 23;
-                }
-                if (screenWidth >= 400) {
-                    return 100 / 31.5;
-                }
-                return 100 / 42;
-            }
-        case 'overflowSquare':
-            if (layoutManager.tv) {
-                return 100 / 15.5;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 11.6;
-                }
-                return 100 / 15.5;
-            } else {
-                if (screenWidth >= 1400) {
-                    return 100 / 15;
-                }
-                if (screenWidth >= 1200) {
-                    return 100 / 18;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 23;
-                }
-                if (screenWidth >= 540) {
-                    return 100 / 31.5;
-                }
-                return 100 / 42;
-            }
-        case 'overflowBackdrop':
-            if (layoutManager.tv) {
-                return 100 / 23.3;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 18.5;
-                }
-                return 100 / 23.3;
-            } else {
-                if (screenWidth >= 1800) {
-                    return 100 / 23.5;
-                }
-                if (screenWidth >= 1400) {
-                    return 100 / 30;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 40;
-                }
-                if (screenWidth >= 640) {
-                    return 100 / 56;
-                }
-                return 100 / 72;
-            }
-        default:
-            return 4;
-    }
 }
 
 /**
@@ -278,7 +73,7 @@ function isResizable(windowWidth) {
          * @returns {number} Width of the image for a card.
          */
 function getImageWidth(shape, screenWidth, isOrientationLandscape) {
-    const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
+    const imagesPerRow = cardBuilderUtils.getPostersPerRow(shape, screenWidth, isOrientationLandscape, layoutManager.tv);
     return Math.round(screenWidth / imagesPerRow);
 }
 
@@ -301,16 +96,16 @@ function setCardData(items, options) {
                 options.shape = 'banner';
                 options.coverImage = true;
             } else if (primaryImageAspectRatio >= 1.33) {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                options.shape = getBackdropShape(requestedShape === 'autooverflow');
             } else if (primaryImageAspectRatio > 0.71) {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
+                options.shape = getSquareShape(requestedShape === 'autooverflow');
             } else {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                options.shape = getPortraitShape(requestedShape === 'autooverflow');
             }
         }
 
         if (!options.shape) {
-            options.shape = options.defaultShape || (requestedShape === 'autooverflow' ? 'overflowSquare' : 'square');
+            options.shape = options.defaultShape || getSquareShape(requestedShape === 'autooverflow');
         }
     }
 
@@ -318,7 +113,7 @@ function setCardData(items, options) {
         options.preferThumb = options.shape === 'backdrop' || options.shape === 'overflowBackdrop';
     }
 
-    options.uiAspect = getDesiredAspect(options.shape);
+    options.uiAspect = cardBuilderUtils.getDesiredAspect(options.shape);
     options.primaryImageAspectRatio = primaryImageAspectRatio;
 
     if (!options.width && options.widths) {
@@ -461,30 +256,6 @@ function buildCardsHtmlInternal(items, options) {
 }
 
 /**
-         * Computes the aspect ratio for a card given its shape.
-         * @param {string} shape - Shape for which to get the aspect ratio.
-         * @returns {null|number} Ratio of the shape.
-         */
-function getDesiredAspect(shape) {
-    if (shape) {
-        shape = shape.toLowerCase();
-        if (shape.indexOf('portrait') !== -1) {
-            return (2 / 3);
-        }
-        if (shape.indexOf('backdrop') !== -1) {
-            return (16 / 9);
-        }
-        if (shape.indexOf('square') !== -1) {
-            return 1;
-        }
-        if (shape.indexOf('banner') !== -1) {
-            return (1000 / 185);
-        }
-    }
-    return null;
-}
-
-/**
          * @typedef {Object} CardImageUrl
          * @property {string} imgUrl - Image URL.
          * @property {string} blurhash - Image blurhash.
@@ -509,7 +280,7 @@ function getCardImageUrl(item, apiClient, options, shape) {
     let imgUrl = null;
     let imgTag = null;
     let coverImage = false;
-    const uiAspect = getDesiredAspect(shape);
+    const uiAspect = cardBuilderUtils.getDesiredAspect(shape);
     let imgType = null;
     let itemId = null;
 

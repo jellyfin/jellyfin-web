@@ -62,6 +62,5 @@ export interface LibraryViewSettings {
     ShowTitle: boolean;
     ShowYear?: boolean;
     Filters?: Filters;
-    NameLessThan?: string | null;
-    NameStartsWith?: string | null;
+    Alphabet?: string | null;
 }

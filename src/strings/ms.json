@@ -4,7 +4,7 @@
     "LabelFinish": "Habis",
     "LabelYoureDone": "Kamu Selesai!",
     "ParentalRating": "Parental Rating",
-    "SettingsSaved": "Seting Disimpan.",
+    "SettingsSaved": "Tetapan Disimpan.",
     "Absolute": "Mutlak",
     "AccessRestrictedTryAgainLater": "Akses dihalang pada masa ini. Sila cuba sebentar lagi.",
     "Actor": "Pelakon",
@@ -20,7 +20,7 @@
     "AllLibraries": "Semua pustaka",
     "AllowMediaConversion": "Membolehkan penukaran media",
     "AllowMediaConversionHelp": "Memberi atau menolak akses penukaran ciri media.",
-    "Albums": "Albums",
+    "Albums": "Album",
     "Alerts": "Amaran",
     "AllChannels": "Semua saluran",
     "AllComplexFormats": "Semua format kompleks (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
@@ -246,5 +246,10 @@
     "EnableAudioNormalizationHelp": "Normilasi audio akan meletakkan gain yang konstant agar purata di tahap yang dikehendaki (-18dB).",
     "Console": "konsol",
     "DeathDateValue": "Died: {0} , program error",
-    "AllowCollectionManagement": "Benarkan pengguna ini meguruskan koleksi"
+    "AllowCollectionManagement": "Benarkan pengguna ini meguruskan koleksi",
+    "AllowSegmentDeletion": "Padam segment",
+    "AllowSegmentDeletionHelp": "Padam segmen lama setelah ia dihantar ke pelayan. Ini menghalang file transcode disimpan dalam disk. Ia akan berfungsi dengan penghad haju dihidupkan. Matikan tetapan ini jika anda mengalami isu dengan pemain video.",
+    "LabelThrottleDelaySeconds": "Penghad laju setelah",
+    "Settings": "Tetapan",
+    "SelectServer": "Pilih pelayan"
 }

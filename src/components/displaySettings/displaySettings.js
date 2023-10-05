@@ -36,7 +36,7 @@ function loadScreensavers(context, userSettings) {
     const selectScreensaver = context.querySelector('.selectScreensaver');
     const options = pluginManager.ofType(PluginType.Screensaver).map(plugin => {
         return {
-            name: plugin.name,
+            name: globalize.translate(plugin.name),
             value: plugin.id
         };
     });

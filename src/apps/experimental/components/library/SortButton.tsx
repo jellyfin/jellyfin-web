@@ -98,7 +98,7 @@ const SortButton: FC<SortButtonProps> = ({
                 title={globalize.translate('Sort')}
                 sx={{ ml: 2 }}
                 aria-describedby={id}
-                className='paper-icon-button-light btnShuffle autoSize'
+                className='paper-icon-button-light btnSort autoSize'
                 onClick={handleClick}
             >
                 <SortByAlphaIcon />

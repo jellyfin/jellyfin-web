@@ -46,15 +46,8 @@ function init(instance) {
             if (inputOffset) {
                 inputOffset = inputOffset[0];
                 inputOffset = parseFloat(inputOffset);
-                inputOffset = Math.min(30, Math.max(-30, inputOffset));
 
-                // replace current text by considered offset
-                this.textContent = inputOffset + 's';
-                // set new offset
-                playbackManager.setSubtitleOffset(inputOffset, player);
-                // synchronize with slider value
-                subtitleSyncSlider.updateOffset(
-                    getSliderValueFromOffset(inputOffset));
+                subtitleSyncSlider.updateOffset(inputOffset);
             } else {
                 this.textContent = (playbackManager.getPlayerSubtitleOffset(player) || 0) + 's';
             }
@@ -79,23 +72,26 @@ function init(instance) {
         }
     };
 
+    function updateSubtitleOffset() {
+        const value = parseFloat(subtitleSyncSlider.value);
+        // set new offset
+        playbackManager.setSubtitleOffset(value, player);
+        // synchronize with textField value
+        subtitleSyncTextField.updateOffset(value);
+    }
+
     subtitleSyncSlider.updateOffset = function (sliderValue) {
         // default value is 0s = 0ms
         this.value = sliderValue === undefined ? 0 : sliderValue;
+
+        updateSubtitleOffset();
     };
 
-    subtitleSyncSlider.addEventListener('change', function () {
-        // set new offset
-        playbackManager.setSubtitleOffset(getOffsetFromSliderValue(this.value), player);
-        // synchronize with textField value
-        subtitleSyncTextField.updateOffset(
-            getOffsetFromSliderValue(this.value));
-    });
+    subtitleSyncSlider.addEventListener('change', () => updateSubtitleOffset());
 
-    subtitleSyncSlider.getBubbleHtml = function (value) {
-        const newOffset = getOffsetFromPercentage(value);
+    subtitleSyncSlider.getBubbleHtml = function (_, value) {
         return '<h1 class="sliderBubbleText">'
-            + (newOffset > 0 ? '+' : '') + parseFloat(newOffset) + 's'
+            + (value > 0 ? '+' : '') + parseFloat(value) + 's'
             + '</h1>';
     };
 
@@ -105,25 +101,6 @@ function init(instance) {
     });
 
     instance.element = parent;
-}
-
-function getOffsetFromPercentage(value) {
-    // convert percentage to fraction
-    let offset = (value - 50) / 50;
-    // multiply by offset min/max range value (-x to +x) :
-    offset *= 30;
-    return offset.toFixed(1);
-}
-
-function getOffsetFromSliderValue(value) {
-    // convert slider value to offset
-    const offset = value / 10;
-    return offset.toFixed(1);
-}
-
-function getSliderValueFromOffset(value) {
-    const sliderValue = value * 10;
-    return Math.min(300, Math.max(-300, sliderValue.toFixed(1)));
 }
 
 class SubtitleSync {
