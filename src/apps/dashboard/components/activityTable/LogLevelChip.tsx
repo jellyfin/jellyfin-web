@@ -5,7 +5,7 @@ import React from 'react';
 import globalize from 'scripts/globalize';
 
 const LogLevelChip = ({ level }: { level: LogLevel }) => {
-    let color: 'info' | 'warning' | 'error' | undefined = undefined;
+    let color: 'info' | 'warning' | 'error' | undefined;
     switch (level) {
         case LogLevel.Information:
             color = 'info';
