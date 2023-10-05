@@ -1,13 +1,11 @@
-import layoutManager from '../components/layoutManager';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import layoutManager from 'components/layoutManager';
+import { getBackdropShape } from 'utils/card';
+
 import datetime from './datetime';
-import cardBuilder from '../components/cardbuilder/cardBuilder';
 
 function enableScrollX() {
     return !layoutManager.desktop;
-}
-
-function getBackdropShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
 }
 
 function getTimersHtml(timers, options) {
@@ -78,7 +76,7 @@ function getTimersHtml(timers, options) {
 
         html += cardBuilder.getCardsHtml({
             items: group.items,
-            shape: getBackdropShape(),
+            shape: getBackdropShape(enableScrollX()),
             showTitle: true,
             showParentTitleOrTitle: true,
             showAirTime: true,

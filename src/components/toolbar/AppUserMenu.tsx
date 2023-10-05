@@ -115,7 +115,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 <MenuItem
                     key='admin-dashboard-link'
                     component={Link}
-                    to='/dashboard.html'
+                    to='/dashboard'
                     onClick={onMenuClose}
                 >
 
@@ -127,7 +127,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 <MenuItem
                     key='admin-metadata-link'
                     component={Link}
-                    to='/edititemmetadata.html'
+                    to='/metadata'
                     onClick={onMenuClose}
                 >
                     <ListItemIcon>

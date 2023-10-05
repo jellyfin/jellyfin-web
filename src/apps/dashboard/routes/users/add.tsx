@@ -140,7 +140,7 @@ const UserNew: FunctionComponent = () => {
                 }
 
                 window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                    Dashboard.navigate('useredit.html?userId=' + user.Id)
+                    Dashboard.navigate('/dashboard/users/profile?userId=' + user.Id)
                         .catch(err => {
                             console.error('[usernew] failed to navigate to edit user page', err);
                         });

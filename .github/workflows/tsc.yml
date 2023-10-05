@@ -27,3 +27,6 @@ jobs:
 
       - name: Run tsc
         run: npm run build:check
+
+      - name: Run test suite
+        run: npm run test

@@ -12,16 +12,16 @@ import ListItemLink from 'components/ListItemLink';
 import globalize from 'scripts/globalize';
 
 const LIBRARY_PATHS = [
-    '/library.html',
-    '/librarydisplay.html',
-    '/metadataimages.html',
-    '/metadatanfo.html'
+    '/dashboard/libraries',
+    '/dashboard/libraries/display',
+    '/dashboard/libraries/metadata',
+    '/dashboard/libraries/nfo'
 ];
 
 const PLAYBACK_PATHS = [
-    '/encodingsettings.html',
-    '/playbackconfiguration.html',
-    '/streamingsettings.html'
+    '/dashboard/playback/transcoding',
+    '/dashboard/playback/resume',
+    '/dashboard/playback/streaming'
 ];
 
 const ServerDrawerSection = () => {
@@ -40,7 +40,7 @@ const ServerDrawerSection = () => {
             }
         >
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard.html'>
+                <ListItemLink to='/dashboard'>
                     <ListItemIcon>
                         <Dashboard />
                     </ListItemIcon>
@@ -48,7 +48,7 @@ const ServerDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboardgeneral.html'>
+                <ListItemLink to='/dashboard/settings'>
                     <ListItemIcon>
                         <Settings />
                     </ListItemIcon>
@@ -56,7 +56,7 @@ const ServerDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/userprofiles.html'>
+                <ListItemLink to='/dashboard/users'>
                     <ListItemIcon>
                         <People />
                     </ListItemIcon>
@@ -64,7 +64,7 @@ const ServerDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/library.html' selected={false}>
+                <ListItemLink to='/dashboard/libraries' selected={false}>
                     <ListItemIcon>
                         <LibraryAdd />
                     </ListItemIcon>
@@ -74,22 +74,22 @@ const ServerDrawerSection = () => {
             </ListItem>
             <Collapse in={isLibrarySectionOpen} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding>
-                    <ListItemLink to='/library.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/libraries' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('HeaderLibraries')} />
                     </ListItemLink>
-                    <ListItemLink to='/librarydisplay.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/libraries/display' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('Display')} />
                     </ListItemLink>
-                    <ListItemLink to='/metadataimages.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('Metadata')} />
                     </ListItemLink>
-                    <ListItemLink to='/metadatanfo.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabNfoSettings')} />
                     </ListItemLink>
                 </List>
             </Collapse>
             <ListItem disablePadding>
-                <ListItemLink to='/encodingsettings.html' selected={false}>
+                <ListItemLink to='/dashboard/playback/transcoding' selected={false}>
                     <ListItemIcon>
                         <PlayCircle />
                     </ListItemIcon>
@@ -99,13 +99,13 @@ const ServerDrawerSection = () => {
             </ListItem>
             <Collapse in={isPlaybackSectionOpen} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding>
-                    <ListItemLink to='/encodingsettings.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/playback/transcoding' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('Transcoding')} />
                     </ListItemLink>
-                    <ListItemLink to='/playbackconfiguration.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/playback/resume' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('ButtonResume')} />
                     </ListItemLink>
-                    <ListItemLink to='/streamingsettings.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/playback/streaming' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabStreaming')} />
                     </ListItemLink>
                 </List>

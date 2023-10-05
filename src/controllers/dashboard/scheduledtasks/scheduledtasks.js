@@ -53,12 +53,12 @@ function populateList(page, tasks) {
             html += '<div class="paperList">';
         }
         html += '<div class="listItem listItem-border scheduledTaskPaperIconItem" data-status="' + task.State + '">';
-        html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
+        html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='/dashboard/tasks/edit?id=" + task.Id + "'>";
         html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
         html += '</a>';
         html += '<div class="listItemBody two-line">';
         const textAlignStyle = globalize.getIsRTL() ? 'right' : 'left';
-        html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:" + textAlignStyle + ";' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
+        html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:" + textAlignStyle + ";' is='emby-linkbutton' href='/dashboard/tasks/edit?id=" + task.Id + "'>";
         html += "<h3 class='listItemBodyText'>" + task.Name + '</h3>';
         html += "<div class='secondary listItemBodyText' id='taskProgress" + task.Id + "'>" + getTaskProgressHtml(task) + '</div>';
         html += '</a>';
