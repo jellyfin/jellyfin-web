@@ -59,13 +59,12 @@ function AutoGrow(textarea, maxLines) {
     }
 
     // Call autogrowFn() when textarea's value is changed
-    textarea.addEventListener('input', function() {
-        autogrowFn();
-        if (textarea.value.trim() === '') {
-            textarea.style.height = 'auto';
-        }
-    });
+    textarea.addEventListener('input', autogrowFn);
     textarea.addEventListener('focus', autogrowFn);
+    textarea.addEventListener('blur', () => {
+        textarea.style.height = 'auto';
+        autogrowFn();
+    });
     textarea.addEventListener('valueset', autogrowFn);
     textarea.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
