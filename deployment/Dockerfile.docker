@@ -3,7 +3,7 @@ FROM node:20-alpine
 ARG SOURCE_DIR=/src
 ARG ARTIFACT_DIR=/jellyfin-web
 
-RUN apk add autoconf g++ make libpng-dev gifsicle alpine-sdk automake libtool make gcc musl-dev nasm python3
+RUN apk --no-cache add autoconf g++ make libpng-dev gifsicle alpine-sdk automake libtool make gcc musl-dev nasm python3
 
 WORKDIR ${SOURCE_DIR}
 COPY . .
