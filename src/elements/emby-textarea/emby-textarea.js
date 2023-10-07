@@ -68,6 +68,7 @@ function AutoGrow(textarea, maxLines) {
     textarea.addEventListener('valueset', autogrowFn);
     textarea.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
+            event.preventDefault();
             const currentCursorPosition = textarea.selectionStart;
             const textBeforeCursor = textarea.value.substring(0, currentCursorPosition);
             const textAfterCursor = textarea.value.substring(currentCursorPosition);
