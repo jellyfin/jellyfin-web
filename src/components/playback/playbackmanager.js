@@ -118,11 +118,13 @@ function normalizeName(t) {
 }
 
 function addOrReplaceUrlParam(url, key, value) {
-    let params = new URLSearchParams((url.split("?")[1] || "").split("#")[0]);
+    // eslint-disable-next-line compat/compat
+    const params = new URLSearchParams((url.split('?')[1] || '').split('#')[0]);
     params.set(key, value);
-    let newurl = url.split("?")[0] + "?" + params.toString();
-    if (url.includes("#"))
-        newurl += "#" + url.split("#");
+    let newurl = url.split('?')[0] + '?' + params.toString();
+    if (url.includes('#')) {
+        newurl += '#' + url.split('#');
+    }
     return newurl;
 }
 
@@ -2467,20 +2469,17 @@ class PlaybackManager {
             if (bestStreamIndex != null) {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
                 if (streamType == 'Subtitle') {
-                    if (isSecondarySubtitle)
-                    {
+                    if (isSecondarySubtitle) {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
                         // Secondary subtitles are client side only, update this if it ever gets transcoding support.
-                    }
-                    else
-                    {
+                    } else {
                         mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
-                        const isHardSubs = mediaSource.MediaStreams[bestStreamIndex].DeliveryMethod === "Transcode";
+                        const isHardSubs = mediaSource.MediaStreams[bestStreamIndex].DeliveryMethod === 'Transcode';
                         if (mediaSource.TranscodingUrl) {
                             mediaSource.TranscodingUrl = addOrReplaceUrlParam(
                                 mediaSource.TranscodingUrl,
-                                "SubtitleStreamIndex",
-                                isHardSubs ? mediaSource.DefaultSubtitleStreamIndex.toString() : "-1"
+                                'SubtitleStreamIndex',
+                                isHardSubs ? mediaSource.DefaultSubtitleStreamIndex.toString() : '-1'
                             );
                         }
                     }
@@ -2490,7 +2489,7 @@ class PlaybackManager {
                     if (mediaSource.TranscodingUrl) {
                         mediaSource.TranscodingUrl = addOrReplaceUrlParam(
                             mediaSource.TranscodingUrl,
-                            "AudioStreamIndex",
+                            'AudioStreamIndex',
                             mediaSource.DefaultAudioStreamIndex.toString()
                         );
                     }
