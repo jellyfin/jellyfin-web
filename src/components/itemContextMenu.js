@@ -23,23 +23,15 @@ export function canExcludeItemFromContinueWatching(item) {
         MediaTypes: mediaType
     };
 
-    return new Promise((resolve, reject) => {
-        apiClient
-            .getResumableItems(apiClient.getCurrentUserId(), options)
-            .then(inProgressItems => {
-                for (const i in inProgressItems['Items']) {
-                    if (inProgressItems['Items'][i].Id === item.Id) {
-                        resolve(true);
-                        return;
-                    }
-                }
-                resolve(false);
-            })
-            .catch(error => {
-                console.error('An error occurred:', error);
-                reject(error); // Reject the promise if an error occurs
-            });
-    });
+    const inProgressItems = apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+
+    for (const i in inProgressItems['Items']) {
+        if (inProgressItems['Items'][i].Id === item.Id) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 export function getCommands(options) {
