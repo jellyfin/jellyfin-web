@@ -14,7 +14,7 @@ import theme from 'themes/theme';
 import { HistoryRouter } from 'components/router/HistoryRouter';
 
 const DashboardApp = loadable(() => import('./apps/dashboard/App'));
-const StableApp = loadable(() => import('./apps/stable/App'));
+const StableAppRouter = loadable(() => import('./apps/stable/AppRouter'));
 const RootAppRouter = loadable(() => import('./RootAppRouter'));
 
 const queryClient = new QueryClient();
@@ -33,9 +33,7 @@ const RootAppLayout = ({ history }: { history: History }) => {
 
             {isExperimentalLayout ?
                 <RootAppRouter history={history} /> :
-                <HistoryRouter history={history}>
-                    <StableApp />
-                </HistoryRouter>
+                <StableAppRouter history={history} />
             }
 
             <HistoryRouter history={history}>
