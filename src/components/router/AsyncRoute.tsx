@@ -1,6 +1,5 @@
 import loadable, { LoadableComponent } from '@loadable/component';
 import React from 'react';
-import { Route } from 'react-router-dom';
 
 export enum AsyncRouteType {
     Stable,
@@ -42,32 +41,7 @@ const StableAsyncPage = loadable(
     { cacheKey: (props: AsyncPageProps) => props.page }
 );
 
-export const toAsyncPageRoute = ({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) => {
-    let Element = element;
-    if (!Element) {
-        switch (type) {
-            case AsyncRouteType.Dashboard:
-                Element = DashboardAsyncPage;
-                break;
-            case AsyncRouteType.Experimental:
-                Element = ExperimentalAsyncPage;
-                break;
-            case AsyncRouteType.Stable:
-            default:
-                Element = StableAsyncPage;
-        }
-    }
-
-    return (
-        <Route
-            key={path}
-            path={path}
-            element={<Element page={page ?? path} />}
-        />
-    );
-};
-
-export function toAsyncPageRouteConfig({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) {
+export function toAsyncPageRoute({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) {
     let Element = element;
     if (!Element) {
         switch (type) {

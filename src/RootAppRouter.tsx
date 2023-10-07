@@ -6,9 +6,9 @@ import {
     createHashRouter
 } from 'react-router-dom';
 
+import { DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
 import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
 import { useLegacyRouterSync } from 'hooks/useLegacyRouterSync';
-import { DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
 
 const router = createHashRouter([
     ...EXPERIMENTAL_APP_ROUTES,
