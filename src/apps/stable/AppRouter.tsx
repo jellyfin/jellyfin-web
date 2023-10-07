@@ -11,7 +11,7 @@ const router = createHashRouter([
     ...DASHBOARD_APP_ROUTES
 ]);
 
-export default function StableAppRouter({ history }: { history: History }) {
+export default function StableAppRouter({ history }: Readonly<{ history: History }>) {
     useLegacyRouterSync({ router, history });
 
     return <RouterProvider router={router} />;
