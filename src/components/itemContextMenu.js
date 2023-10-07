@@ -10,38 +10,7 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 
-async function canExcludeItemFromContinueWatching(item) {
-    const apiClient = ServerConnections.getApiClient(item.ServerId);
-
-    const mediaType = ['Video'];
-    const limit = 12;
-
-    const options = {
-        Limit: limit,
-        Recursive: true,
-        EnableTotalRecordCount: false,
-        MediaTypes: mediaType
-    };
-
-    const results = await apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
-    const items = results['Items'];
-    console.log(items);
-    console.log(item);
-
-    console.log('Item ID: ' + item.Id);
-
-    for (const i in items) {
-        console.log('Result ID[' + i + ']: ' + items[i].Id);
-        if (items[i].Id === item.Id) {
-            console.log('Match Found');
-            return true;
-        }
-    }
-
-    return false;
-}
-
-export async function getCommands(options) {
+export function getCommands(options) {
     const item = options.item;
     const user = options.user;
 
@@ -312,8 +281,7 @@ export async function getCommands(options) {
         });
     }
 
-    const canExclude = await canExcludeItemFromContinueWatching(item);
-    if (canExclude) {
+    if (item.UserData.PlaybackPositionTicks > 0 && !item.UserData.IsExcludedFromContinueWatching) {
         commands.push({
             name: globalize.translate('RemoveFromContinueWatching'),
             id: 'removefromcontinuewatching',
@@ -687,9 +655,9 @@ function refresh(apiClient, item) {
     });
 }
 
-export async function show(options) {
+export function show(options) {
     // Await the commands from getCommands
-    const commands = await getCommands(options);
+    const commands = getCommands(options);
     if (!commands.length) {
         return Promise.reject();
     }
