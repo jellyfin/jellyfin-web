@@ -23,11 +23,13 @@ export async function canExcludeItemFromContinueWatching(item) {
         MediaTypes: mediaType
     };
 
-    let inProgressItems = await apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+    const inProgressItems = await apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
 
-    for (let i in inProgressItems["Items"])
-        if (inProgressItems["Items"][i].Id === item.Id)
+    for (const i in inProgressItems['Items']) {
+        if (inProgressItems['Items'][i].Id === item.Id) {
             return true;
+        }
+    }
 
     return false;
 }
@@ -414,12 +416,12 @@ function executeCommand(item, id, options) {
                 };
                 const downloadSeasons = seasons => {
                     Promise.all(seasons.map(seasonItem => {
-                            return apiClient.getEpisodes(seasonItem.SeriesId, {
-                                seasonId: seasonItem.Id,
-                                userId: options.user.Id,
-                                Fields: 'CanDownload,Path'
-                            });
-                        }
+                        return apiClient.getEpisodes(seasonItem.SeriesId, {
+                            seasonId: seasonItem.Id,
+                            userId: options.user.Id,
+                            Fields: 'CanDownload,Path'
+                        });
+                    }
                     )).then(seasonData => {
                         downloadEpisodes(seasonData.map(season => season.Items).flat());
                     });
@@ -474,7 +476,7 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'multiSelect':
-                import('./multiSelect/multiSelect').then(({ startMultiSelect: startMultiSelect }) => {
+                import('./multiSelect/multiSelect').then(({ startMultiSelect }) => {
                     const card = dom.parentWithClass(options.positionTo, 'card');
                     startMultiSelect(card);
                 });
