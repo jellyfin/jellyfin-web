@@ -591,8 +591,7 @@ function setFieldVisibilities(context, item) {
             || item.Type === 'Genre'
             || item.Type === 'Studio'
             || item.Type === 'MusicGenre'
-            || item.Type === 'TvChannel'
-            || item.Type === 'Book') {
+            || item.Type === 'TvChannel') {
         hideElement('#peopleCollapsible', context);
     } else {
         showElement('#peopleCollapsible', context);
