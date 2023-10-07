@@ -10,6 +10,28 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 
+export async function canExcludeItemFromContinueWatching(item) {
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+
+    const mediaType = ['Episode', 'Movie', 'Video'];
+    const limit = 12;
+
+    const options = {
+        Limit: limit,
+        Recursive: true,
+        EnableTotalRecordCount: false,
+        MediaTypes: mediaType
+    };
+
+    let inProgressItems = await apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+
+    for (let i in inProgressItems["Items"])
+        if (inProgressItems["Items"][i].Id === item.Id)
+            return true;
+
+    return false;
+}
+
 export function getCommands(options) {
     const item = options.item;
     const user = options.user;
@@ -72,8 +94,8 @@ export function getCommands(options) {
     }
 
     if ((item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre')
-            && item.CollectionType !== 'livetv'
-            && options.shuffle !== false
+        && item.CollectionType !== 'livetv'
+        && options.shuffle !== false
     ) {
         commands.push({
             name: globalize.translate('Shuffle'),
@@ -83,7 +105,7 @@ export function getCommands(options) {
     }
 
     if ((item.MediaType === 'Audio' || item.Type === 'MusicAlbum' || item.Type === 'MusicArtist' || item.Type === 'MusicGenre')
-            && options.instantMix !== false && !itemHelper.isLocalItem(item)
+        && options.instantMix !== false && !itemHelper.isLocalItem(item)
     ) {
         commands.push({
             name: globalize.translate('InstantMix'),
@@ -214,9 +236,9 @@ export function getCommands(options) {
     }
 
     if (canEdit && item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program'
-            && item.LocationType !== 'Virtual'
-            && !(item.Type === 'Recording' && item.Status !== 'Completed')
-            && options.editSubtitles !== false
+        && item.LocationType !== 'Virtual'
+        && !(item.Type === 'Recording' && item.Status !== 'Completed')
+        && options.editSubtitles !== false
     ) {
         commands.push({
             name: globalize.translate('EditSubtitles'),
@@ -277,6 +299,14 @@ export function getCommands(options) {
         commands.push({
             name: globalize.translate('RemoveFromCollection'),
             id: 'removefromcollection',
+            icon: 'remove'
+        });
+    }
+
+    if (canExcludeItemFromContinueWatching(item)) {
+        commands.push({
+            name: globalize.translate('RemoveFromContinueWatching'),
+            id: 'removefromcontinuewatching',
             icon: 'remove'
         });
     }
@@ -384,12 +414,12 @@ function executeCommand(item, id, options) {
                 };
                 const downloadSeasons = seasons => {
                     Promise.all(seasons.map(seasonItem => {
-                        return apiClient.getEpisodes(seasonItem.SeriesId, {
-                            seasonId: seasonItem.Id,
-                            userId: options.user.Id,
-                            Fields: 'CanDownload,Path'
-                        });
-                    }
+                            return apiClient.getEpisodes(seasonItem.SeriesId, {
+                                seasonId: seasonItem.Id,
+                                userId: options.user.Id,
+                                Fields: 'CanDownload,Path'
+                            });
+                        }
                     )).then(seasonData => {
                         downloadEpisodes(seasonData.map(season => season.Items).flat());
                     });
@@ -444,7 +474,7 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'multiSelect':
-                import('./multiSelect/multiSelect').then(({ startMultiSelect }) => {
+                import('./multiSelect/multiSelect').then(({ startMultiSelect: startMultiSelect }) => {
                     const card = dom.parentWithClass(options.positionTo, 'card');
                     startMultiSelect(card);
                 });
@@ -515,6 +545,14 @@ function executeCommand(item, id, options) {
                 break;
             case 'queueallfromhere':
                 getResolveFunction(resolve, id)();
+                break;
+            case 'removefromcontinuewatching':
+                apiClient.ajax({
+                    url: apiClient.getUrl('Users/' + options.user.Id + '/ExcludeContinueWatching/' + item.Id, {}),
+                    type: 'POST'
+                }).then(function () {
+                    getResolveFunction(resolve, id, true)();
+                });
                 break;
             case 'removefromplaylist':
                 apiClient.ajax({
