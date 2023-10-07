@@ -174,7 +174,7 @@ export function getCommands(options) {
         }
     }
 
-    // Books are promoted to major download Button and therefor excluded in the context menu
+    // Books are promoted to major download Button and therefore excluded in the context menu
     if ((item.CanDownload && appHost.supports('filedownload')) && item.Type !== 'Book') {
         commands.push({
             name: globalize.translate('Download'),
@@ -285,6 +285,14 @@ export function getCommands(options) {
         commands.push({
             name: globalize.translate('RemoveFromContinueWatching'),
             id: 'removefromcontinuewatching',
+            icon: 'remove'
+        });
+    }
+
+    if (!item.UserData.IsExcludedFromNextUp) {
+        commands.push({
+            name: globalize.translate('RemoveFromNextUp'),
+            id: 'removefromnextup',
             icon: 'remove'
         });
     }
@@ -528,6 +536,14 @@ function executeCommand(item, id, options) {
                 apiClient.ajax({
                     url: apiClient.getUrl('Users/' + options.user.Id + '/ExcludeContinueWatching/' + item.Id, {}),
                     type: 'POST'
+                }).then(function () {
+                    getResolveFunction(resolve, id, true)();
+                });
+                break;
+            case 'removefromnextup':
+                apiClient.ajax({
+                    url: apiClient.getUrl('Users/' + options.user.Id + '/ExcludeNextUp/' + item.Id, {}),
+                    type: 'DELETE'
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
