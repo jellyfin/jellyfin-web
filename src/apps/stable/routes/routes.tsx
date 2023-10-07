@@ -1,7 +1,7 @@
 import { RouteObject, redirect } from 'react-router-dom';
 import React from 'react';
 
-import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/routes/routes';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRouteConfig } from 'components/router/AsyncRoute';
 import { toViewManagerPageRouteConfig } from 'components/router/LegacyRoute';

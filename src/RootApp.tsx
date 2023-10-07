@@ -5,15 +5,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 
-import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
 import { ApiProvider } from 'hooks/useApi';
 import { WebConfigProvider } from 'hooks/useWebConfig';
 import theme from 'themes/theme';
-import { HistoryRouter } from 'components/router/HistoryRouter';
 
-const DashboardApp = loadable(() => import('./apps/dashboard/App'));
 const StableAppRouter = loadable(() => import('./apps/stable/AppRouter'));
 const RootAppRouter = loadable(() => import('./RootAppRouter'));
 
@@ -35,10 +33,6 @@ const RootAppLayout = ({ history }: { history: History }) => {
                 <RootAppRouter history={history} /> :
                 <StableAppRouter history={history} />
             }
-
-            <HistoryRouter history={history}>
-                <DashboardApp />
-            </HistoryRouter>
         </>
     );
 };

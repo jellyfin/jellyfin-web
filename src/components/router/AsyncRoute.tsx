@@ -4,7 +4,8 @@ import { Route } from 'react-router-dom';
 
 export enum AsyncRouteType {
     Stable,
-    Experimental
+    Experimental,
+    Dashboard,
 }
 
 export interface AsyncRoute {
@@ -26,6 +27,11 @@ export interface AsyncPageProps {
     page: string
 }
 
+const DashboardAsyncPage = loadable(
+    (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${props.page}`),
+    { cacheKey: (props: AsyncPageProps) => props.page }
+);
+
 const ExperimentalAsyncPage = loadable(
     (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${props.page}`),
     { cacheKey: (props: AsyncPageProps) => props.page }
@@ -37,12 +43,20 @@ const StableAsyncPage = loadable(
 );
 
 export const toAsyncPageRoute = ({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) => {
-    const Element = element
-        || (
-            type === AsyncRouteType.Experimental ?
-                ExperimentalAsyncPage :
-                StableAsyncPage
-        );
+    let Element = element;
+    if (!Element) {
+        switch (type) {
+            case AsyncRouteType.Dashboard:
+                Element = DashboardAsyncPage;
+                break;
+            case AsyncRouteType.Experimental:
+                Element = ExperimentalAsyncPage;
+                break;
+            case AsyncRouteType.Stable:
+            default:
+                Element = StableAsyncPage;
+        }
+    }
 
     return (
         <Route
@@ -54,11 +68,20 @@ export const toAsyncPageRoute = ({ path, page, element, type = AsyncRouteType.St
 };
 
 export function toAsyncPageRouteConfig({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) {
-    const Element = element || (
-        type === AsyncRouteType.Experimental ?
-            ExperimentalAsyncPage :
-            StableAsyncPage
-    );
+    let Element = element;
+    if (!Element) {
+        switch (type) {
+            case AsyncRouteType.Dashboard:
+                Element = DashboardAsyncPage;
+                break;
+            case AsyncRouteType.Experimental:
+                Element = ExperimentalAsyncPage;
+                break;
+            case AsyncRouteType.Stable:
+            default:
+                Element = StableAsyncPage;
+        }
+    }
 
     return {
         path,

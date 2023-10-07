@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteObject, redirect } from 'react-router-dom';
 
 import { REDIRECTS } from 'apps/dashboard/routes/_redirects';
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/routes/routes';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRouteConfig } from 'components/router/AsyncRoute';
 import { toViewManagerPageRouteConfig } from 'components/router/LegacyRoute';
@@ -9,7 +10,6 @@ import { toRedirectRouteConfig } from 'components/router/Redirect';
 import AppLayout from '../AppLayout';
 import { ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
-import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
 
 export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
     {
