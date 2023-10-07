@@ -19,3 +19,10 @@ export function toViewManagerPageRoute(route: LegacyRoute) {
         />
     );
 }
+
+export function toViewManagerPageRouteConfig(route: LegacyRoute) {
+    return {
+        path: route.path,
+        element: <ViewManagerPage {...route.pageProps} />
+    };
+}

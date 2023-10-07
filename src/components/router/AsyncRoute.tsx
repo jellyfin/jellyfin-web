@@ -52,3 +52,16 @@ export const toAsyncPageRoute = ({ path, page, element, type = AsyncRouteType.St
         />
     );
 };
+
+export function toAsyncPageRouteConfig({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) {
+    const Element = element || (
+        type === AsyncRouteType.Experimental ?
+            ExperimentalAsyncPage :
+            StableAsyncPage
+    );
+
+    return {
+        path,
+        element: <Element page={page ?? path} />
+    };
+}
