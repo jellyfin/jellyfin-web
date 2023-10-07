@@ -41,7 +41,7 @@ async function canExcludeItemFromContinueWatching(item) {
     return false;
 }
 
-export function getCommands(options) {
+export async function getCommands(options) {
     const item = options.item;
     const user = options.user;
 
@@ -312,16 +312,14 @@ export function getCommands(options) {
         });
     }
 
-    canExcludeItemFromContinueWatching(item).then((result) => {
-        console.log(result);
-        if (result) {
-            commands.push({
-                name: globalize.translate('RemoveFromContinueWatching'),
-                id: 'removefromcontinuewatching',
-                icon: 'remove'
-            });
-        }
-    });
+    const canExclude = await canExcludeItemFromContinueWatching(item);
+    if (canExclude) {
+        commands.push({
+            name: globalize.translate('RemoveFromContinueWatching'),
+            id: 'removefromcontinuewatching',
+            icon: 'remove'
+        });
+    }
 
     if (!browser.tv && options.share === true && itemHelper.canShare(item, user)) {
         commands.push({
@@ -689,8 +687,9 @@ function refresh(apiClient, item) {
     });
 }
 
-export function show(options) {
-    const commands = getCommands(options);
+export async function show(options) {
+    // Await the commands from getCommands
+    const commands = await getCommands(options);
     if (!commands.length) {
         return Promise.reject();
     }
