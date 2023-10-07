@@ -251,5 +251,12 @@
     "AllowSegmentDeletionHelp": "Padam segmen lama setelah ia dihantar ke pelayan. Ini menghalang file transcode disimpan dalam disk. Ia akan berfungsi dengan penghad haju dihidupkan. Matikan tetapan ini jika anda mengalami isu dengan pemain video.",
     "LabelThrottleDelaySeconds": "Penghad laju setelah",
     "Settings": "Tetapan",
-    "SelectServer": "Pilih pelayan"
+    "SelectServer": "Pilih pelayan",
+    "ButtonBackspace": "pendikit",
+    "ButtonSpace": "Ruang",
+    "BackdropScreensaver": "Penyimpan skrin latar belakang",
+    "Cursive": "Sambung",
+    "DefaultSubtitlesHelp": "Sari kata dimuatkan berdasarkan bendera lalai dan paksa dalam metadata yang disematkan. Keutamaan bahasa diambil kira apabila terdapat beberapa pilihan.",
+    "LabelThrottleDelaySecondsHelp": "Masa dalam saat selepas mana transkoder akan dihadkan. Mesti cukup besar untuk klien mengekalkan penimbal yang sihat. Hanya berfungsi jika penghadan diaktifkan.",
+    "LabelSegmentKeepSeconds": "Masa untuk mengekalkan segmen"
 }
