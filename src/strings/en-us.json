@@ -1732,5 +1732,20 @@
     "MachineTranslated": "Machine Translated",
     "ForeignPartsOnly": "Forced/Foreign parts only",
     "HearingImpairedShort": "HI/SDH",
-    "LabelIsHearingImpaired": "For hearing impaired (SDH)"
+    "LabelIsHearingImpaired": "For hearing impaired (SDH)",
+    "Creator": "Creator",
+    "Creators": "Creators",
+    "Author": "Author",
+    "Authors": "Authors",
+    "Illustrator": "Illustrator",
+    "Penciller": "Penciller",
+    "Inker": "Inker",
+    "Colorist": "Colorist",
+    "Letterer": "Letterer",
+    "CoverArtist": "Cover artist",
+    "Editors": "Editors",
+    "Editor": "Editor",
+    "Translators": "Translators",
+    "Translator": "Translator",
+    "HeaderCreators": "Creators"
 }

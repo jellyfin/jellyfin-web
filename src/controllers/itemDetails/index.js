@@ -824,6 +824,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
 
     renderCast(page, item);
     renderGuestCast(page, item);
+    renderCreators(page, item);
 
     if (item.PartCount && item.PartCount > 1) {
         page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
@@ -999,6 +1000,93 @@ function renderStudio(page, item, context) {
     studiosGroup.classList.toggle('hide', !studios.length);
 }
 
+function renderAuthor(page, item, context) {
+    const authors = (item.People || []).filter(function (person) {
+        return person.Type === 'Author';
+    });
+
+    const html = authors.map(function (person) {
+        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+            Name: person.Name,
+            Type: 'Person',
+            ServerId: item.ServerId,
+            Id: person.Id
+        }, {
+            context: context
+        }) + '">' + escapeHtml(person.Name) + '</a>';
+    }).join(', ');
+
+    const authorsLabel = page.querySelector('.authorsLabel');
+    authorsLabel.innerHTML = globalize.translate(authors.length > 1 ? 'Authors' : 'Author');
+    const authorsValue = page.querySelector('.authors');
+    authorsValue.innerHTML = html;
+
+    const authorsGroup = page.querySelector('.authorsGroup');
+    if (authors.length) {
+        authorsGroup.classList.remove('hide');
+    } else {
+        authorsGroup.classList.add('hide');
+    }
+}
+
+function renderEditor(page, item, context) {
+    const editors = (item.People || []).filter(function (person) {
+        return person.Type === 'Editor';
+    });
+
+    const html = editors.map(function (person) {
+        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+            Name: person.Name,
+            Type: 'Person',
+            ServerId: item.ServerId,
+            Id: person.Id
+        }, {
+            context: context
+        }) + '">' + escapeHtml(person.Name) + '</a>';
+    }).join(', ');
+
+    const editorsLabel = page.querySelector('.editorsLabel');
+    editorsLabel.innerHTML = globalize.translate(editors.length > 1 ? 'Editors' : 'Editor');
+    const editorsValue = page.querySelector('.editors');
+    editorsValue.innerHTML = html;
+
+    const editorsGroup = page.querySelector('.editorsGroup');
+    if (editors.length) {
+        editorsGroup.classList.remove('hide');
+    } else {
+        editorsGroup.classList.add('hide');
+    }
+}
+
+function renderTranslator(page, item, context) {
+    const translators = (item.People || []).filter(function (person) {
+        return person.Type === 'Translator';
+    });
+
+    const html = translators.map(function (person) {
+        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+            Name: person.Name,
+            Type: 'Person',
+            ServerId: item.ServerId,
+            Id: person.Id
+        }, {
+            context: context
+        }) + '">' + escapeHtml(person.Name) + '</a>';
+    }).join(', ');
+
+    const translatorsLabel = page.querySelector('.translatorsLabel');
+    translatorsLabel.innerHTML = globalize.translate(translators.length > 1 ? 'Translators' : 'Translator');
+    const translatorsValue = page.querySelector('.translators');
+    translatorsValue.innerHTML = html;
+
+    const translatorsGroup = page.querySelector('.translatorsGroup');
+    if (translators.length) {
+        translatorsGroup.classList.remove('hide');
+    } else {
+        translatorsGroup.classList.add('hide');
+    }
+}
+
 function renderMiscInfo(page, item) {
     const primaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
 
@@ -1055,6 +1143,9 @@ function renderDetails(page, item, apiClient, context) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
+    renderAuthor(page, item, context);
+    renderEditor(page, item, context);
+    renderTranslator(page, item, context);
 
     // Don't allow redirection to other websites from the TV layout
     if (!layoutManager.tv && appHost.supports('externallinks')) {
@@ -1816,12 +1907,43 @@ function renderGuestCast(page, item) {
     });
 }
 
+function renderCreators(page, item) {
+    const types = ['Creator', 'Artist', 'Illustrator', 'Penciller', 'Inker', 'Colorist', 'Letterer', 'CoverArtist'];
+    const people = (item.People || []).filter(function (p) {
+        return types.includes(p.Type);
+    });
+
+    if (!people.length) {
+        page.querySelector('#creatorsCollapsible').classList.add('hide');
+        return;
+    }
+
+    page.querySelector('#creatorsCollapsible').classList.remove('hide');
+    const creatorsContent = page.querySelector('#creatorsContent');
+
+    // Set the role so that the type is visible on the cards
+    for (const p of people) {
+        p.Role = globalize.translate(p.Type);
+    }
+
+    import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
+        peoplecardbuilder.buildPeopleCards(people, {
+            itemsContainer: creatorsContent,
+            coverImage: true,
+            serverId: item.ServerId,
+            shape: 'overflowPortrait',
+            imageBlurhashes: item.ImageBlurHashes
+        });
+    });
+}
+
 function ItemDetailPage() {
     const self = this;
     self.setInitialCollapsibleState = setInitialCollapsibleState;
     self.renderDetails = renderDetails;
     self.renderCast = renderCast;
     self.renderGuestCast = renderGuestCast;
+    self.renderCreators = renderCreators;
 }
 
 function bindAll(view, selector, eventName, fn) {
