@@ -117,6 +117,15 @@ function normalizeName(t) {
     return t.toLowerCase().replace(' ', '');
 }
 
+function addOrReplaceUrlParam(url, key, value) {
+    let params = new URLSearchParams((url.split("?")[1] || "").split("#")[0]);
+    params.set(key, value);
+    let newurl = url.split("?")[0] + "?" + params.toString();
+    if (url.includes("#"))
+        newurl += "#" + url.split("#");
+    return newurl;
+}
+
 function getItemsForPlayback(serverId, query) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -2458,14 +2467,33 @@ class PlaybackManager {
             if (bestStreamIndex != null) {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
                 if (streamType == 'Subtitle') {
-                    if (isSecondarySubtitle) {
+                    if (isSecondarySubtitle)
+                    {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
-                    } else {
+                        // Secondary subtitles are client side only, update this if it ever gets transcoding support.
+                    }
+                    else
+                    {
                         mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
+                        const isHardSubs = mediaSource.MediaStreams[bestStreamIndex].DeliveryMethod === "Transcode";
+                        if (mediaSource.TranscodingUrl) {
+                            mediaSource.TranscodingUrl = addOrReplaceUrlParam(
+                                mediaSource.TranscodingUrl,
+                                "SubtitleStreamIndex",
+                                isHardSubs ? mediaSource.DefaultSubtitleStreamIndex.toString() : "-1"
+                            );
+                        }
                     }
                 }
                 if (streamType == 'Audio') {
                     mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
+                    if (mediaSource.TranscodingUrl) {
+                        mediaSource.TranscodingUrl = addOrReplaceUrlParam(
+                            mediaSource.TranscodingUrl,
+                            "AudioStreamIndex",
+                            mediaSource.DefaultAudioStreamIndex.toString()
+                        );
+                    }
                 }
             } else {
                 console.debug(`AutoSet ${streamType} - Threshold not met. Using default.`);
