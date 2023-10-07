@@ -10,10 +10,10 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 
-export function canExcludeItemFromContinueWatching(item) {
+async function canExcludeItemFromContinueWatching(item) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    const mediaType = ['Episode', 'Movie', 'Video'];
+    const mediaType = ['Video'];
     const limit = 12;
 
     const options = {
@@ -23,10 +23,17 @@ export function canExcludeItemFromContinueWatching(item) {
         MediaTypes: mediaType
     };
 
-    const inProgressItems = apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+    const results = await apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+    const items = results['Items'];
+    console.log(items);
+    console.log(item);
 
-    for (const i in inProgressItems['Items']) {
-        if (inProgressItems['Items'][i].Id === item.Id) {
+    console.log('Item ID: ' + item.Id);
+
+    for (const i in items) {
+        console.log('Result ID[' + i + ']: ' + items[i].Id);
+        if (items[i].Id === item.Id) {
+            console.log('Match Found');
             return true;
         }
     }
@@ -305,13 +312,16 @@ export function getCommands(options) {
         });
     }
 
-    if (canExcludeItemFromContinueWatching(item)) {
-        commands.push({
-            name: globalize.translate('RemoveFromContinueWatching'),
-            id: 'removefromcontinuewatching',
-            icon: 'remove'
-        });
-    }
+    canExcludeItemFromContinueWatching(item).then((result) => {
+        console.log(result);
+        if (result) {
+            commands.push({
+                name: globalize.translate('RemoveFromContinueWatching'),
+                id: 'removefromcontinuewatching',
+                icon: 'remove'
+            });
+        }
+    });
 
     if (!browser.tv && options.share === true && itemHelper.canShare(item, user)) {
         commands.push({
