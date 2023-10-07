@@ -10,7 +10,7 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 
-export async function canExcludeItemFromContinueWatching(item) {
+export function canExcludeItemFromContinueWatching(item) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
     const mediaType = ['Episode', 'Movie', 'Video'];
@@ -23,15 +23,23 @@ export async function canExcludeItemFromContinueWatching(item) {
         MediaTypes: mediaType
     };
 
-    const inProgressItems = await apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
-
-    for (const i in inProgressItems['Items']) {
-        if (inProgressItems['Items'][i].Id === item.Id) {
-            return true;
-        }
-    }
-
-    return false;
+    return new Promise((resolve, reject) => {
+        apiClient
+            .getResumableItems(apiClient.getCurrentUserId(), options)
+            .then(inProgressItems => {
+                for (const i in inProgressItems['Items']) {
+                    if (inProgressItems['Items'][i].Id === item.Id) {
+                        resolve(true);
+                        return;
+                    }
+                }
+                resolve(false);
+            })
+            .catch(error => {
+                console.error('An error occurred:', error);
+                reject(error); // Reject the promise if an error occurs
+            });
+    });
 }
 
 export function getCommands(options) {
