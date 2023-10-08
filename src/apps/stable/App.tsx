@@ -1,16 +1,16 @@
 import React from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
+import { DASHBOARD_APP_PATHS } from 'apps/dashboard/App';
 import AppBody from 'components/AppBody';
-import ServerContentPage from 'components/ServerContentPage';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
-
-import { ASYNC_ADMIN_ROUTES, ASYNC_USER_ROUTES } from './routes/asyncRoutes';
-import { LEGACY_ADMIN_ROUTES, LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
-import { REDIRECTS } from './routes/_redirects';
 import { toRedirectRoute } from 'components/router/Redirect';
+
+import { ASYNC_USER_ROUTES } from './routes/asyncRoutes';
+import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './routes/legacyRoutes';
+import { REDIRECTS } from './routes/_redirects';
 
 const Layout = () => (
     <AppBody>
@@ -27,16 +27,6 @@ const StableApp = () => (
                 {LEGACY_USER_ROUTES.map(toViewManagerPageRoute)}
             </Route>
 
-            {/* Admin routes */}
-            <Route path='/' element={<ConnectionRequired isAdminRequired />}>
-                {ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute)}
-                {LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)}
-
-                <Route path='configurationpage' element={
-                    <ServerContentPage view='/web/configurationpage' />
-                } />
-            </Route>
-
             {/* Public routes */}
             <Route path='/' element={<ConnectionRequired isUserRequired={false} />}>
                 <Route index element={<Navigate replace to='/home.html' />} />
@@ -50,6 +40,15 @@ const StableApp = () => (
 
         {/* Redirects for old paths */}
         {REDIRECTS.map(toRedirectRoute)}
+
+        {/* Ignore dashboard routes */}
+        {Object.entries(DASHBOARD_APP_PATHS).map(([ key, path ]) => (
+            <Route
+                key={key}
+                path={`/${path}/*`}
+                element={null}
+            />
+        ))}
     </Routes>
 );
 

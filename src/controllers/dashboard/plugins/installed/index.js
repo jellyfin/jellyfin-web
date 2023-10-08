@@ -130,7 +130,7 @@ function populateList(page, plugins, pluginConfigurationPages) {
     } else {
         html += '<div class="centerMessage">';
         html += '<h1>' + globalize.translate('MessageNoPluginsInstalled') + '</h1>';
-        html += '<p><a is="emby-linkbutton" class="button-link" href="#/availableplugins.html">';
+        html += '<p><a is="emby-linkbutton" class="button-link" href="#/dashboard/plugins/catalog">';
         html += globalize.translate('MessageBrowsePluginCatalog');
         html += '</a></p>';
         html += '</div>';
@@ -221,13 +221,13 @@ function reloadList(page) {
 
 function getTabs() {
     return [{
-        href: '#/installedplugins.html',
+        href: '#/dashboard/plugins',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: '#/availableplugins.html',
+        href: '#/dashboard/plugins/catalog',
         name: globalize.translate('TabCatalog')
     }, {
-        href: '#/repositories.html',
+        href: '#/dashboard/plugins/repositories',
         name: globalize.translate('TabRepositories')
     }];
 }

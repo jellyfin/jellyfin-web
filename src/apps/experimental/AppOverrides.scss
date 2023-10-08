@@ -10,11 +10,6 @@ $mui-bp-xl: 1536px;
     position: relative;
 }
 
-// Fix dashboard pages layout to work with drawer
-.dashboardDocument .skinBody {
-    position: unset;
-}
-
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {
     .lnkQuickConnectPreferences,
@@ -26,8 +21,7 @@ $mui-bp-xl: 1536px;
 
 // Fix the padding of some pages
 .homePage.libraryPage, // Home page
-.libraryPage:not(.withTabs), // Tabless library pages
-.content-primary.content-primary { // Dashboard pages
+.libraryPage:not(.withTabs) { // Tabless library pages
     padding-top: 3.25rem !important;
 }
 

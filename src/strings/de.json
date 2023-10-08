@@ -1733,7 +1733,7 @@
     "PasswordRequiredForAdmin": "Für Admin Konten wird ein Passwort benötigt.",
     "LabelEnableLUFSScan": "LUFS-Scan aktivieren",
     "LabelSyncPlayNoGroups": "Keine Gruppen verfügbar",
-    "LabelEnableLUFSScanHelp": "Clients können die Audio Wiedergabe normalisieren um die selbe Lautstärke  für mehrere Stücke zu bekommen.\nDie verlängert den Bibiliotheks Scan und benötigt mehr Ressourcen.",
+    "LabelEnableLUFSScanHelp": "Clients können die Audio Wiedergabe normalisieren, um die selbe Lautstärke für mehrere Stücke zu bekommen.\nDies verlängert den Bibliotheksscan und benötigt mehr Ressourcen.",
     "Notifications": "Benachrichtigungen",
     "NotificationsMovedMessage": "Die Benachrichtigungsfunktion wurde zum Webhook Plugin verschoben.",
     "EnableAudioNormalizationHelp": "Die Audionormalisierung fügt eine konstante Verstärkung hinzu, um den Durchschnitt auf einem gewünschten Pegel zu halten (-18 dB).",
@@ -1758,8 +1758,8 @@
     "HeaderEpisodesStatus": "Episodenstatus",
     "AllowSegmentDeletion": "Segmente löschen",
     "AllowSegmentDeletionHelp": "Alte Segmente löschen, nachdem sie zum Client gesendet wurden. Damit muss nicht die gesamte transkodierte Datei zwischengespeichert werden. Sollten Wiedergabeprobleme auftreten, kann diese Einstellung deaktiviert werden.",
-    "LabelThrottleDelaySeconds": "Limitieren nach",
-    "LabelThrottleDelaySecondsHelp": "Zeit, in Sekunden, nach der die Transkodierung limitiert wird. Muss groß genug sein um dem Client eine problemlose Wiedergabe zu ermöglichen. Funktioniert nur wenn \"Transkodierung drosseln\" aktiviert ist.",
+    "LabelThrottleDelaySeconds": "Drosseln nach",
+    "LabelThrottleDelaySecondsHelp": "Zeit, in Sekunden, nach der die Transkodierung gedrosselt wird. Muss groß genug sein um dem Client eine problemlose Wiedergabe zu ermöglichen. Funktioniert nur wenn \"Transkodierung drosseln\" aktiviert ist.",
     "LabelSegmentKeepSeconds": "Zeit um Segmente zu behalten",
     "LabelSegmentKeepSecondsHelp": "Zeit, in Sekunden, in der Segmente nicht überschrieben werden dürfen. Muss größer sein als \"Limitieren nach\". Funktioniert nur wenn \"Segmente löschen\" aktiviert ist.",
     "LogoScreensaver": "Logo Bildschirmschoner",
@@ -1776,5 +1776,5 @@
     "ForeignPartsOnly": "Erzwungen/Nur ausländische Teile",
     "HearingImpairedShort": "BaFa/SDH",
     "HeaderGuestCast": "Gast Stars",
-    "LabelBackdropScreensaverIntervalHelp": "Die Zeit in Sekunden zwischen dem Wechsel verschiedener Hintergrundbilder im Bildschirmschoner"
+    "LabelBackdropScreensaverIntervalHelp": "Die Zeit in Sekunden zwischen dem Wechsel verschiedener Hintergrundbilder im Bildschirmschoner."
 }

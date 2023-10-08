@@ -32,7 +32,7 @@ const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
 );
 
 function onSaveComplete() {
-    Dashboard.navigate('userprofiles.html')
+    Dashboard.navigate('/dashboard/users')
         .catch(err => {
             console.error('[useredit] failed to navigate to user profile', err);
         });

@@ -19,10 +19,10 @@ import ListItemLink from 'components/ListItemLink';
 import globalize from 'scripts/globalize';
 
 const PLUGIN_PATHS = [
-    '/installedplugins.html',
-    '/availableplugins.html',
-    '/repositories.html',
-    '/addplugin.html',
+    '/dashboard/plugins',
+    '/dashboard/plugins/catalog',
+    '/dashboard/plugins/repositories',
+    '/dashboard/plugins/add',
     '/configurationpage'
 ];
 
@@ -41,7 +41,7 @@ const AdvancedDrawerSection = () => {
             }
         >
             <ListItem disablePadding>
-                <ListItemLink to='/networking.html'>
+                <ListItemLink to='/dashboard/networking'>
                     <ListItemIcon>
                         <Lan />
                     </ListItemIcon>
@@ -49,7 +49,7 @@ const AdvancedDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/apikeys.html'>
+                <ListItemLink to='/dashboard/keys'>
                     <ListItemIcon>
                         <VpnKey />
                     </ListItemIcon>
@@ -57,7 +57,7 @@ const AdvancedDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/log.html'>
+                <ListItemLink to='/dashboard/logs'>
                     <ListItemIcon>
                         <Article />
                     </ListItemIcon>
@@ -65,7 +65,7 @@ const AdvancedDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/notificationsettings.html'>
+                <ListItemLink to='/dashboard/notifications'>
                     <ListItemIcon>
                         <EditNotifications />
                     </ListItemIcon>
@@ -73,7 +73,7 @@ const AdvancedDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/installedplugins.html' selected={false}>
+                <ListItemLink to='/dashboard/plugins' selected={false}>
                     <ListItemIcon>
                         <Extension />
                     </ListItemIcon>
@@ -83,19 +83,19 @@ const AdvancedDrawerSection = () => {
             </ListItem>
             <Collapse in={isPluginSectionOpen} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding>
-                    <ListItemLink to='/installedplugins.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/plugins' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabMyPlugins')} />
                     </ListItemLink>
-                    <ListItemLink to='/availableplugins.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/plugins/catalog' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabCatalog')} />
                     </ListItemLink>
-                    <ListItemLink to='/repositories.html' sx={{ pl: 4 }}>
+                    <ListItemLink to='/dashboard/plugins/repositories' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabRepositories')} />
                     </ListItemLink>
                 </List>
             </Collapse>
             <ListItem disablePadding>
-                <ListItemLink to='/scheduledtasks.html'>
+                <ListItemLink to='/dashboard/tasks'>
                     <ListItemIcon>
                         <Schedule />
                     </ListItemIcon>

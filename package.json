@@ -58,6 +58,7 @@
     "stylelint-scss": "5.0.0",
     "ts-loader": "9.4.4",
     "typescript": "5.0.4",
+    "vitest": "0.34.6",
     "webpack": "5.88.1",
     "webpack-bundle-analyzer": "4.9.1",
     "webpack-cli": "5.1.4",
@@ -145,6 +146,8 @@
     "build:check": "tsc --noEmit",
     "escheck": "es-check",
     "lint": "eslint \"./\"",
+    "test": "vitest --watch=false",
+    "test:watch": "vitest",
     "stylelint": "npm run stylelint:css && npm run stylelint:scss",
     "stylelint:css": "stylelint \"src/**/*.css\"",
     "stylelint:scss": "stylelint --config=\".stylelintrc.scss.json\" \"src/**/*.scss\""

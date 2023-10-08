@@ -6,6 +6,7 @@
 
 import escapeHtml from 'escape-html';
 
+import cardBuilderUtils from './cardBuilderUtils';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
@@ -32,11 +33,11 @@ import '../guide/programs.scss';
 const enableFocusTransform = !browser.slow && !browser.edge;
 
 /**
-         * Generate the HTML markup for cards for a set of items.
-         * @param items - The items used to generate cards.
-         * @param options - The options of the cards.
-         * @returns {string} The HTML markup for the cards.
-         */
+ * Generate the HTML markup for cards for a set of items.
+ * @param items - The items used to generate cards.
+ * @param [options] - The options of the cards.
+ * @returns {string} The HTML markup for the cards.
+ */
 export function getCardsHtml(items, options) {
     if (arguments.length === 1) {
         options = arguments[0];
@@ -47,221 +48,10 @@ export function getCardsHtml(items, options) {
 }
 
 /**
-         * Computes the number of posters per row.
-         * @param {string} shape - Shape of the cards.
-         * @param {number} screenWidth - Width of the screen.
-         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
-         * @returns {number} Number of cards per row for an itemsContainer.
-         */
-function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
-    switch (shape) {
-        case 'portrait':
-            if (layoutManager.tv) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 2200) {
-                return 100 / 10;
-            }
-            if (screenWidth >= 1920) {
-                return 100 / 11.1111111111;
-            }
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.28571428571;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 800) {
-                return 5;
-            }
-            if (screenWidth >= 700) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 100 / 33.33333333;
-        case 'square':
-            if (layoutManager.tv) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 2200) {
-                return 100 / 10;
-            }
-            if (screenWidth >= 1920) {
-                return 100 / 11.1111111111;
-            }
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.28571428571;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 800) {
-                return 5;
-            }
-            if (screenWidth >= 700) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 2;
-        case 'banner':
-            if (screenWidth >= 2200) {
-                return 100 / 25;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 33.33333333;
-            }
-            if (screenWidth >= 800) {
-                return 2;
-            }
-            return 1;
-        case 'backdrop':
-            if (layoutManager.tv) {
-                return 100 / 25;
-            }
-            if (screenWidth >= 2500) {
-                return 6;
-            }
-            if (screenWidth >= 1600) {
-                return 5;
-            }
-            if (screenWidth >= 1200) {
-                return 4;
-            }
-            if (screenWidth >= 770) {
-                return 3;
-            }
-            if (screenWidth >= 420) {
-                return 2;
-            }
-            return 1;
-        case 'smallBackdrop':
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.2857142857;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 1000) {
-                return 5;
-            }
-            if (screenWidth >= 800) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 2;
-        case 'overflowSmallBackdrop':
-            if (layoutManager.tv) {
-                return 100 / 18.9;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 800) {
-                    return 100 / 15.5;
-                }
-                return 100 / 23.3;
-            } else {
-                if (screenWidth >= 540) {
-                    return 100 / 30;
-                }
-                return 100 / 72;
-            }
-        case 'overflowPortrait':
-
-            if (layoutManager.tv) {
-                return 100 / 15.5;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 11.6;
-                }
-                return 100 / 15.5;
-            } else {
-                if (screenWidth >= 1400) {
-                    return 100 / 15;
-                }
-                if (screenWidth >= 1200) {
-                    return 100 / 18;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 23;
-                }
-                if (screenWidth >= 400) {
-                    return 100 / 31.5;
-                }
-                return 100 / 42;
-            }
-        case 'overflowSquare':
-            if (layoutManager.tv) {
-                return 100 / 15.5;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 11.6;
-                }
-                return 100 / 15.5;
-            } else {
-                if (screenWidth >= 1400) {
-                    return 100 / 15;
-                }
-                if (screenWidth >= 1200) {
-                    return 100 / 18;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 23;
-                }
-                if (screenWidth >= 540) {
-                    return 100 / 31.5;
-                }
-                return 100 / 42;
-            }
-        case 'overflowBackdrop':
-            if (layoutManager.tv) {
-                return 100 / 23.3;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 18.5;
-                }
-                return 100 / 23.3;
-            } else {
-                if (screenWidth >= 1800) {
-                    return 100 / 23.5;
-                }
-                if (screenWidth >= 1400) {
-                    return 100 / 30;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 40;
-                }
-                if (screenWidth >= 640) {
-                    return 100 / 56;
-                }
-                return 100 / 72;
-            }
-        default:
-            return 4;
-    }
-}
-
-/**
-         * Checks if the window is resizable.
-         * @param {number} windowWidth - Width of the device's screen.
-         * @returns {boolean} - Result of the check.
-         */
+ * Checks if the window is resizable.
+ * @param {number} windowWidth - Width of the device's screen.
+ * @returns {boolean} - Result of the check.
+ */
 function isResizable(windowWidth) {
     const screen = window.screen;
     if (screen) {
@@ -276,22 +66,22 @@ function isResizable(windowWidth) {
 }
 
 /**
-         * Gets the width of a card's image according to the shape and amount of cards per row.
-         * @param {string} shape - Shape of the card.
-         * @param {number} screenWidth - Width of the screen.
-         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
-         * @returns {number} Width of the image for a card.
-         */
+ * Gets the width of a card's image according to the shape and amount of cards per row.
+ * @param {string} shape - Shape of the card.
+ * @param {number} screenWidth - Width of the screen.
+ * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
+ * @returns {number} Width of the image for a card.
+ */
 function getImageWidth(shape, screenWidth, isOrientationLandscape) {
-    const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
+    const imagesPerRow = cardBuilderUtils.getPostersPerRow(shape, screenWidth, isOrientationLandscape, layoutManager.tv);
     return Math.round(screenWidth / imagesPerRow);
 }
 
 /**
-         * Normalizes the options for a card.
-         * @param {Object} items - A set of items.
-         * @param {Object} options - Options for handling the items.
-         */
+ * Normalizes the options for a card.
+ * @param {Object} items - A set of items.
+ * @param {Object} options - Options for handling the items.
+ */
 function setCardData(items, options) {
     options.shape = options.shape || 'auto';
 
@@ -323,7 +113,7 @@ function setCardData(items, options) {
         options.preferThumb = options.shape === 'backdrop' || options.shape === 'overflowBackdrop';
     }
 
-    options.uiAspect = getDesiredAspect(options.shape);
+    options.uiAspect = cardBuilderUtils.getDesiredAspect(options.shape);
     options.primaryImageAspectRatio = primaryImageAspectRatio;
 
     if (!options.width && options.widths) {
@@ -348,11 +138,11 @@ function setCardData(items, options) {
 }
 
 /**
-         * Generates the internal HTML markup for cards.
-         * @param {Object} items - Items for which to generate the markup.
-         * @param {Object} options - Options for generating the markup.
-         * @returns {string} The internal HTML markup of the cards.
-         */
+ * Generates the internal HTML markup for cards.
+ * @param {Object} items - Items for which to generate the markup.
+ * @param {Object} options - Options for generating the markup.
+ * @returns {string} The internal HTML markup of the cards.
+ */
 function buildCardsHtmlInternal(items, options) {
     let isVertical = false;
 
@@ -466,44 +256,20 @@ function buildCardsHtmlInternal(items, options) {
 }
 
 /**
-         * Computes the aspect ratio for a card given its shape.
-         * @param {string} shape - Shape for which to get the aspect ratio.
-         * @returns {null|number} Ratio of the shape.
-         */
-function getDesiredAspect(shape) {
-    if (shape) {
-        shape = shape.toLowerCase();
-        if (shape.indexOf('portrait') !== -1) {
-            return (2 / 3);
-        }
-        if (shape.indexOf('backdrop') !== -1) {
-            return (16 / 9);
-        }
-        if (shape.indexOf('square') !== -1) {
-            return 1;
-        }
-        if (shape.indexOf('banner') !== -1) {
-            return (1000 / 185);
-        }
-    }
-    return null;
-}
-
-/**
-         * @typedef {Object} CardImageUrl
-         * @property {string} imgUrl - Image URL.
-         * @property {string} blurhash - Image blurhash.
-         * @property {boolean} forceName - Force name.
-         * @property {boolean} coverImage - Use cover style.
-         */
+ * @typedef {Object} CardImageUrl
+ * @property {string} imgUrl - Image URL.
+ * @property {string} blurhash - Image blurhash.
+ * @property {boolean} forceName - Force name.
+ * @property {boolean} coverImage - Use cover style.
+ */
 
 /** Get the URL of the card's image.
-         * @param {Object} item - Item for which to generate a card.
-         * @param {Object} apiClient - API client object.
-         * @param {Object} options - Options of the card.
-         * @param {string} shape - Shape of the desired image.
-         * @returns {CardImageUrl} Object representing the URL of the card's image.
-         */
+ * @param {Object} item - Item for which to generate a card.
+ * @param {Object} apiClient - API client object.
+ * @param {Object} options - Options of the card.
+ * @param {string} shape - Shape of the desired image.
+ * @returns {CardImageUrl} Object representing the URL of the card's image.
+ */
 function getCardImageUrl(item, apiClient, options, shape) {
     item = item.ProgramInfo || item;
 
@@ -514,7 +280,7 @@ function getCardImageUrl(item, apiClient, options, shape) {
     let imgUrl = null;
     let imgTag = null;
     let coverImage = false;
-    const uiAspect = getDesiredAspect(shape);
+    const uiAspect = cardBuilderUtils.getDesiredAspect(shape);
     let imgType = null;
     let itemId = null;
 
@@ -646,10 +412,10 @@ function getCardImageUrl(item, apiClient, options, shape) {
 }
 
 /**
-         * Generates an index used to select the default color of a card based on a string.
-         * @param {?string} [str] - String to use for generating the index.
-         * @returns {number} Index of the color.
-         */
+ * Generates an index used to select the default color of a card based on a string.
+ * @param {?string} [str] - String to use for generating the index.
+ * @returns {number} Index of the color.
+ */
 function getDefaultColorIndex(str) {
     const numRandomColors = 5;
 
@@ -669,16 +435,16 @@ function getDefaultColorIndex(str) {
 }
 
 /**
-         * Generates the HTML markup for a card's text.
-         * @param {Array} lines - Array containing the text lines.
-         * @param {string} cssClass - Base CSS class to use for the lines.
-         * @param {boolean} forceLines - Flag to force the rendering of all lines.
-         * @param {boolean} isOuterFooter - Flag to mark the text lines as outer footer.
-         * @param {string} cardLayout - DEPRECATED
-         * @param {boolean} addRightMargin - Flag to add a right margin to the text.
-         * @param {number} maxLines - Maximum number of lines to render.
-         * @returns {string} HTML markup for the card's text.
-         */
+ * Generates the HTML markup for a card's text.
+ * @param {Array} lines - Array containing the text lines.
+ * @param {string} cssClass - Base CSS class to use for the lines.
+ * @param {boolean} forceLines - Flag to force the rendering of all lines.
+ * @param {boolean} isOuterFooter - Flag to mark the text lines as outer footer.
+ * @param {string} cardLayout - DEPRECATED
+ * @param {boolean} addRightMargin - Flag to add a right margin to the text.
+ * @param {number} maxLines - Maximum number of lines to render.
+ * @returns {string} HTML markup for the card's text.
+ */
 function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
     let html = '';
 
@@ -722,21 +488,21 @@ function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout
 }
 
 /**
-         * Determines if the item is live TV.
-         * @param {Object} item - Item to use for the check.
-         * @returns {boolean} Flag showing if the item is live TV.
-         */
+ * Determines if the item is live TV.
+ * @param {Object} item - Item to use for the check.
+ * @returns {boolean} Flag showing if the item is live TV.
+ */
 function isUsingLiveTvNaming(item) {
     return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
 }
 
 /**
-         * Returns the air time text for the item based on the given times.
-         * @param {object} item - Item used to generate the air time text.
-         * @param {boolean} showAirDateTime - ISO8601 date for the start of the show.
-         * @param {boolean} showAirEndTime - ISO8601 date for the end of the show.
-         * @returns {string} The air time text for the item based on the given dates.
-         */
+ * Returns the air time text for the item based on the given times.
+ * @param {object} item - Item used to generate the air time text.
+ * @param {boolean} showAirDateTime - ISO8601 date for the start of the show.
+ * @param {boolean} showAirEndTime - ISO8601 date for the end of the show.
+ * @returns {string} The air time text for the item based on the given dates.
+ */
 function getAirTimeText(item, showAirDateTime, showAirEndTime) {
     let airTimeText = '';
 
@@ -763,16 +529,16 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
 }
 
 /**
-         * Generates the HTML markup for the card's footer text.
-         * @param {Object} item - Item used to generate the footer text.
-         * @param {Object} apiClient - API client instance.
-         * @param {Object} options - Options used to generate the footer text.
-         * @param {string} footerClass - CSS classes of the footer element.
-         * @param {string} progressHtml - HTML markup of the progress bar element.
-         * @param {Object} flags - Various flags for the footer
-         * @param {Object} urls - Various urls for the footer
-         * @returns {string} HTML markup of the card's footer text element.
-         */
+ * Generates the HTML markup for the card's footer text.
+ * @param {Object} item - Item used to generate the footer text.
+ * @param {Object} apiClient - API client instance.
+ * @param {Object} options - Options used to generate the footer text.
+ * @param {string} footerClass - CSS classes of the footer element.
+ * @param {string} progressHtml - HTML markup of the progress bar element.
+ * @param {Object} flags - Various flags for the footer
+ * @param {Object} urls - Various urls for the footer
+ * @returns {string} HTML markup of the card's footer text element.
+ */
 function getCardFooterText(item, apiClient, options, footerClass, progressHtml, flags, urls) {
     item = item.ProgramInfo || item;
     let html = '';
@@ -1005,12 +771,12 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 }
 
 /**
-         * Generates the HTML markup for the action button.
-         * @param {Object} item - Item used to generate the action button.
-         * @param {string} text - Text of the action button.
-         * @param {string} serverId - ID of the server.
-         * @returns {string} HTML markup of the action button.
-         */
+ * Generates the HTML markup for the action button.
+ * @param {Object} item - Item used to generate the action button.
+ * @param {string} text - Text of the action button.
+ * @param {string} serverId - ID of the server.
+ * @returns {string} HTML markup of the action button.
+ */
 function getTextActionButton(item, text, serverId) {
     if (!text) {
         text = itemHelper.getDisplayName(item);
@@ -1031,11 +797,11 @@ function getTextActionButton(item, text, serverId) {
 }
 
 /**
-         * Generates HTML markup for the item count indicator.
-         * @param {Object} options - Options used to generate the item count.
-         * @param {Object} item - Item used to generate the item count.
-         * @returns {string} HTML markup for the item count indicator.
-         */
+ * Generates HTML markup for the item count indicator.
+ * @param {Object} options - Options used to generate the item count.
+ * @param {Object} item - Item used to generate the item count.
+ * @returns {string} HTML markup for the item count indicator.
+ */
 function getItemCountsHtml(options, item) {
     const counts = [];
     let childText;
@@ -1113,8 +879,8 @@ function getItemCountsHtml(options, item) {
 let refreshIndicatorLoaded;
 
 /**
-         * Imports the refresh indicator element.
-         */
+ * Imports the refresh indicator element.
+ */
 function importRefreshIndicator() {
     if (!refreshIndicatorLoaded) {
         refreshIndicatorLoaded = true;
@@ -1123,22 +889,22 @@ function importRefreshIndicator() {
 }
 
 /**
-         * Returns the default background class for a card based on a string.
-         * @param {?string} [str] - Text used to generate the background class.
-         * @returns {string} CSS classes for default card backgrounds.
-         */
+ * Returns the default background class for a card based on a string.
+ * @param {?string} [str] - Text used to generate the background class.
+ * @returns {string} CSS classes for default card backgrounds.
+ */
 export function getDefaultBackgroundClass(str) {
     return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
 }
 
 /**
-         * Builds the HTML markup for an individual card.
-         * @param {number} index - Index of the card
-         * @param {object} item - Item used to generate the card.
-         * @param {object} apiClient - API client instance.
-         * @param {object} options - Options used to generate the card.
-         * @returns {string} HTML markup for the generated card.
-         */
+ * Builds the HTML markup for an individual card.
+ * @param {number} index - Index of the card
+ * @param {object} item - Item used to generate the card.
+ * @param {object} apiClient - API client instance.
+ * @param {object} options - Options used to generate the card.
+ * @returns {string} HTML markup for the generated card.
+ */
 function buildCard(index, item, apiClient, options) {
     let action = options.action || 'link';
 
@@ -1445,11 +1211,11 @@ function buildCard(index, item, apiClient, options) {
 }
 
 /**
-         * Generates HTML markup for the card overlay.
-         * @param {object} item - Item used to generate the card overlay.
-         * @param {string} action - Action assigned to the overlay.
-         * @returns {string} HTML markup of the card overlay.
-         */
+ * Generates HTML markup for the card overlay.
+ * @param {object} item - Item used to generate the card overlay.
+ * @param {string} action - Action assigned to the overlay.
+ * @returns {string} HTML markup of the card overlay.
+ */
 function getHoverMenuHtml(item, action) {
     let html = '';
 
@@ -1487,11 +1253,11 @@ function getHoverMenuHtml(item, action) {
 }
 
 /**
-         * Generates the text or icon used for default card backgrounds.
-         * @param {object} item - Item used to generate the card overlay.
-         * @param {object} options - Options used to generate the card overlay.
-         * @returns {string} HTML markup of the card overlay.
-         */
+ * Generates the text or icon used for default card backgrounds.
+ * @param {object} item - Item used to generate the card overlay.
+ * @param {object} options - Options used to generate the card overlay.
+ * @returns {string} HTML markup of the card overlay.
+ */
 export function getDefaultText(item, options) {
     if (item.CollectionType) {
         return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '" aria-hidden="true"></span>';
@@ -1535,10 +1301,10 @@ export function getDefaultText(item, options) {
 }
 
 /**
-         * Builds a set of cards and inserts them into the page.
-         * @param {Array} items - Array of items used to build the cards.
-         * @param {options} options - Options of the cards to build.
-         */
+ * Builds a set of cards and inserts them into the page.
+ * @param {Array} items - Array of items used to build the cards.
+ * @param {options} options - Options of the cards to build.
+ */
 export function buildCards(items, options) {
     // Abort if the container has been disposed
     if (!document.body.contains(options.itemsContainer)) {
@@ -1579,11 +1345,11 @@ export function buildCards(items, options) {
 }
 
 /**
-         * Ensures the indicators for a card exist and creates them if they don't exist.
-         * @param {HTMLDivElement} card - DOM element of the card.
-         * @param {HTMLDivElement} indicatorsElem - DOM element of the indicators.
-         * @returns {HTMLDivElement} - DOM element of the indicators.
-         */
+ * Ensures the indicators for a card exist and creates them if they don't exist.
+ * @param {HTMLDivElement} card - DOM element of the card.
+ * @param {HTMLDivElement} indicatorsElem - DOM element of the indicators.
+ * @returns {HTMLDivElement} - DOM element of the indicators.
+ */
 function ensureIndicators(card, indicatorsElem) {
     if (indicatorsElem) {
         return indicatorsElem;
@@ -1602,10 +1368,10 @@ function ensureIndicators(card, indicatorsElem) {
 }
 
 /**
-         * Adds user data to the card such as progress indicators and played status.
-         * @param {HTMLDivElement} card - DOM element of the card.
-         * @param {Object} userData - User data to apply to the card.
-         */
+ * Adds user data to the card such as progress indicators and played status.
+ * @param {HTMLDivElement} card - DOM element of the card.
+ * @param {Object} userData - User data to apply to the card.
+ */
 function updateUserData(card, userData) {
     const type = card.getAttribute('data-type');
     const enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
@@ -1681,10 +1447,10 @@ function updateUserData(card, userData) {
 }
 
 /**
-         * Handles when user data has changed.
-         * @param {Object} userData - User data to apply to the card.
-         * @param {HTMLElement} scope - DOM element to use as a scope when selecting cards.
-         */
+ * Handles when user data has changed.
+ * @param {Object} userData - User data to apply to the card.
+ * @param {HTMLElement} scope - DOM element to use as a scope when selecting cards.
+ */
 export function onUserDataChanged(userData, scope) {
     const cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
@@ -1694,11 +1460,11 @@ export function onUserDataChanged(userData, scope) {
 }
 
 /**
-         * Handles when a timer has been created.
-         * @param {string} programId - ID of the program.
-         * @param {string} newTimerId - ID of the new timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
-         */
+ * Handles when a timer has been created.
+ * @param {string} programId - ID of the program.
+ * @param {string} newTimerId - ID of the new timer.
+ * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+ */
 export function onTimerCreated(programId, newTimerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
@@ -1714,10 +1480,10 @@ export function onTimerCreated(programId, newTimerId, itemsContainer) {
 }
 
 /**
-         * Handles when a timer has been cancelled.
-         * @param {string} timerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
-         */
+ * Handles when a timer has been cancelled.
+ * @param {string} timerId - ID of the cancelled timer.
+ * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+ */
 export function onTimerCancelled(timerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
 
@@ -1731,10 +1497,10 @@ export function onTimerCancelled(timerId, itemsContainer) {
 }
 
 /**
-         * Handles when a series timer has been cancelled.
-         * @param {string} cancelledTimerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
-         */
+ * Handles when a series timer has been cancelled.
+ * @param {string} cancelledTimerId - ID of the cancelled timer.
+ * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+ */
 export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + cancelledTimerId + '"]');
 
