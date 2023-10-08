@@ -1246,7 +1246,7 @@
     "LabelDroppedFrames": "Frames perdidos",
     "LabelCorruptedFrames": "Frames corruptos",
     "AskAdminToCreateLibrary": "Pídele a un administrador que cree una biblioteca.",
-    "AllowFfmpegThrottling": "Acelerar las conversiones",
+    "AllowFfmpegThrottling": "Limitar transcodificaciones",
     "ClientSettings": "Ajustes de cliente",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Priorizar la información embebida sobre los nombres de archivos",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Usar la información de episodio de los metadatos embebidos si está disponible.",
