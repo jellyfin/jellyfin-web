@@ -289,7 +289,6 @@ export function getCommands(options) {
         });
     }
 
-
     const getNextUp = sessionStorage.getItem(`${options.user.Id}_nextUp`);
     let nextUpIds = getNextUp.split(',');
     if (nextUpIds.includes(item.Id)) {
