@@ -296,7 +296,7 @@ export function getCommands(options) {
         commands.push({
             name: globalize.translate('RemoveFromNextUp'),
             id: 'removefromnextup',
-            icon: 'remove'
+            icon: 'next_plan'
         });
     }
 
