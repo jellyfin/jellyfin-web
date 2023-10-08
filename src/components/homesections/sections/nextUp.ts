@@ -1,5 +1,5 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import type { ApiClient } from 'jellyfin-apiclient';
+import { ApiClient } from 'jellyfin-apiclient';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import layoutManager from 'components/layoutManager';
@@ -39,8 +39,9 @@ function getNextUpItemsHtmlFn(
     { enableOverflow }: SectionOptions
 ) {
     return function (items: BaseItemDto[]) {
+        const nextUpList = [];
         const cardLayout = false;
-        return cardBuilder.getCardsHtml({
+        const apiResponse = cardBuilder.getCardsHtml({
             items: items,
             preferThumb: true,
             inheritThumb: !useEpisodeImages,
@@ -55,6 +56,15 @@ function getNextUpItemsHtmlFn(
             allowBottomPadding: !enableOverflow,
             cardLayout: cardLayout
         });
+        if (items.length > 0) {
+            const serverId = `${items[0].ServerId}`;
+            const apiClient = ServerConnections.getApiClient(serverId);
+            for (const i of items) {
+                nextUpList.push(i['Id']);
+            }
+            sessionStorage.setItem(`${apiClient.getCurrentUserId()}_nextUp`, `${nextUpList}`);
+        }
+        return apiResponse;
     };
 }
 
