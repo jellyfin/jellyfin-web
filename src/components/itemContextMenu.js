@@ -289,7 +289,10 @@ export function getCommands(options) {
         });
     }
 
-    if (!item.UserData.IsExcludedFromNextUp) {
+
+    const getNextUp = sessionStorage.getItem(`${options.user.Id}_nextUp`);
+    let nextUpIds = getNextUp.split(',');
+    if (nextUpIds.includes(item.Id)) {
         commands.push({
             name: globalize.translate('RemoveFromNextUp'),
             id: 'removefromnextup',
@@ -543,7 +546,7 @@ function executeCommand(item, id, options) {
             case 'removefromnextup':
                 apiClient.ajax({
                     url: apiClient.getUrl('Users/' + options.user.Id + '/ExcludeNextUp/' + item.Id, {}),
-                    type: 'DELETE'
+                    type: 'POST'
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
