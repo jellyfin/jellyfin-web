@@ -3,11 +3,7 @@ import scrollerFactory from '../../libraries/scroller';
 import globalize from '../../scripts/globalize';
 import IconButton from '../emby-button/IconButton';
 import './emby-scrollbuttons.scss';
-
-enum Direction {
-    RIGHT,
-    LEFT,
-  }
+import { ScrollDirection, scrollerItemSlideIntoView } from '../../utils/scroller';
 
 interface ScrollButtonsProps {
     scrollerFactoryRef: React.MutableRefObject<scrollerFactory | null>;
@@ -22,31 +18,16 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
     const [localeScrollPos, setLocaleScrollPos] = useState<number>(0);
     const scrollButtonsRef = useRef<HTMLDivElement>(null);
 
-    const scrollToPosition = useCallback((pos: number, immediate: boolean) => {
-        if (scrollerFactoryRef.current) {
-            scrollerFactoryRef.current.slideTo(pos, immediate, undefined );
-        }
-    }, [scrollerFactoryRef]);
+    const onScrollButtonClick = useCallback((direction: ScrollDirection) => {
+        scrollerItemSlideIntoView({
+            direction,
+            scroller: scrollerFactoryRef.current,
+            scrollState
+        });
+    }, [scrollState, scrollerFactoryRef]);
 
-    const onScrollButtonClick = useCallback((direction: Direction) => {
-        let newPos;
-        if (direction === Direction.LEFT) {
-            newPos = Math.max(0, scrollState.scrollPos - scrollState.scrollSize);
-        } else {
-            newPos = scrollState.scrollPos + scrollState.scrollSize;
-        }
-
-        if (globalize.getIsRTL() && direction === Direction.LEFT) {
-            newPos = scrollState.scrollPos + scrollState.scrollSize;
-        } else if (globalize.getIsRTL()) {
-            newPos = Math.min(0, scrollState.scrollPos - scrollState.scrollSize);
-        }
-
-        scrollToPosition(newPos, false);
-    }, [ scrollState.scrollPos, scrollState.scrollSize, scrollToPosition ]);
-
-    const triggerScrollLeft = useCallback(() => onScrollButtonClick(Direction.LEFT), [ onScrollButtonClick ]);
-    const triggerScrollRight = useCallback(() => onScrollButtonClick(Direction.RIGHT), [ onScrollButtonClick ]);
+    const triggerScrollLeft = useCallback(() => onScrollButtonClick(ScrollDirection.LEFT), [ onScrollButtonClick ]);
+    const triggerScrollRight = useCallback(() => onScrollButtonClick(ScrollDirection.RIGHT), [ onScrollButtonClick ]);
 
     useEffect(() => {
         const parent = scrollButtonsRef.current?.parentNode as HTMLDivElement;
