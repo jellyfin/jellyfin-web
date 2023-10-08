@@ -1022,11 +1022,7 @@ function renderAuthor(page, item, context) {
     authorsValue.innerHTML = html;
 
     const authorsGroup = page.querySelector('.authorsGroup');
-    if (authors.length) {
-        authorsGroup.classList.remove('hide');
-    } else {
-        authorsGroup.classList.add('hide');
-    }
+    authorsGroup.classList.toggle('hide', !authors.length);
 }
 
 function renderEditor(page, item, context) {
@@ -1051,11 +1047,7 @@ function renderEditor(page, item, context) {
     editorsValue.innerHTML = html;
 
     const editorsGroup = page.querySelector('.editorsGroup');
-    if (editors.length) {
-        editorsGroup.classList.remove('hide');
-    } else {
-        editorsGroup.classList.add('hide');
-    }
+    editorsGroup.classList.toggle('hide', !editors.length);
 }
 
 function renderTranslator(page, item, context) {
@@ -1080,11 +1072,7 @@ function renderTranslator(page, item, context) {
     translatorsValue.innerHTML = html;
 
     const translatorsGroup = page.querySelector('.translatorsGroup');
-    if (translators.length) {
-        translatorsGroup.classList.remove('hide');
-    } else {
-        translatorsGroup.classList.add('hide');
-    }
+    translatorsGroup.classList.toggle('hide', !translators.length);
 }
 
 function renderMiscInfo(page, item) {
