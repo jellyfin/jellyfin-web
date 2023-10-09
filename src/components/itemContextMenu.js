@@ -9,6 +9,8 @@ import itemHelper from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
+import events from 'utils/events';
+import clientNotifications from '../scripts/clientNotifications';
 
 export function getCommands(options) {
     const item = options.item;
@@ -623,6 +625,7 @@ function deleteItem(apiClient, item) {
                 item: item,
                 navigate: false
             }).then(function () {
+                events.trigger(clientNotifications, clientNotifications.ItemDeleted, [item]);
                 resolve(true);
             }, reject);
         });

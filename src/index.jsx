@@ -28,6 +28,7 @@ import './components/themeMediaPlayer';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import './scripts/screensavermanager';
 import './scripts/serverNotifications';
+import './scripts/clientNotifications';
 import './components/playback/playerSelectionMenu';
 import './legacy/domParserTextHtml';
 import './legacy/focusPreventScroll';

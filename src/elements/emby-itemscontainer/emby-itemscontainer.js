@@ -8,6 +8,7 @@ import dom from '../../scripts/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import serverNotifications from '../../scripts/serverNotifications';
+import clientNotifications from '../../scripts/clientNotifications';
 import Events from '../../utils/events.ts';
 import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../../components/ServerConnections';
@@ -307,10 +308,19 @@ ItemsContainerPrototype.attachedCallback = function () {
     addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 
+    addNotificationEvent(this, clientNotifications.ItemDeleted, onItemDeleted, clientNotifications);
+
     if (this.getAttribute('data-dragreorder') === 'true') {
         this.enableDragReordering(true);
     }
 };
+
+function onItemDeleted(e, item) {
+    const itemToRemove = this.querySelector('[data-id="' + item.Id + '"]');
+    if(itemToRemove) {
+        itemToRemove.remove();
+    }
+}
 
 ItemsContainerPrototype.detachedCallback = function () {
     clearRefreshInterval(this);
@@ -330,6 +340,8 @@ ItemsContainerPrototype.detachedCallback = function () {
     removeNotificationEvent(this, 'SeriesTimerCancelled');
     removeNotificationEvent(this, 'LibraryChanged');
     removeNotificationEvent(this, 'playbackstop', playbackManager);
+
+    removeNotificationEvent(this, clientNotifications.ItemDeleted, clientNotifications);
 
     this.fetchData = null;
     this.getItemsHtml = null;
