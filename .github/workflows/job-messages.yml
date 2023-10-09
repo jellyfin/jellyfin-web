@@ -42,7 +42,7 @@ jobs:
         id: compose
         env:
           COMMIT: ${{ inputs.commit }}
-          PREVIEW_URL: ${{ inputs.preview_url != '' && (inputs.branch != 'master' && inputs.preview_url || format('https://jf-web.pages.dev ({0})', inputs.preview_url)) || 'Not available' }}
+          PREVIEW_URL: ${{ inputs.preview_url != '' && (inputs.branch != 'master' && inputs.preview_url || format('https://jellyfin-web.pages.dev ({0})', inputs.preview_url)) || 'Not available' }}
           DEPLOY_STATUS: ${{ inputs.in_progress && '🔄 Deploying...' || (inputs.preview_url != '' && '✅ Deployed!' || '❌ Failure. Check workflow logs for details') }}
           DEPLOYMENT_TYPE: ${{ inputs.branch != 'master' && '🔀 Preview' || '⚙️ Production' }}
           BUILD_WORKFLOW_RUN: ${{ !inputs.in_progress && format('**[View build logs](https://github.com/{0}/actions/runs/{1})**', 'jellyfin/jellyfin-web', inputs.build_workflow_run_id) || '' }}
