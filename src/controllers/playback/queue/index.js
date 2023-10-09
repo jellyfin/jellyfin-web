@@ -1,16 +1,16 @@
-import RemoteControl from "../../../components/remotecontrol/remotecontrol";
-import { playbackManager } from "../../../components/playback/playbackmanager";
-import libraryMenu from "../../../scripts/libraryMenu";
-import "../../../elements/emby-button/emby-button";
+import RemoteControl from '../../../components/remotecontrol/remotecontrol';
+import { playbackManager } from '../../../components/playback/playbackmanager';
+import libraryMenu from '../../../scripts/libraryMenu';
+import '../../../elements/emby-button/emby-button';
 
 export default function (view) {
     const remoteControl = new RemoteControl();
-    remoteControl.init(view, view.querySelector(".remoteControlContent"));
+    remoteControl.init(view, view.querySelector('.remoteControlContent'));
 
     let currentPlayer;
 
     function onKeyDown(e) {
-        if (e.keyCode === 32 && e.target.tagName !== "BUTTON") {
+        if (e.keyCode === 32 && e.target.tagName !== 'BUTTON') {
             playbackManager.playPause(currentPlayer);
             e.preventDefault();
             e.stopPropagation();
@@ -30,19 +30,19 @@ export default function (view) {
         }
     }
 
-    view.addEventListener("viewshow", function () {
+    view.addEventListener('viewshow', function () {
         libraryMenu.setTransparentMenu(true);
         bindToPlayer(playbackManager.getCurrentPlayer());
-        document.addEventListener("keydown", onKeyDown);
+        document.addEventListener('keydown', onKeyDown);
 
         if (remoteControl) {
             remoteControl.onShow();
         }
     });
 
-    view.addEventListener("viewbeforehide", function () {
+    view.addEventListener('viewbeforehide', function () {
         libraryMenu.setTransparentMenu(false);
-        document.removeEventListener("keydown", onKeyDown);
+        document.removeEventListener('keydown', onKeyDown);
         releaseCurrentPlayer();
 
         if (remoteControl) {
