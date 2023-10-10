@@ -316,6 +316,11 @@ ItemsContainerPrototype.attachedCallback = function () {
 };
 
 function onItemDeleted(e, item) {
+    // don't delete child items if already listening to LibraryChanged events from the server.
+    if(this.fetchData) {
+        return;
+    }
+
     const itemToRemove = this.querySelector('[data-id="' + item.Id + '"]');
     if(itemToRemove) {
         itemToRemove.remove();
