@@ -39,3 +39,27 @@ jobs:
           name: jellyfin-web__prod
           path: |
             dist
+
+  pr_context:
+    name: Save PR context as artifact
+    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    needs:
+      - run-build-prod
+
+    steps:
+      - name: Save PR context
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+          PR_SHA: ${{ github.sha }}
+        run: |
+          echo $PR_NUMBER > PR_number
+          echo $PR_SHA > PR_sha
+
+      - name: Upload PR number as artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: PR_context
+          path: |
+            PR_number
+            PR_sha
