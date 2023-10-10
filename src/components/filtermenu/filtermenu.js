@@ -105,27 +105,27 @@ function onInputCommand(e) {
 function saveValues(context, settings, settingsKey, setfilters) {
     // Video type
     const videoTypes = [];
-    for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
+    context.querySelectorAll('.chkVideoTypeFilter').forEach(elem => {
         if (elem.checked) {
             videoTypes.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
 
     // Series status
     const seriesStatuses = [];
-    for (const elem of context.querySelectorAll('.chkSeriesStatus')) {
+    context.querySelectorAll('.chkSeriesStatus').forEach(elem => {
         if (elem.checked) {
             seriesStatuses.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
 
     // Genres
     const genres = [];
-    for (const elem of context.querySelectorAll('.chkGenreFilter')) {
+    context.querySelectorAll('.chkGenreFilter').forEach(elem => {
         if (elem.checked) {
             genres.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
 
     if (setfilters) {
         setfilters((prevState) => ({
@@ -149,13 +149,13 @@ function saveValues(context, settings, settingsKey, setfilters) {
             GenreIds: genres.join(',')
         }));
     } else {
-        for (const elem of context.querySelectorAll('.simpleFilter')) {
+        context.querySelectorAll('.simpleFilter').forEach(elem => {
             if (elem.tagName === 'INPUT') {
                 setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
             } else {
                 setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
             }
-        }
+        });
 
         userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
     }
