@@ -1,14 +1,19 @@
-name: TypeScript Build Check
+name: Build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 on:
   push:
     branches: [ master, release* ]
   pull_request:
     branches: [ master, release* ]
+  workflow_dispatch:
 
 jobs:
-  tsc:
-    name: Run TypeScript build check
+  run-build-prod:
+    name: Run production build
     runs-on: ubuntu-latest
 
     steps:
@@ -25,8 +30,12 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci --no-audit
 
-      - name: Run tsc
-        run: npm run build:check
+      - name: Run a production build
+        run: npm run build:production
 
-      - name: Run test suite
-        run: npm run test
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: jellyfin-web__prod
+          path: |
+            dist
