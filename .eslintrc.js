@@ -63,6 +63,8 @@ module.exports = {
         '@typescript-eslint/no-shadow': ['error'],
         'no-throw-literal': ['error'],
         'no-trailing-spaces': ['error'],
+        'no-unneeded-ternary': ['error'],
+        '@typescript-eslint/no-unneeded-ternary': ['error'],
         'no-unused-expressions': ['off'],
         '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
         'no-unused-private-class-members': ['error'],
