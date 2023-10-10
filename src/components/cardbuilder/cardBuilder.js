@@ -669,7 +669,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
                     lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
                 } else if (item.EndDate && item.ProductionYear) {
                     const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
-                    lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
+                    lines.push(productionYear + ((endYear === productionYear) ? '' : (' - ' + endYear)));
                 } else {
                     lines.push(productionYear || '');
                 }
