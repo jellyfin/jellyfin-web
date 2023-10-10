@@ -1,6 +1,6 @@
 {
     "Absolute": "Абсолютный",
-    "AccessRestrictedTryAgainLater": "В настоящее время доступ запрещён. Повторите попытку позже.",
+    "AccessRestrictedTryAgainLater": "В настоящее время доступ ограничен. Повторите попытку позже.",
     "Actor": "Актёр",
     "Add": "Добавить",
     "AddToCollection": "Добавить в коллекцию",
@@ -1763,5 +1763,8 @@
     "LabelSegmentKeepSeconds": "Время сохранения сегментов",
     "LogLevel.Error": "Ошибка",
     "LabelBackdropScreensaverInterval": "Интервал между фонами у заставки",
-    "LabelBackdropScreensaverIntervalHelp": "Время в секундах между разными фонами, когда используется заставка."
+    "LabelBackdropScreensaverIntervalHelp": "Время в секундах между разными фонами, когда используется заставка.",
+    "BackdropScreensaver": "Заставка",
+    "GoHome": "Домой",
+    "GridView": "Сеткой"
 }

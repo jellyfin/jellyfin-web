@@ -1,0 +1,65 @@
+name: Build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ master, release* ]
+  pull_request:
+    branches: [ master, release* ]
+  workflow_dispatch:
+
+jobs:
+  run-build-prod:
+    name: Run production build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+
+      - name: Setup node environment
+        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
+        with:
+          node-version: 20
+          check-latest: true
+          cache: npm
+
+      - name: Install Node.js dependencies
+        run: npm ci --no-audit
+
+      - name: Run a production build
+        run: npm run build:production
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: jellyfin-web__prod
+          path: |
+            dist
+
+  pr_context:
+    name: Save PR context as artifact
+    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    needs:
+      - run-build-prod
+
+    steps:
+      - name: Save PR context
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+          PR_SHA: ${{ github.sha }}
+        run: |
+          echo $PR_NUMBER > PR_number
+          echo $PR_SHA > PR_sha
+
+      - name: Upload PR number as artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: PR_context
+          path: |
+            PR_number
+            PR_sha
