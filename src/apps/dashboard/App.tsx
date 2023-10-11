@@ -53,10 +53,10 @@ const DashboardApp = () => (
                     <ServerContentPage view='/web/configurationpage' />
                 } />
             </Route>
-
-            {/* Suppress warnings for unhandled routes */}
-            <Route path='*' element={null} />
         </Route>
+
+        {/* Suppress warnings for unhandled routes */}
+        <Route path='*' element={null} />
 
         {/* Redirects for old paths */}
         {REDIRECTS.map(toRedirectRoute)}
