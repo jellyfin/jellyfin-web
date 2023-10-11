@@ -1428,6 +1428,7 @@
     "SearchForMissingMetadata": "Search for missing metadata",
     "SearchForSubtitles": "Search for Subtitles",
     "SearchResults": "Search Results",
+    "SearchResultsEmpty": "Sorry! No results found for ",
     "Season": "Season",
     "SecondarySubtitles": "Secondary Subtitles",
     "SelectAdminUsername": "Please select a username for the admin account.",
