@@ -65,7 +65,7 @@ function reloadData(instance, elem, apiClient, startIndex, limit) {
     limit ||= parseInt(elem.getAttribute('data-activitylimit') || '7', 10);
     const minDate = new Date();
     const hasUserId = toBoolean(elem.getAttribute('data-useractivity'), true);
-    const dateOffset = hasUserId ? 1 : 7; // one day back if user id, otherwise one week
+    const daysOffset = hasUserId ? 1 : 7; // one day back if user id, otherwise one week
     // TODO: Use date-fns
     minDate.setTime(minDate.getTime() - dateOffset * 24 * 60 * 60 * 1000);
 
