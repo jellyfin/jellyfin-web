@@ -18,7 +18,7 @@ RUN apt-get update \
   && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
   && apt-get update \
   && apt-get install -y nodejs \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Link to build script
 RUN ln -sf ${SOURCE_DIR}/deployment/build.debian /build.sh
