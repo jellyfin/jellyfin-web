@@ -27,7 +27,7 @@ type ControllerProps = {
 
 const Home: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
-    const initialTabIndex = parseInt(searchParams.get('tab') || '0', 10);
+    const initialTabIndex = parseInt(searchParams.get('tab') ?? '0', 10);
 
     const tabController = useRef<ControllerProps | null>();
     const tabControllers = useMemo<ControllerProps[]>(() => [], []);
