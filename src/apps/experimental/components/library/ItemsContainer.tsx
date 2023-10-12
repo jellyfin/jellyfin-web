@@ -1,16 +1,16 @@
 import React, { FC, useEffect, useRef } from 'react';
 
-import ItemsContainerElement from '../../elements/ItemsContainerElement';
-import imageLoader from '../images/imageLoader';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import { ViewQuerySettings } from '../../types/interface';
+import ItemsContainerElement from 'elements/ItemsContainerElement';
+import imageLoader from 'components/images/imageLoader';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import { LibraryViewSettings, ViewMode } from 'types/library';
 
 interface ItemsContainerI {
-    viewQuerySettings: ViewQuerySettings;
+    libraryViewSettings: LibraryViewSettings;
     getItemsHtml: () => string
 }
 
-const ItemsContainer: FC<ItemsContainerI> = ({ viewQuerySettings, getItemsHtml }) => {
+const ItemsContainer: FC<ItemsContainerI> = ({ libraryViewSettings, getItemsHtml }) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const ItemsContainer: FC<ItemsContainerI> = ({ viewQuerySettings, getItemsHtml }
         imageLoader.lazyChildren(itemsContainer);
     }, [getItemsHtml]);
 
-    const cssClass = viewQuerySettings.imageType == 'list' ? 'vertical-list' : 'vertical-wrap';
+    const cssClass = libraryViewSettings.ViewMode === ViewMode.ListView ? 'vertical-list' : 'vertical-wrap';
 
     return (
         <div ref={element}>
