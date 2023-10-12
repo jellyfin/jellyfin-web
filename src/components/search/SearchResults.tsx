@@ -51,7 +51,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
     const getDefaultParameters = useCallback(() => ({
         ParentId: parentId,
         searchTerm: query,
-        Limit: 24,
+        Limit: 100,
         Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
         Recursive: true,
         EnableTotalRecordCount: false,
