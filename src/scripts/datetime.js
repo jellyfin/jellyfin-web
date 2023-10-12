@@ -1,6 +1,17 @@
 import globalize from './globalize';
 
-export function parseISO8601Date(s, toLocal) {
+export const ticksPerHour = 36000000000;
+export const ticksPerMinute = 600000000;
+export const ticksPerSecond = 10000000;
+
+/**
+ * Parses an ISO 8601 date string into a Date object.
+ * If the string does not contain a timezone, the toLocal parameter can be used to indicate if the date should be considered UTC or local.
+ * @param {string} s - The ISO 8601 date string to parse.
+ * @param {boolean} toLocal - If set to `false` and the string does not contain a timezone,
+ * will consider the date to be in the local timezone, and not UTC.
+ */
+export function parseISO8601Date(s, toLocal = true) {
     // parenthese matches:
     // year month day    hours minutes seconds
     // dotmilliseconds
@@ -44,9 +55,9 @@ export function parseISO8601Date(s, toLocal) {
             offset += d[11] * 60 * 1000;
         }
         if (d[9] === '-') {
-            ms -= offset;
-        } else {
             ms += offset;
+        } else {
+            ms -= offset;
         }
     } else if (toLocal === false) {
         ms += new Date(ms).getTimezoneOffset() * 60000;
@@ -56,11 +67,11 @@ export function parseISO8601Date(s, toLocal) {
 }
 
 /**
-     * Return a string in '{}h {}m' format for duration.
-     * @param {number} ticks - Duration in ticks.
-     */
+ * Return a string in '{}h {}m' format for duration.
+ * @param {number} ticks - Duration in ticks.
+ */
 export function getDisplayDuration(ticks) {
-    const totalMinutes = Math.round(ticks / 600000000) || 1;
+    const totalMinutes = Math.round(ticks / ticksPerMinute) || 1;
     const totalHours = Math.floor(totalMinutes / 60);
     const remainderMinutes = totalMinutes % 60;
     const result = [];
@@ -71,11 +82,11 @@ export function getDisplayDuration(ticks) {
     return result.join(' ');
 }
 
+/**
+ * Return a string in '{h}:{mm}:{ss}' format for running time.
+ * @param {number} ticks - Duration in ticks.
+ */
 export function getDisplayRunningTime(ticks) {
-    const ticksPerHour = 36000000000;
-    const ticksPerMinute = 600000000;
-    const ticksPerSecond = 10000000;
-
     const parts = [];
 
     let hours = ticks / ticksPerHour;
@@ -135,9 +146,16 @@ function getOptionList(options) {
     return list;
 }
 
-export function toLocaleString(date, options) {
-    if (!date) {
-        throw new Error('date cannot be null');
+/**
+ * Converts a value to a string using the current locale.
+ * @param {Date | number | null | undefined} value - The value to convert to a string.
+ * @param {Object} [options] - An optional object containing formatting options.
+ * @returns {string} The value as a string in the current locale.
+ * @throws {Error} If the value parameter is null.
+ */
+export function toLocaleString(value, options) {
+    if (!value) {
+        throw new Error('value cannot be null');
     }
 
     options = options || {};
@@ -146,13 +164,20 @@ export function toLocaleString(date, options) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
 
         if (currentLocale) {
-            return date.toLocaleString(currentLocale, options);
+            return value.toLocaleString(currentLocale, options);
         }
     }
 
-    return date.toLocaleString();
+    return value.toLocaleString();
 }
 
+/**
+ * Converts a date to a string using the current locale.
+ * @param {Date | null | undefined} date - The date to convert to a string.
+ * @param {Object} [options] - An optional object containing formatting options.
+ * @returns {string} The date as a string in the current locale.
+ * @throws {Error} If the date parameter is null.
+ */
 export function toLocaleDateString(date, options) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -185,6 +210,13 @@ export function toLocaleDateString(date, options) {
     return date.toLocaleDateString();
 }
 
+/**
+ * Converts a time to a string using the current locale.
+ * @param {Date | null | undefined} date - The time to convert to a string.
+ * @param {Object} [options] - An optional object containing formatting options.
+ * @returns {string} The time as a string in the current locale.
+ * @throws {Error} If the value parameter is null.
+ */
 export function toLocaleTimeString(date, options) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -203,6 +235,11 @@ export function toLocaleTimeString(date, options) {
     return date.toLocaleTimeString();
 }
 
+/**
+ * Get the display time for a date, in the format {h}:{mm} (and optionally {AM|PM}).
+ * @param {Date | string | null | undefined} date The date to get the display time for.
+ * @returns The display time for the date.
+ */
 export function getDisplayTime(date) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -281,6 +318,9 @@ export default {
     toLocaleTimeString: toLocaleTimeString,
     supportsLocalization: function () {
         return toLocaleTimeStringSupportsLocales;
-    }
+    },
+    ticksPerHour: ticksPerHour,
+    ticksPerMinute: ticksPerMinute,
+    ticksPerSecond: ticksPerSecond
 };
 
