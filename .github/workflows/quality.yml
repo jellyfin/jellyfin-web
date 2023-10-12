@@ -1,4 +1,8 @@
-name: Lint
+name: Quality checks
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 on:
   push:
@@ -99,3 +103,45 @@ jobs:
 
       - name: Run stylelint
         run: npm run stylelint:scss
+
+  run-tsc:
+    name: Run TypeScript build check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+
+      - name: Setup node environment
+        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
+        with:
+          node-version: 20
+          check-latest: true
+          cache: npm
+
+      - name: Install Node.js dependencies
+        run: npm ci --no-audit
+
+      - name: Run tsc
+        run: npm run build:check
+
+  run-test:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+
+      - name: Setup node environment
+        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
+        with:
+          node-version: 20
+          check-latest: true
+          cache: npm
+
+      - name: Install Node.js dependencies
+        run: npm ci --no-audit
+
+      - name: Run test suite
+        run: npm run test

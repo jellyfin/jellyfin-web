@@ -1,30 +1,22 @@
-import React, { FC, useCallback } from 'react';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import React, { FC } from 'react';
 
-import ViewItemsContainer from 'components/common/ViewItemsContainer';
+import ItemsView from '../../components/library/ItemsView';
 import { LibraryViewProps } from 'types/library';
+import { CollectionType } from 'types/collectionType';
+import { LibraryTab } from 'types/libraryTab';
 
 const CollectionsView: FC<LibraryViewProps> = ({ parentId }) => {
-    const getBasekey = useCallback(() => {
-        return 'collections';
-    }, []);
-
-    const getItemTypes = useCallback(() => {
-        return ['BoxSet'];
-    }, []);
-
-    const getNoItemsMessage = useCallback(() => {
-        return 'MessageNoCollectionsAvailable';
-    }, []);
-
     return (
-        <ViewItemsContainer
-            topParentId={parentId}
+        <ItemsView
+            viewType={LibraryTab.Collections}
+            parentId={parentId}
+            collectionType={CollectionType.Movies}
             isBtnFilterEnabled={false}
             isBtnNewCollectionEnabled={true}
-            isAlphaPickerEnabled={false}
-            getBasekey={getBasekey}
-            getItemTypes={getItemTypes}
-            getNoItemsMessage={getNoItemsMessage}
+            isAlphabetPickerEnabled={false}
+            itemType={[BaseItemKind.BoxSet]}
+            noItemsMessage='MessageNoCollectionsAvailable'
         />
     );
 };

@@ -1602,5 +1602,8 @@
     "IgnoreDtsHelp": "غیر فعال کردن این گزینه ممکن است برخی اشکالات را رفع کند، مثل نبودن صدا بر روی کانال هایی که جریان صدا و تصویر جداگانه دارند.",
     "LabelDummyChapterDurationHelp": "وقفه استخراج تصاویر فصل به ثانیه.",
     "HeaderDummyChapter": "تصاویر فصل",
-    "EnableAudioNormalization": "معمول سازی صوت"
+    "EnableAudioNormalization": "معمول سازی صوت",
+    "AllowCollectionManagement": "به این کاربر اجازه مدیریت مجموعه را بده",
+    "AllowSegmentDeletion": "تکه ها را پاک کن",
+    "AllowSegmentDeletionHelp": "پاک کردن تکه های قدیمی را بعد از فرستادن به کلاینت. این کار از ذخیره کل فایل transcode شده بر روی هارد جلوگیری می‌ کند. این تنها زمانی کار می کند که throttling فعال باشد. درصورت مشکل در هنگام پخش این ویژگی را غیرفعال کنید."
 }

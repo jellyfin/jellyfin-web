@@ -70,6 +70,7 @@
  - [Nate G](https://github.com/GGProGaming)
  - [BrennanWoodbury](https://github.com/BrennanWoodbury)
  - [westonhowe98](https://github.com/westonhowe98)
+ - [scampower3](https://github.com/scampower3)
 
 # Emby Contributors
 
