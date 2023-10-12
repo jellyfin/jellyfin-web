@@ -7,9 +7,10 @@ import { appRouter } from 'components/router/appRouter';
 import SectionContainer from './SectionContainer';
 
 import { Sections } from 'types/suggestionsSections';
+import { ParentId } from 'types/library';
 
 interface SuggestionsSectionContainerProps {
-    parentId?: string | null;
+    parentId: ParentId;
     section: Sections;
 }
 
@@ -37,7 +38,7 @@ const SuggestionsSectionContainer: FC<SuggestionsSectionContainerProps> = ({
     return (
         <SectionContainer
             sectionTitle={globalize.translate(section.name)}
-            items={items || []}
+            items={items ?? []}
             url={getRouteUrl()}
             cardOptions={{
                 ...section.cardOptions
