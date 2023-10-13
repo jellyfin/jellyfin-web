@@ -183,7 +183,7 @@ export function getMediaInfoHtml(item, options = {}) {
             if (item.EndDate) {
                 try {
                     const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
-					/* At this point, text will contain only the start year */
+                    /* At this point, text will contain only the start year */
                     if (endYear !== text) {
                         text += ` - ${endYear}`;
                     }
