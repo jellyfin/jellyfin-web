@@ -67,7 +67,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
                 className='emby-scrollbuttons-button btnPrev'
                 onClick={triggerScrollLeft}
                 icon='chevron_left'
-                disabled={!localeScrollPos > 0}
+                disabled={!(localeScrollPos > 0)}
             />
 
             <IconButton
