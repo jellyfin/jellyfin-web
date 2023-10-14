@@ -16,18 +16,89 @@ import { LibraryTab } from 'types/libraryTab';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client';
 
-const sortMenuOptions = [
-    { label: 'Name', value: ItemSortBy.SortName },
-    { label: 'OptionRandom', value: ItemSortBy.Random },
-    { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
-    { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
-    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-    { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-    { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-    { label: 'Runtime', value: ItemSortBy.Runtime }
-];
+type SortOption = {
+    label: string;
+    value: ItemSortBy;
+};
+
+type SortOptionsMapping = {
+    [key: string]: SortOption[];
+};
+
+const getMoviesOrFavoritesOptions = () => {
+    return [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime }
+    ];
+};
+
+const sortOptionsMapping: SortOptionsMapping = {
+    [LibraryTab.Movies]: getMoviesOrFavoritesOptions(),
+    [LibraryTab.Trailers]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
+    ],
+    [LibraryTab.Favorites]: getMoviesOrFavoritesOptions(),
+    [LibraryTab.Series]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionDateShowAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
+        { label: 'OptionDatePlayed', value: ItemSortBy.SeriesDatePlayed },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
+    ],
+    [LibraryTab.Episodes]: [
+        { label: 'Name', value: ItemSortBy.SeriesSortName },
+        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+        { label: 'Runtime', value: ItemSortBy.Runtime },
+        { label: 'OptionRandom', value: ItemSortBy.Random }
+    ],
+    [LibraryTab.Albums]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
+        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
+        { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
+    ],
+    [LibraryTab.Songs]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'Album', value: ItemSortBy.Album },
+        { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
+        { label: 'Artist', value: ItemSortBy.Artist },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime },
+        { label: 'OptionRandom', value: ItemSortBy.Random }
+    ]
+};
+
+const getSortMenuOptions = (viewType: LibraryTab): SortOption[] => {
+    return sortOptionsMapping[viewType] || [];
+};
 
 const sortOrderMenuOptions = [
     { label: 'Ascending', value: SortOrder.Ascending },
@@ -72,25 +143,7 @@ const SortButton: FC<SortButtonProps> = ({
         [setLibraryViewSettings]
     );
 
-    const getVisibleSortMenu = () => {
-        const visibleSortMenu: ItemSortBy[] = [ItemSortBy.SortName, ItemSortBy.Random, ItemSortBy.DateCreated];
-
-        if (
-            viewType !== LibraryTab.Photos
-            && viewType !== LibraryTab.Videos
-            && viewType !== LibraryTab.Books
-        ) {
-            visibleSortMenu.push(ItemSortBy.CommunityRating);
-            visibleSortMenu.push(ItemSortBy.CriticRating);
-            visibleSortMenu.push(ItemSortBy.DatePlayed);
-            visibleSortMenu.push(ItemSortBy.OfficialRating);
-            visibleSortMenu.push(ItemSortBy.PlayCount);
-            visibleSortMenu.push(ItemSortBy.PremiereDate);
-            visibleSortMenu.push(ItemSortBy.Runtime);
-        }
-
-        return visibleSortMenu;
-    };
+    const sortMenuOptions = getSortMenuOptions(viewType);
 
     return (
         <Box>
@@ -120,7 +173,6 @@ const SortButton: FC<SortButtonProps> = ({
                     '& .MuiFormControl-root': { m: 1, width: 200 }
                 }}
             >
-
                 <FormControl fullWidth>
                     <InputLabel id='select-sort-label'>
                         <Typography component='span'>
@@ -136,7 +188,6 @@ const SortButton: FC<SortButtonProps> = ({
                         onChange={onSelectChange}
                     >
                         {sortMenuOptions
-                            .filter((option) => getVisibleSortMenu().includes(option.value))
                             .map((option) => (
                                 <MenuItem
                                     key={option.value}
@@ -166,10 +217,7 @@ const SortButton: FC<SortButtonProps> = ({
                         onChange={onSelectChange}
                     >
                         {sortOrderMenuOptions.map((option) => (
-                            <MenuItem
-                                key={option.value}
-                                value={option.value}
-                            >
+                            <MenuItem key={option.value} value={option.value}>
                                 <Typography component='span'>
                                     {option.label}
                                 </Typography>
