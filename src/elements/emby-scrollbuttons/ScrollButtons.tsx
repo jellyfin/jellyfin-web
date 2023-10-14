@@ -67,7 +67,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
                 className='emby-scrollbuttons-button btnPrev'
                 onClick={triggerScrollLeft}
                 icon='chevron_left'
-                disabled={localeScrollPos > 0 ? false : true}
+                disabled={!localeScrollPos > 0}
             />
 
             <IconButton
@@ -75,7 +75,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
                 className='emby-scrollbuttons-button btnNext'
                 onClick={triggerScrollRight}
                 icon='chevron_right'
-                disabled={scrollState.scrollWidth > 0 && localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth ? true : false}
+                disabled={scrollState.scrollWidth > 0 && localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth}
             />
         </div>
     );
