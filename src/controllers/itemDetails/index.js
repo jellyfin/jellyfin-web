@@ -1095,7 +1095,7 @@ function renderMoreFromSeason(view, item, apiClient) {
             section.classList.remove('hide');
             section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.SeasonName);
             const itemsContainer = section.querySelector('.itemsContainer');
-            cardBuilder.buildCards(result.Items, {
+            cardBuilder.buildCards(result.Items.filter((i) => i.Id !== item.Id), {
                 parentContainer: section,
                 itemsContainer: itemsContainer,
                 shape: 'autooverflow',
