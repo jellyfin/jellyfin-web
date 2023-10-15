@@ -7,6 +7,7 @@ import isEqual from 'lodash-es/isEqual';
 import { appHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { buildCardImage } from 'components/cardbuilder/cardImage';
 import confirm from 'components/confirm/confirm';
 import imageLoader from 'components/images/imageLoader';
 import itemContextMenu from 'components/itemContextMenu';
@@ -526,7 +527,7 @@ function reloadFromItem(instance, page, params, item, user) {
     libraryMenu.setTitle('');
 
     // Start rendering the artwork first
-    renderImage(page, item);
+    renderImage(page, item, apiClient);
     // Save some screen real estate in TV mode
     if (!layoutManager.tv) {
         renderLogo(page, item, apiClient);
@@ -717,31 +718,20 @@ function renderLinks(page, item) {
     }
 }
 
-function renderDetailImage(elem, item, loader) {
-    const itemArray = [];
-    itemArray.push(item);
-    const cardHtml = cardBuilder.getCardsHtml(itemArray, {
-        shape: 'auto',
-        showTitle: false,
-        centerText: true,
-        overlayText: false,
-        transition: false,
-        disableHoverMenu: true,
-        disableIndicators: true,
-        overlayPlayButton: layoutManager.desktop,
-        action: layoutManager.desktop ? 'resume' : 'none',
-        width: dom.getWindowSize().innerWidth * 0.25
-    });
+function renderDetailImage(apiClient, elem, item, loader) {
+    const html = buildCardImage(
+        apiClient,
+        item,
+        { width: dom.getWindowSize().innerWidth * 0.25 }
+    );
 
-    elem.innerHTML = cardHtml;
+    elem.innerHTML = html;
     loader.lazyChildren(elem);
-
-    // Avoid breaking the design by preventing focus of the poster using the keyboard.
-    elem.querySelector('a, button').tabIndex = -1;
 }
 
-function renderImage(page, item) {
+function renderImage(page, item, apiClient) {
     renderDetailImage(
+        apiClient,
         page.querySelector('.detailImageContainer'),
         item,
         imageLoader
@@ -2016,7 +2006,6 @@ export default function (view, params) {
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
-        view.querySelector('.detailImageContainer').addEventListener('click', onPlayClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
