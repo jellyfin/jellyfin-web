@@ -339,19 +339,6 @@ export class UserSettings {
     }
 
     /**
-     * Get or set Chromecast version.
-     * @param {string|undefined} val - Chromecast version.
-     * @return {string} Chromecast version.
-     */
-    chromecastVersion(val) {
-        if (val !== undefined) {
-            return this.set('chromecastVersion', val.toString());
-        }
-
-        return this.get('chromecastVersion') || 'stable';
-    }
-
-    /**
      * Get or set amount of rewind.
      * @param {number|undefined} val - Amount of rewind.
      * @return {number} Amount of rewind.
@@ -648,7 +635,6 @@ export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings)
 export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
-export const chromecastVersion = currentSettings.chromecastVersion.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
