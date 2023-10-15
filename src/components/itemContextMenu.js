@@ -214,7 +214,7 @@ export function getCommands(options) {
         });
     }
 
-    if (canEdit && item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program'
+    if ((canEdit || user.Policy.EnableSubtitleManagement) && item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program'
             && item.LocationType !== 'Virtual'
             && !(item.Type === 'Recording' && item.Status !== 'Completed')
             && options.editSubtitles !== false
