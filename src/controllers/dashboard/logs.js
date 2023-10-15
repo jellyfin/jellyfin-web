@@ -1,4 +1,4 @@
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';

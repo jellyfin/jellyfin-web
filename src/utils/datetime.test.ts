@@ -128,11 +128,11 @@ describe('getDisplayTime', () => {
 
 describe('isRelativeDay', () => {
     test('date is null throws error', () => {
-        expect(() => datetime.isRelativeDay(null)).toThrowError('date cannot be null');
+        expect(() => datetime.isRelativeDay(null, 0)).toThrowError('date cannot be null');
     });
 
     test('date is undefined throws error', () => {
-        expect(() => datetime.isRelativeDay(undefined)).toThrowError('date cannot be null');
+        expect(() => datetime.isRelativeDay(undefined, 0)).toThrowError('date cannot be null');
     });
 
     test('date with same day returns true', () => {

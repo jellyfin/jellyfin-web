@@ -5,7 +5,7 @@ import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
-import datetime from '../../../scripts/datetime';
+import datetime from '../../../utils/datetime';
 import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';

@@ -3,7 +3,7 @@ import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import '../../styles/scrollstyles.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-checkbox/emby-checkbox';

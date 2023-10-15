@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import datetime from '../../../scripts/datetime';
+import datetime from '../../../utils/datetime';
 import globalize from '../../../scripts/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 

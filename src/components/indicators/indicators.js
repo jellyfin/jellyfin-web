@@ -1,4 +1,4 @@
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import itemHelper from '../itemHelper';
 import '../../elements/emby-progressbar/emby-progressbar';
 import './indicators.scss';

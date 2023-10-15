@@ -2,7 +2,7 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
-import datetime from 'scripts/datetime';
+import datetime from 'utils/datetime';
 import globalize from 'scripts/globalize';
 import { getBackdropShape } from 'utils/card';
 

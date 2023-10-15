@@ -4,7 +4,7 @@ import layoutManager from '../layoutManager';
 import { pluginManager } from '../pluginManager';
 import { appHost } from '../apphost';
 import focusManager from '../focusManager';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
