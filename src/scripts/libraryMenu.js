@@ -23,7 +23,7 @@ import ServerConnections from '../components/ServerConnections';
 import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
-import datetime from '../scripts/datetime';
+import datetime from '../utils/datetime';
 
 import '../elements/emby-button/paper-icon-button-light';
 

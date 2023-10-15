@@ -3,7 +3,7 @@ import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
 
 import Events from '../../utils/events.ts';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';

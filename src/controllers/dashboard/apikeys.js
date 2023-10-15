@@ -1,6 +1,6 @@
 import escapeHTML from 'escape-html';
 
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';

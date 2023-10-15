@@ -21,7 +21,7 @@ import '../cardbuilder/card.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './itemidentifier.template.html';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 

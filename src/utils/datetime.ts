@@ -1,4 +1,4 @@
-import globalize from './globalize';
+import globalize from '../scripts/globalize';
 
 export const ticksPerHour = 36000000000;
 export const ticksPerMinute = 600000000;
@@ -7,18 +7,19 @@ export const ticksPerSecond = 10000000;
 /**
  * Parses an ISO 8601 date string into a Date object.
  * If the string does not contain a timezone, the toLocal parameter can be used to indicate if the date should be considered UTC or local.
- * @param {string} s - The ISO 8601 date string to parse.
- * @param {boolean} toLocal - If set to `false` and the string does not contain a timezone,
+ * @param s - The ISO 8601 date string to parse.
+ * @param toLocal - If set to `false` and the string does not contain a timezone,
  * will consider the date to be in the local timezone, and not UTC.
+ * @returns The parsed date.
  */
-export function parseISO8601Date(s, toLocal = true) {
+export function parseISO8601Date(s: string, toLocal = true): Date {
     // parenthese matches:
     // year month day    hours minutes seconds
     // dotmilliseconds
     // tzstring plusminus hours minutes
     const re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
 
-    const d = s.match(re);
+    const m = s.match(re);
 
     // "2010-12-07T11:00:00.000-09:00" parses to:
     //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
@@ -27,16 +28,17 @@ export function parseISO8601Date(s, toLocal = true) {
     //  ["2010-12-07T11:00:00.000Z",      "2010", "12", "07", "11",
     //     "00", "00", ".000", "Z", undefined, undefined, undefined]
 
-    if (!d) {
+    if (!m) {
         throw new Error("Couldn't parse ISO 8601 date string '" + s + "'");
     }
 
     // parse strings, leading zeros into proper ints
+    const d: number[] = [];
     const a = [1, 2, 3, 4, 5, 6, 10, 11];
     for (const i in a) {
-        d[a[i]] = parseInt(d[a[i]], 10);
+        d[a[i]] = parseInt(m[a[i]], 10);
     }
-    d[7] = parseFloat(d[7]);
+    d[7] = parseFloat(m[7]);
 
     // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
     // note that month is 0-11, not 1-12
@@ -49,12 +51,12 @@ export function parseISO8601Date(s, toLocal = true) {
     }
 
     // if there's a timezone, calculate it
-    if (d[8] !== 'Z' && d[10]) {
+    if (m[8] !== 'Z' && d[10]) {
         let offset = d[10] * 60 * 60 * 1000;
         if (d[11]) {
             offset += d[11] * 60 * 1000;
         }
-        if (d[9] === '-') {
+        if (m[9] === '-') {
             ms += offset;
         } else {
             ms -= offset;
@@ -68,9 +70,10 @@ export function parseISO8601Date(s, toLocal = true) {
 
 /**
  * Return a string in '{}h {}m' format for duration.
- * @param {number} ticks - Duration in ticks.
+ * @param ticks - Duration in ticks.
+ * @returns The duration as a string.
  */
-export function getDisplayDuration(ticks) {
+export function getDisplayDuration(ticks: number): string {
     const totalMinutes = Math.round(ticks / ticksPerMinute) || 1;
     const totalHours = Math.floor(totalMinutes / 60);
     const remainderMinutes = totalMinutes % 60;
@@ -84,10 +87,11 @@ export function getDisplayDuration(ticks) {
 
 /**
  * Return a string in '{h}:{mm}:{ss}' format for running time.
- * @param {number} ticks - Duration in ticks.
+ * @param ticks - Duration in ticks.
+ * @returns The running time as a string.
  */
-export function getDisplayRunningTime(ticks) {
-    const parts = [];
+export function getDisplayRunningTime(ticks: number): string {
+    const parts: string[] = [];
 
     let hours = ticks / ticksPerHour;
     hours = Math.floor(hours);
@@ -103,43 +107,58 @@ export function getDisplayRunningTime(ticks) {
 
     ticks -= (minutes * ticksPerMinute);
 
+    let minutesPart: string;
     if (minutes < 10 && hours) {
-        minutes = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
+        minutesPart = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
     } else {
-        minutes = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
+        minutesPart = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
     }
-    parts.push(minutes);
+    parts.push(minutesPart);
 
     let seconds = ticks / ticksPerSecond;
     seconds = Math.floor(seconds);
 
+    let secondsPart: string;
     if (seconds < 10) {
-        seconds = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
+        secondsPart = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
     } else {
-        seconds = seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
+        secondsPart = seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
     }
-    parts.push(seconds);
+    parts.push(secondsPart);
 
     return parts.join(':');
 }
 
-const toLocaleTimeStringSupportsLocales = function () {
+/**
+ * A boolean indicating whether the browser supports locales in the `toLocaleTimeString` method.
+ */
+const toLocaleTimeStringSupportsLocales: boolean = function () {
     try {
         // eslint-disable-next-line sonarjs/no-ignored-return
         new Date().toLocaleTimeString('i');
-    } catch (e) {
-        return e.name === 'RangeError';
+    } catch (e: unknown) {
+        return e instanceof RangeError;
     }
     return false;
 }();
 
-function getOptionList(options) {
-    const list = [];
+type OptionEntry = {
+    name: keyof Intl.DateTimeFormatOptions,
+    value: Intl.DateTimeFormatOptions[keyof Intl.DateTimeFormatOptions]
+};
 
-    for (const i in options) {
+/**
+ * Returns an array of option entries for the given Intl.DateTimeFormatOptions object.
+ * @param options - The Intl.DateTimeFormatOptions object to extract option entries from.
+ * @returns An array of OptionEntry objects containing the name and value of each option.
+ */
+function getOptionList(options: Intl.DateTimeFormatOptions): OptionEntry[] {
+    const list: OptionEntry[] = [];
+
+    for (const [key, value] of Object.entries(options)) {
         list.push({
-            name: i,
-            value: options[i]
+            name: key as keyof Intl.DateTimeFormatOptions,
+            value: value
         });
     }
 
@@ -148,12 +167,12 @@ function getOptionList(options) {
 
 /**
  * Converts a value to a string using the current locale.
- * @param {Date | number | null | undefined} value - The value to convert to a string.
- * @param {Object} [options] - An optional object containing formatting options.
- * @returns {string} The value as a string in the current locale.
+ * @param value - The value to convert to a string.
+ * @param options - An optional object containing formatting options.
+ * @returns The value as a string in the current locale.
  * @throws {Error} If the value parameter is null.
  */
-export function toLocaleString(value, options) {
+export function toLocaleString(value: Date | number | null | undefined, options?: Intl.NumberFormatOptions | Intl.DateTimeFormatOptions): string {
     if (!value) {
         throw new Error('value cannot be null');
     }
@@ -172,13 +191,13 @@ export function toLocaleString(value, options) {
 }
 
 /**
- * Converts a date to a string using the current locale.
- * @param {Date | null | undefined} date - The date to convert to a string.
- * @param {Object} [options] - An optional object containing formatting options.
- * @returns {string} The date as a string in the current locale.
+ * Converts a date to a date string using the current locale.
+ * @param date - The date to convert to a string.
+ * @param options - An optional object containing formatting options.
+ * @returns The date part of the date as a string in the current locale.
  * @throws {Error} If the date parameter is null.
  */
-export function toLocaleDateString(date, options) {
+export function toLocaleDateString(date: Date | null | undefined, options?: Intl.DateTimeFormatOptions): string {
     if (!date) {
         throw new Error('date cannot be null');
     }
@@ -211,13 +230,13 @@ export function toLocaleDateString(date, options) {
 }
 
 /**
- * Converts a time to a string using the current locale.
- * @param {Date | null | undefined} date - The time to convert to a string.
- * @param {Object} [options] - An optional object containing formatting options.
- * @returns {string} The time as a string in the current locale.
+ * Converts a date to a time string using the current locale.
+ * @param date - The date to convert to a string.
+ * @param options - An optional object containing formatting options.
+ * @returns The time part of the date as a string in the current locale.
  * @throws {Error} If the value parameter is null.
  */
-export function toLocaleTimeString(date, options) {
+export function toLocaleTimeString(date: Date | null | undefined, options?: Intl.DateTimeFormatOptions): string {
     if (!date) {
         throw new Error('date cannot be null');
     }
@@ -236,32 +255,47 @@ export function toLocaleTimeString(date, options) {
 }
 
 /**
+ * Checks if the given value is a string.
+ * @param value - The value to check.
+ * @returns True if the value is a string, false otherwise.
+ */
+function isString(value: Date | string): value is string {
+    return (typeof value).toString().toLowerCase() === 'string';
+}
+
+/**
  * Get the display time for a date, in the format {h}:{mm} (and optionally {AM|PM}).
- * @param {Date | string | null | undefined} date The date to get the display time for.
+ * @param date The date to get the display time for.
  * @returns The display time for the date.
  */
-export function getDisplayTime(date) {
+export function getDisplayTime(date: Date | string | null | undefined): string {
     if (!date) {
         throw new Error('date cannot be null');
     }
 
-    if ((typeof date).toString().toLowerCase() === 'string') {
+    if (isString(date)) {
+        let parsedDate: Date;
+
         try {
-            date = parseISO8601Date(date, true);
+            parsedDate = parseISO8601Date(date, true);
         } catch (err) {
             return date;
         }
+
+        date = parsedDate;
     }
 
     if (toLocaleTimeStringSupportsLocales) {
         return toLocaleTimeString(date, {
-
             hour: 'numeric',
             minute: '2-digit'
-
         });
     }
 
+    return getDisplayTimeInternal(date);
+}
+
+function getDisplayTimeInternal(date: Date): string {
     let time = toLocaleTimeString(date);
 
     const timeLower = time.toLowerCase();
@@ -272,14 +306,15 @@ export function getDisplayTime(date) {
         if (!hour) {
             hour = 12;
         }
-        let minutes = date.getMinutes();
+        const minutes = date.getMinutes();
+        let minutesString: string;
 
         if (minutes < 10) {
-            minutes = '0' + minutes;
+            minutesString = '0' + minutes;
         }
 
-        minutes = ':' + minutes;
-        time = hour + minutes + suffix;
+        minutesString = ':' + minutes;
+        time = hour + minutesString + suffix;
     } else {
         const timeParts = time.split(':');
 
@@ -294,7 +329,14 @@ export function getDisplayTime(date) {
     return time;
 }
 
-export function isRelativeDay(date, offsetInDays) {
+/**
+ * Determines if a given date is a given number of days from today.
+ * @param date - The date to check.
+ * @param offsetInDays - The number of days to offset from today.
+ * @returns True if the date is at the given offset relative to today, false otherwise.
+ * @throws {Error} If the date parameter is null.
+ */
+export function isRelativeDay(date: Date | null | undefined, offsetInDays: number): boolean {
     if (!date) {
         throw new Error('date cannot be null');
     }

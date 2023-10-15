@@ -10,7 +10,7 @@ import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import './listview.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';

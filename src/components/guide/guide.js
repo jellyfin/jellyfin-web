@@ -6,7 +6,7 @@ import Events from '../../utils/events.ts';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import focusManager from '../focusManager';
 import { playbackManager } from '../playback/playbackmanager';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -107,8 +107,8 @@ function onProgramGridClick(e) {
     if (programCell) {
         let startDate = programCell.getAttribute('data-startdate');
         let endDate = programCell.getAttribute('data-enddate');
-        startDate = datetime.parseISO8601Date(startDate, { toLocal: true }).getTime();
-        endDate = datetime.parseISO8601Date(endDate, { toLocal: true }).getTime();
+        startDate = datetime.parseISO8601Date(startDate).getTime();
+        endDate = datetime.parseISO8601Date(endDate).getTime();
 
         const now = new Date().getTime();
         if (now >= startDate && now < endDate) {
@@ -357,7 +357,7 @@ function Guide(options) {
     function getDisplayTime(date) {
         if ((typeof date).toString().toLowerCase() === 'string') {
             try {
-                date = datetime.parseISO8601Date(date, { toLocal: true });
+                date = datetime.parseISO8601Date(date);
             } catch (err) {
                 return date;
             }
@@ -390,7 +390,7 @@ function Guide(options) {
     function parseDates(program) {
         if (!program.StartDateLocal) {
             try {
-                program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
+                program.StartDateLocal = datetime.parseISO8601Date(program.StartDate);
             } catch (err) {
                 console.error('error parsing timestamp for start date');
             }
@@ -398,7 +398,7 @@ function Guide(options) {
 
         if (!program.EndDateLocal) {
             try {
-                program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
+                program.EndDateLocal = datetime.parseISO8601Date(program.EndDate);
             } catch (err) {
                 console.error('error parsing timestamp for end date');
             }
@@ -664,7 +664,7 @@ function Guide(options) {
             }
         }
 
-        const start = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
+        const start = datetime.parseISO8601Date(program.StartDate);
 
         return (channelIndex * 10000000) + (start.getTime() / 60000);
     }
@@ -817,8 +817,8 @@ function Guide(options) {
         const nowHours = today.getHours();
         today.setHours(nowHours, 0, 0, 0);
 
-        let start = datetime.parseISO8601Date(guideInfo.StartDate, { toLocal: true });
-        const end = datetime.parseISO8601Date(guideInfo.EndDate, { toLocal: true });
+        let start = datetime.parseISO8601Date(guideInfo.StartDate);
+        const end = datetime.parseISO8601Date(guideInfo.EndDate);
 
         start.setHours(nowHours, 0, 0, 0);
         end.setHours(0, 0, 0, 0);
