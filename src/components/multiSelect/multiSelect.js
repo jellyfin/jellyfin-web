@@ -8,7 +8,7 @@ import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 
 let selectedItems = [];
 let selectedElements = [];

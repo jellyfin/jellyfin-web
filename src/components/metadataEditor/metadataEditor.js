@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';

@@ -5,7 +5,7 @@
  */
 
 import escapeHtml from 'escape-html';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';

@@ -4,7 +4,7 @@
  */
 
 import dialogHelper from '../dialogHelper/dialogHelper';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/paper-icon-button-light';

@@ -1,4 +1,4 @@
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';

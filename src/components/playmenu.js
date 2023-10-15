@@ -1,5 +1,5 @@
 import actionsheet from './actionSheet/actionSheet';
-import datetime from '../scripts/datetime';
+import datetime from '../utils/datetime';
 import { playbackManager } from './playback/playbackmanager';
 import globalize from '../scripts/globalize';
 

@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';

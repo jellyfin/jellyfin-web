@@ -22,7 +22,7 @@ import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import ServerConnections from 'components/ServerConnections';
 import browser from 'scripts/browser';
-import datetime from 'scripts/datetime';
+import datetime from 'utils/datetime';
 import dom from 'scripts/dom';
 import { download } from 'scripts/fileDownloader';
 import globalize from 'scripts/globalize';

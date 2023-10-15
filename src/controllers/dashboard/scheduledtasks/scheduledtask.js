@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import datetime from '../../../scripts/datetime';
+import datetime from '../../../utils/datetime';
 import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-input/emby-input';

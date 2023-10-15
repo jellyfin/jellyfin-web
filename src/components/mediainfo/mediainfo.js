@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import globalize from '../../scripts/globalize';
 import { appRouter } from '../router/appRouter';
 import itemHelper from '../itemHelper';

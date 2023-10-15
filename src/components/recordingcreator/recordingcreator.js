@@ -4,7 +4,7 @@ import layoutManager from '../layoutManager';
 import mediaInfo from '../mediainfo/mediainfo';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import imageLoader from '../images/imageLoader';
 import RecordingFields from './recordingfields';
 import Events from '../../utils/events.ts';

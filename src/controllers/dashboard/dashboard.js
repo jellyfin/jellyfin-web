@@ -1,6 +1,5 @@
 import escapeHtml from 'escape-html';
-
-import datetime from '../../scripts/datetime';
+import datetime from '../../utils/datetime';
 import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
