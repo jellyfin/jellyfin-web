@@ -103,37 +103,29 @@ function onInputCommand(e) {
     }
 }
 function saveValues(context, settings, settingsKey, setfilters) {
-    let elems = context.querySelectorAll('.simpleFilter');
-
     // Video type
     const videoTypes = [];
-    elems = context.querySelectorAll('.chkVideoTypeFilter');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            videoTypes.push(elems[i].getAttribute('data-filter'));
+    context.querySelectorAll('.chkVideoTypeFilter').forEach(elem => {
+        if (elem.checked) {
+            videoTypes.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
 
     // Series status
     const seriesStatuses = [];
-    elems = context.querySelectorAll('.chkSeriesStatus');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            seriesStatuses.push(elems[i].getAttribute('data-filter'));
+    context.querySelectorAll('.chkSeriesStatus').forEach(elem => {
+        if (elem.checked) {
+            seriesStatuses.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
 
     // Genres
     const genres = [];
-    elems = context.querySelectorAll('.chkGenreFilter');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            genres.push(elems[i].getAttribute('data-filter'));
+    context.querySelectorAll('.chkGenreFilter').forEach(elem => {
+        if (elem.checked) {
+            genres.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
 
     if (setfilters) {
         setfilters((prevState) => ({
@@ -157,13 +149,13 @@ function saveValues(context, settings, settingsKey, setfilters) {
             GenreIds: genres.join(',')
         }));
     } else {
-        for (let i = 0, length = elems.length; i < length; i++) {
-            if (elems[i].tagName === 'INPUT') {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
+        context.querySelectorAll('.simpleFilter').forEach(elem => {
+            if (elem.tagName === 'INPUT') {
+                setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
             } else {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
+                setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
             }
-        }
+        });
 
         userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
     }

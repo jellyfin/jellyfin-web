@@ -1202,5 +1202,13 @@
     "LabelKodiMetadataEnableExtraThumbsHelp": "תמונות שהורדו יכולות להישמר לשדות extrafanart ו-extrathumbs בו זמנית לצורך התאמה מירבית לסקינים של קודי.",
     "LabelKodiMetadataEnableExtraThumbs": "העתק extrafanart לשדה extrathumbs",
     "LabelGroupMoviesIntoCollectionsHelp": "כל הסרטים באוסף יופיעו בתור פריט מקובץ אחד ברשימות סרטים.",
-    "LabelHomeScreenSectionValue": "איזור {0} בעמוד הבית"
+    "LabelHomeScreenSectionValue": "איזור {0} בעמוד הבית",
+    "LabelExtractChaptersDuringLibraryScan": "חלץ את תמונות הפרק תוך כדי סריקת הספריה",
+    "LabelBackdropScreensaverInterval": "interval שומר המסך של הרקע",
+    "LabelEnableLUFSScan": "הפעלת סריקת LUFS",
+    "LabelEnableAutomaticPortMapHelp": "בצע port forward בצורה אוטומטית מפורטים בראוטר אל פורטים לוקאליים על השרת באמצעות UPnP. ייתכן שזה לא יעבוד עם דגמי נתב מסוימים או עם קונפיגורציות רשת מסוימות. שינויים לא יחולו עד לאחר הפעלה מחדש של השרת.",
+    "BackdropScreensaver": "שומר המסך של הרקע",
+    "LabelExtractChaptersDuringLibraryScanHelp": "צור תמונות פרקים כאשר סרטונים מיובאים תוך כדי סריקת הספריה. אחרת, הם יחולצו תוך כדי המשימה המתוזמנת העוסקת בתמונות הפרק, מה שיאפשר לסריקת הספריה הרגילה להסתיים מהר יותר.",
+    "LabelThrottleDelaySecondsHelp": "כמות הזמן בשניות שלאחריה המקודד יגיע ל-throttle. חייב להיות גדול מספיק כדי שהלקוח ישמור על buffer גדול מספיק. עובד רק אם throttling מופעל.",
+    "HeaderGuestCast": "כוכבים אורחים"
 }

@@ -301,7 +301,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Use Episode Images in Next Up and Continue Watching' state.
-     * @param {string|boolean|undefined} val - Flag to enable 'Use Episode Images in Next Up and Continue Watching' or undefined.
+     * @param {string|boolean|undefined} [val] - Flag to enable 'Use Episode Images in Next Up and Continue Watching' or undefined.
      * @return {boolean} 'Use Episode Images in Next Up' state.
      */
     useEpisodeImagesInNextUpAndResume(val) {
@@ -463,7 +463,7 @@ export class UserSettings {
 
     /**
      * Get or set max days for next up list.
-     * @param {number|undefined} val - Max days for next up.
+     * @param {number|undefined} [val] - Max days for next up.
      * @return {number} Max days for a show to stay in next up without being watched.
      */
     maxDaysForNextUp(val) {
@@ -482,7 +482,7 @@ export class UserSettings {
 
     /**
      * Get or set rewatching in next up.
-     * @param {boolean|undefined} val - If rewatching items should be included in next up.
+     * @param {boolean|undefined} [val] - If rewatching items should be included in next up.
      * @returns {boolean} Rewatching in next up state.
      */
     enableRewatchingInNextUp(val) {

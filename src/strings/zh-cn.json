@@ -1353,7 +1353,7 @@
     "LabelOpenclDevice": "OpenCL 设备",
     "LabelOpenclDeviceHelp": "这是用于色调映射的 OpenCL 设备。 点左边是平台号，右边是平台上的设备号。 默认值为 0.0。 需要支持OpenCL 硬件加速的 FFmpeg 应用程序。",
     "EnableTonemapping": "启用色调映射",
-    "AllowTonemappingHelp": "色调映射可以将视频的动态范围从HDR转换为SDR，同时保持图像细节和颜色，这些都是表示原始场景的非常重要的信息。目前只适用于10bit HDR10、HLG和DoVi视频。这需要相应的OpenCL或CUDA运行库。",
+    "AllowTonemappingHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅对 10bit HDR10，HLG 和 DoVi 视频生效。此项需要对应的 OpenCL 或 CUDA 运行库。",
     "LabelTonemappingAlgorithm": "选择要使用的色调映射算法",
     "TonemappingAlgorithmHelp": "色调映射可以微调。如果你不是很熟悉这些选项，保持默认即可。建议值为 'BT.2390'。",
     "LabelTonemappingRange": "色调映射范围",
@@ -1764,7 +1764,7 @@
     "HeaderEpisodesStatus": "剧集状态",
     "LabelBackdropScreensaverInterval": "屏幕保护程序间隔",
     "LabelBackdropScreensaverIntervalHelp": "不同屏幕保护切换的时间间隔秒数。",
-    "AllowAv1Encoding": "允许以AV1格式进行编码",
+    "AllowAv1Encoding": "允许以 AV1 格式进行编码",
     "HeaderGuestCast": "特邀嘉宾",
     "GridView": "网格视图",
     "ListView": "列表视图",
@@ -1773,5 +1773,8 @@
     "ForeignPartsOnly": "仅限强制开启/外语部分",
     "HearingImpairedShort": "听障/聋哑人士字幕",
     "UnknownError": "发生未知错误。",
-    "GoHome": "回家"
+    "GoHome": "回家",
+    "BackdropScreensaver": "背景屏保",
+    "LogoScreensaver": "徽标屏保",
+    "LabelIsHearingImpaired": "用于听障/聋哑人士"
 }

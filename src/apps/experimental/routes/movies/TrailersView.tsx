@@ -1,28 +1,17 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import React, { FC } from 'react';
 
-import React, { FC, useCallback } from 'react';
-
-import ViewItemsContainer from 'components/common/ViewItemsContainer';
+import ItemsView from '../../components/library/ItemsView';
 import { LibraryViewProps } from 'types/library';
+import { LibraryTab } from 'types/libraryTab';
 
 const TrailersView: FC<LibraryViewProps> = ({ parentId }) => {
-    const getBasekey = useCallback(() => {
-        return 'trailers';
-    }, []);
-
-    const getItemTypes = useCallback(() => {
-        return ['Trailer'];
-    }, []);
-
-    const getNoItemsMessage = useCallback(() => {
-        return 'MessageNoTrailersFound';
-    }, []);
-
     return (
-        <ViewItemsContainer
-            topParentId={parentId}
-            getBasekey={getBasekey}
-            getItemTypes={getItemTypes}
-            getNoItemsMessage={getNoItemsMessage}
+        <ItemsView
+            viewType={LibraryTab.Trailers}
+            parentId={parentId}
+            itemType={[BaseItemKind.Trailer]}
+            noItemsMessage='MessageNoTrailersFound'
         />
     );
 };

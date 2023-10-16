@@ -1437,7 +1437,7 @@
     "QuickConnectNotActive": "Pikayhdistys ei ole tällä palvelimella käytössä",
     "QuickConnectNotAvailable": "Pyydä palvelimen ylläpitoa ottamaan Pikayhdistys käyttöön",
     "QuickConnectInvalidCode": "Virheellinen Pikayhdistyskoodi",
-    "QuickConnectDescription": "Kirjautuaksesi Pikayhdistyksellä, valitse 'Pikayhdistys'-painike laitteelta, josta yrität kirjautua ja syötä alla oleva koodi.",
+    "QuickConnectDescription": "Kirjautuaksesi Pikayhdistyksellä, valitse 'Pikayhdistys' laitteelta, josta yrität kirjautua ja syötä näytettävä koodi alle.",
     "QuickConnectDeactivated": "Pikayhdistys katkaistiin ennen kirjautumispyynnön hyväksyntää",
     "QuickConnectAuthorizeSuccess": "Laitteesi on todennettu!",
     "QuickConnectAuthorizeFail": "Tuntematon Pikayhdistyskoodi",

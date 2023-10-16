@@ -1732,7 +1732,7 @@
     "EnableAudioNormalizationHelp": "Audio normalisation will add a constant gain to keep the average at a desired level (-18dB).",
     "EnableAudioNormalization": "Audio Normalisation",
     "LabelEnableLUFSScan": "Enable LUFS scan",
-    "LabelEnableLUFSScanHelp": "Enable LUFS scan for music (This will take longer and more resources).",
+    "LabelEnableLUFSScanHelp": "Clients can normalise audio playback to get equal loudness across tracks. This will make library scans longer and take more resources.",
     "AllowCollectionManagement": "Allow this user to manage collections",
     "GetThePlugin": "Get the Plugin",
     "Notifications": "Notifications",
@@ -1773,5 +1773,8 @@
     "MachineTranslated": "Machine Translated",
     "ForeignPartsOnly": "Forced/Foreign parts only",
     "HearingImpairedShort": "HI/SDH",
-    "HeaderGuestCast": "Guest Stars"
+    "HeaderGuestCast": "Guest Stars",
+    "LabelIsHearingImpaired": "For hearing impaired (SDH)",
+    "BackdropScreensaver": "Backdrop Screensaver",
+    "LogoScreensaver": "Logo Screensaver"
 }
