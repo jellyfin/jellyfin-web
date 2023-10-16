@@ -15,6 +15,7 @@ import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import merge from 'lodash-es/merge';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -145,10 +146,7 @@ function createStreamInfoFromUrlItem(item) {
 }
 
 function mergePlaybackQueries(obj1, obj2) {
-    const query = obj1;
-    for (const key in obj2) {
-        if (obj2[key] !== undefined) query[key] = obj2[key];
-    }
+    const query = merge({}, obj1, obj2);
 
     const filters = query.Filters ? query.Filters.split(',') : [];
     if (filters.indexOf('IsNotFolder') === -1) {
