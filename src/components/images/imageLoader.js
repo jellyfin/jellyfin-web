@@ -74,7 +74,7 @@ export function fillImage(entry) {
         throw new Error('entry cannot be null');
     }
     const target = entry.target;
-    let source = undefined;
+    let source;
 
     if (target) {
         source = target.getAttribute('data-src');
