@@ -209,7 +209,7 @@
     "Shows": "Þættir",
     "Playlists": "Efnisskrár",
     "ButtonScanAllLibraries": "Skanna Öll Gagnasöfn",
-    "AllLibraries": "Öll gagnasöfn",
+    "AllLibraries": "Öll efnissöfn",
     "RefreshMetadata": "Endurhlaða lýsigögn",
     "Refresh": "Endurhlaða",
     "ReleaseDate": "Útgáfudagur",
@@ -472,11 +472,12 @@
     "EnablePlugin": "Virkja",
     "Bwdif": "BWDIF",
     "DisablePlugin": "Slökkva",
-    "EnableAutoCast": "Setja sem Sjálfgefið",
+    "EnableAutoCast": "Setja sem sjálfgefið",
     "EnableDetailsBanner": "Upplýsingar borði",
     "DeleteAll": "Eyða Öllu",
     "ButtonBackspace": "Backspace",
     "ButtonUseQuickConnect": "Nota hraðtengingu",
     "Digital": "Stafrænt",
-    "DownloadAll": "Sækja allt"
+    "DownloadAll": "Sækja allt",
+    "AllowCollectionManagement": "Leyfa þessum notanda að sýsla með söfn"
 }
