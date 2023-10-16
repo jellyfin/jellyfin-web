@@ -125,8 +125,8 @@ function renderSection(item, element, type) {
                 ArtistIds: '',
                 AlbumArtistIds: '',
                 Limit: 10,
-                SortOrder: 'Descending',
-                SortBy: 'PremiereDate,ProductionYear,Sortname'
+                SortOrder: 'Descending,Desending,Ascending',
+                SortBy: 'PremiereDate,ProductionYear,SortName'
             }, {
                 shape: 'overflowPortrait',
                 showTitle: true,
