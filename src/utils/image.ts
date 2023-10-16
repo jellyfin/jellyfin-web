@@ -63,7 +63,14 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
         case 'Jellyfin Web':
             return getWebDeviceIcon((info as DeviceInfo).Name || (info as SessionInfo).DeviceName);
         default:
-            return info.Capabilities?.IconUrl || BASE_DEVICE_IMAGE_URL + 'other.svg';
+            if (info.Capabilities?.IconUrl) {
+                try {
+                    return new URL(info.Capabilities.IconUrl).toString();
+                } catch (err) {
+                    console.error('[getDeviceIcon] device capabilities has invalid IconUrl', info, err);
+                }
+            }
+            return BASE_DEVICE_IMAGE_URL + 'other.svg';
     }
 }
 
