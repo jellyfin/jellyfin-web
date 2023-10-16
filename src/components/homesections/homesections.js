@@ -1,3 +1,4 @@
+import layoutManager from 'components/layoutManager';
 import globalize from 'scripts/globalize';
 import { DEFAULT_SECTIONS, HomeSectionType } from 'types/homeSectionType';
 import Dashboard from 'utils/dashboard';
@@ -33,6 +34,18 @@ function getAllSectionsToShow(userSettings, sectionCount) {
         sections.push(section);
     }
 
+    // Ensure libraries are visible in TV layout
+    if (
+        layoutManager.tv
+            && !sections.includes(HomeSectionType.SmallLibraryTiles)
+            && !sections.includes(HomeSectionType.LibraryButtons)
+    ) {
+        return [
+            HomeSectionType.SmallLibraryTiles,
+            ...sections
+        ];
+    }
+
     return sections;
 }
 
@@ -41,8 +54,10 @@ export function loadSections(elem, apiClient, user, userSettings) {
         let html = '';
 
         if (userViews.length) {
-            const sectionCount = 7;
-            for (let i = 0; i < sectionCount; i++) {
+            const userSectionCount = 7;
+            // TV layout can have an extra section to ensure libraries are visible
+            const totalSectionCount = layoutManager.tv ? userSectionCount + 1 : userSectionCount;
+            for (let i = 0; i < totalSectionCount; i++) {
                 html += '<div class="verticalSection section' + i + '"></div>';
             }
 
@@ -50,7 +65,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
             elem.classList.add('homeSectionsContainer');
 
             const promises = [];
-            const sections = getAllSectionsToShow(userSettings, sectionCount);
+            const sections = getAllSectionsToShow(userSettings, userSectionCount);
             for (let i = 0; i < sections.length; i++) {
                 promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
             }

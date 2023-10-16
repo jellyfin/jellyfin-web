@@ -5,6 +5,7 @@ import React, { FC } from 'react';
 import * as userSettings from 'scripts/settings/userSettings';
 import SuggestionsSectionContainer from './SuggestionsSectionContainer';
 import { Sections, SectionsView, SectionsViewType } from 'types/suggestionsSections';
+import { ParentId } from 'types/library';
 
 const getSuggestionsSections = (): Sections[] => {
     return [
@@ -178,7 +179,7 @@ const getSuggestionsSections = (): Sections[] => {
 };
 
 interface SuggestionsItemsContainerProps {
-    parentId?: string | null;
+    parentId: ParentId;
     sectionsView: SectionsView[];
 }
 

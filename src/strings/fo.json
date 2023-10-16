@@ -212,5 +212,8 @@
     "ValueMusicVideoCount": "{0} tónleika sjónbond",
     "ValueOneAlbum": "1 album",
     "ValueOneSong": "1 sangur",
-    "ValueSongCount": "{0} sangir"
+    "ValueSongCount": "{0} sangir",
+    "ButtonForgotPassword": "Gloymt loyniorð",
+    "ButtonSignIn": "Innrita",
+    "ButtonSignOut": "Útrita"
 }

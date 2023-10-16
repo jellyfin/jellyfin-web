@@ -28,7 +28,7 @@ import FiltersTags from './FiltersTags';
 import FiltersVideoTypes from './FiltersVideoTypes';
 import FiltersYears from './FiltersYears';
 
-import { LibraryViewSettings } from 'types/library';
+import { LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
 const Accordion = styled((props: AccordionProps) => (
@@ -73,9 +73,10 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 interface FilterButtonProps {
-    parentId: string | null | undefined;
-    itemType: BaseItemKind;
+    parentId: ParentId;
+    itemType: BaseItemKind[];
     viewType: LibraryTab;
+    hasFilters: boolean;
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<
         React.SetStateAction<LibraryViewSettings>
@@ -86,6 +87,7 @@ const FilterButton: FC<FilterButtonProps> = ({
     parentId,
     itemType,
     viewType,
+    hasFilters,
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
@@ -153,16 +155,13 @@ const FilterButton: FC<FilterButtonProps> = ({
         return viewType === LibraryTab.Episodes;
     };
 
-    const hasFilters =
-        Object.values(libraryViewSettings.Filters || {}).some((filter) => !!filter);
-
     return (
         <Box>
             <IconButton
                 title={globalize.translate('Filter')}
                 sx={{ ml: 2 }}
                 aria-describedby={id}
-                className='paper-icon-button-light btnShuffle autoSize'
+                className='paper-icon-button-light btnFilter autoSize'
                 onClick={handleClick}
             >
                 <Badge color='info' variant='dot' invisible={!hasFilters}>
