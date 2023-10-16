@@ -1627,7 +1627,7 @@
     "AllowEmbeddedSubtitlesAllowImageOption": "Kép engedélyezése",
     "AllowEmbeddedSubtitlesAllowNoneOption": "Összes tiltása",
     "AllowEmbeddedSubtitlesAllowAllOption": "Összes engedélyezése",
-    "AllowEmbeddedSubtitlesHelp": "Tiltsa le a médiatárolókba csomagolt feliratokat. Teljes könyvtárfrissítést igényel.",
+    "AllowEmbeddedSubtitlesHelp": "Letiltja a médiatárolókba csomagolt feliratokat. Teljes könyvtárfrissítést igényel.",
     "AllowEmbeddedSubtitles": "Különféle típusú beágyazott feliratok letiltása",
     "ShowParentImages": "Sorozatképek megjelenítése",
     "NextUpRewatching": "Újranézés",
@@ -1767,5 +1767,6 @@
     "AllowAv1Encoding": "AV1 kódolás engedélyezése",
     "GridView": "Rács Nézet",
     "ListView": "Lista Nézet",
-    "MachineTranslated": "Gépi fordítás"
+    "MachineTranslated": "Gépi fordítás",
+    "AiTranslated": "Gépi fordítás"
 }
