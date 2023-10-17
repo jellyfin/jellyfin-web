@@ -1,13 +1,8 @@
-import 'elements/emby-scroller/emby-scroller';
-import 'elements/emby-itemscontainer/emby-itemscontainer';
-import 'elements/emby-tabs/emby-tabs';
-import 'elements/emby-button/emby-button';
-
 import React, { FC } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import Page from 'components/Page';
 
 import { getDefaultTabIndex } from '../../components/tabs/tabRoutes';
+import Page from 'components/Page';
 import CollectionsView from './CollectionsView';
 import FavoritesView from './FavoritesView';
 import GenresView from './GenresView';

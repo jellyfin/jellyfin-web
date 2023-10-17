@@ -33,6 +33,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: jellyfin-web
+          branch: ${{ github.event.workflow_run.head_branch }}
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 

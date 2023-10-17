@@ -12,10 +12,11 @@ import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from './SectionContainer';
 import { CollectionType } from 'types/collectionType';
+import { ParentId } from 'types/library';
 
 interface GenresSectionContainerProps {
-    parentId?: string | null;
-    collectionType?: CollectionType;
+    parentId: ParentId;
+    collectionType: CollectionType;
     itemType: BaseItemKind;
     genre: BaseItemDto;
 }

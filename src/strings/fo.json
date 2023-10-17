@@ -215,5 +215,11 @@
     "ValueSongCount": "{0} sangir",
     "ButtonForgotPassword": "Gloymt loyniorð",
     "ButtonSignIn": "Innrita",
-    "ButtonSignOut": "Útrita"
+    "ButtonSignOut": "Útrita",
+    "Channels": "Rásir",
+    "Favorites": "Yndis",
+    "Folders": "Mappur",
+    "Collections": "Søvn",
+    "Default": "Sjálvgildi",
+    "Genres": "Greinar"
 }
