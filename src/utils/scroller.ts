@@ -7,29 +7,39 @@ export enum ScrollDirection {
 }
 
 interface ScrollState {
-  scrollPosition: number;
+  scrollPos: number;
 }
-interface ScrollerSlideViewWindowProps {
+
+interface ScrollerItemSlideIntoViewProps {
   direction: ScrollDirection;
   scroller: ScrollerFactory | null;
   scrollState: ScrollState;
 }
-export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: ScrollerSlideViewWindowProps) {
+
+interface ScrollToWindowProps {
+    scroller: ScrollerFactory;
+    items: HTMLElement[];
+    scrollState: ScrollState;
+    direction: ScrollDirection
+}
+
+export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: ScrollerItemSlideIntoViewProps) {
     if (!scroller) {
         return;
     }
 
     const slider: HTMLElement = scroller.getScrollSlider();
-    const items = [...slider.children];
+    const items = [...slider.children] as HTMLElement[];
 
-    if (direction === ScrollDirection.LEFT) {
-        scrollToPreviousVisibleWindow(scroller, items as HTMLElement[], scrollState);
-    } else {
-        scrollToNextVisibleWindow(scroller, items as HTMLElement[], scrollState);
-    }
+    scrollToWindow({
+        scroller,
+        items,
+        scrollState,
+        direction
+    });
 }
 
-function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], { scrollPosition }: ScrollState) {
+function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], { scrollPos: scrollPosition }: ScrollState) {
     const isRTL = globalize.getIsRTL();
     const localeModifier = isRTL ? -1 : 1;
 
@@ -46,56 +56,48 @@ function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], 
     return [firstVisibleIndex, lastVisibleIndex];
 }
 
-function scrollToNextVisibleWindow(scroller: ScrollerFactory, items: HTMLElement[], scrollState: ScrollState) {
-    const isRTL = globalize.getIsRTL();
+function scrollToWindow({
+    scroller,
+    items,
+    scrollState,
+    direction = ScrollDirection.RIGHT
+}: ScrollToWindowProps) {
     // When we're rendering RTL, scrolling toward the end of the container is toward the left so all of our scroll
     // positions need to be negative.
+    const isRTL = globalize.getIsRTL();
     const localeModifier = isRTL ? -1 : 1;
-    // NOTE: Legacy scroller passing in an Element which is the frame element and has some of the scroller factory
-    // functions on it, but is not a true scroller factory. For legacy, we need to pass `scroller` directly instead
-    // of getting the frame from the factory instance.
-    const [, lastVisibleIndex] = getFirstAndLastVisible(scroller.getScrollFrame?.() || scroller, items, scrollState);
 
-    const nextItem = items[lastVisibleIndex];
-    const nextItemScrollOffset = lastVisibleIndex * nextItem.offsetWidth;
+    // NOTE: The legacy scroller is passing in an Element which is the frame element and has some of the scroller
+    // factory functions on it, but is not a true scroller factory. For legacy, we need to pass `scroller` directly
+    // instead of getting the frame from the factory instance.
+    const frame = scroller.getScrollFrame?.() ?? scroller;
+    const [firstVisibleIndex, lastVisibleIndex] = getFirstAndLastVisible(frame, items, scrollState);
 
-    // This will be the position to anchor the item at `lastVisibleIndex` to the start of the view window.
-    const nextItemScrollPos = (nextItemScrollOffset) * localeModifier;
+    let scrollToPosition: number;
 
-    if (scroller.slideTo) {
-        scroller.slideTo(nextItemScrollPos, false, undefined);
+    if (direction === ScrollDirection.RIGHT) {
+        const nextItem = items[lastVisibleIndex];
+
+        // This will be the position to anchor the item at `lastVisibleIndex` to the start of the view window.
+        const nextItemScrollOffset = lastVisibleIndex * nextItem.offsetWidth;
+        scrollToPosition = nextItemScrollOffset * localeModifier;
     } else {
-        // @ts-expect-error Legacy support passes in a `scroller` that isn't a ScrollFactory
-        scroller.scrollToPosition(nextItemScrollPos);
+        const previousItem = items[firstVisibleIndex];
+        const previousItemScrollOffset = firstVisibleIndex * previousItem.offsetWidth;
+
+        // Find the total number of items that can fit in a view window and subtract one to account for item at
+        // `firstVisibleIndex`. The total width of these items is the amount that we need to adjust the scroll position by
+        // to anchor item at `firstVisibleIndex` to the end of the view window.
+        const offsetAdjustment = (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) * previousItem.offsetWidth;
+
+        // This will be the position to anchor the item at `firstVisibleIndex` to the end of the view window.
+        scrollToPosition = (previousItemScrollOffset - offsetAdjustment) * localeModifier;
     }
-}
-
-function scrollToPreviousVisibleWindow(scroller: ScrollerFactory, items: HTMLElement[], scrollState: ScrollState) {
-    // NOTE: Legacy scroller passing in an Element which is the frame element and has some of the scroller factory
-    // functions on it, but is not a true scroller factory. For legacy, we need to pass `scroller` directly instead
-    // of getting the frame from the factory instance.
-    const frame = scroller.getScrollFrame?.() || scroller;
-    const isRTL = globalize.getIsRTL();
-    // When we're rendering RTL, scrolling toward the end of the container is toward the left so all of our scroll
-    // positions need to be negative.
-    const localeModifier = isRTL ? -1 : 1;
-
-    const [firstVisibleIndex] = getFirstAndLastVisible(frame, items, scrollState);
-
-    const previousItem = items[firstVisibleIndex];
-    const previousItemScrollOffset = firstVisibleIndex * previousItem.offsetWidth;
-
-    // Find the total number of items that can fit in a view window and subtract one to account for item at
-    // `firstVisibleIndex`. The total width of these items is the amount that we need to adjust the scroll position by
-    // to anchor item at `firstVisibleIndex` to the end of the view window.
-    const offsetAdjustment = (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) * previousItem.offsetWidth;
-
-    const previousItemScrollPos = (previousItemScrollOffset - offsetAdjustment) * localeModifier;
 
     if (scroller.slideTo) {
-        scroller.slideTo(previousItemScrollPos, false, undefined);
+        scroller.slideTo(scrollToPosition, false, undefined);
     } else {
         // @ts-expect-error Legacy support passes in a `scroller` that isn't a ScrollFactory
-        scroller.scrollToPosition(previousItemScrollPos);
+        scroller.scrollToPosition(scrollToPosition);
     }
 }
