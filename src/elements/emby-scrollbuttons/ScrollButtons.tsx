@@ -3,7 +3,7 @@ import scrollerFactory from '../../libraries/scroller';
 import globalize from '../../scripts/globalize';
 import IconButton from '../emby-button/IconButton';
 import './emby-scrollbuttons.scss';
-import { ScrollDirection, scrollerItemSlideIntoView } from '../../utils/scroller';
+import { ScrollDirection, scrollerItemSlideIntoView } from './utils';
 
 interface ScrollButtonsProps {
     scrollerFactoryRef: React.MutableRefObject<scrollerFactory | null>;
