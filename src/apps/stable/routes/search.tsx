@@ -11,7 +11,7 @@ import globalize from '../../../scripts/globalize';
 const Search: FunctionComponent = () => {
     const [ query, setQuery ] = useState<string>();
     const [ searchParams ] = useSearchParams();
-    if (!query && searchParams.get('q')) setQuery(searchParams.get('q') || '');
+    if (!query && searchParams.get('query')) setQuery(searchParams.get('query') || '');
 
     return (
         <Page
