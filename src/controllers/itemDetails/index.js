@@ -386,14 +386,29 @@ function reloadUserDataButtons(page, item) {
 
 function getArtistLinksHtml(artists, serverId, context) {
     const html = [];
+    const numberOfArtists = artists.length;
 
-    for (const artist of artists) {
-        const href = appRouter.getRouteUrl(artist, {
-            context: context,
-            itemType: 'MusicArtist',
-            serverId: serverId
-        });
-        html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
+    if (numberOfArtists < 10) {
+        for (const artist of artists) {
+            const href = appRouter.getRouteUrl(artist, {
+                context: context,
+                itemType: 'MusicArtist',
+                serverId: serverId
+            });
+            html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
+        }
+    } else {
+        for (let i = 0; i < 10; i++) {
+            const artist = artists[i];
+            const href = appRouter.getRouteUrl(artist, {
+                context: context,
+                itemType: 'MusicArtist',
+                serverId: serverId
+            });
+            html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
+        }
+        const remainingNumberOfArtists = numberOfArtists - 10;
+        html.push(`${globalize.translate('AndOtherArtists', remainingNumberOfArtists)}`);
     }
 
     return html.join(' / ');
@@ -441,20 +456,8 @@ function renderName(item, container, context) {
     if (parentNameHtml.length) {
         if (parentNameLast) {
             // Music
-            // Determine if there are over 10 artists in the album. If so, concat with 'and X others.'
-            const artists = parentNameHtml[0].split(' / ');
-            const otherArtistCount = artists.length - 10;
-            let newParentNameHtml = artists.slice(0, 10).join(' / ');
-            newParentNameHtml = `${newParentNameHtml} ${globalize.translate('AndOtherArtists', otherArtistCount)}</br>`;
-
             if (layoutManager.mobile) {
-                if (artists.length > 10) {
-                    html = '<h3 class="parentName musicParentName ">' + newParentNameHtml + '</h3>';
-                } else {
-                    html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
-                }
-            } else if (artists.length > 10) {
-                html = '<h3 class="parentName musicParentName">' + newParentNameHtml + '</h3>';
+                html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
             } else {
                 html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
