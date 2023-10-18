@@ -1258,11 +1258,11 @@ function renderTags(page, item) {
     }
 
     for (let i = 0, length = tags.length; i < length; i++) {
-        tagElements.push(tags[i]);
+        tagElements.push('<a href="#/search.html?query=' + encodeURIComponent(tags[i]) + '" class="button-link emby-button" is="emby-linkbutton">' + tags[i] + '</a>');
     }
 
     if (tagElements.length) {
-        itemTags.innerText = globalize.translate('TagsValue', tagElements.join(', '));
+        itemTags.innerHTML = globalize.translate('TagsValue', tagElements.join(', '));
         itemTags.classList.remove('hide');
     } else {
         itemTags.innerHTML = '';
