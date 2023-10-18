@@ -27,7 +27,7 @@
     "AllowedRemoteAddressesHelp": "Liste séparée par des virgules des adresses IP autorisées à se connecter à distance. Une liste laissée vide signifie que toutes les adresses sont autorisées.",
     "AlwaysPlaySubtitles": "Toujours afficher",
     "AlwaysPlaySubtitlesHelp": "Les sous-titres correspondant à la langue préférée seront chargés indépendamment de la langue de l'audio.",
-    "AnyLanguage": "N'importe quel langage",
+    "AnyLanguage": "N'importe quelle langue",
     "Anytime": "N'importe quand",
     "AroundTime": "Aux environs de {0}",
     "Artists": "Artistes",
