@@ -71,8 +71,8 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             centerText: true,
             cardLayout: false,
             shape: itemType === BaseItemKind.MusicAlbum ? 'overflowSquare' : 'overflowPortrait',
-            showParentTitle: itemType === BaseItemKind.MusicAlbum ? true : false,
-            showYear: itemType === BaseItemKind.MusicAlbum ? false : true
+            showParentTitle: itemType === BaseItemKind.MusicAlbum,
+            showYear: itemType !== BaseItemKind.MusicAlbum
         }}
     />;
 };

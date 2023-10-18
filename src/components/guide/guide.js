@@ -291,7 +291,7 @@ function Guide(options) {
             showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
             showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') !== 'false',
             showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
-            showEpisodeTitle: layoutManager.tv ? false : true
+            showEpisodeTitle: !layoutManager.tv
         };
 
         apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
