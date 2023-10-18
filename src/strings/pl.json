@@ -1454,7 +1454,7 @@
     "AspectRatioCover": "Okładka",
     "EnableFallbackFontHelp": "Włącz niestandardowe czcionki. Może pozwolić uniknąć problemów przy renderowaniu napisów.",
     "EnableFallbackFont": "Włącz czcionki zastępcze",
-    "LabelFallbackFontPathHelp": "Sprecyzuj ścieżkę zawierającą zastępcze czcionki dla renderowania napisów ASS/SSA. Maksymalny dozwolony łączny rozmiar czcionki to 20 MB. Lekkie i przyjazne dla sieci (web-friendly) formaty czcionek takie jak woff2 są zalecane.",
+    "LabelFallbackFontPathHelp": "Czcionki te są używane przez niektóre klienty do renderowania napisów. Aby uzyskać więcej informacji, zapoznaj się z dokumentacją.",
     "LabelFallbackFontPath": "Ścieżka folderu czcionki zastępczej",
     "HeaderSelectFallbackFontPathHelp": "Wyszukaj lub podaj ścieżkę folderu czcionki zastępczej do użycia przy renderowaniu napisów ASS/SAA.",
     "HeaderSelectFallbackFontPath": "Wybierz ścieżkę folderu czcionki zastępczej",
@@ -1776,5 +1776,9 @@
     "UnknownError": "Wystąpił nieznany błąd.",
     "BackdropScreensaver": "Wygaszacz ekranu z fototapetami",
     "LogoScreensaver": "Wygaszacz ekranu z logo",
-    "LabelIsHearingImpaired": "Dla osób niedosłyszących"
+    "LabelIsHearingImpaired": "Dla osób niedosłyszących",
+    "LabelAlbumGain": "Wzmocnienie albumu",
+    "LabelSelectAudioNormalization": "Normalizacja dźwięku",
+    "LabelTrackGain": "Wzmocnienie utworu",
+    "SelectAudioNormalizationHelp": "Wzmocnienie utworu – reguluje głośność każdego utworu tak, aby odtwarzał się z tą samą głośnością. Wzmocnienie albumu – reguluje głośność tylko wszystkich utworów w albumie, zachowując zakres dynamiki albumu."
 }
