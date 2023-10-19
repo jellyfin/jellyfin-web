@@ -121,14 +121,17 @@ function showContextMenu(card, options) {
                     playlistId: playlistId,
                     collectionId: collectionId,
                     user: user
-
-                }, options || {})).then(result => {
-                    if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
-                        executeAction(card, options.positionTo, result.command);
-                    } else if (result.updated || result.deleted) {
-                        notifyRefreshNeeded(card, options.itemsContainer);
-                    }
-                });
+                }, options || {}))
+                    .then(result => {
+                        if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
+                            executeAction(card, options.positionTo, result.command);
+                        } else if (result.updated || result.deleted) {
+                            notifyRefreshNeeded(card, options.itemsContainer);
+                        }
+                    })
+                    .catch(err => {
+                        console.debug('[shortcuts.showContextMenu] itemContextMenu.show reject', err);
+                    });
             });
         });
     });
