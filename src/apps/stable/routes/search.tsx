@@ -22,9 +22,7 @@ const Search: FunctionComponent = () => {
     const [ query, setQuery ] = useState<string>(searchParams.get('query') || '');
     const prevQuery = usePrevious(query);
 
-    console.error('Search component initialized', { 'urlParam': searchParams.get('query'), 'obj.query': query, 'prevQuery': prevQuery });
     if (query == prevQuery && searchParams.get('query') != query) {
-        console.error('SET QUERY VIA URL', searchParams.get('query'));
         setQuery(searchParams.get('query') || '');
     }
 
@@ -34,7 +32,6 @@ const Search: FunctionComponent = () => {
             /* Explicitly using `window.history.pushState` instead of `history.replace` as the use of the latter
             triggers a re-rendering of this component, resulting in double-execution searches. If there's a
             way to use `history` without this side effect, it would likely be preferable. */
-            console.error('PUSH STATE VIA QUERY', query);
             window.history.pushState({}, '', `/#${history.location.pathname}${newSearch}`);
         }
     }, [query, prevQuery]);
