@@ -525,6 +525,7 @@ export default function () {
                 if (img) {
                     img.classList.remove('lazy');
                     img.classList.add('playlistIndexIndicatorImage');
+                    img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
                 }
             }
 
@@ -598,6 +599,7 @@ export default function () {
 
     function onPlayPauseStateChanged() {
         updatePlayPauseState(this.paused(), true);
+        onPlaylistUpdate();
     }
 
     function onStateChanged(event, state) {

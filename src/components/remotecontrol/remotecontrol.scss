@@ -452,6 +452,10 @@
     display: none;
 }
 
+.playlistIndexIndicatorImage.playlistIndexIndicatorPausedImage {
+    background-image: url(../../assets/img/equalizer-paused.gif) !important;
+}
+
 .hideVideoButtons .videoButton {
     display: none;
 }
