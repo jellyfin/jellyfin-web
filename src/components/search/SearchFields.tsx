@@ -31,16 +31,22 @@ const createInputElement = () => ({
 const normalizeInput = (value = '') => value.trim();
 
 type SearchFieldsProps = {
+    query: string,
     onSearch?: (query: string) => void
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }: SearchFieldsProps) => {
+const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {}, query }: SearchFieldsProps) => {
     const element = useRef<HTMLDivElement>(null);
 
     const getSearchInput = () => element?.current?.querySelector<HTMLInputElement>('.searchfields-txtSearch');
 
     const debouncedOnSearch = useMemo(() => debounce(onSearch, 400), [onSearch]);
+
+    const initSearchInput = getSearchInput();
+    if (initSearchInput) {
+        initSearchInput.value = query;
+    }
 
     useEffect(() => {
         getSearchInput()?.addEventListener('input', e => {
