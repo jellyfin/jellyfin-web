@@ -1854,7 +1854,6 @@ export default function (view, params) {
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
         });
-
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
