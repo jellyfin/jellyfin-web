@@ -19,11 +19,12 @@ function usePrevious(value: string) {
 
 const Search: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
-    const [ query, setQuery ] = useState<string>(searchParams.get('query') || '');
+    const urlQuery = searchParams.get('query') || '';
+    const [ query, setQuery ] = useState<string>(urlQuery);
     const prevQuery = usePrevious(query);
 
-    if (query == prevQuery && searchParams.get('query') != query) {
-        setQuery(searchParams.get('query') || '');
+    if (query == prevQuery && urlQuery != query) {
+        setQuery(urlQuery);
     }
 
     useEffect(() => {
