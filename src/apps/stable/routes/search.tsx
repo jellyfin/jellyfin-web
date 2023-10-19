@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Page from '../../../components/Page';
@@ -7,11 +7,37 @@ import SearchResults from '../../../components/search/SearchResults';
 import SearchSuggestions from '../../../components/search/SearchSuggestions';
 import LiveTVSearchResults from '../../../components/search/LiveTVSearchResults';
 import globalize from '../../../scripts/globalize';
+import { history } from '../../../components/router/appRouter';
+
+function usePrevious(value: string) {
+    const ref = useRef<string>('');
+    useEffect(() => {
+        ref.current = value;
+    });
+    return ref.current;
+}
 
 const Search: FunctionComponent = () => {
-    const [ query, setQuery ] = useState<string>();
     const [ searchParams ] = useSearchParams();
-    if (!query && searchParams.get('query')) setQuery(searchParams.get('query') || '');
+    const [ query, setQuery ] = useState<string>(searchParams.get('query') || '');
+    const prevQuery = usePrevious(query);
+
+    console.error('Search component initialized', { 'urlParam': searchParams.get('query'), 'obj.query': query, 'prevQuery': prevQuery });
+    if (query == prevQuery && searchParams.get('query') != query) {
+        console.error('SET QUERY VIA URL', searchParams.get('query'));
+        setQuery(searchParams.get('query') || '');
+    }
+
+    useEffect(() => {
+        const newSearch = query ? `?query=${query}` : '';
+        if (query != prevQuery && newSearch != history.location.search) {
+            /* Explicitly using `window.history.pushState` instead of `history.replace` as the use of the latter
+            triggers a re-rendering of this component, resulting in double-execution searches. If there's a
+            way to use `history` without this side effect, it would likely be preferable. */
+            console.error('PUSH STATE VIA QUERY', query);
+            window.history.pushState({}, '', `/#${history.location.pathname}${newSearch}`);
+        }
+    }, [query, prevQuery]);
 
     return (
         <Page
@@ -19,7 +45,7 @@ const Search: FunctionComponent = () => {
             title={globalize.translate('Search')}
             className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage'
         >
-            <SearchFields onSearch={setQuery} />
+            <SearchFields query={query} onSearch={setQuery} />
             {!query
                 && <SearchSuggestions
                     parentId={searchParams.get('parentId')}
