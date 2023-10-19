@@ -57,7 +57,11 @@
         margin-bottom: 5px;
 
         list-style-type: none;
-        font-size: 120%;
+        font-size: 1.2rem;
+
+        ul {
+            padding-left: 1.5rem;
+        }
 
         a:link {
             color: #000;
