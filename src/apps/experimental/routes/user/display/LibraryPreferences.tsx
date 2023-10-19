@@ -8,10 +8,16 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import globalize from 'scripts/globalize';
+import { DisplaySettingsValues } from './types';
 
-export function LibraryPreferences() {
+interface LibraryPreferencesProps {
+    onChange: (event: React.SyntheticEvent) => void;
+    values: DisplaySettingsValues;
+}
+
+export function LibraryPreferences({ onChange, values }: Readonly<LibraryPreferencesProps>) {
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant='h2'>{globalize.translate('HeaderLibraries')}</Typography>
 
             <FormControl fullWidth>
@@ -26,7 +32,10 @@ export function LibraryPreferences() {
                         required: true,
                         step: '1'
                     }}
+                    defaultValue={values.libraryPageSize}
                     label={globalize.translate('LabelLibraryPageSize')}
+                    name='libraryPageSize'
+                    onChange={onChange}
                 />
                 <FormHelperText id='display-settings-lib-pagesize-description'>
                     {globalize.translate('LabelLibraryPageSizeHelp')}
@@ -36,8 +45,14 @@ export function LibraryPreferences() {
             <FormControl fullWidth>
                 <FormControlLabel
                     aria-describedby='display-settings-lib-backdrops-description'
-                    control={<Checkbox />}
+                    control={
+                        <Checkbox
+                            checked={values.enableLibraryBackdrops}
+                            onChange={onChange}
+                        />
+                    }
                     label={globalize.translate('Backdrops')}
+                    name='enableLibraryBackdrops'
                 />
                 <FormHelperText id='display-settings-lib-backdrops-description'>
                     {globalize.translate('EnableBackdropsHelp')}
@@ -47,8 +62,14 @@ export function LibraryPreferences() {
             <FormControl fullWidth>
                 <FormControlLabel
                     aria-describedby='display-settings-lib-theme-songs-description'
-                    control={<Checkbox />}
+                    control={
+                        <Checkbox
+                            checked={values.enableLibraryThemeSongs}
+                            onChange={onChange}
+                        />
+                    }
                     label={globalize.translate('ThemeSongs')}
+                    name='enableLibraryThemeSongs'
                 />
                 <FormHelperText id='display-settings-lib-theme-songs-description'>
                     {globalize.translate('EnableThemeSongsHelp')}
@@ -58,8 +79,14 @@ export function LibraryPreferences() {
             <FormControl fullWidth>
                 <FormControlLabel
                     aria-describedby='display-settings-lib-theme-videos-description'
-                    control={<Checkbox />}
+                    control={
+                        <Checkbox
+                            checked={values.enableLibraryThemeVideos}
+                            onChange={onChange}
+                        />
+                    }
                     label={globalize.translate('ThemeVideos')}
+                    name='enableLibraryThemeVideos'
                 />
                 <FormHelperText id='display-settings-lib-theme-videos-description'>
                     {globalize.translate('EnableThemeVideosHelp')}
@@ -69,8 +96,14 @@ export function LibraryPreferences() {
             <FormControl fullWidth>
                 <FormControlLabel
                     aria-describedby='display-settings-show-missing-episodes-description'
-                    control={<Checkbox />}
+                    control={
+                        <Checkbox
+                            checked={values.displayMissingEpisodes}
+                            onChange={onChange}
+                        />
+                    }
                     label={globalize.translate('DisplayMissingEpisodesWithinSeasons')}
+                    name='displayMissingEpisodes'
                 />
                 <FormHelperText id='display-settings-show-missing-episodes-description'>
                     {globalize.translate('DisplayMissingEpisodesWithinSeasonsHelp')}

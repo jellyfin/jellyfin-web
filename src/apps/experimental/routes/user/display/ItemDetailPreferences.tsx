@@ -7,17 +7,29 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import globalize from 'scripts/globalize';
+import { DisplaySettingsValues } from './types';
 
-export function ItemDetailPreferences() {
+interface ItemDetailPreferencesProps {
+    onChange: (event: React.SyntheticEvent) => void;
+    values: DisplaySettingsValues;
+}
+
+export function ItemDetailPreferences({ onChange, values }: Readonly<ItemDetailPreferencesProps>) {
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant='h2'>{globalize.translate('ItemDetails')}</Typography>
 
             <FormControl fullWidth>
                 <FormControlLabel
                     aria-describedby='display-settings-item-details-banner-description'
-                    control={<Checkbox />}
+                    control={
+                        <Checkbox
+                            checked={values.enableItemDetailsBanner}
+                            onChange={onChange}
+                        />
+                    }
                     label={globalize.translate('EnableDetailsBanner')}
+                    name='enableItemDetailsBanner'
                 />
                 <FormHelperText id='display-settings-item-details-banner-description'>
                     {globalize.translate('EnableDetailsBannerHelp')}
