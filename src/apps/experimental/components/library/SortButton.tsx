@@ -25,23 +25,21 @@ type SortOptionsMapping = {
     [key: string]: SortOption[];
 };
 
-const getMoviesOrFavoritesOptions = () => {
-    return [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
-        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'Runtime', value: ItemSortBy.Runtime }
-    ];
-};
+const movieOrFavoriteOptions = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random },
+    { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+    { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
+    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+    { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+    { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+    { label: 'Runtime', value: ItemSortBy.Runtime }
+];
 
 const sortOptionsMapping: SortOptionsMapping = {
-    [LibraryTab.Movies]: getMoviesOrFavoritesOptions(),
+    [LibraryTab.Movies]: movieOrFavoriteOptions,
     [LibraryTab.Trailers]: [
         { label: 'Name', value: ItemSortBy.SortName },
         { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
@@ -51,7 +49,7 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
     ],
-    [LibraryTab.Favorites]: getMoviesOrFavoritesOptions(),
+    [LibraryTab.Favorites]: movieOrFavoriteOptions,
     [LibraryTab.Series]: [
         { label: 'Name', value: ItemSortBy.SortName },
         { label: 'OptionRandom', value: ItemSortBy.Random },
