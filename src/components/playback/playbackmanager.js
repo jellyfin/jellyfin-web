@@ -1852,11 +1852,14 @@ class PlaybackManager {
             } else if (firstItem.Type === 'Series' || firstItem.Type === 'Season') {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                promise = apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
+                promise = getItemsForPlayback(firstItem.ServerId, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: 'Chapters'
+                    Fields: 'Chapters',
+                    Recursive: true,
+                    MediaTypes: 'Video',
+                    ParentId: firstItem.SeriesId ?? firstItem.Id
                 }).then(function (episodesResult) {
                     const originalResults = episodesResult.Items;
                     const isSeries = firstItem.Type === 'Series';
@@ -1892,6 +1895,12 @@ class PlaybackManager {
 
                                 return false;
                             });
+                        }
+                    }
+
+                    for (let i = 0; i < episodesResult.Items.length; i++) {
+                        if (i > 0) {
+                            episodesResult.Items[i].UserData.PlaybackPositionTicks = 0;
                         }
                     }
 
@@ -2443,7 +2452,7 @@ class PlaybackManager {
         }
 
         function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn, prevSource) {
-            const startPosition = playOptions.startPositionTicks;
+            const startPosition = item.UserData.PlaybackPositionTicks && playOptions.isFirstItem ? item.UserData.PlaybackPositionTicks : playOptions.startPositionTicks;
 
             const player = getPlayer(item, playOptions);
             const activePlayer = self._currentPlayer;
