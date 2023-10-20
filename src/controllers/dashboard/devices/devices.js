@@ -3,7 +3,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import loading from '../../../components/loading/loading';
 import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
-import imageHelper from '../../../scripts/imagehelper';
+import imageHelper from '../../../utils/image';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
 import '../../../elements/emby-button/emby-button';

@@ -1454,7 +1454,7 @@
     "AspectRatioFill": "Vyplniť",
     "EnableFallbackFontHelp": "Povoliť vlastné alternatívne fonty. Toto môže vyriešiť problémy s nesprávnym vykreslením titulkov.",
     "EnableFallbackFont": "Povoliť záložné fonty",
-    "LabelFallbackFontPathHelp": "Špecifikuje cestu obsahujúcu záložné fonty pre vykreslenie ASS/SSA tituliek. Maximálna povolená veľkosť fontu je 20 MB. Doporučujeme používať malé a webovo-priateľské formy fontov ako napr. woff2.",
+    "LabelFallbackFontPathHelp": "Tieto písma používajú niektorí klienti na vykresľovanie titulkov. Viac informácií nájdete v dokumentácii.",
     "LabelFallbackFontPath": "Cesta k priečinku záložných fontov",
     "HeaderSelectFallbackFontPathHelp": "Vyberte alebo zadajte cestu k priečinku záložných fontov pre vykreslenie ASS/SSA titulkov.",
     "HeaderSelectFallbackFontPath": "Vybrať cestu k priečinku záložných fontov",
@@ -1776,5 +1776,9 @@
     "LabelSegmentKeepSeconds": "Doba ponechania segmentov",
     "LabelThrottleDelaySecondsHelp": "Čas v sekundách, po ktorom bude prekódovanie obmedzené. Musí byť dostatočne veľký, aby mal klient v rezerve dostatočné množstvo prehrávaného súboru. Funguje len vtedy, ak je povolená funkcia Obmedziť prekódovanie.",
     "AllowSegmentDeletionHelp": "Odstránenie starých segmentov po ich odoslaní klientovi. Tým sa zabráni tomu, aby sa celý prekódovaný súbor musel ukladať na disk. Funguje len so zapnutou funkciou Obmedziť prekódovanie. Ak sa vyskytnú problémy s prehrávaním, vypnite túto funkciu.",
-    "LabelSegmentKeepSecondsHelp": "Čas v sekundách, počas ktorého budú segmenty uložené. Musí byť dlhší ako je čas určený v \"Obmedziť po\". Funguje len vtedy, ak je povolená funkcia Zmazania segmentov."
+    "LabelSegmentKeepSecondsHelp": "Čas v sekundách, počas ktorého budú segmenty uložené. Musí byť dlhší ako je čas určený v \"Obmedziť po\". Funguje len vtedy, ak je povolená funkcia Zmazania segmentov.",
+    "SelectAudioNormalizationHelp": "Zosilnenie stopy - upravuje hlasitosť jednotlivých stôp tak, aby sa prehrávali s rovnakou hlasitosťou. Zosilnenie pre album - upravuje hlasitosť všetkých skladieb iba v albume, pričom zachováva dynamický rozsah albumu.",
+    "LabelAlbumGain": "Zosilnenie pre album",
+    "LabelSelectAudioNormalization": "Normalizácia hlasitosti",
+    "LabelTrackGain": "Zosilnenie stopy"
 }

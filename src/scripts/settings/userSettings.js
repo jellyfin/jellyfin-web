@@ -158,15 +158,15 @@ export class UserSettings {
 
     /**
      * Get or set 'Enable Audio Normalization' state.
-     * @param {boolean|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
-     * @return {boolean} 'Enable Audio Normalization' state.
+     * @param {string|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
+     * @return {string} 'Enable Audio Normalization' state.
      */
-    enableAudioNormalization(val) {
+    selectAudioNormalization(val) {
         if (val !== undefined) {
-            return this.set('enableAudioNormalization', val.toString(), false);
+            return this.set('selectAudioNormalization', val, false);
         }
 
-        return toBoolean(this.get('enableAudioNormalization', false), true);
+        return this.get('selectAudioNormalization', false) || 'TrackGain';
     }
 
     /**
@@ -622,6 +622,21 @@ export class UserSettings {
     getFilter(key) {
         return this.get(key, true);
     }
+
+    /**
+     * Gets the current sort values (Legacy - Non-JSON)
+     * (old views such as list.js [Photos] will
+     * use this one)
+     * @param {string} key - Filter key.
+     * @param {string} defaultSortBy - Default SortBy value.
+     * @return {Object} sortOptions object
+     */
+    getSortValuesLegacy(key, defaultSortBy) {
+        return {
+            sortBy: this.getFilter(key + '-sortby') || defaultSortBy,
+            sortOrder: this.getFilter(key + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
+        };
+    }
 }
 
 export const currentSettings = new UserSettings;
@@ -636,7 +651,7 @@ export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
-export const enableAudioNormalization = currentSettings.enableAudioNormalization.bind(currentSettings);
+export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
@@ -672,3 +687,4 @@ export const customCss = currentSettings.customCss.bind(currentSettings);
 export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);
 export const getSavedView = currentSettings.getSavedView.bind(currentSettings);
 export const saveViewSetting = currentSettings.saveViewSetting.bind(currentSettings);
+export const getSortValuesLegacy = currentSettings.getSortValuesLegacy.bind(currentSettings);

@@ -1,7 +1,10 @@
+import type { DeviceInfo } from '@jellyfin/sdk/lib/generated-client/models/device-info';
+import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
+
 const BASE_DEVICE_IMAGE_URL = 'assets/img/devices/';
 
 // audit note: this module is expected to return safe text for use in HTML
-function getWebDeviceIcon(browser) {
+function getWebDeviceIcon(browser: string | null | undefined) {
     switch (browser) {
         case 'Opera':
         case 'Opera TV':
@@ -31,8 +34,8 @@ function getWebDeviceIcon(browser) {
     }
 }
 
-export function getDeviceIcon(device) {
-    switch (device.AppName || device.Client) {
+export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
+    switch ((info as DeviceInfo).AppName || (info as SessionInfo).Client) {
         case 'Samsung Smart TV':
             return BASE_DEVICE_IMAGE_URL + 'samsung.svg';
         case 'Xbox One':
@@ -58,13 +61,20 @@ export function getDeviceIcon(device) {
         case 'Finamp':
             return BASE_DEVICE_IMAGE_URL + 'finamp.svg';
         case 'Jellyfin Web':
-            return getWebDeviceIcon(device.Name || device.DeviceName);
+            return getWebDeviceIcon((info as DeviceInfo).Name || (info as SessionInfo).DeviceName);
         default:
+            if (info.Capabilities?.IconUrl) {
+                try {
+                    return new URL(info.Capabilities.IconUrl).toString();
+                } catch (err) {
+                    console.error('[getDeviceIcon] device capabilities has invalid IconUrl', info, err);
+                }
+            }
             return BASE_DEVICE_IMAGE_URL + 'other.svg';
     }
 }
 
-export function getLibraryIcon(library) {
+export function getLibraryIcon(library: string | null | undefined) {
     switch (library) {
         case 'movies':
             return 'video_library';
@@ -94,6 +104,6 @@ export function getLibraryIcon(library) {
 }
 
 export default {
-    getDeviceIcon: getDeviceIcon,
-    getLibraryIcon: getLibraryIcon
+    getDeviceIcon,
+    getLibraryIcon
 };

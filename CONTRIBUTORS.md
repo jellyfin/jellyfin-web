@@ -66,10 +66,11 @@
  - [Fishbigger](https://github.com/fishbigger)
  - [sleepycatcoding](https://github.com/sleepycatcoding)
  - [TheMelmacian](https://github.com/TheMelmacian)
+ - [v0idMrK](https://github.com/v0idMrK)
  - [tehciolo](https://github.com/tehciolo)
  - [scampower3](https://github.com/scampower3)
+ - [LittleBigOwI] (https://github.com/LittleBigOwI/)
  - [Nate G](https://github.com/GGProGaming)
-
 
 # Emby Contributors
 

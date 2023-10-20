@@ -981,7 +981,7 @@
     "PreferEmbeddedTitlesOverFileNames": "Dosya adları yerine gömülü başlıkları tercih et",
     "LabelSpecialSeasonsDisplayName": "Görünen özel sezon adı",
     "SpecialFeatures": "Özel Özellikler",
-    "LabelFallbackFontPathHelp": "ASS/SSA altyazılarını oluşturmak için yedek yazı tiplerini içeren bir yol belirtin. İzin verilen maksimum toplam yazı tipi boyutu 20 MB'dir. Woff2 gibi hafif ve web dostu yazı tipi formatları önerilir.",
+    "LabelFallbackFontPathHelp": "Bu yazı tipleri bazı istemciler tarafından altyazıları oluşturmak için kullanılır. Daha fazla bilgi için lütfen belgelere bakın.",
     "HeaderSelectFallbackFontPathHelp": "ASS/SSA altyazılarının işlenmesinde kullanılacak yedek yazı tipi klasörünün yoluna göz atın veya girin.",
     "TheseSettingsAffectSubtitlesOnThisDevice": "Bu ayarlar, bu cihazdaki altyazıları etkiler",
     "Subtitles": "Altyazılar",
@@ -1768,5 +1768,9 @@
     "AiTranslated": "AI Çevirisi",
     "MachineTranslated": "Makine Çevirisi",
     "ForeignPartsOnly": "Gömülü/Yalnız yabancı parçalar",
-    "HearingImpairedShort": "HI/SDH"
+    "HearingImpairedShort": "HI/SDH",
+    "SelectAudioNormalizationHelp": "Parça ses kazancı - her parçanın ses seviyesini, aynı ses yüksekliğinde çalınacak şekilde ayarlar. Albüm ses kazancı - albümün dinamik aralığını koruyarak yalnızca bir albümdeki tüm parçaların ses düzeyini ayarlar.",
+    "LabelSelectAudioNormalization": "Ses Normalleştirme",
+    "LabelAlbumGain": "Albüm Ses Kazancı",
+    "LabelTrackGain": "Parça Ses Kazancı"
 }

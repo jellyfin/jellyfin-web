@@ -4,7 +4,7 @@ import escapeHtml from 'escape-html';
 import imageLoader from 'components/images/imageLoader';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'scripts/globalize';
-import imageHelper from 'scripts/imagehelper';
+import imageHelper from 'utils/image';
 
 function getLibraryButtonsHtml(items: BaseItemDto[]) {
     let html = '';
