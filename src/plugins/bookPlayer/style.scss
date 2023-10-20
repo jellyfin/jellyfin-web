@@ -58,9 +58,14 @@
 
         list-style-type: none;
         font-size: 1.2rem;
+        font-weight: bold;
 
         ul {
             padding-left: 1.5rem;
+
+            li {
+                font-weight: normal;
+            }
         }
 
         a:link {
