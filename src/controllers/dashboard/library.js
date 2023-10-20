@@ -5,7 +5,7 @@ import loading from '../../components/loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
-import imageHelper from '../../scripts/imagehelper';
+import imageHelper from '../../utils/image';
 import '../../components/cardbuilder/card.scss';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 import Dashboard, { pageClassOn, pageIdOn } from '../../utils/dashboard';

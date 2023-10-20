@@ -11,8 +11,8 @@ import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
-import imageHelper from 'scripts/imagehelper';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import imageHelper from 'utils/image';
 import { randomInt } from 'utils/number';
 
 import focusManager from '../focusManager';
