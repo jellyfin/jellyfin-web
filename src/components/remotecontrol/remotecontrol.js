@@ -455,6 +455,11 @@ export default function () {
         btnPlayPauseIcon.classList.remove('play_circle_filled', 'pause_circle_filled');
         btnPlayPauseIcon.classList.add(isPaused ? 'play_circle_filled' : 'pause_circle_filled');
 
+        const playlistIndicator = context.querySelector('.playlistIndexIndicatorImage');
+        if (playlistIndicator) {
+            playlistIndicator.classList.toggle('playlistIndexIndicatorPausedImage', isPaused);
+        }
+
         buttonVisible(btnPlayPause, isActive);
     }
 
@@ -599,7 +604,6 @@ export default function () {
 
     function onPlayPauseStateChanged() {
         updatePlayPauseState(this.paused(), true);
-        onPlaylistUpdate();
     }
 
     function onStateChanged(event, state) {
