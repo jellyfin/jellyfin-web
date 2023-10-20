@@ -110,7 +110,9 @@ const config = {
         })
     ],
     output: {
-        filename: '[name].bundle.js',
+        filename: pathData => (
+            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
+        ),
         chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
