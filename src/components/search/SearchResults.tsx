@@ -335,7 +335,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                     />
 
                     {allEmpty && !isLoading && (
-                        <div className='sorry-text'>{globalize.translate('SearchResultsEmpty')}&quot;{query}&quot;</div>
+                        <div className='sorry-text'>{globalize.translate('SearchResultsEmpty', query)</div>
                     )}
                 </>
             )}
