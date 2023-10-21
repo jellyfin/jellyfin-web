@@ -388,25 +388,17 @@ function getArtistLinksHtml(artists, serverId, context) {
     const html = [];
     const numberOfArtists = artists.length;
 
-    if (numberOfArtists < 10) {
-        for (const artist of artists) {
-            const href = appRouter.getRouteUrl(artist, {
-                context: context,
-                itemType: 'MusicArtist',
-                serverId: serverId
-            });
-            html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
-        }
-    } else {
-        for (let i = 0; i < 10; i++) {
-            const artist = artists[i];
-            const href = appRouter.getRouteUrl(artist, {
-                context: context,
-                itemType: 'MusicArtist',
-                serverId: serverId
-            });
-            html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
-        }
+    for (let i = 0; i < Math.min(numberOfArtists, 10); i++) {
+        const artist = artists[i];
+        const href = appRouter.getRouteUrl(artist, {
+            context,
+            itemType: 'MusicArtist',
+            serverId
+        });
+        html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
+    }
+
+    if (numberOfArtists > 10) {
         const remainingNumberOfArtists = numberOfArtists - 10;
         html.push(`${globalize.translate('AndOtherArtists', remainingNumberOfArtists)}`);
     }
