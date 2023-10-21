@@ -1702,5 +1702,9 @@
     "Raised": "Piepacelts",
     "MediaInfoVideoRangeType": "Video diapazona veids",
     "Thumb": "Sīktēli",
-    "ThumbCard": "Sīktēlu kartītes"
+    "ThumbCard": "Sīktēlu kartītes",
+    "SaveSubtitlesIntoMediaFolders": "Saglabāt subtitrus multivides mapēs",
+    "TabAdvanced": "Papildu",
+    "MessageChromecastConnectionError": "Jūsu Google Cast uztvērējs nespēj sazināties ar Jellyfin serveri. Lūdzu, pārbaudiet savienojumu un mēģiniet vēlreiz.",
+    "ScanForNewAndUpdatedFiles": "Skenēt jaunos un atjauninātos failus"
 }
