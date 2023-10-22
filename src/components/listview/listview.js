@@ -177,7 +177,7 @@ export function getListViewHtml(options) {
     const isLargeStyle = options.imageSize === 'large';
     const enableOverview = options.enableOverview;
 
-    const clickEntireItem = layoutManager.tv ? true : false;
+    const clickEntireItem = layoutManager.tv;
     const outerTagName = clickEntireItem ? 'button' : 'div';
     const enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
 

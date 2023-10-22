@@ -9,6 +9,7 @@ import itemHelper from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
+import * as userSettings from '../scripts/settings/userSettings';
 
 export function getCommands(options) {
     const item = options.item;
@@ -623,9 +624,16 @@ function play(item, resume, queue, queueNext) {
             serverId: item.ServerId
         });
     } else {
+        const sortParentId = 'items-' + (item.IsFolder ? item.Id : item.ParentId) + '-Folder';
+        const sortValues = userSettings.getSortValuesLegacy(sortParentId);
+
         playbackManager[method]({
             items: [item],
-            startPositionTicks: startPosition
+            startPositionTicks: startPosition,
+            queryOptions: {
+                SortBy: sortValues.sortBy,
+                SortOrder: sortValues.sortOrder
+            }
         });
     }
 }

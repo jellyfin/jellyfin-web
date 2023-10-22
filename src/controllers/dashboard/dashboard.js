@@ -12,7 +12,7 @@ import playMethodHelper from '../../components/playback/playmethodhelper';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import ActivityLog from '../../components/activitylog';
-import imageHelper from '../../scripts/imagehelper';
+import imageHelper from '../../utils/image';
 import indicators from '../../components/indicators/indicators';
 import '../../components/listview/listview.scss';
 import '../../elements/emby-button/emby-button';

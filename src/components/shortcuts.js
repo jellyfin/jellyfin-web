@@ -11,6 +11,7 @@ import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
+import * as userSettings from '../scripts/settings/userSettings';
 
 function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;
@@ -177,6 +178,10 @@ function executeAction(card, target, action) {
 
     const item = getItemInfoFromCard(card);
 
+    const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
+
+    const sortParentId = 'items-' + (item.IsFolder ? item.Id : itemsContainer?.getAttribute('data-parentid')) + '-Folder';
+
     const serverId = item.ServerId;
     const type = item.Type;
 
@@ -200,12 +205,17 @@ function executeAction(card, target, action) {
         });
     } else if (action === 'play' || action === 'resume') {
         const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
+        const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
 
         if (playbackManager.canPlay(item)) {
             playbackManager.play({
                 ids: [playableItemId],
                 startPositionTicks: startPositionTicks,
-                serverId: serverId
+                serverId: serverId,
+                queryOptions: {
+                    SortBy: sortValues.sortBy,
+                    SortOrder: sortValues.sortOrder
+                }
             });
         } else {
             console.warn('Unable to play item', item);

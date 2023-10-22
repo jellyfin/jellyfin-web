@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { FC, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import appIcon from 'assets/img/icon-transparent.png';
 import { appRouter } from 'components/router/appRouter';
@@ -38,8 +38,12 @@ const AppToolbar: FC<AppToolbarProps> = ({
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
+    const currentLocation = useLocation();
 
     const isBackButtonAvailable = appRouter.canGoBack();
+
+    // Handles a specific case to hide the user menu on the select server page while authenticated
+    const isUserMenuAvailable = currentLocation.pathname !== '/selectserver.html';
 
     return (
         <Toolbar
@@ -111,7 +115,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
 
             {children}
 
-            {isUserLoggedIn && (
+            {isUserLoggedIn && isUserMenuAvailable && (
                 <>
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
                         {buttons}

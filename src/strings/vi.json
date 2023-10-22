@@ -1429,7 +1429,7 @@
     "DeleteAll": "Xóa Hết",
     "EnableFallbackFontHelp": "Bật phông chữ thay thế tùy chỉnh. Điều này có thể tránh sự cố hiển thị phụ đề không chính xác.",
     "EnableFallbackFont": "Bật phông chữ dự phòng",
-    "LabelFallbackFontPathHelp": "Chỉ định đường dẫn chứa phông chữ dự phòng để hiển thị phụ đề ASS / SSA. Tổng kích thước phông chữ tối đa được phép là 20 MB. Các định dạng phông chữ nhẹ và thân thiện với web như woff2 được khuyến khích.",
+    "LabelFallbackFontPathHelp": "Những phông chữ này được một số máy khách sử dụng để hiển thị phụ đề. Vui lòng tham khảo tài liệu để biết thêm thông tin.",
     "LabelFallbackFontPath": "Đường dẫn thư mục phông chữ dự phòng",
     "HeaderSelectFallbackFontPathHelp": "Duyệt hoặc nhập đường dẫn của thư mục phông chữ dự phòng dùng để hiển thị phụ đề ASS/SSA.",
     "HeaderSelectFallbackFontPath": "Chọn Đường dẫn Thư mục Phông chữ Dự phòng",
@@ -1757,5 +1757,6 @@
     "HeaderGuestCast": "Ngôi Sao Khách Mời",
     "GoHome": "Về Trang Chủ",
     "AiTranslated": "Được AI Dịch",
-    "MachineTranslated": "Được Máy Dịch"
+    "MachineTranslated": "Được Máy Dịch",
+    "LabelSelectAudioNormalization": "Chuẩn Hóa Âm Thanh"
 }

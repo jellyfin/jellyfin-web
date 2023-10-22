@@ -53,8 +53,12 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 return;
             case ConnectionState.ServerSelection:
                 // Bounce to select server page
-                console.debug('[ConnectionRequired] redirecting to select server page');
-                navigate(BounceRoutes.SelectServer);
+                if (location.pathname === BounceRoutes.SelectServer) {
+                    setIsLoading(false);
+                } else {
+                    console.debug('[ConnectionRequired] redirecting to select server page');
+                    navigate(BounceRoutes.SelectServer);
+                }
                 return;
             case ConnectionState.ServerUpdateNeeded:
                 // Show update needed message and bounce to select server page
