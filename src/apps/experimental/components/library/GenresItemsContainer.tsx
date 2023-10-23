@@ -18,33 +18,32 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     collectionType,
     itemType
 }) => {
-    const { isLoading, data: genresResult } = useGetGenres(
-        itemType,
-        parentId
-    );
+    const { isLoading, data: genresResult } = useGetGenres(itemType, parentId);
 
     if (isLoading) {
         return <Loading />;
     }
 
+    if (!genresResult?.Items?.length) {
+        return (
+            <div className='noItemsMessage centerMessage'>
+                <h1>{globalize.translate('MessageNothingHere')}</h1>
+                <p>{globalize.translate('MessageNoGenresAvailable')}</p>
+            </div>
+        );
+    }
+
     return (
         <>
-            {!genresResult?.Items?.length ? (
-                <div className='noItemsMessage centerMessage'>
-                    <h1>{globalize.translate('MessageNothingHere')}</h1>
-                    <p>{globalize.translate('MessageNoGenresAvailable')}</p>
-                </div>
-            ) : (
-                genresResult?.Items?.map((genre) => (
-                    <GenresSectionContainer
-                        key={genre.Id}
-                        collectionType={collectionType}
-                        parentId={parentId}
-                        itemType={itemType}
-                        genre={genre}
-                    />
-                ))
-            )}
+            {genresResult.Items.map((genre) => (
+                <GenresSectionContainer
+                    key={genre.Id}
+                    collectionType={collectionType}
+                    parentId={parentId}
+                    itemType={itemType}
+                    genre={genre}
+                />
+            ))}
         </>
     );
 };
