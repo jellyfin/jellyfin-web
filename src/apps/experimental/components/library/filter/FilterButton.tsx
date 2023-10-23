@@ -209,107 +209,99 @@ const FilterButton: FC<FilterButtonProps> = ({
                     </AccordionDetails>
                 </Accordion>
                 {isFiltersSeriesStatusEnabled() && (
-                    <>
-                        <Accordion
-                            expanded={expanded === 'filtersSeriesStatus'}
-                            onChange={handleChange('filtersSeriesStatus')}
+                    <Accordion
+                        expanded={expanded === 'filtersSeriesStatus'}
+                        onChange={handleChange('filtersSeriesStatus')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersSeriesStatus-content'
+                            id='filtersSeriesStatus-header'
                         >
-                            <AccordionSummary
-                                aria-controls='filtersSeriesStatus-content'
-                                id='filtersSeriesStatus-header'
-                            >
-                                <Typography>
-                                    {globalize.translate('HeaderSeriesStatus')}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <FiltersSeriesStatus
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={
-                                        setLibraryViewSettings
-                                    }
-                                />
-                            </AccordionDetails>
-                        </Accordion>
-                    </>
+                            <Typography>
+                                {globalize.translate('HeaderSeriesStatus')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersSeriesStatus
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={
+                                    setLibraryViewSettings
+                                }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
                 )}
                 {isFiltersEpisodesStatusEnabled() && (
-                    <>
-                        <Accordion
-                            expanded={expanded === 'filtersEpisodesStatus'}
-                            onChange={handleChange('filtersEpisodesStatus')}
+                    <Accordion
+                        expanded={expanded === 'filtersEpisodesStatus'}
+                        onChange={handleChange('filtersEpisodesStatus')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersEpisodesStatus-content'
+                            id='filtersEpisodesStatus-header'
                         >
-                            <AccordionSummary
-                                aria-controls='filtersEpisodesStatus-content'
-                                id='filtersEpisodesStatus-header'
-                            >
-                                <Typography>
-                                    {globalize.translate(
-                                        'HeaderEpisodesStatus'
-                                    )}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <FiltersEpisodesStatus
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={
-                                        setLibraryViewSettings
-                                    }
-                                />
-                            </AccordionDetails>
-                        </Accordion>
-                    </>
+                            <Typography>
+                                {globalize.translate(
+                                    'HeaderEpisodesStatus'
+                                )}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersEpisodesStatus
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={
+                                    setLibraryViewSettings
+                                }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
                 )}
                 {isFiltersFeaturesEnabled() && (
-                    <>
-                        <Accordion
-                            expanded={expanded === 'filtersFeatures'}
-                            onChange={handleChange('filtersFeatures')}
+                    <Accordion
+                        expanded={expanded === 'filtersFeatures'}
+                        onChange={handleChange('filtersFeatures')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersFeatures-content'
+                            id='filtersFeatures-header'
                         >
-                            <AccordionSummary
-                                aria-controls='filtersFeatures-content'
-                                id='filtersFeatures-header'
-                            >
-                                <Typography>
-                                    {globalize.translate('Features')}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <FiltersFeatures
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={
-                                        setLibraryViewSettings
-                                    }
-                                />
-                            </AccordionDetails>
-                        </Accordion>
-                    </>
+                            <Typography>
+                                {globalize.translate('Features')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersFeatures
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={
+                                    setLibraryViewSettings
+                                }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
                 )}
 
                 {isFiltersVideoTypesEnabled() && (
-                    <>
-                        <Accordion
-                            expanded={expanded === 'filtersVideoTypes'}
-                            onChange={handleChange('filtersVideoTypes')}
+                    <Accordion
+                        expanded={expanded === 'filtersVideoTypes'}
+                        onChange={handleChange('filtersVideoTypes')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersVideoTypes-content'
+                            id='filtersVideoTypes-header'
                         >
-                            <AccordionSummary
-                                aria-controls='filtersVideoTypes-content'
-                                id='filtersVideoTypes-header'
-                            >
-                                <Typography>
-                                    {globalize.translate('HeaderVideoType')}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <FiltersVideoTypes
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={
-                                        setLibraryViewSettings
-                                    }
-                                />
-                            </AccordionDetails>
-                        </Accordion>
-                    </>
+                            <Typography>
+                                {globalize.translate('HeaderVideoType')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersVideoTypes
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={
+                                    setLibraryViewSettings
+                                }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
                 )}
 
                 {isFiltersLegacyEnabled() && (
@@ -431,30 +423,28 @@ const FilterButton: FC<FilterButtonProps> = ({
                     </>
                 )}
                 {isFiltersStudiosEnabled() && (
-                    <>
-                        <Accordion
-                            expanded={expanded === 'filtersStudios'}
-                            onChange={handleChange('filtersStudios')}
+                    <Accordion
+                        expanded={expanded === 'filtersStudios'}
+                        onChange={handleChange('filtersStudios')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersStudios-content'
+                            id='filtersStudios-header'
                         >
-                            <AccordionSummary
-                                aria-controls='filtersStudios-content'
-                                id='filtersStudios-header'
-                            >
-                                <Typography>
-                                    {globalize.translate('Studios')}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <FiltersStudios
-                                    filters={studios}
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={
-                                        setLibraryViewSettings
-                                    }
-                                />
-                            </AccordionDetails>
-                        </Accordion>
-                    </>
+                            <Typography>
+                                {globalize.translate('Studios')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersStudios
+                                filters={studios}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={
+                                    setLibraryViewSettings
+                                }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
                 )}
             </Popover>
         </Box>
