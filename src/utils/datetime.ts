@@ -1,5 +1,7 @@
 import globalize from '../scripts/globalize';
 
+type DateOrNull = Date | null | undefined;
+
 export const ticksPerHour = 36000000000;
 export const ticksPerMinute = 600000000;
 export const ticksPerSecond = 10000000;
@@ -19,7 +21,7 @@ export function parseISO8601Date(s: string, toLocal = true): Date {
     // tzstring plusminus hours minutes
     const re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
 
-    const m = s.match(re);
+    const m = re.exec(s);
 
     // "2010-12-07T11:00:00.000-09:00" parses to:
     //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
@@ -135,7 +137,7 @@ export function getDisplayRunningTime(ticks: number): string {
 const toLocaleTimeStringSupportsLocales: boolean = function () {
     try {
         // eslint-disable-next-line sonarjs/no-ignored-return
-        new Date().toLocaleTimeString('i');
+        new Date().toLocaleTimeString('i'); //NOSONAR
     } catch (e: unknown) {
         return e instanceof RangeError;
     }
@@ -177,7 +179,7 @@ export function toLocaleString(value: Date | number | null | undefined, options?
         throw new Error('value cannot be null');
     }
 
-    options = options || {};
+    options = options ?? {};
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
@@ -197,12 +199,12 @@ export function toLocaleString(value: Date | number | null | undefined, options?
  * @returns The date part of the date as a string in the current locale.
  * @throws {Error} If the date parameter is null.
  */
-export function toLocaleDateString(date: Date | null | undefined, options?: Intl.DateTimeFormatOptions): string {
+export function toLocaleDateString(date: DateOrNull, options?: Intl.DateTimeFormatOptions): string {
     if (!date) {
         throw new Error('date cannot be null');
     }
 
-    options = options || {};
+    options = options ?? {};
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
@@ -236,12 +238,12 @@ export function toLocaleDateString(date: Date | null | undefined, options?: Intl
  * @returns The time part of the date as a string in the current locale.
  * @throws {Error} If the value parameter is null.
  */
-export function toLocaleTimeString(date: Date | null | undefined, options?: Intl.DateTimeFormatOptions): string {
+export function toLocaleTimeString(date: DateOrNull, options?: Intl.DateTimeFormatOptions): string {
     if (!date) {
         throw new Error('date cannot be null');
     }
 
-    options = options || {};
+    options = options ?? {};
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
@@ -336,7 +338,7 @@ function getDisplayTimeInternal(date: Date): string {
  * @returns True if the date is at the given offset relative to today, false otherwise.
  * @throws {Error} If the date parameter is null.
  */
-export function isRelativeDay(date: Date | null | undefined, offsetInDays: number): boolean {
+export function isRelativeDay(date: DateOrNull, offsetInDays: number): boolean {
     if (!date) {
         throw new Error('date cannot be null');
     }
