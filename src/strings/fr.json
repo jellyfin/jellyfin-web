@@ -1434,7 +1434,7 @@
     "DeleteAll": "Tout supprimer",
     "EnableFallbackFont": "Activer les polices de secours",
     "EnableFallbackFontHelp": "Activer des polices alternatives personnalisées. Ceci peut éviter les problèmes de rendu incorrect des sous-titres.",
-    "LabelFallbackFontPathHelp": "Spécifier un chemin contenant les polices de secours pour le rendu des sous-titres ASS/SSA. La taille de police maximale autorisée est de 20 Mo. Les formats de police légers et adaptés au web tels que woff2 sont recommandés.",
+    "LabelFallbackFontPathHelp": "Ces polices sont utilisées par certains clients pour afficher les sous-titres. Veuillez vous référer à la documentation pour plus d'informations.",
     "LabelFallbackFontPath": "Chemin du dossier de secours des polices",
     "HeaderSelectFallbackFontPathHelp": "Parcourir ou saisir le chemin du dossier de polices de secours à utiliser pour le rendu des sous-titres ASS/SSA.",
     "HeaderSelectFallbackFontPath": "Choisir le dossier des polices de secours",
