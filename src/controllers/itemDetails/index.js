@@ -399,8 +399,7 @@ function getArtistLinksHtml(artists, serverId, context) {
     }
 
     if (numberOfArtists > 10) {
-        const remainingNumberOfArtists = numberOfArtists - 10;
-        html.push(`${globalize.translate('AndOtherArtists', remainingNumberOfArtists)}`);
+        html.push(globalize.translate('AndOtherArtists', numberOfArtists - 10));
     }
 
     return html.join(' / ');
