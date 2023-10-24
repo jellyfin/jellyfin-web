@@ -1779,5 +1779,6 @@
     "SelectAudioNormalizationHelp": "Nummerversterking regelt het volume van elk individueel nummer zodat alle nummers even luid afspelen. Albumversterking regelt het volume van alle nummers op een album, zodat het dynamische bereik van het album behouden blijft.",
     "LabelAlbumGain": "Albumversterking",
     "LabelSelectAudioNormalization": "Geluidsnormalisatie",
-    "LabelTrackGain": "Nummerversterking"
+    "LabelTrackGain": "Nummerversterking",
+    "SearchResultsEmpty": "Sorry! Geen resultaten gevonden voor \"{0}\""
 }
