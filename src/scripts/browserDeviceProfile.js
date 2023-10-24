@@ -918,20 +918,20 @@ export default function (options) {
     let vp9VideoRangeTypes = 'SDR';
     let av1VideoRangeTypes = 'SDR';
 
+    if (supportsDolbyVision(options)) {
+        hevcVideoRangeTypes += '|DOVI';
+    }
+
     if (supportsHdr10(options)) {
-        hevcVideoRangeTypes += '|HDR10';
+        hevcVideoRangeTypes += '|HDR10|DOVI_with_HDR10_Fallback';
         vp9VideoRangeTypes += '|HDR10';
         av1VideoRangeTypes += '|HDR10';
     }
 
     if (supportsHlg(options)) {
-        hevcVideoRangeTypes += '|HLG';
+        hevcVideoRangeTypes += '|HLG|DOVI_with_HLG_Fallback';
         vp9VideoRangeTypes += '|HLG';
         av1VideoRangeTypes += '|HLG';
-    }
-
-    if (supportsDolbyVision(options)) {
-        hevcVideoRangeTypes += '|DOVI';
     }
 
     const h264CodecProfileConditions = [
@@ -1124,6 +1124,23 @@ export default function (options) {
         Codec: 'h264',
         Conditions: h264CodecProfileConditions
     });
+
+    if (browser.web0s) {
+        if (supportsDolbyVision(options)) {
+            // Disallow direct playing of DOVI media in containers not mp4.
+            // This paired with the "Prefer fMP4-HLS Container" client playback setting enables DOVI playback on webOS.
+            profile.CodecProfiles.push({
+                Type: 'Video',
+                Container: "-mp4",
+                Codec: 'hevc',
+                Conditions: hevcCodecProfileConditions.map(condition =>
+                    condition.Property === "VideoRangeType"
+                        ? { ...condition, Value: condition.Value.replace(/\|DOVI[^|]*/g, "") }
+                        : condition
+                )
+            });
+        }
+    }
 
     profile.CodecProfiles.push({
         Type: 'Video',
