@@ -5,12 +5,12 @@
  */
 
 /**
-     * Returns parent of element with specified attribute value.
-     * @param {HTMLElement} elem - Element whose parent need to find.
-     * @param {string} name - Attribute name.
-     * @param {mixed} [value] - Attribute value.
-     * @returns {HTMLElement} Parent with specified attribute value.
-     */
+ * Returns parent of element with specified attribute value.
+ * @param {HTMLElement} elem - Element whose parent need to find.
+ * @param {string} name - Attribute name.
+ * @param {mixed} [value] - Attribute value.
+ * @returns {HTMLElement} Parent with specified attribute value.
+ */
 export function parentWithAttribute(elem, name, value) {
     while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
         elem = elem.parentNode;
@@ -24,11 +24,11 @@ export function parentWithAttribute(elem, name, value) {
 }
 
 /**
-     * Returns parent of element with one of specified tag names.
-     * @param {HTMLElement} elem - Element whose parent need to find.
-     * @param {(string|Array)} tagNames - Tag name or array of tag names.
-     * @returns {HTMLElement} Parent with one of specified tag names.
-     */
+ * Returns parent of element with one of specified tag names.
+ * @param {HTMLElement} elem - Element whose parent need to find.
+ * @param {(string|Array)} tagNames - Tag name or array of tag names.
+ * @returns {HTMLElement} Parent with one of specified tag names.
+ */
 export function parentWithTag(elem, tagNames) {
     // accept both string and array passed in
     if (!Array.isArray(tagNames)) {
@@ -47,11 +47,11 @@ export function parentWithTag(elem, tagNames) {
 }
 
 /**
-     * Returns _true_ if class list contains one of specified names.
-     * @param {DOMTokenList} classList - Class list.
-     * @param {Array} classNames - Array of class names.
-     * @returns {boolean} _true_ if class list contains one of specified names.
-     */
+ * Returns _true_ if class list contains one of specified names.
+ * @param {DOMTokenList} classList - Class list.
+ * @param {Array} classNames - Array of class names.
+ * @returns {boolean} _true_ if class list contains one of specified names.
+ */
 function containsAnyClass(classList, classNames) {
     for (let i = 0, length = classNames.length; i < length; i++) {
         if (classList.contains(classNames[i])) {
@@ -62,11 +62,11 @@ function containsAnyClass(classList, classNames) {
 }
 
 /**
-     * Returns parent of element with one of specified class names.
-     * @param {HTMLElement} elem - Element whose parent need to find.
-     * @param {(string|Array)} classNames - Class name or array of class names.
-     * @returns {HTMLElement|null} Parent with one of specified class names.
-     */
+ * Returns parent of element with one of specified class names.
+ * @param {HTMLElement} elem - Element whose parent need to find.
+ * @param {(string|Array)} classNames - Class name or array of class names.
+ * @returns {HTMLElement|null} Parent with one of specified class names.
+ */
 export function parentWithClass(elem, classNames) {
     // accept both string and array passed in
     if (!Array.isArray(classNames)) {
@@ -84,6 +84,37 @@ export function parentWithClass(elem, classNames) {
     return elem;
 }
 
+/**
+ * Returns child of element with one of specified class names.
+ * @param {HTMLElement} elem - Element whose child need to find.
+ * @param {(string|Array)} classNames - Class name or array of class names.
+ * @returns {HTMLElement|null} Parent with one of specified class names.
+ */
+export function childWithClass(elem, classNames) {
+    if (!Array.isArray(classNames)) {
+        classNames = [classNames];
+    }
+
+    function findChildWithClass(element) {
+        if (element && element.children.length > 0) {
+            for (const childElement of element.children) {
+                if (childElement.classList && containsAnyClass(childElement.classList, classNames)) {
+                    return childElement;
+                }
+
+                const foundInChildren = findChildWithClass(childElement);
+                if (foundInChildren) {
+                    return foundInChildren;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    return findChildWithClass(elem);
+}
+
 let supportsCaptureOption = false;
 try {
     const opts = Object.defineProperty({}, 'capture', {
@@ -98,12 +129,12 @@ try {
 }
 
 /**
-     * Adds event listener to specified target.
-     * @param {EventTarget} target - Event target.
-     * @param {string} type - Event type.
-     * @param {function} handler - Event handler.
-     * @param {Object} [options] - Listener options.
-     */
+ * Adds event listener to specified target.
+ * @param {EventTarget} target - Event target.
+ * @param {string} type - Event type.
+ * @param {function} handler - Event handler.
+ * @param {Object} [options] - Listener options.
+ */
 export function addEventListener(target, type, handler, options) {
     let optionsOrCapture = options || {};
     if (!supportsCaptureOption) {
@@ -113,12 +144,12 @@ export function addEventListener(target, type, handler, options) {
 }
 
 /**
-     * Removes event listener from specified target.
-     * @param {EventTarget} target - Event target.
-     * @param {string} type - Event type.
-     * @param {function} handler - Event handler.
-     * @param {Object} [options] - Listener options.
-     */
+ * Removes event listener from specified target.
+ * @param {EventTarget} target - Event target.
+ * @param {string} type - Event type.
+ * @param {function} handler - Event handler.
+ * @param {Object} [options] - Listener options.
+ */
 export function removeEventListener(target, type, handler, options) {
     let optionsOrCapture = options || {};
     if (!supportsCaptureOption) {
@@ -128,18 +159,18 @@ export function removeEventListener(target, type, handler, options) {
 }
 
 /**
-     * Cached window size.
-     */
+ * Cached window size.
+ */
 let windowSize;
 
 /**
-     * Flag of event listener bound.
-     */
+ * Flag of event listener bound.
+ */
 let windowSizeEventsBound;
 
 /**
-     * Resets cached window size.
-     */
+ * Resets cached window size.
+ */
 function clearWindowSize() {
     windowSize = null;
 }
@@ -151,9 +182,9 @@ function clearWindowSize() {
     */
 
 /**
-     * Returns window size.
-     * @returns {windowSize} Window size.
-     */
+ * Returns window size.
+ * @returns {windowSize} Window size.
+ */
 export function getWindowSize() {
     if (!windowSize) {
         windowSize = {
@@ -172,14 +203,14 @@ export function getWindowSize() {
 }
 
 /**
-     * Standard screen widths.
-     */
+ * Standard screen widths.
+ */
 const standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
 
 /**
-     * Returns screen width.
-     * @returns {number} Screen width.
-     */
+ * Returns screen width.
+ * @returns {number} Screen width.
+ */
 export function getScreenWidth() {
     let width = window.innerWidth;
     const height = window.innerHeight;
@@ -194,14 +225,14 @@ export function getScreenWidth() {
 }
 
 /**
-     * Name of animation end event.
-     */
+ * Name of animation end event.
+ */
 let _animationEvent;
 
 /**
-     * Returns name of animation end event.
-     * @returns {string} Name of animation end event.
-     */
+ * Returns name of animation end event.
+ * @returns {string} Name of animation end event.
+ */
 export function whichAnimationEvent() {
     if (_animationEvent) {
         return _animationEvent;
@@ -226,22 +257,22 @@ export function whichAnimationEvent() {
 }
 
 /**
-     * Returns name of animation cancel event.
-     * @returns {string} Name of animation cancel event.
-     */
+ * Returns name of animation cancel event.
+ * @returns {string} Name of animation cancel event.
+ */
 export function whichAnimationCancelEvent() {
     return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
 }
 
 /**
-     * Name of transition end event.
-     */
+ * Name of transition end event.
+ */
 let _transitionEvent;
 
 /**
-     * Returns name of transition end event.
-     * @returns {string} Name of transition end event.
-     */
+ * Returns name of transition end event.
+ * @returns {string} Name of transition end event.
+ */
 export function whichTransitionEvent() {
     if (_transitionEvent) {
         return _transitionEvent;
@@ -280,6 +311,7 @@ export default {
     parentWithAttribute: parentWithAttribute,
     parentWithClass: parentWithClass,
     parentWithTag: parentWithTag,
+    childWithClass: childWithClass,
     addEventListener: addEventListener,
     removeEventListener: removeEventListener,
     getWindowSize: getWindowSize,

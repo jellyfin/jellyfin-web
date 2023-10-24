@@ -20,7 +20,6 @@ button::-moz-focus-inner {
     color: inherit !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: none !important;
-    cursor: pointer;
     contain: layout style;
     flex-shrink: 0;
     font-weight: inherit !important;
@@ -90,6 +89,7 @@ button::-moz-focus-inner {
     margin: 0.6em;
     transition: none;
     border: 0 solid transparent;
+    cursor: pointer;
 
     /* These both are needed in case cardBox is a button */
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

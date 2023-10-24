@@ -951,10 +951,6 @@ function buildCard(index, item, apiClient, options) {
         className += ' ' + options.cardClass;
     }
 
-    if (layoutManager.desktop) {
-        className += ' card-hoverable';
-    }
-
     if (layoutManager.tv) {
         className += ' show-focus';
 
@@ -1048,6 +1044,7 @@ function buildCard(index, item, apiClient, options) {
 
     if (outerCardFooter && !options.cardLayout) {
         cardBoxClass += ' cardBox-bottompadded';
+        cardBoxClass += ' card-hoverable';
     }
 
     let overlayButtons = '';
@@ -1118,7 +1115,7 @@ function buildCard(index, item, apiClient, options) {
         });
     }
 
-    cardImageContainerOpen = `<div class="${cardBoxClass}"><div class="${cardScalableClass}"><div class="cardPadder cardPadder-${shape}">${cardPadderIcon}</div>${cardImageContainerOpen}`;
+    cardImageContainerOpen = `<div class="${cardScalableClass}"><div class="cardPadder cardPadder-${shape}">${cardPadderIcon}</div>${cardImageContainerOpen}`;
     cardBoxClose = '</div>';
     cardScalableClose = '</div>';
 
@@ -1178,7 +1175,7 @@ function buildCard(index, item, apiClient, options) {
     let ariaLabelAttribute = '';
 
     if (tagName === 'button') {
-        className += ' itemAction';
+        cardBoxClass += ' itemAction';
         actionAttribute = ' data-action="' + action + '"';
         ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
     } else {
@@ -1207,7 +1204,28 @@ function buildCard(index, item, apiClient, options) {
         additionalCardContent += getHoverMenuHtml(item, action);
     }
 
-    return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + escapeHtml(prefix) + '" class="' + className + '"' + ariaLabelAttribute + '>' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+    const itemData =
+        ' data-index="' + index + '"' + timerAttributes + actionAttribute
+        + ' data-isfolder="' + (item.IsFolder || false) + '"'
+        + ' data-serverid="' + (item.ServerId || options.serverId) + '"'
+        + ' data-id="' + (item.Id || item.ItemId) + '"'
+        + ' data-type="' + item.Type + '"'
+            + mediaTypeData
+            + collectionTypeData
+            + channelIdData
+            + pathData
+            + positionTicksData
+            + collectionIdData
+            + playlistIdData
+            + contextData
+            + parentIdData
+            + startDate
+            + endDate
+        + ' data-prefix="' + escapeHtml(prefix) + '"';
+
+    cardImageContainerOpen = `<div ${itemData} class="${cardBoxClass}">${cardImageContainerOpen}`;
+
+    return '<' + tagName + ' class="' + className + '"' + ariaLabelAttribute + '>' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
 }
 
 /**
