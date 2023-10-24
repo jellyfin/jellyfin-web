@@ -334,7 +334,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                         cardOptions={{ coverImage: true }}
                     />
 
-                    {allEmpty && !isLoading && (
+                    {allEmpty && query && !isLoading && (
                         <div className='sorry-text'>{globalize.translate('SearchResultsEmpty', query)}</div>
                     )}
                 </>
