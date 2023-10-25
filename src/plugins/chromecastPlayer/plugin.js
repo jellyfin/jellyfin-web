@@ -510,7 +510,7 @@ function bindEventForRelay(instance, eventName) {
     Events.on(instance._castPlayer, eventName, function (e, data) {
         console.debug('[chromecastPlayer] ' + eventName);
         // skip events without data
-        if (data && data.ItemId !== '' ) {
+        if (data?.ItemId) {
             const state = instance.getPlayerStateInternal(data);
             Events.trigger(instance, eventName, [state]);
         }
