@@ -578,9 +578,7 @@ function updateNowPlayingInfo(state) {
                             item: item,
                             user: user
                         }, options))
-                            .catch(function (err) {
-                                console.debug('[nowPlayingBar:updateNowPlayingInfo] click event reject', err);
-                            });
+                            .catch(() => { /* no-op */ });
                     });
                 });
             }
