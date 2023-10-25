@@ -21,9 +21,7 @@ type SortOption = {
     value: ItemSortBy;
 };
 
-type SortOptionsMapping = {
-    [key: string]: SortOption[];
-};
+type SortOptionsMapping = Record<string, SortOption[]>;
 
 const movieOrFavoriteOptions = [
     { label: 'Name', value: ItemSortBy.SortName },

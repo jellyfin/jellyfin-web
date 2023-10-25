@@ -145,7 +145,7 @@ export const getSettingsKey = (viewType: LibraryTab, parentId: ParentId) => {
 };
 
 export const getDefaultSortBy = (viewType: LibraryTab) => {
-    if (viewType === LibraryTab.Episodes ) {
+    if (viewType === LibraryTab.Episodes) {
         return ItemSortBy.SeriesSortName;
     }
 
