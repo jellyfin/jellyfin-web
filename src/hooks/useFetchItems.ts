@@ -1,4 +1,5 @@
-import type { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client';
+import { AxiosRequestConfig } from 'axios';
+import type { ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
@@ -13,8 +14,8 @@ import { getMoviesApi } from '@jellyfin/sdk/lib/utils/api/movies-api';
 import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
 import { getTvShowsApi } from '@jellyfin/sdk/lib/utils/api/tv-shows-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
-import { AxiosRequestConfig } from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
@@ -507,5 +508,26 @@ export const useGetItemsViewByType = (
                 LibraryTab.Photos,
                 LibraryTab.Videos
             ].includes(viewType) && !!parentId
+    });
+};
+
+const fetchPlaylistsMoveItem = async (
+    currentApi: JellyfinApiContext,
+    requestParameters: PlaylistsApiMoveItemRequest
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getPlaylistsApi(api).moveItem({
+            ...requestParameters
+        });
+        return response.data;
+    }
+};
+
+export const usePlaylistsMoveItemMutation = () => {
+    const currentApi = useApi();
+    return useMutation({
+        mutationFn: (requestParameters: PlaylistsApiMoveItemRequest) =>
+            fetchPlaylistsMoveItem(currentApi, requestParameters )
     });
 };

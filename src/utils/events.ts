@@ -1,5 +1,5 @@
 ﻿/* eslint-disable @typescript-eslint/no-explicit-any */
-interface Event {
+export interface Event {
     type: string;
 }
 
