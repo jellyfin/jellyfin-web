@@ -71,6 +71,7 @@
  - [scampower3](https://github.com/scampower3)
  - [LittleBigOwI] (https://github.com/LittleBigOwI/)
  - [Nate G](https://github.com/GGProGaming)
+ - [Vedant](https://github.com/viktory36)
 
 # Emby Contributors
 
