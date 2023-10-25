@@ -129,9 +129,7 @@ function showContextMenu(card, options) {
                             notifyRefreshNeeded(card, options.itemsContainer);
                         }
                     })
-                    .catch(err => {
-                        console.debug('[shortcuts.showContextMenu] itemContextMenu.show reject', err);
-                    });
+                    .catch(() => { /* no-op */ });
             });
         });
     });

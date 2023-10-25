@@ -1854,6 +1854,7 @@ export default function (view, params) {
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
         });
+
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
@@ -1974,9 +1975,7 @@ export default function (view, params) {
                             reload(self, view, params);
                         }
                     })
-                    .catch(function(err) {
-                        console.debug('[index:onMoreCommandsClick] reject', err);
-                    });
+                    .catch(() => { /* no-op */ });
             });
         });
     }

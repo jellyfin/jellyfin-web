@@ -221,9 +221,7 @@ function updateNowPlayingInfo(context, state, serverId) {
                         item: fullItem,
                         user: user
                     }, options))
-                        .catch(function (err) {
-                            console.debug('[remotecontrol:updateNowPlayingInfo] click event reject', err);
-                        });
+                        .catch(() => { /* no-op */ });
                 });
             });
         });
