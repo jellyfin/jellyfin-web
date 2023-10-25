@@ -698,8 +698,6 @@ class ChromecastPlayer {
 
         normalizeImages(data);
 
-        // console.debug(JSON.stringify(data));
-
         if (triggerStateChange) {
             Events.trigger(this, 'statechange', [data]);
         }
