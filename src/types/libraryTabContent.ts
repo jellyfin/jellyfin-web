@@ -24,6 +24,4 @@ export interface LibraryTabContent {
     noItemsMessage?: string;
 }
 
-export interface LibraryTabMapping {
-    [index: number]: LibraryTabContent;
-}
+export type LibraryTabMapping = Record<number, LibraryTabContent>;
