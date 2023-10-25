@@ -170,7 +170,7 @@ function bindEvents(elem) {
 
     elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
         if (currentPlayer) {
-            if ( playbackManager.isPlayingAudio(currentPlayer) ) {
+            if (playbackManager.isPlayingAudio(currentPlayer)) {
                 // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
                 if (e.detail > 1 ) {
                     return;
