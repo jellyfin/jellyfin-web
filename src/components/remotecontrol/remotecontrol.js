@@ -455,6 +455,11 @@ export default function () {
         btnPlayPauseIcon.classList.remove('play_circle_filled', 'pause_circle_filled');
         btnPlayPauseIcon.classList.add(isPaused ? 'play_circle_filled' : 'pause_circle_filled');
 
+        const playlistIndicator = context.querySelector('.playlistIndexIndicatorImage');
+        if (playlistIndicator) {
+            playlistIndicator.classList.toggle('playlistIndexIndicatorPausedImage', isPaused);
+        }
+
         buttonVisible(btnPlayPause, isActive);
     }
 
@@ -525,6 +530,7 @@ export default function () {
                 if (img) {
                     img.classList.remove('lazy');
                     img.classList.add('playlistIndexIndicatorImage');
+                    img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
                 }
             }
 
