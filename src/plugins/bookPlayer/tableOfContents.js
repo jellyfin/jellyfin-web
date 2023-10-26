@@ -1,3 +1,4 @@
+import escapeHTML from 'escape-html';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 
 export default class TableOfContents {
@@ -56,7 +57,7 @@ export default class TableOfContents {
 
         // remove parent directory reference from href to fix certain books
         const link = chapter.href.startsWith('../') ? chapter.href.slice(3) : chapter.href;
-        itemHtml += `<a href="${book.path.directory + link}">${chapter.label}</a>`;
+        itemHtml += `<a href="${escapeHTML(book.path.directory + link)}">${escapeHTML(chapter.label)}</a>`;
 
         if (chapter.subitems?.length) {
             const subHtml = chapter.subitems
