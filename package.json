@@ -16,6 +16,7 @@
     "@types/lodash-es": "4.17.7",
     "@types/react": "17.0.59",
     "@types/react-dom": "17.0.20",
+    "@types/sortablejs": "1.15.3",
     "@typescript-eslint/eslint-plugin": "5.59.7",
     "@typescript-eslint/parser": "5.59.7",
     "@uupaa/dynamic-import-polyfill": "1.0.2",
@@ -64,7 +65,6 @@
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "4.15.1",
     "webpack-merge": "5.9.0",
-    "workbox-webpack-plugin": "6.6.0",
     "worker-loader": "3.0.8"
   },
   "dependencies": {
@@ -117,9 +117,7 @@
     "sortablejs": "1.15.0",
     "swiper": "9.3.2",
     "webcomponents.js": "0.7.24",
-    "whatwg-fetch": "3.6.2",
-    "workbox-core": "6.6.0",
-    "workbox-precaching": "6.6.0"
+    "whatwg-fetch": "3.6.2"
   },
   "browserslist": [
     "last 2 Firefox versions",

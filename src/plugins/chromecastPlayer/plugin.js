@@ -58,11 +58,6 @@ const PLAYER_STATE = {
     'ERROR': 'ERROR'
 };
 
-// production version registered with google
-// replace this value if you want to test changes on another instance
-const applicationStable = 'F007D354';
-const applicationUnstable = '6F511C87';
-
 const messageNamespace = 'urn:x-cast:com.connectsdk';
 
 class CastPlayer {
@@ -98,6 +93,7 @@ class CastPlayer {
     initializeCastPlayer() {
         const chrome = window.chrome;
         if (!chrome) {
+            console.warn('Not initializing chromecast: chrome object is missing');
             return;
         }
 
@@ -106,18 +102,25 @@ class CastPlayer {
             return;
         }
 
-        let applicationID = userSettings.chromecastVersion();
-        if (applicationID === 'stable') applicationID = applicationStable;
-        if (applicationID === 'unstable') applicationID = applicationUnstable;
+        const apiClient = ServerConnections.currentApiClient();
+        const userId = apiClient.getCurrentUserId();
 
-        // request session
-        const sessionRequest = new chrome.cast.SessionRequest(applicationID);
-        const apiConfig = new chrome.cast.ApiConfig(sessionRequest,
-            this.sessionListener.bind(this),
-            this.receiverListener.bind(this));
+        apiClient.getUser(userId).then(user => {
+            const applicationID = user.Configuration.CastReceiverId;
+            if (!applicationID) {
+                console.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`);
+                return;
+            }
 
-        console.debug(`chromecast.initialize (applicationId=${applicationID})`);
-        chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
+            // request session
+            const sessionRequest = new chrome.cast.SessionRequest(applicationID);
+            const apiConfig = new chrome.cast.ApiConfig(sessionRequest,
+                this.sessionListener.bind(this),
+                this.receiverListener.bind(this));
+
+            console.debug(`chromecast.initialize (applicationId=${applicationID})`);
+            chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
+        });
     }
 
     /**
@@ -584,7 +587,15 @@ class ChromecastPlayer {
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
 
-        new CastSenderApi().load().then(initializeChromecast.bind(this));
+        new CastSenderApi().load().then(() => {
+            Events.on(ServerConnections, 'localusersignedin', () => {
+                initializeChromecast.call(this);
+            });
+
+            if (ServerConnections.currentUserId) {
+                initializeChromecast.call(this);
+            }
+        });
     }
 
     tryPair() {
