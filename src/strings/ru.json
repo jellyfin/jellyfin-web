@@ -1776,5 +1776,6 @@
     "AiTranslated": "Переведено при помощи ИИ",
     "MachineTranslated": "Машинный перевод",
     "HearingImpairedShort": "HI/SDH",
-    "ForeignPartsOnly": "Только для принудительных и иностранных частей"
+    "ForeignPartsOnly": "Только для принудительных и иностранных частей",
+    "SearchResultsEmpty": "По запросу \"{0}\" ничего не нашлось, извините"
 }
