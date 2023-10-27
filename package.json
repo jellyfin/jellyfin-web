@@ -42,6 +42,7 @@
     "fork-ts-checker-webpack-plugin": "8.0.0",
     "html-loader": "4.2.0",
     "html-webpack-plugin": "5.5.3",
+    "jsdom": "22.1.0",
     "mini-css-extract-plugin": "2.7.6",
     "postcss": "8.4.24",
     "postcss-loader": "7.3.3",
@@ -144,8 +145,8 @@
     "build:check": "tsc --noEmit",
     "escheck": "es-check",
     "lint": "eslint \"./\"",
-    "test": "vitest --watch=false",
-    "test:watch": "vitest",
+    "test": "vitest --watch=false --config vite.config.ts",
+    "test:watch": "vitest --config vite.config.ts",
     "stylelint": "npm run stylelint:css && npm run stylelint:scss",
     "stylelint:css": "stylelint \"src/**/*.css\"",
     "stylelint:scss": "stylelint --config=\".stylelintrc.scss.json\" \"src/**/*.scss\""
