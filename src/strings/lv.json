@@ -1710,5 +1710,6 @@
     "LabelPlaybackInfo": "Atskaņošanas info",
     "LabelAudioInfo": "Audio info",
     "Featurette": "Īsfilma",
-    "TvLibraryHelp": "Pārskatiet {0}TV nosaukšanas ceļvedi {1}."
+    "TvLibraryHelp": "Pārskatiet {0}TV nosaukšanas ceļvedi {1}.",
+    "SearchResultsEmpty": "Atvainojiet! \"{0}\" meklēšana beidzās bez rezultāta"
 }
