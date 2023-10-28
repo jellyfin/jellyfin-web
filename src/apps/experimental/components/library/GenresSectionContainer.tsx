@@ -16,8 +16,8 @@ import { ParentId } from 'types/library';
 
 interface GenresSectionContainerProps {
     parentId: ParentId;
-    collectionType: CollectionType;
-    itemType: BaseItemKind;
+    collectionType: CollectionType | undefined;
+    itemType: BaseItemKind[];
     genre: BaseItemDto;
 }
 
@@ -31,7 +31,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         return {
             sortBy: [ItemSortBy.Random],
             sortOrder: [SortOrder.Ascending],
-            includeItemTypes: [itemType],
+            includeItemTypes: itemType,
             recursive: true,
             fields: [
                 ItemFields.PrimaryImageAspectRatio,
@@ -70,9 +70,9 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             showTitle: true,
             centerText: true,
             cardLayout: false,
-            shape: itemType === BaseItemKind.MusicAlbum ? 'overflowSquare' : 'overflowPortrait',
-            showParentTitle: itemType === BaseItemKind.MusicAlbum,
-            showYear: itemType !== BaseItemKind.MusicAlbum
+            shape: collectionType === CollectionType.Music ? 'overflowSquare' : 'overflowPortrait',
+            showParentTitle: collectionType === CollectionType.Music,
+            showYear: collectionType !== CollectionType.Music
         }}
     />;
 };
