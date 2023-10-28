@@ -26,6 +26,7 @@ import { CollectionType } from 'types/collectionType';
 import { LibraryTab } from 'types/libraryTab';
 
 import { CardOptions } from 'types/cardOptions';
+import { ListOptions } from 'types/listOptions';
 
 interface ItemsViewProps {
     viewType: LibraryTab;
@@ -77,12 +78,33 @@ const ItemsView: FC<ItemsViewProps> = ({
     );
     const { data: item } = useGetItem(parentId);
 
+    const getListOptions = useCallback(() => {
+        const listOptions: ListOptions = {
+            items: itemsResult?.Items ?? [],
+            context: collectionType
+        };
+
+        if (viewType === LibraryTab.Songs) {
+            listOptions.showParentTitle = true;
+            listOptions.action = 'playallfromhere';
+            listOptions.smallIcon = true;
+            listOptions.artist = true;
+            listOptions.addToListButton = true;
+        } else if (viewType === LibraryTab.Albums) {
+            listOptions.sortBy = libraryViewSettings.SortBy;
+            listOptions.addToListButton = true;
+        } else if (viewType === LibraryTab.Episodes) {
+            listOptions.showParentTitle = true;
+        }
+
+        return listOptions;
+    }, [itemsResult?.Items, collectionType, viewType, libraryViewSettings.SortBy]);
+
     const getCardOptions = useCallback(() => {
         let shape;
         let preferThumb;
         let preferDisc;
         let preferLogo;
-        let lines = libraryViewSettings.ShowTitle ? 2 : 0;
 
         if (libraryViewSettings.ImageType === ImageType.Banner) {
             shape = 'banner';
@@ -122,11 +144,8 @@ const ItemsView: FC<ItemsViewProps> = ({
         ) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
         } else if (viewType === LibraryTab.Artists) {
-            cardOptions.showYear = false;
-            lines = 1;
+            cardOptions.lines = 1;
         }
-
-        cardOptions.lines = lines;
 
         return cardOptions;
     }, [
@@ -142,10 +161,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         let html = '';
 
         if (libraryViewSettings.ViewMode === ViewMode.ListView) {
-            html = listview.getListViewHtml({
-                items: itemsResult?.Items ?? [],
-                context: collectionType
-            });
+            html = listview.getListViewHtml(getListOptions());
         } else {
             html = cardBuilder.getCardsHtml(
                 itemsResult?.Items ?? [],
@@ -161,13 +177,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         }
 
         return html;
-    }, [
-        libraryViewSettings.ViewMode,
-        itemsResult?.Items,
-        collectionType,
-        getCardOptions,
-        noItemsMessage
-    ]);
+    }, [libraryViewSettings.ViewMode, itemsResult?.Items, getListOptions, getCardOptions, noItemsMessage]);
 
     const totalRecordCount = itemsResult?.TotalRecordCount ?? 0;
     const items = itemsResult?.Items ?? [];
