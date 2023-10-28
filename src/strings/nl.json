@@ -734,7 +734,7 @@
     "MessageConfirmRestart": "Weet je zeker dat je Jellyfin wilt herstarten?",
     "MessageConfirmRevokeApiKey": "Weet je zeker dat je deze API-sleutel in wilt trekken? De verbinding van de applicatie met deze server zal plotseling verbroken worden.",
     "MessageConfirmShutdown": "Weet je zeker dat je de server wilt afsluiten?",
-    "MessageContactAdminToResetPassword": "Neem contact op met de serverbeheerder om je wachtwoord te herstellen.",
+    "MessageContactAdminToResetPassword": "Neem contact op met je systeembeheerder om je wachtwoord te herstellen.",
     "MessageCreateAccountAt": "Account aanmaken bij {0}",
     "MessageDeleteTaskTrigger": "Weet je zeker dat je deze taaktrigger wilt verwijderen?",
     "MessageDirectoryPickerBSDInstruction": "Voor BSD moet je mogelijk de opslag in je FreeNAS Jail opzetten, zodat Jellyfin toegang heeft tot je media.",
