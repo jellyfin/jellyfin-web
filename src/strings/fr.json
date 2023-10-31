@@ -255,7 +255,7 @@
     "HeaderContainerProfile": "Profil de conteneur",
     "HeaderContainerProfileHelp": "Les profils de conteneur indiquent les limites d'un appareil lors de la lecture de formats spécifiques. Si la limite s'applique au média, ce dernier sera transcodé, même si le format est configuré pour la lecture directe.",
     "HeaderContinueListening": "Reprendre l'écoute",
-    "HeaderContinueWatching": "Reprendre le visionnage",
+    "HeaderContinueWatching": "Continuer de regarder",
     "HeaderCustomDlnaProfiles": "Profils personnalisés",
     "HeaderDateIssued": "Date de publication",
     "HeaderDefaultRecordingSettings": "Paramètres d'enregistrement par défaut",
@@ -1049,7 +1049,7 @@
     "Smaller": "Plus petit",
     "Smart": "Intelligent",
     "SmartSubtitlesHelp": "Les sous-titres correspondant à la langue préférée seront chargés lorsque l'audio est dans une langue étrangère.",
-    "Songs": "Titres",
+    "Songs": "Chansons",
     "Sort": "Trier",
     "SortByValue": "Trier par {0}",
     "SortChannelsBy": "Trier les chaînes par",
@@ -1776,5 +1776,10 @@
     "ForeignPartsOnly": "Parties forcées/en langues étrangères uniquement",
     "HearingImpairedShort": "HI/SDH",
     "HeaderGuestCast": "Invités vedettes",
-    "LabelIsHearingImpaired": "Sous-titrage pour sourds et malentendants"
+    "LabelIsHearingImpaired": "Sous-titrage pour sourds et malentendants",
+    "SearchResultsEmpty": "Désolé ! Aucun résultat trouvé pour \"{0}\"",
+    "SelectAudioNormalizationHelp": "Gain de piste - permet de régler le volume de chaque piste de manière à ce qu'elles soient lues avec la même intensité sonore. Gain de l'album - ajuste le volume de toutes les pistes d'un album uniquement, en conservant la plage dynamique de l'album.",
+    "LabelAlbumGain": "Gain de l'album",
+    "LabelSelectAudioNormalization": "Normalisation de l'audio",
+    "LabelTrackGain": "Gain de piste"
 }
