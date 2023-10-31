@@ -137,6 +137,8 @@ function loadPlugins() {
 }
 
 async function onAppReady() {
+
+
     console.debug('begin onAppReady');
 
     console.debug('onAppReady: loading dependencies');
@@ -153,7 +155,7 @@ async function onAppReady() {
     // Remove the splash logo
     root.innerHTML = '';
 
-    await appRouter.start();
+await appRouter.start();
 
     ReactDOM.render(
         <StrictMode>
