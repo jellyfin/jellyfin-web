@@ -57,10 +57,10 @@ jobs:
 
 
       - name: Run eslint (changed)
-        if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-        uses: CatChen/eslint-suggestion-action@d43938d6a379bc9a53c9c6d307e2d43bff0536be # v3.0.2
+        # if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+        uses: thornbill/eslint-suggestion-action@1e1c2c1c5bc65f40cce1310b305d40cc3d7fd193 # v3.0.2
         with:
-          github-token: ${{ secrets.JF_BOT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run eslint (all)
         if: always()
