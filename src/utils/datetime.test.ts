@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import datetime from './datetime';
 
 describe('parseISO8601Date', () => {
@@ -127,6 +127,14 @@ describe('getDisplayTime', () => {
 });
 
 describe('isRelativeDay', () => {
+    beforeEach(() => {
+        vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
     test('date is null throws error', () => {
         expect(() => datetime.isRelativeDay(null, 0)).toThrowError('date cannot be null');
     });
@@ -136,20 +144,45 @@ describe('isRelativeDay', () => {
     });
 
     test('date with same day returns true', () => {
-        const today = new Date();
+        const currentDate = new Date(2023, 10, 10, 10);
+        vi.setSystemTime(currentDate);
+
+        const today = new Date(2023, 10, 10, 12);
         expect(datetime.isRelativeDay(today, 0)).toEqual(true);
     });
 
     test('date in future returns true', () => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        const currentDate = new Date(2023, 10, 10, 10);
+        vi.setSystemTime(currentDate);
+
+        const tomorrow = new Date(2023, 10, 11, 10);
+        expect(datetime.isRelativeDay(tomorrow, 0)).toEqual(false);
+        expect(datetime.isRelativeDay(tomorrow, 1)).toEqual(true);
+    });
+
+    test('date in the future across different months returns true', () => {
+        const currentDate = new Date(2023, 10, 30, 10);
+        vi.setSystemTime(currentDate);
+
+        const tomorrow = new Date(2023, 11, 1, 10);
         expect(datetime.isRelativeDay(tomorrow, 0)).toEqual(false);
         expect(datetime.isRelativeDay(tomorrow, 1)).toEqual(true);
     });
 
     test('date in the past returns true', () => {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
+        const currentDate = new Date(2023, 10, 10, 10);
+        vi.setSystemTime(currentDate);
+
+        const yesterday = new Date(2023, 10, 9, 10);
+        expect(datetime.isRelativeDay(yesterday, 0)).toEqual(false);
+        expect(datetime.isRelativeDay(yesterday, -1)).toEqual(true);
+    });
+
+    test('date in the past across different months returns true', () => {
+        const currentDate = new Date(2023, 10, 1, 10);
+        vi.setSystemTime(currentDate);
+
+        const yesterday = new Date(2023, 9, 31, 10);
         expect(datetime.isRelativeDay(yesterday, 0)).toEqual(false);
         expect(datetime.isRelativeDay(yesterday, -1)).toEqual(true);
     });
