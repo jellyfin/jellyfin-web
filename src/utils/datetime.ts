@@ -179,7 +179,7 @@ export function toLocaleString(value: Date | number | null | undefined, options?
         throw new Error('value cannot be null');
     }
 
-    options = options ?? {};
+    options = options || {};
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
@@ -204,7 +204,7 @@ export function toLocaleDateString(date: DateOrNull, options?: Intl.DateTimeForm
         throw new Error('date cannot be null');
     }
 
-    options = options ?? {};
+    options = options || {};
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
@@ -243,7 +243,7 @@ export function toLocaleTimeString(date: DateOrNull, options?: Intl.DateTimeForm
         throw new Error('date cannot be null');
     }
 
-    options = options ?? {};
+    options = options || {};
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
