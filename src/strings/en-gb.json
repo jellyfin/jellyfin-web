@@ -1776,5 +1776,7 @@
     "HeaderGuestCast": "Guest Stars",
     "LabelIsHearingImpaired": "For hearing impaired (SDH)",
     "BackdropScreensaver": "Backdrop Screensaver",
-    "LogoScreensaver": "Logo Screensaver"
+    "LogoScreensaver": "Logo Screensaver",
+    "SelectAudioNormalizationHelp": "Track gain - adjusts the volume of each track so they playback with the same loudness. Album gain - adjusts the volume of all the tracks in an album only, keeping the album's dynamic range.",
+    "LabelAlbumGain": "Album Gain"
 }
