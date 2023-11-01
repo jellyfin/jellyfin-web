@@ -343,12 +343,12 @@ export function isRelativeDay(date: DateOrNull, offsetInDays: number): boolean {
         throw new Error('date cannot be null');
     }
 
-    const yesterday = new Date();
-    const day = yesterday.getDate() + offsetInDays;
+    const offsettedDate = new Date();
+    const day = offsettedDate.getDate() + offsetInDays;
 
-    yesterday.setDate(day); // automatically adjusts month/year appropriately
+    offsettedDate.setDate(day); // automatically adjusts month/year appropriately
 
-    return date.getFullYear() === yesterday.getFullYear() && date.getMonth() === yesterday.getMonth() && date.getDate() === day;
+    return date.getFullYear() === offsettedDate.getFullYear() && date.getMonth() === offsettedDate.getMonth() && date.getDate() === offsettedDate.getDate();
 }
 
 export default {
