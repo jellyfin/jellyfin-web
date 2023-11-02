@@ -7,10 +7,8 @@ concurrency:
 on:
   push:
     branches: [ master, release* ]
-  pull_request_target:
+  pull_request:
     branches: [ master, release* ]
-    types:
-      - synchronize
 
 jobs:
   run-escheck:
@@ -55,15 +53,7 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci --no-audit
 
-
-      - name: Run eslint (changed)
-        if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-        uses: CatChen/eslint-suggestion-action@d43938d6a379bc9a53c9c6d307e2d43bff0536be # v3.0.2
-        with:
-          github-token: ${{ secrets.JF_BOT_TOKEN }}
-
-      - name: Run eslint (all)
-        if: always()
+      - name: Run eslint
         run: npx eslint --quiet "."
 
   run-stylelint-css:
