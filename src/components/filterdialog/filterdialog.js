@@ -31,22 +31,17 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 }
 
 function renderFilters(context, result, query) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
-        const delimeter = '|';
-        return (delimeter + (query.Genres || '') + delimeter).includes(delimeter + i + delimeter);
-    });
-    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
-        const delimeter = '|';
-        return (delimeter + (query.OfficialRatings || '') + delimeter).includes(delimeter + i + delimeter);
-    });
-    renderOptions(context, '.tagFilters', 'chkTagFilter', result.Tags, function (i) {
-        const delimeter = '|';
-        return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
-    });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', result.Years, function (i) {
-        const delimeter = ',';
-        return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
-    });
+    let renderFilter = (selector, className, filter, delimiter) => {
+        renderOptions(context, selector, className, result[filter], function (i) {
+            return (delimiter + (query[filter] || '') + delimiter).includes(delimiter + i + delimiter);
+        });
+    };
+
+    renderFilter('.genreFilters', 'chkGenreFilter', 'Genres', '|');
+    renderFilter('.officialRatingFilters', 'chkOfficialRatingFilter', 'OfficialRatings', '|');
+    renderFilter('.tagFilters', 'chkTagFilter', 'Tags', '|');
+    renderFilter('.yearFilters', 'chkYearFilter', 'Years', ',');
+    renderFilter('.channelGroupFilters', 'chkChannelGroupFilter', 'ChannelGroups', '|');
 }
 
 function loadDynamicFilters(context, apiClient, userId, itemQuery) {
@@ -134,6 +129,10 @@ function setVisibility(context, options) {
     if (options.mode === 'episodes') {
         showByClass(context, 'episodeFilter');
     }
+
+    if (options.mode === 'livetvchannels') {
+        context.querySelector('.channelGroupFilters').classList.remove('hide');
+    }
 }
 
 function showByClass(context, className) {
@@ -149,7 +148,18 @@ function hideByClass(context, className) {
 }
 
 function enableDynamicFilters(mode) {
-    return mode === 'movies' || mode === 'series' || mode === 'albums' || mode === 'albumartists' || mode === 'artists' || mode === 'songs' || mode === 'episodes';
+    let modes = [
+        'movies',
+        'series',
+        'albums',
+        'albumartists',
+        'artists',
+        'songs',
+        'episodes',
+        'livetvchannels',
+    ];
+
+    return modes.includes(mode);
 }
 
 class FilterDialog {
@@ -335,61 +345,30 @@ class FilterDialog {
             triggerChange(this);
         });
         context.addEventListener('change', (e) => {
-            const chkGenreFilter = dom.parentWithClass(e.target, 'chkGenreFilter');
-            if (chkGenreFilter) {
-                const filterName = chkGenreFilter.getAttribute('data-filter');
-                let filters = query.Genres || '';
-                const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
-                if (chkGenreFilter.checked) {
-                    filters = filters ? (filters + delimiter + filterName) : filterName;
+            let addFilterTrigger = (className, filter, delimiter) => {
+                let filterOption = dom.parentWithClass(e.target, className);
+
+                if (filterOption) {
+                    let filterName = filterOption.getAttribute('data-filter');
+                    let values = query[filter] || '';
+
+                    values = (delimiter + values).replace(delimiter + filterName, '').substring(1);
+                    if (filterOption.checked) {
+                        values = values ? (values + delimiter + filterName) : filterName;
+                    }
+
+                    query.StartIndex = 0;
+                    query[filter] = values;
+
+                    triggerChange(this);
                 }
-                query.StartIndex = 0;
-                query.Genres = filters;
-                triggerChange(this);
-                return;
-            }
-            const chkTagFilter = dom.parentWithClass(e.target, 'chkTagFilter');
-            if (chkTagFilter) {
-                const filterName = chkTagFilter.getAttribute('data-filter');
-                let filters = query.Tags || '';
-                const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
-                if (chkTagFilter.checked) {
-                    filters = filters ? (filters + delimiter + filterName) : filterName;
-                }
-                query.StartIndex = 0;
-                query.Tags = filters;
-                triggerChange(this);
-                return;
-            }
-            const chkYearFilter = dom.parentWithClass(e.target, 'chkYearFilter');
-            if (chkYearFilter) {
-                const filterName = chkYearFilter.getAttribute('data-filter');
-                let filters = query.Years || '';
-                const delimiter = ',';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
-                if (chkYearFilter.checked) {
-                    filters = filters ? (filters + delimiter + filterName) : filterName;
-                }
-                query.StartIndex = 0;
-                query.Years = filters;
-                triggerChange(this);
-                return;
-            }
-            const chkOfficialRatingFilter = dom.parentWithClass(e.target, 'chkOfficialRatingFilter');
-            if (chkOfficialRatingFilter) {
-                const filterName = chkOfficialRatingFilter.getAttribute('data-filter');
-                let filters = query.OfficialRatings || '';
-                const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
-                if (chkOfficialRatingFilter.checked) {
-                    filters = filters ? (filters + delimiter + filterName) : filterName;
-                }
-                query.StartIndex = 0;
-                query.OfficialRatings = filters;
-                triggerChange(this);
-            }
+            };
+
+            addFilterTrigger('chkGenreFilter', 'Genres', '|');
+            addFilterTrigger('chkTagFilter', 'Tags', '|');
+            addFilterTrigger('chkYearFilter', 'Years', ',');
+            addFilterTrigger('chkOfficialRatingFilter', 'OfficialRatings', '|');
+            addFilterTrigger('chkChannelGroupFilter', 'ChannelGroups', '|');
         });
     }
 
