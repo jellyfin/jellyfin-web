@@ -71,6 +71,7 @@
  - [scampower3](https://github.com/scampower3)
  - [LittleBigOwI] (https://github.com/LittleBigOwI/)
  - [Nate G](https://github.com/GGProGaming)
+ - [Grady Hallenbeck](https://github.com/grhallenbeck)
 
 # Emby Contributors
 
