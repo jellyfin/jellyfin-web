@@ -12,6 +12,7 @@ export default function (view, params, tabContent) {
         if (!pageData) {
             pageData = {
                 query: {
+                    IncludeItemTypes: 'LiveTvChannel',
                     StartIndex: 0,
                     Fields: 'PrimaryImageAspectRatio'
                 }
