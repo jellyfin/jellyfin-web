@@ -536,7 +536,7 @@ export default function (options) {
         }
     }
 
-    if (canPlayAudioFormat('flac')) {
+    if (canPlayAudioFormat('flac') && !browser.tizen) {
         videoAudioCodecs.push('flac');
         hlsInFmp4VideoAudioCodecs.push('flac');
     }
