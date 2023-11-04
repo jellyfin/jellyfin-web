@@ -45,7 +45,7 @@ export class BookPlayer {
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
     }
 
     play(options) {
@@ -156,17 +156,15 @@ export class BookPlayer {
         }
     }
 
-    onTouchStart(e) {
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-
-        // epubjs stores pages off the screen or something for preloading
-        // get the modulus of the touch event to account for the increased width
-        const touchX = e.touches[0].clientX % dom.getWindowSize().innerWidth;
-        if (touchX < dom.getWindowSize().innerWidth / 2) {
+    onMouseUp(e) {
+        // This will also be triggered on touchscreen devices
+        const width = dom.getWindowSize().innerWidth;
+        const touchX = e.clientX % width;
+        if (touchX < width / 3) {
             this.previous();
-        } else {
+        } else if (touchX > width / 3 * 2){
             this.next();
-        }
+        } 
     }
 
     onDialogClosed() {
@@ -183,8 +181,6 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerRotateTheme').addEventListener('click', this.rotateTheme);
         elem.querySelector('#btnBookplayerIncreaseFontSize').addEventListener('click', this.increaseFontSize);
         elem.querySelector('#btnBookplayerDecreaseFontSize').addEventListener('click', this.decreaseFontSize);
-        elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.previous);
-        elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.next);
     }
 
     bindEvents() {
@@ -192,8 +188,8 @@ export class BookPlayer {
 
         document.addEventListener('keyup', this.onWindowKeyUp);
 
-        this.rendition.on('touchstart', this.onTouchStart);
         this.rendition.on('keyup', this.onWindowKeyUp);
+        this.rendition.on('mouseup', this.onMouseUp);
     }
 
     unbindMediaElementEvents() {
@@ -206,8 +202,6 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerRotateTheme').removeEventListener('click', this.rotateTheme);
         elem.querySelector('#btnBookplayerIncreaseFontSize').removeEventListener('click', this.increaseFontSize);
         elem.querySelector('#btnBookplayerDecreaseFontSize').removeEventListener('click', this.decreaseFontSize);
-        elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.previous);
-        elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.next);
     }
 
     unbindEvents() {
@@ -217,8 +211,8 @@ export class BookPlayer {
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
 
-        this.rendition?.off('touchstart', this.onTouchStart);
         this.rendition?.off('keyup', this.onWindowKeyUp);
+        this.rendition?.off('mouseup', this.onMouseUp);
     }
 
     openTableOfContents() {
@@ -241,6 +235,8 @@ export class BookPlayer {
             const newTheme = THEME_ORDER[(THEME_ORDER.indexOf(this.theme) + 1) % THEME_ORDER.length];
             this.rendition.themes.register('default', THEMES[newTheme]);
             this.rendition.themes.update('default');
+            // Stop flickering when going to a next chapter in a book
+            document.getElementById('bookPlayerContainer').style.backgroundColor = THEMES[newTheme].body.background;
             this.theme = newTheme;
         }
     }
@@ -346,6 +342,9 @@ export class BookPlayer {
                 rendition.themes.register('default', THEMES[this.theme]);
                 rendition.themes.select('default');
 
+                // Stop flickering when going to a next chapter in a book
+                document.getElementById('bookPlayerContainer').style.backgroundColor = THEMES[this.theme].body.background;
+
                 return rendition.display().then(() => {
                     const epubElem = document.querySelector('.epub-container');
                     epubElem.style.opacity = '0';
@@ -365,6 +364,8 @@ export class BookPlayer {
                         epubElem.style.opacity = '';
                         rendition.on('relocated', (locations) => {
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
+                            document.getElementById('lblBookplayerPage').innerHTML = String(Math.round(this.progress * 100)).concat("%");
+
                             Events.trigger(this, 'pause');
                         });
 
