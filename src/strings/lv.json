@@ -1363,7 +1363,7 @@
     "EnableAudioNormalizationHelp": "Audio normalizācija pievienos konstantu skaļuma pastiprinājumu, lai saglabātu vidējo skaļumu vēlamajā līmenī (-18dB).",
     "EnableAudioNormalization": "Audio normalizācija",
     "LabelEnableLUFSScan": "Iespējot LUFS skenēšanu",
-    "LabelEnableLUFSScanHelp": "Klienti var normalizēt audio atskaņošanu, lai iegūtu vienādu skaļumu visos ierakstos. (Tas pataisīs bibliotēkas skenēšanu lēnāku un patērēs vairāk resursus).",
+    "LabelEnableLUFSScanHelp": "Klienti var normalizēt audio atskaņošanu, lai iegūtu vienādu skaļumu visos celiņos. Tas padarīs bibliotēkas skenēšanu ilgāku un aizņems vairāk resursu.",
     "MessageNoItemsAvailable": "Pašlaik nav pieejams neviens vienums.",
     "MessageNoCollectionsAvailable": "Kolekcijas ļauj izmantot personalizētas filmu, seriālu un albumu grupas. Noklikšķiniet uz pogas \"+\", lai sāktu veidot kolekcijas.",
     "MessageNoRepositories": "Nav repozitoriju.",
@@ -1711,5 +1711,8 @@
     "LabelAudioInfo": "Audio info",
     "Featurette": "Īsfilma",
     "TvLibraryHelp": "Pārskatiet {0}TV nosaukšanas ceļvedi {1}.",
-    "SearchResultsEmpty": "Atvainojiet! \"{0}\" meklēšana beidzās bez rezultāta"
+    "SearchResultsEmpty": "Atvainojiet! \"{0}\" meklēšana beidzās bez rezultāta",
+    "LabelIsHearingImpaired": "Ar dzirdes traucējumiem (SDH)",
+    "LabelFallbackFontPathHelp": "Šie fonti dažos klientos tiek izmantoti subtitru atveidošanai. Lai iegūtu vairāk informācijas, skatiet dokumentāciju.",
+    "LabelSelectAudioNormalization": "Audio normalizācija"
 }
