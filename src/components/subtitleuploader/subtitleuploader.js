@@ -32,7 +32,7 @@ function onFileReaderError(evt) {
 }
 
 function isValidSubtitleFile(file) {
-    return file && ['.sub', '.srt', '.vtt', '.ass', '.ssa']
+    return file && ['.sub', '.srt', '.vtt', '.ass', '.ssa', '.mks']
         .some(function(ext) {
             return file.name.endsWith(ext);
         });
