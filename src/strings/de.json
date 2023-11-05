@@ -1733,7 +1733,7 @@
     "PasswordRequiredForAdmin": "Für Admin Konten wird ein Passwort benötigt.",
     "LabelEnableLUFSScan": "LUFS-Scan aktivieren",
     "LabelSyncPlayNoGroups": "Keine Gruppen verfügbar",
-    "LabelEnableLUFSScanHelp": "Clients können die Audio Wiedergabe normalisieren, um die selbe Lautstärke für mehrere Stücke zu bekommen.\nDies verlängert den Bibliotheksscan und benötigt mehr Ressourcen.",
+    "LabelEnableLUFSScanHelp": "Clients können die Audio-Wiedergabe normalisieren, um die selbe Lautstärke für mehrere Stücke zu bekommen. Dies verlängert den Bibliotheks-Scan und benötigt mehr Ressourcen.",
     "Notifications": "Benachrichtigungen",
     "NotificationsMovedMessage": "Die Benachrichtigungsfunktion wurde zum Webhook Plugin verschoben.",
     "EnableAudioNormalizationHelp": "Die Audionormalisierung fügt eine konstante Verstärkung hinzu, um den Durchschnitt auf einem gewünschten Pegel zu halten (-18 dB).",
@@ -1780,6 +1780,6 @@
     "SearchResultsEmpty": "Entschuldigung! Es konnten keine Ergebnisse für „{0}“ gefunden werden",
     "LabelTrackGain": "Titel Gain",
     "SelectAudioNormalizationHelp": "Track Gain - passt die Lautstärke der einzelnen Tracks an, so dass sie mit der gleichen Lautstärke wiedergegeben werden. Albumverstärkung - passt die Lautstärke aller Titel eines Albums an, wobei der Dynamikbereich des Albums erhalten bleibt.",
-    "LabelAlbumGain": "Album Gain",
+    "LabelAlbumGain": "Albumlautstärke",
     "LabelSelectAudioNormalization": "Audio Normalisierung"
 }
