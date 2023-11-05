@@ -1644,7 +1644,7 @@
     "LabelOriginalMediaInfo": "Original Media Info",
     "LabelSyncPlayInfo": "SyncPlay Info",
     "PreferFmp4HlsContainer": "Prefer fMP4-HLS Media Container",
-    "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct stream HEVC content on supported devices.",
+    "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct stream HEVC and AV1 content on supported devices.",
     "AllowHevcEncoding": "Allow encoding in HEVC format",
     "LabelAllowedAudioChannels": "Maximum Allowed Audio Channels",
     "LabelSelectAudioChannels": "Channels",
