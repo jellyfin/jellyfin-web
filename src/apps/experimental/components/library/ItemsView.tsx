@@ -11,9 +11,9 @@ import listview from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'scripts/globalize';
+import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';
-import ItemsContainer from './ItemsContainer';
 import NewCollectionButton from './NewCollectionButton';
 import Pagination from './Pagination';
 import PlayAllButton from './PlayAllButton';
@@ -67,7 +67,8 @@ const ItemsView: FC<ItemsViewProps> = ({
     const {
         isLoading,
         data: itemsResult,
-        isPreviousData
+        isPreviousData,
+        refetch
     } = useGetItemsViewByType(
         viewType,
         parentId,
@@ -252,7 +253,10 @@ const ItemsView: FC<ItemsViewProps> = ({
                 <Loading />
             ) : (
                 <ItemsContainer
+                    className='centered padded-left padded-right padded-right-withalphapicker'
                     libraryViewSettings={libraryViewSettings}
+                    parentId={parentId}
+                    reloadItems={refetch}
                     getItemsHtml={getItemsHtml}
                 />
             )}

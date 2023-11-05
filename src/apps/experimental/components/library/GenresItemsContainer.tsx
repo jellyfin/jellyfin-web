@@ -9,8 +9,8 @@ import { ParentId } from 'types/library';
 
 interface GenresItemsContainerProps {
     parentId: ParentId;
-    collectionType: CollectionType;
-    itemType: BaseItemKind;
+    collectionType: CollectionType | undefined;
+    itemType: BaseItemKind[];
 }
 
 const GenresItemsContainer: FC<GenresItemsContainerProps> = ({

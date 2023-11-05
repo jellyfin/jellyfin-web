@@ -16,6 +16,8 @@ progress {
     appearance: none;
     margin: 0;
     background: #ccc !important;
+    border-radius: 0.2em;
+    border: none;
 }
 
 progress[role]::after {

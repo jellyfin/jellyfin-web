@@ -56,9 +56,16 @@ export async function serverAddress() {
                     return;
                 }
 
+                let config;
+                try {
+                    config = await resp.json();
+                } catch (err) {
+                    return;
+                }
+
                 return {
                     url,
-                    config: await resp.json()
+                    config
                 };
             }).catch(error => {
                 console.error(error);

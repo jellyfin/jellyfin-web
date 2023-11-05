@@ -10,7 +10,6 @@ import { appHost } from '../apphost';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import cardBuilder from '../cardbuilder/cardBuilder';
 import itemContextMenu from '../itemContextMenu';
 import '../cardbuilder/card.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
@@ -19,6 +18,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
+import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -248,7 +248,7 @@ function setImageUrl(context, state, url) {
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImageAudio', item.Type === 'Audio');
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImagePoster', item.Type !== 'Audio');
     } else {
-        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
+        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
     }
 }
 
@@ -455,6 +455,11 @@ export default function () {
         btnPlayPauseIcon.classList.remove('play_circle_filled', 'pause_circle_filled');
         btnPlayPauseIcon.classList.add(isPaused ? 'play_circle_filled' : 'pause_circle_filled');
 
+        const playlistIndicator = context.querySelector('.playlistIndexIndicatorImage');
+        if (playlistIndicator) {
+            playlistIndicator.classList.toggle('playlistIndexIndicatorPausedImage', isPaused);
+        }
+
         buttonVisible(btnPlayPause, isActive);
     }
 
@@ -525,6 +530,7 @@ export default function () {
                 if (img) {
                     img.classList.remove('lazy');
                     img.classList.add('playlistIndexIndicatorImage');
+                    img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
                 }
             }
 

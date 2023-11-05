@@ -1356,7 +1356,7 @@
     "Video": "Video",
     "ThumbCard": "Karta náhledu",
     "Subtitle": "Titulky",
-    "SpecialFeatures": "Zvláštní funkce",
+    "SpecialFeatures": "Bonusový materiál",
     "SelectServer": "Vybrat server",
     "Restart": "Restartovat",
     "ResetPassword": "Obnovit heslo",
@@ -1429,7 +1429,7 @@
     "DeleteAll": "Odstranit vše",
     "EnableFallbackFontHelp": "Povolit vlastní alternativní písma. Může vyřešit problémy s nesprávným vykreslením titulků.",
     "EnableFallbackFont": "Povolit záložní písma",
-    "LabelFallbackFontPathHelp": "Zadejte cestu k náhradním písmům pro vykreslení titulků ve formátu ASS/SSA. Maximální celková velikost písma je 20 MB. Doporučujeme používat malé webové písma jako například formát woff2.",
+    "LabelFallbackFontPathHelp": "Tato písma používají někteří klienti k vykreslení titulků. Více informací naleznete v dokumentaci.",
     "LabelFallbackFontPath": "Cesta k náhradním písmům",
     "HeaderSelectFallbackFontPathHelp": "Vyberte či zadejte cestu k záložním písmům pro vykreslení titulků ve formátu ASS/SSA.",
     "HeaderSelectFallbackFontPath": "Vybrat cestu k záložním fontům",
@@ -1776,5 +1776,10 @@
     "UnknownError": "Došlo k neznámé chybě.",
     "BackdropScreensaver": "Pozadí",
     "LogoScreensaver": "Logo",
-    "LabelIsHearingImpaired": "Titulky pro neslyšící"
+    "LabelIsHearingImpaired": "Titulky pro neslyšící",
+    "LabelSelectAudioNormalization": "Normalizace hlasitosti",
+    "LabelAlbumGain": "Na úrovni alba",
+    "LabelTrackGain": "Na úrovni skladby",
+    "SelectAudioNormalizationHelp": "Normalizace na úrovni skladby upraví hlasitost všech skladeb tak, aby byla všude stejná. Normalizace na úrovni alba upraví hlasitost všech skladeb tak, aby byla hlasitost stejná v rámci jednotlivých alb.",
+    "SearchResultsEmpty": "Pro “{0}” nebylo nic nalezeno"
 }

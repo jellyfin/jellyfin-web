@@ -15,6 +15,7 @@ import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import merge from 'lodash-es/merge';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -145,7 +146,7 @@ function createStreamInfoFromUrlItem(item) {
 }
 
 function mergePlaybackQueries(obj1, obj2) {
-    const query = Object.assign(obj1, obj2);
+    const query = merge({}, obj1, obj2);
 
     const filters = query.Filters ? query.Filters.split(',') : [];
     if (filters.indexOf('IsNotFolder') === -1) {
@@ -1798,15 +1799,15 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : null
                 });
             } else if (firstItem.Type === 'MusicArtist') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ArtistIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
-                });
+                }, queryOptions));
             } else if (firstItem.MediaType === 'Photo') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
@@ -1814,7 +1815,7 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Photo,Video',
                     Limit: UNLIMITED_ITEMS
-                }).then(function (result) {
+                }, queryOptions)).then(function (result) {
                     const playbackItems = result.Items;
 
                     let index = playbackItems.map(function (i) {
@@ -1830,7 +1831,7 @@ class PlaybackManager {
                     return Promise.resolve(result);
                 });
             } else if (firstItem.Type === 'PhotoAlbum') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
@@ -1839,15 +1840,15 @@ class PlaybackManager {
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
-                });
+                }, queryOptions));
             } else if (firstItem.Type === 'MusicGenre') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     GenreIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
-                });
+                }, queryOptions));
             } else if (firstItem.Type === 'Series' || firstItem.Type === 'Season') {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
@@ -2773,6 +2774,12 @@ class PlaybackManager {
                                     });
                                 });
                             } else {
+                                if (item.AlbumId != null) {
+                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
+                                        mediaSource.albumLUFS = result.LUFS;
+                                        return mediaSource;
+                                    });
+                                }
                                 return mediaSource;
                             }
                         } else {

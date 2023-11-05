@@ -54,7 +54,7 @@ jobs:
         run: npm ci --no-audit
 
       - name: Run eslint
-        run: npm run lint
+        run: npx eslint --quiet "."
 
   run-stylelint-css:
     name: Run stylelint (css)

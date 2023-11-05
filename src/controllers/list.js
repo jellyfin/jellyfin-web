@@ -724,8 +724,13 @@ class ItemsView {
             const currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
+                const values = self.getSortValues();
                 playbackManager.play({
                     items: [currentItem],
+                    queryOptions: {
+                        SortBy: values.sortBy,
+                        SortOrder: values.sortOrder
+                    },
                     autoplay: true
                 });
             } else {
@@ -960,10 +965,7 @@ class ItemsView {
 
     getSortValues() {
         const basekey = this.getSettingsKey();
-        return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
-            sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
-        };
+        return userSettings.getSortValuesLegacy(basekey, this.getDefaultSortBy());
     }
 
     getDefaultSortBy() {
