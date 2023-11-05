@@ -200,7 +200,8 @@ function supportsHdr10(options) {
             || browser.web0s
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)
             // Chrome mobile and Firefox have no client side tone-mapping
-            // Edge Chromium on Nvidia is known to have color issues on 10-bit video
+            // Edge Chromium 117+ fixed the tone-mapping color issue on Nvidia
+            || browser.edgeChromium && browser.versionMajor >= 117
             || browser.chrome && !browser.mobile
     );
 }
