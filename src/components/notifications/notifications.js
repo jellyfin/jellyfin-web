@@ -28,7 +28,7 @@ function initPermissionRequest() {
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
         apiClient.getCurrentUser()
-            .then(user => user && registerOneDocumentClickHandler())
+            .then(user => registerOneDocumentClickHandler())
             .catch(() => {
                 Events.on(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
             });
