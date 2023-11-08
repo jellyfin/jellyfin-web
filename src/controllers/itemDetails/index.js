@@ -1966,13 +1966,15 @@ export default function (view, params) {
             selectedItem = item;
 
             apiClient.getCurrentUser().then(function (user) {
-                itemContextMenu.show(getContextMenuOptions(selectedItem, user, button)).then(function (result) {
-                    if (result.deleted) {
-                        appRouter.goHome();
-                    } else if (result.updated) {
-                        reload(self, view, params);
-                    }
-                });
+                itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
+                    .then(function (result) {
+                        if (result.deleted) {
+                            appRouter.goHome();
+                        } else if (result.updated) {
+                            reload(self, view, params);
+                        }
+                    })
+                    .catch(() => { /* no-op */ });
             });
         });
     }

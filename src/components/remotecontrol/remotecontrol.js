@@ -223,7 +223,8 @@ function updateNowPlayingInfo(context, state, serverId) {
                     itemContextMenu.show(Object.assign({
                         item: fullItem,
                         user: user
-                    }, options));
+                    }, options))
+                        .catch(() => { /* no-op */ });
                 });
             });
         });
@@ -773,17 +774,20 @@ export default function () {
 
         context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
             if (currentPlayer) {
-                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio') {
+                if (playbackManager.isPlayingAudio(currentPlayer)) {
                     // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
                     if (e.detail > 1 ) {
                         return;
                     }
+
                     // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
                     // to the previous track, unless we are at the first track so no previous track exists.
-                    if (currentPlayer._currentTime >= 5 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 1) {
+                    // currentTime is in msec.
+
+                    if (playbackManager.currentTime(currentPlayer) >= 5 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 1) {
                         playbackManager.seekPercent(0, currentPlayer);
                         // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
-                        // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
+                        // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
                         positionSlider.value = 0;
                         return;
                     }
