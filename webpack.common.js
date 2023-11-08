@@ -13,7 +13,8 @@ const Assets = [
 ];
 
 const JassubWasm = [
-    'jassub/dist/default.woff2'
+    'jassub/dist/default.woff2',
+    'jassub/dist/jassub-worker.wasm.js'
 ];
 
 const LibarchiveWasm = [
@@ -212,7 +213,7 @@ const config = {
                 }]
             },
             {
-                test: /\.js$/,
+                test: /(?<!\.wasm)\.js/,
                 include: [
                     path.resolve(__dirname, 'node_modules/jassub')
                 ],

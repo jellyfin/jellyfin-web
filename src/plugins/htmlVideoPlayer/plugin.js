@@ -1275,7 +1275,7 @@ export class HtmlVideoPlayer {
                     // eslint-disable-next-line compat/compat
                     wasmUrl: new URL('jassub/dist/jassub-worker.wasm', import.meta.url).href,
                     // eslint-disable-next-line compat/compat
-                    legacyWasmUrl: new URL('jassub/dist/jassub-worker.wasm.js', import.meta.url).href,
+                    legacyWasmUrl: `${appRouter.baseUrl()}/jassub-worker.wasm.js`,
                     // eslint-disable-next-line compat/compat
                     modernWasmUrl : new URL('jassub/dist/jassub-worker-modern.wasm', import.meta.url).href,
                     timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
