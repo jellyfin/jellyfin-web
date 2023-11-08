@@ -67,7 +67,7 @@
  - [sleepycatcoding](https://github.com/sleepycatcoding)
  - [TheMelmacian](https://github.com/TheMelmacian)
  - [tehciolo](https://github.com/tehciolo)
- - [Nate G](https://github.com/GGProGaming)
+ - [Nate G](https://github.com/nathangur)
  - [BrennanWoodbury](https://github.com/BrennanWoodbury)
  - [westonhowe98](https://github.com/westonhowe98)
  - [scampower3](https://github.com/scampower3)
