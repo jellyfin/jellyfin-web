@@ -124,7 +124,14 @@ const config = {
         removeAvailableModules: false,
         removeEmptyChunks: false,
         // terser plugin still runs on statically copied JS files, which can potentially break them, exclude them!
-        minimizer: [new TerserPlugin({ exclude: /\.wasm\.js$/ })],
+        minimizer: [new TerserPlugin({
+            exclude: /\.wasm\.js$/,
+            terserOptions: {
+                compress: {
+                    passes: 2
+                }
+            }
+        })],
         splitChunks: {
             chunks: 'all',
             maxInitialRequests: Infinity,
