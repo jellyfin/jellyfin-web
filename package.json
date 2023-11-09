@@ -59,7 +59,7 @@
     "stylelint-order": "6.0.3",
     "stylelint-scss": "5.3.0",
     "ts-loader": "9.5.0",
-    "typescript": "5.0.4",
+    "typescript": "5.2.2",
     "vitest": "0.34.6",
     "webpack": "5.89.0",
     "webpack-bundle-analyzer": "4.9.1",
