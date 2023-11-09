@@ -118,7 +118,7 @@
     "sortablejs": "1.15.0",
     "swiper": "9.3.2",
     "webcomponents.js": "0.7.24",
-    "whatwg-fetch": "3.6.2"
+    "whatwg-fetch": "3.6.19"
   },
   "browserslist": [
     "last 2 Firefox versions",
