@@ -1,11 +1,11 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'jquery';
-import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 import 'fast-text-encoding';
 import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
+import 'abortcontroller-polyfill'; // requires fetch
 import 'resize-observer-polyfill';
 import './styles/site.scss';
 import React, { StrictMode } from 'react';
