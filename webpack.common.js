@@ -5,6 +5,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const Assets = [
     'native-promise-only/npo.js',
@@ -122,6 +123,8 @@ const config = {
         runtimeChunk: 'single',
         removeAvailableModules: false,
         removeEmptyChunks: false,
+        // terser plugin still runs on statically copied JS files, which can potentially break them, exclude them!
+        minimizer: [new TerserPlugin({ exclude: /\.wasm\.js$/ })],
         splitChunks: {
             chunks: 'all',
             maxInitialRequests: Infinity,
@@ -213,7 +216,7 @@ const config = {
                 }]
             },
             {
-                test: /(?<!\.wasm)\.js/,
+                test: /(?<!\.wasm)\.js$/,
                 include: [
                     path.resolve(__dirname, 'node_modules/jassub')
                 ],
