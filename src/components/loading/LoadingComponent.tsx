@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 
 import loading from './loading';
 
@@ -11,7 +11,7 @@ const Loading: FunctionComponent = () => {
         };
     }, []);
 
-    return <></>;
+    return null;
 };
 
 export default Loading;
