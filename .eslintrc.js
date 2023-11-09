@@ -90,6 +90,7 @@ module.exports = {
 
         'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
         'react/jsx-no-bind': ['error'],
+        'react/jsx-no-useless-fragment': ['error'],
         'react/jsx-no-constructed-context-values': ['error'],
         'react/no-array-index-key': ['error'],
 
