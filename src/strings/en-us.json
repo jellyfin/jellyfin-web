@@ -971,6 +971,8 @@
     "LabelTypeText": "Text",
     "LabelUnstable": "Unstable",
     "LabelUser": "User",
+    "LabelUseReplayGainTagsHelp": "Scan audio files for replaygain tags and use them instead of computing LUFS value. (Uses less computing power. Will override 'LUFS Scan' option)",
+    "LabelUseReplayGainTags": "Use ReplayGain Tags",
     "LabelUserAgent": "User agent",
     "LabelUserLibrary": "User library",
     "LabelUserLibraryHelp": "Select which user library to display to the device. Leave empty to inherit the default setting.",
