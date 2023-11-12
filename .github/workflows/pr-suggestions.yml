@@ -33,6 +33,6 @@ jobs:
 
       - name: Run eslint
         if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-        uses: CatChen/eslint-suggestion-action@1d3c34d8a59287e1c4b6e3b11093da99b86ad729 # v3.1.0
+        uses: CatChen/eslint-suggestion-action@912483cec485e691398ec76c25fef971456039a1 # v3.1.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
