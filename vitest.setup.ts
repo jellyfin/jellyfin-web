@@ -1,4 +1,4 @@
 export const setup = () => {
-    // UTC−09:00
-    process.env.TZ = 'Etc/GMT+9';
+    // UTC−05:00
+    process.env.TZ = 'Etc/GMT+5';
 };
