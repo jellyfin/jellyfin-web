@@ -497,7 +497,8 @@ export function canPlaySecondaryAudio(videoTestElement) {
             }
         }
 
-        if (canPlayAudioFormat('flac')) {
+        // FLAC audio in video plays with a delay on Tizen
+        if (canPlayAudioFormat('flac') && !browser.tizen) {
             videoAudioCodecs.push('flac');
             hlsInFmp4VideoAudioCodecs.push('flac');
         }
