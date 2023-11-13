@@ -3,8 +3,8 @@ import datetime from './datetime';
 
 describe('parseISO8601Date', () => {
     test('date with timezone parses correctly', () => {
-        const dateString = '2010-12-07T11:25:12.135-09:00';
-        const dateUtc = new Date(Date.UTC(2010, 11, 7, 20, 25, 12, 135));
+        const dateString = '2010-12-07T11:25:12.135-05:00';
+        const dateUtc = new Date(Date.UTC(2010, 11, 7, 16, 25, 12, 135));
 
         // toLocal should not affect the result
         expect(datetime.parseISO8601Date(dateString)).toEqual(dateUtc);
@@ -15,9 +15,9 @@ describe('parseISO8601Date', () => {
         expect(datetime.parseISO8601Date('2010-12-07T11:25:12.135Z')).toEqual(new Date(Date.UTC(2010, 11, 7, 11, 25, 12, 135)));
     });
 
-    // Local timezone is configured in `vitest.setup.ts` to be UTC-09:00
+    // Local timezone is configured in `vitest.setup.ts` to be UTC-05:00
     test('date without timezone and toLocal is false parses as local time', () => {
-        expect(datetime.parseISO8601Date('2010-12-07T11:25:12.135Z', false)).toEqual(new Date(Date.UTC(2010, 11, 7, 20, 25, 12, 135)));
+        expect(datetime.parseISO8601Date('2010-12-07T11:25:12.135Z', false)).toEqual(new Date(Date.UTC(2010, 11, 7, 16, 25, 12, 135)));
     });
 
     test('invalid string throws error', () => {
@@ -66,7 +66,7 @@ describe('toLocaleString', () => {
     });
 
     test('value is a date converts correctly', () => {
-        expect(datetime.toLocaleString(new Date(Date.UTC(2010, 11, 7, 20, 25, 12, 135)))).toEqual('12/7/2010, 11:25:12 AM');
+        expect(datetime.toLocaleString(new Date(Date.UTC(2010, 11, 7, 16, 25, 12, 135)))).toEqual('12/7/2010, 11:25:12 AM');
     });
 
     test('value is a number converts correctly', () => {
@@ -84,7 +84,7 @@ describe('toLocaleDateString', () => {
     });
 
     test('date converts correctly', () => {
-        expect(datetime.toLocaleDateString(new Date(Date.UTC(2010, 11, 7, 20, 25, 12, 135)))).toEqual('12/7/2010');
+        expect(datetime.toLocaleDateString(new Date(Date.UTC(2010, 11, 7, 16, 25, 12, 135)))).toEqual('12/7/2010');
     });
 });
 
@@ -98,9 +98,9 @@ describe('toLocaleTimeString', () => {
     });
 
     test('date with no options returns correct value', () => {
-        expect(datetime.toLocaleTimeString(new Date(Date.UTC(2010, 11, 7, 11, 25, 12, 135)))).toEqual('2:25:12 AM');
-        expect(datetime.toLocaleTimeString(new Date(Date.UTC(2010, 11, 7, 20, 25, 12, 135)))).toEqual('11:25:12 AM');
-        expect(datetime.toLocaleTimeString(new Date(Date.UTC(2010, 11, 7, 7, 25, 12, 135)))).toEqual('10:25:12 PM');
+        expect(datetime.toLocaleTimeString(new Date(Date.UTC(2010, 11, 7, 7, 25, 12, 135)))).toEqual('2:25:12 AM');
+        expect(datetime.toLocaleTimeString(new Date(Date.UTC(2010, 11, 7, 16, 25, 12, 135)))).toEqual('11:25:12 AM');
+        expect(datetime.toLocaleTimeString(new Date(Date.UTC(2010, 11, 7, 3, 25, 12, 135)))).toEqual('10:25:12 PM');
     });
 });
 
@@ -114,15 +114,15 @@ describe('getDisplayTime', () => {
     });
 
     test('date returns correct value', () => {
-        expect(datetime.getDisplayTime(new Date(Date.UTC(2010, 11, 7, 11, 25, 12, 135)))).toEqual('2:25 AM');
-        expect(datetime.getDisplayTime(new Date(Date.UTC(2010, 11, 7, 20, 25, 12, 135)))).toEqual('11:25 AM');
-        expect(datetime.getDisplayTime(new Date(Date.UTC(2010, 11, 7, 7, 25, 12, 135)))).toEqual('10:25 PM');
+        expect(datetime.getDisplayTime(new Date(Date.UTC(2010, 11, 7, 7, 25, 12, 135)))).toEqual('2:25 AM');
+        expect(datetime.getDisplayTime(new Date(Date.UTC(2010, 11, 7, 16, 25, 12, 135)))).toEqual('11:25 AM');
+        expect(datetime.getDisplayTime(new Date(Date.UTC(2010, 11, 7, 3, 25, 12, 135)))).toEqual('10:25 PM');
     });
 
     test('string returns correct value', () => {
-        expect(datetime.getDisplayTime('2010-12-07T02:25:12.135-09:00')).toEqual('2:25 AM');
-        expect(datetime.getDisplayTime('2010-12-07T11:25:12.135-09:00')).toEqual('11:25 AM');
-        expect(datetime.getDisplayTime('2010-12-07T22:25:12.135-09:00')).toEqual('10:25 PM');
+        expect(datetime.getDisplayTime('2010-12-07T02:25:12.135-05:00')).toEqual('2:25 AM');
+        expect(datetime.getDisplayTime('2010-12-07T11:25:12.135-05:00')).toEqual('11:25 AM');
+        expect(datetime.getDisplayTime('2010-12-07T22:25:12.135-05:00')).toEqual('10:25 PM');
     });
 });
 
