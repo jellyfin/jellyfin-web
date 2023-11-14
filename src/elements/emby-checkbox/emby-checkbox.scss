@@ -123,20 +123,20 @@
 
 @keyframes repaintChrome {
     from {
-        padding: 0;
+        margin: 0;
     }
 
     to {
-        padding: 0;
+        margin: 0;
     }
 }
 
 @-webkit-keyframes repaintChrome {
     from {
-        padding: 0;
+        margin: 0;
     }
 
     to {
-        padding: 0;
+        margin: 0;
     }
 }
