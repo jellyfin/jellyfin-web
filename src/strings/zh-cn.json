@@ -1776,5 +1776,10 @@
     "GoHome": "回家",
     "BackdropScreensaver": "背景屏保",
     "LogoScreensaver": "徽标屏保",
-    "LabelIsHearingImpaired": "用于听障/聋哑人士"
+    "LabelIsHearingImpaired": "用于听障/聋哑人士",
+    "SearchResultsEmpty": "抱歉！未找到与\"{0}\"相关的结果",
+    "LabelTrackGain": "音轨增益",
+    "SelectAudioNormalizationHelp": "音轨增益 - 调整每个音轨的音量，使它们播放时具有相同的响度。专辑增益 - 只调整专辑中所有音轨的音量，保持专辑的动态范围。",
+    "LabelAlbumGain": "专辑增益",
+    "LabelSelectAudioNormalization": "音频标准化"
 }
