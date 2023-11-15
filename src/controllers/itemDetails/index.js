@@ -1,6 +1,6 @@
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
-import { marked } from 'marked';
+import markdownIt from 'markdown-it';
 import escapeHtml from 'escape-html';
 import isEqual from 'lodash-es/isEqual';
 
@@ -859,7 +859,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = DOMPurify.sanitize(marked(item.Overview || ''));
+        const overview = DOMPurify.sanitize(markdownIt().render(item.Overview || ''));
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {

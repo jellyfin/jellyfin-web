@@ -196,7 +196,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/flv.js'),
                     path.resolve(__dirname, 'node_modules/is-what'),
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
-                    path.resolve(__dirname, 'node_modules/marked'),
+                    path.resolve(__dirname, 'node_modules/markdown-it'),
                     path.resolve(__dirname, 'node_modules/react-router'),
                     path.resolve(__dirname, 'node_modules/screenfull'),
                     path.resolve(__dirname, 'node_modules/ssr-window'),
