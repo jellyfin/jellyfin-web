@@ -72,6 +72,7 @@
  - [LittleBigOwI] (https://github.com/LittleBigOwI/)
  - [Nate G](https://github.com/GGProGaming)
  - [Grady Hallenbeck](https://github.com/grhallenbeck)
+ - [DinuD](https://github.com/DinuD)
 
 # Emby Contributors
 
