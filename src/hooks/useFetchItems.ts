@@ -18,7 +18,7 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import datetime from 'scripts/datetime';
+import datetime from 'utils/datetime';
 import globalize from 'scripts/globalize';
 
 import { JellyfinApiContext, useApi } from './useApi';
