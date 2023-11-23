@@ -15,7 +15,7 @@ function populateHistory(packageInfo, page) {
     for (let i = 0; i < length; i++) {
         const version = packageInfo.versions[i];
         html += '<h2 style="margin:.5em 0;">' + version.version + '</h2>';
-        html += '<div style="margin-bottom:1.5em;">' + DOMPurify.sanitize(markdownIt().render(version.changelog)) + '</div>';
+        html += '<div style="margin-bottom:1.5em;">' + DOMPurify.sanitize(markdownIt({ html: true }).render(version.changelog)) + '</div>';
     }
 
     $('#revisionHistory', page).html(html);

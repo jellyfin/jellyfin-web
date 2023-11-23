@@ -859,7 +859,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = DOMPurify.sanitize(markdownIt().render(item.Overview || ''));
+        const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
