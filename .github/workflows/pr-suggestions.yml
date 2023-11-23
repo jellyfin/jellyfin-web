@@ -17,12 +17,12 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup node environment
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3.8.2
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: 20
           check-latest: true
@@ -33,6 +33,6 @@ jobs:
 
       - name: Run eslint
         if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-        uses: CatChen/eslint-suggestion-action@1d3c34d8a59287e1c4b6e3b11093da99b86ad729 # v3.1.0
+        uses: CatChen/eslint-suggestion-action@912483cec485e691398ec76c25fef971456039a1 # v3.1.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
