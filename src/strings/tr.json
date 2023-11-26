@@ -1576,7 +1576,7 @@
     "OptionPlainVideoItems": "Tüm videoları yalın video öğeleri olarak göster",
     "OptionPlainStorageFoldersHelp": "DIDL'de tüm klasörler 'object.container.person.musicArtist' gibi daha özgün bir tür yerine 'object.container.storageFolder' olarak temsil edilir.",
     "IgnoreDtsHelp": "Bu seçeneği devre dışı bırakmak, ayrı ses ve video akışlarına sahip kanallarda eksik ses gibi bazı sorunları çözebilir.",
-    "IgnoreDts": "DTS'yi (çizümleyici zamandamgasını) Yoksay",
+    "IgnoreDts": "DTS'yi (çözümleyici zaman damgasını) Yoksay",
     "MediaInfoDvBlSignalCompatibilityId": "DV bl sinyal uyumluluk kimliği",
     "MediaInfoBlPresentFlag": "DV bl önayar etiketi",
     "MediaInfoElPresentFlag": "DV el önayar etiketi",
@@ -1772,5 +1772,6 @@
     "SelectAudioNormalizationHelp": "Parça ses kazancı - her parçanın ses seviyesini, aynı ses yüksekliğinde çalınacak şekilde ayarlar. Albüm ses kazancı - albümün dinamik aralığını koruyarak yalnızca bir albümdeki tüm parçaların ses düzeyini ayarlar.",
     "LabelSelectAudioNormalization": "Ses Normalleştirme",
     "LabelAlbumGain": "Albüm Ses Kazancı",
-    "LabelTrackGain": "Parça Ses Kazancı"
+    "LabelTrackGain": "Parça Ses Kazancı",
+    "SearchResultsEmpty": "Üzgünüz! \"{0}\" için sonuç bulunamadı"
 }
