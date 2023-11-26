@@ -672,14 +672,6 @@
 .itemName {
     margin: 0.5em 0;
     font-weight: 600;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    .layout-mobile & {
-        white-space: normal;
-        overflow: visible;
-    }
 }
 
 .itemName.originalTitle {
@@ -709,6 +701,13 @@
 
 .layout-mobile .itemName.originalTitle {
     margin: 0.5em 0 0.5em;
+}
+
+.layout-desktop .itemName,
+.layout-desktop .parentName {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .nameContainer {

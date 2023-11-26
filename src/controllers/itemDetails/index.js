@@ -440,12 +440,12 @@ function renderName(item, container, context) {
         if (parentNameLast) {
             // Music
             if (layoutManager.mobile) {
-                html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
+                html = '<h3 class="parentName infoText musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
             } else {
-                html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
+                html = '<h3 class="parentName infoText musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
         } else {
-            html = '<h1 class="parentName focuscontainer-x"><bdi>' + tvShowHtml + '</bdi></h1>';
+            html = '<h1 class="parentName infoText focuscontainer-x"><bdi>' + tvShowHtml + '</bdi></h1>';
         }
     }
 
