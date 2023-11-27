@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify';
-import { marked } from 'marked';
+import markdownIt from 'markdown-it';
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
@@ -282,7 +282,7 @@ export default function (view, params) {
         apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
-            loginDisclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
+            loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';
