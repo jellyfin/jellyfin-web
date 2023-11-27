@@ -234,21 +234,6 @@ import alert from '../../components/alert';
 
             setDecodingCodecsVisible(page, this.value);
         });
-        $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
-                const picker = new DirectoryBrowser();
-                picker.show({
-                    includeFiles: true,
-                    callback: function (path) {
-                        if (path) {
-                            $('.txtEncoderPath', page).val(path);
-                        }
-
-                        picker.close();
-                    }
-                });
-            });
-        });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
             import('../../components/directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
                 const picker = new DirectoryBrowser();
