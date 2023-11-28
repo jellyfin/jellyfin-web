@@ -20,7 +20,7 @@ $mui-bp-xl: 1536px;
 }
 
 // Fix the padding of some pages
-.homePage.libraryPage, // Home page
+.homePage.libraryPage.withTabs, // Home page
 .libraryPage:not(.withTabs) { // Tabless library pages
     padding-top: 3.25rem !important;
 }
