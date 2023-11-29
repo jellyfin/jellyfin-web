@@ -1758,5 +1758,6 @@
     "GoHome": "Về Trang Chủ",
     "AiTranslated": "Được AI Dịch",
     "MachineTranslated": "Được Máy Dịch",
-    "LabelSelectAudioNormalization": "Chuẩn Hóa Âm Thanh"
+    "LabelSelectAudioNormalization": "Chuẩn Hóa Âm Thanh",
+    "SearchResultsEmpty": "Rất tiếc! Không có kết quả tìm thấy cho \"{0}\""
 }
