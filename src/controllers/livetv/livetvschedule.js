@@ -38,7 +38,7 @@ function renderRecordings(elem, recordings, cardOptions) {
         recordingItems.classList.add('vertical-wrap');
     }
 
-    recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
+    recordingItems.innerHTML = cardBuilder.getCardsHtml({
         items: recordings,
         shape: enableScrollX() ? 'autooverflow' : 'auto',
         showTitle: true,
@@ -47,8 +47,9 @@ function renderRecordings(elem, recordings, cardOptions) {
         cardLayout: false,
         centerText: true,
         allowBottomPadding: !enableScrollX(),
-        preferThumb: 'auto'
-    }, cardOptions || {}));
+        preferThumb: 'auto',
+        ...cardOptions || {}
+    })
     imageLoader.lazyChildren(recordingItems);
 }
 

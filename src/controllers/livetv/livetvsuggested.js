@@ -131,7 +131,7 @@ function reload(page, enableFullRender) {
 }
 
 function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
-    const html = cardBuilder.getCardsHtml(Object.assign({
+    const html = cardBuilder.getCardsHtml({
         items: items,
         preferThumb: 'auto',
         inheritThumb: false,
@@ -148,8 +148,9 @@ function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
         overlayInfoButton: overlayButton === 'info',
         allowBottomPadding: !enableScrollX(),
         showAirTime: true,
-        showAirDateTime: true
-    }, cardOptions || {}));
+        showAirDateTime: true,
+        ...cardOptions || {}
+    })
     const elem = page.querySelector('.' + sectionClass);
     elem.innerHTML = html;
     imageLoader.lazyChildren(elem);

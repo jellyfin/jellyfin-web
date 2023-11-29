@@ -574,11 +574,11 @@ function updateNowPlayingInfo(state) {
                 };
                 apiClient.getCurrentUser().then(function (user) {
                     contextButton.addEventListener('click', function () {
-                        itemContextMenu.show(Object.assign({
+                        itemContextMenu.show({
                             item: item,
-                            user: user
-                        }, options))
-                            .catch(() => { /* no-op */ });
+                            user: user,
+                            ...options})
+                        .catch(() => { /* no-op */ });
                     });
                 });
             }

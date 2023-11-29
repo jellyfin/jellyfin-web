@@ -77,26 +77,23 @@ const interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
 
 const scrollerFactory = function (frame, options) {
     // Extend options
-    const o = Object.assign({}, {
+    const o = {
         slidee: null, // Selector, DOM element, or jQuery object with DOM element representing SLIDEE.
         horizontal: false, // Switch to horizontal mode.
-
         // Scrolling
-        mouseWheel: true,
+        mouseWheel: true, 
         scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling
-
-        // Dragging
+        // Draggin
         dragSource: null, // Selector or DOM element for catching dragging events. Default is FRAME.
         mouseDragging: 1, // Enable navigation by dragging the SLIDEE with mouse cursor.
         touchDragging: 1, // Enable navigation by dragging the SLIDEE with touch events.
         dragThreshold: 3, // Distance in pixels before Sly recognizes dragging.
         intervactive: null, // Selector for special interactive elements.
-
         // Mixed options
-        speed: 0 // Animations speed in milliseconds. 0 to disable animations.
-
-    }, options);
-
+        speed: 0, // Animations speed in milliseconds. 0 to disable animations.
+        ...options
+      };
+    
     const isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 
     // native scroll is a must with touch input

@@ -331,7 +331,7 @@ class NavDrawer {
     }
 
     initialize() {
-        const options = Object.assign({}, this.defaults, this.options || {});
+        const options = { ...this.defaults, ...(this.options || {}) };
         this.options = options;
 
         if (browser.edge) {

@@ -262,7 +262,7 @@ class SessionPlayer {
     }
 
     play(options) {
-        options = Object.assign({}, options);
+        options = {...options};
 
         if (options.items) {
             options.ids = options.items.map(function (i) {

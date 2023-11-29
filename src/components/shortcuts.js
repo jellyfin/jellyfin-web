@@ -112,7 +112,7 @@ function showContextMenu(card, options) {
 
         import('./itemContextMenu').then((itemContextMenu) => {
             ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(user => {
-                itemContextMenu.show(Object.assign({
+                itemContextMenu.show({
                     item: item,
                     play: true,
                     queue: true,
@@ -120,8 +120,9 @@ function showContextMenu(card, options) {
                     queueAllFromHere: !item.IsFolder,
                     playlistId: playlistId,
                     collectionId: collectionId,
-                    user: user
-                }, options || {}))
+                    user: user,
+                    ...options || {}
+                })
                     .then(result => {
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                             executeAction(card, options.positionTo, result.command);
