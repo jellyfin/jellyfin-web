@@ -1,9 +1,10 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { ApiClient } from 'jellyfin-apiclient';
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
 
-import { getCardImageUrl } from './cardBuilder';
+import { getCardImageUrl, getDefaultText } from './cardBuilder';
 
 /**
  * Builds an html string for a basic image only card.
@@ -38,6 +39,17 @@ export function buildCardImage(
     const className = ` ${shape}Card`;
 
     const { blurhash, imgUrl } = image;
+
+    let cardPadderIcon = '';
+    // TV Channel logos are transparent so skip the placeholder to avoid overlapping
+    if (imgUrl && item.Type !== BaseItemKind.TvChannel) {
+        cardPadderIcon = getDefaultText(item, {
+            // Always use an icon
+            defaultCardImageIcon: 'folder',
+            ...options
+        });
+    }
+
     let blurhashAttrib = '';
     if (blurhash && blurhash.length > 0) {
         blurhashAttrib = `data-blurhash="${blurhash}"`;
@@ -47,7 +59,9 @@ export function buildCardImage(
         `<div class="card ${className}">
     <div class="cardBox">
         <div class="cardScalable">
-            <div class="cardPadder cardPadder-${shape}"></div>
+            <div class="cardPadder cardPadder-${shape}">
+                ${cardPadderIcon}
+            </div>
             <div
                 class="cardImageContainer coveredImage cardContent lazy"
                 style="cursor: default;"
