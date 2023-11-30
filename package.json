@@ -17,7 +17,7 @@
     "@types/markdown-it": "13.0.6",
     "@types/react": "17.0.70",
     "@types/react-dom": "17.0.23",
-    "@types/sortablejs": "1.15.5",
+    "@types/sortablejs": "1.15.7",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "@uupaa/dynamic-import-polyfill": "1.0.2",
