@@ -11,6 +11,7 @@ import AppTabs from '../tabs/AppTabs';
 import { isDrawerPath } from '../drawers/AppDrawer';
 import RemotePlayButton from './RemotePlayButton';
 import SyncPlayButton from './SyncPlayButton';
+import { isTabPath } from '../tabs/tabRoutes';
 
 interface AppToolbarProps {
     isDrawerOpen: boolean
@@ -23,6 +24,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
 }) => {
     const location = useLocation();
     const isDrawerAvailable = isDrawerPath(location.pathname);
+    const isTabsAvailable = isTabPath(location.pathname);
 
     return (
         <AppToolbar
@@ -48,7 +50,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
             isDrawerOpen={isDrawerOpen}
             onDrawerButtonClick={onDrawerButtonClick}
         >
-            <AppTabs isDrawerOpen={isDrawerOpen} />
+            {isTabsAvailable && (<AppTabs isDrawerOpen={isDrawerOpen} />)}
         </AppToolbar>
     );
 };

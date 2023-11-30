@@ -1481,7 +1481,7 @@
     "LabelPlaybackInfo": "Uppspelningsinfo",
     "AspectRatioFill": "Fyll",
     "EnableFallbackFont": "Aktivera reserv-gränssnitt",
-    "LabelFallbackFontPathHelp": "Ange en sökväg som innehåller reservteckensnitt för renderningen av ASS/SSA undertexter. Den maximala totala tilllåtna filstorleken är 20 MB. Lättviktiga och webbvänliga filtyper t.ex. woff2 rekommenderas.",
+    "LabelFallbackFontPathHelp": "Dessa teckensnitt används av vissa klienter för att återge undertexter. Mer information finns i dokumentationen.",
     "LabelFallbackFontPath": "Sökväg till reservmapp för typsnitt",
     "HeaderSelectFallbackFontPath": "Välj reservmapp för typsnitt",
     "HeaderSelectFallbackFontPathHelp": "Bläddra till eller mata in sökvägen till reservmappen för typsnitt att använda i framställningen av ASS/SSA-undertexter.",
@@ -1775,5 +1775,10 @@
     "LabelBackdropScreensaverInterval": "Bakgrunds skärmsläckare intervall",
     "GridView": "Rutnätsvy",
     "ListView": "Listvy",
-    "ForeignPartsOnly": "Forcerad/Främmande delar enbart"
+    "ForeignPartsOnly": "Enbart Tvungna/Främmande delar",
+    "SearchResultsEmpty": "Vi beklagar! Inga resultat hittades för \"{0}\"",
+    "SelectAudioNormalizationHelp": "Spårförstärkning - justerar volymen för varje ljudspår så att de spelas upp med samma ljudnivå. Albumförstärkning - justerar endast volymen för alla spår i ett album. Behåller albumets dynamiska volymräckvidd.",
+    "LabelAlbumGain": "Albumförstärkning",
+    "LabelSelectAudioNormalization": "Ljudnormalisering",
+    "LabelTrackGain": "Spårförstärkning"
 }

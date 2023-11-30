@@ -18,7 +18,7 @@ class BackdropScreensaver {
             SortBy: 'Random',
             Recursive: true,
             Fields: 'Taglines',
-            ImageTypeLimit: 1,
+            ImageTypeLimit: 10,
             StartIndex: 0,
             Limit: 200
         };

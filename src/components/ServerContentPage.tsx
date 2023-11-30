@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ServerConnections from './ServerConnections';
@@ -56,7 +56,7 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
         location.search
     ]);
 
-    return <></>;
+    return null;
 };
 
 export default ServerContentPage;

@@ -1778,5 +1778,6 @@
     "SelectAudioNormalizationHelp": "Kappalekohtainen vahvistus – jokaisen kappaleen äänenvoimakkuus pyritään säätämään samalle tasolle. Albumikohtainen vahvistus – kappaleiden äänenvoimakkuus pyritään tasaamaan albumikohtaisesti albumikohtaisen dynamiikan säilyttämiseksi.",
     "LabelAlbumGain": "Albumikohtainen vahvistus",
     "LabelSelectAudioNormalization": "Äänenvoimakkuuden normalisointi",
-    "LabelTrackGain": "Kappelkohtainen vahvistus"
+    "LabelTrackGain": "Kappelkohtainen vahvistus",
+    "SearchResultsEmpty": "Pahoittelut! Haku \"{0}\" ei tuottanut tuloksia"
 }

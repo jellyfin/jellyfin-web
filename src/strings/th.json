@@ -140,5 +140,8 @@
     "BirthDateValue": "เกิด: {0}",
     "AllowMediaConversion": "การอนุญาตการแปลงมีเดีย",
     "AgeValue": "({0} ปี)",
-    "AddToFavorites": "เพิ่มไปยังรายการโปรด"
+    "AddToFavorites": "เพิ่มไปยังรายการโปรด",
+    "Aired": "ออกอากาศ",
+    "AlwaysPlaySubtitles": "แสดงตลอด",
+    "AllowCollectionManagement": "อนุญาตให้ผู้ใช้นี้จัดการคอลเลกชัน"
 }

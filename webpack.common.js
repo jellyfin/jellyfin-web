@@ -110,7 +110,9 @@ const config = {
         })
     ],
     output: {
-        filename: '[name].bundle.js',
+        filename: pathData => (
+            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
+        ),
         chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
@@ -194,7 +196,8 @@ const config = {
                     path.resolve(__dirname, 'node_modules/flv.js'),
                     path.resolve(__dirname, 'node_modules/is-what'),
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
-                    path.resolve(__dirname, 'node_modules/marked'),
+                    path.resolve(__dirname, 'node_modules/markdown-it'),
+                    path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-router'),
                     path.resolve(__dirname, 'node_modules/screenfull'),
                     path.resolve(__dirname, 'node_modules/ssr-window'),

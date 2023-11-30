@@ -3,9 +3,9 @@ import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../scripts/globalize';
-import cardBuilder from '../../cardbuilder/cardBuilder';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import escapeHTML from 'escape-html';
+import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
 
 const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl: string }) => ({
     __html: `<a
@@ -56,7 +56,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
 
     const renderImgUrl = imgUrl ?
         `<div class='${imageClass}' style='background-image:url(${imgUrl})'></div>` :
-        `<div class='${imageClass} ${cardBuilder.getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
+        `<div class='${imageClass} ${getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
             <span class='material-icons cardImageIcon person' aria-hidden='true'></span>
         </div>`;
 

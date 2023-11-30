@@ -1,10 +1,10 @@
 import loadable, { LoadableComponent } from '@loadable/component';
 import React from 'react';
-import { Route } from 'react-router-dom';
 
 export enum AsyncRouteType {
     Stable,
-    Experimental
+    Experimental,
+    Dashboard,
 }
 
 export interface AsyncRoute {
@@ -26,6 +26,11 @@ export interface AsyncPageProps {
     page: string
 }
 
+const DashboardAsyncPage = loadable(
+    (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${props.page}`),
+    { cacheKey: (props: AsyncPageProps) => props.page }
+);
+
 const ExperimentalAsyncPage = loadable(
     (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${props.page}`),
     { cacheKey: (props: AsyncPageProps) => props.page }
@@ -36,19 +41,24 @@ const StableAsyncPage = loadable(
     { cacheKey: (props: AsyncPageProps) => props.page }
 );
 
-export const toAsyncPageRoute = ({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) => {
-    const Element = element
-        || (
-            type === AsyncRouteType.Experimental ?
-                ExperimentalAsyncPage :
-                StableAsyncPage
-        );
+export function toAsyncPageRoute({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) {
+    let Element = element;
+    if (!Element) {
+        switch (type) {
+            case AsyncRouteType.Dashboard:
+                Element = DashboardAsyncPage;
+                break;
+            case AsyncRouteType.Experimental:
+                Element = ExperimentalAsyncPage;
+                break;
+            case AsyncRouteType.Stable:
+            default:
+                Element = StableAsyncPage;
+        }
+    }
 
-    return (
-        <Route
-            key={path}
-            path={path}
-            element={<Element page={page ?? path} />}
-        />
-    );
-};
+    return {
+        path,
+        element: <Element page={page ?? path} />
+    };
+}

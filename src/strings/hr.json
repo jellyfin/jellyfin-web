@@ -1415,5 +1415,10 @@
     "MediaInfoDoViTitle": "DV naslov",
     "IntelLowPowerEncHelp": "Kodiranje s niskom potrošnjom može zadržati nepotrebnu sinkronizaciju CPU-GPU. Na Linuxu moraju biti onemogućeni ako i915 HuC firmware nije konfiguriran",
     "PreferSystemNativeHwDecoder": "Preferiraj izvorne DXVA ili VA-API hardverske dekodere operativnog sustava",
-    "EnableSplashScreen": "Omogući početni ekran"
+    "EnableSplashScreen": "Omogući početni ekran",
+    "AllowSegmentDeletion": "Obriši segmente",
+    "AllowSegmentDeletionHelp": "Obriši stare segmente nakon što su poslani klijentu. Ovo sprječava spremanje cijele transkodirane datoteke na disku. Raditi će samo ako je prigušivanje uključeno. Isključiti ovo u slučaju problema s reprodukcijom.",
+    "LabelThrottleDelaySeconds": "Priguši nakon",
+    "LabelThrottleDelaySecondsHelp": "Vrijeme u sekundama nakon kojega će transkoder početi s prigušivanjem. Mora biti dovoljno veliko da klijent uspije održati zdravo spremanje u međuspremnik. Radi samo ako je prigušivanje uključeno.",
+    "LabelSegmentKeepSeconds": "Vrijeme zadržavanja segmenata"
 }

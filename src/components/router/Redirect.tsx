@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, useLocation } from 'react-router-dom';
+import { Navigate, RouteObject, useLocation } from 'react-router-dom';
 
 export interface Redirect {
     from: string
@@ -17,12 +17,9 @@ const RedirectWithSearch = ({ to }: { to: string }) => {
     );
 };
 
-export function toRedirectRoute({ from, to }: Redirect) {
-    return (
-        <Route
-            key={from}
-            path={from}
-            element={<RedirectWithSearch to={to} />}
-        />
-    );
+export function toRedirectRoute({ from, to }: Redirect): RouteObject {
+    return {
+        path: from,
+        element: <RedirectWithSearch to={to} />
+    };
 }

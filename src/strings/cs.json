@@ -1356,7 +1356,7 @@
     "Video": "Video",
     "ThumbCard": "Karta náhledu",
     "Subtitle": "Titulky",
-    "SpecialFeatures": "Zvláštní funkce",
+    "SpecialFeatures": "Bonusový materiál",
     "SelectServer": "Vybrat server",
     "Restart": "Restartovat",
     "ResetPassword": "Obnovit heslo",
@@ -1780,5 +1780,6 @@
     "LabelSelectAudioNormalization": "Normalizace hlasitosti",
     "LabelAlbumGain": "Na úrovni alba",
     "LabelTrackGain": "Na úrovni skladby",
-    "SelectAudioNormalizationHelp": "Normalizace na úrovni skladby upraví hlasitost všech skladeb tak, aby byla všude stejná. Normalizace na úrovni alba upraví hlasitost všech skladeb tak, aby byla hlasitost stejná v rámci jednotlivých alb."
+    "SelectAudioNormalizationHelp": "Normalizace na úrovni skladby upraví hlasitost všech skladeb tak, aby byla všude stejná. Normalizace na úrovni alba upraví hlasitost všech skladeb tak, aby byla hlasitost stejná v rámci jednotlivých alb.",
+    "SearchResultsEmpty": "Pro “{0}” nebylo nic nalezeno"
 }

@@ -1430,7 +1430,7 @@
     "EnableAutoCast": "Set as default",
     "EnableFallbackFontHelp": "Enable custom alternative fonts. This can avoid the problem of incorrect subtitle rendering.",
     "EnableFallbackFont": "Enable fallback fonts",
-    "LabelFallbackFontPathHelp": "Specify a path containing fallback fonts for rendering ASS/SSA subtitles. The maximum allowed total font size is 20 MB. Lightweight and web-friendly font formats such as woff2 are recommended.",
+    "LabelFallbackFontPathHelp": "These fonts are used by some clients to render subtitles. Please refer to the documentation for more information.",
     "LabelFallbackFontPath": "Fallback font folder path",
     "HeaderSelectFallbackFontPathHelp": "Browse or enter the path of the fallback font folder to use for rendering ASS/SSA subtitles.",
     "HeaderSelectFallbackFontPath": "Select Fallback Font Folder Path",
@@ -1776,5 +1776,10 @@
     "HeaderGuestCast": "Guest Stars",
     "LabelIsHearingImpaired": "For hearing impaired (SDH)",
     "BackdropScreensaver": "Backdrop Screensaver",
-    "LogoScreensaver": "Logo Screensaver"
+    "LogoScreensaver": "Logo Screensaver",
+    "SelectAudioNormalizationHelp": "Track gain - adjusts the volume of each track so they playback with the same loudness. Album gain - adjusts the volume of all the tracks in an album only, keeping the album's dynamic range.",
+    "LabelAlbumGain": "Album Gain",
+    "SearchResultsEmpty": "Sorry! No results found for \"{0}\"",
+    "LabelSelectAudioNormalization": "Audio Normalisation",
+    "LabelTrackGain": "Track Gain"
 }

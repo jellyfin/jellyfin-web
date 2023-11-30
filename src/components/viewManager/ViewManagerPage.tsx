@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import globalize from '../../scripts/globalize';
@@ -79,7 +79,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
         location.search
     ]);
 
-    return <></>;
+    return null;
 };
 
 export default ViewManagerPage;

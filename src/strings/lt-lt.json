@@ -978,7 +978,7 @@
     "ButtonSpace": "Tarpas",
     "ButtonActivate": "Aktyvuoti",
     "AllowFfmpegThrottlingHelp": "Kai perkodavimas arba pakartotinis atkodavimas (Remux) yra pakankamai toli nuo dabartinės atkūrimo pozicijos, pristabdykite procesą, kad jis sunaudotų mažiau išteklių. Tai naudingiausia žiūrint be dažno persukimo. Išjunkite šią funkciją, jei kyla atkūrimo problemų.",
-    "AllowTonemappingHelp": "Tonų atvaizdavimas gali pakeisti vaizdo įrašo dinaminį diapazoną iš HDR į SDR, išlaikant vaizdo detales ir spalvas, kurios yra labai svarbi informacija, kad būtų galima atvaizduoti pradinę sceną. Šiuo metu veikia tik su 10 bitų HDR10, HLG ir DoVi vaizdo įrašais. Tam reikia atitinkamos \"OpenCL\" arba CUDA paleidimo programos.",
+    "AllowTonemappingHelp": "Tonų atvaizdavimas gali pakeisti vaizdo įrašo dinaminį diapazoną iš HDR į SDR, išlaikant vaizdo detales ir spalvas, kurios yra labai svarbi informacija, kad būtų galima atvaizduoti pradinę sceną. Šiuo metu veikia tik su 10 bitų HDR10, HLG ir DoVi vaizdo įrašais. Tam reikia atitinkamos OpenCL arba CUDA paleidimo programos.",
     "Arranger": "Organizatorius",
     "EnableBlurHashHelp": "Vaizdai, kurie vis dar įkeliami, bus rodomi su unikalia rezervuota vieta.",
     "EnableDetailsBannerHelp": "Rodyti reklamjuostės vaizdą elemento išsamios informacijos puslapio viršuje.",
@@ -1164,5 +1164,5 @@
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Įjungti kelio pakeitimą nuotraukoms naudojant serverio kelio pakeitimo nustatymus.",
     "LabelKodiMetadataDateFormatHelp": "Visos datos iš NFO failų bus ištraukiamos šiuo formatu.",
     "AllowSegmentDeletion": "Ištrinti segmentus",
-    "AllowSegmentDeletionHelp": "Ištrinkite senus segmentus, kai jie buvo išsiųsti klientui.  Taip išvengiama viso perkoduoto failo saugojimo diske.  Veiks tik su įjungtu droseliu.  Išjunkite tai, jei kyla atkūrimo problemų."
+    "AllowSegmentDeletionHelp": "Ištrinkite senus segmentus, kai jie buvo išsiųsti klientui. Taip išvengiama viso perkoduoto failo saugojimo diske. Veiks tik su įjungtu droseliu. Išjunkite tai, jei kyla atkūrimo problemų."
 }

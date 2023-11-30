@@ -10,6 +10,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
+import escapeHTML from 'escape-html';
 
 function fillSkipLengths(select) {
     const options = [5, 10, 15, 20, 25, 30];
@@ -136,7 +137,7 @@ function showHideQualityFields(context, user, apiClient) {
     });
 }
 
-function loadForm(context, user, userSettings, apiClient) {
+function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const loggedInUserId = apiClient.getCurrentUserId();
     const userId = user.Id;
 
@@ -186,7 +187,12 @@ function loadForm(context, user, userSettings, apiClient) {
     fillChromecastQuality(context.querySelector('.selectChromecastVideoQuality'));
 
     const selectChromecastVersion = context.querySelector('.selectChromecastVersion');
-    selectChromecastVersion.value = userSettings.chromecastVersion();
+    let ccAppsHtml = '';
+    for (const app of systemInfo.CastReceiverApplications) {
+        ccAppsHtml += `<option value='${escapeHTML(app.Id)}'>${escapeHTML(app.Name)}</option>`;
+    }
+    selectChromecastVersion.innerHTML = ccAppsHtml;
+    selectChromecastVersion.value = user.Configuration.CastReceiverId;
 
     const selectLabelMaxVideoWidth = context.querySelector('.selectLabelMaxVideoWidth');
     selectLabelMaxVideoWidth.value = appSettings.maxVideoWidth();
@@ -222,7 +228,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
-    userSettingsInstance.chromecastVersion(context.querySelector('.selectChromecastVersion').value);
+    user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
 
@@ -329,10 +335,12 @@ class PlaybackSettings {
         const userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(user => {
-            userSettings.setUserInfo(userId, apiClient).then(() => {
-                self.dataLoaded = true;
+            apiClient.getSystemInfo().then(systemInfo => {
+                userSettings.setUserInfo(userId, apiClient).then(() => {
+                    self.dataLoaded = true;
 
-                loadForm(context, user, userSettings, apiClient);
+                    loadForm(context, user, userSettings, systemInfo, apiClient);
+                });
             });
         });
     }

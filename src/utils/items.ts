@@ -144,6 +144,14 @@ export const getSettingsKey = (viewType: LibraryTab, parentId: ParentId) => {
     return `${viewType} - ${parentId}`;
 };
 
+export const getDefaultSortBy = (viewType: LibraryTab) => {
+    if (viewType === LibraryTab.Episodes) {
+        return ItemSortBy.SeriesSortName;
+    }
+
+    return ItemSortBy.SortName;
+};
+
 export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
     return {
         ShowTitle: true,
@@ -151,7 +159,7 @@ export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryView
         ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
         ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
         CardLayout: false,
-        SortBy: ItemSortBy.SortName,
+        SortBy: getDefaultSortBy(viewType),
         SortOrder: SortOrder.Ascending,
         StartIndex: 0
     };

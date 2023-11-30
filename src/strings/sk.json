@@ -1780,5 +1780,6 @@
     "SelectAudioNormalizationHelp": "Zosilnenie stopy - upravuje hlasitosť jednotlivých stôp tak, aby sa prehrávali s rovnakou hlasitosťou. Zosilnenie pre album - upravuje hlasitosť všetkých skladieb iba v albume, pričom zachováva dynamický rozsah albumu.",
     "LabelAlbumGain": "Zosilnenie pre album",
     "LabelSelectAudioNormalization": "Normalizácia hlasitosti",
-    "LabelTrackGain": "Zosilnenie stopy"
+    "LabelTrackGain": "Zosilnenie stopy",
+    "SearchResultsEmpty": "Prepáčte! Nenašli sa žiadne výsledky pre \"{0}\""
 }

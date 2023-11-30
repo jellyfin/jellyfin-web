@@ -23,6 +23,7 @@ import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import confirm from '../../components/confirm/confirm';
+import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
 
 function showPlaybackInfo(btn, session) {
     let title;
@@ -259,7 +260,7 @@ function renderActiveConnections(view, sessions) {
             html += '<div class="cardBox visualCardBox">';
             html += '<div class="cardScalable visualCardBox-cardScalable">';
             html += '<div class="cardPadder cardPadder-backdrop"></div>';
-            html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
+            html += `<div class="cardContent ${getDefaultBackgroundClass()}">`;
 
             if (imgUrl) {
                 html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';

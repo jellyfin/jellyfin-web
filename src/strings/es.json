@@ -1429,7 +1429,7 @@
     "DeleteAll": "Borrar todo",
     "EnableFallbackFontHelp": "Activar fuentes alternativas personalizadas. Esto puede evitar el problema de renderizar subtítulos incorrectamente.",
     "EnableFallbackFont": "Activar fuentes alternativas",
-    "LabelFallbackFontPathHelp": "Especifica el camino conteniendo las fuentes alternativas para el renderizado de subtítulos ASS/SSA. El tamaño total máximo de la fuente es de 20 MB. Formatos de fuente ligeras y compatibles web como woff2 son recomendadas.",
+    "LabelFallbackFontPathHelp": "Estas fuentes son usados por algunos clientes para generar subtítulos. Por favor, acude a la documentación para mas información.",
     "LabelFallbackFontPath": "Dirección de la carpeta alternativa de fuentes",
     "HeaderSelectFallbackFontPathHelp": "Busca o escribe la dirección de la carpeta alternativa de fuentes usada para la renderización de los subtitulos ASS/SSA.",
     "HeaderSelectFallbackFontPath": "Seleccionar carpeta de fuentes alternativa",
@@ -1776,5 +1776,10 @@
     "MachineTranslated": "Traducido por Máquina",
     "HeaderGuestCast": "Estrellas Invitadas",
     "ForeignPartsOnly": "Partes Forzadas/Foráneas solamente",
-    "LabelIsHearingImpaired": "Para personas con discapacidad auditiva (SDH)"
+    "LabelIsHearingImpaired": "Para personas con discapacidad auditiva (SDH)",
+    "SearchResultsEmpty": "Perdón! No se han encontrado resultados para \"{0}\"",
+    "SelectAudioNormalizationHelp": "Ganancia de pista - ajusta el volumen de cada pista para que suenen al mismo volumen. Ganancia de álbum - ajusta el volumen de todas las pistas de un álbum, manteniendo el rango dinámico del álbum.",
+    "LabelAlbumGain": "Ganancia de Álbum",
+    "LabelSelectAudioNormalization": "Normalización de audio",
+    "LabelTrackGain": "Ganancia de pista"
 }

@@ -14,6 +14,7 @@ import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';
 import screenfull from 'screenfull';
+import { randomInt } from '../../utils/number.ts';
 
 /**
  * Name of transition event.
@@ -71,7 +72,8 @@ function getBackdropImageUrl(item, options, apiClient) {
     }
 
     if (item.BackdropImageTags?.length) {
-        options.tag = item.BackdropImageTags[0];
+        options.index = randomInt(0, item.BackdropImageTags.length - 1);
+        options.tag = item.BackdropImageTags[options.index];
         return apiClient.getScaledImageUrl(item.Id, options);
     }
 

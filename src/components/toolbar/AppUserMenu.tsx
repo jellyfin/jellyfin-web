@@ -19,6 +19,7 @@ import { appHost } from 'components/apphost';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 import Dashboard from 'utils/dashboard';
+import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
 
 export const ID = 'app-user-menu';
 
@@ -32,6 +33,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
     onMenuClose
 }) => {
     const { user } = useApi();
+    const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
 
     const onClientSettingsClick = useCallback(() => {
         window.NativeShell?.openClientSettings();
@@ -138,18 +140,20 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             ])}
 
             <Divider />
-            <MenuItem
-                component={Link}
-                to='/quickconnect'
-                onClick={onMenuClose}
-            >
-                <ListItemIcon>
-                    <PhonelinkLock />
-                </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('QuickConnect')}
-                </ListItemText>
-            </MenuItem>
+            {isQuickConnectEnabled && (
+                <MenuItem
+                    component={Link}
+                    to='/quickconnect'
+                    onClick={onMenuClose}
+                >
+                    <ListItemIcon>
+                        <PhonelinkLock />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {globalize.translate('QuickConnect')}
+                    </ListItemText>
+                </MenuItem>
+            )}
 
             {appHost.supports('multiserver') && (
                 <MenuItem
