@@ -398,11 +398,13 @@ function getArtistLinksHtml(artists, serverId, context) {
         html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
     }
 
+    let fullHtml = html.join(' / ');
+
     if (numberOfArtists > 10) {
-        html.push(globalize.translate('AndOtherArtists', numberOfArtists - 10));
+        fullHtml += globalize.translate('AndOtherArtists', numberOfArtists - 10);
     }
 
-    return html.join(' / ');
+    return fullHtml;
 }
 
 /**
