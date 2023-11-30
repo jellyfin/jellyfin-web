@@ -73,6 +73,7 @@
  - [Nate G](https://github.com/GGProGaming)
  - [Grady Hallenbeck](https://github.com/grhallenbeck)
  - [DinuD](https://github.com/DinuD)
+ - [Kevin Tan (Valius)](https://github.com/valius)
 
 # Emby Contributors
 
