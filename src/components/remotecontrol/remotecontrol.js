@@ -223,7 +223,7 @@ function updateNowPlayingInfo(context, state, serverId) {
                     itemContextMenu.show({
                         item: fullItem,
                         user: user,
-                        ...options})
+                        ...options })
                         .catch(() => { /* no-op */ });
                 });
             });

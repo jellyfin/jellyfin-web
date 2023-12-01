@@ -60,7 +60,7 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
         return;
     }
 
-    const info = {...state.PlayState}
+    const info = { ...state.PlayState };
     info.ItemId = state.NowPlayingItem.Id;
 
     if (progressEventName) {
@@ -619,7 +619,7 @@ function truncatePlayOptions(playOptions) {
 }
 
 function getNowPlayingItemForReporting(player, item, mediaSource) {
-    const nowPlayingItem = {...item}
+    const nowPlayingItem = { ...item };
 
     if (mediaSource) {
         nowPlayingItem.RunTimeTicks = mediaSource.RunTimeTicks;
@@ -2307,7 +2307,7 @@ class PlaybackManager {
 
                 loading.hide();
 
-                const options = {...playOptions}
+                const options = { ...playOptions };
 
                 options.mediaType = item.MediaType;
                 options.item = item;

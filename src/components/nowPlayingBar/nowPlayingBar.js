@@ -577,8 +577,8 @@ function updateNowPlayingInfo(state) {
                         itemContextMenu.show({
                             item: item,
                             user: user,
-                            ...options})
-                        .catch(() => { /* no-op */ });
+                            ...options })
+                            .catch(() => { /* no-op */ });
                     });
                 });
             }
