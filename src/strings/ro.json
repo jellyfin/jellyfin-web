@@ -1729,5 +1729,7 @@
     "AllowSegmentDeletionHelp": "Sterge segmentele vechi dupa ce acestea au fost trimise catre client. Previne necesitatea de a stoca intregul fisier transcodificat pe disc. Va functiona doar cu throttling activat. Opriti aceasta optiune daca intampinati probleme de redare.",
     "LabelThrottleDelaySeconds": "Limitare dupa",
     "LabelSegmentKeepSeconds": "Timpul pentru a pastra segmentele",
-    "EnableAudioNormalization": "Normalizare audio"
+    "EnableAudioNormalization": "Normalizare audio",
+    "LabelThrottleDelaySecondsHelp": "Timp în secunde după care transcoderul va fi accelerat. Trebuie să fie suficient de mare pentru ca clientul să mențină un tampon sănătos. Funcționează numai dacă accelerarea este activată.",
+    "LabelSegmentKeepSecondsHelp": "Timpul în secunde pentru care segmentele trebuie păstrate înainte de a fi suprascrise. Trebuie să fie mai mare decât „Accelerație după”/\"Throttle after\". Funcționează numai dacă ștergerea segmentului este activată."
 }
