@@ -81,7 +81,7 @@ const scrollerFactory = function (frame, options) {
         slidee: null, // Selector, DOM element, or jQuery object with DOM element representing SLIDEE.
         horizontal: false, // Switch to horizontal mode.
         // Scrolling
-        mouseWheel: true, 
+        mouseWheel: true,
         scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling
         // Draggin
         dragSource: null, // Selector or DOM element for catching dragging events. Default is FRAME.
@@ -92,8 +92,7 @@ const scrollerFactory = function (frame, options) {
         // Mixed options
         speed: 0, // Animations speed in milliseconds. 0 to disable animations.
         ...options
-      };
-    
+    };
     const isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 
     // native scroll is a must with touch input

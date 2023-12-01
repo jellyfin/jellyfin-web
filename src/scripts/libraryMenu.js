@@ -394,7 +394,7 @@ function getUserViews(apiClient, userId) {
             if (view.CollectionType == 'livetv') {
                 view.ImageTags = {};
                 view.icon = 'live_tv';
-                const guideView = {...view}
+                const guideView = { ...view}
                 guideView.Name = globalize.translate('Guide');
                 guideView.ImageTags = {};
                 guideView.icon = 'dvr';

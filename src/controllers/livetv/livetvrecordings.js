@@ -57,8 +57,8 @@ function renderRecordings(elem, recordings, cardOptions, scrollX) {
         allowBottomPadding: !scrollX,
         preferThumb: 'auto',
         overlayText: false,
-        ...cardOPtions || {} 
-    })
+        ...cardOPtions || {}
+    });
     imageLoader.lazyChildren(recordingItems);
 }
 

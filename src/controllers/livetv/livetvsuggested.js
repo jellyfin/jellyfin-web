@@ -150,7 +150,7 @@ function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
         showAirTime: true,
         showAirDateTime: true,
         ...cardOptions || {}
-    })
+    });
     const elem = page.querySelector('.' + sectionClass);
     elem.innerHTML = html;
     imageLoader.lazyChildren(elem);

@@ -49,7 +49,7 @@ function renderRecordings(elem, recordings, cardOptions) {
         allowBottomPadding: !enableScrollX(),
         preferThumb: 'auto',
         ...cardOptions || {}
-    })
+    });
     imageLoader.lazyChildren(recordingItems);
 }
 
