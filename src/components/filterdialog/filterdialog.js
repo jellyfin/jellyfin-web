@@ -31,7 +31,7 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 }
 
 function renderFilters(context, result, query) {
-    let renderFilter = (selector, className, filter, delimiter) => {
+    const renderFilter = (selector, className, filter, delimiter) => {
         renderOptions(context, selector, className, result[filter], function (i) {
             return (delimiter + (query[filter] || '') + delimiter).includes(delimiter + i + delimiter);
         });
@@ -148,7 +148,7 @@ function hideByClass(context, className) {
 }
 
 function enableDynamicFilters(mode) {
-    let modes = [
+    const modes = [
         'movies',
         'series',
         'albums',
@@ -156,7 +156,7 @@ function enableDynamicFilters(mode) {
         'artists',
         'songs',
         'episodes',
-        'livetvchannels',
+        'livetvchannels'
     ];
 
     return modes.includes(mode);
@@ -345,11 +345,11 @@ class FilterDialog {
             triggerChange(this);
         });
         context.addEventListener('change', (e) => {
-            let addFilterTrigger = (className, filter, delimiter) => {
-                let filterOption = dom.parentWithClass(e.target, className);
+            const addFilterTrigger = (className, filter, delimiter) => {
+                const filterOption = dom.parentWithClass(e.target, className);
 
                 if (filterOption) {
-                    let filterName = filterOption.getAttribute('data-filter');
+                    const filterName = filterOption.getAttribute('data-filter');
                     let values = query[filter] || '';
 
                     values = (delimiter + values).replace(delimiter + filterName, '').substring(1);
