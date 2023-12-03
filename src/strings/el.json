@@ -1698,5 +1698,13 @@
     "LabelChapterImageResolution": "Ανάλυση",
     "LabelChapterImageResolutionHelp": "Η ανάλυση των εξαγόμενων εικόνων κεφαλαίου.",
     "AllowCollectionManagement": "Επίτρεψε στον χρήστη να διαχειρίζεται συλλογές",
-    "AllowSegmentDeletion": "Διαγραφή τμημάτων"
+    "AllowSegmentDeletion": "Διαγραφή τμημάτων",
+    "HeaderEpisodesStatus": "Κατάσταση Επεισοδίου",
+    "LabelDate": "Ημερομηνία",
+    "GetThePlugin": "Πάρε το πρόσθετο",
+    "LabelDeveloper": "Προγραμματιστής",
+    "LabelSelectAudioNormalization": "Ομαλοποίηση ήχου",
+    "LabelThrottleDelaySeconds": "Ρύθμισε μετά",
+    "LabelThrottleDelaySecondsHelp": "Χρόνος σε δευτερόλεπτα  αφού ο κωδικοποιητής θα ρυθμιστεί. Χρειάζεται να είναι αρκετά μεγάλος έτσι ώστε να διατηρήσει υγιές buffer. Δουλεύει μόνο εάν ο ρυθμιστής είναι ενεργοποιημένος.",
+    "LabelSegmentKeepSeconds": "Χρόνος που θα κρατηθούν τα τμήματα."
 }
