@@ -559,7 +559,7 @@
     "AllowFfmpegThrottling": "Kod Dönüştürmeyi Kısıtla",
     "Artist": "Sanatçı",
     "Album": "Albüm",
-    "EveryXMinutes": "Her {0} dakika bir",
+    "EveryXMinutes": "Her {0} dakikada bir",
     "OnWakeFromSleep": "Uyku modundan çıkılarak uyanıldığında",
     "DailyAt": "Her gün {0}",
     "LastSeen": "Son görülme {0}",
