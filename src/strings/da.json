@@ -1716,5 +1716,7 @@
     "LabelThrottleDelaySecondsHelp": "Tid i sekunder, hvorefter transcoderen vil blive begrænset. Skal være stor nok til, at klienten kan opretholde en sund buffer. Virker kun, hvis throttling er aktiveret.",
     "LabelSegmentKeepSeconds": "Tid at gemme segmenter i",
     "LabelSegmentKeepSecondsHelp": "Tid i sekunder, som segmenter skal gemmes i, før de overskrives. Skal være større end \"Begræns efter\". Virker kun, hvis sletning af segmenter er aktiveret.",
-    "HeaderGuestCast": "Gæstestjerner"
+    "HeaderGuestCast": "Gæstestjerner",
+    "LabelAlbumGain": "Albumslydstyrke",
+    "LabelSelectAudioNormalization": "Lyd normalisering"
 }
