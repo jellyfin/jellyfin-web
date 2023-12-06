@@ -102,7 +102,7 @@
     "history": "5.3.0",
     "hls.js": "github:nyanmisaka/hls.js#v1.5.0-fix-firefox-av1",
     "intersection-observer": "0.12.2",
-    "jassub": "1.7.1",
+    "jassub": "1.7.13",
     "jellyfin-apiclient": "1.11.0",
     "jquery": "3.7.1",
     "jstree": "3.3.16",
