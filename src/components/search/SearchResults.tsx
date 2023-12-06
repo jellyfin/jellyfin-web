@@ -2,6 +2,7 @@ import type { BaseItemDto, BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/gene
 import type { ApiClient } from 'jellyfin-apiclient';
 import classNames from 'classnames';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
 
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
@@ -20,11 +21,11 @@ const ensureNonNullItems = (result: BaseItemDtoQueryResult) => ({
     Items: result.Items || []
 });
 
-const isMovies = (collectionType: string) => collectionType === 'movies';
+const isMovies = (collectionType: string) => collectionType === CollectionType.Movies;
 
-const isMusic = (collectionType: string) => collectionType === 'music';
+const isMusic = (collectionType: string) => collectionType === CollectionType.Music;
 
-const isTVShows = (collectionType: string) => collectionType === 'tvshows' || collectionType === 'tv';
+const isTVShows = (collectionType: string) => collectionType === CollectionType.TvShows;
 
 /*
  * React component to display search result rows for global search and non-live tv library search
@@ -239,7 +240,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || collectionType === 'livetv' }
+                { 'hide': !query || collectionType === CollectionType.LiveTv }
             )}
         >
             {isLoading ? (

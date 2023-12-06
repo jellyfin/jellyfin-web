@@ -254,7 +254,7 @@ const UserEdit: FunctionComponent = () => {
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
             window.ApiClient.updateUser(user).then(() => (
-                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {})
+                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' })
             )).then(() => {
                 onSaveComplete();
             }).catch(err => {

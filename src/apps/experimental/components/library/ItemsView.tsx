@@ -23,7 +23,7 @@ import ShuffleButton from './ShuffleButton';
 import SortButton from './SortButton';
 import GridListViewButton from './GridListViewButton';
 import { LibraryViewSettings, ParentId, ViewMode } from 'types/library';
-import { CollectionType } from 'types/collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
 import { LibraryTab } from 'types/libraryTab';
 
 import { CardOptions } from 'types/cardOptions';

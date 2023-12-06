@@ -4,7 +4,7 @@ import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
-import { CollectionType } from 'types/collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
 import { MusicSuggestionsSectionsView } from 'types/sections';
 

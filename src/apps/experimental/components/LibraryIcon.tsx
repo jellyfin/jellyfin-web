@@ -11,7 +11,7 @@ import Collections from '@mui/icons-material/Collections';
 import Queue from '@mui/icons-material/Queue';
 import Folder from '@mui/icons-material/Folder';
 import React, { FC } from 'react';
-import { CollectionType } from 'types/collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
 
 interface LibraryIconProps {
     item: BaseItemDto

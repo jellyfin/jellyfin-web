@@ -1,5 +1,6 @@
 import { appHost } from './apphost';
 import globalize from '../scripts/globalize';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
 
 export function getDisplayName(item, options = {}) {
     if (!item) {
@@ -79,7 +80,7 @@ export function supportsAddingToPlaylist(item) {
     if (isLocalItem(item)) {
         return false;
     }
-    if (item.CollectionType === 'livetv') {
+    if (item.CollectionType === CollectionType.LiveTv) {
         return false;
     }
 
@@ -230,7 +231,7 @@ export function canConvert (item, user) {
     }
 
     const collectionType = item.CollectionType;
-    if (collectionType === 'livetv') {
+    if (collectionType === CollectionType.LiveTv) {
         return false;
     }
 
@@ -249,7 +250,7 @@ export function canConvert (item, user) {
 export function canRefreshMetadata (item, user) {
     if (user.Policy.IsAdministrator) {
         const collectionType = item.CollectionType;
-        if (collectionType === 'livetv') {
+        if (collectionType === CollectionType.LiveTv) {
             return false;
         }
 

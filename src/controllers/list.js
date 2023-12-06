@@ -12,6 +12,7 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {
@@ -306,9 +307,9 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 
         if (item.Type === 'MusicGenre') {
             query.IncludeItemTypes = 'MusicAlbum';
-        } else if (item.CollectionType === 'movies') {
+        } else if (item.CollectionType === CollectionType.Movies) {
             query.IncludeItemTypes = 'Movie';
-        } else if (item.CollectionType === 'tvshows') {
+        } else if (item.CollectionType === CollectionType.TvShows) {
             query.IncludeItemTypes = 'Series';
         } else if (item.Type === 'Genre') {
             query.IncludeItemTypes = 'Movie,Series,Video';
@@ -605,7 +606,7 @@ class ItemsView {
             posterOptions.lines = lines;
             posterOptions.items = items;
 
-            if (item && item.CollectionType === 'folders') {
+            if (item && item.CollectionType === CollectionType.Folders) {
                 posterOptions.context = 'folders';
             }
 
@@ -635,7 +636,7 @@ class ItemsView {
         function setTitle(item) {
             LibraryMenu.setTitle(getTitle(item) || '');
 
-            if (item && item.CollectionType === 'playlists') {
+            if (item && item.CollectionType === CollectionType.Playlists) {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), false);
             } else {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), true);
@@ -865,7 +866,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.HomeVideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -878,7 +879,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.HomeVideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);
