@@ -1248,21 +1248,25 @@ export default function (view) {
                 break;
             case 'k':
             case 'K':
+                e.preventDefault();
                 playbackManager.playPause(currentPlayer);
                 showOsd(btnPlayPause);
                 break;
             case 'ArrowUp':
             case 'Up':
+                e.preventDefault();
                 playbackManager.volumeUp(currentPlayer);
                 break;
             case 'ArrowDown':
             case 'Down':
+                e.preventDefault();
                 playbackManager.volumeDown(currentPlayer);
                 break;
             case 'l':
             case 'L':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 playbackManager.fastForward(currentPlayer);
                 showOsd(btnFastForward);
                 break;
@@ -1270,28 +1274,33 @@ export default function (view) {
             case 'J':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 playbackManager.rewind(currentPlayer);
                 showOsd(btnRewind);
                 break;
             case 'f':
             case 'F':
                 if (!e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
             case 'm':
             case 'M':
+                e.preventDefault();
                 playbackManager.toggleMute(currentPlayer);
                 break;
             case 'p':
             case 'P':
                 if (e.shiftKey) {
+                    e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
                 }
                 break;
             case 'n':
             case 'N':
                 if (e.shiftKey) {
+                    e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
                 }
                 break;
@@ -1330,15 +1339,18 @@ export default function (view) {
             case '8':
             case '9': {
                 if (!isKeyModified) {
+                    e.preventDefault();
                     const percent = parseInt(key, 10) * 10;
                     playbackManager.seekPercent(percent, currentPlayer);
                 }
                 break;
             }
             case '>':
+                e.preventDefault();
                 playbackManager.increasePlaybackRate(currentPlayer);
                 break;
             case '<':
+                e.preventDefault();
                 playbackManager.decreasePlaybackRate(currentPlayer);
                 break;
             case 'PageUp':
