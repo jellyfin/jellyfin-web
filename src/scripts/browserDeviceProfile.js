@@ -501,8 +501,8 @@ export default function (options) {
     if (supportsDts == null) {
         supportsDts = browser.tizen || browser.web0sVersion || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
-        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020+ (webOS 5.0+) models
-        if (browser.tizenVersion >= 4 || browser.web0sVersion >= 5) {
+        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
+        if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
             supportsDts = false;
         }
     }
