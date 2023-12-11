@@ -1174,6 +1174,7 @@ export default function (view) {
     }
 
     function onKeyDown(e) {
+        e.preventDefault();
         clickedElement = e.target;
 
         const key = keyboardnavigation.getKeyName(e);
@@ -1228,9 +1229,6 @@ export default function (view) {
                 }
                 break;
             case 'k':
-                if (browser.firefox) { // prevent opening "Find in page"
-                    e.preventDefault();
-                }
                 playbackManager.playPause(currentPlayer);
                 showOsd(btnPlayPause);
                 break;
@@ -1243,18 +1241,12 @@ export default function (view) {
                 playbackManager.volumeDown(currentPlayer);
                 break;
             case 'l':
-                if (browser.firefox) {
-                    e.preventDefault();
-                }
             case 'ArrowRight':
             case 'Right':
                 playbackManager.fastForward(currentPlayer);
                 showOsd(btnFastForward);
                 break;
             case 'j':
-                if (browser.firefox) {
-                    e.preventDefault();
-                }
             case 'ArrowLeft':
             case 'Left':
                 playbackManager.rewind(currentPlayer);
