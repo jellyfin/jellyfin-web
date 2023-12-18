@@ -83,7 +83,7 @@ const scrollerFactory = function (frame, options) {
         // Scrolling
         mouseWheel: true,
         scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling
-        // Draggin
+        // Dragging
         dragSource: null, // Selector or DOM element for catching dragging events. Default is FRAME.
         mouseDragging: 1, // Enable navigation by dragging the SLIDEE with mouse cursor.
         touchDragging: 1, // Enable navigation by dragging the SLIDEE with touch events.
