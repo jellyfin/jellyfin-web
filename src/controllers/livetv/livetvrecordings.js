@@ -43,20 +43,6 @@ function renderRecordings(elem, recordings, cardOptions, scrollX) {
         allowBottomPadding: !scrollX,
         preferThumb: 'auto',
         overlayText: false,
-        ...cardOptions || {} });
-
-    recordingItems.innerHTML = cardBuilder.getCardsHtml({
-        items: recordings,
-        shape: scrollX ? 'autooverflow' : 'auto',
-        defaultShape: getBackdropShape(scrollX),
-        showTitle: true,
-        showParentTitle: true,
-        coverImage: true,
-        cardLayout: false,
-        centerText: true,
-        allowBottomPadding: !scrollX,
-        preferThumb: 'auto',
-        overlayText: false,
         ...cardOptions || {}
     });
     imageLoader.lazyChildren(recordingItems);

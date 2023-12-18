@@ -509,7 +509,7 @@ export class UserSettings {
         let values = this.get(key);
         if (values) {
             values = JSON.parse(values);
-            return Object.assign(query, values);
+            return { ...query, ...values };
         }
 
         return query;
@@ -558,7 +558,7 @@ export class UserSettings {
      */
     getSubtitleAppearanceSettings(key) {
         key = key || 'localplayersubtitleappearance3';
-        return Object.assign(defaultSubtitleAppearanceSettings, JSON.parse(this.get(key, false) || '{}'));
+        return { ...defaultSubtitleAppearanceSettings, ...JSON.parse(this.get(key, false) || '{}') };
     }
 
     /**
@@ -578,7 +578,7 @@ export class UserSettings {
      */
     getComicsPlayerSettings(mediaSourceId) {
         const settings = JSON.parse(this.get('comicsPlayerSettings', false) || '{}');
-        return Object.assign(defaultComicsPlayerSettings, settings[mediaSourceId]);
+        return { ...defaultComicsPlayerSettings, ...settings[mediaSourceId] };
     }
 
     /**

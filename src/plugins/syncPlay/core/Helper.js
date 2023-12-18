@@ -94,7 +94,7 @@ export function getItemsForPlayback(apiClient, query) {
 }
 
 function mergePlaybackQueries(obj1, obj2) {
-    const query = Object.assign(obj1, obj2);
+    const query = { ...obj1, ...obj2 };
 
     const filters = query.Filters ? query.Filters.split(',') : [];
     if (filters.indexOf('IsNotFolder') === -1) {

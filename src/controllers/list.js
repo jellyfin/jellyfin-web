@@ -587,7 +587,8 @@ class ItemsView {
                     lines++;
                 }
 
-                posterOptions = Object.assign(posterOptions, {
+                posterOptions = {
+                    ...posterOptions,
                     inheritThumb: params.type === 'Recordings',
                     context: 'livetv',
                     showParentTitle: showParentTitle,
@@ -597,7 +598,7 @@ class ItemsView {
                     overlayMoreButton: true,
                     showYear: showYear,
                     coverImage: true
-                });
+                };
             } else {
                 posterOptions.showParentTitle = settings.showTitle;
             }

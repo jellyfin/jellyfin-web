@@ -72,7 +72,10 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 
 function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient) {
     let appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
-    appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
+    appearanceSettings = {
+        ...appearanceSettings,
+        ...getSubtitleAppearanceObject(context)
+    };
 
     userSettingsInstance.setSubtitleAppearanceSettings(appearanceSettings, appearanceKey);
 

@@ -169,23 +169,31 @@ function getItemImageUrls(item, imageOptions) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     if (item.BackdropImageTags && item.BackdropImageTags.length > 0) {
         return item.BackdropImageTags.map((imgTag, index) => {
-            return apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, Object.assign(imageOptions, {
-                type: 'Backdrop',
-                tag: imgTag,
-                maxWidth: dom.getScreenWidth(),
-                index: index
-            }));
+            return apiClient.getScaledImageUrl(
+                item.BackdropItemId || item.Id,
+                {
+                    ...imageOptions,
+                    type: 'Backdrop',
+                    tag: imgTag,
+                    maxWidth: dom.getScreenWidth(),
+                    index: index
+                }
+            );
         });
     }
 
     if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
         return item.ParentBackdropImageTags.map((imgTag, index) => {
-            return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
-                type: 'Backdrop',
-                tag: imgTag,
-                maxWidth: dom.getScreenWidth(),
-                index: index
-            }));
+            return apiClient.getScaledImageUrl(
+                item.ParentBackdropItemId,
+                {
+                    ...imageOptions,
+                    type: 'Backdrop',
+                    tag: imgTag,
+                    maxWidth: dom.getScreenWidth(),
+                    index: index
+                }
+            );
         });
     }
 

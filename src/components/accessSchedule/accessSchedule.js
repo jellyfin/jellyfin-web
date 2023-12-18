@@ -53,7 +53,7 @@ function submitSchedule(context, options) {
     }
 
     context.submitted = true;
-    options.schedule = Object.assign(options.schedule, updatedSchedule);
+    options.schedule = { ...options.schedule, ...updatedSchedule };
     dialogHelper.close(context);
 }
 

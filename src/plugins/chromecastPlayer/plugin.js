@@ -349,7 +349,8 @@ class CastPlayer {
         const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
         const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
 
-        message = Object.assign(message, {
+        message = {
+            ...message,
             userId: apiClient.getCurrentUserId(),
             deviceId: apiClient.deviceId(),
             accessToken: apiClient.accessToken(),
@@ -357,7 +358,7 @@ class CastPlayer {
             serverId: apiClient.serverId(),
             serverVersion: apiClient.serverVersion(),
             receiverName: receiverName
-        });
+        };
 
         console.debug('[chromecastPlayer] message{' + message.command + '; ' + serverAddress + ' -> ' + serverLocalAddress + '}');
 

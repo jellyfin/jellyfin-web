@@ -7,7 +7,8 @@
 import cardBuilder from './cardBuilder';
 
 export function buildPeopleCards(items, options) {
-    options = Object.assign(options || {}, {
+    options = {
+        ...options,
         cardLayout: false,
         centerText: true,
         showTitle: true,
@@ -15,7 +16,8 @@ export function buildPeopleCards(items, options) {
         showPersonRoleOrType: true,
         cardCssClass: 'personCard',
         defaultCardImageIcon: 'person'
-    });
+    };
+
     cardBuilder.buildCards(items, options);
 }
 

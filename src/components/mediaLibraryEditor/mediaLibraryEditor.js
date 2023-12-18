@@ -31,7 +31,10 @@ function onEditLibrary() {
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
     let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
-    libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
+    libraryOptions = {
+        ...currentOptions.library.LibraryOptions,
+        ...libraryOptions
+    };
     ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
         hasChanges = true;
         isCreating = false;

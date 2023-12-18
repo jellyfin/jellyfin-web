@@ -195,12 +195,12 @@ function initEditor(context, settings) {
 function loadDynamicFilters(context, options) {
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
-    const filterMenuOptions = Object.assign(options.filterMenuOptions, {
-
+    const filterMenuOptions = {
+        ...options.filterMenuOptions,
         UserId: apiClient.getCurrentUserId(),
         ParentId: options.parentId,
         IncludeItemTypes: options.itemTypes.join(',')
-    });
+    };
 
     apiClient.getFilters(filterMenuOptions).then((result) => {
         renderDynamicFilters(context, result, options);
