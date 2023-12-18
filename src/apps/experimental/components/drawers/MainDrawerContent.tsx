@@ -150,7 +150,7 @@ const MainDrawerContent = () => {
                         }
                     >
                         <ListItem disablePadding>
-                            <ListItemLink to='/dashboard.html'>
+                            <ListItemLink to='/dashboard'>
                                 <ListItemIcon>
                                     <Dashboard />
                                 </ListItemIcon>
@@ -158,7 +158,7 @@ const MainDrawerContent = () => {
                             </ListItemLink>
                         </ListItem>
                         <ListItem disablePadding>
-                            <ListItemLink to='/edititemmetadata.html'>
+                            <ListItemLink to='/metadata'>
                                 <ListItemIcon>
                                     <Edit />
                                 </ListItemIcon>

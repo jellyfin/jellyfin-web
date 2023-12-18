@@ -100,7 +100,7 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                 title={globalize.translate('ButtonSelectView')}
                 sx={{ ml: 2 }}
                 aria-describedby={id}
-                className='paper-icon-button-light btnShuffle autoSize'
+                className='paper-icon-button-light btnSelectView autoSize'
                 onClick={handleClick}
             >
                 <ViewComfyIcon />

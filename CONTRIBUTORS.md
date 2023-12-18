@@ -66,6 +66,7 @@
  - [Fishbigger](https://github.com/fishbigger)
  - [sleepycatcoding](https://github.com/sleepycatcoding)
  - [TheMelmacian](https://github.com/TheMelmacian)
+ - [tehciolo](https://github.com/tehciolo)
 
 # Emby Contributors
 

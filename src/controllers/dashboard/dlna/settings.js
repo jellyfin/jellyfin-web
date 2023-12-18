@@ -37,10 +37,10 @@ function onSubmit() {
 
 function getTabs() {
     return [{
-        href: '#/dlnasettings.html',
+        href: '#/dashboard/dlna',
         name: globalize.translate('Settings')
     }, {
-        href: '#/dlnaprofiles.html',
+        href: '#/dashboard/dlna/profiles',
         name: globalize.translate('TabProfiles')
     }];
 }

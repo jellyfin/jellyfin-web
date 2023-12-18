@@ -220,9 +220,9 @@ function getProviderName(providerId) {
 function getProviderConfigurationUrl(providerId) {
     switch (providerId.toLowerCase()) {
         case 'xmltv':
-            return '#/livetvguideprovider.html?type=xmltv';
+            return '#/dashboard/livetv/guide?type=xmltv';
         case 'schedulesdirect':
-            return '#/livetvguideprovider.html?type=schedulesdirect';
+            return '#/dashboard/livetv/guide?type=schedulesdirect';
     }
 }
 
@@ -249,7 +249,7 @@ function addProvider(button) {
 }
 
 function addDevice() {
-    Dashboard.navigate('livetvtuner.html');
+    Dashboard.navigate('dashboard/livetv/tuner');
 }
 
 function showDeviceMenu(button, tunerDeviceId) {
@@ -274,7 +274,7 @@ function showDeviceMenu(button, tunerDeviceId) {
                     break;
 
                 case 'edit':
-                    Dashboard.navigate('livetvtuner.html?id=' + tunerDeviceId);
+                    Dashboard.navigate('dashboard/livetv/tuner?id=' + tunerDeviceId);
             }
         });
     });
@@ -290,7 +290,7 @@ function onDevicesListClick(e) {
         if (btnCardOptions) {
             showDeviceMenu(btnCardOptions, id);
         } else {
-            Dashboard.navigate('livetvtuner.html?id=' + id);
+            Dashboard.navigate('dashboard/livetv/tuner?id=' + id);
         }
     }
 }

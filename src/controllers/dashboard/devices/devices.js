@@ -73,7 +73,7 @@ function showDeviceMenu(view, btn, deviceId) {
             callback: function (id) {
                 switch (id) {
                     case 'open':
-                        Dashboard.navigate('device.html?id=' + deviceId);
+                        Dashboard.navigate('dashboard/devices/edit?id=' + deviceId);
                         break;
 
                     case 'delete':
@@ -94,7 +94,7 @@ function load(page, devices) {
         deviceHtml += '<div class="cardBox visualCardBox">';
         deviceHtml += '<div class="cardScalable">';
         deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
-        deviceHtml += `<a is="emby-linkbutton" href="#!/device.html?id=${escapeHtml(device.Id)}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
+        deviceHtml += `<a is="emby-linkbutton" href="#/dashboard/devices/edit?id=${escapeHtml(device.Id)}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
         // audit note: getDeviceIcon returns static text
         const iconUrl = imageHelper.getDeviceIcon(device);
 

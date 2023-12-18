@@ -1,34 +1,23 @@
-import layoutManager from '../../components/layoutManager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import inputManager from '../../scripts/inputManager';
-import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
-import * as mainTabsManager from '../../components/maintabsmanager';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import imageLoader from '../../components/images/imageLoader';
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-button/emby-button';
-import { LibraryTab } from '../../types/libraryTab.ts';
-import Dashboard from '../../utils/dashboard';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import * as mainTabsManager from 'components/maintabsmanager';
+import globalize from 'scripts/globalize';
+import inputManager from 'scripts/inputManager';
+import * as userSettings from 'scripts/settings/userSettings';
+import { LibraryTab } from 'types/libraryTab';
+import Dashboard from 'utils/dashboard';
+import { getBackdropShape, getPortraitShape } from 'utils/card';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-tabs/emby-tabs';
+import 'elements/emby-button/emby-button';
+
+import 'styles/scrollstyles.scss';
 
 function enableScrollX() {
     return !layoutManager.desktop;
-}
-
-function getBackdropShape() {
-    if (enableScrollX()) {
-        return 'overflowBackdrop';
-    }
-    return 'backdrop';
-}
-
-function getPortraitShape() {
-    if (enableScrollX()) {
-        return 'overflowPortrait';
-    }
-    return 'portrait';
 }
 
 function getLimit() {
@@ -96,7 +85,7 @@ function reload(page, enableFullRender) {
             EnableImageTypes: 'Primary,Thumb'
         }).then(function (result) {
             renderItems(page, result.Items, 'upcomingTvMovieItems', null, {
-                shape: getPortraitShape(),
+                shape: getPortraitShape(enableScrollX()),
                 preferThumb: null,
                 showParentTitle: false
             });
@@ -147,7 +136,7 @@ function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
         preferThumb: 'auto',
         inheritThumb: false,
         shape: enableScrollX() ? 'autooverflow' : 'auto',
-        defaultShape: getBackdropShape(),
+        defaultShape: getBackdropShape(enableScrollX()),
         showParentTitle: true,
         showTitle: true,
         centerText: true,

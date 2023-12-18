@@ -1,10 +1,12 @@
-import loading from '../../components/loading/loading';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import imageLoader from '../../components/images/imageLoader';
-import '../../scripts/livetvcomponents';
-import '../../components/listview/listview.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import Dashboard from '../../utils/dashboard';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import loading from 'components/loading/loading';
+import { getBackdropShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+
+import 'scripts/livetvcomponents';
+import 'components/listview/listview.scss';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 function renderRecordings(elem, recordings, cardOptions, scrollX) {
     if (!elem) {
@@ -32,7 +34,7 @@ function renderRecordings(elem, recordings, cardOptions, scrollX) {
     recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
         items: recordings,
         shape: scrollX ? 'autooverflow' : 'auto',
-        defaultShape: scrollX ? 'overflowBackdrop' : 'backdrop',
+        defaultShape: getBackdropShape(scrollX),
         showTitle: true,
         showParentTitle: true,
         coverImage: true,
