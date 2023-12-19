@@ -1234,18 +1234,26 @@ export default function (view) {
                 }
                 break;
             case 'ArrowUp':
+            case 'Up':
+                e.preventDefault();
                 playbackManager.volumeUp(currentPlayer);
                 break;
+            case 'Down':
             case 'ArrowDown':
+                e.preventDefault();
                 playbackManager.volumeDown(currentPlayer);
                 break;
+            case 'l':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 playbackManager.fastForward(currentPlayer);
                 showOsd(btnFastForward);
                 break;
+            case 'j':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 playbackManager.rewind(currentPlayer);
                 showOsd(btnRewind);
                 break;
@@ -1277,24 +1285,6 @@ export default function (view) {
                 e.preventDefault();
                 playbackManager.playPause(currentPlayer);
                 showOsd(btnPlayPause);
-                break;
-            case 'Up':
-                e.preventDefault();
-                playbackManager.volumeUp(currentPlayer);
-                break;
-            case 'Down':
-                e.preventDefault();
-                playbackManager.volumeDown(currentPlayer);
-                break;
-            case 'l':
-                e.preventDefault();
-                playbackManager.fastForward(currentPlayer);
-                showOsd(btnFastForward);
-                break;
-            case 'j':
-                e.preventDefault();
-                playbackManager.rewind(currentPlayer);
-                showOsd(btnRewind);
                 break;
             case 'f':
                 e.preventDefault();
