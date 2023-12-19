@@ -1,10 +1,10 @@
 {
     "ButtonSyncPlay": "SyncPlay",
-    "AccessRestrictedTryAgainLater": "رسائی فی الحال محدود ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.",
+    "AccessRestrictedTryAgainLater": "موجودہ رسائی محدود ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.",
     "Absolute": "مطلق",
     "Folders": "فولڈرز",
     "Favorites": "پسندیدہ",
-    "Add": "شامل کریں۔",
+    "Add": "شامل کریں",
     "Actor": "اداکار",
     "MediaInfoChannels": "چینلز",
     "LabelSelectAudioChannels": "چینلز",
@@ -40,7 +40,7 @@
     "AirDate": "نشر کی تاریخ",
     "AllowFfmpegThrottling": "تھروٹل ٹرانس کوڈز",
     "AllowRemoteAccess": "اس سرور سے ریموٹ کنکشن کی اجازت دیں",
-    "AddToCollection": "مجموعہ میں شامل کریں",
+    "AddToCollection": "کلیکشن میں شامل کریں",
     "AllLibraries": "تمام لائبریریاں",
     "AllLanguages": "تمام زبانیں",
     "AddToFavorites": "پسندیدہ میں شامل کریں",
@@ -1670,5 +1670,8 @@
     "Localization": "لوکلائزیشن",
     "OptionDateAdded": "شامل کرنے کی تاریخ",
     "OptionPlainVideoItems": "تمام ویڈیوز کو سادہ ویڈیو آئٹمز کے طور پر ڈسپلے کریں",
-    "MessageRenameMediaFolder": "میڈیا لائبریری کا نام تبدیل کرنے سے تمام میٹا ڈیٹا ضائع ہو جائے گا، احتیاط کے ساتھ آگے بڑھیں۔"
+    "MessageRenameMediaFolder": "میڈیا لائبریری کا نام تبدیل کرنے سے تمام میٹا ڈیٹا ضائع ہو جائے گا، احتیاط کے ساتھ آگے بڑھیں۔",
+    "AllowSegmentDeletionHelp": "کلائنٹ کو بھیجے جانے کے بعد پرانے حصوں کو حذف کریں۔ یہ پوری ٹرانس کوڈ فائل کو ڈسک پر اسٹور کرنے سے روکتا ہے۔ تھروٹلنگ فعال ہونے کے ساتھ ہی کام کرنا شروع کر دیگی۔ اگر آپ پلے بیک کے مسائل کا سامنا کرتے ہیں تو اسے آف کریں۔",
+    "AllowSegmentDeletion": "حصوں کو حذف کریں",
+    "AllowCollectionManagement": "اس یوزر کو کلیکشن کا نظم کرنے کی اجازت دیں"
 }
