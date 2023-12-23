@@ -1,3 +1,26 @@
 {
-    "Absolute": "բացարձակ"
+    "Absolute": "բացարձակ",
+    "Songs": "Երգեր",
+    "Vertical": "Վերտիկալ",
+    "Writer": "Գրող",
+    "Movies": "Ֆիլմեր",
+    "Photos": "Լուսանկարներ",
+    "Actor": "Դերասան",
+    "Add": "Ավելացնել",
+    "AgeValue": "({0} տարեկան)",
+    "Album": "Ալբոմ",
+    "Albums": "Ալբոմներ",
+    "All": "Բոլորը",
+    "AllChannels": "Բոլորը ալիքները",
+    "AllLanguages": "Բոլորը լեզուները",
+    "AllLibraries": "Բոլոր գրադարանները",
+    "AllowedRemoteAddressesHelp": "Ստորակետով անջատված IP հասցեներ կամ IP/netmask-եր որոնք կարող են միանալ հեռակա։ Դարակ թողնելու դեպքում կամայական հասցե կարող է միանալ հեռակա։",
+    "Channels": "Ալիքներ",
+    "Folders": "Պանակներ",
+    "AllowSegmentDeletion": "Հեռացնել սեգմենտները",
+    "Books": "Գրքեր",
+    "HeaderContinueWatching": "Շարունակել դիտումը",
+    "Yes": "Այո",
+    "Writers": "Գրողներ",
+    "Yesterday": "Երեկ"
 }
