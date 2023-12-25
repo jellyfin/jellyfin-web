@@ -284,11 +284,11 @@ class SessionPlayer {
     }
 
     queue(options) {
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
     }
 
     queueNext(options) {
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
     }
 
     canPlayMediaType(mediaType) {
