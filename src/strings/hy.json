@@ -22,5 +22,8 @@
     "HeaderContinueWatching": "Շարունակել դիտումը",
     "Yes": "Այո",
     "Writers": "Գրողներ",
-    "Yesterday": "Երեկ"
+    "Yesterday": "Երեկ",
+    "Collections": "Հավաքածուներ",
+    "AddedOnValue": "Ավելացվեց {0}",
+    "AddToCollection": "Ավելացնել հավաքածուի մեջ"
 }
