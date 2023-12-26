@@ -47,5 +47,7 @@
     "ButtonAddImage": "Նկար ավելացնել",
     "ButtonClose": "Փակել",
     "ConfirmDeleteImage": "",
-    "ContinueWatching": "Շարունակել դիտել"
+    "ContinueWatching": "Շարունակել դիտել",
+    "AllComplexFormats": "Բոլոր բարդ ֆորմատները (ASS, SSA, VobSub, PGS, SUB, IDX, ...)",
+    "AllEpisodes": "Բոլոր դրվագները"
 }
