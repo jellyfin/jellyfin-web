@@ -49,5 +49,8 @@
     "ConfirmDeleteImage": "",
     "ContinueWatching": "Շարունակել դիտել",
     "AllComplexFormats": "Բոլոր բարդ ֆորմատները (ASS, SSA, VobSub, PGS, SUB, IDX, ...)",
-    "AllEpisodes": "Բոլոր դրվագները"
+    "AllEpisodes": "Բոլոր դրվագները",
+    "AccessRestrictedTryAgainLater": "Այս պահին մուտքը արգելված է։ Խնդրում ենք կրկին փորձել ավելի ուշ։",
+    "AirDate": "Հեռարձակման օրը",
+    "Aired": "Հեռարձակվել է"
 }
