@@ -52,7 +52,7 @@ function AutoGrow(textarea, maxLines) {
             newHeight = self.maxAllowedHeight;
         } else {
             textarea.style.overflowY = 'hidden';
-            textarea.style.height = 'auto';
+            // textarea.style.height = 'auto';
             newHeight = textarea.scrollHeight/* - offset*/;
         }
         textarea.style.height = newHeight + 'px';
@@ -61,7 +61,27 @@ function AutoGrow(textarea, maxLines) {
     // Call autogrowFn() when textarea's value is changed
     textarea.addEventListener('input', autogrowFn);
     textarea.addEventListener('focus', autogrowFn);
+    textarea.addEventListener('blur', () => {
+        textarea.style.height = 'auto';
+        autogrowFn();
+    });
     textarea.addEventListener('valueset', autogrowFn);
+    textarea.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const currentCursorPosition = textarea.selectionStart;
+            const textBeforeCursor = textarea.value.substring(0, currentCursorPosition);
+            const textAfterCursor = textarea.value.substring(currentCursorPosition);
+
+            const newTextValue = textBeforeCursor + '\n' + textAfterCursor;
+            textarea.value = newTextValue;
+
+            const newCursorPosition = currentCursorPosition + 1;
+            textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+
+            autogrowFn();
+        }
+    });
 
     autogrowFn();
 }
