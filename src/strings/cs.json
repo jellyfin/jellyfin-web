@@ -1442,7 +1442,7 @@
     "LabelSelectAudioChannels": "Kanály",
     "LabelAllowedAudioChannels": "Maximální povolený počet audiokanálů",
     "AllowHevcEncoding": "Povolit kódování do formátu HEVC",
-    "PreferFmp4HlsContainerHelp": "Preferovat fMP4 jako výchozí kontejner pro HLS, což umožňuje na podporovaných zařízeních přímo streamovat obsah ve formátu HEVC.",
+    "PreferFmp4HlsContainerHelp": "Preferovat fMP4 jako výchozí kontejner pro HLS, což umožňuje na podporovaných zařízeních přímo streamovat obsah ve formátu HEVC a AV1.",
     "PreferFmp4HlsContainer": "Preferovat kontejner fMP4-HLS",
     "LabelSyncPlayInfo": "Informace o SyncPlay",
     "LabelOriginalMediaInfo": "Informace o původním médiu",
