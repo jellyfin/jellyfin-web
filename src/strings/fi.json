@@ -1482,7 +1482,7 @@
     "ButtonClose": "Sulje",
     "EnableRewatchingNextUpHelp": "Näytä 'Seuraavaksi'-osioissa myös aiemmin katsotut jaksot.",
     "LabelParentNumber": "Vanhemman numero",
-    "PreferFmp4HlsContainerHelp": "Suosi HLS-protokollan oletussäiliönä fMP4-muotoa, joka mahdollistaa HEVC-sisällön suoratoiston tuetuilla laitteilla.",
+    "PreferFmp4HlsContainerHelp": "Suosi HLS-protokollan oletussäiliönä fMP4-muotoa, joka mahdollistaa HEVC- ja AV1-sisällön suoratoiston tuetuilla laitteilla.",
     "XmlTvSportsCategoriesHelp": "Näiden kategorioiden ohjelmat näytetään urheiluna. Erota useita merkillä '|'.",
     "XmlTvNewsCategoriesHelp": "Näiden kategorioiden ohjelmat näytetään uutisina. Erota useita merkillä '|'.",
     "XmlTvMovieCategoriesHelp": "Näiden kategorioiden ohjelmat näytetään elokuvina. Erota useita merkillä '|'.",
