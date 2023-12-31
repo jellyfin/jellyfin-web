@@ -1,8 +1,8 @@
-import Events from '../../utils/events.ts';
-import { toBoolean } from '../../utils/string.ts';
+import Events from '../../utils/events';
+import { toBoolean } from '../../utils/string';
 
 class AppSettings {
-    #getKey(name, userId) {
+    _getKey(name: string, userId: string | undefined): string {
         if (userId) {
             name = userId + '-' + name;
         }
@@ -10,11 +10,12 @@ class AppSettings {
         return name;
     }
 
-    enableAutoLogin(val) {
+    enableAutoLogin(): boolean;
+    enableAutoLogin(val: string): void;
+    enableAutoLogin(val?: string): boolean | void {
         if (val !== undefined) {
-            this.set('enableAutoLogin', val.toString());
+            return this.set('enableAutoLogin', val.toString());
         }
-
         return toBoolean(this.get('enableAutoLogin'), true);
     }
 
@@ -23,23 +24,27 @@ class AppSettings {
      * @param {boolean|undefined} val - Flag to enable 'Enable Gamepad' or undefined.
      * @return {boolean} 'Enable Gamepad' state.
      */
-    enableGamepad(val) {
+    enableGamepad(): boolean;
+    enableGamepad(val: boolean): void;
+    enableGamepad(val?: boolean) {
         if (val !== undefined) {
             return this.set('enableGamepad', val.toString());
         }
-
         return toBoolean(this.get('enableGamepad'), false);
     }
 
-    enableSystemExternalPlayers(val) {
+    enableSystemExternalPlayers(): boolean;
+    enableSystemExternalPlayers(val: boolean): void;
+    enableSystemExternalPlayers(val?: boolean): boolean | void {
         if (val !== undefined) {
-            this.set('enableSystemExternalPlayers', val.toString());
+            return this.set('enableSystemExternalPlayers', val.toString());
         }
-
         return toBoolean(this.get('enableSystemExternalPlayers'), false);
     }
 
-    enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
+    enableAutomaticBitrateDetection(isInNetwork: boolean, mediaType: string): boolean;
+    enableAutomaticBitrateDetection(isInNetwork: boolean, mediaType: string, val: boolean): void;
+    enableAutomaticBitrateDetection(isInNetwork: boolean, mediaType: string, val?: boolean): boolean | void {
         const key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
@@ -47,8 +52,8 @@ class AppSettings {
             }
 
             this.set(key, val.toString());
+            return;
         }
-
         if (isInNetwork && mediaType === 'Audio') {
             return true;
         } else {
@@ -56,7 +61,9 @@ class AppSettings {
         }
     }
 
-    maxStreamingBitrate(isInNetwork, mediaType, val) {
+    maxStreamingBitrate(isInNetwork: boolean, mediaType: string): number;
+    maxStreamingBitrate(isInNetwork: boolean, mediaType: string, val: string): void;
+    maxStreamingBitrate(isInNetwork: boolean, mediaType: string, val?: string): number | void {
         const key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
@@ -64,6 +71,7 @@ class AppSettings {
             } else {
                 this.set(key, val);
             }
+            return;
         }
 
         if (isInNetwork && mediaType === 'Audio') {
@@ -74,22 +82,24 @@ class AppSettings {
         }
     }
 
-    maxStaticMusicBitrate(val) {
+    maxStaticMusicBitrate(): number;
+    maxStaticMusicBitrate(val: string): void;
+    maxStaticMusicBitrate(val?: string): number | void {
         if (val !== undefined) {
-            this.set('maxStaticMusicBitrate', val);
+            return this.set('maxStaticMusicBitrate', val);
         }
-
         const defaultValue = 320000;
         return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString(), 10) || defaultValue;
     }
 
-    maxChromecastBitrate(val) {
+    maxChromecastBitrate(): number | null;
+    maxChromecastBitrate(val: string): void;
+    maxChromecastBitrate(val?: string) {
         if (val !== undefined) {
-            this.set('chromecastBitrate1', val);
+            return this.set('chromecastBitrate1', val);
         }
-
-        val = this.get('chromecastBitrate1');
-        return val ? parseInt(val, 10) : null;
+        const setting = this.get('chromecastBitrate1');
+        return setting ? parseInt(setting, 10) : null;
     }
 
     /**
@@ -97,25 +107,26 @@ class AppSettings {
      * @param {number|undefined} val - Maximum video width or undefined.
      * @return {number} Maximum video width.
      */
-    maxVideoWidth(val) {
+    maxVideoWidth(): number;
+    maxVideoWidth(val: number): void;
+    maxVideoWidth(val?: number): number | void {
         if (val !== undefined) {
             return this.set('maxVideoWidth', val.toString());
         }
-
         return parseInt(this.get('maxVideoWidth') || '0', 10) || 0;
     }
 
-    set(name, value, userId) {
+    set(name: string, value: string, userId?: string) {
         const currentValue = this.get(name, userId);
-        localStorage.setItem(this.#getKey(name, userId), value);
+        localStorage.setItem(this._getKey(name, userId), value);
 
         if (currentValue !== value) {
             Events.trigger(this, 'change', [name]);
         }
     }
 
-    get(name, userId) {
-        return localStorage.getItem(this.#getKey(name, userId));
+    get(name: string, userId?: string | undefined) {
+        return localStorage.getItem(this._getKey(name, userId));
     }
 }
 
