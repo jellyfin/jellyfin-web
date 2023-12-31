@@ -22,7 +22,7 @@ const Pagination: FC<PaginationProps> = ({
     totalRecordCount,
     isPreviousData
 }) => {
-    const limit = userSettings.libraryPageSize(undefined);
+    const limit = userSettings.libraryPageSize();
     const startIndex = libraryViewSettings.StartIndex ?? 0;
     const recordsStart = totalRecordCount ? startIndex + 1 : 0;
     const recordsEnd = limit ?

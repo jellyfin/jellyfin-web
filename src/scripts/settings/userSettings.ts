@@ -1,37 +1,57 @@
 import appSettings from './appSettings';
-import Events from '../../utils/events.ts';
-import { toBoolean } from '../../utils/string.ts';
+import Events from '../../utils/events';
+import { toBoolean } from '../../utils/string';
+import type { ApiClient } from 'jellyfin-apiclient';
+import type { DisplayPreferencesDto, UserConfiguration } from '@jellyfin/sdk/lib/generated-client';
 
-function onSaveTimeout() {
-    const self = this;
-    self.saveTimeout = null;
-    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+interface DisplayPreferences extends DisplayPreferencesDto {
+    CustomPrefs: Record<string, string>;
 }
 
-function saveServerPreferences(instance) {
+function onSaveTimeout(this: UserSettings): Promise<void> {
+    this.saveTimeout = null;
+    // FIXME: correctly handle cases where instance properties are not set
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+    return this.currentApiClient!.updateDisplayPreferences('usersettings', this.displayPrefs!, this.currentUserId!, 'emby');
+}
+
+function saveServerPreferences(instance: UserSettings) {
     if (instance.saveTimeout) {
         clearTimeout(instance.saveTimeout);
     }
 
+    // FIXME: handle onSaveTimeout promise rejection
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
 
-const defaultSubtitleAppearanceSettings = {
+interface SubtitleAppearanceSettings {
+    verticalPosition: number;
+}
+const defaultSubtitleAppearanceSettings: SubtitleAppearanceSettings = {
     verticalPosition: -3
 };
 
-const defaultComicsPlayerSettings = {
+interface ComicsPlayerSettings {
+    langDir: string,
+    pagesPerView: number
+}
+const defaultComicsPlayerSettings: ComicsPlayerSettings = {
     langDir: 'ltr',
     pagesPerView: 1
 };
 
 export class UserSettings {
+    saveTimeout: ReturnType<typeof setTimeout>| null | undefined;
+    currentUserId: string | undefined;
+    displayPrefs: DisplayPreferences | null | undefined;
+    currentApiClient: ApiClient | null | undefined;
+
     /**
      * Bind UserSettings instance to user.
      * @param {string} - User identifier.
      * @param {Object} - ApiClient instance.
      */
-    setUserInfo(userId, apiClient) {
+    setUserInfo(userId: string, apiClient: ApiClient): Promise<DisplayPreferencesDto | void> {
         if (this.saveTimeout) {
             clearTimeout(this.saveTimeout);
         }
@@ -44,32 +64,20 @@ export class UserSettings {
             return Promise.resolve();
         }
 
-        const self = this;
-
-        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
-            result.CustomPrefs = result.CustomPrefs || {};
-            self.displayPrefs = result;
+        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then((result) => {
+            this.displayPrefs = Object.assign(result, {
+                CustomPrefs: result.CustomPrefs || {}
+            });
         });
     }
 
-    // FIXME: Seems unused
-    getData() {
-        return this.displayPrefs;
-    }
-
-    // FIXME: Seems unused
-    importFrom(instance) {
-        this.displayPrefs = instance.getData();
-    }
-
-    // FIXME: 'appSettings.set' doesn't return any value
     /**
      * Set value of setting.
      * @param {string} name - Name of setting.
      * @param {mixed} value - Value of setting.
      * @param {boolean} enableOnServer - Flag to save preferences on server.
      */
-    set(name, value, enableOnServer) {
+    set(name: string, value: string, enableOnServer?: boolean): void {
         const userId = this.currentUserId;
         const currentValue = this.get(name, enableOnServer);
         const result = appSettings.set(name, value, userId);
@@ -92,7 +100,7 @@ export class UserSettings {
      * @param {boolean} enableOnServer - Flag to return preferences from server (cached).
      * @return {string} Value of setting.
      */
-    get(name, enableOnServer) {
+    get(name: string, enableOnServer?: boolean): string | null {
         const userId = this.currentUserId;
         if (enableOnServer !== false && this.displayPrefs) {
             return this.displayPrefs.CustomPrefs[name];
@@ -106,13 +114,20 @@ export class UserSettings {
      * @param {Object|undefined} config - Configuration or undefined.
      * @return {Object|Promise} Configuration or Promise.
      */
-    serverConfig(config) {
-        const apiClient = this.currentApiClient;
+    serverConfig(): Promise<UserConfiguration>;
+    serverConfig(config: UserConfiguration): Promise<void>;
+    serverConfig(config?: UserConfiguration): Promise<UserConfiguration | void> {
+        // FIXME: correctly handle missing currentApiClient and currentUserId
+        /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+        const apiClient = this.currentApiClient!;
+        /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+        const currentUserId = this.currentUserId!;
+
         if (config) {
-            return apiClient.updateUserConfiguration(this.currentUserId, config);
+            return apiClient.updateUserConfiguration(currentUserId, config);
         }
 
-        return apiClient.getUser(this.currentUserId).then(function (user) {
+        return apiClient.getUser(currentUserId).then(function (user) {
             return user.Configuration;
         });
     }
@@ -122,7 +137,9 @@ export class UserSettings {
      * @param {string|undefined} val - 'Allowed Audio Channels'.
      * @return {string} 'Allowed Audio Channels'.
      */
-    allowedAudioChannels(val) {
+    allowedAudioChannels(): string;
+    allowedAudioChannels(val: string): void;
+    allowedAudioChannels(val?: string): string | void {
         if (val !== undefined) {
             return this.set('allowedAudioChannels', val, false);
         }
@@ -135,7 +152,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Perfer fMP4-HLS Container' or undefined.
      * @return {boolean} 'Prefer fMP4-HLS Container' state.
      */
-    preferFmp4HlsContainer(val) {
+    preferFmp4HlsContainer(): boolean;
+    preferFmp4HlsContainer(val: boolean): void;
+    preferFmp4HlsContainer(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('preferFmp4HlsContainer', val.toString(), false);
         }
@@ -148,7 +167,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Cinema Mode' or undefined.
      * @return {boolean} 'Cinema Mode' state.
      */
-    enableCinemaMode(val) {
+    enableCinemaMode(): boolean;
+    enableCinemaMode(val: boolean): void;
+    enableCinemaMode(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('enableCinemaMode', val.toString(), false);
         }
@@ -161,7 +182,9 @@ export class UserSettings {
      * @param {string|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
      * @return {string} 'Enable Audio Normalization' state.
      */
-    selectAudioNormalization(val) {
+    selectAudioNormalization(): string;
+    selectAudioNormalization(val: string): void;
+    selectAudioNormalization(val?: string): string | void {
         if (val !== undefined) {
             return this.set('selectAudioNormalization', val, false);
         }
@@ -174,7 +197,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
      */
-    enableNextVideoInfoOverlay(val) {
+    enableNextVideoInfoOverlay(): boolean;
+    enableNextVideoInfoOverlay(val: boolean): void;
+    enableNextVideoInfoOverlay(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('enableNextVideoInfoOverlay', val.toString());
         }
@@ -187,7 +212,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
      * @return {boolean} 'Video Remaining/Total Time' state.
      */
-    enableVideoRemainingTime(val) {
+    enableVideoRemainingTime(): boolean;
+    enableVideoRemainingTime(val: boolean): void;
+    enableVideoRemainingTime(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('enableVideoRemainingTime', val.toString());
         }
@@ -200,7 +227,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Theme Songs' or undefined.
      * @return {boolean} 'Theme Songs' state.
      */
-    enableThemeSongs(val) {
+    enableThemeSongs(): boolean;
+    enableThemeSongs(val: boolean): void;
+    enableThemeSongs(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('enableThemeSongs', val.toString(), false);
         }
@@ -213,7 +242,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Theme Videos' or undefined.
      * @return {boolean} 'Theme Videos' state.
      */
-    enableThemeVideos(val) {
+    enableThemeVideos(): boolean;
+    enableThemeVideos(val: boolean): void;
+    enableThemeVideos(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('enableThemeVideos', val.toString(), false);
         }
@@ -226,7 +257,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Fast Fade-in' or undefined.
      * @return {boolean} 'Fast Fade-in' state.
      */
-    enableFastFadein(val) {
+    enableFastFadein(): boolean;
+    enableFastFadein(val: boolean): void;
+    enableFastFadein(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('fastFadein', val.toString(), false);
         }
@@ -239,7 +272,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Blurhash' or undefined.
      * @return {boolean} 'Blurhash' state.
      */
-    enableBlurhash(val) {
+    enableBlurhash(): boolean;
+    enableBlurhash(val: boolean): void;
+    enableBlurhash(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('blurhash', val.toString(), false);
         }
@@ -252,7 +287,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
      */
-    enableBackdrops(val) {
+    enableBackdrops(): boolean;
+    enableBackdrops(val: boolean): void;
+    enableBackdrops(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('enableBackdrops', val.toString(), false);
         }
@@ -265,7 +302,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'disableCustomCss' or undefined.
      * @return {boolean} 'disableCustomCss' state.
      */
-    disableCustomCss(val) {
+    disableCustomCss(): boolean;
+    disableCustomCss(val: boolean): void;
+    disableCustomCss(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('disableCustomCss', val.toString(), false);
         }
@@ -278,7 +317,9 @@ export class UserSettings {
      * @param {string|undefined} val - Language.
      * @return {string} Language.
      */
-    customCss(val) {
+    customCss(): string | null;
+    customCss(val: string): void;
+    customCss(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('customCss', val.toString(), false);
         }
@@ -291,7 +332,9 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Details Banner' or undefined.
      * @return {boolean} 'Details Banner' state.
      */
-    detailsBanner(val) {
+    detailsBanner(): boolean;
+    detailsBanner(val: boolean): void;
+    detailsBanner(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('detailsBanner', val.toString(), false);
         }
@@ -304,7 +347,9 @@ export class UserSettings {
      * @param {string|boolean|undefined} [val] - Flag to enable 'Use Episode Images in Next Up and Continue Watching' or undefined.
      * @return {boolean} 'Use Episode Images in Next Up' state.
      */
-    useEpisodeImagesInNextUpAndResume(val) {
+    useEpisodeImagesInNextUpAndResume(): boolean;
+    useEpisodeImagesInNextUpAndResume(val: boolean): void;
+    useEpisodeImagesInNextUpAndResume(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('useEpisodeImagesInNextUpAndResume', val.toString(), true);
         }
@@ -317,7 +362,9 @@ export class UserSettings {
      * @param {string|undefined} val - Language.
      * @return {string} Language.
      */
-    language(val) {
+    language(): string | null;
+    language(val: string): void;
+    language(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('language', val.toString(), false);
         }
@@ -330,7 +377,9 @@ export class UserSettings {
      * @param {string|undefined} val - Datetime locale.
      * @return {string} Datetime locale.
      */
-    dateTimeLocale(val) {
+    dateTimeLocale(): string | null;
+    dateTimeLocale(val: string): void;
+    dateTimeLocale(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('datetimelocale', val.toString(), false);
         }
@@ -343,7 +392,9 @@ export class UserSettings {
      * @param {number|undefined} val - Amount of rewind.
      * @return {number} Amount of rewind.
      */
-    skipBackLength(val) {
+    skipBackLength(): number;
+    skipBackLength(val: number): void;
+    skipBackLength(val?: number): number | void {
         if (val !== undefined) {
             return this.set('skipBackLength', val.toString());
         }
@@ -356,7 +407,9 @@ export class UserSettings {
      * @param {number|undefined} val - Amount of fast forward.
      * @return {number} Amount of fast forward.
      */
-    skipForwardLength(val) {
+    skipForwardLength(): number;
+    skipForwardLength(val: number): void;
+    skipForwardLength(val?: number): number | void {
         if (val !== undefined) {
             return this.set('skipForwardLength', val.toString());
         }
@@ -369,7 +422,9 @@ export class UserSettings {
      * @param {string|undefined} val - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
      */
-    dashboardTheme(val) {
+    dashboardTheme(): string | null;
+    dashboardTheme(val: string): void;
+    dashboardTheme(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('dashboardTheme', val);
         }
@@ -382,7 +437,9 @@ export class UserSettings {
      * @param {string|undefined} val - Skin.
      * @return {string} Skin.
      */
-    skin(val) {
+    skin(): string | null;
+    skin(val: string): void;
+    skin(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('skin', val, false);
         }
@@ -395,7 +452,9 @@ export class UserSettings {
      * @param {string|undefined} val - Main theme.
      * @return {string} Main theme.
      */
-    theme(val) {
+    theme(): string | null;
+    theme(val: string): void;
+    theme(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('appTheme', val, false);
         }
@@ -408,7 +467,9 @@ export class UserSettings {
      * @param {string|undefined} val - Screensaver.
      * @return {string} Screensaver.
      */
-    screensaver(val) {
+    screensaver(): string | null;
+    screensaver(val: string): void;
+    screensaver(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('screensaver', val, false);
         }
@@ -421,12 +482,14 @@ export class UserSettings {
      * @param {number|undefined} val - The interval between backdrops in seconds.
      * @return {number} The interval between backdrops in seconds.
      */
-    backdropScreensaverInterval(val) {
+    backdropScreensaverInterval(): number;
+    backdropScreensaverInterval(val: number): void;
+    backdropScreensaverInterval(val?: number): number | void {
         if (val !== undefined) {
             return this.set('backdropScreensaverInterval', val.toString(), false);
         }
 
-        return parseInt(this.get('backdropScreensaverInterval', false), 10) || 5;
+        return parseInt(this.get('backdropScreensaverInterval', false) || '5', 10);
     }
 
     /**
@@ -434,12 +497,14 @@ export class UserSettings {
      * @param {number|undefined} val - Library page size.
      * @return {number} Library page size.
      */
-    libraryPageSize(val) {
+    libraryPageSize(): number;
+    libraryPageSize(val: number): void;
+    libraryPageSize(val?: number): number | void {
         if (val !== undefined) {
             return this.set('libraryPageSize', val.toString(), false);
         }
 
-        const libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
+        const libraryPageSize = parseInt(this.get('libraryPageSize', false) || '', 10);
         if (libraryPageSize === 0) {
             // Explicitly return 0 to avoid returning 100 because 0 is falsy.
             return 0;
@@ -453,12 +518,14 @@ export class UserSettings {
      * @param {number|undefined} [val] - Max days for next up.
      * @return {number} Max days for a show to stay in next up without being watched.
      */
-    maxDaysForNextUp(val) {
+    maxDaysForNextUp(): number;
+    maxDaysForNextUp(val: number): void;
+    maxDaysForNextUp(val?: number): number | void {
         if (val !== undefined) {
             return this.set('maxDaysForNextUp', val.toString(), false);
         }
 
-        const maxDaysForNextUp = parseInt(this.get('maxDaysForNextUp', false), 10);
+        const maxDaysForNextUp = parseInt(this.get('maxDaysForNextUp', false) || '0', 10);
         if (maxDaysForNextUp === 0) {
             // Explicitly return 0 to avoid returning 100 because 0 is falsy.
             return 0;
@@ -472,7 +539,9 @@ export class UserSettings {
      * @param {boolean|undefined} [val] - If rewatching items should be included in next up.
      * @returns {boolean} Rewatching in next up state.
      */
-    enableRewatchingInNextUp(val) {
+    enableRewatchingInNextUp(): boolean;
+    enableRewatchingInNextUp(val: boolean): void;
+    enableRewatchingInNextUp(val?: boolean): boolean | void {
         if (val !== undefined) {
             return this.set('enableRewatchingInNextUp', val.toString(), false);
         }
@@ -482,10 +551,12 @@ export class UserSettings {
 
     /**
      * Get or set sound effects.
-     * @param {string|undefined} val - Sound effects.
+     * @param {string|null|undefined} val - Sound effects.
      * @return {string} Sound effects.
      */
-    soundEffects(val) {
+    soundEffects(): string | null;
+    soundEffects(val: string): void;
+    soundEffects(val?: string): string | null | void {
         if (val !== undefined) {
             return this.set('soundeffects', val, false);
         }
@@ -494,18 +565,12 @@ export class UserSettings {
     }
 
     /**
-    * @typedef {Object} Query
-    * @property {number} StartIndex - query StartIndex.
-    * @property {number} Limit - query Limit.
-    */
-
-    /**
      * Load query settings.
      * @param {string} key - Query key.
      * @param {Object} query - Query base.
      * @return {Query} Query.
      */
-    loadQuerySettings(key, query) {
+    loadQuerySettings<T extends object>(key: string, query: T): T {
         let values = this.get(key);
         if (values) {
             values = JSON.parse(values);
@@ -520,8 +585,8 @@ export class UserSettings {
      * @param {string} key - Query key.
      * @param {Object} query - Query.
      */
-    saveQuerySettings(key, query) {
-        const values = {};
+    saveQuerySettings(key: string, query: { SortBy?: unknown, SortOrder?: unknown}) {
+        const values: typeof query = {};
         if (query.SortBy) {
             values.SortBy = query.SortBy;
         }
@@ -538,7 +603,7 @@ export class UserSettings {
      * @param {string} key - View Setting key.
      * @return {string} View Setting value.
      */
-    getSavedView(key) {
+    getSavedView(key: string): string | null {
         return this.get(key + '-_view');
     }
 
@@ -547,7 +612,7 @@ export class UserSettings {
      * @param {string} key - View Setting key.
      * @param {string} value - View Setting value.
      */
-    saveViewSetting(key, value) {
+    saveViewSetting(key: string, value: string): void {
         return this.set(key + '-_view', value);
     }
 
@@ -556,7 +621,7 @@ export class UserSettings {
      * @param {string|undefined} key - Settings key.
      * @return {Object} Subtitle appearance settings.
      */
-    getSubtitleAppearanceSettings(key) {
+    getSubtitleAppearanceSettings(key?: string): SubtitleAppearanceSettings {
         key = key || 'localplayersubtitleappearance3';
         return Object.assign(defaultSubtitleAppearanceSettings, JSON.parse(this.get(key, false) || '{}'));
     }
@@ -566,7 +631,7 @@ export class UserSettings {
      * @param {Object} value - Subtitle appearance settings.
      * @param {string|undefined} key - Settings key.
      */
-    setSubtitleAppearanceSettings(value, key) {
+    setSubtitleAppearanceSettings(value: SubtitleAppearanceSettings, key: string) {
         key = key || 'localplayersubtitleappearance3';
         return this.set(key, JSON.stringify(value), false);
     }
@@ -576,7 +641,7 @@ export class UserSettings {
      * @param {string} mediaSourceId - Media Source Id.
      * @return {Object} Comics player settings.
      */
-    getComicsPlayerSettings(mediaSourceId) {
+    getComicsPlayerSettings(mediaSourceId: string): ComicsPlayerSettings {
         const settings = JSON.parse(this.get('comicsPlayerSettings', false) || '{}');
         return Object.assign(defaultComicsPlayerSettings, settings[mediaSourceId]);
     }
@@ -586,7 +651,7 @@ export class UserSettings {
      * @param {Object} value - Comics player settings.
      * @param {string} mediaSourceId - Media Source Id.
      */
-    setComicsPlayerSettings(value, mediaSourceId) {
+    setComicsPlayerSettings(value: ComicsPlayerSettings, mediaSourceId: string): void {
         const settings = JSON.parse(this.get('comicsPlayerSettings', false) || '{}');
         settings[mediaSourceId] = value;
         return this.set('comicsPlayerSettings', JSON.stringify(settings), false);
@@ -597,7 +662,7 @@ export class UserSettings {
      * @param {string} key - Filter key.
      * @param {string} value - Filter value.
      */
-    setFilter(key, value) {
+    setFilter(key: string, value: string): void {
         return this.set(key, value, true);
     }
 
@@ -606,7 +671,7 @@ export class UserSettings {
      * @param {string} key - Filter key.
      * @return {string} Filter value.
      */
-    getFilter(key) {
+    getFilter(key: string): string | null {
         return this.get(key, true);
     }
 
@@ -618,7 +683,7 @@ export class UserSettings {
      * @param {string} defaultSortBy - Default SortBy value.
      * @return {Object} sortOptions object
      */
-    getSortValuesLegacy(key, defaultSortBy) {
+    getSortValuesLegacy(key: string, defaultSortBy: string) {
         return {
             sortBy: this.getFilter(key + '-sortby') || defaultSortBy,
             sortOrder: this.getFilter(key + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
@@ -630,8 +695,6 @@ export const currentSettings = new UserSettings;
 
 // Wrappers for non-ES6 modules and backward compatibility
 export const setUserInfo = currentSettings.setUserInfo.bind(currentSettings);
-export const getData = currentSettings.getData.bind(currentSettings);
-export const importFrom = currentSettings.importFrom.bind(currentSettings);
 export const set = currentSettings.set.bind(currentSettings);
 export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
