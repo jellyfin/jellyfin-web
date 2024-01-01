@@ -1746,5 +1746,19 @@
     "HeaderGuestCast": "Καλεσμένοι Αστέρες",
     "ListView": "Προβολή Λίστας",
     "SubtitleWhite": "Λευκό",
-    "UserMenu": "Κατάλογος Χειριστή"
+    "UserMenu": "Κατάλογος Χειριστή",
+    "GoHome": "Μετάβαση στην Αρχική",
+    "LogLevel.Debug": "Εντοπισμός σφαλμάτων",
+    "SubtitleLightGray": "Ανοιχτό γκρι",
+    "ResolutionMatchSource": "Πηγή αντιστοίχισης",
+    "SaveRecordingNFO": "Αποθηκεύστε τα μεταδεδομένα εγγραφής EPG στο NFO",
+    "UnknownError": "Προέκυψε ένα άγνωστο σφάλμα.",
+    "LabelIsHearingImpaired": "Για άτομα με προβλήματα ακοής (SDH)",
+    "AllowAv1Encoding": "Να επιτρέπεται η κωδικοποίηση σε μορφή AV1",
+    "HearingImpairedShort": "ΗI/SDH",
+    "HeaderConfirmRepositoryInstallation": "Επιβεβαιώστε την εγκατάσταση του αποθετηρίου πρόσθετων",
+    "MessageRepositoryInstallDisclaimer": "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Η εγκατάσταση ενός αποθετηρίου πρόσθετου τρίτου μέρους εγκυμονεί κινδύνους. Μπορεί να περιέχει ασταθή ή κακόβουλο κώδικα και μπορεί να αλλάξει ανά πάσα στιγμή. Εγκαταστήστε αποθετήρια μόνο από συντάκτες που εμπιστεύεστε.",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Προτιμήστε τους ενσωματωμένους τίτλους από τα ονόματα αρχείων για πρόσθετα",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Τα πρόσθετα έχουν συχνά το ίδιο ενσωματωμένο όνομα με τον γονέα, ελέγξτε αυτό για να χρησιμοποιήσετε ενσωματωμένους τίτλους για αυτά ούτως ή άλλως.",
+    "LabelSegmentKeepSecondsHelp": ""
 }
