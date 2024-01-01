@@ -226,7 +226,7 @@
     "HeaderApiKeysHelp": "Le Applicazioni esterne devono avere una chiave API per comunicare con il server. Le chiavi sono emesse accedendo con un qualsiasi account, o fornendo manualmente una chiave all'applicazione.",
     "HeaderAudioBooks": "Audiolibri",
     "HeaderAudioSettings": "Impostazioni audio",
-    "HeaderBlockItemsWithNoRating": "Blocca elementi sconosciuti o senza informazioni",
+    "HeaderBlockItemsWithNoRating": "Blocca elementi con informazioni di valutazione assenti o non riconosciute",
     "HeaderBranding": "Personalizza",
     "HeaderCancelRecording": "Annulla la Registrazione",
     "HeaderCancelSeries": "Annulla Serie TV",
