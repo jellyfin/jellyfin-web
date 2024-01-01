@@ -5,6 +5,10 @@ export declare global {
         ApiClient: ApiClient;
         Events: Events;
         NativeShell: any;
+        Loading: {
+            show();
+            hide();
+        }
     }
 
     interface DocumentEventMap {
