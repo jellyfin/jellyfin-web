@@ -1424,7 +1424,7 @@
     "LabelUserMaxActiveSessions": "Maksimalt antall samtidige brukerøkter",
     "DeleteAll": "Slett alle",
     "AllowHevcEncoding": "Tillat koding i HEVC-format",
-    "PreferFmp4HlsContainerHelp": "Foretrekk bruk av fMP4 som standard mediabeholder for HLS, noe som gjør det mulig å direktestrømme HEVC-innhold til støttede enheter.",
+    "PreferFmp4HlsContainerHelp": "Foretrekk bruk av fMP4 som standard mediabeholder for HLS, noe som gjør det mulig å direktestrømme HEVC- og AV1-innhold til støttede enheter.",
     "PreferFmp4HlsContainer": "Foretrekk fMP4-HLS mediabeholder",
     "LabelSyncPlayInfo": "SyncPlay-informasjon",
     "LabelOriginalMediaInfo": "Opprinnelig medieinformasjon",
@@ -1441,7 +1441,7 @@
     "AspectRatioCover": "Dekk",
     "EnableFallbackFontHelp": "Aktiver egendefinerte alternative skrifttyper. Dette kan hjelpe med å unngå problemer ved gjengivelse av undertekster.",
     "EnableFallbackFont": "Aktiver skrifttyper å falle tilbake på",
-    "LabelFallbackFontPathHelp": "Spesifiser en bane som inneholder skrifttyper for gjengivelse av ASS/SSA-undertekster. Maksimal tillatt total skriftstørrelse er 20 MB. Det anbefales lette og nettvennlige skriftformater som woff2.",
+    "LabelFallbackFontPathHelp": "Disse skrifttypene er brukt av noen klienter for å vise undertekster. Referer til dokumentasjonen for mer informasjon.",
     "LabelFallbackFontPath": "Mappe for skrift å falle tilbake på",
     "HeaderSelectFallbackFontPathHelp": "Bla gjennom eller gå inn i mappen med skrifttyper å falle tilbake på, for gjengivelse av ASS/SSA-undertekster.",
     "HeaderSelectFallbackFontPath": "Velg mappe for skrift å falle tilbake på",
@@ -1775,5 +1775,10 @@
     "LabelBackdropScreensaverInterval": "Skjermsparingsbakgrunn-intervall",
     "LabelBackdropScreensaverIntervalHelp": "Tid i milisekunder mellom forskjellige bakgrunner ved bruk av skjermsparingsbakgrunner.",
     "BackdropScreensaver": "Skjermsparingsbakgrunn",
-    "ForeignPartsOnly": "Kun tvungne/fremmede deler"
+    "ForeignPartsOnly": "Kun tvungne/fremmede deler",
+    "SearchResultsEmpty": "Sorry! Ingen resultater funnet for \"{0}\"",
+    "SelectAudioNormalizationHelp": "Sporjustering - justerer volumet for hvert spor så de spiller av med samme volum. Albumsjustering - justerer volumet på alle sporene i et album, og beholder albumets dynamiske rekkevidde.",
+    "LabelAlbumGain": "Albumjustering",
+    "LabelSelectAudioNormalization": "Lydnormalisering",
+    "LabelTrackGain": "Sporjustering"
 }
