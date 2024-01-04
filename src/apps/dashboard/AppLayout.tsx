@@ -27,9 +27,9 @@ const AppLayout: FC<AppLayoutProps> = ({
     const { user } = useApi();
 
     const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
-    const isDrawerAvailable = !isSmallScreen
+    const isDrawerAvailable = Boolean(user)
         && !drawerlessPaths.some(path => location.pathname.startsWith(`/${path}`));
-    const isDrawerOpen = isDrawerActive && isDrawerAvailable && Boolean(user);
+    const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
@@ -52,18 +52,22 @@ const AppLayout: FC<AppLayoutProps> = ({
                     }}
                 >
                     <AppToolbar
-                        isDrawerAvailable={isDrawerAvailable}
+                        isDrawerAvailable={!isSmallScreen && isDrawerAvailable}
                         isDrawerOpen={isDrawerOpen}
                         onDrawerButtonClick={onToggleDrawer}
                     />
                 </AppBar>
             </ElevationScroll>
 
-            <AppDrawer
-                open={isDrawerOpen}
-                onClose={onToggleDrawer}
-                onOpen={onToggleDrawer}
-            />
+            {
+                isDrawerAvailable && (
+                    <AppDrawer
+                        open={isDrawerOpen}
+                        onClose={onToggleDrawer}
+                        onOpen={onToggleDrawer}
+                    />
+                )
+            }
 
             <Box
                 component='main'

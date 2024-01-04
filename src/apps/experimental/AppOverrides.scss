@@ -21,10 +21,14 @@ $mui-bp-xl: 1536px;
 
 // Fix the padding of some pages
 .homePage.libraryPage.withTabs, // Home page
-.libraryPage:not(.withTabs) { // Tabless library pages
+// Library pages excluding the item details page and tabbed pages
+.libraryPage:not(
+    .itemDetailPage,
+    .withTabs
+) {
     padding-top: 3.25rem !important;
 }
-
+// Tabbed library pages
 .libraryPage.withTabs {
     padding-top: 6.5rem !important;
 

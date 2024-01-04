@@ -53,7 +53,7 @@ const AppLayout = () => {
             </ElevationScroll>
 
             {
-                user && (
+                isDrawerAvailable && (
                     <AppDrawer
                         open={isDrawerOpen}
                         onClose={onToggleDrawer}
