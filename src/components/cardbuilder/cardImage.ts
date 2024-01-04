@@ -1,6 +1,7 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { ApiClient } from 'jellyfin-apiclient';
+
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
 
@@ -36,8 +37,6 @@ export function buildCardImage(
 
     if (!image) return '';
 
-    const className = ` ${shape}Card`;
-
     const { blurhash, imgUrl } = image;
 
     let cardPadderIcon = '';
@@ -56,7 +55,7 @@ export function buildCardImage(
     }
 
     return (
-        `<div class="card ${className}">
+        `<div class="card ${shape}Card">
     <div class="cardBox">
         <div class="cardScalable">
             <div class="cardPadder cardPadder-${shape}">
