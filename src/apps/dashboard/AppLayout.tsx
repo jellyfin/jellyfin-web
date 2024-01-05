@@ -43,11 +43,11 @@ const AppLayout: FC<AppLayoutProps> = ({
                     sx={{
                         width: {
                             xs: '100%',
-                            sm: `calc(100% - ${DRAWER_WIDTH}px)`
+                            sm: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
                         },
                         ml: {
                             xs: 0,
-                            sm: `${DRAWER_WIDTH}px`
+                            sm: isDrawerAvailable ? DRAWER_WIDTH : 0
                         }
                     }}
                 >
