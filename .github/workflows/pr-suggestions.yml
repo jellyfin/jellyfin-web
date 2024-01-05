@@ -22,7 +22,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup node environment
-        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
+        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4.0.1
         with:
           node-version: 20
           check-latest: true
@@ -33,6 +33,6 @@ jobs:
 
       - name: Run eslint
         if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-        uses: CatChen/eslint-suggestion-action@912483cec485e691398ec76c25fef971456039a1 # v3.1.1
+        uses: CatChen/eslint-suggestion-action@7bbf6d65396dbcc73d1e053d900eb5745988c11c # v3.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

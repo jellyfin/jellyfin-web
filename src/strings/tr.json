@@ -1618,7 +1618,7 @@
     "ContainerNotSupported": "Kapsayıcı desteklenmiyor",
     "EnableVppTonemapping": "VPP Ton eşlemesini etkinleştir",
     "EnableEnhancedNvdecDecoder": "Gelişmiş NVDEC kod çözücüyü etkinleştir",
-    "PreferFmp4HlsContainerHelp": "HLS için varsayılan kapsayıcı olarak fMP4'ü kullanmayı tercih etmek, HEVC içeriğini destekleyen cihazlara doğrudan akışı mümkün kılar.",
+    "PreferFmp4HlsContainerHelp": "HLS için varsayılan kapsayıcı olarak fMP4'ü kullanmayı tercih etmek, HEVC ve AV1 içeriğini destekleyen cihazlara doğrudan akışı mümkün kılar.",
     "PreferFmp4HlsContainer": "fMP4-HLS Medya Kapsayıcısını tercih edin",
     "LabelSyncPlayInfo": "SyncPlay Bilgisi",
     "LabelOriginalMediaInfo": "Orijinal Medya Bilgisi",

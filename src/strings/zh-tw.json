@@ -1445,7 +1445,7 @@
     "LabelDropSubtitleHere": "將字幕檔丟到這裡，或點擊瀏覽。",
     "LabelAllowedAudioChannels": "最大聲道允許數",
     "AllowHevcEncoding": "允許以 HEVC 格式編碼",
-    "PreferFmp4HlsContainerHelp": "偏好使用 fMP4 as the default container for HLS, making it possible to direct stream HEVC content on supported devices.",
+    "PreferFmp4HlsContainerHelp": "優先使用 fMP4 作為 HLS 的默認容器，以便在支援的設備上直接串流 HEVC 和 AV1 內容。",
     "PreferFmp4HlsContainer": "偏好 fMP4-HLS Media Container",
     "RemuxHelp2": "Remux使用最低的處理能力，達到完全無損的媒體品質。",
     "RemuxHelp1": "不兼容的影片格式(MKV、AVI、WMV等)，但影像串流和聲音串流都與設備兼容。在發送到設備之前，影片將被無損地重新打包。",

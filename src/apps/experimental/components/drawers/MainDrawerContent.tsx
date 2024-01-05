@@ -6,8 +6,8 @@ import Dashboard from '@mui/icons-material/Dashboard';
 import Edit from '@mui/icons-material/Edit';
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
-import Link from '@mui/icons-material/Link';
 import Divider from '@mui/material/Divider';
+import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -98,8 +98,7 @@ const MainDrawerContent = () => {
                                     rel='noopener noreferrer'
                                 >
                                     <ListItemIcon>
-                                        {/* TODO: Support custom icons */}
-                                        <Link />
+                                        <Icon>{menuLink.icon ?? 'link'}</Icon>
                                     </ListItemIcon>
                                     <ListItemText primary={menuLink.name} />
                                 </ListItemButton>
