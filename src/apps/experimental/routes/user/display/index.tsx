@@ -31,7 +31,7 @@ export default function UserDisplayPreferences() {
     const handleFieldChange = useCallback((e: SelectChangeEvent | React.SyntheticEvent) => {
         const target = e.target as HTMLInputElement;
         const fieldName = target.name as keyof DisplaySettingsValues;
-        const fieldValue = target.checked ?? target.value;
+        const fieldValue = target.type === 'checkbox' ? target.checked : target.value;
 
         if (values?.[fieldName] !== fieldValue) {
             updateField({

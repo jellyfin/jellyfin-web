@@ -17,7 +17,7 @@ interface LibraryPreferencesProps {
 
 export function LibraryPreferences({ onChange, values }: Readonly<LibraryPreferencesProps>) {
     return (
-        <Stack spacing={2}>
+        <Stack spacing={3}>
             <Typography variant='h2'>{globalize.translate('HeaderLibraries')}</Typography>
 
             <FormControl fullWidth>
@@ -32,7 +32,7 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
                         required: true,
                         step: '1'
                     }}
-                    defaultValue={values.libraryPageSize}
+                    value={values.libraryPageSize}
                     label={globalize.translate('LabelLibraryPageSize')}
                     name='libraryPageSize'
                     onChange={onChange}

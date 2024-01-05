@@ -17,13 +17,13 @@ interface NextUpPreferencesProps {
 
 export function NextUpPreferences({ onChange, values }: Readonly<NextUpPreferencesProps>) {
     return (
-        <Stack spacing={2}>
+        <Stack spacing={3}>
             <Typography variant='h2'>{globalize.translate('NextUp')}</Typography>
 
             <FormControl fullWidth>
                 <TextField
                     aria-describedby='display-settings-max-days-next-up-description'
-                    defaultValue={values.maxDaysForNextUp}
+                    value={values.maxDaysForNextUp}
                     inputProps={{
                         type: 'number',
                         inputMode: 'numeric',
