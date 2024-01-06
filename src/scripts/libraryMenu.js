@@ -421,22 +421,8 @@ function showBySelector(selector, show) {
 
 function updateLibraryMenu(user) {
     if (!user) {
-        showBySelector('.libraryMenuDownloads', false);
-        showBySelector('.lnkSyncToOtherDevices', false);
         showBySelector('.userMenuOptions', false);
         return;
-    }
-
-    if (user.Policy.EnableContentDownloading) {
-        showBySelector('.lnkSyncToOtherDevices', true);
-    } else {
-        showBySelector('.lnkSyncToOtherDevices', false);
-    }
-
-    if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
-        showBySelector('.libraryMenuDownloads', true);
-    } else {
-        showBySelector('.libraryMenuDownloads', false);
     }
 
     const userId = Dashboard.getCurrentUserId();

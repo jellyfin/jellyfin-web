@@ -154,18 +154,6 @@ export function canEditImages (user, item) {
     return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
 }
 
-export function canSync (user, item) {
-    if (user && !user.Policy.EnableContentDownloading) {
-        return false;
-    }
-
-    if (isLocalItem(item)) {
-        return false;
-    }
-
-    return item.SupportsSync;
-}
-
 export function canShare (item, user) {
     if (item.Type === 'Program') {
         return false;
@@ -311,7 +299,6 @@ export default {
     canIdentify: canIdentify,
     canEdit: canEdit,
     canEditImages: canEditImages,
-    canSync: canSync,
     canShare: canShare,
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,
