@@ -12,7 +12,7 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {

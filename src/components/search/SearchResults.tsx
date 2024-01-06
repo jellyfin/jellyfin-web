@@ -2,7 +2,7 @@ import type { BaseItemDto, BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/gene
 import type { ApiClient } from 'jellyfin-apiclient';
 import classNames from 'classnames';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';

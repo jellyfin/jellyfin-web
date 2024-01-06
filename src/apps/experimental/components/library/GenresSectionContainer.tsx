@@ -11,7 +11,7 @@ import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from './SectionContainer';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ParentId } from 'types/library';
 
 interface GenresSectionContainerProps {

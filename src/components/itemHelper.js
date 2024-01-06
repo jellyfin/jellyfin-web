@@ -1,6 +1,6 @@
 import { appHost } from './apphost';
 import globalize from '../scripts/globalize';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 export function getDisplayName(item, options = {}) {
     if (!item) {

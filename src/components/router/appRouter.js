@@ -10,7 +10,7 @@ import viewManager from '../viewManager/viewManager';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { ConnectionState } from '../../utils/jellyfin-apiclient/ConnectionState.ts';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 export const history = createHashHistory();
 
