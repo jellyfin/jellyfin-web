@@ -26,7 +26,7 @@ const AppLayout: FC<AppLayoutProps> = ({
     const location = useLocation();
     const { user } = useApi();
 
-    const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
+    const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
     const isDrawerAvailable = Boolean(user)
         && !drawerlessPaths.some(path => location.pathname.startsWith(`/${path}`));
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
@@ -43,16 +43,16 @@ const AppLayout: FC<AppLayoutProps> = ({
                     sx={{
                         width: {
                             xs: '100%',
-                            sm: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
+                            md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
                         },
                         ml: {
                             xs: 0,
-                            sm: isDrawerAvailable ? DRAWER_WIDTH : 0
+                            md: isDrawerAvailable ? DRAWER_WIDTH : 0
                         }
                     }}
                 >
                     <AppToolbar
-                        isDrawerAvailable={!isSmallScreen && isDrawerAvailable}
+                        isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
                         isDrawerOpen={isDrawerOpen}
                         onDrawerButtonClick={onToggleDrawer}
                     />

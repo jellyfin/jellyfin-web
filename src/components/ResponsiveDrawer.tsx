@@ -21,9 +21,9 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
     onClose,
     onOpen
 }) => {
-    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const isMediumScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
-    return ( isSmallScreen ? (
+    return ( isMediumScreen ? (
         /* DESKTOP DRAWER */
         <Drawer
             sx={{

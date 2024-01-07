@@ -14,7 +14,7 @@ const Backdrop = () => {
                 className='backdropContainer'
                 sx={{
                     left: {
-                        sm: DRAWER_WIDTH
+                        md: DRAWER_WIDTH
                     }
                 }}
             />
