@@ -1497,7 +1497,6 @@
     "SubtitleYellow": "Yellow",
     "Suggestions": "Suggestions",
     "Sunday": "Sunday",
-    "Sync": "Sync",
     "SyncPlayAccessHelp": "The SyncPlay feature enables to sync playback with other devices. Select the level of access this user has to the SyncPlay.",
     "SyncPlayGroupDefaultTitle": "{0}'s group",
     "SystemDlnaProfilesHelp": "System profiles are read-only. Changes to a system profile will be saved to a new custom profile.",
