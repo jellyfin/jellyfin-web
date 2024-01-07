@@ -1630,5 +1630,11 @@
     "EnableCardLayout": "Erakutsi CardBox ikusgai",
     "GoogleCastUnsupported": "Google Cast ez da bateragarria",
     "Experimental": "Esperimentala",
-    "DownloadAll": "Deskargatu dena"
+    "DownloadAll": "Deskargatu dena",
+    "AllowCollectionManagement": "Bildum baimena utzi",
+    "AllowSegmentDeletion": "Segmentuak ezabatu",
+    "AllowSegmentDeletionHelp": "Segmentu zaharrak ezabatu  bezeroari bidali ondoren.  Horrela ezin da kodifikatutako fitxategi osoa gordeko diskoan. Hau Throttling  bakarrik aktibatuta baldin funtzionatuko du. Itzali aukera hau playback arazoak esperimentatzen baldin baduzu.",
+    "LabelThrottleDelaySeconds": "Throttle  buruan",
+    "LabelThrottleDelaySecondsHelp": "Denbora segundotan transkodetzailea geldiarazten hasiko den. Bezeroak buffer osasuntsu bat mantentzeko bezain handia izan behar da. Bakarrik funtzionatzen du throttling onartua baldin badago.",
+    "LabelSegmentKeepSeconds": "Segmentuak gordetzeko denbora.."
 }
