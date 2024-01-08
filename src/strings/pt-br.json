@@ -1462,7 +1462,7 @@
     "LabelSelectAudioChannels": "Canais",
     "LabelAllowedAudioChannels": "Máximo de canais de áudio permitidos",
     "AllowHevcEncoding": "Permitir codificação no formato HEVC",
-    "PreferFmp4HlsContainerHelp": "Prefira usar fMP4 como o contêiner padrão para HLS, possibilitando o fluxo direto de conteúdo HEVC em dispositivos compatíveis.",
+    "PreferFmp4HlsContainerHelp": "Prefira usar fMP4 como o contêiner padrão para HLS, possibilitando o fluxo direto de conteúdo HEVC e AV1 em dispositivos compatíveis.",
     "PreferFmp4HlsContainer": "Prefira contêiner de mídia fMP4-HLS",
     "LabelSyncPlayInfo": "Informação de SyncPlay",
     "LabelOriginalMediaInfo": "Informações de Mídia Original",
