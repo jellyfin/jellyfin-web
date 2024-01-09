@@ -1,7 +1,5 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import type { SystemInfo } from '@jellyfin/sdk/lib/generated-client/models/system-info';
 import { getUserViewsApi } from '@jellyfin/sdk/lib/utils/api/user-views-api';
-import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import Dashboard from '@mui/icons-material/Dashboard';
 import Edit from '@mui/icons-material/Edit';
 import Favorite from '@mui/icons-material/Favorite';
@@ -24,11 +22,11 @@ import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'scripts/globalize';
 
 import LibraryIcon from '../LibraryIcon';
+import DrawerHeaderLink from './DrawerHeaderLink';
 
 const MainDrawerContent = () => {
     const { api, user } = useApi();
     const location = useLocation();
-    const [ systemInfo, setSystemInfo ] = useState<SystemInfo>();
     const [ userViews, setUserViews ] = useState<BaseItemDto[]>([]);
     const webConfig = useWebConfig();
 
@@ -45,15 +43,6 @@ const MainDrawerContent = () => {
                     console.warn('[MainDrawer] failed to fetch user views', err);
                     setUserViews([]);
                 });
-
-            getSystemApi(api)
-                .getSystemInfo()
-                .then(({ data }) => {
-                    setSystemInfo(data);
-                })
-                .catch(err => {
-                    console.warn('[MainDrawer] failed to fetch system info', err);
-                });
         } else {
             setUserViews([]);
         }
@@ -62,7 +51,10 @@ const MainDrawerContent = () => {
     return (
         <>
             {/* MAIN LINKS */}
-            <List>
+            <List sx={{ paddingTop: 0 }}>
+                <ListItem disablePadding>
+                    <DrawerHeaderLink />
+                </ListItem>
                 <ListItem disablePadding>
                     <ListItemLink to='/home.html' selected={isHomeSelected}>
                         <ListItemIcon>
@@ -167,17 +159,6 @@ const MainDrawerContent = () => {
                     </List>
                 </>
             )}
-
-            {/* FOOTER */}
-            <Divider style={{ marginTop: 'auto' }} />
-            <List>
-                <ListItem>
-                    <ListItemText
-                        primary={systemInfo?.ServerName ? systemInfo.ServerName : 'Jellyfin'}
-                        secondary={systemInfo?.Version ? `v${systemInfo.Version}` : ''}
-                    />
-                </ListItem>
-            </List>
         </>
     );
 };
