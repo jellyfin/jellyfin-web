@@ -523,7 +523,7 @@
     "LabelFont": "Czcionka",
     "LabelForgotPasswordUsernameHelp": "Podaj nazwę użytkownika, jeśli pamiętasz.",
     "LabelFriendlyName": "Przyjazna nazwa",
-    "LabelServerNameHelp": "Ta nazwa będzie użyta do identyfikacji serwera, domyślnie użyta będzie nazwa serwera.",
+    "LabelServerNameHelp": "Ta nazwa będzie użyta do identyfikacji serwera, domyślnie użyta będzie nazwa hosta.",
     "LabelGroupMoviesIntoCollections": "Grupuj filmy w kolekcje",
     "LabelGroupMoviesIntoCollectionsHelp": "Podczas wyświetlania list filmów, filmy w kolekcji będą wyświetlane jako jedna zgrupowana pozycja.",
     "LabelH264Crf": "CRF kodowania H.264",
