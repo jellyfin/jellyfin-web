@@ -1252,7 +1252,7 @@
     "PreferEmbeddedTitlesOverFileNames": "Віддавайте перевагу вбудованим заголовкам над іменами файлів",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Використовувати інформацію про епізод із вбудованих метаданих, якщо вони доступні.",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Надавати перевагу вбудованій інформації про епізоди замість назв файлів",
-    "PosterCard": "Картка постеру",
+    "PosterCard": "Картка з постером",
     "Poster": "Постер",
     "PleaseSelectTwoItems": "Виберіть принаймні два елементи.",
     "PleaseRestartServerName": "Перезапустіть Jellyfin на {0}.",
