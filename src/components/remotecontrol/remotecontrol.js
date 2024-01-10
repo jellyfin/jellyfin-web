@@ -22,7 +22,7 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
-
+import ButtonMute, { getButtonMuteHtml } from './buttonMute';
 let showMuteButton = true;
 let showVolumeSlider = true;
 
@@ -404,7 +404,6 @@ export default function () {
     }
 
     function updatePlayerVolumeState(context, isMuted, volumeLevel) {
-        const view = context;
         const supportedCommands = currentPlayerSupportedCommands;
 
         if (supportedCommands.indexOf('Mute') === -1) {
@@ -420,24 +419,9 @@ export default function () {
             showVolumeSlider = false;
         }
 
-        const buttonMute = view.querySelector('.buttonMute');
-        const buttonMuteIcon = buttonMute.querySelector('.material-icons');
-
-        buttonMuteIcon.classList.remove('volume_off', 'volume_up');
-
-        if (isMuted) {
-            buttonMute.setAttribute('title', globalize.translate('Unmute'));
-            buttonMuteIcon.classList.add('volume_off');
-        } else {
-            buttonMute.setAttribute('title', globalize.translate('Mute'));
-            buttonMuteIcon.classList.add('volume_up');
-        }
-
         if (!showMuteButton && !showVolumeSlider) {
             context.querySelector('.volumecontrol').classList.add('hide');
         } else {
-            buttonMute.classList.toggle('hide', !showMuteButton);
-
             const nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
             const nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
 
@@ -827,9 +811,6 @@ export default function () {
             playbackManager.setVolume(e.target.value, currentPlayer);
         });
 
-        context.querySelector('.buttonMute').addEventListener('click', function () {
-            playbackManager.toggleMute(currentPlayer);
-        });
         const playlistContainer = context.querySelector('.playlist');
         playlistContainer.addEventListener('action-remove', function (e) {
             playbackManager.removeFromPlaylist([e.detail.playlistItemId], currentPlayer);
@@ -902,7 +883,7 @@ export default function () {
 
     function init(ownerView, context) {
         let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
-        volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up" aria-hidden="true"></span></button>`;
+        volumecontrolHtml += getButtonMuteHtml();
         volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
         volumecontrolHtml += '</div>';
         const optionsSection = context.querySelector('.playlistSectionButton');
@@ -949,18 +930,22 @@ export default function () {
     let currentPlayerSupportedCommands = [];
     let lastUpdateTime = 0;
     let currentRuntimeTicks = 0;
+    const buttonMute = new ButtonMute();
     const self = this;
 
     self.init = function (ownerView, context) {
         dlg = context;
         init(ownerView, dlg);
+        buttonMute.init(ownerView, context);
     };
 
     self.onShow = function () {
         onShow(dlg);
+        buttonMute.onShow();
     };
 
     self.destroy = function () {
         onDialogClosed();
+        buttonMute.destroy();
     };
 }
