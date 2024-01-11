@@ -43,7 +43,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
             ParentId: parentId,
             searchTerm: query,
             Limit: 24,
-            Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
             Recursive: true,
             EnableTotalRecordCount: false,
             ImageTypeLimit: 1,

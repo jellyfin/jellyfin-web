@@ -79,7 +79,7 @@ const getItemFieldsEnum = (
     const itemFields: ItemFields[] = [];
 
     if (viewType !== LibraryTab.Networks) {
-        itemFields.push(ItemFields.BasicSyncInfo, ItemFields.MediaSourceCount);
+        itemFields.push(ItemFields.MediaSourceCount);
     }
 
     if (libraryViewSettings.ImageType === ImageType.Primary) {

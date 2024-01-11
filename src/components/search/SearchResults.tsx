@@ -52,7 +52,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
         ParentId: parentId,
         searchTerm: query,
         Limit: 100,
-        Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
+        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
         Recursive: true,
         EnableTotalRecordCount: false,
         ImageTypeLimit: 1,

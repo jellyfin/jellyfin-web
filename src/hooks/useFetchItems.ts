@@ -101,8 +101,7 @@ const fetchGetMovieRecommendations = async (
                 userId: user.Id,
                 fields: [
                     ItemFields.PrimaryImageAspectRatio,
-                    ItemFields.MediaSourceCount,
-                    ItemFields.BasicSyncInfo
+                    ItemFields.MediaSourceCount
                 ],
                 parentId: parentId ?? undefined,
                 categoryLimit: 6,
@@ -144,8 +143,7 @@ const fetchGetItemsBySuggestionsType = async (
                             limit: 25,
                             fields: [
                                 ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.MediaSourceCount,
-                                ItemFields.BasicSyncInfo
+                                ItemFields.MediaSourceCount
                             ],
                             parentId: parentId ?? undefined,
                             imageTypeLimit: 1,
@@ -172,8 +170,7 @@ const fetchGetItemsBySuggestionsType = async (
                             parentId: parentId ?? undefined,
                             fields: [
                                 ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.MediaSourceCount,
-                                ItemFields.BasicSyncInfo
+                                ItemFields.MediaSourceCount
                             ],
                             imageTypeLimit: 1,
                             enableImageTypes: [ImageType.Thumb],
@@ -194,8 +191,7 @@ const fetchGetItemsBySuggestionsType = async (
                             userId: user.Id,
                             fields: [
                                 ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.MediaSourceCount,
-                                ItemFields.BasicSyncInfo
+                                ItemFields.MediaSourceCount
                             ],
                             parentId: parentId ?? undefined,
                             imageTypeLimit: 1,
