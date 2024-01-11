@@ -8,32 +8,30 @@ import { useTogglePlayedMutation } from 'hooks/useFetchItems';
 
 interface PlayedButtonProps {
     className?: string;
-    playedState : boolean | undefined;
+    isPlayed : boolean | undefined;
     itemId: string | null | undefined;
     itemType: string | null | undefined
 }
 
 const PlayedButton: FC<PlayedButtonProps> = ({
     className,
-    playedState = false,
+    isPlayed = false,
     itemId,
     itemType
 }) => {
     const { mutateAsync: togglePlayedMutation } = useTogglePlayedMutation();
-    const [isPlayed, setIsPlayed] = React.useState<boolean | undefined>(
-        playedState ?? false
-    );
+    const [playedState, setPlayedState] = React.useState<boolean>(isPlayed);
 
     const getTitle = useCallback(() => {
         let buttonTitle;
         if (itemType !== BaseItemKind.AudioBook) {
-            buttonTitle = isPlayed ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
+            buttonTitle = playedState ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
         } else {
-            buttonTitle = isPlayed ? globalize.translate('Played') : globalize.translate('MarkPlayed');
+            buttonTitle = playedState ? globalize.translate('Played') : globalize.translate('MarkPlayed');
         }
 
         return buttonTitle;
-    }, [isPlayed, itemType]);
+    }, [playedState, itemType]);
 
     const onClick = useCallback(async () => {
         try {
@@ -41,23 +39,23 @@ const PlayedButton: FC<PlayedButtonProps> = ({
                 throw new Error('Item has no Id');
             }
 
-            const response = await togglePlayedMutation({
+            const _isPlayed = await togglePlayedMutation({
                 itemId,
-                isPlayed
+                playedState
             });
-            setIsPlayed(response?.Played);
+            setPlayedState(!!_isPlayed);
         } catch (e) {
             console.error(e);
         }
-    }, [isPlayed, itemId, togglePlayedMutation]);
+    }, [playedState, itemId, togglePlayedMutation]);
 
     const btnClass = classNames(
         className,
-        { 'playstatebutton-played': isPlayed }
+        { 'playstatebutton-played': playedState }
     );
 
     const iconClass = classNames(
-        { 'playstatebutton-icon-played': isPlayed }
+        { 'playstatebutton-icon-played': playedState }
     );
     return (
         <IconButton

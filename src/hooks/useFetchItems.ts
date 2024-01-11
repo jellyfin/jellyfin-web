@@ -169,7 +169,7 @@ const fetchGetItemsBySuggestionsType = async (
                 response = (
                     await getItemsApi(api).getResumeItems(
                         {
-                            userId: user?.Id,
+                            userId: user.Id,
                             parentId: parentId ?? undefined,
                             fields: [
                                 ItemFields.PrimaryImageAspectRatio,
@@ -625,28 +625,28 @@ export const useGetGroupsUpcomingEpisodes = (parentId: ParentId) => {
 
 interface ToggleFavoriteMutationProp {
     itemId: string;
-    isFavorite: boolean | undefined
+    favoriteState: boolean
 }
 
 const fetchUpdateFavoriteStatus = async (
     currentApi: JellyfinApiContext,
     itemId: string,
-    isFavorite: boolean | undefined
+    favoriteState: boolean
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        if (isFavorite) {
+        if (favoriteState) {
             const response = await getUserLibraryApi(api).unmarkFavoriteItem({
-                userId: user?.Id,
+                userId: user.Id,
                 itemId: itemId
             });
-            return response.data;
+            return response.data.IsFavorite;
         } else {
             const response = await getUserLibraryApi(api).markFavoriteItem({
-                userId: user?.Id,
+                userId: user.Id,
                 itemId: itemId
             });
-            return response.data;
+            return response.data.IsFavorite;
         }
     }
 };
@@ -654,35 +654,35 @@ const fetchUpdateFavoriteStatus = async (
 export const useToggleFavoriteMutation = () => {
     const currentApi = useApi();
     return useMutation({
-        mutationFn: ({ itemId, isFavorite }: ToggleFavoriteMutationProp) =>
-            fetchUpdateFavoriteStatus(currentApi, itemId, isFavorite )
+        mutationFn: ({ itemId, favoriteState }: ToggleFavoriteMutationProp) =>
+            fetchUpdateFavoriteStatus(currentApi, itemId, favoriteState )
     });
 };
 
 interface TogglePlayedMutationProp {
     itemId: string;
-    isPlayed: boolean | undefined
+    playedState: boolean
 }
 
 const fetchUpdatePlayedState = async (
     currentApi: JellyfinApiContext,
     itemId: string,
-    isPlayed: boolean | undefined
+    playedState: boolean
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        if (isPlayed) {
+        if (playedState) {
             const response = await getPlaystateApi(api).markUnplayedItem({
-                userId: user?.Id,
+                userId: user.Id,
                 itemId: itemId
             });
-            return response.data;
+            return response.data.Played;
         } else {
             const response = await getPlaystateApi(api).markPlayedItem({
-                userId: user?.Id,
+                userId: user.Id,
                 itemId: itemId
             });
-            return response.data;
+            return response.data.Played;
         }
     }
 };
@@ -690,7 +690,7 @@ const fetchUpdatePlayedState = async (
 export const useTogglePlayedMutation = () => {
     const currentApi = useApi();
     return useMutation({
-        mutationFn: ({ itemId, isPlayed }: TogglePlayedMutationProp) =>
-            fetchUpdatePlayedState(currentApi, itemId, isPlayed )
+        mutationFn: ({ itemId, playedState }: TogglePlayedMutationProp) =>
+            fetchUpdatePlayedState(currentApi, itemId, playedState )
     });
 };

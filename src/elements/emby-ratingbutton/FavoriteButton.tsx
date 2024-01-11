@@ -7,17 +7,17 @@ import globalize from 'scripts/globalize';
 
 interface FavoriteButtonProps {
     className?: string;
-    favoriteState: boolean | undefined;
+    isFavorite: boolean | undefined;
     itemId: string | null | undefined
 }
 
 const FavoriteButton: FC<FavoriteButtonProps> = ({
     className,
-    favoriteState,
+    isFavorite = false,
     itemId
 }) => {
     const { mutateAsync: toggleFavoriteMutation } = useToggleFavoriteMutation();
-    const [isFavorite, setIsFavorite] = React.useState<boolean | undefined>(favoriteState ?? false);
+    const [favoriteState, setFavoriteState] = React.useState<boolean>(isFavorite);
 
     const onClick = useCallback(async () => {
         try {
@@ -25,28 +25,28 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
                 throw new Error('Item has no Id');
             }
 
-            const response = await toggleFavoriteMutation({
+            const _isFavorite = await toggleFavoriteMutation({
                 itemId,
-                isFavorite
+                favoriteState
             });
-            setIsFavorite(response?.IsFavorite);
+            setFavoriteState(!!_isFavorite);
         } catch (e) {
             console.error(e);
         }
-    }, [isFavorite, itemId, toggleFavoriteMutation]);
+    }, [favoriteState, itemId, toggleFavoriteMutation]);
 
     const btnClass = classNames(
         className,
-        { 'ratingbutton-withrating': isFavorite }
+        { 'ratingbutton-withrating': favoriteState }
     );
 
     const iconClass = classNames(
-        { 'ratingbutton-icon-withrating': isFavorite }
+        { 'ratingbutton-icon-withrating': favoriteState }
     );
 
     return (
         <IconButton
-            title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
+            title={favoriteState ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
             className={btnClass}
             size='small'
             onClick={onClick}
