@@ -25,7 +25,7 @@ const isMovies = (collectionType: string) => collectionType === CollectionType.M
 
 const isMusic = (collectionType: string) => collectionType === CollectionType.Music;
 
-const isTVShows = (collectionType: string) => collectionType === CollectionType.TvShows;
+const isTVShows = (collectionType: string) => collectionType === CollectionType.Tvshows;
 
 /*
  * React component to display search result rows for global search and non-live tv library search
@@ -240,7 +240,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || collectionType === CollectionType.LiveTv }
+                { 'hide': !query || collectionType === CollectionType.Livetv }
             )}
         >
             {isLoading ? (

@@ -28,7 +28,7 @@ function getFetchLatestItemsFn(
             if (collectionType === CollectionType.Music) {
                 limit = 30;
             }
-        } else if (collectionType === CollectionType.TvShows) {
+        } else if (collectionType === CollectionType.Tvshows) {
             limit = 5;
         } else if (collectionType === CollectionType.Music) {
             limit = 9;

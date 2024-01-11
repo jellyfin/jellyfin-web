@@ -11,7 +11,7 @@ import { TvShowSuggestionsSectionsView } from 'types/sections';
 const episodesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Episodes,
     itemType: [BaseItemKind.Episode],
-    collectionType: CollectionType.TvShows,
+    collectionType: CollectionType.Tvshows,
     isAlphabetPickerEnabled: false,
     noItemsMessage: 'MessageNoEpisodesFound'
 };
@@ -19,7 +19,7 @@ const episodesTabContent: LibraryTabContent = {
 const seriesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Series,
     itemType: [BaseItemKind.Series],
-    collectionType: CollectionType.TvShows,
+    collectionType: CollectionType.Tvshows,
     isBtnShuffleEnabled: true
 };
 
@@ -38,14 +38,14 @@ const upcomingTabContent: LibraryTabContent = {
 
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
-    collectionType: CollectionType.TvShows,
+    collectionType: CollectionType.Tvshows,
     sectionsView: TvShowSuggestionsSectionsView
 };
 
 const genresTabContent: LibraryTabContent = {
     viewType: LibraryTab.Genres,
     itemType: [BaseItemKind.Series],
-    collectionType: CollectionType.TvShows
+    collectionType: CollectionType.Tvshows
 };
 
 const tvShowsTabMapping: LibraryTabMapping = {

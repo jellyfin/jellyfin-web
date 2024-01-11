@@ -73,7 +73,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
         setPrograms([]);
         setChannels([]);
 
-        if (query && collectionType === CollectionType.LiveTv) {
+        if (query && collectionType === CollectionType.Livetv) {
             const apiClient = ServerConnections.getApiClient(serverId);
 
             // Movies row
@@ -139,7 +139,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || collectionType !== CollectionType.LiveTv }
+                { 'hide': !query || collectionType !== CollectionType.Livetv }
             )}
         >
             <SearchResultsRow

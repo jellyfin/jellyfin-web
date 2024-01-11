@@ -25,20 +25,20 @@ const LibraryIcon: FC<LibraryIconProps> = ({
             return <Movie />;
         case CollectionType.Music:
             return <MusicNote />;
-        case CollectionType.HomeVideos:
+        case CollectionType.Homevideos:
         case CollectionType.Photos:
             return <Photo />;
-        case CollectionType.LiveTv:
+        case CollectionType.Livetv:
             return <LiveTv />;
-        case CollectionType.TvShows:
+        case CollectionType.Tvshows:
             return <Tv />;
         case CollectionType.Trailers:
             return <Theaters />;
-        case CollectionType.MusicVideos:
+        case CollectionType.Musicvideos:
             return <MusicVideo />;
         case CollectionType.Books:
             return <Book />;
-        case CollectionType.BoxSets:
+        case CollectionType.Boxsets:
             return <Collections />;
         case CollectionType.Playlists:
             return <Queue />;
