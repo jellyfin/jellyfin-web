@@ -584,6 +584,7 @@ export default function () {
         console.debug('remotecontrol event: ' + e.type);
         const player = this;
 
+        buttonMute.onPlaybackStopped(player, e, state);
         if (!state.NextMediaType) {
             updatePlayerState(player, dlg, {});
             appRouter.back();
@@ -598,6 +599,7 @@ export default function () {
         const player = this;
         updatePlayerState(player, dlg, state);
         onPlaylistUpdate();
+        buttonMute.onStateChanged(player, event, state);
     }
 
     function onTimeUpdate() {
@@ -614,6 +616,7 @@ export default function () {
     function onVolumeChanged() {
         const player = this;
         updatePlayerVolumeState(dlg, player.isMuted(), player.getVolume());
+        buttonMute.onVolumeChanged(player);
     }
 
     function releaseCurrentPlayer() {
@@ -843,7 +846,9 @@ export default function () {
     }
 
     function onPlayerChange() {
-        bindToPlayer(dlg, playbackManager.getCurrentPlayer());
+        const player = playbackManager.getCurrentPlayer();
+        bindToPlayer(dlg, player);
+        buttonMute.onPlayerChange(dlg, player);
     }
 
     function onMessageSubmit(e) {
@@ -940,12 +945,12 @@ export default function () {
     };
 
     self.onShow = function () {
-        onShow(dlg);
         buttonMute.onShow();
+        onShow(dlg);
     };
 
     self.destroy = function () {
-        onDialogClosed();
         buttonMute.destroy();
+        onDialogClosed();
     };
 }

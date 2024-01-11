@@ -1,6 +1,5 @@
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appHost } from 'components/apphost';
-import Events from 'utils/events.ts';
 import globalize from 'scripts/globalize';
 
 let showMuteButton = true;
@@ -46,56 +45,19 @@ export default function () {
         buttonMute.classList.toggle('hide', !showMuteButton);
     }
 
-    function onVolumeChanged() {
-        const player = this;
-        updatePlayerVolumeState(dlg, player.isMuted());
-    }
-
-    function onPlaybackStart(e, state) {
-        const player = this;
-        onStateChanged.call(player, e, state);
-    }
-
-    function onPlaybackStopped(e, state) {
-        const player = this;
-
-        if (!state.NextMediaType) {
-            updatePlayerState(player, dlg, {});
-        }
-    }
-
-    function onStateChanged(event, state) {
-        const player = this;
-        updatePlayerState(player, dlg, state);
-    }
-
     function releaseCurrentPlayer() {
         const player = currentPlayer;
 
         if (player) {
-            Events.off(player, 'playbackstart', onPlaybackStart);
-            Events.off(player, 'statechange', onStateChanged);
-            Events.off(player, 'playbackstop', onPlaybackStopped);
-            Events.off(player, 'volumechange', onVolumeChanged);
             currentPlayer = null;
         }
     }
 
-    // TODO: is it nesesery to watch these events? can playState.IsMuted change without click event?
-    // TODO: can supportedCommands.Mute change without click event?
     function bindToPlayer(context, player) {
         releaseCurrentPlayer();
         currentPlayer = player;
 
         if (player) {
-            const state = playbackManager.getPlayerState(player);
-            onStateChanged.call(player, {
-                type: 'init'
-            }, state);
-            Events.on(player, 'playbackstart', onPlaybackStart);
-            Events.on(player, 'statechange', onStateChanged);
-            Events.on(player, 'playbackstop', onPlaybackStopped);
-            Events.on(player, 'volumechange', onVolumeChanged);
             const playerInfo = playbackManager.getPlayerInfo();
             const supportedCommands = playerInfo.supportedCommands;
             currentPlayerSupportedCommands = supportedCommands;
@@ -108,18 +70,12 @@ export default function () {
         });
     }
 
-    function onPlayerChange() {
-        bindToPlayer(dlg, playbackManager.getCurrentPlayer());
-    }
-
     function init(ownerView, context) {
         bindEvents(context);
-        Events.on(playbackManager, 'playerchange', onPlayerChange);
     }
 
     function onDialogClosed() {
         releaseCurrentPlayer();
-        Events.off(playbackManager, 'playerchange', onPlayerChange);
     }
 
     function onShow(context) {
@@ -130,6 +86,26 @@ export default function () {
     let currentPlayer;
     let currentPlayerSupportedCommands = [];
     const self = this;
+
+    // TODO: is it nesesery to watch these events? can playState.IsMuted change without click event?
+    // TODO: can supportedCommands.Mute change without click event?
+    self.onVolumeChanged = (player) => {
+        updatePlayerVolumeState(dlg, player.isMuted());
+    };
+
+    self.onPlaybackStopped = (player, e, state) => {
+        if (!state.NextMediaType) {
+            updatePlayerState(player, dlg, {});
+        }
+    };
+
+    self.onStateChanged = (player, event, state) => {
+        updatePlayerState(player, dlg, state);
+    };
+
+    self.onPlayerChange = function (context, player) {
+        bindToPlayer(context, player);
+    };
 
     self.init = function (ownerView, context) {
         dlg = context;
