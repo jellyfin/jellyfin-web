@@ -23,6 +23,7 @@ import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 import ButtonMute, { getButtonMuteHtml } from './buttonMute';
+import VolumeSlider, { getVolumeSliderHtml } from './volumeSlider';
 let showMuteButton = true;
 let showVolumeSlider = true;
 
@@ -355,7 +356,7 @@ export default function () {
 
         updatePlayPauseState(playState.IsPaused, item != null);
         updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
-        updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
+        updatePlayerVolumeState(context);
 
         if (item && item.MediaType == 'Video') {
             context.classList.remove('hideVideoButtons');
@@ -403,7 +404,7 @@ export default function () {
         }
     }
 
-    function updatePlayerVolumeState(context, isMuted, volumeLevel) {
+    function updatePlayerVolumeState(context) {
         const supportedCommands = currentPlayerSupportedCommands;
 
         if (supportedCommands.indexOf('Mute') === -1) {
@@ -421,17 +422,6 @@ export default function () {
 
         if (!showMuteButton && !showVolumeSlider) {
             context.querySelector('.volumecontrol').classList.add('hide');
-        } else {
-            const nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
-            const nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
-
-            if (nowPlayingVolumeSlider) {
-                nowPlayingVolumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
-
-                if (!nowPlayingVolumeSlider.dragging) {
-                    nowPlayingVolumeSlider.value = volumeLevel || 0;
-                }
-            }
         }
     }
 
@@ -585,6 +575,7 @@ export default function () {
         const player = this;
 
         buttonMute.onPlaybackStopped(player, e, state);
+        volumeSlider.onPlaybackStopped(player, e, state);
         if (!state.NextMediaType) {
             updatePlayerState(player, dlg, {});
             appRouter.back();
@@ -600,6 +591,7 @@ export default function () {
         updatePlayerState(player, dlg, state);
         onPlaylistUpdate();
         buttonMute.onStateChanged(player, event, state);
+        volumeSlider.onStateChanged(player, event, state);
     }
 
     function onTimeUpdate() {
@@ -615,8 +607,9 @@ export default function () {
 
     function onVolumeChanged() {
         const player = this;
-        updatePlayerVolumeState(dlg, player.isMuted(), player.getVolume());
+        updatePlayerVolumeState(dlg);
         buttonMute.onVolumeChanged(player);
+        volumeSlider.onVolumeChanged(player);
     }
 
     function releaseCurrentPlayer() {
@@ -810,10 +803,6 @@ export default function () {
             return datetime.getDisplayRunningTime(ticks);
         };
 
-        context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
-            playbackManager.setVolume(e.target.value, currentPlayer);
-        });
-
         const playlistContainer = context.querySelector('.playlist');
         playlistContainer.addEventListener('action-remove', function (e) {
             playbackManager.removeFromPlaylist([e.detail.playlistItemId], currentPlayer);
@@ -849,6 +838,7 @@ export default function () {
         const player = playbackManager.getCurrentPlayer();
         bindToPlayer(dlg, player);
         buttonMute.onPlayerChange(dlg, player);
+        volumeSlider.onPlayerChange(dlg, player);
     }
 
     function onMessageSubmit(e) {
@@ -889,7 +879,7 @@ export default function () {
     function init(ownerView, context) {
         let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
         volumecontrolHtml += getButtonMuteHtml();
-        volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
+        volumecontrolHtml += getVolumeSliderHtml();
         volumecontrolHtml += '</div>';
         const optionsSection = context.querySelector('.playlistSectionButton');
         if (!layoutManager.mobile) {
@@ -936,21 +926,25 @@ export default function () {
     let lastUpdateTime = 0;
     let currentRuntimeTicks = 0;
     const buttonMute = new ButtonMute();
+    const volumeSlider = new VolumeSlider();
     const self = this;
 
     self.init = function (ownerView, context) {
         dlg = context;
         init(ownerView, dlg);
         buttonMute.init(ownerView, context);
+        volumeSlider.init(ownerView, context);
     };
 
     self.onShow = function () {
         buttonMute.onShow();
+        volumeSlider.onShow();
         onShow(dlg);
     };
 
     self.destroy = function () {
         buttonMute.destroy();
+        volumeSlider.destroy();
         onDialogClosed();
     };
 }
