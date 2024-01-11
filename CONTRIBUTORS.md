@@ -77,6 +77,7 @@
 - [Grady Hallenbeck](https://github.com/grhallenbeck)
 - [DinuD](https://github.com/DinuD)
 - [Kevin Tan (Valius)](https://github.com/valius)
+- [MP430](https://github.com/MP430)
 
 ## Emby Contributors
 

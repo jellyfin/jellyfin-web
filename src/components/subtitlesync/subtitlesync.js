@@ -47,7 +47,11 @@ function init(instance) {
                 inputOffset = inputOffset[0];
                 inputOffset = parseFloat(inputOffset);
 
+                // synchronize with slider value
                 subtitleSyncSlider.updateOffset(inputOffset);
+
+                subtitleSyncTextField.updateOffset(inputOffset);
+                updateSubtitleOffset(inputOffset);
             } else {
                 this.textContent = (playbackManager.getPlayerSubtitleOffset(player) || 0) + 's';
             }
@@ -72,22 +76,23 @@ function init(instance) {
         }
     };
 
-    function updateSubtitleOffset() {
-        const value = parseFloat(subtitleSyncSlider.value);
+    function updateSubtitleOffset(value) {
         // set new offset
         playbackManager.setSubtitleOffset(value, player);
-        // synchronize with textField value
-        subtitleSyncTextField.updateOffset(value);
     }
 
     subtitleSyncSlider.updateOffset = function (sliderValue) {
         // default value is 0s = 0ms
         this.value = sliderValue === undefined ? 0 : sliderValue;
-
-        updateSubtitleOffset();
     };
 
-    subtitleSyncSlider.addEventListener('change', () => updateSubtitleOffset());
+    subtitleSyncSlider.addEventListener('change', function () {
+        const sliderValue = parseFloat(subtitleSyncSlider.value);
+
+        // synchronize with textField value
+        subtitleSyncTextField.updateOffset(sliderValue);
+        updateSubtitleOffset(sliderValue);
+    });
 
     subtitleSyncSlider.getBubbleHtml = function (_, value) {
         return '<h1 class="sliderBubbleText">'
