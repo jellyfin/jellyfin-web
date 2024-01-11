@@ -35,8 +35,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             recursive: true,
             fields: [
                 ItemFields.PrimaryImageAspectRatio,
-                ItemFields.MediaSourceCount,
-                ItemFields.BasicSyncInfo
+                ItemFields.MediaSourceCount
             ],
             imageTypeLimit: 1,
             enableImageTypes: [ImageType.Primary],

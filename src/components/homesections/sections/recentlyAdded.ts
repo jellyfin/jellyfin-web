@@ -37,7 +37,7 @@ function getFetchLatestItemsFn(
 
         const options = {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,Path',
+            Fields: 'PrimaryImageAspectRatio,Path',
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
             ParentId: parentId

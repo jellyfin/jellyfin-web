@@ -94,7 +94,7 @@ export default function (view, params, tabContent) {
             latestPromise = ApiClient.getLiveTvRecordings({
                 UserId: Dashboard.getCurrentUserId(),
                 Limit: 12,
-                Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
+                Fields: 'CanDelete,PrimaryImageAspectRatio',
                 EnableTotalRecordCount: false,
                 EnableImageTypes: 'Primary,Thumb,Backdrop'
             });

@@ -252,7 +252,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     if (params.type === 'nextup') {
         return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
