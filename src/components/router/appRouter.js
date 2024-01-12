@@ -663,7 +663,7 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            if (item.CollectionType == 'Movies') {
+            if (item.CollectionType == CollectionType.Movies) {
                 url = '#/movies.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
