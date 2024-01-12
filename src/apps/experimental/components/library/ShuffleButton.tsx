@@ -1,4 +1,4 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
@@ -11,8 +11,8 @@ import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
 interface ShuffleButtonProps {
-    item: BaseItemDto | undefined;
-    items: BaseItemDto[];
+    item: BaseItemDto | null | undefined;
+    items: BaseItemDto[] | SeriesTimerInfoDto[];
     viewType: LibraryTab
     hasFilters: boolean;
     libraryViewSettings: LibraryViewSettings

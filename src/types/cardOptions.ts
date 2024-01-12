@@ -12,7 +12,7 @@ export interface CardOptions {
     overlayMoreButton?: boolean;
     overlayPlayButton?: boolean;
     overlayText?: boolean;
-    preferThumb?: boolean;
+    preferThumb?: boolean | string | null;
     preferDisc?: boolean;
     preferLogo?: boolean;
     scalable?: boolean;

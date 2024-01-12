@@ -75,7 +75,7 @@ function getLandingScreenOptions(type) {
     } else if (type === 'tvshows') {
         list.push({
             name: globalize.translate('Shows'),
-            value: LibraryTab.Shows,
+            value: LibraryTab.Series,
             isDefault: true
         });
         list.push({
@@ -152,7 +152,7 @@ function getLandingScreenOptions(type) {
         });
         list.push({
             name: globalize.translate('Series'),
-            value: LibraryTab.Series
+            value: LibraryTab.SeriesTimers
         });
     }
 

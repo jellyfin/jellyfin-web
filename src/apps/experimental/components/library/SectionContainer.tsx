@@ -1,8 +1,8 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, TimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useEffect, useRef } from 'react';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
-import ItemsContainerElement from 'elements/ItemsContainerElement';
+import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
 import Scroller from 'elements/emby-scroller/Scroller';
 import LinkButton from 'elements/emby-button/LinkButton';
 import imageLoader from 'components/images/imageLoader';
@@ -12,7 +12,7 @@ import { CardOptions } from 'types/cardOptions';
 interface SectionContainerProps {
     url?: string;
     sectionTitle: string;
-    items: BaseItemDto[];
+    items: BaseItemDto[] | TimerInfoDto[];
     cardOptions: CardOptions;
 }
 
@@ -64,7 +64,9 @@ const SectionContainer: FC<SectionContainerProps> = ({
                 isMouseWheelEnabled={false}
                 isCenterFocusEnabled={true}
             >
-                <ItemsContainerElement className='itemsContainer scrollSlider focuscontainer-x' />
+                <ItemsContainer
+                    className='itemsContainer scrollSlider focuscontainer-x'
+                />
             </Scroller>
         </div>
     );
