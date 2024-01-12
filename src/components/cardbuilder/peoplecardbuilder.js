@@ -6,7 +6,7 @@
 
 import cardBuilder from './cardBuilder';
 
-export function buildPeopleCards(items, options) {
+export function buildPeopleCards(items, options = {}) {
     options = {
         ...options,
         cardLayout: false,

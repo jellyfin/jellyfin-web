@@ -348,7 +348,7 @@ function getQuery(options, item) {
         StartIndex: 0,
         CollapseBoxSetItems: false
     };
-    query = { ...query, ...options };
+    query = { ...query, ...options || {} };
     addCurrentItemToQuery(query, item);
     return query;
 }
