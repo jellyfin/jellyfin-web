@@ -21,7 +21,7 @@ import itemShortcuts from 'components/shortcuts';
 import MultiSelect from 'components/multiSelect/multiSelect';
 import loading from 'components/loading/loading';
 import focusManager from 'components/focusManager';
-import { LibraryViewSettings, ParentId, ViewMode } from 'types/library';
+import { ParentId } from 'types/library';
 
 function disableEvent(e: MouseEvent) {
     e.preventDefault();
@@ -37,20 +37,18 @@ function getShortcutOptions() {
 
 interface ItemsContainerProps {
     className?: string;
-    libraryViewSettings: LibraryViewSettings;
     isContextMenuEnabled?: boolean;
     isMultiSelectEnabled?: boolean;
     isDragreOrderEnabled?: boolean;
     dataMonitor?: string;
     parentId?: ParentId;
-    reloadItems: () => void;
+    reloadItems?: () => void;
     getItemsHtml?: () => string;
     children?: React.ReactNode;
 }
 
 const ItemsContainer: FC<ItemsContainerProps> = ({
     className,
-    libraryViewSettings,
     isContextMenuEnabled,
     isMultiSelectEnabled,
     isDragreOrderEnabled,
@@ -146,7 +144,9 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
                 });
                 loading.hide();
             } catch (error) {
+                console.error('[Drag-Drop] error playlists Move Item: ' + error);
                 loading.hide();
+                if (!reloadItems) return;
                 reloadItems();
             }
         },
@@ -174,6 +174,7 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
 
     const notifyRefreshNeeded = useCallback(
         (isInForeground: boolean) => {
+            if (!reloadItems) return;
             if (isInForeground === true) {
                 reloadItems();
             } else {
@@ -506,9 +507,6 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
     const itemsContainerClass = classNames(
         'itemsContainer',
         { 'itemsContainer-tv': layoutManager.tv },
-        libraryViewSettings.ViewMode === ViewMode.ListView ?
-            'vertical-list' :
-            'vertical-wrap',
         className
     );
 

@@ -5,8 +5,8 @@ import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from 'types/collectionType';
-import { SectionsView } from 'types/suggestionsSections';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
+import { TvShowSuggestionsSectionsView } from 'types/sections';
 
 const episodesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Episodes,
@@ -39,13 +39,7 @@ const upcomingTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.TvShows,
-    sectionsType: {
-        suggestionSectionsView: [
-            SectionsView.ContinueWatchingEpisode,
-            SectionsView.LatestEpisode,
-            SectionsView.NextUp
-        ]
-    }
+    sectionsView: TvShowSuggestionsSectionsView
 };
 
 const genresTabContent: LibraryTabContent = {
@@ -64,8 +58,8 @@ const tvShowsTabMapping: LibraryTabMapping = {
 };
 
 const Shows: FC = () => {
-    const { searchParamsParentId, currentTabIndex } = useCurrentTab();
-    const currentTab = tvShowsTabMapping[currentTabIndex];
+    const { libraryId, activeTab } = useCurrentTab();
+    const currentTab = tvShowsTabMapping[activeTab];
 
     return (
         <Page
@@ -74,9 +68,9 @@ const Shows: FC = () => {
             backDropType='series'
         >
             <PageTabContent
-                key={`${currentTab.viewType} - ${searchParamsParentId}`}
+                key={`${currentTab.viewType} - ${libraryId}`}
                 currentTab={currentTab}
-                parentId={searchParamsParentId}
+                parentId={libraryId}
             />
         </Page>
     );

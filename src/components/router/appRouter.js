@@ -545,6 +545,30 @@ class AppRouter {
                 urlForList += '&IsFavorite=true';
             }
 
+            if (options.isAiring) {
+                urlForList += '&IsAiring=true';
+            }
+
+            if (options.isMovie) {
+                urlForList += '&IsMovie=true';
+            }
+
+            if (options.isSeries) {
+                urlForList += '&IsSeries=true&IsMovie=false&IsNews=false';
+            }
+
+            if (options.isSports) {
+                urlForList += '&IsSports=true';
+            }
+
+            if (options.isKids) {
+                urlForList += '&IsKids=true';
+            }
+
+            if (options.isNews) {
+                urlForList += '&IsNews=true';
+            }
+
             return urlForList;
         }
 

@@ -68,7 +68,7 @@ const TabRoutes: TabRoute[] = [
             {
                 index: 5,
                 label: globalize.translate('Series'),
-                value: LibraryTab.Series
+                value: LibraryTab.SeriesTimers
             }
         ]
     },
@@ -155,7 +155,7 @@ const TabRoutes: TabRoute[] = [
             {
                 index: 0,
                 label: globalize.translate('Shows'),
-                value: LibraryTab.Shows,
+                value: LibraryTab.Series,
                 isDefault: true
             },
             {

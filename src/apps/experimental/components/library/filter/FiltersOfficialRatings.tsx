@@ -1,4 +1,3 @@
-import type { QueryFiltersLegacy } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -6,13 +5,13 @@ import Checkbox from '@mui/material/Checkbox';
 import { LibraryViewSettings } from 'types/library';
 
 interface FiltersOfficialRatingsProps {
-    filters?: QueryFiltersLegacy;
+    OfficialRatingsOptions: string[];
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
 const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
-    filters,
+    OfficialRatingsOptions,
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
@@ -40,7 +39,7 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
 
     return (
         <FormGroup>
-            {filters?.OfficialRatings?.map((filter) => (
+            {OfficialRatingsOptions.map((filter) => (
                 <FormControlLabel
                     key={filter}
                     control={
