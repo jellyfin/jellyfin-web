@@ -1753,5 +1753,6 @@
     "Select": "Vælg",
     "LabelLevel": "Niveau",
     "LabelMediaDetails": "Media detaljer",
-    "MenuClose": "Luk menu"
+    "MenuClose": "Luk menu",
+    "MediaInfoDvBlSignalCompatibilityId": "DV bl signals kompatibilitets id"
 }
