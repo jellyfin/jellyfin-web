@@ -29,6 +29,7 @@ function getNextUpFetchFn(
             EnableTotalRecordCount: false,
             DisableFirstEpisode: false,
             NextUpDateCutoff: oldestDateForNextUp.toISOString(),
+            EnableResumable: false,
             EnableRewatching: userSettings.enableRewatchingInNextUp()
         });
     };
