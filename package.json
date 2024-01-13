@@ -120,7 +120,7 @@
     "sortablejs": "1.15.1",
     "swiper": "11.0.5",
     "webcomponents.js": "0.7.24",
-    "whatwg-fetch": "3.6.19"
+    "whatwg-fetch": "3.6.20"
   },
   "browserslist": [
     "last 2 Firefox versions",
