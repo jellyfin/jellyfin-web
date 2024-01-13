@@ -1778,5 +1778,6 @@
     "LabelAlbumGain": "Посилення альбому",
     "LabelSelectAudioNormalization": "Нормалізація звуку",
     "LabelTrackGain": "Посилення треку",
-    "SearchResultsEmpty": "Вибачте! Нічого не знайдено за запитом «{0}»"
+    "SearchResultsEmpty": "Вибачте! Нічого не знайдено за запитом «{0}»",
+    "HeaderAllRecordings": "Всі записи"
 }
