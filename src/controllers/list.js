@@ -309,7 +309,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             query.IncludeItemTypes = 'MusicAlbum';
         } else if (item.CollectionType === CollectionType.Movies) {
             query.IncludeItemTypes = 'Movie';
-        } else if (item.CollectionType === CollectionType.TvShows) {
+        } else if (item.CollectionType === CollectionType.Tvshows) {
             query.IncludeItemTypes = 'Series';
         } else if (item.Type === 'Genre') {
             query.IncludeItemTypes = 'Movie,Series,Video';
@@ -866,7 +866,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.HomeVideos)
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -879,7 +879,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.HomeVideos)
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);

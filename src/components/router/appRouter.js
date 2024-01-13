@@ -624,7 +624,7 @@ class AppRouter {
             return '#/details?seriesTimerId=' + id + '&serverId=' + serverId;
         }
 
-        if (item.CollectionType == CollectionType.LiveTv) {
+        if (item.CollectionType == CollectionType.Livetv) {
             return '#/livetv.html';
         }
 
@@ -673,7 +673,7 @@ class AppRouter {
                 return url;
             }
 
-            if (item.CollectionType == CollectionType.TvShows) {
+            if (item.CollectionType == CollectionType.Tvshows) {
                 url = '#/tv.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {

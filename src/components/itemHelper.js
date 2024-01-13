@@ -80,7 +80,7 @@ export function supportsAddingToPlaylist(item) {
     if (isLocalItem(item)) {
         return false;
     }
-    if (item.CollectionType === CollectionType.LiveTv) {
+    if (item.CollectionType === CollectionType.Livetv) {
         return false;
     }
 
@@ -231,7 +231,7 @@ export function canConvert (item, user) {
     }
 
     const collectionType = item.CollectionType;
-    if (collectionType === CollectionType.LiveTv) {
+    if (collectionType === CollectionType.Livetv) {
         return false;
     }
 
@@ -250,7 +250,7 @@ export function canConvert (item, user) {
 export function canRefreshMetadata (item, user) {
     if (user.Policy.IsAdministrator) {
         const collectionType = item.CollectionType;
-        if (collectionType === CollectionType.LiveTv) {
+        if (collectionType === CollectionType.Livetv) {
             return false;
         }
 
