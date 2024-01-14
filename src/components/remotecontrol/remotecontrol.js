@@ -23,6 +23,7 @@ import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 import SendMessageSection from './sendMessageSection';
 import SendTextSection from './sendTextSection';
+import PlaybackCommandButton from './playbackCommandButton';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -266,7 +267,7 @@ function buttonVisible(btn, enabled) {
 }
 
 function updateSupportedCommands(context, commands) {
-    const all = context.querySelectorAll('.btnCommand');
+    const all = context.querySelectorAll('.repeatToggleButton');
 
     for (let i = 0, length = all.length; i < length; i++) {
         const enableButton = commands.indexOf(all[i].getAttribute('data-command')) !== -1;
@@ -671,16 +672,9 @@ export default function () {
             updateSupportedCommands(context, supportedCommands);
         }
     }
-
-    function onBtnCommandClick() {
+    function onRepeatToggleButtonClick() {
         if (currentPlayer) {
-            if (this.classList.contains('repeatToggleButton')) {
-                toggleRepeat();
-            } else {
-                playbackManager.sendCommand({
-                    Name: this.getAttribute('data-command')
-                }, currentPlayer);
-            }
+            toggleRepeat();
         }
     }
 
@@ -709,12 +703,12 @@ export default function () {
     }
 
     function bindEvents(context) {
-        const btnCommand = context.querySelectorAll('.btnCommand');
-        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
-
-        for (let i = 0, length = btnCommand.length; i < length; i++) {
-            btnCommand[i].addEventListener('click', onBtnCommandClick);
+        const repeatToggleButtons = context.querySelectorAll('.repeatToggleButton');
+        for (let i = 0, length = repeatToggleButtons.length; i < length; i++) {
+            repeatToggleButtons[i].addEventListener('click', onRepeatToggleButtonClick);
         }
+
+        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
         context.querySelector('.btnToggleFullscreen').addEventListener('click', function () {
             if (currentPlayer) {
@@ -858,6 +852,9 @@ export default function () {
         bindToPlayer(dlg, player);
         sendMessageSection.onPlayerChange(player);
         sendTextSection.onPlayerChange(player);
+        for (let i = 0, length = playbackCommandButtons.length; i < length; i++) {
+            playbackCommandButtons[i].onPlayerChange(player);
+        }
     }
 
     function init(ownerView, context) {
@@ -909,6 +906,7 @@ export default function () {
     let currentRuntimeTicks = 0;
     let sendMessageSection;
     let sendTextSection;
+    let playbackCommandButtons;
     const self = this;
 
     self.init = function (ownerView, context) {
@@ -916,18 +914,30 @@ export default function () {
         init(ownerView, dlg);
         sendMessageSection = new SendMessageSection(dlg);
         sendTextSection = new SendTextSection(dlg);
+        playbackCommandButtons = [];
+        const navigationSection = context.querySelector('.navigationSection');
+        const buttons = navigationSection.querySelectorAll('.btnCommand');
+        for (let i = 0, length = buttons.length; i < length; i++) {
+            playbackCommandButtons.push(new PlaybackCommandButton(buttons[i]));
+        }
     };
 
     self.onShow = function () {
         const player = playbackManager.getCurrentPlayer();
         sendMessageSection.onShow(player);
         sendTextSection.onShow(player);
+        for (let i = 0, length = playbackCommandButtons.length; i < length; i++) {
+            playbackCommandButtons[i].onShow(player);
+        }
         onShow(dlg, player);
     };
 
     self.destroy = function () {
         sendMessageSection.destroy();
         sendTextSection.destroy();
+        for (let i = 0, length = playbackCommandButtons.length; i < length; i++) {
+            playbackCommandButtons[i].destroy();
+        }
         onDialogClosed();
     };
 }
