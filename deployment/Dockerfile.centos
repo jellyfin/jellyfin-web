@@ -1,4 +1,4 @@
-FROM quay.io/centos/centos:stream8
+FROM quay.io/centos/centos:stream9
 
 # Docker build arguments
 ARG SOURCE_DIR=/jellyfin
@@ -10,12 +10,12 @@ ENV ARTIFACT_DIR=/dist
 ENV IS_DOCKER=YES
 
 # Prepare CentOS environment
-RUN yum update -y \
-  && yum install -y epel-release \
-  && yum install -y rpmdevtools git autoconf automake glibc-devel gcc-c++ make \
-  && yum install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y \
-  && yum install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1 \
-  && yum clean all \
+RUN dnf update -yq \
+  && dnf install -yq epel-release \
+  && dnf install -yq rpmdevtools git autoconf automake glibc-devel gcc-c++ make \
+  && dnf install -yq https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm \
+  && dnf install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1 \
+  && dnf clean all \
   && rm -rf /var/cache/dnf
 
 # Link to build script
