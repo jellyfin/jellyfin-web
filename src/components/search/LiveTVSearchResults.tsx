@@ -1,5 +1,6 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient } from 'jellyfin-apiclient';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import classNames from 'classnames';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
@@ -72,7 +73,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
         setPrograms([]);
         setChannels([]);
 
-        if (query && collectionType === 'livetv') {
+        if (query && collectionType === CollectionType.Livetv) {
             const apiClient = ServerConnections.getApiClient(serverId);
 
             // Movies row
@@ -138,7 +139,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || collectionType !== 'livetv' }
+                { 'hide': !query || collectionType !== CollectionType.Livetv }
             )}
         >
             <SearchResultsRow
