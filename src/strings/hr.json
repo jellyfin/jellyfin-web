@@ -1448,5 +1448,6 @@
     "MenuClose": "Zatvori izbornik",
     "LabelLevel": "Razina",
     "HeaderGuestCast": "Gostujuće uloge",
-    "LabelKodiMetadataUser": "Spremi stanje gledanja u NFO datoteke za"
+    "LabelKodiMetadataUser": "Spremi stanje gledanja u NFO datoteke za",
+    "PersonRole": "kao {0}"
 }
