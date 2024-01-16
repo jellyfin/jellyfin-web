@@ -79,7 +79,7 @@
     "@fontsource/noto-sans-sc": "5.0.17",
     "@fontsource/noto-sans-tc": "5.0.17",
     "@jellyfin/sdk": "unstable",
-    "@loadable/component": "5.15.3",
+    "@loadable/component": "5.16.3",
     "@mui/icons-material": "5.15.3",
     "@mui/material": "5.15.3",
     "@mui/x-data-grid": "6.18.7",
