@@ -1781,5 +1781,6 @@
     "LabelAlbumGain": "Album Gain",
     "SearchResultsEmpty": "Sorry! No results found for \"{0}\"",
     "LabelSelectAudioNormalization": "Audio Normalisation",
-    "LabelTrackGain": "Track Gain"
+    "LabelTrackGain": "Track Gain",
+    "HeaderAllRecordings": "All Recordings"
 }
