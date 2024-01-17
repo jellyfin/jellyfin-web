@@ -1781,5 +1781,6 @@
     "LabelTrackGain": "Titel Gain",
     "SelectAudioNormalizationHelp": "Track Gain - passt die Lautstärke der einzelnen Tracks an, so dass sie mit der gleichen Lautstärke wiedergegeben werden. Albumverstärkung - passt die Lautstärke aller Titel eines Albums an, wobei der Dynamikbereich des Albums erhalten bleibt.",
     "LabelAlbumGain": "Albumlautstärke",
-    "LabelSelectAudioNormalization": "Audio Normalisierung"
+    "LabelSelectAudioNormalization": "Audio Normalisierung",
+    "HeaderAllRecordings": "Alle Aufnahmen"
 }
