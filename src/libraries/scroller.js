@@ -175,16 +175,7 @@ const scrollerFactory = function (frame, options) {
             requiresReflow = false;
 
             // Reset global variables
-            const frameStyle = window.getComputedStyle(frame);
-            if (o.horizontal) {
-                frameSize = frame.clientWidth;
-                frameSize -= parseFloat(frameStyle.paddingLeft) + parseFloat(frameStyle.paddingRight);
-            } else {
-                frameSize = frame.clientHeight;
-                frameSize -= parseFloat(frameStyle.paddingTop) + parseFloat(frameStyle.paddingBottom);
-            }
-            frameSize = Math.round(frameSize);
-
+            frameSize = slideeElement[o.horizontal ? 'clientWidth' : 'clientHeight'];
             slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
 
             // Set position limits & relatives

@@ -101,7 +101,7 @@ function loadResume(view, userId, parentId) {
         Filters: 'IsResumable',
         Limit: screenWidth >= 1600 ? 5 : 3,
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         CollapseBoxSetItems: false,
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -141,7 +141,7 @@ function loadLatest(view, userId, parentId) {
         userId: userId,
         IncludeItemTypes: 'Episode',
         Limit: 30,
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
@@ -179,7 +179,7 @@ function loadNextUp(view, userId, parentId) {
     const query = {
         userId: userId,
         Limit: 24,
-        Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
+        Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb',

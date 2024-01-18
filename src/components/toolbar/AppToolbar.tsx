@@ -4,11 +4,9 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import React, { FC, ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import appIcon from 'assets/img/icon-transparent.png';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
@@ -83,35 +81,6 @@ const AppToolbar: FC<AppToolbarProps> = ({
                     </IconButton>
                 </Tooltip>
             )}
-
-            <Box
-                component={Link}
-                to='/'
-                color='inherit'
-                aria-label={globalize.translate('Home')}
-                sx={{
-                    ml: 2,
-                    display: 'inline-flex',
-                    textDecoration: 'none'
-                }}
-            >
-                <Box
-                    component='img'
-                    src={appIcon}
-                    sx={{
-                        height: '2rem',
-                        marginInlineEnd: 1
-                    }}
-                />
-                <Typography
-                    variant='h6'
-                    noWrap
-                    component='div'
-                    sx={{ display: { xs: 'none', sm: 'inline-block' } }}
-                >
-                    Jellyfin
-                </Typography>
-            </Box>
 
             {children}
 

@@ -1427,7 +1427,7 @@
     "LabelSelectAudioChannels": "Csatornák",
     "LabelAllowedAudioChannels": "A maximálisan megengedett audiocsatornák",
     "AllowHevcEncoding": "HEVC formátumú kódolás engedélyezése",
-    "PreferFmp4HlsContainerHelp": "Inkább az fMP4-et használja alapértelmezett tárolóként a HLS számára, lehetővé téve a HEVC-tartalom közvetlen irányítását a támogatott eszközökön.",
+    "PreferFmp4HlsContainerHelp": "Inkább az fMP4-et használja alapértelmezett tárolóként a HLS számára, lehetővé téve a HEVC és AV1-tartalom közvetlen irányítását a támogatott eszközökön.",
     "PreferFmp4HlsContainer": "Inkább az fMP4-HLS adattárolót részesítsd előnyben",
     "LabelSyncPlayInfo": "SyncPlay információ",
     "LabelOriginalMediaInfo": "Eredeti média információ",

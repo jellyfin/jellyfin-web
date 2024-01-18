@@ -166,7 +166,6 @@ function showDirectoryBrowser(context, originalPath, networkPath) {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
-            enableNetworkSharePath: true,
             pathReadOnly: originalPath != null,
             path: originalPath,
             networkSharePath: networkPath,

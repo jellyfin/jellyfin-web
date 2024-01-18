@@ -1,5 +1,5 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import { CollectionType } from './collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 export interface CardOptions {
     itemsContainer?: HTMLElement | null;
@@ -12,7 +12,7 @@ export interface CardOptions {
     overlayMoreButton?: boolean;
     overlayPlayButton?: boolean;
     overlayText?: boolean;
-    preferThumb?: boolean;
+    preferThumb?: boolean | string | null;
     preferDisc?: boolean;
     preferLogo?: boolean;
     scalable?: boolean;

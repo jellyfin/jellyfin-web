@@ -8,22 +8,22 @@ import AppToolbar from 'components/toolbar/AppToolbar';
 import globalize from 'scripts/globalize';
 
 import AppTabs from '../tabs/AppTabs';
-import { isDrawerPath } from '../drawers/AppDrawer';
 import RemotePlayButton from './RemotePlayButton';
 import SyncPlayButton from './SyncPlayButton';
 import { isTabPath } from '../tabs/tabRoutes';
 
 interface AppToolbarProps {
+    isDrawerAvailable: boolean
     isDrawerOpen: boolean
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
+    isDrawerAvailable,
     isDrawerOpen,
     onDrawerButtonClick
 }) => {
     const location = useLocation();
-    const isDrawerAvailable = isDrawerPath(location.pathname);
     const isTabsAvailable = isTabPath(location.pathname);
 
     return (

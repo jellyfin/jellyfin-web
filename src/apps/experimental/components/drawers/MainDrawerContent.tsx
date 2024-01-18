@@ -1,68 +1,44 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import type { SystemInfo } from '@jellyfin/sdk/lib/generated-client/models/system-info';
-import { getUserViewsApi } from '@jellyfin/sdk/lib/utils/api/user-views-api';
-import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import Dashboard from '@mui/icons-material/Dashboard';
 import Edit from '@mui/icons-material/Edit';
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
-import Link from '@mui/icons-material/Link';
 import Divider from '@mui/material/Divider';
+import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
+import { useUserViews } from 'hooks/useUserViews';
 import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'scripts/globalize';
 
 import LibraryIcon from '../LibraryIcon';
+import DrawerHeaderLink from './DrawerHeaderLink';
 
 const MainDrawerContent = () => {
-    const { api, user } = useApi();
+    const { user } = useApi();
     const location = useLocation();
-    const [ systemInfo, setSystemInfo ] = useState<SystemInfo>();
-    const [ userViews, setUserViews ] = useState<BaseItemDto[]>([]);
+    const { data: userViewsData } = useUserViews(user?.Id);
+    const userViews = userViewsData?.Items || [];
     const webConfig = useWebConfig();
 
     const isHomeSelected = location.pathname === '/home.html' && (!location.search || location.search === '?tab=0');
 
-    useEffect(() => {
-        if (api && user?.Id) {
-            getUserViewsApi(api)
-                .getUserViews({ userId: user.Id })
-                .then(({ data }) => {
-                    setUserViews(data.Items || []);
-                })
-                .catch(err => {
-                    console.warn('[MainDrawer] failed to fetch user views', err);
-                    setUserViews([]);
-                });
-
-            getSystemApi(api)
-                .getSystemInfo()
-                .then(({ data }) => {
-                    setSystemInfo(data);
-                })
-                .catch(err => {
-                    console.warn('[MainDrawer] failed to fetch system info', err);
-                });
-        } else {
-            setUserViews([]);
-        }
-    }, [ api, user?.Id ]);
-
     return (
         <>
             {/* MAIN LINKS */}
-            <List>
+            <List sx={{ paddingTop: 0 }}>
+                <ListItem disablePadding>
+                    <DrawerHeaderLink />
+                </ListItem>
                 <ListItem disablePadding>
                     <ListItemLink to='/home.html' selected={isHomeSelected}>
                         <ListItemIcon>
@@ -98,8 +74,7 @@ const MainDrawerContent = () => {
                                     rel='noopener noreferrer'
                                 >
                                     <ListItemIcon>
-                                        {/* TODO: Support custom icons */}
-                                        <Link />
+                                        <Icon>{menuLink.icon ?? 'link'}</Icon>
                                     </ListItemIcon>
                                     <ListItemText primary={menuLink.name} />
                                 </ListItemButton>
@@ -168,17 +143,6 @@ const MainDrawerContent = () => {
                     </List>
                 </>
             )}
-
-            {/* FOOTER */}
-            <Divider style={{ marginTop: 'auto' }} />
-            <List>
-                <ListItem>
-                    <ListItemText
-                        primary={systemInfo?.ServerName ? systemInfo.ServerName : 'Jellyfin'}
-                        secondary={systemInfo?.Version ? `v${systemInfo.Version}` : ''}
-                    />
-                </ListItem>
-            </List>
         </>
     );
 };

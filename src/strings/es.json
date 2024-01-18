@@ -1437,7 +1437,7 @@
     "LabelSelectAudioChannels": "Canales",
     "LabelAllowedAudioChannels": "Canales de audio máximos permitidos",
     "AllowHevcEncoding": "Permitir la codificación en formato HEVC",
-    "PreferFmp4HlsContainerHelp": "Preferir usar fMP4 como contenedor predeterminado para HLS, haciendo posible transmitir contenido HEVC directo en dispositivos compatibles.",
+    "PreferFmp4HlsContainerHelp": "Preferir usar fMP4 como contenedor predeterminado para HLS, haciendo posible transmitir contenido HEVC y AV1 directo en dispositivos compatibles.",
     "PreferFmp4HlsContainer": "Preferir contenedor de medios fMP4-HLS",
     "LabelH265Crf": "CRF de la codificación H.265",
     "LabelSelectStereo": "Estéreo",

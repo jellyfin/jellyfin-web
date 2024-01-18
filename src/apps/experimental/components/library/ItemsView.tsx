@@ -3,6 +3,7 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import Box from '@mui/material/Box';
+import classNames from 'classnames';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItem, useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
@@ -22,7 +23,7 @@ import ShuffleButton from './ShuffleButton';
 import SortButton from './SortButton';
 import GridListViewButton from './GridListViewButton';
 import { LibraryViewSettings, ParentId, ViewMode } from 'types/library';
-import { CollectionType } from 'types/collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTab } from 'types/libraryTab';
 
 import { CardOptions } from 'types/cardOptions';
@@ -33,6 +34,7 @@ interface ItemsViewProps {
     parentId: ParentId;
     itemType: BaseItemKind[];
     collectionType?: CollectionType;
+    isPaginationEnabled?: boolean;
     isBtnPlayAllEnabled?: boolean;
     isBtnQueueEnabled?: boolean;
     isBtnShuffleEnabled?: boolean;
@@ -48,6 +50,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     viewType,
     parentId,
     collectionType,
+    isPaginationEnabled = true,
     isBtnPlayAllEnabled = false,
     isBtnQueueEnabled = false,
     isBtnShuffleEnabled = false,
@@ -145,6 +148,18 @@ const ItemsView: FC<ItemsViewProps> = ({
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
         } else if (viewType === LibraryTab.Artists) {
             cardOptions.lines = 1;
+            cardOptions.showYear = false;
+        } else if (viewType === LibraryTab.Channels) {
+            cardOptions.shape = 'square';
+            cardOptions.showDetailsMenu = true;
+            cardOptions.showCurrentProgram = true;
+            cardOptions.showCurrentProgramTime = true;
+        } else if (viewType === LibraryTab.SeriesTimers) {
+            cardOptions.defaultShape = 'portrait';
+            cardOptions.preferThumb = 'auto';
+            cardOptions.showSeriesTimerTime = true;
+            cardOptions.showSeriesTimerChannel = true;
+            cardOptions.lines = 3;
         }
 
         return cardOptions;
@@ -188,15 +203,23 @@ const ItemsView: FC<ItemsViewProps> = ({
         ItemSortBy.SortName
     );
 
+    const itemsContainerClass = classNames(
+        'centered padded-left padded-right padded-right-withalphapicker',
+        libraryViewSettings.ViewMode === ViewMode.ListView ?
+            'vertical-list' :
+            'vertical-wrap'
+    );
     return (
         <Box>
             <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
-                <Pagination
-                    totalRecordCount={totalRecordCount}
-                    libraryViewSettings={libraryViewSettings}
-                    isPreviousData={isPreviousData}
-                    setLibraryViewSettings={setLibraryViewSettings}
-                />
+                {isPaginationEnabled && (
+                    <Pagination
+                        totalRecordCount={totalRecordCount}
+                        libraryViewSettings={libraryViewSettings}
+                        isPreviousData={isPreviousData}
+                        setLibraryViewSettings={setLibraryViewSettings}
+                    />
+                )}
 
                 {isBtnPlayAllEnabled && (
                     <PlayAllButton
@@ -263,22 +286,23 @@ const ItemsView: FC<ItemsViewProps> = ({
                 <Loading />
             ) : (
                 <ItemsContainer
-                    className='centered padded-left padded-right padded-right-withalphapicker'
-                    libraryViewSettings={libraryViewSettings}
+                    className={itemsContainerClass}
                     parentId={parentId}
                     reloadItems={refetch}
                     getItemsHtml={getItemsHtml}
                 />
             )}
 
-            <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
-                <Pagination
-                    totalRecordCount={totalRecordCount}
-                    libraryViewSettings={libraryViewSettings}
-                    isPreviousData={isPreviousData}
-                    setLibraryViewSettings={setLibraryViewSettings}
-                />
-            </Box>
+            {isPaginationEnabled && (
+                <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
+                    <Pagination
+                        totalRecordCount={totalRecordCount}
+                        libraryViewSettings={libraryViewSettings}
+                        isPreviousData={isPreviousData}
+                        setLibraryViewSettings={setLibraryViewSettings}
+                    />
+                </Box>
+            )}
         </Box>
     );
 };

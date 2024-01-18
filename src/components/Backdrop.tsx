@@ -1,4 +1,6 @@
+import Box from '@mui/material/Box';
 import React, { useEffect } from 'react';
+import { DRAWER_WIDTH } from './ResponsiveDrawer';
 
 const Backdrop = () => {
     useEffect(() => {
@@ -8,7 +10,14 @@ const Backdrop = () => {
 
     return (
         <>
-            <div className='backdropContainer' />
+            <Box
+                className='backdropContainer'
+                sx={{
+                    left: {
+                        md: DRAWER_WIDTH
+                    }
+                }}
+            />
             <div className='backgroundContainer' />
         </>
     );

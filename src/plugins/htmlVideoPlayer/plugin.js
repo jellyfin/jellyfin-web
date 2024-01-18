@@ -143,7 +143,9 @@ function normalizeTrackEventText(text, useHtml) {
     const result = text
         .replace(/\\N/gi, '\n') // Correct newline characters
         .replace(/\r/gi, '') // Remove carriage return characters
-        .replace(/{\\.*?}/gi, ''); // Remove ass/ssa tags
+        .replace(/{\\.*?}/gi, '') // Remove ass/ssa tags
+        // Force LTR as the default direction
+        .split('\n').map(val => `\u200E${val}`).join('\n');
     return useHtml ? result.replace(/\n/gi, '<br>') : result;
 }
 

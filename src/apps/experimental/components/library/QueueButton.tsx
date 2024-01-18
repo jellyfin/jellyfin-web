@@ -1,4 +1,4 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import QueueIcon from '@mui/icons-material/Queue';
@@ -8,7 +8,7 @@ import globalize from 'scripts/globalize';
 
 interface QueueButtonProps {
     item: BaseItemDto | undefined
-    items: BaseItemDto[];
+    items: BaseItemDto[] | SeriesTimerInfoDto[];
     hasFilters: boolean;
 }
 

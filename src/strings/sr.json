@@ -1634,5 +1634,7 @@
     "ThemeVideo": "Тематски видео",
     "MessageRenameMediaFolder": "Преименовање библиотеке медија довешће до губитка свих метаподатака, наставите са опрезом.",
     "Scene": "Сцена",
-    "DownloadAll": "Преузми све"
+    "DownloadAll": "Преузми све",
+    "AllowCollectionManagement": "Дозволи овом кориснику организацију колекција",
+    "AllowSegmentDeletion": "Избриши сегменте"
 }

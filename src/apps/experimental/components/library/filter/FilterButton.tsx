@@ -321,7 +321,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersGenres
-                                        filters={data}
+                                        genresOptions={data.Genres}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -355,7 +355,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersOfficialRatings
-                                        filters={data}
+                                        OfficialRatingsOptions={data.OfficialRatings}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -382,7 +382,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersTags
-                                        filters={data}
+                                        tagsOptions={data.Tags}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -409,7 +409,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersYears
-                                        filters={data}
+                                        yearsOptions={data.Years}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -422,7 +422,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         )}
                     </>
                 )}
-                {isFiltersStudiosEnabled() && (
+                {isFiltersStudiosEnabled() && studios && (
                     <Accordion
                         expanded={expanded === 'filtersStudios'}
                         onChange={handleChange('filtersStudios')}
@@ -437,7 +437,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         </AccordionSummary>
                         <AccordionDetails>
                             <FiltersStudios
-                                filters={studios}
+                                studiosOptions={studios}
                                 libraryViewSettings={libraryViewSettings}
                                 setLibraryViewSettings={
                                     setLibraryViewSettings

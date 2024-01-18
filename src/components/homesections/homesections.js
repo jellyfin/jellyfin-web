@@ -1,7 +1,10 @@
 import layoutManager from 'components/layoutManager';
+import { getUserViewsQuery } from 'hooks/useUserViews';
 import globalize from 'scripts/globalize';
 import { DEFAULT_SECTIONS, HomeSectionType } from 'types/homeSectionType';
 import Dashboard from 'utils/dashboard';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
 
 import { loadRecordings } from './sections/activeRecordings';
 import { loadLibraryButtons } from './sections/libraryButtons';
@@ -50,56 +53,60 @@ function getAllSectionsToShow(userSettings, sectionCount) {
 }
 
 export function loadSections(elem, apiClient, user, userSettings) {
-    return getUserViews(apiClient, user.Id).then(function (userViews) {
-        let html = '';
+    const userId = user.Id || apiClient.getCurrentUserId();
+    return queryClient
+        .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
+        .then(result => result.Items || [])
+        .then(function (userViews) {
+            let html = '';
 
-        if (userViews.length) {
-            const userSectionCount = 7;
-            // TV layout can have an extra section to ensure libraries are visible
-            const totalSectionCount = layoutManager.tv ? userSectionCount + 1 : userSectionCount;
-            for (let i = 0; i < totalSectionCount; i++) {
-                html += '<div class="verticalSection section' + i + '"></div>';
-            }
+            if (userViews.length) {
+                const userSectionCount = 7;
+                // TV layout can have an extra section to ensure libraries are visible
+                const totalSectionCount = layoutManager.tv ? userSectionCount + 1 : userSectionCount;
+                for (let i = 0; i < totalSectionCount; i++) {
+                    html += '<div class="verticalSection section' + i + '"></div>';
+                }
 
-            elem.innerHTML = html;
-            elem.classList.add('homeSectionsContainer');
+                elem.innerHTML = html;
+                elem.classList.add('homeSectionsContainer');
 
-            const promises = [];
-            const sections = getAllSectionsToShow(userSettings, userSectionCount);
-            for (let i = 0; i < sections.length; i++) {
-                promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
-            }
+                const promises = [];
+                const sections = getAllSectionsToShow(userSettings, userSectionCount);
+                for (let i = 0; i < sections.length; i++) {
+                    promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
+                }
 
-            return Promise.all(promises)
+                return Promise.all(promises)
                 // Timeout for polyfilled CustomElements (webOS 1.2)
-                .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
-                .then(() => {
-                    return resume(elem, {
-                        refresh: true
+                    .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
+                    .then(() => {
+                        return resume(elem, {
+                            refresh: true
+                        });
                     });
-                });
-        } else {
-            let noLibDescription;
-            if (user.Policy?.IsAdministrator) {
-                noLibDescription = globalize.translate('NoCreatedLibraries', '<br><a id="button-createLibrary" class="button-link">', '</a>');
             } else {
-                noLibDescription = globalize.translate('AskAdminToCreateLibrary');
-            }
+                let noLibDescription;
+                if (user.Policy?.IsAdministrator) {
+                    noLibDescription = globalize.translate('NoCreatedLibraries', '<br><a id="button-createLibrary" class="button-link">', '</a>');
+                } else {
+                    noLibDescription = globalize.translate('AskAdminToCreateLibrary');
+                }
 
-            html += '<div class="centerMessage padded-left padded-right">';
-            html += '<h2>' + globalize.translate('MessageNothingHere') + '</h2>';
-            html += '<p>' + noLibDescription + '</p>';
-            html += '</div>';
-            elem.innerHTML = html;
+                html += '<div class="centerMessage padded-left padded-right">';
+                html += '<h2>' + globalize.translate('MessageNothingHere') + '</h2>';
+                html += '<p>' + noLibDescription + '</p>';
+                html += '</div>';
+                elem.innerHTML = html;
 
-            const createNowLink = elem.querySelector('#button-createLibrary');
-            if (createNowLink) {
-                createNowLink.addEventListener('click', function () {
-                    Dashboard.navigate('dashboard/libraries');
-                });
+                const createNowLink = elem.querySelector('#button-createLibrary');
+                if (createNowLink) {
+                    createNowLink.addEventListener('click', function () {
+                        Dashboard.navigate('dashboard/libraries');
+                    });
+                }
             }
-        }
-    });
+        });
 }
 
 export function destroySections(elem) {
@@ -165,12 +172,6 @@ function loadSection(page, apiClient, user, userSettings, userViews, allSections
     }
 
     return Promise.resolve();
-}
-
-function getUserViews(apiClient, userId) {
-    return apiClient.getUserViews({}, userId || apiClient.getCurrentUserId()).then(function (result) {
-        return result.Items;
-    });
 }
 
 function enableScrollX() {

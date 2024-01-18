@@ -1439,7 +1439,7 @@
     "LabelSelectAudioChannels": "Kanalen",
     "LabelAllowedAudioChannels": "Maximaal toegestane geluidskanalen",
     "AllowHevcEncoding": "Codering in HEVC-formaat toestaan",
-    "PreferFmp4HlsContainerHelp": "Gebruik bij voorkeur fMP4 als de standaardcontainer voor HLS, waardoor het mogelijk wordt om HEVC-inhoud direct op ondersteunde apparaten te streamen.",
+    "PreferFmp4HlsContainerHelp": "Gebruik fMP4 als voorkeurscontainer voor HLS, waardoor HEVC- en AV1-inhoud direct op ondersteunde apparaten gestreamd kan worden.",
     "PreferFmp4HlsContainer": "fMP4-HLS-mediacontainers verkiezen",
     "LabelSyncPlayInfo": "SyncPlay-informatie",
     "LabelOriginalMediaInfo": "Informatie oorspronkelijke media",
@@ -1780,5 +1780,6 @@
     "LabelAlbumGain": "Albumversterking",
     "LabelSelectAudioNormalization": "Geluidsnormalisatie",
     "LabelTrackGain": "Nummerversterking",
-    "SearchResultsEmpty": "Sorry! Geen resultaten gevonden voor \"{0}\""
+    "SearchResultsEmpty": "Sorry! Geen resultaten gevonden voor \"{0}\"",
+    "HeaderAllRecordings": "Alle opnamen"
 }

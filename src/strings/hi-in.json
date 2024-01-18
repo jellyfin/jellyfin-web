@@ -150,5 +150,10 @@
     "ListPaging": "{2} का {0}-{1}",
     "Shows": "शो",
     "ValueSpecialEpisodeName": "विशेष - {0}",
-    "Sync": "समाकलयति"
+    "Sync": "समाकलयति",
+    "AllowCollectionManagement": "इस यूजर को कलेक्शन परिवर्तन करने की अनुमति दें",
+    "AllowSegmentDeletion": "खंड हटाएँ",
+    "AllowSegmentDeletionHelp": "क्लाइंट को भेजे जाने के बाद पुराने सेगमेंट हटा दें। यह संपूर्ण ट्रांसकोड की गई फ़ाइल को डिस्क पर स्टोर करने से रोकता है। केवल थ्रॉटलिंग सक्षम होने पर ही काम करेगा। यदि आप प्लेबैक समस्याओं का अनुभव करते हैं तो इसे बंद कर दें।",
+    "LabelThrottleDelaySeconds": "थ्रॉटर बाद",
+    "LabelSegmentKeepSeconds": "सेगमेंट रखने का समय"
 }

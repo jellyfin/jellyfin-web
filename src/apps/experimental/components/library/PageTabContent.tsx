@@ -1,11 +1,13 @@
 import React, { FC } from 'react';
-import SuggestionsView from './SuggestionsView';
+import SuggestionsSectionView from './SuggestionsSectionView';
 import UpcomingView from './UpcomingView';
 import GenresView from './GenresView';
 import ItemsView from './ItemsView';
 import { LibraryTab } from 'types/libraryTab';
 import { ParentId } from 'types/library';
 import { LibraryTabContent } from 'types/libraryTabContent';
+import GuideView from './GuideView';
+import ProgramsSectionView from './ProgramsSectionView';
 
 interface PageTabContentProps {
     parentId: ParentId;
@@ -15,14 +17,26 @@ interface PageTabContentProps {
 const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
     if (currentTab.viewType === LibraryTab.Suggestions) {
         return (
-            <SuggestionsView
+            <SuggestionsSectionView
                 parentId={parentId}
-                suggestionSectionViews={
-                    currentTab.sectionsType?.suggestionSectionsView
+                sectionType={
+                    currentTab.sectionsView?.suggestionSections ?? []
                 }
-                isMovieRecommendations={
-                    currentTab.sectionsType?.isMovieRecommendations
+                isMovieRecommendationEnabled={
+                    currentTab.sectionsView?.isMovieRecommendations
                 }
+            />
+        );
+    }
+
+    if (currentTab.viewType === LibraryTab.Programs || currentTab.viewType === LibraryTab.Recordings || currentTab.viewType === LibraryTab.Schedule) {
+        return (
+            <ProgramsSectionView
+                parentId={parentId}
+                sectionType={
+                    currentTab.sectionsView?.programSections ?? []
+                }
+                isUpcomingRecordingsEnabled={currentTab.sectionsView?.isLiveTvUpcomingRecordings}
             />
         );
     }
@@ -41,11 +55,16 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
         );
     }
 
+    if (currentTab.viewType === LibraryTab.Guide) {
+        return <GuideView />;
+    }
+
     return (
         <ItemsView
             viewType={currentTab.viewType}
             parentId={parentId}
             collectionType={currentTab.collectionType}
+            isPaginationEnabled={currentTab.isPaginationEnabled}
             isBtnPlayAllEnabled={currentTab.isBtnPlayAllEnabled}
             isBtnQueueEnabled={currentTab.isBtnQueueEnabled}
             isBtnShuffleEnabled={currentTab.isBtnShuffleEnabled}

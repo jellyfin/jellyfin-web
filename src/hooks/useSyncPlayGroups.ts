@@ -1,14 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import { JellyfinApiContext, useApi } from './useApi';
+import type { Api } from '@jellyfin/sdk/lib/api';
 import { getSyncPlayApi } from '@jellyfin/sdk/lib/utils/api/sync-play-api';
-import { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig } from 'axios';
+
+import { useApi } from './useApi';
 
 const fetchSyncPlayGroups = async (
-    currentApi: JellyfinApiContext,
+    api?: Api,
     options?: AxiosRequestConfig
 ) => {
-    const { api } = currentApi;
-    if (!api) throw new Error('No API instance available');
+    if (!api) {
+        console.warn('[fetchSyncPlayGroups] No API instance available');
+        return;
+    }
 
     const response = await getSyncPlayApi(api)
         .syncPlayGetGroups(options);
@@ -16,9 +20,10 @@ const fetchSyncPlayGroups = async (
 };
 
 export const useSyncPlayGroups = () => {
-    const currentApi = useApi();
+    const { api } = useApi();
     return useQuery({
         queryKey: [ 'SyncPlay', 'Groups' ],
-        queryFn: ({ signal }) => fetchSyncPlayGroups(currentApi, { signal })
+        queryFn: ({ signal }) => fetchSyncPlayGroups(api, { signal }),
+        enabled: !!api
     });
 };

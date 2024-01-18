@@ -290,14 +290,6 @@ export function getCommands(options) {
         });
     }
 
-    if (options.sync !== false && itemHelper.canSync(user, item)) {
-        commands.push({
-            name: globalize.translate('Sync'),
-            id: 'sync',
-            icon: 'sync'
-        });
-    }
-
     if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
         commands.push({
             name: globalize.translate('ViewAlbum'),

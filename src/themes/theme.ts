@@ -1,5 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 
+const LIST_ICON_WIDTH = 36;
+
 /** The default Jellyfin app theme for mui */
 const theme = createTheme({
     palette: {
@@ -49,11 +51,26 @@ const theme = createTheme({
                 variant: 'filled'
             }
         },
+        MuiListItemIcon: {
+            styleOverrides: {
+                root: {
+                    minWidth: LIST_ICON_WIDTH
+                }
+            }
+        },
         MuiListSubheader: {
             styleOverrides: {
                 root: {
                     // NOTE: Added for drawer subheaders, but maybe it won't work in other cases?
-                    backgroundColor: 'inherit'
+                    backgroundColor: 'inherit',
+                    position: 'initial'
+                }
+            }
+        },
+        MuiListItemText: {
+            styleOverrides: {
+                inset: {
+                    paddingLeft: LIST_ICON_WIDTH
                 }
             }
         }

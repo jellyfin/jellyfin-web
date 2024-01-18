@@ -1,46 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
+import { type Theme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
 import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
 import { useApi } from 'hooks/useApi';
-import { useLocalStorage } from 'hooks/useLocalStorage';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 
 import './AppOverrides.scss';
 
-interface ExperimentalAppSettings {
-    isDrawerPinned: boolean
-}
-
-const DEFAULT_EXPERIMENTAL_APP_SETTINGS: ExperimentalAppSettings = {
-    isDrawerPinned: false
-};
-
 const AppLayout = () => {
-    const [ appSettings, setAppSettings ] = useLocalStorage<ExperimentalAppSettings>('ExperimentalAppSettings', DEFAULT_EXPERIMENTAL_APP_SETTINGS);
-    const [ isDrawerActive, setIsDrawerActive ] = useState(appSettings.isDrawerPinned);
+    const [ isDrawerActive, setIsDrawerActive ] = useState(false);
     const { user } = useApi();
     const location = useLocation();
-    const theme = useTheme();
 
-    const isDrawerAvailable = isDrawerPath(location.pathname);
-    const isDrawerOpen = isDrawerActive && isDrawerAvailable && Boolean(user);
-
-    useEffect(() => {
-        if (isDrawerActive !== appSettings.isDrawerPinned) {
-            setAppSettings({
-                ...appSettings,
-                isDrawerPinned: isDrawerActive
-            });
-        }
-    }, [ appSettings, isDrawerActive, setAppSettings ]);
+    const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
+    const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user);
+    const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
@@ -48,46 +30,43 @@ const AppLayout = () => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <ElevationScroll elevate={isDrawerOpen}>
+            <ElevationScroll elevate={false}>
                 <AppBar
                     position='fixed'
-                    sx={{ zIndex: (muiTheme) => muiTheme.zIndex.drawer + 1 }}
+                    sx={{
+                        width: {
+                            xs: '100%',
+                            md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
+                        },
+                        ml: {
+                            xs: 0,
+                            md: isDrawerAvailable ? DRAWER_WIDTH : 0
+                        }
+                    }}
                 >
                     <AppToolbar
+                        isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
                         isDrawerOpen={isDrawerOpen}
                         onDrawerButtonClick={onToggleDrawer}
                     />
                 </AppBar>
             </ElevationScroll>
 
-            <AppDrawer
-                open={isDrawerOpen}
-                onClose={onToggleDrawer}
-                onOpen={onToggleDrawer}
-            />
+            {
+                isDrawerAvailable && (
+                    <AppDrawer
+                        open={isDrawerOpen}
+                        onClose={onToggleDrawer}
+                        onOpen={onToggleDrawer}
+                    />
+                )
+            }
 
             <Box
                 component='main'
                 sx={{
                     width: '100%',
-                    flexGrow: 1,
-                    transition: theme.transitions.create('margin', {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.leavingScreen
-                    }),
-                    marginLeft: 0,
-                    ...(isDrawerAvailable && {
-                        marginLeft: {
-                            sm: `-${DRAWER_WIDTH}px`
-                        }
-                    }),
-                    ...(isDrawerActive && {
-                        transition: theme.transitions.create('margin', {
-                            easing: theme.transitions.easing.easeOut,
-                            duration: theme.transitions.duration.enteringScreen
-                        }),
-                        marginLeft: 0
-                    })
+                    flexGrow: 1
                 }}
             >
                 <AppBody>

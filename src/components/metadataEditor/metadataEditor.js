@@ -260,7 +260,6 @@ function showMoreMenu(context, button, user) {
             edit: false,
             editImages: true,
             editSubtitles: true,
-            sync: false,
             share: false,
             play: false,
             queue: false,

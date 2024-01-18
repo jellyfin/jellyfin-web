@@ -95,5 +95,10 @@
     "Option3D": "3D",
     "Albums": "Цомгууд",
     "Mobile": "Үүрэн",
-    "Desktop": "Компьютер"
+    "Desktop": "Компьютер",
+    "Absolute": "Бүрэн",
+    "AccessRestrictedTryAgainLater": "Одоогоор хандалт хязгаарлагдмал байна. Дараа дахин оролдож үзнэ үү.",
+    "Actor": "Жүжигчин",
+    "Add": "Нэмэх",
+    "AddedOnValue": "Нэмсэн"
 }

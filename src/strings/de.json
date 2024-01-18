@@ -1469,7 +1469,7 @@
     "LabelEnableSSDPTracing": "SSDP-Verfolgung aktivieren",
     "HeaderDebugging": "Fehlersuche und -verfolgung",
     "AllowHevcEncoding": "Kodierung im HEVC-Format zulassen",
-    "PreferFmp4HlsContainerHelp": "fMP4 wird als Standardcontainer für HLS bevorzugt, damit HEVC-Inhalte direkt auf unterstützten Geräten abgespielt werden können.",
+    "PreferFmp4HlsContainerHelp": "Bevorzugen Sie die Verwendung von fMP4 als Standardcontainer für HLS, um das direkte Streamen von HEVC- und AV1-Inhalten auf unterstützten Geräten zu ermöglichen.",
     "PreferFmp4HlsContainer": "Bevorzuge fMP4-HLS als Mediencontainer",
     "LabelDirectStreamingInfo": "Direkte Streaming-Informationen",
     "LabelTranscodingInfo": "Transkodierungsinfo",
@@ -1781,5 +1781,6 @@
     "LabelTrackGain": "Titel Gain",
     "SelectAudioNormalizationHelp": "Track Gain - passt die Lautstärke der einzelnen Tracks an, so dass sie mit der gleichen Lautstärke wiedergegeben werden. Albumverstärkung - passt die Lautstärke aller Titel eines Albums an, wobei der Dynamikbereich des Albums erhalten bleibt.",
     "LabelAlbumGain": "Albumlautstärke",
-    "LabelSelectAudioNormalization": "Audio Normalisierung"
+    "LabelSelectAudioNormalization": "Audio Normalisierung",
+    "HeaderAllRecordings": "Alle Aufnahmen"
 }

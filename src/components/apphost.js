@@ -230,10 +230,6 @@ const supportedFeatures = function () {
         features.push('htmlvideoautoplay');
     }
 
-    if (browser.edgeUwp) {
-        features.push('sync');
-    }
-
     if (supportsFullscreen()) {
         features.push('fullscreenchange');
     }

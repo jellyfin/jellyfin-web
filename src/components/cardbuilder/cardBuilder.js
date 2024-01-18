@@ -261,7 +261,7 @@ function buildCardsHtmlInternal(items, options) {
  * @param {string} shape - Shape of the desired image.
  * @returns {CardImageUrl} Object representing the URL of the card's image.
  */
-function getCardImageUrl(item, apiClient, options, shape) {
+export function getCardImageUrl(item, apiClient, options, shape) {
     item = item.ProgramInfo || item;
 
     const width = options.width;
@@ -1049,7 +1049,7 @@ function buildCard(index, item, apiClient, options) {
         cardImageContainerOpen += getDefaultText(item, options);
     }
 
-    const tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
+    const tagName = layoutManager.tv && !overlayButtons ? 'button' : 'div';
 
     const nameWithPrefix = (item.SortName || item.Name || '');
     let prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));

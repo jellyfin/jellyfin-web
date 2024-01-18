@@ -4,14 +4,14 @@ import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
-import { CollectionType } from 'types/collectionType';
-import { SectionsView } from 'types/suggestionsSections';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
+import { TvShowSuggestionsSectionsView } from 'types/sections';
 
 const episodesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Episodes,
     itemType: [BaseItemKind.Episode],
-    collectionType: CollectionType.TvShows,
+    collectionType: CollectionType.Tvshows,
     isAlphabetPickerEnabled: false,
     noItemsMessage: 'MessageNoEpisodesFound'
 };
@@ -19,7 +19,7 @@ const episodesTabContent: LibraryTabContent = {
 const seriesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Series,
     itemType: [BaseItemKind.Series],
-    collectionType: CollectionType.TvShows,
+    collectionType: CollectionType.Tvshows,
     isBtnShuffleEnabled: true
 };
 
@@ -38,20 +38,14 @@ const upcomingTabContent: LibraryTabContent = {
 
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
-    collectionType: CollectionType.TvShows,
-    sectionsType: {
-        suggestionSectionsView: [
-            SectionsView.ContinueWatchingEpisode,
-            SectionsView.LatestEpisode,
-            SectionsView.NextUp
-        ]
-    }
+    collectionType: CollectionType.Tvshows,
+    sectionsView: TvShowSuggestionsSectionsView
 };
 
 const genresTabContent: LibraryTabContent = {
     viewType: LibraryTab.Genres,
     itemType: [BaseItemKind.Series],
-    collectionType: CollectionType.TvShows
+    collectionType: CollectionType.Tvshows
 };
 
 const tvShowsTabMapping: LibraryTabMapping = {
@@ -64,8 +58,8 @@ const tvShowsTabMapping: LibraryTabMapping = {
 };
 
 const Shows: FC = () => {
-    const { searchParamsParentId, currentTabIndex } = useCurrentTab();
-    const currentTab = tvShowsTabMapping[currentTabIndex];
+    const { libraryId, activeTab } = useCurrentTab();
+    const currentTab = tvShowsTabMapping[activeTab];
 
     return (
         <Page
@@ -74,9 +68,9 @@ const Shows: FC = () => {
             backDropType='series'
         >
             <PageTabContent
-                key={`${currentTab.viewType} - ${searchParamsParentId}`}
+                key={`${currentTab.viewType} - ${libraryId}`}
                 currentTab={currentTab}
-                parentId={searchParamsParentId}
+                parentId={libraryId}
             />
         </Page>
     );
