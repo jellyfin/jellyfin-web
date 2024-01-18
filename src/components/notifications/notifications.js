@@ -17,6 +17,7 @@ function onOneDocumentClick() {
         Notification.requestPermission();
     }
 }
+
 function registerOneDocumentClickHandler() {
     Events.off(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
 
@@ -28,7 +29,7 @@ function initPermissionRequest() {
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
         apiClient.getCurrentUser()
-            .then(user => registerOneDocumentClickHandler())
+            .then(() => registerOneDocumentClickHandler())
             .catch(() => {
                 Events.on(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
             });
