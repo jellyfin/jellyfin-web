@@ -1443,7 +1443,7 @@
     "LabelSelectAudioChannels": "Canale",
     "LabelAllowedAudioChannels": "Canale Audio Maxime Permise",
     "AllowHevcEncoding": "Permiteți codificarea în format HEVC",
-    "PreferFmp4HlsContainerHelp": "Preferați să utilizați fMP4 ca și container implicit pentru HLS, făcând posibilă transmiterea directă a conținutului HEVC pe dispozitivele compatibile.",
+    "PreferFmp4HlsContainerHelp": "Preferați să utilizați fMP4 ca și container implicit pentru HLS, făcând posibilă transmiterea directă a conținutului HEVC și AV1 pe dispozitivele compatibile.",
     "PreferFmp4HlsContainer": "Preferă fMP4-HLS Container Media",
     "LabelSyncPlayInfo": "Informații SyncPlay",
     "LabelOriginalMediaInfo": "Informații despre media originală",
@@ -1731,5 +1731,7 @@
     "LabelSegmentKeepSeconds": "Timpul pentru a pastra segmentele",
     "EnableAudioNormalization": "Normalizare audio",
     "LabelThrottleDelaySecondsHelp": "Timp în secunde după care transcoderul va fi accelerat. Trebuie să fie suficient de mare pentru ca clientul să mențină un tampon sănătos. Funcționează numai dacă accelerarea este activată.",
-    "LabelSegmentKeepSecondsHelp": "Timpul în secunde pentru care segmentele trebuie păstrate înainte de a fi suprascrise. Trebuie să fie mai mare decât „Accelerație după”/\"Throttle after\". Funcționează numai dacă ștergerea segmentului este activată."
+    "LabelSegmentKeepSecondsHelp": "Timpul în secunde pentru care segmentele trebuie păstrate înainte de a fi suprascrise. Trebuie să fie mai mare decât „Accelerație după”/\"Throttle after\". Funcționează numai dacă ștergerea segmentului este activată.",
+    "Featurette": "Material bonus",
+    "GridView": "Vizualizare grilă"
 }
