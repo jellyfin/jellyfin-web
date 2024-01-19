@@ -1780,5 +1780,6 @@
     "SelectAudioNormalizationHelp": "Sporjustering - justerer volumet for hvert spor så de spiller av med samme volum. Albumsjustering - justerer volumet på alle sporene i et album, og beholder albumets dynamiske rekkevidde.",
     "LabelAlbumGain": "Albumjustering",
     "LabelSelectAudioNormalization": "Lydnormalisering",
-    "LabelTrackGain": "Sporjustering"
+    "LabelTrackGain": "Sporjustering",
+    "HeaderAllRecordings": "Alle opptak"
 }
