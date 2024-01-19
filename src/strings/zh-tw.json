@@ -203,7 +203,7 @@
     "WelcomeToProject": "歡迎使用 Jellyfin！",
     "WizardCompleted": "這就是我們所需的全部資訊，Jellyfin 現在正在收集你的媒體櫃的資料，在這段時間內，不妨參考我們推出的應用程式。按一下<b>完成</b>進入<b>控制台</b>。",
     "Actor": "演員",
-    "AddToPlayQueue": "加入播放清單",
+    "AddToPlayQueue": "加入至播放佇列",
     "AddToPlaylist": "加入播放清單",
     "Absolute": "絕對",
     "AccessRestrictedTryAgainLater": "目前存取受限，請稍後再試。",
