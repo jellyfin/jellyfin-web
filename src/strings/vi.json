@@ -1438,7 +1438,7 @@
     "LabelSelectAudioChannels": "Kênh",
     "LabelAllowedAudioChannels": "Kênh Âm Thanh Cho Phép Tối Đa",
     "AllowHevcEncoding": "Cho phép mã hóa ở định dạng HEVC",
-    "PreferFmp4HlsContainerHelp": "Ưu tiên dùng fMP4 làm vùng chứa mặc định cho HLS, giúp bạn có thể truyền trực tiếp nội dung HEVC trên các thiết bị được hỗ trợ.",
+    "PreferFmp4HlsContainerHelp": "Ưu tiên fMP4 làm vùng chứa mặc định cho HLS, giúp bạn có thể truyền trực tiếp nội dung HEVC và AV1 trên thiết bị hỗ trợ.",
     "PreferFmp4HlsContainer": "Ưu tiên vùng chứa phương tiện fMP4-HLS",
     "LabelH265Crf": "CRF mã hóa H.265",
     "LabelSyncPlayInfo": "Thông Tin Phát Đồng Bộ",
@@ -1759,5 +1759,6 @@
     "AiTranslated": "Được AI Dịch",
     "MachineTranslated": "Được Máy Dịch",
     "LabelSelectAudioNormalization": "Chuẩn Hóa Âm Thanh",
-    "SearchResultsEmpty": "Rất tiếc! Không có kết quả tìm thấy cho \"{0}\""
+    "SearchResultsEmpty": "Rất tiếc! Không có kết quả tìm thấy cho \"{0}\"",
+    "HeaderAllRecordings": "Tất Cả Bản Ghi"
 }
