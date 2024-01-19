@@ -1,10 +1,6 @@
-import { PluginType } from './plugin';
+import { Plugin } from './plugin';
 
-export interface Player {
-    id: string;
-    type: PluginType;
-    name: string;
-    priority: number;
+export interface Player extends Plugin {
     play: (options: unknown) => void;
     canPlayMediaType: (mediaType?: string) => boolean;
     isLocalPlayer?: boolean;
