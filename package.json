@@ -15,7 +15,7 @@
     "@types/loadable__component": "5.13.8",
     "@types/lodash-es": "4.17.12",
     "@types/markdown-it": "13.0.7",
-    "@types/react": "17.0.74",
+    "@types/react": "17.0.75",
     "@types/react-dom": "17.0.25",
     "@types/sortablejs": "1.15.7",
     "@typescript-eslint/eslint-plugin": "5.62.0",
