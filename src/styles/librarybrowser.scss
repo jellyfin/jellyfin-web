@@ -1505,14 +1505,16 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .detail-clamp-text {
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    line-clamp: 12;
+
+    /* NOTE: line clamping is non-standard and requires vendor-prefixed rules to function */
+    display: -webkit-box; /* stylelint-disable-line value-no-vendor-prefix */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 12;
 }
 
 @media all and (min-width: 40em) {
     .detail-clamp-text {
-        line-clamp: 6;
+        -webkit-line-clamp: 6;
     }
 }
 
