@@ -291,6 +291,22 @@ export function getCommands(options) {
         });
     }
 
+    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
+        commands.push({
+            name: globalize.translate('MoveToTop'),
+            id: 'movetotop',
+            icon: 'vertical_align_top'
+        });
+    }
+
+    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItems - 1)) {
+        commands.push({
+            name: globalize.translate('MoveToBottom'),
+            id: 'movetobottom',
+            icon: 'vertical_align_bottom'
+        });
+    }
+
     if (options.collectionId) {
         commands.push({
             name: globalize.translate('RemoveFromCollection'),
@@ -555,6 +571,22 @@ function executeCommand(item, id, options) {
                         EntryIds: [item.PlaylistItemId].join(',')
                     }),
                     type: 'DELETE'
+                }).then(function () {
+                    getResolveFunction(resolve, id, true)();
+                });
+                break;
+            case 'movetotop':
+                apiClient.ajax({
+                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/0'),
+                    type: 'POST'
+                }).then(function () {
+                    getResolveFunction(resolve, id, true)();
+                });
+                break;
+            case 'movetobottom':
+                apiClient.ajax({
+                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/' + (item.PlaylistItems - 1)),
+                    type: 'POST'
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
