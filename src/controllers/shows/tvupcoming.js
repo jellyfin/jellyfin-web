@@ -2,7 +2,7 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
-import datetime from 'utils/datetime';
+import { toLocaleDateString, parseISO8601Date, isRelativeDay } from 'utils/datetime';
 import globalize from 'scripts/globalize';
 import { getBackdropShape } from 'utils/card';
 
@@ -54,8 +54,8 @@ function renderUpcoming(elem, items) {
 
         if (item.PremiereDate) {
             try {
-                const premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
+                const premiereDate = parseISO8601Date(item.PremiereDate, true);
+                dateText = isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : toLocaleDateString(premiereDate, {
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric'

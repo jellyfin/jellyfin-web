@@ -4,7 +4,7 @@ import layoutManager from '../layoutManager';
 import { pluginManager } from '../pluginManager';
 import { appHost } from '../apphost';
 import focusManager from '../focusManager';
-import datetime from '../../utils/datetime';
+import { supportsLocalization } from '../../utils/datetime';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
@@ -96,7 +96,7 @@ function loadForm(context, user, userSettings) {
         context.querySelector('.txtBackdropScreensaverIntervalContainer').classList.add('hide');
     }
 
-    if (datetime.supportsLocalization()) {
+    if (supportsLocalization()) {
         context.querySelector('.fldDateTimeLocale').classList.remove('hide');
     } else {
         context.querySelector('.fldDateTimeLocale').classList.add('hide');

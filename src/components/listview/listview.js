@@ -10,7 +10,7 @@ import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import datetime from '../../utils/datetime';
+import { parseISO8601Date, getDisplayTime, toLocaleString } from '../../utils/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import './listview.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
@@ -320,7 +320,7 @@ export function getListViewHtml(options) {
         const textlines = [];
 
         if (options.showProgramDateTime) {
-            textlines.push(datetime.toLocaleString(datetime.parseISO8601Date(item.StartDate), {
+            textlines.push(toLocaleString(parseISO8601Date(item.StartDate), {
 
                 weekday: 'long',
                 month: 'short',
@@ -331,7 +331,7 @@ export function getListViewHtml(options) {
         }
 
         if (options.showProgramTime) {
-            textlines.push(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
+            textlines.push(getDisplayTime(parseISO8601Date(item.StartDate)));
         }
 
         if (options.showChannel && item.ChannelName) {

@@ -8,7 +8,13 @@ import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kin
 import escapeHtml from 'escape-html';
 
 import browser from 'scripts/browser';
-import datetime from 'utils/datetime';
+import {
+    toLocaleString,
+    toLocaleDateString,
+    parseISO8601Date,
+    getDisplayRunningTime,
+    getDisplayTime
+} from 'utils/datetime';
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
@@ -169,7 +175,7 @@ function buildCardsHtmlInternal(items, options) {
             if (options.indexBy === 'PremiereDate') {
                 if (item.PremiereDate) {
                     try {
-                        newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
+                        newIndexValue = toLocaleDateString(parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
                     } catch (error) {
                         console.error('error parsing timestamp for premiere date', error);
                     }
@@ -468,17 +474,17 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
 
     if (item.StartDate) {
         try {
-            let date = datetime.parseISO8601Date(item.StartDate);
+            let date = parseISO8601Date(item.StartDate);
 
             if (showAirDateTime) {
-                airTimeText += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' }) + ' ';
+                airTimeText += toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' }) + ' ';
             }
 
-            airTimeText += datetime.getDisplayTime(date);
+            airTimeText += getDisplayTime(date);
 
             if (item.EndDate && showAirEndTime) {
-                date = datetime.parseISO8601Date(item.EndDate);
-                airTimeText += ' - ' + datetime.getDisplayTime(date);
+                date = parseISO8601Date(item.EndDate);
+                airTimeText += ' - ' + getDisplayTime(date);
             }
         } catch (e) {
             console.error('error parsing date: ' + item.StartDate);
@@ -610,8 +616,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
         if (options.showPremiereDate) {
             if (item.PremiereDate) {
                 try {
-                    lines.push(datetime.toLocaleDateString(
-                        datetime.parseISO8601Date(item.PremiereDate),
+                    lines.push(toLocaleDateString(
+                        parseISO8601Date(item.PremiereDate),
                         { weekday: 'long', month: 'long', day: 'numeric' }
                     ));
                 } catch (err) {
@@ -623,12 +629,12 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
         }
 
         if (options.showYear || options.showSeriesYear) {
-            const productionYear = item.ProductionYear && datetime.toLocaleString(item.ProductionYear, { useGrouping: false });
+            const productionYear = item.ProductionYear && toLocaleString(item.ProductionYear, { useGrouping: false });
             if (item.Type === 'Series') {
                 if (item.Status === 'Continuing') {
                     lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
                 } else if (item.EndDate && item.ProductionYear) {
-                    const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
+                    const endYear = toLocaleString(parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
                     lines.push(productionYear + ((endYear === productionYear) ? '' : (' - ' + endYear)));
                 } else {
                     lines.push(productionYear || '');
@@ -640,7 +646,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
         if (options.showRuntime) {
             if (item.RunTimeTicks) {
-                lines.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
+                lines.push(getDisplayRunningTime(item.RunTimeTicks));
             } else {
                 lines.push('');
             }
@@ -687,7 +693,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (item.RecordAnyTime) {
                 lines.push(globalize.translate('Anytime'));
             } else {
-                lines.push(datetime.getDisplayTime(item.StartDate));
+                lines.push(getDisplayTime(item.StartDate));
             }
         }
 

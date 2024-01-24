@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import datetime from '../../utils/datetime';
+import { parseISO8601Date } from '../../utils/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
@@ -103,7 +103,7 @@ function getDateValue(form, element, property) {
     }
 
     if (currentItem[property]) {
-        const date = datetime.parseISO8601Date(currentItem[property], true);
+        const date = parseISO8601Date(currentItem[property], true);
 
         const parts = date.toISOString().split('T');
 
@@ -777,7 +777,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
 
     if (item.DateCreated) {
         try {
-            date = datetime.parseISO8601Date(item.DateCreated, true);
+            date = parseISO8601Date(item.DateCreated, true);
 
             context.querySelector('#txtDateAdded').value = date.toISOString().slice(0, 10);
         } catch (e) {
@@ -789,7 +789,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
 
     if (item.PremiereDate) {
         try {
-            date = datetime.parseISO8601Date(item.PremiereDate, true);
+            date = parseISO8601Date(item.PremiereDate, true);
 
             context.querySelector('#txtPremiereDate').value = date.toISOString().slice(0, 10);
         } catch (e) {
@@ -801,7 +801,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
 
     if (item.EndDate) {
         try {
-            date = datetime.parseISO8601Date(item.EndDate, true);
+            date = parseISO8601Date(item.EndDate, true);
 
             context.querySelector('#txtEndDate').value = date.toISOString().slice(0, 10);
         } catch (e) {

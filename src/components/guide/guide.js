@@ -6,7 +6,7 @@ import Events from '../../utils/events.ts';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
-import datetime from '../../utils/datetime';
+import { parseISO8601Date, toLocaleDateString, getDisplayTime } from '../../utils/datetime';
 import focusManager from '../focusManager';
 import { playbackManager } from '../playback/playbackmanager';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -107,8 +107,8 @@ function onProgramGridClick(e) {
     if (programCell) {
         let startDate = programCell.getAttribute('data-startdate');
         let endDate = programCell.getAttribute('data-enddate');
-        startDate = datetime.parseISO8601Date(startDate).getTime();
-        endDate = datetime.parseISO8601Date(endDate).getTime();
+        startDate = parseISO8601Date(startDate).getTime();
+        endDate = parseISO8601Date(endDate).getTime();
 
         const now = new Date().getTime();
         if (now >= startDate && now < endDate) {
@@ -354,16 +354,8 @@ function Guide(options) {
         });
     }
 
-    function getDisplayTime(date) {
-        if ((typeof date).toString().toLowerCase() === 'string') {
-            try {
-                date = datetime.parseISO8601Date(date);
-            } catch (err) {
-                return date;
-            }
-        }
-
-        return datetime.getDisplayTime(date).toLowerCase();
+    function getDisplayTimeLowerCase(date) {
+        return getDisplayTime(date).toLowerCase();
     }
 
     function getTimeslotHeadersHtml(startDate, endDateTime) {
@@ -377,7 +369,7 @@ function Guide(options) {
         while (startDate.getTime() < endDateTime) {
             html += '<div class="timeslotHeader">';
 
-            html += getDisplayTime(startDate);
+            html += getDisplayTimeLowerCase(startDate);
             html += '</div>';
 
             // Add 30 mins
@@ -390,7 +382,7 @@ function Guide(options) {
     function parseDates(program) {
         if (!program.StartDateLocal) {
             try {
-                program.StartDateLocal = datetime.parseISO8601Date(program.StartDate);
+                program.StartDateLocal = parseISO8601Date(program.StartDate);
             } catch (err) {
                 console.error('error parsing timestamp for start date');
             }
@@ -398,7 +390,7 @@ function Guide(options) {
 
         if (!program.EndDateLocal) {
             try {
-                program.EndDateLocal = datetime.parseISO8601Date(program.EndDate);
+                program.EndDateLocal = parseISO8601Date(program.EndDate);
             } catch (err) {
                 console.error('error parsing timestamp for end date');
             }
@@ -664,7 +656,7 @@ function Guide(options) {
             }
         }
 
-        const start = datetime.parseISO8601Date(program.StartDate);
+        const start = parseISO8601Date(program.StartDate);
 
         return (channelIndex * 10000000) + (start.getTime() / 60000);
     }
@@ -802,7 +794,7 @@ function Guide(options) {
         const cssClass = isActive ? 'emby-tab-button guide-date-tab-button emby-tab-button-active' : 'emby-tab-button guide-date-tab-button';
 
         let html = '<button is="emby-button" class="' + cssClass + '" data-index="' + tabIndex + '" data-date="' + date.getTime() + '">';
-        let tabText = datetime.toLocaleDateString(date, { weekday: 'short' });
+        let tabText = toLocaleDateString(date, { weekday: 'short' });
 
         tabText += '<br/>';
         tabText += date.getDate();
@@ -817,8 +809,8 @@ function Guide(options) {
         const nowHours = today.getHours();
         today.setHours(nowHours, 0, 0, 0);
 
-        let start = datetime.parseISO8601Date(guideInfo.StartDate);
-        const end = datetime.parseISO8601Date(guideInfo.EndDate);
+        let start = parseISO8601Date(guideInfo.StartDate);
+        const end = parseISO8601Date(guideInfo.EndDate);
 
         start.setHours(nowHours, 0, 0, 0);
         end.setHours(0, 0, 0, 0);

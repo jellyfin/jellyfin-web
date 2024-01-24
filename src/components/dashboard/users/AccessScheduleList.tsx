@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import datetime from '../../../utils/datetime';
+import { getDisplayTime } from '../../../utils/datetime';
 import globalize from '../../../scripts/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
@@ -10,7 +10,7 @@ type AccessScheduleListProps = {
     EndHour?: number;
 };
 
-function getDisplayTime(hours = 0) {
+function getDisplayTimeFromDecimalHours(hours = 0) {
     let minutes = 0;
     const pct = hours % 1;
 
@@ -18,7 +18,7 @@ function getDisplayTime(hours = 0) {
         minutes = Math.floor(60 * pct);
     }
 
-    return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
+    return getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
 const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour }: AccessScheduleListProps) => {
@@ -34,7 +34,7 @@ const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index,
                     {globalize.translate(DayOfWeek)}
                 </h3>
                 <div className='listItemBodyText secondary'>
-                    {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
+                    {getDisplayTimeFromDecimalHours(StartHour) + ' - ' + getDisplayTimeFromDecimalHours(EndHour)}
                 </div>
             </div>
             <IconButtonElement

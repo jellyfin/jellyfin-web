@@ -23,7 +23,7 @@ import ServerConnections from '../components/ServerConnections';
 import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
-import datetime from '../utils/datetime';
+import { getDisplayTime } from '../utils/datetime';
 
 import '../elements/emby-button/paper-icon-button-light';
 
@@ -200,7 +200,7 @@ function updateClock() {
     if (layoutManager.tv) {
         currentTimeText.classList.remove('hide');
         setInterval(function() {
-            currentTimeText.innerText = datetime.getDisplayTime(new Date());
+            currentTimeText.innerText = getDisplayTime(new Date());
         }, 1000);
     } else {
         currentTimeText.classList.add('hide');

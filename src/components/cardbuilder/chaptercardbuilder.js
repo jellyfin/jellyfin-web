@@ -5,7 +5,7 @@
  */
 
 import escapeHtml from 'escape-html';
-import datetime from '../../utils/datetime';
+import { getDisplayRunningTime } from 'utils/datetime';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';
@@ -97,7 +97,7 @@ function buildChapterCard(item, apiClient, chapter, index, { width, coverImage }
 
     let nameHtml = '';
     nameHtml += `<div class="cardText">${escapeHtml(chapter.Name)}</div>`;
-    nameHtml += `<div class="cardText">${datetime.getDisplayRunningTime(chapter.StartPositionTicks)}</div>`;
+    nameHtml += `<div class="cardText">${getDisplayRunningTime(chapter.StartPositionTicks)}</div>`;
 
     const cardBoxCssClass = 'cardBox';
     const cardScalableClass = 'cardScalable';

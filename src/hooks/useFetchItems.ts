@@ -20,7 +20,7 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
-import datetime from 'utils/datetime';
+import { isRelativeDay, parseISO8601Date, toLocaleDateString } from 'utils/datetime';
 import globalize from 'scripts/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
@@ -426,13 +426,13 @@ function groupsUpcomingEpisodes(items: BaseItemDto[]) {
 
         if (item.PremiereDate) {
             try {
-                const premiereDate = datetime.parseISO8601Date(
+                const premiereDate = parseISO8601Date(
                     item.PremiereDate,
                     true
                 );
-                dateText = datetime.isRelativeDay(premiereDate, -1) ?
+                dateText = isRelativeDay(premiereDate, -1) ?
                     globalize.translate('Yesterday') :
-                    datetime.toLocaleDateString(premiereDate, {
+                    toLocaleDateString(premiereDate, {
                         weekday: 'long',
                         month: 'short',
                         day: 'numeric'
@@ -590,8 +590,8 @@ function groupsTimers(timers: TimerInfoDto[], indexByDate?: boolean) {
 
         if (indexByDate !== false && item.StartDate) {
             try {
-                const premiereDate = datetime.parseISO8601Date(item.StartDate, true);
-                dateText = datetime.toLocaleDateString(premiereDate, {
+                const premiereDate = parseISO8601Date(item.StartDate, true);
+                dateText = toLocaleDateString(premiereDate, {
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric'

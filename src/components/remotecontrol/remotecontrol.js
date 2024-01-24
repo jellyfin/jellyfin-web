@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import datetime from '../../utils/datetime';
+import { getDisplayRunningTime } from '../../utils/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
@@ -483,8 +483,8 @@ export default function () {
             }
         }
 
-        context.querySelector('.positionTime').innerHTML = Number.isFinite(positionTicks) ? datetime.getDisplayRunningTime(positionTicks) : '--:--';
-        context.querySelector('.runtime').innerHTML = Number.isFinite(runtimeTicks) ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+        context.querySelector('.positionTime').innerHTML = Number.isFinite(positionTicks) ? getDisplayRunningTime(positionTicks) : '--:--';
+        context.querySelector('.runtime').innerHTML = Number.isFinite(runtimeTicks) ? getDisplayRunningTime(runtimeTicks) : '--:--';
     }
 
     function getPlaylistItems(player) {
@@ -831,7 +831,7 @@ export default function () {
             let ticks = currentRuntimeTicks;
             ticks /= 100;
             ticks *= value;
-            return datetime.getDisplayRunningTime(ticks);
+            return getDisplayRunningTime(ticks);
         };
 
         context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {

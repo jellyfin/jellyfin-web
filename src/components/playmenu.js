@@ -1,5 +1,5 @@
 import actionsheet from './actionSheet/actionSheet';
-import datetime from '../utils/datetime';
+import { getDisplayRunningTime } from 'utils/datetime';
 import { playbackManager } from './playback/playbackmanager';
 import globalize from '../scripts/globalize';
 
@@ -21,7 +21,7 @@ export function show(options) {
     const menuItems = [];
 
     menuItems.push({
-        name: globalize.translate('ResumeAt', datetime.getDisplayRunningTime(resumePositionTicks)),
+        name: globalize.translate('ResumeAt', getDisplayRunningTime(resumePositionTicks)),
         id: 'resume'
     });
 

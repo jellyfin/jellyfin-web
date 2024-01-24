@@ -21,7 +21,7 @@ import '../cardbuilder/card.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './itemidentifier.template.html';
-import datetime from '../../utils/datetime';
+import { toLocaleString } from '../../utils/datetime';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -166,7 +166,7 @@ function showIdentifyOptions(page, identifyResult) {
     lines.push(escapeHtml(identifyResult.Name));
 
     if (identifyResult.ProductionYear) {
-        lines.push(datetime.toLocaleString(identifyResult.ProductionYear, { useGrouping: false }));
+        lines.push(toLocaleString(identifyResult.ProductionYear, { useGrouping: false }));
     }
 
     let resultHtml = lines.join('<br/>');

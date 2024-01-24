@@ -1,4 +1,4 @@
-import datetime from '../../utils/datetime';
+import { getDisplayRunningTime } from '../../utils/datetime';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
@@ -269,7 +269,7 @@ function bindEvents(elem) {
         ticks /= 100;
         ticks *= value;
 
-        return datetime.getDisplayRunningTime(ticks);
+        return getDisplayRunningTime(ticks);
     };
 
     elem.addEventListener('click', function (e) {
@@ -411,9 +411,9 @@ function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
     }
 
     if (currentTimeElement) {
-        let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+        let timeText = positionTicks == null ? '--:--' : getDisplayRunningTime(positionTicks);
         if (runtimeTicks) {
-            timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
+            timeText += ' / ' + getDisplayRunningTime(runtimeTicks);
         }
 
         currentTimeElement.innerHTML = timeText;
