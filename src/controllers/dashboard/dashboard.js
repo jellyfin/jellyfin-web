@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import datetime from '../../utils/datetime';
+import { parseISO8601Date, getDisplayRunningTime } from '../../utils/datetime';
 import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
@@ -163,7 +163,7 @@ function filterSessions(sessions) {
             continue;
         }
 
-        if (datetime.parseISO8601Date(session.LastActivityDate, true).getTime() >= minActiveDate) {
+        if (parseISO8601Date(session.LastActivityDate, true).getTime() >= minActiveDate) {
             list.push(session);
         }
     }
@@ -456,7 +456,7 @@ window.DashboardPage = {
 
         if (nowPlayingItem) {
             if (session.PlayState.PositionTicks) {
-                html += datetime.getDisplayRunningTime(session.PlayState.PositionTicks);
+                html += getDisplayRunningTime(session.PlayState.PositionTicks);
             } else {
                 html += '0:00';
             }
@@ -464,7 +464,7 @@ window.DashboardPage = {
             html += ' / ';
 
             if (nowPlayingItem.RunTimeTicks) {
-                html += datetime.getDisplayRunningTime(nowPlayingItem.RunTimeTicks);
+                html += getDisplayRunningTime(nowPlayingItem.RunTimeTicks);
             } else {
                 html += '0:00';
             }

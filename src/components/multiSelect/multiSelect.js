@@ -8,7 +8,7 @@ import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
-import datetime from '../../utils/datetime';
+import { toLocaleString } from '../../utils/datetime';
 
 let selectedItems = [];
 let selectedElements = [];
@@ -76,7 +76,7 @@ function updateItemSelection(chkItemSelect, selected) {
     if (selectedItems.length) {
         const itemSelectionCount = document.querySelector('.itemSelectionCount');
         if (itemSelectionCount) {
-            itemSelectionCount.innerHTML = datetime.toLocaleString(selectedItems.length);
+            itemSelectionCount.innerHTML = toLocaleString(selectedItems.length);
         }
     } else {
         hideSelections();

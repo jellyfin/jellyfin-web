@@ -1,4 +1,4 @@
-import datetime from '../../utils/datetime';
+import { parseISO8601Date, toLocaleString } from '../../utils/datetime';
 import itemHelper from '../itemHelper';
 import '../../elements/emby-progressbar/emby-progressbar';
 import './indicators.scss';
@@ -51,8 +51,8 @@ export function getProgressBarHtml(item, options) {
         let endDate = 1;
 
         try {
-            startDate = datetime.parseISO8601Date(item.StartDate).getTime();
-            endDate = datetime.parseISO8601Date(item.EndDate).getTime();
+            startDate = parseISO8601Date(item.StartDate).getTime();
+            endDate = parseISO8601Date(item.EndDate).getTime();
         } catch (err) {
             console.error(err);
         }
@@ -78,7 +78,7 @@ export function getPlayedIndicatorHtml(item) {
     if (enablePlayedIndicator(item)) {
         const userData = item.UserData || {};
         if (userData.UnplayedItemCount) {
-            return '<div class="countIndicator indicator">' + datetime.toLocaleString(userData.UnplayedItemCount) + '</div>';
+            return '<div class="countIndicator indicator">' + toLocaleString(userData.UnplayedItemCount) + '</div>';
         }
 
         if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
@@ -93,7 +93,7 @@ export function getChildCountIndicatorHtml(item, options) {
     const minCount = options?.minCount ? options.minCount : 0;
 
     if (item.ChildCount && item.ChildCount > minCount) {
-        return '<div class="countIndicator indicator">' + datetime.toLocaleString(item.ChildCount) + '</div>';
+        return '<div class="countIndicator indicator">' + toLocaleString(item.ChildCount) + '</div>';
     }
 
     return '';
@@ -149,7 +149,7 @@ export function getMissingIndicator(item) {
     if (item.Type === 'Episode' && item.LocationType === 'Virtual') {
         if (item.PremiereDate) {
             try {
-                const premiereDate = datetime.parseISO8601Date(item.PremiereDate).getTime();
+                const premiereDate = parseISO8601Date(item.PremiereDate).getTime();
                 if (premiereDate > new Date().getTime()) {
                     return '<div class="unairedIndicator">Unaired</div>';
                 }

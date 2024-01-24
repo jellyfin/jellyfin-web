@@ -4,7 +4,7 @@ import layoutManager from '../layoutManager';
 import mediaInfo from '../mediainfo/mediainfo';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
-import datetime from '../../utils/datetime';
+import { parseISO8601Date } from '../../utils/datetime';
 import imageLoader from '../images/imageLoader';
 import RecordingFields from './recordingfields';
 import Events from '../../utils/events.ts';
@@ -88,7 +88,7 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
 
         const formDialogFooter = context.querySelector('.formDialogFooter');
         const now = new Date();
-        if (now >= datetime.parseISO8601Date(program.StartDate, true) && now < datetime.parseISO8601Date(program.EndDate, true)) {
+        if (now >= parseISO8601Date(program.StartDate, true) && now < parseISO8601Date(program.EndDate, true)) {
             formDialogFooter.classList.remove('hide');
         } else {
             formDialogFooter.classList.add('hide');

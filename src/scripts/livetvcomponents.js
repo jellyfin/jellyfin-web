@@ -2,7 +2,7 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import layoutManager from 'components/layoutManager';
 import { getBackdropShape } from 'utils/card';
 
-import datetime from '../utils/datetime';
+import { toLocaleDateString, parseISO8601Date } from '../utils/datetime';
 
 function enableScrollX() {
     return !layoutManager.desktop;
@@ -25,8 +25,8 @@ function getTimersHtml(timers, options) {
 
         if (options.indexByDate !== false && item.StartDate) {
             try {
-                const premiereDate = datetime.parseISO8601Date(item.StartDate, true);
-                dateText = datetime.toLocaleDateString(premiereDate, {
+                const premiereDate = parseISO8601Date(item.StartDate, true);
+                dateText = toLocaleDateString(premiereDate, {
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric'

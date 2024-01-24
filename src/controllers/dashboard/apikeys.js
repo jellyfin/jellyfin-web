@@ -1,6 +1,6 @@
 import escapeHTML from 'escape-html';
 
-import datetime from '../../utils/datetime';
+import { parseISO8601Date, toLocaleDateString, getDisplayTime } from '../../utils/datetime';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
@@ -34,8 +34,8 @@ function renderKeys(page, keys) {
         html += escapeHTML(item.AppName) || '';
         html += '</td>';
         html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-        const date = datetime.parseISO8601Date(item.DateCreated, true);
-        html += datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
+        const date = parseISO8601Date(item.DateCreated, true);
+        html += toLocaleDateString(date) + ' ' + getDisplayTime(date);
         html += '</td>';
         html += '</tr>';
         return html;
