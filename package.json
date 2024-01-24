@@ -80,7 +80,7 @@
     "@fontsource/noto-sans-tc": "5.0.17",
     "@jellyfin/sdk": "unstable",
     "@loadable/component": "5.16.3",
-    "@mui/icons-material": "5.15.4",
+    "@mui/icons-material": "5.15.5",
     "@mui/material": "5.15.5",
     "@mui/x-data-grid": "6.18.7",
     "@react-hook/resize-observer": "1.2.6",
