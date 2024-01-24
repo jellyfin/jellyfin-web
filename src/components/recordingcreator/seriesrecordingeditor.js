@@ -3,7 +3,7 @@ import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
-import datetime from '../../utils/datetime';
+import { getDisplayTime, parseISO8601Date } from '../../utils/datetime';
 import '../../styles/scrollstyles.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -48,7 +48,7 @@ function renderTimer(context, item) {
         context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('OneChannel');
     }
 
-    context.querySelector('.optionAroundTime').innerHTML = globalize.translate('AroundTime', datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
+    context.querySelector('.optionAroundTime').innerHTML = globalize.translate('AroundTime', getDisplayTime(parseISO8601Date(item.StartDate)));
 
     loading.hide();
 }

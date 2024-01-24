@@ -1,5 +1,12 @@
 import escapeHtml from 'escape-html';
-import datetime from '../../utils/datetime';
+import {
+    parseISO8601Date,
+    toLocaleString,
+    toLocaleDateString,
+    getDisplayTime,
+    getDisplayDuration,
+    getDisplayRunningTime
+} from '../../utils/datetime';
 import globalize from '../../scripts/globalize';
 import { appRouter } from '../router/appRouter';
 import itemHelper from '../itemHelper';
@@ -45,17 +52,17 @@ function getProgramInfoHtml(item, options) {
         try {
             text = '';
 
-            date = datetime.parseISO8601Date(item.StartDate);
+            date = parseISO8601Date(item.StartDate);
 
             if (options.startDate !== false) {
-                text += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' });
+                text += toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' });
             }
 
-            text += ` ${datetime.getDisplayTime(date)}`;
+            text += ` ${getDisplayTime(date)}`;
 
             if (item.EndDate) {
-                date = datetime.parseISO8601Date(item.EndDate);
-                text += ` - ${datetime.getDisplayTime(date)}`;
+                date = parseISO8601Date(item.EndDate);
+                text += ` - ${getDisplayTime(date)}`;
             }
 
             miscInfo.push(text);
@@ -119,7 +126,7 @@ export function getMediaInfoHtml(item, options = {}) {
         }
 
         if (item.RunTimeTicks) {
-            miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
+            miscInfo.push(getDisplayDuration(item.RunTimeTicks));
         }
     } else if (item.Type === 'PhotoAlbum' || item.Type === 'BoxSet') {
         count = item.ChildCount;
@@ -135,9 +142,9 @@ export function getMediaInfoHtml(item, options = {}) {
     ) {
         try {
             //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
-            date = datetime.parseISO8601Date(item.PremiereDate, item.Type !== 'Episode');
+            date = parseISO8601Date(item.PremiereDate, item.Type !== 'Episode');
 
-            text = datetime.toLocaleDateString(date);
+            text = toLocaleDateString(date);
             miscInfo.push(text);
         } catch (e) {
             console.error('error parsing date:', item.PremiereDate);
@@ -148,7 +155,7 @@ export function getMediaInfoHtml(item, options = {}) {
         if (item.RecordAnyTime) {
             miscInfo.push(globalize.translate('Anytime'));
         } else {
-            miscInfo.push(datetime.getDisplayTime(item.StartDate));
+            miscInfo.push(getDisplayTime(item.StartDate));
         }
 
         if (item.RecordAnyChannel) {
@@ -160,13 +167,13 @@ export function getMediaInfoHtml(item, options = {}) {
 
     if (item.StartDate && item.Type !== 'Program' && item.Type !== 'SeriesTimer' && item.Type !== 'Timer') {
         try {
-            date = datetime.parseISO8601Date(item.StartDate);
+            date = parseISO8601Date(item.StartDate);
 
-            text = datetime.toLocaleDateString(date);
+            text = toLocaleDateString(date);
             miscInfo.push(text);
 
             if (item.Type !== 'Recording') {
-                text = datetime.getDisplayTime(date);
+                text = getDisplayTime(date);
                 miscInfo.push(text);
             }
         } catch (e) {
@@ -176,13 +183,13 @@ export function getMediaInfoHtml(item, options = {}) {
 
     if (options.year !== false && item.ProductionYear && item.Type === 'Series') {
         if (item.Status === 'Continuing') {
-            miscInfo.push(globalize.translate('SeriesYearToPresent', datetime.toLocaleString(item.ProductionYear, { useGrouping: false })));
+            miscInfo.push(globalize.translate('SeriesYearToPresent', toLocaleString(item.ProductionYear, { useGrouping: false })));
         } else if (item.ProductionYear) {
-            text = datetime.toLocaleString(item.ProductionYear, { useGrouping: false });
+            text = toLocaleString(item.ProductionYear, { useGrouping: false });
 
             if (item.EndDate) {
                 try {
-                    const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
+                    const endYear = toLocaleString(parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
                     /* At this point, text will contain only the start year */
                     if (endYear !== text) {
                         text += ` - ${endYear}`;
@@ -234,8 +241,8 @@ export function getMediaInfoHtml(item, options = {}) {
             miscInfo.push(program.ProductionYear);
         } else if (program.PremiereDate && options.originalAirDate !== false) {
             try {
-                date = datetime.parseISO8601Date(program.PremiereDate);
-                text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
+                date = parseISO8601Date(program.PremiereDate);
+                text = globalize.translate('OriginalAirDateValue', toLocaleDateString(date));
                 miscInfo.push(text);
             } catch (e) {
                 console.error('error parsing date:', program.PremiereDate);
@@ -252,7 +259,7 @@ export function getMediaInfoHtml(item, options = {}) {
             miscInfo.push(item.ProductionYear);
         } else if (item.PremiereDate) {
             try {
-                text = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
+                text = toLocaleString(parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                 miscInfo.push(text);
             } catch (e) {
                 console.error('error parsing date:', item.PremiereDate);
@@ -262,9 +269,9 @@ export function getMediaInfoHtml(item, options = {}) {
 
     if (item.RunTimeTicks && item.Type !== 'Series' && item.Type !== 'Program' && item.Type !== 'Timer' && item.Type !== 'Book' && !showFolderRuntime && options.runtime !== false) {
         if (item.Type === 'Audio') {
-            miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
+            miscInfo.push(getDisplayRunningTime(item.RunTimeTicks));
         } else {
-            miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
+            miscInfo.push(getDisplayDuration(item.RunTimeTicks));
         }
     }
 
@@ -324,7 +331,7 @@ export function getEndsAt(item) {
         let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
         endDate = new Date(endDate);
 
-        const displayTime = datetime.getDisplayTime(endDate);
+        const displayTime = getDisplayTime(endDate);
         return globalize.translate('EndsAtValue', displayTime);
     }
 
@@ -335,7 +342,7 @@ export function getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate,
     let endDate = new Date().getTime() + (1 / playbackRate) * ((runtimeTicks - (positionTicks || 0)) / 10000);
     endDate = new Date(endDate);
 
-    const displayTime = datetime.getDisplayTime(endDate);
+    const displayTime = getDisplayTime(endDate);
 
     if (includeText === false) {
         return displayTime;
@@ -565,11 +572,11 @@ export function getMediaInfoStats(item) {
     }
 
     if (item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
-        const dateCreated = datetime.parseISO8601Date(item.DateCreated);
+        const dateCreated = parseISO8601Date(item.DateCreated);
 
         list.push({
             type: 'added',
-            text: globalize.translate('AddedOnValue', `${datetime.toLocaleDateString(dateCreated)} ${datetime.getDisplayTime(dateCreated)}`)
+            text: globalize.translate('AddedOnValue', `${toLocaleDateString(dateCreated)} ${getDisplayTime(dateCreated)}`)
         });
     }
 

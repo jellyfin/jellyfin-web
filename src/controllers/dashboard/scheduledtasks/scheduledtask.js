@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import datetime from '../../../utils/datetime';
+import { getDisplayTime } from '../../../utils/datetime';
 import dom from '../../../scripts/dom';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-input/emby-input';
@@ -121,7 +121,7 @@ const ScheduledTaskPage = {
         const now = new Date();
         now.setHours(0, 0, 0, 0);
         now.setTime(now.getTime() + ms);
-        return datetime.getDisplayTime(now);
+        return getDisplayTime(now);
     },
     showAddTriggerPopup: function (view) {
         $('#selectTriggerType', view).val('DailyTrigger');

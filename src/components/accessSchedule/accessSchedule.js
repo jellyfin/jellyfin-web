@@ -4,14 +4,14 @@
  */
 
 import dialogHelper from '../dialogHelper/dialogHelper';
-import datetime from '../../utils/datetime';
+import { getDisplayTime } from 'utils/datetime';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import template from './accessSchedule.template.html';
 
-function getDisplayTime(hours) {
+function getDisplayTimeFromDecimalHours(hours) {
     let minutes = 0;
     const pct = hours % 1;
 
@@ -19,17 +19,17 @@ function getDisplayTime(hours) {
         minutes = parseInt(60 * pct, 10);
     }
 
-    return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
+    return getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
 function populateHours(context) {
     let html = '';
 
     for (let i = 0; i < 24; i += 0.5) {
-        html += `<option value="${i}">${getDisplayTime(i)}</option>`;
+        html += `<option value="${i}">${getDisplayTimeFromDecimalHours(i)}</option>`;
     }
 
-    html += `<option value="24">${getDisplayTime(0)}</option>`;
+    html += `<option value="24">${getDisplayTimeFromDecimalHours(0)}</option>`;
     context.querySelector('#selectStart').innerHTML = html;
     context.querySelector('#selectEnd').innerHTML = html;
 }
