@@ -495,15 +495,19 @@ function setTrailerButtonVisibility(page, item) {
     }
 }
 
-function renderBackdrop(item) {
+function renderBackdrop(page, item) {
     if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
-        setBackdrops([item]);
+        const isBannerEnabled = !layoutManager.tv && userSettings.detailsBanner();
+        // If backdrops are disabled, but the header banner is enabled, add a class to the page to disable the transparency
+        page.classList.toggle('noBackdropTransparency', isBannerEnabled && !userSettings.enableBackdrops());
+
+        setBackdrops([item], null, null, isBannerEnabled);
     } else {
         clearBackdrop();
     }
 }
 
-function renderDetailPageBackdrop(page, item, apiClient) {
+function renderHeaderBackdrop(page, item, apiClient) {
     // Details banner is disabled in user settings
     if (!userSettings.detailsBanner()) {
         return false;
@@ -517,7 +521,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    const imgUrl = getItemBackdropImageUrl(apiClient, item, { maxWitdh: dom.getScreenWidth() }, false);
+    const imgUrl = getItemBackdropImageUrl(apiClient, item, { maxWidth: dom.getScreenWidth() }, false);
 
     if (imgUrl) {
         imageLoader.lazyImage(itemBackdropElement, imgUrl);
@@ -539,10 +543,13 @@ function reloadFromItem(instance, page, params, item, user) {
     // Save some screen real estate in TV mode
     if (!layoutManager.tv) {
         renderLogo(page, item, apiClient);
-        renderDetailPageBackdrop(page, item, apiClient);
+    }
+    // Render the mobile header backdrop
+    if (layoutManager.mobile) {
+        renderHeaderBackdrop(page, item, apiClient);
     }
 
-    renderBackdrop(item);
+    renderBackdrop(page, item);
 
     // Render the main information for the item
     page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
@@ -2034,7 +2041,7 @@ export default function (view, params) {
                 if (currentItem) {
                     libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
-                    renderBackdrop(currentItem);
+                    renderBackdrop(page, currentItem);
                 }
             } else {
                 reload(self, page, params);

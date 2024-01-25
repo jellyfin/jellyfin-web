@@ -70,8 +70,7 @@ function onSubmit(e) {
 }
 
 function triggerChange(select) {
-    const evt = document.createEvent('HTMLEvents');
-    evt.initEvent('change', false, true);
+    const evt = new Event('change', { bubbles: false, cancelable: true });
     select.dispatchEvent(evt);
 }
 

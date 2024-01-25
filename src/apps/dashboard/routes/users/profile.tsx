@@ -52,8 +52,7 @@ const UserEdit: FunctionComponent = () => {
     const element = useRef<HTMLDivElement>(null);
 
     const triggerChange = (select: HTMLInputElement) => {
-        const evt = document.createEvent('HTMLEvents');
-        evt.initEvent('change', false, true);
+        const evt = new Event('change', { bubbles: false, cancelable: true });
         select.dispatchEvent(evt);
     };
 

@@ -1429,5 +1429,6 @@
     "AllowSegmentDeletionHelp": "Exclua segmentos antigos após terem sido enviados ao cliente. Isso evita ter que armazenar todo o arquivo transcodificado no disco. Funcionará apenas com throttling habilitado. Desligue esta opção se tiver problemas de reprodução.",
     "LabelSegmentKeepSeconds": "Tempo em segundos para manter os segmentos",
     "LabelSegmentKeepSecondsHelp": "Tempo em segundos no qual o segmento deve ser mantido antes de ser reescrito. Deve ser maior que \"Acelerar depois\". So funciona se Deletar Segmentos estiver ativo.",
-    "LabelThrottleDelaySeconds": "acelerar depois"
+    "LabelThrottleDelaySeconds": "acelerar depois",
+    "HeaderAllRecordings": "Todas as gravações"
 }

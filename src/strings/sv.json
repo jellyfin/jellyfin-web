@@ -1780,5 +1780,6 @@
     "SelectAudioNormalizationHelp": "Spårförstärkning - justerar volymen för varje ljudspår så att de spelas upp med samma ljudnivå. Albumförstärkning - justerar endast volymen för alla spår i ett album. Behåller albumets dynamiska volymräckvidd.",
     "LabelAlbumGain": "Albumförstärkning",
     "LabelSelectAudioNormalization": "Ljudnormalisering",
-    "LabelTrackGain": "Spårförstärkning"
+    "LabelTrackGain": "Spårförstärkning",
+    "HeaderAllRecordings": "Alla inspelningar"
 }

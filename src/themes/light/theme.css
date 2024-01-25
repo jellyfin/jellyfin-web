@@ -257,6 +257,10 @@ a[data-role=button] {
     color: inherit;
 }
 
+.noBackdropTransparency .detailPageSecondaryContainer {
+    background-color: #f2f2f2;
+}
+
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;
 }

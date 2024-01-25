@@ -1781,5 +1781,6 @@
     "SelectAudioNormalizationHelp": "Gain de piste - permet de régler le volume de chaque piste de manière à ce qu'elles soient lues avec la même intensité sonore. Gain de l'album - ajuste le volume de toutes les pistes d'un album uniquement, en conservant la plage dynamique de l'album.",
     "LabelAlbumGain": "Gain de l'album",
     "LabelSelectAudioNormalization": "Normalisation de l'audio",
-    "LabelTrackGain": "Gain de piste"
+    "LabelTrackGain": "Gain de piste",
+    "HeaderAllRecordings": "Touts les enregistrements"
 }

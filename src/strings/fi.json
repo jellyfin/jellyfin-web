@@ -1779,5 +1779,6 @@
     "LabelAlbumGain": "Albumikohtainen vahvistus",
     "LabelSelectAudioNormalization": "Äänenvoimakkuuden normalisointi",
     "LabelTrackGain": "Kappelkohtainen vahvistus",
-    "SearchResultsEmpty": "Pahoittelut! Haku \"{0}\" ei tuottanut tuloksia"
+    "SearchResultsEmpty": "Pahoittelut! Haku \"{0}\" ei tuottanut tuloksia",
+    "HeaderAllRecordings": "Kaikki tallenteet"
 }

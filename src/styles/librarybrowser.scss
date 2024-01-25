@@ -579,14 +579,6 @@
             height: 30vh;
         }
     }
-
-    .layout-desktop &::after {
-        content: "";
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.65);
-        display: block;
-    }
 }
 
 .layout-tv .itemBackdrop {
@@ -850,11 +842,11 @@
 }
 
 .detailPageSecondaryContainer {
-    margin: 1.25em 0;
+    padding-top: 1.25em;
 }
 
 .layout-mobile .detailPageSecondaryContainer {
-    margin: 1em 0;
+    padding-top: 1em;
 }
 
 .detailImageContainer .card {
@@ -1505,14 +1497,16 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .detail-clamp-text {
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    line-clamp: 12;
+
+    /* NOTE: line clamping is non-standard and requires vendor-prefixed rules to function */
+    display: -webkit-box; /* stylelint-disable-line value-no-vendor-prefix */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 12;
 }
 
 @media all and (min-width: 40em) {
     .detail-clamp-text {
-        line-clamp: 6;
+        -webkit-line-clamp: 6;
     }
 }
 

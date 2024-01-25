@@ -228,6 +228,12 @@ a[data-role=button] {
     background: none;
 }
 
+.noBackdropTransparency .detailPageSecondaryContainer {
+    background: linear-gradient(to bottom, #0f3562, #1162a4, #03215f);
+    background-color: #0f3562;
+    background-attachment: fixed;
+}
+
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
     background: rgba(0, 0, 0, 0.3);
