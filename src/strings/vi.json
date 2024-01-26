@@ -1760,5 +1760,10 @@
     "MachineTranslated": "Được Máy Dịch",
     "LabelSelectAudioNormalization": "Chuẩn Hóa Âm Thanh",
     "SearchResultsEmpty": "Rất tiếc! Không có kết quả tìm thấy cho \"{0}\"",
-    "HeaderAllRecordings": "Tất Cả Bản Ghi"
+    "HeaderAllRecordings": "Tất Cả Bản Ghi",
+    "LabelTrackGain": "Chỉnh Nhạc",
+    "GridView": "Xem Lưới",
+    "ListView": "Xem Danh Sách",
+    "SelectAudioNormalizationHelp": "Chỉnh nhạc - điều chỉnh âm lượng của mỗi bản nhạc để chúng phát lại với cùng một độ to. Chỉnh Album - điều chỉnh âm lượng của tất cả các bản nhạc trong một album, giữ nguyên dải động của album.",
+    "LabelAlbumGain": "Chỉnh Album"
 }
