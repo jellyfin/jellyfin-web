@@ -1214,5 +1214,7 @@
     "LabelBackdropScreensaverIntervalHelp": "הזמן בשניות בין רקעים שונים כאשר משתמשים ברקעים כשומר מסך.",
     "HeaderAllRecordings": "כל ההקלטות",
     "LabelSelectAudioNormalization": "נרמול אודיו",
-    "LabelStereoDownmixAlgorithm": "אלגוריתם עירבול מטה לסטריאו"
+    "LabelStereoDownmixAlgorithm": "אלגוריתם עירבול מטה לסטריאו",
+    "LabelEncoderPreset": "חבילת קידוד",
+    "LabelEnableLUFSScanHelp": "לקוחות יכולים לנרמל את ניגון האודיו בכדי לקבל עצמה זהה בין שירים. זה יגרום להארכת משך סריקת הספרייה ולצריכת משאבים מוגברת."
 }
