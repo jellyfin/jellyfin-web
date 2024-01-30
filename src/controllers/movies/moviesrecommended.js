@@ -232,8 +232,6 @@ function getTabs() {
     }, {
         name: globalize.translate('Suggestions')
     }, {
-        name: globalize.translate('Trailers')
-    }, {
         name: globalize.translate('Favorites')
     }, {
         name: globalize.translate('Collections')
