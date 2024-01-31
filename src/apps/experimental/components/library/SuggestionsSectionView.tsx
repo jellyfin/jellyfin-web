@@ -102,6 +102,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                     url={getRouteUrl(section)}
                     cardOptions={{
                         ...section.cardOptions,
+                        queryKey: ['SuggestionSectionWithItems'],
                         showTitle: true,
                         centerText: true,
                         cardLayout: false,
@@ -117,6 +118,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                     sectionTitle={getRecommendationTittle(recommendation)}
                     items={recommendation.Items ?? []}
                     cardOptions={{
+                        queryKey: ['MovieRecommendations'],
                         shape: 'overflowPortrait',
                         showYear: true,
                         scalable: true,

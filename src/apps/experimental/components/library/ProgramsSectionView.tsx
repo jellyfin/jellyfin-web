@@ -18,7 +18,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     sectionType,
     isUpcomingRecordingsEnabled = false
 }) => {
-    const { isLoading, data: sectionsWithItems } = useGetProgramsSectionsWithItems(parentId, sectionType);
+    const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
     const {
         isLoading: isUpcomingRecordingsLoading,
         data: upcomingRecordings
@@ -60,8 +60,10 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     sectionTitle={globalize.translate(section.name)}
                     items={items ?? []}
                     url={getRouteUrl(section)}
+                    reloadItems={refetch}
                     cardOptions={{
-                        ...section.cardOptions
+                        ...section.cardOptions,
+                        queryKey: ['ProgramSectionWithItems']
                     }}
                 />
 
@@ -73,6 +75,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     sectionTitle={group.name}
                     items={group.timerInfo ?? []}
                     cardOptions={{
+                        queryKey: ['Timers'],
                         shape: 'overflowBackdrop',
                         showTitle: true,
                         showParentTitleOrTitle: true,
