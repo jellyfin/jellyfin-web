@@ -3,8 +3,10 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
+import layoutManager from 'components/layoutManager';
 import { EpisodeFilter, FeatureFilters, LibraryViewSettings, ParentId, VideoBasicFilter, ViewMode } from '../types/library';
 import { LibraryTab } from 'types/libraryTab';
+import type { AttributesOpts, DataAttributes } from 'types/dataAttributes';
 
 export const getVideoBasicFilter = (libraryViewSettings: LibraryViewSettings) => {
     let isHd;
@@ -164,3 +166,31 @@ export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryView
         StartIndex: 0
     };
 };
+
+export function getDataAttributes(
+    opts: AttributesOpts
+): DataAttributes {
+    return {
+        'data-context': opts.context,
+        'data-collectionid': opts.collectionId,
+        'data-playlistid': opts.playlistId,
+        'data-parentid': opts.parentId,
+        'data-playlistitemid': opts.itemPlaylistItemId,
+        'data-action': layoutManager.tv ? opts.action : null,
+        'data-serverid': opts.itemServerId,
+        'data-id': opts.itemId,
+        'data-timerid': opts.itemTimerId,
+        'data-seriestimerid': opts.itemSeriesTimerId,
+        'data-channelid': opts.itemChannelId,
+        'data-type': opts.itemType,
+        'data-mediatype': opts.itemMediaType,
+        'data-collectiontype': opts.itemCollectionType,
+        'data-isfolder': opts.itemIsFolder,
+        'data-path': opts.itemPath,
+        'data-prefix': opts.prefix,
+        'data-positionticks': opts.itemUserData?.PlaybackPositionTicks,
+        'data-startdate': opts.itemStartDate?.toString(),
+        'data-enddate': opts.itemEndDate?.toString()
+    };
+}
+
