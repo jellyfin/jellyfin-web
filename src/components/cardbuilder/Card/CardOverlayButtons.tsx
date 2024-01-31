@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
-
+import { appRouter } from 'components/router/appRouter';
+import escapeHTML from 'escape-html';
 import PlayArrowIconButton from '../../common/PlayArrowIconButton';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 
@@ -43,6 +43,10 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
         overlayPlayButton = item.MediaType === 'Video';
     }
 
+    const url = appRouter.getRouteUrl(item, {
+        parentId: cardOptions.parentId
+    });
+
     const btnCssClass = classNames(
         'paper-icon-button-light',
         'cardOverlayButton',
@@ -55,8 +59,10 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
     );
 
     return (
-        <Box
-            sx={{
+        <a
+            href={url}
+            aria-label={escapeHTML(item.Name)}
+            style={{
                 position: 'absolute',
                 top: 0,
                 left: 0,
@@ -66,6 +72,7 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
                 borderRadius: '0.2em'
             }}
         >
+
             {cardOptions.centerPlayButton && (
                 <PlayArrowIconButton
                     className={centerPlayButtonClass}
@@ -89,7 +96,7 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
                     />
                 )}
             </ButtonGroup>
-        </Box>
+        </a>
     );
 };
 

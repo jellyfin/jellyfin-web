@@ -2,7 +2,7 @@ import type { CollectionType, UserItemDataDto } from '@jellyfin/sdk/lib/generate
 import type { NullableBoolean, NullableNumber, NullableString } from './itemDto';
 
 export type AttributesOpts = {
-    context?: CollectionType | undefined,
+    context?: CollectionType,
     parentId?: NullableString,
     collectionId?: NullableString,
     playlistId?: NullableString,
