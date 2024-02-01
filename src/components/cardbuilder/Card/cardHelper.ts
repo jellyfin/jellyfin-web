@@ -5,6 +5,7 @@ import {
     ImageType
 } from '@jellyfin/sdk/lib/generated-client';
 import { Api } from '@jellyfin/sdk';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import escapeHTML from 'escape-html';
 
 import { appRouter } from 'components/router/appRouter';
@@ -45,7 +46,7 @@ export function getCardLogoUrl(
     }
 
     if (api && imgTag && imgType && itemId) {
-        const response = api.getItemImageUrl(itemId, imgType, {
+        const response = getImageApi(api).getItemImageUrlById(itemId, imgType, {
             height: logoHeight,
             tag: imgTag
         });

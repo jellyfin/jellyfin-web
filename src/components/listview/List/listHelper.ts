@@ -1,5 +1,6 @@
 import { Api } from '@jellyfin/sdk';
 import { BaseItemKind, ImageType } from '@jellyfin/sdk/lib/generated-client';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import globalize from 'scripts/globalize';
 
 import type { ItemDto } from 'types/itemDto';
@@ -110,7 +111,7 @@ export function getImageUrl(
     }
 
     if (api && imgTag && imgType && itemId) {
-        const response = api.getItemImageUrl(itemId, imgType, {
+        const response = getImageApi(api).getItemImageUrlById(itemId, imgType, {
             fillWidth: fillWidth,
             fillHeight: fillHeight,
             tag: imgTag

@@ -1,11 +1,10 @@
 import { BaseItemKind, ImageType } from '@jellyfin/sdk/lib/generated-client';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { useApi } from 'hooks/useApi';
 import { getDesiredAspect } from '../cardBuilderUtils';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto, NullableNumber, NullableString } from 'types/itemDto';
 import type { CardOptions } from 'types/cardOptions';
-
-type ShapeType = string | null | undefined;
 
 function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
     let imgType;
@@ -73,11 +72,11 @@ function getPreferLogoInfo(item: ItemDto) {
 }
 
 function getCalculatedHeight(
-    width: number | undefined,
-    primaryImageAspectRatio: number | null | undefined
+    itemWidth: NullableNumber,
+    itemPrimaryImageAspectRatio: NullableNumber
 ) {
-    if (width && primaryImageAspectRatio) {
-        return Math.round(width / primaryImageAspectRatio);
+    if (itemWidth && itemPrimaryImageAspectRatio) {
+        return Math.round(itemWidth / itemPrimaryImageAspectRatio);
     }
 }
 
@@ -86,20 +85,20 @@ function isForceName(cardOptions: CardOptions) {
 }
 
 function isCoverImage(
-    primaryImageAspectRatio: number | null | undefined,
-    uiAspect: number | null
+    itemPrimaryImageAspectRatio: NullableNumber,
+    uiAspect: NullableNumber
 ) {
-    if (primaryImageAspectRatio && uiAspect) {
-        return Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect <= 0.2;
+    if (itemPrimaryImageAspectRatio && uiAspect) {
+        return Math.abs(itemPrimaryImageAspectRatio - uiAspect) / uiAspect <= 0.2;
     }
 
     return false;
 }
 
 function shouldShowPreferBanner(
-    imageTagsBanner: string | undefined,
+    imageTagsBanner: NullableString,
     cardOptions: CardOptions,
-    shape: ShapeType
+    shape: NullableString
 ): boolean {
     return (
         (cardOptions.preferBanner || shape === 'banner')
@@ -125,20 +124,20 @@ function shouldShowImageTagsThumb(item: ItemDto): boolean {
 }
 
 function shouldShowSeriesThumbImageTag(
-    item: ItemDto,
+    itemSeriesThumbImageTag: NullableString,
     cardOptions: CardOptions
 ): boolean {
     return (
-        Boolean(item.SeriesThumbImageTag) && cardOptions.inheritThumb !== false
+        Boolean(itemSeriesThumbImageTag) && cardOptions.inheritThumb !== false
     );
 }
 
 function shouldShowParentThumbImageTag(
-    item: ItemDto,
+    itemParentThumbItemId: NullableString,
     cardOptions: CardOptions
 ): boolean {
     return (
-        Boolean(item.ParentThumbItemId) && cardOptions.inheritThumb !== false
+        Boolean(itemParentThumbItemId) && cardOptions.inheritThumb !== false
     );
 }
 
@@ -146,14 +145,14 @@ function shouldShowParentBackdropImageTags(item: ItemDto): boolean {
     return Boolean(item.AlbumId) && Boolean(item.AlbumPrimaryImageTag);
 }
 
-function shouldShowPreferThumb(type: string | null | undefined, cardOptions: CardOptions): boolean {
-    return Boolean(cardOptions.preferThumb) && !(type === BaseItemKind.Program || type === BaseItemKind.Episode);
+function shouldShowPreferThumb(itemType: NullableString, cardOptions: CardOptions): boolean {
+    return Boolean(cardOptions.preferThumb) && !(itemType === BaseItemKind.Program || itemType === BaseItemKind.Episode);
 }
 
 function getCardImageInfo(
     item: ItemDto,
     cardOptions: CardOptions,
-    shape: ShapeType
+    shape: NullableString
 ) {
     const width = cardOptions.width;
     let height;
@@ -221,15 +220,11 @@ function getCardImageInfo(
         imgType = ImageType.Backdrop;
         imgTag = item.BackdropImageTags[0];
         itemId = item.Id;
-        /*} else if (item.ImageTags?.Thumb) {
-        imgType = ImageType.Thumb;
-        imgTag = item.ImageTags.Thumb;
-        itemId = item.Id;*/
-    } else if (shouldShowSeriesThumbImageTag(item, cardOptions)) {
+    } else if (shouldShowSeriesThumbImageTag(item.SeriesThumbImageTag, cardOptions)) {
         imgType = ImageType.Thumb;
         imgTag = item.SeriesThumbImageTag;
         itemId = item.SeriesId;
-    } else if (shouldShowParentThumbImageTag(item, cardOptions)) {
+    } else if (shouldShowParentThumbImageTag(item.ParentThumbItemId, cardOptions)) {
         imgType = ImageType.Thumb;
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
@@ -256,7 +251,7 @@ function getCardImageInfo(
 interface UseCardImageUrlProps {
     item: ItemDto;
     cardOptions: CardOptions;
-    shape: ShapeType;
+    shape: NullableString;
 }
 
 function useCardImageUrl({ item, cardOptions, shape }: UseCardImageUrlProps) {
@@ -280,7 +275,7 @@ function useCardImageUrl({ item, cardOptions, shape }: UseCardImageUrlProps) {
         if (height) {
             height = Math.round(height * ratio);
         }
-        imgUrl = api?.getItemImageUrl(itemId, imgType, {
+        imgUrl = getImageApi(api).getItemImageUrlById(itemId, imgType, {
             quality: 96,
             fillWidth: width,
             fillHeight: height,

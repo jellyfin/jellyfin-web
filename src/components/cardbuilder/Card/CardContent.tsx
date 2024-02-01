@@ -32,7 +32,7 @@ const CardContent: FC<CardContentProps> = ({
 
     return (
         <div
-            className={`${cardContentClass}`}
+            className={cardContentClass}
         >
             <CardImageContainer
                 item={item}
