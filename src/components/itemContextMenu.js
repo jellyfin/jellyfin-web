@@ -214,11 +214,7 @@ export function getCommands(options) {
         });
     }
 
-    if ((canEdit || user.Policy.EnableSubtitleManagement) && item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program'
-            && item.LocationType !== 'Virtual'
-            && !(item.Type === 'Recording' && item.Status !== 'Completed')
-            && options.editSubtitles !== false
-    ) {
+    if (itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
         commands.push({
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',

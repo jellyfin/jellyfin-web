@@ -155,6 +155,33 @@ export function canEditImages (user, item) {
     return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
 }
 
+export function canEditSubtitles (user, item) {
+    if (item.MediaType !== 'Video') {
+        return false;
+    }
+    const itemType = item.Type;
+    if (itemType === 'Recording' && item.Status !== 'Completed') {
+        return false;
+    }
+    if (itemType === 'TvChannel'
+        || itemType === 'Program'
+        || itemType === 'Timer'
+        || itemType === 'SeriesTimer'
+        || itemType === 'UserRootFolder'
+        || itemType === 'UserView'
+    ) {
+        return false;
+    }
+    if (isLocalItem(item)) {
+        return false;
+    }
+    if (item.LocationType === 'Virtual') {
+        return false;
+    }
+    return user.Policy.EnableSubtitleManagement
+           || user.Policy.IsAdministrator;
+}
+
 export function canShare (item, user) {
     if (item.Type === 'Program') {
         return false;
@@ -300,6 +327,7 @@ export default {
     canIdentify: canIdentify,
     canEdit: canEdit,
     canEditImages: canEditImages,
+    canEditSubtitles: canEditSubtitles,
     canShare: canShare,
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,
