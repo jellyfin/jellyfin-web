@@ -1780,5 +1780,6 @@
     "LabelAlbumGain": "Albumversterking",
     "LabelSelectAudioNormalization": "Geluidsnormalisatie",
     "LabelTrackGain": "Nummerversterking",
-    "SearchResultsEmpty": "Sorry! Geen resultaten gevonden voor \"{0}\""
+    "SearchResultsEmpty": "Sorry! Geen resultaten gevonden voor \"{0}\"",
+    "HeaderAllRecordings": "Alle opnamen"
 }

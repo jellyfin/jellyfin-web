@@ -213,8 +213,8 @@ function enabled() {
 let rotationInterval;
 let currentRotatingImages = [];
 let currentRotationIndex = -1;
-export function setBackdrops(items, imageOptions, enableImageRotation) {
-    if (enabled()) {
+export function setBackdrops(items, imageOptions, enableImageRotation, isEnabled = false) {
+    if (isEnabled || enabled()) {
         const images = getImageUrls(items, imageOptions);
 
         if (images.length) {

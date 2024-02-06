@@ -180,7 +180,7 @@ function bindEvents(elem) {
                 // to the previous track, unless we are at the first track so no previous track exists.
                 // currentTime is in msec.
 
-                if (playbackManager.currentTime(currentPlayer) >= 5 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 1) {
+                if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 0) {
                     playbackManager.seekPercent(0, currentPlayer);
                     // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
                     // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
