@@ -24,5 +24,19 @@
     "Songs": "სიმღერები",
     "Photos": "ფოტოები",
     "Favorites": "რჩეულები",
-    "Folders": "საქაღალდეები"
+    "Folders": "საქაღალდეები",
+    "AllChannels": "ყველა არხი",
+    "AllLanguages": "ყველა ენა",
+    "AccessRestrictedTryAgainLater": "წვდომა ამჟამად შეზღუდულია. გთხოვთ, სცადოთ მოგვიანებით.",
+    "AddedOnValue": "დაემატა {0}",
+    "AddToCollection": "კოლექციაში დამატება",
+    "AddToPlaylist": "დაქვრის სიაში დამატება",
+    "AlbumArtist": "ალბომი არტისტი",
+    "AllComplexFormats": "ყველა კომპლექსური ფორმატი (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
+    "AllEpisodes": "ყველა ეპიზოდი",
+    "AddToFavorites": "რჩეულებში დამატება",
+    "AddToPlayQueue": "დაკვრის რიგში დამატება",
+    "AgeValue": "({0} წლის)",
+    "AirDate": "ეთერში გაშვების თარიღი",
+    "AllLibraries": "ყველა ბიბლიოთეკა"
 }

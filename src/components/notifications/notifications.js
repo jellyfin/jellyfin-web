@@ -3,6 +3,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import globalize from '../../scripts/globalize';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import ServerConnections from '../../components/ServerConnections';
 
 import NotificationIcon from './notificationicon.png';
 
@@ -17,8 +18,27 @@ function onOneDocumentClick() {
     }
 }
 
-document.addEventListener('click', onOneDocumentClick);
-document.addEventListener('keydown', onOneDocumentClick);
+function registerOneDocumentClickHandler() {
+    Events.off(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
+
+    document.addEventListener('click', onOneDocumentClick);
+    document.addEventListener('keydown', onOneDocumentClick);
+}
+
+function initPermissionRequest() {
+    const apiClient = ServerConnections.currentApiClient();
+    if (apiClient) {
+        apiClient.getCurrentUser()
+            .then(() => registerOneDocumentClickHandler())
+            .catch(() => {
+                Events.on(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
+            });
+    } else {
+        registerOneDocumentClickHandler();
+    }
+}
+
+initPermissionRequest();
 
 let serviceWorkerRegistration;
 

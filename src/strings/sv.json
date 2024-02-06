@@ -1500,7 +1500,7 @@
     "LabelSelectAudioChannels": "Kanaler",
     "LabelAllowedAudioChannels": "Maximalt tillåtna ljudkanaler",
     "AllowHevcEncoding": "Tillåt kodning i HEVC",
-    "PreferFmp4HlsContainerHelp": "Föredra att använda fMP4 som standard behållare för HLS. Detta gör det möjligt att direktströmma HEVC på enheter som stöds.",
+    "PreferFmp4HlsContainerHelp": "Föredra att använda fMP4 som standard behållare för HLS. Detta gör det möjligt att direktströmma HEVC och AV1 på enheter som stöds.",
     "PreferFmp4HlsContainer": "Föredra fMP4-HLS-mediabehållare",
     "LabelSyncPlayInfo": "SyncPlay-information",
     "LabelOriginalMediaInfo": "Information för ursprunglig media",
@@ -1780,5 +1780,6 @@
     "SelectAudioNormalizationHelp": "Spårförstärkning - justerar volymen för varje ljudspår så att de spelas upp med samma ljudnivå. Albumförstärkning - justerar endast volymen för alla spår i ett album. Behåller albumets dynamiska volymräckvidd.",
     "LabelAlbumGain": "Albumförstärkning",
     "LabelSelectAudioNormalization": "Ljudnormalisering",
-    "LabelTrackGain": "Spårförstärkning"
+    "LabelTrackGain": "Spårförstärkning",
+    "HeaderAllRecordings": "Alla inspelningar"
 }

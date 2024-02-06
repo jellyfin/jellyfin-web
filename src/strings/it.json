@@ -1492,7 +1492,7 @@
     "AllowVppTonemappingHelp": "Supporto alla mappatura toni dei driver Intel. Al momento funziona solamente con alcune schede e video HDR10. Ha una più alta priorità rispetto ad altre implementazioni OpenCL.",
     "EnableVppTonemapping": "Abilita la mappatura dei toni per VPP",
     "EnableEnhancedNvdecDecoder": "Abilita l'enhanced NVDEC decoder",
-    "PreferFmp4HlsContainerHelp": "Preferisci l'utilizzo di fMP4 come contenitore predefinito per HLS, permettendo lo streaming diretto di contenuti HEVC nei dispositivi che lo supportano.",
+    "PreferFmp4HlsContainerHelp": "Preferisco l'utilizzo di fMP4 come contenitore predefinito per HLS, permettendo lo streaming diretto di contenuti HEVC e AV1 nei dispositivi che lo supportano.",
     "PreferFmp4HlsContainer": "Preferisci fMP4-HLS Media Container",
     "LabelOriginalMediaInfo": "Info Contenuti Originali",
     "LabelRemuxingInfo": "Info Remuxing",
@@ -1781,5 +1781,6 @@
     "LabelTrackGain": "Gain (guadagno) Traccia",
     "AiTranslated": "Traduzione con AI",
     "HeaderGuestCast": "Personaggi Famosi",
-    "SearchResultsEmpty": "Ci dispiace! Nessun risultato trovato per \"{0}\""
+    "SearchResultsEmpty": "Ci dispiace! Nessun risultato trovato per \"{0}\"",
+    "HeaderAllRecordings": "Tutte le registrazioni"
 }

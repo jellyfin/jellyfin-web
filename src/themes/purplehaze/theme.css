@@ -326,6 +326,12 @@ a[data-role=button] {
     background: none;
 }
 
+.noBackdropTransparency .detailPageSecondaryContainer {
+    background: url(bg.jpg) center top no-repeat #030322;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
     background: rgba(30, 30, 30, 0.9);

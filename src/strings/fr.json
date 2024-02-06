@@ -294,11 +294,11 @@
     "HeaderKeepRecording": "Garder l'enregistrement",
     "HeaderKeepSeries": "Garder la série",
     "HeaderKodiMetadataHelp": "Pour activer ou désactiver les métadonnées NFO, ouvrir l'interface de gestion d'une médiathèque et trouver la section 'Formats de métadonnées'.",
-    "HeaderLatestEpisodes": "Ajouts récents",
-    "HeaderLatestMedia": "Ajouts récents",
-    "HeaderLatestMovies": "Ajouts récents",
-    "HeaderLatestMusic": "Ajouts récents",
-    "HeaderLatestRecordings": "Ajouts récents",
+    "HeaderLatestEpisodes": "Épisodes récemment ajoutés",
+    "HeaderLatestMedia": "Médias récemment ajoutés",
+    "HeaderLatestMovies": "Films récemment ajoutés",
+    "HeaderLatestMusic": "Musique récemment ajoutée",
+    "HeaderLatestRecordings": "Enregistrements récemment ajoutés",
     "HeaderLibraries": "Médiathèques",
     "HeaderLibraryAccess": "Accès à la médiathèque",
     "HeaderLibraryFolders": "Dossiers de la médiathèque",
@@ -309,7 +309,7 @@
     "HeaderMedia": "Média",
     "HeaderMediaFolders": "Dossiers multimédias",
     "HeaderMetadataSettings": "Paramètres des métadonnées",
-    "HeaderMoreLikeThis": "Similaires",
+    "HeaderMoreLikeThis": "Plus de ce genre",
     "HeaderMusicQuality": "Qualité de la musique",
     "HeaderMyDevice": "Cet appareil",
     "HeaderMyMedia": "Mes médias",
@@ -1781,5 +1781,6 @@
     "SelectAudioNormalizationHelp": "Gain de piste - permet de régler le volume de chaque piste de manière à ce qu'elles soient lues avec la même intensité sonore. Gain de l'album - ajuste le volume de toutes les pistes d'un album uniquement, en conservant la plage dynamique de l'album.",
     "LabelAlbumGain": "Gain de l'album",
     "LabelSelectAudioNormalization": "Normalisation de l'audio",
-    "LabelTrackGain": "Gain de piste"
+    "LabelTrackGain": "Gain de piste",
+    "HeaderAllRecordings": "Tous les enregistrements"
 }
