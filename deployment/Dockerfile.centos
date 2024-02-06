@@ -13,8 +13,8 @@ ENV IS_DOCKER=YES
 RUN dnf update -yq \
  && dnf install -yq epel-release \
  && dnf install -yq rpmdevtools git autoconf automake glibc-devel gcc-c++ make \
- && dnf install -yq https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm \
- && dnf install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1 \
+ && curl -fsSL https://rpm.nodesource.com/setup_20.x | bash - \
+ && dnf install nodejs -yq --setopt=nodesource-nodejs.module_hotfixes=1 \
  && dnf clean all \
  && rm -rf /var/cache/dnf
 
