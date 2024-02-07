@@ -29,6 +29,10 @@ export default function RootAppRouter({ history }: Readonly<{ history: History}>
     return <RouterProvider router={router} />;
 }
 
+/**
+ * Layout component that renders legacy components required on all pages.
+ * NOTE: The app will crash if these get removed from the DOM.
+ */
 function RootAppLayout() {
     return (
         <>
