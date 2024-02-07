@@ -1471,5 +1471,19 @@
     "PasswordRequiredForAdmin": "É necessária uma palavra passe para contas de administrador.",
     "PleaseConfirmRepositoryInstallation": "Clique em OK para confirmar que leu o texto acima e deseja prosseguir com a instalação do repositório de plug-ins.",
     "LabelThrottleDelaySecondsHelp": "Tempo em segundos após o qual o transcodificador será limitado. Deve ser grande o suficiente para que o cliente mantenha um buffer saudável. Só funciona se a limitação estiver ligada.",
-    "QuickConnectAuthorizeFail": "Código 'Quick Connect' desconhecido"
+    "QuickConnectAuthorizeFail": "Código 'Quick Connect' desconhecido",
+    "TonemappingAlgorithmHelp": "O mapeamento de tons pode ser ajustado. Se você não estiver familiarizado com essas opções, mantenha o padrão. O valor recomendado é 'BT.2390'.",
+    "UseEpisodeImagesInNextUp": "Use imagens de episódios nas seções 'Próximo' e 'Continuar a assistir'",
+    "UseEpisodeImagesInNextUpHelp": "As seções 'Próximo' e 'Continuar a assistir' usarão imagens dos episódios como miniaturas em vez da miniatura principal do programa.",
+    "Yadif": "YADIF",
+    "IntelLowPowerEncHelp": "A codificação de baixo consumo pode manter uma sincronização CPU-GPU desnecessária. No Linux eles devem ser desativados se o firmware i915 HuC não estiver configurado.",
+    "LabelTonemappingThresholdHelp": "Os parâmetros do algoritmo de mapeamento de tom são ajustados para cada cena. Um limite é usado para detectar se a cena mudou ou não. Se a distância entre o brilho médio do quadro atual e a média atual exceder um valor limite, recalcularíamos a média da cena e o brilho máximo. Os valores recomendados e padrão são 0,8 e 0,2.",
+    "SyncPlayAccessHelp": "O recurso SyncPlay permite sincronizar a reprodução com outros dispositivos. Selecione o nível de acesso que este usuário tem ao SyncPlay.",
+    "AllowVppTonemappingHelp": "Mapeamento de tons completo baseado no driver Intel. Atualmente funciona apenas em determinados hardwares com vídeos HDR10. Isto tem uma prioridade mais alta em comparação com outra implementação OpenCL.",
+    "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "Atraso mínimo de reprodução (em ms) após o qual SkipToSync tenta corrigir a posição de reprodução.",
+    "OptionMaxActiveSessions": "Definir o número máximo de sessões de usuário simultâneas.",
+    "LabelSyncPlaySettingsSpeedToSyncDurationHelp": "Quantidade de milissegundos usados pelo SpeedToSync para corrigir a posição de reprodução.",
+    "SubtitleAppearanceSettingsDisclaimer": "As configurações a seguir não se aplicam às legendas gráficas mencionadas acima ou às legendas ASS/SSA que incorporam seus próprios estilos.",
+    "UnsupportedPlayback": "Jellyfin não pode desencriptar conteúdo protegido por DRM, mas todo o conteúdo será testado de qualquer maneira, incluindo títulos protegidos. Alguns arquivos podem aparecer completamente pretos devido à encriptação ou a outros recursos não suportados, como títulos interativos.",
+    "MessageSyncPlayGroupWait": "{0} está a armazenar em buffer…"
 }
