@@ -78,6 +78,7 @@
 - [DinuD](https://github.com/DinuD)
 - [Kevin Tan (Valius)](https://github.com/valius)
 - [Rasmus Krämer](https://github.com/rasmuslos)
+- [Damian Kacperski](https://github.com/dkacperski97)
 
 ## Emby Contributors
 
