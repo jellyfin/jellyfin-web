@@ -79,6 +79,7 @@
 - [Kevin Tan (Valius)](https://github.com/valius)
 - [Rasmus Krämer](https://github.com/rasmuslos)
 - [ntarelix](https://github.com/ntarelix)
+- [felix920506](https://github.com/felix920506)
 
 ## Emby Contributors
 
