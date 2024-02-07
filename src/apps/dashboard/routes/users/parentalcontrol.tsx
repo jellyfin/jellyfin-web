@@ -414,7 +414,6 @@ const UserParentalControl: FunctionComponent = () => {
                                 return <AccessScheduleList
                                     key={accessSchedule.Id}
                                     index={index}
-                                    Id={accessSchedule.Id}
                                     DayOfWeek={accessSchedule.DayOfWeek}
                                     StartHour={accessSchedule.StartHour}
                                     EndHour={accessSchedule.EndHour}
