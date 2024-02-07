@@ -149,9 +149,7 @@
     "lint": "eslint \"./\"",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
-    "stylelint": "npm run stylelint:css && npm run stylelint:scss",
-    "stylelint:css": "stylelint \"src/**/*.css\"",
-    "stylelint:scss": "stylelint --config=\".stylelintrc.scss.json\" \"src/**/*.scss\""
+    "stylelint": "stylelint \"src/**/*.{css,scss}\""
   },
   "engines": {
     "node": ">=20.0.0",
