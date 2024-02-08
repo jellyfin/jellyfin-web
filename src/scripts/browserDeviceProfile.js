@@ -691,15 +691,17 @@ export default function (options) {
                 Type: 'Audio'
             });
 
-            // Safari won't play m4b, however Firefox and Edge seem to handle it fine
-            // Commenting out the following also causes aac in m4b to transcode regardless of support
-            // This should probably be addressed in the future one way or another
+            // For some reason m4b doesn't work in Safari, but works Firefox, Edge and Chrome.
+            // The segment below forces transcode for aac in m4b but in most cases a remux would be sufficient.
+            // Ideally there should be something done about it in the future to reduce unnecessary transcodes.
 
-            // profile.DirectPlayProfiles.push({
-            //     Container: 'm4b',
-            //     AudioCodec: audioFormat,
-            //     Type: 'Audio'
-            // });
+            if ((!browser.safari) && (!browser.iOS)) {
+                profile.DirectPlayProfiles.push({
+                    Container: 'm4b',
+                    AudioCodec: audioFormat,
+                    Type: 'Audio'
+                });
+            }
         }
     });
 
