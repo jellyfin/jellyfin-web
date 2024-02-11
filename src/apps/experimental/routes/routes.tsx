@@ -2,7 +2,6 @@ import React from 'react';
 import { RouteObject, redirect } from 'react-router-dom';
 
 import { REDIRECTS } from 'apps/dashboard/routes/_redirects';
-import { DASHBOARD_APP_PATHS } from 'apps/dashboard/routes/routes';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
@@ -32,11 +31,5 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
     },
 
     /* Redirects for old paths */
-    ...REDIRECTS.map(toRedirectRoute),
-
-    /* Ignore dashboard routes */
-    ...Object.entries(DASHBOARD_APP_PATHS).map(([, path]) => ({
-        path: `/${path}/*`,
-        element: null
-    }))
+    ...REDIRECTS.map(toRedirectRoute)
 ];

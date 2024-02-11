@@ -209,6 +209,14 @@ function supportsDolbyVision(options) {
     );
 }
 
+function canPlayDolbyVisionHevc(videoTestElement) {
+    // Profiles 5/7/8 4k@60fps
+    return !!videoTestElement.canPlayType
+        && (videoTestElement.canPlayType('video/mp4; codecs="dvh1.05.09"').replace(/no/, '')
+        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.07.09"').replace(/no/, '')
+        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.08.09"').replace(/no/, ''));
+}
+
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
     let supported = false;
     let profileContainer = container;
@@ -930,7 +938,7 @@ export default function (options) {
         av1VideoRangeTypes += '|HLG';
     }
 
-    if (supportsDolbyVision(options)) {
+    if (supportsDolbyVision(options) && canPlayDolbyVisionHevc(videoTestElement)) {
         hevcVideoRangeTypes += '|DOVI';
     }
 
