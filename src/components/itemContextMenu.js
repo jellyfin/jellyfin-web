@@ -339,7 +339,8 @@ function executeCommand(item, id, options) {
                 break;
             case 'addtoplaylist':
                 import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                    new PlaylistEditor({
+                    const playlistEditor = new PlaylistEditor();
+                    playlistEditor.show({
                         items: [itemId],
                         serverId: serverId
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
