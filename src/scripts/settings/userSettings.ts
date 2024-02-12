@@ -109,6 +109,28 @@ export class UserSettings {
         return appSettings.get(name, userId);
     }
 
+    _handleBoolean(name: string, defaultValue: boolean, enableOnServer: boolean, val: boolean | undefined) {
+        if (val !== undefined) {
+            return this.set(name, val.toString(), enableOnServer);
+        }
+
+        return toBoolean(this.get(name, enableOnServer), defaultValue);
+    }
+
+    _handleNumber(name: string, defaultValue: number, enableOnServer: boolean, val: number | undefined) {
+        if (val !== undefined) {
+            return this.set(name, val.toString(), enableOnServer);
+        }
+
+        const loaded = parseInt(this.get(name, enableOnServer) || '', 10);
+        if (loaded === 0) {
+            // Explicitly return 0 to avoid returning default because 0 is falsy.
+            return 0;
+        } else {
+            return loaded || defaultValue;
+        }
+    }
+
     /**
      * Get or set user config.
      * @param {Object|undefined} config - Configuration or undefined.
@@ -395,11 +417,7 @@ export class UserSettings {
     skipBackLength(): number;
     skipBackLength(val: number): void;
     skipBackLength(val?: number): number | void {
-        if (val !== undefined) {
-            return this.set('skipBackLength', val.toString());
-        }
-
-        return parseInt(this.get('skipBackLength') || '10000', 10);
+        return this._handleNumber('skipBackLength', 10000, true, val);
     }
 
     /**
@@ -410,11 +428,7 @@ export class UserSettings {
     skipForwardLength(): number;
     skipForwardLength(val: number): void;
     skipForwardLength(val?: number): number | void {
-        if (val !== undefined) {
-            return this.set('skipForwardLength', val.toString());
-        }
-
-        return parseInt(this.get('skipForwardLength') || '30000', 10);
+        return this._handleNumber('skipForwardLength', 30000, true, val);
     }
 
     /**
@@ -485,11 +499,7 @@ export class UserSettings {
     backdropScreensaverInterval(): number;
     backdropScreensaverInterval(val: number): void;
     backdropScreensaverInterval(val?: number): number | void {
-        if (val !== undefined) {
-            return this.set('backdropScreensaverInterval', val.toString(), false);
-        }
-
-        return parseInt(this.get('backdropScreensaverInterval', false) || '5', 10);
+        return this._handleNumber('backdropScreensaverInterval', 5, false, val);
     }
 
     /**
@@ -500,17 +510,7 @@ export class UserSettings {
     libraryPageSize(): number;
     libraryPageSize(val: number): void;
     libraryPageSize(val?: number): number | void {
-        if (val !== undefined) {
-            return this.set('libraryPageSize', val.toString(), false);
-        }
-
-        const libraryPageSize = parseInt(this.get('libraryPageSize', false) || '', 10);
-        if (libraryPageSize === 0) {
-            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
-            return 0;
-        } else {
-            return libraryPageSize || 100;
-        }
+        return this._handleNumber('libraryPageSize', 100, false, val);
     }
 
     /**
@@ -521,17 +521,7 @@ export class UserSettings {
     maxDaysForNextUp(): number;
     maxDaysForNextUp(val: number): void;
     maxDaysForNextUp(val?: number): number | void {
-        if (val !== undefined) {
-            return this.set('maxDaysForNextUp', val.toString(), false);
-        }
-
-        const maxDaysForNextUp = parseInt(this.get('maxDaysForNextUp', false) || '0', 10);
-        if (maxDaysForNextUp === 0) {
-            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
-            return 0;
-        } else {
-            return maxDaysForNextUp || 365;
-        }
+        return this._handleNumber('maxDaysForNextUp', 365, false, val);
     }
 
     /**
