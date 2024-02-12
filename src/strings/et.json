@@ -98,7 +98,7 @@
     "LabelCriticRating": "Kriitikute hinne",
     "LabelCreateHttpPortMap": "Luba automaatne pordikaardistus nii HTTP kui ka HTTPS liikluse jaoks.",
     "LabelCreateHttpPortMapHelp": "Luba automaatsel pordikaardistusel luua lisaks HTTP liiklusele ka HTTPS liikluse reegel.",
-    "LabelCountry": "Riik",
+    "LabelCountry": "Riik/piirkond",
     "LabelCorruptedFrames": "Rikutud kaadrid",
     "LabelContentType": "Sisu tüüp",
     "LabelCommunityRating": "Kogukonna hinne",

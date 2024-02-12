@@ -644,7 +644,7 @@
     "LabelCommunityRating": "Community rating",
     "LabelContentType": "Content type",
     "LabelCorruptedFrames": "Corrupted frames",
-    "LabelCountry": "Country",
+    "LabelCountry": "Country/Region",
     "LabelCreateHttpPortMap": "Enable automatic port mapping for HTTP traffic as well as HTTPS.",
     "LabelCreateHttpPortMapHelp": "Permit automatic port mapping to create a rule for HTTP traffic in addition to HTTPS traffic.",
     "LabelCriticRating": "Critics rating",
