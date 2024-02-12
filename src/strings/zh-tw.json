@@ -67,7 +67,7 @@
     "LabelCachePath": "快取路徑",
     "LabelCollection": "收藏櫃",
     "LabelContentType": "內容類型",
-    "LabelCountry": "國家",
+    "LabelCountry": "國家/地區",
     "LabelCurrentPassword": "當前的密碼",
     "LabelDay": "星期",
     "LabelEnableDlnaClientDiscoveryInterval": "尋找用戶端時間間隔",
@@ -1138,7 +1138,7 @@
     "LabelSonyAggregationFlags": "Sony 整合標誌",
     "LabelSonyAggregationFlagsHelp": "決定在 urn:schemas-dlna-org:device-1-0 namespace 中的 aggregationFlags 元素的內容。",
     "LabelSortOrder": "排列順序",
-    "LabelSortTitle": "短標題",
+    "LabelSortTitle": "排序標題",
     "LabelSource": "來源",
     "LabelSpecialSeasonsDisplayName": "SP 季顯示名稱",
     "LabelSportsCategories": "體育分類",
@@ -1780,5 +1780,6 @@
     "GoHome": "返回首頁",
     "LabelSelectAudioNormalization": "音量標準化",
     "SelectAudioNormalizationHelp": "音軌增益：調整個別音軌的增益以獲得一致的音量。專輯增益：調整專輯中全部音軌的音量。",
-    "LabelAlbumGain": "專輯增益"
+    "LabelAlbumGain": "專輯增益",
+    "HeaderAllRecordings": "所有錄製的節目"
 }

@@ -1,7 +1,7 @@
 {
   "plugins": [
-		"stylelint-no-browser-hacks/lib"
-	],
+    "stylelint-no-browser-hacks/lib"
+  ],
   "rules": {
     "at-rule-empty-line-before": [ "always", {
       "except": [
@@ -143,5 +143,20 @@
     "value-list-comma-space-after": "always-single-line",
     "value-list-comma-space-before": "never",
     "value-list-max-empty-lines": 0
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.scss",
+        "**/*.scss"
+      ],
+      "customSyntax": "postcss-scss",
+      "plugins": [ "stylelint-scss" ],
+      "rules": {
+        "at-rule-no-unknown": null,
+        "scss/at-rule-no-unknown": true,
+        "plugin/no-browser-hacks": null
+      }
+    }
+  ]
 }

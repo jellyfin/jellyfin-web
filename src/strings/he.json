@@ -1210,5 +1210,11 @@
     "BackdropScreensaver": "שומר המסך של הרקע",
     "LabelExtractChaptersDuringLibraryScanHelp": "צור תמונות פרקים כאשר סרטונים מיובאים תוך כדי סריקת הספריה. אחרת, הם יחולצו תוך כדי המשימה המתוזמנת העוסקת בתמונות הפרק, מה שיאפשר לסריקת הספריה הרגילה להסתיים מהר יותר.",
     "LabelThrottleDelaySecondsHelp": "כמות הזמן בשניות שלאחריה המקודד יגיע ל-throttle. חייב להיות גדול מספיק כדי שהלקוח ישמור על buffer גדול מספיק. עובד רק אם throttling מופעל.",
-    "HeaderGuestCast": "כוכבים אורחים"
+    "HeaderGuestCast": "כוכבים אורחים",
+    "LabelBackdropScreensaverIntervalHelp": "הזמן בשניות בין רקעים שונים כאשר משתמשים ברקעים כשומר מסך.",
+    "HeaderAllRecordings": "כל ההקלטות",
+    "LabelSelectAudioNormalization": "נרמול אודיו",
+    "LabelStereoDownmixAlgorithm": "אלגוריתם עירבול מטה לסטריאו",
+    "LabelEncoderPreset": "חבילת קידוד",
+    "LabelEnableLUFSScanHelp": "לקוחות יכולים לנרמל את ניגון האודיו בכדי לקבל עצמה זהה בין שירים. זה יגרום להארכת משך סריקת הספרייה ולצריכת משאבים מוגברת."
 }

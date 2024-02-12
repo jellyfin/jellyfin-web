@@ -24,7 +24,7 @@
     "HeaderSystemDlnaProfiles": "Cấu Hình Hệ Thống",
     "HeaderUsers": "Người dùng",
     "LabelAudioLanguagePreference": "Ngôn ngữ thoại ưa thích",
-    "LabelCountry": "Quốc gia",
+    "LabelCountry": "Quốc gia/Vùng",
     "LabelCurrentPassword": "Mật khẩu hiện tại",
     "LabelDay": "Ngày trong tuần",
     "LabelEnableDlnaPlayTo": "Bật tính năng 'Phát Với' DLNA",
@@ -1760,5 +1760,14 @@
     "MachineTranslated": "Được Máy Dịch",
     "LabelSelectAudioNormalization": "Chuẩn Hóa Âm Thanh",
     "SearchResultsEmpty": "Rất tiếc! Không có kết quả tìm thấy cho \"{0}\"",
-    "HeaderAllRecordings": "Tất Cả Bản Ghi"
+    "HeaderAllRecordings": "Tất Cả Bản Ghi",
+    "LabelTrackGain": "Chỉnh Nhạc",
+    "GridView": "Xem Lưới",
+    "ListView": "Xem Danh Sách",
+    "SelectAudioNormalizationHelp": "Chỉnh nhạc - điều chỉnh âm lượng của mỗi bản nhạc để chúng phát lại với cùng một độ to. Chỉnh Album - điều chỉnh âm lượng của tất cả các bản nhạc trong một album, giữ nguyên dải động của album.",
+    "LabelAlbumGain": "Chỉnh Album",
+    "LabelSegmentKeepSecondsHelp": "Thời gian tính bằng giây mà các phân đoạn cần được giữ lại trước khi chúng bị ghi đè. Phải lớn hơn \"Throle after\". Chỉ hoạt động nếu tính năng xóa phân đoạn được bật.",
+    "MenuClose": "Đóng Menu",
+    "MenuOpen": "Mở Menu",
+    "UserMenu": "Menu Người Dùng"
 }

@@ -16,6 +16,7 @@
                         <option value="nvenc">Nvidia NVENC</option>
                         <option value="qsv">Intel QuickSync (QSV)</option>
                         <option value="vaapi">Video Acceleration API (VAAPI)</option>
+                        <option value="rkmpp">Rockchip MPP (RKMPP)</option>
                         <option value="videotoolbox">Apple VideoToolBox</option>
                         <option value="v4l2m2m">Video4Linux2 (V4L2)</option>
                     </select>
@@ -34,19 +35,23 @@
                         <h3 class="checkboxListLabel">${LabelEnableHardwareDecodingFor}</h3>
                         <div class="checkboxList">
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="h264" data-types="amf,nvenc,qsv,vaapi,videotoolbox,v4l2m2m" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="h264" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox,v4l2m2m" />
                                 <span>H264</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="hevc" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="hevc" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox" />
                                 <span>HEVC</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg2video" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg1video" data-types="rkmpp" />
+                                <span>MPEG1</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg2video" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox" />
                                 <span>MPEG2</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg4" data-types="nvenc,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg4" data-types="nvenc,rkmpp,videotoolbox" />
                                 <span>MPEG4</span>
                             </label>
                             <label>
@@ -54,15 +59,15 @@
                                 <span>VC1</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp8" data-types="nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp8" data-types="nvenc,qsv,vaapi,rkmpp,videotoolbox" />
                                 <span>VP8</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp9" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp9" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox" />
                                 <span>VP9</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="av1" data-types="amf,nvenc,qsv,vaapi" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="av1" data-types="amf,nvenc,qsv,vaapi,rkmpp" />
                                 <span>AV1</span>
                             </label>
                         </div>
