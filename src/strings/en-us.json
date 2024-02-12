@@ -1,6 +1,8 @@
 {
+    "AllowMjpegEncoding": "Allow encoding in MJPEG format (used during trickplay generation)",
     "Trickplay": "Trickplay",
-    "TrickplayHardwareAccel": "Enable hardware acceleration",
+    "LabelTrickplayAccel": "Enable hardware acceleration",
+    "LabelTrickplayAccelHelp": "Make sure to enable 'Allow MJPEG Encoding' in Transcoding if your hardware supports it.",
     "NonBlockingScan": "Non Blocking - queues generation, then returns",
     "BlockingScan": "Blocking - queues generation, blocks scan until complete",
     "LabelScanBehavior": "Scan Behavior",
@@ -25,7 +27,7 @@
     "LabelQscale": "Qscale",
     "LabelQscaleHelp": "The quality scale of images output by ffmpeg, with 2 being the highest quality and 31 being the lowest.",
     "LabelTrickplayThreads": "FFmpeg Threads",
-    "LabelTrickplayThreadsHelp": "The number of threads to pass to the \"-threads\" argument of ffmpeg.",
+    "LabelTrickplayThreadsHelp": "The number of threads to pass to the '-threads' argument of ffmpeg.",
     "OptionExtractTrickplayImage": "Enable trickplay image extraction",
     "ExtractTrickplayImagesHelp": "Trickplay images are similar to chapter images, except they span the entire length of the content and are used to show a preview when scrubbing through videos.",
     "LabelExtractTrickplayDuringLibraryScan": "Extract trickplay images during the library scan",

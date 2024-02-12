@@ -1770,10 +1770,20 @@ export default function (view) {
 
             if (!trickplayResolutions) return false;
 
-            // TODO: just to test. must pick proper resolution and/or check above that trickplay resolutions has at least one key.
+            // Prefer highest resolution <= 20% of total screen resolution width
+            let bestWidth;
+            const maxWidth = window.screen.width * window.devicePixelRatio * 0.2;
+            for (const [, info] of Object.entries(trickplayResolutions)) {
+                if (!bestWidth
+                    || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
+                    || (info.Width > bestWidth && info.Width <= maxWidth)) bestWidth = info.Width;
+            }
+
+            if (!bestWidth) return false;
+
             return updateTrickplayBubbleHtml(
                 ServerConnections.getApiClient(item.ServerId),
-                trickplayResolutions[Object.keys(trickplayResolutions)[0]],
+                trickplayResolutions[bestWidth.toString()],
                 item,
                 mediaSourceId,
                 bubble,
