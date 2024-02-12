@@ -4,6 +4,8 @@ import { toBoolean } from '../../utils/string';
 import type { ApiClient } from 'jellyfin-apiclient';
 import type { DisplayPreferencesDto, UserConfiguration } from '@jellyfin/sdk/lib/generated-client';
 
+type Nullish<T> = T | null | undefined | void;
+
 interface DisplayPreferences extends DisplayPreferencesDto {
     CustomPrefs: Record<string, string>;
 }
@@ -41,10 +43,10 @@ const defaultComicsPlayerSettings: ComicsPlayerSettings = {
 };
 
 export class UserSettings {
-    saveTimeout: ReturnType<typeof setTimeout>| null | undefined;
+    saveTimeout: Nullish<ReturnType<typeof setTimeout>>;
     currentUserId: string | undefined;
-    displayPrefs: DisplayPreferences | null | undefined;
-    currentApiClient: ApiClient | null | undefined;
+    displayPrefs: Nullish<DisplayPreferences>;
+    currentApiClient: Nullish<ApiClient>;
 
     /**
      * Bind UserSettings instance to user.
@@ -341,7 +343,7 @@ export class UserSettings {
      */
     customCss(): string | null;
     customCss(val: string): void;
-    customCss(val?: string): string | null | void {
+    customCss(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('customCss', val.toString(), false);
         }
@@ -386,7 +388,7 @@ export class UserSettings {
      */
     language(): string | null;
     language(val: string): void;
-    language(val?: string): string | null | void {
+    language(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('language', val.toString(), false);
         }
@@ -401,7 +403,7 @@ export class UserSettings {
      */
     dateTimeLocale(): string | null;
     dateTimeLocale(val: string): void;
-    dateTimeLocale(val?: string): string | null | void {
+    dateTimeLocale(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('datetimelocale', val.toString(), false);
         }
@@ -438,7 +440,7 @@ export class UserSettings {
      */
     dashboardTheme(): string | null;
     dashboardTheme(val: string): void;
-    dashboardTheme(val?: string): string | null | void {
+    dashboardTheme(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('dashboardTheme', val);
         }
@@ -453,7 +455,7 @@ export class UserSettings {
      */
     skin(): string | null;
     skin(val: string): void;
-    skin(val?: string): string | null | void {
+    skin(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('skin', val, false);
         }
@@ -468,7 +470,7 @@ export class UserSettings {
      */
     theme(): string | null;
     theme(val: string): void;
-    theme(val?: string): string | null | void {
+    theme(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('appTheme', val, false);
         }
@@ -483,7 +485,7 @@ export class UserSettings {
      */
     screensaver(): string | null;
     screensaver(val: string): void;
-    screensaver(val?: string): string | null | void {
+    screensaver(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('screensaver', val, false);
         }
@@ -546,7 +548,7 @@ export class UserSettings {
      */
     soundEffects(): string | null;
     soundEffects(val: string): void;
-    soundEffects(val?: string): string | null | void {
+    soundEffects(val?: string): Nullish<string> {
         if (val !== undefined) {
             return this.set('soundeffects', val, false);
         }
