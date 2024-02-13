@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React, { type DetailedHTMLProps, type InputHTMLAttributes, type FC, useState, useCallback } from 'react';
 
 import './emby-input.scss';
-import classNames from 'classnames';
 
 interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     id: string,

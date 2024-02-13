@@ -1257,9 +1257,13 @@ function renderTags(page, item) {
         tags = [];
     }
 
-    for (let i = 0, length = tags.length; i < length; i++) {
-        tagElements.push('<a href="#/search.html?query=' + encodeURIComponent(tags[i]) + '" class="button-link emby-button" is="emby-linkbutton">' + tags[i] + '</a>');
-    }
+    tags.forEach(tag => {
+        tagElements.push(
+            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            + escapeHtml(tag)
+            + '</a>'
+        );
+    });
 
     if (tagElements.length) {
         itemTags.innerHTML = globalize.translate('TagsValue', tagElements.join(', '));
