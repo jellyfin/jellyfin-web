@@ -1,41 +1,36 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { type FC, useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import Page from '../../../components/Page';
-import SearchFields from '../../../components/search/SearchFields';
-import SearchResults from '../../../components/search/SearchResults';
-import SearchSuggestions from '../../../components/search/SearchSuggestions';
-import LiveTVSearchResults from '../../../components/search/LiveTVSearchResults';
-import globalize from '../../../scripts/globalize';
-import { history } from '../../../components/router/appRouter';
+import Page from 'components/Page';
+import SearchFields from 'components/search/SearchFields';
+import SearchResults from 'components/search/SearchResults';
+import SearchSuggestions from 'components/search/SearchSuggestions';
+import LiveTVSearchResults from 'components/search/LiveTVSearchResults';
+import { usePrevious } from 'hooks/usePrevious';
+import globalize from 'scripts/globalize';
 
-function usePrevious(value: string) {
-    const ref = useRef<string>('');
-    useEffect(() => {
-        ref.current = value;
-    });
-    return ref.current;
-}
-
-const Search: FunctionComponent = () => {
-    const [ searchParams ] = useSearchParams();
+const Search: FC = () => {
+    const navigate = useNavigate();
+    const [ searchParams, setSearchParams ] = useSearchParams();
     const urlQuery = searchParams.get('query') || '';
-    const [ query, setQuery ] = useState<string>(urlQuery);
-    const prevQuery = usePrevious(query);
-
-    if (query == prevQuery && urlQuery != query) {
-        setQuery(urlQuery);
-    }
+    const [ query, setQuery ] = useState(urlQuery);
+    const prevQuery = usePrevious(query, '');
 
     useEffect(() => {
-        const newSearch = query ? `?query=${query}` : '';
-        if (query != prevQuery && newSearch != history.location.search) {
-            /* Explicitly using `window.history.pushState` instead of `history.replace` as the use of the latter
-            triggers a re-rendering of this component, resulting in double-execution searches. If there's a
-            way to use `history` without this side effect, it would likely be preferable. */
-            window.history.pushState({}, '', `/#${history.location.pathname}${newSearch}`);
+        if (query !== prevQuery) {
+            if (query === '' && urlQuery !== '') {
+                // The query input has been cleared; navigate back to the search landing page
+                navigate(-1);
+            } else if (query !== urlQuery) {
+                // Update the query url param value
+                searchParams.set('query', query);
+                setSearchParams(searchParams, { replace: !!urlQuery });
+            }
+        } else if (query !== urlQuery) {
+            // Update the query if the query url param has changed
+            setQuery(urlQuery);
         }
-    }, [query, prevQuery]);
+    }, [query, prevQuery, navigate, searchParams, setSearchParams, urlQuery]);
 
     return (
         <Page
