@@ -984,7 +984,7 @@
     "LabelCustomCertificatePathHelp": "Path to a PKCS #12 file containing a certificate and private key to enable TLS support on a custom domain.",
     "LabelCurrentPassword": "Current password",
     "LabelCriticRating": "Critics rating",
-    "LabelCountry": "Country",
+    "LabelCountry": "Country/Region",
     "LabelContentType": "Content type",
     "LabelCommunityRating": "Community rating",
     "LabelCertificatePassword": "Certificate password",
