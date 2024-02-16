@@ -14,11 +14,21 @@ import { LibraryTab } from 'types/libraryTab';
 import { getBackdropShape, getPortraitShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
+import { getPluginsPreLoaded } from 'scripts/settings/webSettings';
 
 import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-tabs/emby-tabs';
 import 'elements/emby-button/emby-button';
+
+const TAB_INDEX_MAPPING = {
+    [LibraryTab.Movies]: 0,
+    [LibraryTab.Suggestions]: 1,
+    [LibraryTab.Favorites]: 2,
+    [LibraryTab.Collections]: 3,
+    [LibraryTab.Genres]: 4,
+    [LibraryTab.Trailers]: 5
+};
 
 function enableScrollX() {
     return !layoutManager.desktop;
@@ -227,7 +237,7 @@ function loadSuggestionsTab(view, params, tabContent) {
 }
 
 function getTabs() {
-    return [{
+    const tabList = [{
         name: globalize.translate('Movies')
     }, {
         name: globalize.translate('Suggestions')
@@ -238,25 +248,19 @@ function getTabs() {
     }, {
         name: globalize.translate('Genres')
     }];
+
+    // Only show the 'Trailers' tab if there is a trailer provider plugin
+    const plugins = getPluginsPreLoaded();
+    if (plugins.some((p) => p.toLowerCase().includes('trailer'))) {
+        tabList.push({
+            name: globalize.translate('Trailers')
+        });
+    }
+    return tabList;
 }
 
 function getDefaultTabIndex(folderId) {
-    switch (userSettings.get('landing-' + folderId)) {
-        case LibraryTab.Suggestions:
-            return 1;
-
-        case LibraryTab.Favorites:
-            return 3;
-
-        case LibraryTab.Collections:
-            return 4;
-
-        case LibraryTab.Genres:
-            return 5;
-
-        default:
-            return 0;
-    }
+    return TAB_INDEX_MAPPING[userSettings.get('landing-' + folderId)] ?? 0;
 }
 
 export default function (view, params) {
@@ -281,27 +285,27 @@ export default function (view, params) {
         let depends = '';
 
         switch (index) {
-            case 0:
+            case TAB_INDEX_MAPPING[LibraryTab.Movies]:
                 depends = 'movies';
                 break;
 
-            case 1:
+            case TAB_INDEX_MAPPING[LibraryTab.Suggestions]:
                 depends = 'moviesrecommended.js';
                 break;
 
-            case 2:
+            case TAB_INDEX_MAPPING[LibraryTab.Trailers]:
                 depends = 'movietrailers';
                 break;
 
-            case 3:
+            case TAB_INDEX_MAPPING[LibraryTab.Favorites]:
                 depends = 'movies';
                 break;
 
-            case 4:
+            case TAB_INDEX_MAPPING[LibraryTab.Collections]:
                 depends = 'moviecollections';
                 break;
 
-            case 5:
+            case TAB_INDEX_MAPPING[LibraryTab.Genres]:
                 depends = 'moviegenres';
                 break;
         }
@@ -309,7 +313,7 @@ export default function (view, params) {
         import(`../movies/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
-            if (index === suggestionsTabIndex) {
+            if (index === TAB_INDEX_MAPPING[LibraryTab.Suggestions]) {
                 tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                 this.tabContent = tabContent;
             }
@@ -319,14 +323,22 @@ export default function (view, params) {
             if (!controller) {
                 tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                if (index === suggestionsTabIndex) {
-                    controller = this;
-                } else if (index == 0 || index == 3) {
-                    controller = new ControllerFactory(view, params, tabContent, {
-                        mode: index ? 'favorites' : 'movies'
-                    });
-                } else {
-                    controller = new ControllerFactory(view, params, tabContent);
+                switch (index) {
+                    case TAB_INDEX_MAPPING[LibraryTab.Suggestions]:
+                        controller = this;
+                        break;
+                    case TAB_INDEX_MAPPING[LibraryTab.Movies]:
+                        controller = new ControllerFactory(
+                            view, params, tabContent, { mode: 'movies' }
+                        );
+                        break;
+                    case TAB_INDEX_MAPPING[LibraryTab.Favorites]:
+                        controller = new ControllerFactory(
+                            view, params, tabContent, { mode: 'favorites' }
+                        );
+                        break;
+                    default:
+                        controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 tabControllers[index] = controller;
@@ -373,15 +385,14 @@ export default function (view, params) {
     }
 
     let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
-    const suggestionsTabIndex = 1;
 
     this.initTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(".pageTabContent[data-index='" + TAB_INDEX_MAPPING[LibraryTab.Suggestions] + "']");
         initSuggestedTab(view, tabContent);
     };
 
     this.renderTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(".pageTabContent[data-index='" + TAB_INDEX_MAPPING[LibraryTab.Suggestions] + "']");
         loadSuggestionsTab(view, params, tabContent);
     };
 
