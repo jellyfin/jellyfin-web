@@ -25,31 +25,44 @@ export enum SectionApiMethod {
     ResumeItems = 'resumeItems',
     LatestMedia = 'latestMedia',
     NextUp = 'nextUp',
-    RecommendedPrograms = 'RecommendedPrograms',
+    RecommendedPrograms = 'recommendedPrograms',
     LiveTvPrograms = 'liveTvPrograms',
-    Recordings = 'Recordings',
-    RecordingFolders = 'RecordingFolders',
+    Recordings = 'recordings',
+    RecordingFolders = 'recordingFolders',
+    Artists = 'artists',
+    Persons = 'persons',
 }
 
 export enum SectionType {
-    ContinueWatchingMovies = 'continuewatchingmovies',
-    LatestMovies = 'latestmovies',
-    ContinueWatchingEpisode = 'continuewatchingepisode',
-    LatestEpisode = 'latestepisode',
+    ContinueWatchingMovies = 'continueWatchingMovies',
+    LatestMovies = 'latestMovies',
+    ContinueWatchingEpisode = 'continueWatchingEpisode',
+    LatestEpisode = 'latestEpisode',
     NextUp = 'nextUp',
-    LatestMusic = 'latestmusic',
-    RecentlyPlayedMusic = 'recentlyplayedmusic',
-    FrequentlyPlayedMusic = 'frequentlyplayedmusic',
-    ActivePrograms = 'ActivePrograms',
-    UpcomingEpisodes = 'UpcomingEpisodes',
-    UpcomingMovies = 'UpcomingMovies',
-    UpcomingSports = 'UpcomingSports',
-    UpcomingKids = 'UpcomingKids',
-    UpcomingNews = 'UpcomingNews',
-    LatestRecordings = 'LatestRecordings',
-    RecordingFolders = 'RecordingFolders',
-    ActiveRecordings = 'ActiveRecordings',
-    UpcomingRecordings = 'UpcomingRecordings'
+    LatestMusic = 'latestMusic',
+    RecentlyPlayedMusic = 'recentlyPlayedMusic',
+    FrequentlyPlayedMusic = 'frequentlyPlayedMusic',
+    ActivePrograms = 'activePrograms',
+    UpcomingEpisodes = 'upcomingEpisodes',
+    UpcomingMovies = 'upcomingMovies',
+    UpcomingSports = 'upcomingSports',
+    UpcomingKids = 'upcomingKids',
+    UpcomingNews = 'upcomingNews',
+    LatestRecordings = 'latestRecordings',
+    RecordingFolders = 'recordingFolders',
+    ActiveRecordings = 'activeRecordings',
+    UpcomingRecordings = 'upcomingRecordings',
+    FavoriteMovies = 'favoriteMovies',
+    FavoriteShows = 'favoriteShows',
+    FavoriteEpisode = 'favoriteEpisode',
+    FavoriteVideos = 'favoriteVideos',
+    FavoriteCollections = 'favoriteCollections',
+    FavoritePlaylists = 'favoritePlaylists',
+    FavoritePeople = 'favoritePeople',
+    FavoriteArtists = 'favoriteArtists',
+    FavoriteAlbums = 'favoriteAlbums',
+    FavoriteSongs = 'favoriteSongs',
+    FavoriteBooks = 'favoriteBooks',
 }
 
 export interface Section {
@@ -69,6 +82,13 @@ export const MovieSuggestionsSectionsView: SectionsView = {
     isMovieRecommendations: true
 };
 
+export const MovieFavoritesSectionsView: SectionsView = {
+    favoriteSections: [
+        SectionType.FavoriteMovies,
+        SectionType.FavoriteCollections
+    ]
+};
+
 export const TvShowSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
         SectionType.ContinueWatchingEpisode,
@@ -77,11 +97,26 @@ export const TvShowSuggestionsSectionsView: SectionsView = {
     ]
 };
 
+export const TvShowFavoritesSectionsView: SectionsView = {
+    favoriteSections: [
+        SectionType.FavoriteShows,
+        SectionType.FavoriteEpisode
+    ]
+};
+
 export const MusicSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
         SectionType.LatestMusic,
         SectionType.FrequentlyPlayedMusic,
         SectionType.RecentlyPlayedMusic
+    ]
+};
+
+export const MusicFavoritesSectionsView: SectionsView = {
+    favoriteSections: [
+        SectionType.FavoriteArtists,
+        SectionType.FavoriteAlbums,
+        SectionType.FavoriteSongs
     ]
 };
 

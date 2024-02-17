@@ -30,7 +30,8 @@ const MainDrawerContent = () => {
     const userViews = userViewsData?.Items || [];
     const webConfig = useWebConfig();
 
-    const isHomeSelected = location.pathname === '/home.html' && (!location.search || location.search === '?tab=0');
+    const isHomeSelected = location.pathname === '/home.html';
+    const isFavoritesSelected = location.pathname === '/favorites';
 
     return (
         <>
@@ -48,7 +49,7 @@ const MainDrawerContent = () => {
                     </ListItemLink>
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemLink to='/home.html?tab=1'>
+                    <ListItemLink to='/favorites' selected={isFavoritesSelected}>
                         <ListItemIcon>
                             <Favorite />
                         </ListItemIcon>
