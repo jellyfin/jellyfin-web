@@ -1,5 +1,5 @@
 import React, { type FC, useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';
 import SearchFields from 'components/search/SearchFields';
@@ -15,7 +15,6 @@ const QUERY_PARAM = 'query';
 const SERVER_ID_PARAM = 'serverId';
 
 const Search: FC = () => {
-    const navigate = useNavigate();
     const [ searchParams, setSearchParams ] = useSearchParams();
     const urlQuery = searchParams.get(QUERY_PARAM) || '';
     const [ query, setQuery ] = useState(urlQuery);
@@ -41,7 +40,7 @@ const Search: FC = () => {
 
             setQuery(urlQuery);
         }
-    }, [query, prevQuery, navigate, searchParams, setSearchParams, urlQuery]);
+    }, [query, prevQuery, searchParams, setSearchParams, urlQuery]);
 
     return (
         <Page

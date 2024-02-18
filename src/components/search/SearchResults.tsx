@@ -340,7 +340,9 @@ const SearchResults: FC<SearchResultsProps> = ({ serverId = window.ApiClient.ser
                     />
 
                     {allEmpty && debouncedQuery && !isLoading && (
-                        <div className='sorry-text'>{globalize.translate('SearchResultsEmpty', debouncedQuery)}</div>
+                        <div className='noItemsMessage centerMessage'>
+                            {globalize.translate('SearchResultsEmpty', debouncedQuery)}
+                        </div>
                     )}
                 </>
             )}
