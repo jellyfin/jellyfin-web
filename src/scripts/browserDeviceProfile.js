@@ -394,8 +394,7 @@ export function canPlaySecondaryAudio(videoTestElement) {
         && !browser.firefox
         // It seems to work on Tizen 5.5+ (2020, Chrome 69+). See https://developer.tizen.org/forums/web-application-development/video-tag-not-work-audiotracks
         && (browser.tizenVersion >= 5.5 || !browser.tizen)
-        // Assume webOS 5+ (2020, Chrome 68+) supports secondary audio like Tizen 5.5+
-        && (browser.web0sVersion >= 5.0 || !browser.web0sVersion);
+        && (browser.web0sVersion >= 4.0 || !browser.web0sVersion);
 }
 
 export default function (options) {
