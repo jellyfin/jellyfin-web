@@ -10,14 +10,13 @@ import ButtonElement from '../../../../elements/ButtonElement';
 import { getParameterByName } from '../../../../utils/url';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import CheckBox from '../../../../elements/emby-checkbox/Checkbox';
 import Page from '../../../../components/Page';
 
 type ItemsArr = {
-    Name?: string;
-    Id?: string;
-    AppName?: string;
-    checkedAttribute?: string
+    title?: string;
+    id?: string;
+    defaultChecked?: boolean
 };
 
 const UserLibraryAccess: FunctionComponent = () => {
@@ -45,11 +44,10 @@ const UserLibraryAccess: FunctionComponent = () => {
 
         for (const folder of mediaFolders) {
             const isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
-            const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
-                Id: folder.Id,
-                Name: folder.Name,
-                checkedAttribute: checkedAttribute
+                id: folder.Id,
+                title: folder.Name,
+                defaultChecked: isChecked
             });
         }
 
@@ -72,11 +70,10 @@ const UserLibraryAccess: FunctionComponent = () => {
 
         for (const folder of channels) {
             const isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
-            const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
-                Id: folder.Id,
-                Name: folder.Name,
-                checkedAttribute: checkedAttribute
+                id: folder.Id,
+                title: folder.Name,
+                defaultChecked: isChecked
             });
         }
 
@@ -105,12 +102,10 @@ const UserLibraryAccess: FunctionComponent = () => {
 
         for (const device of devices) {
             const isChecked = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1;
-            const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
-                Id: device.Id,
-                Name: device.Name,
-                AppName: device.AppName,
-                checkedAttribute: checkedAttribute
+                id: device.Id,
+                title: makeTitle(device.Name, device.AppName),
+                defaultChecked: isChecked
             });
         }
 
@@ -256,12 +251,12 @@ const UserLibraryAccess: FunctionComponent = () => {
                         description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
+                            <CheckBox
+                                key={Item.id}
                                 className='chkFolder'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
-                                itemCheckedAttribute={Item.checkedAttribute}
+                                data-id={Item.id}
+                                label={Item.title}
+                                defaultChecked={Item.defaultChecked}
                             />
                         ))}
                     </AccessContainer>
@@ -277,12 +272,12 @@ const UserLibraryAccess: FunctionComponent = () => {
                         description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
+                            <CheckBox
+                                key={Item.id}
                                 className='chkChannel'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
-                                itemCheckedAttribute={Item.checkedAttribute}
+                                data-id={Item.id}
+                                label={Item.title}
+                                defaultChecked={Item.defaultChecked}
                             />
                         ))}
                     </AccessContainer>
@@ -298,13 +293,12 @@ const UserLibraryAccess: FunctionComponent = () => {
                         description='DeviceAccessHelp'
                     >
                         {devicesItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
+                            <CheckBox
+                                key={Item.id}
                                 className='chkDevice'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
-                                itemAppName={Item.AppName}
-                                itemCheckedAttribute={Item.checkedAttribute}
+                                data-id={Item.id}
+                                label={Item.title}
+                                defaultChecked={Item.defaultChecked}
                             />
                         ))}
                     </AccessContainer>
@@ -322,5 +316,13 @@ const UserLibraryAccess: FunctionComponent = () => {
 
     );
 };
+
+function makeTitle(name: string, appName: string | undefined) {
+    let title = name;
+    if (appName) {
+        title += ' ' + appName;
+    }
+    return title;
+}
 
 export default UserLibraryAccess;

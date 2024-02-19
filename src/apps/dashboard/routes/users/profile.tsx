@@ -6,7 +6,7 @@ import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../scripts/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
 import ButtonElement from '../../../../elements/ButtonElement';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import CheckBox from '../../../../elements/emby-checkbox/Checkbox';
 import InputElement from '../../../../elements/InputElement';
 import LinkEditUserPreferences from '../../../../components/dashboard/users/LinkEditUserPreferences';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -376,23 +376,23 @@ const UserEdit: FunctionComponent = () => {
                         </div>
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription fldRemoteAccess hide'>
-                        <CheckBoxElement
+                        <CheckBox
                             className='chkRemoteAccess'
-                            title='AllowRemoteAccess'
+                            label={globalize.translate('AllowRemoteAccess')}
                         />
                         <div className='fieldDescription checkboxFieldDescription'>
                             {globalize.translate('AllowRemoteAccessHelp')}
                         </div>
                     </div>
-                    <CheckBoxElement
+                    <CheckBox
                         labelClassName='checkboxContainer'
                         className='chkIsAdmin'
-                        title='OptionAllowUserToManageServer'
+                        label={globalize.translate('OptionAllowUserToManageServer')}
                     />
-                    <CheckBoxElement
+                    <CheckBox
                         labelClassName='checkboxContainer'
                         className='chkEnableCollectionManagement'
-                        title='AllowCollectionManagement'
+                        label={globalize.translate('AllowCollectionManagement')}
                     />
                     <CheckBoxElement
                         labelClassName='checkboxContainer'
@@ -404,13 +404,13 @@ const UserEdit: FunctionComponent = () => {
                             {globalize.translate('HeaderFeatureAccess')}
                         </h2>
                         <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkEnableLiveTvAccess'
-                                title='OptionAllowBrowsingLiveTv'
+                                label={globalize.translate('OptionAllowBrowsingLiveTv')}
                             />
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkManageLiveTv'
-                                title='OptionAllowManageLiveTv'
+                                label={globalize.translate('OptionAllowManageLiveTv')}
                             />
                         </div>
                     </div>
@@ -419,25 +419,25 @@ const UserEdit: FunctionComponent = () => {
                             {globalize.translate('HeaderPlayback')}
                         </h2>
                         <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkEnableMediaPlayback'
-                                title='OptionAllowMediaPlayback'
+                                label={globalize.translate('OptionAllowMediaPlayback')}
                             />
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkEnableAudioPlaybackTranscoding'
-                                title='OptionAllowAudioPlaybackTranscoding'
+                                label={globalize.translate('OptionAllowAudioPlaybackTranscoding')}
                             />
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkEnableVideoPlaybackTranscoding'
-                                title='OptionAllowVideoPlaybackTranscoding'
+                                label={globalize.translate('OptionAllowVideoPlaybackTranscoding')}
                             />
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkEnableVideoPlaybackRemuxing'
-                                title='OptionAllowVideoPlaybackRemuxing'
+                                label={globalize.translate('OptionAllowVideoPlaybackRemuxing')}
                             />
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkForceRemoteSourceTranscoding'
-                                title='OptionForceRemoteSourceTranscoding'
+                                label={globalize.translate('OptionForceRemoteSourceTranscoding')}
                             />
                         </div>
                         <div className='fieldDescription'>
@@ -479,19 +479,19 @@ const UserEdit: FunctionComponent = () => {
                             {globalize.translate('HeaderAllowMediaDeletionFrom')}
                         </h2>
                         <div className='checkboxList paperList checkboxList-paperList'>
-                            <CheckBoxElement
+                            <CheckBox
                                 labelClassName='checkboxContainer'
                                 className='chkEnableDeleteAllFolders'
-                                title='AllLibraries'
+                                label={globalize.translate('AllLibraries')}
                             />
                             <div className='deleteAccess'>
                                 {deleteFoldersAccess.map(Item => (
-                                    <CheckBoxElement
+                                    <CheckBox
                                         key={Item.Id}
                                         className='chkFolder'
-                                        itemId={Item.Id}
-                                        itemName={Item.Name}
-                                        itemCheckedAttribute={Item.checkedAttribute}
+                                        data-id={Item.Id}
+                                        label={Item.Name}
+                                        defaultChecked={!!Item.checkedAttribute}
                                     />
                                 ))}
                             </div>
@@ -502,13 +502,13 @@ const UserEdit: FunctionComponent = () => {
                             {globalize.translate('HeaderRemoteControl')}
                         </h2>
                         <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkEnableRemoteControlOtherUsers'
-                                title='OptionAllowRemoteControlOthers'
+                                label={globalize.translate('OptionAllowRemoteControlOthers')}
                             />
-                            <CheckBoxElement
+                            <CheckBox
                                 className='chkRemoteControlSharedDevices'
-                                title='OptionAllowRemoteSharedDevices'
+                                label={globalize.translate('OptionAllowRemoteSharedDevices')}
                             />
                         </div>
                         <div className='fieldDescription'>
@@ -519,27 +519,27 @@ const UserEdit: FunctionComponent = () => {
                         {globalize.translate('Other')}
                     </h2>
                     <div className='checkboxContainer checkboxContainer-withDescription'>
-                        <CheckBoxElement
+                        <CheckBox
                             className='chkEnableDownloading'
-                            title='OptionAllowContentDownload'
+                            label={globalize.translate('OptionAllowContentDownload')}
                         />
                         <div className='fieldDescription checkboxFieldDescription'>
                             {globalize.translate('OptionAllowContentDownloadHelp')}
                         </div>
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsEnabled'>
-                        <CheckBoxElement
+                        <CheckBox
                             className='chkDisabled'
-                            title='OptionDisableUser'
+                            label={globalize.translate('OptionDisableUser')}
                         />
                         <div className='fieldDescription checkboxFieldDescription'>
                             {globalize.translate('OptionDisableUserHelp')}
                         </div>
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsHidden'>
-                        <CheckBoxElement
+                        <CheckBox
                             className='chkIsHidden'
-                            title='OptionHideUser'
+                            label={globalize.translate('OptionHideUser')}
                         />
                         <div className='fieldDescription checkboxFieldDescription'>
                             {globalize.translate('OptionHideUserFromLoginHelp')}
