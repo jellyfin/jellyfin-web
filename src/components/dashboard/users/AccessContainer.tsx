@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import globalize from '../../../scripts/globalize';
-import CheckBoxElement from '../../../elements/CheckBoxElement';
+import CheckBox from '../../../elements/emby-checkbox/Checkbox';
 
 type IProps = {
     containerClassName?: string;
@@ -18,10 +18,10 @@ const AccessContainer: FunctionComponent<IProps> = ({ containerClassName, header
     return (
         <div className={containerClassName}>
             <h2>{globalize.translate(headerTitle)}</h2>
-            <CheckBoxElement
+            <CheckBox
                 labelClassName='checkboxContainer'
                 className={checkBoxClassName}
-                title={checkBoxTitle}
+                label={globalize.translate(checkBoxTitle)}
             />
             <div className={listContainerClassName}>
                 <div className={accessClassName}>

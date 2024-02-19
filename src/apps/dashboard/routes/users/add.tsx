@@ -8,7 +8,7 @@ import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import InputElement from '../../../../elements/InputElement';
 import ButtonElement from '../../../../elements/ButtonElement';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import CheckBox from '../../../../elements/emby-checkbox/Checkbox';
 import Page from '../../../../components/Page';
 
 type userInput = {
@@ -218,11 +218,11 @@ const UserNew: FunctionComponent = () => {
                         description='LibraryAccessHelp'
                     >
                         {mediaFoldersItems.map(Item => (
-                            <CheckBoxElement
+                            <CheckBox
                                 key={Item.Id}
                                 className='chkFolder'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
+                                data-id={Item.Id}
+                                label={Item.Name}
                             />
                         ))}
                     </AccessContainer>
@@ -238,11 +238,11 @@ const UserNew: FunctionComponent = () => {
                         description='ChannelAccessHelp'
                     >
                         {channelsItems.map(Item => (
-                            <CheckBoxElement
+                            <CheckBox
                                 key={Item.Id}
                                 className='chkChannel'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
+                                data-id={Item.Id}
+                                label={Item.Name}
                             />
                         ))}
                     </AccessContainer>
