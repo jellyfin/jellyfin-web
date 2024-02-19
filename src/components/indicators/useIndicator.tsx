@@ -63,7 +63,7 @@ const useIndicator = (item: ItemDto) => {
     const getMediaSourceIndicator = () => {
         const mediaSourceCount = item.MediaSourceCount ?? 0;
         if (mediaSourceCount > 1) {
-            return <Box className='mediaSourceIndicator'>mediaSourceCount</Box>;
+            return <Box className='mediaSourceIndicator'>{mediaSourceCount}</Box>;
         }
 
         return null;
