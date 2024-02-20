@@ -511,6 +511,7 @@ function setImageOptionsIntoOptions(options) {
 
 export function getLibraryOptions(parent) {
     const options = {
+        Disabled: !parent.querySelector('.chkEnabled').checked,
         EnableArchiveMediaFiles: false,
         EnablePhotos: parent.querySelector('.chkEnablePhotos').checked,
         EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
@@ -574,6 +575,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#selectCountry').value = options.MetadataCountryCode || '';
     parent.querySelector('#selectAutoRefreshInterval').value = options.AutomaticRefreshIntervalDays || '0';
     parent.querySelector('#txtSeasonZeroName').value = options.SeasonZeroDisplayName || 'Specials';
+    parent.querySelector('.chkEnabled').checked = !options.Disabled;
     parent.querySelector('.chkEnablePhotos').checked = options.EnablePhotos;
     parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
     parent.querySelector('.chkEnableLUFSScan').checked = options.EnableLUFSScan;
