@@ -14,4 +14,8 @@ export declare global {
     interface DocumentEventMap {
         'viewshow': CustomEvent;
     }
+
+    const __JF_BUILD_VERSION__: string;
+    const __USE_SYSTEM_FONTS__: string;
+    const __WEBPACK_SERVE__: string;
 }

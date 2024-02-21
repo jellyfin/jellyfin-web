@@ -47,6 +47,10 @@ const config = {
     },
     plugins: [
         new DefinePlugin({
+            __JF_BUILD_VERSION__: JSON.stringify(
+                process.env.WEBPACK_SERVE ?
+                    'Dev Server' :
+                    process.env.JELLYFIN_VERSION || 'Release'),
             __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
             __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
         }),
