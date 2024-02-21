@@ -1782,5 +1782,8 @@
     "LabelTrackGain": "Na úrovni skladby",
     "SelectAudioNormalizationHelp": "Normalizace na úrovni skladby upraví hlasitost všech skladeb tak, aby byla všude stejná. Normalizace na úrovni alba upraví hlasitost všech skladeb tak, aby byla hlasitost stejná v rámci jednotlivých alb.",
     "SearchResultsEmpty": "Pro “{0}” nebylo nic nalezeno",
-    "HeaderAllRecordings": "Všechny nahrávky"
+    "HeaderAllRecordings": "Všechny nahrávky",
+    "LabelBuildVersion": "Verze sestavení",
+    "LabelServerVersion": "Verze serveru",
+    "LabelWebVersion": "Verze webu"
 }
