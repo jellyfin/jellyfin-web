@@ -95,7 +95,7 @@
     "BoxSet": "बॉक्स सेट",
     "BurnSubtitlesHelp": "निर्धारित करता है कि वीडियो ट्रांसकोडिंग करते समय सर्वर को उपशीर्षक बर्न-इन करना चाहिए। इससे बचने से प्रदर्शन में बहुत सुधार होगा। छवि आधारित उपशीर्षक (VOBSUB, PGS, SUB, IDX, …) एवं ASS अथवा SSA जैसे उपशीर्षक बर्न-इन करने के लिए ऑटो का चयन करें।",
     "ButtonRemove": "हटाना",
-    "ButtonOpen": "खोलो",
+    "ButtonEditUser": "खोलो",
     "HeaderContinueWatching": "देखते रहिए",
     "HeaderAlbumArtists": "एल्बम कलाकार",
     "Genres": "शैली",
