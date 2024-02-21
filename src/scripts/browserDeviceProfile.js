@@ -923,6 +923,15 @@ export default function (options) {
             Value: 'false',
             IsRequired: false
         });
+
+        if (browser.firefox || browser.tizen || browser.web0s) {
+            profile.SingleAudioPolicy = 'FirstSupported';
+        } else if (browser.chrome) {
+            // Chrome 115+ detects only default audio tracks - BROKEN
+            profile.SingleAudioPolicy = browser.versionMajor >= 115 ? 'DefaultSupported' : 'FirstSupported';
+        } else {
+            profile.SingleAudioPolicy = 'First';
+        }
     }
 
     if (globalAudioCodecProfileConditions.length) {
