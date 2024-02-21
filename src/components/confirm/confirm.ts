@@ -81,11 +81,9 @@ async function customConfirm(options: string | ConfirmOptions, title: string) {
     });
 }
 
-async function confirm(options: string | ConfirmOptions, title?: string) {
+export default function confirm(options: string | ConfirmOptions, title?: string) {
     if (shouldUseNativeConfirm()) {
         return nativeConfirm(options);
     }
     return customConfirm(options, title ?? '');
 }
-
-export default confirm;
