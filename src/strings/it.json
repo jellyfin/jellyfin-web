@@ -431,7 +431,7 @@
     "LabelCollection": "Collezione",
     "LabelCommunityRating": "Voto del pubblico",
     "LabelContentType": "Tipo di contenuto",
-    "LabelCountry": "Nazione",
+    "LabelCountry": "Nazione/Regione",
     "LabelCriticRating": "Voto della critica",
     "LabelCurrentPassword": "Password corrente",
     "LabelCustomCertificatePath": "Percorso personalizzato certificato SSL",
@@ -1782,5 +1782,8 @@
     "AiTranslated": "Traduzione con AI",
     "HeaderGuestCast": "Personaggi Famosi",
     "SearchResultsEmpty": "Ci dispiace! Nessun risultato trovato per \"{0}\"",
-    "HeaderAllRecordings": "Tutte le registrazioni"
+    "HeaderAllRecordings": "Tutte le registrazioni",
+    "LabelBuildVersion": "Versione Compilata",
+    "LabelServerVersion": "Versione server",
+    "LabelWebVersion": "Versione web"
 }
