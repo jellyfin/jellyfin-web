@@ -449,7 +449,7 @@
     "LabelCollection": "Collection",
     "LabelCommunityRating": "Note de la communauté",
     "LabelContentType": "Type de contenu",
-    "LabelCountry": "Pays",
+    "LabelCountry": "Pays/Région",
     "LabelCriticRating": "Note des critiques",
     "LabelCurrentPassword": "Mot de passe actuel",
     "LabelCustomCertificatePath": "Chemin vers le certificat SSL personnalisé",
@@ -1782,5 +1782,8 @@
     "LabelAlbumGain": "Gain de l'album",
     "LabelSelectAudioNormalization": "Normalisation de l'audio",
     "LabelTrackGain": "Gain de piste",
-    "HeaderAllRecordings": "Tous les enregistrements"
+    "HeaderAllRecordings": "Tous les enregistrements",
+    "LabelBuildVersion": "Numéro de build",
+    "LabelServerVersion": "Version du serveur",
+    "LabelWebVersion": "Version web"
 }

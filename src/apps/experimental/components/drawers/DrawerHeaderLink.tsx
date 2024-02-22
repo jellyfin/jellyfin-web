@@ -3,15 +3,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import React from 'react';
 
-import { useApi } from 'hooks/useApi';
 import { useSystemInfo } from 'hooks/useSystemInfo';
 import ListItemLink from 'components/ListItemLink';
 
 import appIcon from 'assets/img/icon-transparent.png';
 
 const DrawerHeaderLink = () => {
-    const { api } = useApi();
-    const { data: systemInfo } = useSystemInfo(api);
+    const { data: systemInfo } = useSystemInfo();
 
     return (
         <ListItemLink to='/'>

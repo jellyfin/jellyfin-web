@@ -428,7 +428,7 @@
     "LabelCollection": "Sammlung",
     "LabelCommunityRating": "Community Bewertung",
     "LabelContentType": "Typ des Inhalts",
-    "LabelCountry": "Land",
+    "LabelCountry": "Land/Region",
     "LabelCriticRating": "Kritikerbewertung",
     "LabelCurrentPassword": "Aktuelles Passwort",
     "LabelCustomCertificatePath": "Benutzerdefinierter Pfad zum SSL-Zertifikat",
@@ -1782,5 +1782,8 @@
     "SelectAudioNormalizationHelp": "Track Gain - passt die Lautstärke der einzelnen Tracks an, so dass sie mit der gleichen Lautstärke wiedergegeben werden. Albumverstärkung - passt die Lautstärke aller Titel eines Albums an, wobei der Dynamikbereich des Albums erhalten bleibt.",
     "LabelAlbumGain": "Albumlautstärke",
     "LabelSelectAudioNormalization": "Audio Normalisierung",
-    "HeaderAllRecordings": "Alle Aufnahmen"
+    "HeaderAllRecordings": "Alle Aufnahmen",
+    "LabelBuildVersion": "Build-Version",
+    "LabelServerVersion": "Server-Version",
+    "LabelWebVersion": "Web-Version"
 }
