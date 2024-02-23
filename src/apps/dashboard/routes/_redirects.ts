@@ -36,6 +36,5 @@ export const REDIRECTS: Redirect[] = [
     { from: 'usernew.html', to: '/dashboard/users/add' },
     { from: 'userparentalcontrol.html', to: '/dashboard/users/parentalcontrol' },
     { from: 'userpassword.html', to: '/dashboard/users/password' },
-    { from: 'userprofiles.html', to: '/dashboard/users' },
-    { from: 'trickplayconfiguration.html', to: '/dashboard/playback/trickplay' }
+    { from: 'userprofiles.html', to: '/dashboard/users' }
 ];
