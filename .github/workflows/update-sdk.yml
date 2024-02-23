@@ -31,18 +31,20 @@ jobs:
       - name: Install latest unstable SDK
         run: |
           npm i --save @jellyfin/sdk@unstable
+          VERSION=$(jq -r '.dependencies["@jellyfin/sdk"]' package.json)
+          echo "JF_SDK_VERSION=${VERSION}" >> $GITHUB_ENV
           git checkout package.json
 
       - name: Open a pull request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.JF_BOT_TOKEN }}
-          commit-message: Update @jellyfin/sdk
+          commit-message: Update @jellyfin/sdk to ${{env.JF_SDK_VERSION}}
           committer: jellyfin-bot <team@jellyfin.org>
           author: jellyfin-bot <team@jellyfin.org>
           branch: update-jf-sdk
           delete-branch: true
-          title: Update @jellyfin/sdk
+          title: Update @jellyfin/sdk to ${{env.JF_SDK_VERSION}}
           body: |
             **Changes**
             Updates to the latest unstable @jellyfin/sdk build
