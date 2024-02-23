@@ -119,13 +119,9 @@ function normalizeName(t) {
 
 function addOrReplaceUrlParam(url, key, value) {
     // eslint-disable-next-line compat/compat
-    const params = new URLSearchParams((url.split('?')[1] || '').split('#')[0]);
-    params.set(key, value);
-    let newurl = url.split('?')[0] + '?' + params.toString();
-    if (url.includes('#')) {
-        newurl += '#' + url.split('#');
-    }
-    return newurl;
+    const newurl = new URL(url, window.location);
+    newurl.searchParams.set(key, value);
+    return newurl.href;
 }
 
 function getItemsForPlayback(serverId, query) {
