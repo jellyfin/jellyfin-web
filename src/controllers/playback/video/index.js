@@ -146,6 +146,24 @@ export default function (view) {
             btnUserRating.classList.add('hide');
             btnUserRating.setItem(null);
         }
+
+        // Update trickplay data
+        trickplayResolution = null;
+
+        const mediaSourceId = currentPlayer.streamInfo.mediaSource.Id;
+        let trickplayResolutions;
+        if (item.Trickplay && (trickplayResolutions = item.Trickplay[mediaSourceId])) {
+            // Prefer highest resolution <= 20% of total screen resolution width
+            let bestWidth;
+            const maxWidth = window.screen.width * window.devicePixelRatio * 0.2;
+            for (const [, info] of Object.entries(trickplayResolutions)) {
+                if (!bestWidth
+                        || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
+                        || (info.Width > bestWidth && info.Width <= maxWidth)) bestWidth = info.Width;
+            }
+
+            if (bestWidth) trickplayResolution = trickplayResolutions[bestWidth];
+        }
     }
 
     function getDisplayTimeWithoutAmPm(date, showSeconds) {
@@ -1530,6 +1548,7 @@ export default function (view) {
     let programEndDateMs = 0;
     let playbackStartTimeTicks = 0;
     let subtitleSyncOverlay;
+    let trickplayResolution = null;
     const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
     const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
     const nowPlayingPositionSlider = view.querySelector('.osdPositionSlider');
@@ -1764,28 +1783,12 @@ export default function (view) {
         ticks /= 100;
         ticks *= value;
 
-        if (item?.Trickplay) {
-            const mediaSourceId = currentPlayer?.streamInfo?.mediaSource?.Id;
-            const trickplayResolutions = item.Trickplay[mediaSourceId];
-
-            if (!trickplayResolutions) return false;
-
-            // Prefer highest resolution <= 20% of total screen resolution width
-            let bestWidth;
-            const maxWidth = window.screen.width * window.devicePixelRatio * 0.2;
-            for (const [, info] of Object.entries(trickplayResolutions)) {
-                if (!bestWidth
-                    || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
-                    || (info.Width > bestWidth && info.Width <= maxWidth)) bestWidth = info.Width;
-            }
-
-            if (!bestWidth) return false;
-
+        if (trickplayResolution && item?.Trickplay) {
             return updateTrickplayBubbleHtml(
                 ServerConnections.getApiClient(item.ServerId),
-                trickplayResolutions[bestWidth.toString()],
+                trickplayResolution,
                 item,
-                mediaSourceId,
+                currentPlayer.streamInfo.mediaSource.Id,
                 bubble,
                 ticks);
         }
