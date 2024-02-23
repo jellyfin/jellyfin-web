@@ -35,7 +35,7 @@ async function nativeConfirm(options: string | ConfirmOptions) {
         } as ConfirmOptions;
     }
 
-    const text = (options.text ?? '').replace('<br/>', '\n');
+    const text = (options.text || '').replace('<br/>', '\n');
     await appRouter.ready();
     const result = window.confirm(text);
 
@@ -57,13 +57,13 @@ async function customConfirm(options: string | ConfirmOptions, title: string) {
     const items: OptionItem[] = [];
 
     items.push({
-        name: options.cancelText ?? globalize.translate('ButtonCancel'),
+        name: options.cancelText || globalize.translate('ButtonCancel'),
         id: 'cancel',
         type: 'cancel'
     });
 
     items.push({
-        name: options.confirmText ?? globalize.translate('ButtonOk'),
+        name: options.confirmText || globalize.translate('ButtonOk'),
         id: 'ok',
         type: options.primary === 'delete' ? 'delete' : 'submit'
     });
