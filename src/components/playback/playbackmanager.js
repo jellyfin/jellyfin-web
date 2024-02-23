@@ -2474,12 +2474,12 @@ class PlaybackManager {
                         // Secondary subtitles are client side only, update this if it ever gets transcoding support.
                     } else {
                         mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
-                        const isHardSubs = mediaSource.MediaStreams[bestStreamIndex].DeliveryMethod === 'Transcode';
+                        const isHardcodedSubtitle = mediaSource.MediaStreams[bestStreamIndex].DeliveryMethod === 'Transcode';
                         if (mediaSource.TranscodingUrl) {
                             mediaSource.TranscodingUrl = addOrReplaceUrlParam(
                                 mediaSource.TranscodingUrl,
                                 'SubtitleStreamIndex',
-                                isHardSubs ? mediaSource.DefaultSubtitleStreamIndex.toString() : '-1'
+                                isHardcodedSubtitle ? mediaSource.DefaultSubtitleStreamIndex.toString() : '-1'
                             );
                         }
                     }
