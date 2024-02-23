@@ -301,7 +301,7 @@ export function show(options) {
 
                     resolve(selectedId);
                 } else {
-                    reject('ActionSheet closed without resolving');
+                    reject(new Error('ActionSheet closed without resolving'));
                 }
             }
         });
