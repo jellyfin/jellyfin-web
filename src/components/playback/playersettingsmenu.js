@@ -46,7 +46,7 @@ function showQualityMenu(player, btn) {
         const bitrate = parseInt(id, 10);
         if (bitrate !== selectedBitrate) {
             playbackManager.setMaxStreamingBitrate({
-                enableAutomaticBitrateDetection: bitrate ? false : true,
+                enableAutomaticBitrateDetection: !bitrate,
                 maxBitrate: bitrate
             }, player);
         }

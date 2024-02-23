@@ -16,6 +16,7 @@ import './listview.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import ServerConnections from '../ServerConnections';
+import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 
 function getIndex(item, options) {
     if (options.index === 'disc') {
@@ -177,7 +178,7 @@ export function getListViewHtml(options) {
     const isLargeStyle = options.imageSize === 'large';
     const enableOverview = options.enableOverview;
 
-    const clickEntireItem = layoutManager.tv ? true : false;
+    const clickEntireItem = layoutManager.tv;
     const outerTagName = clickEntireItem ? 'button' : 'div';
     const enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
 
@@ -279,7 +280,7 @@ export function getListViewHtml(options) {
             if (imgUrl) {
                 html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
             } else {
-                html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
+                html += '<div class="' + imageClass + ' cardImageContainer ' + getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;

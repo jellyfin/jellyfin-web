@@ -21,7 +21,7 @@ function onKeyDown(e) {
     }
 }
 
-const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
+const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s;
 
 function forceRefresh(loading) {
     const elem = this.parentNode;

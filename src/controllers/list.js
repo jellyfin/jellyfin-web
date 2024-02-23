@@ -12,6 +12,7 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {
@@ -252,7 +253,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     if (params.type === 'nextup') {
         return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -306,9 +307,9 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 
         if (item.Type === 'MusicGenre') {
             query.IncludeItemTypes = 'MusicAlbum';
-        } else if (item.CollectionType === 'movies') {
+        } else if (item.CollectionType === CollectionType.Movies) {
             query.IncludeItemTypes = 'Movie';
-        } else if (item.CollectionType === 'tvshows') {
+        } else if (item.CollectionType === CollectionType.Tvshows) {
             query.IncludeItemTypes = 'Series';
         } else if (item.Type === 'Genre') {
             query.IncludeItemTypes = 'Movie,Series,Video';
@@ -322,7 +323,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
         StartIndex: startIndex,
         Limit: limit,
-        Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount,MediaSourceCount',
+        Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
         ImageTypeLimit: 1,
         ParentId: item.Id,
         SortBy: sortBy
@@ -400,10 +401,15 @@ function onNewItemClick() {
     const instance = this;
 
     import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-        new PlaylistEditor({
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
             items: [],
             serverId: instance.params.serverId
+        }).catch(() => {
+            // Dialog closed
         });
+    }).catch(err => {
+        console.error('[onNewItemClick] failed to load playlist editor', err);
     });
 }
 
@@ -605,7 +611,7 @@ class ItemsView {
             posterOptions.lines = lines;
             posterOptions.items = items;
 
-            if (item && item.CollectionType === 'folders') {
+            if (item && item.CollectionType === CollectionType.Folders) {
                 posterOptions.context = 'folders';
             }
 
@@ -635,7 +641,7 @@ class ItemsView {
         function setTitle(item) {
             LibraryMenu.setTitle(getTitle(item) || '');
 
-            if (item && item.CollectionType === 'playlists') {
+            if (item && item.CollectionType === CollectionType.Playlists) {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), false);
             } else {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), true);
@@ -724,8 +730,13 @@ class ItemsView {
             const currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
+                const values = self.getSortValues();
                 playbackManager.play({
                     items: [currentItem],
+                    queryOptions: {
+                        SortBy: values.sortBy,
+                        SortOrder: values.sortOrder
+                    },
                     autoplay: true
                 });
             } else {
@@ -860,7 +871,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -873,7 +884,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);
@@ -960,10 +971,7 @@ class ItemsView {
 
     getSortValues() {
         const basekey = this.getSettingsKey();
-        return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
-            sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
-        };
+        return userSettings.getSortValuesLegacy(basekey, this.getDefaultSortBy());
     }
 
     getDefaultSortBy() {

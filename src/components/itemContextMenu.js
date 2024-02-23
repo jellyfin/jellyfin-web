@@ -9,6 +9,7 @@ import itemHelper from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
+import * as userSettings from '../scripts/settings/userSettings';
 
 export function getCommands(options) {
     const item = options.item;
@@ -289,14 +290,6 @@ export function getCommands(options) {
         });
     }
 
-    if (options.sync !== false && itemHelper.canSync(user, item)) {
-        commands.push({
-            name: globalize.translate('Sync'),
-            id: 'sync',
-            icon: 'sync'
-        });
-    }
-
     if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
         commands.push({
             name: globalize.translate('ViewAlbum'),
@@ -346,7 +339,8 @@ function executeCommand(item, id, options) {
                 break;
             case 'addtoplaylist':
                 import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                    new PlaylistEditor({
+                    const playlistEditor = new PlaylistEditor();
+                    playlistEditor.show({
                         items: [itemId],
                         serverId: serverId
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
@@ -589,9 +583,16 @@ function play(item, resume, queue, queueNext) {
             serverId: item.ServerId
         });
     } else {
+        const sortParentId = 'items-' + (item.IsFolder ? item.Id : item.ParentId) + '-Folder';
+        const sortValues = userSettings.getSortValuesLegacy(sortParentId);
+
         playbackManager[method]({
             items: [item],
-            startPositionTicks: startPosition
+            startPositionTicks: startPosition,
+            queryOptions: {
+                SortBy: sortValues.sortBy,
+                SortOrder: sortValues.sortOrder
+            }
         });
     }
 }

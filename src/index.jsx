@@ -5,6 +5,7 @@ import 'fast-text-encoding';
 import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
+import 'abortcontroller-polyfill'; // requires fetch
 import 'resize-observer-polyfill';
 import './styles/site.scss';
 import React, { StrictMode } from 'react';
@@ -93,7 +94,7 @@ function onGlobalizeInit() {
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
         import('./styles/fonts.sized.scss');
-    } else if (__USE_SYSTEM_FONTS__) { // eslint-disable-line no-undef
+    } else if (__USE_SYSTEM_FONTS__) {
         console.debug('using system fonts');
         import('./styles/fonts.scss');
     } else {

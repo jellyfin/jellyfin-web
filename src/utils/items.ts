@@ -79,7 +79,7 @@ const getItemFieldsEnum = (
     const itemFields: ItemFields[] = [];
 
     if (viewType !== LibraryTab.Networks) {
-        itemFields.push(ItemFields.BasicSyncInfo, ItemFields.MediaSourceCount);
+        itemFields.push(ItemFields.MediaSourceCount);
     }
 
     if (libraryViewSettings.ImageType === ImageType.Primary) {
@@ -144,14 +144,22 @@ export const getSettingsKey = (viewType: LibraryTab, parentId: ParentId) => {
     return `${viewType} - ${parentId}`;
 };
 
-export const getDefaultLibraryViewSettings = (): LibraryViewSettings => {
+export const getDefaultSortBy = (viewType: LibraryTab) => {
+    if (viewType === LibraryTab.Episodes) {
+        return ItemSortBy.SeriesSortName;
+    }
+
+    return ItemSortBy.SortName;
+};
+
+export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
     return {
         ShowTitle: true,
         ShowYear: false,
-        ViewMode: ViewMode.GridView,
-        ImageType: ImageType.Primary,
+        ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
+        ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
         CardLayout: false,
-        SortBy: ItemSortBy.SortName,
+        SortBy: getDefaultSortBy(viewType),
         SortOrder: SortOrder.Ascending,
         StartIndex: 0
     };

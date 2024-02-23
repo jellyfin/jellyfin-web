@@ -6,14 +6,12 @@
 
 import escapeHtml from 'escape-html';
 
-import cardBuilderUtils from './cardBuilderUtils';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
-import imageHelper from 'scripts/imagehelper';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
-import { randomInt } from 'utils/number';
+import imageHelper from 'utils/image';
 
 import focusManager from '../focusManager';
 import imageLoader from '../images/imageLoader';
@@ -29,6 +27,17 @@ import 'elements/emby-button/paper-icon-button-light';
 
 import './card.scss';
 import '../guide/programs.scss';
+import {
+    getDesiredAspect,
+    getPostersPerRow,
+    isResizable,
+    isUsingLiveTvNaming,
+    resolveAction,
+    resolveCardBoxCssClasses,
+    resolveCardCssClasses,
+    resolveCardImageContainerCssClasses,
+    resolveMixedShapeByAspectRatio
+} from './cardBuilderUtils';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -48,24 +57,6 @@ export function getCardsHtml(items, options) {
 }
 
 /**
- * Checks if the window is resizable.
- * @param {number} windowWidth - Width of the device's screen.
- * @returns {boolean} - Result of the check.
- */
-function isResizable(windowWidth) {
-    const screen = window.screen;
-    if (screen) {
-        const screenWidth = screen.availWidth;
-
-        if ((screenWidth - windowWidth) > 20) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
  * Gets the width of a card's image according to the shape and amount of cards per row.
  * @param {string} shape - Shape of the card.
  * @param {number} screenWidth - Width of the screen.
@@ -73,7 +64,7 @@ function isResizable(windowWidth) {
  * @returns {number} Width of the image for a card.
  */
 function getImageWidth(shape, screenWidth, isOrientationLandscape) {
-    const imagesPerRow = cardBuilderUtils.getPostersPerRow(shape, screenWidth, isOrientationLandscape, layoutManager.tv);
+    const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape, layoutManager.tv);
     return Math.round(screenWidth / imagesPerRow);
 }
 
@@ -113,7 +104,7 @@ function setCardData(items, options) {
         options.preferThumb = options.shape === 'backdrop' || options.shape === 'overflowBackdrop';
     }
 
-    options.uiAspect = cardBuilderUtils.getDesiredAspect(options.shape);
+    options.uiAspect = getDesiredAspect(options.shape);
     options.primaryImageAspectRatio = primaryImageAspectRatio;
 
     if (!options.width && options.widths) {
@@ -270,7 +261,7 @@ function buildCardsHtmlInternal(items, options) {
  * @param {string} shape - Shape of the desired image.
  * @returns {CardImageUrl} Object representing the URL of the card's image.
  */
-function getCardImageUrl(item, apiClient, options, shape) {
+export function getCardImageUrl(item, apiClient, options, shape) {
     item = item.ProgramInfo || item;
 
     const width = options.width;
@@ -280,7 +271,7 @@ function getCardImageUrl(item, apiClient, options, shape) {
     let imgUrl = null;
     let imgTag = null;
     let coverImage = false;
-    const uiAspect = cardBuilderUtils.getDesiredAspect(shape);
+    const uiAspect = getDesiredAspect(shape);
     let imgType = null;
     let itemId = null;
 
@@ -412,29 +403,6 @@ function getCardImageUrl(item, apiClient, options, shape) {
 }
 
 /**
- * Generates an index used to select the default color of a card based on a string.
- * @param {?string} [str] - String to use for generating the index.
- * @returns {number} Index of the color.
- */
-function getDefaultColorIndex(str) {
-    const numRandomColors = 5;
-
-    if (str) {
-        const charIndex = Math.floor(str.length / 2);
-        const character = String(str.slice(charIndex, charIndex + 1).charCodeAt());
-        let sum = 0;
-        for (let i = 0; i < character.length; i++) {
-            sum += parseInt(character.charAt(i), 10);
-        }
-        const index = String(sum).slice(-1);
-
-        return (index % numRandomColors) + 1;
-    } else {
-        return randomInt(1, numRandomColors);
-    }
-}
-
-/**
  * Generates the HTML markup for a card's text.
  * @param {Array} lines - Array containing the text lines.
  * @param {string} cssClass - Base CSS class to use for the lines.
@@ -485,15 +453,6 @@ function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout
     }
 
     return html;
-}
-
-/**
- * Determines if the item is live TV.
- * @param {Object} item - Item to use for the check.
- * @returns {boolean} Flag showing if the item is live TV.
- */
-function isUsingLiveTvNaming(item) {
-    return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
 }
 
 /**
@@ -574,7 +533,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             } else {
                 lines.push(escapeHtml(item.SeriesName));
             }
-        } else if (isUsingLiveTvNaming(item)) {
+        } else if (isUsingLiveTvNaming(item.Type)) {
             lines.push(escapeHtml(item.Name));
 
             if (!item.EpisodeTitle && !item.IndexNumber) {
@@ -616,7 +575,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
                 item.AlbumArtists[0].IsFolder = true;
                 lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
             } else {
-                lines.push(escapeHtml(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || '')));
+                lines.push(escapeHtml(isUsingLiveTvNaming(item.Type) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || '')));
             }
         }
 
@@ -669,7 +628,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
                     lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
                 } else if (item.EndDate && item.ProductionYear) {
                     const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
-                    lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
+                    lines.push(productionYear + ((endYear === productionYear) ? '' : (' - ' + endYear)));
                 } else {
                     lines.push(productionYear || '');
                 }
@@ -889,15 +848,6 @@ function importRefreshIndicator() {
 }
 
 /**
- * Returns the default background class for a card based on a string.
- * @param {?string} [str] - Text used to generate the background class.
- * @returns {string} CSS classes for default card backgrounds.
- */
-export function getDefaultBackgroundClass(str) {
-    return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
-}
-
-/**
  * Builds the HTML markup for an individual card.
  * @param {number} index - Index of the card
  * @param {object} item - Item used to generate the card.
@@ -906,87 +856,32 @@ export function getDefaultBackgroundClass(str) {
  * @returns {string} HTML markup for the generated card.
  */
 function buildCard(index, item, apiClient, options) {
-    let action = options.action || 'link';
-
-    if (action === 'play' && item.IsFolder) {
-        // If this hard-coding is ever removed make sure to test nested photo albums
-        action = 'link';
-    } else if (item.MediaType === 'Photo') {
-        action = 'play';
-    }
+    const action = resolveAction({
+        defaultAction: options.action || 'link',
+        isFolder: item.IsFolder,
+        isPhoto: item.MediaType === 'Photo'
+    });
 
     let shape = options.shape;
 
     if (shape === 'mixed') {
-        shape = null;
-
-        const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
-
-        if (primaryImageAspectRatio) {
-            if (primaryImageAspectRatio >= 1.33) {
-                shape = 'mixedBackdrop';
-            } else if (primaryImageAspectRatio > 0.71) {
-                shape = 'mixedSquare';
-            } else {
-                shape = 'mixedPortrait';
-            }
-        }
-
-        shape = shape || 'mixedSquare';
+        shape = resolveMixedShapeByAspectRatio(item.PrimaryImageAspectRatio);
     }
 
     // TODO move card creation code to Card component
 
-    let className = 'card';
-
-    if (shape) {
-        className += ' ' + shape + 'Card';
-    }
-
-    if (options.cardCssClass) {
-        className += ' ' + options.cardCssClass;
-    }
-
-    if (options.cardClass) {
-        className += ' ' + options.cardClass;
-    }
-
-    if (layoutManager.desktop) {
-        className += ' card-hoverable';
-    }
-
-    if (layoutManager.tv) {
-        className += ' show-focus';
-
-        if (enableFocusTransform) {
-            className += ' show-animation';
-        }
-    }
-
     const imgInfo = getCardImageUrl(item, apiClient, options, shape);
     const imgUrl = imgInfo.imgUrl;
     const blurhash = imgInfo.blurhash;
-
     const forceName = imgInfo.forceName;
-
     const overlayText = options.overlayText;
 
-    let cardImageContainerClass = 'cardImageContainer';
-    const coveredImage = options.coverImage || imgInfo.coverImage;
-
-    if (coveredImage) {
-        cardImageContainerClass += ' coveredImage';
-
-        if (item.Type === 'TvChannel') {
-            cardImageContainerClass += ' coveredImage-contain';
-        }
-    }
-
-    if (!imgUrl) {
-        cardImageContainerClass += ' ' + getDefaultBackgroundClass(item.Name);
-    }
-
-    let cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
+    const cardImageContainerClasses = resolveCardImageContainerCssClasses({
+        itemType: item.Type,
+        itemName: item.Name,
+        hasCoverImage: options.coverImage || imgInfo.coverImage,
+        imgUrl
+    });
 
     let footerCssClass;
     let progressHtml = indicators.getProgressBarHtml(item);
@@ -1046,9 +941,10 @@ function buildCard(index, item, apiClient, options) {
         outerCardFooter = getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: true }, { imgUrl, logoUrl });
     }
 
-    if (outerCardFooter && !options.cardLayout) {
-        cardBoxClass += ' cardBox-bottompadded';
-    }
+    const cardBoxClass = resolveCardBoxCssClasses({
+        hasOuterCardFooter: outerCardFooter.length > 0,
+        cardLayout: options.cardLayout
+    });
 
     let overlayButtons = '';
     if (layoutManager.mobile) {
@@ -1073,10 +969,6 @@ function buildCard(index, item, apiClient, options) {
         }
     }
 
-    if (options.showChildCountIndicator && item.ChildCount) {
-        className += ' groupedCard';
-    }
-
     // cardBox can be it's own separate element if an outer footer is ever needed
     let cardImageContainerOpen;
     let cardImageContainerClose = '';
@@ -1092,7 +984,7 @@ function buildCard(index, item, apiClient, options) {
 
     if (layoutManager.tv) {
         // Don't use the IMG tag with safari because it puts a white border around it
-        cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+        cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClasses + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClasses + ' ' + cardContentClass + '">');
 
         cardImageContainerClose = '</div>';
     } else {
@@ -1100,7 +992,7 @@ function buildCard(index, item, apiClient, options) {
 
         const url = appRouter.getRouteUrl(item);
         // Don't use the IMG tag with safari because it puts a white border around it
-        cardImageContainerOpen = imgUrl ? ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
+        cardImageContainerOpen = imgUrl ? ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
 
         cardImageContainerClose = '</a>';
     }
@@ -1157,7 +1049,7 @@ function buildCard(index, item, apiClient, options) {
         cardImageContainerOpen += getDefaultText(item, options);
     }
 
-    const tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
+    const tagName = layoutManager.tv && !overlayButtons ? 'button' : 'div';
 
     const nameWithPrefix = (item.SortName || item.Name || '');
     let prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
@@ -1178,16 +1070,24 @@ function buildCard(index, item, apiClient, options) {
     let ariaLabelAttribute = '';
 
     if (tagName === 'button') {
-        className += ' itemAction';
         actionAttribute = ' data-action="' + action + '"';
         ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
     } else {
         actionAttribute = '';
     }
 
-    if (item.Type !== 'MusicAlbum' && item.Type !== 'MusicArtist' && item.Type !== 'Audio') {
-        className += ' card-withuserdata';
-    }
+    const className = resolveCardCssClasses({
+        shape: shape,
+        cardCssClass: options.cardCssClass,
+        cardClass: options.cardClass,
+        isTV: layoutManager.tv,
+        enableFocusTransform: enableFocusTransform,
+        isDesktop: layoutManager.desktop,
+        showChildCountIndicator: options.showChildCountIndicator,
+        childCount: item.ChildCount,
+        tagName: tagName,
+        itemType: item.Type
+    });
 
     const positionTicksData = item.UserData?.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
     const collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
@@ -1296,7 +1196,7 @@ export function getDefaultText(item, options) {
         return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '" aria-hidden="true"></span>';
     }
 
-    const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
+    const defaultName = isUsingLiveTvNaming(item.Type) ? item.Name : itemHelper.getDisplayName(item);
     return '<div class="cardText cardDefaultText">' + escapeHtml(defaultName) + '</div>';
 }
 
@@ -1515,7 +1415,6 @@ export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
 
 export default {
     getCardsHtml: getCardsHtml,
-    getDefaultBackgroundClass: getDefaultBackgroundClass,
     getDefaultText: getDefaultText,
     buildCards: buildCards,
     onUserDataChanged: onUserDataChanged,

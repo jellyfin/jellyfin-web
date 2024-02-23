@@ -15,6 +15,7 @@ import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import merge from 'lodash-es/merge';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -156,7 +157,7 @@ function createStreamInfoFromUrlItem(item) {
 }
 
 function mergePlaybackQueries(obj1, obj2) {
-    const query = Object.assign(obj1, obj2);
+    const query = merge({}, obj1, obj2);
 
     const filters = query.Filters ? query.Filters.split(',') : [];
     if (filters.indexOf('IsNotFolder') === -1) {
@@ -1785,6 +1786,8 @@ class PlaybackManager {
         }
 
         function translateItemsForPlayback(items, options) {
+            if (!items.length) return Promise.resolve([]);
+
             if (items.length > 1 && options && options.ids) {
                 // Use the original request id array for sorting the result in the proper order
                 items.sort(function (a, b) {
@@ -1809,15 +1812,15 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : null
                 });
             } else if (firstItem.Type === 'MusicArtist') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ArtistIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
-                });
+                }, queryOptions));
             } else if (firstItem.MediaType === 'Photo') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
@@ -1825,7 +1828,7 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Photo,Video',
                     Limit: UNLIMITED_ITEMS
-                }).then(function (result) {
+                }, queryOptions)).then(function (result) {
                     const playbackItems = result.Items;
 
                     let index = playbackItems.map(function (i) {
@@ -1841,7 +1844,7 @@ class PlaybackManager {
                     return Promise.resolve(result);
                 });
             } else if (firstItem.Type === 'PhotoAlbum') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
@@ -1850,14 +1853,64 @@ class PlaybackManager {
                     // Only include Photos because we do not handle mixed queues currently
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
-                });
+                }, queryOptions));
             } else if (firstItem.Type === 'MusicGenre') {
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
                     GenreIds: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Audio'
+                }, queryOptions));
+            } else if (firstItem.Type === 'Series' || firstItem.Type === 'Season') {
+                const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+
+                promise = apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
+                    IsVirtualUnaired: false,
+                    IsMissing: false,
+                    UserId: apiClient.getCurrentUserId(),
+                    Fields: 'Chapters'
+                }).then(function (episodesResult) {
+                    const originalResults = episodesResult.Items;
+                    const isSeries = firstItem.Type === 'Series';
+
+                    let foundItem = false;
+
+                    episodesResult.Items = episodesResult.Items.filter(function (e) {
+                        if (foundItem) {
+                            return true;
+                        }
+
+                        if (!e.UserData.Played && (isSeries || e.SeasonId === firstItem.Id)) {
+                            foundItem = true;
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+                    if (episodesResult.Items.length === 0) {
+                        if (isSeries) {
+                            episodesResult.Items = originalResults;
+                        } else {
+                            episodesResult.Items = originalResults.filter(function (e) {
+                                if (foundItem) {
+                                    return true;
+                                }
+
+                                if (e.SeasonId === firstItem.Id) {
+                                    foundItem = true;
+                                    return true;
+                                }
+
+                                return false;
+                            });
+                        }
+                    }
+
+                    episodesResult.TotalRecordCount = episodesResult.Items.length;
+
+                    return episodesResult;
                 });
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
@@ -2750,6 +2803,12 @@ class PlaybackManager {
                                     });
                                 });
                             } else {
+                                if (item.AlbumId != null) {
+                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
+                                        mediaSource.albumLUFS = result.LUFS;
+                                        return mediaSource;
+                                    });
+                                }
                                 return mediaSource;
                             }
                         } else {

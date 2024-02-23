@@ -52,8 +52,7 @@ const UserEdit: FunctionComponent = () => {
     const element = useRef<HTMLDivElement>(null);
 
     const triggerChange = (select: HTMLInputElement) => {
-        const evt = document.createEvent('HTMLEvents');
-        evt.initEvent('change', false, true);
+        const evt = new Event('change', { bubbles: false, cancelable: true });
         select.dispatchEvent(evt);
     };
 
@@ -254,7 +253,7 @@ const UserEdit: FunctionComponent = () => {
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
             window.ApiClient.updateUser(user).then(() => (
-                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || {})
+                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' })
             )).then(() => {
                 onSaveComplete();
             }).catch(err => {

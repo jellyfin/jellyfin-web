@@ -11,17 +11,20 @@ import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
-let currentResolve;
-let currentReject;
-
 const PlayerName = 'Google Cast';
 
+/*
+ * Some async CastSDK function are completed with callbacks.
+ * sendConnectionResult turns this into completion as a promise.
+ */
+let _currentResolve = null;
+let _currentReject = null;
 function sendConnectionResult(isOk) {
-    const resolve = currentResolve;
-    const reject = currentReject;
+    const resolve = _currentResolve;
+    const reject = _currentReject;
 
-    currentResolve = null;
-    currentReject = null;
+    _currentResolve = null;
+    _currentReject = null;
 
     if (isOk) {
         if (resolve) {
@@ -58,11 +61,6 @@ const PLAYER_STATE = {
     'ERROR': 'ERROR'
 };
 
-// production version registered with google
-// replace this value if you want to test changes on another instance
-const applicationStable = 'F007D354';
-const applicationUnstable = '6F511C87';
-
 const messageNamespace = 'urn:x-cast:com.connectsdk';
 
 class CastPlayer {
@@ -98,6 +96,7 @@ class CastPlayer {
     initializeCastPlayer() {
         const chrome = window.chrome;
         if (!chrome) {
+            console.warn('Not initializing chromecast: chrome object is missing');
             return;
         }
 
@@ -106,18 +105,25 @@ class CastPlayer {
             return;
         }
 
-        let applicationID = userSettings.chromecastVersion();
-        if (applicationID === 'stable') applicationID = applicationStable;
-        if (applicationID === 'unstable') applicationID = applicationUnstable;
+        const apiClient = ServerConnections.currentApiClient();
+        const userId = apiClient.getCurrentUserId();
 
-        // request session
-        const sessionRequest = new chrome.cast.SessionRequest(applicationID);
-        const apiConfig = new chrome.cast.ApiConfig(sessionRequest,
-            this.sessionListener.bind(this),
-            this.receiverListener.bind(this));
+        apiClient.getUser(userId).then(user => {
+            const applicationID = user.Configuration.CastReceiverId;
+            if (!applicationID) {
+                console.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`);
+                return;
+            }
 
-        console.debug(`chromecast.initialize (applicationId=${applicationID})`);
-        chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
+            // request session
+            const sessionRequest = new chrome.cast.SessionRequest(applicationID);
+            const apiConfig = new chrome.cast.ApiConfig(sessionRequest,
+                this.sessionListener.bind(this),
+                this.receiverListener.bind(this));
+
+            console.debug(`chromecast.initialize (applicationId=${applicationID})`);
+            chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
+        });
     }
 
     /**
@@ -125,14 +131,14 @@ class CastPlayer {
      */
     onInitSuccess() {
         this.isInitialized = true;
-        console.debug('chromecast init success');
+        console.debug('[chromecastPlayer] init success');
     }
 
     /**
      * Generic error callback function
      */
     onError() {
-        console.debug('chromecast error');
+        console.debug('[chromecastPlayer] error');
     }
 
     /**
@@ -153,6 +159,7 @@ class CastPlayer {
         }
     }
 
+    // messageListener - receive callback messages from the Cast receiver
     messageListener(namespace, message) {
         if (typeof (message) === 'string') {
             message = JSON.parse(message);
@@ -179,10 +186,10 @@ class CastPlayer {
      */
     receiverListener(e) {
         if (e === 'available') {
-            console.debug('chromecast receiver found');
+            console.debug('[chromecastPlayer] receiver found');
             this.hasReceivers = true;
         } else {
-            console.debug('chromecast receiver list empty');
+            console.debug('[chromecastPlayer] receiver list empty');
             this.hasReceivers = false;
         }
     }
@@ -192,7 +199,7 @@ class CastPlayer {
      */
     sessionUpdateListener(isAlive) {
         if (isAlive) {
-            console.debug('sessionUpdateListener: already alive');
+            console.debug('[chromecastPlayer] sessionUpdateListener: already alive');
         } else {
             this.session = null;
             this.deviceState = DEVICE_STATE.IDLE;
@@ -200,7 +207,7 @@ class CastPlayer {
             document.removeEventListener('volumeupbutton', onVolumeUpKeyDown, false);
             document.removeEventListener('volumedownbutton', onVolumeDownKeyDown, false);
 
-            console.debug('sessionUpdateListener: setting currentMediaSession to null');
+            console.debug('[chromecastPlayer] sessionUpdateListener: setting currentMediaSession to null');
             this.currentMediaSession = null;
 
             sendConnectionResult(false);
@@ -213,7 +220,7 @@ class CastPlayer {
      * session request in opt_sessionRequest.
      */
     launchApp() {
-        console.debug('chromecast launching app...');
+        console.debug('[chromecastPlayer] launching app...');
         chrome.cast.requestSession(this.onRequestSessionSuccess.bind(this), this.onLaunchError.bind(this));
     }
 
@@ -222,7 +229,7 @@ class CastPlayer {
      * @param {Object} e A chrome.cast.Session object
      */
     onRequestSessionSuccess(e) {
-        console.debug('chromecast session success: ' + e.sessionId);
+        console.debug('[chromecastPlayer] session success: ' + e.sessionId);
         this.onSessionConnected(e);
     }
 
@@ -256,7 +263,7 @@ class CastPlayer {
      * Callback function for launch error
      */
     onLaunchError() {
-        console.debug('chromecast launch error');
+        console.debug('[chromecastPlayer] launch error');
         this.deviceState = DEVICE_STATE.ERROR;
         sendConnectionResult(false);
     }
@@ -286,11 +293,12 @@ class CastPlayer {
 
     /**
      * Loads media into a running receiver application
-     * @param {Number} mediaIndex An index number to indicate current media content
+     * @param {Number} mediaIndex - An index number to indicate current media content
+     * @returns Promise
      */
     loadMedia(options, command) {
         if (!this.session) {
-            console.debug('no session');
+            console.debug('[chromecastPlayer] no session');
             return Promise.reject(new Error('no session'));
         }
 
@@ -382,7 +390,7 @@ class CastPlayer {
      * @param {Object} mediaSession A new media object.
      */
     onMediaDiscovered(how, mediaSession) {
-        console.debug('chromecast new media session ID:' + mediaSession.mediaSessionId + ' (' + how + ')');
+        console.debug('[chromecastPlayer] new media session ID:' + mediaSession.mediaSessionId + ' (' + how + ')');
         this.currentMediaSession = mediaSession;
 
         if (how === 'loadMedia') {
@@ -401,7 +409,7 @@ class CastPlayer {
      * @param {!Boolean} e true/false
      */
     onMediaStatusUpdate(e) {
-        console.debug('chromecast updating media: ' + e);
+        console.debug('[chromecastPlayer] updating media: ' + e);
         if (e === false) {
             this.castPlayerState = PLAYER_STATE.IDLE;
         }
@@ -495,12 +503,17 @@ function getItemsForPlayback(apiClient, query) {
     }
 }
 
+/*
+ * relay castPlayer events to ChromecastPlayer events and include state info
+ */
 function bindEventForRelay(instance, eventName) {
     Events.on(instance._castPlayer, eventName, function (e, data) {
-        console.debug('cc: ' + eventName);
-        const state = instance.getPlayerStateInternal(data);
-
-        Events.trigger(instance, eventName, [state]);
+        console.debug('[chromecastPlayer] ' + eventName);
+        // skip events without data
+        if (data?.ItemId) {
+            const state = instance.getPlayerStateInternal(data);
+            Events.trigger(instance, eventName, [state]);
+        }
     });
 }
 
@@ -516,30 +529,39 @@ function initializeChromecast() {
     }));
 
     Events.on(instance._castPlayer, 'connect', function () {
-        if (currentResolve) {
+        if (_currentResolve) {
             sendConnectionResult(true);
         } else {
             playbackManager.setActivePlayer(PlayerName, instance.getCurrentTargetInfo());
         }
 
-        console.debug('cc: connect');
+        console.debug('[chromecastPlayer] connect');
         // Reset this so that statechange will fire
         instance.lastPlayerData = null;
     });
 
     Events.on(instance._castPlayer, 'playbackstart', function (e, data) {
-        console.debug('cc: playbackstart');
+        console.debug('[chromecastPlayer] playbackstart');
 
         instance._castPlayer.initializeCastPlayer();
 
         const state = instance.getPlayerStateInternal(data);
         Events.trigger(instance, 'playbackstart', [state]);
+
+        // be prepared that after this media item a next one may follow. See playbackManager
+        instance._playNextAfterEnded = true;
     });
 
     Events.on(instance._castPlayer, 'playbackstop', function (e, data) {
-        console.debug('cc: playbackstop');
+        console.debug('[chromecastPlayer] playbackstop');
+
         let state = instance.getPlayerStateInternal(data);
 
+        if (!instance._playNextAfterEnded) {
+            // mark that no next media items are to be processed.
+            state.nextItem = null;
+            state.NextMediaType = null;
+        }
         Events.trigger(instance, 'playbackstop', [state]);
 
         state = instance.lastPlayerData.PlayState || {};
@@ -547,14 +569,16 @@ function initializeChromecast() {
         const mute = state.IsMuted || false;
 
         // Reset this so the next query doesn't make it appear like content is playing.
-        instance.lastPlayerData = {};
-        instance.lastPlayerData.PlayState = {};
-        instance.lastPlayerData.PlayState.VolumeLevel = volume;
-        instance.lastPlayerData.PlayState.IsMuted = mute;
+        instance.lastPlayerData = {
+            PlayState: {
+                VolumeLevel: volume,
+                IsMuted: mute
+            }
+        };
     });
 
     Events.on(instance._castPlayer, 'playbackprogress', function (e, data) {
-        console.debug('cc: positionchange');
+        console.debug('[chromecastPlayer] positionchange');
         const state = instance.getPlayerStateInternal(data);
 
         Events.trigger(instance, 'timeupdate', [state]);
@@ -568,9 +592,10 @@ function initializeChromecast() {
     bindEventForRelay(instance, 'shufflequeuemodechange');
 
     Events.on(instance._castPlayer, 'playstatechange', function (e, data) {
-        console.debug('cc: playstatechange');
-        const state = instance.getPlayerStateInternal(data);
+        console.debug('[chromecastPlayer] playstatechange');
 
+        // Updates the player and nowPlayingBar state to the current 'pause' state.
+        const state = instance.getPlayerStateInternal(data);
         Events.trigger(instance, 'pause', [state]);
     });
 }
@@ -584,22 +609,32 @@ class ChromecastPlayer {
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
 
-        new CastSenderApi().load().then(initializeChromecast.bind(this));
+        new CastSenderApi().load().then(() => {
+            Events.on(ServerConnections, 'localusersignedin', () => {
+                initializeChromecast.call(this);
+            });
+
+            if (ServerConnections.currentUserId) {
+                initializeChromecast.call(this);
+            }
+        });
     }
 
+    /*
+     * Cast button handling: select and connect to chromecast receiver
+     */
     tryPair() {
         const castPlayer = this._castPlayer;
 
         if (castPlayer.deviceState !== DEVICE_STATE.ACTIVE && castPlayer.isInitialized) {
             return new Promise(function (resolve, reject) {
-                currentResolve = resolve;
-                currentReject = reject;
+                _currentResolve = resolve;
+                _currentReject = reject;
                 castPlayer.launchApp();
             });
         } else {
-            currentResolve = null;
-            currentReject = null;
-
+            _currentResolve = null;
+            _currentReject = null;
             return Promise.reject(new Error('tryPair failed'));
         }
     }
@@ -662,8 +697,6 @@ class ChromecastPlayer {
         this.lastPlayerData = data;
 
         normalizeImages(data);
-
-        console.debug(JSON.stringify(data));
 
         if (triggerStateChange) {
             Events.trigger(this, 'statechange', [data]);
@@ -813,6 +846,8 @@ class ChromecastPlayer {
     }
 
     stop() {
+        // suppress playing a next media item after this one. See playbackManager
+        this._playNextAfterEnded = false;
         return this._castPlayer.sendMessage({
             options: {},
             command: 'Stop'
@@ -1028,6 +1063,10 @@ class ChromecastPlayer {
         this.playWithCommand(options, 'PlayNext');
     }
 
+    /*
+     * play
+     * options.items[]: Id, IsFolder, MediaType, Name, ServerId, Type, ...
+     */
     play(options) {
         if (options.items) {
             return this.playWithCommand(options, 'PlayNow');
@@ -1078,6 +1117,15 @@ class ChromecastPlayer {
 
     getPlayerState() {
         return this.getPlayerStateInternal() || {};
+    }
+
+    getCurrentPlaylistIndex() {
+        // tbd: update to support playlists and not only album with tracks
+        return this.getPlayerStateInternal()?.NowPlayingItem?.IndexNumber;
+    }
+
+    clearQueue(currentTime) { // eslint-disable-line no-unused-vars
+        // not supported yet
     }
 }
 

@@ -10,15 +10,18 @@ import { appHost } from '../apphost';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import cardBuilder from '../cardbuilder/cardBuilder';
 import itemContextMenu from '../itemContextMenu';
 import '../cardbuilder/card.scss';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import '../../elements/emby-slider/emby-slider';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
+import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -220,7 +223,8 @@ function updateNowPlayingInfo(context, state, serverId) {
                     itemContextMenu.show(Object.assign({
                         item: fullItem,
                         user: user
-                    }, options));
+                    }, options))
+                        .catch(() => { /* no-op */ });
                 });
             });
         });
@@ -248,7 +252,7 @@ function setImageUrl(context, state, url) {
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImageAudio', item.Type === 'Audio');
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImagePoster', item.Type !== 'Audio');
     } else {
-        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
+        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
     }
 }
 
@@ -455,6 +459,11 @@ export default function () {
         btnPlayPauseIcon.classList.remove('play_circle_filled', 'pause_circle_filled');
         btnPlayPauseIcon.classList.add(isPaused ? 'play_circle_filled' : 'pause_circle_filled');
 
+        const playlistIndicator = context.querySelector('.playlistIndexIndicatorImage');
+        if (playlistIndicator) {
+            playlistIndicator.classList.toggle('playlistIndexIndicatorPausedImage', isPaused);
+        }
+
         buttonVisible(btnPlayPause, isActive);
     }
 
@@ -525,6 +534,7 @@ export default function () {
                 if (img) {
                     img.classList.remove('lazy');
                     img.classList.add('playlistIndexIndicatorImage');
+                    img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
                 }
             }
 
@@ -694,15 +704,20 @@ export default function () {
         import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
             getSaveablePlaylistItems().then(function (items) {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                new PlaylistEditor({
+                const playlistEditor = new PlaylistEditor();
+                playlistEditor.show({
                     items: items.map(function (i) {
                         return i.Id;
                     }),
                     serverId: serverId,
                     enableAddToPlayQueue: false,
                     defaultValue: 'new'
+                }).catch(() => {
+                    // Dialog closed
                 });
             });
+        }).catch(err => {
+            console.error('[savePlaylist] failed to load playlist editor', err);
         });
     }
 
@@ -764,17 +779,20 @@ export default function () {
 
         context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
             if (currentPlayer) {
-                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio') {
+                if (playbackManager.isPlayingAudio(currentPlayer)) {
                     // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
                     if (e.detail > 1 ) {
                         return;
                     }
+
                     // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
                     // to the previous track, unless we are at the first track so no previous track exists.
-                    if (currentPlayer._currentTime >= 5 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 1) {
+                    // currentTime is in msec.
+
+                    if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 0) {
                         playbackManager.seekPercent(0, currentPlayer);
                         // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
-                        // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
+                        // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
                         positionSlider.value = 0;
                         return;
                     }

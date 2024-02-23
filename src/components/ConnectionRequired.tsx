@@ -47,14 +47,19 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 if (location.pathname === BounceRoutes.Login) {
                     setIsLoading(false);
                 } else {
-                    console.debug('[ConnectionRequired] not logged in, redirecting to login page');
-                    navigate(`${BounceRoutes.Login}?serverid=${connectionResponse.ApiClient.serverId()}`);
+                    console.debug('[ConnectionRequired] not logged in, redirecting to login page', location);
+                    const url = encodeURIComponent(location.pathname + location.search);
+                    navigate(`${BounceRoutes.Login}?serverid=${connectionResponse.ApiClient.serverId()}&url=${url}`);
                 }
                 return;
             case ConnectionState.ServerSelection:
                 // Bounce to select server page
-                console.debug('[ConnectionRequired] redirecting to select server page');
-                navigate(BounceRoutes.SelectServer);
+                if (location.pathname === BounceRoutes.SelectServer) {
+                    setIsLoading(false);
+                } else {
+                    console.debug('[ConnectionRequired] redirecting to select server page');
+                    navigate(BounceRoutes.SelectServer);
+                }
                 return;
             case ConnectionState.ServerUpdateNeeded:
                 // Show update needed message and bounce to select server page

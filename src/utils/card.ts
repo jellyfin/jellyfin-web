@@ -1,6 +1,7 @@
-enum CardShape {
+export enum CardShape {
     Backdrop = 'backdrop',
     BackdropOverflow = 'overflowBackdrop',
+    Banner = 'banner',
     Portrait = 'portrait',
     PortraitOverflow = 'overflowPortrait',
     Square = 'square',

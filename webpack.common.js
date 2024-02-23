@@ -47,6 +47,10 @@ const config = {
     },
     plugins: [
         new DefinePlugin({
+            __JF_BUILD_VERSION__: JSON.stringify(
+                process.env.WEBPACK_SERVE ?
+                    'Dev Server' :
+                    process.env.JELLYFIN_VERSION || 'Release'),
             __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
             __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
         }),
@@ -110,7 +114,9 @@ const config = {
         })
     ],
     output: {
-        filename: '[name].bundle.js',
+        filename: pathData => (
+            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
+        ),
         chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
@@ -194,11 +200,15 @@ const config = {
                     path.resolve(__dirname, 'node_modules/flv.js'),
                     path.resolve(__dirname, 'node_modules/is-what'),
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
-                    path.resolve(__dirname, 'node_modules/marked'),
+                    path.resolve(__dirname, 'node_modules/linkify-it'),
+                    path.resolve(__dirname, 'node_modules/markdown-it'),
+                    path.resolve(__dirname, 'node_modules/mdurl'),
+                    path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-router'),
                     path.resolve(__dirname, 'node_modules/screenfull'),
                     path.resolve(__dirname, 'node_modules/ssr-window'),
                     path.resolve(__dirname, 'node_modules/swiper'),
+                    path.resolve(__dirname, 'node_modules/usehooks-ts'),
                     path.resolve(__dirname, 'src')
                 ],
                 use: [{

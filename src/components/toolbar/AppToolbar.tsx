@@ -4,11 +4,9 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import React, { FC, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import appIcon from 'assets/img/icon-transparent.png';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
@@ -38,8 +36,12 @@ const AppToolbar: FC<AppToolbarProps> = ({
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
+    const currentLocation = useLocation();
 
     const isBackButtonAvailable = appRouter.canGoBack();
+
+    // Handles a specific case to hide the user menu on the select server page while authenticated
+    const isUserMenuAvailable = currentLocation.pathname !== '/selectserver.html';
 
     return (
         <Toolbar
@@ -80,38 +82,9 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 </Tooltip>
             )}
 
-            <Box
-                component={Link}
-                to='/'
-                color='inherit'
-                aria-label={globalize.translate('Home')}
-                sx={{
-                    ml: 2,
-                    display: 'inline-flex',
-                    textDecoration: 'none'
-                }}
-            >
-                <Box
-                    component='img'
-                    src={appIcon}
-                    sx={{
-                        height: '2rem',
-                        marginInlineEnd: 1
-                    }}
-                />
-                <Typography
-                    variant='h6'
-                    noWrap
-                    component='div'
-                    sx={{ display: { xs: 'none', sm: 'inline-block' } }}
-                >
-                    Jellyfin
-                </Typography>
-            </Box>
-
             {children}
 
-            {isUserLoggedIn && (
+            {isUserLoggedIn && isUserMenuAvailable && (
                 <>
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
                         {buttons}

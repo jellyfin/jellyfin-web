@@ -63,6 +63,8 @@ module.exports = {
         '@typescript-eslint/no-shadow': ['error'],
         'no-throw-literal': ['error'],
         'no-trailing-spaces': ['error'],
+        'no-undef-init': ['error'],
+        'no-unneeded-ternary': ['error'],
         'no-unused-expressions': ['off'],
         '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
         'no-unused-private-class-members': ['error'],
@@ -88,6 +90,7 @@ module.exports = {
 
         'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
         'react/jsx-no-bind': ['error'],
+        'react/jsx-no-useless-fragment': ['error'],
         'react/jsx-no-constructed-context-values': ['error'],
         'react/no-array-index-key': ['error'],
 
@@ -258,7 +261,11 @@ module.exports = {
                 'ServerNotifications': 'writable',
                 'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
-                'Windows': 'readonly'
+                'Windows': 'readonly',
+                // Build time definitions
+                __JF_BUILD_VERSION__: 'readonly',
+                __USE_SYSTEM_FONTS__: 'readonly',
+                __WEBPACK_SERVE__: 'readonly'
             },
             rules: {
                 '@typescript-eslint/prefer-string-starts-ends-with': ['error']

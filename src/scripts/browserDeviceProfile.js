@@ -209,6 +209,14 @@ function supportsDolbyVision(options) {
     );
 }
 
+function canPlayDolbyVisionHevc(videoTestElement) {
+    // Profiles 5/7/8 4k@60fps
+    return !!videoTestElement.canPlayType
+        && (videoTestElement.canPlayType('video/mp4; codecs="dvh1.05.09"').replace(/no/, '')
+        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.07.09"').replace(/no/, '')
+        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.08.09"').replace(/no/, ''));
+}
+
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
     let supported = false;
     let profileContainer = container;
@@ -501,8 +509,8 @@ export default function (options) {
     if (supportsDts == null) {
         supportsDts = browser.tizen || browser.web0sVersion || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
-        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020+ (webOS 5.0+) models
-        if (browser.tizenVersion >= 4 || browser.web0sVersion >= 5) {
+        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
+        if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
             supportsDts = false;
         }
     }
@@ -536,7 +544,8 @@ export default function (options) {
         }
     }
 
-    if (canPlayAudioFormat('flac')) {
+    // FLAC audio in video plays with a delay on Tizen
+    if (canPlayAudioFormat('flac') && !browser.tizen) {
         videoAudioCodecs.push('flac');
         hlsInFmp4VideoAudioCodecs.push('flac');
     }
@@ -570,7 +579,7 @@ export default function (options) {
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.chrome.versionMajor >= 105)))) {
+        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
@@ -692,7 +701,7 @@ export default function (options) {
 
     profile.TranscodingProfiles = [];
 
-    const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
+    const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls();
 
     if (canPlayHls() && browser.enableHlsAudio !== false) {
         profile.TranscodingProfiles.push({
@@ -848,10 +857,9 @@ export default function (options) {
         maxH264Level = 52;
     }
 
-    if ((browser.tizen
-            || videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, ''))
+    if (videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')
             // These tests are passing in safari, but playback is failing
-            && !browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile
+            && !browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile && !browser.tizen
     ) {
         h264Profiles += '|high 10';
     }
@@ -930,7 +938,7 @@ export default function (options) {
         av1VideoRangeTypes += '|HLG';
     }
 
-    if (supportsDolbyVision(options)) {
+    if (supportsDolbyVision(options) && canPlayDolbyVisionHevc(videoTestElement)) {
         hevcVideoRangeTypes += '|DOVI';
     }
 
