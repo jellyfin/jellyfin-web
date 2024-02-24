@@ -320,7 +320,7 @@ const UserLibraryAccess: FunctionComponent = () => {
 function makeTitle(name: string, appName: string | undefined) {
     let title = name;
     if (appName) {
-        title += ' ' + appName;
+        title += ' - ' + appName;
     }
     return title;
 }
