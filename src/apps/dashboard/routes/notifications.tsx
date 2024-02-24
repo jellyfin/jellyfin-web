@@ -2,20 +2,7 @@ import React from 'react';
 
 import Page from 'components/Page';
 import globalize from 'scripts/globalize';
-
-const PluginLink = () => (
-    <div
-        dangerouslySetInnerHTML={{
-            __html: `<a
-                is='emby-linkbutton'
-                class='button-link'
-                href='#/dashboard/plugins/add?name=Webhook&guid=71552a5a5c5c4350a2aeebe451a30173'
-            >
-                ${globalize.translate('GetThePlugin')}
-            </a>`
-        }}
-    />
-);
+import LinkButton from 'elements/emby-button/LinkButton';
 
 const Notifications = () => (
     <Page
@@ -28,7 +15,11 @@ const Notifications = () => (
             <p>
                 {globalize.translate('NotificationsMovedMessage')}
             </p>
-            <PluginLink />
+            <LinkButton
+                className='button-link'
+                href='#/dashboard/plugins/add?name=Webhook&guid=71552a5a5c5c4350a2aeebe451a30173'>
+                {globalize.translate('GetThePlugin')}
+            </LinkButton>
         </div>
     </Page>
 );
