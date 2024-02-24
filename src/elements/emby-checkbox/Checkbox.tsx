@@ -75,7 +75,7 @@ function onKeyDown(this: HTMLInputElement, e: KeyboardEvent) {
 }
 
 function forceRefresh(this: HTMLInputElement, loading: unknown) {
-    const elem = this.parentNode as HTMLSpanElement;
+    const elem = this.parentNode as HTMLLabelElement;
 
     elem.style.webkitAnimationName = 'repaintChrome';
     elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');
