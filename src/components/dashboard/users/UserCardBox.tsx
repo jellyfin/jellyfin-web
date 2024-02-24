@@ -5,7 +5,6 @@ import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import LinkButton from '../../../elements/emby-button/LinkButton';
-import escapeHTML from 'escape-html';
 import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
 
 type IProps = {
@@ -73,7 +72,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                         />
                     </div>
                     <div className='cardText'>
-                        <span>{escapeHTML(user.Name)}</span>
+                        <span>{user.Name}</span>
                     </div>
                     <div className='cardText cardText-secondary'>
                         <span>{lastSeen != '' ? lastSeen : ''}</span>
