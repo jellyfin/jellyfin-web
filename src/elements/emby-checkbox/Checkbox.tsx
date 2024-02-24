@@ -46,7 +46,7 @@ const CheckBox: React.FC<Props> = ({ label, outlineClassName, labelClassName, cl
 
     return (
         <label className={classNames('emby-checkbox-label', labelClassName)}>
-            <input className={classNames('emby-checkbox', className)} type='checkbox' {...inputProps } />
+            <input ref={inputRef} className={classNames('emby-checkbox', className)} type='checkbox' {...inputProps } />
             <span className='checkboxLabel'>{label}</span>
             <span className={classNames('checkboxOutline', outlineClassName)}>
                 <span className='material-icons checkboxIcon checkboxIcon-checked check' aria-hidden='true'></span>
