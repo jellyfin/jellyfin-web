@@ -1778,5 +1778,7 @@
     "MachineTranslated": "Traduït per Màquina",
     "ForeignPartsOnly": "Només parts Forçades/Forànies",
     "HeaderGuestCast": "Estrelles Convidades",
-    "HeaderAllRecordings": "Tots els enregistraments"
+    "HeaderAllRecordings": "Tots els enregistraments",
+    "LabelServerVersion": "Versió del Servidor",
+    "LabelWebVersion": "Versió Web"
 }
