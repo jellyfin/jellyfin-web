@@ -2,26 +2,14 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
-import escapeHtml from 'escape-html';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { appRouter } from '../router/appRouter';
 import { useApi } from '../../hooks/useApi';
 import globalize from '../../scripts/globalize';
+import LinkButton from '../../elements/emby-button/LinkButton';
 
 import '../../elements/emby-button/emby-button';
-
-// There seems to be some compatibility issues here between
-// React and our legacy web components, so we need to inject
-// them as an html string for now =/
-const createSuggestionLink = ({ name, href }: { name: string, href: string }) => ({
-    __html: `<a
-    is='emby-linkbutton'
-    class='button-link'
-    style='display: inline-block; padding: 0.5em 1em;'
-    href='${href}'
->${escapeHtml(name)}</a>`
-});
 
 type SearchSuggestionsProps = {
     parentId?: string | null;
@@ -66,13 +54,12 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
 
             <div className='searchSuggestionsList padded-left padded-right'>
                 {suggestions.map(item => (
-                    <div
-                        key={`suggestion-${item.Id}`}
-                        dangerouslySetInnerHTML={createSuggestionLink({
-                            name: item.Name || '',
-                            href: appRouter.getRouteUrl(item)
-                        })}
-                    />
+                    <LinkButton key={item.Id}
+                        className='button-link'
+                        style={{ display: 'inline-block', padding: '0.5em 1em' }}
+                        href={appRouter.getRouteUrl(item)}>
+                        {item.Name}
+                    </LinkButton>
                 ))}
             </div>
         </div>
