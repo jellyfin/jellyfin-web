@@ -1524,7 +1524,7 @@
     "OnApplicationStartup": "Na inicialização do aplicativo",
     "MessageSyncPlayLibraryAccessDenied": "O acesso a este conteúdo é restrito.",
     "SortName": "Classificar nome",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Essas configurações também se aplicam a qualquer reprodução do Google Cast iniciada por este dispositivo.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Estas definições também se aplicam a qualquer reprodução do Google Cast iniciada por este dispositivo.",
     "OnWakeFromSleep": "Ao acordar do sono",
     "OptionMaxActiveSessionsHelp": "Um valor 0 desativará o recurso.",
     "Watched": "Assistido",
