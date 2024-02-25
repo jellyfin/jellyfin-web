@@ -1774,5 +1774,8 @@
     "LabelAlbumGain": "Albüm Ses Kazancı",
     "LabelTrackGain": "Parça Ses Kazancı",
     "SearchResultsEmpty": "Üzgünüz! \"{0}\" için sonuç bulunamadı",
-    "HeaderAllRecordings": "Tüm Kayıtlar"
+    "HeaderAllRecordings": "Tüm Kayıtlar",
+    "LabelBuildVersion": "Yapı sürümü",
+    "LabelServerVersion": "Sunucu sürümü",
+    "LabelWebVersion": "Web sürümü"
 }
