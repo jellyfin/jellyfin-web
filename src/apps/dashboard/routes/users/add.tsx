@@ -5,7 +5,7 @@ import globalize from '../../../../scripts/globalize';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import InputElement from '../../../../elements/InputElement';
+import Input from '../../../../elements/emby-input/Input';
 import ButtonElement from '../../../../elements/ButtonElement';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
@@ -193,18 +193,18 @@ const UserNew: FunctionComponent = () => {
 
                 <form className='newUserProfileForm'>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='text'
                             id='txtUsername'
-                            label='LabelName'
-                            options={'required'}
+                            label={globalize.translate('LabelName')}
+                            required
                         />
                     </div>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtPassword'
-                            label='LabelPassword'
+                            label={globalize.translate('LabelPassword')}
                         />
                     </div>
                     <AccessContainer
