@@ -1,10 +1,10 @@
 import { getQuickConnectApi } from '@jellyfin/sdk/lib/utils/api/quick-connect-api';
-import React, { FC, FormEvent, useCallback, useMemo, useState } from 'react';
+import React, { FC, FormEvent, useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import InputElement from 'elements/InputElement';
+import Input from 'elements/emby-input/Input';
 import ButtonElement from 'elements/ButtonElement';
 import { useApi } from 'hooks/useApi';
 
@@ -13,14 +13,12 @@ import './quickConnect.scss';
 const QuickConnectPage: FC = () => {
     const { api, user } = useApi();
     const [ searchParams ] = useSearchParams();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const initialValue = useMemo(() => searchParams.get('code') ?? '', []);
-    const [ code, setCode ] = useState(initialValue);
+    const [ code, setCode ] = useState(searchParams.get('code') ?? '');
     const [ error, setError ] = useState<string>();
     const [ success, setSuccess ] = useState(false);
 
-    const onCodeChange = useCallback((value: string) => {
-        setCode(value);
+    const onCodeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setCode(event.currentTarget.value);
     }, []);
 
     const onSubmitCode = useCallback((e: FormEvent<HTMLFormElement>) => {
@@ -90,15 +88,20 @@ const QuickConnectPage: FC = () => {
                             </div>
                         ) : (
                             <>
-                                <InputElement
-                                    containerClassName='inputContainer'
-                                    initialValue={initialValue}
-                                    onChange={onCodeChange}
-                                    id='txtQuickConnectCode'
-                                    label='LabelQuickConnectCode'
-                                    type='text'
-                                    options="inputmode='numeric' pattern='[0-9\s]*' minlength='6' required autocomplete='off'"
-                                />
+                                <div className='inputContainer'>
+                                    <Input
+                                        value={code}
+                                        onChange={onCodeChange}
+                                        id='txtQuickConnectCode'
+                                        label={globalize.translate('LabelQuickConnectCode')}
+                                        type='text'
+                                        inputMode='numeric'
+                                        pattern='[0-9\s]*'
+                                        minLength={6}
+                                        required
+                                        autoComplete='off'
+                                    />
+                                </div>
                                 <ButtonElement
                                     type='submit'
                                     className='raised button-submit block'
