@@ -1785,5 +1785,6 @@
     "HeaderAllRecordings": "所有录制的节目",
     "LabelServerVersion": "服务器版本",
     "LabelWebVersion": "网页版本",
-    "LabelBuildVersion": "构建版本"
+    "LabelBuildVersion": "构建版本",
+    "ButtonEditUser": "编辑用户"
 }
