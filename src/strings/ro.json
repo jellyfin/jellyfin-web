@@ -241,7 +241,7 @@
     "ButtonNetwork": "Rețea",
     "ButtonNextTrack": "Următoarea cale",
     "ButtonOk": "Ok",
-    "ButtonEditUser": "Deschide",
+    "ButtonOpen": "Deschide",
     "ButtonParentalControl": "Control parental",
     "ButtonPause": "Pauză",
     "ConfirmEndPlayerSession": "Dorești să oprești serverul Jellyfin pe {0}?",
