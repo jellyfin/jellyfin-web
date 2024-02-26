@@ -1777,6 +1777,6 @@
     "UnknownVideoStreamInfo": "As informações do stream de vídeo são desconhecidas",
     "SelectAll": "Selecionar tudo",
     "LabelTonemappingMode": "Modo de mapeamento de tons",
-    "TonemappingModeHelp": "Selecione o modo de mapeamento de tons. Se você tiver destaques estourados, tente mudar para o modo RGB.",
+    "TonemappingModeHelp": "Selecione o modo de mapeamento de tons. Se ocorrerem erros de sobre-exposição, experimente o modo RGB.",
     "VideoRangeTypeNotSupported": "O tipo de intervalo do vídeo não é compatível"
 }
