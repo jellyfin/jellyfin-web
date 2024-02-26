@@ -812,15 +812,6 @@ export default function (options) {
         });
     }
 
-    if (!supportsSecondaryAudio) {
-        aacCodecProfileConditions.push({
-            Condition: 'Equals',
-            Property: 'IsSecondaryAudio',
-            Value: 'false',
-            IsRequired: false
-        });
-    }
-
     if (aacCodecProfileConditions.length) {
         profile.CodecProfiles.push({
             Type: 'VideoAudio',
