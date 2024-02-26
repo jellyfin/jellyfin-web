@@ -7,7 +7,7 @@ import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import Input from '../../../../elements/emby-input/Input';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
@@ -248,16 +248,16 @@ const UserNew = () => {
                         ))}
                     </AccessContainer>
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnCancel'
                             className='raised button-cancel block'
-                            title='ButtonCancel'
+                            title={globalize.translate('ButtonCancel')}
                         />
                     </div>
                 </form>

@@ -5,7 +5,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import Input from 'elements/emby-input/Input';
-import ButtonElement from 'elements/ButtonElement';
+import Button from 'elements/emby-button/Button';
 import { useApi } from 'hooks/useApi';
 
 import './quickConnect.scss';
@@ -102,7 +102,7 @@ const QuickConnectPage: FC = () => {
                                         autoComplete='off'
                                     />
                                 </div>
-                                <ButtonElement
+                                <Button
                                     type='submit'
                                     className='raised button-submit block'
                                     title={globalize.translate('Authorize')}

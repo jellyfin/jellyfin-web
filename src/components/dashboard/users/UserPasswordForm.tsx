@@ -5,7 +5,7 @@ import globalize from '../../../lib/globalize';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
-import ButtonElement from '../../../elements/ButtonElement';
+import Button from '../../../elements/emby-button/Button';
 import Input from '../../../elements/emby-input/Input';
 
 type IProps = {
@@ -183,16 +183,16 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                     </div>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='SavePassword'
+                            title={globalize.translate('SavePassword')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnResetPassword'
                             className='raised button-cancel block hide'
-                            title='ResetPassword'
+                            title={globalize.translate('ResetPassword')}
                         />
                     </div>
                 </div>
