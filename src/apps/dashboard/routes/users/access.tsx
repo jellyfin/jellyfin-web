@@ -6,7 +6,7 @@ import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
 import toast from '../../../../components/toast/toast';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import { getParameterByName } from '../../../../utils/url';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
@@ -310,10 +310,10 @@ const UserLibraryAccess: FunctionComponent = () => {
                     </AccessContainer>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
                     </div>
                 </form>

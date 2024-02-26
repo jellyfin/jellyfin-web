@@ -5,7 +5,7 @@ import escapeHTML from 'escape-html';
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../scripts/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Input from '../../../../elements/emby-input/Input';
 import LinkEditUserPreferences from '../../../../components/dashboard/users/LinkEditUserPreferences';
@@ -577,16 +577,16 @@ const UserEdit: FunctionComponent = () => {
                     </div>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnCancel'
                             className='raised button-cancel block'
-                            title='ButtonCancel'
+                            title={globalize.translate('ButtonCancel')}
                         />
                     </div>
                 </form>

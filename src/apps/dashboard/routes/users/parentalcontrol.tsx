@@ -7,7 +7,7 @@ import globalize from '../../../../scripts/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
 import BlockedTagList from '../../../../components/dashboard/users/BlockedTagList';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
@@ -422,10 +422,10 @@ const UserParentalControl: FunctionComponent = () => {
                         </div>
                     </div>
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
                     </div>
                 </form>
