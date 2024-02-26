@@ -7,7 +7,7 @@ import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
@@ -197,17 +197,17 @@ const UserProfile: FunctionComponent = () => {
                             {userName}
                         </h2>
                         <br />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnAddImage'
                             className='raised button-submit hide'
-                            title='ButtonAddImage'
+                            title={globalize.translate('ButtonAddImage')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnDeleteImage'
                             className='raised hide'
-                            title='DeleteImage'
+                            title={globalize.translate('DeleteImage')}
                         />
                     </div>
                 </div>
