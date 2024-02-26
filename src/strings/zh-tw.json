@@ -1781,5 +1781,9 @@
     "LabelSelectAudioNormalization": "音量標準化",
     "SelectAudioNormalizationHelp": "音軌增益：調整個別音軌的增益以獲得一致的音量。專輯增益：調整專輯中全部音軌的音量。",
     "LabelAlbumGain": "專輯增益",
-    "HeaderAllRecordings": "所有錄製的節目"
+    "HeaderAllRecordings": "所有錄製的節目",
+    "ButtonEditUser": "編輯用戶",
+    "LabelServerVersion": "伺服器版本",
+    "LabelBuildVersion": "組建版本",
+    "LabelWebVersion": "網頁版本"
 }
