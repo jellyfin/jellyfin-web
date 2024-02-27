@@ -1785,5 +1785,6 @@
     "HeaderAllRecordings": "Všechny nahrávky",
     "LabelBuildVersion": "Verze sestavení",
     "LabelServerVersion": "Verze serveru",
-    "LabelWebVersion": "Verze webu"
+    "LabelWebVersion": "Verze webu",
+    "ButtonEditUser": "Upravit uživatele"
 }
