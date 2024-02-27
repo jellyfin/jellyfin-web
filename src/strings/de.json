@@ -1785,5 +1785,6 @@
     "HeaderAllRecordings": "Alle Aufnahmen",
     "LabelBuildVersion": "Build-Version",
     "LabelServerVersion": "Server-Version",
-    "LabelWebVersion": "Web-Version"
+    "LabelWebVersion": "Web-Version",
+    "ButtonEditUser": "Editiere Benutzer"
 }
