@@ -11,6 +11,20 @@ import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 
+function getDeleteCommandName(type) {
+    switch (type) {
+        case 'Series':
+            return globalize.translate('DeleteSeries');
+
+        case 'Playlist':
+        case 'BoxSet':
+            return globalize.translate('Delete');
+
+        default:
+            return globalize.translate('DeleteMedia');
+    }
+}
+
 export function getCommands(options) {
     const item = options.item;
     const user = options.user;
@@ -160,19 +174,11 @@ export function getCommands(options) {
     }
 
     if (item.CanDelete && options.deleteItem !== false) {
-        if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
-            commands.push({
-                name: globalize.translate('Delete'),
-                id: 'delete',
-                icon: 'delete'
-            });
-        } else {
-            commands.push({
-                name: globalize.translate('DeleteMedia'),
-                id: 'delete',
-                icon: 'delete'
-            });
-        }
+        commands.push({
+            name: getDeleteCommandName(item.Type),
+            id: 'delete',
+            icon: 'delete'
+        });
     }
 
     // Books are promoted to major download Button and therefor excluded in the context menu
