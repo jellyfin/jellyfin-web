@@ -48,6 +48,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 
         selectSubtitleLanguage.value = user.Configuration.SubtitleLanguagePreference || '';
         context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || '';
+        context.querySelector('#selectSubtitleCodec').value = user.Configuration.SubtitleCodecPreference || 'none';
 
         context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 
@@ -78,6 +79,7 @@ function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient)
 
     user.Configuration.SubtitleLanguagePreference = context.querySelector('#selectSubtitleLanguage').value;
     user.Configuration.SubtitleMode = context.querySelector('#selectSubtitlePlaybackMode').value;
+    user.Configuration.SubtitleCodecPreference = context.querySelector('#selectSubtitleCodec').value;
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }

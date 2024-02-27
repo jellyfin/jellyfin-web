@@ -9,6 +9,16 @@
         </div>
 
         <div class="selectContainer">
+            <select is="emby-select" id="selectSubtitleCodec" label="${LabelPreferredSubtitleCodec}">
+                <option value="srt">SubRip</option>
+                <option value="ass">ASS/SSA</option>
+                <option value="vtt">WebVTT</option>
+                <option value="ttml">TTML</option>
+                <option value="none">${None}</option>
+            </select>
+        </div>
+
+        <div class="selectContainer">
             <select is="emby-select" id="selectSubtitlePlaybackMode" label="${LabelSubtitlePlaybackMode}">
                 <option value="Default">${Default}</option>
                 <option value="Smart">${Smart}</option>

@@ -824,6 +824,7 @@
     "LabelPostProcessorArgumentsHelp": "Use {path} as the path to the recording file.",
     "LabelPreferredDisplayLanguage": "Preferred display language",
     "LabelPreferredSubtitleLanguage": "Preferred subtitle language",
+    "LabelPreferredSubtitleCodec": "Preferred subtitle codec",
     "LabelProfileAudioCodecs": "Audio codecs",
     "LabelProfileCodecs": "Codecs",
     "LabelProfileCodecsHelp": "Separated by comma. This can be left empty to apply to all codecs.",
