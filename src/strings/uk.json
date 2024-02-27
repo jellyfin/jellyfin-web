@@ -1779,5 +1779,8 @@
     "LabelSelectAudioNormalization": "Нормалізація звуку",
     "LabelTrackGain": "Посилення треку",
     "SearchResultsEmpty": "Вибачте! Нічого не знайдено за запитом «{0}»",
-    "HeaderAllRecordings": "Всі записи"
+    "HeaderAllRecordings": "Всі записи",
+    "LabelBuildVersion": "Версія збірки",
+    "LabelServerVersion": "Версія сервера",
+    "LabelWebVersion": "Версія вебу"
 }

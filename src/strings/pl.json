@@ -1785,5 +1785,6 @@
     "HeaderAllRecordings": "Wszystkie nagrania",
     "LabelBuildVersion": "Wersja kompilacji",
     "LabelServerVersion": "Wersja serwera",
-    "LabelWebVersion": "Wersja sieciowa"
+    "LabelWebVersion": "Wersja sieciowa",
+    "ButtonEditUser": "Edytuj użytkownika"
 }

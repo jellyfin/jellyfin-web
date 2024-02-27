@@ -1782,5 +1782,9 @@
     "SelectAudioNormalizationHelp": "音轨增益 - 调整每个音轨的音量，使它们播放时具有相同的响度。专辑增益 - 只调整专辑中所有音轨的音量，保持专辑的动态范围。",
     "LabelAlbumGain": "专辑增益",
     "LabelSelectAudioNormalization": "音频标准化",
-    "HeaderAllRecordings": "所有录制的节目"
+    "HeaderAllRecordings": "所有录制的节目",
+    "LabelServerVersion": "服务器版本",
+    "LabelWebVersion": "网页版本",
+    "LabelBuildVersion": "构建版本",
+    "ButtonEditUser": "编辑用户"
 }
