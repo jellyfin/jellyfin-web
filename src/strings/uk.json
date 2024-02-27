@@ -1782,5 +1782,6 @@
     "HeaderAllRecordings": "Всі записи",
     "LabelBuildVersion": "Версія збірки",
     "LabelServerVersion": "Версія сервера",
-    "LabelWebVersion": "Версія вебу"
+    "LabelWebVersion": "Версія вебу",
+    "ButtonEditUser": "Редагувати користувача"
 }
