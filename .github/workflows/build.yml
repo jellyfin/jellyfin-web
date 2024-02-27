@@ -31,6 +31,8 @@ jobs:
         run: npm ci --no-audit
 
       - name: Run a production build
+        env:
+          JELLYFIN_VERSION: ${{ github.sha }}
         run: npm run build:production
 
       - name: Update config.json for testing
