@@ -924,14 +924,22 @@ export default function (options) {
             IsRequired: false
         });
 
-        if (browser.firefox || browser.tizen || browser.web0s) {
+        // FIXME: Most likely, it is always `FirstSupported`
+        if (browser.chrome || browser.firefox || browser.tizen || browser.web0s) {
             profile.SingleAudioPolicy = 'FirstSupported';
-        } else if (browser.chrome) {
-            // Chrome 115+ detects only default audio tracks - BROKEN
-            profile.SingleAudioPolicy = browser.versionMajor >= 115 ? 'DefaultSupported' : 'FirstSupported';
         } else {
             profile.SingleAudioPolicy = 'First';
         }
+    }
+
+    if (browser.chrome && browser.versionMajor >= 115) {
+        // Chrome 115+ detects only default audio tracks - BROKEN
+        globalVideoAudioCodecProfileConditions.push({
+            Condition: 'Equals',
+            Property: 'IsDefaultTrack',
+            Value: 'true',
+            IsRequired: false
+        });
     }
 
     if (globalAudioCodecProfileConditions.length) {
