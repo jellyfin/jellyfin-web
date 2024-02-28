@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import escapeHTML from 'escape-html';
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import layoutManager from '../../layoutManager';

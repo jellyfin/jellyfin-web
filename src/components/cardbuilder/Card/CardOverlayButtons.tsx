@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
 import { appRouter } from 'components/router/appRouter';

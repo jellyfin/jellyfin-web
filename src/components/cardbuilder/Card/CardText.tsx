@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import escapeHTML from 'escape-html';
 import type { TextLine } from './cardHelper';

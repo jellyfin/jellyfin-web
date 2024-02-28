@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import escapeHTML from 'escape-html';
 import { groupBy } from 'lodash-es';
 import Box from '@mui/material/Box';

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import { setCardData } from '../cardBuilder';
 import Card from './Card';
 import type { ItemDto } from 'types/itemDto';

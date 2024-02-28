@@ -1,7 +1,7 @@
 import type {
     LibraryUpdateInfo
 } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { type FC, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
@@ -19,7 +19,7 @@ import itemShortcuts from 'components/shortcuts';
 import MultiSelect from 'components/multiSelect/multiSelect';
 import loading from 'components/loading/loading';
 import focusManager from 'components/focusManager';
-import { ParentId } from 'types/library';
+import type { ParentId } from 'types/library';
 
 function disableEvent(e: MouseEvent) {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
 import Events, { Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
 import classNames from 'classnames';

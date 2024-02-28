@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { type FC, useCallback, useState } from 'react';
 import { BlurhashCanvas } from 'react-blurhash';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 

@@ -1,7 +1,7 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { ProgressOptions } from 'types/progressOptions';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import classNames from 'classnames';
+import type { ProgressOptions } from 'types/progressOptions';
 
 interface AutoTimeProgressBarProps {
     pct: number;

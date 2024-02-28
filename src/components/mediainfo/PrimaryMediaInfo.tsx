@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import usePrimaryMediaInfo from './usePrimaryMediaInfo';

@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { type FC, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';

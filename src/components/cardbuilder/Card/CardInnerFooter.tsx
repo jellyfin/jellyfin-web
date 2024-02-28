@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import classNames from 'classnames';
 import CardFooterText from './CardFooterText';
 import type { ItemDto } from 'types/itemDto';

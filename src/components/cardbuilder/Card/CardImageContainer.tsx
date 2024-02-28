@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
 import useIndicator from 'components/indicators/useIndicator';
