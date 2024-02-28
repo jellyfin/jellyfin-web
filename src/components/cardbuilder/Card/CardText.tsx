@@ -1,6 +1,5 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
-import escapeHTML from 'escape-html';
 import type { TextLine } from './cardHelper';
 
 interface CardTextProps {
@@ -19,7 +18,7 @@ const CardText: FC<CardTextProps> = ({ className, textLine }) => {
                     title={titleAction.title}
                     {...titleAction.dataAttributes}
                 >
-                    {escapeHTML(titleAction.title)}
+                    {titleAction.title}
                 </a>
             );
         } else {

@@ -2,7 +2,6 @@ import React, { type FC } from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
 import { appRouter } from 'components/router/appRouter';
-import escapeHTML from 'escape-html';
 import PlayArrowIconButton from '../../common/PlayArrowIconButton';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 
@@ -61,7 +60,7 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
     return (
         <a
             href={url}
-            aria-label={escapeHTML(item.Name)}
+            aria-label={item.Name || ''}
             style={{
                 position: 'absolute',
                 top: 0,

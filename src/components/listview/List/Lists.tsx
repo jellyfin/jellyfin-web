@@ -1,5 +1,4 @@
 import React, { type FC } from 'react';
-import escapeHTML from 'escape-html';
 import { groupBy } from 'lodash-es';
 import Box from '@mui/material/Box';
 import { getIndex } from './listHelper';
@@ -43,7 +42,7 @@ const Lists: FC<ListsProps> = ({ items = [], listOptions = {} }) => {
                     <Box key={index}>
                         {itemGroupTitle && (
                             <ListGroupHeaderWrapper index={index}>
-                                {escapeHTML(itemGroupTitle)}
+                                {itemGroupTitle}
                             </ListGroupHeaderWrapper>
                         )}
                         {getItems.map((item) => renderListItem(item, index))}

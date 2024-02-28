@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import escapeHTML from 'escape-html';
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -31,7 +30,7 @@ const ListWrapper: FC<ListWrapperProps> = ({
                     'itemAction listItem-button listItem-focusscale'
                 )}
                 data-action={action}
-                aria-label={escapeHTML(title)}
+                aria-label={title}
                 {...dataAttributes}
             >
                 {children}

@@ -1,6 +1,5 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
-import escapeHTML from 'escape-html';
 import itemHelper from 'components/itemHelper';
 import { isUsingLiveTvNaming } from '../cardbuilder/cardBuilderUtils';
 import type { ItemDto } from 'types/itemDto';
@@ -15,7 +14,7 @@ const DefaultName: FC<DefaultNameProps> = ({ item }) => {
         itemHelper.getDisplayName(item);
     return (
         <Box className='cardText cardDefaultText'>
-            {escapeHTML(defaultName)}
+            {defaultName}
         </Box>
     );
 };

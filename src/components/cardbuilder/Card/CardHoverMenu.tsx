@@ -2,7 +2,6 @@ import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
-import escapeHTML from 'escape-html';
 import { appRouter } from 'components/router/appRouter';
 import itemHelper from 'components/itemHelper';
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -42,7 +41,7 @@ const CardHoverMenu: FC<CardHoverMenuProps> = ({
         >
             <a
                 href={url}
-                aria-label={escapeHTML(item.Name)}
+                aria-label={item.Name || ''}
                 className='cardImageContainer'
             ></a>
 
