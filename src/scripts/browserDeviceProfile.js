@@ -573,8 +573,8 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && !browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)) {
-        // disable av1 on mobile since it can be very slow software decoding
+        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)))) {
+        // disable av1 on non-safari mobile browsers since it can be very slow software decoding
         hlsInFmp4VideoCodecs.push('av1');
     }
 
