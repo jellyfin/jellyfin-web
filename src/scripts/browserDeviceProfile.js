@@ -619,12 +619,20 @@ export default function (options) {
 
     if (canPlayVp9) {
         mp4VideoCodecs.push('vp9');
-        webmVideoCodecs.push('vp9');
+        // webm support is unreliable on safari 17
+        if (!browser.safari
+             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+            webmVideoCodecs.push('vp9');
+        }
     }
 
     if (canPlayAv1(videoTestElement)) {
         mp4VideoCodecs.push('av1');
-        webmVideoCodecs.push('av1');
+        // webm support is unreliable on safari 17
+        if (!browser.safari
+             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+            webmVideoCodecs.push('av1');
+        }
     }
 
     if (canPlayVp8 || browser.tizen) {
