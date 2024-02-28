@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import classNames from 'classnames';
 import useCardImageUrl from './useCardImageUrl';
 import {
@@ -5,6 +6,7 @@ import {
     resolveMixedShapeByAspectRatio
 } from '../cardBuilderUtils';
 import { getDataAttributes } from 'utils/items';
+import { CardShape } from 'utils/card';
 import layoutManager from 'components/layoutManager';
 
 import type { ItemDto } from 'types/itemDto';
@@ -24,7 +26,7 @@ function useCard({ item, cardOptions }: UseCardProps) {
 
     let shape = cardOptions.shape;
 
-    if (shape === 'mixed') {
+    if (shape === CardShape.Mixed) {
         shape = resolveMixedShapeByAspectRatio(item.PrimaryImageAspectRatio);
     }
 
@@ -82,9 +84,9 @@ function useCard({ item, cardOptions }: UseCardProps) {
         { groupedCard: cardOptions.showChildCountIndicator && item.ChildCount },
         {
             'card-withuserdata':
-                item.Type !== 'MusicAlbum'
-                && item.Type !== 'MusicArtist'
-                && item.Type !== 'Audio'
+                item.Type !== BaseItemKind.MusicAlbum
+                && item.Type !== BaseItemKind.MusicArtist
+                && item.Type !== BaseItemKind.Audio
         },
         { itemAction: layoutManager.tv }
     );

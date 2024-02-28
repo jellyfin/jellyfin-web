@@ -1,3 +1,5 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import React, { type FC } from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
@@ -15,10 +17,10 @@ const sholudShowOverlayPlayButton = (
     return (
         overlayPlayButton
         && !item.IsPlaceHolder
-        && (item.LocationType !== 'Virtual'
+        && (item.LocationType !== LocationType.Virtual
             || !item.MediaType
-            || item.Type === 'Program')
-        && item.Type !== 'Person'
+            || item.Type === BaseItemKind.Program)
+        && item.Type !== BaseItemKind.Person
     );
 };
 

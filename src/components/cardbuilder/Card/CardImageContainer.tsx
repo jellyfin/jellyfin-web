@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
@@ -32,7 +33,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
     const cardImageClass = classNames(
         'cardImageContainer',
         { coveredImage: coveredImage },
-        { 'coveredImage-contain': coveredImage && item.Type === 'TvChannel' }
+        { 'coveredImage-contain': coveredImage && item.Type === BaseItemKind.TvChannel }
     );
 
     return (
@@ -52,7 +53,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                             indicator.getChildCountIndicator() :
                             indicator.getPlayedIndicator()}
 
-                        {(item.Type === 'CollectionFolder'
+                        {(item.Type === BaseItemKind.CollectionFolder
                             || item.CollectionType)
                             && item.RefreshProgress && (
                             <RefreshIndicator item={item} />

@@ -193,7 +193,7 @@ const useIndicator = (item: ItemDto) => {
     const getProgressBar = (progressOptions?: ProgressOptions) => {
         if (
             enableProgressIndicator(item.Type, item.MediaType)
-            && item.Type !== 'Recording'
+            && item.Type !== BaseItemKind.Recording
         ) {
             const playedPercentage = progressOptions?.userData?.PlayedPercentage ?
                 progressOptions.userData.PlayedPercentage :

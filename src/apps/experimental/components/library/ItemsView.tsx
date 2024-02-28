@@ -1,12 +1,14 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
-import React, { FC, useCallback } from 'react';
+import React, { type FC, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItem, useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
+import { CardShape } from 'utils/card';
 import Loading from 'components/loading/LoadingComponent';
 import { playbackManager } from 'components/playback/playbackmanager';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
@@ -22,10 +24,8 @@ import GridListViewButton from './GridListViewButton';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Lists from 'components/listview/List/Lists';
 import Cards from 'components/cardbuilder/Card/Cards';
-import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTab } from 'types/libraryTab';
-
+import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
 
@@ -110,18 +110,18 @@ const ItemsView: FC<ItemsViewProps> = ({
         let preferLogo;
 
         if (libraryViewSettings.ImageType === ImageType.Banner) {
-            shape = 'banner';
+            shape = CardShape.Banner;
         } else if (libraryViewSettings.ImageType === ImageType.Disc) {
-            shape = 'square';
+            shape = CardShape.Square;
             preferDisc = true;
         } else if (libraryViewSettings.ImageType === ImageType.Logo) {
-            shape = 'backdrop';
+            shape = CardShape.Backdrop;
             preferLogo = true;
         } else if (libraryViewSettings.ImageType === ImageType.Thumb) {
-            shape = 'backdrop';
+            shape = CardShape.Backdrop;
             preferThumb = true;
         } else {
-            shape = 'auto';
+            shape = CardShape.Auto;
         }
 
         const cardOptions: CardOptions = {
@@ -152,12 +152,12 @@ const ItemsView: FC<ItemsViewProps> = ({
             cardOptions.showYear = false;
             cardOptions.overlayPlayButton = true;
         } else if (viewType === LibraryTab.Channels) {
-            cardOptions.shape = 'square';
+            cardOptions.shape = CardShape.Square;
             cardOptions.showDetailsMenu = true;
             cardOptions.showCurrentProgram = true;
             cardOptions.showCurrentProgramTime = true;
         } else if (viewType === LibraryTab.SeriesTimers) {
-            cardOptions.shape = 'backdrop';
+            cardOptions.shape = CardShape.Backdrop;
             cardOptions.showSeriesTimerTime = true;
             cardOptions.showSeriesTimerChannel = true;
             cardOptions.overlayMoreButton = true;

@@ -30,7 +30,7 @@ const ListWrapper: FC<ListWrapperProps> = ({
                     'itemAction listItem-button listItem-focusscale'
                 )}
                 data-action={action}
-                aria-label={title}
+                aria-label={title || ''}
                 {...dataAttributes}
             >
                 {children}

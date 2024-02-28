@@ -1,8 +1,9 @@
-import { BaseItemKind, ImageType } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { useApi } from 'hooks/useApi';
 import { getDesiredAspect } from '../cardBuilderUtils';
-
+import { CardShape } from 'utils/card';
 import type { ItemDto, NullableNumber, NullableString } from 'types/itemDto';
 import type { CardOptions } from 'types/cardOptions';
 
@@ -98,10 +99,10 @@ function isCoverImage(
 function shouldShowPreferBanner(
     imageTagsBanner: NullableString,
     cardOptions: CardOptions,
-    shape: NullableString
+    shape: CardShape | undefined
 ): boolean {
     return (
-        (cardOptions.preferBanner || shape === 'banner')
+        (cardOptions.preferBanner || shape === CardShape.Banner)
         && Boolean(imageTagsBanner)
     );
 }
@@ -152,7 +153,7 @@ function shouldShowPreferThumb(itemType: NullableString, cardOptions: CardOption
 function getCardImageInfo(
     item: ItemDto,
     cardOptions: CardOptions,
-    shape: NullableString
+    shape: CardShape | undefined
 ) {
     const width = cardOptions.width;
     let height;
@@ -251,7 +252,7 @@ function getCardImageInfo(
 interface UseCardImageUrlProps {
     item: ItemDto;
     cardOptions: CardOptions;
-    shape: NullableString;
+    shape: CardShape | undefined;
 }
 
 function useCardImageUrl({ item, cardOptions, shape }: UseCardImageUrlProps) {

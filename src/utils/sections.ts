@@ -3,6 +3,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
+import { CardShape } from 'utils/card';
 import { Section, SectionType, SectionApiMethod } from 'types/sections';
 
 export const getSuggestionSections = (): Section[] => {
@@ -29,7 +30,7 @@ export const getSuggestionSections = (): Section[] => {
             cardOptions: {
                 overlayPlayButton: true,
                 preferThumb: true,
-                shape: 'overflowBackdrop',
+                shape: CardShape.BackdropOverflow,
                 showYear: true
             }
         },
@@ -43,7 +44,7 @@ export const getSuggestionSections = (): Section[] => {
             },
             cardOptions: {
                 overlayPlayButton: true,
-                shape: 'overflowPortrait',
+                shape: CardShape.PortraitOverflow,
                 showYear: true
             }
         },
@@ -57,7 +58,7 @@ export const getSuggestionSections = (): Section[] => {
             },
             cardOptions: {
                 overlayPlayButton: true,
-                shape: 'overflowBackdrop',
+                shape: CardShape.BackdropOverflow,
                 preferThumb: true,
                 inheritThumb:
                     !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
@@ -74,7 +75,7 @@ export const getSuggestionSections = (): Section[] => {
             },
             cardOptions: {
                 overlayPlayButton: true,
-                shape: 'overflowBackdrop',
+                shape: CardShape.BackdropOverflow,
                 preferThumb: true,
                 showSeriesYear: true,
                 showParentTitle: true,
@@ -90,7 +91,7 @@ export const getSuggestionSections = (): Section[] => {
             type: SectionType.NextUp,
             cardOptions: {
                 overlayPlayButton: true,
-                shape: 'overflowBackdrop',
+                shape: CardShape.BackdropOverflow,
                 preferThumb: true,
                 inheritThumb:
                     !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
@@ -107,7 +108,7 @@ export const getSuggestionSections = (): Section[] => {
             },
             cardOptions: {
                 showUnplayedIndicator: false,
-                shape: 'overflowSquare',
+                shape: CardShape.SquareOverflow,
                 showParentTitle: true,
                 overlayPlayButton: true,
                 coverImage: true
@@ -125,7 +126,7 @@ export const getSuggestionSections = (): Section[] => {
             },
             cardOptions: {
                 showUnplayedIndicator: false,
-                shape: 'overflowSquare',
+                shape: CardShape.SquareOverflow,
                 showParentTitle: true,
                 action: 'instantmix',
                 overlayMoreButton: true,
@@ -144,7 +145,7 @@ export const getSuggestionSections = (): Section[] => {
             },
             cardOptions: {
                 showUnplayedIndicator: false,
-                shape: 'overflowSquare',
+                shape: CardShape.SquareOverflow,
                 showParentTitle: true,
                 action: 'instantmix',
                 overlayMoreButton: true,
@@ -157,8 +158,8 @@ export const getSuggestionSections = (): Section[] => {
 export const getProgramSections = (): Section[] => {
     const cardOptions = {
         inheritThumb: false,
-        shape: 'autooverflow',
-        defaultShape: 'overflowBackdrop',
+        shape: CardShape.AutoOverflow,
+        defaultShape: CardShape.BackdropOverflow,
         centerText: true,
         coverImage: true,
         overlayText: false,
@@ -309,8 +310,8 @@ export const getProgramSections = (): Section[] => {
             cardOptions: {
                 showYear: true,
                 lines: 2,
-                shape: 'autooverflow',
-                defaultShape: 'overflowBackdrop',
+                shape: CardShape.AutoOverflow,
+                defaultShape: CardShape.BackdropOverflow,
                 showTitle: true,
                 showParentTitle: true,
                 coverImage: true,
@@ -328,8 +329,8 @@ export const getProgramSections = (): Section[] => {
             cardOptions: {
                 showYear: false,
                 showParentTitle: false,
-                shape: 'autooverflow',
-                defaultShape: 'overflowBackdrop',
+                shape: CardShape.AutoOverflow,
+                defaultShape: CardShape.BackdropOverflow,
                 showTitle: true,
                 coverImage: true,
                 cardLayout: false,
@@ -347,8 +348,8 @@ export const getProgramSections = (): Section[] => {
                 isInProgress: true
             },
             cardOptions: {
-                shape: 'autooverflow',
-                defaultShape: 'backdrop',
+                shape: CardShape.AutoOverflow,
+                defaultShape: CardShape.Backdrop,
                 showParentTitle: false,
                 showParentTitleOrTitle: true,
                 showTitle: true,

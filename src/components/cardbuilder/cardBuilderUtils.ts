@@ -1,3 +1,4 @@
+import { CardShape } from 'utils/card';
 import { randomInt } from '../../utils/number';
 import classNames from 'classnames';
 
@@ -54,15 +55,15 @@ export const isResizable = (windowWidth: number): boolean => {
  */
 export const resolveMixedShapeByAspectRatio = (primaryImageAspectRatio: number | null | undefined) => {
     if (primaryImageAspectRatio === undefined || primaryImageAspectRatio === null) {
-        return 'mixedSquare';
+        return CardShape.MixedSquare;
     }
 
     if (primaryImageAspectRatio >= 1.33) {
-        return 'mixedBackdrop';
+        return CardShape.MixedBackdrop;
     } else if (primaryImageAspectRatio > 0.71) {
-        return 'mixedSquare';
+        return CardShape.MixedSquare;
     } else {
-        return 'mixedPortrait';
+        return CardShape.MixedPortrait;
     }
 };
 

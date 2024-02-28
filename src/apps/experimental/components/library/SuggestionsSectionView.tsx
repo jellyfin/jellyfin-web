@@ -1,9 +1,8 @@
 import {
-    RecommendationDto,
+    type RecommendationDto,
     RecommendationType
 } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC } from 'react';
-import escapeHTML from 'escape-html';
+import React, { type FC } from 'react';
 import {
     useGetMovieRecommendations,
     useGetSuggestionSectionsWithItems
@@ -12,8 +11,9 @@ import { appRouter } from 'components/router/appRouter';
 import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import SectionContainer from './SectionContainer';
-import { ParentId } from 'types/library';
-import { Section, SectionType } from 'types/sections';
+import { CardShape } from 'utils/card';
+import type { ParentId } from 'types/library';
+import type { Section, SectionType } from 'types/sections';
 
 interface SuggestionsSectionViewProps {
     parentId: ParentId;
@@ -89,7 +89,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                 );
                 break;
         }
-        return escapeHTML(title);
+        return title;
     };
 
     return (
@@ -119,7 +119,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                     items={recommendation.Items ?? []}
                     cardOptions={{
                         queryKey: ['MovieRecommendations'],
-                        shape: 'overflowPortrait',
+                        shape: CardShape.PortraitOverflow,
                         showYear: true,
                         scalable: true,
                         overlayPlayButton: true,

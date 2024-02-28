@@ -5,7 +5,7 @@ import CardOverlayButtons from './CardOverlayButtons';
 import CardHoverMenu from './CardHoverMenu';
 import CardOuterFooter from './CardOuterFooter';
 import CardContent from './CardContent';
-
+import { CardShape } from 'utils/card';
 import type { ItemDto } from 'types/itemDto';
 import type { CardOptions } from 'types/cardOptions';
 
@@ -13,7 +13,7 @@ interface CardBoxProps {
     item: ItemDto;
     cardOptions: CardOptions;
     className: string;
-    shape: string | null | undefined;
+    shape: CardShape | undefined;
     imgUrl: string | undefined;
     blurhash: string | undefined;
     forceName: boolean;

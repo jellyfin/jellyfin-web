@@ -1,7 +1,11 @@
-import type { BaseItemDtoImageBlurHashes, BaseItemKind, ImageType, UserItemDataDto } from '@jellyfin/sdk/lib/generated-client';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import type { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
+import type { BaseItemDtoImageBlurHashes } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-image-blur-hashes';
+import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { CardShape } from 'utils/card';
 import type { ItemDto, NullableString } from './itemDto';
-import { ParentId } from './library';
+import type { ParentId } from './library';
 
 export interface CardOptions {
     itemsContainer?: HTMLElement | null;
@@ -20,7 +24,8 @@ export interface CardOptions {
     preferDisc?: boolean;
     preferLogo?: boolean;
     scalable?: boolean;
-    shape?: string | null;
+    shape?: CardShape;
+    defaultShape?: CardShape;
     lazy?: boolean;
     cardLayout?: boolean | null;
     showParentTitle?: boolean;
@@ -39,7 +44,6 @@ export interface CardOptions {
     lines?: number;
     context?: CollectionType;
     action?: string | null;
-    defaultShape?: string;
     indexBy?: string;
     parentId?: ParentId;
     showMenu?: boolean;
