@@ -174,7 +174,7 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
 
     const invalidateQueries = useCallback(async () => {
         await queryClient.invalidateQueries({
-            queryKey: queryKey,
+            queryKey,
             type: 'all',
             refetchType: 'active'
         });

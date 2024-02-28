@@ -1,4 +1,4 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import * as userSettings from 'scripts/settings/userSettings';
 import datetime from 'scripts/datetime';
 import globalize from 'scripts/globalize';

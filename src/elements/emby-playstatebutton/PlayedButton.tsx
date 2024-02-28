@@ -1,4 +1,4 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { type FC, useCallback } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
@@ -48,7 +48,7 @@ const PlayedButton: FC<PlayedButtonProps> = ({
             },
             { onSuccess: async() => {
                 await queryClient.invalidateQueries({
-                    queryKey: queryKey,
+                    queryKey,
                     type: 'all',
                     refetchType: 'active'
                 });

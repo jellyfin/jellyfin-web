@@ -1,4 +1,4 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { DeviceInfo } from '@jellyfin/sdk/lib/generated-client/models/device-info';
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
 

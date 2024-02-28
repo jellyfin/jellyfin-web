@@ -34,7 +34,7 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
             },
             { onSuccess: async() => {
                 await queryClient.invalidateQueries({
-                    queryKey: queryKey,
+                    queryKey,
                     type: 'all',
                     refetchType: 'active'
                 });

@@ -1,5 +1,5 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React from 'react';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client';
 import itemHelper from '../../itemHelper';
 import datetime from 'scripts/datetime';
 import ListTextWrapper from './ListTextWrapper';
