@@ -34,7 +34,6 @@ import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
-import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
 
@@ -302,10 +301,6 @@ export class HtmlVideoPlayer {
      * @type {any | undefined}
      */
     _currentPlayOptions;
-    /**
-     * @type {any | undefined}
-     */
-    #lastProfile;
 
     constructor() {
         if (browser.edgeUwp) {
@@ -727,38 +722,11 @@ export class HtmlVideoPlayer {
     /**
          * @private
          */
-    isAudioStreamSupported(stream, deviceProfile, container) {
-        const codec = (stream.Codec || '').toLowerCase();
-
-        if (!codec) {
-            return true;
-        }
-
-        if (!deviceProfile) {
-            // This should never happen
-            return true;
-        }
-
-        const profiles = deviceProfile.DirectPlayProfiles || [];
-
-        return profiles.some(function (p) {
-            return p.Type === 'Video'
-                    && includesAny((p.Container || '').toLowerCase(), container)
-                    && includesAny((p.AudioCodec || '').toLowerCase(), codec);
-        });
-    }
-
-    /**
-         * @private
-         */
     getSupportedAudioStreams() {
-        const profile = this.#lastProfile;
-
         const mediaSource = this._currentPlayOptions.mediaSource;
-        const container = mediaSource.Container.toLowerCase();
 
         return getMediaStreamAudioTracks(mediaSource).filter((stream) => {
-            return this.isAudioStreamSupported(stream, profile, container);
+            return stream.SupportsDirectPlay;
         });
     }
 
@@ -1698,16 +1666,6 @@ export class HtmlVideoPlayer {
      * @private
      */
     getDeviceProfile(item, options) {
-        return HtmlVideoPlayer.getDeviceProfileInternal(item, options).then((profile) => {
-            this.#lastProfile = profile;
-            return profile;
-        });
-    }
-
-    /**
-     * @private
-     */
-    static getDeviceProfileInternal(item, options) {
         if (appHost.getDeviceProfile) {
             return appHost.getDeviceProfile(item, options);
         }
