@@ -170,7 +170,7 @@
     "LabelCollection": "Gyűjtemény",
     "LabelCommunityRating": "Közösségi értékelés",
     "LabelContentType": "Tartalom típusa",
-    "LabelCountry": "Ország",
+    "LabelCountry": "Ország/Régió",
     "LabelCriticRating": "Kritikusok értékelése",
     "LabelCurrentPassword": "Jelenlegi jelszó",
     "LabelCustomDeviceDisplayNameHelp": "Adj meg egy egyedi nevet, vagy hagyd üresen a készülék által elküldött név használatához.",
@@ -1781,5 +1781,6 @@
     "LabelTrackGain": "Címnyereség",
     "ForeignPartsOnly": "Kényszerített/külföldi alkatrészek",
     "HearingImpairedShort": "HI/SDH",
-    "HeaderGuestCast": "Vendégsztárok"
+    "HeaderGuestCast": "Vendégsztárok",
+    "HeaderAllRecordings": "Összes Felvétel"
 }

@@ -2,17 +2,17 @@ import focusManager from '../components/focusManager';
 import dom from './dom';
 import '../styles/scrollstyles.scss';
 
-function getBoundingClientRect(elem) {
+function getBoundingClientRect(elem: Element) {
     // Support: BlackBerry 5, iOS 3 (original iPhone)
     // If we don't have gBCR, just use 0,0 rather than error
     if (elem.getBoundingClientRect) {
         return elem.getBoundingClientRect();
     } else {
-        return { top: 0, left: 0 };
+        return { top: 0, left: 0, width: undefined, height: undefined };
     }
 }
 
-export function getPosition(scrollContainer, item, horizontal) {
+export function getPosition(scrollContainer: HTMLElement, item: HTMLElement, horizontal: boolean) {
     const slideeOffset = getBoundingClientRect(scrollContainer);
     const itemOffset = getBoundingClientRect(item);
 
@@ -41,7 +41,7 @@ export function getPosition(scrollContainer, item, horizontal) {
     };
 }
 
-export function toCenter(container, elem, horizontal, skipWhenVisible) {
+export function toCenter(container: HTMLElement, elem: HTMLElement, horizontal: boolean, skipWhenVisible?: boolean) {
     const pos = getPosition(container, elem, horizontal);
 
     if (skipWhenVisible && pos.isVisible) {
@@ -61,7 +61,7 @@ export function toCenter(container, elem, horizontal, skipWhenVisible) {
     }
 }
 
-export function toStart(container, elem, horizontal, skipWhenVisible) {
+export function toStart(container: HTMLElement, elem: HTMLElement, horizontal: boolean, skipWhenVisible?: boolean) {
     const pos = getPosition(container, elem, horizontal);
 
     if (skipWhenVisible && pos.isVisible) {
@@ -81,7 +81,7 @@ export function toStart(container, elem, horizontal, skipWhenVisible) {
     }
 }
 
-function centerOnFocus(e, scrollSlider, horizontal) {
+function centerOnFocus(e: Event, scrollSlider: HTMLElement, horizontal: boolean) {
     const focused = focusManager.focusableParent(e.target);
 
     if (focused) {
@@ -89,16 +89,16 @@ function centerOnFocus(e, scrollSlider, horizontal) {
     }
 }
 
-function centerOnFocusHorizontal(e) {
+function centerOnFocusHorizontal(this: HTMLElement, e: Event) {
     centerOnFocus(e, this, true);
 }
 
-function centerOnFocusVertical(e) {
+function centerOnFocusVertical(this: HTMLElement, e: Event) {
     centerOnFocus(e, this, false);
 }
 
 export const centerFocus = {
-    on: function (element, horizontal) {
+    on: function (element: Element, horizontal: boolean) {
         element.setAttribute(`data-scroll-mode-${horizontal ? 'x' : 'y'}`, 'custom');
 
         if (horizontal) {
@@ -113,7 +113,7 @@ export const centerFocus = {
             });
         }
     },
-    off: function (element, horizontal) {
+    off: function (element: Element, horizontal: boolean) {
         element.removeAttribute(`data-scroll-mode-${horizontal ? 'x' : 'y'}`);
 
         if (horizontal) {

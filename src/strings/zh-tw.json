@@ -67,7 +67,7 @@
     "LabelCachePath": "快取路徑",
     "LabelCollection": "收藏櫃",
     "LabelContentType": "內容類型",
-    "LabelCountry": "國家",
+    "LabelCountry": "國家/地區",
     "LabelCurrentPassword": "當前的密碼",
     "LabelDay": "星期",
     "LabelEnableDlnaClientDiscoveryInterval": "尋找用戶端時間間隔",
@@ -264,7 +264,7 @@
     "ButtonMore": "更多",
     "ButtonNetwork": "網路",
     "ButtonNextTrack": "下一首",
-    "ButtonOpen": "開",
+    "ButtonOpen": "開啟",
     "ButtonParentalControl": "家長控制",
     "ButtonPause": "暫停",
     "ButtonPreviousTrack": "上一首",
@@ -1781,5 +1781,9 @@
     "LabelSelectAudioNormalization": "音量標準化",
     "SelectAudioNormalizationHelp": "音軌增益：調整個別音軌的增益以獲得一致的音量。專輯增益：調整專輯中全部音軌的音量。",
     "LabelAlbumGain": "專輯增益",
-    "HeaderAllRecordings": "所有錄製的節目"
+    "HeaderAllRecordings": "所有錄製的節目",
+    "ButtonEditUser": "編輯用戶",
+    "LabelServerVersion": "伺服器版本",
+    "LabelBuildVersion": "組建版本",
+    "LabelWebVersion": "網頁版本"
 }

@@ -261,7 +261,11 @@ module.exports = {
                 'ServerNotifications': 'writable',
                 'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
-                'Windows': 'readonly'
+                'Windows': 'readonly',
+                // Build time definitions
+                __JF_BUILD_VERSION__: 'readonly',
+                __USE_SYSTEM_FONTS__: 'readonly',
+                __WEBPACK_SERVE__: 'readonly'
             },
             rules: {
                 '@typescript-eslint/prefer-string-starts-ends-with': ['error']

@@ -432,7 +432,7 @@
     "LabelCollection": "Collectie",
     "LabelCommunityRating": "Beoordeling gemeenschap",
     "LabelContentType": "Inhoudstype",
-    "LabelCountry": "Land",
+    "LabelCountry": "Land/regio",
     "LabelCriticRating": "Beoordeling critici",
     "LabelCurrentPassword": "Huidig wachtwoord",
     "LabelCustomCertificatePath": "Aangepast SSL-certificaatpad",
@@ -1781,5 +1781,8 @@
     "LabelSelectAudioNormalization": "Geluidsnormalisatie",
     "LabelTrackGain": "Nummerversterking",
     "SearchResultsEmpty": "Sorry! Geen resultaten gevonden voor \"{0}\"",
-    "HeaderAllRecordings": "Alle opnamen"
+    "HeaderAllRecordings": "Alle opnamen",
+    "LabelBuildVersion": "Buildversie",
+    "LabelServerVersion": "Serverversie",
+    "LabelWebVersion": "Webversie"
 }
