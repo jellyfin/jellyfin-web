@@ -25,22 +25,8 @@ const Checkbox: React.FC<CheckboxProps> = ({ label, outlineClassName, labelClass
 
         input.addEventListener('keydown', onKeyDown);
 
-        const passive = { passive: true } as EventListenerOptions;
-        if (enableRefreshHack) {
-            input.addEventListener('click', forceRefresh, passive);
-            input.addEventListener('blur', forceRefresh, passive);
-            input.addEventListener('focus', forceRefresh, passive);
-            input.addEventListener('change', forceRefresh, passive);
-        }
-
         return () => {
             input.removeEventListener('keydown', onKeyDown);
-            if (enableRefreshHack) {
-                input.removeEventListener('click', forceRefresh, passive);
-                input.removeEventListener('blur', forceRefresh, passive);
-                input.removeEventListener('focus', forceRefresh, passive);
-                input.removeEventListener('change', forceRefresh, passive);
-            }
         };
     }, []);
 
@@ -55,8 +41,6 @@ const Checkbox: React.FC<CheckboxProps> = ({ label, outlineClassName, labelClass
         </label>
     );
 };
-
-const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s;
 
 function onKeyDown(this: HTMLInputElement, e: KeyboardEvent) {
     // Don't submit form on enter
@@ -73,18 +57,3 @@ function onKeyDown(this: HTMLInputElement, e: KeyboardEvent) {
         return false;
     }
 }
-
-function forceRefresh(this: HTMLInputElement, loading: unknown) {
-    const elem = this.parentNode as HTMLLabelElement;
-
-    elem.style.webkitAnimationName = 'repaintChrome';
-    elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');
-    elem.style.webkitAnimationDuration = '10ms';
-    elem.style.webkitAnimationIterationCount = '1';
-
-    setTimeout(function () {
-        elem.style.webkitAnimationName = '';
-    }, (loading === true ? 520 : 20));
-}
-
-export default Checkbox;
