@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import browser from '../../scripts/browser';
 
-interface Props {
+interface CheckboxProps {
     label: React.ReactNode;
     outlineClassName?: string;
     labelClassName?: string;
@@ -16,7 +16,7 @@ interface Props {
     defaultChecked?: boolean;
 }
 
-const CheckBox: React.FC<Props> = ({ label, outlineClassName, labelClassName, className, ...inputProps }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ label, outlineClassName, labelClassName, className, ...inputProps }) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
@@ -87,4 +87,4 @@ function forceRefresh(this: HTMLInputElement, loading: unknown) {
     }, (loading === true ? 520 : 20));
 }
 
-export default CheckBox;
+export default Checkbox;
