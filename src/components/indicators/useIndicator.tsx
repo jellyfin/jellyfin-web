@@ -16,7 +16,8 @@ import classNames from 'classnames';
 import datetime from 'scripts/datetime';
 import itemHelper from 'components/itemHelper';
 import AutoTimeProgressBar from 'elements/emby-progressbar/AutoTimeProgressBar';
-import type { ItemDto, NullableString } from 'types/itemDto';
+import type { NullableString } from 'types/base/common/shared/types';
+import type { ItemDto } from 'types/itemDto';
 import type { ProgressOptions } from 'types/progressOptions';
 
 const TypeIcon = {

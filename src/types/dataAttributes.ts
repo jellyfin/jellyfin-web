@@ -1,5 +1,6 @@
-import type { CollectionType, UserItemDataDto } from '@jellyfin/sdk/lib/generated-client';
-import type { NullableBoolean, NullableNumber, NullableString } from './itemDto';
+import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
+import type { NullableBoolean, NullableNumber, NullableString } from './base/common/shared/types';
 
 export type AttributesOpts = {
     context?: CollectionType,

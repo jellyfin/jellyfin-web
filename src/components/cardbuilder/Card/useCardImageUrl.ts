@@ -4,7 +4,8 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { useApi } from 'hooks/useApi';
 import { getDesiredAspect } from '../cardBuilderUtils';
 import { CardShape } from 'utils/card';
-import type { ItemDto, NullableNumber, NullableString } from 'types/itemDto';
+import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
+import type { ItemDto } from 'types/itemDto';
 import type { CardOptions } from 'types/cardOptions';
 
 function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {

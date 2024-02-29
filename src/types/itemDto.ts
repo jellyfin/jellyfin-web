@@ -20,7 +20,3 @@ export interface ItemDto extends BaseItem, TimerInfo, SeriesTimerInfo, SearchHin
     'Name'?: string | null;
     'ItemId'?: string | null;
 }
-
-export type NullableString = string | null | undefined;
-export type NullableNumber = number | null | undefined;
-export type NullableBoolean = boolean | null | undefined;

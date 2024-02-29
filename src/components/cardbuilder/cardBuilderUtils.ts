@@ -1,4 +1,4 @@
-import { CardShape } from 'utils/card';
+import { CardShape } from '../../utils/card';
 import { randomInt } from '../../utils/number';
 import classNames from 'classnames';
 

@@ -3,7 +3,8 @@ import * as userSettings from 'scripts/settings/userSettings';
 import datetime from 'scripts/datetime';
 import globalize from 'scripts/globalize';
 import itemHelper from '../itemHelper';
-import type { ItemDto, NullableNumber, NullableString } from 'types/itemDto';
+import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
+import type { ItemDto } from 'types/itemDto';
 import type { MiscInfo } from 'types/mediaInfoItem';
 
 function shouldShowFolderRuntime(
