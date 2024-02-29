@@ -3,36 +3,37 @@ import classNames from 'classnames';
 
 import browser from '../../scripts/browser';
 
-interface CheckboxProps {
+type CheckboxProps = {
     label: React.ReactNode;
     outlineClassName?: string;
     labelClassName?: string;
-    // input props
-    checked?: boolean;
-    className?: string;
-    id?: string;
-    name?: string;
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
-    defaultChecked?: boolean;
-}
+} & JSX.IntrinsicElements['input'];
 
-const Checkbox: React.FC<CheckboxProps> = ({ label, outlineClassName, labelClassName, className, ...inputProps }) => {
-    const inputRef = React.useRef<HTMLInputElement>(null);
+const Checkbox: React.FC<CheckboxProps> = ({ label, outlineClassName, labelClassName, className, onKeyDown, ...inputProps }) => {
+    const wrappedKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (onKeyDown) {
+            onKeyDown(event);
+            if (event.defaultPrevented) {
+                return;
+            }
+        }
 
-    React.useEffect(() => {
-        const input = inputRef.current;
-        if (!input) return; // should never happen
+        // Don't submit form on enter
+        // Real (non-emulator) Tizen does nothing on Space
+        if (event.keyCode === 13 || (event.keyCode === 32 && browser.tizen)) {
+            event.preventDefault();
 
-        input.addEventListener('keydown', onKeyDown);
+            event.currentTarget.checked = !event.currentTarget.checked;
+            event.currentTarget.dispatchEvent(new CustomEvent('change', {
+                bubbles: true
+            }));
 
-        return () => {
-            input.removeEventListener('keydown', onKeyDown);
-        };
-    }, []);
-
+            return false;
+        }
+    }, [onKeyDown]);
     return (
         <label className={classNames('emby-checkbox-label', labelClassName)}>
-            <input ref={inputRef} className={classNames('emby-checkbox', className)} type='checkbox' {...inputProps } />
+            <input onKeyDown={wrappedKeyDown} className={classNames('emby-checkbox', className)} type='checkbox' {...inputProps } />
             <span className='checkboxLabel'>{label}</span>
             <span className={classNames('checkboxOutline', outlineClassName)}>
                 <span className='material-icons checkboxIcon checkboxIcon-checked check' aria-hidden='true'></span>
@@ -42,18 +43,4 @@ const Checkbox: React.FC<CheckboxProps> = ({ label, outlineClassName, labelClass
     );
 };
 
-function onKeyDown(this: HTMLInputElement, e: KeyboardEvent) {
-    // Don't submit form on enter
-    // Real (non-emulator) Tizen does nothing on Space
-    if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
-        e.preventDefault();
-
-        this.checked = !this.checked;
-
-        this.dispatchEvent(new CustomEvent('change', {
-            bubbles: true
-        }));
-
-        return false;
-    }
-}
+export default Checkbox;
