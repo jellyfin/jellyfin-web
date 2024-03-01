@@ -1781,5 +1781,6 @@
     "LabelAlbumGain": "Albumjustering",
     "LabelSelectAudioNormalization": "Lydnormalisering",
     "LabelTrackGain": "Sporjustering",
-    "HeaderAllRecordings": "Alle opptak"
+    "HeaderAllRecordings": "Alle opptak",
+    "ButtonEditUser": "Rediger bruker"
 }
