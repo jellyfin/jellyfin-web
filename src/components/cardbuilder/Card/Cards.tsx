@@ -10,23 +10,15 @@ interface CardsProps {
     cardOptions: CardOptions;
 }
 
-const Cards: FC<CardsProps> = ({
-    items = [],
-    cardOptions
-}) => {
+const Cards: FC<CardsProps> = ({ items, cardOptions }) => {
     setCardData(items, cardOptions);
-    return (
-        // eslint-disable-next-line react/jsx-no-useless-fragment
-        <>
-            {items?.map((item) => (
-                <Card
-                    key={item.Id}
-                    item ={item}
-                    cardOptions= {cardOptions}
-                />
-            ))}
-        </>
-    );
+
+    const renderCards = () =>
+        items.map((item) => (
+            <Card key={item.Id} item={item} cardOptions={cardOptions} />
+        ));
+
+    return <>{renderCards()}</>;
 };
 
 export default Cards;
