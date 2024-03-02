@@ -3,7 +3,7 @@ import { BaseItemKind, ImageType } from '@jellyfin/sdk/lib/generated-client';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import globalize from 'scripts/globalize';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
 const sortBySortName = (item: ItemDto): string => {

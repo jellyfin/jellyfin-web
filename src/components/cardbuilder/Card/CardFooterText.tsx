@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import useCardText from './useCardText';
 import layoutManager from 'components/layoutManager';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 const shouldShowDetailsMenu = (

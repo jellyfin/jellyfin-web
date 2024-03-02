@@ -6,7 +6,7 @@ import CardHoverMenu from './CardHoverMenu';
 import CardOuterFooter from './CardOuterFooter';
 import CardContent from './CardContent';
 import { CardShape } from 'utils/card';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardBoxProps {

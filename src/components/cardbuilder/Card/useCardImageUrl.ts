@@ -5,7 +5,7 @@ import { useApi } from 'hooks/useApi';
 import { getDesiredAspect } from '../cardBuilderUtils';
 import { CardShape } from 'utils/card';
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {

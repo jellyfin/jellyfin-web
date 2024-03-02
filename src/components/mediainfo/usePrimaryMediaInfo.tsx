@@ -4,7 +4,7 @@ import datetime from 'scripts/datetime';
 import globalize from 'scripts/globalize';
 import itemHelper from '../itemHelper';
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
 
 function shouldShowFolderRuntime(

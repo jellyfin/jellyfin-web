@@ -3,7 +3,7 @@ import React from 'react';
 import itemHelper from '../../itemHelper';
 import datetime from 'scripts/datetime';
 import ListTextWrapper from './ListTextWrapper';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
 function getParentTitle(

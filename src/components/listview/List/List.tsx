@@ -2,7 +2,7 @@ import React, { type FC } from 'react';
 import useList from './useList';
 import ListContent from './ListContent';
 import ListWrapper from './ListWrapper';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 import '../../mediainfo/mediainfo.scss';
 import '../../guide/programs.scss';

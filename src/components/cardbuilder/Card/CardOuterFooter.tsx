@@ -4,7 +4,7 @@ import { useApi } from 'hooks/useApi';
 import { getCardLogoUrl } from './cardHelper';
 import CardFooterText from './CardFooterText';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardOuterFooterProps {

@@ -8,7 +8,7 @@ import InfoIconButton from '../../common/InfoIconButton';
 import RightIconButtons from '../../common/RightIconButtons';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
 interface ListViewUserDataButtonsProps {

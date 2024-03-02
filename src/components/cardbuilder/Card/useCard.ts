@@ -9,7 +9,7 @@ import { getDataAttributes } from 'utils/items';
 import { CardShape } from 'utils/card';
 import layoutManager from 'components/layoutManager';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface UseCardProps {

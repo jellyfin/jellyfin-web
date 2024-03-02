@@ -13,7 +13,7 @@ import {
 
 import Media from 'components/common/Media';
 import PlayArrowIconButton from 'components/common/PlayArrowIconButton';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
 interface ListImageContainerProps {

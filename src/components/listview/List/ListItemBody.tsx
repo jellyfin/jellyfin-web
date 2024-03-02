@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import useListTextlines from './useListTextlines';
 import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
 interface ListItemBodyProps {

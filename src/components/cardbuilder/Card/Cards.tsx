@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import { setCardData } from '../cardBuilder';
 import Card from './Card';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 import '../card.scss';
 

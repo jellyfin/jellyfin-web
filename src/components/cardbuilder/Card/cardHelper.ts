@@ -17,7 +17,7 @@ import datetime from 'scripts/datetime';
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';
 
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 import type { DataAttributes } from 'types/dataAttributes';
 import { getDataAttributes } from 'utils/items';

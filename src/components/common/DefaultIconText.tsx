@@ -3,7 +3,7 @@ import React, { type FC } from 'react';
 import Icon from '@mui/material/Icon';
 import imageHelper from 'utils/image';
 import DefaultName from './DefaultName';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface DefaultIconTextProps {
     item: ItemDto;

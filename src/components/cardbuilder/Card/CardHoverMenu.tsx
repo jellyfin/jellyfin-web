@@ -11,7 +11,7 @@ import FavoriteButton from 'elements/emby-ratingbutton/FavoriteButton';
 import PlayArrowIconButton from '../../common/PlayArrowIconButton';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardHoverMenuProps {

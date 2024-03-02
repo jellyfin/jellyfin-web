@@ -2,7 +2,7 @@ import { BaseItemKind, ImageType } from '@jellyfin/sdk/lib/generated-client';
 import React, { type FC } from 'react';
 import Image from './Image';
 import DefaultIconText from './DefaultIconText';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface MediaProps {
     item: ItemDto;

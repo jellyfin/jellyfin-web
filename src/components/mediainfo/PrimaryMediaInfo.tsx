@@ -8,7 +8,7 @@ import StarIcons from './StarIcons';
 import CaptionMediaInfo from './CaptionMediaInfo';
 import CriticRatingMediaInfo from './CriticRatingMediaInfo';
 import EndsAt from './EndsAt';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
 
 interface PrimaryMediaInfoProps {

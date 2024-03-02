@@ -10,7 +10,7 @@ import ListItemBody from './ListItemBody';
 import ListImageContainer from './ListImageContainer';
 import ListViewUserDataButtons from './ListViewUserDataButtons';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
 interface ListContentProps {

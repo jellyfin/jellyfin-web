@@ -7,7 +7,7 @@ import RefreshIndicator from 'elements/emby-itemrefreshindicator/RefreshIndicato
 import Media from '../../common/Media';
 import CardInnerFooter from './CardInnerFooter';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardImageContainerProps {

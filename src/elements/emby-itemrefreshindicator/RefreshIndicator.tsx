@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { toPercent } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'scripts/globalize';
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 function CircularProgressWithLabel(
     props: CircularProgressProps & { value: number }

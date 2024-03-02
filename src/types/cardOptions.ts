@@ -5,7 +5,7 @@ import type { BaseItemDtoImageBlurHashes } from '@jellyfin/sdk/lib/generated-cli
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { CardShape } from 'utils/card';
 import type { NullableString } from './base/common/shared/types';
-import type { ItemDto } from './itemDto';
+import type { ItemDto } from './base/models/item-dto';
 import type { ParentId } from './library';
 
 export interface CardOptions {

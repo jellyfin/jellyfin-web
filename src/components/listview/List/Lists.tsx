@@ -5,7 +5,7 @@ import { getIndex } from './listHelper';
 import ListGroupHeaderWrapper from './ListGroupHeaderWrapper';
 import List from './List';
 
-import type { ItemDto } from 'types/itemDto';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 import '../listview.scss';
 
