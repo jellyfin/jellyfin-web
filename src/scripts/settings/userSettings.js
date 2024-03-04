@@ -222,6 +222,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Playlist Series Name' state.
+     * @param {boolean|undefined} val - Flag to enable 'Playlist Series Name' or undefined.
+     * @return {boolean} 'Playlist Series Name' state.
+     */
+    enablePlaylistSeriesName(val) {
+        if (val !== undefined) {
+            return this.set('enablePlaylistSeriesName', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enablePlaylistSeriesName', false), true);
+    }
+
+    /**
      * Get or set 'Fast Fade-in' state.
      * @param {boolean|undefined} val - Flag to enable 'Fast Fade-in' or undefined.
      * @return {boolean} 'Fast Fade-in' state.
@@ -643,6 +656,7 @@ export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOve
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
+export const enablePlaylistSeriesName = currentSettings.enablePlaylistSeriesName.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);

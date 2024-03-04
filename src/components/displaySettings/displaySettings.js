@@ -113,6 +113,7 @@ function loadForm(context, user, userSettings) {
 
     context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
     context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
+    context.querySelector('#chkPlaylistSeriesName').checked = userSettings.enablePlaylistSeriesName();
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
     context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
@@ -148,6 +149,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
     userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
+    userSettingsInstance.enablePlaylistSeriesName(context.querySelector('#chkPlaylistSeriesName').checked);
     userSettingsInstance.theme(context.querySelector('#selectTheme').value);
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
