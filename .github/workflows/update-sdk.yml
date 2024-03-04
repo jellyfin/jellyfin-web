@@ -33,7 +33,6 @@ jobs:
           npm i --save @jellyfin/sdk@unstable
           VERSION=$(jq -r '.dependencies["@jellyfin/sdk"]' package.json)
           echo "JF_SDK_VERSION=${VERSION}" >> $GITHUB_ENV
-          git checkout package.json
 
       - name: Open a pull request
         uses: peter-evans/create-pull-request@v6
