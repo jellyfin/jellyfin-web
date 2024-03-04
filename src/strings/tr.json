@@ -1777,5 +1777,6 @@
     "HeaderAllRecordings": "Tüm Kayıtlar",
     "LabelBuildVersion": "Yapı sürümü",
     "LabelServerVersion": "Sunucu sürümü",
-    "LabelWebVersion": "Web sürümü"
+    "LabelWebVersion": "Web sürümü",
+    "ButtonEditUser": "Kullanıcıyı düzenle"
 }
