@@ -7,22 +7,21 @@ import { Link } from 'react-router-dom';
 import Page from 'components/Page';
 import globalize from 'scripts/globalize';
 
-const NotificationsPage = () => (
+const DlnaPage = () => (
     <Page
-        id='notificationSettingPage'
-        title={globalize.translate('Notifications')}
+        id='dlnaSettingsPage'
+        title='DLNA'
         className='mainAnimatedPage type-interior'
     >
         <div className='content-primary'>
-            <h2>{globalize.translate('Notifications')}</h2>
-
+            <h2>DLNA</h2>
             <Alert severity='info'>
                 <Box sx={{ marginBottom: 2 }}>
-                    {globalize.translate('NotificationsMovedMessage')}
+                    {globalize.translate('DlnaMovedMessage')}
                 </Box>
                 <Button
                     component={Link}
-                    to='/dashboard/plugins/add?name=Webhook&guid=71552a5a5c5c4350a2aeebe451a30173'
+                    to='/dashboard/plugins/add?name=DLNA&guid=33eba9cd7da14720967fdd7dae7b74a1'
                 >
                     {globalize.translate('GetThePlugin')}
                 </Button>
@@ -31,4 +30,4 @@ const NotificationsPage = () => (
     </Page>
 );
 
-export default NotificationsPage;
+export default DlnaPage;
