@@ -1786,5 +1786,6 @@
     "LabelBuildVersion": "Wersja kompilacji",
     "LabelServerVersion": "Wersja serwera",
     "LabelWebVersion": "Wersja sieciowa",
-    "ButtonEditUser": "Edytuj użytkownika"
+    "ButtonEditUser": "Edytuj użytkownika",
+    "DlnaMovedMessage": "Funkcjonalność DLNA została przeniesiona do wtyczki."
 }
