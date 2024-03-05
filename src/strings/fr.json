@@ -1785,5 +1785,7 @@
     "HeaderAllRecordings": "Tous les enregistrements",
     "LabelBuildVersion": "Numéro de build",
     "LabelServerVersion": "Version du serveur",
-    "LabelWebVersion": "Version web"
+    "LabelWebVersion": "Version web",
+    "ButtonEditUser": "Modifier l'utilisateur",
+    "DlnaMovedMessage": "La fonctionnalité DLNA a été déplacée vers un plugin."
 }
