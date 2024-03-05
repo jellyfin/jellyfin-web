@@ -1080,9 +1080,8 @@ function renderLyricsContainer(view, item, apiClient) {
             return;
         }
         //get lyrics
-        const userId = apiClient.getCurrentUserId();
         apiClient.ajax({
-            url: apiClient.getUrl('Users/' + userId + '/Items/' + item.Id + '/Lyrics'),
+            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
             type: 'GET'
         }).then(response => response.json())
             .then((json) => {

@@ -123,10 +123,9 @@ export default function (view) {
 
     function getLyrics (serverId, itemId) {
         const apiClient = ServerConnections.getApiClient(serverId);
-        const userId = apiClient.getCurrentUserId();
 
         return apiClient.ajax({
-            url: apiClient.getUrl('Users/' + userId + '/Items/' + itemId + '/Lyrics'),
+            url: apiClient.getUrl('Audio/' + itemId + '/Lyrics'),
             type: 'Get',
             dataType: 'json'
         }).then((response) => {
