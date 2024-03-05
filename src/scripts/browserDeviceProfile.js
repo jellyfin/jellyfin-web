@@ -394,8 +394,7 @@ export function canPlaySecondaryAudio(videoTestElement) {
         && !browser.firefox
         // It seems to work on Tizen 5.5+ (2020, Chrome 69+). See https://developer.tizen.org/forums/web-application-development/video-tag-not-work-audiotracks
         && (browser.tizenVersion >= 5.5 || !browser.tizen)
-        // Assume webOS 5+ (2020, Chrome 68+) supports secondary audio like Tizen 5.5+
-        && (browser.web0sVersion >= 5.0 || !browser.web0sVersion);
+        && (browser.web0sVersion >= 4.0 || !browser.web0sVersion);
 }
 
 export default function (options) {
@@ -573,8 +572,8 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && !browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)) {
-        // disable av1 on mobile since it can be very slow software decoding
+        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)))) {
+        // disable av1 on non-safari mobile browsers since it can be very slow software decoding
         hlsInFmp4VideoCodecs.push('av1');
     }
 
@@ -619,12 +618,20 @@ export default function (options) {
 
     if (canPlayVp9) {
         mp4VideoCodecs.push('vp9');
-        webmVideoCodecs.push('vp9');
+        // webm support is unreliable on safari 17
+        if (!browser.safari
+             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+            webmVideoCodecs.push('vp9');
+        }
     }
 
     if (canPlayAv1(videoTestElement)) {
         mp4VideoCodecs.push('av1');
-        webmVideoCodecs.push('av1');
+        // webm support is unreliable on safari 17
+        if (!browser.safari
+             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+            webmVideoCodecs.push('av1');
+        }
     }
 
     if (canPlayVp8 || browser.tizen) {

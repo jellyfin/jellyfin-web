@@ -1782,5 +1782,6 @@
     "LabelAlbumGain": "Ganancia de Álbum",
     "LabelSelectAudioNormalization": "Normalización de audio",
     "LabelTrackGain": "Ganancia de pista",
-    "HeaderAllRecordings": "Todas las grabaciones"
+    "HeaderAllRecordings": "Todas las grabaciones",
+    "ButtonEditUser": "Editar usuario"
 }

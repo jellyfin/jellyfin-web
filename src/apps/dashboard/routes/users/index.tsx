@@ -58,7 +58,7 @@ const UserProfiles: FunctionComponent = () => {
             const menuItems: MenuEntry[] = [];
 
             menuItems.push({
-                name: globalize.translate('ButtonOpen'),
+                name: globalize.translate('ButtonEditUser'),
                 id: 'open',
                 icon: 'mode_edit'
             });
