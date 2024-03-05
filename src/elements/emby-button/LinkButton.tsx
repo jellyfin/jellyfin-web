@@ -20,6 +20,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
     isAutoHideEnabled,
     href,
     target,
+    onClick,
     children,
     ...rest
 }) => {
@@ -41,7 +42,8 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         } else {
             e.preventDefault();
         }
-    }, [ href, target ]);
+        onClick?.(e);
+    }, [ href, target, onClick ]);
 
     if (isAutoHideEnabled === true && !appHost.supports('externallinks')) {
         return null;

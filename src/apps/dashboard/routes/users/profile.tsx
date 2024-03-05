@@ -8,7 +8,7 @@ import LibraryMenu from '../../../../scripts/libraryMenu';
 import ButtonElement from '../../../../elements/ButtonElement';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import InputElement from '../../../../elements/InputElement';
-import LinkEditUserPreferences from '../../../../components/dashboard/users/LinkEditUserPreferences';
+import LinkButton from '../../../../elements/emby-button/LinkButton';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
@@ -41,7 +41,7 @@ function onSaveComplete() {
 }
 
 const UserEdit: FunctionComponent = () => {
-    const [ userName, setUserName ] = useState('');
+    const [ userDto, setUserDto ] = useState<UserDto>();
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const [ authProviders, setAuthProviders ] = useState<AuthProvider[]>([]);
     const [ passwordResetProviders, setPasswordResetProviders ] = useState<ResetProvider[]>([]);
@@ -173,10 +173,8 @@ const UserEdit: FunctionComponent = () => {
         txtUserName.disabled = false;
         txtUserName.removeAttribute('disabled');
 
-        const lnkEditUserPreferences = page.querySelector('.lnkEditUserPreferences') as HTMLDivElement;
-        lnkEditUserPreferences.setAttribute('href', 'mypreferencesmenu.html?userId=' + user.Id);
         LibraryMenu.setTitle(user.Name);
-        setUserName(user.Name);
+        setUserDto(user);
         (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name;
         (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = user.Policy.IsAdministrator;
         (page.querySelector('.chkDisabled') as HTMLInputElement).checked = user.Policy.IsDisabled;
@@ -316,7 +314,7 @@ const UserEdit: FunctionComponent = () => {
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
-                        title={userName}
+                        title={userDto?.Name || ''}
                         url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
@@ -326,10 +324,9 @@ const UserEdit: FunctionComponent = () => {
                     className='lnkEditUserPreferencesContainer'
                     style={{ paddingBottom: '1em' }}
                 >
-                    <LinkEditUserPreferences
-                        className= 'lnkEditUserPreferences button-link'
-                        title= 'ButtonEditOtherUserPreferences'
-                    />
+                    <LinkButton className='lnkEditUserPreferences button-link' href={userDto?.Id ? `mypreferencesmenu.html?userId=${userDto.Id}` : undefined}>
+                        {globalize.translate('ButtonEditOtherUserPreferences')}
+                    </LinkButton>
                 </div>
                 <form className='editUserProfileForm'>
                     <div className='disabledUserBanner hide'>
