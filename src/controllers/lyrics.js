@@ -126,7 +126,7 @@ export default function (view) {
 
         return apiClient.ajax({
             url: apiClient.getUrl('Audio/' + itemId + '/Lyrics'),
-            type: 'Get',
+            type: 'GET',
             dataType: 'json'
         }).then((response) => {
             if (!response.Lyrics) {

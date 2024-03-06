@@ -1082,23 +1082,23 @@ function renderLyricsContainer(view, item, apiClient) {
         //get lyrics
         apiClient.ajax({
             url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
-            type: 'GET'
-        }).then(response => response.json())
-            .then((json) => {
-                if (!json.Lyrics) {
-                    lyricContainer.classList.add('hide');
-                    return;
-                }
-                lyricContainer.classList.remove('hide');
-                const itemsContainer = lyricContainer.querySelector('.itemsContainer');
-                if (itemsContainer) {
-                    const html = json.Lyrics.reduce((htmlAccumulator, lyric) => {
-                        htmlAccumulator += lyric.Text + '<br/>';
-                        return htmlAccumulator;
-                    }, '');
-                    itemsContainer.innerHTML = html;
-                }
-            });
+            type: 'GET',
+            dataType: 'json'
+        }).then((response) => {
+            if (!response.Lyrics) {
+                lyricContainer.classList.add('hide');
+                return;
+            }
+            lyricContainer.classList.remove('hide');
+            const itemsContainer = lyricContainer.querySelector('.itemsContainer');
+            if (itemsContainer) {
+                const html = response.Lyrics.reduce((htmlAccumulator, lyric) => {
+                    htmlAccumulator += lyric.Text + '<br/>';
+                    return htmlAccumulator;
+                }, '');
+                itemsContainer.innerHTML = html;
+            }
+        });
     }
 }
 
