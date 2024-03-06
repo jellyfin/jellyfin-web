@@ -170,8 +170,10 @@ export default function (view) {
     }
 
     function onSeek(_, ticks) {
-        const currentIndex = getLyricIndex(ticks, savedLyrics);
-        updateAllLyricLines(currentIndex, savedLyrics);
+        if (savedLyrics && isDynamicLyric) {
+            const currentIndex = getLyricIndex(ticks, savedLyrics);
+            updateAllLyricLines(currentIndex, savedLyrics);
+        }
     }
 
     function onTimeUpdate() {
