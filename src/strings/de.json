@@ -1786,5 +1786,6 @@
     "LabelBuildVersion": "Build-Version",
     "LabelServerVersion": "Server-Version",
     "LabelWebVersion": "Web-Version",
-    "ButtonEditUser": "Editiere Benutzer"
+    "ButtonEditUser": "Editiere Benutzer",
+    "DlnaMovedMessage": "Die DLNA-Funktion wurde in ein Plugin verschoben."
 }
