@@ -1783,5 +1783,6 @@
     "LabelBuildVersion": "Версія збірки",
     "LabelServerVersion": "Версія сервера",
     "LabelWebVersion": "Версія вебу",
-    "ButtonEditUser": "Редагувати користувача"
+    "ButtonEditUser": "Редагувати користувача",
+    "DlnaMovedMessage": "Функціональність DLNA перенесено у плагін."
 }
