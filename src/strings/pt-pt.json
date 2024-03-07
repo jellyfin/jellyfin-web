@@ -822,7 +822,7 @@
     "Schedule": "Agendamentos",
     "ScanForNewAndUpdatedFiles": "Procurar ficheiros novos ou atualizados",
     "SaveSubtitlesIntoMediaFoldersHelp": "Guardar ficheiros de legendas junto aos ficheiros vídeo facilita a gestão.",
-    "SaveSubtitlesIntoMediaFolders": "Guardar legendas nas pastas multimédia",
+    "SaveSubtitlesIntoMediaFolders": "Guardar legendas nas pastas multimídia",
     "Runtime": "Duração",
     "ResumeAt": "Retomar a partir de {0}",
     "ReplaceAllMetadata": "Substituir todos os metadados",
@@ -1766,5 +1766,16 @@
     "LabelBackdropScreensaverIntervalHelp": "O tempo em segundos entre diferentes cenários ao usar o protetor de ecrã de cenário.",
     "LabelBackdropScreensaverInterval": "Intervalo do fundo do protetor de ecrã",
     "HeaderAllRecordings": "Todas as Gravações",
-    "SelectAudioNormalizationHelp": "Ganho de faixa - ajusta o volume de cada faixa para que sejam reproduzidas com o mesmo volume. Ganho do álbum - ajusta o volume de todas as faixas apenas de um álbum, mantendo a faixa dinâmica do álbum."
+    "SelectAudioNormalizationHelp": "Ganho de faixa - ajusta o volume de cada faixa para que sejam reproduzidas com o mesmo volume. Ganho do álbum - ajusta o volume de todas as faixas apenas de um álbum, mantendo a faixa dinâmica do álbum.",
+    "LogoScreensaver": "Logotipo de proteção de ecrã",
+    "TonemappingModeHelp": "Selecione o modo de mapeamento de tons. Se você tiver destaques estourados, tente mudar para o modo RGB.",
+    "MachineTranslated": "Traduzido Automaticamente",
+    "ForeignPartsOnly": "Apenas partes forçadas/externas",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Os extras geralmente têm o mesmo nome incorporado do parente, marque isto para usar títulos incorporados de qualquer maneira.",
+    "SaveRecordingImagesHelp": "Guardar imagens do fornecedor de listagens EPG junto com a mídia.",
+    "MessageRepositoryInstallDisclaimer": "AVISO: Instalar um repositório de plugins de terceiros traz riscos. Ele pode conter código instável ou malicioso e pode mudar a qualquer momento. Instale apenas repositórios de autores em quem você confia.",
+    "SaveRecordingNFO": "Guardar metadados EPG da gravação no NFO",
+    "SaveRecordingNFOHelp": "Guardar metadados do fornecedor de listagens EPG junto com a mídia.",
+    "SaveRecordingImages": "Guardar imagens da gravação EPG",
+    "LabelTrackGain": "Ganho da Faixa"
 }

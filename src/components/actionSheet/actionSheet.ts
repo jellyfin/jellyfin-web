@@ -9,8 +9,64 @@ import 'material-design-icons-iconfont';
 import '../../styles/scrollstyles.scss';
 import '../../components/listview/listview.scss';
 
-function getOffsets(elems) {
-    const results = [];
+interface OptionItem {
+    asideText?: string;
+    divider?: boolean;
+    icon?: string;
+    id?: string;
+    innerText?: string;
+    name?: string;
+    secondaryText?: string;
+    selected?: boolean;
+    textContent?: string;
+    value?: string;
+}
+
+interface Options {
+    items: OptionItem[];
+    border?: boolean;
+    callback?: (id: string) => void;
+    dialogClass?: string;
+    enableHistory?: boolean;
+    entryAnimationDuration?: number;
+    entryAnimation?: string;
+    exitAnimationDuration?: number;
+    exitAnimation?: string;
+    menuItemClass?: string;
+    offsetLeft?: number;
+    offsetTop?: number;
+    positionTo?: Element | null;
+    positionY?: string;
+    resolveOnClick?: boolean | (string | null)[];
+    shaded?: boolean;
+    showCancel?: boolean;
+    text?: string;
+    timeout?: number;
+    title?: string;
+}
+
+interface Offset {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+}
+
+interface DialogOptions {
+    autoFocus?: boolean;
+    enableHistory?: boolean;
+    entryAnimationDuration?: number;
+    entryAnimation?: string;
+    exitAnimationDuration?: number;
+    exitAnimation?: string;
+    modal?: boolean;
+    removeOnClose?: boolean;
+    scrollY?: boolean;
+    size?: string;
+}
+
+function getOffsets(elems: Element[]): Offset[] {
+    const results: Offset[] = [];
 
     if (!document) {
         return results;
@@ -30,12 +86,12 @@ function getOffsets(elems) {
     return results;
 }
 
-function getPosition(options, dlg) {
+function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
     const windowSize = dom.getWindowSize();
     const windowHeight = windowSize.innerHeight;
     const windowWidth = windowSize.innerWidth;
 
-    const pos = getOffsets([options.positionTo])[0];
+    const pos = getOffsets([positionTo])[0];
 
     if (options.positionY !== 'top') {
         pos.top += (pos.height || 0) / 2;
@@ -71,19 +127,22 @@ function getPosition(options, dlg) {
     return pos;
 }
 
-function centerFocus(elem, horiz, on) {
+function centerFocus(elem: Element, horiz: boolean, on: boolean) {
     import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
+    }).catch(e => {
+        console.warn('Error in centerFocus', e);
     });
 }
 
-export function show(options) {
+/* eslint-disable-next-line sonarjs/cognitive-complexity */
+export function show(options: Options) {
     // items
     // positionTo
     // showCancel
     // title
-    const dialogOptions = {
+    const dialogOptions: DialogOptions = {
         removeOnClose: true,
         enableHistory: options.enableHistory,
         scrollY: false
@@ -239,7 +298,10 @@ export function show(options) {
     dlg.innerHTML = html;
 
     if (layoutManager.tv) {
-        centerFocus(dlg.querySelector('.actionSheetScroller'), false, true);
+        const scroller = dlg.querySelector('.actionSheetScroller');
+        if (scroller) {
+            centerFocus(scroller, false, true);
+        }
     }
 
     const btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
@@ -249,9 +311,9 @@ export function show(options) {
         });
     }
 
-    let selectedId;
+    let selectedId: string | null = null;
 
-    let timeout;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     if (options.timeout) {
         timeout = setTimeout(function () {
             dialogHelper.close(dlg);
@@ -259,16 +321,16 @@ export function show(options) {
     }
 
     return new Promise(function (resolve, reject) {
-        let isResolved;
+        let isResolved = false;
 
         dlg.addEventListener('click', function (e) {
-            const actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
+            const actionSheetMenuItem = dom.parentWithClass(e.target as HTMLElement, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
 
                 if (options.resolveOnClick) {
-                    if (options.resolveOnClick.indexOf) {
+                    if (Array.isArray(options.resolveOnClick)) {
                         if (options.resolveOnClick.indexOf(selectedId) !== -1) {
                             resolve(selectedId);
                             isResolved = true;
@@ -285,12 +347,15 @@ export function show(options) {
 
         dlg.addEventListener('close', function () {
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.actionSheetScroller'), false, false);
+                const scroller = dlg.querySelector('.actionSheetScroller');
+                if (scroller) {
+                    centerFocus(scroller, false, false);
+                }
             }
 
             if (timeout) {
                 clearTimeout(timeout);
-                timeout = null;
+                timeout = undefined;
             }
 
             if (!isResolved) {
@@ -306,13 +371,15 @@ export function show(options) {
             }
         });
 
-        dialogHelper.open(dlg);
+        dialogHelper.open(dlg).catch(e => {
+            console.warn('DialogHelper.open error', e);
+        });
 
-        const pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options, dlg) : null;
+        const pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options.positionTo, options, dlg) : null;
 
         if (pos) {
             dlg.style.position = 'fixed';
-            dlg.style.margin = 0;
+            dlg.style.margin = '0';
             dlg.style.left = pos.left + 'px';
             dlg.style.top = pos.top + 'px';
         }

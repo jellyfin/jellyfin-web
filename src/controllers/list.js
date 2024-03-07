@@ -401,10 +401,15 @@ function onNewItemClick() {
     const instance = this;
 
     import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-        new PlaylistEditor({
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
             items: [],
             serverId: instance.params.serverId
+        }).catch(() => {
+            // Dialog closed
         });
+    }).catch(err => {
+        console.error('[onNewItemClick] failed to load playlist editor', err);
     });
 }
 

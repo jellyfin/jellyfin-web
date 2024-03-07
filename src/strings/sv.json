@@ -415,7 +415,7 @@
     "LabelCollection": "Samling",
     "LabelCommunityRating": "Användaromdöme",
     "LabelContentType": "Innehållstyp",
-    "LabelCountry": "Land",
+    "LabelCountry": "Land/Region",
     "LabelCriticRating": "Kritikerbetyg",
     "LabelCurrentPassword": "Nuvarande lösenord",
     "LabelCustomCertificatePath": "Sökväg för anpassat SSL-certifikat",
@@ -1781,5 +1781,9 @@
     "LabelAlbumGain": "Albumförstärkning",
     "LabelSelectAudioNormalization": "Ljudnormalisering",
     "LabelTrackGain": "Spårförstärkning",
-    "HeaderAllRecordings": "Alla inspelningar"
+    "HeaderAllRecordings": "Alla inspelningar",
+    "LabelBuildVersion": "Byggversion",
+    "ButtonEditUser": "redigera användare",
+    "LabelServerVersion": "Serverversion",
+    "LabelWebVersion": "Webbversion"
 }

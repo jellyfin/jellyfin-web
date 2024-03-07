@@ -1257,12 +1257,16 @@ function renderTags(page, item) {
         tags = [];
     }
 
-    for (let i = 0, length = tags.length; i < length; i++) {
-        tagElements.push(tags[i]);
-    }
+    tags.forEach(tag => {
+        tagElements.push(
+            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            + escapeHtml(tag)
+            + '</a>'
+        );
+    });
 
     if (tagElements.length) {
-        itemTags.innerText = globalize.translate('TagsValue', tagElements.join(', '));
+        itemTags.innerHTML = globalize.translate('TagsValue', tagElements.join(', '));
         itemTags.classList.remove('hide');
     } else {
         itemTags.innerHTML = '';

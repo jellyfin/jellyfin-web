@@ -294,7 +294,7 @@
     "LabelCollection": "Kolekcija",
     "LabelCommunityRating": "Ocjene zajednice",
     "LabelContentType": "Tip sadržaja",
-    "LabelCountry": "Zemlja",
+    "LabelCountry": "Zemlja/Regija",
     "LabelCriticRating": "Ocjena kritičara",
     "LabelCurrentPassword": "Trenutna lozinka",
     "LabelCustomCss": "Prilagođeni CSS kod",
@@ -1512,5 +1512,8 @@
     "ShowYear": "Prikaži godinu",
     "LabelLocalCustomCss": "Prilagođeni CSS kod za stil koji se odnosi samo na ovog klijenta. Možda ćete htjeti onemogućiti prilagođeni CSS kod poslužitelja.",
     "LabelPlayerDimensions": "Dimenzije izvođača",
-    "LabelSegmentKeepSecondsHelp": "Vrijeme u sekundama za koje se segmenti trebaju čuvati prije nego što se prebrišu. Mora biti veći od \"Throttle after\". Radi samo ako je omogućeno brisanje segmenta."
+    "LabelSegmentKeepSecondsHelp": "Vrijeme u sekundama za koje se segmenti trebaju čuvati prije nego što se prebrišu. Mora biti veći od \"Throttle after\". Radi samo ako je omogućeno brisanje segmenta.",
+    "LabelKnownProxies": "Poznati proxy-i",
+    "ButtonBackspace": "Backspace",
+    "LabelHomeScreenSectionValue": "{0}. odjeljak početne"
 }

@@ -458,7 +458,7 @@
     "LabelCollection": "Kolekcja",
     "LabelCommunityRating": "Ocena społeczności",
     "LabelContentType": "Typ zawartości",
-    "LabelCountry": "Kraj",
+    "LabelCountry": "Kraj/region",
     "LabelCriticRating": "Ocena krytyków",
     "LabelCurrentPassword": "Aktualne hasło",
     "LabelCustomCertificatePath": "Ścieżka do niestandardowego certyfikatu SSL",
@@ -1782,5 +1782,10 @@
     "LabelTrackGain": "Wzmocnienie utworu",
     "SelectAudioNormalizationHelp": "Wzmocnienie utworu – reguluje głośność każdego utworu tak, aby odtwarzał się z tą samą głośnością. Wzmocnienie albumu – reguluje głośność tylko wszystkich utworów w albumie, zachowując zakres dynamiki albumu.",
     "SearchResultsEmpty": "Wybacz! Nie znaleziono wyników dla „{0}”",
-    "HeaderAllRecordings": "Wszystkie nagrania"
+    "HeaderAllRecordings": "Wszystkie nagrania",
+    "LabelBuildVersion": "Wersja kompilacji",
+    "LabelServerVersion": "Wersja serwera",
+    "LabelWebVersion": "Wersja sieciowa",
+    "ButtonEditUser": "Edytuj użytkownika",
+    "DlnaMovedMessage": "Funkcjonalność DLNA została przeniesiona do wtyczki."
 }

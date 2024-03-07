@@ -68,7 +68,7 @@
     "LabelCachePath": "Önbellek yolu",
     "LabelCachePathHelp": "Sunucunun resim vb. önbellek dosyalarını tutması için bir yer belirt. Öntanımlı yeri kullanmak için boş bırak.",
     "LabelContentType": "İçerik türü",
-    "LabelCountry": "Ülke",
+    "LabelCountry": "Ülke/Bölge",
     "LabelCurrentPassword": "Kullanımdaki parola",
     "LabelDay": "Haftanın günü",
     "LabelEnableDlnaServer": "DLNA sunucusunu etkinleştir",
@@ -248,7 +248,7 @@
     "ChannelNameOnly": "Yalnızca {0} kanalı",
     "ConfirmDeleteItems": "Bu ögeleri silmek, onları hem dosya sisteminden hem de medya kütüphanenizden siler. Devam etmek istediğinize emin misiniz?",
     "ConfirmDeletion": "Silme İşlemini Onayla",
-    "ConfirmEndPlayerSession": "Jellyfin'i {0} tarihinde kapatmak ister misiniz?",
+    "ConfirmEndPlayerSession": "{0} üzerindeki Jellyfin'i kapatmak ister misiniz?",
     "Connect": "Bağlan",
     "Disconnect": "Bağlantıyı Kes",
     "Display": "Görünüm",
@@ -1774,5 +1774,9 @@
     "LabelAlbumGain": "Albüm Ses Kazancı",
     "LabelTrackGain": "Parça Ses Kazancı",
     "SearchResultsEmpty": "Üzgünüz! \"{0}\" için sonuç bulunamadı",
-    "HeaderAllRecordings": "Tüm Kayıtlar"
+    "HeaderAllRecordings": "Tüm Kayıtlar",
+    "LabelBuildVersion": "Yapı sürümü",
+    "LabelServerVersion": "Sunucu sürümü",
+    "LabelWebVersion": "Web sürümü",
+    "ButtonEditUser": "Kullanıcıyı düzenle"
 }
