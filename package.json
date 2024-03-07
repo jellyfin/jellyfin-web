@@ -12,7 +12,7 @@
     "@babel/preset-env": "7.23.8",
     "@babel/preset-react": "7.23.3",
     "@types/escape-html": "1.0.4",
-    "@types/loadable__component": "5.13.8",
+    "@types/loadable__component": "5.13.9",
     "@types/lodash-es": "4.17.12",
     "@types/markdown-it": "13.0.7",
     "@types/react": "17.0.75",
