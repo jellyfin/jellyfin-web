@@ -8,6 +8,7 @@ import { ParentId } from 'types/library';
 import { LibraryTabContent } from 'types/libraryTabContent';
 import GuideView from './GuideView';
 import ProgramsSectionView from './ProgramsSectionView';
+import FavoritesSectionView from './FavoritesSectionView';
 
 interface PageTabContentProps {
     parentId: ParentId;
@@ -39,6 +40,15 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
                 isUpcomingRecordingsEnabled={currentTab.sectionsView?.isLiveTvUpcomingRecordings}
             />
         );
+    }
+
+    if (currentTab.viewType === LibraryTab.Favorites) {
+        return <FavoritesSectionView
+            parentId={parentId}
+            sectionType={
+                currentTab.sectionsView?.favoriteSections ?? []
+            }
+        />;
     }
 
     if (currentTab.viewType === LibraryTab.Upcoming) {
