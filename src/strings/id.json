@@ -1676,5 +1676,10 @@
     "LabelMaxVideoResolution": "Resolusi Transcoding Video Maksimum yang Diizinkan",
     "HomeVideosPhotos": "Video dan Foto Rumahan",
     "Unreleased": "Belum dirilis",
-    "DownloadAll": "Unduh semua"
+    "DownloadAll": "Unduh semua",
+    "BackdropScreensaver": "Latar Belakang Penghemat Layar",
+    "AllowCollectionManagement": "Izinkan pengguna ini untuk mengatur koleksi",
+    "AllowSegmentDeletion": "Hapus segmen",
+    "LabelThrottleDelaySeconds": "Batasi setelah",
+    "LabelSegmentKeepSeconds": ""
 }

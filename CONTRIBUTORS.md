@@ -78,6 +78,8 @@
 - [DinuD](https://github.com/DinuD)
 - [Kevin Tan (Valius)](https://github.com/valius)
 - [Rasmus Krämer](https://github.com/rasmuslos)
+- [ntarelix](https://github.com/ntarelix)
+- [András Maróy](https://github.com/andrasmaroy)
 
 ## Emby Contributors
 

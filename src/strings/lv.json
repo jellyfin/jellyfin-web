@@ -495,7 +495,7 @@
     "HeaderSubtitleAppearance": "Subtitru izskats",
     "BirthPlaceValue": "Dzimšanas vieta: {0}",
     "BirthLocation": "Dzimšanas vieta",
-    "BirthDateValue": "Dzimis: {0}",
+    "BirthDateValue": "Dzimšanas datums: {0}",
     "Banner": "Karogattēli",
     "Backdrops": "Foni",
     "Backdrop": "Fons",
@@ -1719,5 +1719,7 @@
     "LabelVideoRangeType": "Video diapazona veids",
     "LabelOriginalMediaInfo": "Oriģinālā multivides info",
     "LabelAllowedAudioChannels": "Maksimāli atļautie audio kanāli",
-    "LabelFallbackFontPath": "Rezerves fonta mapes ceļš"
+    "LabelFallbackFontPath": "Rezerves fonta mapes ceļš",
+    "HeaderAllRecordings": "Visi ieraksti",
+    "Interview": "Intervija"
 }

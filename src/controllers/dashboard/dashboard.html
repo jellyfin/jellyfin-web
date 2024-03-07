@@ -8,16 +8,22 @@
                         <span class="material-icons chevron_right" aria-hidden="true"></span>
                     </a>
 
-                    <div class="paperList" style="padding: 1em;">
-                        <p id="serverName"></p>
-                        <p id="versionNumber"></p>
+                    <div class="serverInfo paperList">
+                        <div>${LabelServerName}</div>
+                        <div id="serverName"></div>
+                        <div>${LabelServerVersion}</div>
+                        <div id="versionNumber"></div>
+                        <div>${LabelWebVersion}</div>
+                        <div id="webVersion"></div>
+                        <div>${LabelBuildVersion}</div>
+                        <div id="buildVersion"></div>
                     </div>
 
                     <div class="dashboardActionsContainer">
                         <button is="emby-button" type="button" class="raised btnRefresh">
                             <span>${ButtonScanAllLibraries}</span>
                         </button>
-                        <button is="emby-button" type="button" id="btnRestartServer" class="raised hide" onclick="DashboardPage.restart(this);">
+                        <button is="emby-button" type="button" id="btnRestartServer" class="raised" onclick="DashboardPage.restart(this);">
                             <span>${Restart}</span>
                         </button>
                         <button is="emby-button" type="button" id="btnShutdown" class="raised" onclick="DashboardPage.shutdown(this);">
