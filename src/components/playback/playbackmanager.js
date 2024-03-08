@@ -1,3 +1,6 @@
+import merge from 'lodash-es/merge';
+import Screenfull from 'screenfull';
+
 import Events from '../../utils/events.ts';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
@@ -8,14 +11,14 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
-import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
-import merge from 'lodash-es/merge';
+
+import { MediaError } from 'types/mediaError';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1768,7 +1771,7 @@ class PlaybackManager {
                 playerData.isChangingStream = false;
 
                 onPlaybackError.call(player, e, {
-                    type: 'mediadecodeerror',
+                    type: MediaError.MEDIA_DECODE_ERROR,
                     streamInfo: streamInfo
                 });
             });
@@ -2551,8 +2554,8 @@ class PlaybackManager {
                         onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
                         setTimeout(function () {
                             onPlaybackError.call(player, err, {
-                                type: 'mediadecodeerror',
-                                streamInfo: streamInfo
+                                type: MediaError.MEDIA_DECODE_ERROR,
+                                streamInfo
                             });
                         }, 100);
                     });
@@ -3194,22 +3197,32 @@ class PlaybackManager {
             }
         }
 
+        /**
+         * @param {object} streamInfo
+         * @param {MediaError} errorType
+         * @param {boolean} currentlyPreventsVideoStreamCopy
+         * @param {boolean} currentlyPreventsAudioStreamCopy
+         * @returns {boolean} Returns true if the stream should be retried by transcoding.
+         */
         function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
-            // mediadecodeerror, medianotsupported, network, servererror
             return streamInfo.mediaSource.SupportsTranscoding
                 && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
         }
 
+        /**
+         * Playback error handler.
+         * @param {Error} e
+         * @param {object} error
+         * @param {object} error.streamInfo
+         * @param {MediaError} error.type
+         */
         function onPlaybackError(e, error) {
             const player = this;
             error = error || {};
 
-            // network
-            // mediadecodeerror
-            // medianotsupported
             const errorType = error.type;
 
-            console.debug('playbackmanager playback error type: ' + (errorType || ''));
+            console.warn('[playbackmanager] onPlaybackError:', error);
 
             const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
@@ -3235,8 +3248,7 @@ class PlaybackManager {
 
             Events.trigger(self, 'playbackerror', [errorType]);
 
-            const displayErrorCode = 'NoCompatibleStream';
-            onPlaybackStopped.call(player, e, displayErrorCode);
+            onPlaybackStopped.call(player, e, `.${errorType}`);
         }
 
         function onPlaybackStopped(e, displayErrorCode) {

@@ -1,6 +1,7 @@
 import appSettings from '../scripts/settings/appSettings' ;
 import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
+import { MediaError } from 'types/mediaError';
 
 export function getSavedVolume() {
     return appSettings.get('volume') || 1;
@@ -87,7 +88,7 @@ export function handleHlsJsMediaError(instance, reject) {
         if (reject) {
             reject();
         } else {
-            onErrorInternal(instance, 'mediadecodeerror');
+            onErrorInternal(instance, MediaError.MEDIA_DECODE_ERROR);
         }
     }
 }
@@ -269,10 +270,10 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
             hls.destroy();
 
             if (reject) {
-                reject('servererror');
+                reject(MediaError.SERVER_ERROR);
                 reject = null;
             } else {
-                onErrorInternal(instance, 'servererror');
+                onErrorInternal(instance, MediaError.SERVER_ERROR);
             }
 
             return;
@@ -291,10 +292,10 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                         hls.destroy();
 
                         if (reject) {
-                            reject('network');
+                            reject(MediaError.NETWORK_ERROR);
                             reject = null;
                         } else {
-                            onErrorInternal(instance, 'network');
+                            onErrorInternal(instance, MediaError.NETWORK_ERROR);
                         }
                     } else {
                         console.debug('fatal network error encountered, try to recover');
@@ -318,7 +319,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                         reject();
                         reject = null;
                     } else {
-                        onErrorInternal(instance, 'mediadecodeerror');
+                        onErrorInternal(instance, MediaError.MEDIA_DECODE_ERROR);
                     }
                     break;
             }

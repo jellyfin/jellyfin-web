@@ -37,6 +37,7 @@ import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
+import { MediaError } from 'types/mediaError';
 
 /**
  * Returns resolved URL.
@@ -1021,7 +1022,8 @@ export class HtmlVideoPlayer {
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
             if (!mediaSource || mediaSource.RunTimeTicks) {
-                onErrorInternal(this, 'mediadecodeerror');
+                // FIXME: This shouldn't really be a decode error...
+                onErrorInternal(this, MediaError.MEDIA_DECODE_ERROR);
             }
         }
     }
@@ -1073,7 +1075,7 @@ export class HtmlVideoPlayer {
                 return;
             case 2:
                 // MEDIA_ERR_NETWORK
-                type = 'network';
+                type = MediaError.NETWORK_ERROR;
                 break;
             case 3:
                 // MEDIA_ERR_DECODE
@@ -1081,12 +1083,12 @@ export class HtmlVideoPlayer {
                     handleHlsJsMediaError(this);
                     return;
                 } else {
-                    type = 'mediadecodeerror';
+                    type = MediaError.MEDIA_DECODE_ERROR;
                 }
                 break;
             case 4:
                 // MEDIA_ERR_SRC_NOT_SUPPORTED
-                type = 'medianotsupported';
+                type = MediaError.MEDIA_NOT_SUPPORTED;
                 break;
             default:
                 // seeing cases where Edge is firing error events with no error code
@@ -1276,7 +1278,8 @@ export class HtmlVideoPlayer {
 
                     // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
                     setTimeout(() => {
-                        onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                        // FIXME: Probably not a decode error...
+                        onErrorInternal(this, MediaError.MEDIA_DECODE_ERROR);
                     }, 0);
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
