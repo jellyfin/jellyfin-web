@@ -1784,5 +1784,10 @@
     "LabelServerVersion": "Версія сервера",
     "LabelWebVersion": "Версія вебу",
     "ButtonEditUser": "Редагувати користувача",
-    "DlnaMovedMessage": "Функціональність DLNA перенесено у плагін."
+    "DlnaMovedMessage": "Функціональність DLNA перенесено у плагін.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }
