@@ -1136,7 +1136,7 @@
     "OptionRequirePerfectSubtitleMatch": "Baixar apenas legendas que correspondem corretamente aos arquivos de vídeo",
     "OptionRandom": "Aleatório",
     "OptionLoginAttemptsBeforeLockout": "Defina quantas tentativas incorretas de início de sessão podem ser feitas antes de a conta ser automaticamente bloqueada.",
-    "OptionIsSD": "Definição padrão",
+    "OptionIsSD": "SD",
     "OptionIsHD": "HD",
     "OptionEnableExternalContentInSuggestions": "Habilitar sugestão de conteúdo externo",
     "OptionDisplayFolderViewHelp": "Exiba pastas ao lado de outras bibliotecas de mídia. Isso pode ser útil se você quiser ter uma visualização simples de pastas.",
