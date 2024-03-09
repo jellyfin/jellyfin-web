@@ -117,7 +117,3 @@ export function getPlugins() {
         return DefaultConfig.plugins;
     });
 }
-
-export function getPluginsPreLoaded() {
-    if (data) return data.plugins;
-}

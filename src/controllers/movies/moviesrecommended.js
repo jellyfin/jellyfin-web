@@ -14,7 +14,6 @@ import { LibraryTab } from 'types/libraryTab';
 import { getBackdropShape, getPortraitShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
-import { getPluginsPreLoaded } from 'scripts/settings/webSettings';
 
 import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -24,10 +23,10 @@ import 'elements/emby-button/emby-button';
 const TAB_INDEX_MAPPING = {
     [LibraryTab.Movies]: 0,
     [LibraryTab.Suggestions]: 1,
-    [LibraryTab.Favorites]: 2,
-    [LibraryTab.Collections]: 3,
-    [LibraryTab.Genres]: 4,
-    [LibraryTab.Trailers]: 5
+    [LibraryTab.Trailers]: 2,
+    [LibraryTab.Favorites]: 3,
+    [LibraryTab.Collections]: 4,
+    [LibraryTab.Genres]: 5
 };
 
 function enableScrollX() {
@@ -237,10 +236,14 @@ function loadSuggestionsTab(view, params, tabContent) {
 }
 
 function getTabs() {
-    const tabList = [{
+    return [{
         name: globalize.translate('Movies')
     }, {
         name: globalize.translate('Suggestions')
+    }, {
+        name: globalize.translate('Trailers'),
+        // Disable trailers tab by default, we will re-enable if trailers exist
+        enabled: false
     }, {
         name: globalize.translate('Favorites')
     }, {
@@ -248,15 +251,6 @@ function getTabs() {
     }, {
         name: globalize.translate('Genres')
     }];
-
-    // Only show the 'Trailers' tab if there is a trailer provider plugin
-    const plugins = getPluginsPreLoaded();
-    if (plugins.some((p) => p.toLowerCase().includes('trailer'))) {
-        tabList.push({
-            name: globalize.translate('Trailers')
-        });
-    }
-    return tabList;
 }
 
 function getDefaultTabIndex(folderId) {
