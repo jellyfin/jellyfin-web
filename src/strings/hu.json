@@ -1782,5 +1782,15 @@
     "ForeignPartsOnly": "Kényszerített/külföldi alkatrészek",
     "HearingImpairedShort": "HI/SDH",
     "HeaderGuestCast": "Vendégsztárok",
-    "HeaderAllRecordings": "Összes Felvétel"
+    "HeaderAllRecordings": "Összes Felvétel",
+    "LabelWebVersion": "Web verzió",
+    "ButtonEditUser": "Felhasználó szerkesztése",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "DlnaMovedMessage": "A DLNA funkció egy pluginba költözött.",
+    "LabelBuildVersion": "Build verzió",
+    "LabelServerVersion": "Szerver verzió"
 }
