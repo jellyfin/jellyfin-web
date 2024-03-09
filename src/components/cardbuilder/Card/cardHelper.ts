@@ -505,7 +505,7 @@ function getChannelName(item: ItemDto) {
             item.ChannelName
         );
     } else {
-        return { title: item.ChannelName || '' || '&nbsp;' };
+        return { title: item.ChannelName || '\u00A0' };
     }
 }
 
