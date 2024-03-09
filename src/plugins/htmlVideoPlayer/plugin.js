@@ -1022,8 +1022,7 @@ export class HtmlVideoPlayer {
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
             if (!mediaSource || mediaSource.RunTimeTicks) {
-                // FIXME: This shouldn't really be a decode error...
-                onErrorInternal(this, MediaError.MEDIA_DECODE_ERROR);
+                onErrorInternal(this, MediaError.NO_MEDIA_ERROR);
             }
         }
     }
@@ -1279,7 +1278,7 @@ export class HtmlVideoPlayer {
                     // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
                     setTimeout(() => {
                         // FIXME: Probably not a decode error...
-                        onErrorInternal(this, MediaError.MEDIA_DECODE_ERROR);
+                        onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,

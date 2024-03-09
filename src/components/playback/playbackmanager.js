@@ -1,3 +1,4 @@
+import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
 
@@ -591,9 +592,18 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     return Promise.resolve(false);
 }
 
+/**
+ * @param {PlaybackManager} instance
+ * @param {import('@jellyfin/sdk/lib/generated-client/index.js').PlaybackInfoResponse} result
+ * @returns {boolean}
+ */
 function validatePlaybackInfoResult(instance, result) {
     if (result.ErrorCode) {
-        showPlaybackInfoErrorMessage(instance, 'PlaybackError' + result.ErrorCode);
+        // NOTE: To avoid needing to retranslate the "NoCompatibleStream" message,
+        // we need to keep the key in the same format.
+        const errMessage = result.ErrorCode === PlaybackErrorCode.NoCompatibleStream ?
+            'PlaybackErrorNoCompatibleStream' : `PlaybackError.${result.ErrorCode}`;
+        showPlaybackInfoErrorMessage(instance, errMessage);
         return false;
     }
 
@@ -1723,7 +1733,7 @@ class PlaybackManager {
                         streamInfo.resetSubtitleOffset = false;
 
                         if (!streamInfo.url) {
-                            showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
+                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                             return;
                         }
 
@@ -1771,7 +1781,7 @@ class PlaybackManager {
                 playerData.isChangingStream = false;
 
                 onPlaybackError.call(player, e, {
-                    type: MediaError.MEDIA_DECODE_ERROR,
+                    type: MediaError.PLAYER_ERROR,
                     streamInfo: streamInfo
                 });
             });
@@ -2182,7 +2192,7 @@ class PlaybackManager {
 
             // If it's still null then there's nothing to play
             if (!firstItem) {
-                showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
+                showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                 return Promise.reject();
             }
 
@@ -2554,7 +2564,7 @@ class PlaybackManager {
                         onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
                         setTimeout(function () {
                             onPlaybackError.call(player, err, {
-                                type: MediaError.MEDIA_DECODE_ERROR,
+                                type: MediaError.PLAYER_ERROR,
                                 streamInfo
                             });
                         }, 100);
@@ -2788,7 +2798,7 @@ class PlaybackManager {
                                 return mediaSource;
                             }
                         } else {
-                            showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
+                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                             return Promise.reject();
                         }
                     });

@@ -88,7 +88,7 @@ export function handleHlsJsMediaError(instance, reject) {
         if (reject) {
             reject();
         } else {
-            onErrorInternal(instance, MediaError.MEDIA_DECODE_ERROR);
+            onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
         }
     }
 }
@@ -99,11 +99,7 @@ export function onErrorInternal(instance, type) {
         instance.destroyCustomTrack(instance._mediaElement);
     }
 
-    Events.trigger(instance, 'error', [
-        {
-            type: type
-        }
-    ]);
+    Events.trigger(instance, 'error', [{ type }]);
 }
 
 export function isValidDuration(duration) {
@@ -319,7 +315,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                         reject();
                         reject = null;
                     } else {
-                        onErrorInternal(instance, MediaError.MEDIA_DECODE_ERROR);
+                        onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
                     }
                     break;
             }
