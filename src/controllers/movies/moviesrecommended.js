@@ -105,6 +105,21 @@ function loadResume(page, userId, parentId) {
     });
 }
 
+function enableTrailerTabIfTrailersExist() {
+    const options = {
+        IncludeItemTypes: 'Trailer',
+        Limit: 1,
+        Recursive: true
+    };
+    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
+        if (result.TotalRecordCount) {
+            document.querySelector(
+                `.emby-button[data-index='${TAB_INDEX_MAPPING[LibraryTab.Trailers]}']`
+            )?.classList.remove('hide');
+        }
+    });
+}
+
 function getRecommendationHtml(recommendation) {
     let html = '';
     let title = '';
@@ -273,6 +288,8 @@ export default function (view, params) {
 
     function initTabs() {
         mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
+
+        enableTrailerTabIfTrailersExist();
     }
 
     const getTabController = (page, index, callback) => {
