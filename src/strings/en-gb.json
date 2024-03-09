@@ -1782,5 +1782,9 @@
     "SearchResultsEmpty": "Sorry! No results found for \"{0}\"",
     "LabelSelectAudioNormalization": "Audio Normalisation",
     "LabelTrackGain": "Track Gain",
-    "HeaderAllRecordings": "All Recordings"
+    "HeaderAllRecordings": "All Recordings",
+    "ButtonEditUser": "Edit user",
+    "LabelBuildVersion": "Build version",
+    "LabelServerVersion": "Server version",
+    "LabelWebVersion": "Web version"
 }

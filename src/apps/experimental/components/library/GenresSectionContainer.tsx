@@ -1,18 +1,17 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import escapeHTML from 'escape-html';
-import React, { FC } from 'react';
-
+import React, { type FC } from 'react';
 import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from './SectionContainer';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { ParentId } from 'types/library';
+import { CardShape } from 'utils/card';
+import type { ParentId } from 'types/library';
 
 interface GenresSectionContainerProps {
     parentId: ParentId;
@@ -60,7 +59,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     }
 
     return <SectionContainer
-        sectionTitle={escapeHTML(genre.Name)}
+        sectionTitle={genre.Name || ''}
         items={itemsResult?.Items || []}
         url={getRouteUrl(genre)}
         cardOptions={{
@@ -69,7 +68,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             showTitle: true,
             centerText: true,
             cardLayout: false,
-            shape: collectionType === CollectionType.Music ? 'overflowSquare' : 'overflowPortrait',
+            shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
             showParentTitle: collectionType === CollectionType.Music,
             showYear: collectionType !== CollectionType.Music
         }}

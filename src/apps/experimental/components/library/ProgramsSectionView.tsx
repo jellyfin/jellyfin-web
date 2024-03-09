@@ -1,11 +1,12 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import SectionContainer from './SectionContainer';
-import { ParentId } from 'types/library';
-import { Section, SectionType } from 'types/sections';
+import { CardShape } from 'utils/card';
+import type { ParentId } from 'types/library';
+import type { Section, SectionType } from 'types/sections';
 
 interface ProgramsSectionViewProps {
     parentId: ParentId;
@@ -18,7 +19,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     sectionType,
     isUpcomingRecordingsEnabled = false
 }) => {
-    const { isLoading, data: sectionsWithItems } = useGetProgramsSectionsWithItems(parentId, sectionType);
+    const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
     const {
         isLoading: isUpcomingRecordingsLoading,
         data: upcomingRecordings
@@ -60,8 +61,10 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     sectionTitle={globalize.translate(section.name)}
                     items={items ?? []}
                     url={getRouteUrl(section)}
+                    reloadItems={refetch}
                     cardOptions={{
-                        ...section.cardOptions
+                        ...section.cardOptions,
+                        queryKey: ['ProgramSectionWithItems']
                     }}
                 />
 
@@ -73,7 +76,8 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     sectionTitle={group.name}
                     items={group.timerInfo ?? []}
                     cardOptions={{
-                        shape: 'overflowBackdrop',
+                        queryKey: ['Timers'],
+                        shape: CardShape.BackdropOverflow,
                         showTitle: true,
                         showParentTitleOrTitle: true,
                         showAirTime: true,

@@ -1782,5 +1782,12 @@
     "HeaderAllRecordings": "Всі записи",
     "LabelBuildVersion": "Версія збірки",
     "LabelServerVersion": "Версія сервера",
-    "LabelWebVersion": "Версія вебу"
+    "LabelWebVersion": "Версія вебу",
+    "ButtonEditUser": "Редагувати користувача",
+    "DlnaMovedMessage": "Функціональність DLNA перенесено у плагін.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }

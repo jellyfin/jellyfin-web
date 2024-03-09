@@ -1781,5 +1781,7 @@
     "LabelAlbumGain": "Zosilnenie pre album",
     "LabelSelectAudioNormalization": "Normalizácia hlasitosti",
     "LabelTrackGain": "Zosilnenie stopy",
-    "SearchResultsEmpty": "Prepáčte! Nenašli sa žiadne výsledky pre \"{0}\""
+    "SearchResultsEmpty": "Prepáčte! Nenašli sa žiadne výsledky pre \"{0}\"",
+    "ButtonEditUser": "Upraviť používateľa",
+    "HeaderAllRecordings": "Všetky nahrávky"
 }

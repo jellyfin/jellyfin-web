@@ -36,7 +36,7 @@ function handleConnectionResult(page, result) {
 
 function submitServer(page) {
     loading.show();
-    const host = page.querySelector('#txtServerHost').value;
+    const host = page.querySelector('#txtServerHost').value.replace(/\/+$/, '');
     ServerConnections.connectToAddress(host, {
         enableAutoLogin: appSettings.enableAutoLogin()
     }).then(function(result) {

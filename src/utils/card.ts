@@ -5,7 +5,15 @@ export enum CardShape {
     Portrait = 'portrait',
     PortraitOverflow = 'overflowPortrait',
     Square = 'square',
-    SquareOverflow = 'overflowSquare'
+    SquareOverflow = 'overflowSquare',
+    Auto = 'auto',
+    AutoHome = 'autohome',
+    AutoOverflow = 'autooverflow',
+    AutoVertical = 'autoVertical',
+    Mixed = 'mixed',
+    MixedSquare = 'mixedSquare',
+    MixedBackdrop = 'mixedBackdrop',
+    MixedPortrait = 'mixedPortrait',
 }
 
 export function getSquareShape(enableOverflow = true) {

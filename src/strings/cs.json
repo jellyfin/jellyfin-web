@@ -1318,8 +1318,8 @@
     "LabelSyncPlayTimeOffset": "Časový rozdíl mezi serverem:",
     "HeaderSyncPlayEnabled": "Synchronizace přehrávání povolena",
     "HeaderSyncPlaySelectGroup": "Připojit ke skupině",
-    "EnableDetailsBannerHelp": "Zobrazí obrázek ve vrchní části detailu položky.",
-    "EnableDetailsBanner": "Obrázek detailu",
+    "EnableDetailsBannerHelp": "Zobrazí banner v horní části stránky s detailem položky.",
+    "EnableDetailsBanner": "Zobrazit banner na stránce s detailem",
     "ShowMore": "Zobrazit více",
     "ShowLess": "Zobrazit méně",
     "EnableBlurHashHelp": "Obrázky, které se ještě načítají, budou zobrazeny pomocí jedinečných zástupných obrázků.",
@@ -1785,5 +1785,12 @@
     "HeaderAllRecordings": "Všechny nahrávky",
     "LabelBuildVersion": "Verze sestavení",
     "LabelServerVersion": "Verze serveru",
-    "LabelWebVersion": "Verze webu"
+    "LabelWebVersion": "Verze webu",
+    "ButtonEditUser": "Upravit uživatele",
+    "DlnaMovedMessage": "Funkce DLNA byla přesunuta do zásuvného modulu.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }
