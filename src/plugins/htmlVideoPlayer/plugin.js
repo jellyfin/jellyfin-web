@@ -521,7 +521,7 @@ export class HtmlVideoPlayer {
 
         if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
-        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
+        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
         } else {
             elem.autoplay = true;
