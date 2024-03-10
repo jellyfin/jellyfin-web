@@ -190,7 +190,7 @@ export function playWithPromise(elem, onErrorFn) {
                     // swallow this error because the user can still click the play button on the video element
                     return Promise.resolve();
                 }
-                return Promise.reject();
+                return Promise.reject(e);
             })
             .then(() => {
                 onSuccessfulPlay(elem, onErrorFn);

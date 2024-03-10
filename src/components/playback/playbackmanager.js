@@ -20,6 +20,7 @@ import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 
 import { MediaError } from 'types/mediaError';
+import { getMediaError } from 'utils/mediaError';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1781,7 +1782,7 @@ class PlaybackManager {
                 playerData.isChangingStream = false;
 
                 onPlaybackError.call(player, e, {
-                    type: MediaError.PLAYER_ERROR,
+                    type: getMediaError(e),
                     streamInfo: streamInfo
                 });
             });
@@ -2564,7 +2565,7 @@ class PlaybackManager {
                         onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
                         setTimeout(function () {
                             onPlaybackError.call(player, err, {
-                                type: MediaError.PLAYER_ERROR,
+                                type: getMediaError(err),
                                 streamInfo
                             });
                         }, 100);
@@ -3232,7 +3233,7 @@ class PlaybackManager {
 
             const errorType = error.type;
 
-            console.warn('[playbackmanager] onPlaybackError:', error);
+            console.warn('[playbackmanager] onPlaybackError:', e, error);
 
             const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
