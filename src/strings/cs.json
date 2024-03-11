@@ -1786,5 +1786,11 @@
     "LabelBuildVersion": "Verze sestavení",
     "LabelServerVersion": "Verze serveru",
     "LabelWebVersion": "Verze webu",
-    "ButtonEditUser": "Upravit uživatele"
+    "ButtonEditUser": "Upravit uživatele",
+    "DlnaMovedMessage": "Funkce DLNA byla přesunuta do zásuvného modulu.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }

@@ -12,7 +12,7 @@
     "FileReadCancelled": "Tiedoston luku on peruutettu.",
     "FileReadError": "Virhe tiedostoa luettaessa.",
     "LabelAudioLanguagePreference": "Ensisijainen äänen kieli",
-    "LabelCountry": "Maa",
+    "LabelCountry": "Maa/Alue",
     "LabelCurrentPassword": "Nykyinen salasana",
     "LabelFinish": "Valmis",
     "LabelLanguage": "Kieli",
@@ -1780,5 +1780,12 @@
     "LabelSelectAudioNormalization": "Äänenvoimakkuuden normalisointi",
     "LabelTrackGain": "Kappelkohtainen vahvistus",
     "SearchResultsEmpty": "Pahoittelut! Haku \"{0}\" ei tuottanut tuloksia",
-    "HeaderAllRecordings": "Kaikki tallenteet"
+    "HeaderAllRecordings": "Kaikki tallenteet",
+    "ButtonEditUser": "Muokkaa käyttäjää",
+    "ChannelResolutionSD": "peruslaatu",
+    "ChannelResolutionHD": "teräväpiirto",
+    "DlnaMovedMessage": "DLNA-ominaisuus on siirtynyt lisäosaan.",
+    "LabelBuildVersion": "Käännetty versio",
+    "LabelServerVersion": "Palvelimen versio",
+    "LabelWebVersion": "Verkko versio"
 }

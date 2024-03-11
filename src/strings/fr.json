@@ -1787,5 +1787,10 @@
     "LabelServerVersion": "Version du serveur",
     "LabelWebVersion": "Version web",
     "ButtonEditUser": "Modifier l'utilisateur",
-    "DlnaMovedMessage": "La fonctionnalité DLNA a été déplacée vers un plugin."
+    "DlnaMovedMessage": "La fonctionnalité DLNA a été déplacée vers un plugin.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }

@@ -1787,5 +1787,10 @@
     "LabelServerVersion": "Wersja serwera",
     "LabelWebVersion": "Wersja sieciowa",
     "ButtonEditUser": "Edytuj użytkownika",
-    "DlnaMovedMessage": "Funkcjonalność DLNA została przeniesiona do wtyczki."
+    "DlnaMovedMessage": "Funkcjonalność DLNA została przeniesiona do wtyczki.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }
