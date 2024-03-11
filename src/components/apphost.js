@@ -304,7 +304,7 @@ function askForExit() {
         return;
     }
 
-    import('../scripts/clientUtils').then(() => {
+    import('../utils/dashboard').then(() => {
         import('../components/actionSheet/actionSheet').then((actionsheet) => {
             const userId = Dashboard.getCurrentUserId();
             const logoutEntry = userId ? [{ id: 'logout', name: globalize.translate('ButtonSignOut') }] : [];
