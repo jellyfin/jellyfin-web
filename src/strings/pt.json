@@ -1225,7 +1225,7 @@
     "LabelTonemappingPeak": "Pico de mapeamento de Tom",
     "LabelTonemappingParamHelp": "Ajuste o algoritmo de mapeamento de tom. Os valores recomendados e padrão são NaN. Geralmente, deixa-se em branco.",
     "LabelTonemappingParam": "Parâmetro de mapeamento de Tom",
-    "LabelTonemappingDesatHelp": "Aplique a dessaturação para realces que excedam este nível de brilho. Quanto mais alto for o parâmetro, mais informações sobre as cores serão preservadas. Essa configuração ajuda a evitar cores exageradas de forma não natural, transformando-se (suavemente) em branco em vez disso. Isso torna as imagens mais naturais, ao custo de reduzir as informações sobre cores fora do intervalo. Os valores recomendados e padrão são 0 e 0.5.",
+    "LabelTonemappingDesatHelp": "Aplica a dessaturação para realces que excedam este nível de brilho. Quanto mais alto for o parâmetro, mais informações sobre as cores serão preservadas. Esta configuração ajuda a evitar cores estouradas de forma desnatural no caso de super-realces, transformando (suavemente) em branco em vez disso. Isso faz as imagens parecer mais naturais, ao custo de reduzir a informação sobre cores fora do intervalo. Os valores recomendados e padrão são 0 e 0.5.",
     "LabelTonemappingDesat": "Dessaturação de mapeamento de Tom",
     "LabelTonemappingAlgorithm": "Selecione o algoritmo de mapeamento de Tom a ser usado",
     "LabelSyncPlayTimeSyncOffset": "Deslocamento de tempo",
