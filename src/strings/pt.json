@@ -9,7 +9,7 @@
     "GuideProviderLogin": "Iniciar Sessão",
     "XmlTvPathHelp": "Caminho para um ficheiro XMLTV. O Servidor Jellyfin vai ler o ficheiro periodicamente para actualizar a programação de TV. O utilizador é responsável por criar e manter o ficheiro actualizado.",
     "XmlDocumentAttributeListHelp": "Estes atributos são aplicados ao elemento principal de cada resposta XML.",
-    "Writer": "Escritor",
+    "Writer": "Argumento",
     "WizardCompleted": "É tudo, de momento. O Jellyfin iniciou a recolha de informações da sua biblioteca multimédia. Conheça algumas das nossas aplicações e, de seguida, clique <b>Terminar</b> para ver o <b>Painel Principal</b>.",
     "WelcomeToProject": "Bem-vindo ao Jellyfin!",
     "Wednesday": "Quarta",
