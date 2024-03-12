@@ -11,10 +11,13 @@ import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 
-function getDeleteCommandName(type) {
+function getDeleteLabel(type) {
     switch (type) {
         case 'Series':
             return globalize.translate('DeleteSeries');
+
+        case 'Episode':
+            return globalize.translate('DeleteEpisode');
 
         case 'Playlist':
         case 'BoxSet':
@@ -175,7 +178,7 @@ export function getCommands(options) {
 
     if (item.CanDelete && options.deleteItem !== false) {
         commands.push({
-            name: getDeleteCommandName(item.Type),
+            name: getDeleteLabel(item.Type),
             id: 'delete',
             icon: 'delete'
         });
