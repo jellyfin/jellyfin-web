@@ -376,10 +376,12 @@ export const useGetItemsViewByType = (
     return useQuery({
         queryKey: [
             'ItemsViewByType',
-            viewType,
-            parentId,
-            itemType,
-            libraryViewSettings
+            {
+                viewType,
+                parentId,
+                itemType,
+                libraryViewSettings
+            }
         ],
         queryFn: ({ signal }) =>
             fetchGetItemsViewByType(
@@ -526,17 +528,17 @@ export const useGetGroupsUpcomingEpisodes = (parentId: ParentId) => {
 
 interface ToggleFavoriteMutationProp {
     itemId: string;
-    favoriteState: boolean
+    isFavorite: boolean
 }
 
 const fetchUpdateFavoriteStatus = async (
     currentApi: JellyfinApiContext,
     itemId: string,
-    favoriteState: boolean
+    isFavorite: boolean
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        if (favoriteState) {
+        if (isFavorite) {
             const response = await getUserLibraryApi(api).unmarkFavoriteItem({
                 userId: user.Id,
                 itemId: itemId
@@ -555,24 +557,24 @@ const fetchUpdateFavoriteStatus = async (
 export const useToggleFavoriteMutation = () => {
     const currentApi = useApi();
     return useMutation({
-        mutationFn: ({ itemId, favoriteState }: ToggleFavoriteMutationProp) =>
-            fetchUpdateFavoriteStatus(currentApi, itemId, favoriteState )
+        mutationFn: ({ itemId, isFavorite }: ToggleFavoriteMutationProp) =>
+            fetchUpdateFavoriteStatus(currentApi, itemId, isFavorite )
     });
 };
 
 interface TogglePlayedMutationProp {
     itemId: string;
-    playedState: boolean
+    isPlayed: boolean
 }
 
 const fetchUpdatePlayedState = async (
     currentApi: JellyfinApiContext,
     itemId: string,
-    playedState: boolean
+    isPlayed: boolean
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        if (playedState) {
+        if (isPlayed) {
             const response = await getPlaystateApi(api).markUnplayedItem({
                 userId: user.Id,
                 itemId: itemId
@@ -591,8 +593,8 @@ const fetchUpdatePlayedState = async (
 export const useTogglePlayedMutation = () => {
     const currentApi = useApi();
     return useMutation({
-        mutationFn: ({ itemId, playedState }: TogglePlayedMutationProp) =>
-            fetchUpdatePlayedState(currentApi, itemId, playedState )
+        mutationFn: ({ itemId, isPlayed }: TogglePlayedMutationProp) =>
+            fetchUpdatePlayedState(currentApi, itemId, isPlayed )
     });
 };
 
@@ -676,7 +678,7 @@ const fetchGetTimers = async (
 export const useGetTimers = (isUpcomingRecordingsEnabled: boolean, indexByDate?: boolean) => {
     const currentApi = useApi();
     return useQuery({
-        queryKey: ['Timers', isUpcomingRecordingsEnabled, indexByDate],
+        queryKey: ['Timers', { isUpcomingRecordingsEnabled, indexByDate }],
         queryFn: ({ signal }) =>
             isUpcomingRecordingsEnabled ? fetchGetTimers(currentApi, indexByDate, { signal }) : []
     });
@@ -830,7 +832,7 @@ const fetchGetSectionItems = async (
                             ],
                             parentId: parentId ?? undefined,
                             imageTypeLimit: 1,
-                            enableImageTypes: [ImageType.Primary],
+                            enableImageTypes: [ImageType.Primary, ImageType.Thumb],
                             ...section.parametersOptions
                         },
                         {
@@ -882,19 +884,15 @@ const getSectionsWithItems = async (
     const updatedSectionWithItems: SectionWithItems[] = [];
 
     for (const section of sections) {
-        try {
-            const items = await fetchGetSectionItems(
-                currentApi, parentId, section, options
-            );
+        const items = await fetchGetSectionItems(
+            currentApi, parentId, section, options
+        );
 
-            if (items && items.length > 0) {
-                updatedSectionWithItems.push({
-                    section,
-                    items
-                });
-            }
-        } catch (error) {
-            console.error(`Error occurred for section ${section.type}: ${error}`);
+        if (items && items.length > 0) {
+            updatedSectionWithItems.push({
+                section,
+                items
+            });
         }
     }
 
@@ -908,7 +906,7 @@ export const useGetSuggestionSectionsWithItems = (
     const currentApi = useApi();
     const sections = getSuggestionSections();
     return useQuery({
-        queryKey: ['SuggestionSectionWithItems', suggestionSectionType],
+        queryKey: ['SuggestionSectionWithItems', { suggestionSectionType }],
         queryFn: ({ signal }) =>
             getSectionsWithItems(currentApi, parentId, sections, suggestionSectionType, { signal }),
         enabled: !!parentId
@@ -922,9 +920,8 @@ export const useGetProgramsSectionsWithItems = (
     const currentApi = useApi();
     const sections = getProgramSections();
     return useQuery({
-        queryKey: ['ProgramSectionWithItems', programSectionType],
-        queryFn: ({ signal }) =>
-            getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal })
+        queryKey: ['ProgramSectionWithItems', { programSectionType }],
+        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal })
+
     });
 };
-

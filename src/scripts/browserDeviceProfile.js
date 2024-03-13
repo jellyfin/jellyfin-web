@@ -194,7 +194,8 @@ function supportsHdr10(options) {
             || browser.web0s
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)
             // Chrome mobile and Firefox have no client side tone-mapping
-            // Edge Chromium on Nvidia is known to have color issues on 10-bit video
+            // Edge Chromium 121+ fixed the tone-mapping color issue on Nvidia
+            || browser.edgeChromium && (browser.versionMajor >= 121)
             || browser.chrome && !browser.mobile
     );
 }
@@ -394,8 +395,7 @@ export function canPlaySecondaryAudio(videoTestElement) {
         && !browser.firefox
         // It seems to work on Tizen 5.5+ (2020, Chrome 69+). See https://developer.tizen.org/forums/web-application-development/video-tag-not-work-audiotracks
         && (browser.tizenVersion >= 5.5 || !browser.tizen)
-        // Assume webOS 5+ (2020, Chrome 68+) supports secondary audio like Tizen 5.5+
-        && (browser.web0sVersion >= 5.0 || !browser.web0sVersion);
+        && (browser.web0sVersion >= 4.0 || !browser.web0sVersion);
 }
 
 export default function (options) {
@@ -591,11 +591,7 @@ export default function (options) {
     }
 
     if (canPlayHevc(videoTestElement, options)) {
-        // safari is lying on HDR and 60fps videos, use fMP4 instead
-        if (!browser.safari) {
-            mp4VideoCodecs.push('hevc');
-        }
-
+        mp4VideoCodecs.push('hevc');
         if (browser.tizen || browser.web0s) {
             hlsInTsVideoCodecs.push('hevc');
         }
@@ -1110,6 +1106,25 @@ export default function (options) {
             Condition: 'LessThanEqual',
             Property: 'VideoBitrate',
             Value: av1MaxVideoBitrate,
+            IsRequired: true
+        });
+    }
+
+    // Safari quirks for HEVC direct-play
+    if (browser.safari) {
+        // Only hvc1 & dvh1 tags are supported
+        hevcCodecProfileConditions.push({
+            Condition: 'EqualsAny',
+            Property: 'VideoCodecTag',
+            Value: 'hvc1|dvh1',
+            IsRequired: true
+        });
+
+        // Framerate above 60fps is not supported
+        hevcCodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'VideoFramerate',
+            Value: '60',
             IsRequired: true
         });
     }

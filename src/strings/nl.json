@@ -1784,5 +1784,12 @@
     "HeaderAllRecordings": "Alle opnamen",
     "LabelBuildVersion": "Buildversie",
     "LabelServerVersion": "Serverversie",
-    "LabelWebVersion": "Webversie"
+    "LabelWebVersion": "Webversie",
+    "ButtonEditUser": "Gebruiker bewerken",
+    "DlnaMovedMessage": "De DLNA-functionaliteit is verplaatst naar een plug-in.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }
