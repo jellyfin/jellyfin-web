@@ -220,7 +220,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fldIntelLp').classList.add('hide');
         }
 
-        if ((this.value == 'videotoolbox')) {
+        if (this.value === 'videotoolbox') {
             page.querySelector('.videoToolboxTonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.videoToolboxTonemappingOptions').classList.add('hide');
