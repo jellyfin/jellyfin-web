@@ -1792,5 +1792,7 @@
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Full HD",
-    "ChannelResolutionUHD4K": "UHD (4K)"
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "EnableVideoToolboxTonemapping": "Povolit mapování tónů VideoToolbox",
+    "AllowVideoToolboxTonemappingHelp": "Hardwarově akcelerované mapování tónů pomocí VideoToolbox. Funguje s většinou formátů HDR, včetně HDR10, HDR10+ a HLG, ale nefunguje s Dolby Vision Profile 5. Má vyšší prioritu než jiné implementace OpenCL."
 }

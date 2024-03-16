@@ -1728,7 +1728,7 @@
     "MenuClose": "Menu sluiten",
     "UserMenu": "Gebruikersmenu",
     "Studio": "Studio",
-    "AllowCollectionManagement": "Deze gebruiker toestaan verzamelingen te beheren",
+    "AllowCollectionManagement": "Deze gebruiker toestaan collecties te beheren",
     "EnableAudioNormalization": "Geluidsnormalisatie",
     "GetThePlugin": "Plug-in verkrijgen",
     "Notifications": "Meldingen",
@@ -1791,5 +1791,7 @@
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Full HD",
-    "ChannelResolutionUHD4K": "UHD (4K)"
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "EnableVideoToolboxTonemapping": "VideoToolbox-tonemapping inschakelen",
+    "AllowVideoToolboxTonemappingHelp": "Hardwareversnelde tonemapping van VideoToolbox. Dit werkt met de meeste HDR-formaten zoals HDR10, HDR10+ en HLG, maar werkt niet met Dolby Vision Profile 5. Dit heeft een hogere prioriteit in vergelijking met een andere OpenCL-implementatie."
 }
