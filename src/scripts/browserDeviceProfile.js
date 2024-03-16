@@ -210,12 +210,21 @@ function supportsDolbyVision(options) {
     );
 }
 
-function canPlayDolbyVisionHevc(videoTestElement) {
+function supportedDolbyVisionProfilesHevc(videoTestElement) {
+    const supportedProfiles = [];
     // Profiles 5/7/8 4k@60fps
-    return !!videoTestElement.canPlayType
-        && (videoTestElement.canPlayType('video/mp4; codecs="dvh1.05.09"').replace(/no/, '')
-        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.07.09"').replace(/no/, '')
-        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.08.09"').replace(/no/, ''));
+    if (videoTestElement.canPlayType) {
+        if (videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.05.09"')
+            .replace(/no/, '')) supportedProfiles.push(5);
+        if ( videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.07.09"')
+            .replace(/no/, '')) supportedProfiles.push(7);
+        if ( videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.08.09"')
+            .replace(/no/, '')) supportedProfiles.push(8);
+    }
+    return supportedProfiles;
 }
 
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
@@ -932,22 +941,24 @@ export default function (options) {
 
     if (supportsHdr10(options)) {
         hevcVideoRangeTypes += '|HDR10';
-        // Should also be able to play DoVi with HDR10 fallback
-        hevcVideoRangeTypes += '|DOVIWithHDR10';
         vp9VideoRangeTypes += '|HDR10';
         av1VideoRangeTypes += '|HDR10';
     }
 
     if (supportsHlg(options)) {
         hevcVideoRangeTypes += '|HLG';
-        // Should also be able to play DoVi with HLG fallback
-        hevcVideoRangeTypes += '|DOVIWithHLG';
         vp9VideoRangeTypes += '|HLG';
         av1VideoRangeTypes += '|HLG';
     }
 
-    if (supportsDolbyVision(options) && canPlayDolbyVisionHevc(videoTestElement)) {
-        hevcVideoRangeTypes += '|DOVI';
+    if (supportsDolbyVision(options)) {
+        const profiles = supportedDolbyVisionProfilesHevc(videoTestElement);
+        if (profiles.includes(5) || profiles.includes(7)) {
+            hevcVideoRangeTypes += '|DOVI';
+        }
+        if (profiles.includes(8)) {
+            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG';
+        }
     }
 
     const h264CodecProfileConditions = [
