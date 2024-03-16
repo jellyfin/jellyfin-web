@@ -933,17 +933,17 @@ export default function (options) {
     if (supportsHdr10(options)) {
         hevcVideoRangeTypes += '|HDR10';
         // Should also be able to play DoVi with HDR10 fallback
-        hevcVideoRangeTypes += '|DOVIWithHDR10'
+        hevcVideoRangeTypes += '|DOVIWithHDR10';
         vp9VideoRangeTypes += '|HDR10';
         av1VideoRangeTypes += '|HDR10';
     }
 
     if (supportsHlg(options)) {
-        hevcVideoRangeTypes += "|HLG";
+        hevcVideoRangeTypes += '|HLG';
         // Should also be able to play DoVi with HLG fallback
-        hevcVideoRangeTypes += "|DOVIWithHLG";
-        vp9VideoRangeTypes += "|HLG";
-        av1VideoRangeTypes += "|HLG";
+        hevcVideoRangeTypes += '|DOVIWithHLG';
+        vp9VideoRangeTypes += '|HLG';
+        av1VideoRangeTypes += '|HLG';
     }
 
     if (supportsDolbyVision(options) && canPlayDolbyVisionHevc(videoTestElement)) {
