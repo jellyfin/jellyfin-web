@@ -1,3 +1,4 @@
+export * from './useCreateUserByName';
 export * from './useGetUserById';
 export * from './useUpdateUser';
 export * from './useUpdateUserPassword';
