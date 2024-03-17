@@ -1777,5 +1777,7 @@
     "SaveRecordingNFO": "Guardar metadados EPG da gravação no NFO",
     "SaveRecordingNFOHelp": "Guardar metadados do fornecedor de listagens EPG juntamente com os ficheiros multimédia.",
     "SaveRecordingImages": "Guardar imagens da gravação EPG",
-    "LabelTrackGain": "Ganho da Faixa"
+    "LabelTrackGain": "Ganho da Faixa",
+    "EnableVideoToolboxTonemapping": "Ativar o mapeamento de tons do VideoToolbox",
+    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com Dolby Vision Profile 5. Tem uma prioridade mais alta em comparação com outra implementação OpenCL."
 }
