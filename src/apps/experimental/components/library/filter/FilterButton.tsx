@@ -1,5 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC, useCallback } from 'react';
+import React, { type FC, useCallback } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import Box from '@mui/material/Box';
 import FilterListIcon from '@mui/icons-material/FilterList';
