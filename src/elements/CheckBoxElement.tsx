@@ -79,9 +79,7 @@ const CheckBoxElement: FC<CheckBoxElementProps> = ({
                 dataFilter: dataFilter ? `data-filter='${dataFilter}'` : '',
                 dataItemType: itemType ? `data-itemtype='${itemType}'` : '',
                 dataId: itemId ? `data-id='${itemId}'` : '',
-                checkedAttribute: itemCheckedAttribute ?
-                    itemCheckedAttribute :
-                    '',
+                checkedAttribute: itemCheckedAttribute || '',
                 renderContent: renderContent
             })}
         />
