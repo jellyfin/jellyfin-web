@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import globalize from '../scripts/globalize';
 
 const createLinkElement = ({ className, title, href }: { className?: string, title?: string, href?: string }) => ({
@@ -13,13 +13,13 @@ const createLinkElement = ({ className, title, href }: { className?: string, tit
     </a>`
 });
 
-type IProps = {
+interface SectionTitleContainerProps {
     title?: string;
     className?: string;
     url?: string
-};
+}
 
-const SectionTitleLinkElement: FunctionComponent<IProps> = ({ className, title, url }: IProps) => {
+const SectionTitleLinkElement: FC<SectionTitleContainerProps> = ({ className, title, url }) => {
     return (
         <div
             dangerouslySetInnerHTML={createLinkElement({

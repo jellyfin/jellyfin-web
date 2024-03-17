@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { type FC, useEffect, useRef, useState } from 'react';
 
 import AlphaPicker from './alphaPicker';
 
@@ -8,7 +8,7 @@ type AlphaPickerProps = {
 
 // React compatibility wrapper component for alphaPicker.js
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const AlphaPickerComponent: FunctionComponent<AlphaPickerProps> = ({ onAlphaPicked = () => {} }: AlphaPickerProps) => {
+const AlphaPickerComponent: FC<AlphaPickerProps> = ({ onAlphaPicked = () => {} }) => {
     const [ alphaPicker, setAlphaPicker ] = useState<AlphaPicker>();
     const element = useRef<HTMLDivElement>(null);
 

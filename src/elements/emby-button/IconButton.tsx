@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import React, { type FC, type ButtonHTMLAttributes, type DetailedHTMLProps } from 'react';
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import './emby-button.scss';
@@ -10,7 +10,7 @@ interface IconButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLBut
   iconClassName?: string;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({
+const IconButton: FC<IconButtonProps> = ({
     className,
     title,
     icon,

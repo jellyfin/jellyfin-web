@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import datetime from '../../../scripts/datetime';
 import globalize from '../../../scripts/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
-type AccessScheduleListProps = {
+interface AccessScheduleListProps {
     index: number;
     DayOfWeek?: string;
     StartHour?: number ;
     EndHour?: number;
-};
+}
 
 function getDisplayTime(hours = 0) {
     let minutes = 0;
@@ -21,7 +21,7 @@ function getDisplayTime(hours = 0) {
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
-const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour }: AccessScheduleListProps) => {
+const AccessScheduleList: FC<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour }) => {
     return (
         <div
             className='liSchedule listItem'

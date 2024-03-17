@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import globalize from '../scripts/globalize';
 
-const createButtonElement = ({ type, id, className, title, leftIcon, rightIcon }: IProps) => ({
+const createButtonElement = ({ type, id, className, title, leftIcon, rightIcon }: ButtonElementProps) => ({
     __html: `<button
         is="emby-button"
         type="${type}"
@@ -14,16 +14,16 @@ const createButtonElement = ({ type, id, className, title, leftIcon, rightIcon }
     </button>`
 });
 
-type IProps = {
+interface ButtonElementProps {
     type?: string;
     id?: string;
     className?: string;
     title?: string;
     leftIcon?: string;
     rightIcon?: string;
-};
+}
 
-const ButtonElement: FunctionComponent<IProps> = ({ type, id, className, title, leftIcon, rightIcon }: IProps) => {
+const ButtonElement: FC<ButtonElementProps> = ({ type, id, className, title, leftIcon, rightIcon }) => {
     return (
         <div
             dangerouslySetInnerHTML={createButtonElement({

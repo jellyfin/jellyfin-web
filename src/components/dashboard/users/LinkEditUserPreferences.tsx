@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import globalize from '../../../scripts/globalize';
 
-type IProps = {
+interface LinkEditUserPreferencesProps {
     title?: string;
     className?: string;
-};
+}
 
-const createLinkElement = ({ className, title }: IProps) => ({
+const createLinkElement = ({ className, title }: LinkEditUserPreferencesProps) => ({
     __html: `<a
         is="emby-linkbutton"
         class="${className}"
@@ -16,7 +16,7 @@ const createLinkElement = ({ className, title }: IProps) => ({
     </a>`
 });
 
-const LinkEditUserPreferences: FunctionComponent<IProps> = ({ className, title }: IProps) => {
+const LinkEditUserPreferences: FC<LinkEditUserPreferencesProps> = ({ className, title }) => {
     return (
         <div
             dangerouslySetInnerHTML={createLinkElement({

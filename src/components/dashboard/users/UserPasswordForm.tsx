@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { type FC, useCallback, useEffect, useRef } from 'react';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../scripts/globalize';
 import LibraryMenu from '../../../scripts/libraryMenu';
@@ -8,11 +8,11 @@ import toast from '../../toast/toast';
 import ButtonElement from '../../../elements/ButtonElement';
 import InputElement from '../../../elements/InputElement';
 
-type IProps = {
+interface UserPasswordFormProps {
     userId: string;
-};
+}
 
-const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
+const UserPasswordForm: FC<UserPasswordFormProps> = ({ userId }) => {
     const element = useRef<HTMLDivElement>(null);
 
     const loadUser = useCallback(async () => {
@@ -66,7 +66,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             console.error('[UserPasswordForm] failed to load user', err);
         });
 
-        const onSubmit = (e: Event) => {
+        const onSubmit = (e: SubmitEvent) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
                 toast(globalize.translate('PasswordMatchError'));
             } else {
