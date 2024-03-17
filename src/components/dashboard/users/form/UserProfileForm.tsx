@@ -340,6 +340,23 @@ const UserProfileForm: FC<UserProfileFormProps> = ({
                                 'AllowCollectionManagement'
                             )}
                         />
+
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    className='chkEnableSubtitleManagement'
+                                    checked={
+                                        currentUser?.Policy
+                                            ?.EnableSubtitleManagement
+                                    }
+                                    onChange={onFormChange}
+                                    name='EnableSubtitleManagement'
+                                />
+                            }
+                            label={globalize.translate(
+                                'AllowSubtitleManagement'
+                            )}
+                        />
                     </FormGroup>
                 </FormControl>
             </Box>
