@@ -1780,5 +1780,7 @@
     "TonemappingModeHelp": "Selecione o modo de mapeamento de tons. Se ocorrerem erros de sobre-exposição, experimente o modo RGB.",
     "VideoRangeTypeNotSupported": "O tipo de intervalo do vídeo não é compatível",
     "ChannelResolutionHD": "HD",
-    "ChannelResolutionSD": "SD"
+    "ChannelResolutionSD": "SD",
+    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com Dolby Vision Profile 5. Tem uma prioridade mais alta em comparação com outra implementação OpenCL.",
+    "EnableVideoToolboxTonemapping": "Ativar o mapeamento de tons do VideoToolbox"
 }
