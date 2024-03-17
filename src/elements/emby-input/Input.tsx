@@ -18,12 +18,12 @@ const Input: FC<InputProps> = ({
 }) => {
     const [ isFocused, setIsFocused ] = useState(false);
 
-    const onBlurInternal = useCallback(e => {
+    const onBlurInternal = useCallback((e: React.FocusEvent<HTMLInputElement, Element>) => {
         setIsFocused(false);
         onBlur?.(e);
     }, [ onBlur ]);
 
-    const onFocusInternal = useCallback(e => {
+    const onFocusInternal = useCallback((e: React.FocusEvent<HTMLInputElement, Element>) => {
         setIsFocused(true);
         onFocus?.(e);
     }, [ onFocus ]);
