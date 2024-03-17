@@ -117,6 +117,9 @@ const UserPasswordForm: FC<UserPasswordFormProps> = ({ user }) => {
                             await queryClient.invalidateQueries({
                                 queryKey: ['UserById', user?.Id || '']
                             });
+                        },
+                        onError: (err) => {
+                            console.error('[UserPasswordForm] failed to reset user password', err);
                         }
                     }
                 );
