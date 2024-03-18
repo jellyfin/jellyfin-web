@@ -212,7 +212,7 @@ function supportsDolbyVision(options) {
 
 function supportedDolbyVisionProfilesHevc(videoTestElement) {
     const supportedProfiles = [];
-    // Profiles 5/7/8 4k@60fps
+    // Profiles 5/8 4k@60fps
     if (videoTestElement.canPlayType) {
         if (videoTestElement
             .canPlayType('video/mp4; codecs="dvh1.05.09"')
