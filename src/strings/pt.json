@@ -888,7 +888,7 @@
     "OptionEmbedSubtitles": "Incorporar no contentor",
     "OptionDvd": "DVD",
     "LabelBurnSubtitles": "Integrar legendas",
-    "LabelBlockContentWithTags": "Bloquear conteúdo com as tags",
+    "LabelBlockContentWithTags": "Bloquear itens com etiquetas",
     "LabelBlastMessageIntervalHelp": "Determina a duração em segundos entre as mensagens de exploração enviadas pelo servidor.",
     "LabelBlastMessageInterval": "Intervalo da mensagem Alive",
     "LabelBitrate": "Taxa de bits",
@@ -1419,8 +1419,8 @@
     "LabelEnableAudioVbrHelp": "A taxa de bits variavel oferece uma melhor que a taxa de bits médio, mas em alguns raros casos pode causar problemas relacionados a armazenamento e compatibilidade.",
     "EnableAudioNormalizationHelp": "A normalização de áudio vai adicionar um ganho constante para manter a média em um nível desejável (-18db).",
     "LabelParallelImageEncodingLimit": "Limite de codificação de imagens em paralelo",
-    "LabelEnableLUFSScan": "Habilitar busca LUFS",
-    "LabelEnableLUFSScanHelp": "Os clientes podem normalizar a reprodução de áudio para obter um volume igual entre as faixas. Isso tornará as varreduras da biblioteca mais demoradas e consumirá mais recursos.",
+    "LabelEnableLUFSScan": "Ativar a verificação LUFS",
+    "LabelEnableLUFSScanHelp": "Os clientes podem normalizar a reprodução de áudio para obter o mesmo volume entre as faixas. Isso fará com que as varreduras da biblioteca sejam mais longas e consumam mais recursos.",
     "LabelParallelImageEncodingLimitHelp": "Quantidade máxima de imagens codificadas que são permitidas rodar em paralelo. Ajustar este valor para 0 ira selecionar um limite baseado nas especificaçõrs do seu sistema.",
     "GoHome": "Ir ao início",
     "GridView": "Visão em grade",
@@ -1780,5 +1780,11 @@
     "TonemappingModeHelp": "Selecione o modo de mapeamento de tons. Se ocorrerem erros de sobre-exposição, experimente o modo RGB.",
     "VideoRangeTypeNotSupported": "O tipo de intervalo do vídeo não é compatível",
     "ChannelResolutionHD": "HD",
-    "ChannelResolutionSD": "SD"
+    "ChannelResolutionSD": "SD",
+    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com Dolby Vision Profile 5. Tem uma prioridade mais alta em comparação com outra implementação OpenCL.",
+    "EnableVideoToolboxTonemapping": "Ativar o mapeamento de tons do VideoToolbox",
+    "LabelUseReplayGainTags": "Usar etiquetas ReplayGain",
+    "LabelUseReplayGainTagsHelp": "Procura etiquetas replaygain nos ficheiros áudio e utiliza-as em vez de calcular o valor LUFS. (Utiliza menos poder de computação. Substitui a opção 'Verificação LUFS')",
+    "AllowSubtitleManagement": "Permitir a este utilizador editar legendas",
+    "DeleteName": "Eliminar {0}"
 }
