@@ -28,7 +28,7 @@ const LogoComponent: FC<LogoComponentProps> = ({ logoUrl }) => (
     <Box className='cardFooterLogo'>
         <Image
             imgUrl={logoUrl}
-            containImage={true}
+            containImage
         />
     </Box>
 );
