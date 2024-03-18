@@ -82,6 +82,7 @@
 - [András Maróy](https://github.com/andrasmaroy)
 - [Chris-Codes-It](https://github.com/Chris-Codes-It)
 - [Vedant](https://github.com/viktory36)
+- [GeorgeH005](https://github.com/GeorgeH005)
 
 ## Emby Contributors
 
