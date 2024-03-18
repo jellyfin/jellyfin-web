@@ -1792,5 +1792,7 @@
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Full HD",
-    "ChannelResolutionUHD4K": "UHD (4K)"
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "DeleteName": "Supprimer {0}",
+    "AllowSubtitleManagement": "Autoriser cet utilisateur à éditer les sous-titres"
 }
