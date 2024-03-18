@@ -31,10 +31,10 @@ export const REDIRECTS: Redirect[] = [
     { from: 'scheduledtasks.html', to: '/dashboard/tasks' },
     { from: 'serveractivity.html', to: '/dashboard/activity' },
     { from: 'streamingsettings.html', to: '/dashboard/playback/streaming' },
-    { from: 'useredit.html', to: '/dashboard/users/profile' },
-    { from: 'userlibraryaccess.html', to: '/dashboard/users/access' },
     { from: 'usernew.html', to: '/dashboard/users/add' },
-    { from: 'userparentalcontrol.html', to: '/dashboard/users/parentalcontrol' },
-    { from: 'userpassword.html', to: '/dashboard/users/password' },
-    { from: 'userprofiles.html', to: '/dashboard/users' }
+    { from: 'userprofiles.html', to: '/dashboard/users' },
+    { from: 'useredit.html', to: '/dashboard/users/edit?tab=profile' },
+    { from: 'userlibraryaccess.html', to: '/dashboard/users/edit?tab=access' },
+    { from: 'userparentalcontrol.html', to: '/dashboard/users/edit?tab=parentalcontrol' },
+    { from: 'userpassword.html', to: '/dashboard/users/edit?tab=password' }
 ];

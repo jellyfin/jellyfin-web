@@ -23,7 +23,7 @@ const User_Edit_Tabs = [
     },
     {
         index: 1,
-        value: 'libraryaccess',
+        value: 'access',
         label: 'TabAccess'
     },
     {
@@ -100,7 +100,7 @@ const UserEdit = () => {
                     </Box>
                     <Box>
                         {activeTab === 'profile' && <UserProfile user={user} />}
-                        {activeTab === 'libraryaccess' && <UserLibraryAccess user={user} />}
+                        {activeTab === 'access' && <UserLibraryAccess user={user} />}
                         {activeTab === 'parentalcontrol' && <UserParentalControl user={user} />}
                         {activeTab === 'password' && <UserPassword user={user} />}
                     </Box>
