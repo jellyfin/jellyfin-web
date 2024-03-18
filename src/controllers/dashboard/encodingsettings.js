@@ -33,6 +33,7 @@ function loadPage(page, config, systemInfo) {
     $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
     page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
     page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
+    page.querySelector('#chkVideoToolboxTonemapping').checked = config.EnableVideoToolboxTonemapping;
     page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
     page.querySelector('#selectTonemappingMode').value = config.TonemappingMode;
     page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
@@ -94,6 +95,7 @@ function onSubmit() {
             config.VaapiDevice = $('#txtVaapiDevice', form).val();
             config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
             config.EnableVppTonemapping = form.querySelector('#chkVppTonemapping').checked;
+            config.EnableVideoToolboxTonemapping = form.querySelector('#chkVideoToolboxTonemapping').checked;
             config.TonemappingAlgorithm = form.querySelector('#selectTonemappingAlgorithm').value;
             config.TonemappingMode = form.querySelector('#selectTonemappingMode').value;
             config.TonemappingRange = form.querySelector('#selectTonemappingRange').value;
@@ -211,7 +213,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
         }
 
-        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp') {
+        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp' || this.value == 'videotoolbox') {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
@@ -221,6 +223,14 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fldIntelLp').classList.remove('hide');
         } else {
             page.querySelector('.fldIntelLp').classList.add('hide');
+        }
+
+        if (this.value === 'videotoolbox') {
+            page.querySelector('.videoToolboxTonemappingOptions').classList.remove('hide');
+            page.querySelector('.allowAv1EncodingOption').classList.add('hide');
+        } else {
+            page.querySelector('.videoToolboxTonemappingOptions').classList.add('hide');
+            page.querySelector('.allowAv1EncodingOption').classList.remove('hide');
         }
 
         if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {

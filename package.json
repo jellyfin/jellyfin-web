@@ -78,7 +78,7 @@
     "@fontsource/noto-sans-kr": "5.0.17",
     "@fontsource/noto-sans-sc": "5.0.17",
     "@fontsource/noto-sans-tc": "5.0.17",
-    "@jellyfin/sdk": "0.0.0-unstable.202403040506",
+    "@jellyfin/sdk": "0.0.0-unstable.202403150501",
     "@loadable/component": "5.16.3",
     "@mui/icons-material": "5.15.11",
     "@mui/material": "5.15.11",

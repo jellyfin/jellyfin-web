@@ -418,6 +418,8 @@ export function setContentType(parent, contentType) {
         }
     }
 
+    parent.querySelector('.chkUseReplayGainTagsContainer').classList.toggle('hide', contentType !== 'music');
+
     parent.querySelector('.chkEnableLUFSScanContainer').classList.toggle('hide', contentType !== 'music');
 
     if (contentType === 'tvshows') {
@@ -519,6 +521,7 @@ export function getLibraryOptions(parent) {
         EnableLUFSScan: parent.querySelector('.chkEnableLUFSScan').checked,
         ExtractTrickplayImagesDuringLibraryScan: parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked,
         EnableTrickplayImageExtraction: parent.querySelector('.chkExtractTrickplayImages').checked,
+        UseReplayGainTags: parent.querySelector('.chkUseReplayGainTags').checked,
         ExtractChapterImagesDuringLibraryScan: parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked,
         EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
         EnableInternetProviders: true,
@@ -583,6 +586,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('.chkEnableLUFSScan').checked = options.EnableLUFSScan;
     parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked = options.ExtractTrickplayImagesDuringLibraryScan;
     parent.querySelector('.chkExtractTrickplayImages').checked = options.EnableTrickplayImageExtraction;
+    parent.querySelector('.chkUseReplayGainTags').checked = options.UseReplayGainTags;
     parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked = options.ExtractChapterImagesDuringLibraryScan;
     parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
     parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;

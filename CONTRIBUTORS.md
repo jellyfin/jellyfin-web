@@ -80,6 +80,7 @@
 - [Rasmus Krämer](https://github.com/rasmuslos)
 - [ntarelix](https://github.com/ntarelix)
 - [András Maróy](https://github.com/andrasmaroy)
+- [Chris-Codes-It](https://github.com/Chris-Codes-It)
 
 ## Emby Contributors
 
