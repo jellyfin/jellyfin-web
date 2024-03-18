@@ -1794,5 +1794,8 @@
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Full HD",
-    "ChannelResolutionUHD4K": "UHD (4K)"
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "LabelUseReplayGainTags": "Usa i tag ReplayGain",
+    "AllowSubtitleManagement": "Permetti a questo utente di modificare i sottotitoli",
+    "DeleteName": "Elimina {0}"
 }

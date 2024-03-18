@@ -1791,5 +1791,6 @@
     "AllowVideoToolboxTonemappingHelp": "laitteisto kiihdytetty",
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionFullHD": "Täysi HD",
-    "ChannelResolutionUHD4K": "UHD (4K)"
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "AllowSubtitleManagement": "Anna tämän käyttäjän muuttaa tekstityksiä"
 }

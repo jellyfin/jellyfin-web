@@ -1754,8 +1754,8 @@
     "LogLevel.Error": "Fout",
     "LogLevel.Critical": "Kritiek",
     "LogLevel.None": "Geen",
-    "AllowSegmentDeletionHelp": "Oude segmenten verwijderen nadat deze naar de cliënt zijn verzonden. Zo hoeft niet het gehele getranscodeerde bestand op de schijf te worden opgeslagen. Werkt alleen als afknijpen is ingeschakeld. Schakel dit uit als je afspeelproblemen ondervindt.",
-    "LabelSegmentKeepSecondsHelp": "Tijd in seconden die segmenten moeten worden bewaard voordat ze worden overschreven. Moet langer zijn dan \"Afknijpen na\". Werkt alleen als segmenten verwijderen is ingeschakeld.",
+    "AllowSegmentDeletionHelp": "Oude segmenten verwijderen nadat deze door de cliënt zijn gedownload. Zo hoeft niet het gehele getranscodeerde bestand op de schijf te worden opgeslagen. Schakel dit uit als je afspeelproblemen ondervindt.",
+    "LabelSegmentKeepSecondsHelp": "Tijd in seconden die segmenten moeten worden bewaard nadat ze door de cliënt zijn gedownload. Werkt alleen als segmenten verwijderen is ingeschakeld.",
     "HeaderEpisodesStatus": "Status afleveringen",
     "AllowSegmentDeletion": "Segmenten verwijderen",
     "LabelThrottleDelaySeconds": "Afknijpen na",
@@ -1793,5 +1793,9 @@
     "ChannelResolutionFullHD": "Full HD",
     "ChannelResolutionUHD4K": "UHD (4K)",
     "EnableVideoToolboxTonemapping": "VideoToolbox-tonemapping inschakelen",
-    "AllowVideoToolboxTonemappingHelp": "Hardwareversnelde tonemapping van VideoToolbox. Dit werkt met de meeste HDR-formaten zoals HDR10, HDR10+ en HLG, maar werkt niet met Dolby Vision Profile 5. Dit heeft een hogere prioriteit in vergelijking met een andere OpenCL-implementatie."
+    "AllowVideoToolboxTonemappingHelp": "Hardwareversnelde tonemapping van VideoToolbox. Dit werkt met de meeste HDR-formaten zoals HDR10, HDR10+ en HLG, maar werkt niet met Dolby Vision Profile 5. Dit heeft een hogere prioriteit in vergelijking met een andere OpenCL-implementatie.",
+    "LabelUseReplayGainTagsHelp": "Geluidsbestanden scannen op replaygain-tags en deze gebruiken in plaats van de LUFS-waarde te berekenen. (Gebruikt minder processorkracht. Zal de optie 'LUFS-scan' overschrijven)",
+    "AllowSubtitleManagement": "Deze gebruiker toestaan ondertiteling te bewerken",
+    "DeleteName": "{0} verwijderen",
+    "LabelUseReplayGainTags": "Replaygain-tags gebruiken"
 }

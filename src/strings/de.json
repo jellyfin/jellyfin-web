@@ -1757,7 +1757,7 @@
     "LogLevel.None": "Nichts",
     "HeaderEpisodesStatus": "Episodenstatus",
     "AllowSegmentDeletion": "Segmente löschen",
-    "AllowSegmentDeletionHelp": "Alte Segmente löschen, nachdem sie zum Client gesendet wurden. Damit muss nicht die gesamte transkodierte Datei auf der Festplatte zwischengespeichert werden. Funktioniert nur bei aktivierter Drosselung. Deaktivieren Sie diese Option, wenn bei der Wiedergabe Probleme auftreten.",
+    "AllowSegmentDeletionHelp": "Alte Segmente löschen, nachdem sie vom Client heruntergeladen wurden. Damit muss nicht die gesamte transkodierte Datei auf der Festplatte zwischengespeichert werden. Deaktivieren Sie diese Option, wenn bei der Wiedergabe Probleme auftreten.",
     "LabelThrottleDelaySeconds": "Drosseln nach",
     "LabelThrottleDelaySecondsHelp": "Zeit in Sekunden, nach der die Transkodierung gedrosselt wird. Muss groß genug sein, damit der Client einen gesunden Puffer aufrechterhalten kann. Funktioniert nur wenn \"Transkodierung drosseln\" aktiviert ist.",
     "LabelSegmentKeepSeconds": "Zeit, wie lange Segmente behalten werden",
@@ -1787,5 +1787,7 @@
     "LabelServerVersion": "Server-Version",
     "LabelWebVersion": "Web-Version",
     "ButtonEditUser": "Editiere Benutzer",
-    "DlnaMovedMessage": "Die DLNA-Funktion wurde in ein Plugin verschoben."
+    "DlnaMovedMessage": "Die DLNA-Funktion wurde in ein Plugin verschoben.",
+    "DeleteName": "Löschen {0}",
+    "AllowSubtitleManagement": "Erlaube dem Nutzer Untertitel zu bearbeiten"
 }
