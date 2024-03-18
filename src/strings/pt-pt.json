@@ -221,7 +221,7 @@
     "LabelAudioLanguagePreference": "Idioma de áudio preferido",
     "LabelBlastMessageInterval": "Intervalo para envio de mensagens de reconhecimento",
     "LabelBlastMessageIntervalHelp": "Estabeeça o intervalo, em segundos, entre mensagens de exploração enviadas pelo servidor.",
-    "LabelBlockContentWithTags": "Bloquear conteúdo com as etiquetas",
+    "LabelBlockContentWithTags": "Bloquear itens com etiquetas",
     "LabelCachePath": "Localização da cache",
     "LabelCachePathHelp": "Defina uma localização para os ficheiros de cache como, por exemplo, imagens. Deixe em branco para utilizar o padrão do servidor.",
     "LabelCancelled": "Cancelado",
@@ -1718,8 +1718,8 @@
     "EnableAudioNormalization": "Normalização de áudio",
     "HeaderRecordingMetadataSaving": "Gravar metadados",
     "OptionDateEpisodeAdded": "Data de adição do episódio",
-    "LabelEnableLUFSScanHelp": "Os clientes podem normalizar a reprodução de áudio para obter um volume semelhante nas faixas. Isso tornará as varreduras da biblioteca mais demoradas e consumirá mais recursos.",
-    "LabelEnableLUFSScan": "Ative a verificação LUFS",
+    "LabelEnableLUFSScanHelp": "Os clientes podem normalizar a reprodução de áudio para obter o mesmo volume entre as faixas. Isso fará com que as varreduras da biblioteca sejam mais longas e consumam mais recursos.",
+    "LabelEnableLUFSScan": "Ativar a verificação LUFS",
     "HeaderDummyChapter": "Imagens dos Capítulos",
     "LabelEnableAudioVbrHelp": "A taxa de bits variável oferece melhor qualidade relativamente à taxa de bits média, mas, em alguns casos raros, pode causar problemas de ‘buffer’ e compatibilidade.",
     "Experimental": "Experimental",
@@ -1779,5 +1779,9 @@
     "SaveRecordingImages": "Guardar imagens da gravação EPG",
     "LabelTrackGain": "Ganho da Faixa",
     "EnableVideoToolboxTonemapping": "Ativar o mapeamento de tons do VideoToolbox",
-    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com Dolby Vision Profile 5. Tem uma prioridade mais alta em comparação com outra implementação OpenCL."
+    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com Dolby Vision Profile 5. Tem uma prioridade mais alta em comparação com outra implementação OpenCL.",
+    "LabelUseReplayGainTags": "Usar etiquetas ReplayGain",
+    "LabelUseReplayGainTagsHelp": "Procura etiquetas replaygain nos ficheiros áudio e utiliza-as em vez de calcular o valor LUFS. (Utiliza menos poder de computação. Substitui a opção 'Verificação LUFS')",
+    "AllowSubtitleManagement": "Permitir a este utilizador editar legendas",
+    "DeleteName": "Eliminar {0}"
 }
