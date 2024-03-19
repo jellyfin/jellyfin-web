@@ -68,7 +68,7 @@ function canPlayNativeHls() {
 }
 
 function canPlayNativeHlsInFmp4() {
-    if (browser.tizenVersion >= 3 || browser.web0sVersion >= 3.5) {
+    if (browser.tizenVersion >= 5 || browser.web0sVersion >= 3.5) {
         return true;
     }
 
