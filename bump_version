@@ -7,7 +7,7 @@ set -o pipefail
 set -o xtrace
 
 usage() {
-    echo -e "bump_version - increase the shared version and generate changelogs"
+    echo -e "bump_version - increase the shared version"
     echo -e ""
     echo -e "Usage:"
     echo -e " $ bump_version <new_version>"
@@ -18,74 +18,11 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-build_file="./build.yaml"
-package_file="./package*.json"
-
 new_version="$1"
-
-old_version="$(
-    grep "version:" ${build_file} \
-        | sed -E 's/version: "([0-9\.]+[-a-z0-9]*)"/\1/'
-)"
-echo "Old version: ${old_version}"
+new_version_sed="$( cut -f1 -d'-' <<<"${new_version}" )"
 
 # Bump the NPM version
-new_version_sed="$( cut -f1 -d'-' <<<"${new_version}" )"
 npm --no-git-tag-version --allow-same-version version v${new_version_sed}
-
-# Set the build.yaml version to the specified new_version
-old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
-sed -i "s/${old_version_sed}/${new_version_sed}/g" ${build_file}
-
-
-if [[ ${new_version} == *"-"* ]]; then
-    new_version_pkg="$( sed 's/-/~/g' <<<"${new_version}" )"
-    new_version_deb_sup=""
-else
-    new_version_pkg="${new_version}"
-    new_version_deb_sup="-1"
-fi
-
-# Write out a temporary Debian changelog with our new stuff appended and some templated formatting
-debian_changelog_file="debian/changelog"
-debian_changelog_temp="$( mktemp )"
-# Create new temp file with our changelog
-echo -e "jellyfin-web (${new_version_pkg}${new_version_deb_sup}) unstable; urgency=medium
-
-  * New upstream version ${new_version}; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v${new_version}
-
- -- Jellyfin Packaging Team <packaging@jellyfin.org>  $( date --rfc-2822 )
-" >> ${debian_changelog_temp}
-cat ${debian_changelog_file} >> ${debian_changelog_temp}
-# Move into place
-mv ${debian_changelog_temp} ${debian_changelog_file}
-
-# Write out a temporary Yum changelog with our new stuff prepended and some templated formatting
-fedora_spec_file="fedora/jellyfin-web.spec"
-fedora_changelog_temp="$( mktemp )"
-fedora_spec_temp_dir="$( mktemp -d )"
-fedora_spec_temp="${fedora_spec_temp_dir}/jellyfin-web.spec.tmp"
-# Make a copy of our spec file for hacking
-cp ${fedora_spec_file} ${fedora_spec_temp_dir}/
-pushd ${fedora_spec_temp_dir}
-# Split out the stuff before and after changelog
-csplit jellyfin-web.spec  "/^%changelog/" # produces xx00 xx01
-# Update the version in xx00
-sed -i "s/${old_version_sed}/${new_version_pkg}/g" xx00
-# Remove the header from xx01
-sed -i '/^%changelog/d' xx01
-# Create new temp file with our changelog
-echo -e "%changelog
-* $( LANG=C date '+%a %b %d %Y' ) Jellyfin Packaging Team <packaging@jellyfin.org>
-- New upstream version ${new_version}; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v${new_version}" >> ${fedora_changelog_temp}
-cat xx01 >> ${fedora_changelog_temp}
-# Reassembble
-cat xx00 ${fedora_changelog_temp} > ${fedora_spec_temp}
-popd
-# Move into place
-mv ${fedora_spec_temp} ${fedora_spec_file}
-# Clean up
-rm -rf ${fedora_spec_temp_dir}
 
 # Stage the changed files for commit
 git add .
