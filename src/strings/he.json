@@ -1244,5 +1244,19 @@
     "LabelTextBackgroundColor": "צבע רקע טקסט",
     "LabelSystem": "מערכת",
     "LabelProfileContainersHelp": "מופרד בפסיקים. אפשר להשאיר ריק בשביל כל המכולות.",
-    "LabelServerVersion": "גרסת שרת"
+    "LabelServerVersion": "גרסת שרת",
+    "ButtonEditUser": "ערוך משתמש",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "DlnaMovedMessage": "פונקציונאליות DLNA עברה לפלאגין.",
+    "LabelBuildVersion": "גירסת בילד",
+    "LabelKodiMetadataEnablePathSubstitutionHelp": "אפשר נתיב חילופי לתמונות באמצעות הגדרות נתיב חלופי של השרת.",
+    "LabelKodiMetadataSaveImagePaths": "שמור נתיבי תמונות בקובץ NFO",
+    "LabelKodiMetadataSaveImagePathsHelp": "ההגדרה מומלצת אם יש לך שמות תמונות לא לפי הקווים המנחים של קודי.",
+    "LabelKodiMetadataUser": "שמור מידע צפייה של המשתמש בקובץ NFO עבור",
+    "LabelKodiMetadataUserHelp": "שמור מידע צפייה בקובץ NFO לשימוש של אפליקציות אחרות.",
+    "LabelMaxDaysForNextUp": "מקסימום ימים עבור 'הבא בתור'"
 }

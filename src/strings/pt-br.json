@@ -1779,5 +1779,15 @@
     "LabelAlbumGain": "Nivelar volume do álbum",
     "LabelSelectAudioNormalization": "Normalização de áudio",
     "LabelTrackGain": "Nivelação de volume de faixa",
-    "HeaderAllRecordings": "Todas as Gravações"
+    "HeaderAllRecordings": "Todas as Gravações",
+    "ButtonEditUser": "Editar usuário",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "DlnaMovedMessage": "A funcionalidade DLNA foi movida para um plugin.",
+    "LabelBuildVersion": "Versão da build",
+    "LabelServerVersion": "Versão do servidor",
+    "LabelWebVersion": "Versão web"
 }

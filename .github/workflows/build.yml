@@ -31,6 +31,8 @@ jobs:
         run: npm ci --no-audit
 
       - name: Run a production build
+        env:
+          JELLYFIN_VERSION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: npm run build:production
 
       - name: Update config.json for testing
@@ -56,7 +58,7 @@ jobs:
       - name: Save PR context
         env:
           PR_NUMBER: ${{ github.event.number }}
-          PR_SHA: ${{ github.sha }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           echo $PR_NUMBER > PR_number
           echo $PR_SHA > PR_sha
