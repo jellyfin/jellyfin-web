@@ -332,7 +332,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
+            Dashboard.navigate('search.html?collectionType=tvshows&parentId=' + params.topParentId);
         }
     }
 
