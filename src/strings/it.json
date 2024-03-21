@@ -1757,11 +1757,11 @@
     "LogLevel.None": "None",
     "AllowSegmentDeletion": "Rimuovi segmenti",
     "HeaderEpisodesStatus": "Stato episodio",
-    "AllowSegmentDeletionHelp": "Elimina i vecchi segmenti dopo che sono stati inviati al client. Evita di dover memorizzare l'intero file transcodificato su disco. Funziona solo con throttling abilitato. Disabilita se riscontri problemi di riproduzione.",
+    "AllowSegmentDeletionHelp": "Elimina i vecchi segmenti dopo che sono stati scaricati dal client. In questo modo si evita di dover memorizzare l'intero file transcodificato su disco. Disattiva questa funzione se si verificano problemi di riproduzione.",
     "LabelThrottleDelaySeconds": "Limita dopo",
     "LabelThrottleDelaySecondsHelp": "Tempo in secondi dopo cui il transcodificatore sarà messo in throttle. Deve essere sufficientemente grande perché il client mantenga un buon buffer. Funziona solo se il throttling è abilitato.",
     "LabelSegmentKeepSeconds": "Il tempo per cui tenere i segmenti",
-    "LabelSegmentKeepSecondsHelp": "Tempo in secondi per cui i segmenti saranno tenuti prima di essere sovrascritti. Deve essere più grande di \"Throttle dopo\". Funziona solo se l'eliminazione dei segmenti è abilitata.",
+    "LabelSegmentKeepSecondsHelp": "Tempo in secondi per cui i segmenti devono essere conservati dopo essere stati scaricati dal client. Funziona solo se l'eliminazione dei segmenti è abilitata.",
     "AllowAv1Encoding": "Permetti la codifica nel formato AV1",
     "GoHome": "Vai alla Home",
     "GridView": "Vista Griglia",
@@ -1797,5 +1797,6 @@
     "ChannelResolutionUHD4K": "UHD (4K)",
     "LabelUseReplayGainTags": "Usa i tag ReplayGain",
     "AllowSubtitleManagement": "Permetti a questo utente di modificare i sottotitoli",
-    "DeleteName": "Elimina {0}"
+    "DeleteName": "Elimina {0}",
+    "LabelUseReplayGainTagsHelp": "Scansiona i file audio per i tag di replaygain e usali invece di calcolare il valore LUFS. (Utilizza meno potenza di calcolo. Sostituirà l'opzione \"Scansione LUFS\")"
 }
