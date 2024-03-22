@@ -10,17 +10,18 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 
 function getDeleteLabel(type) {
     switch (type) {
-        case 'Series':
+        case BaseItemKind.Series:
             return globalize.translate('DeleteSeries');
 
-        case 'Episode':
+        case BaseItemKind.Episode:
             return globalize.translate('DeleteEpisode');
 
-        case 'Playlist':
-        case 'BoxSet':
+        case BaseItemKind.Playlist:
+        case BaseItemKind.BoxSet:
             return globalize.translate('Delete');
 
         default:

@@ -4,13 +4,14 @@ import { appRouter } from '../components/router/appRouter';
 import globalize from './globalize';
 import ServerConnections from '../components/ServerConnections';
 import alert from '../components/alert';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 
 function alertText(options) {
     return alert(options);
 }
 
 function getDeletionConfirmContent(item) {
-    if (item.Type === 'Series') {
+    if (item.Type === BaseItemKind.Series) {
         const totalEpisodes = item.RecursiveItemCount;
         return {
             title: globalize.translate('HeaderDeleteSeries'),
