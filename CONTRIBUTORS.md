@@ -81,6 +81,7 @@
 - [ntarelix](https://github.com/ntarelix)
 - [András Maróy](https://github.com/andrasmaroy)
 - [Chris-Codes-It](https://github.com/Chris-Codes-It)
+- [Vedant](https://github.com/viktory36)
 
 ## Emby Contributors
 
