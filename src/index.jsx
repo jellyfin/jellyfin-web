@@ -38,6 +38,7 @@ import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
 import RootApp from './RootApp.tsx';
+import { name as WEB_NAME, version as WEB_VERSION } from '../package.json';
 
 import './styles/livetv.scss';
 import './styles/dashboard.scss';
@@ -59,6 +60,9 @@ function loadCoreDictionary() {
 }
 
 function init() {
+    // Log current version to console to help out with issue triage and debugging
+    console.log(`${WEB_NAME} version ${WEB_VERSION} build ${__JF_BUILD_VERSION__}`);
+
     // This is used in plugins
     window.Events = Events;
     window.TaskButton = taskButton;
