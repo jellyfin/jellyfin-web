@@ -271,7 +271,7 @@ function showMoreMenu(context, button, user) {
             } else if (result.updated) {
                 reload(context, item.Id, item.ServerId);
             }
-        });
+        }).catch(() => { /* no-op */ });
     });
 }
 
