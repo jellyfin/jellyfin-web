@@ -1156,6 +1156,24 @@ export default function (options) {
         Conditions: h264CodecProfileConditions
     });
 
+    if (browser.web0s && supportsDolbyVision(options)) {
+        // Disallow direct playing of DOVI media in containers not mp4.
+        // This paired with the "Prefer fMP4-HLS Container" client playback setting enables DOVI playback on webOS.
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Container: '-mp4',
+            Codec: 'hevc',
+            Conditions: [
+                {
+                    Condition: 'EqualsAny',
+                    Property: 'VideoRangeType',
+                    Value: 'SDR|HDR10|HLG',
+                    IsRequired: false
+                }
+            ]
+        });
+    }
+
     profile.CodecProfiles.push({
         Type: 'Video',
         Codec: 'hevc',
