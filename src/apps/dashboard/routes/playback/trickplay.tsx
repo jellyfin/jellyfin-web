@@ -11,6 +11,7 @@ import InputElement from '../../../../elements/InputElement';
 import LinkTrickplayAcceleration from '../../../../components/dashboard/playback/trickplay/LinkTrickplayAcceleration';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
+import ServerConnections from '../../../../components/ServerConnections';
 
 function onSaveComplete() {
     loading.hide();
@@ -46,10 +47,10 @@ const PlaybackTrickplay: FunctionComponent = () => {
     const loadData = useCallback(() => {
         loading.show();
 
-        window.ApiClient.getServerConfiguration().then(function (config) {
+        ServerConnections.currentApiClient()?.getServerConfiguration().then(function (config) {
             loadConfig(config);
         }).catch(err => {
-            console.error('[playbacktrickplay] failed to fetch server config', err);
+            console.error('[PlaybackTrickplay] failed to fetch server config', err);
         });
     }, [loadConfig]);
 
@@ -62,6 +63,13 @@ const PlaybackTrickplay: FunctionComponent = () => {
         }
 
         const saveConfig = (config: ServerConfiguration) => {
+            const apiClient = ServerConnections.currentApiClient();
+
+            if (!apiClient) {
+                console.error('[PlaybackTrickplay] No current apiclient instance');
+                return;
+            }
+
             if (!config.TrickplayOptions) {
                 throw new Error('Unexpected null TrickplayOptions');
             }
@@ -78,20 +86,26 @@ const PlaybackTrickplay: FunctionComponent = () => {
             options.JpegQuality = Math.min(100, parseInt((page.querySelector('#txtJpegQuality') as HTMLInputElement).value || '90', 10));
             options.ProcessThreads = parseInt((page.querySelector('#txtProcessThreads') as HTMLInputElement).value || '1', 10);
 
-            window.ApiClient.updateServerConfiguration(config).then(() => {
+            apiClient.updateServerConfiguration(config).then(() => {
                 onSaveComplete();
             }).catch(err => {
-                console.error('[playbacktrickplay] failed to update config', err);
+                console.error('[PlaybackTrickplay] failed to update config', err);
             });
         };
 
         const onSubmit = (e: Event) => {
-            loading.show();
+            const apiClient = ServerConnections.currentApiClient();
 
-            window.ApiClient.getServerConfiguration().then(function (config) {
+            if (!apiClient) {
+                console.error('[PlaybackTrickplay] No current apiclient instance');
+                return;
+            }
+
+            loading.show();
+            apiClient.getServerConfiguration().then(function (config) {
                 saveConfig(config);
             }).catch(err => {
-                console.error('[playbacktrickplay] failed to fetch server config', err);
+                console.error('[PlaybackTrickplay] failed to fetch server config', err);
             });
 
             e.preventDefault();

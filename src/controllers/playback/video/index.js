@@ -151,15 +151,17 @@ export default function (view) {
         trickplayResolution = null;
 
         const mediaSourceId = currentPlayer.streamInfo.mediaSource.Id;
-        let trickplayResolutions;
-        if (item.Trickplay && (trickplayResolutions = item.Trickplay[mediaSourceId])) {
+        const trickplayResolutions = item.Trickplay?.[mediaSourceId];
+        if (trickplayResolutions) {
             // Prefer highest resolution <= 20% of total screen resolution width
             let bestWidth;
             const maxWidth = window.screen.width * window.devicePixelRatio * 0.2;
             for (const [, info] of Object.entries(trickplayResolutions)) {
                 if (!bestWidth
                         || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
-                        || (info.Width > bestWidth && info.Width <= maxWidth)) bestWidth = info.Width;
+                        || (info.Width > bestWidth && info.Width <= maxWidth)) {
+                    bestWidth = info.Width;
+                }
             }
 
             if (bestWidth) trickplayResolution = trickplayResolutions[bestWidth];
