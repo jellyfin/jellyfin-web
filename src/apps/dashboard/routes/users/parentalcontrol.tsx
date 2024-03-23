@@ -17,6 +17,7 @@ import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
+import ServerConnections from 'components/ServerConnections';
 
 type UnratedItem = {
     name: string;
@@ -487,25 +488,28 @@ const UserParentalControl: FunctionComponent = () => {
 
 function handleSaveUser(page: HTMLDivElement, getSchedulesFromPage: () => AccessSchedule[], getAllowedTagsFromPage: () => string[], getBlockedTagsFromPage: () => string[], onSaveComplete: () => void) {
     return (user: UserDto) => {
-        if (!user.Id || !user.Policy) {
+        const userId = user.Id;
+        const userPolicy = user.Policy;
+        if (!userId || !userPolicy) {
             throw new Error('Unexpected null user id or policy');
         }
 
         const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
-        user.Policy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
-        user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
+        userPolicy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
+        userPolicy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
             return i.checked;
         }).map(function (i) {
             return i.getAttribute('data-itemtype');
         });
-        user.Policy.AccessSchedules = getSchedulesFromPage();
-        user.Policy.AllowedTags = getAllowedTagsFromPage();
-        user.Policy.BlockedTags = getBlockedTagsFromPage();
-        window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-            onSaveComplete();
-        }).catch(err => {
-            console.error('[userparentalcontrol] failed to update user policy', err);
-        });
+        userPolicy.AccessSchedules = getSchedulesFromPage();
+        userPolicy.AllowedTags = getAllowedTagsFromPage();
+        userPolicy.BlockedTags = getBlockedTagsFromPage();
+        ServerConnections.getCurrentApiClientAsync()
+            .then(apiClient => apiClient.updateUserPolicy(userId, userPolicy))
+            .then(() => onSaveComplete())
+            .catch(err => {
+                console.error('[userparentalcontrol] failed to update user policy', err);
+            });
     };
 }
 
