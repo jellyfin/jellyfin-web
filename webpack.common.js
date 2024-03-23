@@ -5,6 +5,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
+const packageJson = require('./package.json');
 
 const Assets = [
     'native-promise-only/npo.js',
@@ -52,7 +53,9 @@ const config = {
                     'Dev Server' :
                     process.env.JELLYFIN_VERSION || 'Release'),
             __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
-            __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
+            __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE),
+            __PACKAGE_JSON_NAME__: JSON.stringify(packageJson.name),
+            __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version)
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({

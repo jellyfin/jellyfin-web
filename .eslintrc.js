@@ -265,7 +265,9 @@ module.exports = {
                 // Build time definitions
                 __JF_BUILD_VERSION__: 'readonly',
                 __USE_SYSTEM_FONTS__: 'readonly',
-                __WEBPACK_SERVE__: 'readonly'
+                __WEBPACK_SERVE__: 'readonly',
+                __PACKAGE_JSON_NAME__: 'readonly',
+                __PACKAGE_JSON_VERSION__: 'readonly'
             },
             rules: {
                 '@typescript-eslint/prefer-string-starts-ends-with': ['error']
