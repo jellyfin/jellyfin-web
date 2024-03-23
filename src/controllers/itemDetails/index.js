@@ -1098,6 +1098,8 @@ function renderLyricsContainer(view, item, apiClient) {
                 }, '');
                 itemsContainer.innerHTML = html;
             }
+        }).catch(() => {
+            lyricContainer.classList.add('hide');
         });
     }
 }
@@ -1381,7 +1383,6 @@ function renderChildren(page, item) {
     } else if (item.Type == 'MusicArtist') {
         query.SortBy = 'PremiereDate,ProductionYear,SortName';
     }
-
     promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
     promise.then(function (result) {
         let html = '';

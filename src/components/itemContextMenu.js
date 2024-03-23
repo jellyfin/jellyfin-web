@@ -183,6 +183,15 @@ export function getCommands(options) {
             id: 'delete',
             icon: 'delete'
         });
+
+        if (item.Type === 'Audio' && item.HasLyrics && window.location.href.includes(item.Id)) {
+            console.log('affirmative');
+            commands.push({
+                name: globalize.translate('DeleteLyrics'),
+                id: 'deleteLyrics',
+                icon: 'delete_sweep'
+            });
+        }
     }
 
     // Books are promoted to major download Button and therefor excluded in the context menu
@@ -503,6 +512,9 @@ function executeCommand(item, id, options) {
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
                 break;
+            case 'deleteLyrics':
+                deleteLyrics(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                break;
             case 'share':
                 navigator.share({
                     title: item.Name,
@@ -639,10 +651,17 @@ function editItem(apiClient, item) {
 function deleteItem(apiClient, item) {
     return new Promise(function (resolve, reject) {
         import('../scripts/deleteHelper').then((deleteHelper) => {
-            deleteHelper.deleteItem({
-                item: item,
-                navigate: false
-            }).then(function () {
+            deleteHelper.deleteItem(item).then(function () {
+                resolve(true);
+            }, reject);
+        });
+    });
+}
+
+function deleteLyrics(apiClient, item) {
+    return new Promise(function (resolve, reject) {
+        import('../scripts/deleteHelper').then((deleteHelper) => {
+            deleteHelper.deleteLyrics(item).then(function () {
                 resolve(true);
             }, reject);
         });
