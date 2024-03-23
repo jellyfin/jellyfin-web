@@ -1761,7 +1761,7 @@
     "LabelThrottleDelaySeconds": "Drosseln nach",
     "LabelThrottleDelaySecondsHelp": "Zeit in Sekunden, nach der die Transkodierung gedrosselt wird. Muss groß genug sein, damit der Client einen gesunden Puffer aufrechterhalten kann. Funktioniert nur wenn \"Transkodierung drosseln\" aktiviert ist.",
     "LabelSegmentKeepSeconds": "Zeit, wie lange Segmente behalten werden",
-    "LabelSegmentKeepSecondsHelp": "Zeit in Sekunden, für die Segmente behalten werden sollen, bevor sie überschrieben werden. Muss größer sein als \"Drosseln nach\". Funktioniert nur wenn \"Segmente löschen\" aktiviert ist.",
+    "LabelSegmentKeepSecondsHelp": "Zeit in Sekunden, für die Segmente nach dem Download im Client behalten werden sollen, bevor sie überschrieben werden. Funktioniert nur wenn \"Segmente löschen\" aktiviert ist.",
     "LogoScreensaver": "Logo Bildschirmschoner",
     "UnknownError": "Ein unbekannter Fehler trat auf.",
     "GridView": "Kachelansicht",
@@ -1789,5 +1789,14 @@
     "ButtonEditUser": "Editiere Benutzer",
     "DlnaMovedMessage": "Die DLNA-Funktion wurde in ein Plugin verschoben.",
     "DeleteName": "Löschen {0}",
-    "AllowSubtitleManagement": "Erlaube dem Nutzer Untertitel zu bearbeiten"
+    "AllowSubtitleManagement": "Erlaube dem Nutzer Untertitel zu bearbeiten",
+    "LabelUseReplayGainTagsHelp": "Audiodateien nach Replaygain-Tags durchsuchen statt den LUFS-Wert zu Berechnen. (Nutzt weniger Rechenleistung. Wird die \"LUFS Scan\" option überschreiben)",
+    "LabelUseReplayGainTags": "ReplayGain-Tags Benutzen",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "EnableVideoToolboxTonemapping": "VideoToolbox-Tone-Mapping aktivieren",
+    "AllowVideoToolboxTonemappingHelp": "Hardwarebeschleunigtes Tone-Mapping welches von VideoToolbox zur verfügung gestellt wird. Es funktioniert mit den meisten HDR Formaten wie HDR10, HDR10+ und HLG, aber es funktioniert nicht mit Dolby Vision Profile 5. Dies hat eine höhere Priorität verglichen mit einer anderen OpenCL implementation."
 }
