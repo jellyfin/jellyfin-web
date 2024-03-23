@@ -3,7 +3,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import escapeHtml from 'escape-html';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 
 import { appRouter } from '../router/appRouter';
 import { useApi } from '../../hooks/useApi';
@@ -27,7 +27,7 @@ type SearchSuggestionsProps = {
     parentId?: string | null;
 };
 
-const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }: SearchSuggestionsProps) => {
+const SearchSuggestions: FC<SearchSuggestionsProps> = ({ parentId }) => {
     const [ suggestions, setSuggestions ] = useState<BaseItemDto[]>([]);
     const { api, user } = useApi();
 

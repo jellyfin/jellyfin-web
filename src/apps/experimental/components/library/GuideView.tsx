@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { type FC, useCallback, useEffect, useRef } from 'react';
 import Guide from 'components/guide/guide';
 import 'material-design-icons-iconfont';
 import 'elements/emby-programcell/emby-programcell';

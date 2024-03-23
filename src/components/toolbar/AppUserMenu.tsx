@@ -12,7 +12,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import React, { FC, useCallback } from 'react';
+import React, { type FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import { appHost } from 'components/apphost';

@@ -1,85 +1,88 @@
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
-
-import Dashboard from '../../../../utils/dashboard';
+import React, { type FC, useRef, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import { imageHooks, userHooks } from 'hooks/api';
+import { useApi } from 'hooks/useApi';
 import globalize from '../../../../scripts/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
-import ButtonElement from '../../../../elements/ButtonElement';
-import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';
-import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import { getParameterByName } from '../../../../utils/url';
 import Page from '../../../../components/Page';
+import Loading from 'components/loading/LoadingComponent';
+import UserPasswordForm from 'components/dashboard/users/form/UserPasswordForm';
 
-const UserProfile: FunctionComponent = () => {
-    const userId = getParameterByName('userId');
-    const [ userName, setUserName ] = useState('');
+const UserProfile: FC = () => {
+    const [searchParams] = useSearchParams();
+    const userId = searchParams.get('userId');
+    const theme = useTheme();
 
-    const element = useRef<HTMLDivElement>(null);
+    const {
+        isInitialLoading,
+        data: user
+    } = userHooks.useGetUserById(userId);
 
-    const reloadUser = useCallback(() => {
-        const page = element.current;
+    const { data: imageUrl } = imageHooks.useGetUserImage({
+        userId: user?.Id || '',
+        tag: user?.PrimaryImageTag || '',
+        imageType: ImageType.Primary
+    });
 
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
+    const { user: loggedInUser } = useApi();
 
-        loading.show();
-        window.ApiClient.getUser(userId).then(function (user) {
-            if (!user.Name || !user.Id) {
-                throw new Error('Unexpected null user name or id');
-            }
+    const deleteUserImage = imageHooks.useDeleteUserImage();
+    const postUserImage = imageHooks.usePostUserImage();
+    const queryClient = useQueryClient();
 
-            setUserName(user.Name);
-            LibraryMenu.setTitle(user.Name);
+    const profileImage = useRef<HTMLInputElement | null>(null);
 
-            let imageUrl = 'assets/img/avatar.png';
-            if (user.PrimaryImageTag) {
-                imageUrl = window.ApiClient.getUserImageUrl(user.Id, {
-                    tag: user.PrimaryImageTag,
-                    type: 'Primary'
-                });
-            }
-            const userImage = (page.querySelector('#image') as HTMLDivElement);
-            userImage.style.backgroundImage = 'url(' + imageUrl + ')';
-
-            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
-                if (!user.Policy) {
-                    throw new Error('Unexpected null user.Policy');
-                }
-
-                if (user.PrimaryImageTag) {
-                    (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
-                    (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-                } else if (appHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                    (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
-                    (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
-                }
-            }).catch(err => {
-                console.error('[userprofile] failed to get current user', err);
+    const onDeleteUserImage = useCallback(() => {
+        confirm(
+            globalize.translate('DeleteImageConfirmation'),
+            globalize.translate('DeleteImage')
+        )
+            .then(function () {
+                deleteUserImage.mutate(
+                    {
+                        userId: user?.Id || '',
+                        imageType: ImageType.Primary
+                    },
+                    {
+                        onSuccess: async () => {
+                            await queryClient.invalidateQueries({
+                                queryKey: ['UserById', user?.Id]
+                            });
+                        },
+                        onError: (err) => {
+                            console.error(
+                                '[userprofile] failed to delete image',
+                                err
+                            );
+                        }
+                    }
+                );
+            })
+            .catch(() => {
+                // confirm dialog closed
             });
-            loading.hide();
-        }).catch(err => {
-            console.error('[userprofile] failed to load data', err);
-        });
-    }, [userId]);
+    }, [deleteUserImage, queryClient, user?.Id]);
 
-    useEffect(() => {
-        const page = element.current;
+    const onUploadUserImage = useCallback(() => {
+        profileImage.current?.click();
+    }, []);
 
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
+    const onFileReaderAbort = useCallback(() => {
+        toast(globalize.translate('FileReadCancelled'));
+    }, []);
 
-        reloadUser();
-
-        const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
-            loading.hide();
+    const onFileReaderError = useCallback(
+        (evt: ProgressEvent<FileReader>) => {
             switch (evt.target?.error?.code) {
                 case DOMException.NOT_FOUND_ERR:
                     toast(globalize.translate('FileNotFound'));
@@ -90,65 +93,57 @@ const UserProfile: FunctionComponent = () => {
                 default:
                     toast(globalize.translate('FileReadError'));
             }
-        };
+        },
+        [onFileReaderAbort]
+    );
 
-        const onFileReaderAbort = () => {
-            loading.hide();
-            toast(globalize.translate('FileReadCancelled'));
-        };
+    const changeProfileImage = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+            const selected = e.target.files?.[0];
 
-        const setFiles = (evt: Event) => {
-            const userImage = (page.querySelector('#image') as HTMLDivElement);
-            const target = evt.target as HTMLInputElement;
-            const file = (target.files as FileList)[0];
+            if (selected && ALLOWED_TYPES.includes(selected.type)) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const result = reader?.result as string;
+                    const data = result.split(',')[1];
+                    postUserImage.mutate(
+                        {
+                            userId: user?.Id || '',
+                            imageType: ImageType.Primary,
+                            body: data
+                        },
+                        {
+                            onSuccess: async () => {
+                                await queryClient.invalidateQueries({
+                                    queryKey: ['UserById', user?.Id]
+                                });
+                            },
+                            onError: (err) => {
+                                console.error(
+                                    '[userprofile] failed to upload image',
+                                    err
+                                );
+                            }
+                        }
+                    );
+                };
 
-            if (!file || !/image.*/.exec(file.type)) {
-                return false;
+                reader.onerror = onFileReaderError;
+                reader.onabort = onFileReaderAbort;
+                return reader.readAsDataURL(selected);
             }
+        },
+        [
+            onFileReaderAbort,
+            onFileReaderError,
+            postUserImage,
+            queryClient,
+            user?.Id
+        ]
+    );
 
-            const reader: FileReader = new FileReader();
-            reader.onerror = onFileReaderError;
-            reader.onabort = onFileReaderAbort;
-            reader.onload = () => {
-                userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
-                    loading.hide();
-                    reloadUser();
-                }).catch(err => {
-                    console.error('[userprofile] failed to upload image', err);
-                });
-            };
-
-            reader.readAsDataURL(file);
-        };
-
-        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
-            confirm(
-                globalize.translate('DeleteImageConfirmation'),
-                globalize.translate('DeleteImage')
-            ).then(function () {
-                loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
-                    loading.hide();
-                    reloadUser();
-                }).catch(err => {
-                    console.error('[userprofile] failed to delete image', err);
-                });
-            }).catch(() => {
-                // confirm dialog closed
-            });
-        });
-
-        (page.querySelector('#btnAddImage') as HTMLButtonElement).addEventListener('click', function () {
-            const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
-            uploadImage.value = '';
-            uploadImage.click();
-        });
-
-        (page.querySelector('#uploadImage') as HTMLInputElement).addEventListener('change', function (evt: Event) {
-            setFiles(evt);
-        });
-    }, [reloadUser, userId]);
+    if (isInitialLoading) return <Loading />;
 
     return (
         <Page
@@ -156,51 +151,82 @@ const UserProfile: FunctionComponent = () => {
             title={globalize.translate('Profile')}
             className='mainAnimatedPage libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage'
         >
-            <div ref={element} className='padded-left padded-right padded-bottom-page'>
-                <div
-                    className='readOnlyContent'
-                    style={{ margin: '0 auto', marginBottom: '1.8em', padding: '0 1em', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                >
-                    <div
-                        className='imagePlaceHolder'
-                        style={{ position: 'relative', display: 'inline-block', maxWidth: 200 }}
+            {user ? (
+                <Box className='padded-left padded-right padded-bottom-page'>
+                    <Box
+                        sx={{
+                            width: { xs: '100%', sm: 'auto' },
+                            display: 'flex',
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            alignItems: 'center',
+                            gap: 2,
+                            mb: 4
+                        }}
                     >
-                        <input
-                            id='uploadImage'
-                            type='file'
-                            accept='image/*'
-                            style={{ position: 'absolute', right: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
-                        />
-                        <div
-                            id='image'
-                            style={{ width: 200, height: 200, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderRadius: '100%', backgroundSize: 'cover' }}
-                        />
-                    </div>
-                    <div style={{ verticalAlign: 'top', margin: '1em 2em', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <h2 className='username' style={{ margin: 0, fontSize: 'xx-large' }}>
-                            {userName}
-                        </h2>
-                        <br />
-                        <ButtonElement
-                            type='button'
-                            id='btnAddImage'
-                            className='raised button-submit hide'
-                            title='ButtonAddImage'
-                        />
-                        <ButtonElement
-                            type='button'
-                            id='btnDeleteImage'
-                            className='raised hide'
-                            title='DeleteImage'
-                        />
-                    </div>
-                </div>
-                <UserPasswordForm
-                    userId={userId}
-                />
-            </div>
-        </Page>
+                        <Box>
+                            <Avatar
+                                onClick={onUploadUserImage}
+                                alt={user.Name || undefined}
+                                src={imageUrl}
+                                sx={{
+                                    bgcolor: theme.palette.primary.dark,
+                                    color: 'inherit',
+                                    width: 200,
+                                    height: 200,
+                                    cursor: 'pointer'
+                                }}
+                            />
 
+                            <input
+                                hidden
+                                type='file'
+                                accept='image/*'
+                                ref={profileImage}
+                                onChange={changeProfileImage}
+                            />
+                        </Box>
+                        <Stack
+                            direction='column'
+                            alignItems='center'
+                            spacing={1}
+                            useFlexGap
+                        >
+                            <Typography
+                                color='text.primary'
+                                fontSize='xx-large'
+                                fontWeight='semiBold'
+                            >
+                                {user.Name}
+                            </Typography>
+
+                            {user?.PrimaryImageTag ? (
+                                <Button
+                                    className='emby-button raised'
+                                    onClick={onDeleteUserImage}
+                                >
+                                    {globalize.translate('DeleteImage')}
+                                </Button>
+                            ) : (
+                                appHost.supports('fileinput')
+                                && (loggedInUser?.Policy?.IsAdministrator
+                                    || user.Policy
+                                        ?.EnableUserPreferenceAccess) && (
+                                    <Button
+                                        className='emby-button raised button-submit'
+                                        onClick={onUploadUserImage}
+                                    >
+                                        {globalize.translate('ButtonAddImage')}
+                                    </Button>
+                                )
+                            )}
+                        </Stack>
+                    </Box>
+
+                    <UserPasswordForm user={user} />
+
+                </Box>
+            ) : null}
+        </Page>
     );
 };
 

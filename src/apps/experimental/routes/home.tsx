@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../scripts/globalize';
@@ -25,7 +25,7 @@ type ControllerProps = {
     destroy: () => void;
 };
 
-const Home: FunctionComponent = () => {
+const Home = () => {
     const [ searchParams ] = useSearchParams();
     const initialTabIndex = parseInt(searchParams.get('tab') ?? '0', 10);
 

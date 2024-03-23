@@ -1,5 +1,5 @@
 import { getQuickConnectApi } from '@jellyfin/sdk/lib/utils/api/quick-connect-api';
-import React, { FC, FormEvent, useCallback, useMemo, useState } from 'react';
+import React, { type FC, type FormEvent, useCallback, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';

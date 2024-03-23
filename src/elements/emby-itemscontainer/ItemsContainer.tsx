@@ -1,7 +1,15 @@
 import type {
-    LibraryUpdateInfo
+    LibraryUpdateInfo,
+    SessionInfo
 } from '@jellyfin/sdk/lib/generated-client';
-import React, { type FC, useCallback, useEffect, useRef } from 'react';
+import { ApiClient } from 'jellyfin-apiclient';
+import React, {
+    type FC,
+    type PropsWithChildren,
+    useCallback,
+    useEffect,
+    useRef
+} from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
@@ -42,10 +50,10 @@ interface ItemsContainerProps {
     parentId?: ParentId;
     reloadItems?: () => void;
     getItemsHtml?: () => string;
-    queryKey?: string[]
+    queryKey?: string[];
 }
 
-const ItemsContainer: FC<ItemsContainerProps> = ({
+const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     className,
     isContextMenuEnabled,
     isMultiSelectEnabled,
@@ -144,7 +152,9 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
                 });
                 loading.hide();
             } catch (error) {
-                console.error('[Drag-Drop] error playlists Move Item: ' + error);
+                console.error(
+                    '[Drag-Drop] error playlists Move Item: ' + error
+                );
                 loading.hide();
                 if (!reloadItems) return;
                 reloadItems();
@@ -153,17 +163,20 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
         [playlistsMoveItemMutation, reloadItems]
     );
 
-    const initDragReordering = useCallback((itemsContainer: HTMLDivElement) => {
-        sortableref.current = Sortable.create(itemsContainer, {
-            draggable: '.listItem',
-            handle: '.listViewDragHandle',
+    const initDragReordering = useCallback(
+        (itemsContainer: HTMLDivElement) => {
+            sortableref.current = Sortable.create(itemsContainer, {
+                draggable: '.listItem',
+                handle: '.listViewDragHandle',
 
-            // dragging ended
-            onEnd: (evt: Sortable.SortableEvent) => {
-                return onDrop(evt);
-            }
-        });
-    }, [onDrop]);
+                // dragging ended
+                onEnd: (evt: Sortable.SortableEvent) => {
+                    return onDrop(evt);
+                }
+            });
+        },
+        [onDrop]
+    );
 
     const destroyDragReordering = useCallback(() => {
         if (sortableref.current) {
@@ -194,15 +207,11 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
 
     const onUserDataChanged = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onTimerCreated = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onSeriesTimerCreated = useCallback(async () => {
         await invalidateQueries();
@@ -210,19 +219,18 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
 
     const onTimerCancelled = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onSeriesTimerCancelled = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onLibraryChanged = useCallback(
-        (_e: Event, apiClient, data: LibraryUpdateInfo) => {
-            if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
+        (_e: Event, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
+            if (
+                eventsToMonitor.includes('seriestimers')
+                || eventsToMonitor.includes('timers')
+            ) {
                 // yes this is an assumption
                 return;
             }
@@ -253,7 +261,11 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
     );
 
     const onPlaybackStopped = useCallback(
-        (_e: Event, apiClient, stopInfo) => {
+        (
+            _e: Event,
+            _apiClient: ApiClient,
+            stopInfo: { state: SessionInfo }
+        ) => {
             const state = stopInfo.state;
 
             if (
