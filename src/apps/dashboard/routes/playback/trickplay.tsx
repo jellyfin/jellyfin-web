@@ -1,5 +1,5 @@
 import type { ProcessPriorityClass, ServerConfiguration, TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { type FunctionComponent, useCallback, useEffect, useRef } from 'react';
 
 import globalize from '../../../../scripts/globalize';
 import Page from '../../../../components/Page';

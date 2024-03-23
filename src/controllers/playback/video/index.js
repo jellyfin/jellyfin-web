@@ -1779,9 +1779,7 @@ export default function (view) {
         showOsd();
 
         const item = currentItem;
-        let ticks = currentRuntimeTicks;
-        ticks /= 100;
-        ticks *= value;
+        const ticks = currentRuntimeTicks * value / 100;
 
         if (trickplayResolution && item?.Trickplay) {
             return updateTrickplayBubbleHtml(

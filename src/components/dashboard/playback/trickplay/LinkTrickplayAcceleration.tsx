@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FunctionComponent } from 'react';
 import globalize from '../../../../scripts/globalize';
 
 type IProps = {
@@ -22,9 +22,9 @@ const LinkTrickplayAcceleration: FunctionComponent<IProps> = ({ className, title
     return (
         <div
             dangerouslySetInnerHTML={createLinkElement({
-                className: className,
+                className,
                 title: globalize.translate(title),
-                href: href
+                href
             })}
         />
     );
