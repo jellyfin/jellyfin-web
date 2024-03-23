@@ -52,10 +52,10 @@ const config = {
                 process.env.WEBPACK_SERVE ?
                     'Dev Server' :
                     process.env.JELLYFIN_VERSION || 'Release'),
-            __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
-            __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE),
             __PACKAGE_JSON_NAME__: JSON.stringify(packageJson.name),
-            __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version)
+            __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version),
+            __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
+            __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
