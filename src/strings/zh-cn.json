@@ -1798,5 +1798,10 @@
     "DeleteName": "删除 {0}",
     "AllowVideoToolboxTonemappingHelp": "由 VideoToolbox 提供硬件加速的色调映射。它支持大部分 HDR 格式，包括 HDR10、HDR10+ 和 HLG，但是不支持 DoVi Profile 5。此项比另一个 OpenCL 实现具有更高的优先级。",
     "LabelUseReplayGainTagsHelp": "扫描音频文件中的 replaygain 标签并使用它们，而不是计算 LUFS 值。 （使用较少的算力。将覆盖“LUFS 扫描” 选项）",
-    "LabelUseReplayGainTags": "使用 ReplayGain 标签"
+    "LabelUseReplayGainTags": "使用 ReplayGain 标签",
+    "AllowMjpegEncoding": "允许以 MJPEG 格式编码（用于生成特技播放预览图）",
+    "LabelTrickplayAccelHelp": "如果您的硬件支持，请确保在转码中启用“允许 MJPEG 格式编码”。",
+    "NonBlockingScan": "非阻塞 - 将预览图生成添加到任务队列，然后返回",
+    "Trickplay": "特技播放",
+    "LabelTrickplayAccel": "启用硬件加速"
 }
