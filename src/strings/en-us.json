@@ -935,6 +935,8 @@
     "LearnHowYouCanContribute": "Learn how you can contribute.",
     "LeaveBlankToNotSetAPassword": "You can leave this field blank to set no password.",
     "LibraryAccessHelp": "Select the libraries to share with this user. Administrators will be able to edit all folders using the metadata manager.",
+    "LimitSupportedVideoResolution": "Limit maximum supported video resolution",
+    "LimitSupportedVideoResolutionHelp": "Use 'Maximum Allowed Video Transcoding Resolution' as maximum supported video resolution.",
     "List": "List",
     "ListView": "List View",
     "ListPaging": "{0}-{1} of {2}",
