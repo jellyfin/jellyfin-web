@@ -1797,5 +1797,22 @@
     "LabelUseReplayGainTagsHelp": "Geluidsbestanden scannen op replaygain-tags en deze gebruiken in plaats van de LUFS-waarde te berekenen. (Gebruikt minder processorkracht. Zal de optie 'LUFS-scan' overschrijven)",
     "AllowSubtitleManagement": "Deze gebruiker mag ondertiteling bewerken",
     "DeleteName": "{0} verwijderen",
-    "LabelUseReplayGainTags": "Replaygain-tags gebruiken"
+    "LabelUseReplayGainTags": "Replaygain-tags gebruiken",
+    "Trickplay": "Trickplay",
+    "LabelTrickplayAccel": "Hardwareversnelling inschakelen",
+    "LabelScanBehavior": "Scangedrag",
+    "PriorityHigh": "Hoog",
+    "PriorityNormal": "Normaal",
+    "LabelImageIntervalHelp": "Tijdsinterval (ms) tussen trickplay-afbeeldingen.",
+    "LabelExtractTrickplayDuringLibraryScan": "Trickplay-afbeeldingen uitpakken tijdens de bibliotheekscan",
+    "ConfirmDeleteSeries": "Het verwijderen van deze serie verwijdert alle {0} afleveringen van zowel het bestandsysteem als uit je mediabibliotheek. Weet je zeker dat je door wilt gaan?",
+    "DeleteEntireSeries": "{0} afleveringen verwijderen",
+    "DeleteSeries": "Serie verwijderen",
+    "DeleteEpisode": "Aflevering verwijderen",
+    "HeaderDeleteSeries": "Serie verwijderen",
+    "PriorityIdle": "Inactief",
+    "LabelProcessPriority": "Procesprioriteit",
+    "LabelImageInterval": "Afbeeldingsinterval",
+    "LabelJpegQuality": "JPEG-kwaliteit",
+    "LabelJpegQualityHelp": "De kwaliteit van de JPEG-compressie van trickplay-afbeeldingen."
 }
