@@ -254,6 +254,7 @@
     "EnableRewatchingNextUp": "Enable Rewatching in Next Up",
     "EnableRewatchingNextUpHelp": "Enable showing already watched episodes in 'Next Up' sections.",
     "EnableQuickConnect": "Enable Quick Connect on this server",
+    "EnableSmoothScroll": "Enable smooth scroll",
     "EnableStreamLooping": "Auto-loop live streams",
     "EnableStreamLoopingHelp": "Enable this if live streams only contain a few seconds of data and need to be continuously requested. Enabling this when not needed may cause problems.",
     "EnableThemeSongsHelp": "Play the theme songs in background while browsing the library.",

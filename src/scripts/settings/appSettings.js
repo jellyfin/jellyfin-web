@@ -1,3 +1,4 @@
+import browser from 'scripts/browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 
@@ -29,6 +30,19 @@ class AppSettings {
         }
 
         return toBoolean(this.get('enableGamepad'), false);
+    }
+
+    /**
+     * Get or set 'Enable smooth scroll' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable smooth scroll' or undefined.
+     * @return {boolean} 'Enable smooth scroll' state.
+     */
+    enableSmoothScroll(val) {
+        if (val !== undefined) {
+            return this.set('enableSmoothScroll', val.toString());
+        }
+
+        return toBoolean(this.get('enableSmoothScroll'), !!browser.tizen);
     }
 
     enableSystemExternalPlayers(val) {
