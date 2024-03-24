@@ -1,4 +1,5 @@
 import appSettings from './appSettings';
+import browser from '../browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 
@@ -140,7 +141,8 @@ export class UserSettings {
             return this.set('preferFmp4HlsContainer', val.toString(), false);
         }
 
-        return toBoolean(this.get('preferFmp4HlsContainer', false), false);
+        // Enable it by default only for the platforms that play fMP4 for sure.
+        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
     }
 
     /**

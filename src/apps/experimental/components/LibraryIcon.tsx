@@ -11,7 +11,7 @@ import Collections from '@mui/icons-material/Collections';
 import Queue from '@mui/icons-material/Queue';
 import Folder from '@mui/icons-material/Folder';
 import React, { FC } from 'react';
-import { CollectionType } from 'types/collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 interface LibraryIconProps {
     item: BaseItemDto
@@ -25,20 +25,20 @@ const LibraryIcon: FC<LibraryIconProps> = ({
             return <Movie />;
         case CollectionType.Music:
             return <MusicNote />;
-        case CollectionType.HomeVideos:
+        case CollectionType.Homevideos:
         case CollectionType.Photos:
             return <Photo />;
-        case CollectionType.LiveTv:
+        case CollectionType.Livetv:
             return <LiveTv />;
-        case CollectionType.TvShows:
+        case CollectionType.Tvshows:
             return <Tv />;
         case CollectionType.Trailers:
             return <Theaters />;
-        case CollectionType.MusicVideos:
+        case CollectionType.Musicvideos:
             return <MusicVideo />;
         case CollectionType.Books:
             return <Book />;
-        case CollectionType.BoxSets:
+        case CollectionType.Boxsets:
             return <Collections />;
         case CollectionType.Playlists:
             return <Queue />;

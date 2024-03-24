@@ -1585,5 +1585,7 @@
     "ButtonExitApp": "അപ്ലിക്കേഷനിൽ നിന്ന് പുറത്തു വരുക",
     "ButtonClose": "അടയ്ക്കുക",
     "ButtonBackspace": "ബാക്ക്സ്പേസ്",
-    "AddToFavorites": "പ്രിയപ്പെട്ടതിലേക്ക് ചേർക്കുക"
+    "AddToFavorites": "പ്രിയപ്പെട്ടതിലേക്ക് ചേർക്കുക",
+    "AllowCollectionManagement": "ശേഖരങ്ങൾ നിയന്ത്രിക്കാൻ ഈ ഉപയോക്താവിനെ അനുവദിക്കുക",
+    "AllowSegmentDeletion": "സെഗ്‌മെൻ്റുകൾ ഇല്ലാതാക്കുക"
 }

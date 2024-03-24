@@ -1,6 +1,7 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import escapeHtml from 'escape-html';
 import type { ApiClient } from 'jellyfin-apiclient';
 
@@ -24,12 +25,12 @@ function getFetchLatestItemsFn(
         let limit = 16;
 
         if (enableOverflow) {
-            if (collectionType === 'music') {
+            if (collectionType === CollectionType.Music) {
                 limit = 30;
             }
-        } else if (collectionType === 'tvshows') {
+        } else if (collectionType === CollectionType.Tvshows) {
             limit = 5;
-        } else if (collectionType === 'music') {
+        } else if (collectionType === CollectionType.Music) {
             limit = 9;
         } else {
             limit = 8;
@@ -37,7 +38,7 @@ function getFetchLatestItemsFn(
 
         const options = {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,Path',
+            Fields: 'PrimaryImageAspectRatio,Path',
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
             ParentId: parentId

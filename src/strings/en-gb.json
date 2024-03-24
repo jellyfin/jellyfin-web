@@ -984,7 +984,7 @@
     "LabelCustomCertificatePathHelp": "Path to a PKCS #12 file containing a certificate and private key to enable TLS support on a custom domain.",
     "LabelCurrentPassword": "Current password",
     "LabelCriticRating": "Critics rating",
-    "LabelCountry": "Country",
+    "LabelCountry": "Country/Region",
     "LabelContentType": "Content type",
     "LabelCommunityRating": "Community rating",
     "LabelCertificatePassword": "Certificate password",
@@ -1477,7 +1477,7 @@
     "LabelSelectAudioChannels": "Channels",
     "LabelAllowedAudioChannels": "Maximum Allowed Audio Channels",
     "AllowHevcEncoding": "Allow encoding in HEVC format",
-    "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct stream HEVC content on supported devices.",
+    "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct stream HEVC and AV1 content on supported devices.",
     "PreferFmp4HlsContainer": "Prefer fMP4-HLS Media Container",
     "LabelSyncPlayInfo": "Sync Play Info",
     "LabelOriginalMediaInfo": "Original Media Info",
@@ -1781,5 +1781,10 @@
     "LabelAlbumGain": "Album Gain",
     "SearchResultsEmpty": "Sorry! No results found for \"{0}\"",
     "LabelSelectAudioNormalization": "Audio Normalisation",
-    "LabelTrackGain": "Track Gain"
+    "LabelTrackGain": "Track Gain",
+    "HeaderAllRecordings": "All Recordings",
+    "ButtonEditUser": "Edit user",
+    "LabelBuildVersion": "Build version",
+    "LabelServerVersion": "Server version",
+    "LabelWebVersion": "Web version"
 }

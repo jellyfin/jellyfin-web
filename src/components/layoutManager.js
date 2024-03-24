@@ -18,6 +18,7 @@ class LayoutManager {
     tv = false;
     mobile = false;
     desktop = false;
+    experimental = false;
 
     setLayout(layout, save) {
         if (!layout || layout === 'auto') {
@@ -31,7 +32,8 @@ class LayoutManager {
             setLayout(this, 'tv', layout);
             setLayout(this, 'desktop', layout);
 
-            if (layout === 'experimental') {
+            this.experimental = layout === 'experimental';
+            if (this.experimental) {
                 const legacyLayoutMode = browser.mobile ? 'mobile' : this.defaultLayout || 'desktop';
                 setLayout(this, legacyLayoutMode, legacyLayoutMode);
             }

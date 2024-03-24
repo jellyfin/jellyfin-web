@@ -1,5 +1,8 @@
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
 import React, { FC } from 'react';
 
+import DrawerHeaderLink from 'apps/experimental/components/drawers/DrawerHeaderLink';
 import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
 
 import ServerDrawerSection from './sections/ServerDrawerSection';
@@ -18,6 +21,11 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
         onClose={onClose}
         onOpen={onOpen}
     >
+        <List disablePadding>
+            <ListItem disablePadding>
+                <DrawerHeaderLink />
+            </ListItem>
+        </List>
         <ServerDrawerSection />
         <DevicesDrawerSection />
         <LiveTvDrawerSection />

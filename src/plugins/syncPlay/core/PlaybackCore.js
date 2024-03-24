@@ -3,7 +3,6 @@
  * @module components/syncPlay/core/PlaybackCore
  */
 
-import browser from '../../../scripts/browser';
 import Events from '../../../utils/events.ts';
 import { toBoolean, toFloat } from '../../../utils/string.ts';
 import * as Helper from './Helper';
@@ -67,7 +66,7 @@ class PlaybackCore {
         this.useSkipToSync = toBoolean(getSetting('useSkipToSync'), true);
 
         // Whether sync correction during playback is active.
-        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), !(browser.mobile || browser.iOS));
+        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), false);
     }
 
     /**

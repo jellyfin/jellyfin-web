@@ -214,11 +214,7 @@ export function getCommands(options) {
         });
     }
 
-    if (canEdit && item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program'
-            && item.LocationType !== 'Virtual'
-            && !(item.Type === 'Recording' && item.Status !== 'Completed')
-            && options.editSubtitles !== false
-    ) {
+    if (itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
         commands.push({
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',
@@ -290,14 +286,6 @@ export function getCommands(options) {
         });
     }
 
-    if (options.sync !== false && itemHelper.canSync(user, item)) {
-        commands.push({
-            name: globalize.translate('Sync'),
-            id: 'sync',
-            icon: 'sync'
-        });
-    }
-
     if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
         commands.push({
             name: globalize.translate('ViewAlbum'),
@@ -347,7 +335,8 @@ function executeCommand(item, id, options) {
                 break;
             case 'addtoplaylist':
                 import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                    new PlaylistEditor({
+                    const playlistEditor = new PlaylistEditor();
+                    playlistEditor.show({
                         items: [itemId],
                         serverId: serverId
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
