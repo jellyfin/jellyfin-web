@@ -1396,7 +1396,7 @@
     "HeaderAddUser": "Dodaj użytkownika",
     "HeaderAddUpdateSubtitle": "Dodaj/Zaktualizuj napisy",
     "EnableTonemapping": "Włącz Tone mapping",
-    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z 10-bitowymi filmami HDR10, HLG i DoVi. Wymaga to odpowiedniego środowiska wykonawczego OpenCL lub CUDA.",
+    "AllowTonemappingHelp": "Mapowanie tonalne może przekształcić zakres dynamiczny wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami dla odwzorowania oryginalnej sceny. Obecnie działa tylko z 10-bitowymi filmami HDR10, HLG i DoVi. Wymaga to odpowiedniego środowiska wykonawczego GPGPU.",
     "TonemappingAlgorithmHelp": "Mapowanie tonów może zostać dostrojone. Jeśli nie znasz tych opcji, pozostaw domyślne wartości. Domyślna wartość to 'BT.2390'.",
     "PreferFmp4HlsContainerHelp": "Preferuj fMP4 jako domyślny kontener dla HLS, pozwalając na bezpośrednie odtwarzanie zawartości HEVC i AV1 na wspieranych urządzeniach.",
     "PreferFmp4HlsContainer": "Preferuj kontener fMP4-HLS",
@@ -1569,7 +1569,7 @@
     "ReleaseGroup": "Grupa wydawnicza",
     "PlaybackErrorPlaceHolder": "To jest miejsce dla fizycznych nośników, których Jellyfin nie może odtworzyć. Proszę włożyć płytę do odtwarzania.",
     "Mixer": "Mikser",
-    "Lyricist": "Liryka",
+    "Lyricist": "Tekściarz",
     "LabelSyncPlaySettingsSkipToSyncHelp": "Metoda korekcji synchronizacji polegająca na szukaniu szacunkowej pozycji. Korekcja synchronizacji musi być włączona.",
     "LabelSyncPlaySettingsSpeedToSyncHelp": "Metoda korekcji synchronizacji polegająca na przyspieszeniu odtwarzania. Korekcja synchronizacji musi być włączona.",
     "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "Minimalne opóźnienie odtwarzania (w ms) po którym SkipToSync próbuje korygować pozycję odtwarzania.",
@@ -1794,7 +1794,7 @@
     "ChannelResolutionFullHD": "Full HD",
     "ChannelResolutionUHD4K": "UHD (4K)",
     "EnableVideoToolboxTonemapping": "Włącz mapowanie tonów VideoToolbox",
-    "AllowVideoToolboxTonemappingHelp": "Przyspieszane sprzętowo mapowanie tonów zapewniane przez VideoToolbox. Działa z większością formatów HDR, w tym HDR10, HDR10+ i HLG, ale nie działa z Dolby Vision Profile 5. Ma wyższy priorytet w porównaniu z inną implementacją OpenCL.",
+    "AllowVideoToolboxTonemappingHelp": "Przyspieszane sprzętowo mapowanie tonów zapewniane przez VideoToolbox. Działa z większością formatów HDR, w tym HDR10, HDR10+ i HLG, ale nie działa z Dolby Vision Profile 5. Ma wyższy priorytet w porównaniu z inną implementacją Metal.",
     "LabelUseReplayGainTagsHelp": "Skanuj pliki audio w poszukiwaniu znaczników wzmocnienia odtwarzania i używaj ich zamiast obliczać wartość LUFS. (Zużywa mniej mocy obliczeniowej. Zastępuje opcję „Skanowanie głośności dźwięku”)",
     "LabelUseReplayGainTags": "Użyj tagów ReplayGain",
     "AllowSubtitleManagement": "Zezwól temu użytkownikowi na edycję napisów",
@@ -1836,5 +1836,6 @@
     "LabelTileHeightHelp": "Maksymalna liczba obrazów na kafelek w kierunku Y.",
     "LabelJpegQuality": "Jakość JPEG",
     "LabelJpegQualityHelp": "Jakość kompresji JPEG dla obrazów trickplay.",
-    "LabelProcessPriorityHelp": "Ustawienie niższej lub wyższej wartości określi, w jaki sposób procesor ustala priorytet procesu generowania trickplay ffmpeg w stosunku do innych procesów. Jeśli zauważysz spowolnienie podczas generowania obrazów trickplay, ale nie chcesz całkowicie zatrzymywać ich generowania, spróbuj zmniejszyć go, a także liczbę wątków."
+    "LabelProcessPriorityHelp": "Ustawienie niższej lub wyższej wartości określi, w jaki sposób procesor ustala priorytet procesu generowania trickplay ffmpeg w stosunku do innych procesów. Jeśli zauważysz spowolnienie podczas generowania obrazów trickplay, ale nie chcesz całkowicie zatrzymywać ich generowania, spróbuj zmniejszyć go, a także liczbę wątków.",
+    "Lyric": "Tekst"
 }
