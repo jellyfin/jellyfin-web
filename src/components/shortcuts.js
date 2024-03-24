@@ -121,14 +121,15 @@ function showContextMenu(card, options) {
                     playlistId: playlistId,
                     collectionId: collectionId,
                     user: user
-
-                }, options || {})).then(result => {
-                    if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
-                        executeAction(card, options.positionTo, result.command);
-                    } else if (result.updated || result.deleted) {
-                        notifyRefreshNeeded(card, options.itemsContainer);
-                    }
-                });
+                }, options || {}))
+                    .then(result => {
+                        if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
+                            executeAction(card, options.positionTo, result.command);
+                        } else if (result.updated || result.deleted) {
+                            notifyRefreshNeeded(card, options.itemsContainer);
+                        }
+                    })
+                    .catch(() => { /* no-op */ });
             });
         });
     });
@@ -281,11 +282,15 @@ function executeAction(card, target, action) {
 
 function addToPlaylist(item) {
     import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-        new PlaylistEditor().show({
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
             items: [item.Id],
             serverId: item.ServerId
-
+        }).catch(() => {
+            // Dialog closed
         });
+    }).catch(err => {
+        console.error('[addToPlaylist] failed to load playlist editor', err);
     });
 }
 

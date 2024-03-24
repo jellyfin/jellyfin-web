@@ -1,4 +1,5 @@
 import appSettings from './appSettings';
+import browser from '../browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 
@@ -140,7 +141,8 @@ export class UserSettings {
             return this.set('preferFmp4HlsContainer', val.toString(), false);
         }
 
-        return toBoolean(this.get('preferFmp4HlsContainer', false), false);
+        // Enable it by default only for the platforms that play fMP4 for sure.
+        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
     }
 
     /**
@@ -336,19 +338,6 @@ export class UserSettings {
         }
 
         return this.get('datetimelocale', false);
-    }
-
-    /**
-     * Get or set Chromecast version.
-     * @param {string|undefined} val - Chromecast version.
-     * @return {string} Chromecast version.
-     */
-    chromecastVersion(val) {
-        if (val !== undefined) {
-            return this.set('chromecastVersion', val.toString());
-        }
-
-        return this.get('chromecastVersion') || 'stable';
     }
 
     /**
@@ -663,7 +652,6 @@ export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings)
 export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
-export const chromecastVersion = currentSettings.chromecastVersion.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);

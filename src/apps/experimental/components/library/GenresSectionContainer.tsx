@@ -1,23 +1,22 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import escapeHTML from 'escape-html';
-import React, { FC } from 'react';
-
+import React, { type FC } from 'react';
 import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from './SectionContainer';
-import { CollectionType } from 'types/collectionType';
-import { ParentId } from 'types/library';
+import { CardShape } from 'utils/card';
+import type { ParentId } from 'types/library';
 
 interface GenresSectionContainerProps {
     parentId: ParentId;
-    collectionType: CollectionType;
-    itemType: BaseItemKind;
+    collectionType: CollectionType | undefined;
+    itemType: BaseItemKind[];
     genre: BaseItemDto;
 }
 
@@ -31,12 +30,11 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         return {
             sortBy: [ItemSortBy.Random],
             sortOrder: [SortOrder.Ascending],
-            includeItemTypes: [itemType],
+            includeItemTypes: itemType,
             recursive: true,
             fields: [
                 ItemFields.PrimaryImageAspectRatio,
-                ItemFields.MediaSourceCount,
-                ItemFields.BasicSyncInfo
+                ItemFields.MediaSourceCount
             ],
             imageTypeLimit: 1,
             enableImageTypes: [ImageType.Primary],
@@ -61,7 +59,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     }
 
     return <SectionContainer
-        sectionTitle={escapeHTML(genre.Name)}
+        sectionTitle={genre.Name || ''}
         items={itemsResult?.Items || []}
         url={getRouteUrl(genre)}
         cardOptions={{
@@ -70,9 +68,9 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             showTitle: true,
             centerText: true,
             cardLayout: false,
-            shape: itemType === BaseItemKind.MusicAlbum ? 'overflowSquare' : 'overflowPortrait',
-            showParentTitle: itemType === BaseItemKind.MusicAlbum,
-            showYear: itemType !== BaseItemKind.MusicAlbum
+            shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
+            showParentTitle: collectionType === CollectionType.Music,
+            showYear: collectionType !== CollectionType.Music
         }}
     />;
 };

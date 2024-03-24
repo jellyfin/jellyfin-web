@@ -10,7 +10,7 @@ import '../../components/cardbuilder/card.scss';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 import Dashboard, { pageClassOn, pageIdOn } from '../../utils/dashboard';
 import confirm from '../../components/confirm/confirm';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
 
 function addVirtualFolder(page) {
     import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
@@ -275,11 +275,11 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     let hasCardImageContainer;
 
     if (imgUrl) {
-        html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer">`;
+        html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : getDefaultBackgroundClass()}" style="cursor:pointer">`;
         html += `<img src="${imgUrl}" style="width:100%" />`;
         hasCardImageContainer = true;
     } else if (!virtualFolder.showNameWithIcon) {
-        html += `<div class="cardImageContainer editLibrary ${cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer;">`;
+        html += `<div class="cardImageContainer editLibrary ${getDefaultBackgroundClass()}" style="cursor:pointer;">`;
         html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
         hasCardImageContainer = true;
     }

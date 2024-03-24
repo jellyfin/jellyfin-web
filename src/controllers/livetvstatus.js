@@ -2,7 +2,6 @@ import 'jquery';
 import globalize from '../scripts/globalize';
 import taskButton from '../scripts/taskbutton';
 import dom from '../scripts/dom';
-import cardBuilder from '../components/cardbuilder/cardBuilder';
 import layoutManager from '../components/layoutManager';
 import loading from '../components/loading/loading';
 import browser from '../scripts/browser';
@@ -14,6 +13,7 @@ import 'material-design-icons-iconfont';
 import '../elements/emby-button/emby-button';
 import Dashboard from '../utils/dashboard';
 import confirm from '../components/confirm/confirm';
+import { getDefaultBackgroundClass } from '../components/cardbuilder/cardBuilderUtils';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -38,7 +38,7 @@ function getDeviceHtml(device) {
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="' + padderClass + '"></div>';
     html += '<div class="cardContent searchImage">';
-    html += `<div class="cardImageContainer coveredImage ${cardBuilder.getDefaultBackgroundClass()}"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>`;
+    html += `<div class="cardImageContainer coveredImage ${getDefaultBackgroundClass()}"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>`;
     html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';

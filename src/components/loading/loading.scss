@@ -27,7 +27,7 @@
     border-color: #00a4dc;
 }
 
-.mdl-spinner__layer-1-active {
+.mdlSpinnerActive .mdl-spinner__layer-1 {
     animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 
@@ -35,7 +35,7 @@
     border-color: #00a4dc;
 }
 
-.mdl-spinner__layer-2-active {
+.mdlSpinnerActive .mdl-spinner__layer-2 {
     animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 
@@ -43,7 +43,7 @@
     border-color: #00a4dc;
 }
 
-.mdl-spinner__layer-3-active {
+.mdlSpinnerActive .mdl-spinner__layer-3 {
     animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 
@@ -51,7 +51,7 @@
     border-color: #00a4dc;
 }
 
-.mdl-spinner__layer-4-active {
+.mdlSpinnerActive .mdl-spinner__layer-4 {
     animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 
@@ -224,7 +224,7 @@
     transform: rotate(129deg);
 }
 
-.mdl-spinner__circleLeft-active {
+.mdlSpinnerActive .mdl-spinner__circleLeft {
     animation: mdl-spinner__left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 
@@ -234,7 +234,7 @@
     transform: rotate(-129deg);
 }
 
-.mdl-spinner__circleRight-active {
+.mdlSpinnerActive .mdl-spinner__circleRight {
     animation: mdl-spinner__right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 

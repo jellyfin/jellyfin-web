@@ -190,8 +190,7 @@ function raiseEvent(name, key, keyCode) {
         return;
     }
 
-    const event = document.createEvent('Event');
-    event.initEvent(name, true, true);
+    const event = new Event(name, { bubbles: true, cancelable: true });
     event.key = key;
     event.keyCode = keyCode;
     (document.activeElement || document.body).dispatchEvent(event);

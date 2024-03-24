@@ -125,7 +125,7 @@ function getItemsForPlayback(serverId, query) {
         } else {
             query.Limit = query.Limit || 300;
         }
-        query.Fields = 'Chapters';
+        query.Fields = ['Chapters', 'Trickplay'];
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
@@ -1775,6 +1775,8 @@ class PlaybackManager {
         }
 
         function translateItemsForPlayback(items, options) {
+            if (!items.length) return Promise.resolve([]);
+
             if (items.length > 1 && options && options.ids) {
                 // Use the original request id array for sorting the result in the proper order
                 items.sort(function (a, b) {
@@ -1856,7 +1858,7 @@ class PlaybackManager {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: 'Chapters'
+                    Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     const originalResults = episodesResult.Items;
                     const isSeries = firstItem.Type === 'Series';
@@ -1938,7 +1940,7 @@ class PlaybackManager {
                             IsVirtualUnaired: false,
                             IsMissing: false,
                             UserId: apiClient.getCurrentUserId(),
-                            Fields: 'Chapters'
+                            Fields: ['Chapters', 'Trickplay']
                         }).then(function (episodesResult) {
                             let foundItem = false;
                             episodesResult.Items = episodesResult.Items.filter(function (e) {

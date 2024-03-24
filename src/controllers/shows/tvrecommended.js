@@ -13,6 +13,7 @@ import { LibraryTab } from 'types/libraryTab';
 import { getBackdropShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-button/emby-button';
@@ -101,7 +102,7 @@ function loadResume(view, userId, parentId) {
         Filters: 'IsResumable',
         Limit: screenWidth >= 1600 ? 5 : 3,
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         CollapseBoxSetItems: false,
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -141,7 +142,7 @@ function loadLatest(view, userId, parentId) {
         userId: userId,
         IncludeItemTypes: 'Episode',
         Limit: 30,
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
@@ -179,7 +180,7 @@ function loadNextUp(view, userId, parentId) {
     const query = {
         userId: userId,
         Limit: 24,
-        Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
+        Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -332,7 +333,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
+            Dashboard.navigate(`search.html?collectionType=${CollectionType.Tvshows}&parentId=${params.topParentId}`);
         }
     }
 

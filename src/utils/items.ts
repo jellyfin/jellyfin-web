@@ -3,8 +3,10 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
+import layoutManager from 'components/layoutManager';
 import { EpisodeFilter, FeatureFilters, LibraryViewSettings, ParentId, VideoBasicFilter, ViewMode } from '../types/library';
 import { LibraryTab } from 'types/libraryTab';
+import type { AttributesOpts, DataAttributes } from 'types/dataAttributes';
 
 export const getVideoBasicFilter = (libraryViewSettings: LibraryViewSettings) => {
     let isHd;
@@ -79,7 +81,7 @@ const getItemFieldsEnum = (
     const itemFields: ItemFields[] = [];
 
     if (viewType !== LibraryTab.Networks) {
-        itemFields.push(ItemFields.BasicSyncInfo, ItemFields.MediaSourceCount);
+        itemFields.push(ItemFields.MediaSourceCount);
     }
 
     if (libraryViewSettings.ImageType === ImageType.Primary) {
@@ -144,6 +146,14 @@ export const getSettingsKey = (viewType: LibraryTab, parentId: ParentId) => {
     return `${viewType} - ${parentId}`;
 };
 
+export const getDefaultSortBy = (viewType: LibraryTab) => {
+    if (viewType === LibraryTab.Episodes) {
+        return ItemSortBy.SeriesSortName;
+    }
+
+    return ItemSortBy.SortName;
+};
+
 export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
     return {
         ShowTitle: true,
@@ -151,8 +161,36 @@ export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryView
         ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
         ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
         CardLayout: false,
-        SortBy: ItemSortBy.SortName,
+        SortBy: getDefaultSortBy(viewType),
         SortOrder: SortOrder.Ascending,
         StartIndex: 0
     };
 };
+
+export function getDataAttributes(
+    opts: AttributesOpts
+): DataAttributes {
+    return {
+        'data-context': opts.context,
+        'data-collectionid': opts.collectionId,
+        'data-playlistid': opts.playlistId,
+        'data-parentid': opts.parentId,
+        'data-playlistitemid': opts.itemPlaylistItemId,
+        'data-action': layoutManager.tv ? opts.action : null,
+        'data-serverid': opts.itemServerId,
+        'data-id': opts.itemId,
+        'data-timerid': opts.itemTimerId,
+        'data-seriestimerid': opts.itemSeriesTimerId,
+        'data-channelid': opts.itemChannelId,
+        'data-type': opts.itemType,
+        'data-mediatype': opts.itemMediaType,
+        'data-collectiontype': opts.itemCollectionType,
+        'data-isfolder': opts.itemIsFolder,
+        'data-path': opts.itemPath,
+        'data-prefix': opts.prefix,
+        'data-positionticks': opts.itemUserData?.PlaybackPositionTicks,
+        'data-startdate': opts.itemStartDate?.toString(),
+        'data-enddate': opts.itemEndDate?.toString()
+    };
+}
+

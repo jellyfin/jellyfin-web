@@ -1,6 +1,10 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
 
+import { getUserViewsQuery } from 'hooks/useUserViews';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
@@ -383,28 +387,30 @@ function onSidebarLinkClick() {
 }
 
 function getUserViews(apiClient, userId) {
-    return apiClient.getUserViews({}, userId).then(function (result) {
-        const items = result.Items;
-        const list = [];
+    return queryClient
+        .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
+        .then(function (result) {
+            const items = result.Items;
+            const list = [];
 
-        for (let i = 0, length = items.length; i < length; i++) {
-            const view = items[i];
-            list.push(view);
+            for (let i = 0, length = items.length; i < length; i++) {
+                const view = items[i];
+                list.push(view);
 
-            if (view.CollectionType == 'livetv') {
-                view.ImageTags = {};
-                view.icon = 'live_tv';
-                const guideView = Object.assign({}, view);
-                guideView.Name = globalize.translate('Guide');
-                guideView.ImageTags = {};
-                guideView.icon = 'dvr';
-                guideView.url = '#/livetv.html?tab=1';
-                list.push(guideView);
+                if (view.CollectionType == 'livetv') {
+                    view.ImageTags = {};
+                    view.icon = 'live_tv';
+                    const guideView = Object.assign({}, view);
+                    guideView.Name = globalize.translate('Guide');
+                    guideView.ImageTags = {};
+                    guideView.icon = 'dvr';
+                    guideView.url = '#/livetv.html?tab=1';
+                    list.push(guideView);
+                }
             }
-        }
 
-        return list;
-    });
+            return list;
+        });
 }
 
 function showBySelector(selector, show) {
@@ -421,22 +427,8 @@ function showBySelector(selector, show) {
 
 function updateLibraryMenu(user) {
     if (!user) {
-        showBySelector('.libraryMenuDownloads', false);
-        showBySelector('.lnkSyncToOtherDevices', false);
         showBySelector('.userMenuOptions', false);
         return;
-    }
-
-    if (user.Policy.EnableContentDownloading) {
-        showBySelector('.lnkSyncToOtherDevices', true);
-    } else {
-        showBySelector('.lnkSyncToOtherDevices', false);
-    }
-
-    if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
-        showBySelector('.libraryMenuDownloads', true);
-    } else {
-        showBySelector('.libraryMenuDownloads', false);
     }
 
     const userId = Dashboard.getCurrentUserId();
