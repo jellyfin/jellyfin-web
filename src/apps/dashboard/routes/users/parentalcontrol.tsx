@@ -25,13 +25,44 @@ type UnratedItem = {
     checkedAttribute: string
 };
 
+function handleSaveUser(
+    page: HTMLDivElement,
+    getSchedulesFromPage: () => AccessSchedule[],
+    getAllowedTagsFromPage: () => string[],
+    getBlockedTagsFromPage: () => string[],
+    onSaveComplete: () => void
+) {
+    return (user: UserDto) => {
+        const userId = user.Id;
+        const userPolicy = user.Policy;
+        if (!userId || !userPolicy) {
+            throw new Error('Unexpected null user id or policy');
+        }
+
+        const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
+        userPolicy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
+        userPolicy.BlockUnratedItems = Array.prototype.filter
+            .call(page.querySelectorAll('.chkUnratedItem'), i => i.checked)
+            .map(i => i.getAttribute('data-itemtype'));
+        userPolicy.AccessSchedules = getSchedulesFromPage();
+        userPolicy.AllowedTags = getAllowedTagsFromPage();
+        userPolicy.BlockedTags = getBlockedTagsFromPage();
+        ServerConnections.getCurrentApiClientAsync()
+            .then(apiClient => apiClient.updateUserPolicy(userId, userPolicy))
+            .then(() => onSaveComplete())
+            .catch(err => {
+                console.error('[userparentalcontrol] failed to update user policy', err);
+            });
+    };
+}
+
 const UserParentalControl: FunctionComponent = () => {
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
-    const [ allowedTags, setAllowedTags ] = useState([]);
-    const [ blockedTags, setBlockedTags ] = useState([]);
+    const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
+    const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -109,7 +140,7 @@ const UserParentalControl: FunctionComponent = () => {
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
     }, []);
 
-    const loadAllowedTags = useCallback((tags) => {
+    const loadAllowedTags = useCallback((tags: string[]) => {
         const page = element.current;
 
         if (!page) {
@@ -124,15 +155,13 @@ const UserParentalControl: FunctionComponent = () => {
         for (const btnDeleteTag of allowedTagsElem.querySelectorAll('.btnDeleteTag')) {
             btnDeleteTag.addEventListener('click', function () {
                 const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(function (t: string) {
-                    return t != tag;
-                });
+                const newTags = tags.filter(t => t !== tag);
                 loadAllowedTags(newTags);
             });
         }
     }, []);
 
-    const loadBlockedTags = useCallback((tags) => {
+    const loadBlockedTags = useCallback((tags: string[]) => {
         const page = element.current;
 
         if (!page) {
@@ -147,9 +176,7 @@ const UserParentalControl: FunctionComponent = () => {
         for (const btnDeleteTag of blockedTagsElem.querySelectorAll('.btnDeleteTag')) {
             btnDeleteTag.addEventListener('click', function () {
                 const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(function (t: string) {
-                    return t != tag;
-                });
+                const newTags = tags.filter(t => t !== tag);
                 loadBlockedTags(newTags);
             });
         }
@@ -171,15 +198,13 @@ const UserParentalControl: FunctionComponent = () => {
             btnDelete.addEventListener('click', function () {
                 const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
                 schedules.splice(index, 1);
-                const newindex = schedules.filter(function (i: number) {
-                    return i != index;
-                });
+                const newindex = schedules.filter((i: number) => i != index);
                 renderAccessSchedule(newindex);
             });
         }
     }, []);
 
-    const loadUser = useCallback((user, allParentalRatings) => {
+    const loadUser = useCallback((user: UserDto, allParentalRatings: ParentalRating[]) => {
         const page = element.current;
 
         if (!page) {
@@ -187,33 +212,31 @@ const UserParentalControl: FunctionComponent = () => {
             return;
         }
 
-        setUserName(user.Name);
+        setUserName(user.Name || '');
         LibraryMenu.setTitle(user.Name);
         loadUnratedItems(user);
 
-        loadAllowedTags(user.Policy.AllowedTags);
-        loadBlockedTags(user.Policy.BlockedTags);
+        loadAllowedTags(user.Policy?.AllowedTags || []);
+        loadBlockedTags(user.Policy?.BlockedTags || []);
         populateRatings(allParentalRatings);
+
         let ratingValue = '';
-
-        if (user.Policy.MaxParentalRating != null) {
-            for (let i = 0, length = allParentalRatings.length; i < length; i++) {
-                const rating = allParentalRatings[i];
-
-                if (user.Policy.MaxParentalRating >= rating.Value) {
-                    ratingValue = rating.Value;
+        if (user.Policy?.MaxParentalRating) {
+            allParentalRatings.forEach(rating => {
+                if (rating.Value && user.Policy?.MaxParentalRating && user.Policy.MaxParentalRating >= rating.Value) {
+                    ratingValue = `${rating.Value}`;
                 }
-            }
+            });
         }
 
         (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
 
-        if (user.Policy.IsAdministrator) {
+        if (user.Policy?.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
         } else {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
-        renderAccessSchedule(user.Policy.AccessSchedules || []);
+        renderAccessSchedule(user.Policy?.AccessSchedules || []);
         loading.hide();
     }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
 
@@ -485,32 +508,5 @@ const UserParentalControl: FunctionComponent = () => {
 
     );
 };
-
-function handleSaveUser(page: HTMLDivElement, getSchedulesFromPage: () => AccessSchedule[], getAllowedTagsFromPage: () => string[], getBlockedTagsFromPage: () => string[], onSaveComplete: () => void) {
-    return (user: UserDto) => {
-        const userId = user.Id;
-        const userPolicy = user.Policy;
-        if (!userId || !userPolicy) {
-            throw new Error('Unexpected null user id or policy');
-        }
-
-        const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
-        userPolicy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
-        userPolicy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
-            return i.checked;
-        }).map(function (i) {
-            return i.getAttribute('data-itemtype');
-        });
-        userPolicy.AccessSchedules = getSchedulesFromPage();
-        userPolicy.AllowedTags = getAllowedTagsFromPage();
-        userPolicy.BlockedTags = getBlockedTagsFromPage();
-        ServerConnections.getCurrentApiClientAsync()
-            .then(apiClient => apiClient.updateUserPolicy(userId, userPolicy))
-            .then(() => onSaveComplete())
-            .catch(err => {
-                console.error('[userparentalcontrol] failed to update user policy', err);
-            });
-    };
-}
 
 export default UserParentalControl;
