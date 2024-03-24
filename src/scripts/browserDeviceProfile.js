@@ -1,6 +1,6 @@
+import browser from './browser';
 import appSettings from './settings/appSettings';
 import * as userSettings from './settings/userSettings';
-import browser from './browser';
 
 function canPlayH264(videoTestElement) {
     return !!(videoTestElement.canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -210,12 +210,22 @@ function supportsDolbyVision(options) {
     );
 }
 
-function canPlayDolbyVisionHevc(videoTestElement) {
-    // Profiles 5/7/8 4k@60fps
-    return !!videoTestElement.canPlayType
-        && (videoTestElement.canPlayType('video/mp4; codecs="dvh1.05.09"').replace(/no/, '')
-        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.07.09"').replace(/no/, '')
-        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.08.09"').replace(/no/, ''));
+function supportedDolbyVisionProfilesHevc(videoTestElement) {
+    const supportedProfiles = [];
+    // Profiles 5/8 4k@60fps
+    if (videoTestElement.canPlayType) {
+        if (videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.05.09"')
+            .replace(/no/, '')) {
+            supportedProfiles.push(5);
+        }
+        if (videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.08.09"')
+            .replace(/no/, '')) {
+            supportedProfiles.push(8);
+        }
+    }
+    return supportedProfiles;
 }
 
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
@@ -942,8 +952,14 @@ export default function (options) {
         av1VideoRangeTypes += '|HLG';
     }
 
-    if (supportsDolbyVision(options) && canPlayDolbyVisionHevc(videoTestElement)) {
-        hevcVideoRangeTypes += '|DOVI';
+    if (supportsDolbyVision(options)) {
+        const profiles = supportedDolbyVisionProfilesHevc(videoTestElement);
+        if (profiles.includes(5)) {
+            hevcVideoRangeTypes += '|DOVI';
+        }
+        if (profiles.includes(8)) {
+            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+        }
     }
 
     const h264CodecProfileConditions = [
@@ -1250,4 +1266,3 @@ export default function (options) {
 
     return profile;
 }
-
