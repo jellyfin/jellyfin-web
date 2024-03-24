@@ -146,6 +146,26 @@ export default function (view) {
             btnUserRating.classList.add('hide');
             btnUserRating.setItem(null);
         }
+
+        // Update trickplay data
+        trickplayResolution = null;
+
+        const mediaSourceId = currentPlayer.streamInfo.mediaSource.Id;
+        const trickplayResolutions = item.Trickplay?.[mediaSourceId];
+        if (trickplayResolutions) {
+            // Prefer highest resolution <= 20% of total screen resolution width
+            let bestWidth;
+            const maxWidth = window.screen.width * window.devicePixelRatio * 0.2;
+            for (const [, info] of Object.entries(trickplayResolutions)) {
+                if (!bestWidth
+                        || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
+                        || (info.Width > bestWidth && info.Width <= maxWidth)) {
+                    bestWidth = info.Width;
+                }
+            }
+
+            if (bestWidth) trickplayResolution = trickplayResolutions[bestWidth];
+        }
     }
 
     function getDisplayTimeWithoutAmPm(date, showSeconds) {
@@ -1356,6 +1376,81 @@ export default function (view) {
         resetIdle();
     }
 
+    function updateTrickplayBubbleHtml(apiClient, trickplayInfo, item, mediaSourceId, bubble, positionTicks) {
+        let doFullUpdate = false;
+        let chapterThumbContainer = bubble.querySelector('.chapterThumbContainer');
+        let chapterThumb;
+        let chapterThumbText;
+
+        // Create bubble elements if they don't already exist
+        if (chapterThumbContainer) {
+            chapterThumb = chapterThumbContainer.querySelector('.chapterThumb');
+            chapterThumbText = chapterThumbContainer.querySelector('.chapterThumbText');
+        } else {
+            doFullUpdate = true;
+
+            chapterThumbContainer = document.createElement('div');
+            chapterThumbContainer.classList.add('chapterThumbContainer');
+            chapterThumbContainer.style.overflow = 'hidden';
+
+            const chapterThumbWrapper = document.createElement('div');
+            chapterThumbWrapper.classList.add('chapterThumbWrapper');
+            chapterThumbWrapper.style.overflow = 'hidden';
+            chapterThumbWrapper.style.position = 'relative';
+            chapterThumbWrapper.style.width = trickplayInfo.Width + 'px';
+            chapterThumbWrapper.style.height = trickplayInfo.Height + 'px';
+            chapterThumbContainer.appendChild(chapterThumbWrapper);
+
+            chapterThumb = document.createElement('img');
+            chapterThumb.classList.add('chapterThumb');
+            chapterThumb.style.position = 'absolute';
+            chapterThumb.style.width = 'unset';
+            chapterThumb.style.minWidth = 'unset';
+            chapterThumb.style.height = 'unset';
+            chapterThumb.style.minHeight = 'unset';
+            chapterThumbWrapper.appendChild(chapterThumb);
+
+            const chapterThumbTextContainer = document.createElement('div');
+            chapterThumbTextContainer.classList.add('chapterThumbTextContainer');
+            chapterThumbContainer.appendChild(chapterThumbTextContainer);
+
+            chapterThumbText = document.createElement('h2');
+            chapterThumbText.classList.add('chapterThumbText');
+            chapterThumbTextContainer.appendChild(chapterThumbText);
+        }
+
+        // Update trickplay values
+        const currentTimeMs = positionTicks / 10_000;
+        const currentTile = Math.floor(currentTimeMs / trickplayInfo.Interval);
+
+        const tileSize = trickplayInfo.TileWidth * trickplayInfo.TileHeight;
+        const tileOffset = currentTile % tileSize;
+        const index = Math.floor(currentTile / tileSize);
+
+        const tileOffsetX = tileOffset % trickplayInfo.TileWidth;
+        const tileOffsetY = Math.floor(tileOffset / trickplayInfo.TileWidth);
+        const offsetX = -(tileOffsetX * trickplayInfo.Width);
+        const offsetY = -(tileOffsetY * trickplayInfo.Height);
+
+        const imgSrc = apiClient.getUrl('Videos/' + item.Id + '/Trickplay/' + trickplayInfo.Width + '/' + index + '.jpg', {
+            api_key: apiClient.accessToken(),
+            MediaSourceId: mediaSourceId
+        });
+
+        if (chapterThumb.src != imgSrc) chapterThumb.src = imgSrc;
+        chapterThumb.style.left = offsetX + 'px';
+        chapterThumb.style.top = offsetY + 'px';
+
+        chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
+
+        // Set bubble innerHTML if container isn't part of DOM
+        if (doFullUpdate) {
+            bubble.innerHTML = chapterThumbContainer.outerHTML;
+        }
+
+        return true;
+    }
+
     function getImgUrl(item, chapter, index, maxWidth, apiClient) {
         if (chapter.ImageTag) {
             return apiClient.getScaledImageUrl(item.Id, {
@@ -1455,6 +1550,7 @@ export default function (view) {
     let programEndDateMs = 0;
     let playbackStartTimeTicks = 0;
     let subtitleSyncOverlay;
+    let trickplayResolution = null;
     const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
     const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
     const nowPlayingPositionSlider = view.querySelector('.osdPositionSlider');
@@ -1680,6 +1776,25 @@ export default function (view) {
             }
         }
     });
+
+    nowPlayingPositionSlider.updateBubbleHtml = function(bubble, value) {
+        showOsd();
+
+        const item = currentItem;
+        const ticks = currentRuntimeTicks * value / 100;
+
+        if (trickplayResolution && item?.Trickplay) {
+            return updateTrickplayBubbleHtml(
+                ServerConnections.getApiClient(item.ServerId),
+                trickplayResolution,
+                item,
+                currentPlayer.streamInfo.mediaSource.Id,
+                bubble,
+                ticks);
+        }
+
+        return false;
+    };
 
     nowPlayingPositionSlider.getBubbleHtml = function (value) {
         showOsd();
