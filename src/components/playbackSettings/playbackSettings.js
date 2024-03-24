@@ -194,8 +194,8 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     selectChromecastVersion.innerHTML = ccAppsHtml;
     selectChromecastVersion.value = user.Configuration.CastReceiverId;
 
-    const selectLabelMaxVideoWidth = context.querySelector('.selectLabelMaxVideoWidth');
-    selectLabelMaxVideoWidth.value = appSettings.maxVideoWidth();
+    const selectMaxVideoWidth = context.querySelector('.selectMaxVideoWidth');
+    selectMaxVideoWidth.value = appSettings.maxVideoWidth();
 
     const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
     fillSkipLengths(selectSkipForwardLength);
@@ -212,7 +212,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
 
     appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
-    appSettings.maxVideoWidth(context.querySelector('.selectLabelMaxVideoWidth').value);
+    appSettings.maxVideoWidth(context.querySelector('.selectMaxVideoWidth').value);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -309,7 +309,7 @@ function embed(options, self) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
 
-    options.element.querySelector('.selectLabelMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
+    options.element.querySelector('.selectMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
 
     self.loadData();
 
