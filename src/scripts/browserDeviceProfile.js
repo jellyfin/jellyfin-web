@@ -216,10 +216,14 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
     if (videoTestElement.canPlayType) {
         if (videoTestElement
             .canPlayType('video/mp4; codecs="dvh1.05.09"')
-            .replace(/no/, '')) supportedProfiles.push(5);
+            .replace(/no/, '')) {
+            supportedProfiles.push(5);
+        }
         if (videoTestElement
             .canPlayType('video/mp4; codecs="dvh1.08.09"')
-            .replace(/no/, '')) supportedProfiles.push(8);
+            .replace(/no/, '')) {
+            supportedProfiles.push(8);
+        }
     }
     return supportedProfiles;
 }
