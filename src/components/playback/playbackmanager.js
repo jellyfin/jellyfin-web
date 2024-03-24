@@ -1734,6 +1734,7 @@ class PlaybackManager {
                         streamInfo.resetSubtitleOffset = false;
 
                         if (!streamInfo.url) {
+                            cancelPlayback();
                             showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                             return;
                         }
@@ -1783,7 +1784,7 @@ class PlaybackManager {
 
                 onPlaybackError.call(player, e, {
                     type: getMediaError(e),
-                    streamInfo: streamInfo
+                    streamInfo
                 });
             });
         }
