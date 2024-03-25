@@ -1,9 +1,8 @@
-import { BaseItemDto, SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-
+import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import type { ItemDto } from './base/models/item-dto';
 export interface ListOptions {
-    items?: BaseItemDto[] | SeriesTimerInfoDto[] | null;
+    items?: ItemDto[] | null;
     index?: string;
     showIndex?: boolean;
     action?: string | null;

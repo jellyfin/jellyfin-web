@@ -1,13 +1,11 @@
 import type {
-    LibraryUpdateInfo,
-    SeriesTimerInfoDto,
-    TimerInfoDto,
-    UserItemDataDto
+    LibraryUpdateInfo
 } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { type FC, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
+import { useQueryClient } from '@tanstack/react-query';
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
@@ -21,7 +19,7 @@ import itemShortcuts from 'components/shortcuts';
 import MultiSelect from 'components/multiSelect/multiSelect';
 import loading from 'components/loading/loading';
 import focusManager from 'components/focusManager';
-import { ParentId } from 'types/library';
+import type { ParentId } from 'types/library';
 
 function disableEvent(e: MouseEvent) {
     e.preventDefault();
@@ -40,11 +38,11 @@ interface ItemsContainerProps {
     isContextMenuEnabled?: boolean;
     isMultiSelectEnabled?: boolean;
     isDragreOrderEnabled?: boolean;
-    dataMonitor?: string;
+    eventsToMonitor?: string[];
     parentId?: ParentId;
     reloadItems?: () => void;
     getItemsHtml?: () => string;
-    children?: React.ReactNode;
+    queryKey?: string[]
 }
 
 const ItemsContainer: FC<ItemsContainerProps> = ({
@@ -52,12 +50,14 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
     isContextMenuEnabled,
     isMultiSelectEnabled,
     isDragreOrderEnabled,
-    dataMonitor,
+    eventsToMonitor = [],
     parentId,
+    queryKey,
     reloadItems,
     getItemsHtml,
     children
 }) => {
+    const queryClient = useQueryClient();
     const { mutateAsync: playlistsMoveItemMutation } = usePlaylistsMoveItemMutation();
     const itemsContainerRef = useRef<HTMLDivElement>(null);
     const multiSelectref = useRef<MultiSelect | null>(null);
@@ -172,6 +172,14 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
         }
     }, []);
 
+    const invalidateQueries = useCallback(async () => {
+        await queryClient.invalidateQueries({
+            queryKey,
+            type: 'all',
+            refetchType: 'active'
+        });
+    }, [queryClient, queryKey]);
+
     const notifyRefreshNeeded = useCallback(
         (isInForeground: boolean) => {
             if (!reloadItems) return;
@@ -184,144 +192,37 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
         [reloadItems]
     );
 
-    const getEventsToMonitor = useCallback(() => {
-        const monitor = dataMonitor;
-        if (monitor) {
-            return monitor.split(',');
-        }
-
-        return [];
-    }, [dataMonitor]);
-
-    const onUserDataChanged = useCallback(
-        (_e: Event, userData: UserItemDataDto) => {
-            const itemsContainer = itemsContainerRef.current as HTMLDivElement;
-
-            import('../../components/cardbuilder/cardBuilder')
-                .then((cardBuilder) => {
-                    cardBuilder.onUserDataChanged(userData, itemsContainer);
-                })
-                .catch((err) => {
-                    console.error(
-                        '[onUserDataChanged] failed to load onUserData Changed',
-                        err
-                    );
-                });
-
-            const eventsToMonitor = getEventsToMonitor();
-            if (
-                eventsToMonitor.indexOf('markfavorite') !== -1
-                || eventsToMonitor.indexOf('markplayed') !== -1
-            ) {
-                notifyRefreshNeeded(false);
-            }
-        },
-        [getEventsToMonitor, notifyRefreshNeeded]
+    const onUserDataChanged = useCallback(async () => {
+        await invalidateQueries();
+    },
+    [invalidateQueries]
     );
 
-    const onTimerCreated = useCallback(
-        (_e: Event, data: TimerInfoDto) => {
-            const itemsContainer = itemsContainerRef.current as HTMLDivElement;
-            const eventsToMonitor = getEventsToMonitor();
-            if (eventsToMonitor.indexOf('timers') !== -1) {
-                notifyRefreshNeeded(false);
-                return;
-            }
-
-            const programId = data.ProgramId;
-            // This could be null, not supported by all tv providers
-            const newTimerId = data.Id;
-            if (programId && newTimerId) {
-                import('../../components/cardbuilder/cardBuilder')
-                    .then((cardBuilder) => {
-                        cardBuilder.onTimerCreated(
-                            programId,
-                            newTimerId,
-                            itemsContainer
-                        );
-                    })
-                    .catch((err) => {
-                        console.error(
-                            '[onTimerCreated] failed to load onTimer Created',
-                            err
-                        );
-                    });
-            }
-        },
-        [getEventsToMonitor, notifyRefreshNeeded]
+    const onTimerCreated = useCallback(async () => {
+        await invalidateQueries();
+    },
+    [invalidateQueries]
     );
 
-    const onSeriesTimerCreated = useCallback(() => {
-        const eventsToMonitor = getEventsToMonitor();
-        if (eventsToMonitor.indexOf('seriestimers') !== -1) {
-            notifyRefreshNeeded(false);
-        }
-    }, [getEventsToMonitor, notifyRefreshNeeded]);
+    const onSeriesTimerCreated = useCallback(async () => {
+        await invalidateQueries();
+    }, [invalidateQueries]);
 
-    const onTimerCancelled = useCallback(
-        (_e: Event, data: TimerInfoDto) => {
-            const itemsContainer = itemsContainerRef.current as HTMLDivElement;
-            const eventsToMonitor = getEventsToMonitor();
-            if (eventsToMonitor.indexOf('timers') !== -1) {
-                notifyRefreshNeeded(false);
-                return;
-            }
-
-            const timerId = data.Id;
-
-            if (timerId) {
-                import('../../components/cardbuilder/cardBuilder')
-                    .then((cardBuilder) => {
-                        cardBuilder.onTimerCancelled(timerId, itemsContainer);
-                    })
-                    .catch((err) => {
-                        console.error(
-                            '[onTimerCancelled] failed to load onTimer Cancelled',
-                            err
-                        );
-                    });
-            }
-        },
-        [getEventsToMonitor, notifyRefreshNeeded]
+    const onTimerCancelled = useCallback(async () => {
+        await invalidateQueries();
+    },
+    [invalidateQueries]
     );
 
-    const onSeriesTimerCancelled = useCallback(
-        (_e: Event, data: SeriesTimerInfoDto) => {
-            const itemsContainer = itemsContainerRef.current as HTMLDivElement;
-            const eventsToMonitor = getEventsToMonitor();
-            if (eventsToMonitor.indexOf('seriestimers') !== -1) {
-                notifyRefreshNeeded(false);
-                return;
-            }
-
-            const cancelledTimerId = data.Id;
-
-            if (cancelledTimerId) {
-                import('../../components/cardbuilder/cardBuilder')
-                    .then((cardBuilder) => {
-                        cardBuilder.onSeriesTimerCancelled(
-                            cancelledTimerId,
-                            itemsContainer
-                        );
-                    })
-                    .catch((err) => {
-                        console.error(
-                            '[onSeriesTimerCancelled] failed to load onSeriesTimer Cancelled',
-                            err
-                        );
-                    });
-            }
-        },
-        [getEventsToMonitor, notifyRefreshNeeded]
+    const onSeriesTimerCancelled = useCallback(async () => {
+        await invalidateQueries();
+    },
+    [invalidateQueries]
     );
 
     const onLibraryChanged = useCallback(
-        (_e: Event, data: LibraryUpdateInfo) => {
-            const eventsToMonitor = getEventsToMonitor();
-            if (
-                eventsToMonitor.indexOf('seriestimers') !== -1
-                || eventsToMonitor.indexOf('timers') !== -1
-            ) {
+        (_e: Event, apiClient, data: LibraryUpdateInfo) => {
+            if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
                 // yes this is an assumption
                 return;
             }
@@ -348,32 +249,31 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
 
             notifyRefreshNeeded(false);
         },
-        [getEventsToMonitor, notifyRefreshNeeded, parentId]
+        [eventsToMonitor, notifyRefreshNeeded, parentId]
     );
 
     const onPlaybackStopped = useCallback(
-        (_e: Event, stopInfo) => {
+        (_e: Event, apiClient, stopInfo) => {
             const state = stopInfo.state;
 
-            const eventsToMonitor = getEventsToMonitor();
             if (
                 state.NowPlayingItem
                 && state.NowPlayingItem.MediaType === 'Video'
             ) {
-                if (eventsToMonitor.indexOf('videoplayback') !== -1) {
+                if (eventsToMonitor.includes('videoplayback')) {
                     notifyRefreshNeeded(true);
                     return;
                 }
             } else if (
                 state.NowPlayingItem
                 && state.NowPlayingItem.MediaType === 'Audio'
-                && eventsToMonitor.indexOf('audioplayback') !== -1
+                && eventsToMonitor.includes('videoplayback')
             ) {
                 notifyRefreshNeeded(true);
                 return;
             }
         },
-        [getEventsToMonitor, notifyRefreshNeeded]
+        [eventsToMonitor, notifyRefreshNeeded]
     );
 
     const setFocus = useCallback(
@@ -418,9 +318,8 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
 
         if (getItemsHtml) {
             itemsContainer.innerHTML = getItemsHtml();
+            imageLoader.lazyChildren(itemsContainer);
         }
-
-        imageLoader.lazyChildren(itemsContainer);
 
         if (hasActiveElement) {
             setFocus(itemsContainer, focusId);

@@ -1,4 +1,5 @@
 import escapeHtml from 'escape-html';
+
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
@@ -14,16 +15,23 @@ import imageLoader from '../../components/images/imageLoader';
 import ActivityLog from '../../components/activitylog';
 import imageHelper from '../../utils/image';
 import indicators from '../../components/indicators/indicators';
-import '../../components/listview/listview.scss';
-import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
 import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import confirm from '../../components/confirm/confirm';
 import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
+
+import { getSystemInfoQuery } from 'hooks/useSystemInfo';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+
+import '../../components/listview/listview.scss';
+import '../../styles/flexstyles.scss';
+import './dashboard.scss';
 
 function showPlaybackInfo(btn, session) {
     let title;
@@ -199,22 +207,21 @@ function refreshActiveRecordings(view, apiClient) {
 }
 
 function reloadSystemInfo(view, apiClient) {
-    apiClient.getSystemInfo().then(function (systemInfo) {
-        view.querySelector('#serverName').innerText = globalize.translate('DashboardServerName', systemInfo.ServerName);
-        view.querySelector('#versionNumber').innerText = globalize.translate('DashboardVersionNumber', systemInfo.Version);
+    view.querySelector('#buildVersion').innerText = __JF_BUILD_VERSION__;
+    view.querySelector('#webVersion').innerText = __PACKAGE_JSON_VERSION__;
 
-        if (systemInfo.CanSelfRestart) {
-            view.querySelector('#btnRestartServer').classList.remove('hide');
-        } else {
-            view.querySelector('#btnRestartServer').classList.add('hide');
-        }
+    queryClient
+        .fetchQuery(getSystemInfoQuery(toApi(apiClient)))
+        .then(systemInfo => {
+            view.querySelector('#serverName').innerText = systemInfo.ServerName;
+            view.querySelector('#versionNumber').innerText = systemInfo.Version;
 
-        view.querySelector('#cachePath').innerText = systemInfo.CachePath;
-        view.querySelector('#logPath').innerText = systemInfo.LogPath;
-        view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
-        view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
-        view.querySelector('#webPath').innerText = systemInfo.WebPath;
-    });
+            view.querySelector('#cachePath').innerText = systemInfo.CachePath;
+            view.querySelector('#logPath').innerText = systemInfo.LogPath;
+            view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
+            view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
+            view.querySelector('#webPath').innerText = systemInfo.WebPath;
+        });
 }
 
 function renderInfo(view, sessions) {

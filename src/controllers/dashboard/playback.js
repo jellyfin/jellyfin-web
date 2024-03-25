@@ -39,6 +39,9 @@ function getTabs() {
     }, {
         href: '#/dashboard/playback/streaming',
         name: globalize.translate('TabStreaming')
+    }, {
+        href: '#/dashboard/playback/trickplay',
+        name: globalize.translate('Trickplay')
     }];
 }
 
@@ -52,4 +55,3 @@ $(document).on('pageinit', '#playbackConfigurationPage', function () {
         loadPage(page, config);
     });
 });
-

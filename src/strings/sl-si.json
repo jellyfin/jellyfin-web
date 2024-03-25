@@ -10,7 +10,7 @@
     "HeaderUser": "Uporabnik",
     "LabelArtists": "Izvajalci",
     "LabelContentType": "Tip vsebine",
-    "LabelCountry": "Država",
+    "LabelCountry": "Država/Regija",
     "LabelCurrentPassword": "Trenutno geslo",
     "LabelFinish": "Zaključi",
     "LabelLanguage": "Jezik",
@@ -1453,7 +1453,7 @@
     "LabelSelectAudioChannels": "Kanali",
     "LabelAllowedAudioChannels": "Največje število dovoljenih zvočnih kanalov",
     "AllowHevcEncoding": "Dovoli kodiranje v HEVC format",
-    "PreferFmp4HlsContainerHelp": "Prioritiziraj uporabo fMP4 kot privzeti kontejner za HLS. Omogoča neposredno pretakanje HEVC vsebin na podprtih napravah.",
+    "PreferFmp4HlsContainerHelp": "Prioritiziraj uporabo fMP4 kot privzeti kontejner za HLS. Omogoča neposredno pretakanje HEVC in AV1 vsebin na podprtih napravah.",
     "PreferFmp4HlsContainer": "Prioritiziraj fMP4-HLS kontejner",
     "LabelSyncPlayInfo": "Informacije o SyncPlay",
     "LabelOriginalMediaInfo": "Informacije o izvorni predstavnosti",
@@ -1770,5 +1770,7 @@
     "SubtitleLightGray": "Svetlo siva",
     "SubtitleMagenta": "Magenta",
     "LabelParallelImageEncodingLimitHelp": "Največje dovoljeno število vzporednih kodiranj slik. Nastavite na 0 za samodejno omejitev glede na zmogljivost vašega sistema.",
-    "AiTranslated": "AI prevedeno"
+    "AiTranslated": "AI prevedeno",
+    "ButtonEditUser": "Uredi uporabnika",
+    "HeaderAllRecordings": "Vsi posnetki"
 }

@@ -1,0 +1,52 @@
+name: Update the Jellyfin SDK
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: unstable-sdk-pr
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: master
+          token: ${{ secrets.JF_BOT_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: 20
+          check-latest: true
+          cache: npm
+
+      - name: Install latest unstable SDK
+        run: |
+          npm i --save @jellyfin/sdk@unstable
+          VERSION=$(jq -r '.dependencies["@jellyfin/sdk"]' package.json)
+          echo "JF_SDK_VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Open a pull request
+        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e # v6.0.2
+        with:
+          token: ${{ secrets.JF_BOT_TOKEN }}
+          commit-message: Update @jellyfin/sdk to ${{env.JF_SDK_VERSION}}
+          committer: jellyfin-bot <team@jellyfin.org>
+          author: jellyfin-bot <team@jellyfin.org>
+          branch: update-jf-sdk
+          delete-branch: true
+          title: Update @jellyfin/sdk to ${{env.JF_SDK_VERSION}}
+          body: |
+            **Changes**
+            Updates to the latest unstable @jellyfin/sdk build
+          labels: |
+            dependencies
+            npm

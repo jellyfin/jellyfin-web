@@ -1,5 +1,6 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback } from 'react';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { useQueryClient } from '@tanstack/react-query';
+import React, { type FC, useCallback } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import { IconButton } from '@mui/material';
 import classNames from 'classnames';
@@ -10,28 +11,30 @@ interface PlayedButtonProps {
     className?: string;
     isPlayed : boolean | undefined;
     itemId: string | null | undefined;
-    itemType: string | null | undefined
+    itemType: string | null | undefined,
+    queryKey?: string[]
 }
 
 const PlayedButton: FC<PlayedButtonProps> = ({
     className,
     isPlayed = false,
     itemId,
-    itemType
+    itemType,
+    queryKey
 }) => {
+    const queryClient = useQueryClient();
     const { mutateAsync: togglePlayedMutation } = useTogglePlayedMutation();
-    const [playedState, setPlayedState] = React.useState<boolean>(isPlayed);
 
     const getTitle = useCallback(() => {
         let buttonTitle;
         if (itemType !== BaseItemKind.AudioBook) {
-            buttonTitle = playedState ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
+            buttonTitle = isPlayed ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
         } else {
-            buttonTitle = playedState ? globalize.translate('Played') : globalize.translate('MarkPlayed');
+            buttonTitle = isPlayed ? globalize.translate('Played') : globalize.translate('MarkPlayed');
         }
 
         return buttonTitle;
-    }, [playedState, itemType]);
+    }, [itemType, isPlayed]);
 
     const onClick = useCallback(async () => {
         try {
@@ -39,23 +42,29 @@ const PlayedButton: FC<PlayedButtonProps> = ({
                 throw new Error('Item has no Id');
             }
 
-            const _isPlayed = await togglePlayedMutation({
+            await togglePlayedMutation({
                 itemId,
-                playedState
-            });
-            setPlayedState(!!_isPlayed);
+                isPlayed
+            },
+            { onSuccess: async() => {
+                await queryClient.invalidateQueries({
+                    queryKey,
+                    type: 'all',
+                    refetchType: 'active'
+                });
+            } });
         } catch (e) {
             console.error(e);
         }
-    }, [playedState, itemId, togglePlayedMutation]);
+    }, [itemId, togglePlayedMutation, isPlayed, queryClient, queryKey]);
 
     const btnClass = classNames(
         className,
-        { 'playstatebutton-played': playedState }
+        { 'playstatebutton-played': isPlayed }
     );
 
     const iconClass = classNames(
-        { 'playstatebutton-icon-played': playedState }
+        { 'playstatebutton-icon-played': isPlayed }
     );
     return (
         <IconButton

@@ -1,8 +1,9 @@
 import type { BaseItemDto, BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient } from 'jellyfin-apiclient';
 import classNames from 'classnames';
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { useDebounceValue } from 'usehooks-ts';
 
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
@@ -30,7 +31,7 @@ const isTVShows = (collectionType: string) => collectionType === CollectionType.
 /*
  * React component to display search result rows for global search and non-live tv library search
  */
-const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = window.ApiClient.serverId(), parentId, collectionType, query }: SearchResultsProps) => {
+const SearchResults: FC<SearchResultsProps> = ({ serverId = window.ApiClient.serverId(), parentId, collectionType, query }: SearchResultsProps) => {
     const [ movies, setMovies ] = useState<BaseItemDto[]>([]);
     const [ shows, setShows ] = useState<BaseItemDto[]>([]);
     const [ episodes, setEpisodes ] = useState<BaseItemDto[]>([]);
@@ -47,11 +48,12 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
     const [ books, setBooks ] = useState<BaseItemDto[]>([]);
     const [ people, setPeople ] = useState<BaseItemDto[]>([]);
     const [ collections, setCollections ] = useState<BaseItemDto[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ debouncedQuery ] = useDebounceValue(query, 500);
 
     const getDefaultParameters = useCallback(() => ({
         ParentId: parentId,
-        searchTerm: query,
+        searchTerm: debouncedQuery,
         Limit: 100,
         Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
         Recursive: true,
@@ -62,7 +64,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
         IncludeGenres: false,
         IncludeStudios: false,
         IncludeArtists: false
-    }), [parentId, query]);
+    }), [ parentId, debouncedQuery ]);
 
     const fetchArtists = useCallback((apiClient: ApiClient, params = {}) => (
         apiClient?.getArtists(
@@ -98,6 +100,10 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
     ), [getDefaultParameters]);
 
     useEffect(() => {
+        if (query) setIsLoading(true);
+    }, [ query ]);
+
+    useEffect(() => {
         // Reset state
         setMovies([]);
         setShows([]);
@@ -116,12 +122,10 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
         setPeople([]);
         setCollections([]);
 
-        if (!query) {
+        if (!debouncedQuery) {
             setIsLoading(false);
             return;
         }
-
-        setIsLoading(true);
 
         const apiClient = ServerConnections.getApiClient(serverId);
         const fetchPromises = [];
@@ -230,7 +234,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                 console.error('An error occurred while fetching data:', error);
                 setIsLoading(false); // Set loading to false even if an error occurs
             });
-    }, [collectionType, fetchArtists, fetchItems, fetchPeople, query, serverId]);
+    }, [collectionType, fetchArtists, fetchItems, fetchPeople, debouncedQuery, serverId]);
 
     const allEmpty = [movies, shows, episodes, videos, programs, channels, playlists, artists, albums, songs, photoAlbums, photos, audioBooks, books, people, collections].every(arr => arr.length === 0);
 
@@ -240,7 +244,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || collectionType === CollectionType.Livetv }
+                { 'hide': !debouncedQuery || collectionType === CollectionType.Livetv }
             )}
         >
             {isLoading ? (
@@ -335,8 +339,10 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId = windo
                         cardOptions={{ coverImage: true }}
                     />
 
-                    {allEmpty && query && !isLoading && (
-                        <div className='sorry-text'>{globalize.translate('SearchResultsEmpty', query)}</div>
+                    {allEmpty && debouncedQuery && !isLoading && (
+                        <div className='noItemsMessage centerMessage'>
+                            {globalize.translate('SearchResultsEmpty', debouncedQuery)}
+                        </div>
                     )}
                 </>
             )}

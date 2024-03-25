@@ -4,7 +4,7 @@
  */
 
 import dom from '../scripts/dom';
-import browser from '../scripts/browser';
+import appSettings from 'scripts/settings/appSettings';
 import layoutManager from './layoutManager';
 
 /**
@@ -477,7 +477,7 @@ function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
      * Returns true if smooth scroll must be used.
      */
 function useSmoothScroll() {
-    return !!browser.tizen;
+    return appSettings.enableSmoothScroll();
 }
 
 /**

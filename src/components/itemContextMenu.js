@@ -10,6 +10,24 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
+function getDeleteLabel(type) {
+    switch (type) {
+        case BaseItemKind.Series:
+            return globalize.translate('DeleteSeries');
+
+        case BaseItemKind.Episode:
+            return globalize.translate('DeleteEpisode');
+
+        case BaseItemKind.Playlist:
+        case BaseItemKind.BoxSet:
+            return globalize.translate('Delete');
+
+        default:
+            return globalize.translate('DeleteMedia');
+    }
+}
 
 export function getCommands(options) {
     const item = options.item;
@@ -160,19 +178,11 @@ export function getCommands(options) {
     }
 
     if (item.CanDelete && options.deleteItem !== false) {
-        if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
-            commands.push({
-                name: globalize.translate('Delete'),
-                id: 'delete',
-                icon: 'delete'
-            });
-        } else {
-            commands.push({
-                name: globalize.translate('DeleteMedia'),
-                id: 'delete',
-                icon: 'delete'
-            });
-        }
+        commands.push({
+            name: getDeleteLabel(item.Type),
+            id: 'delete',
+            icon: 'delete'
+        });
     }
 
     // Books are promoted to major download Button and therefor excluded in the context menu
@@ -214,11 +224,7 @@ export function getCommands(options) {
         });
     }
 
-    if (canEdit && item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program'
-            && item.LocationType !== 'Virtual'
-            && !(item.Type === 'Recording' && item.Status !== 'Completed')
-            && options.editSubtitles !== false
-    ) {
+    if (itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
         commands.push({
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',
@@ -339,7 +345,8 @@ function executeCommand(item, id, options) {
                 break;
             case 'addtoplaylist':
                 import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                    new PlaylistEditor({
+                    const playlistEditor = new PlaylistEditor();
+                    playlistEditor.show({
                         items: [itemId],
                         serverId: serverId
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));

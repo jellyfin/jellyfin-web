@@ -704,15 +704,20 @@ export default function () {
         import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
             getSaveablePlaylistItems().then(function (items) {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                new PlaylistEditor({
+                const playlistEditor = new PlaylistEditor();
+                playlistEditor.show({
                     items: items.map(function (i) {
                         return i.Id;
                     }),
                     serverId: serverId,
                     enableAddToPlayQueue: false,
                     defaultValue: 'new'
+                }).catch(() => {
+                    // Dialog closed
                 });
             });
+        }).catch(err => {
+            console.error('[savePlaylist] failed to load playlist editor', err);
         });
     }
 

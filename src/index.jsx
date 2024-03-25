@@ -59,6 +59,9 @@ function loadCoreDictionary() {
 }
 
 function init() {
+    // Log current version to console to help out with issue triage and debugging
+    console.log(`${__PACKAGE_JSON_NAME__} version ${__PACKAGE_JSON_VERSION__} build ${__JF_BUILD_VERSION__}`);
+
     // This is used in plugins
     window.Events = Events;
     window.TaskButton = taskButton;
@@ -94,7 +97,7 @@ function onGlobalizeInit() {
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
         import('./styles/fonts.sized.scss');
-    } else if (__USE_SYSTEM_FONTS__) { // eslint-disable-line no-undef
+    } else if (__USE_SYSTEM_FONTS__) {
         console.debug('using system fonts');
         import('./styles/fonts.scss');
     } else {

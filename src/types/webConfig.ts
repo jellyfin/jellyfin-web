@@ -1,5 +1,6 @@
-interface Theme {
+export interface Theme {
     name: string
+    default?: boolean;
     id: string
     color: string
 }

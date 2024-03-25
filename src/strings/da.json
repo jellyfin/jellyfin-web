@@ -346,7 +346,7 @@
     "LabelCollection": "Samling",
     "LabelCommunityRating": "Fællesskabsvurdering",
     "LabelContentType": "Indholdstype",
-    "LabelCountry": "Land",
+    "LabelCountry": "Land/Region",
     "LabelCriticRating": "Kritiker bedømmelse",
     "LabelCurrentPassword": "Nuværende kode",
     "LabelCustomCertificatePath": "Brugerdefineret SSL certifikat sti",
@@ -1754,5 +1754,12 @@
     "LabelLevel": "Niveau",
     "LabelMediaDetails": "Media detaljer",
     "MenuClose": "Luk menu",
-    "MediaInfoDvBlSignalCompatibilityId": "DV bl signals kompatibilitets id"
+    "MediaInfoDvBlSignalCompatibilityId": "DV bl signals kompatibilitets id",
+    "ButtonEditUser": "Rediger bruger",
+    "HeaderAllRecordings": "alle optagelser",
+    "ListView": "liste udsigt",
+    "LabelVppTonemappingContrastHelp": "Tilføj kontrastere",
+    "LogLevel.Trace": "Spore",
+    "LabelServerVersion": "server version",
+    "LabelWebVersion": "Web version"
 }
