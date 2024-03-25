@@ -1277,7 +1277,6 @@ export class HtmlVideoPlayer {
 
                     // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
                     setTimeout(() => {
-                        // FIXME: Probably not a decode error...
                         onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
