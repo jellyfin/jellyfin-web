@@ -1836,5 +1836,6 @@
     "LabelTileHeight": "图块高度",
     "LabelExtractTrickplayDuringLibraryScan": "在媒体库扫描期间提取特技播放预览图",
     "ConfirmDeleteSeries": "删除此系列将从文件系统和媒体库中删除共计 {0} 集。您确定要继续吗？",
-    "LabelExtractTrickplayDuringLibraryScanHelp": "在媒体库扫描期间导入视频时生成特技播放预览图。否则，它们将在特技播放预览图计划任务期间被提取。如果生成设置为非阻塞，则不会影响库扫描完成所需的时间。"
+    "LabelExtractTrickplayDuringLibraryScanHelp": "在媒体库扫描期间导入视频时生成特技播放预览图。否则，它们将在特技播放预览图计划任务期间被提取。如果生成设置为非阻塞，则不会影响库扫描完成所需的时间。",
+    "Lyric": "歌词"
 }
