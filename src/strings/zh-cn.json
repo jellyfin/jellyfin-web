@@ -1847,5 +1847,7 @@
     "PlaybackError.NO_MEDIA_ERROR": "无法找到有效的媒体源来播放。",
     "PlaybackError.PLAYER_ERROR": "由于致命的播放器错误，播放失败。",
     "PlaybackError.SERVER_ERROR": "由于服务器错误，播放失败。",
-    "PlaybackError.NotAllowed": "该媒体被禁止播放。"
+    "PlaybackError.NotAllowed": "该媒体被禁止播放。",
+    "LabelAllowContentWithTags": "允许带有标签的项目",
+    "EnableSmoothScroll": "启用平滑滚动"
 }
