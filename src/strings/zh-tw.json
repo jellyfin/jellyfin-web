@@ -1846,5 +1846,7 @@
     "PlaybackError.PLAYER_ERROR": "由於致命的播放器錯誤，播放失敗。",
     "PlaybackError.SERVER_ERROR": "由於服務器錯誤，播放失敗。",
     "PlaybackError.NotAllowed": "該媒體被禁止播放。",
-    "PlaybackError.RateLimitExceeded": "由於速率限制，該媒體目前無法播放。"
+    "PlaybackError.RateLimitExceeded": "由於速率限制，該媒體目前無法播放。",
+    "LabelAllowContentWithTags": "允許帶有標籤的項目",
+    "EnableSmoothScroll": "啟用平滑滾動"
 }
