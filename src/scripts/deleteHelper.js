@@ -62,6 +62,6 @@ export function deleteLyrics (item) {
 }
 
 export default {
-    deleteItem: deleteItem,
-    deleteLyrics: deleteLyrics
+    deleteItem,
+    deleteLyrics
 };
