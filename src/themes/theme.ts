@@ -62,6 +62,13 @@ const theme = createTheme({
                 variant: 'filled'
             }
         },
+        MuiFormHelperText: {
+            styleOverrides: {
+                root: {
+                    fontSize: '1rem'
+                }
+            }
+        },
         MuiTextField: {
             defaultProps: {
                 variant: 'filled'
