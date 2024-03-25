@@ -1645,7 +1645,7 @@
     "Localization": "Lokalizacja",
     "ItemDetails": "Szczegóły pozycji",
     "Digital": "Cyfrowy",
-    "EnableEnhancedNvdecDecoderHelp": "Eksperymentalna implementacja NVDEC, nie używaj tej opcji, chyba że chcesz otrzymywaćsię z licznymi błędami dekodowania.",
+    "EnableEnhancedNvdecDecoderHelp": "Ulepszona implementacja NVDEC. Wyłącz tę opcję, aby używać CUVID, jeśli napotkasz błędy dekodowania.",
     "StoryArc": "Artykuł fabularny",
     "OriginalAirDate": "Data pierwszej emisji",
     "HomeVideosPhotos": "Filmy i zdjęcia",
@@ -1849,5 +1849,7 @@
     "PlaybackError.PLAYER_ERROR": "Odtwarzanie nie powiodło się z powodu krytycznego błędu odtwarzacza.",
     "PlaybackError.NETWORK_ERROR": "Odtwarzanie nie powiodło się z powodu błędu sieci.",
     "PlaybackError.RateLimitExceeded": "W tej chwili nie można odtwarzać tego medium ze względu na ograniczenia szybkości.",
-    "EnableSmoothScroll": "Włącz płynne przewijanie"
+    "EnableSmoothScroll": "Włącz płynne przewijanie",
+    "LimitSupportedVideoResolutionHelp": "Jako maksymalną obsługiwaną rozdzielczość wideo użyj opcji „Maksymalna dozwolona rozdzielczość transkodowania wideo”.",
+    "LimitSupportedVideoResolution": "Ogranicz maksymalną obsługiwaną rozdzielczość wideo"
 }
