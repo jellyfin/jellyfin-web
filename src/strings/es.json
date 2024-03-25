@@ -1798,5 +1798,15 @@
     "AllowVideoToolboxTonemappingHelp": "Aceleración por hardware en mapeo de tonos por VideoToolbox. Funciona con la mayoría de los formatos HDR, incluidos HDR10, HDR10+ y HLG, pero no funciona con Dolby Vision Profile 5. Esto tiene una prioridad más alta en comparación con otra implementación de OpenCL.",
     "LabelWebVersion": "Versión web",
     "DlnaMovedMessage": "La funcionalidad DLNA se ha movido a complementos.",
-    "LabelServerVersion": "Versión del servidor"
+    "LabelServerVersion": "Versión del servidor",
+    "AllowMjpegEncoding": "Permitir codificación en formato MJPEG (utilizado durante la generación de trickplay)",
+    "Trickplay": "Trickplay",
+    "LabelTrickplayAccel": "Habilitar aceleración por hardware",
+    "LabelScanBehavior": "Comportamiento de Escaneo",
+    "ConfirmDeleteSeries": "Eliminar esta serie eliminará TODOS {0} episodios tanto del sistema de archivos como de tu biblioteca de medios. ¿Estás seguro de que deseas continuar?",
+    "DeleteEntireSeries": "Eliminar {0} Episodios",
+    "DeleteSeries": "Eliminar Series",
+    "DeleteEpisode": "Eliminar Episodio",
+    "HeaderDeleteSeries": "Eliminar Series",
+    "LabelTrickplayAccelHelp": "Asegúrate de habilitar ‘Permitir codificación MJPEG’ en Transcodificación si tu hardware lo soporta."
 }
