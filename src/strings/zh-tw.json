@@ -1850,5 +1850,7 @@
     "LabelAllowContentWithTags": "允許帶有標籤的項目",
     "EnableSmoothScroll": "啟用平滑滾動",
     "LimitSupportedVideoResolution": "限制支持的最高視頻分辨率",
-    "LimitSupportedVideoResolutionHelp": "使用“允許的最高影片轉碼解析度”作為支持的最高影片解析度。"
+    "LimitSupportedVideoResolutionHelp": "使用“允許的最高影片轉碼解析度”作為支持的最高影片解析度。",
+    "AllowContentWithTagsHelp": "僅顯示至少具有一個指定標籤的媒體。",
+    "BlockContentWithTagsHelp": "隱藏至少具有一個指定標籤的媒體。"
 }
