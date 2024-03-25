@@ -1836,5 +1836,15 @@
     "DeleteEntireSeries": "刪除共計 {0} 集",
     "LabelExtractTrickplayDuringLibraryScanHelp": "在媒體庫掃描期間導入視頻時生成特技播放預覽圖。否則，它們將在特技播放預覽圖計劃任務期間被提取。如果生成設置為非阻塞，則不會影響庫掃描完成所需的時間。",
     "LabelScanBehaviorHelp": "默認行為是非阻塞，即在生成特技播放預覽圖之前將媒體添加到庫中。阻塞將確保在將媒體添加到庫中之前生成特技播放預覽圖文件，但會使掃描時間明顯變長。",
-    "Lyric": "歌詞"
+    "Lyric": "歌詞",
+    "PlaybackError.ASS_RENDER_ERROR": "ASS/SSA 字幕渲染器遇到錯誤。",
+    "PlaybackError.FATAL_HLS_ERROR": "HLS 流中遇到致命錯誤。",
+    "PlaybackError.MEDIA_DECODE_ERROR": "由於媒體解碼錯誤，播放失敗。",
+    "PlaybackError.MEDIA_NOT_SUPPORTED": "播放失敗，因為客戶端不支持該媒體。",
+    "PlaybackError.NETWORK_ERROR": "由於網絡錯誤，播放失敗。",
+    "PlaybackError.NO_MEDIA_ERROR": "無法找到有效的媒體源來播放。",
+    "PlaybackError.PLAYER_ERROR": "由於致命的播放器錯誤，播放失敗。",
+    "PlaybackError.SERVER_ERROR": "由於服務器錯誤，播放失敗。",
+    "PlaybackError.NotAllowed": "該媒體被禁止播放。",
+    "PlaybackError.RateLimitExceeded": "由於速率限制，該媒體目前無法播放。"
 }
