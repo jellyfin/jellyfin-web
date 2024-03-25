@@ -1786,5 +1786,14 @@
     "LabelUseReplayGainTags": "Usar etiquetas ReplayGain",
     "LabelUseReplayGainTagsHelp": "Procura etiquetas replaygain nos ficheiros áudio e utiliza-as em vez de calcular o valor LUFS. (Utiliza menos poder de computação. Substitui a opção 'Verificação LUFS')",
     "AllowSubtitleManagement": "Permitir a este utilizador editar legendas",
-    "DeleteName": "Eliminar {0}"
+    "DeleteName": "Eliminar {0}",
+    "Trickplay": "Trickplay",
+    "AllowMjpegEncoding": "Permitir a codificação no formato MJPEG (usado durante a criação de trickplay)",
+    "PriorityIdle": "Inativo",
+    "LabelProcessPriority": "Prioridade do processo",
+    "LabelTrickplayAccelHelp": "Certifica-te de que ativas a opção \"Permitir codificação MJPEG\" em Transcodificação, se o teu hardware o suportar.",
+    "PriorityAboveNormal": "Acima do normal",
+    "PriorityNormal": "Normal",
+    "PriorityBelowNormal": "Abaixo do normal",
+    "LabelTrickplayAccel": "Ativar a aceleração de hardware"
 }
