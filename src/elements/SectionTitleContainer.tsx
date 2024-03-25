@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import IconButtonElement from './IconButtonElement';
 import SectionTitleLinkElement from './SectionTitleLinkElement';
 
-type IProps = {
+interface SectionTitleContainerProps {
     SectionClassName?: string;
     title?: string;
     isBtnVisible?: boolean;
@@ -12,8 +12,9 @@ type IProps = {
     btnIcon?: string;
     isLinkVisible?: boolean;
     url?: string;
-};
-const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, isLinkVisible = true, url }: IProps) => {
+}
+
+const SectionTitleContainer: FC<SectionTitleContainerProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, isLinkVisible = true, url }) => {
     return (
         <div className={`${SectionClassName} sectionTitleContainer flex align-items-center`}>
             <h2 className='sectionTitle'>

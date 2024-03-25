@@ -1,5 +1,5 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback } from 'react';
+import React, { type FC, useCallback } from 'react';
 
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';

@@ -1,6 +1,7 @@
 import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import escapeHTML from 'escape-html';
 
 import globalize from '../../../../scripts/globalize';
@@ -17,22 +18,25 @@ import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 
-type UnratedItem = {
+type ItemArr = {
     name: string;
-    value: string;
+    value: UnratedItem;
+};
+
+type UnratedItemArr = ItemArr & {
     checkedAttribute: string
 };
 
-const UserParentalControl: FunctionComponent = () => {
+const UserParentalControl = () => {
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
-    const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
+    const [ unratedItems, setUnratedItems ] = useState<UnratedItemArr[]>([]);
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
-    const [ blockedTags, setBlockedTags ] = useState([]);
+    const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
 
-    const populateRatings = useCallback((allParentalRatings) => {
+    const populateRatings = useCallback((allParentalRatings: ParentalRating[]) => {
         let rating;
         const ratings: ParentalRating[] = [];
 
@@ -57,7 +61,7 @@ const UserParentalControl: FunctionComponent = () => {
         setParentalRatings(ratings);
     }, []);
 
-    const loadUnratedItems = useCallback((user) => {
+    const loadUnratedItems = useCallback((user: UserDto) => {
         const page = element.current;
 
         if (!page) {
@@ -65,33 +69,33 @@ const UserParentalControl: FunctionComponent = () => {
             return;
         }
 
-        const items = [{
+        const items: ItemArr[] = [{
             name: globalize.translate('Books'),
-            value: 'Book'
+            value: UnratedItem.Book
         }, {
             name: globalize.translate('Channels'),
-            value: 'ChannelContent'
+            value: UnratedItem.ChannelContent
         }, {
             name: globalize.translate('LiveTV'),
-            value: 'LiveTvChannel'
+            value: UnratedItem.LiveTvChannel
         }, {
             name: globalize.translate('Movies'),
-            value: 'Movie'
+            value: UnratedItem.Movie
         }, {
             name: globalize.translate('Music'),
-            value: 'Music'
+            value: UnratedItem.Music
         }, {
             name: globalize.translate('Trailers'),
-            value: 'Trailer'
+            value: UnratedItem.Trailer
         }, {
             name: globalize.translate('Shows'),
-            value: 'Series'
+            value: UnratedItem.Series
         }];
 
-        const itemsArr: UnratedItem[] = [];
+        const itemsArr: UnratedItemArr[] = [];
 
         for (const item of items) {
-            const isChecked = user.Policy.BlockUnratedItems.indexOf(item.value) != -1;
+            const isChecked = user.Policy?.BlockUnratedItems?.indexOf(item.value) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 value: item.value,
@@ -106,7 +110,7 @@ const UserParentalControl: FunctionComponent = () => {
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
     }, []);
 
-    const loadBlockedTags = useCallback((tags) => {
+    const loadBlockedTags = useCallback((tags: string[]) => {
         const page = element.current;
 
         if (!page) {
@@ -121,7 +125,7 @@ const UserParentalControl: FunctionComponent = () => {
         for (const btnDeleteTag of blockedTagsElem.querySelectorAll('.btnDeleteTag')) {
             btnDeleteTag.addEventListener('click', function () {
                 const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(function (t: string) {
+                const newTags = tags.filter(function (t) {
                     return t != tag;
                 });
                 loadBlockedTags(newTags);
@@ -129,7 +133,7 @@ const UserParentalControl: FunctionComponent = () => {
         }
     }, []);
 
-    const renderAccessSchedule = useCallback((schedules) => {
+    const renderAccessSchedule = useCallback((schedules: AccessSchedule[]) => {
         const page = element.current;
 
         if (!page) {
@@ -144,8 +148,8 @@ const UserParentalControl: FunctionComponent = () => {
         for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
             btnDelete.addEventListener('click', function () {
                 const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
-                schedules.splice(index, 1);
-                const newindex = schedules.filter(function (i: number) {
+                schedules?.splice(index, 1);
+                const newindex = schedules?.filter(function (i) {
                     return i != index;
                 });
                 renderAccessSchedule(newindex);
@@ -153,7 +157,7 @@ const UserParentalControl: FunctionComponent = () => {
         }
     }, []);
 
-    const loadUser = useCallback((user, allParentalRatings) => {
+    const loadUser = useCallback((user: UserDto, allParentalRatings: ParentalRating[]) => {
         const page = element.current;
 
         if (!page) {
@@ -161,32 +165,32 @@ const UserParentalControl: FunctionComponent = () => {
             return;
         }
 
-        setUserName(user.Name);
+        setUserName(user.Name || '');
         LibraryMenu.setTitle(user.Name);
         loadUnratedItems(user);
 
-        loadBlockedTags(user.Policy.BlockedTags);
+        loadBlockedTags(user.Policy?.BlockedTags || []);
         populateRatings(allParentalRatings);
-        let ratingValue = '';
+        let ratingValue;
 
-        if (user.Policy.MaxParentalRating != null) {
+        if (user.Policy?.MaxParentalRating != null) {
             for (let i = 0, length = allParentalRatings.length; i < length; i++) {
                 const rating = allParentalRatings[i];
 
-                if (user.Policy.MaxParentalRating >= rating.Value) {
+                if (rating?.Value && user.Policy.MaxParentalRating >= rating.Value) {
                     ratingValue = rating.Value;
                 }
             }
         }
 
-        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
+        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = String(ratingValue);
 
-        if (user.Policy.IsAdministrator) {
+        if (user.Policy?.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
         } else {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
-        renderAccessSchedule(user.Policy.AccessSchedules || []);
+        renderAccessSchedule(user.Policy?.AccessSchedules || []);
         loading.hide();
     }, [loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
 

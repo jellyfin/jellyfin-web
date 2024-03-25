@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import globalize from '../../../scripts/globalize';
 
-type IProps = {
+interface SectionTabsProps {
     activeTab: string;
-};
+}
 
 const createLinkElement = (activeTab: string) => ({
     __html: `<a href="#"
@@ -36,7 +36,7 @@ const createLinkElement = (activeTab: string) => ({
     </a>`
 });
 
-const SectionTabs: FunctionComponent<IProps> = ({ activeTab }: IProps) => {
+const SectionTabs: FC<SectionTabsProps> = ({ activeTab }) => {
     return (
         <div
             data-role='controlgroup'

@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
-type IProps = {
+interface BlockedTagListProps {
     tag?: string;
-};
+}
 
-const BlockedTagList: FunctionComponent<IProps> = ({ tag }: IProps) => {
+const BlockedTagList: FC<BlockedTagListProps> = ({ tag }) => {
     return (
         <div className='paperList'>
             <div className='listItem'>

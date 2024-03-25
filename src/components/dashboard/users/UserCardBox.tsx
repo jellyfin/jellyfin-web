@@ -1,5 +1,5 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../scripts/globalize';
@@ -17,9 +17,9 @@ const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl
     </a>`
 });
 
-type IProps = {
+interface UserCardBoxProps {
     user?: UserDto;
-};
+}
 
 const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
@@ -29,7 +29,7 @@ const getLastSeenText = (lastActivityDate?: string | null) => {
     return '';
 };
 
-const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
+const UserCardBox: FC<UserCardBoxProps> = ({ user = {} }) => {
     let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
     if (user.Policy?.IsDisabled) {

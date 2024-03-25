@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ConnectResponse } from 'jellyfin-apiclient';
 
@@ -26,7 +26,7 @@ type ConnectionRequiredProps = {
  * Additional parameters exist to verify a user or admin have authenticated.
  * If a condition fails, this component will navigate to the appropriate page.
  */
-const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
+const ConnectionRequired: FC<ConnectionRequiredProps> = ({
     isAdminRequired = false,
     isUserRequired = true
 }) => {

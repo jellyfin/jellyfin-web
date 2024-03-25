@@ -1,11 +1,11 @@
-import React, { type FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 import Typography from '@mui/material/Typography';
 
 interface ListGroupHeaderWrapperProps {
     index?: number;
 }
 
-const ListGroupHeaderWrapper: FC<ListGroupHeaderWrapperProps> = ({
+const ListGroupHeaderWrapper: FC<PropsWithChildren<ListGroupHeaderWrapperProps>> = ({
     index,
     children
 }) => {

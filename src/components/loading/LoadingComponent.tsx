@@ -1,8 +1,8 @@
-import { FunctionComponent, useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 
 import loading from './loading';
 
-const Loading: FunctionComponent = () => {
+const Loading: FC = () => {
     useEffect(() => {
         loading.show();
 

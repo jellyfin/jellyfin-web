@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FC } from 'react';
 import globalize from '../scripts/globalize';
 
-type IProps = {
+interface IconButtonElementProps {
     is?: string;
     id?: string;
     title?: string;
@@ -10,9 +10,9 @@ type IProps = {
     dataIndex?: string | number;
     dataTag?: string | number;
     dataProfileid?: string | number;
-};
+}
 
-const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => ({
+const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IconButtonElementProps) => ({
     __html: `<button
         is="${is}"
         type="button"
@@ -27,7 +27,7 @@ const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, da
     </button>`
 });
 
-const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => {
+const IconButtonElement: FC<IconButtonElementProps> = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }) => {
     return (
         <div
             dangerouslySetInnerHTML={createIconButtonElement({

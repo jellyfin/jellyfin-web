@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
+import React, { type FC, type AnchorHTMLAttributes, type DetailedHTMLProps, type MouseEvent, useCallback } from 'react';
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';
@@ -15,7 +15,7 @@ interface LinkButtonProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnc
   target?: string;
 }
 
-const LinkButton: React.FC<LinkButtonProps> = ({
+const LinkButton: FC<LinkButtonProps> = ({
     className,
     isAutoHideEnabled,
     href,

@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 import layoutManager from 'components/layoutManager';
 import type { DataAttributes } from 'types/dataAttributes';
 
@@ -7,7 +7,7 @@ interface CardWrapperProps {
     dataAttributes: DataAttributes;
 }
 
-const CardWrapper: FC<CardWrapperProps> = ({
+const CardWrapper: FC<PropsWithChildren<CardWrapperProps>> = ({
     className,
     dataAttributes,
     children
