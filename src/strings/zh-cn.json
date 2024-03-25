@@ -1671,7 +1671,7 @@
     "LabelVppTonemappingContrast": "VPP 色调映射对比度增益",
     "LabelVppTonemappingBrightnessHelp": "在 VPP 色调映射中应用亮度增益。推荐值和默认值为 16 和 0。",
     "ScreenResolution": "屏幕分辨率",
-    "LabelMaxVideoResolution": "允许的最大视频转码分辨率",
+    "LabelMaxVideoResolution": "允许的最高视频转码分辨率",
     "RememberSubtitleSelectionsHelp": "尝试将字幕轨道设置为与最后一个视频最接近的匹配。",
     "RememberSubtitleSelections": "根据上一项设置字幕轨道",
     "RememberAudioSelectionsHelp": "尝试将音轨设置为最接近最后一个视频的匹配。",
@@ -1849,5 +1849,7 @@
     "PlaybackError.SERVER_ERROR": "由于服务器错误，播放失败。",
     "PlaybackError.NotAllowed": "该媒体被禁止播放。",
     "LabelAllowContentWithTags": "允许带有标签的项目",
-    "EnableSmoothScroll": "启用平滑滚动"
+    "EnableSmoothScroll": "启用平滑滚动",
+    "LimitSupportedVideoResolutionHelp": "使用“允许的最高视频转码分辨率”作为支持的最高视频分辨率。",
+    "LimitSupportedVideoResolution": "限制支持的最高视频分辨率"
 }
