@@ -119,6 +119,19 @@ class AppSettings {
         return parseInt(this.get('maxVideoWidth') || '0', 10) || 0;
     }
 
+    /**
+     * Get or set 'Limit maximum supported video resolution' state.
+     * @param {boolean|undefined} val - Flag to enable 'Limit maximum supported video resolution' or undefined.
+     * @return {boolean} 'Limit maximum supported video resolution' state.
+     */
+    limitSupportedVideoResolution(val) {
+        if (val !== undefined) {
+            return this.set('limitSupportedVideoResolution', val.toString());
+        }
+
+        return toBoolean(this.get('limitSupportedVideoResolution'), false);
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         localStorage.setItem(this.#getKey(name, userId), value);
