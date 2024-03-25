@@ -1835,5 +1835,6 @@
     "LabelQscale": "Qscale",
     "LabelQscaleHelp": "De kwaliteitsschaal van afbeeldingen die door FFmpeg worden geproduceerd, waarbij 2 de hoogste en 31 de laagste kwaliteit is.",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Genereer trickplay-afbeeldingen wanneer video's worden geïmporteerd tijdens de bibliotheekscan. Anders zullen ze worden uitgepakt tijdens de geplande taak voor trickplay-afbeeldingen. Als de generatie op niet-blokkerend wordt ingesteld heeft deze optie geen negatieve invloed op de duur van de bibliotheekscan.",
-    "ExtractTrickplayImagesHelp": "Trickplay-afbeeldingen lijken op hoofdstukafbeeldingen, maar beslaan de gehele lengte van de inhoud en geven een voorvertoning bij het spoelen door video's."
+    "ExtractTrickplayImagesHelp": "Trickplay-afbeeldingen lijken op hoofdstukafbeeldingen, maar beslaan de gehele lengte van de inhoud en geven een voorvertoning bij het spoelen door video's.",
+    "Lyric": "Songtekst"
 }
