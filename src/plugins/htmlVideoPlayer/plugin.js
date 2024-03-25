@@ -37,6 +37,7 @@ import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
+import { MediaError } from 'types/mediaError';
 
 /**
  * Returns resolved URL.
@@ -520,7 +521,7 @@ export class HtmlVideoPlayer {
 
         if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
-        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
+        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
         } else {
             elem.autoplay = true;
@@ -1021,7 +1022,7 @@ export class HtmlVideoPlayer {
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
             if (!mediaSource || mediaSource.RunTimeTicks) {
-                onErrorInternal(this, 'mediadecodeerror');
+                onErrorInternal(this, MediaError.NO_MEDIA_ERROR);
             }
         }
     }
@@ -1073,7 +1074,7 @@ export class HtmlVideoPlayer {
                 return;
             case 2:
                 // MEDIA_ERR_NETWORK
-                type = 'network';
+                type = MediaError.NETWORK_ERROR;
                 break;
             case 3:
                 // MEDIA_ERR_DECODE
@@ -1081,12 +1082,12 @@ export class HtmlVideoPlayer {
                     handleHlsJsMediaError(this);
                     return;
                 } else {
-                    type = 'mediadecodeerror';
+                    type = MediaError.MEDIA_DECODE_ERROR;
                 }
                 break;
             case 4:
                 // MEDIA_ERR_SRC_NOT_SUPPORTED
-                type = 'medianotsupported';
+                type = MediaError.MEDIA_NOT_SUPPORTED;
                 break;
             default:
                 // seeing cases where Edge is firing error events with no error code
@@ -1276,7 +1277,7 @@ export class HtmlVideoPlayer {
 
                     // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
                     setTimeout(() => {
-                        onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                        onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
