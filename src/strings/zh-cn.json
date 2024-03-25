@@ -1649,7 +1649,7 @@
     "OriginalAirDate": "初始播出日期",
     "Digital": "数字",
     "MessageUnauthorizedUser": "您目前无权访问服务器。请联系您的服务器管理员以获取更多信息。",
-    "EnableEnhancedNvdecDecoderHelp": "实验性的 NVDEC 实现，除非你遇到了解码错误，否则不要启用此选项。",
+    "EnableEnhancedNvdecDecoderHelp": "增强的 NVDEC 实现，如果遇到解码错误，请禁用此选项以使用 CUVID。",
     "HomeVideosPhotos": "家庭视频和照片",
     "Bold": "粗体",
     "LabelTextWeight": "文字粗细",
