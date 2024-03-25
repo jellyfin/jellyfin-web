@@ -2,10 +2,11 @@ import React, { FunctionComponent } from 'react';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
 type IProps = {
-    tag?: string;
+    tag?: string,
+    tagType?: string;
 };
 
-const BlockedTagList: FunctionComponent<IProps> = ({ tag }: IProps) => {
+const TagList: FunctionComponent<IProps> = ({ tag, tagType }: IProps) => {
     return (
         <div className='paperList'>
             <div className='listItem'>
@@ -16,7 +17,7 @@ const BlockedTagList: FunctionComponent<IProps> = ({ tag }: IProps) => {
                 </div>
                 <IconButtonElement
                     is='paper-icon-button-light'
-                    className='blockedTag btnDeleteTag listItemButton'
+                    className={`${tagType} btnDeleteTag listItemButton`}
                     title='Delete'
                     icon='delete'
                     dataTag={tag}
@@ -26,4 +27,4 @@ const BlockedTagList: FunctionComponent<IProps> = ({ tag }: IProps) => {
     );
 };
 
-export default BlockedTagList;
+export default TagList;
