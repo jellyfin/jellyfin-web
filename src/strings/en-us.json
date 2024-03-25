@@ -1618,7 +1618,7 @@
     "Select": "Select",
     "ThemeSong": "Theme Song",
     "ThemeVideo": "Theme Video",
-    "EnableEnhancedNvdecDecoderHelp": "Experimental NVDEC implementation, do not enable this option unless you encounter decoding errors.",
+    "EnableEnhancedNvdecDecoderHelp": "Enhanced NVDEC implementation, disable this option to use CUVID if you encounter decoding errors.",
     "EnableSplashScreen": "Enable the splash screen",
     "LabelVppTonemappingBrightness": "VPP Tone mapping brightness gain",
     "LabelVppTonemappingBrightnessHelp": "Apply brightness gain in VPP tone mapping. The recommended and default values are 16 and 0.",
