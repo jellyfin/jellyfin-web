@@ -1778,5 +1778,11 @@
     "LabelBuildVersion": "Yapı sürümü",
     "LabelServerVersion": "Sunucu sürümü",
     "LabelWebVersion": "Web sürümü",
-    "ButtonEditUser": "Kullanıcıyı düzenle"
+    "ButtonEditUser": "Kullanıcıyı düzenle",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "DlnaMovedMessage": "DLNA işlevi bir eklentiye taşınmıştır.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }

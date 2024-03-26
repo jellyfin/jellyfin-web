@@ -13,6 +13,7 @@ import { LibraryTab } from 'types/libraryTab';
 import { getBackdropShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-button/emby-button';
@@ -332,7 +333,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
+            Dashboard.navigate(`search.html?collectionType=${CollectionType.Tvshows}&parentId=${params.topParentId}`);
         }
     }
 

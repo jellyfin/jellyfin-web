@@ -4,9 +4,29 @@ import { appRouter } from '../components/router/appRouter';
 import globalize from './globalize';
 import ServerConnections from '../components/ServerConnections';
 import alert from '../components/alert';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 
 function alertText(options) {
     return alert(options);
+}
+
+function getDeletionConfirmContent(item) {
+    if (item.Type === BaseItemKind.Series) {
+        const totalEpisodes = item.RecursiveItemCount;
+        return {
+            title: globalize.translate('HeaderDeleteSeries'),
+            text: globalize.translate('ConfirmDeleteSeries', totalEpisodes),
+            confirmText: globalize.translate('DeleteEntireSeries', totalEpisodes),
+            primary: 'delete'
+        };
+    }
+
+    return {
+        title: globalize.translate('HeaderDeleteItem'),
+        text: globalize.translate('ConfirmDeleteItem'),
+        confirmText: globalize.translate('Delete'),
+        primary: 'delete'
+    };
 }
 
 export function deleteItem(options) {
@@ -15,14 +35,7 @@ export function deleteItem(options) {
 
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    return confirm({
-
-        title: globalize.translate('HeaderDeleteItem'),
-        text: globalize.translate('ConfirmDeleteItem'),
-        confirmText: globalize.translate('Delete'),
-        primary: 'delete'
-
-    }).then(function () {
+    return confirm(getDeletionConfirmContent(item)).then(function () {
         return apiClient.deleteItem(item.Id).then(function () {
             if (options.navigate) {
                 if (parentId) {

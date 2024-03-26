@@ -1,11 +1,11 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { FC } from 'react';
 import { useGetGenres } from 'hooks/useFetchItems';
 import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import GenresSectionContainer from './GenresSectionContainer';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { ParentId } from 'types/library';
+import type { ParentId } from 'types/library';
 
 interface GenresItemsContainerProps {
     parentId: ParentId;
