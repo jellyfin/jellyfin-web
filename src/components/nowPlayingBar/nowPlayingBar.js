@@ -479,7 +479,7 @@ function setLyricButtonActiveStatus() {
     if (!isEnabled) {
         return;
     }
-    lyricPageActive ? lyricButton.classList.add('buttonActive') : lyricButton.classList.remove('buttonActive');
+    lyricButton.classList.toggle('buttonActive', lyricPageActive);
 }
 
 function seriesImageUrl(item, options) {
