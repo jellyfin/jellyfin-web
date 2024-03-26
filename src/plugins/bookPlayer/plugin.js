@@ -61,12 +61,6 @@ export class BookPlayer {
     stop() {
         this.unbindEvents();
 
-        const stopInfo = {
-            src: this.item
-        };
-
-        Events.trigger(this, 'stopped', [stopInfo]);
-
         const elem = this.mediaElement;
         const tocElement = this.tocElement;
         const rendition = this.rendition;
