@@ -1,3 +1,5 @@
+import escapeHtml from 'escape-html';
+
 import { appRouter } from '../components/router/appRouter';
 import { playbackManager } from '../components/playback/playbackmanager';
 import ServerConnections from '../components/ServerConnections';
@@ -15,12 +17,12 @@ let savedLyrics;
 let isDynamicLyric = false;
 
 function dynamicLyricHtmlReducer(htmlAccumulator, lyric, index) {
-    htmlAccumulator += `<div class="lyrics dynamicLyric" id="lyricPosition${index}" data-lyrictime="${lyric.Start}">${lyric.Text}</div>`;
+    htmlAccumulator += `<div class="lyrics dynamicLyric" id="lyricPosition${index}" data-lyrictime="${lyric.Start}">${escapeHtml(lyric.Text)}</div>`;
     return htmlAccumulator;
 }
 
 function staticLyricHtmlReducer(htmlAccumulator, lyric, index) {
-    htmlAccumulator += `<div class="lyrics" id="lyricPosition${index}">${lyric.Text}</div>`;
+    htmlAccumulator += `<div class="lyrics" id="lyricPosition${index}">${escapeHtml(lyric.Text)}</div>`;
     return htmlAccumulator;
 }
 

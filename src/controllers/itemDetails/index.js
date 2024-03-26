@@ -1,7 +1,7 @@
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
-import markdownIt from 'markdown-it';
 import escapeHtml from 'escape-html';
+import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
 import { appHost } from 'components/apphost';
@@ -1093,7 +1093,7 @@ function renderLyricsContainer(view, item, apiClient) {
             const itemsContainer = lyricContainer.querySelector('.itemsContainer');
             if (itemsContainer) {
                 const html = response.Lyrics.reduce((htmlAccumulator, lyric) => {
-                    htmlAccumulator += lyric.Text + '<br/>';
+                    htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
                     return htmlAccumulator;
                 }, '');
                 itemsContainer.innerHTML = html;
