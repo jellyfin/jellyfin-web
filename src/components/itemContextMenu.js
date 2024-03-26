@@ -185,7 +185,6 @@ export function getCommands(options) {
         });
 
         if (item.Type === 'Audio' && item.HasLyrics && window.location.href.includes(item.Id)) {
-            console.log('affirmative');
             commands.push({
                 name: globalize.translate('DeleteLyrics'),
                 id: 'deleteLyrics',
