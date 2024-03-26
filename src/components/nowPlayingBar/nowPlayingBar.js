@@ -625,7 +625,7 @@ function onPlaybackStart(e, state) {
     console.debug('nowplaying event: ' + e.type);
     const player = this;
 
-    state.NowPlayingItem.Type === 'Audio' ? isAudio = true : isAudio = false;
+    isAudio = state.NowPlayingItem.Type === 'Audio';
 
     onStateChanged.call(player, e, state);
 }
@@ -787,7 +787,7 @@ function refreshFromPlayer(player, type) {
 }
 
 function bindToPlayer(player) {
-    appRouter.currentRouteInfo.path === '/Lyrics' ? lyricPageActive = true : lyricPageActive = false;
+    lyricPageActive = appRouter.currentRouteInfo.path === '/Lyrics';
     if (player === currentPlayer) {
         return;
     }
@@ -820,7 +820,7 @@ Events.on(playbackManager, 'playerchange', function () {
 bindToPlayer(playbackManager.getCurrentPlayer());
 
 document.addEventListener('viewbeforeshow', function (e) {
-    appRouter.currentRouteInfo.path === '/Lyrics' ? lyricPageActive = true : lyricPageActive = false;
+    lyricPageActive = appRouter.currentRouteInfo.path === '/Lyrics';
     setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {
         if (isVisibilityAllowed) {
