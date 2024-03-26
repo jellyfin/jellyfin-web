@@ -7,6 +7,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
+import globalize from 'scripts/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
@@ -85,7 +86,7 @@ function getNowPlayingBarHtml() {
 
     html += '<button is="paper-icon-button-light" class="btnAirPlay mediaButton"><span class="material-icons airplay" aria-hidden="true"></span></button>';
 
-    html += '<button is="paper-icon-button-light" class="openLyricsButton mediaButton"><span class="material-icons mic_external_on" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton" title="${globalize.translate('Lyrics')}"><span class="material-icons mic_external_on" aria-hidden="true"></span></button>`;
 
     html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle" aria-hidden="true"></span></button>';
