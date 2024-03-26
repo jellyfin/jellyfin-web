@@ -7,6 +7,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
+import globalize from 'scripts/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
@@ -59,13 +60,13 @@ function getNowPlayingBarHtml() {
     // The onclicks are needed due to the return false above
     html += '<div class="nowPlayingBarCenter" dir="ltr">';
 
-    html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="previousTrackButton mediaButton" title="${globalize.translate('ButtonPreviousTrack')}"><span class="material-icons skip_previous" aria-hidden="true"></span></button>`;
 
-    html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
 
-    html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="stopButton mediaButton" title="${globalize.translate('ButtonStop')}"><span class="material-icons stop" aria-hidden="true"></span></button>`;
     if (!layoutManager.mobile) {
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next" aria-hidden="true"></span></button>';
+        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
     }
 
     html += '<div class="nowPlayingBarCurrentTime"></div>';
@@ -73,25 +74,25 @@ function getNowPlayingBarHtml() {
 
     html += '<div class="nowPlayingBarRight">';
 
-    html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="muteButton mediaButton" title="${globalize.translate('Mute')}"><span class="material-icons volume_up" aria-hidden="true"></span></button>`;
 
     html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
     html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
     html += '</div>';
 
-    html += '<button is="paper-icon-button-light" class="btnAirPlay mediaButton"><span class="material-icons airplay" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="btnAirPlay mediaButton" title="${globalize.translate('AirPlay')}"><span class="material-icons airplay" aria-hidden="true"></span></button>`;
 
-    html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat" aria-hidden="true"></span></button>';
-    html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
+    html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
 
     html += '<div class="nowPlayingBarUserDataButtons">';
     html += '</div>';
 
-    html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
     if (layoutManager.mobile) {
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next" aria-hidden="true"></span></button>';
+        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
     } else {
-        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
+        html += `<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
     }
 
     html += '</div>';
@@ -317,6 +318,7 @@ function updatePlayPauseState(isPaused) {
             const icon = button.querySelector('.material-icons');
             icon.classList.remove('play_arrow', 'pause');
             icon.classList.add(isPaused ? 'play_arrow' : 'pause');
+            button.title = globalize.translate(isPaused ? 'Play' : 'ButtonPause');
         });
     }
 }
@@ -424,6 +426,7 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
     const muteButtonIcon = muteButton.querySelector('.material-icons');
     muteButtonIcon.classList.remove('volume_off', 'volume_up');
     muteButtonIcon.classList.add(isMuted ? 'volume_off' : 'volume_up');
+    muteButton.title = globalize.translate(isMuted ? 'Unmute' : 'Mute');
 
     if (supportedCommands.indexOf('SetVolume') === -1) {
         showVolumeSlider = false;
