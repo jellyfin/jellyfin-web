@@ -1646,7 +1646,7 @@
     "ButtonClose": "Закрити",
     "ButtonBackspace": "Стерти",
     "AddToFavorites": "Додати до обраного",
-    "EnableEnhancedNvdecDecoderHelp": "Експериментальна реалізація NVDEC, не вмикайте цю опцію, якщо ви не зіткнетеся з помилками декодування.",
+    "EnableEnhancedNvdecDecoderHelp": "Покращена реалізація NVDEC, вимкніть цю опцію, щоб використовувати CUVID, якщо виникають помилки декодування.",
     "Bold": "Жирний",
     "LabelTextWeight": "Висота тексту",
     "HomeVideosPhotos": "Домашні відео та фото",
@@ -1846,5 +1846,9 @@
     "PlaybackError.NO_MEDIA_ERROR": "Не вдається знайти правильне джерело медіа для відтворення.",
     "EnableSmoothScroll": "Увімкнути плавну прокрутку",
     "Lyric": "Текст",
-    "PlaybackError.SERVER_ERROR": "Відтворення не вдалося через помилку сервера."
+    "PlaybackError.SERVER_ERROR": "Відтворення не вдалося через помилку сервера.",
+    "LimitSupportedVideoResolution": "Обмеження максимальної роздільної здатності відео",
+    "LimitSupportedVideoResolutionHelp": "Використовувати \"Максимально дозволену роздільну здатність кодування відео\" як максимально підтримувану роздільну здатність відео.",
+    "AllowContentWithTagsHelp": "Показувати лише медіа з принаймні одним із зазначених тегів.",
+    "BlockContentWithTagsHelp": "Приховати медіа з принаймні одним із зазначених тегів."
 }
