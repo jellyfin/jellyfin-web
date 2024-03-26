@@ -661,12 +661,8 @@ function deleteItem(apiClient, item) {
 }
 
 function deleteLyrics(apiClient, item) {
-    return new Promise(function (resolve, reject) {
-        import('../scripts/deleteHelper').then((deleteHelper) => {
-            deleteHelper.deleteLyrics(item).then(function () {
-                resolve(true);
-            }, reject);
-        });
+    return import('../scripts/deleteHelper').then((deleteHelper) => {
+        return deleteHelper.deleteLyrics(item);
     });
 }
 
