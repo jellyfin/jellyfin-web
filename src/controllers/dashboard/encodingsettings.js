@@ -221,8 +221,10 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         if (this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.fldIntelLp').classList.remove('hide');
+            page.querySelector('.allowMjpegEncodingOption').classList.remove('hide');
         } else {
             page.querySelector('.fldIntelLp').classList.add('hide');
+            page.querySelector('.allowMjpegEncodingOption').classList.add('hide');
         }
 
         if (this.value === 'videotoolbox') {
