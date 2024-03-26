@@ -650,7 +650,10 @@ function editItem(apiClient, item) {
 function deleteItem(apiClient, item) {
     return new Promise(function (resolve, reject) {
         import('../scripts/deleteHelper').then((deleteHelper) => {
-            deleteHelper.deleteItem(item).then(function () {
+            deleteHelper.deleteItem({
+                item: item,
+                navigate: false
+            }).then(function () {
                 resolve(true);
             }, reject);
         });
