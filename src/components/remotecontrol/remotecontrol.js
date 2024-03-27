@@ -323,7 +323,7 @@ export default function () {
             context.querySelector('.remoteControlSection').classList.add('hide');
         }
 
-        buttonVisible(context.querySelector('.btnLyrics'), item.Type === 'Audio');
+        buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio');
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
