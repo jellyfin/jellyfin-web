@@ -151,6 +151,7 @@ export default function (view) {
         Events.on(player, 'timeupdate', onTimeUpdate);
         Events.on(player, 'seek', onSeek);
         Events.on(player, 'playbackstart', onPlaybackStart);
+        Events.on(player, 'playbackstop', onPlaybackstop);
     }
 
     function releaseCurrentPlayer() {
@@ -160,6 +161,7 @@ export default function (view) {
             Events.off(player, 'timeupdate', onTimeUpdate);
             Events.off(player, 'seek', onSeek);
             Events.off(player, 'playbackstart', onPlaybackStart);
+            Events.off(player, 'playbackstop', onPlaybackstop);
             currentPlayer = null;
         }
     }
@@ -189,6 +191,10 @@ export default function (view) {
         if (currentItem.Id !== state.NowPlayingItem.Id) {
             onLoad();
         }
+    }
+
+    function onPlaybackstop () {
+        appRouter.back();
     }
 
     function onPlayerChange() {
