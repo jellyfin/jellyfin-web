@@ -333,6 +333,7 @@ export default function () {
             const playingAudioBook = playingAudio && item.Type == 'AudioBook';
             buttonVisible(context.querySelector('.btnRepeat'), playingAudio && !playingAudioBook);
             buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio && !playingAudioBook);
+            buttonVisible(context.querySelector('.btnLyrics'), false);
             buttonVisible(context.querySelector('.btnRewind'), playingVideo || playingAudioBook);
             buttonVisible(context.querySelector('.btnFastForward'), playingVideo || playingAudioBook);
             buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnShuffleQueue'), playingVideo);
