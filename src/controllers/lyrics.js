@@ -27,7 +27,7 @@ function staticLyricHtmlReducer(htmlAccumulator, lyric, index) {
 }
 
 function getLyricIndex(time, lyrics) {
-    return lyrics.findIndex(lyric => lyric.Start > time) - 1;
+    return lyrics.findLastIndex(lyric => lyric.Start <= time);
 }
 
 function getCurrentPlayTime() {
