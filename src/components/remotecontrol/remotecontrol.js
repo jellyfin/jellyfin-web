@@ -324,7 +324,7 @@ export default function () {
             context.querySelector('.remoteControlSection').classList.add('hide');
         }
 
-        buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio');
+        buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio' && !layoutManager.mobile);
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
@@ -334,7 +334,6 @@ export default function () {
             const playingAudioBook = playingAudio && item.Type == 'AudioBook';
             buttonVisible(context.querySelector('.btnRepeat'), playingAudio && !playingAudioBook);
             buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio && !playingAudioBook);
-            buttonVisible(context.querySelector('.btnLyrics'), false);
             buttonVisible(context.querySelector('.btnRewind'), playingVideo || playingAudioBook);
             buttonVisible(context.querySelector('.btnFastForward'), playingVideo || playingAudioBook);
             buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnShuffleQueue'), playingVideo);
