@@ -4,8 +4,8 @@ import { appRouter } from '../components/router/appRouter';
 import { playbackManager } from '../components/playback/playbackmanager';
 import ServerConnections from '../components/ServerConnections';
 
-import LibraryMenu from '../scripts/libraryMenu';
 import globalize from '../scripts/globalize';
+import LibraryMenu from '../scripts/libraryMenu';
 import Events from '../utils/events.ts';
 
 import '../styles/lyrics.scss';
@@ -80,7 +80,7 @@ export default function (view) {
     function renderNoLyricMessage() {
         const itemsContainer = view.querySelector('.dynamicLyricsContainer');
         if (itemsContainer) {
-            const html = '<h1> No lyrics found </h1>';
+            const html = `<h1> ${globalize.translate('HeaderNoLyrics')} </h1>`;
             itemsContainer.innerHTML = html;
         }
     }
