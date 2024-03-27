@@ -222,7 +222,8 @@ function updateNowPlayingInfo(context, state, serverId) {
                 contextButton.addEventListener('click', function () {
                     itemContextMenu.show(Object.assign({
                         item: fullItem,
-                        user: user
+                        user: user,
+                        isMobile: layoutManager.mobile
                     }, options))
                         .catch(() => { /* no-op */ });
                 });

@@ -530,7 +530,11 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'lyrics': {
-                appRouter.showItem(item.Id, item.ServerId);
+                if (options.isMobile) {
+                    appRouter.show('Lyrics');
+                } else {
+                    appRouter.showItem(item.Id, item.ServerId);
+                }
                 getResolveFunction(resolve, id)();
                 break;
             }
