@@ -1,3 +1,4 @@
+import layoutManager from 'components/layoutManager';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../scripts/globalize';
 import appSettings from '../../../scripts/settings/appSettings';
@@ -6,6 +7,7 @@ import Events from '../../../utils/events.ts';
 export default function (view) {
     function submit(e) {
         appSettings.enableGamepad(view.querySelector('.chkEnableGamepad').checked);
+        appSettings.enableSmoothScroll(view.querySelector('.chkSmoothScroll').checked);
 
         toast(globalize.translate('SettingsSaved'));
 
@@ -17,7 +19,11 @@ export default function (view) {
     }
 
     view.addEventListener('viewshow', function () {
+        view.querySelector('.smoothScrollContainer').classList.toggle('hide', !layoutManager.tv);
+
         view.querySelector('.chkEnableGamepad').checked = appSettings.enableGamepad();
+        view.querySelector('.chkSmoothScroll').checked = appSettings.enableSmoothScroll();
+
         view.querySelector('form').addEventListener('submit', submit);
         view.querySelector('.btnSave').classList.remove('hide');
 

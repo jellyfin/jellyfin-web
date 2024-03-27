@@ -1808,5 +1808,13 @@
     "DeleteSeries": "Eliminar Series",
     "DeleteEpisode": "Eliminar Episodio",
     "HeaderDeleteSeries": "Eliminar Series",
-    "LabelTrickplayAccelHelp": "Asegúrate de habilitar ‘Permitir codificación MJPEG’ en Transcodificación si tu hardware lo soporta."
+    "LabelTrickplayAccelHelp": "Asegúrate de habilitar ‘Permitir codificación MJPEG’ en Transcodificación si tu hardware lo soporta.",
+    "AllowContentWithTagsHelp": "Mostrar sólo contenidos con al menos una de las etiquetas especificadas.",
+    "BlockContentWithTagsHelp": "Ocultar contenidos con al menos una de las etiquetas especificadas.",
+    "PlaybackError.ASS_RENDER_ERROR": "Se ha producido un error en el renderizador de subtítulos ASS/SSA.",
+    "PlaybackError.MEDIA_DECODE_ERROR": "Reproducción fallida debido a un error en la decodificación del contenido.",
+    "EnableSmoothScroll": "Activar desplazamiento suave",
+    "Lyric": "Letra",
+    "LimitSupportedVideoResolution": "Limitar resolución de video máxima soportada",
+    "LimitSupportedVideoResolutionHelp": "Utilice \"Resolución de transcodificación de vídeo máxima permitida\" como resolución de vídeo máxima admitida."
 }
