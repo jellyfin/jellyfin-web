@@ -1853,5 +1853,6 @@
     "LimitSupportedVideoResolutionHelp": "Jako maksymalną obsługiwaną rozdzielczość wideo użyj opcji „Maksymalna dozwolona rozdzielczość transkodowania wideo”.",
     "LimitSupportedVideoResolution": "Ogranicz maksymalną obsługiwaną rozdzielczość wideo",
     "AllowContentWithTagsHelp": "Wyświetlaj tylko multimedia z co najmniej jednym z określonych tagów.",
-    "BlockContentWithTagsHelp": "Ukryj multimedia z co najmniej jednym z określonych tagów."
+    "BlockContentWithTagsHelp": "Ukryj multimedia z co najmniej jednym z określonych tagów.",
+    "AirPlay": "AirPlay"
 }
