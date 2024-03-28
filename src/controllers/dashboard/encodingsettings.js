@@ -227,10 +227,8 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         if (this.value === 'videotoolbox') {
             page.querySelector('.videoToolboxTonemappingOptions').classList.remove('hide');
-            page.querySelector('.allowAv1EncodingOption').classList.add('hide');
         } else {
             page.querySelector('.videoToolboxTonemappingOptions').classList.add('hide');
-            page.querySelector('.allowAv1EncodingOption').classList.remove('hide');
         }
 
         if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {
