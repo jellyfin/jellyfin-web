@@ -61,20 +61,13 @@ function renderList(elem, apiClient, result) {
 }
 
 function reloadData(instance, elem, apiClient, startIndex, limit) {
-    if (startIndex == null) {
-        startIndex = parseInt(elem.getAttribute('data-activitystartindex') || '0', 10);
-    }
-
-    limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7', 10);
+    startIndex ||= parseInt(elem.getAttribute('data-activitystartindex') || '0', 10);
+    limit ||= parseInt(elem.getAttribute('data-activitylimit') || '7', 10);
     const minDate = new Date();
     const hasUserId = toBoolean(elem.getAttribute('data-useractivity'), true);
-
+    const daysOffset = hasUserId ? 1 : 7; // one day back if user id, otherwise one week
     // TODO: Use date-fns
-    if (hasUserId) {
-        minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
-    } else {
-        minDate.setTime(minDate.getTime() - 7 * 24 * 60 * 60 * 1000); // one week back
-    }
+    minDate.setTime(minDate.getTime() - daysOffset * 24 * 60 * 60 * 1000);
 
     ApiClient.getJSON(ApiClient.getUrl('System/ActivityLog/Entries', {
         startIndex: startIndex,
@@ -84,17 +77,8 @@ function reloadData(instance, elem, apiClient, startIndex, limit) {
     })).then(function (result) {
         elem.setAttribute('data-activitystartindex', startIndex);
         elem.setAttribute('data-activitylimit', limit);
-        if (!startIndex) {
-            const activityContainer = dom.parentWithClass(elem, 'activityContainer');
-
-            if (activityContainer) {
-                if (result.Items.length) {
-                    activityContainer.classList.remove('hide');
-                } else {
-                    activityContainer.classList.add('hide');
-                }
-            }
-        }
+        const activityContainer = dom.parentWithClass(elem, 'activityContainer');
+        activityContainer?.classList.toggle('hide', result.Items.length === 0 && startIndex === 0);
 
         instance.items = result.Items;
         renderList(elem, apiClient, result);
