@@ -385,17 +385,25 @@ function reloadUserDataButtons(page, item) {
 
 function getArtistLinksHtml(artists, serverId, context) {
     const html = [];
+    const numberOfArtists = artists.length;
 
-    for (const artist of artists) {
+    for (let i = 0; i < Math.min(numberOfArtists, 10); i++) {
+        const artist = artists[i];
         const href = appRouter.getRouteUrl(artist, {
-            context: context,
+            context,
             itemType: 'MusicArtist',
-            serverId: serverId
+            serverId
         });
         html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
     }
 
-    return html.join(' / ');
+    let fullHtml = html.join(' / ');
+
+    if (numberOfArtists > 10) {
+        fullHtml += globalize.translate('AndOtherArtists', numberOfArtists - 10);
+    }
+
+    return fullHtml;
 }
 
 /**
