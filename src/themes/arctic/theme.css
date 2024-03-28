@@ -1,0 +1,1264 @@
+:root {
+    --nord0: 46, 52, 64;
+    --nord1: 59, 66, 82;
+    --nord2: 67, 76, 94;
+    --nord3: 76, 86, 106;
+    --nord4: 216, 222, 233;
+    --nord5: 229, 233, 240;
+    --nord6: 236, 239, 244;
+    --nord7: 143, 188, 187;
+    --nord8: 136, 192, 208;
+    --nord9: 129, 161, 193;
+    --nord10: 94, 129, 172;
+    --nord11: 191, 97, 106;
+    --nord12: 208, 135, 112;
+    --nord13: 235, 203, 139;
+    --nord14: 163, 190, 140;
+    --nord15: 180, 142, 173;
+
+    --success: var(--nord14);
+    --success-text: var(--nord6);
+
+    --warning: var(--nord13);
+    --warning-text: var(--nord6);
+
+    --error: var(--nord11);
+    --error-text: var(--nord6);
+
+    --primary: var(--nord9);
+    --primary-text: var(--nord6);
+
+    --primary-light: var(--nord8);
+    --primary-text-light: var(--nord6);
+
+    --secondary: var(--nord15);
+    --secondary-text: var(--nord6);
+
+    --tertiary: var(--nord10);
+    --tertiary-text: var(--nord6);
+
+    --bg: var(--nord0);
+    --bg-light: var(--nord1);
+
+    --text: var(--nord6);
+    --text-light: var(--nord4);
+}
+
+h2,
+h3 {
+    font-weight: bold;
+}
+
+.skinHeader,
+html {
+    color: rgb(var(--text));
+}
+
+.wizardStartForm,
+.ui-corner-all,
+.ui-shadow {
+    background-color: #303030;
+}
+
+.emby-collapsible-button {
+    background: rgb(var(--bg-light));
+    border: none;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    transition: none !important;
+    border-radius: 999999px;
+}
+
+.collapseContent {
+    margin-top: 0.5rem;
+    border-radius: 2rem;
+    background-color: rgb(var(--bg-light));
+}
+
+/* #region emby-collapse-has */
+/* .emby-collapse:has(.collapseContent.hide) .emby-collapsible-button { */
+/*     border-radius: 999999px; */
+/*     transition: none !important; */
+/* } */
+
+/* .emby-collapse:has(.collapseContent.expanded) .emby-collapsible-button { */
+/*     border-top-left-radius: 2rem; */
+/*     border-top-right-radius: 2rem; */
+/*     border-bottom-left-radius: 0; */
+/*     border-bottom-right-radius: 0; */
+/* } */
+/* .emby-collapse:has(.collapseContent.expanded) .collapseContent { */
+/*     border-bottom-left-radius: 2rem; */
+/*     border-bottom-right-radius: 2rem; */
+/* } */
+/* #endregion */
+
+.formDialogHeader:not(.formDialogHeader-clear),
+.skinHeader-withBackground {
+    color: var(--text);
+    background: rgb(var(--bg-light));
+}
+
+.skinHeader {
+    width: calc(100% - 2rem);
+    margin: 0 auto;
+    border-radius: 1rem;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    top: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: transform 0.1s linear;
+}
+
+.skinHeader.headroom--unpinned {
+    transform: translateY(calc(-100% - 1rem));
+}
+
+.videoPlayerContainer ~ .skinHeader {
+    background: transparent !important;
+}
+
+.libraryPage:not(.noSecondaryNavPage) {
+    /* padding-top: 7.5em !important; */
+    padding-top: 10em !important;
+}
+
+.libraryPage .editPageSidebar {
+    top: 6.5rem;
+    height: calc(100% - 7rem);
+    border-color: rgb(var(--nord2));
+}
+
+.libraryPage .editPageInnerContent {
+    padding-top: 0;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+
+.libraryPage .editPageInnerContent > .formDialogHeader {
+    border-radius: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.libraryPage.metadataEditorPage {
+    padding-top: 6.5em !important;
+}
+
+.skinHeader.skinHeader-blurred {
+    background: rgba(var(--bg-light), 0.9);
+    backdrop-filter: blur(12px);
+}
+
+.pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
+}
+
+@media screen and (max-width: 380px) {
+    .pageTitleWithLogo {
+        display: none;
+    }
+
+    .pageTitle {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 100em) {
+    .skinHeader .headerTop {
+        padding: 0 !important;
+    }
+
+    .skinHeader .headerTabs {
+        margin-top: -2.75rem;
+    }
+
+    .skinHeader .headerTabs .emby-tabs {
+        padding: 0 !important;
+    }
+}
+
+html {
+    color-scheme: dark;
+    background: rgb(var(--bg));
+    font-family: Nunito, Noto Sans, Noto Sans HK, Noto Sans JP, Noto Sans KR,
+        Noto Sans SC, Noto Sans TC, sans-serif !important;
+    font-size: 16px;
+}
+
+.backgroundContainer,
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu {
+    background: rgb(var(--bg));
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+
+.dialog {
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.15);
+}
+
+.backgroundContainer.withBackdrop {
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(rgba(192, 212, 222, 0.94)),
+        color-stop(rgba(235, 250, 254, 0.94)),
+        color-stop(rgba(227, 220, 212, 0.94)),
+        color-stop(rgba(206, 214, 216, 0.94)),
+        to(rgba(192, 211, 218, 0.94))
+    );
+    background: -webkit-linear-gradient(
+        top,
+        rgba(192, 212, 222, 0.94),
+        rgba(235, 250, 254, 0.94),
+        rgba(227, 220, 212, 0.94),
+        rgba(206, 214, 216, 0.94),
+        rgba(192, 211, 218, 0.94)
+    );
+    background: -o-linear-gradient(
+        top,
+        rgba(192, 212, 222, 0.94),
+        rgba(235, 250, 254, 0.94),
+        rgba(227, 220, 212, 0.94),
+        rgba(206, 214, 216, 0.94),
+        rgba(192, 211, 218, 0.94)
+    );
+    background: linear-gradient(
+        to bottom,
+        rgba(192, 212, 222, 0.94),
+        rgba(235, 250, 254, 0.94),
+        rgba(227, 220, 212, 0.94),
+        rgba(206, 214, 216, 0.94),
+        rgba(192, 211, 218, 0.94)
+    );
+}
+
+.actionSheet,
+.centeredDialog {
+    overflow: hidden;
+    border-radius: 1rem !important;
+    background: rgb(var(--bg-light), 0.9);
+    backdrop-filter: blur(12px);
+}
+
+.layout-tv .actionSheet {
+    border-radius: 0 !important;
+}
+
+.layout-tv .actionSheet .listItem:hover,
+.layout-tv .actionSheet .listItem:focus {
+    color: rgb(var(--bg));
+    background: rgb(var(--text));
+}
+
+.actionSheet .listItem {
+    border-radius: 999999px;
+}
+
+.actionSheet .listItem:hover,
+.actionSheet .listItem:focus {
+    background: rgb(var(--nord2));
+}
+
+.actionSheet .listItem:active {
+    background: rgb(var(--nord3));
+}
+
+.actionSheetContent {
+    padding: 0.5rem 0.25rem !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        background-color: rgb(var(--nord2));
+    }
+
+    .cardOverlayButton.paper-icon-button-light:hover:not(:disabled),
+    .cardOverlayButton.cardOverlayButton:hover:not(:disabled) {
+        background-color: rgba(var(--nord2), 0.2) !important;
+    }
+
+    .cardBox .cardScalable .cardOverlayButtonIcon {
+        background-color: transparent !important;
+    }
+
+    .cardBox .cardOverlayButton.cardOverlayButton.cardOverlayFab-primary:hover {
+        background-color: rgba(var(--primary), 0.8) !important;
+    }
+}
+
+.cardBox .cardScalable .cardOverlayButtonIcon {
+    background-color: transparent !important;
+}
+
+.cardBox .cardScalable .cardOverlayButton:active:not(:disabled) {
+    background-color: rgba(var(--nord3), 0.2) !important;
+}
+
+.cardBox .cardOverlayButton.cardOverlayButton.cardOverlayFab-primary {
+    background-color: rgba(var(--bg-light), 0.7) !important;
+}
+
+.fab,
+.raised {
+    color: rgb(var(--text));
+    background: rgb(var(--bg-light));
+    font-weight: bold;
+}
+
+.raised {
+    border-radius: 999999px;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}
+
+.button-flat:hover,
+.button-flat:focus {
+    background: transparent !important;
+}
+
+.button-flat:focus {
+    color: rgb(var(--primary)) !important;
+}
+
+.fab:hover,
+.raised:hover {
+    background: rgb(var(--nord2));
+}
+
+.fab:focus,
+.raised:focus {
+    background: rgb(var(--nord3));
+}
+
+a[data-role="button"] {
+    background: #fff !important;
+    background: rgba(0, 0, 0, 0.14) !important;
+}
+
+.button-submit {
+    color: rgb(var(--primary-text));
+    background: rgb(var(--primary));
+}
+
+.button-submit:hover {
+    background: rgb(var(--primary));
+}
+
+.button-submit:focus {
+    background: rgb(var(--primary));
+}
+
+.card .cardContent {
+    border-radius: 0 !important;
+}
+
+.userProfilesPage .localUsers .card .cardFooter,
+.mediaLibraryPage #divVirtualFolders .cardFooter {
+    display: grid;
+    grid-template: max-content 1fr / 1fr min-content;
+}
+
+.userProfilesPage .localUsers .card .cardFooter > div:nth-child(1),
+.mediaLibraryPage #divVirtualFolders .cardFooter > div:nth-child(1) {
+    grid-area: 1 / 2;
+    padding-top: 0 !important;
+}
+
+.userProfilesPage .localUsers .card .cardFooter > div:nth-child(2),
+.mediaLibraryPage #divVirtualFolders .cardFooter > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    grid-area: 1 / 1;
+
+    font-weight: bold;
+}
+
+.userProfilesPage .localUsers .card .cardFooter > div:nth-child(3),
+.mediaLibraryPage #divVirtualFolders .cardFooter > div:nth-child(3) {
+    grid-area: 2 / span 2;
+}
+
+.mediaLibraryPage #divVirtualFolders .card:last-child .cardFooter {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.5rem;
+    font-weight: bold;
+}
+
+.mediaLibraryPage
+    #divVirtualFolders
+    .card:last-child
+    .cardFooter
+    > div:nth-child(n + 2) {
+    display: none;
+}
+
+.cardFooter .paper-icon-button-light:hover:not(:disabled) {
+    background-color: rgb(var(--nord2));
+}
+
+.paper-icon-button-light.show-focus:focus {
+    transform: none;
+    color: rgb(var(--bg));
+    background: rgb(var(--text));
+}
+
+.button-delete {
+    background: rgb(247, 0, 0);
+    color: rgba(255, 255, 255, 0.87);
+}
+
+fieldset {
+    border-color: rgb(var(--nord2));
+    border-radius: 1rem;
+}
+
+.checkboxLabel {
+    color: inherit;
+}
+
+.selectLabel {
+    color: rgb(var(--text));
+    font-weight: bold;
+}
+
+.checkboxListLabel,
+.inputLabel,
+.inputLabelUnfocused,
+.paperListLabel,
+.textareaLabelUnfocused,
+.textareaLabel {
+    color: rgb(var(--text));
+    font-weight: bold;
+}
+
+.button-link,
+.inputLabelFocused,
+.selectLabelFocused,
+.textareaLabelFocused {
+    color: rgb(var(--primary));
+    font-weight: bold;
+}
+
+.checkboxOutline {
+    border-color: currentColor;
+    border-radius: 0.5rem;
+}
+
+.paperList,
+.visualCardBox,
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    box-shadow: none !important;
+}
+
+.visualCardBox {
+    box-shadow: none;
+}
+
+.defaultCardBackground1 {
+    background-color: rgb(var(--nord9));
+}
+
+.defaultCardBackground2 {
+    background-color: rgb(var(--nord11));
+}
+
+.defaultCardBackground3 {
+    background-color: rgb(var(--nord12));
+}
+
+.defaultCardBackground4 {
+    background-color: rgb(var(--nord14));
+}
+
+.defaultCardBackground5 {
+    background-color: rgb(var(--nord15));
+}
+
+.cardText-secondary,
+.fieldDescription,
+.guide-programNameCaret,
+.listItem .secondary,
+.nowPlayingBarSecondaryText,
+.programSecondaryTitle,
+.secondaryText {
+    color: rgb(var(--text-light));
+}
+
+.actionsheetDivider {
+    background: rgb(var(--nord2));
+}
+
+.cardBox {
+    overflow: hidden;
+    background-color: rgb(var(--bg-light));
+}
+
+.cardFooter {
+    background-color: rgb(var(--bg-light));
+}
+
+.cardBox > .cardText:first-child,
+.cardText-first {
+    padding-top: 0.5rem;
+}
+
+.cardBox > .cardText:last-child {
+    padding-bottom: 0.5rem;
+}
+
+.sessionCardButtons {
+    min-height: unset !important;
+}
+
+.dashboardDocument .sessionCardFooter > div:nth-child(2) {
+    padding-top: 0.5rem;
+}
+
+.cardFooter-vibrant .cardText-secondary {
+    color: inherit;
+    opacity: 0.5;
+}
+
+.cardImageContainer {
+    border-radius: 0;
+}
+
+.formDialogHeader a,
+.toast {
+    color: #fff;
+}
+
+.toast {
+    background: #303030;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.formDialogFooter:not(.formDialogFooter-clear) {
+    border-top: 1px solid #ddd;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.appfooter,
+.formDialogFooter:not(.formDialogFooter-clear),
+.playlistSectionButton {
+    color: rgb(var(--text));
+    background: rgb(var(--bg-light));
+}
+
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    border: none;
+    color: initial;
+    background: none;
+}
+
+.nowPlayingBarSecondaryText {
+    color: #999;
+}
+
+.itemSelectionPanel {
+    border: 1px solid #00a4dc;
+}
+
+.selectionCommandsPanel {
+    background: rgb(var(--primary));
+    color: rgb(var(--primary-text));
+    top: 0.5rem;
+    width: calc(100% - 2rem);
+    margin: 0 auto;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.upNextDialog-countdownText {
+    color: #00a4dc;
+}
+
+.alphaPicker {
+    border-radius: 999999px;
+    background: rgb(var(--bg-light));
+}
+
+.alphaPicker-fixed.alphaPicker-vertical {
+    height: calc(100% - 12rem);
+    top: 6.5rem !important;
+    overflow: hidden;
+}
+
+body:has(.appfooter:empty) .alphaPicker-fixed.alphaPicker-vertical {
+    height: calc(100% - 7rem);
+    top: 6.5rem !important;
+}
+
+.withSectionTabs .alphaPicker-fixed.alphaPicker-vertical {
+    height: calc(100% - 15rem);
+    top: 9.75rem !important;
+}
+
+body.withSectionTabs:has(.appfooter:empty)
+    .alphaPicker-fixed.alphaPicker-vertical {
+    height: calc(100% - 10.25rem);
+    top: 9.75rem !important;
+}
+
+.alphaPicker .alphaPickerButton {
+    padding: 1rem;
+    color: rgb(var(--text));
+    background: rgb(var(--bg-light));
+    border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.alphaPicker .alphaPickerButton:hover {
+    background: rgb(var(--nord2));
+}
+
+.alphaPicker .alphaPickerButton:active {
+    background: rgb(var(--nord3));
+}
+
+.alphaPicker .alphaPickerButton-selected,
+.alphaPicker .alphaPickerButton-tv:focus {
+    color: rgb(var(--primary-text));
+    background: rgb(var(--primary));
+}
+
+.alphaPicker-fixed.alphaPicker-vertical .alphaPickerRow {
+    height: 100%;
+    overflow-y: auto;
+    justify-content: flex-start;
+}
+@media screen and (max-width: 380px) {
+    .alphaPicker-fixed.alphaPicker-vertical {
+        /* @FIXME(jakehamilton): The page-wide swipe gestures break when scrolling something horizontally. */
+        display: none;
+        visibility: hidden;
+
+        position: static;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+    .alphaPicker-fixed.alphaPicker-vertical .alphaPickerRow {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .itemsContainer.padded-right-withalphapicker {
+        padding-right: max(env(safe-area-inset-right), 3.3%) !important;
+    }
+
+    .portraitCard {
+        width: calc(33.33333% - 0.5rem) !important;
+    }
+
+    .backdropCard .cardBox {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+
+    .portraitCard .cardBox {
+        margin-right: 0 !important;
+    }
+
+    .libraryPage .itemsContainer {
+        gap: 0.5rem;
+    }
+}
+
+.itemsContainer {
+    gap: 1.5rem;
+}
+
+.itemsContainer.vertical-list {
+    gap: 0.5rem;
+}
+
+.itemsContainer > .card > .cardBox {
+    margin: 0 !important;
+}
+
+#seriesTab .itemsContainer,
+#episodesTab .itemsContainer,
+#studiosTab .itemsContainer,
+#musicRecommendedPage #albumsTab .itemsContainer,
+#musicRecommendedPage #albumArtistsTab .itemsContainer,
+#musicRecommendedPage #artistsTab .itemsContainer,
+#musicRecommendedPage #genresTab .itemsContainer {
+    justify-content: center;
+}
+
+.detailRibbon {
+    background: rgb(var(--bg-light));
+}
+
+.layout-tv .detailRibbon {
+    background: none;
+}
+
+.detailTableBodyRow-shaded:nth-child(even) {
+    background: #f8f8f8;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.listItem-border {
+    border: none !important;
+}
+
+.listItem {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    border-radius: 99999px;
+    box-sizing: border-box;
+}
+
+.listItem + .listItem {
+    margin-top: 0.25rem !important;
+}
+
+.listItem:focus {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.listItem:hover {
+    background: rgba(var(--bg-light));
+}
+
+.itemsContainer.vertical-list > .listItem > .listItemImage:first-child {
+    margin-left: 0.5rem;
+}
+
+.itemsContainer.vertical-list > .listItem > .listItemImage {
+    border-radius: 0.5rem;
+}
+
+.lnkUserProfile.emby-button {
+    border-radius: 999999px;
+    overflow: hidden;
+}
+
+.userPreferencesPage .readOnlyContent .emby-button:focus {
+    background: transparent !important;
+}
+
+.actionSheetMenuItem:hover {
+    background-color: #ddd;
+}
+
+.progressring-spiner {
+    border-color: #00a4dc;
+}
+
+.mediaInfoText {
+    color: #333;
+    background: #fff;
+}
+
+.emby-input,
+.emby-textarea {
+    color: rgb(var(--text));
+    background: rgb(var(--bg-light));
+    /* border: 0.16em solid rgba(0, 0, 0, 0.158); */
+    border: 2px solid rgb(var(--bg-light));
+}
+
+.emby-input {
+    border-radius: 999999px;
+}
+
+.emby-textarea {
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    min-height: 8rem;
+    resize: vertical;
+}
+
+.emby-input {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.emby-input:focus,
+.emby-textarea:focus {
+    border-color: rgb(var(--primary));
+}
+
+.emby-select-withcolor {
+    color: rgb(var(--text));
+    background: rgb(var(--bg-light));
+    border: 2px solid rgb(var(--bg-light));
+}
+
+.emby-select {
+    border-radius: 999999px !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.emby-checkbox:checked + span + .checkboxOutline,
+.emby-select-withcolor:focus {
+    border-color: rgb(var(--primary));
+}
+
+.emby-select-focusscale:focus {
+    transform: none;
+}
+
+.emby-checkbox:focus + span + .checkboxOutline {
+    border-color: rgb(var(--text));
+}
+
+.emby-checkbox:checked + span + .checkboxOutline {
+    background-color: rgb(var(--primary));
+}
+
+.itemProgressBarForeground {
+    background: rgb(var(--primary));
+    /* background: linear-gradient( */
+    /*     90deg, */
+    /*     rgba(0, 210, 201, 1) 0%, */
+    /*     rgba(13, 194, 98, 1) 28%, */
+    /*     rgba(0, 75, 185, 1) 100% */
+    /* ); */
+}
+
+.itemProgressBar {
+    background: rgb(var(--nord2));
+    height: 0.18rem;
+}
+
+.backgroundProgress > div {
+    background: rgb(var(--nord2));
+}
+
+.innerCardFooter {
+    /* border-radius: 0.14rem; */
+    /* margin: 0.4rem 0.5rem 0.4rem 0.5rem; */
+}
+
+.innerCardFooter .itemProgressBar {
+}
+
+.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
+    border-color: #00a4dc;
+}
+
+.emby-select-withcolor > option {
+    color: #000;
+    background: #fff;
+}
+
+.emby-select-tv-withcolor:focus {
+    background-color: #00a4dc;
+    color: #fff;
+}
+
+.itemProgressBarForeground-recording {
+    background-color: #cb272a;
+}
+
+.countIndicator,
+.fullSyncIndicator,
+.mediaSourceIndicator,
+.playedIndicator {
+    background: rgb(var(--primary));
+}
+
+.fullSyncIndicator {
+    color: #fff;
+}
+
+.mainDrawer {
+    background: rgb(var(--bg-light));
+}
+
+@media screen and (max-width: 380px) {
+    .mainDrawer {
+        width: clamp(210px, 70vw, 310px) !important;
+        left: calc(-1 * clamp(210px, 70vw, 310px)) !important;
+    }
+
+    .mainDrawer.drawer-open {
+        transform: translateX(
+            calc(clamp(210px, 70vw, 310px) + 0.5rem)
+        ) !important;
+    }
+}
+
+.navMenuOptionText {
+    font-weight: bold;
+}
+
+.navMenuOption:not(.navMenuOption-selected):hover {
+    background: rgb(var(--nord2));
+}
+
+.navMenuOption:not(.navMenuOption-selected):focus {
+    background: rgb(var(--nord3));
+}
+
+.navMenuOption-selected {
+    background: rgb(var(--primary)) !important;
+    color: rgb(var(--primary-text));
+}
+
+.mainDrawer {
+    height: calc(100% - 1rem);
+    top: 0.5rem !important;
+    border-radius: 1rem;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+.mainDrawer-scrollContainer {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.mainDrawer.drawer-open {
+    transform: translateX(calc(100% + 1rem)) !important;
+}
+
+.tmla-mask.backdrop {
+    backdrop-filter: blur(8px);
+}
+
+[dir="ltr"] .navMenuOption,
+[dir="rtl"] .navMenuOption {
+    border-radius: 999999px !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}
+
+.dashboardDocument .navMenuOption + .navMenuOption {
+    margin-top: 0.25rem !important;
+}
+
+.mainDrawer .material-icons.notifications {
+    background: transparent !important;
+}
+
+.dashboardDocument .mainDrawer {
+    height: calc(100% - 7rem);
+    top: 6.5rem !important;
+    border-radius: 1rem;
+}
+
+.dashboardDocument.withSectionTabs .mainDrawer {
+    height: calc(100% - 10.25rem);
+    top: 9.75rem !important;
+}
+
+.dashboardDocument .content-primary {
+    padding-top: 6.5rem !important;
+}
+
+.dashboardDocument.withSectionTabs .content-primary {
+    padding-top: 9.5rem !important;
+}
+
+.dashboardDocument .content-primary .paperList {
+    background: transparent;
+}
+
+[dir="ltr"] .dashboardDocument .mainDrawer {
+    left: 1rem !important;
+}
+
+[dir="rtl"] .dashboardDocument .mainDrawer {
+    right: 1rem !important;
+}
+
+.dashboardDocument .mainDrawer-scrollContainer {
+    margin-top: 0 !important;
+    padding-bottom: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.material-icons.notifications,
+.material-icons.notifications_active {
+    background-color: rgb(var(--primary)) !important;
+}
+
+.material-icons.notifications_off {
+    background-color: rgb(var(--nord3)) !important;
+}
+
+.drawerContent {
+    padding-bottom: 0;
+}
+
+.emby-tabs {
+    padding: 0.25rem 0;
+}
+
+.emby-button:focus {
+    background: rgb(var(--nord2));
+}
+
+.emby-button.show-focus:focus {
+    transform: none;
+    background: rgb(var(--nord2));
+}
+
+.emby-tab-button {
+    color: rgb(var(--text-light));
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 99999px;
+    font-weight: bold;
+}
+
+.emby-tab-button.show-focus:focus {
+    transform: none !important;
+    color: rgb(var(--bg)) !important;
+    background: rgb(var(--text)) !important;
+}
+
+.emby-tabs .emby-tab-button:not(:first-child) {
+    margin-left: 1rem;
+}
+
+.emby-tab-button-active {
+    color: rgb(var(--primary-text));
+    background: rgb(var(--primary));
+}
+
+.emby-tab-button.show-focus:focus {
+    color: rgb(var(--primary));
+}
+
+.emby-tab-button:not(.emby-tab-button-active):hover {
+    background: rgb(var(--nord2));
+}
+
+.emby-tab-button:not(.emby-tab-button-active):active {
+    background: rgb(var(--nord3));
+}
+
+.channelPrograms,
+.guide-channelHeaderCell,
+.programCell {
+    border-color: #555;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.programCell-sports {
+    background: #3949ab !important;
+}
+
+.programCell-movie {
+    background: #5e35b1 !important;
+}
+
+.programCell-kids {
+    background: #039be5 !important;
+}
+
+.programCell-news {
+    background: #43a047 !important;
+}
+
+.programCell-active {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+.guide-channelHeaderCell:focus,
+.programCell:focus {
+    background-color: #00a4dc !important;
+    color: #fff !important;
+}
+
+.guide-programTextIcon {
+    color: #1e1e1e;
+    background: #555;
+}
+
+.guide-headerTimeslots {
+    color: inherit;
+}
+
+.guide-date-tab-button {
+    color: #555;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.guide-date-tab-button.emby-tab-button-active,
+.guide-date-tab-button:focus {
+    color: #00a4dc;
+}
+
+.guide-date-tab-button.show-focus:focus {
+    background-color: #00a4dc;
+    color: #fff;
+}
+
+.infoBanner {
+    color: #000;
+    background: #fff3a5;
+    padding: 1em;
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
+}
+
+.ratingbutton-icon-withrating {
+    color: rgb(var(--error));
+}
+
+.downloadbutton-icon-complete,
+.downloadbutton-icon-on {
+    color: rgb(var(--tertiary));
+}
+
+.playstatebutton-icon-played {
+    color: rgb(var(--success));
+}
+
+.buttonActive {
+    color: rgb(var(--primary)) !important;
+}
+
+.cardPadder .cardImageIcon {
+    color: rgba(0, 0, 0, 0.1);
+}
+
+.cardBox {
+    border-radius: 0.5rem;
+}
+
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 0.5rem;
+    border-color: #00a4dc !important;
+}
+
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation)
+    .cardBox:not(.visualCardBox)
+    .cardScalable {
+    border-radius: 1rem;
+}
+
+.blurhash-canvas {
+    border-radius: 0.5rem;
+}
+
+.itemDetailImage,
+.cardOverlayContainer {
+    border-radius: 0rem;
+}
+
+.metadataSidebarIcon {
+    color: #00a4dc;
+}
+
+.jstree-default .jstree-wholerow-clicked,
+.jstree-default .jstree-wholerow-hovered {
+    background: rgb(var(--primary)) !important;
+}
+
+.jstree-default .material-icons {
+    color: rgb(var(--primary)) !important;
+    transition: color 0.15s linear;
+}
+
+.jstree-default .jstree-wholerow-clicked ~ a .material-icons,
+.jstree-default .jstree-wholerow-hovered ~ a .material-icons {
+    color: rgb(var(--text)) !important;
+}
+
+.jstree-default .editorNode {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.userPreferencesPage .subtitleappearance-preview {
+    background: linear-gradient(
+        140deg,
+        rgb(var(--nord10)),
+        rgb(var(--nord12)),
+        rgb(var(--nord13)),
+        rgb(var(--nord14)),
+        rgb(var(--nord15))
+    ) !important;
+}
+
+#bookPlayer {
+    background: rgb(var(--bg));
+}
+
+#bookPlayer .bookPlayerButton {
+    color: rgb(var(--text)) !important;
+}
+
+.mdl-slider::-moz-range-thumb {
+    background: rgb(var(--primary));
+}
+
+.mdl-slider-background-upper {
+    background: rgb(var(--nord2));
+}
+
+.mdl-slider-background-lower {
+    background: rgb(var(--primary));
+}
+
+.sliderBubble {
+    border-radius: 999999px;
+    overflow: hidden;
+    background: rgba(var(--nord2), 0.8);
+    backdrop-filter: blur(12px);
+}
+
+.sessionNowPlayingContent {
+    border-radius: 0 !important;
+}
+
+@media (min-height: 31.25em) {
+    [dir="ltr"] .padded-right-withalphapicker {
+        padding-right: 3.3%;
+        padding-right: max(env(safe-area-inset-right), 3.3%);
+    }
+}
+
+.verticalSection > .itemsContainer,
+.verticalSection > [is="emby-scroller"],
+.verticalSection > div:nth-child(2) > [is="emby-scroller"] {
+    margin-top: -1rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* .card.portraitCard.show-animation:focus > .cardBox, */
+/* .card.overflowPortraitCard.show-animation:focus > .cardBox { */
+/*     transform: scale(1.1); */
+/* } */
+
+.card.show-animation:focus > .cardBox {
+    transform: scale(1.1);
+}
+
+.layout-mobile .itemBackdrop {
+    margin-top: 0;
+}
+
+.standalonePage {
+    padding-top: 6.5rem !important;
+}
