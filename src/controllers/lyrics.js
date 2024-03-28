@@ -122,7 +122,7 @@ export default function (view) {
         } else {
             renderStaticLyrics(savedLyrics);
         }
-        bindToPlayer(currentPlayer);
+        bindToPlayer(playbackManager.getCurrentPlayer());
     }
 
     function getLyrics (serverId, itemId) {
@@ -141,15 +141,18 @@ export default function (view) {
     }
 
     function bindToPlayer (player) {
-        if (player !== currentPlayer) {
-            releaseCurrentPlayer();
-            currentPlayer = player;
+        if (player === currentPlayer) {
             return;
         }
+
+        releaseCurrentPlayer();
+
+        currentPlayer = player;
 
         if (!player) {
             return;
         }
+
         Events.on(player, 'timeupdate', onTimeUpdate);
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackstop);
@@ -174,6 +177,7 @@ export default function (view) {
     }
 
     function onTimeUpdate(_, ticks) {
+        console.log('timeupdate');
         ticks *= TICKS_PER_SECOND;
         if (isDynamicLyric) {
             const currentIndex = getLyricIndex(ticks, savedLyrics);
@@ -206,8 +210,7 @@ export default function (view) {
         const player = playbackManager.getCurrentPlayer();
 
         if (player) {
-            currentPlayer = player;
-            bindToPlayer(currentPlayer);
+            // bindToPlayer(player);
 
             const state = playbackManager.getPlayerState(player);
             currentItem = state.NowPlayingItem;
