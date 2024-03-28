@@ -133,7 +133,7 @@ function getFetchDataFn(section) {
     return function () {
         const apiClient = this.apiClient;
         const options = {
-            SortBy: 'SeriesName,SortName',
+            SortBy: 'SeriesSortName,SortName',
             SortOrder: 'Ascending',
             Filters: 'IsFavorite',
             Recursive: true,

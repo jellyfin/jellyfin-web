@@ -1058,7 +1058,7 @@ class ItemsView {
         if (params.type === 'Episode') {
             return {
                 name: globalize.translate('Name'),
-                value: 'SeriesName,SortName'
+                value: 'SeriesSortName,SortName'
             };
         }
 
