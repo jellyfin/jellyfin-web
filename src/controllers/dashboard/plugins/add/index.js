@@ -9,6 +9,7 @@ import confirm from '../../../../components/confirm/confirm';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-collapse/emby-collapse';
+import 'elements/emby-select/emby-select';
 
 function populateHistory(packageInfo, page) {
     let html = '';
