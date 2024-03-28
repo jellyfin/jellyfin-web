@@ -122,7 +122,6 @@ export default function (view) {
         } else {
             renderStaticLyrics(savedLyrics);
         }
-        bindToPlayer(playbackManager.getCurrentPlayer());
     }
 
     function getLyrics (serverId, itemId) {
@@ -209,7 +208,7 @@ export default function (view) {
         const player = playbackManager.getCurrentPlayer();
 
         if (player) {
-            // bindToPlayer(player);
+            bindToPlayer(player);
 
             const state = playbackManager.getPlayerState(player);
             currentItem = state.NowPlayingItem;
