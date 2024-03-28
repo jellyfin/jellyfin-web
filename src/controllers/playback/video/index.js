@@ -1343,6 +1343,12 @@ export default function (view) {
             case 'PageDown':
                 playbackManager.previousChapter(currentPlayer);
                 break;
+            case 'g':
+                SubtitleSync.prototype.update(v => v - 0.1);
+                break;
+            case 'h':
+                SubtitleSync.prototype.update(v => v + 0.1);
+                break;
         }
     }
 
