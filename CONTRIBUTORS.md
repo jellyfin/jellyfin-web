@@ -79,6 +79,7 @@
 - [Kevin Tan (Valius)](https://github.com/valius)
 - [Rasmus Krämer](https://github.com/rasmuslos)
 - [ntarelix](https://github.com/ntarelix)
+- [btopherjohnson](https://github.com/btopherjohnson)
 - [András Maróy](https://github.com/andrasmaroy)
 - [Chris-Codes-It](https://github.com/Chris-Codes-It)
 - [Vedant](https://github.com/viktory36)
