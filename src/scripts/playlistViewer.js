@@ -1,4 +1,5 @@
 import listView from '../components/listview/listview';
+import * as userSettings from './settings/userSettings';
 
 function getFetchPlaylistItemsFn(itemId) {
     return function () {
@@ -17,6 +18,7 @@ function getItemsHtmlFn(itemId) {
             items: items,
             showIndex: false,
             showRemoveFromPlaylist: true,
+            showParentTitle: userSettings.enablePlaylistSeriesName(),
             playFromHere: true,
             action: 'playallfromhere',
             smallIcon: true,
