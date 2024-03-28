@@ -1556,5 +1556,7 @@
     "LabelMaxVideoResolution": "Maksimalna dopuštena rezolucija za konvertiranje videa",
     "LabelMediaDetails": "Detalji multimedije",
     "LabelMaxMuxingQueueSize": "Maksimalna veličina reda čekanja za konvertiranje formata",
-    "LabelSyncPlaySettingsExtraTimeOffset": "Dodatni vremenski pomak"
+    "LabelSyncPlaySettingsExtraTimeOffset": "Dodatni vremenski pomak",
+    "LabelTranscodingFramerate": "Broj sličica u sekundi prilikom konverzije formata",
+    "LabelTranscodingProgress": "Napredak konverzije formata"
 }
