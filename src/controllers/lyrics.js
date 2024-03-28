@@ -10,8 +10,6 @@ import Events from '../utils/events.ts';
 
 import '../styles/lyrics.scss';
 
-const TICKS_PER_SECOND = 10000000;
-
 let currentPlayer;
 let currentItem;
 
@@ -177,10 +175,9 @@ export default function (view) {
         }
     }
 
-    function onTimeUpdate(_, ticks) {
-        ticks *= TICKS_PER_SECOND;
+    function onTimeUpdate() {
         if (isDynamicLyric) {
-            const currentIndex = getLyricIndex(ticks, savedLyrics);
+            const currentIndex = getLyricIndex(getCurrentPlayTime(), savedLyrics);
             updateAllLyricLines(currentIndex, savedLyrics);
         }
     }

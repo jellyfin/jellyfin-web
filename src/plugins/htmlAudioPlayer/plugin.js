@@ -297,7 +297,7 @@ class HtmlAudioPlayer {
             // Don't trigger events after user stop
             if (!self._isFadingOut) {
                 self._currentTime = time;
-                Events.trigger(self, 'timeupdate', [time]);
+                Events.trigger(self, 'timeupdate');
             }
         }
 
