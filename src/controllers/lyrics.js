@@ -177,7 +177,6 @@ export default function (view) {
     }
 
     function onTimeUpdate(_, ticks) {
-        console.log('timeupdate');
         ticks *= TICKS_PER_SECOND;
         if (isDynamicLyric) {
             const currentIndex = getLyricIndex(ticks, savedLyrics);
