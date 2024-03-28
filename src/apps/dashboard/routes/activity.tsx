@@ -15,7 +15,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Page from 'components/Page';
 import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';
-import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'scripts/datetime';
+import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'utils/datetime';
 import globalize from 'scripts/globalize';
 import { toBoolean } from 'utils/string';
 
