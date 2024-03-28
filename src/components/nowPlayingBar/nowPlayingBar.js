@@ -91,7 +91,6 @@ function getNowPlayingBarHtml() {
     html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
     html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
 
-
     html += '<div class="nowPlayingBarUserDataButtons">';
     html += '</div>';
 
