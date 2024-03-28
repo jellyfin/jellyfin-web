@@ -85,6 +85,8 @@
 - [GeorgeH005](https://github.com/GeorgeH005)
 - [JPUC1143](https://github.com/Jpuc1143)
 - [David Angel](https://github.com/davidangel)
+- [jmerdich](https://github.com/jmerdich)
+
 
 ## Emby Contributors
 
