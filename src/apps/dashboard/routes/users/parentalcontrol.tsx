@@ -1,4 +1,5 @@
-import { UnratedItem, type AccessSchedule, type ParentalRating, type UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import escapeHTML from 'escape-html';
