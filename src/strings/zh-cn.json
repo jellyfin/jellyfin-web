@@ -1853,5 +1853,6 @@
     "LimitSupportedVideoResolutionHelp": "使用“允许的最高视频转码分辨率”作为支持的最高视频分辨率。",
     "LimitSupportedVideoResolution": "限制支持的最高视频分辨率",
     "AllowContentWithTagsHelp": "仅显示至少具有一个指定标签的媒体。",
-    "BlockContentWithTagsHelp": "隐藏至少具有一个指定标签的媒体。"
+    "BlockContentWithTagsHelp": "隐藏至少具有一个指定标签的媒体。",
+    "AirPlay": "隔空播放"
 }
