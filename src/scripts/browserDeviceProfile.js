@@ -1147,7 +1147,7 @@ export default function (options) {
 
     // On iOS 12.x, for TS container max h264 level is 4.2
     if (browser.iOS && browser.iOSVersion < 13) {
-        const codecProfile = {
+        const codecProfileTS = {
             Type: 'Video',
             Codec: 'h264',
             Container: 'ts',
@@ -1156,14 +1156,32 @@ export default function (options) {
             })
         };
 
-        codecProfile.Conditions.push({
+        codecProfileTS.Conditions.push({
             Condition: 'LessThanEqual',
             Property: 'VideoLevel',
             Value: '42',
             IsRequired: false
         });
 
-        profile.CodecProfiles.push(codecProfile);
+        profile.CodecProfiles.push(codecProfileTS);
+
+        const codecProfileMp4 = {
+            Type: 'Video',
+            Codec: 'h264',
+            Container: 'mp4',
+            Conditions: h264CodecProfileConditions.filter((condition) => {
+                return condition.Property !== 'VideoLevel';
+            })
+        };
+
+        codecProfileMp4.Conditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'VideoLevel',
+            Value: '42',
+            IsRequired: false
+        });
+
+        profile.CodecProfiles.push(codecProfileMp4);
     }
 
     profile.CodecProfiles.push({
