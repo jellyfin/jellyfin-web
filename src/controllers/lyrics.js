@@ -69,6 +69,7 @@ export default function (view) {
             if (lyricIndex < currentLine) {
                 setPastLyricClassOnLine(lyricIndex);
             }
+
             if (lyricIndex === currentLine) {
                 setCurrentLyricClassOnLine(lyricIndex);
             }
@@ -93,6 +94,7 @@ export default function (view) {
             const html = lyrics.reduce(dynamicLyricHtmlReducer, '');
             itemsContainer.innerHTML = html;
         }
+
         const lyricLineArray = itemsContainer.querySelectorAll('.lyrics');
 
         // attaches click event listener to change playtime to lyric start
@@ -124,7 +126,7 @@ export default function (view) {
         }
     }
 
-    function getLyrics (serverId, itemId) {
+    function getLyrics(serverId, itemId) {
         const apiClient = ServerConnections.getApiClient(serverId);
 
         return apiClient.ajax({
@@ -139,7 +141,7 @@ export default function (view) {
         });
     }
 
-    function bindToPlayer (player) {
+    function bindToPlayer(player) {
         if (player === currentPlayer) {
             return;
         }
