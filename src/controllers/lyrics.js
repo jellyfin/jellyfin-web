@@ -154,7 +154,7 @@ export default function (view) {
 
         Events.on(player, 'timeupdate', onTimeUpdate);
         Events.on(player, 'playbackstart', onPlaybackStart);
-        Events.on(player, 'playbackstop', onPlaybackstop);
+        Events.on(player, 'playbackstop', onPlaybackStop);
     }
 
     function releaseCurrentPlayer() {
@@ -163,7 +163,7 @@ export default function (view) {
         if (player) {
             Events.off(player, 'timeupdate', onTimeUpdate);
             Events.off(player, 'playbackstart', onPlaybackStart);
-            Events.off(player, 'playbackstop', onPlaybackstop);
+            Events.off(player, 'playbackstop', onPlaybackStop);
             currentPlayer = null;
         }
     }
@@ -189,7 +189,7 @@ export default function (view) {
         }
     }
 
-    function onPlaybackstop () {
+    function onPlaybackStop () {
         appRouter.back();
     }
 
