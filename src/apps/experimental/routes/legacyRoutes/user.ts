@@ -14,6 +14,12 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'list.html'
         }
     }, {
+        path: 'lyrics',
+        pageProps: {
+            controller: 'lyrics',
+            view: 'lyrics.html'
+        }
+    }, {
         path: 'mypreferencesmenu.html',
         pageProps: {
             controller: 'user/menu/index',

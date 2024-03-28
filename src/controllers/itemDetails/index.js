@@ -1,7 +1,7 @@
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
-import markdownIt from 'markdown-it';
 import escapeHtml from 'escape-html';
+import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
 import { appHost } from 'components/apphost';
@@ -1055,6 +1055,7 @@ function renderDetails(page, item, apiClient, context) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
+    renderLyricsContainer(page, item, apiClient);
 
     // Don't allow redirection to other websites from the TV layout
     if (!layoutManager.tv && appHost.supports('externallinks')) {
@@ -1067,6 +1068,38 @@ function renderDetails(page, item, apiClient, context) {
 
 function enableScrollX() {
     return browser.mobile && window.screen.availWidth <= 1000;
+}
+
+function renderLyricsContainer(view, item, apiClient) {
+    const lyricContainer = view.querySelector('.lyricsContainer');
+    if (lyricContainer && item.HasLyrics) {
+        if (item.Type !== 'Audio') {
+            lyricContainer.classList.add('hide');
+            return;
+        }
+        //get lyrics
+        apiClient.ajax({
+            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
+            type: 'GET',
+            dataType: 'json'
+        }).then((response) => {
+            if (!response.Lyrics) {
+                lyricContainer.classList.add('hide');
+                return;
+            }
+            lyricContainer.classList.remove('hide');
+            const itemsContainer = lyricContainer.querySelector('.itemsContainer');
+            if (itemsContainer) {
+                const html = response.Lyrics.reduce((htmlAccumulator, lyric) => {
+                    htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
+                    return htmlAccumulator;
+                }, '');
+                itemsContainer.innerHTML = html;
+            }
+        }).catch(() => {
+            lyricContainer.classList.add('hide');
+        });
+    }
 }
 
 function renderMoreFromSeason(view, item, apiClient) {
@@ -1119,7 +1152,7 @@ function renderMoreFromArtist(view, item, apiClient) {
     const section = view.querySelector('.moreFromArtistSection');
 
     if (section) {
-        if (item.Type !== 'MusicArtist' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
+        if (item.Type !== 'MusicArtist' && item.Type !== 'Audio' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
             section.classList.add('hide');
             return;
         }
@@ -1174,7 +1207,7 @@ function renderSimilarItems(page, item, context) {
     const similarCollapsible = page.querySelector('#similarCollapsible');
 
     if (similarCollapsible) {
-        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist') {
+        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist' && item.Type != 'Audio') {
             similarCollapsible.classList.add('hide');
             return;
         }

@@ -1,9 +1,9 @@
 
+import globalize from './globalize';
+import alert from '../components/alert';
 import confirm from '../components/confirm/confirm';
 import { appRouter } from '../components/router/appRouter';
-import globalize from './globalize';
 import ServerConnections from '../components/ServerConnections';
-import alert from '../components/alert';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 
 function alertText(options) {
@@ -54,6 +54,28 @@ export function deleteItem(options) {
     });
 }
 
+export function deleteLyrics (item) {
+    return confirm({
+        title: globalize.translate('HeaderDeleteLyrics'),
+        text: globalize.translate('ConfirmDeleteLyrics'),
+        confirmText: globalize.translate('Delete'),
+        primary: 'delete'
+    }).then(() => {
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
+        return apiClient.ajax({
+            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
+            type: 'DELETE'
+        }).catch((err) => {
+            const result = function () {
+                return Promise.reject(err);
+            };
+
+            return alertText(globalize.translate('ErrorDeletingLyrics')).then(result, result);
+        });
+    });
+}
+
 export default {
-    deleteItem: deleteItem
+    deleteItem,
+    deleteLyrics
 };
