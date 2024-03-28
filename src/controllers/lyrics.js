@@ -10,6 +10,8 @@ import Events from '../utils/events.ts';
 
 import '../styles/lyrics.scss';
 
+const TICKS_PER_SECOND = 10000000;
+
 let currentPlayer;
 let currentItem;
 
@@ -149,7 +151,6 @@ export default function (view) {
             return;
         }
         Events.on(player, 'timeupdate', onTimeUpdate);
-        Events.on(player, 'seek', onSeek);
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackstop);
     }
@@ -159,7 +160,6 @@ export default function (view) {
 
         if (player) {
             Events.off(player, 'timeupdate', onTimeUpdate);
-            Events.off(player, 'seek', onSeek);
             Events.off(player, 'playbackstart', onPlaybackStart);
             Events.off(player, 'playbackstop', onPlaybackstop);
             currentPlayer = null;
@@ -173,16 +173,10 @@ export default function (view) {
         }
     }
 
-    function onSeek(_, ticks) {
-        if (savedLyrics && isDynamicLyric) {
-            const currentIndex = getLyricIndex(ticks, savedLyrics);
-            updateAllLyricLines(currentIndex, savedLyrics);
-        }
-    }
-
-    function onTimeUpdate() {
+    function onTimeUpdate(_, ticks) {
+        ticks *= TICKS_PER_SECOND;
         if (isDynamicLyric) {
-            const currentIndex = getLyricIndex(getCurrentPlayTime(), savedLyrics);
+            const currentIndex = getLyricIndex(ticks, savedLyrics);
             updateAllLyricLines(currentIndex, savedLyrics);
         }
     }
