@@ -13,7 +13,7 @@ import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import { getParameterByName } from '../../../../utils/url';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import CheckBox from '../../../../elements/emby-checkbox/Checkbox';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
@@ -418,12 +418,12 @@ const UserParentalControl: FunctionComponent = () => {
                             </h3>
                             <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
                                 {unratedItems.map(Item => {
-                                    return <CheckBoxElement
+                                    return <CheckBox
                                         key={Item.value}
                                         className='chkUnratedItem'
-                                        itemType={Item.value}
-                                        itemName={Item.name}
-                                        itemCheckedAttribute={Item.checkedAttribute}
+                                        label={Item.name}
+                                        data-itemtype={Item.value}
+                                        defaultChecked={!!Item.checkedAttribute}
                                     />;
                                 })}
                             </div>
