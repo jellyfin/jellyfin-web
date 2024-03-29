@@ -1799,5 +1799,17 @@
     "ChannelResolutionUHD4K": "UHD (4K)",
     "DeleteName": "Удалить {0}",
     "LabelBuildVersion": "Версия сборки",
-    "AirPlay": ""
+    "AirPlay": "AirPlay",
+    "AllowContentWithTagsHelp": "Отображать контент с хотя бы одним из заданных тэгов.",
+    "BlockContentWithTagsHelp": "Скрывать контент с хотя бы одним из заданных тэгов.",
+    "ConfirmDeleteSeries": "Удаление сериала приведёт к удалению ВСЕХ {0} эпизодов из файловой системы и из вашей библиотеки. Вы уверены, что хотите продолжить?",
+    "DeleteEntireSeries": "Удалить {0} эпизодов",
+    "LabelAllowContentWithTags": "Разрешить элементы с тэгами",
+    "LimitSupportedVideoResolution": "Ограничить максимально поддерживаемое разрешение видео",
+    "LimitSupportedVideoResolutionHelp": "Использовать \" Максимально разрешённое разрешение транскодирования\", как максимально поддерживаемое разрешение видео.",
+    "PlaybackError.FATAL_HLS_ERROR": "В потоке HLS была обнаружена фатальная ошибка.",
+    "DeleteSeries": "Удалить сериал",
+    "DeleteEpisode": "Удалить эпизод",
+    "HeaderDeleteSeries": "Удалить сериал",
+    "EnableSmoothScroll": "Разрешить плавную прокрутку"
 }
