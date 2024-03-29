@@ -1853,5 +1853,6 @@
     "PlaybackError.NO_MEDIA_ERROR": "Nelze najít platný zdroj médií k přehrání.",
     "PlaybackError.RateLimitExceeded": "Toto médium není možné momentálně přehrát kvůli omezení rychlosti.",
     "AllowContentWithTagsHelp": "Zobrazovat jen média, která mají alespoň jednu ze značek.",
-    "BlockContentWithTagsHelp": "Skrýt média, která mají alespoň jednu ze značek."
+    "BlockContentWithTagsHelp": "Skrýt média, která mají alespoň jednu ze značek.",
+    "AirPlay": "AirPlay"
 }
