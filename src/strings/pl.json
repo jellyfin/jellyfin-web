@@ -1854,5 +1854,7 @@
     "LimitSupportedVideoResolution": "Ogranicz maksymalną obsługiwaną rozdzielczość wideo",
     "AllowContentWithTagsHelp": "Wyświetlaj tylko multimedia z co najmniej jednym z określonych tagów.",
     "BlockContentWithTagsHelp": "Ukryj multimedia z co najmniej jednym z określonych tagów.",
-    "AirPlay": "AirPlay"
+    "AirPlay": "AirPlay",
+    "LabelEncodingFormatOptions": "Opcje formatu kodowania",
+    "EncodingFormatHelp": "Wybierz kodowanie wideo, którym Jellyfin powinien transkodować. Jellyfin użyje kodowania programowego, gdy akceleracja sprzętowa dla wybranego formatu nie jest dostępna. Kodowanie H264 będzie zawsze włączone."
 }
