@@ -1852,5 +1852,8 @@
     "LimitSupportedVideoResolution": "Maximaal ondersteunde beeldresolutie begrenzen",
     "LimitSupportedVideoResolutionHelp": "Gebruik 'maximaal toegestane beeldtransocderingsresolutie' als maximaal ondersteunde beeldresolutie.",
     "AllowContentWithTagsHelp": "Alleen media tonen met ten minste een van de opgegeven labels.",
-    "BlockContentWithTagsHelp": "Media verbergen met ten minste een van de opgegeven labels."
+    "BlockContentWithTagsHelp": "Media verbergen met ten minste een van de opgegeven labels.",
+    "LabelEncodingFormatOptions": "Coderingsformaatopties",
+    "EncodingFormatHelp": "Selecteer de beeldcodering waar Jellyfin naartoe moet transcoderen. Jellyfin gebruikt softwarecodering wanneer hardwarecodering niet voor het geselecteerde formaat beschikbaar is. H264-codering is altijd ingeschakeld.",
+    "AirPlay": "AirPlay"
 }
