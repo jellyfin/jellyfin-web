@@ -1235,7 +1235,7 @@
     "MusicLibraryHelp": "Просмотрите {0}руководство по именованию музыки{1}.",
     "FetchingData": "Выборка дополнительных данных",
     "ButtonAddImage": "Добавить изображение",
-    "OptionRandom": "Случайный",
+    "OptionRandom": "В случайном порядке",
     "ButtonSplit": "Разделить",
     "SelectAdminUsername": "Выберите имя пользователя для учётной записи администратора.",
     "HeaderNavigation": "Навигация",
@@ -1798,5 +1798,6 @@
     "AllowSubtitleManagement": "Разрешить этому пользователю редактировать субтитры",
     "ChannelResolutionUHD4K": "UHD (4K)",
     "DeleteName": "Удалить {0}",
-    "LabelBuildVersion": "Версия сборки"
+    "LabelBuildVersion": "Версия сборки",
+    "AirPlay": ""
 }
