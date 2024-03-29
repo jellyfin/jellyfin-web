@@ -1603,6 +1603,8 @@
     "EnableIntelLowPowerHevcHwEncoder": "Enable Intel Low-Power HEVC hardware encoder",
     "IntelLowPowerEncHelp": "Low-Power Encoding can keep unnecessary CPU-GPU sync. On Linux they must be disabled if the i915 HuC firmware is not configured.",
     "LabelHardwareEncodingOptions": "Hardware encoding options",
+    "LabelEncodingFormatOptions": "Encoding format options",
+    "EncodingFormatHelp": "Select the video encoding that Jellyfin should transcode to. Jellyfin will use software encoding when hardware acceleration for the selected format is not available. H264 encoding will always be enabled.",
     "AudioIsExternal": "The audio stream is external",
     "VideoBitrateNotSupported": "The video's bitrate is not supported",
     "UnknownVideoStreamInfo": "The video stream info is unknown",
