@@ -227,10 +227,8 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         if (this.value === 'videotoolbox') {
             page.querySelector('.videoToolboxTonemappingOptions').classList.remove('hide');
-            page.querySelector('.allowAv1EncodingOption').classList.add('hide');
         } else {
             page.querySelector('.videoToolboxTonemappingOptions').classList.add('hide');
-            page.querySelector('.allowAv1EncodingOption').classList.remove('hide');
         }
 
         if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {
@@ -258,21 +256,6 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         }
 
         setDecodingCodecsVisible(page, this.value);
-    });
-    $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-        import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                includeFiles: true,
-                callback: function (path) {
-                    if (path) {
-                        $('.txtEncoderPath', page).val(path);
-                    }
-
-                    picker.close();
-                }
-            });
-        });
     });
     $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
         import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {

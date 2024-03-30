@@ -1663,7 +1663,7 @@
     "Scene": "場景",
     "ThemeSong": "主題曲",
     "ThemeVideo": "主題影片",
-    "EnableEnhancedNvdecDecoderHelp": "實驗性 NVDEC 實現，除非遇到解碼錯誤，否則不要啟用此選項。",
+    "EnableEnhancedNvdecDecoderHelp": "增強的 NVDEC 實現，如果遇到解碼錯誤，請禁用此選項以使用 CUVID。",
     "LabelVppTonemappingBrightnessHelp": "在 VPP 色調轉換中使用亮度增益。 推薦值和預設值為 16 和 0。",
     "LabelVppTonemappingContrast": "VPP 色調映射對比度增益",
     "VideoRangeTypeNotSupported": "不支援影片的範圍類型",
@@ -1848,5 +1848,12 @@
     "PlaybackError.NotAllowed": "該媒體被禁止播放。",
     "PlaybackError.RateLimitExceeded": "由於速率限制，該媒體目前無法播放。",
     "LabelAllowContentWithTags": "允許帶有標籤的項目",
-    "EnableSmoothScroll": "啟用平滑滾動"
+    "EnableSmoothScroll": "啟用平滑滾動",
+    "LimitSupportedVideoResolution": "限制支持的最高視頻分辨率",
+    "LimitSupportedVideoResolutionHelp": "使用“允許的最高影片轉碼解析度”作為支持的最高影片解析度。",
+    "AllowContentWithTagsHelp": "僅顯示至少具有一個指定標籤的媒體。",
+    "BlockContentWithTagsHelp": "隱藏至少具有一個指定標籤的媒體。",
+    "AirPlay": "隔空播放",
+    "EncodingFormatHelp": "選擇 Jellyfin 應轉檔到的影片編碼。 當所選格式的硬體加速不可用時，Jellyfin 將使用軟體編碼。 H264 編碼將始終啟用。",
+    "LabelEncodingFormatOptions": "編碼格式選項"
 }

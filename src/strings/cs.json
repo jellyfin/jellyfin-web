@@ -1649,7 +1649,7 @@
     "OriginalAirDate": "Původní datum vysílání",
     "Digital": "Digitální",
     "MessageUnauthorizedUser": "Momentálně nemáte oprávnění k přístupu na server. Pro více informací kontaktujte Vašeho správce serveru.",
-    "EnableEnhancedNvdecDecoderHelp": "Experimentální implementace NVDEC. Používejte jen v případě, že dochází při dekódování k chybám.",
+    "EnableEnhancedNvdecDecoderHelp": "Vylepšená implementace NVDEC. Pokud dochází při dekódování k chybám, vypnutím této možnosti bude použito CUVID.",
     "HomeVideosPhotos": "Domácí videa a fotky",
     "Bold": "Tučné",
     "LabelTextWeight": "Tloušťka textu",
@@ -1851,5 +1851,8 @@
     "LimitSupportedVideoResolution": "Omezit maximální podporované rozlišení videa",
     "LimitSupportedVideoResolutionHelp": "Použít \"Maximální rozlišení videa pro překódování\" jako maximální podporované rozlišení videa.",
     "PlaybackError.NO_MEDIA_ERROR": "Nelze najít platný zdroj médií k přehrání.",
-    "PlaybackError.RateLimitExceeded": "Toto médium není možné momentálně přehrát kvůli omezení rychlosti."
+    "PlaybackError.RateLimitExceeded": "Toto médium není možné momentálně přehrát kvůli omezení rychlosti.",
+    "AllowContentWithTagsHelp": "Zobrazovat jen média, která mají alespoň jednu ze značek.",
+    "BlockContentWithTagsHelp": "Skrýt média, která mají alespoň jednu ze značek.",
+    "AirPlay": "AirPlay"
 }

@@ -441,6 +441,9 @@ const UserParentalControl: FunctionComponent = () => {
                             btnIcon='add'
                             isLinkVisible={false}
                         />
+                        <div className='fieldDescription'>
+                            {globalize.translate('AllowContentWithTagsHelp')}
+                        </div>
                         <div className='allowedTags' style={{ marginTop: '.5em' }}>
                             {allowedTags?.map(tag => {
                                 return <TagList
@@ -462,6 +465,9 @@ const UserParentalControl: FunctionComponent = () => {
                             btnIcon='add'
                             isLinkVisible={false}
                         />
+                        <div className='fieldDescription'>
+                            {globalize.translate('BlockContentWithTagsHelp')}
+                        </div>
                         <div className='blockedTags' style={{ marginTop: '.5em' }}>
                             {blockedTags.map(tag => {
                                 return <TagList
