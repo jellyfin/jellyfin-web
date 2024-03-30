@@ -8,7 +8,6 @@ import ButtonElement from '../../../../elements/ButtonElement';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import InputElement from '../../../../elements/InputElement';
-import LinkTrickplayAcceleration from '../../../../components/dashboard/playback/trickplay/LinkTrickplayAcceleration';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import ServerConnections from '../../../../components/ServerConnections';
