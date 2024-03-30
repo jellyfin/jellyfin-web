@@ -1426,9 +1426,9 @@
     "GridView": "Visão em grade",
     "HeaderConfirmRepositoryInstallation": "Confirme a instalação do repositório de plugin",
     "AllowSegmentDeletion": "Deletar segmentos",
-    "AllowSegmentDeletionHelp": "Exclua segmentos antigos após terem sido enviados ao cliente. Isso evita ter que armazenar todo o arquivo transcodificado no disco. Funcionará apenas com throttling habilitado. Desligue esta opção se tiver problemas de reprodução.",
+    "AllowSegmentDeletionHelp": "Exclua segmentos antigos após terem sido baixados pelo cliente. Isso evita ter que armazenar todo o arquivo transcodificado no disco. Desligue esta opção se tiver problemas de reprodução.",
     "LabelSegmentKeepSeconds": "Tempo em segundos para manter os segmentos",
-    "LabelSegmentKeepSecondsHelp": "Tempo em segundos no qual o segmento deve ser mantido antes de ser reescrito. Deve ser maior que \"Acelerar depois\". So funciona se Deletar Segmentos estiver ativo.",
+    "LabelSegmentKeepSecondsHelp": "Tempo em segundos no qual o segmento deve ser mantido após ele é baixado pelo cliente. Só funciona se Deletar Segmentos estiver ativo.",
     "LabelThrottleDelaySeconds": "acelerar depois",
     "HeaderAllRecordings": "Todas as gravações",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Os extras geralmente têm o mesmo nome incorporado do parente, marque isto para usar títulos incorporados para eles de qualquer maneira.",
@@ -1813,5 +1813,8 @@
     "LabelJpegQuality": "Qualidade JPEG",
     "LabelTileHeightHelp": "Número máximo de imagens por mosaico na direção Y.",
     "LabelTileWidthHelp": "Número máximo de imagens por mosaico na direção X.",
-    "ExtractTrickplayImagesHelp": "As imagens Trickplay são semelhantes às imagens de capítulo, exceto pelo facto de abrangerem toda a extensão do conteúdo e serem utilizadas para mostrar uma pré-visualização ao percorrer os vídeos."
+    "ExtractTrickplayImagesHelp": "As imagens Trickplay são semelhantes às imagens de capítulo, exceto pelo facto de abrangerem toda a extensão do conteúdo e serem utilizadas para mostrar uma pré-visualização ao percorrer os vídeos.",
+    "AllowContentWithTagsHelp": "Somente exibe mídia que tenha ao menos uma das palavras-chaves especificadas.",
+    "BlockContentWithTagsHelp": "Esconde mídia que tenha ao menos uma das palavras-chaves especificadas.",
+    "ButtonEditUser": "Editar usuário"
 }
