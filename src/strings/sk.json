@@ -1447,7 +1447,7 @@
     "AspectRatioCover": "Obal",
     "VideoAudio": "Video Zvuk",
     "Video": "Video",
-    "AllowTonemappingHelp": "Mapovanie tónov umožňuje zmeniť dynamický rozsah videa z HDR na SDR bez straty dôležitých informácií pôvodného obrazu, ako sú detaily a farby. Táto funkcia v súčasnosti funguje len pre videá, ktoré obsahujú 10-bitové HDR10, HLG alebo Dolby Vision. Funkcia vyžaduje GPGPU.",
+    "AllowTonemappingHelp": "Mapovanie tónov umožňuje zmeniť dynamický rozsah videa z HDR na SDR bez straty dôležitých informácií pôvodného obrazu, ako sú detaily a farby. Táto funkcia v súčasnosti funguje len pre videá, ktoré obsahujú 10-bitové HDR10, HLG alebo Dolby Vision a vyžaduje GPGPU runtime.",
     "LabelTonemappingThresholdHelp": "Parametre algoritmu mapovania tónov sú prispôsobené jednotlivým scénam. A tento prah sa používa na zistenie, či sa scéna zmenila alebo nie. Pokiaľ rozdiel medzi súčasnou priemernou svetlosťou snímku a priebežným priemerom tento prah prekročí, bude priemerná a vrchná svetlosť scény prepočítaná. Doporučené a predvolené hodnoty sú 0.8 a 0.2.",
     "LabelUDPPortRangeHelp": "Obmedzí UDP pripojenie Jellyfinu na tento rozsah. (Predvolená hodnota je 1024 - 65535).<br/> Poznámka: Niektoré funkcie vyžadujú určité porty, ktoré sa môžu nachádzať mimo tohto rozsahu.",
     "Remuxing": "Remuxovanie",
@@ -1775,8 +1775,8 @@
     "LabelThrottleDelaySeconds": "Obmedziť po",
     "LabelSegmentKeepSeconds": "Doba ponechania segmentov",
     "LabelThrottleDelaySecondsHelp": "Čas v sekundách, po ktorom bude prekódovanie obmedzené. Musí byť dostatočne veľký, aby mal klient v rezerve dostatočné množstvo prehrávaného súboru. Funguje len vtedy, ak je povolená funkcia Obmedziť prekódovanie.",
-    "AllowSegmentDeletionHelp": "Odstránenie starých segmentov po strihnutí klientom. Tým sa zabráni tomu, aby sa celý prekódovaný súbor musel ukladať na disk. Ak sa vyskytnú problémy s prehrávaním, vypnite túto funkciu.",
-    "LabelSegmentKeepSecondsHelp": "Čas v sekundách, počas ktorého budú segmenty uložené. Funguje len vtedy, ak je povolená funkcia Zmazania segmentov.",
+    "AllowSegmentDeletionHelp": "Odstránenie starých segmentov po ich stiahnutí klientom. Tým sa zabráni tomu, aby sa celý prekódovaný súbor uložil na disk. Ak sa vyskytnú problémy s prehrávaním, vypnite túto funkciu.",
+    "LabelSegmentKeepSecondsHelp": "Čas v sekundách, počas ktorého sa majú segmenty uchovávať po ich stiahnutí klientom. Funguje len vtedy, ak je povolené mazanie segmentov.",
     "SelectAudioNormalizationHelp": "Zosilnenie stopy - upravuje hlasitosť jednotlivých stôp tak, aby sa prehrávali s rovnakou hlasitosťou. Zosilnenie pre album - upravuje hlasitosť všetkých skladieb iba v albume, pričom zachováva dynamický rozsah albumu.",
     "LabelAlbumGain": "Zosilnenie pre album",
     "LabelSelectAudioNormalization": "Normalizácia hlasitosti",
@@ -1785,6 +1785,6 @@
     "ButtonEditUser": "Upraviť používateľa",
     "HeaderAllRecordings": "Všetky nahrávky",
     "AirPlay": "AirPlay",
-    "AllowContentWithTagsHelp": "Zobraziť len médiá s aspoň jednou zo zadaných značiek.",
-    "AllowSubtitleManagement": "Povoliť používateľovi upravovať titulky"
+    "AllowContentWithTagsHelp": "Zobrazí len médiá, ktoré majú aspoň jeden zo špecifikovaných tagov.",
+    "AllowSubtitleManagement": "Povoliť tomuto používateľovi upravovať titulky"
 }
