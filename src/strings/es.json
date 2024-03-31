@@ -1629,7 +1629,7 @@
     "EnableRewatchingNextUpHelp": "Mostrar episodios vistos en la sección 'Volver a ver'.",
     "EnableRewatchingNextUp": "Activar Volver a ver",
     "Digital": "Digital",
-    "EnableEnhancedNvdecDecoderHelp": "Implementación experimental de NVDEC, no habilite esta opción a menos que encuentre errores de decodificación.",
+    "EnableEnhancedNvdecDecoderHelp": "Implementación mejorada de NVDEC, deshabilite esta opción para usar CUVID si encuentra errores de decodificación.",
     "ThemeSong": "Tema principal",
     "Sample": "Muestra",
     "Scene": "Escena",
@@ -1816,5 +1816,15 @@
     "EnableSmoothScroll": "Activar desplazamiento suave",
     "Lyric": "Letra",
     "LimitSupportedVideoResolution": "Limitar resolución de video máxima soportada",
-    "LimitSupportedVideoResolutionHelp": "Utilice \"Resolución de transcodificación de vídeo máxima permitida\" como resolución de vídeo máxima admitida."
+    "LimitSupportedVideoResolutionHelp": "Utilice \"Resolución de transcodificación de vídeo máxima permitida\" como resolución de vídeo máxima admitida.",
+    "LabelEncodingFormatOptions": "Opciones de formato de codificación",
+    "AirPlay": "AirPlay",
+    "PlaybackError.FATAL_HLS_ERROR": "Un error fatal se encontró en el stream HLS.",
+    "PlaybackError.MEDIA_NOT_SUPPORTED": "La reproducción falló porque el medio no es compatible con este cliente.",
+    "PlaybackError.NETWORK_ERROR": "La reproducción falló por un error de red.",
+    "PlaybackError.NO_MEDIA_ERROR": "No ha sido posible encontrar un medio válido para reproducir.",
+    "PlaybackError.PLAYER_ERROR": "La reproducción falló por un error fatal del reproductor.",
+    "PlaybackError.SERVER_ERROR": "La reproducción falló por un error del servidor.",
+    "PlaybackError.NotAllowed": "La reproducción de este medio no está permitida.",
+    "PlaybackError.RateLimitExceeded": "Este medio no puede reproducirse en este momento debído a límites."
 }
