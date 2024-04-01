@@ -727,9 +727,9 @@ export default function (options) {
 
             obj.x = eventX;
             obj.y = eventY;
-
-            showOsd();
         }
+
+        showOsd();
     }
 
     /**
