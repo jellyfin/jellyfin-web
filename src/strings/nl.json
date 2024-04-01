@@ -205,7 +205,7 @@
     "Guide": "Gids",
     "GuideProviderLogin": "Aanmelden",
     "GuideProviderSelectListings": "Lijsten selecteren",
-    "H264CrfHelp": "De 'Constant Rate Factor' (CRF) is de standaard kwaliteitsinstelling voor de x264- en x265-encoder. Geldige waarden liggen tussen 0 en 51. Hoe lager de waarde, hoe beter de beeldkwaliteit, maar hoe groter het bestand. Waarden tussen 18 en 28 worden aanbevolen. De standaardwaarde is 23 voor x264 en 28 voor x265. Je kunt deze waardes gebruiken als beginpunt.",
+    "H264CrfHelp": "De 'Constant Rate Factor' (CRF) is de standaard kwaliteitsinstelling voor de software-encoders voor x264 en x265. Geldige waarden liggen tussen 0 en 51. Hoe lager de waarde, hoe beter de beeldkwaliteit, maar hoe groter het bestand. Waarden tussen 18 en 28 worden aanbevolen. De standaardwaarde is 23 voor x264 en 28 voor x265. Je kunt deze waardes gebruiken als beginpunt. Hardware-encoders gebruiken deze instellingen niet.",
     "EncoderPresetHelp": "Kies een snellere waarde om de prestaties te verbeteren, of een tragere waarde om de kwaliteit te verbeteren.",
     "HDPrograms": "HD-programma's",
     "HardwareAccelerationWarning": "Hardwareversnelling inschakelen kan instabiliteit veroorzaken in sommige omgevingen. Zorg ervoor dat je besturingssysteem en videostuurprogramma's volledig bijgewerkt zijn. Als je problemen ondervindt bij het afspelen van video nadat je dit hebt ingeschakeld, moet je de instelling terugzetten naar Geen.",
@@ -1855,5 +1855,7 @@
     "BlockContentWithTagsHelp": "Media verbergen met ten minste een van de opgegeven labels.",
     "LabelEncodingFormatOptions": "Coderingsformaatopties",
     "EncodingFormatHelp": "Selecteer de beeldcodering waar Jellyfin naartoe moet transcoderen. Jellyfin gebruikt softwarecodering wanneer hardwarecodering niet voor het geselecteerde formaat beschikbaar is. H264-codering is altijd ingeschakeld.",
-    "AirPlay": "AirPlay"
+    "AirPlay": "AirPlay",
+    "EnableLibrary": "Bibliotheek inschakelen",
+    "EnableLibraryHelp": "Het uitschakelen van een bibliotheek verbergt deze voor alle gebruikers."
 }
