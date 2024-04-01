@@ -1856,5 +1856,7 @@
     "BlockContentWithTagsHelp": "隐藏至少具有一个指定标签的媒体。",
     "AirPlay": "隔空播放",
     "LabelEncodingFormatOptions": "编码格式选项",
-    "EncodingFormatHelp": "选择 Jellyfin 应转码到的视频编码。 当所选格式的硬件加速不可用时，Jellyfin 将使用软件编码。 H264 编码将始终启用。"
+    "EncodingFormatHelp": "选择 Jellyfin 应转码到的视频编码。 当所选格式的硬件加速不可用时，Jellyfin 将使用软件编码。 H264 编码将始终启用。",
+    "EnableLibrary": "启用媒体库",
+    "EnableLibraryHelp": "禁用该媒体库将从所有用户视图中隐藏它。"
 }
