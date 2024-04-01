@@ -1353,7 +1353,7 @@
     "LabelOpenclDevice": "OpenCL 设备",
     "LabelOpenclDeviceHelp": "这是用于色调映射的 OpenCL 设备。 点左边是平台号，右边是平台上的设备号。 默认值为 0.0。 需要支持OpenCL 硬件加速的 FFmpeg 应用程序。",
     "EnableTonemapping": "启用色调映射",
-    "AllowTonemappingHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅对 10 位 HDR10，HLG 和 DoVi 视频生效。此项需要对应的 GPGPU 运行库。",
+    "AllowTonemappingHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅对 10bit HDR10，HLG 和 DoVi 视频生效。此项需要对应的 GPGPU 运行库。",
     "LabelTonemappingAlgorithm": "选择要使用的色调映射算法",
     "TonemappingAlgorithmHelp": "色调映射可以微调。如果你不是很熟悉这些选项，保持默认即可。建议值为 'BT.2390'。",
     "LabelTonemappingRange": "色调映射范围",
