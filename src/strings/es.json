@@ -586,7 +586,7 @@
     "LabelReleaseDate": "Fecha de lanzamiento",
     "LabelRemoteClientBitrateLimit": "Límite de la transmisión de tasa de bits por internet (Mbps)",
     "LabelRemoteClientBitrateLimitHelp": "Especifica el bitrate máximo para los dispositivos que se encuentren fuera de la red local. Esto es útil para permitir la reproducción del contenido que tengas con una tasa de bits muy alta cuando la conexión a internet de tu servidor o la del cliente no sea lo suficientemente rápida. Esto ocasionará mayor carga, ya que el contenido que supere esta tasa de bits se convertirá para que esté dentro del límite establecido.",
-    "LabelRuntimeMinutes": "Tiempo de ejecución",
+    "LabelRuntimeMinutes": "Duración",
     "LabelSaveLocalMetadata": "Guardar imágenes en las carpetas de medios",
     "LabelSaveLocalMetadataHelp": "Guardar imágenes directamente en las carpetas en las que estén los elementos hará que se puedan editar más fácilmente.",
     "LabelScheduledTaskLastRan": "Última ejecución {0}, tardando {1}.",
