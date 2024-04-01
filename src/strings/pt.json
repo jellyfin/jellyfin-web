@@ -353,7 +353,7 @@
     "LabelMetadataReadersHelp": "Ordene as fontes locais de metadados por ordem de prioridade. O primeiro ficheiro a ser encontrado será lido.",
     "LabelMetadataReaders": "Leirores de metadados",
     "LabelMetadataDownloadersHelp": "Ative e ordene os seus fornecedores de metadados preferidos por ordem de prioridade. Os de menor prioridade só serão utilizados para preencher as informações em falta.",
-    "LabelLogs": "Registros",
+    "LabelLogs": "Registos (Logs)",
     "LabelKodiMetadataUserHelp": "Guardar dados de utilização em NFO para que outras aplicações os utilizem.",
     "LabelKodiMetadataUser": "Guardar dados de utilização em NFO para",
     "LabelImageFetchersHelp": "Activar e ordenar os pesquisadores de imagens por ordem de preferência.",
@@ -1260,7 +1260,7 @@
     "LabelMinAudiobookResumeHelp": "Os títulos são considerados não reproduzidos se parados antes desse período.",
     "LabelMinAudiobookResume": "Retomada mínima em minutos de Audiolivro",
     "LabelMaxAudiobookResume": "Minutos restantes do Audiolivro para retomar",
-    "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes que podem ser armazenados em buffer enquanto aguardam a inicialização de todos os fluxos. Tente aumentá-lo se ainda encontrar o erro \"Muitos pacotes armazenados em buffer para fluxo de saída\" nos logs do ffmpeg. O valor recomendado é 2048.",
+    "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes que podem ser armazenados em <i>buffer</i> enquanto espera que todos os streams sejam inicializados. Tenta aumentá-lo se ainda encontrares o erro \"Demasiados pacotes armazenados em buffer para o fluxo de saída\" nos registos (logs) do FFmpeg. O valor recomendado é 2048.",
     "LabelMaxMuxingQueueSize": "Tamanho máximo da fila de muxing",
     "LabelMaxAudiobookResumeHelp": "Os títulos são considerados totalmente reproduzidos se parados quando a duração restante é inferior a este valor.",
     "LabelKnownProxies": "Proxies conhecidos",
@@ -1632,7 +1632,7 @@
     "MediaInfoColorSpace": "Espaço colorido",
     "Studio": "Estúdio",
     "SubtitleGray": "Cinza",
-    "TabLogs": "Histórico",
+    "TabLogs": "Registos (Logs)",
     "Tags": "Etiquetas",
     "Vertical": "Vertical",
     "Video": "Vídeo",
@@ -1820,5 +1820,7 @@
     "EncodingFormatHelp": "Seleciona a codificação de vídeo para a qual o Jellyfin deve transcodificar. O Jellyfin usará a codificação de software quando a aceleração de hardware para o formato selecionado não estiver disponível. A codificação H264 será sempre ativada.",
     "LabelEncodingFormatOptions": "Opções de formato de codificação",
     "AirPlay": "AirPlay",
-    "LimitSupportedVideoResolutionHelp": "Utiliza 'Resolução máxima permitida para transcodificação de vídeo' como resolução máxima de vídeo suportada."
+    "LimitSupportedVideoResolutionHelp": "Utiliza 'Resolução máxima permitida para transcodificação de vídeo' como resolução máxima de vídeo suportada.",
+    "EnableLibraryHelp": "Se desativares a biblioteca, ela será ocultada de todas as visualizações do utilizador.",
+    "EnableLibrary": "Ativar a biblioteca"
 }
