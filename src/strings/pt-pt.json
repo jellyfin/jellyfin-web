@@ -994,7 +994,7 @@
     "DetectingDevices": "A procurar dispositivos",
     "CopyStreamURL": "Copiar URL da transmissão",
     "Disc": "Disco",
-    "LabelLogs": "Registos",
+    "LabelLogs": "Registos (Logs)",
     "LabelSortTitle": "Título para ordenação",
     "HeaderFetcherSettings": "Definições do fornecedor",
     "HeaderKodiMetadataHelp": "Para activar ou desactivar metadados NFO, utilize a secção de metadados disponível na página de configurações da biblioteca.",
@@ -1160,7 +1160,7 @@
     "ThemeSongs": "Músicas de tema",
     "TagsValue": "Etiquetas: {0}",
     "Tags": "Etiquetas",
-    "TabLogs": "Logs",
+    "TabLogs": "Registos (Logs)",
     "TabCodecs": "Codecs",
     "Suggestions": "Sugestões",
     "SortName": "Ordenar nome",
@@ -1414,7 +1414,7 @@
     "LabelTonemappingRange": "Alcance do Tone Mapping",
     "TonemappingAlgorithmHelp": "O Tone Mapping pode ser afinado. Se não estiver familiarizado com estas opções, mantenha-as nas opções padrão. O valor recomendado é 'BT.2390'.",
     "AllowTonemappingHelp": "O mapeamento de tons pode transformar a faixa dinâmica de um vídeo de HDR para SDR, mantendo os detalhes e cores da imagem, que são informações muito importantes para representar a cena original. Atualmente funciona apenas com vídeos HDR10 de 10 bits, HLG e DoVi. Isto requer OpenCL ou CUDA correspondente.",
-    "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes armazenados em <i>buffer</i> enquanto aguardam que todas as transmissões iniciem. Tente aumentá-lo caso se depare com o seguinte erro nos <i>registos</i> do FFmpeg \"Too many packets buffered for output stream\". O valor recomendado é 2048.",
+    "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes que podem ser armazenados em <i>buffer</i> enquanto espera que todos os streams sejam inicializados. Tenta aumentá-lo se ainda encontrares o erro \"Demasiados pacotes armazenados em buffer para o fluxo de saída\" nos registos (logs) do FFmpeg. O valor recomendado é 2048.",
     "DeleteAll": "Apagar tudo",
     "DeleteDevicesConfirmation": "Tem a certeza que deseja remover todos os dispositivos? Todas as outras sessões serão terminadas. Os dispositivos reaparecerão da próxima vez que um utilizador iniciar sessão.",
     "Bwdif": "BWDIF",
@@ -1817,5 +1817,7 @@
     "BlockContentWithTagsHelp": "Ocultar os conteúdos multimédia com pelo menos uma das etiquetas especificadas.",
     "ButtonEditUser": "Editar utilizador",
     "LimitSupportedVideoResolutionHelp": "Utiliza 'Resolução máxima permitida para transcodificação de vídeo' como resolução máxima de vídeo suportada.",
-    "AllowContentWithTagsHelp": "Mostrar apenas os conteúdos multimédia com pelo menos uma das etiquetas especificadas."
+    "AllowContentWithTagsHelp": "Mostrar apenas os conteúdos multimédia com pelo menos uma das etiquetas especificadas.",
+    "EnableLibraryHelp": "Se desativares a biblioteca, ela será ocultada de todas as visualizações do utilizador.",
+    "EnableLibrary": "Ativar a biblioteca"
 }
