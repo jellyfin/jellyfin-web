@@ -321,7 +321,7 @@
     "Guide": "Guide",
     "GuideProviderLogin": "Login",
     "GuideProviderSelectListings": "Select Listings",
-    "H264CrfHelp": "The 'Constant Rate Factor' (CRF) is the default quality setting for the x264 and x265 encoder. You can set the values between 0 and 51, where lower values would result in better quality (at the expense of higher file sizes). Sane values are between 18 and 28. The default for x264 is 23, and for x265 is 28, so you can use this as a starting point.",
+    "H264CrfHelp": "The 'Constant Rate Factor' (CRF) is the default quality setting for the x264 and x265 software encoders. You can set the values between 0 and 51, where lower values would result in better quality (at the expense of higher file sizes). Sane values are between 18 and 28. The default for x264 is 23, and for x265 is 28, so you can use this as a starting point. Hardware encoders do not use these settings.",
     "HDPrograms": "HD programs",
     "HardwareAccelerationWarning": "Enabling hardware acceleration may cause instability in some environments. Ensure that your operating system and video drivers are fully up to date. If you have difficulty playing video after enabling this, you'll need to change the setting back to None.",
     "HeaderAccessSchedule": "Access Schedule",
