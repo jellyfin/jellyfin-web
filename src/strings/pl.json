@@ -219,7 +219,7 @@
     "Guide": "Przewodnik",
     "GuideProviderLogin": "Logowanie",
     "GuideProviderSelectListings": "Pokazuj oferty",
-    "H264CrfHelp": "'Constant Rate Factor' (CRF) to domyślna jakość kodowania x264 i x265. Możesz ją ustawić w zakresie 0-51, gdzie niższe wartości zwiększają jakość (kosztem większego rozmiaru pliku). Rozsądne wartości to zakres 18-28. Domyślne wartości to 23 dla x264 oraz 28 dla x265 - możesz jej użyć jako wartości początkowej.",
+    "H264CrfHelp": "'Constant Rate Factor' (CRF) to domyślne ustawienie jakości dla koderów programowych x264 i x265. Możesz ją ustawić w zakresie 0-51, gdzie niższe wartości zwiększają jakość (kosztem większego rozmiaru pliku). Rozsądne wartości to zakres 18-28. Domyślne wartości to 23 dla x264 oraz 28 dla x265 - możesz jej użyć jako wartości początkowej. Kodery sprzętowe nie korzystają z tych ustawień.",
     "EncoderPresetHelp": "Wybierz szybszą wartość, aby zwiększyć wydajność, lub wolniejszą, aby zwiększyć jakość.",
     "HDPrograms": "Programy w jakości HD",
     "HardwareAccelerationWarning": "Aktywacja akceleracji sprzętowej może powodować niestabilność na niektórych środowiskach. Upewnij się, że system operacyjny i sterowniki karty graficznej są aktualne. Jeżeli masz problemy z odtwarzaniem wideo po aktywacji, przywróć to ustawienie do wartości Brak.",
@@ -1853,5 +1853,10 @@
     "LimitSupportedVideoResolutionHelp": "Jako maksymalną obsługiwaną rozdzielczość wideo użyj opcji „Maksymalna dozwolona rozdzielczość transkodowania wideo”.",
     "LimitSupportedVideoResolution": "Ogranicz maksymalną obsługiwaną rozdzielczość wideo",
     "AllowContentWithTagsHelp": "Wyświetlaj tylko multimedia z co najmniej jednym z określonych tagów.",
-    "BlockContentWithTagsHelp": "Ukryj multimedia z co najmniej jednym z określonych tagów."
+    "BlockContentWithTagsHelp": "Ukryj multimedia z co najmniej jednym z określonych tagów.",
+    "AirPlay": "AirPlay",
+    "LabelEncodingFormatOptions": "Opcje formatu kodowania",
+    "EncodingFormatHelp": "Wybierz kodowanie wideo, którym Jellyfin powinien transkodować. Jellyfin użyje kodowania programowego, gdy akceleracja sprzętowa dla wybranego formatu nie jest dostępna. Kodowanie H264 będzie zawsze włączone.",
+    "EnableLibrary": "Włącz bibliotekę",
+    "EnableLibraryHelp": "Wyłączenie biblioteki spowoduje ukrycie jej przed wszystkimi widokami użytkowników."
 }

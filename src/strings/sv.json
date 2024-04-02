@@ -1701,7 +1701,7 @@
     "LabelChapterImageResolution": "Upplösning",
     "LabelChapterImageResolutionHelp": "Upplösningen för de extraherade kapitelbilderna. Om du ändrar detta kommer det inte att ha någon effekt på befintliga dummy-kapitel.",
     "HeaderRecordingMetadataSaving": "Metadata för inspelning",
-    "AllowCollectionManagement": "Tillåt denna använda att hantera samlingar",
+    "AllowCollectionManagement": "Tillåt denna användare att hantera samlingar",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Föredra embäddade titlar framför filnamn för extramaterial",
     "Short": "Kortfilm",
     "PasswordRequiredForAdmin": "Ett lösenord krävs för administratörskonton.",
@@ -1785,5 +1785,8 @@
     "LabelBuildVersion": "Byggversion",
     "ButtonEditUser": "redigera användare",
     "LabelServerVersion": "Serverversion",
-    "LabelWebVersion": "Webbversion"
+    "LabelWebVersion": "Webbversion",
+    "AirPlay": "AirPlay",
+    "AllowContentWithTagsHelp": "Visa bara media med åtminstone en av de specificerade taggarna.",
+    "AllowSubtitleManagement": "Tillåt denna användare att redigera undertexter"
 }

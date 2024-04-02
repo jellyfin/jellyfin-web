@@ -1852,5 +1852,10 @@
     "LimitSupportedVideoResolution": "限制支持的最高視頻分辨率",
     "LimitSupportedVideoResolutionHelp": "使用“允許的最高影片轉碼解析度”作為支持的最高影片解析度。",
     "AllowContentWithTagsHelp": "僅顯示至少具有一個指定標籤的媒體。",
-    "BlockContentWithTagsHelp": "隱藏至少具有一個指定標籤的媒體。"
+    "BlockContentWithTagsHelp": "隱藏至少具有一個指定標籤的媒體。",
+    "AirPlay": "隔空播放",
+    "EncodingFormatHelp": "選擇 Jellyfin 應轉檔到的影片編碼。 當所選格式的硬體加速不可用時，Jellyfin 將使用軟體編碼。 H264 編碼將始終啟用。",
+    "LabelEncodingFormatOptions": "編碼格式選項",
+    "EnableLibraryHelp": "禁用該媒體庫將從所有用戶視圖中隱藏它。",
+    "EnableLibrary": "啟用媒體庫"
 }

@@ -1853,5 +1853,8 @@
     "PlaybackError.NO_MEDIA_ERROR": "Nelze najít platný zdroj médií k přehrání.",
     "PlaybackError.RateLimitExceeded": "Toto médium není možné momentálně přehrát kvůli omezení rychlosti.",
     "AllowContentWithTagsHelp": "Zobrazovat jen média, která mají alespoň jednu ze značek.",
-    "BlockContentWithTagsHelp": "Skrýt média, která mají alespoň jednu ze značek."
+    "BlockContentWithTagsHelp": "Skrýt média, která mají alespoň jednu ze značek.",
+    "AirPlay": "AirPlay",
+    "LabelEncodingFormatOptions": "Možnosti formátu kódování",
+    "EncodingFormatHelp": "Vyberte formát, do kterého by měly být překódovány videa. Pokud není k dispozici hardwarová akcelerace pro vybraný formát, bude použito softwarové kódování. Kódování do formátu H.264 bude vždy povoleno."
 }
