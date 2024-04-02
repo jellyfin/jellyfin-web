@@ -211,7 +211,7 @@
     "GroupVersions": "Grouper les versions",
     "GuideProviderLogin": "Connexion",
     "GuideProviderSelectListings": "Sélectionner les programmes",
-    "H264CrfHelp": "Le facteur de débit constant (CRF) est le paramètre de qualité par défaut pour les encodeurs x264 et x265. Choisir une valeur comprise entre 0 et 51 en tenant compte qu'une valeur inférieure produit une vidéo de meilleure qualité au prix d'une taille de fichier plus importante. Les valeurs considérées comme saines sont comprises entre 18 et 28. Les valeurs par défaut, 23 pour x264 et 28 pour x265, peuvent être utilisées comme point de départ pour le réglage.",
+    "H264CrfHelp": "Le facteur de débit constant (CRF) est le paramètre de qualité par défaut pour les encodeurs x264 et x265. Choisir une valeur comprise entre 0 et 51 en tenant compte qu'une valeur inférieure produit une vidéo de meilleure qualité au prix d'une taille de fichier plus importante. Les valeurs considérées comme saines sont comprises entre 18 et 28. Les valeurs par défaut, 23 pour x264 et 28 pour x265, peuvent être utilisées comme point de départ pour le réglage. Les encodages matériels n'utilisent pas ces paramètres.",
     "EncoderPresetHelp": "Choisir un profil d'encodage plus rapide améliorera la performance tandis qu'un profil plus lent favorisera la qualité.",
     "HDPrograms": "Programmes HD",
     "HardwareAccelerationWarning": "L'activation de l'accélération matérielle peut provoquer l'instabilité de certains environnements. Merci de vous assurer que le système d'exploitation et les pilotes vidéo sont tous complètement à jour. Si vous avez des difficultés pour lire des vidéos après l'activation, merci de remettre ce paramètre sur 'Aucun'.",
@@ -1813,5 +1813,8 @@
     "EnableSmoothScroll": "Activer le défilement fluide",
     "Lyric": "Parole",
     "LimitSupportedVideoResolution": "Limiter la résolution vidéo maximale prise en charge",
-    "LimitSupportedVideoResolutionHelp": "Utiliser la 'Résolution de transcodage vidéo maximale autorisée' comme résolution vidéo maximale prise en charge."
+    "LimitSupportedVideoResolutionHelp": "Utiliser la 'Résolution de transcodage vidéo maximale autorisée' comme résolution vidéo maximale prise en charge.",
+    "EnableLibrary": "Activer la médiathèque",
+    "EnableLibraryHelp": "La désactivation de la médiathèque la masquera de toutes les vues utilisateur.",
+    "AirPlay": "Diffusion"
 }
