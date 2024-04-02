@@ -1377,7 +1377,7 @@
     "LabelColorSpace": "Farbraum",
     "MediaInfoColorSpace": "Farbraum",
     "VideoAudio": "Videoton",
-    "AllowTonemappingHelp": "Tone-Mapping kann den Dynamikumfang eines Videos von HDR nach SDR wandeln und dabei die für die Darstellung der Originalszene sehr wichtigen Bilddetails und Farben beibehalten. Dies funktioniert zurzeit nur bei 10bit HDR10, HLG und Dolby-Vision Videos und benötigt die entsprechende OpenCL- oder CUDA-Laufzeitumgebung.",
+    "AllowTonemappingHelp": "Tone-Mapping kann den Dynamikumfang eines Videos von HDR nach SDR wandeln und dabei die für die Darstellung der Originalszene sehr wichtigen Bilddetails und Farben beibehalten. Dies funktioniert zurzeit nur bei 10bit HDR10, HLG und Dolby-Vision Videos und benötigt die entsprechende GPGPU-Laufzeitumgebung.",
     "TonemappingRangeHelp": "Wähle den Ausgabefarbraum aus. Auto ist derselbe wie der Eingabefarbraum.",
     "TonemappingAlgorithmHelp": "Das Tone-Mapping kann fein abgestimmt werden. Wenn du mit diesen Optionen nicht vertraut bist, behalte einfach den Standardwert bei. Der empfohlene Wert ist \"BT.2390\".",
     "LabelTonemappingAlgorithm": "Wähle den zu verwendenden Tone-Mapping-Algorithmus aus",
@@ -1798,5 +1798,8 @@
     "ChannelResolutionFullHD": "Full HD",
     "ChannelResolutionUHD4K": "UHD (4K)",
     "EnableVideoToolboxTonemapping": "VideoToolbox-Tone-Mapping aktivieren",
-    "AllowVideoToolboxTonemappingHelp": "Hardwarebeschleunigtes Tone-Mapping welches von VideoToolbox zur verfügung gestellt wird. Es funktioniert mit den meisten HDR Formaten wie HDR10, HDR10+ und HLG, aber es funktioniert nicht mit Dolby Vision Profile 5. Dies hat eine höhere Priorität verglichen mit einer anderen OpenCL implementation."
+    "AllowVideoToolboxTonemappingHelp": "Hardwarebeschleunigtes Tone-Mapping welches von VideoToolbox zur verfügung gestellt wird. Es funktioniert mit den meisten HDR Formaten wie HDR10, HDR10+ und HLG, aber es funktioniert nicht mit Dolby Vision Profile 5. Dies hat eine höhere Priorität verglichen mit einer anderen OpenCL implementation.",
+    "AirPlay": "AirPlay",
+    "AllowContentWithTagsHelp": "Nur Medien mit mindestens einem der spezifizierten Tags anzeigen.",
+    "BlockContentWithTagsHelp": "Medien mit mindestens einem der spezifizierten Tags verstecken."
 }
