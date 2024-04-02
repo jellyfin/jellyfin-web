@@ -1,4 +1,3 @@
-import Package from '../../package.json';
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
@@ -36,7 +35,7 @@ function getDeviceProfile(item) {
         let profile;
 
         if (window.NativeShell) {
-            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, Package.version);
+            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, __PACKAGE_JSON_VERSION__);
         } else {
             const builderOpts = getBaseProfileOptions(item);
             profile = profileBuilder(builderOpts);
@@ -46,18 +45,27 @@ function getDeviceProfile(item) {
         const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
+            const conditionWidth = {
+                Condition: 'LessThanEqual',
+                Property: 'Width',
+                Value: maxTranscodingVideoWidth.toString(),
+                IsRequired: false
+            };
+
+            if (appSettings.limitSupportedVideoResolution()) {
+                profile.CodecProfiles.push({
+                    Type: 'Video',
+                    Conditions: [conditionWidth]
+                });
+            }
+
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
                 if (transcodingProfile.Type === 'Video') {
                     transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition) => {
                         return condition.Property !== 'Width';
                     });
 
-                    transcodingProfile.Conditions.push({
-                        Condition: 'LessThanEqual',
-                        Property: 'Width',
-                        Value: maxTranscodingVideoWidth.toString(),
-                        IsRequired: false
-                    });
+                    transcodingProfile.Conditions.push(conditionWidth);
                 }
             });
         }
@@ -378,7 +386,7 @@ export const appHost = {
     },
     appVersion: function () {
         return window.NativeShell?.AppHost?.appVersion ?
-            window.NativeShell.AppHost.appVersion() : Package.version;
+            window.NativeShell.AppHost.appVersion() : __PACKAGE_JSON_VERSION__;
     },
     getPushTokenInfo: function () {
         return {};

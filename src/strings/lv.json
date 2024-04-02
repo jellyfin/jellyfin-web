@@ -1226,7 +1226,7 @@
     "H264CrfHelp": "‘Constant Rate Factor’ (CRF) ir noklusējuma kvalitātes iestatījums priekš x264 un x265 kodētājiem. Pieļaujamās vērtības 0-51, kur zemāka vērtības atbilst labākai kvalitātei (jo mazāks skaitlis jo lielāki faili). Parasti izvēlas 18-28. Noklusējums x264 kodētājam ir 23, x265 ir 28. Noklusējuma vērtības var izmantot kā sākuma punktu.",
     "GuideProviderSelectListings": "Izvēlēties sarakstus",
     "ErrorPlayerNotFound": "Atskaņotājs pieprasītajai multividei nav atrasts.",
-    "ErrorAddingListingsToSchedulesDirect": "Pievienojot sarakstu jūsu Schedules Direct kontam. Schedules Direct atļauj vienā kontā tikai ierobežotu grupu skaitu. Pirms turpināt, jums būs jāpiesakās Schedules Direct vietnē un jānoņem citi ieraksti no sava konta.",
+    "ErrorAddingListingsToSchedulesDirect": "Notika kļūda, pievienojot sarakstu jūsu Schedules Direct kontā. Schedules Direct pieļauj vienā kontā tikai ierobežotu sarakstu skaitu. Pirms turpināt, jums būtu jāpiesakās Schedules Direct vietnē un jānoņem citi saraksti no sava konta.",
     "Engineer": "Skaņas inženieris",
     "DirectPlayHelp": "Oriģinālais fails ir pilnībā saderīgs ar šo klientu un šī sesija saņem failu bez modifikācijas.",
     "Cursive": "Kursīvs",

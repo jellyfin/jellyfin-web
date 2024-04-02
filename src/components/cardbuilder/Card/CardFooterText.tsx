@@ -5,6 +5,7 @@ import layoutManager from 'components/layoutManager';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+import Image from 'components/common/Image';
 
 const shouldShowDetailsMenu = (
     cardOptions: CardOptions,
@@ -23,9 +24,14 @@ interface LogoComponentProps {
     logoUrl: string;
 }
 
-const LogoComponent: FC<LogoComponentProps> = ({ logoUrl }) => {
-    return <Box className='lazy cardFooterLogo' data-src={logoUrl} />;
-};
+const LogoComponent: FC<LogoComponentProps> = ({ logoUrl }) => (
+    <Box className='cardFooterLogo'>
+        <Image
+            imgUrl={logoUrl}
+            containImage
+        />
+    </Box>
+);
 
 interface CardFooterTextProps {
     item: ItemDto;
@@ -51,7 +57,7 @@ const CardFooterText: FC<CardFooterTextProps> = ({
     isOuterFooter
 }) => {
     const { cardTextLines } = useCardText({
-        item,
+        item: item.ProgramInfo || item,
         cardOptions,
         forceName,
         imgUrl,

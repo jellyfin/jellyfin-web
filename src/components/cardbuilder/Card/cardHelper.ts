@@ -6,7 +6,6 @@ import {
 } from '@jellyfin/sdk/lib/generated-client';
 import { Api } from '@jellyfin/sdk';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
-import escapeHTML from 'escape-html';
 
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
@@ -78,15 +77,11 @@ export function getTextActionButton(
     text?: NullableString,
     serverId?: NullableString
 ): TextLine {
-    if (!text) {
-        text = itemHelper.getDisplayName(item);
-    }
-
-    text = escapeHTML(text);
+    const title = text || itemHelper.getDisplayName(item);
 
     if (layoutManager.tv) {
         return {
-            title: text
+            title
         };
     }
 
@@ -108,7 +103,7 @@ export function getTextActionButton(
     return {
         titleAction: {
             url,
-            title: text,
+            title,
             dataAttributes
         }
     };
@@ -510,7 +505,7 @@ function getChannelName(item: ItemDto) {
             item.ChannelName
         );
     } else {
-        return { title: item.ChannelName || '' || '&nbsp;' };
+        return { title: item.ChannelName || '\u00A0' };
     }
 }
 

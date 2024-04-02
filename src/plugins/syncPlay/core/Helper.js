@@ -84,7 +84,7 @@ export function getItemsForPlayback(apiClient, query) {
         });
     } else {
         query.Limit = query.Limit || 300;
-        query.Fields = 'Chapters';
+        query.Fields = ['Chapters', 'Trickplay'];
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
@@ -200,7 +200,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: 'Chapters'
+                    Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     let foundItem = false;
                     episodesResult.Items = episodesResult.Items.filter(function (e) {

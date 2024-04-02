@@ -43,7 +43,7 @@
             </div>
 
             <div class="selectContainer">
-                <select is="emby-select" class="selectLabelMaxVideoWidth" label="${LabelMaxVideoResolution}">
+                <select is="emby-select" class="selectMaxVideoWidth" label="${LabelMaxVideoResolution}">
                     <option value="0">${Auto}</option>
                     <option value="-1">${ScreenResolution}</option>
                     <option value="640">360p</option>
@@ -53,6 +53,14 @@
                     <option value="3840">4K</option>
                     <option value="7680">8K</option>
                 </select>
+            </div>
+
+            <div class="checkboxContainer checkboxContainer-withDescription">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkLimitSupportedVideoResolution" />
+                    <span>${LimitSupportedVideoResolution}</span>
+                </label>
+                <div class="fieldDescription checkboxFieldDescription">${LimitSupportedVideoResolutionHelp}</div>
             </div>
         </div>
 

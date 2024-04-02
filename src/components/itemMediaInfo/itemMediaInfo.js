@@ -84,6 +84,7 @@ function getMediaSourceHtml(user, item, version) {
             case 'Data':
             case 'Subtitle':
             case 'Video':
+            case 'Lyric':
                 translateString = stream.Type;
                 break;
             case 'EmbeddedImage':
@@ -145,10 +146,10 @@ function getMediaSourceHtml(user, item, version) {
         if (stream.BitDepth) {
             attributes.push(createAttribute(globalize.translate('MediaInfoBitDepth'), `${stream.BitDepth} bit`));
         }
-        if (stream.VideoRange) {
+        if (stream.VideoRange && stream.Type === 'Video') {
             attributes.push(createAttribute(globalize.translate('MediaInfoVideoRange'), stream.VideoRange));
         }
-        if (stream.VideoRangeType) {
+        if (stream.VideoRangeType && stream.Type === 'Video') {
             attributes.push(createAttribute(globalize.translate('MediaInfoVideoRangeType'), stream.VideoRangeType));
         }
         if (stream.VideoDoViTitle) {

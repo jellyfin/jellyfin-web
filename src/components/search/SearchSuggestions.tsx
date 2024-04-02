@@ -34,7 +34,7 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
     useEffect(() => {
         if (api && user?.Id) {
             getItemsApi(api)
-                .getItemsByUserId({
+                .getItems({
                     userId: user.Id,
                     sortBy: [ItemSortBy.IsFavoriteOrLiked, ItemSortBy.Random],
                     includeItemTypes: [BaseItemKind.Movie, BaseItemKind.Series, BaseItemKind.MusicArtist],

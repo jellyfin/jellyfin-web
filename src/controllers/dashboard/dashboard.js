@@ -26,8 +26,6 @@ import { getSystemInfoQuery } from 'hooks/useSystemInfo';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
-import { version as WEB_VERSION } from '../../../package.json';
-
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -210,7 +208,7 @@ function refreshActiveRecordings(view, apiClient) {
 
 function reloadSystemInfo(view, apiClient) {
     view.querySelector('#buildVersion').innerText = __JF_BUILD_VERSION__;
-    view.querySelector('#webVersion').innerText = WEB_VERSION;
+    view.querySelector('#webVersion').innerText = __PACKAGE_JSON_VERSION__;
 
     queryClient
         .fetchQuery(getSystemInfoQuery(toApi(apiClient)))

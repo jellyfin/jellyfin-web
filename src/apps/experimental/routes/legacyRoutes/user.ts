@@ -26,12 +26,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'user/controls/index.html'
         }
     }, {
-        path: 'mypreferencesdisplay.html',
-        pageProps: {
-            controller: 'user/display/index',
-            view: 'user/display/index.html'
-        }
-    }, {
         path: 'mypreferenceshome.html',
         pageProps: {
             controller: 'user/home/index',
