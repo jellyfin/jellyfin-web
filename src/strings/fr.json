@@ -1649,7 +1649,7 @@
     "OriginalAirDate": "Date de diffusion originale",
     "MessageUnauthorizedUser": "Vous n'êtes pas autorisé à accéder au serveur pour le moment. Veuillez contacter votre administrateur de serveur pour plus d'informations.",
     "Digital": "Numérique",
-    "EnableEnhancedNvdecDecoderHelp": "Implémentation expérimentale de NVDEC, à n'utiliser que si des erreurs apparaissent lors du décodage.",
+    "EnableEnhancedNvdecDecoderHelp": "Implémentation NVDEC améliorée, désactivez cette option pour utiliser CUVID si vous rencontrez des erreurs de décodage.",
     "HomeVideosPhotos": "Vidéos et photos personnelles",
     "LabelTextWeight": "Poids de la police",
     "Bold": "Gras",
@@ -1798,7 +1798,7 @@
     "LabelUseReplayGainTagsHelp": "Scanne les fichiers audio à la recherche de tags replaygain et les utilise au lieu de calculer la valeur LUFS. (Utilise moins de ressources. Passe outre l'option 'Scanne LUFS')",
     "LabelUseReplayGainTags": "Utiliser les tags ReplayGain",
     "EnableVideoToolboxTonemapping": "Activer le tone-mapping VideoToolbox",
-    "AllowVideoToolboxTonemappingHelp": "Tone-mapping via l'accélération matérielle par VideoToolbox. Fonctionne avec la majorité des formats HDR, incluant le HDR10, HDR10+, et HLG, mais ne fonctionne pas avec le Dolby Vision Profile 5. Cela a une priorité plus élevé comparé à une autre implémentation OpenCL.",
+    "AllowVideoToolboxTonemappingHelp": "Tone-mapping via l'accélération matérielle par VideoToolbox. Fonctionne avec la majorité des formats HDR, incluant le HDR10, HDR10+, et HLG, mais ne fonctionne pas avec le Dolby Vision Profile 5. Cela a une priorité plus élevé comparé à une autre implémentation Metal.",
     "PlaybackError.FATAL_HLS_ERROR": "Une erreur fatale a été rencontrée dans le flux HLS.",
     "PlaybackError.ASS_RENDER_ERROR": "Une erreur a été rencontrée dans le moteur de rendu des sous-titres ASS/SSA.",
     "AllowContentWithTagsHelp": "Afficher uniquement les médias comportant au moins l'une des étiquettes spécifiées.",
@@ -1816,5 +1816,11 @@
     "LimitSupportedVideoResolutionHelp": "Utiliser la 'Résolution de transcodage vidéo maximale autorisée' comme résolution vidéo maximale prise en charge.",
     "EnableLibrary": "Activer la médiathèque",
     "EnableLibraryHelp": "La désactivation de la médiathèque la masquera de toutes les vues utilisateur.",
-    "AirPlay": "Diffusion"
+    "AirPlay": "Diffusion",
+    "LabelEncodingFormatOptions": "Options de format d'encodage",
+    "AllowMjpegEncoding": "Autoriser l'encodage au format MJPEG (utilisé lors de la génération trickplay)",
+    "EncodingFormatHelp": "Sélectionnez l'encodage vidéo vers lequel Jellyfin doit transcoder. Jellyfin utilisera le codage logiciel lorsque l'accélération matérielle pour le format sélectionné n'est pas disponible. L’encodage H264 sera toujours activé.",
+    "PlaybackError.SERVER_ERROR": "La lecture a échoué à cause d'une erreur serveur.",
+    "PlaybackError.NotAllowed": "La lecture de ce média n'est pas autorisée.",
+    "PlaybackError.RateLimitExceeded": "Ce média ne peut pas être lu à cause de la limite de débit."
 }
