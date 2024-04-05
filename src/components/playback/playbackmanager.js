@@ -125,7 +125,7 @@ function getItemsForPlayback(serverId, query) {
             };
         });
     } else {
-        if (query.Limit === UNLIMITED_ITEMS) {
+        if (query.Limit === UNLIMITED_ITEMS || !query.Limit) {
             delete query.Limit;
         } else {
             query.Limit = query.Limit || 300;
