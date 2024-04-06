@@ -200,7 +200,7 @@
     "Guide": "Fernsehprogramm",
     "GuideProviderLogin": "Anmelden",
     "GuideProviderSelectListings": "Listen wählen",
-    "H264CrfHelp": "Der Constant Rate Factor (CRF) bezeichnet die Einstellung für die Standardqualität des x264 und x265 Encoders. Setze einen Wert zwischen 0 und 51. Ein niedriger Wert resultiert in besserer Qualität (auf Kosten einer größeren Datei). Gängige Werte sind 18-28. Der Standard für x264 ist 23 und x265 ist 28, diese sollten als Referenzen verwendet werden.",
+    "H264CrfHelp": "Der Constant Rate Factor (CRF) bezeichnet die Einstellung für die Standardqualität des x264 und x265 Encoders. Setze einen Wert zwischen 0 und 51. Ein niedriger Wert resultiert in besserer Qualität (auf Kosten einer größeren Datei). Gängige Werte sind 18-28. Der Standard für x264 ist 23 und 28 für x265, diese sollten als Referenzen verwendet werden.",
     "EncoderPresetHelp": "Wähle einen schnelleren Wert um die Performance zu verbessern oder einen langsameren Wert um die Qualität zu verbessern.",
     "HDPrograms": "HD Programme",
     "HardwareAccelerationWarning": "Das Aktivieren der Hardwarebeschleunigung kann auf einigen Systemen zu Instabilität führen. Stelle sicher, dass das Betriebssystem sowie die Grafikkarten-Treiber auf dem aktuellsten Stand sind. Wenn nach der Aktivierung Probleme mit der Wiedergabe von Videos auftreten, stelle diese Einstellung zurück auf \"Keine\".",
@@ -1801,5 +1801,16 @@
     "AllowVideoToolboxTonemappingHelp": "Hardwarebeschleunigtes Tone-Mapping welches von VideoToolbox zur verfügung gestellt wird. Es funktioniert mit den meisten HDR Formaten wie HDR10, HDR10+ und HLG, aber es funktioniert nicht mit Dolby Vision Profile 5. Dies hat eine höhere Priorität verglichen mit einer anderen OpenCL implementation.",
     "AirPlay": "AirPlay",
     "AllowContentWithTagsHelp": "Nur Medien mit mindestens einem der spezifizierten Tags anzeigen.",
-    "BlockContentWithTagsHelp": "Medien mit mindestens einem der spezifizierten Tags verstecken."
+    "BlockContentWithTagsHelp": "Medien mit mindestens einem der spezifizierten Tags verstecken.",
+    "EnableLibrary": "Aktiviert die Bibliothek",
+    "EnableLibraryHelp": "Mit dem deaktivieren der Bibliothek ist sie für keinen Benutzer mehr sichtbar.",
+    "PlaybackError.ASS_RENDER_ERROR": "Beim rendern der ASS/SSA Untertitel ist ein Fehler aufgetreten.",
+    "ConfirmDeleteSeries": "Das löschen dieser Serie wird alle {0} Folgen aus deiner Medienbibliothek und dem Dateisystem löschen. Bist du sicher das du fortfahren möchtest?",
+    "DeleteEntireSeries": "Lösche {0} Folgen",
+    "DeleteSeries": "Lösche Serien",
+    "DeleteEpisode": "Lösche Folge",
+    "HeaderDeleteSeries": "Lösche Serien",
+    "LabelAllowContentWithTags": "Erlaube Einträge mit Tags",
+    "Lyric": "Songtext",
+    "LimitSupportedVideoResolution": "Limitiert die maximale Videoauflösung"
 }
