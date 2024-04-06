@@ -112,6 +112,46 @@ function normalizeName(t) {
     return t.toLowerCase().replace(' ', '');
 }
 
+async function loadMoreItemsForPlayback(apiClient, query, initalResult) {
+    if (!query.Limit) {
+        return initalResult;
+    }
+    const results = [];
+    const merged = initalResult;
+    let tryMore = initalResult.TotalRecordCount === query.Limit;
+    query.startIndex = initalResult.TotalRecordCount;
+
+    while (tryMore) {
+        let newItem = await getItems(apiClient, apiClient.getCurrentUserId(), query);
+        if (newItem.TotalRecordCount < query.Limit) {
+            tryMore = false;
+        }
+        results.push(newItem);
+        query.startIndex += newItem.TotalRecordCount;
+    }
+
+    for (const result of results) {
+        if (!result.Items) {
+            console.log('[getItemsForPlayback] Retrieved Items array is invalid', result.Items);
+            continue;
+        }
+        if (!result.TotalRecordCount) {
+            console.log('[getItemsForPlayback] Retrieved TotalRecordCount is invalid', result.TotalRecordCount);
+            continue;
+        }
+        if (typeof result.StartIndex === 'undefined') {
+            console.log('[getItemsForPlayback] Retrieved StartIndex is invalid', result.StartIndex);
+            continue;
+        }
+        // Array.push is faster than Array.concat for large arrays in general,
+        // and on some browsers with poorly implemented concat like Firefox, Array.push is more than 100x faster.
+        merged.Items.push(...result.Items);
+        merged.TotalRecordCount += result.TotalRecordCount;
+        merged.StartIndex = Math.min(merged.StartIndex || 0, result.StartIndex);
+    }
+    return merged;
+}
+
 function getItemsForPlayback(serverId, query) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -135,7 +175,7 @@ function getItemsForPlayback(serverId, query) {
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
 
-        return getItems(apiClient, apiClient.getCurrentUserId(), query);
+        return getItems(apiClient, apiClient.getCurrentUserId(), query).then((result) => loadMoreItemsForPlayback(apiClient, query, result));
     }
 }
 
