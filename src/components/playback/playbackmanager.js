@@ -122,7 +122,7 @@ async function loadMoreItemsForPlayback(apiClient, query, initalResult) {
     query.startIndex = initalResult.TotalRecordCount;
 
     while (tryMore) {
-        let newItem = await getItems(apiClient, apiClient.getCurrentUserId(), query);
+        const newItem = await getItems(apiClient, apiClient.getCurrentUserId(), query);
         if (newItem.TotalRecordCount < query.Limit) {
             tryMore = false;
         }
