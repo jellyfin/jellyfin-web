@@ -1397,7 +1397,7 @@
     "LabelTonemappingRange": "Tónusleképezés tartomány",
     "TonemappingAlgorithmHelp": "A tónusleképezés finomhangolható. Ha még nem ismered ezeket az opciókat, tartsd meg az alapértelmezett értéket. Az ajánlott érték 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Válaszd ki a használni kívánt tónusleképezési algoritmust",
-    "AllowTonemappingHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only with 10bit HDR10, HLG and DoVi videos. This requires the corresponding OpenCL or CUDA runtime.",
+    "AllowTonemappingHelp": "",
     "EnableTonemapping": "Tónusleképezés engedélyezése",
     "LabelOpenclDeviceHelp": "Ez az OpenCL eszköz, amelyet a tónusleképezéshez használnak. A pont bal oldala a platform száma, a jobb oldala pedig a platformon található eszköz száma. Az alapértelmezett érték 0.0. Az OpenCL hardveres gyorsítási módszert tartalmazó FFmpeg alkalmazásfájl szükséges.",
     "LabelOpenclDevice": "OpenCL eszköz",
@@ -1793,5 +1793,7 @@
     "DlnaMovedMessage": "A DLNA funkció egy pluginba költözött.",
     "LabelBuildVersion": "Build verzió",
     "LabelServerVersion": "Szerver verzió",
-    "AllowSubtitleManagement": "Feliratok szerkesztésének engedélyezése ennél a felhasználónál"
+    "AllowSubtitleManagement": "Feliratok szerkesztésének engedélyezése ennél a felhasználónál",
+    "AllowContentWithTagsHelp": "Csak a megadott címkék legalább egyikével rendelkező médiát jeleníti meg.",
+    "AirPlay": "AirPlay"
 }
