@@ -851,8 +851,8 @@
     "LabelSubtitleDownloaders": "자막 다운로더",
     "LabelStopping": "중지",
     "LabelSportsCategories": "스포츠 카테고리",
-    "LabelSkipBackLength": "뒤로 건너띄기 길이",
-    "LabelSkipForwardLength": "앞으로 건너띄기 길이",
+    "LabelSkipBackLength": "뒤로 건너뛰기 길이",
+    "LabelSkipForwardLength": "앞으로 건너뛰기 길이",
     "LabelSimultaneousConnectionLimit": "동시 스트림 제한",
     "LabelSize": "크기",
     "LabelServerName": "서버 이름",
@@ -1773,5 +1773,6 @@
     "MachineTranslated": "기계 번역",
     "ForeignPartsOnly": "강제/외부 파트만",
     "HearingImpairedShort": "청각장애/SDH",
-    "HeaderGuestCast": "게스트"
+    "HeaderGuestCast": "게스트",
+    "AirPlay": "AirPlay"
 }

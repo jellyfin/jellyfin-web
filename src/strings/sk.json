@@ -949,7 +949,7 @@
     "HeaderAdditionalParts": "Dodatočné časti",
     "HardwareAccelerationWarning": "Povolenie hardvérovej akcelerácie môže spôsobiť nestabilitu v niektorých podmienkach. Uistite sa, že váš operačný systém a grafické ovládače sú plne aktualizované. Pokiaľ máte po zapnutí problémy s prehrávaním videa, budete musieť zmeniť nastavenie späť na Žiadne.",
     "EncoderPresetHelp": "Vyberte hodnotu faster pre zlepšenie výkonu alebo hodnotu slower pre zlepšenie kvality.",
-    "H264CrfHelp": "Constant Rate Factor (CRF) je predvoleným nastavením kvality pre x264 a x265 kodér. Môžete mu nadstaviť hodnotu medzi 0 a 51, kde nižšia hodnota vedie k vyššej kvalite (za cenu väčšieho súboru). Rozumné hodnoty sú medzi 18 a 28. Predvolená hodnota pre x264 je 23 a pre x265 je 28, ktoré môžete použiť ako východzie body.",
+    "H264CrfHelp": "Constant Rate Factor (CRF) je predvoleným nastavením kvality pre softvérové x264 a x265 kódery. Môžete mu nadstaviť hodnotu medzi 0 a 51, kde nižšia hodnota vedie k vyššej kvalite (za cenu väčšieho súboru). Rozumné hodnoty sú medzi 18 a 28. Predvolená hodnota pre x264 je 23 a pre x265 je 28, ktoré môžete použiť ako východzie body. Hardvérové kódery tieto nastavenia nepoužívajú.",
     "GuideProviderSelectListings": "Výber zobrazenia",
     "GroupVersions": "Skupinové verzie",
     "FetchingData": "Načítavanie dodatočných dát",
@@ -1856,5 +1856,7 @@
     "ExtractTrickplayImagesHelp": "Obrázky Trickplay sú podobné obrázkom kapitol, ale pokrývajú celú dĺžku obsahu a používajú sa na zobrazenie náhľadu pri pretáčaní videa.",
     "LabelExtractTrickplayDuringLibraryScan": "Extrahovanie trickplay obrazov počas skenovania knižnice",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generovanie trickplay obrázkov videí počas skenovania knižnice. Ak je táto možnosť vypnutá, trickplay obrázky sa budú generovať počas naplánovanej úlohy. Ak je generovanie nastavené na neblokujúce, neovplyvní to čas potrebný na dokončenie skenovania knižnice.",
-    "Lyric": "Texty"
+    "Lyric": "Texty",
+    "EnableLibrary": "Povoliť knižnicu",
+    "EnableLibraryHelp": "Zakázaním knižnice ju skryjete zo všetkých zobrazení používateľa."
 }

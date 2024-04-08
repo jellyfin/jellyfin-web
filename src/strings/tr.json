@@ -199,7 +199,7 @@
     "ButtonPreviousTrack": "Önceki parça",
     "ButtonRename": "Yeniden adlandır",
     "ButtonResume": "Sürdür",
-    "ButtonRevoke": "Geri al",
+    "ButtonRevoke": "İptal et",
     "ChannelNumber": "Kanal numarası",
     "ContinueWatching": "İzlemeye devam et",
     "CriticRating": "Eleştirmen puanı",
@@ -384,7 +384,7 @@
     "HardwareAccelerationWarning": "Donanım ivmesini etkinleştirmek bazı ortamlarda dengesizliğe neden olabilir. İşletim sisteminizin ve video sürücülerinizin tamamen güncel olduğundan emin olun. Bunu etkinleştirdikten sonra video oynatmakta zorluk çekiyorsanız, ayarı tekrar \"Hiçbiri\" olarak değiştirmeniz gerekecektir.",
     "HDPrograms": "HD programlar",
     "EncoderPresetHelp": "Performansı artırmak için daha hızlı bir değer veya kaliteyi artırmak için daha yavaş bir değer seçin.",
-    "H264CrfHelp": "\"Sabit Hız Faktörü\" (CRF), x264 ve x265 kodlayıcıları için varsayılan kalite ayarıdır. Değerleri 0 ile 51 arasında ayarlayabilirsiniz, burada daha düşük değerler daha iyi kaliteyle sonuçlanır (daha yüksek dosya boyutları pahasına). Aklı başında değerleri 18 ila 28 arasındadır. x264 için varsayılan 23, x265 için de 28, bu nedenle bunu başlangıç noktası olarak kullanabilirsiniz.",
+    "H264CrfHelp": "'Sabit Hız Faktörü' (CRF), x264 ve x265 yazılım kodlayıcıları için varsayılan kalite ayarıdır. Değerleri 0 ile 51 arasında ayarlayabilirsiniz, burada daha düşük değerler daha iyi kaliteyle sonuçlanır (daha yüksek dosya boyutları pahasına). Aklı başında değerleri 18 ila 28 arasındadır. x264 için varsayılan 23, x265 için de 28, bu nedenle bunu başlangıç noktası olarak kullanabilirsiniz. Donanım kodlayıcıları bu ayarları kullanmaz.",
     "GuideProviderSelectListings": "Listeleri Seçin",
     "GuideProviderLogin": "Oturum aç",
     "Guide": "Rehber",
@@ -881,7 +881,7 @@
     "Menu": "Menü",
     "EnableBlurHashHelp": "Hala yüklenmekte olan resimler benzersiz bir yer tutucuyla görüntülenecektir.",
     "EnableBlurHash": "Resimler için bulanık yer tutucuları etkinleştir",
-    "AllowTonemappingHelp": "Ton eşleme, orijinal sahneyi temsil etmek için çok önemli bilgiler olan görüntü ayrıntılarını ve renkleri korurken bir videonun dinamik aralığını HDR'den SDR'ye dönüştürebilir. Şu anda yalnızca 10bit HDR10，HLG ve DoVi videolarla çalışmaktadır. Bunun için ilgili GPGPU çalışma zamanı gerekir.",
+    "AllowTonemappingHelp": "Ton eşleme, orijinal sahneyi temsil etmek için çok önemli bilgiler olan görüntü ayrıntılarını ve renkleri korurken bir videonun dinamik aralığını HDR'den SDR'ye dönüştürebilir. Şu anda yalnızca 10bit HDR10, HLG ve DoVi videolarla çalışmaktadır. Bunun için ilgili GPGPU çalışma zamanı gerekir.",
     "LabelAutomaticDiscovery": "Otomatik Keşfetmeyi Etkinleştir",
     "LabelAutoDiscoveryTracingHelp": "Etkinleştirildiğinde, otomatik keşfetme bağlantı noktasına gelen paketler günlüğe kaydedilir.",
     "LabelAutoDiscoveryTracing": "Otomatik Keşfetme izlemesini etkinleştirin.",
@@ -1845,5 +1845,10 @@
     "PriorityNormal": "Normal",
     "AllowSubtitleManagement": "Bu kullanıcının altyazıları düzenlemesine izin ver",
     "EnableSmoothScroll": "Akıcı kaydırmayı etkinleştir",
-    "Lyric": "Şarkı sözü"
+    "Lyric": "Şarkı sözü",
+    "AirPlay": "AirPlay",
+    "LabelEncodingFormatOptions": "Kodlama biçimi seçenekleri",
+    "EncodingFormatHelp": "Jellyfin'in kod dönüştürme yapacağı video kodlamasını seçin. Jellyfin, seçilen biçim için donanım hızlandırması mevcut olmadığında yazılım kodlamasını kullanacaktır. H264 kodlaması her zaman etkin olacaktır.",
+    "EnableLibrary": "Kütüphaneyi etkinleştir",
+    "EnableLibraryHelp": "Kütüphanenin devre dışı bırakılması kütüphaneyi tüm kullanıcı görünümlerinden gizleyecektir."
 }
