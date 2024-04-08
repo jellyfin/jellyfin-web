@@ -718,9 +718,13 @@ export default function (options) {
     const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls();
 
     if (canPlayHls() && browser.enableHlsAudio !== false) {
+        let enableFmp4Hls = userSettings.preferFmp4HlsContainer();
+        if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
+            enableFmp4Hls = false;
+        }
         profile.TranscodingProfiles.push({
             // hlsjs, edge, and android all seem to require ts container
-            Container: !canPlayNativeHls() || browser.edge || browser.android ? 'ts' : 'aac',
+            Container: enableFmp4Hls ? 'mp4' : 'ts',
             Type: 'Audio',
             AudioCodec: 'aac',
             Context: 'Streaming',
