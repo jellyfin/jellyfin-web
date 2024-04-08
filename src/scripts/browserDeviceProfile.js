@@ -723,7 +723,6 @@ export default function (options) {
             enableFmp4Hls = false;
         }
         profile.TranscodingProfiles.push({
-            // hlsjs, edge, and android all seem to require ts container
             Container: enableFmp4Hls ? 'mp4' : 'ts',
             Type: 'Audio',
             AudioCodec: 'aac',
