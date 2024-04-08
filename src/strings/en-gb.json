@@ -1836,5 +1836,13 @@
     "LabelUseReplayGainTagsHelp": "Scan audio files for replaygain tags and use them instead of computing LUFS value. (Uses less computing power. Will override 'LUFS Scan' option)",
     "LabelUseReplayGainTags": "Use ReplayGain Tags",
     "AllowSubtitleManagement": "Allow this user to edit subtitles",
-    "DlnaMovedMessage": "The DLNA functionality has moved to a plugin."
+    "DlnaMovedMessage": "The DLNA functionality has moved to a plugin.",
+    "EnableLibrary": "Enable the library",
+    "EnableLibraryHelp": "Disabling the library will hide it from all user views.",
+    "LimitSupportedVideoResolution": "Limit maximum supported video resolution",
+    "AirPlay": "AirPlay",
+    "AllowContentWithTagsHelp": "Only show media with at least one of the specified tags.",
+    "BlockContentWithTagsHelp": "Hide media with at least one of the specified tags.",
+    "LabelAllowContentWithTags": "Allow items with tags",
+    "EnableSmoothScroll": "Enable smooth scroll"
 }
