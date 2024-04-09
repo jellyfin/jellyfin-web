@@ -1298,8 +1298,8 @@ export default function (view) {
                 break;
             case 'p':
             case 'P':
-                e.preventDefault();
                 if (e.shiftKey) {
+                    e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
                 }
                 break;
