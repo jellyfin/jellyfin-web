@@ -1238,8 +1238,8 @@ export default function (view) {
                 e.preventDefault();
                 playbackManager.volumeUp(currentPlayer);
                 break;
-            case 'Down':
             case 'ArrowDown':
+            case 'Down':
                 e.preventDefault();
                 playbackManager.volumeDown(currentPlayer);
                 break;
