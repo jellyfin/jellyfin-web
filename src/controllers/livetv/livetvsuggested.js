@@ -199,7 +199,7 @@ function getDefaultTabIndex(folderId) {
             return 3;
         case LibraryTab.Schedule:
             return 4;
-        case LibraryTab.Series:
+        case LibraryTab.SeriesTimers:
             return 5;
         default:
             return 0;

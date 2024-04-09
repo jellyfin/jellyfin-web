@@ -100,7 +100,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
         SortOrder: 'Ascending',
         Filters: 'IsFavorite',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio',
         CollapseBoxSetItems: false,
         ExcludeLocationTypes: 'Virtual',
         EnableTotalRecordCount: false

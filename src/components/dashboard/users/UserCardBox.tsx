@@ -61,7 +61,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
         </div>`;
 
     return (
-        <div data-userid={user.Id} className={cssClass}>
+        <div data-userid={user.Id} data-username={user.Name} className={cssClass}>
             <div className='cardBox visualCardBox'>
                 <div className='cardScalable visualCardBox-cardScalable'>
                     <div className='cardPadder cardPadder-square'></div>

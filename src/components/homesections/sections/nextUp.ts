@@ -22,13 +22,14 @@ function getNextUpFetchFn(
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
         return apiClient.getNextUpEpisodes({
             Limit: enableOverflow ? 24 : 15,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,Path,MediaSourceCount',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             EnableTotalRecordCount: false,
             DisableFirstEpisode: false,
             NextUpDateCutoff: oldestDateForNextUp.toISOString(),
+            EnableResumable: false,
             EnableRewatching: userSettings.enableRewatchingInNextUp()
         });
     };

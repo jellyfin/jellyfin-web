@@ -4,9 +4,9 @@ import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
-import { CollectionType } from 'types/collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { SectionsView } from 'types/suggestionsSections';
+import { MovieSuggestionsSectionsView } from 'types/sections';
 
 const moviesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Movies,
@@ -40,13 +40,7 @@ const trailersTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.Movies,
-    sectionsType: {
-        suggestionSectionsView: [
-            SectionsView.ContinueWatchingMovies,
-            SectionsView.LatestMovies
-        ],
-        isMovieRecommendations: true
-    }
+    sectionsView: MovieSuggestionsSectionsView
 };
 
 const genresTabContent: LibraryTabContent = {
@@ -65,8 +59,8 @@ const moviesTabMapping: LibraryTabMapping = {
 };
 
 const Movies: FC = () => {
-    const { searchParamsParentId, currentTabIndex } = useCurrentTab();
-    const currentTab = moviesTabMapping[currentTabIndex];
+    const { libraryId, activeTab } = useCurrentTab();
+    const currentTab = moviesTabMapping[activeTab];
 
     return (
         <Page
@@ -75,9 +69,9 @@ const Movies: FC = () => {
             backDropType='movie'
         >
             <PageTabContent
-                key={`${currentTab.viewType} - ${searchParamsParentId}`}
+                key={`${currentTab.viewType} - ${libraryId}`}
                 currentTab={currentTab}
-                parentId={searchParamsParentId}
+                parentId={libraryId}
             />
         </Page>
     );

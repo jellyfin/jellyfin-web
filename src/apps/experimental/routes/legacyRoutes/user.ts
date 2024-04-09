@@ -14,12 +14,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'list.html'
         }
     }, {
-        path: 'livetv.html',
-        pageProps: {
-            controller: 'livetv/livetvsuggested',
-            view: 'livetv.html'
-        }
-    }, {
         path: 'mypreferencesmenu.html',
         pageProps: {
             controller: 'user/menu/index',
@@ -30,12 +24,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
         pageProps: {
             controller: 'user/controls/index',
             view: 'user/controls/index.html'
-        }
-    }, {
-        path: 'mypreferencesdisplay.html',
-        pageProps: {
-            controller: 'user/display/index',
-            view: 'user/display/index.html'
         }
     }, {
         path: 'mypreferenceshome.html',

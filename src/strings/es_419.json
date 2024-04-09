@@ -1635,5 +1635,15 @@
     "LabelParallelImageEncodingLimit": "Límite de codificaciones paralelas de imágenes",
     "LabelParallelImageEncodingLimitHelp": "Cantidad máxima de codificaciones de imágenes que pueden ejecutarse en paralelo. Al establecer 0 se elegirá un límite basado en las especificaciones de su sistema.",
     "MediaInfoTitle": "Título",
-    "HeaderGuestCast": "Estrellas Invitadas"
+    "HeaderGuestCast": "Estrellas Invitadas",
+    "Notifications": "Notificaciones",
+    "NotificationsMovedMessage": "La funcionalidad de notificaciones se ha movido al plugin de Webhooks.",
+    "MessageRenameMediaFolder": "Renombrar una librería de medios provoca que los metadatos guardados se pierdan, proceder con caución.",
+    "NextChapter": "Proxima escena",
+    "SelectAudioNormalizationHelp": "Ganancia de pista - ajusta el volumen de cada pista para que la reproducción suene en la misma intensidad. Ganancia de Album - ajusta el volumen de todas las pistas del album, manteniendo el rango dinámico del mismo.",
+    "LabelAlbumGain": "Ganancia de Album",
+    "LabelSelectAudioNormalization": "Normalización de Audio",
+    "PasswordRequiredForAdmin": "Una contraseña es requerida para las cuentas de administrador.",
+    "MessageRepositoryInstallDisclaimer": "ATENCION: Instalar un repositorio de plugins de terceros conlleva riesgos. Puede contener código malicioso o inestable, y puede cambiar en cualquier momento. Instala repositorios solo de autores en los que confíes.",
+    "MessageUnauthorizedUser": "No estás autorizado para acceder al server en este momento. Por favor contacta al administrador del servidor para mas información."
 }

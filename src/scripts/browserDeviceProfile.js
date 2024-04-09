@@ -1,6 +1,6 @@
+import browser from './browser';
 import appSettings from './settings/appSettings';
 import * as userSettings from './settings/userSettings';
-import browser from './browser';
 
 function canPlayH264(videoTestElement) {
     return !!(videoTestElement.canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -68,7 +68,7 @@ function canPlayNativeHls() {
 }
 
 function canPlayNativeHlsInFmp4() {
-    if (browser.tizenVersion >= 3 || browser.web0sVersion >= 3.5) {
+    if (browser.tizenVersion >= 5 || browser.web0sVersion >= 3.5) {
         return true;
     }
 
@@ -194,7 +194,8 @@ function supportsHdr10(options) {
             || browser.web0s
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)
             // Chrome mobile and Firefox have no client side tone-mapping
-            // Edge Chromium on Nvidia is known to have color issues on 10-bit video
+            // Edge Chromium 121+ fixed the tone-mapping color issue on Nvidia
+            || browser.edgeChromium && (browser.versionMajor >= 121)
             || browser.chrome && !browser.mobile
     );
 }
@@ -207,6 +208,24 @@ function supportsDolbyVision(options) {
     return options.supportsDolbyVision ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 13) || browser.osx)
     );
+}
+
+function supportedDolbyVisionProfilesHevc(videoTestElement) {
+    const supportedProfiles = [];
+    // Profiles 5/8 4k@60fps
+    if (videoTestElement.canPlayType) {
+        if (videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.05.09"')
+            .replace(/no/, '')) {
+            supportedProfiles.push(5);
+        }
+        if (videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.08.09"')
+            .replace(/no/, '')) {
+            supportedProfiles.push(8);
+        }
+    }
+    return supportedProfiles;
 }
 
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
@@ -386,8 +405,7 @@ export function canPlaySecondaryAudio(videoTestElement) {
         && !browser.firefox
         // It seems to work on Tizen 5.5+ (2020, Chrome 69+). See https://developer.tizen.org/forums/web-application-development/video-tag-not-work-audiotracks
         && (browser.tizenVersion >= 5.5 || !browser.tizen)
-        // Assume webOS 5+ (2020, Chrome 68+) supports secondary audio like Tizen 5.5+
-        && (browser.web0sVersion >= 5.0 || !browser.web0sVersion);
+        && (browser.web0sVersion >= 4.0 || !browser.web0sVersion);
 }
 
 export default function (options) {
@@ -501,8 +519,8 @@ export default function (options) {
     if (supportsDts == null) {
         supportsDts = browser.tizen || browser.web0sVersion || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
-        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020+ (webOS 5.0+) models
-        if (browser.tizenVersion >= 4 || browser.web0sVersion >= 5) {
+        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
+        if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
             supportsDts = false;
         }
     }
@@ -565,13 +583,13 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && !browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)) {
-        // disable av1 on mobile since it can be very slow software decoding
+        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)))) {
+        // disable av1 on non-safari mobile browsers since it can be very slow software decoding
         hlsInFmp4VideoCodecs.push('av1');
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.chrome.versionMajor >= 105)))) {
+        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
@@ -583,11 +601,7 @@ export default function (options) {
     }
 
     if (canPlayHevc(videoTestElement, options)) {
-        // safari is lying on HDR and 60fps videos, use fMP4 instead
-        if (!browser.safari) {
-            mp4VideoCodecs.push('hevc');
-        }
-
+        mp4VideoCodecs.push('hevc');
         if (browser.tizen || browser.web0s) {
             hlsInTsVideoCodecs.push('hevc');
         }
@@ -611,12 +625,20 @@ export default function (options) {
 
     if (canPlayVp9) {
         mp4VideoCodecs.push('vp9');
-        webmVideoCodecs.push('vp9');
+        // webm support is unreliable on safari 17
+        if (!browser.safari
+             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+            webmVideoCodecs.push('vp9');
+        }
     }
 
     if (canPlayAv1(videoTestElement)) {
         mp4VideoCodecs.push('av1');
-        webmVideoCodecs.push('av1');
+        // webm support is unreliable on safari 17
+        if (!browser.safari
+             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+            webmVideoCodecs.push('av1');
+        }
     }
 
     if (canPlayVp8 || browser.tizen) {
@@ -931,7 +953,13 @@ export default function (options) {
     }
 
     if (supportsDolbyVision(options)) {
-        hevcVideoRangeTypes += '|DOVI';
+        const profiles = supportedDolbyVisionProfilesHevc(videoTestElement);
+        if (profiles.includes(5)) {
+            hevcVideoRangeTypes += '|DOVI';
+        }
+        if (profiles.includes(8)) {
+            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+        }
     }
 
     const h264CodecProfileConditions = [
@@ -1098,9 +1126,28 @@ export default function (options) {
         });
     }
 
+    // Safari quirks for HEVC direct-play
+    if (browser.safari) {
+        // Only hvc1 & dvh1 tags are supported
+        hevcCodecProfileConditions.push({
+            Condition: 'EqualsAny',
+            Property: 'VideoCodecTag',
+            Value: 'hvc1|dvh1',
+            IsRequired: true
+        });
+
+        // Framerate above 60fps is not supported
+        hevcCodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'VideoFramerate',
+            Value: '60',
+            IsRequired: true
+        });
+    }
+
     // On iOS 12.x, for TS container max h264 level is 4.2
     if (browser.iOS && browser.iOSVersion < 13) {
-        const codecProfile = {
+        const codecProfileTS = {
             Type: 'Video',
             Codec: 'h264',
             Container: 'ts',
@@ -1109,14 +1156,32 @@ export default function (options) {
             })
         };
 
-        codecProfile.Conditions.push({
+        codecProfileTS.Conditions.push({
             Condition: 'LessThanEqual',
             Property: 'VideoLevel',
             Value: '42',
             IsRequired: false
         });
 
-        profile.CodecProfiles.push(codecProfile);
+        profile.CodecProfiles.push(codecProfileTS);
+
+        const codecProfileMp4 = {
+            Type: 'Video',
+            Codec: 'h264',
+            Container: 'mp4',
+            Conditions: h264CodecProfileConditions.filter((condition) => {
+                return condition.Property !== 'VideoLevel';
+            })
+        };
+
+        codecProfileMp4.Conditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'VideoLevel',
+            Value: '42',
+            IsRequired: false
+        });
+
+        profile.CodecProfiles.push(codecProfileMp4);
     }
 
     profile.CodecProfiles.push({
@@ -1124,6 +1189,24 @@ export default function (options) {
         Codec: 'h264',
         Conditions: h264CodecProfileConditions
     });
+
+    if (browser.web0s && supportsDolbyVision(options)) {
+        // Disallow direct playing of DOVI media in containers not mp4.
+        // This paired with the "Prefer fMP4-HLS Container" client playback setting enables DOVI playback on webOS.
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Container: '-mp4',
+            Codec: 'hevc',
+            Conditions: [
+                {
+                    Condition: 'EqualsAny',
+                    Property: 'VideoRangeType',
+                    Value: 'SDR|HDR10|HLG',
+                    IsRequired: false
+                }
+            ]
+        });
+    }
 
     profile.CodecProfiles.push({
         Type: 'Video',
@@ -1201,4 +1284,3 @@ export default function (options) {
 
     return profile;
 }
-

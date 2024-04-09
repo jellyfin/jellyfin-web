@@ -1,89 +1,61 @@
-import debounce from 'lodash-es/debounce';
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { type ChangeEvent, type FC, useCallback } from 'react';
 
 import AlphaPicker from '../alphaPicker/AlphaPickerComponent';
+import Input from 'elements/emby-input/Input';
 import globalize from '../../scripts/globalize';
-
-import 'material-design-icons-iconfont';
-
-import '../../elements/emby-input/emby-input';
-import '../../styles/flexstyles.scss';
-import './searchfields.scss';
 import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';
 
-// There seems to be some compatibility issues here between
-// React and our legacy web components, so we need to inject
-// them as an html string for now =/
-const createInputElement = () => ({
-    __html: `<input
-    is="emby-input"
-    class="searchfields-txtSearch"
-    type="text"
-    data-keyboard="true"
-    placeholder="${globalize.translate('Search')}"
-    autocomplete="off"
-    maxlength="40"
-    autofocus
-/>`
-});
+import 'material-design-icons-iconfont';
 
-const normalizeInput = (value = '') => value.trim();
+import '../../styles/flexstyles.scss';
+import './searchfields.scss';
 
 type SearchFieldsProps = {
+    query: string,
     onSearch?: (query: string) => void
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }: SearchFieldsProps) => {
-    const element = useRef<HTMLDivElement>(null);
-
-    const getSearchInput = () => element?.current?.querySelector<HTMLInputElement>('.searchfields-txtSearch');
-
-    const debouncedOnSearch = useMemo(() => debounce(onSearch, 400), [onSearch]);
-
-    useEffect(() => {
-        getSearchInput()?.addEventListener('input', e => {
-            debouncedOnSearch(normalizeInput((e.target as HTMLInputElement).value));
-        });
-        getSearchInput()?.focus();
-
-        return () => {
-            debouncedOnSearch.cancel();
-        };
-    }, [debouncedOnSearch]);
-
+const SearchFields: FC<SearchFieldsProps> = ({
+    onSearch = () => { /* no-op */ },
+    query
+}: SearchFieldsProps) => {
     const onAlphaPicked = useCallback((e: Event) => {
         const value = (e as CustomEvent).detail.value;
-        const searchInput = getSearchInput();
-
-        if (!searchInput) {
-            console.error('Unexpected null reference');
-            return;
-        }
 
         if (value === 'backspace') {
-            const currentValue = searchInput.value;
-            searchInput.value = currentValue.length ? currentValue.substring(0, currentValue.length - 1) : '';
+            onSearch(query.length ? query.substring(0, query.length - 1) : '');
         } else {
-            searchInput.value += value;
+            onSearch(query + value);
         }
+    }, [ onSearch, query ]);
 
-        searchInput.dispatchEvent(new CustomEvent('input', { bubbles: true }));
-    }, []);
+    const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        onSearch(e.target.value);
+    }, [ onSearch ]);
 
     return (
-        <div
-            className='padded-left padded-right searchFields'
-            ref={element}
-        >
+        <div className='padded-left padded-right searchFields'>
             <div className='searchFieldsInner flex align-items-center justify-content-center'>
                 <span className='searchfields-icon material-icons search' aria-hidden='true' />
                 <div
                     className='inputContainer flex-grow'
                     style={{ marginBottom: 0 }}
-                    dangerouslySetInnerHTML={createInputElement()}
-                />
+                >
+                    <Input
+                        id='searchTextInput'
+                        className='searchfields-txtSearch'
+                        type='text'
+                        data-keyboard='true'
+                        placeholder={globalize.translate('Search')}
+                        autoComplete='off'
+                        maxLength={40}
+                        // eslint-disable-next-line jsx-a11y/no-autofocus
+                        autoFocus
+                        value={query}
+                        onChange={onChange}
+                    />
+                </div>
             </div>
             {layoutManager.tv && !browser.tv
                 && <AlphaPicker onAlphaPicked={onAlphaPicked} />

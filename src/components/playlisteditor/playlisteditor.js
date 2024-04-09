@@ -222,7 +222,7 @@ function centerFocus(elem, horiz, on) {
 }
 
 export class PlaylistEditor {
-    constructor(options) {
+    show(options) {
         const items = options.items || {};
         currentServerId = options.serverId;
 

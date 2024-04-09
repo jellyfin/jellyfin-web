@@ -35,7 +35,7 @@ export function getIncludeCorsCredentials() {
 
 export function getMultiServer() {
     // Enable multi-server support when served by webpack
-    if (__WEBPACK_SERVE__) { // eslint-disable-line no-undef
+    if (__WEBPACK_SERVE__) {
         return Promise.resolve(true);
     }
 

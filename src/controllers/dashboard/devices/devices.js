@@ -120,7 +120,7 @@ function load(page, devices) {
         }
 
         deviceHtml += "<div class='cardText'>";
-        deviceHtml += escapeHtml(device.Name);
+        deviceHtml += escapeHtml(device.CustomName || device.Name);
         deviceHtml += '</div>';
         deviceHtml += "<div class='cardText cardText-secondary'>";
         deviceHtml += escapeHtml(device.AppName + ' ' + device.AppVersion);

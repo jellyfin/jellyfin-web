@@ -17,7 +17,7 @@ function getLatestRecordingsFetchFn(
         return apiClient.getLiveTvRecordings({
             userId: apiClient.getCurrentUserId(),
             Limit: enableOverflow ? 12 : 5,
-            Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+            Fields: 'PrimaryImageAspectRatio',
             EnableTotalRecordCount: false,
             IsLibraryItem: activeRecordingsOnly ? null : false,
             IsInProgress: activeRecordingsOnly ? true : null

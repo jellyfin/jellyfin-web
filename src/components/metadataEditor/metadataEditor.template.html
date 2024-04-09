@@ -142,6 +142,16 @@
                         <select is="emby-select" id="selectCustomRating" label="${LabelCustomRating}"></select>
                     </div>
                 </div>
+                <div id="fldHeight" class="selectContainer hide">
+                    <select is="emby-select" id="selectHeight" label="${MediaInfoResolution}">
+                        <option value="0"></option>
+                        <option value="480">${ChannelResolutionSD}</option>
+                        <option value="576">${ChannelResolutionSDPAL}</option>
+                        <option value="720">${ChannelResolutionHD}</option>
+                        <option value="1080">${ChannelResolutionFullHD}</option>
+                        <option value="2160">${ChannelResolutionUHD4K}</option>
+                    </select>
+                </div>
                 <div class="inlineForm">
                     <div id="fldOriginalAspectRatio" class="inputContainer hide">
                         <input is="emby-input" id="txtOriginalAspectRatio" type="text" label="${LabelOriginalAspectRatio}" />

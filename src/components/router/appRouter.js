@@ -10,6 +10,7 @@ import viewManager from '../viewManager/viewManager';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { ConnectionState } from '../../utils/jellyfin-apiclient/ConnectionState.ts';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 export const history = createHashHistory();
 
@@ -545,6 +546,30 @@ class AppRouter {
                 urlForList += '&IsFavorite=true';
             }
 
+            if (options.isAiring) {
+                urlForList += '&IsAiring=true';
+            }
+
+            if (options.isMovie) {
+                urlForList += '&IsMovie=true';
+            }
+
+            if (options.isSeries) {
+                urlForList += '&IsSeries=true&IsMovie=false&IsNews=false';
+            }
+
+            if (options.isSports) {
+                urlForList += '&IsSports=true';
+            }
+
+            if (options.isKids) {
+                urlForList += '&IsKids=true';
+            }
+
+            if (options.isNews) {
+                urlForList += '&IsNews=true';
+            }
+
             return urlForList;
         }
 
@@ -599,7 +624,7 @@ class AppRouter {
             return '#/details?seriesTimerId=' + id + '&serverId=' + serverId;
         }
 
-        if (item.CollectionType == 'livetv') {
+        if (item.CollectionType == CollectionType.Livetv) {
             return '#/livetv.html';
         }
 
@@ -638,7 +663,7 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            if (item.CollectionType == 'movies') {
+            if (item.CollectionType == CollectionType.Movies) {
                 url = '#/movies.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
@@ -648,7 +673,7 @@ class AppRouter {
                 return url;
             }
 
-            if (item.CollectionType == 'tvshows') {
+            if (item.CollectionType == CollectionType.Tvshows) {
                 url = '#/tv.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
@@ -658,7 +683,7 @@ class AppRouter {
                 return url;
             }
 
-            if (item.CollectionType == 'music') {
+            if (item.CollectionType == CollectionType.Music) {
                 url = '#/music.html?topParentId=' + item.Id;
 
                 if (options?.section === 'latest') {

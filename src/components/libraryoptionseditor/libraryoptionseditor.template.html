@@ -1,4 +1,12 @@
 <h2>${HeaderLibrarySettings}</h2>
+<div class="checkboxContainer checkboxContainer-withDescription chkEnabledContainer">
+    <label>
+        <input type="checkbox" is="emby-checkbox" class="chkEnabled" checked />
+        <span>${EnableLibrary}</span>
+    </label>
+    <div class="fieldDescription checkboxFieldDescription">${EnableLibraryHelp}</div>
+</div>
+
 <div class="selectContainer fldMetadataLanguage hide">
     <select is="emby-select" id="selectLanguage" label="${LabelMetadataDownloadLanguage}"></select>
 </div>
@@ -55,6 +63,14 @@
     <div class="fieldDescription checkboxFieldDescription">${LabelEnableRealtimeMonitorHelp}</div>
 </div>
 
+<div class="checkboxContainer checkboxContainer-withDescription chkUseReplayGainTagsContainer advanced">
+    <label>
+        <input type="checkbox" is="emby-checkbox" class="chkUseReplayGainTags" checked />
+        <span>${LabelUseReplayGainTags}</span>
+    </label>
+    <div class="fieldDescription checkboxFieldDescription">${LabelUseReplayGainTagsHelp}</div>
+</div>
+
 <div class="checkboxContainer checkboxContainer-withDescription chkEnableLUFSScanContainer advanced">
     <label>
         <input type="checkbox" is="emby-checkbox" class="chkEnableLUFSScan" checked />
@@ -102,6 +118,25 @@
         <span>${OptionAutomaticallyGroupSeries}</span>
     </label>
     <div class="fieldDescription checkboxFieldDescription">${OptionAutomaticallyGroupSeriesHelp}</div>
+</div>
+
+<div class="trickplaySettingsSection hide">
+    <h2>${Trickplay}</h2>
+    <div class="checkboxContainer checkboxContainer-withDescription fldExtractTrickplayImages">
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkExtractTrickplayImages" />
+            <span>${OptionExtractTrickplayImage}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${ExtractTrickplayImagesHelp}</div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription fldExtractTrickplayDuringLibraryScan advanced">
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkExtractTrickplayDuringLibraryScan" />
+            <span>${LabelExtractTrickplayDuringLibraryScan}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${LabelExtractTrickplayDuringLibraryScanHelp}</div>
+    </div>
 </div>
 
 <div class="chapterSettingsSection hide">

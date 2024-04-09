@@ -282,11 +282,15 @@ function executeAction(card, target, action) {
 
 function addToPlaylist(item) {
     import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-        new PlaylistEditor().show({
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
             items: [item.Id],
             serverId: item.ServerId
-
+        }).catch(() => {
+            // Dialog closed
         });
+    }).catch(err => {
+        console.error('[addToPlaylist] failed to load playlist editor', err);
     });
 }
 

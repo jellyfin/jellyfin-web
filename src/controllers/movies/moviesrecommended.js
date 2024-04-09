@@ -28,7 +28,7 @@ function loadLatest(page, userId, parentId) {
     const options = {
         IncludeItemTypes: 'Movie',
         Limit: 18,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
@@ -62,7 +62,7 @@ function loadResume(page, userId, parentId) {
         Filters: 'IsResumable',
         Limit: screenWidth >= 1600 ? 5 : 3,
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         CollapseBoxSetItems: false,
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -162,7 +162,7 @@ function loadSuggestions(page, userId) {
         userId: userId,
         categoryLimit: 6,
         ItemLimit: itemLimit,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb'
     });

@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
 
 import { ASYNC_USER_ROUTES } from '../../routes/asyncRoutes';
 import { LEGACY_USER_ROUTES } from '../../routes/legacyRoutes';
-import { isTabPath } from '../tabs/tabRoutes';
 
 import MainDrawerContent from './MainDrawerContent';
 
@@ -27,20 +25,14 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
     open = false,
     onClose,
     onOpen
-}) => {
-    const location = useLocation();
-    const hasSecondaryToolBar = isTabPath(location.pathname);
-
-    return (
-        <ResponsiveDrawer
-            hasSecondaryToolBar={hasSecondaryToolBar}
-            open={open}
-            onClose={onClose}
-            onOpen={onOpen}
-        >
-            <MainDrawerContent />
-        </ResponsiveDrawer>
-    );
-};
+}) => (
+    <ResponsiveDrawer
+        open={open}
+        onClose={onClose}
+        onOpen={onOpen}
+    >
+        <MainDrawerContent />
+    </ResponsiveDrawer>
+);
 
 export default AppDrawer;

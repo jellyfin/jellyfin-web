@@ -7,6 +7,7 @@ import isEqual from 'lodash-es/isEqual';
 import { appHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { buildCardImage } from 'components/cardbuilder/cardImage';
 import confirm from 'components/confirm/confirm';
 import imageLoader from 'components/images/imageLoader';
 import itemContextMenu from 'components/itemContextMenu';
@@ -486,15 +487,19 @@ function setTrailerButtonVisibility(page, item) {
     }
 }
 
-function renderBackdrop(item) {
+function renderBackdrop(page, item) {
     if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
-        setBackdrops([item]);
+        const isBannerEnabled = !layoutManager.tv && userSettings.detailsBanner();
+        // If backdrops are disabled, but the header banner is enabled, add a class to the page to disable the transparency
+        page.classList.toggle('noBackdropTransparency', isBannerEnabled && !userSettings.enableBackdrops());
+
+        setBackdrops([item], null, null, isBannerEnabled);
     } else {
         clearBackdrop();
     }
 }
 
-function renderDetailPageBackdrop(page, item, apiClient) {
+function renderHeaderBackdrop(page, item, apiClient) {
     // Details banner is disabled in user settings
     if (!userSettings.detailsBanner()) {
         return false;
@@ -508,7 +513,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    const imgUrl = getItemBackdropImageUrl(apiClient, item, { maxWitdh: dom.getScreenWidth() }, false);
+    const imgUrl = getItemBackdropImageUrl(apiClient, item, { maxWidth: dom.getScreenWidth() }, false);
 
     if (imgUrl) {
         imageLoader.lazyImage(itemBackdropElement, imgUrl);
@@ -526,14 +531,17 @@ function reloadFromItem(instance, page, params, item, user) {
     libraryMenu.setTitle('');
 
     // Start rendering the artwork first
-    renderImage(page, item);
+    renderImage(page, item, apiClient);
     // Save some screen real estate in TV mode
     if (!layoutManager.tv) {
         renderLogo(page, item, apiClient);
-        renderDetailPageBackdrop(page, item, apiClient);
+    }
+    // Render the mobile header backdrop
+    if (layoutManager.mobile) {
+        renderHeaderBackdrop(page, item, apiClient);
     }
 
-    renderBackdrop(item);
+    renderBackdrop(page, item);
 
     // Render the main information for the item
     page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
@@ -717,31 +725,20 @@ function renderLinks(page, item) {
     }
 }
 
-function renderDetailImage(elem, item, loader) {
-    const itemArray = [];
-    itemArray.push(item);
-    const cardHtml = cardBuilder.getCardsHtml(itemArray, {
-        shape: 'auto',
-        showTitle: false,
-        centerText: true,
-        overlayText: false,
-        transition: false,
-        disableHoverMenu: true,
-        disableIndicators: true,
-        overlayPlayButton: layoutManager.desktop,
-        action: layoutManager.desktop ? 'resume' : 'none',
-        width: dom.getWindowSize().innerWidth * 0.25
-    });
+function renderDetailImage(apiClient, elem, item, loader) {
+    const html = buildCardImage(
+        apiClient,
+        item,
+        { width: dom.getWindowSize().innerWidth * 0.25 }
+    );
 
-    elem.innerHTML = cardHtml;
+    elem.innerHTML = html;
     loader.lazyChildren(elem);
-
-    // Avoid breaking the design by preventing focus of the poster using the keyboard.
-    elem.querySelector('a, button').tabIndex = -1;
 }
 
-function renderImage(page, item) {
+function renderImage(page, item, apiClient) {
     renderDetailImage(
+        apiClient,
         page.querySelector('.detailImageContainer'),
         item,
         imageLoader
@@ -1085,7 +1082,7 @@ function renderMoreFromSeason(view, item, apiClient) {
         apiClient.getEpisodes(item.SeriesId, {
             SeasonId: item.SeasonId,
             UserId: userId,
-            Fields: 'ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount'
+            Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
         }).then(function (result) {
             if (result.Items.length < 2) {
                 section.classList.add('hide');
@@ -1260,12 +1257,16 @@ function renderTags(page, item) {
         tags = [];
     }
 
-    for (let i = 0, length = tags.length; i < length; i++) {
-        tagElements.push(tags[i]);
-    }
+    tags.forEach(tag => {
+        tagElements.push(
+            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            + escapeHtml(tag)
+            + '</a>'
+        );
+    });
 
     if (tagElements.length) {
-        itemTags.innerText = globalize.translate('TagsValue', tagElements.join(', '));
+        itemTags.innerHTML = globalize.translate('TagsValue', tagElements.join(', '));
         itemTags.classList.remove('hide');
     } else {
         itemTags.innerHTML = '';
@@ -1274,7 +1275,7 @@ function renderTags(page, item) {
 }
 
 function renderChildren(page, item) {
-    let fields = 'ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount';
+    let fields = 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount';
     const query = {
         ParentId: item.Id,
         Fields: fields
@@ -1691,7 +1692,7 @@ function renderMusicVideos(page, item, user) {
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount'
+        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
     };
 
     if (item.Type == 'MusicAlbum') {
@@ -2016,7 +2017,6 @@ export default function (view, params) {
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
-        view.querySelector('.detailImageContainer').addEventListener('click', onPlayClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
@@ -2037,7 +2037,7 @@ export default function (view, params) {
                 if (currentItem) {
                     libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
-                    renderBackdrop(currentItem);
+                    renderBackdrop(page, currentItem);
                 }
             } else {
                 reload(self, page, params);

@@ -7,6 +7,7 @@ import ServerConnections from 'components/ServerConnections';
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-scroller/emby-scroller';
@@ -133,11 +134,11 @@ function getFetchDataFn(section) {
     return function () {
         const apiClient = this.apiClient;
         const options = {
-            SortBy: 'SeriesName,SortName',
+            SortBy: [ItemSortBy.SeriesSortName, ItemSortBy.SortName].join(','),
             SortOrder: 'Ascending',
             Filters: 'IsFavorite',
             Recursive: true,
-            Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+            Fields: 'PrimaryImageAspectRatio',
             CollapseBoxSetItems: false,
             ExcludeLocationTypes: 'Virtual',
             EnableTotalRecordCount: false

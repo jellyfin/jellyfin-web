@@ -32,24 +32,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'dashboard/devices/device.html'
         }
     }, {
-        path: 'dlna/profiles/edit',
-        pageProps: {
-            controller: 'dashboard/dlna/profile',
-            view: 'dashboard/dlna/profile.html'
-        }
-    }, {
-        path: 'dlna/profiles',
-        pageProps: {
-            controller: 'dashboard/dlna/profiles',
-            view: 'dashboard/dlna/profiles.html'
-        }
-    }, {
-        path: 'dlna',
-        pageProps: {
-            controller: 'dashboard/dlna/settings',
-            view: 'dashboard/dlna/settings.html'
-        }
-    }, {
         path: 'plugins/add',
         pageProps: {
             controller: 'dashboard/plugins/add/index',

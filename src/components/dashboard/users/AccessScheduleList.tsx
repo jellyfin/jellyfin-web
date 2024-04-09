@@ -5,7 +5,6 @@ import IconButtonElement from '../../../elements/IconButtonElement';
 
 type AccessScheduleListProps = {
     index: number;
-    Id?: number;
     DayOfWeek?: string;
     StartHour?: number ;
     EndHour?: number;

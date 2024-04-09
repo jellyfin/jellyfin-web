@@ -187,10 +187,15 @@ export default function (view) {
     view.querySelector('.btnNewPlaylist').addEventListener('click', function () {
         import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
             const serverId = ApiClient.serverInfo().Id;
-            new PlaylistEditor({
+            const playlistEditor = new PlaylistEditor();
+            playlistEditor.show({
                 items: [],
                 serverId: serverId
+            }).catch(() => {
+                // Dialog closed
             });
+        }).catch(err => {
+            console.error('[btnNewPlaylist] failed to load playlist editor', err);
         });
     });
     onViewStyleChange();

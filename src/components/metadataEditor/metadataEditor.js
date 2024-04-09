@@ -22,6 +22,7 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
 
 let currentContext;
 let metadataEditorInfo;
@@ -153,6 +154,7 @@ function onSubmit(e) {
         DateCreated: getDateValue(form, '#txtDateAdded', 'DateCreated'),
         EndDate: getDateValue(form, '#txtEndDate', 'EndDate'),
         ProductionYear: form.querySelector('#txtProductionYear').value,
+        Height: form.querySelector('#selectHeight').value,
         AspectRatio: form.querySelector('#txtOriginalAspectRatio').value,
         Video3DFormat: form.querySelector('#select3dFormat').value,
 
@@ -260,7 +262,6 @@ function showMoreMenu(context, button, user) {
             edit: false,
             editImages: true,
             editSubtitles: true,
-            sync: false,
             share: false,
             play: false,
             queue: false,
@@ -271,7 +272,7 @@ function showMoreMenu(context, button, user) {
             } else if (result.updated) {
                 reload(context, item.Id, item.ServerId);
             }
-        });
+        }).catch(() => { /* no-op */ });
     });
 }
 
@@ -651,6 +652,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldPlaceOfBirth');
     }
 
+    if (item.MediaType === 'Video' && item.Type === 'TvChannel') {
+        showElement('#fldHeight');
+    } else {
+        hideElement('#fldHeight');
+    }
+
     if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
         showElement('#fldOriginalAspectRatio');
     } else {
@@ -829,6 +836,8 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     const placeofBirth = item.ProductionLocations?.length ? item.ProductionLocations[0] : '';
     context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
 
+    context.querySelector('#selectHeight').value = item.Height || '';
+
     context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || '';
 
     context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || '';
@@ -878,10 +887,10 @@ function populateRatings(allParentalRatings, select, currentValue) {
 
 function populateStatus(select) {
     let html = '';
-
-    html += "<option value=''></option>";
-    html += "<option value='Continuing'>" + globalize.translate('Continuing') + '</option>';
-    html += "<option value='Ended'>" + globalize.translate('Ended') + '</option>';
+    html += '<option value=""></option>';
+    html += `<option value="${SeriesStatus.Continuing}">${escapeHtml(globalize.translate('Continuing'))}</option>`;
+    html += `<option value="${SeriesStatus.Ended}">${escapeHtml(globalize.translate('Ended'))}</option>`;
+    html += `<option value="${SeriesStatus.Unreleased}">${escapeHtml(globalize.translate('Unreleased'))}</option>`;
     select.innerHTML = html;
 }
 

@@ -48,7 +48,7 @@ function loadLatest(page, parentId) {
     const options = {
         IncludeItemTypes: 'Audio',
         Limit: enableScrollX() ? 3 * itemsPerRow() : 2 * itemsPerRow(),
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',

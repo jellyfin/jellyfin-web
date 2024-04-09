@@ -581,5 +581,7 @@
     "HeaderAutoDiscovery": "Zbulim ne rrjet",
     "HeaderStopRecording": "Ndaloni regjistrimin",
     "HeaderSubtitleProfilesHelp": "Profilet e titrave përshkruajnë formatin e titrave që suportohen nga paisja.",
-    "HeaderSyncPlaySelectGroup": "Bashkohuni një grupi"
+    "HeaderSyncPlaySelectGroup": "Bashkohuni një grupi",
+    "DirectStreamHelp2": "Energjia e konsumuar nga transmetimi i drejtpërdrejtë zakonisht varet nga profili i audios. Vetëm transmetimi i videove është pa humbje.",
+    "EnableDetailsBannerHelp": "Shfaqni një imazh baneri në krye të faqes së  artikullit."
 }

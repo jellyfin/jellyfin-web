@@ -105,7 +105,7 @@ export default function (view, params, tabContent) {
         activeRecordingsPromise = ApiClient.getLiveTvRecordings({
             UserId: Dashboard.getCurrentUserId(),
             IsInProgress: true,
-            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
+            Fields: 'CanDelete,PrimaryImageAspectRatio',
             EnableTotalRecordCount: false,
             EnableImageTypes: 'Primary,Thumb,Backdrop'
         });

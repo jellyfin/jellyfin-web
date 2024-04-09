@@ -49,6 +49,7 @@ const UserProfiles: FunctionComponent = () => {
         const showUserMenu = (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
             const userId = card?.getAttribute('data-userid');
+            const username = card?.getAttribute('data-username');
 
             if (!userId) {
                 console.error('Unexpected null user id');
@@ -58,7 +59,7 @@ const UserProfiles: FunctionComponent = () => {
             const menuItems: MenuEntry[] = [];
 
             menuItems.push({
-                name: globalize.translate('ButtonOpen'),
+                name: globalize.translate('ButtonEditUser'),
                 id: 'open',
                 icon: 'mode_edit'
             });
@@ -106,7 +107,7 @@ const UserProfiles: FunctionComponent = () => {
                                 break;
 
                             case 'delete':
-                                deleteUser(userId);
+                                deleteUser(userId, username);
                         }
                     }
                 }).catch(() => {
@@ -117,12 +118,13 @@ const UserProfiles: FunctionComponent = () => {
             });
         };
 
-        const deleteUser = (id: string) => {
-            const msg = globalize.translate('DeleteUserConfirmation');
+        const deleteUser = (id: string, username?: string | null) => {
+            const title = username ? globalize.translate('DeleteName', username) : globalize.translate('DeleteUser');
+            const text = globalize.translate('DeleteUserConfirmation');
 
             confirm({
-                title: globalize.translate('DeleteUser'),
-                text: msg,
+                title,
+                text,
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(function () {

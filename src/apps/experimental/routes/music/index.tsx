@@ -4,9 +4,9 @@ import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
-import { CollectionType } from 'types/collectionType';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { SectionsView } from 'types/suggestionsSections';
+import { MusicSuggestionsSectionsView } from 'types/sections';
 
 const albumArtistsTabContent: LibraryTabContent = {
     viewType: LibraryTab.AlbumArtists,
@@ -47,13 +47,7 @@ const songsTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.Music,
-    sectionsType: {
-        suggestionSectionsView: [
-            SectionsView.LatestMusic,
-            SectionsView.FrequentlyPlayedMusic,
-            SectionsView.RecentlyPlayedMusic
-        ]
-    }
+    sectionsView: MusicSuggestionsSectionsView
 };
 
 const genresTabContent: LibraryTabContent = {
@@ -73,8 +67,8 @@ const musicTabMapping: LibraryTabMapping = {
 };
 
 const Music: FC = () => {
-    const { searchParamsParentId, currentTabIndex } = useCurrentTab();
-    const currentTab = musicTabMapping[currentTabIndex];
+    const { libraryId, activeTab } = useCurrentTab();
+    const currentTab = musicTabMapping[activeTab];
 
     return (
         <Page
@@ -83,9 +77,9 @@ const Music: FC = () => {
             backDropType='musicartist'
         >
             <PageTabContent
-                key={`${currentTab.viewType} - ${searchParamsParentId}`}
+                key={`${currentTab.viewType} - ${libraryId}`}
                 currentTab={currentTab}
-                parentId={searchParamsParentId}
+                parentId={libraryId}
             />
         </Page>
     );

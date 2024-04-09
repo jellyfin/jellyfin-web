@@ -93,8 +93,7 @@ export default function (view) {
                 },
                 validateWriteable: true,
                 header: globalize.translate('HeaderSelectMetadataPath'),
-                instruction: globalize.translate('HeaderSelectMetadataPathHelp'),
-                enableNetworkSharePath: true
+                instruction: globalize.translate('HeaderSelectMetadataPathHelp')
             });
         });
     });

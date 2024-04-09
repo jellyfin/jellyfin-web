@@ -107,7 +107,6 @@ function onAddButtonClick() {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
-            enableNetworkSharePath: true,
             callback: function (path, networkSharePath) {
                 if (path) {
                     addMediaLocation(page, path, networkSharePath);

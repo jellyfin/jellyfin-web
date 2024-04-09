@@ -12,6 +12,8 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {
@@ -222,7 +224,7 @@ function updateAlphaPickerState(instance) {
         if (alphaPicker) {
             const values = instance.getSortValues();
 
-            if (values.sortBy.indexOf('SortName') !== -1) {
+            if (values.sortBy.indexOf(ItemSortBy.SortName) !== -1) {
                 alphaPicker.classList.remove('hide');
                 instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
             } else {
@@ -252,7 +254,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     if (params.type === 'nextup') {
         return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -306,9 +308,9 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 
         if (item.Type === 'MusicGenre') {
             query.IncludeItemTypes = 'MusicAlbum';
-        } else if (item.CollectionType === 'movies') {
+        } else if (item.CollectionType === CollectionType.Movies) {
             query.IncludeItemTypes = 'Movie';
-        } else if (item.CollectionType === 'tvshows') {
+        } else if (item.CollectionType === CollectionType.Tvshows) {
             query.IncludeItemTypes = 'Series';
         } else if (item.Type === 'Genre') {
             query.IncludeItemTypes = 'Movie,Series,Video';
@@ -322,7 +324,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
         StartIndex: startIndex,
         Limit: limit,
-        Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount,MediaSourceCount',
+        Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
         ImageTypeLimit: 1,
         ParentId: item.Id,
         SortBy: sortBy
@@ -400,10 +402,15 @@ function onNewItemClick() {
     const instance = this;
 
     import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-        new PlaylistEditor({
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
             items: [],
             serverId: instance.params.serverId
+        }).catch(() => {
+            // Dialog closed
         });
+    }).catch(err => {
+        console.error('[onNewItemClick] failed to load playlist editor', err);
     });
 }
 
@@ -605,7 +612,7 @@ class ItemsView {
             posterOptions.lines = lines;
             posterOptions.items = items;
 
-            if (item && item.CollectionType === 'folders') {
+            if (item && item.CollectionType === CollectionType.Folders) {
                 posterOptions.context = 'folders';
             }
 
@@ -635,7 +642,7 @@ class ItemsView {
         function setTitle(item) {
             LibraryMenu.setTitle(getTitle(item) || '');
 
-            if (item && item.CollectionType === 'playlists') {
+            if (item && item.CollectionType === CollectionType.Playlists) {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), false);
             } else {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), true);
@@ -865,7 +872,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -878,7 +885,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);
@@ -975,7 +982,7 @@ class ItemsView {
             return sortNameOption.value;
         }
 
-        return 'IsFolder,' + sortNameOption.value;
+        return `${ItemSortBy.IsFolder},${sortNameOption.value}`;
     }
 
     getSortMenuOptions() {
@@ -984,7 +991,7 @@ class ItemsView {
         if (this.params.type === 'Programs') {
             sortBy.push({
                 name: globalize.translate('AirDate'),
-                value: 'StartDate,SortName'
+                value: [ItemSortBy.StartDate, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1009,7 +1016,7 @@ class ItemsView {
         if (this.params.type !== 'Programs') {
             sortBy.push({
                 name: globalize.translate('DateAdded'),
-                value: 'DateCreated,SortName'
+                value: [ItemSortBy.DateCreated, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1023,13 +1030,13 @@ class ItemsView {
             option = this.getNameSortOption(this.params);
             sortBy.push({
                 name: globalize.translate('Folders'),
-                value: 'IsFolder,' + option.value
+                value: `${ItemSortBy.IsFolder},${option.value}`
             });
         }
 
         sortBy.push({
             name: globalize.translate('ParentalRating'),
-            value: 'OfficialRating,SortName'
+            value: [ItemSortBy.OfficialRating, ItemSortBy.SortName].join(',')
         });
         option = this.getPlayCountSortOption();
 
@@ -1039,11 +1046,11 @@ class ItemsView {
 
         sortBy.push({
             name: globalize.translate('ReleaseDate'),
-            value: 'ProductionYear,PremiereDate,SortName'
+            value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName].join(',')
         });
         sortBy.push({
             name: globalize.translate('Runtime'),
-            value: 'Runtime,SortName'
+            value: [ItemSortBy.Runtime, ItemSortBy.SortName].join(',')
         });
         return sortBy;
     }
@@ -1052,13 +1059,13 @@ class ItemsView {
         if (params.type === 'Episode') {
             return {
                 name: globalize.translate('Name'),
-                value: 'SeriesName,SortName'
+                value: [ItemSortBy.SeriesSortName, ItemSortBy.SortName].join(',')
             };
         }
 
         return {
             name: globalize.translate('Name'),
-            value: 'SortName'
+            value: ItemSortBy.SortName
         };
     }
 
@@ -1069,7 +1076,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('PlayCount'),
-            value: 'PlayCount,SortName'
+            value: [ItemSortBy.PlayCount, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1080,7 +1087,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('DatePlayed'),
-            value: 'DatePlayed,SortName'
+            value: [ItemSortBy.DatePlayed, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1091,14 +1098,14 @@ class ItemsView {
 
         return {
             name: globalize.translate('CriticRating'),
-            value: 'CriticRating,SortName'
+            value: [ItemSortBy.CriticRating, ItemSortBy.SortName].join(',')
         };
     }
 
     getCommunityRatingSortOption() {
         return {
             name: globalize.translate('CommunityRating'),
-            value: 'CommunityRating,SortName'
+            value: [ItemSortBy.CommunityRating, ItemSortBy.SortName].join(',')
         };
     }
 

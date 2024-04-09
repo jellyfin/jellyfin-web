@@ -104,6 +104,18 @@ class ServerConnections extends ConnectionManager {
         return apiClient;
     }
 
+    /**
+     * Gets the ApiClient that is currently connected or throws if not defined.
+     * @async
+     * @returns {Promise<ApiClient>} The current ApiClient instance.
+     */
+    async getCurrentApiClientAsync() {
+        const apiClient = this.currentApiClient();
+        if (!apiClient) throw new Error('[ServerConnection] No current ApiClient instance');
+
+        return apiClient;
+    }
+
     onLocalUserSignedIn(user) {
         const apiClient = this.getApiClient(user.ServerId);
         this.setLocalApiClient(apiClient);
