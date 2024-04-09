@@ -1320,8 +1320,8 @@ export default function (view) {
             case '7':
             case '8':
             case '9': {
-                e.preventDefault();
                 if (!isKeyModified) {
+                    e.preventDefault();
                     const percent = parseInt(key, 10) * 10;
                     playbackManager.seekPercent(percent, currentPlayer);
                 }
