@@ -1287,8 +1287,8 @@ export default function (view) {
                 showOsd(btnPlayPause);
                 break;
             case 'f':
-                e.preventDefault();
                 if (!e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
