@@ -1305,8 +1305,8 @@ export default function (view) {
                 break;
             case 'n':
             case 'N':
-                e.preventDefault();
                 if (e.shiftKey) {
+                    e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
                 }
                 break;
