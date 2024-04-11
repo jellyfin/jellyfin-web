@@ -1384,11 +1384,13 @@ export default function (view) {
         let chapterThumbContainer = bubble.querySelector('.chapterThumbContainer');
         let chapterThumb;
         let chapterThumbText;
+        let chapterThumbName;
 
         // Create bubble elements if they don't already exist
         if (chapterThumbContainer) {
             chapterThumb = chapterThumbContainer.querySelector('.chapterThumbWrapper');
             chapterThumbText = chapterThumbContainer.querySelector('.chapterThumbText');
+            chapterThumbName = chapterThumbContainer.querySelector('.chapterThumbName');
         } else {
             doFullUpdate = true;
 
@@ -1410,6 +1412,21 @@ export default function (view) {
             chapterThumbText = document.createElement('h2');
             chapterThumbText.classList.add('chapterThumbText');
             chapterThumbTextContainer.appendChild(chapterThumbText);
+            chapterThumbName = document.createElement('span');
+            chapterThumbName.classList.add('chapterThumbName');
+            chapterThumbTextContainer.appendChild(chapterThumbName);
+        }
+
+        let chapter;
+        console.log(item);
+        if (item?.Chapters?.length) {
+            for (let i = 0, length = item.Chapters.length; i < length; i++) {
+                const currentChapter = item.Chapters[i];
+
+                if (positionTicks >= currentChapter.StartPositionTicks) {
+                    chapter = currentChapter;
+                }
+            }
         }
 
         // Update trickplay values
@@ -1435,6 +1452,7 @@ export default function (view) {
         chapterThumb.style.backgroundPositionY = offsetY + 'px';
 
         chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
+        chapterThumbName.textContent = (chapter ? chapter?.Name : '');
 
         // Set bubble innerHTML if container isn't part of DOM
         if (doFullUpdate) {
