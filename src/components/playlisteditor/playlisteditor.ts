@@ -8,7 +8,7 @@ import { pluginManager } from '../pluginManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../router/appRouter';
 import globalize from '../../scripts/globalize';
-import { PluginType } from '../../types/plugin.ts';
+import { PluginType } from '../../types/plugin';
 
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-input/emby-input';
