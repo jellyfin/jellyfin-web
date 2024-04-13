@@ -1,53 +1,77 @@
 import escapeHtml from 'escape-html';
-import dom from '../../scripts/dom';
+import type { ApiClient } from 'jellyfin-apiclient';
+
+import dom from 'scripts/dom';
+import globalize from 'scripts/globalize';
+import * as userSettings from 'scripts/settings/userSettings';
+import { PluginType } from 'types/plugin';
+
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
-import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
-import { PluginType } from '../../types/plugin';
-
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-select/emby-select';
-import 'material-design-icons-iconfont';
-import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
 
-let currentServerId;
+import 'elements/emby-button/emby-button';
+import 'elements/emby-input/emby-input';
+import 'elements/emby-button/paper-icon-button-light';
+import 'elements/emby-select/emby-select';
 
-function onSubmit(e) {
-    const panel = dom.parentWithClass(this, 'dialog');
+import 'material-design-icons-iconfont';
+import '../formdialog.scss';
 
-    const playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
-    const apiClient = ServerConnections.getApiClient(currentServerId);
+interface DialogElement extends HTMLDivElement {
+    submitted?: boolean
+}
 
-    if (playlistId) {
-        userSettings.set('playlisteditor-lastplaylistid', playlistId);
-        addToPlaylist(apiClient, panel, playlistId);
+interface PlaylistEditorOptions {
+    items: string[],
+    serverId: string,
+    enableAddToPlayQueue?: boolean,
+    defaultValue?: string
+}
+
+let currentServerId: string;
+
+function onSubmit(this: HTMLElement, e: Event) {
+    const panel = dom.parentWithClass(this, 'dialog') as DialogElement | null;
+
+    if (panel) {
+        const playlistId = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo')?.value;
+        const apiClient = ServerConnections.getApiClient(currentServerId);
+
+        if (playlistId) {
+            userSettings.set('playlisteditor-lastplaylistid', playlistId);
+            addToPlaylist(apiClient, panel, playlistId)
+                ?.catch(err => {
+                    console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
+                });
+        } else {
+            createPlaylist(apiClient, panel)
+                ?.catch(err => {
+                    console.error('[PlaylistEditor] Failed to create playlist', err);
+                });
+        }
     } else {
-        createPlaylist(apiClient, panel);
+        console.error('[PlaylistEditor] Dialog element is missing!');
     }
 
     e.preventDefault();
     return false;
 }
 
-function createPlaylist(apiClient, dlg) {
+function createPlaylist(apiClient: ApiClient, dlg: DialogElement) {
     loading.show();
 
     const url = apiClient.getUrl('Playlists', {
-        Name: dlg.querySelector('#txtNewPlaylistName').value,
-        Ids: dlg.querySelector('.fldSelectedItemIds').value || '',
+        Name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
+        Ids: dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '',
         userId: apiClient.getCurrentUserId()
-
     });
 
-    apiClient.ajax({
+    return apiClient.ajax({
         type: 'POST',
         url: url,
         dataType: 'json',
@@ -62,12 +86,12 @@ function createPlaylist(apiClient, dlg) {
     });
 }
 
-function redirectToPlaylist(apiClient, id) {
+function redirectToPlaylist(apiClient: ApiClient, id: string) {
     appRouter.showItem(id, apiClient.serverId());
 }
 
-function addToPlaylist(apiClient, dlg, id) {
-    const itemIds = dlg.querySelector('.fldSelectedItemIds').value || '';
+function addToPlaylist(apiClient: ApiClient, dlg: DialogElement, id: string) {
+    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
 
     if (id === 'queue') {
         playbackManager.queue({
@@ -86,7 +110,7 @@ function addToPlaylist(apiClient, dlg, id) {
         userId: apiClient.getCurrentUserId()
     });
 
-    apiClient.ajax({
+    return apiClient.ajax({
         type: 'POST',
         url: url
 
@@ -98,16 +122,20 @@ function addToPlaylist(apiClient, dlg, id) {
     });
 }
 
-function triggerChange(select) {
+function triggerChange(select: HTMLSelectElement) {
     select.dispatchEvent(new CustomEvent('change', {}));
 }
 
-function populatePlaylists(editorOptions, panel) {
-    const select = panel.querySelector('#selectPlaylistToAddTo');
+function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogElement) {
+    const select = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
 
     loading.hide();
 
-    panel.querySelector('.newPlaylistInfo').classList.add('hide');
+    if (!select) {
+        return Promise.reject(new Error('Playlist <select> element is missing'));
+    }
+
+    panel.querySelector('.newPlaylistInfo')?.classList.add('hide');
 
     const options = {
         Recursive: true,
@@ -119,7 +147,7 @@ function populatePlaylists(editorOptions, panel) {
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
 
-    apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
         let html = '';
 
         if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
@@ -128,7 +156,7 @@ function populatePlaylists(editorOptions, panel) {
 
         html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-        html += result.Items.map(i => {
+        html += result.Items?.map(i => {
             return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
         });
 
@@ -151,7 +179,7 @@ function populatePlaylists(editorOptions, panel) {
     });
 }
 
-function getEditorHtml(items) {
+function getEditorHtml(items: string[]) {
     let html = '';
 
     html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
@@ -186,58 +214,70 @@ function getEditorHtml(items) {
     return html;
 }
 
-function initEditor(content, options, items) {
-    content.querySelector('#selectPlaylistToAddTo').addEventListener('change', function () {
+function initEditor(content: DialogElement, options: PlaylistEditorOptions, items: string[]) {
+    content.querySelector('#selectPlaylistToAddTo')?.addEventListener('change', function(this: HTMLSelectElement) {
         if (this.value) {
-            content.querySelector('.newPlaylistInfo').classList.add('hide');
-            content.querySelector('#txtNewPlaylistName').removeAttribute('required');
+            content.querySelector('.newPlaylistInfo')?.classList.add('hide');
+            content.querySelector('#txtNewPlaylistName')?.removeAttribute('required');
         } else {
-            content.querySelector('.newPlaylistInfo').classList.remove('hide');
-            content.querySelector('#txtNewPlaylistName').setAttribute('required', 'required');
+            content.querySelector('.newPlaylistInfo')?.classList.remove('hide');
+            content.querySelector('#txtNewPlaylistName')?.setAttribute('required', 'required');
         }
     });
 
-    content.querySelector('form').addEventListener('submit', onSubmit);
+    content.querySelector('form')?.addEventListener('submit', onSubmit);
 
-    content.querySelector('.fldSelectedItemIds', content).value = items.join(',');
+    const selectedItemsInput = content.querySelector<HTMLInputElement>('.fldSelectedItemIds');
+    if (selectedItemsInput) {
+        selectedItemsInput.value = items.join(',');
+    }
 
     if (items.length) {
-        content.querySelector('.fldSelectPlaylist').classList.remove('hide');
-        populatePlaylists(options, content);
+        content.querySelector('.fldSelectPlaylist')?.classList.remove('hide');
+        populatePlaylists(options, content)
+            .catch(err => {
+                console.error('[PlaylistEditor] failed to populate playlists', err);
+            });
     } else {
-        content.querySelector('.fldSelectPlaylist').classList.add('hide');
+        content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
 
-        const selectPlaylistToAddTo = content.querySelector('#selectPlaylistToAddTo');
-        selectPlaylistToAddTo.innerHTML = '';
-        selectPlaylistToAddTo.value = '';
-        triggerChange(selectPlaylistToAddTo);
+        const selectPlaylistToAddTo = content.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
+        if (selectPlaylistToAddTo) {
+            selectPlaylistToAddTo.innerHTML = '';
+            selectPlaylistToAddTo.value = '';
+            triggerChange(selectPlaylistToAddTo);
+        }
     }
 }
 
-function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
-        const fn = on ? 'on' : 'off';
-        scrollHelper.centerFocus[fn](elem, horiz);
-    });
+function centerFocus(elem: HTMLDivElement | null, horiz: boolean, on: boolean) {
+    if (!elem) {
+        console.error('[PlaylistEditor] cannot focus null element');
+        return;
+    }
+
+    import('../../scripts/scrollHelper')
+        .then((scrollHelper) => {
+            const fn = on ? 'on' : 'off';
+            scrollHelper.centerFocus[fn](elem, horiz);
+        })
+        .catch(err => {
+            console.error('[PlaylistEditor] failed to load scroll helper', err);
+        });
 }
 
 export class PlaylistEditor {
-    show(options) {
-        const items = options.items || {};
+    show(options: PlaylistEditorOptions) {
+        const items = options.items || [];
         currentServerId = options.serverId;
 
         const dialogOptions = {
             removeOnClose: true,
-            scrollY: false
+            scrollY: false,
+            size: layoutManager.tv ? 'fullscreen' : 'small'
         };
 
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
-
-        const dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg: DialogElement = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
 
@@ -258,7 +298,7 @@ export class PlaylistEditor {
 
         initEditor(dlg, options, items);
 
-        dlg.querySelector('.btnCancel').addEventListener('click', () => {
+        dlg.querySelector('.btnCancel')?.addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
 
