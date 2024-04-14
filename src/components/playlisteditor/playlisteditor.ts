@@ -1,10 +1,14 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
+import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import escapeHtml from 'escape-html';
-import type { ApiClient } from 'jellyfin-apiclient';
 
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { PluginType } from 'types/plugin';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
@@ -40,16 +44,15 @@ function onSubmit(this: HTMLElement, e: Event) {
 
     if (panel) {
         const playlistId = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo')?.value;
-        const apiClient = ServerConnections.getApiClient(currentServerId);
 
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
-            addToPlaylist(apiClient, panel, playlistId)
+            addToPlaylist(panel, playlistId)
                 ?.catch(err => {
                     console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
                 });
         } else {
-            createPlaylist(apiClient, panel)
+            createPlaylist(panel)
                 ?.catch(err => {
                     console.error('[PlaylistEditor] Failed to create playlist', err);
                 });
@@ -62,40 +65,41 @@ function onSubmit(this: HTMLElement, e: Event) {
     return false;
 }
 
-function createPlaylist(apiClient: ApiClient, dlg: DialogElement) {
+function createPlaylist(dlg: DialogElement) {
+    const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
+
+    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
+
     loading.show();
 
-    const url = apiClient.getUrl('Playlists', {
-        Name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
-        Ids: dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '',
-        userId: apiClient.getCurrentUserId()
-    });
+    return getPlaylistsApi(api)
+        .createPlaylist({
+            name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
+            ids: itemIds.split(','),
+            userId: apiClient.getCurrentUserId()
+        })
+        .then(result => {
+            loading.hide();
+            dlg.submitted = true;
+            dialogHelper.close(dlg);
 
-    return apiClient.ajax({
-        type: 'POST',
-        url: url,
-        dataType: 'json',
-        contentType: 'application/json'
-    }).then(result => {
-        loading.hide();
-
-        const id = result.Id;
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
-        redirectToPlaylist(apiClient, id);
-    });
+            redirectToPlaylist(result.data.Id);
+        });
 }
 
-function redirectToPlaylist(apiClient: ApiClient, id: string) {
-    appRouter.showItem(id, apiClient.serverId());
+function redirectToPlaylist(id: string | undefined) {
+    appRouter.showItem(id, currentServerId);
 }
 
-function addToPlaylist(apiClient: ApiClient, dlg: DialogElement, id: string) {
+function addToPlaylist(dlg: DialogElement, id: string) {
+    const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
 
     if (id === 'queue') {
         playbackManager.queue({
-            serverId: apiClient.serverId(),
+            serverId: currentServerId,
             ids: itemIds.split(',')
         });
         dlg.submitted = true;
@@ -105,21 +109,18 @@ function addToPlaylist(apiClient: ApiClient, dlg: DialogElement, id: string) {
 
     loading.show();
 
-    const url = apiClient.getUrl(`Playlists/${id}/Items`, {
-        Ids: itemIds,
-        userId: apiClient.getCurrentUserId()
-    });
+    return getPlaylistsApi(api)
+        .addItemToPlaylist({
+            playlistId: id,
+            ids: itemIds.split(','),
+            userId: apiClient.getCurrentUserId()
+        })
+        .then(() => {
+            loading.hide();
 
-    return apiClient.ajax({
-        type: 'POST',
-        url: url
-
-    }).then(() => {
-        loading.hide();
-
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
-    });
+            dlg.submitted = true;
+            dialogHelper.close(dlg);
+        });
 }
 
 function triggerChange(select: HTMLSelectElement) {
@@ -137,46 +138,47 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
     panel.querySelector('.newPlaylistInfo')?.classList.add('hide');
 
-    const options = {
-        Recursive: true,
-        IncludeItemTypes: 'Playlist',
-        SortBy: 'SortName',
-        EnableTotalRecordCount: false
-    };
-
     const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
 
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
-        let html = '';
+    return getItemsApi(api)
+        .getItems({
+            userId: apiClient.getCurrentUserId(),
+            includeItemTypes: [ BaseItemKind.Playlist ],
+            sortBy: [ ItemSortBy.SortName ],
+            recursive: true
+        })
+        .then(({ data }) => {
+            let html = '';
 
-        if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
-            html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
-        }
+            if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
+                html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
+            }
 
-        html += `<option value="">${globalize.translate('OptionNew')}</option>`;
+            html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-        html += result.Items?.map(i => {
-            return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
+            html += data.Items?.map(i => {
+                return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
+            });
+
+            select.innerHTML = html;
+
+            let defaultValue = editorOptions.defaultValue;
+            if (!defaultValue) {
+                defaultValue = userSettings.get('playlisteditor-lastplaylistid') || '';
+            }
+            select.value = defaultValue === 'new' ? '' : defaultValue;
+
+            // If the value is empty set it again, in case we tried to set a lastplaylistid that is no longer valid
+            if (!select.value) {
+                select.value = '';
+            }
+
+            triggerChange(select);
+
+            loading.hide();
         });
-
-        select.innerHTML = html;
-
-        let defaultValue = editorOptions.defaultValue;
-        if (!defaultValue) {
-            defaultValue = userSettings.get('playlisteditor-lastplaylistid') || '';
-        }
-        select.value = defaultValue === 'new' ? '' : defaultValue;
-
-        // If the value is empty set it again, in case we tried to set a lastplaylistid that is no longer valid
-        if (!select.value) {
-            select.value = '';
-        }
-
-        triggerChange(select);
-
-        loading.hide();
-    });
 }
 
 function getEditorHtml(items: string[]) {
