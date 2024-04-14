@@ -7,7 +7,7 @@ import type { ItemDto } from 'types/base/models/item-dto';
 interface MediaProps {
     item: ItemDto;
     imgUrl: string | undefined;
-    blurhash: string | undefined;
+    blurhash?: string;
     imageType?: ImageType
     defaultCardImageIcon?: string
 }
