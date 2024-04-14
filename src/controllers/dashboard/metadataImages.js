@@ -67,7 +67,7 @@ function loadPage(page) {
         const config = responses[0];
         page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage || '';
         page.querySelector('#selectCountry').value = config.MetadataCountryCode || '';
-        page.querySelector('#valDummyChapterDuration').value = config.DummyChapterDuration || '';
+        page.querySelector('#valDummyChapterDuration').value = config.DummyChapterDuration || '0';
         page.querySelector('#txtChapterImageResolution').value = config.ChapterImageResolution || '';
         loading.hide();
     });
