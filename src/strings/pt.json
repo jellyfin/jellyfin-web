@@ -1081,7 +1081,7 @@
     "List": "Lista",
     "LeaveBlankToNotSetAPassword": "Você pode deixar esse campo em branco para definir nenhuma senha.",
     "LearnHowYouCanContribute": "Aprenda como você pode contribuir.",
-    "Large": "Ampla",
+    "Large": "Grande",
     "LanNetworksHelp": "Lista separada por vírgula de endereços IP ou entradas de máscara de rede/IP para redes que serão consideradas na rede local ao impor restrições de largura de banda. Se definido, todos os outros endereços IP serão considerados na rede externa e estarão sujeitos às restrições de largura de banda externa. Se deixado em branco, apenas a sub-rede do servidor é considerada na rede local.",
     "LabelffmpegPathHelp": "O caminho para o arquivo ou pasta do aplicativo ffmpeg que contém o ffmpeg.",
     "LabelffmpegPath": "Caminho do FFmpeg",
