@@ -547,7 +547,7 @@ export default function (options) {
         hlsInFmp4VideoAudioCodecs.push('mp2');
     }
 
-    let supportsDts = options.supportsDts;
+    let supportsDts = appSettings.enableDts() || options.supportsDts;
     if (supportsDts == null) {
         supportsDts = canPlayDts(videoTestElement);
     }

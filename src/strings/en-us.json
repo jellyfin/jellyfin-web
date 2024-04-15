@@ -246,6 +246,8 @@
     "EnableDetailsBanner": "Details Banner",
     "EnableDetailsBannerHelp": "Display a banner image at the top of the item details page.",
     "EnableDisplayMirroring": "Display mirroring",
+    "EnableDts": "Enable DTS (DCA)",
+    "EnableDtsHelp": "Only enable if your device supports DTS or is connected to a compatible audio receiver, otherwise it may cause playback failure.",
     "EnableExternalVideoPlayers": "External video players",
     "EnableExternalVideoPlayersHelp": "An external player menu will be shown when starting video playback.",
     "EnableFasterAnimations": "Faster animations",

@@ -157,6 +157,14 @@
         <div class="selectContainer">
             <select is="emby-select" class="selectSkipBackLength" label="${LabelSkipBackLength}"></select>
         </div>
+
+        <div class="checkboxContainer checkboxContainer-withDescription fldEnableDts">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkEnableDts" />
+                <span>${EnableDts}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${EnableDtsHelp}</div>
+        </div>
     </div>
 
     <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
