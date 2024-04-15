@@ -562,7 +562,7 @@ export default function (options) {
         videoAudioCodecs.push('pcm_s24le');
     }
 
-    if (options.supportsTrueHd) {
+    if (appSettings.enableTrueHd() || options.supportsTrueHd) {
         videoAudioCodecs.push('truehd');
     }
 

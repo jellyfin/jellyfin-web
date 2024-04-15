@@ -269,6 +269,8 @@
     "EnableThemeSongsHelp": "Play the theme songs in background while browsing the library.",
     "EnableThemeVideosHelp": "Play theme videos in the background while browsing the library.",
     "EnableTonemapping": "Enable Tone mapping",
+    "EnableTrueHd": "Enable TrueHD",
+    "EnableTrueHdHelp": "Only enable if your device supports TrueHD or is connected to a compatible audio receiver, otherwise it may cause playback failure.",
     "EncoderPresetHelp": "Pick a faster value to improve performance, or a slower value to improve quality.",
     "Ended": "Ended",
     "EndsAtValue": "Ends at {0}",
