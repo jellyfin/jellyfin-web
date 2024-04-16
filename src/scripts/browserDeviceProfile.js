@@ -716,11 +716,14 @@ export default function (options) {
     profile.TranscodingProfiles = [];
 
     const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls();
+    let enableFmp4Hls = userSettings.preferFmp4HlsContainer();
+    if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
+        enableFmp4Hls = false;
+    }
 
     if (canPlayHls() && browser.enableHlsAudio !== false) {
         profile.TranscodingProfiles.push({
-            // hlsjs, edge, and android all seem to require ts container
-            Container: !canPlayNativeHls() || browser.edge || browser.android ? 'ts' : 'aac',
+            Container: enableFmp4Hls ? 'mp4' : 'ts',
             Type: 'Audio',
             AudioCodec: 'aac',
             Context: 'Streaming',
@@ -757,10 +760,6 @@ export default function (options) {
     });
 
     if (canPlayHls() && options.enableHls !== false) {
-        let enableFmp4Hls = userSettings.preferFmp4HlsContainer();
-        if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
-            enableFmp4Hls = false;
-        }
         if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && enableFmp4Hls) {
             // HACK: Since there is no filter for TS/MP4 in the API, specify HLS support in general and rely on retry after DirectPlay error
             // FIXME: Need support for {Container: 'mp4', Protocol: 'hls'} or {Container: 'hls', SubContainer: 'mp4'}
