@@ -12,6 +12,7 @@ import globalize from 'scripts/globalize';
 import Page from 'components/Page';
 import UserProfile from './profile';
 import UserLibraryAccess from './access';
+import UserParentalControl from './parentalcontrol';
 
 const User_Settings_Tabs = [
     {
@@ -100,7 +101,7 @@ const UserSettings = () => {
                         {/*Todo Add Content*/}
                         {activeTab === 'profile' && <UserProfile user={user} />}
                         {activeTab === 'access' && <UserLibraryAccess user={user} />}
-                        {/*activeTab === 'parentalcontrol' && <UserParentalControl user={user} />*/}
+                        {activeTab === 'parentalcontrol' && <UserParentalControl user={user} />}
                         {/*activeTab === 'password' && <UserPassword user={user} />*/}
                     </Box>
                 </Box>
