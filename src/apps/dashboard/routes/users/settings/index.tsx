@@ -10,6 +10,7 @@ import { userHooks } from 'hooks/api';
 import Loading from 'components/loading/LoadingComponent';
 import globalize from 'scripts/globalize';
 import Page from 'components/Page';
+import UserProfile from './profile';
 
 const User_Settings_Tabs = [
     {
@@ -96,7 +97,7 @@ const UserSettings = () => {
                     </Box>
                     <Box>
                         {/*Todo Add Content*/}
-                        {/*activeTab === 'profile' && <UserProfile user={user} />*/}
+                        {activeTab === 'profile' && <UserProfile user={user} />}
                         {/*activeTab === 'access' && <UserLibraryAccess user={user} />*/}
                         {/*activeTab === 'parentalcontrol' && <UserParentalControl user={user} />*/}
                         {/*activeTab === 'password' && <UserPassword user={user} />*/}
