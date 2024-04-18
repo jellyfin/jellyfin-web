@@ -239,10 +239,7 @@ function setMarker(range, valueMarker, marker, valueProgress) {
             return;
         }
 
-        let markerPos = (bubbleTrackRect.width * valueMarker / 100) - markerRect.width / 2;
-        markerPos = Math.min(Math.max(markerPos, - markerRect.width / 2), bubbleTrackRect.width - markerRect.width / 2);
-
-        marker.style.left = markerPos + 'px';
+        marker.style.left = valueMarker + '%';
 
         if (valueProgress >= valueMarker) {
             marker.classList.remove('unwatched');
