@@ -1856,5 +1856,7 @@
     "PlaybackError.SERVER_ERROR": "Die Wiedergabe ist aufgrund eines Serverfehlers fehlgeschlagen.",
     "PlaybackError.NotAllowed": "Die Wiedergabe dieser Medien ist nicht erlaubt.",
     "PlaybackError.RateLimitExceeded": "Dieses Medium kann derzeit aufgrund von Beschränkungen nicht abgespielt werden.",
-    "PlaybackError.PLAYER_ERROR": "Die Wiedergabe ist aufgrund eines schwerwiegenden Player-Fehlers fehlgeschlagen."
+    "PlaybackError.PLAYER_ERROR": "Die Wiedergabe ist aufgrund eines schwerwiegenden Player-Fehlers fehlgeschlagen.",
+    "NonBlockingScan": "Non Blocking - reiht Erstellung ein, kehrt dann zurück",
+    "BlockingScan": "Blocking - reiht Erstellung ein, blockiert Scan bis fertig"
 }
