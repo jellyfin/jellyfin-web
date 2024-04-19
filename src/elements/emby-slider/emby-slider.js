@@ -239,7 +239,7 @@ function setMarker(range, valueMarker, marker, valueProgress) {
             return;
         }
 
-        marker.style.left = 'calc(' + valueMarker + '% - ' + markerRect.width / 2 + 'px)';
+        marker.style.left = `calc(${valueMarker}% - ${markerRect.width / 2}px)`;
 
         if (valueProgress >= valueMarker) {
             marker.classList.remove('unwatched');
