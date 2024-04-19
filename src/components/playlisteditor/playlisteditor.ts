@@ -6,7 +6,7 @@ import escapeHtml from 'escape-html';
 
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
-import * as userSettings from 'scripts/settings/userSettings';
+import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { PluginType } from 'types/plugin';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
@@ -45,17 +45,21 @@ function onSubmit(this: HTMLElement, e: Event) {
     if (panel) {
         const playlistId = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo')?.value;
 
+        loading.show();
+
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
             addToPlaylist(panel, playlistId)
                 ?.catch(err => {
                     console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
-                });
+                })
+                .finally(loading.hide);
         } else {
             createPlaylist(panel)
                 ?.catch(err => {
                     console.error('[PlaylistEditor] Failed to create playlist', err);
-                });
+                })
+                .finally(loading.hide);
         }
     } else {
         console.error('[PlaylistEditor] Dialog element is missing!');
@@ -71,8 +75,6 @@ function createPlaylist(dlg: DialogElement) {
 
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
 
-    loading.show();
-
     return getPlaylistsApi(api)
         .createPlaylist({
             name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
@@ -80,7 +82,6 @@ function createPlaylist(dlg: DialogElement) {
             userId: apiClient.getCurrentUserId()
         })
         .then(result => {
-            loading.hide();
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
@@ -107,8 +108,6 @@ function addToPlaylist(dlg: DialogElement, id: string) {
         return;
     }
 
-    loading.show();
-
     return getPlaylistsApi(api)
         .addItemToPlaylist({
             playlistId: id,
@@ -116,8 +115,6 @@ function addToPlaylist(dlg: DialogElement, id: string) {
             userId: apiClient.getCurrentUserId()
         })
         .then(() => {
-            loading.hide();
-
             dlg.submitted = true;
             dialogHelper.close(dlg);
         });
@@ -317,7 +314,7 @@ export class PlaylistEditor {
                 return Promise.resolve();
             }
 
-            return Promise.reject();
+            return Promise.reject(new Error());
         });
     }
 }
