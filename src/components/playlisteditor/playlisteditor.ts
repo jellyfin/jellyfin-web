@@ -127,8 +127,6 @@ function triggerChange(select: HTMLSelectElement) {
 function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogElement) {
     const select = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
 
-    loading.hide();
-
     if (!select) {
         return Promise.reject(new Error('Playlist <select> element is missing'));
     }
@@ -173,8 +171,6 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
             }
 
             triggerChange(select);
-
-            loading.hide();
         });
 }
 
@@ -236,7 +232,8 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
         populatePlaylists(options, content)
             .catch(err => {
                 console.error('[PlaylistEditor] failed to populate playlists', err);
-            });
+            })
+            .finally(loading.hide);
     } else {
         content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
 
