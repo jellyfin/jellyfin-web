@@ -1802,7 +1802,7 @@
     "Trickplay": "Trickplay",
     "LabelTrickplayAccelHelp": "Pamiętaj, aby włączyć opcję „Zezwól na kodowanie MJPEG” w transkodowaniu, jeśli sprzęt ją obsługuje.",
     "AllowMjpegEncoding": "Zezwalaj na kodowanie w formacie MJPEG (używany podczas generowania trickplay)",
-    "LabelTrickplayAccel": "Włącz akcelerację sprzętową",
+    "LabelTrickplayAccel": "Włącz dekodowanie sprzętowe",
     "NonBlockingScan": "Brak blokowania - generowanie kolejek, następnie powrót",
     "BlockingScan": "Blokowanie - generowanie kolejek, blokowanie skanowania do momentu zakończenia",
     "LabelScanBehavior": "Zachowanie skanowania",
@@ -1858,5 +1858,7 @@
     "LabelEncodingFormatOptions": "Opcje formatu kodowania",
     "EncodingFormatHelp": "Wybierz kodowanie wideo, którym Jellyfin powinien transkodować. Jellyfin użyje kodowania programowego, gdy akceleracja sprzętowa dla wybranego formatu nie jest dostępna. Kodowanie H264 będzie zawsze włączone.",
     "EnableLibrary": "Włącz bibliotekę",
-    "EnableLibraryHelp": "Wyłączenie biblioteki spowoduje ukrycie jej przed wszystkimi widokami użytkowników."
+    "EnableLibraryHelp": "Wyłączenie biblioteki spowoduje ukrycie jej przed wszystkimi widokami użytkowników.",
+    "LabelTrickplayAccelEncodingHelp": "Opcja ta jest obecnie dostępna tylko przy użyciu QSV i VAAPI, nie ma wpływu na inne metody akceleracji sprzętowej.",
+    "LabelTrickplayAccelEncoding": "Włącz kodowanie MJPEG z akceleracją sprzętową"
 }
