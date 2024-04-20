@@ -18,6 +18,7 @@ import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
@@ -1934,34 +1935,32 @@ class PlaybackManager {
                 promise = new Promise(function (resolve, reject) {
                     const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                    apiClient.getCurrentUser().then(function (user) {
-                        if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
-                            resolve(null);
-                            return;
-                        }
+                    if (!firstItem.SeriesId) {
+                        resolve(null);
+                        return;
+                    }
 
-                        apiClient.getEpisodes(firstItem.SeriesId, {
-                            IsVirtualUnaired: false,
-                            IsMissing: false,
-                            UserId: apiClient.getCurrentUserId(),
-                            Fields: ['Chapters', 'Trickplay']
-                        }).then(function (episodesResult) {
-                            let foundItem = false;
-                            episodesResult.Items = episodesResult.Items.filter(function (e) {
-                                if (foundItem) {
-                                    return true;
-                                }
-                                if (e.Id === firstItem.Id) {
-                                    foundItem = true;
-                                    return true;
-                                }
+                    apiClient.getEpisodes(firstItem.SeriesId, {
+                        IsVirtualUnaired: false,
+                        IsMissing: false,
+                        UserId: apiClient.getCurrentUserId(),
+                        Fields: ['Chapters', 'Trickplay']
+                    }).then(function (episodesResult) {
+                        let foundItem = false;
+                        episodesResult.Items = episodesResult.Items.filter(function (e) {
+                            if (foundItem) {
+                                return true;
+                            }
+                            if (e.Id === firstItem.Id) {
+                                foundItem = true;
+                                return true;
+                            }
 
-                                return false;
-                            });
-                            episodesResult.TotalRecordCount = episodesResult.Items.length;
-                            resolve(episodesResult);
-                        }, reject);
-                    });
+                            return false;
+                        });
+                        episodesResult.TotalRecordCount = episodesResult.Items.length;
+                        resolve(episodesResult);
+                    }, reject);
                 });
             }
 
@@ -3313,7 +3312,13 @@ class PlaybackManager {
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
-                self.nextTrack();
+                const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
+
+                apiClient.getCurrentUser().then(function (user) {
+                    if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
+                        self.nextTrack();
+                    }
+                });
             }
         }
 
