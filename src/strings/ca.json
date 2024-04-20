@@ -1795,7 +1795,7 @@
     "DlnaMovedMessage": "La funcionalitat DLNA s'ha mogut a complements.",
     "AllowSubtitleManagement": "Permetre a aquest usuari editar els subtítols",
     "ChannelResolutionUHD4K": "UHD (4K)",
-    "LabelTrickplayAccel": "Habilitar acceleració per maquinari",
+    "LabelTrickplayAccel": "Habilitar descodificació per maquinari",
     "NonBlockingScan": "Sense Bloqueig - generació de cues, després retorna",
     "ConfirmDeleteSeries": "L'esborrat d'aquesta sèrie esborrarà TOTS {0} episodis tant del sistema de fitxers com de la teva biblioteca de mitjans. Estàs segur que vols continuar?",
     "LabelEncodingFormatOptions": "Opcions de format de codificació",
@@ -1854,5 +1854,7 @@
     "LabelImageInterval": "Interval d'Imatges",
     "LabelQscaleHelp": "Escala de qualitat de les imatges generades per ffmpeg, sent 2 la qualitat més alta i 31 la més baixa.",
     "LabelTrickplayThreads": "Fils de FFmpeg",
-    "ExtractTrickplayImagesHelp": "Les imatges de Trickplay són similars a les imatges de capítols, excepte que abasten tota la longitud del contingut i s'utilitzen per mostrar una vista prèvia quan es desplaça pels vídeos."
+    "ExtractTrickplayImagesHelp": "Les imatges de Trickplay són similars a les imatges de capítols, excepte que abasten tota la longitud del contingut i s'utilitzen per mostrar una vista prèvia quan es desplaça pels vídeos.",
+    "LabelTrickplayAccelEncodingHelp": "En aquests moments només està disponible en QSV i VAAPI, aquesta opció no afecta els altres mètodes d'acceleració per maquinari.",
+    "LabelTrickplayAccelEncoding": "Habilitar codificació MJPEG accelerada per maquinari"
 }
