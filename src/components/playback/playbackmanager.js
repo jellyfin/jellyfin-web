@@ -1790,42 +1790,85 @@ class PlaybackManager {
             });
         }
 
-        function translateItemsForPlayback(items, options) {
-            if (!items.length) return Promise.resolve([]);
+        async function translateItemsForPlayback(items, options) {
+            if (!items.length) return [];
 
-            if (items.length > 1 && options && options.ids) {
+            sortItemsIfNeeded(items, options);
+
+            const firstItem = items[0];
+            const serverId = firstItem.ServerId;
+            const queryOptions = options.queryOptions || {};
+
+            const promise = getPlaybackPromise(firstItem, serverId, options, queryOptions, items);
+
+            if (promise) {
+                const result = await promise;
+                return result ? result.Items : items;
+            } else {
+                return items;
+            }
+        }
+
+        function sortItemsIfNeeded(items, options) {
+            if (items.length > 1 && options?.ids) {
                 // Use the original request id array for sorting the result in the proper order
                 items.sort(function (a, b) {
                     return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
                 });
             }
+        }
 
-            const firstItem = items[0];
-            let promise;
+        function getPlaybackPromise(firstItem, serverId, options, queryOptions, items) {
+            switch (firstItem.Type) {
+                case 'Program':
+                    return getItemsForPlayback(serverId, {
+                        Ids: firstItem.ChannelId
+                    });
+                case 'Playlist':
+                    return getItemsForPlayback(serverId, {
+                        ParentId: firstItem.Id,
+                        SortBy: options.shuffle ? 'Random' : null
+                    });
+                case 'MusicArtist':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        ArtistIds: firstItem.Id,
+                        Filters: 'IsNotFolder',
+                        Recursive: true,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Audio'
+                    }, queryOptions));
+                case 'PhotoAlbum':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        ParentId: firstItem.Id,
+                        Filters: 'IsNotFolder',
+                        // Setting this to true may cause some incorrect sorting
+                        Recursive: false,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        // Only include Photos because we do not handle mixed queues currently
+                        MediaTypes: 'Photo',
+                        Limit: UNLIMITED_ITEMS
+                    }, queryOptions));
+                case 'MusicGenre':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        GenreIds: firstItem.Id,
+                        Filters: 'IsNotFolder',
+                        Recursive: true,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Audio'
+                    }, queryOptions));
+                case 'Series':
+                case 'Season':
+                    return getSeriesOrSeasonPlaybackPromise(firstItem, options);
+                case 'Episode':
+                    return getEpisodePlaybackPromise(firstItem, options, items);
+            }
 
-            const serverId = firstItem.ServerId;
+            return getNonItemTypePromise(firstItem, serverId, options, queryOptions);
+        }
 
-            const queryOptions = options.queryOptions || {};
-
-            if (firstItem.Type === 'Program') {
-                promise = getItemsForPlayback(serverId, {
-                    Ids: firstItem.ChannelId
-                });
-            } else if (firstItem.Type === 'Playlist') {
-                promise = getItemsForPlayback(serverId, {
-                    ParentId: firstItem.Id,
-                    SortBy: options.shuffle ? 'Random' : null
-                });
-            } else if (firstItem.Type === 'MusicArtist') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ArtistIds: firstItem.Id,
-                    Filters: 'IsNotFolder',
-                    Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Audio'
-                }, queryOptions));
-            } else if (firstItem.MediaType === 'Photo') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+        function getNonItemTypePromise(firstItem, serverId, options, queryOptions) {
+            if (firstItem.MediaType === 'Photo') {
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
@@ -1848,66 +1891,8 @@ class PlaybackManager {
 
                     return Promise.resolve(result);
                 });
-            } else if (firstItem.Type === 'PhotoAlbum') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.Id,
-                    Filters: 'IsNotFolder',
-                    // Setting this to true may cause some incorrect sorting
-                    Recursive: false,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    // Only include Photos because we do not handle mixed queues currently
-                    MediaTypes: 'Photo',
-                    Limit: UNLIMITED_ITEMS
-                }, queryOptions));
-            } else if (firstItem.Type === 'MusicGenre') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
-                    GenreIds: firstItem.Id,
-                    Filters: 'IsNotFolder',
-                    Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Audio'
-                }, queryOptions));
-            } else if (firstItem.Type === 'Series' || firstItem.Type === 'Season') {
-                const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
-                const isSeason = firstItem.Type === 'Season';
-
-                promise = apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
-                    IsVirtualUnaired: false,
-                    IsMissing: false,
-                    SeasonId: isSeason ? firstItem.Id : undefined,
-                    SortBy: options.shuffle ? 'Random' : undefined,
-                    UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay']
-                }).then(function (episodesResult) {
-                    const originalResults = episodesResult.Items;
-
-                    let foundItem = false;
-
-                    if (!options.shuffle) {
-                        episodesResult.Items = episodesResult.Items.filter(function (e) {
-                            if (foundItem) {
-                                return true;
-                            }
-
-                            if (!e.UserData.Played) {
-                                foundItem = true;
-                                return true;
-                            }
-
-                            return false;
-                        });
-                    }
-
-                    if (episodesResult.Items.length === 0) {
-                        episodesResult.Items = originalResults;
-                    }
-
-                    episodesResult.TotalRecordCount = episodesResult.Items.length;
-
-                    return episodesResult;
-                });
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
@@ -1923,7 +1908,8 @@ class PlaybackManager {
                 } else if (firstItem.Type !== 'BoxSet') {
                     sortBy = 'SortName';
                 }
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
@@ -1931,46 +1917,95 @@ class PlaybackManager {
                     SortBy: sortBy,
                     MediaTypes: 'Audio,Video'
                 }, queryOptions));
-            } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
-                promise = new Promise(function (resolve, reject) {
-                    const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+            }
 
-                    if (!firstItem.SeriesId) {
-                        resolve(null);
-                        return;
+            return null;
+        }
+
+        async function getSeriesOrSeasonPlaybackPromise(firstItem, options) {
+            const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+            const isSeason = firstItem.Type === 'Season';
+
+            const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
+                IsVirtualUnaired: false,
+                IsMissing: false,
+                SeasonId: isSeason ? firstItem.Id : undefined,
+                SortBy: options.shuffle ? 'Random' : undefined,
+                UserId: apiClient.getCurrentUserId(),
+                Fields: ['Chapters', 'Trickplay']
+            });
+
+            const originalResults = episodesResult.Items;
+
+            let foundItem = false;
+
+            if (!options.shuffle) {
+                episodesResult.Items = episodesResult.Items.filter(function (e) {
+                    if (foundItem) {
+                        return true;
                     }
 
-                    apiClient.getEpisodes(firstItem.SeriesId, {
-                        IsVirtualUnaired: false,
-                        IsMissing: false,
-                        UserId: apiClient.getCurrentUserId(),
-                        Fields: ['Chapters', 'Trickplay']
-                    }).then(function (episodesResult) {
-                        let foundItem = false;
-                        episodesResult.Items = episodesResult.Items.filter(function (e) {
-                            if (foundItem) {
-                                return true;
-                            }
-                            if (e.Id === firstItem.Id) {
-                                foundItem = true;
-                                return true;
-                            }
+                    if (!e.UserData.Played) {
+                        foundItem = true;
+                        return true;
+                    }
 
-                            return false;
-                        });
-                        episodesResult.TotalRecordCount = episodesResult.Items.length;
-                        resolve(episodesResult);
-                    }, reject);
+                    return false;
                 });
             }
 
-            if (promise) {
-                return promise.then(function (result) {
-                    return result ? result.Items : items;
-                });
+            if (episodesResult.Items.length === 0) {
+                episodesResult.Items = originalResults;
+            }
+
+            episodesResult.TotalRecordCount = episodesResult.Items.length;
+
+            return episodesResult;
+        }
+
+        function getEpisodePlaybackPromise(firstItem, options, items) {
+            if (items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
+                return getEpisodes(firstItem);
             } else {
-                return Promise.resolve(items);
+                return null;
             }
+        }
+
+        function getEpisodes(firstItem) {
+            return new Promise(function (resolve, reject) {
+                const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+
+                if (!firstItem.SeriesId) {
+                    resolve(null);
+                    return;
+                }
+
+                apiClient.getEpisodes(firstItem.SeriesId, {
+                    IsVirtualUnaired: false,
+                    IsMissing: false,
+                    UserId: apiClient.getCurrentUserId(),
+                    Fields: ['Chapters', 'Trickplay']
+                }).then(function (episodesResult) {
+                    resolve(filterEpisodes(episodesResult, firstItem));
+                }, reject);
+            });
+        }
+
+        function filterEpisodes(episodesResult, firstItem) {
+            let foundItem = false;
+            episodesResult.Items = episodesResult.Items.filter(function (e) {
+                if (foundItem) {
+                    return true;
+                }
+                if (e.Id === firstItem.Id) {
+                    foundItem = true;
+                    return true;
+                }
+
+                return false;
+            });
+            episodesResult.TotalRecordCount = episodesResult.Items.length;
+            return episodesResult;
         }
 
         self.translateItemsForPlayback = translateItemsForPlayback;
