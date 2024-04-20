@@ -1818,7 +1818,7 @@
     "LimitSupportedVideoResolutionHelp": "Benutze \"Maximal erlaubte Auflösung der Videotranskodierung\" als maximal unterstützte Videoauflösung.",
     "AllowMjpegEncoding": "Codierung im MJPEG-Format zulassen (wird bei der Trickplay-Erstellung verwendet)",
     "Trickplay": "Trickplay",
-    "LabelTrickplayAccel": "Aktivieren der Hardwarebeschleunigung",
+    "LabelTrickplayAccel": "Hardware-Dekoder aktivieren",
     "LabelTrickplayAccelHelp": "Sicherstellen, dass die Option \"MJPEG-Codierung zulassen\" unter \"Transcodierung\" aktiviert ist, wenn die Hardware dies unterstützt.",
     "LabelScanBehavior": "Scanverhalten",
     "PriorityHigh": "Hoch",
@@ -1858,5 +1858,7 @@
     "PlaybackError.RateLimitExceeded": "Dieses Medium kann derzeit aufgrund von Beschränkungen nicht abgespielt werden.",
     "PlaybackError.PLAYER_ERROR": "Die Wiedergabe ist aufgrund eines schwerwiegenden Player-Fehlers fehlgeschlagen.",
     "NonBlockingScan": "Non Blocking - reiht Erstellung ein, kehrt dann zurück",
-    "BlockingScan": "Blocking - reiht Erstellung ein, blockiert Scan bis fertig"
+    "BlockingScan": "Blocking - reiht Erstellung ein, blockiert Scan bis fertig",
+    "LabelTrickplayAccelEncoding": "Hardwarebeschleunigte MJPEG-Enkodierung aktivieren",
+    "LabelTrickplayAccelEncodingHelp": "Momentan nur für QSV und VAAPI verfügbar. Diese Option hat für andere Methoden keine Auswirkungen."
 }
