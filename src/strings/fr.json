@@ -1858,5 +1858,7 @@
     "PlaybackError.MEDIA_NOT_SUPPORTED": "La lecture a échoué car le média n'est pas pris en charge par ce client.",
     "PlaybackError.NETWORK_ERROR": "La lecture a échoué à cause d'une erreur réseau.",
     "PlaybackError.NO_MEDIA_ERROR": "Impossible de trouver une source multimédia valide à lire.",
-    "PlaybackError.PLAYER_ERROR": "La lecture a échoué en raison d'une erreur fatale du joueur."
+    "PlaybackError.PLAYER_ERROR": "La lecture a échoué en raison d'une erreur fatale du joueur.",
+    "LabelTrickplayAccelEncoding": "Activer l'encodage MJPEG accéléré par le matériel",
+    "LabelTrickplayAccelEncodingHelp": "Actuellement disponible uniquement sur QSV et VAAPI, cette option n'a aucun effet sur les autres méthodes d'accélération matérielle."
 }
