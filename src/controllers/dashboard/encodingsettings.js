@@ -229,7 +229,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.videoToolboxTonemappingOptions').classList.add('hide');
         }
 
-        if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {
+        if (this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.vppTonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.vppTonemappingOptions').classList.add('hide');
