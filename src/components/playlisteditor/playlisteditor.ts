@@ -50,13 +50,13 @@ function onSubmit(this: HTMLElement, e: Event) {
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
             addToPlaylist(panel, playlistId)
-                ?.catch(err => {
+                .catch(err => {
                     console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
                 })
                 .finally(loading.hide);
         } else {
             createPlaylist(panel)
-                ?.catch(err => {
+                .catch(err => {
                     console.error('[PlaylistEditor] Failed to create playlist', err);
                 })
                 .finally(loading.hide);
@@ -105,7 +105,7 @@ function addToPlaylist(dlg: DialogElement, id: string) {
         });
         dlg.submitted = true;
         dialogHelper.close(dlg);
-        return;
+        return Promise.resolve();
     }
 
     return getPlaylistsApi(api)
@@ -130,6 +130,8 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
     if (!select) {
         return Promise.reject(new Error('Playlist <select> element is missing'));
     }
+
+    loading.show();
 
     panel.querySelector('.newPlaylistInfo')?.classList.add('hide');
 
