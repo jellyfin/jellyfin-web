@@ -1813,7 +1813,7 @@
     "LabelExtractTrickplayDuringLibraryScan": "Вилучати trickplay-зображення під час сканування бібліотеки",
     "DeleteEntireSeries": "Видалити епізоди {0}",
     "DeleteSeries": "Видалити серіал",
-    "LabelTrickplayAccel": "Увімкнути апаратне прискорення",
+    "LabelTrickplayAccel": "Увімкнути апаратне декодування",
     "PriorityAboveNormal": "Вище нормального",
     "PriorityNormal": "Нормальний",
     "PriorityBelowNormal": "Нижче нормального",
@@ -1855,5 +1855,7 @@
     "LabelEncodingFormatOptions": "Параметри формату кодування",
     "EncodingFormatHelp": "Виберіть кодування відео, в яке має перекодувати Jellyfin. Jellyfin використовуватиме програмне кодування, якщо апаратне прискорення для обраного формату недоступне. Кодування H264 буде увімкнено завжди.",
     "EnableLibrary": "Увімкнути медіатеку",
-    "EnableLibraryHelp": "Якщо вимкнути бібліотеку, її буде приховано від усіх користувачів."
+    "EnableLibraryHelp": "Якщо вимкнути бібліотеку, її буде приховано від усіх користувачів.",
+    "LabelTrickplayAccelEncoding": "Увімкнути апаратне прискорення кодування MJPEG",
+    "LabelTrickplayAccelEncodingHelp": "Наразі ця опція доступна лише для QSV та VAAPI, вона не впливає на інші методи апаратного прискорення."
 }
