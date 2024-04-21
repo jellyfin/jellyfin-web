@@ -1830,7 +1830,7 @@
     "PlaybackError.RateLimitExceeded": "Hız sınırları nedeniyle bu medya şu anda oynatılamıyor.",
     "EnableVideoToolboxTonemapping": "VideoToolbox Ton eşlemeyi etkinleştir",
     "AllowVideoToolboxTonemappingHelp": "VideoToolbox tarafından sağlanan donanım hızlandırmalı ton eşleme. HDR10, HDR10+ ve HLG dahil olmak üzere çoğu HDR formatıyla çalışır ancak Dolby Vision Profile 5 ile çalışmaz. Bu, başka bir Metal uygulamasına kıyasla daha yüksek bir önceliğe sahiptir.",
-    "LabelTrickplayAccel": "Donanım hızlandırmasını etkinleştir",
+    "LabelTrickplayAccel": "Donanım kod çözmeyi etkinleştir",
     "LabelImageIntervalHelp": "Her yeni trickplay görseli arasındaki zaman aralığı (ms).",
     "LabelScanBehaviorHelp": "Varsayılan davranış, trickplay oluşturma yapılmadan önce medyayı kütüphaneye ekleyecek olan engellemesiz seçeneğidir. Engelleme seçeneği, trickplay dosyalarının medya kütüphaneye eklenmeden önce oluşturulmasını sağlar ancak taramaları önemli ölçüde uzatır.",
     "PriorityAboveNormal": "Normalin Üzerinde",
@@ -1850,5 +1850,7 @@
     "LabelEncodingFormatOptions": "Kodlama biçimi seçenekleri",
     "EncodingFormatHelp": "Jellyfin'in kod dönüştürme yapacağı video kodlamasını seçin. Jellyfin, seçilen biçim için donanım hızlandırması mevcut olmadığında yazılım kodlamasını kullanacaktır. H264 kodlaması her zaman etkin olacaktır.",
     "EnableLibrary": "Kütüphaneyi etkinleştir",
-    "EnableLibraryHelp": "Kütüphanenin devre dışı bırakılması kütüphaneyi tüm kullanıcı görünümlerinden gizleyecektir."
+    "EnableLibraryHelp": "Kütüphanenin devre dışı bırakılması kütüphaneyi tüm kullanıcı görünümlerinden gizleyecektir.",
+    "LabelTrickplayAccelEncoding": "Donanım hızlandırmalı MJPEG kodlamayı etkinleştir",
+    "LabelTrickplayAccelEncodingHelp": "Şu anda yalnızca QSV ve VAAPI'de kullanılabilir. Bu seçeneğin diğer donanım hızlandırma yöntemleri üzerinde bir etkisi yoktur."
 }
