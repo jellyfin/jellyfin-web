@@ -1860,5 +1860,12 @@
     "EnableLibrary": "Włącz bibliotekę",
     "EnableLibraryHelp": "Wyłączenie biblioteki spowoduje ukrycie jej przed wszystkimi widokami użytkowników.",
     "LabelTrickplayAccelEncodingHelp": "Opcja ta jest obecnie dostępna tylko przy użyciu QSV i VAAPI, nie ma wpływu na inne metody akceleracji sprzętowej.",
-    "LabelTrickplayAccelEncoding": "Włącz kodowanie MJPEG z akceleracją sprzętową"
+    "LabelTrickplayAccelEncoding": "Włącz kodowanie MJPEG z akceleracją sprzętową",
+    "ConfirmDeleteLyrics": "Usunięcie tych słów spowoduje ich usunięcie zarówno z systemu plików, jak i biblioteki multimediów. Czy na pewno chcesz kontynuować?",
+    "HeaderNoLyrics": "Nie znaleziono słów",
+    "DeleteLyrics": "Usuń słowa",
+    "ErrorDeletingLyrics": "Wystąpił błąd podczas usuwania słów z serwera. Sprawdź, czy Jellyfin ma uprawnienia do zapisu w folderze multimediów i spróbuj ponownie.",
+    "HeaderDeleteLyrics": "Usuń słowa",
+    "Lyrics": "Słowa",
+    "ViewLyrics": "Zobacz słowa"
 }
