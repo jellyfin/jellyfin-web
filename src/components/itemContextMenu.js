@@ -183,6 +183,14 @@ export function getCommands(options) {
             id: 'delete',
             icon: 'delete'
         });
+
+        if (item.Type === 'Audio' && item.HasLyrics && window.location.href.includes(item.Id)) {
+            commands.push({
+                name: globalize.translate('DeleteLyrics'),
+                id: 'deleteLyrics',
+                icon: 'delete_sweep'
+            });
+        }
     }
 
     // Books are promoted to major download Button and therefor excluded in the context menu
@@ -310,6 +318,14 @@ export function getCommands(options) {
             name: globalize.translate('ViewAlbumArtist'),
             id: 'artist',
             icon: 'person'
+        });
+    }
+
+    if (item.HasLyrics) {
+        commands.push({
+            name: globalize.translate('ViewLyrics'),
+            id: 'lyrics',
+            icon: 'lyrics'
         });
     }
 
@@ -495,6 +511,9 @@ function executeCommand(item, id, options) {
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
                 break;
+            case 'deleteLyrics':
+                deleteLyrics(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                break;
             case 'share':
                 navigator.share({
                     title: item.Name,
@@ -510,6 +529,15 @@ function executeCommand(item, id, options) {
                 appRouter.showItem(item.AlbumArtists[0].Id, item.ServerId);
                 getResolveFunction(resolve, id)();
                 break;
+            case 'lyrics': {
+                if (options.isMobile) {
+                    appRouter.show('lyrics');
+                } else {
+                    appRouter.showItem(item.Id, item.ServerId);
+                }
+                getResolveFunction(resolve, id)();
+                break;
+            }
             case 'playallfromhere':
                 getResolveFunction(resolve, id)();
                 break;
@@ -633,6 +661,12 @@ function deleteItem(apiClient, item) {
                 resolve(true);
             }, reject);
         });
+    });
+}
+
+function deleteLyrics(apiClient, item) {
+    return import('../scripts/deleteHelper').then((deleteHelper) => {
+        return deleteHelper.deleteLyrics(item);
     });
 }
 
