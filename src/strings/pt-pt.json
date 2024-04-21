@@ -1819,5 +1819,7 @@
     "LimitSupportedVideoResolutionHelp": "Utiliza 'Resolução máxima permitida para transcodificação de vídeo' como resolução máxima de vídeo suportada.",
     "AllowContentWithTagsHelp": "Mostrar apenas os conteúdos multimédia com pelo menos uma das etiquetas especificadas.",
     "EnableLibraryHelp": "Se desativares a biblioteca, ela será ocultada de todas as visualizações do utilizador.",
-    "EnableLibrary": "Ativar a biblioteca"
+    "EnableLibrary": "Ativar a biblioteca",
+    "LabelTrickplayAccelEncoding": "Ativar a codificação MJPEG acelerada por hardware",
+    "LabelTrickplayAccelEncodingHelp": "Atualmente apenas disponível em QSV e VAAPI, esta opção não tem efeito noutros métodos de aceleração de hardware."
 }
