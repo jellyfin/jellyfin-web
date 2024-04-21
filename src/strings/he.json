@@ -1268,5 +1268,18 @@
     "DeleteEntireSeries": "מחיקת {0} פרקים",
     "DeleteSeries": "מחיקת סידרה",
     "DeleteEpisode": "מחיקת פרק",
-    "DeleteName": "מחיקת {0}"
+    "DeleteName": "מחיקת {0}",
+    "SelectAudioNormalizationHelp": "עוצמת רצועת שמע - משנה את העוצמה של כל רצועה כך שהם יתנגנו בעוצמת קול זהה. עוצמת אלבום - משנה את העוצמה של כל רצועות השמע באלבום בלבד, תוך שמירה על התחום הדינמי של האלבום.",
+    "LabelAllowContentWithTags": "אפשר פריטים עם תגיות",
+    "EnableSmoothScroll": "הפעל גלילה חלקה",
+    "HeaderDeleteSeries": "מחק סדרה",
+    "LabelAlbumGain": "עוצמת אלבום",
+    "LabelDummyChapterDurationHelp": "מרווח הזמן בין פרקי הדמה. קבע ל-0 כדי להשבית את ייצור פרקי הדמה. שינוי זה לא ישפיע על פרקי דמה קיימים.",
+    "LabelMaxDaysForNextUpHelp": "הגדר את מספר הימים המקסימלי שתכנית צריכה להישאר ברשימת 'הבא בתור' מבלי לצפות בה.",
+    "LabelMaxVideoResolution": "רזולוצייה מקסימלית המותרת להמרת קידוד וידאו",
+    "LabelLocalCustomCss": "קוד CSS לעיצוב מותאם אישית ללקוח זה בלבד. ייתכן שתרצה להשבית את קוד ה-CSS המסופק על ידי השרת.",
+    "LabelMaxAudiobookResume": "דקות נותרות בספר המוקלט להמשך",
+    "LabelMaxAudiobookResumeHelp": "כותרים נחשבים כנוגנו במלואם כאשר משך הזמן הנותר קטן יותר מערך זה.",
+    "LabelMetadataReaders": "קוראי מטא-דאטה",
+    "LabelMetadataSavers": "שומרי מטא-דאטה"
 }
