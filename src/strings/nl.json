@@ -1799,7 +1799,7 @@
     "DeleteName": "{0} verwijderen",
     "LabelUseReplayGainTags": "Replaygain-tags gebruiken",
     "Trickplay": "Trickplay",
-    "LabelTrickplayAccel": "Hardwareversnelling inschakelen",
+    "LabelTrickplayAccel": "Hardwaredecodering inschakelen",
     "LabelScanBehavior": "Scangedrag",
     "PriorityHigh": "Hoog",
     "PriorityNormal": "Normaal",
@@ -1857,5 +1857,7 @@
     "EncodingFormatHelp": "Selecteer de beeldcodering waar Jellyfin naartoe moet transcoderen. Jellyfin gebruikt softwarecodering wanneer hardwarecodering niet voor het geselecteerde formaat beschikbaar is. H264-codering is altijd ingeschakeld.",
     "AirPlay": "AirPlay",
     "EnableLibrary": "Bibliotheek inschakelen",
-    "EnableLibraryHelp": "Het uitschakelen van een bibliotheek verbergt deze voor alle gebruikers."
+    "EnableLibraryHelp": "Het uitschakelen van een bibliotheek verbergt deze voor alle gebruikers.",
+    "LabelTrickplayAccelEncoding": "Hardwareversnelling inschakelen MJPEG codering",
+    "LabelTrickplayAccelEncodingHelp": "Momenteel enkel beschikbaar op QSV en VAAPI, deze optie heeft geen effect op andere hardwareversnelling methoden."
 }
