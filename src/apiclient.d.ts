@@ -76,6 +76,7 @@ declare module 'jellyfin-apiclient' {
         accessToken(): string;
         addMediaPath(virtualFolderName: string, mediaPath: string, networkSharePath: string, refreshLibrary?: boolean): Promise<void>;
         addVirtualFolder(name: string, type?: string, refreshLibrary?: boolean, libraryOptions?: any): Promise<void>;
+        ajax(request: any): Promise<any>;
         appName(): string;
         appVersion(): string;
         authenticateUserByName(name: string, password: string): Promise<AuthenticationResult>;

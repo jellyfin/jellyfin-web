@@ -68,7 +68,7 @@ export class UserSettings {
      * Set value of setting.
      * @param {string} name - Name of setting.
      * @param {mixed} value - Value of setting.
-     * @param {boolean} enableOnServer - Flag to save preferences on server.
+     * @param {boolean} [enableOnServer] - Flag to save preferences on server.
      */
     set(name, value, enableOnServer) {
         const userId = this.currentUserId;
@@ -90,7 +90,7 @@ export class UserSettings {
     /**
      * Get value of setting.
      * @param {string} name - Name of setting.
-     * @param {boolean} enableOnServer - Flag to return preferences from server (cached).
+     * @param {boolean} [enableOnServer] - Flag to return preferences from server (cached).
      * @return {string} Value of setting.
      */
     get(name, enableOnServer) {
