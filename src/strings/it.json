@@ -1858,5 +1858,14 @@
     "EnableLibraryHelp": "Disabilitando la libreria, la si nasconde da tutte le visualizzazioni degli utenti.",
     "EncodingFormatHelp": "Selezionare la codifica video in cui Jellyfin deve eseguire la transcodifica. Jellyfin utilizzerà la codifica software quando l'accelerazione hardware per il formato selezionato non è disponibile. La codifica H264 sarà sempre abilitata.",
     "LabelWidthResolutionsHelp": "Elenco separato da virgole delle larghezze (px) con cui saranno generate le immagini di trickplay. Tutte le immagini devono essere generate in modo proporzionale alla sorgente, quindi una larghezza di 320 su un video 16:9 finisce per essere circa 320x180.",
-    "LabelTileHeight": "Altezza Riquadro"
+    "LabelTileHeight": "Altezza Riquadro",
+    "LabelTrickplayAccelEncoding": "Abilitare l'accelerazione hardware della codifica MJPEG",
+    "LabelTrickplayAccelEncodingHelp": "Disponibile solo per QSV e VAAPI, questa opzione non ha alcun effetto sugli altri metodi di accelerazione hardware.",
+    "ConfirmDeleteLyrics": "Cancellare questi testi li rimuoverà sia dalle cartelle del sistema che dalla tua libreria multimediale. Sei sicuro di continuare?",
+    "DeleteLyrics": "Cancella testi",
+    "ErrorDeletingLyrics": "C'è stato un errore nel cancellare i testi dal server. Perfavore controlla che Jellyfin abbia accesso alla scrittura della cartella dei media e riprova.",
+    "HeaderDeleteLyrics": "Cancella Testi",
+    "HeaderNoLyrics": "Nessun testo trovato",
+    "Lyrics": "Testi",
+    "ViewLyrics": "Visualizza testi"
 }
