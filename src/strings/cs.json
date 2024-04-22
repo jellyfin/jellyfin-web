@@ -171,7 +171,7 @@
     "Guide": "Programový průvodce",
     "GuideProviderLogin": "Přihlášení",
     "GuideProviderSelectListings": "Výběr zobrazení",
-    "H264CrfHelp": "Konstantní faktor toku (CRF) je výchozím nastavení kvality pro enkodér x264 a x265. Hodnoty mohou být v rozmezí 0-51, kde nižší hodnoty znamenají vyšší kvalitu na úkor větší velikosti souborů. Rozumné hodnoty jsou 18-28. Výchozí hodnoty jsou 23 pro x264 a 28 pro x265, které můžete použít jako výchozí body.",
+    "H264CrfHelp": "Konstantní faktor toku (CRF) je výchozím nastavení kvality pro softwarové enkodéry x264 a x265. Hodnoty mohou být v rozmezí 0-51, kde nižší hodnoty znamenají vyšší kvalitu na úkor větší velikosti souborů. Rozumné hodnoty jsou 18-28. Výchozí hodnoty jsou 23 pro x264 a 28 pro x265, které můžete použít jako výchozí body. Hardwarové enkodéry tyto nastavení nepoužívají.",
     "EncoderPresetHelp": "Vyber rychlejší hodnoty ke zvýšení výkonu, nebo pomalejší ke zvýšení kvality.",
     "HDPrograms": "HD programy",
     "HardwareAccelerationWarning": "Zapnutí hardwarové akcelerace může způsobit nestabilitu v některých prostředích. Ujistěte se, že váš operační systém a grafické ovladače jsou aktuální. Máte-li potíže s přehráváním videa po zapnutí této funkce, budete muset změnit nastavení zpět na Žádné.",
@@ -1802,7 +1802,7 @@
     "LabelAllowContentWithTags": "Povolit položky se značkami",
     "AllowMjpegEncoding": "Povolit kódování do formátu MJPEG (používá se při generování náhledů videa)",
     "Trickplay": "Náhledy videa",
-    "LabelTrickplayAccel": "Povolit hardwarovou akceleraci",
+    "LabelTrickplayAccel": "Povolit hardwarové dekódování",
     "PriorityHigh": "Vysoká",
     "LabelImageInterval": "Interval mezi náhledy",
     "PlaybackError.ASS_RENDER_ERROR": "Při zobrazování titulků ASS/SSA došlo k chybě.",
@@ -1860,5 +1860,12 @@
     "LabelTrickplayAccelEncoding": "Povolit hardwarově akcelerované kódování MJPEG",
     "LabelTrickplayAccelEncodingHelp": "Tato možnost je momentálně dostupná pouze při použití QSV a VAAPI. Nemá vliv na ostatní hardwarovou akceleraci.",
     "EnableLibrary": "Povolit knihovnu",
-    "EnableLibraryHelp": "Vypnutím knihovny ji skryjete ze všech míst, kde je uživateli zobrazena."
+    "EnableLibraryHelp": "Vypnutím knihovny ji skryjete ze všech míst, kde je uživateli zobrazena.",
+    "ConfirmDeleteLyrics": "Písně budou odstraněny ze systému i knihovny médií. Opravdu chcete pokračovat?",
+    "DeleteLyrics": "Odstranit texty písní",
+    "ErrorDeletingLyrics": "Při odstraňování textů písní ze serveru došlo k chybě. Zkontrolujte, zda-li má Jellyfin oprávnění k zápisu do složky s médii a zkuste to znovu.",
+    "HeaderDeleteLyrics": "Odstranit texty písní",
+    "HeaderNoLyrics": "Žádné texty písní nebyly nalezeny",
+    "Lyrics": "Texty písní",
+    "ViewLyrics": "Zobrazit texty písní"
 }
