@@ -197,7 +197,7 @@
     "GuestStar": "特邀明星",
     "GuideProviderLogin": "登入",
     "GuideProviderSelectListings": "选择列表",
-    "H264CrfHelp": "恒定速率因子 (CRF) 是 x264 编码器的默认质量设置。您可以设置介于0和51之间的值， 其中较低的值将导致更好的质量 (以更高的文件大小为代价)。正常值介于 18 和 28 之间。x264 的默认值为 23，x265 的默认值为 28，因此可以将其用作起始点。",
+    "H264CrfHelp": "恒定速率因子 (CRF) 是 x264 软件编码器的默认质量设置。您可以设置介于0和51之间的值， 其中较低的值将导致更好的质量 (以更高的文件大小为代价)。正常值介于 18 和 28 之间。x264 的默认值为 23，x265 的默认值为 28，因此可以将其用作起始点。硬件编码器不使用这些设置。",
     "EncoderPresetHelp": "选择较快的值以提高性能，或选择较慢的值以提高质量。",
     "HDPrograms": "高清节目",
     "HardwareAccelerationWarning": "启动硬件加速可能在某些环境下导致系统不稳定。请确认你的操作系统和显卡驱动程序是最新的。如果你在开启此项后播放视频时遇到困难，那么你需要将此选项设置回“没有”。",
@@ -1803,7 +1803,7 @@
     "LabelTrickplayAccelHelp": "如果您的硬件支持，请确保在转码中启用“允许 MJPEG 格式编码”。",
     "NonBlockingScan": "非阻塞 - 将预览图生成添加到任务队列，然后返回",
     "Trickplay": "特技播放",
-    "LabelTrickplayAccel": "启用硬件加速",
+    "LabelTrickplayAccel": "启用硬件解码",
     "BlockingScan": "阻塞 - 将预览图生成添加到任务队列，阻塞扫描直至完成",
     "LabelScanBehavior": "扫描方式",
     "LabelScanBehaviorHelp": "默认行为是非阻塞，即在生成特技播放预览图之前将媒体添加到库中。阻塞将确保在将媒体添加到库中之前生成特技播放预览图文件，但会使扫描时间明显变长。",
@@ -1858,5 +1858,14 @@
     "LabelEncodingFormatOptions": "编码格式选项",
     "EncodingFormatHelp": "选择 Jellyfin 应转码到的视频编码。 当所选格式的硬件加速不可用时，Jellyfin 将使用软件编码。 H264 编码将始终启用。",
     "EnableLibrary": "启用媒体库",
-    "EnableLibraryHelp": "禁用该媒体库将从所有用户视图中隐藏它。"
+    "EnableLibraryHelp": "禁用该媒体库将从所有用户视图中隐藏它。",
+    "ErrorDeletingLyrics": "从服务器中删除歌词时出现了错误。请检查Jellyfin是否具有对应媒体文件夹的写入权限，然后重试。",
+    "Lyrics": "歌词",
+    "LabelTrickplayAccelEncoding": "启用硬件加速的MJPEG编码",
+    "LabelTrickplayAccelEncodingHelp": "目前仅适用于QSV和VAAPI，此选项对其他硬件加速方法无效。",
+    "ConfirmDeleteLyrics": "删除这些歌词将同时从文件系统和媒体库中删除它们。您确定要继续吗？",
+    "DeleteLyrics": "删除歌词",
+    "HeaderDeleteLyrics": "删除歌词",
+    "HeaderNoLyrics": "未找到歌词",
+    "ViewLyrics": "查看歌词"
 }
