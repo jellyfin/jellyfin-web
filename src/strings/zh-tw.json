@@ -388,7 +388,7 @@
     "GuestStar": "客串",
     "Guide": "指南",
     "GuideProviderSelectListings": "選擇清單",
-    "H264CrfHelp": "Constant Rate Factor（CRF）是 x264 和 x265 編碼器的品質設定。 有效範圍為 0 - 51，數值越低品質越好（檔案較大）。 推薦值為18到28之間。x264的預設值為23，x265的預設值為28。",
+    "H264CrfHelp": "Constant Rate Factor（CRF）是 x264 和 x265 軟體編碼器的品質設定。 有效範圍為 0 - 51，數值越低品質越好（檔案較大）。 推薦值為18到28之間。x264的預設值為23，x265的預設值為28。硬體編碼器不會使用這些設定值。",
     "EncoderPresetHelp": "速度越慢則會得到更好的壓縮編碼效率。",
     "HDPrograms": "HD 節目",
     "HardwareAccelerationWarning": "啟動硬體加速可能在某些環境下導致系統不穩定。請確認你的作業系統和影片驅動程式是最新的。如果你在開啟此項後難以播放影片，那麼你需要將此選項設回「無」。",
@@ -1831,7 +1831,7 @@
     "LabelTileHeightHelp": "Y 方向上每個圖塊的最大圖像數量。",
     "LabelJpegQuality": "JPEG 質量",
     "ConfirmDeleteSeries": "刪除此系列將從文件系統和媒體庫中刪除共計 {0} 集。您確定要繼續嗎？",
-    "LabelTrickplayAccel": "啟用硬件加速",
+    "LabelTrickplayAccel": "啟用硬體解碼",
     "BlockingScan": "阻塞 - 將預覽圖生成添加到任務隊列，阻塞掃描直至完成",
     "DeleteEntireSeries": "刪除共計 {0} 集",
     "LabelExtractTrickplayDuringLibraryScanHelp": "在媒體庫掃描期間導入視頻時生成特技播放預覽圖。否則，它們將在特技播放預覽圖計劃任務期間被提取。如果生成設置為非阻塞，則不會影響庫掃描完成所需的時間。",
@@ -1857,5 +1857,12 @@
     "EncodingFormatHelp": "選擇 Jellyfin 應轉檔到的影片編碼。 當所選格式的硬體加速不可用時，Jellyfin 將使用軟體編碼。 H264 編碼將始終啟用。",
     "LabelEncodingFormatOptions": "編碼格式選項",
     "EnableLibraryHelp": "禁用該媒體庫將從所有用戶視圖中隱藏它。",
-    "EnableLibrary": "啟用媒體庫"
+    "EnableLibrary": "啟用媒體庫",
+    "ErrorDeletingLyrics": "從伺服器上刪除歌詞時出現錯誤。請檢查 Jellyfin 是否擁有相關資料夾的寫入權限，然後重試。",
+    "HeaderNoLyrics": "未找到歌詞",
+    "Lyrics": "歌詞",
+    "ViewLyrics": "查看歌詞",
+    "DeleteLyrics": "刪除歌詞",
+    "ConfirmDeleteLyrics": "刪除這些歌詞將會同時從媒體庫中移除它們並從伺服器上刪除相關檔案。您是否確定刪除？",
+    "HeaderDeleteLyrics": "刪除歌詞"
 }
