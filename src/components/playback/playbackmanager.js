@@ -2305,8 +2305,21 @@ class PlaybackManager {
             Events.trigger(self, 'playbackcancelled');
         }
 
-        function onInterceptorRejection() {
+        function onInterceptorRejection(e) {
             cancelPlayback();
+
+            let displayErrorCode = 'ErrorDefault';
+
+            if (e instanceof Response) {
+                if (e.status >= 500) {
+                    displayErrorCode = `PlaybackError.${MediaError.SERVER_ERROR}`;
+                } else if (e.status >= 400) {
+                    displayErrorCode = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
+                }
+            }
+
+            showPlaybackInfoErrorMessage(self, displayErrorCode);
+
             return Promise.reject();
         }
 
