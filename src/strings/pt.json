@@ -1824,5 +1824,10 @@
     "EnableLibraryHelp": "Se desativares a biblioteca, ela será ocultada de todas as visualizações do utilizador.",
     "EnableLibrary": "Ativar a biblioteca",
     "LabelTrickplayAccelEncodingHelp": "Atualmente apenas disponível em QSV e VAAPI, esta opção não tem efeito noutros métodos de aceleração de hardware.",
-    "LabelTrickplayAccelEncoding": "Ativar a codificação MJPEG acelerada por hardware"
+    "LabelTrickplayAccelEncoding": "Ativar a codificação MJPEG acelerada por hardware",
+    "ConfirmDeleteLyrics": "Excluir essas letras irá excluí-las do sistema de arquivos e da sua biblioteca de mídia. Tem certeza que deseja continuar?",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ConfirmDeleteSeries": "Excluir esta série excluirá TODOS {0} episódios do sistema de arquivos e da sua biblioteca de mídia. Tem certeza que deseja continuar?"
 }
