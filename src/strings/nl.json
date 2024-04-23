@@ -205,7 +205,7 @@
     "Guide": "Gids",
     "GuideProviderLogin": "Aanmelden",
     "GuideProviderSelectListings": "Lijsten selecteren",
-    "H264CrfHelp": "De 'Constant Rate Factor' (CRF) is de standaard kwaliteitsinstelling voor de software-encoders voor x264 en x265. Geldige waarden liggen tussen 0 en 51. Hoe lager de waarde, hoe beter de beeldkwaliteit, maar hoe groter het bestand. Waarden tussen 18 en 28 worden aanbevolen. De standaardwaarde is 23 voor x264 en 28 voor x265. Je kunt deze waardes gebruiken als beginpunt. Hardware-encoders gebruiken deze instellingen niet.",
+    "H264CrfHelp": "De 'Constant Rate Factor' (CRF) is de standaard kwaliteitsinstelling voor softwarecodering met x264 en x265. Geldige waarden liggen tussen 0 en 51. Hoe lager de waarde, hoe beter de beeldkwaliteit, maar hoe groter het bestand. Waarden tussen 18 en 28 worden aanbevolen. De standaardwaarde is 23 voor x264 en 28 voor x265. Je kunt deze waardes gebruiken als beginpunt. Bij hardwarecodering worden deze instellingen niet gebruikt.",
     "EncoderPresetHelp": "Kies een snellere waarde om de prestaties te verbeteren, of een tragere waarde om de kwaliteit te verbeteren.",
     "HDPrograms": "HD-programma's",
     "HardwareAccelerationWarning": "Hardwareversnelling inschakelen kan instabiliteit veroorzaken in sommige omgevingen. Zorg ervoor dat je besturingssysteem en videostuurprogramma's volledig bijgewerkt zijn. Als je problemen ondervindt bij het afspelen van video nadat je dit hebt ingeschakeld, moet je de instelling terugzetten naar Geen.",
@@ -1404,7 +1404,7 @@
     "LabelTonemappingRange": "Tonemapping-bereik",
     "TonemappingAlgorithmHelp": "Tonemapping kan worden verfijnd. Als je niet bekend bent met deze opties, behoud je gewoon de standaardwaarde. De aanbevolen waarde is 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Selecteer het te gebruiken tonemapping-algoritme",
-    "AllowTonemappingHelp": "Tone-mapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10-, HLG- en DoVi-video's. Dit vereist de bijbehorende GPGPU-runtime.",
+    "AllowTonemappingHelp": "Tonemapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10-, HLG- en DoVi-video's. Dit vereist de bijbehorende GPGPU-runtime.",
     "EnableTonemapping": "Tonemapping inschakelen",
     "LabelOpenclDeviceHelp": "Dit is het OpenCL-apparaat dat wordt gebruikt voor tonemapping. De linkerkant van het punt is het platformnummer en de rechterkant is het apparaatnummer op het platform. De standaardwaarde is 0,0. Het FFmpeg-toepassingsbestand met de OpenCL-hardwareversnellingsmethode is vereist.",
     "LabelOpenclDevice": "OpenCL-apparaat",
@@ -1858,6 +1858,6 @@
     "AirPlay": "AirPlay",
     "EnableLibrary": "Bibliotheek inschakelen",
     "EnableLibraryHelp": "Het uitschakelen van een bibliotheek verbergt deze voor alle gebruikers.",
-    "LabelTrickplayAccelEncoding": "Hardwareversnelling inschakelen MJPEG codering",
-    "LabelTrickplayAccelEncodingHelp": "Momenteel enkel beschikbaar op QSV en VAAPI, deze optie heeft geen effect op andere hardwareversnelling methoden."
+    "LabelTrickplayAccelEncoding": "Hardwareversnelde MJPEG-codering inschakelen",
+    "LabelTrickplayAccelEncodingHelp": "Momenteel enkel beschikbaar op QSV en VAAPI; deze optie heeft geen effect bij andere methoden voor hardwareversnelling."
 }
