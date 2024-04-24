@@ -1818,7 +1818,7 @@
     "LabelTrickplayAccelHelp": "Ak váš hardvér podporuje kódovanie do formátu MJPEG, nezabudnite v sekcií Prekódovanie povoliť možnosť \"Povoliť kódovanie do formátu MJPEG\".",
     "NonBlockingScan": "Neblokujúce - zaradí generovanie do fronty, a potom pokračuje",
     "Trickplay": "Trickplay",
-    "LabelTrickplayAccel": "Povoliť hardvérovú akceleráciu",
+    "LabelTrickplayAccel": "Povoliť hardvérové dekódovanie",
     "AllowMjpegEncoding": "Povoliť kódovanie do formátu MJPEG (používa sa pri generovaní trickplay)",
     "BlockingScan": "Blokujúce - zaradí generovanie do fronty, blokuje skenovanie až do jeho dokončenia",
     "LabelScanBehavior": "Správanie pri skenovaní",
@@ -1858,5 +1858,14 @@
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generovanie trickplay obrázkov videí počas skenovania knižnice. Ak je táto možnosť vypnutá, trickplay obrázky sa budú generovať počas naplánovanej úlohy. Ak je generovanie nastavené na neblokujúce, neovplyvní to čas potrebný na dokončenie skenovania knižnice.",
     "Lyric": "Texty",
     "EnableLibrary": "Povoliť knižnicu",
-    "EnableLibraryHelp": "Zakázaním knižnice ju skryjete zo všetkých zobrazení používateľa."
+    "EnableLibraryHelp": "Zakázaním knižnice ju skryjete zo všetkých zobrazení používateľa.",
+    "Lyrics": "Texty piesní",
+    "LabelTrickplayAccelEncoding": "Povoliť hardvérovú akceleráciu kódovania MJPEG",
+    "LabelTrickplayAccelEncodingHelp": "Táto možnosť je v súčasnosti dostupná len pre QSV a VAAPI, na ostatné metódy hardvérovej akcelerácie nemá žiadny vplyv.",
+    "DeleteLyrics": "Odstrániť texty piesní",
+    "ConfirmDeleteLyrics": "Texty piesní budú odstránené zo systému a aj z knižnice médií. Ste si istí, že chcete pokračovať?",
+    "ErrorDeletingLyrics": "Pri odstraňovaní textov piesní zo servera došlo k chybe. Skontrolujte, či má Jellyfin prístup na zápis do priečinka médií, a skúste to znova.",
+    "HeaderDeleteLyrics": "Odstrániť texty piesní",
+    "HeaderNoLyrics": "Nenašli sa žiadne texty piesní",
+    "ViewLyrics": "Zobraziť texty piesní"
 }
