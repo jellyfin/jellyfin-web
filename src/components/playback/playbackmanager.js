@@ -1868,48 +1868,37 @@ class PlaybackManager {
                 }, queryOptions));
             } else if (firstItem.Type === 'Series' || firstItem.Type === 'Season') {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+                const isSeason = firstItem.Type === 'Season';
 
                 promise = apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
+                    SeasonId: isSeason ? firstItem.Id : undefined,
+                    SortBy: options.shuffle ? 'Random' : undefined,
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     const originalResults = episodesResult.Items;
-                    const isSeries = firstItem.Type === 'Series';
 
                     let foundItem = false;
 
-                    episodesResult.Items = episodesResult.Items.filter(function (e) {
-                        if (foundItem) {
-                            return true;
-                        }
+                    if (!options.shuffle) {
+                        episodesResult.Items = episodesResult.Items.filter(function (e) {
+                            if (foundItem) {
+                                return true;
+                            }
 
-                        if (!e.UserData.Played && (isSeries || e.SeasonId === firstItem.Id)) {
-                            foundItem = true;
-                            return true;
-                        }
+                            if (!e.UserData.Played) {
+                                foundItem = true;
+                                return true;
+                            }
 
-                        return false;
-                    });
+                            return false;
+                        });
+                    }
 
                     if (episodesResult.Items.length === 0) {
-                        if (isSeries) {
-                            episodesResult.Items = originalResults;
-                        } else {
-                            episodesResult.Items = originalResults.filter(function (e) {
-                                if (foundItem) {
-                                    return true;
-                                }
-
-                                if (e.SeasonId === firstItem.Id) {
-                                    foundItem = true;
-                                    return true;
-                                }
-
-                                return false;
-                            });
-                        }
+                        episodesResult.Items = originalResults;
                     }
 
                     episodesResult.TotalRecordCount = episodesResult.Items.length;
