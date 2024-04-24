@@ -918,8 +918,6 @@
     "LabelTypeText": "Text",
     "LabelUnstable": "Unstable",
     "LabelUser": "User",
-    "LabelUseReplayGainTagsHelp": "Scan audio files for replaygain tags and use them instead of computing LUFS value. (Uses less computing power. Will override 'LUFS Scan' option)",
-    "LabelUseReplayGainTags": "Use ReplayGain Tags",
     "LabelUserAgent": "User agent",
     "LabelUserLoginAttemptsBeforeLockout": "Failed login tries before user is locked out",
     "LabelUserMaxActiveSessions": "Maximum number of simultaneous user sessions",
