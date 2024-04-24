@@ -1225,7 +1225,7 @@
     "LabelPlayerDimensions": "Dimensões do reprodutor",
     "OptionLoginAttemptsBeforeLockoutHelp": "O valor zero significa herdar a definição por defeito de três tentativas para utilizadores comuns e cinco para administradores. Definir este campo como -1 desativa esta funcionalidade.",
     "OptionDisplayFolderViewHelp": "Mostrar pastas juntamente com outras bibliotecas multimédia. Pode ser útil caso pretenda ter uma vista simples das pastas.",
-    "OptionForceRemoteSourceTranscoding": "Forçar transcodificação de fontes remotas de multimédia (TV em directo, por exemplo)",
+    "OptionForceRemoteSourceTranscoding": "Força a transcodificação de fontes multimédia remotas, como a TV em direto",
     "LabelStreamType": "Tipo de transmissão",
     "LabelDroppedFrames": "Fotogramas descartados",
     "LabelCorruptedFrames": "Fotogramas corrompidos",
@@ -1779,7 +1779,7 @@
     "SaveRecordingImages": "Guardar imagens da gravação EPG",
     "LabelTrackGain": "Ganho da Faixa",
     "EnableVideoToolboxTonemapping": "Ativar o mapeamento de tons do VideoToolbox",
-    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com Dolby Vision Profile 5. Tem uma prioridade mais alta em comparação com outra implementação OpenCL.",
+    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com Dolby Vision Profile 5. Tem uma prioridade mais alta em comparação com outra implementação Metal.",
     "LabelUseReplayGainTags": "Usar etiquetas ReplayGain",
     "LabelUseReplayGainTagsHelp": "Procura etiquetas replaygain nos ficheiros áudio e utiliza-as em vez de calcular o valor LUFS. (Utiliza menos poder de computação. Substitui a opção 'Verificação LUFS')",
     "AllowSubtitleManagement": "Permitir a este utilizador editar legendas",
@@ -1852,5 +1852,8 @@
     "BlockingScan": "Bloqueante - coloca a geração em fila de espera, bloqueia a análise até ser concluída",
     "LabelExtractTrickplayDuringLibraryScan": "Extrair imagens trickplay durante a análise da biblioteca",
     "LabelScanBehavior": "Comportamento de análise",
-    "LabelExtractTrickplayDuringLibraryScanHelp": "Gera imagens trickplay quando os vídeos são importados durante a análise da biblioteca. Caso contrário, serão extraídas durante a tarefa agendada de imagens trickplay. Se a geração estiver definida como não bloqueante, isto não afetará o tempo que a análise da biblioteca demora a ser concluída."
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Gera imagens trickplay quando os vídeos são importados durante a análise da biblioteca. Caso contrário, serão extraídas durante a tarefa agendada de imagens trickplay. Se a geração estiver definida como não bloqueante, isto não afetará o tempo que a análise da biblioteca demora a ser concluída.",
+    "PlaybackError.RateLimitExceeded": "Este conteúdo não pode ser reproduzido neste momento devido aos limites de velocidade.",
+    "PlaybackError.NotAllowed": "A reprodução deste conteúdo não é permitida.",
+    "PlaybackError.SERVER_ERROR": "A reprodução falhou devido a um erro do servidor."
 }
