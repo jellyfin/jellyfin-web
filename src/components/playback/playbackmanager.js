@@ -2168,7 +2168,7 @@ class PlaybackManager {
         const getAdditionalParts = async (items) => {
             const getOneAdditionalPart = async function (item) {
                 let retVal = [item];
-                if (item.Type === 'Movie' || item.Type === 'Episode') {
+                if (item.PartCount && item.PartCount > 1 && (item.Type === 'Movie' || item.Type === 'Episode')) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
                     const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
