@@ -10,6 +10,11 @@ $mui-bp-xl: 1536px;
     position: relative;
 }
 
+// Ensure the footer renders over the drawer
+.appfooter {
+    z-index: 1201 !important; // mui drawer uses z-index 1200
+}
+
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {
     .lnkQuickConnectPreferences,
