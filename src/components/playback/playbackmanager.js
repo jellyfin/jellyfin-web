@@ -1872,6 +1872,7 @@ class PlaybackManager {
                 promise = apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
+                    SortBy: options.shuffle ? 'Random' : undefined,
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
@@ -1880,18 +1881,20 @@ class PlaybackManager {
 
                     let foundItem = false;
 
-                    episodesResult.Items = episodesResult.Items.filter(function (e) {
-                        if (foundItem) {
-                            return true;
-                        }
+                    if (!options.shuffle) {
+                        episodesResult.Items = episodesResult.Items.filter(function (e) {
+                            if (foundItem) {
+                                return true;
+                            }
 
-                        if (!e.UserData.Played && (isSeries || e.SeasonId === firstItem.Id)) {
-                            foundItem = true;
-                            return true;
-                        }
+                            if (!e.UserData.Played && (isSeries || e.SeasonId === firstItem.Id)) {
+                                foundItem = true;
+                                return true;
+                            }
 
-                        return false;
-                    });
+                            return false;
+                        });
+                    }
 
                     if (episodesResult.Items.length === 0) {
                         if (isSeries) {
