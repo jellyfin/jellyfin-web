@@ -1805,7 +1805,7 @@
     "PriorityNormal": "Normaal",
     "LabelImageIntervalHelp": "Tijdsinterval (ms) tussen trickplay-afbeeldingen.",
     "LabelExtractTrickplayDuringLibraryScan": "Trickplay-afbeeldingen uitpakken tijdens de bibliotheekscan",
-    "ConfirmDeleteSeries": "Dit verwijdert alle {0} afleveringen van deze serie van zowel het bestandsysteem als uit je mediabibliotheek. Weet je zeker dat je wilt doorgaan?",
+    "ConfirmDeleteSeries": "Dit verwijdert alle {0} afleveringen van deze serie van zowel het bestandssysteem als uit je mediabibliotheek. Weet je zeker dat je wilt doorgaan?",
     "DeleteEntireSeries": "{0} afleveringen verwijderen",
     "DeleteSeries": "Serie verwijderen",
     "DeleteEpisode": "Aflevering verwijderen",
@@ -1859,5 +1859,12 @@
     "EnableLibrary": "Bibliotheek inschakelen",
     "EnableLibraryHelp": "Het uitschakelen van een bibliotheek verbergt deze voor alle gebruikers.",
     "LabelTrickplayAccelEncoding": "Hardwareversnelde MJPEG-codering inschakelen",
-    "LabelTrickplayAccelEncodingHelp": "Momenteel enkel beschikbaar op QSV en VAAPI; deze optie heeft geen effect bij andere methoden voor hardwareversnelling."
+    "LabelTrickplayAccelEncodingHelp": "Momenteel enkel beschikbaar op QSV en VAAPI; deze optie heeft geen effect bij andere methoden voor hardwareversnelling.",
+    "ViewLyrics": "Liedtekst weergeven",
+    "ErrorDeletingLyrics": "Er is een fout opgetreden bij het verwijderen van de liedtekst van de server. Controleer of Jellyfin schrijfrechten heeft in de mediamap en probeer het opnieuw.",
+    "HeaderDeleteLyrics": "Liedtekst verwijderen",
+    "ConfirmDeleteLyrics": "Dit zal deze liedtekst verwijderen van zowel het bestandssysteem als uit je mediabibliotheek. Weet je zeker dat je wilt doorgaan?",
+    "DeleteLyrics": "Liedtekst verwijderen",
+    "HeaderNoLyrics": "Geen liedtekst gevonden",
+    "Lyrics": "Liedtekst"
 }
