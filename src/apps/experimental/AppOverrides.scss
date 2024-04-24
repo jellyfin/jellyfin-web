@@ -41,3 +41,8 @@ $mui-bp-xl: 1536px;
         padding-top: 3.25rem !important;
     }
 }
+
+// Fix backdrop position on mobile item details page
+.layout-mobile .itemBackdrop {
+    margin-top: 0 !important;
+}
