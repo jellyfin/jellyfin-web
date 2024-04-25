@@ -73,7 +73,7 @@ function getImageWidth(shape, screenWidth, isOrientationLandscape) {
  * @param {Object} items - A set of items.
  * @param {Object} options - Options for handling the items.
  */
-function setCardData(items, options) {
+export function setCardData(items, options) {
     options.shape = options.shape || 'auto';
 
     const primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);

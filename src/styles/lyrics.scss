@@ -1,0 +1,31 @@
+.lyricPage {
+    padding-top: 4.2em !important;
+    display: flex;
+    justify-content: center;
+}
+
+.dynamicLyricsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.lyricsLine {
+    display: inline-block;
+    width: fit-content;
+    margin: 0.1em;
+    font-size: 30px;
+    color: inherit;
+    min-height: 2em;
+}
+
+.futureLyric {
+    opacity: 0.3;
+}
+
+.pastLyric {
+    opacity: 0.7;
+}
+
+.dynamicLyric {
+    cursor: pointer;
+}

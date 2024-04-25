@@ -1,4 +1,5 @@
-import React, { FC, useCallback } from 'react';
+import React, { type FC, useCallback } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';
 import classNames from 'classnames';
@@ -8,16 +9,18 @@ import globalize from 'scripts/globalize';
 interface FavoriteButtonProps {
     className?: string;
     isFavorite: boolean | undefined;
-    itemId: string | null | undefined
+    itemId: string | null | undefined;
+    queryKey?: string[]
 }
 
 const FavoriteButton: FC<FavoriteButtonProps> = ({
     className,
     isFavorite = false,
-    itemId
+    itemId,
+    queryKey
 }) => {
+    const queryClient = useQueryClient();
     const { mutateAsync: toggleFavoriteMutation } = useToggleFavoriteMutation();
-    const [favoriteState, setFavoriteState] = React.useState<boolean>(isFavorite);
 
     const onClick = useCallback(async () => {
         try {
@@ -25,28 +28,34 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
                 throw new Error('Item has no Id');
             }
 
-            const _isFavorite = await toggleFavoriteMutation({
+            await toggleFavoriteMutation({
                 itemId,
-                favoriteState
-            });
-            setFavoriteState(!!_isFavorite);
+                isFavorite
+            },
+            { onSuccess: async() => {
+                await queryClient.invalidateQueries({
+                    queryKey,
+                    type: 'all',
+                    refetchType: 'active'
+                });
+            } });
         } catch (e) {
             console.error(e);
         }
-    }, [favoriteState, itemId, toggleFavoriteMutation]);
+    }, [isFavorite, itemId, queryClient, queryKey, toggleFavoriteMutation]);
 
     const btnClass = classNames(
         className,
-        { 'ratingbutton-withrating': favoriteState }
+        { 'ratingbutton-withrating': isFavorite }
     );
 
     const iconClass = classNames(
-        { 'ratingbutton-icon-withrating': favoriteState }
+        { 'ratingbutton-icon-withrating': isFavorite }
     );
 
     return (
         <IconButton
-            title={favoriteState ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
+            title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
             className={btnClass}
             size='small'
             onClick={onClick}

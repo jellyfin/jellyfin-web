@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import scrollerFactory from '../../libraries/scroller';
 import globalize from '../../scripts/globalize';
 import IconButton from '../emby-button/IconButton';

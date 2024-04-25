@@ -1732,5 +1732,6 @@
     "EnableAudioNormalization": "Normalización de audio",
     "LabelEnableLUFSScan": "Habilitar escaneo LUFS",
     "GetThePlugin": "Obtener el complemento",
-    "AllowSegmentDeletion": "Eliminar segmentos"
+    "AllowSegmentDeletion": "Eliminar segmentos",
+    "AirPlay": "AirPlay"
 }

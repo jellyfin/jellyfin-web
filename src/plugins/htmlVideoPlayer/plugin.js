@@ -37,6 +37,7 @@ import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
+import { MediaError } from 'types/mediaError';
 
 /**
  * Returns resolved URL.
@@ -217,7 +218,7 @@ export class HtmlVideoPlayer {
      */
     #currentAssRenderer;
     /**
-     * @type {null | undefined}
+     * @type {number | undefined}
      */
     #customTrackIndex;
     /**
@@ -443,6 +444,7 @@ export class HtmlVideoPlayer {
                     startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
+                    videoPreference: { preferHDR: true },
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;
                     }
@@ -519,7 +521,7 @@ export class HtmlVideoPlayer {
 
         if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
-        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
+        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
         } else {
             elem.autoplay = true;
@@ -982,6 +984,8 @@ export class HtmlVideoPlayer {
             seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                 if (this.#currentAssRenderer) {
                     this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    this.#currentAssRenderer.resize();
+                    this.#currentAssRenderer.resetRenderAheadCache(false);
                 }
             });
 
@@ -1018,7 +1022,7 @@ export class HtmlVideoPlayer {
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
             if (!mediaSource || mediaSource.RunTimeTicks) {
-                onErrorInternal(this, 'mediadecodeerror');
+                onErrorInternal(this, MediaError.NO_MEDIA_ERROR);
             }
         }
     }
@@ -1070,7 +1074,7 @@ export class HtmlVideoPlayer {
                 return;
             case 2:
                 // MEDIA_ERR_NETWORK
-                type = 'network';
+                type = MediaError.NETWORK_ERROR;
                 break;
             case 3:
                 // MEDIA_ERR_DECODE
@@ -1078,12 +1082,12 @@ export class HtmlVideoPlayer {
                     handleHlsJsMediaError(this);
                     return;
                 } else {
-                    type = 'mediadecodeerror';
+                    type = MediaError.MEDIA_DECODE_ERROR;
                 }
                 break;
             case 4:
                 // MEDIA_ERR_SRC_NOT_SUPPORTED
-                type = 'medianotsupported';
+                type = MediaError.MEDIA_NOT_SUPPORTED;
                 break;
             default:
                 // seeing cases where Edge is firing error events with no error code
@@ -1168,9 +1172,9 @@ export class HtmlVideoPlayer {
         this.#currentClock = null;
         this._currentAspectRatio = null;
 
-        const jassub = this.#currentAssRenderer;
-        if (jassub) {
-            jassub.destroy();
+        const octopus = this.#currentAssRenderer;
+        if (octopus) {
+            octopus.dispose();
         }
         this.#currentAssRenderer = null;
     }
@@ -1259,76 +1263,60 @@ export class HtmlVideoPlayer {
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
             api_key: apiClient.accessToken()
         });
-            // TODO: replace with `event-target-polyfill` once https://github.com/benlesh/event-target-polyfill/pull/12 or 11 is merged
-        import('event-target-polyfill').then(() => {
-            import('jassub').then(({ default: JASSUB }) => {
-                // test SIMD support
-                JASSUB._test();
+        const htmlVideoPlayer = this;
+        import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                fonts: avaliableFonts,
+                workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
+                legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
+                onError() {
+                    // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
+                    htmlVideoPlayer.#currentAssRenderer = null;
 
-                const options = {
-                    video: videoElement,
-                    subUrl: getTextTrackUrl(track, item),
-                    fonts: avaliableFonts,
-                    fallbackFont: 'liberation sans',
-                    availableFonts: { 'liberation sans': `${appRouter.baseUrl()}/default.woff2` },
-                    // Disabled eslint compat, but is safe as corejs3 polyfills URL
-                    // eslint-disable-next-line compat/compat
-                    workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url).href,
-                    // eslint-disable-next-line compat/compat
-                    wasmUrl: new URL('jassub/dist/jassub-worker.wasm', import.meta.url).href,
-                    // eslint-disable-next-line compat/compat
-                    legacyWasmUrl: new URL('jassub/dist/jassub-worker.wasm.js', import.meta.url).href,
-                    // eslint-disable-next-line compat/compat
-                    modernWasmUrl : new URL('jassub/dist/jassub-worker-modern.wasm', import.meta.url).href,
-                    timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-                    // new jassub options; override all, even defaults
-                    blendMode: 'js',
-                    asyncRender: true,
-                    offscreenRender: true,
-                    // RVFC is polyfilled everywhere, but webOS 2 reports polyfill API's as functional even tho they aren't
-                    onDemandRender: browser.web0sVersion !== 2,
-                    useLocalFonts: true,
-                    dropAllAnimations: false,
-                    dropAllBlur: !JASSUB._supportsSIMD,
-                    libassMemoryLimit: 40,
-                    libassGlyphLimit: 40,
-                    targetFps: 24,
-                    prescaleFactor: 0.8,
-                    prescaleHeightLimit: 1080,
-                    maxRenderHeight: 2160
-                };
+                    // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
+                    setTimeout(() => {
+                        onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
+                    }, 0);
+                },
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
-                Promise.all([
-                    apiClient.getNamedConfiguration('encoding'),
-                    // Worker in Tizen 5 doesn't resolve relative path with async request
-                    resolveUrl(options.workerUrl),
-                    resolveUrl(options.legacyWorkerUrl)
-                ]).then(([config, workerUrl, legacyWorkerUrl]) => {
-                    options.workerUrl = workerUrl;
-                    options.legacyWorkerUrl = legacyWorkerUrl;
+                // new octopus options; override all, even defaults
+                renderMode: 'wasm-blend',
+                dropAllAnimations: false,
+                libassMemoryLimit: 40,
+                libassGlyphLimit: 40,
+                targetFps: 24,
+                prescaleFactor: 0.8,
+                prescaleHeightLimit: 1080,
+                maxRenderHeight: 2160,
+                resizeVariation: 0.2,
+                renderAhead: 90
+            };
 
-                    const cleanup = () => {
-                        this.#currentAssRenderer.destroy();
-                        this.#currentAssRenderer = null;
-                        onErrorInternal(this, 'mediadecodeerror');
-                    };
+            Promise.all([
+                apiClient.getNamedConfiguration('encoding'),
+                // Worker in Tizen 5 doesn't resolve relative path with async request
+                resolveUrl(options.workerUrl),
+                resolveUrl(options.legacyWorkerUrl)
+            ]).then(([config, workerUrl, legacyWorkerUrl]) => {
+                options.workerUrl = workerUrl;
+                options.legacyWorkerUrl = legacyWorkerUrl;
 
-                    if (config.EnableFallbackFont) {
-                        apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
-                            fontFiles.forEach(font => {
-                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
-                                    api_key: apiClient.accessToken()
-                                });
-                                avaliableFonts.push(fontUrl);
+                if (config.EnableFallbackFont) {
+                    apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                        fontFiles.forEach(font => {
+                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
+                                api_key: apiClient.accessToken()
                             });
-                            this.#currentAssRenderer = new JASSUB(options);
-                            this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
+                            avaliableFonts.push(fontUrl);
                         });
-                    } else {
-                        this.#currentAssRenderer = new JASSUB(options);
-                        this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
-                    }
-                });
+                        this.#currentAssRenderer = new SubtitlesOctopus(options);
+                    });
+                } else {
+                    this.#currentAssRenderer = new SubtitlesOctopus(options);
+                }
             });
         });
     }

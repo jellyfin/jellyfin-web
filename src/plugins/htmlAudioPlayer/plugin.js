@@ -5,6 +5,7 @@ import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import { MediaError } from 'types/mediaError';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -343,7 +344,7 @@ class HtmlAudioPlayer {
                     return;
                 case 2:
                     // MEDIA_ERR_NETWORK
-                    type = 'network';
+                    type = MediaError.NETWORK_ERROR;
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
@@ -351,12 +352,12 @@ class HtmlAudioPlayer {
                         htmlMediaHelper.handleHlsJsMediaError(self);
                         return;
                     } else {
-                        type = 'mediadecodeerror';
+                        type = MediaError.MEDIA_DECODE_ERROR;
                     }
                     break;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
-                    type = 'medianotsupported';
+                    type = MediaError.MEDIA_NOT_SUPPORTED;
                     break;
                 default:
                     // seeing cases where Edge is firing error events with no error code

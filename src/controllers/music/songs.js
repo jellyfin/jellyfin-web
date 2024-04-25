@@ -23,7 +23,7 @@ export default function (view, params, tabContent) {
                     SortOrder: 'Ascending',
                     IncludeItemTypes: 'Audio',
                     Recursive: true,
-                    Fields: 'AudioInfo,ParentId',
+                    Fields: 'ParentId',
                     StartIndex: 0,
                     ImageTypeLimit: 1,
                     EnableImageTypes: 'Primary'
