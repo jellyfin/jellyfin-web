@@ -1860,5 +1860,12 @@
     "NonBlockingScan": "Non Blocking - reiht Erstellung ein, kehrt dann zurück",
     "BlockingScan": "Blocking - reiht Erstellung ein, blockiert Scan bis fertig",
     "LabelTrickplayAccelEncoding": "Hardwarebeschleunigte MJPEG-Enkodierung aktivieren",
-    "LabelTrickplayAccelEncodingHelp": "Momentan nur für QSV und VAAPI verfügbar. Diese Option hat für andere Methoden keine Auswirkungen."
+    "LabelTrickplayAccelEncodingHelp": "Momentan nur für QSV und VAAPI verfügbar. Diese Option hat für andere Methoden keine Auswirkungen.",
+    "Lyrics": "Songtexte",
+    "ConfirmDeleteLyrics": "Das Löschen dieses Songtextes löscht die Datei vom Laufwerk und in deiner Medienbibliothek. Bist du wirklich sicher?",
+    "DeleteLyrics": "Songtexte löschen",
+    "ErrorDeletingLyrics": "Es trat ein Fehler beim Löschen der Songtexte vom Server auf. Bitte stelle sicher, dass Jellyfin die notwendigen Zugriffsrechte besitzt.",
+    "HeaderDeleteLyrics": "Songtexte löschen",
+    "HeaderNoLyrics": "Keine Songtexte gefunden",
+    "ViewLyrics": "Songtexte ansehen"
 }
