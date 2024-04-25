@@ -122,7 +122,6 @@ function supportsAc3InHls(videoTestElement) {
 }
 
 function supportsMp3InHls(videoTestElement) {
-
     if (videoTestElement.canPlayType) {
         return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, mp4a.40.34"').replace(/no/, '')
                 || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, mp4a.40.34"').replace(/no/, '');
