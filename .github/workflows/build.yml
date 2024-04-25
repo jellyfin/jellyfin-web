@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Setup node environment
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
@@ -41,7 +41,7 @@ jobs:
           mv dist/config.tmp.json dist/config.json
 
       - name: Upload artifact
-        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba # v4.3.2
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: jellyfin-web__prod
           path: |
@@ -64,7 +64,7 @@ jobs:
           echo $PR_SHA > PR_sha
 
       - name: Upload PR number as artifact
-        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba # v4.3.2
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: PR_context
           path: |
