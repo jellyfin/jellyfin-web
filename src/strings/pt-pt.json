@@ -1855,5 +1855,7 @@
     "LabelExtractTrickplayDuringLibraryScanHelp": "Gera imagens trickplay quando os vídeos são importados durante a análise da biblioteca. Caso contrário, serão extraídas durante a tarefa agendada de imagens trickplay. Se a geração estiver definida como não bloqueante, isto não afetará o tempo que a análise da biblioteca demora a ser concluída.",
     "PlaybackError.RateLimitExceeded": "Este conteúdo não pode ser reproduzido neste momento devido aos limites de velocidade.",
     "PlaybackError.NotAllowed": "A reprodução deste conteúdo não é permitida.",
-    "PlaybackError.SERVER_ERROR": "A reprodução falhou devido a um erro do servidor."
+    "PlaybackError.SERVER_ERROR": "A reprodução falhou devido a um erro do servidor.",
+    "ChannelResolutionSD": "SD",
+    "PlaybackError.ASS_RENDER_ERROR": "Foi encontrado um erro no renderizador de legendas ASS/SSA."
 }
