@@ -1816,5 +1816,22 @@
     "EnableLibraryHelp": "Om du inaktiverar biblioteket döljs det från alla användarvyer.",
     "EnableSmoothScroll": "Aktivera \"smooth scroll\"",
     "ConfirmDeleteLyrics": "Om du tar bort dessa sångtexter tas de bort från både filsystemet och ditt media bibliotek. Är du säker på att du vill fortsätta?",
-    "DeleteLyrics": "Ta bort sångtexter"
+    "DeleteLyrics": "Ta bort sångtexter",
+    "PlaybackError.MEDIA_NOT_SUPPORTED": "Uppspelning misslyckades då mediet inte stöds av denna klient.",
+    "PlaybackError.NETWORK_ERROR": "Uppspelningen misslyckades på grund av nätverksfel.",
+    "LimitSupportedVideoResolution": "Begränsa maximal videoupplösning",
+    "Lyrics": "Låttexter",
+    "PlaybackError.ASS_RENDER_ERROR": "Ett fel uppstod i textrenderaren för ASS/SSA-undertexter.",
+    "PlaybackError.FATAL_HLS_ERROR": "Ett allvarligt fel uppstod i HLS-strömmen.",
+    "PlaybackError.MEDIA_DECODE_ERROR": "Uppspelning misslyckades på grund av ett fel vid media avkodning.",
+    "PlaybackError.NO_MEDIA_ERROR": "Det går inte att hitta en giltig mediekälla att spela upp.",
+    "PlaybackError.PLAYER_ERROR": "Uppspelningen misslyckades på grund av ett allvarligt fel i spelaren.",
+    "PlaybackError.SERVER_ERROR": "Uppspelningen misslyckades på grund av ett serverfel.",
+    "PlaybackError.NotAllowed": "Uppspelningen av detta media är inte tillåtet.",
+    "PlaybackError.RateLimitExceeded": "Detta medium kan inte spelas upp just nu på grund av hastighetsbegränsningar.",
+    "ViewLyrics": "Visa låttexter.",
+    "LabelAllowContentWithTags": "Tillåt objekt med taggarna",
+    "LimitSupportedVideoResolutionHelp": "Använd 'Maximal tillåten video omkodningsupplösning' som maximal begränsad maximal videoupplösning.",
+    "HeaderDeleteLyrics": "Ta bort låttexterna",
+    "HeaderNoLyrics": "Inga låttexter hittades"
 }
