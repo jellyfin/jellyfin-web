@@ -1809,5 +1809,12 @@
     "ChannelResolutionUHD4K": "UHD(4k)",
     "DeleteSeries": "Ta bort Serier",
     "DeleteEpisode": "Ta bort Avsnitt",
-    "DeleteName": "Ta bort{0}"
+    "DeleteName": "Ta bort{0}",
+    "BlockContentWithTagsHelp": "Dölj media med minst en av de angivna taggarna.",
+    "ErrorDeletingLyrics": "Ett fel uppstod när sångtexterna skulle tas bort från servern. Kontrollera att Jellyfin har skrivrättigheter till media mappen och försök igen.",
+    "DlnaMovedMessage": "DLNA-funktionen har flyttat till ett plugin.",
+    "EnableLibraryHelp": "Om du inaktiverar biblioteket döljs det från alla användarvyer.",
+    "EnableSmoothScroll": "Aktivera \"smooth scroll\"",
+    "ConfirmDeleteLyrics": "Om du tar bort dessa sångtexter tas de bort från både filsystemet och ditt media bibliotek. Är du säker på att du vill fortsätta?",
+    "DeleteLyrics": "Ta bort sångtexter"
 }
