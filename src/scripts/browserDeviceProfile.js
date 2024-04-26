@@ -488,7 +488,7 @@ export default function (options) {
 
     // Safari is the only browser that supports mp3 with HLS, but only in mpegts container.
     // The detect function will return false on Safari, which reflects the fmp4 support, so we have to hard-code it here.
-    if (browser.safari || canPlayMp3VideoAudioInHls) {
+    if (browser.safari || canPlayMp3VideoAudioInHls || options.supportsMp3InTs) {
         hlsInTsVideoAudioCodecs.push('mp3');
     }
 
