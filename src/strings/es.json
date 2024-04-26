@@ -1826,5 +1826,9 @@
     "PlaybackError.PLAYER_ERROR": "La reproducción falló por un error fatal del reproductor.",
     "PlaybackError.SERVER_ERROR": "La reproducción falló por un error del servidor.",
     "PlaybackError.NotAllowed": "La reproducción de este medio no está permitida.",
-    "PlaybackError.RateLimitExceeded": "Este medio no puede reproducirse en este momento debído a límites."
+    "PlaybackError.RateLimitExceeded": "Este medio no puede reproducirse en este momento debído a límites.",
+    "EnableLibrary": "Activar la librería",
+    "EnableLibraryHelp": "Desactivando la biblioteca hará que no sea visible para ningún usuario.",
+    "ConfirmDeleteLyrics": "Borrando estas letras también las borrará tanto del sistema de ficheros como de tu librería de medios. ¿Estás seguro de que deseas continuar?",
+    "DeleteLyrics": "Borrar letras"
 }
