@@ -234,7 +234,7 @@ async function onAppReady() {
             }
         });
 
-        brandingCss.then(handleStyleChange);
+        handleStyleChange();
     }
 }
 
