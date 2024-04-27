@@ -7,6 +7,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
+import globalize from 'scripts/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
@@ -33,6 +34,7 @@ let positionSlider;
 let toggleAirPlayButton;
 let toggleRepeatButton;
 let toggleRepeatButtonIcon;
+let lyricButton;
 
 let lastUpdateTime = 0;
 let lastPlayerState = {};
@@ -40,6 +42,9 @@ let isEnabled;
 let currentRuntimeTicks = 0;
 
 let isVisibilityAllowed = true;
+
+let lyricPageActive = false;
+let isAudio = false;
 
 function getNowPlayingBarHtml() {
     let html = '';
@@ -59,13 +64,13 @@ function getNowPlayingBarHtml() {
     // The onclicks are needed due to the return false above
     html += '<div class="nowPlayingBarCenter" dir="ltr">';
 
-    html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="previousTrackButton mediaButton" title="${globalize.translate('ButtonPreviousTrack')}"><span class="material-icons skip_previous" aria-hidden="true"></span></button>`;
 
-    html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
 
-    html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="stopButton mediaButton" title="${globalize.translate('ButtonStop')}"><span class="material-icons stop" aria-hidden="true"></span></button>`;
     if (!layoutManager.mobile) {
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next" aria-hidden="true"></span></button>';
+        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
     }
 
     html += '<div class="nowPlayingBarCurrentTime"></div>';
@@ -73,25 +78,27 @@ function getNowPlayingBarHtml() {
 
     html += '<div class="nowPlayingBarRight">';
 
-    html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="muteButton mediaButton" title="${globalize.translate('Mute')}"><span class="material-icons volume_up" aria-hidden="true"></span></button>`;
 
     html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
     html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
     html += '</div>';
 
-    html += '<button is="paper-icon-button-light" class="btnAirPlay mediaButton"><span class="material-icons airplay" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="btnAirPlay mediaButton" title="${globalize.translate('AirPlay')}"><span class="material-icons airplay" aria-hidden="true"></span></button>`;
 
-    html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat" aria-hidden="true"></span></button>';
-    html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
+
+    html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
+    html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
 
     html += '<div class="nowPlayingBarUserDataButtons">';
     html += '</div>';
 
-    html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause" aria-hidden="true"></span></button>';
+    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
     if (layoutManager.mobile) {
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next" aria-hidden="true"></span></button>';
+        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
     } else {
-        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
+        html += `<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
     }
 
     html += '</div>';
@@ -145,6 +152,7 @@ function bindEvents(elem) {
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
     volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
     volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
+    lyricButton = nowPlayingBarElement.querySelector('.openLyricsButton');
 
     muteButton.addEventListener('click', function () {
         if (currentPlayer) {
@@ -208,6 +216,14 @@ function bindEvents(elem) {
     elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
         if (currentPlayer) {
             playbackManager.toggleQueueShuffleMode();
+        }
+    });
+
+    lyricButton.addEventListener('click', function() {
+        if (lyricPageActive) {
+            appRouter.back();
+        } else {
+            appRouter.show('lyrics');
         }
     });
 
@@ -317,6 +333,7 @@ function updatePlayPauseState(isPaused) {
             const icon = button.querySelector('.material-icons');
             icon.classList.remove('play_arrow', 'pause');
             icon.classList.add(isPaused ? 'play_arrow' : 'pause');
+            button.title = globalize.translate(isPaused ? 'Play' : 'ButtonPause');
         });
     }
 }
@@ -361,6 +378,7 @@ function updatePlayerStateInternal(event, state, player) {
     updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
     updateNowPlayingInfo(state);
+    updateLyricButton();
 }
 
 function updateRepeatModeDisplay(repeatMode) {
@@ -424,6 +442,7 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
     const muteButtonIcon = muteButton.querySelector('.material-icons');
     muteButtonIcon.classList.remove('volume_off', 'volume_up');
     muteButtonIcon.classList.add(isMuted ? 'volume_off' : 'volume_up');
+    muteButton.title = globalize.translate(isMuted ? 'Unmute' : 'Mute');
 
     if (supportedCommands.indexOf('SetVolume') === -1) {
         showVolumeSlider = false;
@@ -448,6 +467,22 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
             volumeSlider.value = volumeLevel || 0;
         }
     }
+}
+
+function updateLyricButton() {
+    if (!isEnabled) {
+        return;
+    }
+
+    isAudio ? showButton(lyricButton) : hideButton(lyricButton);
+    setLyricButtonActiveStatus();
+}
+
+function setLyricButtonActiveStatus() {
+    if (!isEnabled) {
+        return;
+    }
+    lyricButton.classList.toggle('buttonActive', lyricPageActive);
 }
 
 function seriesImageUrl(item, options) {
@@ -582,7 +617,7 @@ function updateNowPlayingInfo(state) {
                     });
                 });
             }
-            nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
         });
     } else {
         nowPlayingUserData.innerHTML = '';
@@ -592,6 +627,9 @@ function updateNowPlayingInfo(state) {
 function onPlaybackStart(e, state) {
     console.debug('nowplaying event: ' + e.type);
     const player = this;
+
+    isAudio = state.NowPlayingItem.Type === 'Audio';
+
     onStateChanged.call(player, e, state);
 }
 
@@ -695,6 +733,7 @@ function onStateChanged(event, state) {
     }
 
     getNowPlayingBar();
+    updateLyricButton();
     updatePlayerStateInternal(event, state, player);
 }
 
@@ -751,6 +790,7 @@ function refreshFromPlayer(player, type) {
 }
 
 function bindToPlayer(player) {
+    lyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
     if (player === currentPlayer) {
         return;
     }
@@ -783,6 +823,8 @@ Events.on(playbackManager, 'playerchange', function () {
 bindToPlayer(playbackManager.getCurrentPlayer());
 
 document.addEventListener('viewbeforeshow', function (e) {
+    lyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
+    setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {
         if (isVisibilityAllowed) {
             isVisibilityAllowed = false;

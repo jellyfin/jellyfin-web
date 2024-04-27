@@ -1,6 +1,6 @@
+import browser from './browser';
 import appSettings from './settings/appSettings';
 import * as userSettings from './settings/userSettings';
-import browser from './browser';
 
 function canPlayH264(videoTestElement) {
     return !!(videoTestElement.canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -210,12 +210,22 @@ function supportsDolbyVision(options) {
     );
 }
 
-function canPlayDolbyVisionHevc(videoTestElement) {
-    // Profiles 5/7/8 4k@60fps
-    return !!videoTestElement.canPlayType
-        && (videoTestElement.canPlayType('video/mp4; codecs="dvh1.05.09"').replace(/no/, '')
-        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.07.09"').replace(/no/, '')
-        && videoTestElement.canPlayType('video/mp4; codecs="dvh1.08.09"').replace(/no/, ''));
+function supportedDolbyVisionProfilesHevc(videoTestElement) {
+    const supportedProfiles = [];
+    // Profiles 5/8 4k@60fps
+    if (videoTestElement.canPlayType) {
+        if (videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.05.09"')
+            .replace(/no/, '')) {
+            supportedProfiles.push(5);
+        }
+        if (videoTestElement
+            .canPlayType('video/mp4; codecs="dvh1.08.09"')
+            .replace(/no/, '')) {
+            supportedProfiles.push(8);
+        }
+    }
+    return supportedProfiles;
 }
 
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
@@ -706,11 +716,14 @@ export default function (options) {
     profile.TranscodingProfiles = [];
 
     const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls();
+    let enableFmp4Hls = userSettings.preferFmp4HlsContainer();
+    if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
+        enableFmp4Hls = false;
+    }
 
     if (canPlayHls() && browser.enableHlsAudio !== false) {
         profile.TranscodingProfiles.push({
-            // hlsjs, edge, and android all seem to require ts container
-            Container: !canPlayNativeHls() || browser.edge || browser.android ? 'ts' : 'aac',
+            Container: enableFmp4Hls ? 'mp4' : 'ts',
             Type: 'Audio',
             AudioCodec: 'aac',
             Context: 'Streaming',
@@ -747,10 +760,6 @@ export default function (options) {
     });
 
     if (canPlayHls() && options.enableHls !== false) {
-        let enableFmp4Hls = userSettings.preferFmp4HlsContainer();
-        if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
-            enableFmp4Hls = false;
-        }
         if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && enableFmp4Hls) {
             // HACK: Since there is no filter for TS/MP4 in the API, specify HLS support in general and rely on retry after DirectPlay error
             // FIXME: Need support for {Container: 'mp4', Protocol: 'hls'} or {Container: 'hls', SubContainer: 'mp4'}
@@ -942,8 +951,14 @@ export default function (options) {
         av1VideoRangeTypes += '|HLG';
     }
 
-    if (supportsDolbyVision(options) && canPlayDolbyVisionHevc(videoTestElement)) {
-        hevcVideoRangeTypes += '|DOVI';
+    if (supportsDolbyVision(options)) {
+        const profiles = supportedDolbyVisionProfilesHevc(videoTestElement);
+        if (profiles.includes(5)) {
+            hevcVideoRangeTypes += '|DOVI';
+        }
+        if (profiles.includes(8)) {
+            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+        }
     }
 
     const h264CodecProfileConditions = [
@@ -1131,7 +1146,7 @@ export default function (options) {
 
     // On iOS 12.x, for TS container max h264 level is 4.2
     if (browser.iOS && browser.iOSVersion < 13) {
-        const codecProfile = {
+        const codecProfileTS = {
             Type: 'Video',
             Codec: 'h264',
             Container: 'ts',
@@ -1140,14 +1155,32 @@ export default function (options) {
             })
         };
 
-        codecProfile.Conditions.push({
+        codecProfileTS.Conditions.push({
             Condition: 'LessThanEqual',
             Property: 'VideoLevel',
             Value: '42',
             IsRequired: false
         });
 
-        profile.CodecProfiles.push(codecProfile);
+        profile.CodecProfiles.push(codecProfileTS);
+
+        const codecProfileMp4 = {
+            Type: 'Video',
+            Codec: 'h264',
+            Container: 'mp4',
+            Conditions: h264CodecProfileConditions.filter((condition) => {
+                return condition.Property !== 'VideoLevel';
+            })
+        };
+
+        codecProfileMp4.Conditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'VideoLevel',
+            Value: '42',
+            IsRequired: false
+        });
+
+        profile.CodecProfiles.push(codecProfileMp4);
     }
 
     profile.CodecProfiles.push({
@@ -1250,4 +1283,3 @@ export default function (options) {
 
     return profile;
 }
-

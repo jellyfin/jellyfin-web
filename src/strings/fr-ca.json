@@ -370,7 +370,7 @@
     "Descending": "Décroissant",
     "Depressed": "Diminuer",
     "DeleteDevicesConfirmation": "Voulez-vous vraiment supprimer tous les appareils ? Toutes les autres sessions seront déconnectées. Les appareils réapparaîtront la prochaine fois qu'un utilisateur se connectera.",
-    "AllowTonemappingHelp": "Le tone-mapping peut transformer la plage dynamique d’une vidéo de HDR à SDR tout en maintenant les détails et les couleurs de l’image, qui sont des informations très importantes pour représenter la scène originale. Cette fonction prend en charge uniquement les vidéos HDR10, HLG ou DoVi et nécessite l’environnement d’exécution OpenCL ou CUDA correspondant.",
+    "AllowTonemappingHelp": "Le tone-mapping peut transformer la plage dynamique d’une vidéo de HDR à SDR tout en maintenant les détails et les couleurs de l’image, qui sont des informations très importantes pour représenter la scène originale. Cette fonction prend en charge uniquement les vidéos HDR10, HLG ou DoVi et nécessite un environnement d’exécution GPGPU correspondant.",
     "LabelEasyPinCode": "NIP facile",
     "LabelDynamicExternalId": "ID {0}",
     "LabelDownloadLanguages": "Téléchargement des langues",
@@ -1334,5 +1334,14 @@
     "MediaInfoAnamorphic": "Anamorphique",
     "MediaInfoLayout": "Agencement",
     "MenuOpen": "Ouvrir le menu",
-    "MenuClose": "Fermer le menu"
+    "MenuClose": "Fermer le menu",
+    "AllowContentWithTagsHelp": "Afficher uniquement les médias avec un ou plusieurs des étiquettes spécifiées.",
+    "BlockContentWithTagsHelp": "Masquer les médias avec un ou plusieurs des étiquettes spécifiées.",
+    "ConfirmDeleteSeries": "La suppression de cette série entraînera la suppression des {0} épisodes depuis le disque ET la médiathèque. Êtes-vous sûr de vouloir continuer?",
+    "DeleteEpisode": "Supprimer l’épisode",
+    "EnableLibrary": "Activer la médiathèque",
+    "EnableLibraryHelp": "La désactivation de la médiathèque la masquera depuis toutes les vues utilisateur.",
+    "AirPlay": "AirPlay",
+    "DeleteEntireSeries": "Supprimer {0} épisodes",
+    "DeleteSeries": "Supprimer la série"
 }

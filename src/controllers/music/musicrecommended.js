@@ -86,7 +86,7 @@ function loadRecentlyPlayed(page, parentId) {
         IncludeItemTypes: 'Audio',
         Limit: itemsPerRow(),
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,AudioInfo',
+        Fields: 'PrimaryImageAspectRatio',
         Filters: 'IsPlayed',
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -128,7 +128,7 @@ function loadFrequentlyPlayed(page, parentId) {
         IncludeItemTypes: 'Audio',
         Limit: itemsPerRow(),
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,AudioInfo',
+        Fields: 'PrimaryImageAspectRatio',
         Filters: 'IsPlayed',
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -399,4 +399,3 @@ export default function (view, params) {
         });
     });
 }
-

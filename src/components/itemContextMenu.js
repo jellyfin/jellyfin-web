@@ -10,6 +10,24 @@ import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
+function getDeleteLabel(type) {
+    switch (type) {
+        case BaseItemKind.Series:
+            return globalize.translate('DeleteSeries');
+
+        case BaseItemKind.Episode:
+            return globalize.translate('DeleteEpisode');
+
+        case BaseItemKind.Playlist:
+        case BaseItemKind.BoxSet:
+            return globalize.translate('Delete');
+
+        default:
+            return globalize.translate('DeleteMedia');
+    }
+}
 
 export function getCommands(options) {
     const item = options.item;
@@ -160,17 +178,17 @@ export function getCommands(options) {
     }
 
     if (item.CanDelete && options.deleteItem !== false) {
-        if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
+        commands.push({
+            name: getDeleteLabel(item.Type),
+            id: 'delete',
+            icon: 'delete'
+        });
+
+        if (item.Type === 'Audio' && item.HasLyrics && window.location.href.includes(item.Id)) {
             commands.push({
-                name: globalize.translate('Delete'),
-                id: 'delete',
-                icon: 'delete'
-            });
-        } else {
-            commands.push({
-                name: globalize.translate('DeleteMedia'),
-                id: 'delete',
-                icon: 'delete'
+                name: globalize.translate('DeleteLyrics'),
+                id: 'deleteLyrics',
+                icon: 'delete_sweep'
             });
         }
     }
@@ -300,6 +318,14 @@ export function getCommands(options) {
             name: globalize.translate('ViewAlbumArtist'),
             id: 'artist',
             icon: 'person'
+        });
+    }
+
+    if (item.HasLyrics) {
+        commands.push({
+            name: globalize.translate('ViewLyrics'),
+            id: 'lyrics',
+            icon: 'lyrics'
         });
     }
 
@@ -485,6 +511,9 @@ function executeCommand(item, id, options) {
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
                 break;
+            case 'deleteLyrics':
+                deleteLyrics(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                break;
             case 'share':
                 navigator.share({
                     title: item.Name,
@@ -500,6 +529,15 @@ function executeCommand(item, id, options) {
                 appRouter.showItem(item.AlbumArtists[0].Id, item.ServerId);
                 getResolveFunction(resolve, id)();
                 break;
+            case 'lyrics': {
+                if (options.isMobile) {
+                    appRouter.show('lyrics');
+                } else {
+                    appRouter.showItem(item.Id, item.ServerId);
+                }
+                getResolveFunction(resolve, id)();
+                break;
+            }
             case 'playallfromhere':
                 getResolveFunction(resolve, id)();
                 break;
@@ -623,6 +661,12 @@ function deleteItem(apiClient, item) {
                 resolve(true);
             }, reject);
         });
+    });
+}
+
+function deleteLyrics(apiClient, item) {
+    return import('../scripts/deleteHelper').then((deleteHelper) => {
+        return deleteHelper.deleteLyrics(item);
     });
 }
 

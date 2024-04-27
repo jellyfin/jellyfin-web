@@ -45,18 +45,27 @@ function getDeviceProfile(item) {
         const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
+            const conditionWidth = {
+                Condition: 'LessThanEqual',
+                Property: 'Width',
+                Value: maxTranscodingVideoWidth.toString(),
+                IsRequired: false
+            };
+
+            if (appSettings.limitSupportedVideoResolution()) {
+                profile.CodecProfiles.push({
+                    Type: 'Video',
+                    Conditions: [conditionWidth]
+                });
+            }
+
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
                 if (transcodingProfile.Type === 'Video') {
                     transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition) => {
                         return condition.Property !== 'Width';
                     });
 
-                    transcodingProfile.Conditions.push({
-                        Condition: 'LessThanEqual',
-                        Property: 'Width',
-                        Value: maxTranscodingVideoWidth.toString(),
-                        IsRequired: false
-                    });
+                    transcodingProfile.Conditions.push(conditionWidth);
                 }
             });
         }

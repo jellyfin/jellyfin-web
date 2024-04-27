@@ -10,6 +10,11 @@ $mui-bp-xl: 1536px;
     position: relative;
 }
 
+// Ensure the footer renders over the drawer
+.appfooter {
+    z-index: 1201 !important; // mui drawer uses z-index 1200
+}
+
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {
     .lnkQuickConnectPreferences,
@@ -35,4 +40,9 @@ $mui-bp-xl: 1536px;
     @media all and (min-width: $mui-bp-lg) {
         padding-top: 3.25rem !important;
     }
+}
+
+// Fix backdrop position on mobile item details page
+.layout-mobile .itemBackdrop {
+    margin-top: 0 !important;
 }

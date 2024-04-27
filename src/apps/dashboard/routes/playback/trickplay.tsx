@@ -8,7 +8,6 @@ import ButtonElement from '../../../../elements/ButtonElement';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import InputElement from '../../../../elements/InputElement';
-import LinkTrickplayAcceleration from '../../../../components/dashboard/playback/trickplay/LinkTrickplayAcceleration';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import ServerConnections from '../../../../components/ServerConnections';
@@ -31,6 +30,7 @@ const PlaybackTrickplay: FunctionComponent = () => {
         }
 
         (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options.EnableHwAcceleration;
+        (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options.EnableHwEncoding;
         (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = options.ScanBehavior;
         (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = options.ProcessPriority;
         (page.querySelector('#txtInterval') as HTMLInputElement).value = options.Interval;
@@ -76,6 +76,7 @@ const PlaybackTrickplay: FunctionComponent = () => {
 
             const options = config.TrickplayOptions;
             options.EnableHwAcceleration = (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked;
+            options.EnableHwEncoding = (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked;
             options.ScanBehavior = (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value as TrickplayScanBehavior;
             options.ProcessPriority = (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value as ProcessPriorityClass;
             options.Interval = Math.max(1, parseInt((page.querySelector('#txtInterval') as HTMLInputElement).value || '10000', 10));
@@ -154,12 +155,16 @@ const PlaybackTrickplay: FunctionComponent = () => {
                             className='chkEnableHwAcceleration'
                             title='LabelTrickplayAccel'
                         />
+                    </div>
+                    <div className='checkboxContainer checkboxContainer-withDescription'>
+                        <CheckBoxElement
+                            className='chkEnableHwEncoding'
+                            title='LabelTrickplayAccelEncoding'
+                        />
                         <div className='fieldDescription checkboxFieldDescription'>
-                            <LinkTrickplayAcceleration
-                                title='LabelTrickplayAccelHelp'
-                                href='#/dashboard/playback/transcoding'
-                                className='button-link'
-                            />
+                            <div className='fieldDescription'>
+                                {globalize.translate('LabelTrickplayAccelEncodingHelp')}
+                            </div>
                         </div>
                     </div>
 

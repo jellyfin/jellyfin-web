@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -33,6 +33,6 @@ jobs:
 
       - name: Run eslint
         if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-        uses: CatChen/eslint-suggestion-action@8fb7db4e235f7af9fc434349a124034b681d99a3 # v3.1.3
+        uses: CatChen/eslint-suggestion-action@34e2a6c4193eba18a7a20710b5ae37850fc984c3 # v3.1.5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

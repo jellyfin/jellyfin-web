@@ -1207,7 +1207,6 @@ export default function (view) {
         const positionTo = this;
 
         import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
-            mouseWheelVolumeControlDisabled = true; // prevent scrolling through list via mouse wheel to change volume
             actionsheet.show({
                 title: globalize.translate('Chapters'),
                 items: menuItems,
@@ -1217,7 +1216,6 @@ export default function (view) {
                 chapterStartPositionTicks => playbackManager.seek(chapterStartPositionTicks, player)
             ).finally(() => {
                 resetIdle();
-                mouseWheelVolumeControlDisabled = false;
             });
 
             setTimeout(resetIdle, 0);
@@ -1414,13 +1412,12 @@ export default function (view) {
     }
 
     function onWheel(e) {
-        if (!mouseWheelVolumeControlDisabled) {
-            if (e.deltaY < 0) {
-                playbackManager.volumeUp(currentPlayer);
-            }
-            if (e.deltaY > 0) {
-                playbackManager.volumeDown(currentPlayer);
-            }
+        if (getOpenedDialog()) return;
+        if (e.deltaY < 0) {
+            playbackManager.volumeUp(currentPlayer);
+        }
+        if (e.deltaY > 0) {
+            playbackManager.volumeDown(currentPlayer);
         }
     }
 
@@ -1616,7 +1613,6 @@ export default function (view) {
     let playbackStartTimeTicks = 0;
     let subtitleSyncOverlay;
     let chapterSelectionOptions = [];
-    let mouseWheelVolumeControlDisabled = false;
     let trickplayResolution = null;
     const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
     const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');

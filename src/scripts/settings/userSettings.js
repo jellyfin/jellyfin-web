@@ -68,7 +68,7 @@ export class UserSettings {
      * Set value of setting.
      * @param {string} name - Name of setting.
      * @param {mixed} value - Value of setting.
-     * @param {boolean} enableOnServer - Flag to save preferences on server.
+     * @param {boolean} [enableOnServer] - Flag to save preferences on server.
      */
     set(name, value, enableOnServer) {
         const userId = this.currentUserId;
@@ -90,7 +90,7 @@ export class UserSettings {
     /**
      * Get value of setting.
      * @param {string} name - Name of setting.
-     * @param {boolean} enableOnServer - Flag to return preferences from server (cached).
+     * @param {boolean} [enableOnServer] - Flag to return preferences from server (cached).
      * @return {string} Value of setting.
      */
     get(name, enableOnServer) {
@@ -199,7 +199,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Theme Songs' state.
-     * @param {boolean|undefined} val - Flag to enable 'Theme Songs' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Theme Songs' or undefined.
      * @return {boolean} 'Theme Songs' state.
      */
     enableThemeSongs(val) {
@@ -212,7 +212,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Theme Videos' state.
-     * @param {boolean|undefined} val - Flag to enable 'Theme Videos' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Theme Videos' or undefined.
      * @return {boolean} 'Theme Videos' state.
      */
     enableThemeVideos(val) {
@@ -225,7 +225,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Fast Fade-in' state.
-     * @param {boolean|undefined} val - Flag to enable 'Fast Fade-in' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Fast Fade-in' or undefined.
      * @return {boolean} 'Fast Fade-in' state.
      */
     enableFastFadein(val) {
@@ -238,7 +238,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Blurhash' state.
-     * @param {boolean|undefined} val - Flag to enable 'Blurhash' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Blurhash' or undefined.
      * @return {boolean} 'Blurhash' state.
      */
     enableBlurhash(val) {
@@ -251,7 +251,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Backdrops' state.
-     * @param {boolean|undefined} val - Flag to enable 'Backdrops' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
      */
     enableBackdrops(val) {
@@ -264,7 +264,7 @@ export class UserSettings {
 
     /**
      * Get or set 'disableCustomCss' state.
-     * @param {boolean|undefined} val - Flag to enable 'disableCustomCss' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'disableCustomCss' or undefined.
      * @return {boolean} 'disableCustomCss' state.
      */
     disableCustomCss(val) {
@@ -277,7 +277,7 @@ export class UserSettings {
 
     /**
      * Get or set customCss.
-     * @param {string|undefined} val - Language.
+     * @param {string|undefined} [val] - Language.
      * @return {string} Language.
      */
     customCss(val) {
@@ -290,7 +290,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Details Banner' state.
-     * @param {boolean|undefined} val - Flag to enable 'Details Banner' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Details Banner' or undefined.
      * @return {boolean} 'Details Banner' state.
      */
     detailsBanner(val) {
@@ -316,7 +316,7 @@ export class UserSettings {
 
     /**
      * Get or set language.
-     * @param {string|undefined} val - Language.
+     * @param {string|undefined} [val] - Language.
      * @return {string} Language.
      */
     language(val) {
@@ -329,7 +329,7 @@ export class UserSettings {
 
     /**
      * Get or set datetime locale.
-     * @param {string|undefined} val - Datetime locale.
+     * @param {string|undefined} [val] - Datetime locale.
      * @return {string} Datetime locale.
      */
     dateTimeLocale(val) {
@@ -368,7 +368,7 @@ export class UserSettings {
 
     /**
      * Get or set theme for Dashboard.
-     * @param {string|undefined} val - Theme for Dashboard.
+     * @param {string|undefined} [val] - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
      */
     dashboardTheme(val) {
@@ -394,7 +394,7 @@ export class UserSettings {
 
     /**
      * Get or set main theme.
-     * @param {string|undefined} val - Main theme.
+     * @param {string|undefined} [val] - Main theme.
      * @return {string} Main theme.
      */
     theme(val) {
@@ -407,7 +407,7 @@ export class UserSettings {
 
     /**
      * Get or set screensaver.
-     * @param {string|undefined} val - Screensaver.
+     * @param {string|undefined} [val] - Screensaver.
      * @return {string} Screensaver.
      */
     screensaver(val) {
@@ -420,7 +420,7 @@ export class UserSettings {
 
     /**
      * Get or set the interval between backdrops when using the backdrop screensaver.
-     * @param {number|undefined} val - The interval between backdrops in seconds.
+     * @param {number|undefined} [val] - The interval between backdrops in seconds.
      * @return {number} The interval between backdrops in seconds.
      */
     backdropScreensaverInterval(val) {
@@ -433,7 +433,7 @@ export class UserSettings {
 
     /**
      * Get or set library page size.
-     * @param {number|undefined} val - Library page size.
+     * @param {number|undefined} [val] - Library page size.
      * @return {number} Library page size.
      */
     libraryPageSize(val) {

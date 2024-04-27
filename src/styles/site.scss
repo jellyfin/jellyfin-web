@@ -39,6 +39,7 @@ body {
     right: 0;
     bottom: 0;
     contain: strict;
+    z-index: -1;
 }
 
 .layout-mobile,

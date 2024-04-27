@@ -1,3 +1,7 @@
+import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
+import merge from 'lodash-es/merge';
+import Screenfull from 'screenfull';
+
 import Events from '../../utils/events.ts';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
@@ -8,14 +12,15 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
-import Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
-import merge from 'lodash-es/merge';
+
+import { MediaError } from 'types/mediaError';
+import { getMediaError } from 'utils/mediaError';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -588,9 +593,18 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     return Promise.resolve(false);
 }
 
+/**
+ * @param {PlaybackManager} instance
+ * @param {import('@jellyfin/sdk/lib/generated-client/index.js').PlaybackInfoResponse} result
+ * @returns {boolean}
+ */
 function validatePlaybackInfoResult(instance, result) {
     if (result.ErrorCode) {
-        showPlaybackInfoErrorMessage(instance, 'PlaybackError' + result.ErrorCode);
+        // NOTE: To avoid needing to retranslate the "NoCompatibleStream" message,
+        // we need to keep the key in the same format.
+        const errMessage = result.ErrorCode === PlaybackErrorCode.NoCompatibleStream ?
+            'PlaybackErrorNoCompatibleStream' : `PlaybackError.${result.ErrorCode}`;
+        showPlaybackInfoErrorMessage(instance, errMessage);
         return false;
     }
 
@@ -1720,7 +1734,8 @@ class PlaybackManager {
                         streamInfo.resetSubtitleOffset = false;
 
                         if (!streamInfo.url) {
-                            showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
+                            cancelPlayback();
+                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                             return;
                         }
 
@@ -1768,8 +1783,8 @@ class PlaybackManager {
                 playerData.isChangingStream = false;
 
                 onPlaybackError.call(player, e, {
-                    type: 'mediadecodeerror',
-                    streamInfo: streamInfo
+                    type: getMediaError(e),
+                    streamInfo
                 });
             });
         }
@@ -1853,48 +1868,37 @@ class PlaybackManager {
                 }, queryOptions));
             } else if (firstItem.Type === 'Series' || firstItem.Type === 'Season') {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+                const isSeason = firstItem.Type === 'Season';
 
                 promise = apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
+                    SeasonId: isSeason ? firstItem.Id : undefined,
+                    SortBy: options.shuffle ? 'Random' : undefined,
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     const originalResults = episodesResult.Items;
-                    const isSeries = firstItem.Type === 'Series';
 
                     let foundItem = false;
 
-                    episodesResult.Items = episodesResult.Items.filter(function (e) {
-                        if (foundItem) {
-                            return true;
-                        }
+                    if (!options.shuffle) {
+                        episodesResult.Items = episodesResult.Items.filter(function (e) {
+                            if (foundItem) {
+                                return true;
+                            }
 
-                        if (!e.UserData.Played && (isSeries || e.SeasonId === firstItem.Id)) {
-                            foundItem = true;
-                            return true;
-                        }
+                            if (!e.UserData.Played) {
+                                foundItem = true;
+                                return true;
+                            }
 
-                        return false;
-                    });
+                            return false;
+                        });
+                    }
 
                     if (episodesResult.Items.length === 0) {
-                        if (isSeries) {
-                            episodesResult.Items = originalResults;
-                        } else {
-                            episodesResult.Items = originalResults.filter(function (e) {
-                                if (foundItem) {
-                                    return true;
-                                }
-
-                                if (e.SeasonId === firstItem.Id) {
-                                    foundItem = true;
-                                    return true;
-                                }
-
-                                return false;
-                            });
-                        }
+                        episodesResult.Items = originalResults;
                     }
 
                     episodesResult.TotalRecordCount = episodesResult.Items.length;
@@ -2153,7 +2157,7 @@ class PlaybackManager {
         const getAdditionalParts = async (items) => {
             const getOneAdditionalPart = async function (item) {
                 let retVal = [item];
-                if (item.Type === 'Movie' || item.Type === 'Episode') {
+                if (item.PartCount && item.PartCount > 1 && (item.Type === 'Movie' || item.Type === 'Episode')) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
                     const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
@@ -2179,7 +2183,7 @@ class PlaybackManager {
 
             // If it's still null then there's nothing to play
             if (!firstItem) {
-                showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
+                showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                 return Promise.reject();
             }
 
@@ -2551,8 +2555,8 @@ class PlaybackManager {
                         onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
                         setTimeout(function () {
                             onPlaybackError.call(player, err, {
-                                type: 'mediadecodeerror',
-                                streamInfo: streamInfo
+                                type: getMediaError(err),
+                                streamInfo
                             });
                         }, 100);
                     });
@@ -2785,7 +2789,7 @@ class PlaybackManager {
                                 return mediaSource;
                             }
                         } else {
-                            showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
+                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                             return Promise.reject();
                         }
                     });
@@ -3194,22 +3198,32 @@ class PlaybackManager {
             }
         }
 
+        /**
+         * @param {object} streamInfo
+         * @param {MediaError} errorType
+         * @param {boolean} currentlyPreventsVideoStreamCopy
+         * @param {boolean} currentlyPreventsAudioStreamCopy
+         * @returns {boolean} Returns true if the stream should be retried by transcoding.
+         */
         function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
-            // mediadecodeerror, medianotsupported, network, servererror
             return streamInfo.mediaSource.SupportsTranscoding
                 && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
         }
 
+        /**
+         * Playback error handler.
+         * @param {Error} e
+         * @param {object} error
+         * @param {object} error.streamInfo
+         * @param {MediaError} error.type
+         */
         function onPlaybackError(e, error) {
             const player = this;
             error = error || {};
 
-            // network
-            // mediadecodeerror
-            // medianotsupported
             const errorType = error.type;
 
-            console.debug('playbackmanager playback error type: ' + (errorType || ''));
+            console.warn('[playbackmanager] onPlaybackError:', e, error);
 
             const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
@@ -3235,8 +3249,7 @@ class PlaybackManager {
 
             Events.trigger(self, 'playbackerror', [errorType]);
 
-            const displayErrorCode = 'NoCompatibleStream';
-            onPlaybackStopped.call(player, e, displayErrorCode);
+            onPlaybackStopped.call(player, e, `.${errorType}`);
         }
 
         function onPlaybackStopped(e, displayErrorCode) {
