@@ -692,6 +692,11 @@ class AppRouter {
 
                 return url;
             }
+            if (item.CollectionType == CollectionType.Books) {
+                let urlForList = '#/books.html?topParentId=' + item.Id;
+
+                return urlForList;
+            }
         }
 
         const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];

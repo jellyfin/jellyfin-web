@@ -68,6 +68,12 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'user/subtitles/index.html'
         }
     }, {
+        path: 'books.html',
+        pageProps: {
+            controller: 'books/booksmain',
+            view: 'books/books.html'
+        }
+    }, {
         path: 'tv.html',
         pageProps: {
             controller: 'shows/tvrecommended',
