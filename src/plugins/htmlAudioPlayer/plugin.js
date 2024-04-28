@@ -113,16 +113,16 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
-                if (userSettings.selectAudioNormalization() == 'TrackGain' && options.item.NormalizationGain != null) {
-                    self.gainNode.gain.value = Math.pow(10, (options.item.NormalizationGain / 20));
-                    console.debug('[HtmlAudioPlayer] Using track gain');
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain' && options.mediaSource.albumNormalizationGain != null) {
-                    self.gainNode.gain.value = Math.pow(10, (options.mediaSource.albumNormalizationGain / 20));
-                    console.debug('[HtmlAudioPlayer] Using album gain');
+                if (userSettings.selectAudioNormalization() == 'TrackGain'
+                    && (options.item.NormalizationGain != null || options.mediaSource.albumNormalizationGain != null)) {
+                    self.gainNode.gain.value = Math.pow(10, ((options.item.NormalizationGain ?? options.mediaSource.albumNormalizationGain) / 20));
+                } else if (userSettings.selectAudioNormalization() == 'AlbumGain'
+                    && (options.mediaSource.albumNormalizationGain != null || options.item.NormalizationGain != null)) {
+                    self.gainNode.gain.value = Math.pow(10, ((options.mediaSource.albumNormalizationGain ?? options.item.NormalizationGain) / 20));
                 } else {
                     self.gainNode.gain.value = 1;
                 }
-                console.debug('gain:' + self.gainNode.gain.value);
+                console.debug('gain: ' + self.gainNode.gain.value);
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
