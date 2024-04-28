@@ -1852,5 +1852,12 @@
     "EnableLibrary": "Kütüphaneyi etkinleştir",
     "EnableLibraryHelp": "Kütüphanenin devre dışı bırakılması kütüphaneyi tüm kullanıcı görünümlerinden gizleyecektir.",
     "LabelTrickplayAccelEncoding": "Donanım hızlandırmalı MJPEG kodlamayı etkinleştir",
-    "LabelTrickplayAccelEncodingHelp": "Şu anda yalnızca QSV ve VAAPI'de kullanılabilir. Bu seçeneğin diğer donanım hızlandırma yöntemleri üzerinde bir etkisi yoktur."
+    "LabelTrickplayAccelEncodingHelp": "Şu anda yalnızca QSV ve VAAPI'de kullanılabilir. Bu seçeneğin diğer donanım hızlandırma yöntemleri üzerinde bir etkisi yoktur.",
+    "HeaderDeleteLyrics": "Şarkı Sözlerini Sil",
+    "ViewLyrics": "Şarkı sözünü göster",
+    "ConfirmDeleteLyrics": "Bu şarkı sözlerini silmek, onları hem dosya sisteminden hem de medya kütüphanenizden silecektir. Devam etmek istediğinizden emin misiniz?",
+    "ErrorDeletingLyrics": "Şarkı sözlerini sunucudan silerken bir hata oluştu. Lütfen Jellyfin'in medya klasörüne yazma erişimi olup olmadığını kontrol edin ve tekrar deneyin.",
+    "DeleteLyrics": "Şarkı sözünü sil",
+    "HeaderNoLyrics": "Şarkı sözü bulunamadı",
+    "Lyrics": "Şarkı sözü"
 }
