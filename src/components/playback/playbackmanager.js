@@ -2782,7 +2782,7 @@ class PlaybackManager {
                             } else {
                                 if (item.AlbumId != null) {
                                     return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
-                                        mediaSource.albumLUFS = result.LUFS;
+                                        mediaSource.albumNormalizationGain = result.NormalizationGain;
                                         return mediaSource;
                                     });
                                 }
