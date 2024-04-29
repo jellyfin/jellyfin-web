@@ -165,7 +165,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                         <ButtonElement
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title='SavePassword'
                         />
                         <ButtonElement
                             type='button'
