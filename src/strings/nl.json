@@ -1866,5 +1866,6 @@
     "ConfirmDeleteLyrics": "Dit zal deze liedtekst verwijderen van zowel het bestandssysteem als uit je mediabibliotheek. Weet je zeker dat je wilt doorgaan?",
     "DeleteLyrics": "Liedtekst verwijderen",
     "HeaderNoLyrics": "Geen liedtekst gevonden",
-    "Lyrics": "Liedtekst"
+    "Lyrics": "Liedtekst",
+    "SavePassword": "Wachtwoord opslaan"
 }
