@@ -1839,5 +1839,19 @@
     "EnableVideoToolboxTonemapping": "Habilitar mapeamento de tons do VideoToolbox",
     "PriorityBelowNormal": "Abaixo do normal",
     "PriorityIdle": "Ocioso",
-    "LabelProcessPriority": "Prioridade do Processo"
+    "LabelProcessPriority": "Prioridade do Processo",
+    "LabelImageIntervalHelp": "Intervalo de tempo (ms) entre cada nova imagem do trickplay.",
+    "LabelWidthResolutionsHelp": "Lista separada por vírgula das larguras (px) em que as imagens do trickplay serão geradas. Todas as imagens devem ser geradas proporcionalmente à fonte, de modo que uma largura de 320 em um vídeo de 16:9 resulta em cerca de 320x180.",
+    "OptionExtractTrickplayImage": "Ativar extração de imagens trickplay",
+    "ExtractTrickplayImagesHelp": "Imagens de Trickplay são semelhantes às imagens de capítulo, exceto que abrangem todo o comprimento do conteúdo e são usadas para mostrar uma prévia ao navegar pelos vídeos.",
+    "LabelExtractTrickplayDuringLibraryScan": "Extrair imagens trickplay durante o escaneamento da biblioteca",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Gerar imagens de trickplay quando os vídeos são importados durante o escaneamento da biblioteca. Caso contrário, elas serão extraídas durante a tarefa agendada de imagens trickplay. Se a geração estiver configurada como não-bloqueadora, isso não afetará o tempo que a varredura da biblioteca leva para ser concluída.",
+    "LabelWidthResolutions": "Resolução de largura",
+    "NonBlockingScan": "Não Bloqueadora - enfileira a geração e depois retorna",
+    "BlockingScan": "Bloqueadora - enfileira a geração e bloqueia escaneamento até a conclusão",
+    "LabelImageInterval": "Intervalo de imagens",
+    "LabelJpegQuality": "Qualidade JPEG",
+    "LabelJpegQualityHelp": "A qualidade de compressão JPEG para imagens trickplay.",
+    "LabelQscaleHelp": "A escala de qualidade das imagens produzidas pelo ffmpeg, sendo 2 a qualidade mais alta e 31 a mais baixa.",
+    "LabelProcessPriorityHelp": "A configuração desse valor mais baixo ou mais alto determinará como a CPU prioriza o processo de geração de trickplay do ffmpeg em relação a outros processos. Se você notar lentidão durante a geração de imagens do trickplay, mas não quiser interromper totalmente a geração, tente diminuir esse valor, bem como a contagem de threads."
 }
