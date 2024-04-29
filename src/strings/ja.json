@@ -1783,5 +1783,6 @@
     "LabelWebVersion": "ウェブバージョン",
     "LabelTrackGain": "トラックゲイン",
     "ForeignPartsOnly": "強制/外国語パートのみ",
-    "HeaderGuestCast": "ゲストスター"
+    "HeaderGuestCast": "ゲストスター",
+    "AirPlay": "AirPlay"
 }
