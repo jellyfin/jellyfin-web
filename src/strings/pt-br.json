@@ -1825,5 +1825,19 @@
     "PlaybackError.NETWORK_ERROR": "A reprodução falhou devido a um erro de rede.",
     "PlaybackError.NO_MEDIA_ERROR": "Não foi possível encontrar uma fonte de mídia válida para reproduzir.",
     "PlaybackError.SERVER_ERROR": "A reprodução falhou devido a um erro no servidor.",
-    "ViewLyrics": "Ver letras"
+    "ViewLyrics": "Ver letras",
+    "LabelEncodingFormatOptions": "Opções de formato de codificação",
+    "EncodingFormatHelp": "Selecione a codificação de vídeo para a qual o Jellyfin deve transcodificar. O Jellyfin usará codificação por software quando a aceleração de hardware para o formato selecionado não estiver disponível. A codificação H264 sempre estará ativada.",
+    "AllowVideoToolboxTonemappingHelp": "Mapeamento de tons acelerado por hardware fornecido pelo VideoToolbox. Ele funciona com a maioria dos formatos HDR, incluindo HDR10, HDR10+ e HLG, mas não funciona com o Dolby Vision Profile 5. Isso tem uma prioridade mais alta em comparação com outra implementação do Metal.",
+    "PriorityHigh": "Alta",
+    "LabelTrickplayAccelEncoding": "Ativar codificação MJPEG acelerada por hardware",
+    "LabelTrickplayAccel": "Ativar decodificação por hardware",
+    "LabelTrickplayAccelEncodingHelp": "Atualmente disponível apenas no QSV e VAAPI, essa opção não tem efeito sobre outros métodos de aceleração por hardware.",
+    "LabelScanBehavior": "Comportamento do Escaneamento",
+    "PriorityAboveNormal": "Acima do normal",
+    "PriorityNormal": "Normal",
+    "EnableVideoToolboxTonemapping": "Habilitar mapeamento de tons do VideoToolbox",
+    "PriorityBelowNormal": "Abaixo do normal",
+    "PriorityIdle": "Ocioso",
+    "LabelProcessPriority": "Prioridade do Processo"
 }
