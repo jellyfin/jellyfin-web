@@ -531,44 +531,9 @@ class BooksView {
         }
 
         function getTitle(item) {
-            if (params.type === 'Recordings') {
-                return globalize.translate('Recordings');
-            }
-
-            if (params.type === 'Programs') {
-                if (params.IsMovie === 'true') {
-                    return globalize.translate('Movies');
-                }
-
-                if (params.IsSports === 'true') {
-                    return globalize.translate('Sports');
-                }
-
-                if (params.IsKids === 'true') {
-                    return globalize.translate('HeaderForKids');
-                }
-
-                if (params.IsAiring === 'true') {
-                    return globalize.translate('HeaderOnNow');
-                }
-
-                if (params.IsSeries === 'true') {
-                    return globalize.translate('Shows');
-                }
-
-                if (params.IsNews === 'true') {
-                    return globalize.translate('News');
-                }
-
-                return globalize.translate('Programs');
-            }
 
             if (params.type === 'nextup') {
                 return globalize.translate('NextUp');
-            }
-
-            if (params.type === 'favoritemovies') {
-                return globalize.translate('FavoriteMovies');
             }
 
             if (item) {
@@ -622,6 +587,7 @@ class BooksView {
                     autoplay: true
                 });
             } else {
+                // This is the call we can use for resume playback
                 getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
                     playbackManager.play({
                         items: result.Items,

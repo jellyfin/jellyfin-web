@@ -685,6 +685,7 @@ class PlaybackManager {
     constructor() {
         const self = this;
 
+        // The list of players
         const players = [];
         let currentTargetInfo;
         let currentPairingId = null;
@@ -835,6 +836,7 @@ class PlaybackManager {
                 return ServerConnections.currentApiClient().getCurrentUser().then(function (user) {
                     const targets = [];
 
+                    // Is this relevant?
                     targets.push({
                         name: globalize.translate('HeaderMyDevice'),
                         id: 'localplayer',
@@ -1977,9 +1979,12 @@ class PlaybackManager {
         self.translateItemsForPlayback = translateItemsForPlayback;
         self.getItemsForPlayback = getItemsForPlayback;
 
+        // This is the exposed function called to manage item media playback
         self.play = function (options) {
             normalizePlayOptions(options);
+            console.debug('playing');
 
+            // I think this class *is* the "localpalyer", others are plugins or chromecast
             if (self._currentPlayer) {
                 if (options.enableRemotePlayers === false && !self._currentPlayer.isLocalPlayer) {
                     return Promise.reject();
@@ -1990,11 +1995,13 @@ class PlaybackManager {
                 }
             }
 
+            console.debug('using "localplayer" (*wink*)');
             if (options.fullscreen) {
                 loading.show();
             }
 
             if (options.items) {
+                console.debug('playing from options.items');
                 return translateItemsForPlayback(options.items, options)
                     .then((items) => getAdditionalParts(items))
                     .then(function (allItems) {
@@ -2002,6 +2009,7 @@ class PlaybackManager {
                         return playWithIntros(flattened, options);
                     });
             } else {
+                console.debug('calling getItemsForPlayback');
                 if (!options.serverId) {
                     throw new Error('serverId required!');
                 }
@@ -3420,6 +3428,7 @@ class PlaybackManager {
             };
         }
 
+        // Add a player to the list of players and associate callbacks
         function initMediaPlayer(player) {
             players.push(player);
             players.sort(function (a, b) {
