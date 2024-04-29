@@ -73,13 +73,15 @@ function createPlaylist(dlg: DialogElement) {
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const api = toApi(apiClient);
 
-    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
+    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || undefined;
 
     return getPlaylistsApi(api)
         .createPlaylist({
-            name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
-            ids: itemIds.split(','),
-            userId: apiClient.getCurrentUserId()
+            createPlaylistDto: {
+                Name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
+                Ids: itemIds?.split(','),
+                UserId: apiClient.getCurrentUserId()
+            }
         })
         .then(result => {
             dlg.submitted = true;
