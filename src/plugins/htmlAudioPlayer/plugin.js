@@ -113,12 +113,19 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
-                if (userSettings.selectAudioNormalization() == 'TrackGain'
-                    && (options.item.NormalizationGain != null || options.mediaSource.albumNormalizationGain != null)) {
-                    self.gainNode.gain.value = Math.pow(10, ((options.item.NormalizationGain ?? options.mediaSource.albumNormalizationGain) / 20));
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain'
-                    && (options.mediaSource.albumNormalizationGain != null || options.item.NormalizationGain != null)) {
-                    self.gainNode.gain.value = Math.pow(10, ((options.mediaSource.albumNormalizationGain ?? options.item.NormalizationGain) / 20));
+                let normalizationGain;
+                if (userSettings.selectAudioNormalization() == 'TrackGain') {
+                    normalizationGain =
+                        options.item.NormalizationGain ??
+                        options.mediaSource.albumNormalizationGain;
+                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
+                    normalizationGain =
+                        options.item.albumNormalizationGain ??
+                        options.mediaSource.NormalizationGain;
+                }
+
+                if (normalizationGain) {
+                    self.gainNode.gain.value = Math.pow(10, normalizationGain / 20);
                 } else {
                     self.gainNode.gain.value = 1;
                 }
