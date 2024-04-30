@@ -120,8 +120,8 @@ class HtmlAudioPlayer {
                         options.mediaSource.albumNormalizationGain;
                 } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
                     normalizationGain =
-                        options.item.albumNormalizationGain ??
-                        options.mediaSource.NormalizationGain;
+                        options.mediaSource.albumNormalizationGain ??
+                        options.item.NormalizationGain;
                 }
 
                 if (normalizationGain) {
