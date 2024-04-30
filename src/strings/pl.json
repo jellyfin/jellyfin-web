@@ -1867,5 +1867,6 @@
     "ErrorDeletingLyrics": "Wystąpił błąd podczas usuwania słów z serwera. Sprawdź, czy Jellyfin ma uprawnienia do zapisu w folderze multimediów i spróbuj ponownie.",
     "HeaderDeleteLyrics": "Usuń słowa",
     "Lyrics": "Słowa",
-    "ViewLyrics": "Zobacz słowa"
+    "ViewLyrics": "Zobacz słowa",
+    "SavePassword": "Zapisz hasło"
 }
