@@ -42,6 +42,7 @@ function getDeviceProfile(item) {
         }
 
         const maxVideoWidth = appSettings.maxVideoWidth();
+        const preferredTranscodeAudio = appSettings.selectPreferredTranscodeAudio();
         const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
@@ -66,6 +67,20 @@ function getDeviceProfile(item) {
                     });
 
                     transcodingProfile.Conditions.push(conditionWidth);
+                }
+            });
+        }
+
+        if (preferredTranscodeAudio !== 'auto') {
+            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                if (transcodingProfile.Type === 'Video') {
+                    const audioCodecs = transcodingProfile.AudioCodec.split(',');
+                    const index = audioCodecs.indexOf(preferredTranscodeAudio);
+                    if (index !== -1) {
+                        audioCodecs.splice(index, 1);
+                        audioCodecs.unshift(preferredTranscodeAudio);
+                        transcodingProfile.AudioCodec = audioCodecs.join(',');
+                    }
                 }
             });
         }

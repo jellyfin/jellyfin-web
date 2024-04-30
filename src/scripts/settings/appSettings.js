@@ -132,6 +132,13 @@ class AppSettings {
         return toBoolean(this.get('limitSupportedVideoResolution'), false);
     }
 
+    selectPreferredTranscodeAudio(val) {
+        if (val !== undefined) {
+            return this.set('selectPreferredTranscodeAudio', val);
+        }
+        return this.get('selectPreferredTranscodeAudio') || 'auto';
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         localStorage.setItem(this.#getKey(name, userId), value);

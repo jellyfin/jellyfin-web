@@ -157,6 +157,17 @@
         <div class="selectContainer">
             <select is="emby-select" class="selectSkipBackLength" label="${LabelSkipBackLength}"></select>
         </div>
+        <div class="selectContainer">
+            <select is="emby-select" id="selectPreferredTranscodeAudio" label="${LabelSelectPreferredTranscodeAudio}">
+                <option value="auto">${Auto}</option>
+                <option value="aac">AAC</option>
+                <option value="ac3">AC3</option>
+                <option value="dts">DTS</option>
+                <option value="eac3">EAC3</option>
+                <option value="flac">FLAC</option>
+                <option value="opus">Opus</option>
+            </select>
+        </div>
     </div>
 
     <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
