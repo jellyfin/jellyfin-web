@@ -113,13 +113,11 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
-                if (userSettings.selectAudioNormalization() == 'TrackGain' && options.item.LUFS != null) {
-                    const dbGain = -18 - options.item.LUFS;
-                    self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
+                if (userSettings.selectAudioNormalization() == 'TrackGain' && options.item.NormalizationGain != null) {
+                    self.gainNode.gain.value = Math.pow(10, (options.item.NormalizationGain / 20));
                     console.debug('[HtmlAudioPlayer] Using track gain');
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain' && options.mediaSource.albumLUFS != null) {
-                    const dbGain = -18 - options.mediaSource.albumLUFS;
-                    self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
+                } else if (userSettings.selectAudioNormalization() == 'AlbumGain' && options.mediaSource.albumNormalizationGain != null) {
+                    self.gainNode.gain.value = Math.pow(10, (options.mediaSource.albumNormalizationGain / 20));
                     console.debug('[HtmlAudioPlayer] Using album gain');
                 } else {
                     self.gainNode.gain.value = 1;
