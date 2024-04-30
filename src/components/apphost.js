@@ -71,7 +71,7 @@ function getDeviceProfile(item) {
             });
         }
 
-        if (preferredTranscodeAudio !== 'auto') {
+        if (preferredTranscodeAudio !== '') {
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
                 if (transcodingProfile.Type === 'Video') {
                     const audioCodecs = transcodingProfile.AudioCodec.split(',');

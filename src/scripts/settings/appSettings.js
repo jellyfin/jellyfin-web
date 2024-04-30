@@ -141,7 +141,7 @@ class AppSettings {
         if (val !== undefined) {
             return this.set('preferredTranscodeAudio', val);
         }
-        return this.get('preferredTranscodeAudio') || 'auto';
+        return this.get('preferredTranscodeAudio') || '';
     }
 
     set(name, value, userId) {
