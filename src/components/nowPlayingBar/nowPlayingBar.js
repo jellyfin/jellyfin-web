@@ -628,7 +628,7 @@ function onPlaybackStart(e, state) {
     console.debug('nowplaying event: ' + e.type);
     const player = this;
 
-    isAudio = state.NowPlayingItem.Type === 'Audio';
+    isAudio = state.NowPlayingItem?.Type === 'Audio';
 
     onStateChanged.call(player, e, state);
 }
