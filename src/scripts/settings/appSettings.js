@@ -132,6 +132,11 @@ class AppSettings {
         return toBoolean(this.get('limitSupportedVideoResolution'), false);
     }
 
+    /**
+     * Get or set 'Preferred Transcode Audio' state.
+     * @param {string|undefined} val - Flag to set 'Preferred Transcode Audio' or undefined.
+     * @return {string} 'Preferred Transcode Audio' state.
+     */
     selectPreferredTranscodeAudio(val) {
         if (val !== undefined) {
             return this.set('selectPreferredTranscodeAudio', val);
