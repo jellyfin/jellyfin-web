@@ -121,6 +121,15 @@ function supportsAc3InHls(videoTestElement) {
     return false;
 }
 
+function supportsMp3InHls(videoTestElement) {
+    if (videoTestElement.canPlayType) {
+        return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '')
+                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '');
+    }
+
+    return false;
+}
+
 function canPlayAudioFormat(format) {
     let typeString;
 
@@ -460,6 +469,7 @@ export default function (options) {
     }
 
     const canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+    const canPlayMp3VideoAudioInHls = supportsMp3InHls(videoTestElement);
     const canPlayAc3VideoAudio = supportsAc3(videoTestElement);
     const canPlayEac3VideoAudio = supportsEac3(videoTestElement);
     const canPlayAc3VideoAudioInHls = supportsAc3InHls(videoTestElement);
@@ -474,12 +484,15 @@ export default function (options) {
 
     if (supportsMp3VideoAudio) {
         videoAudioCodecs.push('mp3');
+    }
 
-        // PS4 fails to load HLS with mp3 audio
-        if (!browser.ps4) {
-            hlsInTsVideoAudioCodecs.push('mp3');
-        }
+    // Safari supports mp3 with HLS, but only in mpegts container, and the supportsMp3VideoAudio will return false.
+    if (browser.safari || (supportsMp3VideoAudio && !browser.ps4)) {
+        hlsInTsVideoAudioCodecs.push('mp3');
+    }
 
+    // Most browsers won't support mp3 with HLS, so this is usually false, but just in case.
+    if (canPlayMp3VideoAudioInHls) {
         hlsInFmp4VideoAudioCodecs.push('mp3');
     }
 
