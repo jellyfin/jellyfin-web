@@ -123,8 +123,8 @@ function supportsAc3InHls(videoTestElement) {
 
 function supportsMp3InHls(videoTestElement) {
     if (videoTestElement.canPlayType) {
-        return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, mp4a.40.34"').replace(/no/, '')
-                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, mp4a.40.34"').replace(/no/, '');
+        return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '')
+                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '');
     }
 
     return false;
@@ -486,9 +486,8 @@ export default function (options) {
         videoAudioCodecs.push('mp3');
     }
 
-    // Safari is the only browser that supports mp3 with HLS, but only in mpegts container.
-    // The detect function will return false on Safari, which reflects the fmp4 support, so we have to hard-code it here.
-    if (browser.safari || canPlayMp3VideoAudioInHls || options.supportsMp3InTs) {
+    // Safari supports mp3 with HLS, but only in mpegts container, and the supportsMp3VideoAudio will return false.
+    if (browser.safari || supportsMp3VideoAudio) {
         hlsInTsVideoAudioCodecs.push('mp3');
     }
 
