@@ -487,7 +487,7 @@ export default function (options) {
     }
 
     // Safari supports mp3 with HLS, but only in mpegts container, and the supportsMp3VideoAudio will return false.
-    if (!browser.ps4 && (browser.safari || supportsMp3VideoAudio)) {
+    if (browser.safari || (supportsMp3VideoAudio && !browser.ps4)) {
         hlsInTsVideoAudioCodecs.push('mp3');
     }
 
