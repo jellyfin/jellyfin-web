@@ -137,11 +137,11 @@ class AppSettings {
      * @param {string|undefined} val - Flag to set 'Preferred Transcode Audio' or undefined.
      * @return {string} 'Preferred Transcode Audio' state.
      */
-    selectPreferredTranscodeAudio(val) {
+    preferredTranscodeAudio(val) {
         if (val !== undefined) {
-            return this.set('selectPreferredTranscodeAudio', val);
+            return this.set('preferredTranscodeAudio', val);
         }
-        return this.get('selectPreferredTranscodeAudio') || 'auto';
+        return this.get('preferredTranscodeAudio') || 'auto';
     }
 
     set(name, value, userId) {

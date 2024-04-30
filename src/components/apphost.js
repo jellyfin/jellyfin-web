@@ -42,7 +42,7 @@ function getDeviceProfile(item) {
         }
 
         const maxVideoWidth = appSettings.maxVideoWidth();
-        const preferredTranscodeAudio = appSettings.selectPreferredTranscodeAudio();
+        const preferredTranscodeAudio = appSettings.preferredTranscodeAudio();
         const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
