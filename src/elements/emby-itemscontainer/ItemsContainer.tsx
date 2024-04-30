@@ -253,7 +253,7 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
     );
 
     const onPlaybackStopped = useCallback(
-        (_e: Event, apiClient, stopInfo) => {
+        (_e: Event, stopInfo) => {
             const state = stopInfo.state;
 
             if (
