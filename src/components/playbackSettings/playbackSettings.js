@@ -180,7 +180,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
-    context.querySelector('#selectPreferredTranscodeAudio').value = appSettings.preferredTranscodeAudio();
+    context.querySelector('#selectPreferredTranscodeAudioCodec').value = appSettings.preferredTranscodeAudioCodec();
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -216,7 +216,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
     appSettings.maxVideoWidth(context.querySelector('.selectMaxVideoWidth').value);
     appSettings.limitSupportedVideoResolution(context.querySelector('.chkLimitSupportedVideoResolution').checked);
-    appSettings.preferredTranscodeAudio(context.querySelector('#selectPreferredTranscodeAudio').value);
+    appSettings.preferredTranscodeAudioCodec(context.querySelector('#selectPreferredTranscodeAudioCodec').value);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');

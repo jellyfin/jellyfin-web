@@ -133,15 +133,15 @@ class AppSettings {
     }
 
     /**
-     * Get or set 'Preferred Transcode Audio' state.
-     * @param {string|undefined} val - Flag to set 'Preferred Transcode Audio' or undefined.
-     * @return {string} 'Preferred Transcode Audio' state.
+     * Get or set preferred transcode audio codec.
+     * @param {string|undefined} val - Preferred transcode audio codec or undefined.
+     * @return {string} Preferred transcode audio codec.
      */
-    preferredTranscodeAudio(val) {
+    preferredTranscodeAudioCodec(val) {
         if (val !== undefined) {
-            return this.set('preferredTranscodeAudio', val);
+            return this.set('preferredTranscodeAudioCodec', val);
         }
-        return this.get('preferredTranscodeAudio') || '';
+        return this.get('preferredTranscodeAudioCodec') || '';
     }
 
     set(name, value, userId) {
