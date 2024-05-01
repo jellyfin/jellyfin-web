@@ -2279,35 +2279,42 @@ class PlaybackManager {
                 playOptions.isFirstItem = true;
             }
 
-            return runInterceptors(item, playOptions).then(function () {
-                if (playOptions.fullscreen) {
-                    loading.show();
-                }
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-                // TODO: This should be the media type requested, not the original media type
-                const mediaType = item.MediaType;
+            // TODO: This should be the media type requested, not the original media type
+            const mediaType = item.MediaType;
 
-                const onBitrateDetectionFailure = function () {
-                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn, prevSource);
-                };
-
-                if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
-                    return onBitrateDetectionFailure();
-                }
-
-                const apiClient = ServerConnections.getApiClient(item.ServerId);
-                apiClient.getEndpointInfo().then(function (endpointInfo) {
-                    if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                        return apiClient.detectBitrate().then(function (bitrate) {
-                            appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-
-                            return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
-                        }, onBitrateDetectionFailure);
-                    } else {
-                        onBitrateDetectionFailure();
+            return runInterceptors(item, playOptions)
+                .then(() => {
+                    if (playOptions.fullscreen) {
+                        loading.show();
                     }
-                }, onBitrateDetectionFailure);
-            }, onInterceptorRejection);
+
+                    if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
+                        return Promise.reject('skip bitrate detection');
+                    }
+
+                    return apiClient.getEndpointInfo().then((endpointInfo) => {
+                        if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
+                            return apiClient.detectBitrate().then((bitrate) => {
+                                appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+                                return bitrate;
+                            });
+                        }
+
+                        return Promise.reject('skip bitrate detection');
+                    });
+                })
+                .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType))
+                .then((bitrate) => {
+                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
+                })
+                .catch(onInterceptorRejection)
+                .finally(() => {
+                    if (playOptions.fullscreen) {
+                        loading.hide();
+                    }
+                });
         }
 
         function cancelPlayback() {
@@ -2321,8 +2328,21 @@ class PlaybackManager {
             Events.trigger(self, 'playbackcancelled');
         }
 
-        function onInterceptorRejection() {
+        function onInterceptorRejection(e) {
             cancelPlayback();
+
+            let displayErrorCode = 'ErrorDefault';
+
+            if (e instanceof Response) {
+                if (e.status >= 500) {
+                    displayErrorCode = `PlaybackError.${MediaError.SERVER_ERROR}`;
+                } else if (e.status >= 400) {
+                    displayErrorCode = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
+                }
+            }
+
+            showPlaybackInfoErrorMessage(self, displayErrorCode);
+
             return Promise.reject();
         }
 
