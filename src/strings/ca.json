@@ -1863,5 +1863,6 @@
     "DeleteLyrics": "Esborrar lletres",
     "HeaderNoLyrics": "No s'ha trobat cap lletra",
     "Lyrics": "Lletres",
-    "ViewLyrics": "Veure lletres"
+    "ViewLyrics": "Veure lletres",
+    "SavePassword": "Desar contrasenya"
 }
