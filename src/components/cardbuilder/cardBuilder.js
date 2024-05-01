@@ -1285,8 +1285,7 @@ function updateUserData(card, userData) {
 
         if (!playedIndicator) {
             playedIndicator = document.createElement('div');
-            playedIndicator.classList.add('playedIndicator');
-            playedIndicator.classList.add('indicator');
+            playedIndicator.classList.add('playedIndicator', 'indicator');
             indicatorsElem = ensureIndicators(card, indicatorsElem);
             indicatorsElem.appendChild(playedIndicator);
         }
@@ -1302,7 +1301,7 @@ function updateUserData(card, userData) {
 
         if (!countIndicator) {
             countIndicator = document.createElement('div');
-            countIndicator.classList.add('countIndicator');
+            countIndicator.classList.add('countIndicator', 'indicator');
             indicatorsElem = ensureIndicators(card, indicatorsElem);
             indicatorsElem.appendChild(countIndicator);
         }
