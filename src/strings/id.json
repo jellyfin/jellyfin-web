@@ -915,11 +915,11 @@
     "MinutesAfter": "Menit Setelah",
     "MetadataManager": "Manajer Metadata",
     "Metadata": "Metadata",
-    "MessageSyncPlayErrorMedia": "Gagal Mengaktifkan SyncPlay! Media Error cok.",
+    "MessageSyncPlayErrorMedia": "Gagal Mengaktifkan SyncPlay! Media Error.",
     "MessageSyncPlayErrorMissingSession": "SyncPlay gagal! Sesi Hilang njir...",
     "MessageSyncPlayErrorNoActivePlayer": "SyncPlay dimatikan. Tidak ada pemutar aktif.",
     "MessageSyncPlayErrorAccessingGroups": "Muncul Error ketika mengakses list grup.",
-    "MessageSyncPlayLibraryAccessDenied": "Akses konten ini Dibatasi cok.",
+    "MessageSyncPlayLibraryAccessDenied": "Akses konten ini Dibatasi.",
     "MessageSyncPlayJoinGroupDenied": "Tidak dapat bergabung dengan grup.",
     "MessageSyncPlayCreateGroupDenied": "ijin diperlukan untuk membuat grup.",
     "MessageSyncPlayGroupDoesNotExist": "Gagal bergabung dengan grup karena tidak ada njing!.",
@@ -1681,5 +1681,7 @@
     "AllowCollectionManagement": "Izinkan pengguna ini untuk mengatur koleksi",
     "AllowSegmentDeletion": "Hapus segmen",
     "LabelThrottleDelaySeconds": "Batasi setelah",
-    "LabelSegmentKeepSeconds": ""
+    "LabelSegmentKeepSeconds": "Waktu untuk menetapkan segmen",
+    "AllowSubtitleManagement": "Izinkan user untuk mengubah tarakir",
+    "AllowSegmentDeletionHelp": "Hapus bagian lama setelah terunduh oleh pengguna. Fitur ini akan mencegah penyimpanan file teralihsandikan ke dalam penyimpanan. Matikan fitur ini jika terjadi masalah dalam pemutaran."
 }
