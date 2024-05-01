@@ -91,7 +91,7 @@ async function loadThemeMedia(serverId, itemId) {
             return;
         }
 
-        if (excludeTypes.indexOf(item.Type) !== -1) {
+        if (excludeTypes.includes(item.Type)) {
             stopIfPlaying();
             return;
         }
@@ -110,8 +110,8 @@ async function loadThemeMedia(serverId, itemId) {
 }
 
 document.addEventListener('viewshow', e => {
-    if (e.detail?.params?.id && e.detail?.params?.serverId) {
-        const { serverId, id } = e.detail.params;
+    const { serverId, id } = e.detail?.params || {};
+    if (serverId && id) {
         void loadThemeMedia(serverId, id);
         return;
     }

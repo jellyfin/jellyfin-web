@@ -33,9 +33,8 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
 }
 
 document.addEventListener('viewshow', e => {
-    if (e.detail?.params?.id && e.detail?.params?.serverId) {
-        const { serverId, id } = e.detail.params;
-
+    const { serverId, id } = e.detail?.params || {};
+    if (serverId && id) {
         void mirrorIfEnabled(serverId, id);
     }
 });
