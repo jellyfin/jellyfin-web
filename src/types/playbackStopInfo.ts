@@ -26,7 +26,7 @@ export interface MediaSource extends MediaSourceInfo {
     enableDirectPlay?: boolean;
     DefaultSecondarySubtitleStreamIndex?: number | null;
     StreamUrl?: string | null;
-    albumLUFS?: number | null;
+    albumNormalizationGain?: number | null;
 }
 
 export interface PlayerState {
