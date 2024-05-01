@@ -28,36 +28,6 @@ import { LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import { Section, SectionApiMethod, SectionType } from 'types/sections';
 
-const fetchGetItem = async (
-    currentApi: JellyfinApiContext,
-    parentId: ParentId,
-    options?: AxiosRequestConfig
-) => {
-    const { api, user } = currentApi;
-    if (api && user?.Id && parentId) {
-        const response = await getUserLibraryApi(api).getItem(
-            {
-                userId: user.Id,
-                itemId: parentId
-            },
-            {
-                signal: options?.signal
-            }
-        );
-        return response.data;
-    }
-};
-
-export const useGetItem = (parentId: ParentId) => {
-    const currentApi = useApi();
-    const isLivetv = parentId === 'livetv';
-    return useQuery({
-        queryKey: ['Item', parentId],
-        queryFn: ({ signal }) => fetchGetItem(currentApi, parentId, { signal }),
-        enabled: !!parentId && !isLivetv
-    });
-};
-
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
     parametersOptions: ItemsApiGetItemsRequest,
