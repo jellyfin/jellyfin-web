@@ -1858,7 +1858,7 @@ class PlaybackManager {
                     }, queryOptions));
                 case 'Series':
                 case 'Season':
-                    return getSeriesOrSeasonPlaybackPromise(firstItem, options);
+                    return getSeriesOrSeasonPlaybackPromise(firstItem, options, items);
                 case 'Episode':
                     return getEpisodePlaybackPromise(firstItem, options, items);
             }
@@ -1922,41 +1922,44 @@ class PlaybackManager {
             return null;
         }
 
-        async function getSeriesOrSeasonPlaybackPromise(firstItem, options) {
+        async function getSeriesOrSeasonPlaybackPromise(firstItem, options, items) {
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
-            const isSeason = firstItem.Type === 'Season';
+            const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
             const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
-                SeasonId: isSeason ? firstItem.Id : undefined,
+                SeasonId: (startSeasonId && items.length === 1) ? startSeasonId : undefined,
                 SortBy: options.shuffle ? 'Random' : undefined,
                 UserId: apiClient.getCurrentUserId(),
                 Fields: ['Chapters', 'Trickplay']
             });
 
-            const originalResults = episodesResult.Items;
-
-            let foundItem = false;
-
-            if (!options.shuffle) {
-                episodesResult.Items = episodesResult.Items.filter(function (e) {
-                    if (foundItem) {
-                        return true;
+            if (options.shuffle) {
+                episodesResult.StartIndex = 0;
+            } else {
+                episodesResult.StartIndex = undefined;
+                let seasonStartIndex;
+                for (const [index, e] of episodesResult.Items.entries()) {
+                    if (startSeasonId) {
+                        if (e.SeasonId == startSeasonId) {
+                            if (seasonStartIndex === undefined) {
+                                seasonStartIndex = index;
+                            }
+                        } else {
+                            continue;
+                        }
                     }
-
                     if (!e.UserData.Played) {
-                        foundItem = true;
-                        return true;
+                        episodesResult.StartIndex = index;
+                        break;
                     }
-
-                    return false;
-                });
+                }
+                episodesResult.StartIndex = episodesResult.StartIndex || seasonStartIndex || 0;
             }
 
-            if (episodesResult.Items.length === 0) {
-                episodesResult.Items = originalResults;
-            }
+            // TODO: fix calling code to read episodesResult.StartIndex instead when set.
+            options.startIndex = episodesResult.StartIndex;
 
             episodesResult.TotalRecordCount = episodesResult.Items.length;
 
@@ -1965,13 +1968,13 @@ class PlaybackManager {
 
         function getEpisodePlaybackPromise(firstItem, options, items) {
             if (items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
-                return getEpisodes(firstItem);
+                return getEpisodes(firstItem, options);
             } else {
                 return null;
             }
         }
 
-        function getEpisodes(firstItem) {
+        function getEpisodes(firstItem, options) {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
@@ -1986,24 +1989,21 @@ class PlaybackManager {
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
-                    resolve(filterEpisodes(episodesResult, firstItem));
+                    resolve(filterEpisodes(episodesResult, firstItem, options));
                 }, reject);
             });
         }
 
-        function filterEpisodes(episodesResult, firstItem) {
-            let foundItem = false;
-            episodesResult.Items = episodesResult.Items.filter(function (e) {
-                if (foundItem) {
-                    return true;
-                }
+        function filterEpisodes(episodesResult, firstItem, options) {
+            for (const [index, e] of episodesResult.Items.entries()) {
                 if (e.Id === firstItem.Id) {
-                    foundItem = true;
-                    return true;
+                    episodesResult.StartIndex = index;
+                    break;
                 }
+            }
 
-                return false;
-            });
+            // TODO: fix calling code to read episodesResult.StartIndex instead when set.
+            options.startIndex = episodesResult.StartIndex;
             episodesResult.TotalRecordCount = episodesResult.Items.length;
             return episodesResult;
         }

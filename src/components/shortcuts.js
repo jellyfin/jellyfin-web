@@ -116,7 +116,7 @@ function showContextMenu(card, options) {
                     item: item,
                     play: true,
                     queue: true,
-                    playAllFromHere: !item.IsFolder,
+                    playAllFromHere: item.Type === 'Season' || !item.IsFolder,
                     queueAllFromHere: !item.IsFolder,
                     playlistId: playlistId,
                     collectionId: collectionId,
