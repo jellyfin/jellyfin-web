@@ -213,6 +213,39 @@ function renderSubtitleFetchers(page, availableOptions, libraryOptions) {
     elem.innerHTML = html;
 }
 
+function renderLyricFetchers(page, availableOptions, libraryOptions) {
+    let html = '';
+    const elem = page.querySelector('.lyricFetchers');
+
+    const plugins = availableOptions.LyricFetchers;
+    if (!plugins.length) return html;
+
+    html += `<h3 class="checkboxListLabel">${globalize.translate('LabelLyricDownloaders')}</h3>`;
+    html += '<div class="checkboxList paperList checkboxList-paperList">';
+    console.log(libraryOptions);
+    for (let i = 0; i < plugins.length; i++) {
+        const plugin = plugins[i];
+        html += `<div class="listItem lyricFetcherItem sortableOption" data-pluginname="${escapeHtml(plugin.Name)}">`;
+        const isChecked = libraryOptions.DisabledLyricFetchers ? !libraryOptions.DisabledLyricFetchers.includes(plugin.Name) : plugin.DefaultEnabled;
+        const checkedHtml = isChecked ? ' checked="checked"' : '';
+        html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkLyricFetcher" data-pluginname="${escapeHtml(plugin.Name)}" ${checkedHtml}><span></span></label>`;
+        html += '<div class="listItemBody">';
+        html += '<h3 class="listItemBodyText">';
+        html += escapeHtml(plugin.Name);
+        html += '</h3>';
+        html += '</div>';
+        if (i > 0) {
+            html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>`;
+        } else if (plugins.length > 1) {
+            html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>`;
+        }
+        html += '</div>';
+    }
+    html += '</div>';
+    html += `<div class="fieldDescription">${globalize.translate('LyricDownloadersHelp')}</div>`;
+    elem.innerHTML = html;
+}
+
 function getImageFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType) {
     let html = '';
     let plugins = availableTypeOptions.ImageFetchers;
@@ -282,6 +315,7 @@ function populateMetadataSettings(parent, contentType) {
         renderMetadataReaders(parent, availableOptions.MetadataReaders);
         renderMetadataFetchers(parent, availableOptions, {});
         renderSubtitleFetchers(parent, availableOptions, {});
+        renderLyricFetchers(parent, availableOptions, {});
         renderImageFetchers(parent, availableOptions, {});
         availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hide') : parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
     }).catch(() => {
@@ -432,6 +466,12 @@ export function setContentType(parent, contentType) {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
     }
 
+    if (contentType === 'music') {
+        parent.querySelector('.lyricSettingsSection').classList.remove('hide');
+    } else {
+        parent.querySelector('.lyricSettingsSection').classList.add('hide');
+    }
+
     parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
 
     return populateMetadataSettings(parent, contentType);
@@ -445,6 +485,14 @@ function setSubtitleFetchersIntoOptions(parent, options) {
     });
 
     options.SubtitleFetcherOrder = Array.prototype.map.call(parent.querySelectorAll('.subtitleFetcherItem'), elem => {
+        return elem.getAttribute('data-pluginname');
+    });
+}
+
+function setLyricFetchersIntoOptions(parent, options) {
+    options.DisabledLyricFetchers = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkLyricFetcher'), elem => {
+        return !elem.checked;
+    }), elem => {
         return elem.getAttribute('data-pluginname');
     });
 }
@@ -536,6 +584,7 @@ export function getLibraryOptions(parent) {
         SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked,
         SkipSubtitlesIfAudioTrackMatches: parent.querySelector('#chkSkipIfAudioTrackPresent').checked,
         SaveSubtitlesWithMedia: parent.querySelector('#chkSaveSubtitlesLocally').checked,
+        SaveLyricsWithMedia: parent.querySelector('#chkSaveLyricsLocally').checked,
         RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
         AutomaticallyAddToCollection: parent.querySelector('#chkAutomaticallyAddToCollection').checked,
         MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
@@ -555,6 +604,7 @@ export function getLibraryOptions(parent) {
         return elem.getAttribute('data-lang');
     });
     setSubtitleFetchersIntoOptions(parent, options);
+    setLyricFetchersIntoOptions(parent, options);
     setMetadataFetchersIntoOptions(parent, options);
     setImageFetchersIntoOptions(parent, options);
     setImageOptionsIntoOptions(options);
@@ -596,6 +646,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
     parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
     parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
+    parent.querySelector('#chkSaveLyricsLocally').checked = options.SaveLyricsWithMedia;
     parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
     parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
     parent.querySelector('#chkAutomaticallyAddToCollection').checked = options.AutomaticallyAddToCollection;
@@ -609,6 +660,7 @@ export function setLibraryOptions(parent, options) {
     renderMetadataFetchers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
     renderSubtitleFetchers(parent, parent.availableOptions, options);
+    renderLyricFetchers(parent, parent.availableOptions, options);
 }
 
 let currentLibraryOptions;
