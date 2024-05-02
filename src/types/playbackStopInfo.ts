@@ -38,7 +38,7 @@ export interface PlayerState {
 }
 
 export interface PlaybackStopInfo {
-    player: unknown; // FIXME: add a proper interface
+    player: unknown; // TODO: add a proper interface
     state: PlayerState;
     nextItem: BaseItemDto | null;
     nextMediaType: MediaType | null;
