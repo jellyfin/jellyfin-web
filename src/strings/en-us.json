@@ -553,7 +553,7 @@
     "LabelAudioCodec": "Audio codec",
     "LabelAudioLanguagePreference": "Preferred audio language",
     "LabelSelectAudioNormalization": "Audio Normalization",
-    "LabelSelectPreferredTranscodeAudioCodec": "Preferred transcode audio codec",
+    "LabelSelectPreferredTranscodeAudioCodecInVideo": "Preferred transcode audio codec in video playback",
     "LabelAudioSampleRate": "Audio sample rate",
     "LabelAuthProvider": "Authentication Provider",
     "LabelAutomaticallyAddToCollection": "Automatically add to collection",
