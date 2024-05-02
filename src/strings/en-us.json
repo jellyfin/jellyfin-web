@@ -1368,6 +1368,7 @@
     "Season": "Season",
     "SecondarySubtitles": "Secondary Subtitles",
     "SelectAdminUsername": "Please select a username for the admin account.",
+    "SelectPreferredTranscodeAudioCodecInVideoHelp": "Select the preferred audio codec to transcode to for video content. If the preferred codec is not supported, the server will use the next best available codec.",
     "SelectServer": "Select Server",
     "SendMessage": "Send message",
     "Series": "Series",
