@@ -1249,7 +1249,7 @@
     "NoCreatedLibraries": "Seems like you haven't created any libraries yet. {0}Would you like to create one now?{1}",
     "AskAdminToCreateLibrary": "Ask an administrator to create a library.",
     "PlaybackErrorNoCompatibleStream": "This client isn't compatible with the media and the server isn't sending a compatible media format.",
-    "AllowFfmpegThrottlingHelp": "When a transcode or remux gets far enough ahead from the current playback position, pause the process so it will consume less resources. This is most useful when watching without seeking often. Turn this off if you experience playback issues.",
+    "AllowFfmpegThrottlingHelp": "When a transcode or remux gets far enough ahead from the current playback position, pause the process so it will consume fewer resources. This is most useful when watching without seeking often. Turn this off if you experience playback issues.",
     "AllowFfmpegThrottling": "Throttle Transcodes",
     "OnApplicationStartup": "On application startup",
     "EveryXHours": "Every {0} hours",
