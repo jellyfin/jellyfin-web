@@ -1543,7 +1543,7 @@
     "XmlTvNewsCategoriesHelp": "Programs with these categories will be displayed as news programs. Separate multiple with '|'.",
     "XmlTvPathHelp": "A path to a XMLTV file. Jellyfin will read this file and periodically check it for updates. You are responsible for creating and updating the file.",
     "XmlTvSportsCategoriesHelp": "Programs with these categories will be displayed as sports programs. Separate multiple with '|'.",
-    "Yadif": "YADIF",
+    "Yadif": "Yet Another DeInterlacing Filter (YADIF)",
     "Yes": "Yes",
     "Yesterday": "Yesterday",
     "HeaderSelectFallbackFontPath": "Select Fallback Font Folder Path",
