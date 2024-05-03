@@ -1860,5 +1860,13 @@
     "PlaybackError.SERVER_ERROR": "Playback failed due to a server error.",
     "PlaybackError.NotAllowed": "Playback of this media is not allowed.",
     "PlaybackError.RateLimitExceeded": "This media cannot be played at this time due to rate limits.",
-    "Lyric": "Lyric"
+    "Lyric": "Lyric",
+    "SavePassword": "Save Password",
+    "ViewLyrics": "View lyrics",
+    "ConfirmDeleteLyrics": "Deleting these lyrics will delete them from both the file system and your media library. Are you sure you wish to continue?",
+    "DeleteLyrics": "Delete lyrics",
+    "ErrorDeletingLyrics": "There was an error deleting the lyrics from the server. Please check that Jellyfin has write access to the media folder and try again.",
+    "HeaderDeleteLyrics": "Delete Lyrics",
+    "HeaderNoLyrics": "No lyrics found",
+    "Lyrics": "Lyrics"
 }
