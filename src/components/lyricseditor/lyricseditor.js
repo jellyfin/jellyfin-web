@@ -39,6 +39,19 @@ function downloadRemoteLyrics(context, id) {
     });
 }
 
+function getLyricsText(lyricsObject) {
+    return lyricsObject.reduce((htmlAccumulator, lyric) => {
+        if (lyric.Start) {
+            const minutes = Math.floor(lyric.Start / 600000000);
+            const seconds = Math.floor((lyric.Start % 600000000) / 10000000);
+            const hundredths = Math.floor((lyric.Start % 10000000) / 100000);
+            htmlAccumulator += '[' + String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0') + '.' + String(hundredths).padStart(2, '0') + '] ';
+        }
+        htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
+        return htmlAccumulator;
+    }, '');
+}
+
 function renderSearchResults(context, results) {
     let lastProvider = '';
     let html = '';
@@ -57,10 +70,7 @@ function renderSearchResults(context, results) {
 
         const provider = result.ProviderName;
         const metadata = result.Lyrics.Metadata;
-        const lyrics = result.Lyrics.Lyrics.reduce((htmlAccumulator, lyric) => {
-            htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
-            return htmlAccumulator;
-        }, '');
+        const lyrics = getLyricsText(result.Lyrics.Lyrics);
         if (provider !== lastProvider) {
             if (i > 0) {
                 html += '</div>';
@@ -225,7 +235,7 @@ function showOptions(button, context, lyricsId, lyrics) {
     const items = [];
 
     items.push({
-        name: globalize.translate('LyricsPreview'),
+        name: globalize.translate('PreviewLyrics'),
         id: 'preview'
     }
     , {
@@ -294,10 +304,7 @@ function fillCurrentLyrics(context, apiClient, item) {
             let html = '';
             html += '<h2>' + globalize.translate('Lyrics') + '</h2>';
             html += '<div>';
-            html += response.data.Lyrics.reduce((htmlAccumulator, lyric) => {
-                htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
-                return htmlAccumulator;
-            }, '');
+            html += getLyricsText(response.data.Lyrics);
             html += '</div>';
             context.querySelector('.currentLyrics').innerHTML = html;
         }
