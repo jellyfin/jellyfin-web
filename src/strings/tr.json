@@ -1859,5 +1859,6 @@
     "ErrorDeletingLyrics": "Şarkı sözlerini sunucudan silerken bir hata oluştu. Lütfen Jellyfin'in medya klasörüne yazma erişimi olup olmadığını kontrol edin ve tekrar deneyin.",
     "DeleteLyrics": "Şarkı sözünü sil",
     "HeaderNoLyrics": "Şarkı sözü bulunamadı",
-    "Lyrics": "Şarkı sözü"
+    "Lyrics": "Şarkı sözü",
+    "SavePassword": "Parolayı Kaydet"
 }
