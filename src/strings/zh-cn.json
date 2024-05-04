@@ -1867,5 +1867,6 @@
     "DeleteLyrics": "删除歌词",
     "HeaderDeleteLyrics": "删除歌词",
     "HeaderNoLyrics": "未找到歌词",
-    "ViewLyrics": "查看歌词"
+    "ViewLyrics": "查看歌词",
+    "SavePassword": "保存密码"
 }
