@@ -1257,6 +1257,8 @@
     "PlayCount": "Play count",
     "Played": "Played",
     "PlayFromBeginning": "Play from beginning",
+    "PlaylistPublic": "Allow public access",
+    "PlaylistPublicDescription": "Allow this playlist to be viewed by any logged in user.",
     "Playlists": "Playlists",
     "PlayNext": "Play next",
     "PlayNextEpisodeAutomatically": "Play next episode automatically",
