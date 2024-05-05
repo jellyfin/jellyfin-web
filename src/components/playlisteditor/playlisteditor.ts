@@ -149,6 +149,31 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
             recursive: true
         })
         .then(({ data }) => {
+            return Promise.all((data.Items || []).map(item => {
+                const playlist = {
+                    item,
+                    permissions: undefined
+                };
+
+                if (!item.Id) return playlist;
+
+                return getPlaylistsApi(api)
+                    .getPlaylistUser({
+                        playlistId: item.Id,
+                        userId: apiClient.getCurrentUserId()
+                    })
+                    .then(({ data: permissions }) => ({
+                        ...playlist,
+                        permissions
+                    }))
+                    .catch((err) => {
+                        console.warn('[PlaylistEditor] Failed to fetch playlist permissions', err);
+
+                        return playlist;
+                    });
+            }));
+        })
+        .then(playlists => {
             let html = '';
 
             if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
@@ -157,8 +182,10 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
             html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-            html += data.Items?.map(i => {
-                return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
+            html += playlists.map(({ item, permissions }) => {
+                if (!permissions?.CanEdit) return '';
+
+                return `<option value="${item.Id}">${escapeHtml(item.Name)}</option>`;
             });
 
             select.innerHTML = html;
