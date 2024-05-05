@@ -1867,5 +1867,10 @@
     "DeleteLyrics": "Liedtekst verwijderen",
     "HeaderNoLyrics": "Geen liedtekst gevonden",
     "Lyrics": "Liedtekst",
-    "SavePassword": "Wachtwoord opslaan"
+    "SavePassword": "Wachtwoord opslaan",
+    "EnableDts": "DTS (DCA) inschakelen",
+    "EnableDtsHelp": "Schakel dit alleen in als je apparaat DTS ondersteunt of is verbonden met een compatibele geluidsontvanger, anders kan dit afspeelfouten veroorzaken.",
+    "EnableTrueHd": "TrueHD inschakelen",
+    "EnableTrueHdHelp": "Schakel dit alleen in als je apparaat TrueHD ondersteunt of is verbonden met een compatibele geluidsontvanger, anders kan dit afspeelfouten veroorzaken.",
+    "HeaderVideoAdvanced": "Video geavanceerd"
 }
