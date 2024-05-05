@@ -4,6 +4,7 @@ import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import escapeHtml from 'escape-html';
 
+import toast from 'components/toast/toast';
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
@@ -52,12 +53,14 @@ function onSubmit(this: HTMLElement, e: Event) {
             addToPlaylist(panel, playlistId)
                 .catch(err => {
                     console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
+                    toast(globalize.translate('PlaylistError.AddFailed'));
                 })
                 .finally(loading.hide);
         } else {
             createPlaylist(panel)
                 .catch(err => {
                     console.error('[PlaylistEditor] Failed to create playlist', err);
+                    toast(globalize.translate('PlaylistError.CreateFailed'));
                 })
                 .finally(loading.hide);
         }
