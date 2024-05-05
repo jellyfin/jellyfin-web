@@ -143,7 +143,6 @@ class AppSettings {
         }
         return this.get('preferredTranscodeAudioCodecInVideo') || '';
     }
-  
     /**
      * Get or set 'Enable DTS' state.
      * @param {boolean|undefined} val - Flag to enable 'Enable DTS' or undefined.
