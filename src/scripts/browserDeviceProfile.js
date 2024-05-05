@@ -94,6 +94,25 @@ function supportsAc3(videoTestElement) {
     return videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '');
 }
 
+/**
+ * Checks if the device supports DTS (DCA).
+ * @param {HTMLVideoElement} videoTestElement The video test element
+ * @returns {boolean|null} _true_ if the device supports DTS (DCA). _false_ if the device doesn't support DTS (DCA). _null_ if support status is unknown.
+ */
+function canPlayDts(videoTestElement) {
+    // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
+    if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
+        return false;
+    }
+
+    if (videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '')) {
+        return true;
+    }
+
+    return null;
+}
+
 function supportsEac3(videoTestElement) {
     if (browser.tizen || browser.web0s) {
         return true;
@@ -528,14 +547,9 @@ export default function (options) {
         hlsInFmp4VideoAudioCodecs.push('mp2');
     }
 
-    let supportsDts = options.supportsDts;
+    let supportsDts = appSettings.enableDts() || options.supportsDts;
     if (supportsDts == null) {
-        supportsDts = browser.tizen || browser.web0sVersion || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
-
-        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
-        if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
-            supportsDts = false;
-        }
+        supportsDts = canPlayDts(videoTestElement);
     }
 
     if (supportsDts) {
@@ -548,7 +562,7 @@ export default function (options) {
         videoAudioCodecs.push('pcm_s24le');
     }
 
-    if (options.supportsTrueHd) {
+    if (appSettings.enableTrueHd() || options.supportsTrueHd) {
         videoAudioCodecs.push('truehd');
     }
 
