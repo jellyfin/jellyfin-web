@@ -303,7 +303,7 @@
     "HeaderSendMessage": "Poslat zprávu",
     "HeaderSeriesOptions": "Nastavení seriálu",
     "HeaderServerSettings": "Nastavení serveru",
-    "HeaderSetupLibrary": "Nastavení Vašich knihoven médií",
+    "HeaderSetupLibrary": "Nastavit knihovny médií",
     "HeaderSortBy": "Třídit dle",
     "HeaderSortOrder": "Pořadí třídění",
     "HeaderSpecialEpisodeInfo": "Infromace o speciální epizodě",
@@ -1867,5 +1867,6 @@
     "HeaderDeleteLyrics": "Odstranit texty písní",
     "HeaderNoLyrics": "Žádné texty písní nebyly nalezeny",
     "Lyrics": "Texty písní",
-    "ViewLyrics": "Zobrazit texty písní"
+    "ViewLyrics": "Zobrazit texty písní",
+    "SavePassword": "Uložit heslo"
 }

@@ -215,7 +215,7 @@
     "HeaderSelectPath": "Vybrať priečinok",
     "HeaderSendMessage": "Poslať správu",
     "HeaderServerSettings": "Nastavenia servera",
-    "HeaderSetupLibrary": "Nastavenie vašich knižníc médií",
+    "HeaderSetupLibrary": "Nastavenie Vašich knižníc médií",
     "HeaderSortBy": "Zoradiť podľa",
     "HeaderStartNow": "Začať teraz",
     "HeaderStopRecording": "Zastaviť nahrávanie",
@@ -1867,5 +1867,6 @@
     "ErrorDeletingLyrics": "Pri odstraňovaní textov piesní zo servera došlo k chybe. Skontrolujte, či má Jellyfin prístup na zápis do priečinka médií, a skúste to znova.",
     "HeaderDeleteLyrics": "Odstrániť texty piesní",
     "HeaderNoLyrics": "Nenašli sa žiadne texty piesní",
-    "ViewLyrics": "Zobraziť texty piesní"
+    "ViewLyrics": "Zobraziť texty piesní",
+    "SavePassword": "Uložiť heslo"
 }

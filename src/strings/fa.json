@@ -1605,7 +1605,7 @@
     "EnableAudioNormalization": "معمول سازی صوت",
     "AllowCollectionManagement": "به این کاربر اجازه مدیریت مجموعه را بده",
     "AllowSegmentDeletion": "تکه ها را پاک کن",
-    "AllowSegmentDeletionHelp": "پاک کردن تکه های قدیمی را بعد از فرستادن به کلاینت. این کار از ذخیره کل فایل transcode شده بر روی هارد جلوگیری می‌ کند. این تنها زمانی کار می کند که throttling فعال باشد. درصورت مشکل در هنگام پخش این ویژگی را غیرفعال کنید.",
+    "AllowSegmentDeletionHelp": "پاک کردن تکه های قدیمی بعد از دریافت کلاینت. این کار از ذخیره کل فایل transcode شده بر روی هارد جلوگیری می‌ کند. این تنها زمانی کار می کند که throttling فعال باشد. درصورت مشکل در هنگام پخش این ویژگی را غیرفعال کنید.",
     "LogLevel.Error": "خطا",
     "LogLevel.Critical": "بحرانی",
     "LogLevel.None": "هیچکدام",
@@ -1625,5 +1625,8 @@
     "LogLevel.Information": "اطلاعات",
     "LogoScreensaver": "محافظ صفحه لوگو",
     "Localization": "محلی‌سازی",
-    "HeaderGuestCast": "بازیگران مهمان"
+    "HeaderGuestCast": "بازیگران مهمان",
+    "AirPlay": "پخش هوا",
+    "AllowContentWithTagsHelp": "فقط رسانه های دارای حداقل یکی از برچسب های مشخص شده را نشان بده.",
+    "AllowSubtitleManagement": "به این کاربر اجازه ویرایش زیرنویس بده"
 }

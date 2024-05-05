@@ -18,6 +18,7 @@ import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
@@ -1789,42 +1790,85 @@ class PlaybackManager {
             });
         }
 
-        function translateItemsForPlayback(items, options) {
-            if (!items.length) return Promise.resolve([]);
+        async function translateItemsForPlayback(items, options) {
+            if (!items.length) return [];
 
-            if (items.length > 1 && options && options.ids) {
+            sortItemsIfNeeded(items, options);
+
+            const firstItem = items[0];
+            const serverId = firstItem.ServerId;
+            const queryOptions = options.queryOptions || {};
+
+            const promise = getPlaybackPromise(firstItem, serverId, options, queryOptions, items);
+
+            if (promise) {
+                const result = await promise;
+                return result ? result.Items : items;
+            } else {
+                return items;
+            }
+        }
+
+        function sortItemsIfNeeded(items, options) {
+            if (items.length > 1 && options?.ids) {
                 // Use the original request id array for sorting the result in the proper order
                 items.sort(function (a, b) {
                     return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
                 });
             }
+        }
 
-            const firstItem = items[0];
-            let promise;
+        function getPlaybackPromise(firstItem, serverId, options, queryOptions, items) {
+            switch (firstItem.Type) {
+                case 'Program':
+                    return getItemsForPlayback(serverId, {
+                        Ids: firstItem.ChannelId
+                    });
+                case 'Playlist':
+                    return getItemsForPlayback(serverId, {
+                        ParentId: firstItem.Id,
+                        SortBy: options.shuffle ? 'Random' : null
+                    });
+                case 'MusicArtist':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        ArtistIds: firstItem.Id,
+                        Filters: 'IsNotFolder',
+                        Recursive: true,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Audio'
+                    }, queryOptions));
+                case 'PhotoAlbum':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        ParentId: firstItem.Id,
+                        Filters: 'IsNotFolder',
+                        // Setting this to true may cause some incorrect sorting
+                        Recursive: false,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        // Only include Photos because we do not handle mixed queues currently
+                        MediaTypes: 'Photo',
+                        Limit: UNLIMITED_ITEMS
+                    }, queryOptions));
+                case 'MusicGenre':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        GenreIds: firstItem.Id,
+                        Filters: 'IsNotFolder',
+                        Recursive: true,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Audio'
+                    }, queryOptions));
+                case 'Series':
+                case 'Season':
+                    return getSeriesOrSeasonPlaybackPromise(firstItem, options, items);
+                case 'Episode':
+                    return getEpisodePlaybackPromise(firstItem, options, items);
+            }
 
-            const serverId = firstItem.ServerId;
+            return getNonItemTypePromise(firstItem, serverId, options, queryOptions);
+        }
 
-            const queryOptions = options.queryOptions || {};
-
-            if (firstItem.Type === 'Program') {
-                promise = getItemsForPlayback(serverId, {
-                    Ids: firstItem.ChannelId
-                });
-            } else if (firstItem.Type === 'Playlist') {
-                promise = getItemsForPlayback(serverId, {
-                    ParentId: firstItem.Id,
-                    SortBy: options.shuffle ? 'Random' : null
-                });
-            } else if (firstItem.Type === 'MusicArtist') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ArtistIds: firstItem.Id,
-                    Filters: 'IsNotFolder',
-                    Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Audio'
-                }, queryOptions));
-            } else if (firstItem.MediaType === 'Photo') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+        function getNonItemTypePromise(firstItem, serverId, options, queryOptions) {
+            if (firstItem.MediaType === 'Photo') {
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
@@ -1847,66 +1891,8 @@ class PlaybackManager {
 
                     return Promise.resolve(result);
                 });
-            } else if (firstItem.Type === 'PhotoAlbum') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.Id,
-                    Filters: 'IsNotFolder',
-                    // Setting this to true may cause some incorrect sorting
-                    Recursive: false,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    // Only include Photos because we do not handle mixed queues currently
-                    MediaTypes: 'Photo',
-                    Limit: UNLIMITED_ITEMS
-                }, queryOptions));
-            } else if (firstItem.Type === 'MusicGenre') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
-                    GenreIds: firstItem.Id,
-                    Filters: 'IsNotFolder',
-                    Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Audio'
-                }, queryOptions));
-            } else if (firstItem.Type === 'Series' || firstItem.Type === 'Season') {
-                const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
-                const isSeason = firstItem.Type === 'Season';
-
-                promise = apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
-                    IsVirtualUnaired: false,
-                    IsMissing: false,
-                    SeasonId: isSeason ? firstItem.Id : undefined,
-                    SortBy: options.shuffle ? 'Random' : undefined,
-                    UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay']
-                }).then(function (episodesResult) {
-                    const originalResults = episodesResult.Items;
-
-                    let foundItem = false;
-
-                    if (!options.shuffle) {
-                        episodesResult.Items = episodesResult.Items.filter(function (e) {
-                            if (foundItem) {
-                                return true;
-                            }
-
-                            if (!e.UserData.Played) {
-                                foundItem = true;
-                                return true;
-                            }
-
-                            return false;
-                        });
-                    }
-
-                    if (episodesResult.Items.length === 0) {
-                        episodesResult.Items = originalResults;
-                    }
-
-                    episodesResult.TotalRecordCount = episodesResult.Items.length;
-
-                    return episodesResult;
-                });
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
@@ -1922,7 +1908,8 @@ class PlaybackManager {
                 } else if (firstItem.Type !== 'BoxSet') {
                     sortBy = 'SortName';
                 }
-                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
@@ -1930,48 +1917,95 @@ class PlaybackManager {
                     SortBy: sortBy,
                     MediaTypes: 'Audio,Video'
                 }, queryOptions));
-            } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
-                promise = new Promise(function (resolve, reject) {
-                    const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
-
-                    apiClient.getCurrentUser().then(function (user) {
-                        if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
-                            resolve(null);
-                            return;
-                        }
-
-                        apiClient.getEpisodes(firstItem.SeriesId, {
-                            IsVirtualUnaired: false,
-                            IsMissing: false,
-                            UserId: apiClient.getCurrentUserId(),
-                            Fields: ['Chapters', 'Trickplay']
-                        }).then(function (episodesResult) {
-                            let foundItem = false;
-                            episodesResult.Items = episodesResult.Items.filter(function (e) {
-                                if (foundItem) {
-                                    return true;
-                                }
-                                if (e.Id === firstItem.Id) {
-                                    foundItem = true;
-                                    return true;
-                                }
-
-                                return false;
-                            });
-                            episodesResult.TotalRecordCount = episodesResult.Items.length;
-                            resolve(episodesResult);
-                        }, reject);
-                    });
-                });
             }
 
-            if (promise) {
-                return promise.then(function (result) {
-                    return result ? result.Items : items;
-                });
+            return null;
+        }
+
+        async function getSeriesOrSeasonPlaybackPromise(firstItem, options, items) {
+            const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+            const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
+
+            const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
+                IsVirtualUnaired: false,
+                IsMissing: false,
+                SeasonId: (startSeasonId && items.length === 1) ? startSeasonId : undefined,
+                SortBy: options.shuffle ? 'Random' : undefined,
+                UserId: apiClient.getCurrentUserId(),
+                Fields: ['Chapters', 'Trickplay']
+            });
+
+            if (options.shuffle) {
+                episodesResult.StartIndex = 0;
             } else {
-                return Promise.resolve(items);
+                episodesResult.StartIndex = undefined;
+                let seasonStartIndex;
+                for (const [index, e] of episodesResult.Items.entries()) {
+                    if (startSeasonId) {
+                        if (e.SeasonId == startSeasonId) {
+                            if (seasonStartIndex === undefined) {
+                                seasonStartIndex = index;
+                            }
+                        } else {
+                            continue;
+                        }
+                    }
+                    if (!e.UserData.Played) {
+                        episodesResult.StartIndex = index;
+                        break;
+                    }
+                }
+                episodesResult.StartIndex = episodesResult.StartIndex || seasonStartIndex || 0;
             }
+
+            // TODO: fix calling code to read episodesResult.StartIndex instead when set.
+            options.startIndex = episodesResult.StartIndex;
+
+            episodesResult.TotalRecordCount = episodesResult.Items.length;
+
+            return episodesResult;
+        }
+
+        function getEpisodePlaybackPromise(firstItem, options, items) {
+            if (items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
+                return getEpisodes(firstItem, options);
+            } else {
+                return null;
+            }
+        }
+
+        function getEpisodes(firstItem, options) {
+            return new Promise(function (resolve, reject) {
+                const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
+
+                if (!firstItem.SeriesId) {
+                    resolve(null);
+                    return;
+                }
+
+                apiClient.getEpisodes(firstItem.SeriesId, {
+                    IsVirtualUnaired: false,
+                    IsMissing: false,
+                    UserId: apiClient.getCurrentUserId(),
+                    Fields: ['Chapters', 'Trickplay']
+                }).then(function (episodesResult) {
+                    resolve(filterEpisodes(episodesResult, firstItem, options));
+                }, reject);
+            });
+        }
+
+        function filterEpisodes(episodesResult, firstItem, options) {
+            for (const [index, e] of episodesResult.Items.entries()) {
+                if (e.Id === firstItem.Id) {
+                    episodesResult.StartIndex = index;
+                    break;
+                }
+            }
+
+            // TODO: fix calling code to read episodesResult.StartIndex instead when set.
+            options.startIndex = episodesResult.StartIndex;
+            episodesResult.TotalRecordCount = episodesResult.Items.length;
+            return episodesResult;
         }
 
         self.translateItemsForPlayback = translateItemsForPlayback;
@@ -2245,35 +2279,42 @@ class PlaybackManager {
                 playOptions.isFirstItem = true;
             }
 
-            return runInterceptors(item, playOptions).then(function () {
-                if (playOptions.fullscreen) {
-                    loading.show();
-                }
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-                // TODO: This should be the media type requested, not the original media type
-                const mediaType = item.MediaType;
+            // TODO: This should be the media type requested, not the original media type
+            const mediaType = item.MediaType;
 
-                const onBitrateDetectionFailure = function () {
-                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn, prevSource);
-                };
-
-                if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
-                    return onBitrateDetectionFailure();
-                }
-
-                const apiClient = ServerConnections.getApiClient(item.ServerId);
-                apiClient.getEndpointInfo().then(function (endpointInfo) {
-                    if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                        return apiClient.detectBitrate().then(function (bitrate) {
-                            appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-
-                            return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
-                        }, onBitrateDetectionFailure);
-                    } else {
-                        onBitrateDetectionFailure();
+            return runInterceptors(item, playOptions)
+                .then(() => {
+                    if (playOptions.fullscreen) {
+                        loading.show();
                     }
-                }, onBitrateDetectionFailure);
-            }, onInterceptorRejection);
+
+                    if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
+                        return Promise.reject('skip bitrate detection');
+                    }
+
+                    return apiClient.getEndpointInfo().then((endpointInfo) => {
+                        if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
+                            return apiClient.detectBitrate().then((bitrate) => {
+                                appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+                                return bitrate;
+                            });
+                        }
+
+                        return Promise.reject('skip bitrate detection');
+                    });
+                })
+                .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType))
+                .then((bitrate) => {
+                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
+                })
+                .catch(onInterceptorRejection)
+                .finally(() => {
+                    if (playOptions.fullscreen) {
+                        loading.hide();
+                    }
+                });
         }
 
         function cancelPlayback() {
@@ -2287,8 +2328,21 @@ class PlaybackManager {
             Events.trigger(self, 'playbackcancelled');
         }
 
-        function onInterceptorRejection() {
+        function onInterceptorRejection(e) {
             cancelPlayback();
+
+            let displayErrorCode = 'ErrorDefault';
+
+            if (e instanceof Response) {
+                if (e.status >= 500) {
+                    displayErrorCode = `PlaybackError.${MediaError.SERVER_ERROR}`;
+                } else if (e.status >= 400) {
+                    displayErrorCode = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
+                }
+            }
+
+            showPlaybackInfoErrorMessage(self, displayErrorCode);
+
             return Promise.reject();
         }
 
@@ -2782,7 +2836,7 @@ class PlaybackManager {
                             } else {
                                 if (item.AlbumId != null) {
                                     return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
-                                        mediaSource.albumLUFS = result.LUFS;
+                                        mediaSource.albumNormalizationGain = result.NormalizationGain;
                                         return mediaSource;
                                     });
                                 }
@@ -3313,7 +3367,13 @@ class PlaybackManager {
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
-                self.nextTrack();
+                const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
+
+                apiClient.getCurrentUser().then(function (user) {
+                    if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
+                        self.nextTrack();
+                    }
+                });
             }
         }
 

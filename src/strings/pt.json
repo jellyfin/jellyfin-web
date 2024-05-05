@@ -1495,7 +1495,7 @@
     "WriteAccessRequired": "Jellyfin requer acesso de gravação a esta pasta. Garanta o acesso de gravação e tente novamente.",
     "LabelFallbackFontPathHelp": "Essas fontes são usadas por alguns clientes para renderizar legendas. Consulte a documentação para obter mais informações.",
     "EnableGamepadHelp": "Ouça a entrada de qualquer controlador conectado. (Requer: Modo de exibição 'TV')",
-    "BackdropScreensaver": "Protetor de tela de fundo",
+    "BackdropScreensaver": "Fundo do protetor de ecrã",
     "LabelLevel": "Nível",
     "LabelSyncPlaySettingsMinDelaySpeedToSync": "Atraso mínimo da velocidade de sincronização",
     "OptionDateEpisodeAdded": "Data do episódio adicionado",
@@ -1611,7 +1611,7 @@
     "LabelVideoRange": "Alcance de vídeo",
     "Mixer": "Misturador",
     "LabelSystem": "Sistema",
-    "SaveRecordingImages": "Salvar gravação de imagens EPG",
+    "SaveRecordingImages": "Guardar imagens da gravação EPG",
     "SaveRecordingImagesHelp": "Guardar imagens do fornecedor de listas EPG juntamente com os ficheiros multimédia.",
     "UseDoubleRateDeinterlacing": "Duplicar a velocidade de fotogramas ao desentrelaçar",
     "MessageSyncPlayUserJoined": "{0} entrou no grupo.",
@@ -1624,7 +1624,7 @@
     "YoutubeBadRequest": "Requisição ruim.",
     "YoutubeDenied": "O vídeo solicitado não pode ser reproduzido em players incorporados.",
     "TypeOptionPluralBoxSet": "Conjuntos de caixas",
-    "LabelBackdropScreensaverInterval": "Intervalo do protetor de tela de fundo",
+    "LabelBackdropScreensaverInterval": "Intervalo do fundo do protetor de ecrã",
     "UseDoubleRateDeinterlacingHelp": "Esta definição utiliza a taxa de campo durante o desentrelaçamento, muitas vezes referido como desentrelaçamento bob, que duplica a taxa de fotogramas do vídeo para proporcionar movimento fluído, como o que verias ao ver vídeo entrelaçado numa televisão.",
     "LabelDirectStreamingInfo": "Informações de transmissão direta",
     "LabelAlbumGain": "Ganho do álbum",
@@ -1860,5 +1860,6 @@
     "NonBlockingScan": "Não bloqueante - coloca a geração em fila de espera e depois regressa",
     "LabelExtractTrickplayDuringLibraryScan": "Extrair imagens trickplay durante a análise da biblioteca",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Gera imagens trickplay quando os vídeos são importados durante a análise da biblioteca. Caso contrário, serão extraídas durante a tarefa agendada de imagens trickplay. Se a geração estiver definida como não bloqueante, isto não afetará o tempo que a análise da biblioteca demora a ser concluída.",
-    "PlaybackError.ASS_RENDER_ERROR": "Foi encontrado um erro no renderizador de legendas ASS/SSA."
+    "PlaybackError.ASS_RENDER_ERROR": "Foi encontrado um erro no renderizador de legendas ASS/SSA.",
+    "SavePassword": "Guardar palavra-passe"
 }
