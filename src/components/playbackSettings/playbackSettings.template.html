@@ -157,18 +157,6 @@
         <div class="selectContainer">
             <select is="emby-select" class="selectSkipBackLength" label="${LabelSkipBackLength}"></select>
         </div>
-        <div class="selectContainer">
-            <select is="emby-select" id="selectPreferredTranscodeAudioCodecInVideo" label="${LabelSelectPreferredTranscodeAudioCodecInVideo}">
-                <option value="">${Auto}</option>
-                <option value="aac">AAC</option>
-                <option value="ac3">AC3</option>
-                <option value="alac">ALAC</option>
-                <option value="dts">DTS</option>
-                <option value="flac">FLAC</option>
-                <option value="opus">Opus</option>
-            </select>
-            <div class="fieldDescription">${SelectPreferredTranscodeAudioCodecInVideoHelp}</div>
-        </div>
     </div>
 
     <div class="verticalSection verticalSection-extrabottompadding">
@@ -190,6 +178,18 @@
                 <span>${EnableTrueHd}</span>
             </label>
             <div class="fieldDescription checkboxFieldDescription">${EnableTrueHdHelp}</div>
+        </div>
+        <div class="selectContainer">
+            <select is="emby-select" id="selectPreferredTranscodeVideoAudioCodec" label="${LabelSelectPreferredTranscodeVideoAudioCodec}">
+                <option value="">${Auto}</option>
+                <option value="aac">AAC</option>
+                <option value="ac3">AC3</option>
+                <option value="alac">ALAC</option>
+                <option value="dts">DTS</option>
+                <option value="flac">FLAC</option>
+                <option value="opus">Opus</option>
+            </select>
+            <div class="fieldDescription">${SelectPreferredTranscodeVideoAudioCodecHelp}</div>
         </div>
     </div>
 

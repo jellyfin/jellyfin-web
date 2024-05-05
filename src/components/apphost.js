@@ -70,15 +70,15 @@ function getDeviceProfile(item) {
             });
         }
 
-        const preferredTranscodeAudioCodecInVideo = appSettings.preferredTranscodeAudioCodecInVideo();
-        if (preferredTranscodeAudioCodecInVideo) {
+        const preferredTranscodeVideoAudioCodec = appSettings.preferredTranscodeVideoAudioCodec();
+        if (preferredTranscodeVideoAudioCodec) {
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
                 if (transcodingProfile.Type === 'Video') {
                     const audioCodecs = transcodingProfile.AudioCodec.split(',');
-                    const index = audioCodecs.indexOf(preferredTranscodeAudioCodecInVideo);
+                    const index = audioCodecs.indexOf(preferredTranscodeVideoAudioCodec);
                     if (index !== -1) {
                         audioCodecs.splice(index, 1);
-                        audioCodecs.unshift(preferredTranscodeAudioCodecInVideo);
+                        audioCodecs.unshift(preferredTranscodeVideoAudioCodec);
                         transcodingProfile.AudioCodec = audioCodecs.join(',');
                     }
                 }
