@@ -1868,5 +1868,9 @@
     "HeaderNoLyrics": "Aucune paroles n'ont êtes trouves",
     "Lyrics": "Paroles",
     "ViewLyrics": "Voir les paroles",
-    "SavePassword": "Sauvegarder le mot de passe"
+    "SavePassword": "Sauvegarder le mot de passe",
+    "EnableDts": "Activer DTS (DCA)",
+    "EnableDtsHelp": "N'activez cette option que si votre appareil prend en charge le DTS ou s'il est connecté à un lecteur audio compatible, sinon la lecture risque d'échouer.",
+    "EnableTrueHdHelp": "N'activez cette option que si votre appareil prend en charge la norme TrueHD ou s'il est connecté à un lecteur audio compatible, sinon la lecture risque d'échouer.",
+    "EnableTrueHd": "Activer le TrueHD"
 }
