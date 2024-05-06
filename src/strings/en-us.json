@@ -550,7 +550,7 @@
     "LabelAllowedRemoteAddressesMode": "Remote IP address filter mode",
     "LabelAllowHWTranscoding": "Allow hardware transcoding",
     "LabelAppName": "App name",
-    "LabelAppNameExample": "Example: Sickbeard, Sonarr",
+    "LabelAppNameExample": "A human readable name for identifying API keys. This setting will not affect functionality.",
     "LabelArtists": "Artists",
     "LabelArtistsHelp": "Separate multiple artists with a semicolon.",
     "LabelAudioBitDepth": "Audio bit depth",
