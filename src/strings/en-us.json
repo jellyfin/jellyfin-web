@@ -1263,6 +1263,8 @@
     "PlayCount": "Play count",
     "Played": "Played",
     "PlayFromBeginning": "Play from beginning",
+    "PlaylistError.AddFailed": "Error adding to playlist",
+    "PlaylistError.CreateFailed": "Error creating playlist",
     "PlaylistPublic": "Allow public access",
     "PlaylistPublicDescription": "Allow this playlist to be viewed by any logged in user.",
     "Playlists": "Playlists",
