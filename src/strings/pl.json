@@ -1868,5 +1868,10 @@
     "HeaderDeleteLyrics": "Usuń słowa",
     "Lyrics": "Słowa",
     "ViewLyrics": "Zobacz słowa",
-    "SavePassword": "Zapisz hasło"
+    "SavePassword": "Zapisz hasło",
+    "EnableDts": "Włącz DTS (DCA)",
+    "EnableDtsHelp": "Włącz tylko wtedy, gdy urządzenie obsługuje DTS lub jest podłączone do kompatybilnego odbiornika audio, w przeciwnym razie może to spowodować błąd odtwarzania.",
+    "EnableTrueHd": "Włącz TrueHD",
+    "EnableTrueHdHelp": "Włącz tylko wtedy, gdy urządzenie obsługuje TrueHD lub jest podłączone do kompatybilnego odbiornika audio, w przeciwnym razie może to spowodować błąd odtwarzania.",
+    "HeaderVideoAdvanced": "Zaawansowane wideo"
 }

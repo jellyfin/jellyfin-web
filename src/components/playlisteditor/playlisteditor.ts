@@ -82,6 +82,7 @@ function createPlaylist(dlg: DialogElement) {
         .createPlaylist({
             createPlaylistDto: {
                 Name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
+                IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
                 Ids: itemIds?.split(','),
                 UserId: apiClient.getCurrentUserId()
             }
@@ -226,6 +227,17 @@ function getEditorHtml(items: string[]) {
     autoFocus = items.length ? '' : ' autofocus';
     html += `<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="${globalize.translate('LabelName')}"${autoFocus} />`;
     html += '</div>';
+
+    html += `
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkPlaylistPublic" />
+            <span>${globalize.translate('PlaylistPublic')}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${globalize.translate('PlaylistPublicDescription')}
+        </div>
+    </div>`;
 
     // newPlaylistInfo
     html += '</div>';

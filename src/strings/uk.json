@@ -1864,5 +1864,6 @@
     "HeaderDeleteLyrics": "Видалити текст пісні",
     "HeaderNoLyrics": "Текст пісні не знайдено",
     "Lyrics": "Текст пісні",
-    "ViewLyrics": "Переглянути текст пісні"
+    "ViewLyrics": "Переглянути текст пісні",
+    "SavePassword": "Зберегти пароль"
 }

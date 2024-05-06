@@ -1867,5 +1867,11 @@
     "DeleteLyrics": "删除歌词",
     "HeaderDeleteLyrics": "删除歌词",
     "HeaderNoLyrics": "未找到歌词",
-    "ViewLyrics": "查看歌词"
+    "ViewLyrics": "查看歌词",
+    "SavePassword": "保存密码",
+    "EnableDts": "启用 DTS (DCA)",
+    "EnableDtsHelp": "仅当您的设备支持 DTS 编码或连接到兼容的音频接收器时才启用，否则可能会导致播放失败。",
+    "EnableTrueHd": "启用 TrueHD",
+    "HeaderVideoAdvanced": "高级视频选项",
+    "EnableTrueHdHelp": "仅当您的设备支持 TrueHD 编码或连接到兼容的音频接收器时才启用，否则可能会导致播放失败。"
 }

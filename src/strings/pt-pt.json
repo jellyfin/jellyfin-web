@@ -1862,5 +1862,6 @@
     "PlaybackError.NO_MEDIA_ERROR": "Não foi possível encontrar uma fonte multimédia válida para reproduzir.",
     "LabelServerVersion": "Versão do servidor",
     "LabelWebVersion": "Versão web",
-    "LabelBuildVersion": "Versão de compilação"
+    "LabelBuildVersion": "Versão de compilação",
+    "SavePassword": "Guardar palavra-passe"
 }

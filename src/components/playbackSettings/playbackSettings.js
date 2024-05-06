@@ -173,6 +173,8 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
     context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
+    context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
+    context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
@@ -215,6 +217,9 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
     appSettings.maxVideoWidth(context.querySelector('.selectMaxVideoWidth').value);
     appSettings.limitSupportedVideoResolution(context.querySelector('.chkLimitSupportedVideoResolution').checked);
+
+    appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
+    appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
