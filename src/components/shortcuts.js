@@ -128,8 +128,9 @@ function showContextMenu(card, options = {}) {
                         userId: apiClient.getCurrentUserId()
                     })
                     .then(({ data }) => data)
-                    .catch(() => {
+                    .catch(err => {
                         // If a user doesn't have access, then the request will 404 and throw
+                        console.info('[Shortcuts] Failed to fetch playlist permissions', err);
                         return { CanEdit: false };
                     }) :
                 // Not a playlist item

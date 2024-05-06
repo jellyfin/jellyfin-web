@@ -39,8 +39,9 @@ async function init(page, item) {
             playlistId: item.Id,
             userId: apiClient.getCurrentUserId()
         })
-        .catch(() => {
+        .catch(err => {
             // If a user doesn't have access, then the request will 404 and throw
+            console.info('[PlaylistViewer] Failed to fetch playlist permissions', err);
             return { data: {} };
         });
     isEditable = !!data.CanEdit;

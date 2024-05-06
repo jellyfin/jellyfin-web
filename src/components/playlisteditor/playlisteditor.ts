@@ -170,8 +170,9 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
                         ...playlist,
                         permissions
                     }))
-                    .catch((err) => {
-                        console.warn('[PlaylistEditor] Failed to fetch playlist permissions', err);
+                    .catch(err => {
+                        // If a user doesn't have access, then the request will 404 and throw
+                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
 
                         return playlist;
                     });
@@ -231,7 +232,7 @@ function getEditorHtml(items: string[]) {
     html += `
     <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
-            <input type="checkbox" is="emby-checkbox" id="chkPlaylistPublic" />
+            <input type="checkbox" is="emby-checkbox" id="chkPlaylistPublic" checked />
             <span>${globalize.translate('PlaylistPublic')}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">
