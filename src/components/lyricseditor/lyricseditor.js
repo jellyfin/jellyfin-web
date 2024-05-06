@@ -41,7 +41,7 @@ function downloadRemoteLyrics(context, id) {
 
 function getLyricsText(lyricsObject) {
     return lyricsObject.reduce((htmlAccumulator, lyric) => {
-        if (lyric.Start) {
+        if (lyric.Start || lyric.Start === 0) {
             const minutes = Math.floor(lyric.Start / 600000000);
             const seconds = Math.floor((lyric.Start % 600000000) / 10000000);
             const hundredths = Math.floor((lyric.Start % 10000000) / 100000);
