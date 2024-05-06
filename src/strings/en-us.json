@@ -543,7 +543,7 @@
     "LabelAllowedRemoteAddresses": "Remote IP address filter",
     "LabelAllowedRemoteAddressesMode": "Remote IP address filter mode",
     "LabelAllowHWTranscoding": "Allow hardware transcoding",
-    "LabelAppName": "Human Readable Name",
+    "LabelAppName": "App name",
     "LabelAppNameExample": "A human readable name for identifying API keys. This setting will not affect functionality.",
     "LabelArtists": "Artists",
     "LabelArtistsHelp": "Separate multiple artists with a semicolon.",
