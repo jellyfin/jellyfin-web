@@ -1250,14 +1250,14 @@ export class HtmlVideoPlayer {
          */
     renderSsaAss(videoElement, track, item) {
         const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
-        const avaliableFonts = [];
+        const availableFonts = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
         const apiClient = ServerConnections.getApiClient(item);
         attachments.forEach(i => {
             // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
             if (supportedFonts.includes(i.MimeType)) {
                 // embedded font url
-                avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
             }
         });
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
@@ -1268,7 +1268,7 @@ export class HtmlVideoPlayer {
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: avaliableFonts,
+                fonts: availableFonts,
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
@@ -1307,10 +1307,10 @@ export class HtmlVideoPlayer {
                 if (config.EnableFallbackFont) {
                     apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
                         fontFiles.forEach(font => {
-                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
+                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
                                 api_key: apiClient.accessToken()
                             });
-                            avaliableFonts.push(fontUrl);
+                            availableFonts.push(fontUrl);
                         });
                         this.#currentAssRenderer = new SubtitlesOctopus(options);
                     });
