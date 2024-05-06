@@ -1328,7 +1328,7 @@
     "MessageAddRepository": "欲新增儲存庫，請點擊旁邊的按鈕來填寫相關資訊。",
     "LabelRepositoryNameHelp": "取一個能讓你辨識的名稱。",
     "LabelRepositoryName": "儲存庫名稱",
-    "LabelRepositoryUrl": "儲存庫 URL",
+    "LabelRepositoryUrl": "儲存庫網址",
     "HeaderNewRepository": "新增儲存庫",
     "MessageNoRepositories": "尚無儲存庫。",
     "LabelSyncPlayAccess": "同步播放存取控制",
