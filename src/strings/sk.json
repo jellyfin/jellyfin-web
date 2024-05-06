@@ -251,7 +251,7 @@
     "LabelAllowHWTranscoding": "Povoliť hardvérové prekódovanie",
     "LabelAllowedRemoteAddresses": "Filter vzdialených IP adries",
     "LabelAppName": "Názov appky",
-    "LabelAppNameExample": "Príklad: Sickbeard, Sonarr",
+    "LabelAppNameExample": "Čitateľný názov na identifikáciu kľúčov API. Toto nastavenie neovplyvní funkčnosť.",
     "LabelArtists": "Interpreti",
     "LabelArtistsHelp": "Viacej interpretov oddeľte pomocou bodkočiarky.",
     "LabelAudioLanguagePreference": "Uprednostňovaný jazyk zvuku",
@@ -1363,7 +1363,7 @@
     "DeleteAll": "Zmazať všetko",
     "Data": "Údaje",
     "ThumbCard": "Thumb karta",
-    "Bwdif": "BWDIF",
+    "Bwdif": "Bob Weaver DeInterlacing Filter (BWDIF)",
     "LabelEnableSSDPTracing": "Povoliť trasovanie SSDP",
     "LabelEnableIP6Help": "Povolí IPv6 funkcionalitu.",
     "LabelEnableIP6": "Povoliť IPv6",
@@ -1868,5 +1868,14 @@
     "HeaderDeleteLyrics": "Odstrániť texty piesní",
     "HeaderNoLyrics": "Nenašli sa žiadne texty piesní",
     "ViewLyrics": "Zobraziť texty piesní",
-    "SavePassword": "Uložiť heslo"
+    "SavePassword": "Uložiť heslo",
+    "PlaylistError.AddFailed": "Chyba pri pridávaní do playlistu",
+    "PlaylistError.CreateFailed": "Chyba pri vytváraní playlistu",
+    "EnableDts": "Povoliť DTS (DCA)",
+    "EnableDtsHelp": "Povoľte len vtedy, ak vaše zariadenie podporuje DTS alebo je pripojené ku kompatibilnému audio receiveru, inak môže dôjsť k zlyhaniu prehrávania.",
+    "EnableTrueHd": "Povoliť TrueHD",
+    "EnableTrueHdHelp": "Povoľte len vtedy, ak vaše zariadenie podporuje TrueHD alebo je pripojené ku kompatibilnému audio receiveru, inak môže dôjsť k zlyhaniu prehrávania.",
+    "HeaderVideoAdvanced": "Pokročilé video",
+    "PlaylistPublic": "Povoliť verejný prístup",
+    "HeaderLyricDownloads": "Stiahnutie textov piesní"
 }
