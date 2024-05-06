@@ -426,7 +426,7 @@
     "LabelAllowedRemoteAddresses": "Filtre d'adresse IP distante",
     "LabelAllowedRemoteAddressesMode": "Type de filtre des adresses IP distantes",
     "LabelAppName": "Nom de l'application",
-    "LabelAppNameExample": "Exemple : Sickbeard, Sonarr",
+    "LabelAppNameExample": "Nom humainement lisible pour identifier les clés d'API. Ce paramètre n'affecte pas les fonctionnalités.",
     "LabelArtists": "Artistes",
     "LabelArtistsHelp": "Séparer les artistes par un point-virgule.",
     "LabelAudioLanguagePreference": "Langue audio préférée",
@@ -1872,5 +1872,13 @@
     "EnableDts": "Activer DTS (DCA)",
     "EnableDtsHelp": "N'activez cette option que si votre appareil prend en charge le DTS ou s'il est connecté à un lecteur audio compatible, sinon la lecture risque d'échouer.",
     "EnableTrueHdHelp": "N'activez cette option que si votre appareil prend en charge la norme TrueHD ou s'il est connecté à un lecteur audio compatible, sinon la lecture risque d'échouer.",
-    "EnableTrueHd": "Activer le TrueHD"
+    "EnableTrueHd": "Activer le TrueHD",
+    "PlaylistError.CreateFailed": "Erreur lors de la création d'une liste de lecture",
+    "SaveLyricsIntoMediaFolders": "Enregistrer les paroles dans les dossiers média",
+    "PlaylistError.AddFailed": "Erreur d'ajout à la liste de lecture",
+    "SaveLyricsIntoMediaFoldersHelp": "Le stockage des paroles à côté des fichiers audio permet de les gérer plus facilement.",
+    "HeaderVideoAdvanced": "Vidéo avancée",
+    "PlaylistPublic": "Autoriser l'accès public",
+    "PlaylistPublicDescription": "Autoriser la lecture de cette liste de lecture par n'importe quel utilisateur connecté.",
+    "HeaderLyricDownloads": "Téléchargements des paroles"
 }
