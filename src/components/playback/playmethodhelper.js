@@ -2,8 +2,7 @@ export function getDisplayPlayMethod(session) {
     if (!session.NowPlayingItem) {
         return null;
     }
-
-    if (session.TranscodingInfo?.IsVideoDirect && session.TranscodingInfo.IsAudioDirect) {
+    if ((!session.TranscodingInfo?.VideoCodec && session.TranscodingInfo.IsAudioDirect) || (session.TranscodingInfo?.IsVideoDirect && session.TranscodingInfo.IsAudioDirect)) {
         return 'Remux';
     } else if (session.TranscodingInfo?.IsVideoDirect) {
         return 'DirectStream';
