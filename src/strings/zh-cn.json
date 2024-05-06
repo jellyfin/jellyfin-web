@@ -398,7 +398,7 @@
     "LabelAllowedRemoteAddresses": "远程IP地址过滤器",
     "LabelAllowedRemoteAddressesMode": "远程IP地址过滤器模式",
     "LabelAppName": "APP名称",
-    "LabelAppNameExample": "例如：Sickbeard, Sonarr",
+    "LabelAppNameExample": "用于识别 API 密钥的可读名称。此设置不影响功能。",
     "LabelArtists": "艺术家",
     "LabelArtistsHelp": "将多个艺术家用分号分隔。",
     "LabelAudioLanguagePreference": "首选音频语言",
@@ -1878,5 +1878,7 @@
     "SaveLyricsIntoMediaFolders": "将歌词保存到媒体文件夹中",
     "SaveLyricsIntoMediaFoldersHelp": "将歌词存储在音频文件旁边将使它们更容易管理。",
     "PlaylistPublic": "允许公开访问",
-    "PlaylistPublicDescription": "允许任何登录用户查看此播放列表。"
+    "PlaylistPublicDescription": "允许任何登录用户查看此播放列表。",
+    "PlaylistError.CreateFailed": "创建播放列表时出错",
+    "PlaylistError.AddFailed": "添加到播放列表时出错"
 }
