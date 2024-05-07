@@ -1261,7 +1261,7 @@
     "ListPaging": "{0}-{1} z {2}",
     "WriteAccessRequired": "Server vyžaduje práva na zapisovanie do tohoto priečinku. Prosím, uistite sa že má práva na zapisovanie a skúste to znova.",
     "PathNotFound": "Táto cesta nebola nájdená. Prosím, uistite sa že cesta je správna a skúste to znovu.",
-    "Yadif": "YADIF",
+    "Yadif": "Yet Another DeInterlacing Filter (YADIF)",
     "Season": "Séria",
     "Person": "Osoba",
     "Movie": "Film",
@@ -1878,5 +1878,17 @@
     "HeaderVideoAdvanced": "Pokročilé video",
     "PlaylistPublic": "Povoliť verejný prístup",
     "HeaderLyricDownloads": "Stiahnutie textov piesní",
-    "Author": "Autor"
+    "Author": "Autor",
+    "Colorist": "Kolorista",
+    "Creator": "Tvorca",
+    "CoverArtist": "Autor obálky",
+    "Editor": "Editor",
+    "Illustrator": "Ilustrátor",
+    "Inker": "Inker",
+    "Letterer": "Lettrista",
+    "Penciller": "Penciler",
+    "SaveLyricsIntoMediaFolders": "Uložiť texty piesní do priečinkov médií",
+    "SaveLyricsIntoMediaFoldersHelp": "Uloženie textov piesní k zvukovým súborom umožní ich jednoduchšie spravovanie.",
+    "Translator": "Prekladateľ",
+    "PlaylistPublicDescription": "Povoliť zobrazenie tohto playlistu každému prihlásenému používateľovi."
 }
