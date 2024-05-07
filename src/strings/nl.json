@@ -1879,5 +1879,15 @@
     "PlaylistPublic": "Openbare toegang toestaan",
     "HeaderLyricDownloads": "Liedtekstdownloads",
     "SaveLyricsIntoMediaFolders": "Liedteksten opslaan in mediamappen",
-    "SaveLyricsIntoMediaFoldersHelp": "Het opslaan van liedteksten in dezelfde map als de geluidsbestanden zorgt ervoor dat deze beter te beheren zijn."
+    "SaveLyricsIntoMediaFoldersHelp": "Het opslaan van liedteksten in dezelfde map als de geluidsbestanden zorgt ervoor dat deze beter te beheren zijn.",
+    "Author": "Auteur",
+    "Colorist": "Inkleurder",
+    "CoverArtist": "Omslagartiest",
+    "Creator": "Bedenker",
+    "Editor": "Redacteur",
+    "Illustrator": "Illustrator",
+    "Inker": "Inkter",
+    "Letterer": "Beletteraar",
+    "Penciller": "Schetser",
+    "Translator": "Vertaler"
 }
