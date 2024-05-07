@@ -1880,5 +1880,15 @@
     "PlaylistPublic": "允许公开访问",
     "PlaylistPublicDescription": "允许任何登录用户查看此播放列表。",
     "PlaylistError.CreateFailed": "创建播放列表时出错",
-    "PlaylistError.AddFailed": "添加到播放列表时出错"
+    "PlaylistError.AddFailed": "添加到播放列表时出错",
+    "Author": "作者",
+    "Colorist": "着色师",
+    "CoverArtist": "封面艺术家",
+    "Creator": "创作者",
+    "Editor": "编辑",
+    "Illustrator": "插画师",
+    "Inker": "着墨师",
+    "Letterer": "文字书写员",
+    "Penciller": "铅笔师",
+    "Translator": "译者"
 }
