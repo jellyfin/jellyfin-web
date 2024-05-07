@@ -1877,5 +1877,6 @@
     "EnableTrueHdHelp": "Povoľte len vtedy, ak vaše zariadenie podporuje TrueHD alebo je pripojené ku kompatibilnému audio receiveru, inak môže dôjsť k zlyhaniu prehrávania.",
     "HeaderVideoAdvanced": "Pokročilé video",
     "PlaylistPublic": "Povoliť verejný prístup",
-    "HeaderLyricDownloads": "Stiahnutie textov piesní"
+    "HeaderLyricDownloads": "Stiahnutie textov piesní",
+    "Author": "Autor"
 }
