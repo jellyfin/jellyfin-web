@@ -1071,7 +1071,7 @@
     "ButtonUseQuickConnect": "Omogući brzo povezivanje",
     "ButtonActivate": "Aktiviraj",
     "AllowedRemoteAddressesHelp": "Popis IP adresa ili mrežnih maska odvojen zarezom za mreže kojima će biti dopušten udaljeni pristup. Ako ostane prazno, bit će dopuštene sve udaljene adrese.",
-    "AllowFfmpegThrottlingHelp": "Kada se transkodira ili remiks dovoljno udalji od trenutne pozicije reprodukcije, zaustavite postupak tako da će potrošiti manje resursa. Ovo je najkorisnije kada gledate bez čestog traženja. Isključite ovo ako imate problema s reprodukcijom.",
+    "AllowFfmpegThrottlingHelp": "Kada se transkodira ili se remuks dovoljno udalji od trenutne pozicije reprodukcije, zaustavite postupak tako da se troši manje resursa. Ovo je najkorisnije kada gledate bez čestog traženja. Isključite ovo ako imate problema s reprodukcijom.",
     "BurnSubtitlesHelp": "Odredite treba li server snimati titlove tijekom transkodiranja videozapisa. Izbjegavanje toga uvelike će poboljšati performanse. Odaberite Automatski za snimanje slikovnih formata (VobSub, PGS, SUB, IDX itd.) i određenih ASS ili SSA titlova.",
     "BoxSet": "Komplet",
     "Authorize": "Ovlastite",
