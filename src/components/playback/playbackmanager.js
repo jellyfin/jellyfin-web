@@ -113,6 +113,13 @@ function normalizeName(t) {
     return t.toLowerCase().replace(' ', '');
 }
 
+function addOrReplaceUrlParam(url, key, value) {
+    // eslint-disable-next-line compat/compat
+    const newurl = new URL(url, window.location);
+    newurl.searchParams.set(key, value);
+    return newurl.href;
+}
+
 function getItemsForPlayback(serverId, query) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -2465,12 +2472,28 @@ class PlaybackManager {
                 if (streamType == 'Subtitle') {
                     if (isSecondarySubtitle) {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
+                        // Secondary subtitles are client side only, update this if it ever gets transcoding support.
                     } else {
                         mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
+                        const isHardcodedSubtitle = mediaSource.MediaStreams[bestStreamIndex].DeliveryMethod === 'Transcode';
+                        if (mediaSource.TranscodingUrl) {
+                            mediaSource.TranscodingUrl = addOrReplaceUrlParam(
+                                mediaSource.TranscodingUrl,
+                                'SubtitleStreamIndex',
+                                isHardcodedSubtitle ? mediaSource.DefaultSubtitleStreamIndex.toString() : '-1'
+                            );
+                        }
                     }
                 }
                 if (streamType == 'Audio') {
                     mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
+                    if (mediaSource.TranscodingUrl) {
+                        mediaSource.TranscodingUrl = addOrReplaceUrlParam(
+                            mediaSource.TranscodingUrl,
+                            'AudioStreamIndex',
+                            mediaSource.DefaultAudioStreamIndex.toString()
+                        );
+                    }
                 }
             } else {
                 console.debug(`AutoSet ${streamType} - Threshold not met. Using default.`);
