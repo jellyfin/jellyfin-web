@@ -1880,5 +1880,15 @@
     "PlaylistPublic": "Zezwól na dostęp publiczny",
     "PlaylistPublicDescription": "Zezwól na oglądanie tej listy odtwarzania każdemu zalogowanemu użytkownikowi.",
     "HeaderLyricDownloads": "Pobieranie słów",
-    "SaveLyricsIntoMediaFolders": "Zapisuj słowa w folderach multimediów"
+    "SaveLyricsIntoMediaFolders": "Zapisuj słowa w folderach multimediów",
+    "Author": "Autor",
+    "Colorist": "Kolorysta",
+    "CoverArtist": "Artysta okładki",
+    "Creator": "Twórca",
+    "Editor": "Edytor",
+    "Illustrator": "Ilustrator",
+    "Inker": "Inker",
+    "Letterer": "Liternik",
+    "Penciller": "Rysownik",
+    "Translator": "Tłumacz"
 }
