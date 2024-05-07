@@ -1880,5 +1880,15 @@
     "PlaylistPublicDescription": "Tento seznam skladeb bude možné zobrazit i nepřihlášeným uživatelům.",
     "HeaderLyricDownloads": "Stažení textů písní",
     "SaveLyricsIntoMediaFolders": "Uložit texty písní do složek s médii",
-    "SaveLyricsIntoMediaFoldersHelp": "Uložení textů písní spolu se zvukovými souboru je snazší pro správu."
+    "SaveLyricsIntoMediaFoldersHelp": "Uložení textů písní spolu se zvukovými souboru je snazší pro správu.",
+    "Author": "Autor",
+    "Colorist": "Kolorista",
+    "CoverArtist": "Obálka",
+    "Creator": "Tvůrce",
+    "Editor": "Editor",
+    "Illustrator": "Ilustrátor",
+    "Inker": "Inker",
+    "Letterer": "Lettrista",
+    "Penciller": "Výtvarník",
+    "Translator": "Překladatel"
 }
