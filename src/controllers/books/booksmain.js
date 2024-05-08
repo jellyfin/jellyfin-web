@@ -185,7 +185,6 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     instance.queryRecursive = false;
 
     if (!item) {
-        // console.log("I dont think this is right");
         instance.queryRecursive = true;
 
         return apiClient['getItems'](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {

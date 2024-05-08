@@ -693,9 +693,7 @@ class AppRouter {
                 return url;
             }
             if (item.CollectionType == CollectionType.Books) {
-                let urlForList = '#/books.html?topParentId=' + item.Id;
-
-                return urlForList;
+                return '#/books.html?parentId=' + id + '&serverId=' + serverId + '&topParentId=' + item.Id;
             }
         }
 
