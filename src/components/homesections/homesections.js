@@ -11,8 +11,7 @@ import { loadLibraryButtons } from './sections/libraryButtons';
 import { loadLibraryTiles } from './sections/libraryTiles';
 import { loadLiveTV } from './sections/liveTv';
 import { loadNextUp } from './sections/nextUp';
-import { loadRecentlyAdded } from './sections/recentlyAdded';
-import { loadRecentlyPremiered } from './sections/recentlyPremiered';
+import { loadRecentlyAdded, loadRecentlyPremiered } from './sections/recentlyAdded';
 import { loadResume } from './sections/resume';
 
 import 'elements/emby-button/paper-icon-button-light';
