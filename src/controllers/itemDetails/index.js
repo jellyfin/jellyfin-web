@@ -1,3 +1,4 @@
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -822,8 +823,18 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#specialsCollapsible').classList.add('hide');
     }
 
-    renderCast(page, item);
-    renderGuestCast(page, item);
+    const cast = [];
+    const guestCast = [];
+    (item.People || []).forEach(p => {
+        if (p.Type === PersonKind.GuestStar) {
+            guestCast.push(p);
+        } else {
+            cast.push(p);
+        }
+    });
+
+    renderCast(page, item, cast);
+    renderGuestCast(page, item, guestCast);
 
     if (item.PartCount && item.PartCount > 1) {
         page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
@@ -1803,9 +1814,7 @@ function renderSpecials(page, item, user) {
     });
 }
 
-function renderCast(page, item) {
-    const people = item.People || [];
-
+function renderCast(page, item, people) {
     if (!people.length) {
         page.querySelector('#castCollapsible').classList.add('hide');
         return;
@@ -1825,9 +1834,7 @@ function renderCast(page, item) {
     });
 }
 
-function renderGuestCast(page, item) {
-    const people = (item.People || []).filter(p => p.Type === 'GuestStar');
-
+function renderGuestCast(page, item, people) {
     if (!people.length) {
         page.querySelector('#guestCastCollapsible').classList.add('hide');
         return;
