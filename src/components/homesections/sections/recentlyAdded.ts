@@ -107,12 +107,12 @@ function renderLatestSection(
             section: 'latest'
         }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
         html += '<h2 class="sectionTitle sectionTitle-cards">';
-        html += globalize.translate( sortByDateAdded ? 'LatestFromLibrary' : 'LatestFromPremier', escapeHtml(parent.Name));
+        html += globalize.translate( sortByDateAdded ? 'LatestFromLibrary' : 'NewReleasesIn', escapeHtml(parent.Name));
         html += '</h2>';
         html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
         html += '</a>';
     } else {
-        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(sortByDateAdded ? 'LatestFromLibrary' : 'LatestFromPremier', escapeHtml(parent.Name)) + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(sortByDateAdded ? 'LatestFromLibrary' : 'NewReleasesIn', escapeHtml(parent.Name)) + '</h2>';
     }
     html += '</div>';
 

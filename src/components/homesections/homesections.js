@@ -150,7 +150,7 @@ function loadSection(page, apiClient, user, userSettings, userViews, allSections
         case HomeSectionType.LatestMedia:
             loadRecentlyAdded(elem, apiClient, user, userViews, options);
             break;
-        case HomeSectionType.LatestPremier:
+        case HomeSectionType.NewReleases:
             loadRecentlyPremiered(elem, apiClient, user, userViews, options);
             break;
         case HomeSectionType.LibraryButtons:
