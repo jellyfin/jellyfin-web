@@ -57,9 +57,11 @@ jobs:
     steps:
       - name: Save PR context
         env:
+          PR_BRANCH: ${{ github.ref_name }}
           PR_NUMBER: ${{ github.event.number }}
           PR_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          echo $PR_BRANCH > PR_branch
           echo $PR_NUMBER > PR_number
           echo $PR_SHA > PR_sha
 
@@ -68,5 +70,6 @@ jobs:
         with:
           name: PR_context
           path: |
+            PR_branch
             PR_number
             PR_sha
