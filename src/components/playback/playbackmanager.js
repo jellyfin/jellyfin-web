@@ -685,7 +685,6 @@ class PlaybackManager {
     constructor() {
         const self = this;
 
-        // The list of players
         const players = [];
         let currentTargetInfo;
         let currentPairingId = null;
@@ -836,7 +835,6 @@ class PlaybackManager {
                 return ServerConnections.currentApiClient().getCurrentUser().then(function (user) {
                     const targets = [];
 
-                    // Is this relevant?
                     targets.push({
                         name: globalize.translate('HeaderMyDevice'),
                         id: 'localplayer',
@@ -1982,7 +1980,6 @@ class PlaybackManager {
         self.translateItemsForPlayback = translateItemsForPlayback;
         self.getItemsForPlayback = getItemsForPlayback;
 
-        // This is the exposed function called to manage item media playback
         self.play = function (options) {
             normalizePlayOptions(options);
 
@@ -2501,7 +2498,6 @@ class PlaybackManager {
             }
 
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
-                // TODO: Why does this skip the first entry?
                 const deviceProfile = responses[1];
 
                 const apiClient = ServerConnections.getApiClient(item.ServerId);
