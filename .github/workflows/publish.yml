@@ -73,7 +73,7 @@ jobs:
       - pr-context
 
     with:
-      branch: ${{ needs.pr-context.outputs.branch }}
+      branch: ${{ needs.pr-context.outputs.branch || github.ref_name }}
       commit: ${{ needs.pr-context.outputs.commit != '' && needs.pr-context.outputs.commit || github.event.workflow_run.head_sha }}
       preview_url: ${{ needs.publish.outputs.url }}
       build_workflow_run_id: ${{ github.event.workflow_run.id }}
