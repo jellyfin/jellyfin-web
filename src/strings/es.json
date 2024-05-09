@@ -1868,5 +1868,6 @@
     "LabelTrickplayThreadsHelp": "El número de hilos para pasar al argumento '-threads' de ffmpeg.",
     "LabelWidthResolutionsHelp": "Lista separada por comas de las anchuras (px) en las que se generarán las imágenes de trickplay. Todas las imágenes se generarán proporcionalmente a la fuente, así que una anchura de 320 en un vídeo 16:9 acabará sobre 320x180.",
     "OptionExtractTrickplayImage": "Habilitar la extracción de imágenes de trickplay",
-    "LabelExtractTrickplayDuringLibraryScanHelp": "Generar imágenes de trickplay cuando los vídeos se importan durante el escaneo de la biblioteca. De lo contrario se extraerán durante la tarea programada de extracción de imágenes de trickplay. Si la generación es no bloqueante esto no afectará al tiempo que la biblioteca tarda en escanearse."
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Generar imágenes de trickplay cuando los vídeos se importan durante el escaneo de la biblioteca. De lo contrario se extraerán durante la tarea programada de extracción de imágenes de trickplay. Si la generación es no bloqueante esto no afectará al tiempo que la biblioteca tarda en escanearse.",
+    "Author": "Autor"
 }
