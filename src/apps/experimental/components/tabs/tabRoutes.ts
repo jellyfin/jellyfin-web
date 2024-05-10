@@ -105,7 +105,12 @@ const TabRoutes: TabRoute[] = [
                 index: 5,
                 label: globalize.translate('Genres'),
                 value: LibraryTab.Genres
-            }
+            },
+            {
+                index: 6,
+                label: globalize.translate('TabStudios'),
+                value: LibraryTab.Networks
+            },
         ]
     },
     {
