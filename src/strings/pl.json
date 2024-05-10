@@ -1890,5 +1890,7 @@
     "Inker": "Inker",
     "Letterer": "Liternik",
     "Penciller": "Rysownik",
-    "Translator": "Tłumacz"
+    "Translator": "Tłumacz",
+    "LibraryScanFanoutConcurrency": "Limit zadań równoległego skanowania bibliotek",
+    "LibraryScanFanoutConcurrencyHelp": "Maksymalna liczba zadań równoległych podczas skanowania bibliotek. Ustawienie tej opcji na 0 spowoduje wybranie limitu na podstawie liczby rdzeni systemu. OSTRZEŻENIE: ustawienie zbyt dużej liczby może powodować problemy z sieciowymi systemami plików; jeśli napotkasz problemy, obniż tę liczbę."
 }
