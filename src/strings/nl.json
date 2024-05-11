@@ -1717,7 +1717,7 @@
     "Featurette": "Featurette",
     "Short": "Korte film",
     "HeaderPerformance": "Prestaties",
-    "LabelParallelImageEncodingLimitHelp": "Maximaal aantal afbeeldingscoderingen dat tegelijkertijd mag lopen. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op je systeemspecificaties.",
+    "LabelParallelImageEncodingLimitHelp": "Maximaal aantal afbeeldingscoderingen dat tegelijkertijd mag lopen. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op het aantal processorkernen in je systeem.",
     "LabelParallelImageEncodingLimit": "Limiet gelijktijdige afbeeldingscoderingen",
     "LabelEnableAudioVbr": "VBR-audiocodering inschakelen",
     "LabelEnableAudioVbrHelp": "Een variabele bitsnelheid biedt een betere verhouding tussen kwaliteit en gemiddelde bitsnelheid, maar kan in zeldzame gevallen tot bufferen of compatibiliteitsproblemen leiden.",
@@ -1889,5 +1889,7 @@
     "Inker": "Inkter",
     "Letterer": "Beletteraar",
     "Penciller": "Schetser",
-    "Translator": "Vertaler"
+    "Translator": "Vertaler",
+    "LibraryScanFanoutConcurrencyHelp": "Maximaal aantal gelijktijdige taken tijdens bibliotheekscans. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op het aantal processorkernen in je systeem. WAARSCHUWING: een te hoge instelling kan problemen veroorzaken met netwerkbestandssystemen; verlaag dit getal als je problemen tegenkomt.",
+    "LibraryScanFanoutConcurrency": "Limiet gelijktijdige bibiotheekscantaken"
 }
