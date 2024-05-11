@@ -1717,7 +1717,7 @@
     "SubtitleYellow": "黄色",
     "Featurette": "花絮",
     "Short": "短片",
-    "LabelParallelImageEncodingLimitHelp": "允许并行运行的图像编码的最大数量。设为 0 以根据您的系统配置自动设置。",
+    "LabelParallelImageEncodingLimitHelp": "允许并行运行的最大图像编码数量。 将其设置为 0 将根据您的系统核心数量选择限制。",
     "HeaderPerformance": "性能",
     "LabelParallelImageEncodingLimit": "并行图像编码限制",
     "LabelEnableAudioVbr": "启用 VBR 音频编码",
@@ -1890,5 +1890,7 @@
     "Inker": "着墨师",
     "Letterer": "文字书写员",
     "Penciller": "铅笔师",
-    "Translator": "译者"
+    "Translator": "译者",
+    "LibraryScanFanoutConcurrency": "并行媒体库扫描任务限制",
+    "LibraryScanFanoutConcurrencyHelp": "媒体库扫描期间并行任务的最大数量。将其设置为 0 将根据您的系统核心数量选择限制。警告：将此数字设置得太高可能会导致网络文件系统出现问题； 如果您遇到问题，请降低此数字。"
 }
