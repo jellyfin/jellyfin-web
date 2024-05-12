@@ -1487,7 +1487,7 @@
     "UnsupportedPlayback": "Jellyfin não pode desencriptar conteúdo protegido por DRM, mas todo o conteúdo será testado de qualquer maneira, incluindo títulos protegidos. Alguns arquivos podem aparecer completamente pretos devido à encriptação ou a outros recursos não suportados, como títulos interativos.",
     "MessageSyncPlayGroupWait": "{0} está a armazenar em buffer…",
     "LabelSelectAudioNormalization": "Normalização de áudio",
-    "LabelBackdropScreensaverIntervalHelp": "O tempo em segundos entre diferentes cenários ao usar o protetor de tela de cenário.",
+    "LabelBackdropScreensaverIntervalHelp": "O tempo em segundos entre a mudança de diferentes imagens de fundo na proteção de ecrã.",
     "LabelServerVersion": "Versão do servidor",
     "LabelTonemappingPeakHelp": "Substitua o sinal/pico nominal/de referência por este valor. Útil quando as informações de pico incorporadas nos metadados de exibição não são confiáveis ou quando há mapeamento de tons de uma faixa mais baixa para uma faixa mais alta. Os valores recomendados e padrão são 100 e 0.",
     "OptionDateShowAdded": "Data de exibição adicionada",
