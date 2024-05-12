@@ -215,7 +215,7 @@
     "LabelAlbumArtPN": "PN da capa do álbum",
     "LabelAlbumArtists": "Artistas do álbum",
     "LabelAppName": "Nome da aplicação",
-    "LabelAppNameExample": "Exemplo: Sickbeard, Sonarr",
+    "LabelAppNameExample": "Um nome legível por humanos para identificar as chaves da API. Esta definição não afetará a funcionalidade.",
     "LabelArtists": "Artistas",
     "LabelArtistsHelp": "Separe múltiplos artistas com ponto e virgula (;).",
     "LabelAudioLanguagePreference": "Idioma de áudio preferido",
@@ -1863,5 +1863,18 @@
     "LabelServerVersion": "Versão do servidor",
     "LabelWebVersion": "Versão web",
     "LabelBuildVersion": "Versão de compilação",
-    "SavePassword": "Guardar palavra-passe"
+    "SavePassword": "Guardar palavra-passe",
+    "Author": "Autor",
+    "Colorist": "Colorista",
+    "CoverArtist": "Artista da capa",
+    "Creator": "Criador",
+    "Editor": "Editor",
+    "EnableTrueHd": "Ativar TrueHD",
+    "EnableTrueHdHelp": "Ativar apenas se o dispositivo suportar TrueHD ou estiver ligado a um recetor de áudio compatível; caso contrário, pode provocar falhas de reprodução.",
+    "Illustrator": "Ilustrador",
+    "Letterer": "Letrista",
+    "EnableDts": "Ativar DTS (DCA)",
+    "EnableDtsHelp": "Ativar apenas se o dispositivo suportar DTS ou estiver ligado a um recetor de áudio compatível; caso contrário, pode provocar falhas de reprodução.",
+    "HeaderLyricDownloads": "Descarregar letras",
+    "HeaderVideoAdvanced": "Avançadas do vídeo"
 }
