@@ -1873,5 +1873,6 @@
     "EnableTrueHd": "Ativar TrueHD",
     "EnableTrueHdHelp": "Ativar apenas se o dispositivo suportar TrueHD ou estiver ligado a um recetor de áudio compatível; caso contrário, pode provocar falhas de reprodução.",
     "HeaderVideoAdvanced": "Avançadas do vídeo",
-    "HeaderLyricDownloads": "Descarregar letras"
+    "HeaderLyricDownloads": "Descarregar letras",
+    "Letterer": "Letrista"
 }
