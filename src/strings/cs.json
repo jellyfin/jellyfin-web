@@ -1719,7 +1719,7 @@
     "Short": "Krátký film",
     "HeaderPerformance": "Výkon",
     "LabelParallelImageEncodingLimit": "Počet paralelních kódování obrázků",
-    "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Nastavením na 0 bude limit nastaven dle parametrů systému.",
+    "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Nastavením na 0 bude limit nastaven dle počtu jader CPU.",
     "LabelEnableAudioVbr": "Povolit kódování zvuku VBR",
     "LabelEnableAudioVbrHelp": "Proměnlivý bitový tok (VBR) nabízí lepší poměr mezi kvalitou a průměrným bitovým tokem, ale někdy může způsobit dodatečné načítání či problémy s kompatibilitou.",
     "Select": "Vybrat",
@@ -1890,5 +1890,7 @@
     "Inker": "Inker",
     "Letterer": "Lettrista",
     "Penciller": "Výtvarník",
-    "Translator": "Překladatel"
+    "Translator": "Překladatel",
+    "LibraryScanFanoutConcurrencyHelp": "Maximální počet souběžných úloh skenování knihovny. Nastavením na 0 bude počet dán počtem jader CPU. UPOZORNĚNÍ: Příliš vyskoý počet může způsobit problémy se síťovými souborými systémy. V takovém případě počet snižte.",
+    "LibraryScanFanoutConcurrency": "Maximální počet souběžných skenování knihovny"
 }
