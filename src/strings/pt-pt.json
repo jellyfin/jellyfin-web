@@ -1763,7 +1763,7 @@
     "LabelAlbumGain": "Ganho do Album",
     "BackdropScreensaver": "Fundo do protetor de ecrã",
     "LabelIsHearingImpaired": "Para deficientes auditivos (SDH)",
-    "LabelBackdropScreensaverIntervalHelp": "O tempo em segundos entre diferentes cenários ao usar o protetor de ecrã de cenário.",
+    "LabelBackdropScreensaverIntervalHelp": "O tempo em segundos entre a mudança de diferentes imagens de fundo na proteção de ecrã.",
     "LabelBackdropScreensaverInterval": "Intervalo do fundo do protetor de ecrã",
     "HeaderAllRecordings": "Todas as Gravações",
     "SelectAudioNormalizationHelp": "Ganho de faixa - ajusta o volume de cada faixa para que sejam reproduzidas com o mesmo volume. Ganho do álbum - ajusta o volume de todas as faixas apenas de um álbum, mantendo a faixa dinâmica do álbum.",
