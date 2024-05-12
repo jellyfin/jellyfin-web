@@ -395,7 +395,7 @@
     "LabelAudioBitrate": "Taxa de bits de áudio",
     "LabelArtistsHelp": "Separe artistas múltiplos com um ponto e vírgula.",
     "LabelArtists": "Artistas",
-    "LabelAppNameExample": "Exemplo: Sickbeard, NzbDrone.",
+    "LabelAppNameExample": "Um nome legível por humanos para identificar as chaves da API. Esta definição não afetará a funcionalidade.",
     "LabelAppName": "Nome da aplicação",
     "LabelAllowedRemoteAddressesMode": "Tipo de filtro de IP remoto",
     "LabelAllowedRemoteAddresses": "Filtro de IP remoto",
@@ -1862,5 +1862,16 @@
     "LabelExtractTrickplayDuringLibraryScanHelp": "Gera imagens trickplay quando os vídeos são importados durante a análise da biblioteca. Caso contrário, serão extraídas durante a tarefa agendada de imagens trickplay. Se a geração estiver definida como não bloqueante, isto não afetará o tempo que a análise da biblioteca demora a ser concluída.",
     "PlaybackError.ASS_RENDER_ERROR": "Foi encontrado um erro no renderizador de legendas ASS/SSA.",
     "SavePassword": "Guardar palavra-passe",
-    "Author": "Autor"
+    "Author": "Autor",
+    "Colorist": "Colorista",
+    "CoverArtist": "Artista da capa",
+    "Creator": "Criador",
+    "Editor": "Editor",
+    "Illustrator": "Ilustrador",
+    "EnableDts": "Ativar DTS (DCA)",
+    "EnableDtsHelp": "Ativar apenas se o dispositivo suportar DTS ou estiver ligado a um recetor de áudio compatível; caso contrário, pode provocar falhas de reprodução.",
+    "EnableTrueHd": "Ativar TrueHD",
+    "EnableTrueHdHelp": "Ativar apenas se o dispositivo suportar TrueHD ou estiver ligado a um recetor de áudio compatível; caso contrário, pode provocar falhas de reprodução.",
+    "HeaderVideoAdvanced": "Avançadas do vídeo",
+    "HeaderLyricDownloads": "Descarregar letras"
 }
