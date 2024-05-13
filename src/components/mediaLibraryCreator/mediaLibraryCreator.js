@@ -42,11 +42,7 @@ function onAddLibrary(e) {
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
     const name = $('#txtValue', dlg).val();
-    let type = $('#selectCollectionType', dlg).val();
-
-    if (type == 'mixed') {
-        type = null;
-    }
+    const type = $('#selectCollectionType', dlg).val();
 
     const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions.PathInfos = pathInfos;
