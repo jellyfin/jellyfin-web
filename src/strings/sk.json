@@ -1706,7 +1706,7 @@
     "LabelEnableAudioVbr": "Povoliť kódovanie zvuku VBR",
     "HeaderPerformance": "Výkon",
     "AllowCollectionManagement": "Povoliť tomuto používateľovi spravovať kolekcie",
-    "LabelParallelImageEncodingLimitHelp": "Maximálny počet kódovaní obrazu, ktoré môžu bežať paralelne. Nastavením tejto hodnoty na 0 sa zvolí limit na základe špecifikácie vášho systému.",
+    "LabelParallelImageEncodingLimitHelp": "Maximálny počet kódovaní obrázkov, ktoré môžu bežať paralelne. Nastavením tejto hodnoty na 0 sa zvolí limit na základe špecifikácie vášho systému.",
     "TonemappingModeHelp": "Vyberte režim mapovania tónov. Ak sa vyskytnú preexponované svetlé miesta, skúste prepnúť na režim RGB.",
     "Featurette": "Stredne dlhý film",
     "Short": "Krátky film",
@@ -1890,5 +1890,7 @@
     "SaveLyricsIntoMediaFolders": "Uložiť texty piesní do priečinkov médií",
     "SaveLyricsIntoMediaFoldersHelp": "Uloženie textov piesní k zvukovým súborom umožní ich jednoduchšie spravovanie.",
     "Translator": "Prekladateľ",
-    "PlaylistPublicDescription": "Povoliť zobrazenie tohto playlistu každému prihlásenému používateľovi."
+    "PlaylistPublicDescription": "Povoliť zobrazenie tohto playlistu každému prihlásenému používateľovi.",
+    "LibraryScanFanoutConcurrencyHelp": "Maximálny počet paralelných úloh počas skenovania knižnice. Nastavením tejto hodnoty na 0 sa zvolí limit na základe počtu jadier CPU vášho systému. UPOZORNENIE: Nastavenie príliš vysokého čísla môže spôsobiť problémy so sieťovými súborovými systémami, Ak sa vyskytnú problémy, znížte toto číslo.",
+    "LibraryScanFanoutConcurrency": "Limit úloh paralelného skenovania knižnice"
 }
