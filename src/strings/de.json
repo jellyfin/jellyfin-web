@@ -1366,7 +1366,7 @@
     "Poster": "Poster",
     "Photo": "Foto",
     "Other": "Sonstiges",
-    "Bwdif": "BWDIF",
+    "Bwdif": "Bob Weaver DeInterlacing Filter (BWDIF)",
     "UseDoubleRateDeinterlacingHelp": "Diese Einstellung verwendet die Halbbildrate beim Deinterlacing, oft auch als Bob-Deinterlacing bezeichnet. Dabei wird die Bildrate des Videos verdoppelt, um eine vollständige Bewegung wie beim Betrachten eines Interlaced-Video auf einem Fernseher zu erzielen.",
     "UseDoubleRateDeinterlacing": "Verdoppelung der Bildfrequenz beim Deinterlacing",
     "LabelIconMaxResHelp": "Maximale Auflösung der Icons, die über die Eigenschaft 'upnp:icon' bereitgestellt wird.",
@@ -1867,5 +1867,6 @@
     "ErrorDeletingLyrics": "Es trat ein Fehler beim Löschen der Songtexte vom Server auf. Bitte stelle sicher, dass Jellyfin die notwendigen Zugriffsrechte besitzt.",
     "HeaderDeleteLyrics": "Songtexte löschen",
     "HeaderNoLyrics": "Keine Songtexte gefunden",
-    "ViewLyrics": "Songtexte ansehen"
+    "ViewLyrics": "Songtexte ansehen",
+    "Author": "Autor"
 }
