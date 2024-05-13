@@ -2,8 +2,6 @@ import { Update } from 'history';
 import { useLayoutEffect, useState } from 'react';
 import type { History, Router } from '@remix-run/router';
 
-const normalizePath = (pathname: string) => pathname.replace(/^!/, '');
-
 interface UseLegacyRouterSyncProps {
   router: Router;
   history: History;
@@ -20,8 +18,18 @@ export function useLegacyRouterSync({ router, history }: UseLegacyRouterSyncProp
              * implementation, so we need to remove the leading `!` from the pathname. React Router already removes the
              * hash for us.
              */
-            if (update.location.pathname.startsWith('!')) {
-                history.replace(normalizePath(update.location.pathname), update.location.state);
+            if (update.location.pathname.startsWith('/!/')) {
+                history.replace(
+                    { ...update.location, pathname: update.location.pathname.replace(/^\/!/, '') },
+                    update.location.state);
+            } else if (update.location.pathname.startsWith('/!')) {
+                history.replace(
+                    { ...update.location, pathname: update.location.pathname.replace(/^\/!/, '/') },
+                    update.location.state);
+            } else if (update.location.pathname.startsWith('!')) {
+                history.replace(
+                    { ...update.location, pathname: update.location.pathname.replace(/^!/, '') },
+                    update.location.state);
             } else if (!isSynced) {
                 await router.navigate(update.location, { replace: true });
             }

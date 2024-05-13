@@ -2,7 +2,8 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient } from 'jellyfin-apiclient';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import classNames from 'classnames';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
+import { useDebounceValue } from 'usehooks-ts';
 
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
@@ -30,7 +31,7 @@ type LiveTVSearchResultsProps = {
 /*
  * React component to display search result rows for live tv library search
  */
-const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serverId = window.ApiClient.serverId(), parentId, collectionType, query }: LiveTVSearchResultsProps) => {
+const LiveTVSearchResults: FC<LiveTVSearchResultsProps> = ({ serverId = window.ApiClient.serverId(), parentId, collectionType, query }: LiveTVSearchResultsProps) => {
     const [ movies, setMovies ] = useState<BaseItemDto[]>([]);
     const [ episodes, setEpisodes ] = useState<BaseItemDto[]>([]);
     const [ sports, setSports ] = useState<BaseItemDto[]>([]);
@@ -38,23 +39,24 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
     const [ news, setNews ] = useState<BaseItemDto[]>([]);
     const [ programs, setPrograms ] = useState<BaseItemDto[]>([]);
     const [ channels, setChannels ] = useState<BaseItemDto[]>([]);
+    const [ debouncedQuery ] = useDebounceValue(query, 500);
+
+    const getDefaultParameters = useCallback(() => ({
+        ParentId: parentId,
+        searchTerm: debouncedQuery,
+        Limit: 24,
+        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
+        Recursive: true,
+        EnableTotalRecordCount: false,
+        ImageTypeLimit: 1,
+        IncludePeople: false,
+        IncludeMedia: false,
+        IncludeGenres: false,
+        IncludeStudios: false,
+        IncludeArtists: false
+    }), [ parentId, debouncedQuery ]);
 
     useEffect(() => {
-        const getDefaultParameters = () => ({
-            ParentId: parentId,
-            searchTerm: query,
-            Limit: 24,
-            Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
-            Recursive: true,
-            EnableTotalRecordCount: false,
-            ImageTypeLimit: 1,
-            IncludePeople: false,
-            IncludeMedia: false,
-            IncludeGenres: false,
-            IncludeStudios: false,
-            IncludeArtists: false
-        });
-
         const fetchItems = (apiClient: ApiClient, params = {}) => apiClient?.getItems(
             apiClient?.getCurrentUserId(),
             {
@@ -73,65 +75,67 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
         setPrograms([]);
         setChannels([]);
 
-        if (query && collectionType === CollectionType.Livetv) {
-            const apiClient = ServerConnections.getApiClient(serverId);
-
-            // Movies row
-            fetchItems(apiClient, {
-                IncludeItemTypes: 'LiveTvProgram',
-                IsMovie: true
-            })
-                .then(result => setMovies(result.Items || []))
-                .catch(() => setMovies([]));
-            // Episodes row
-            fetchItems(apiClient, {
-                IncludeItemTypes: 'LiveTvProgram',
-                IsMovie: false,
-                IsSeries: true,
-                IsSports: false,
-                IsKids: false,
-                IsNews: false
-            })
-                .then(result => setEpisodes(result.Items || []))
-                .catch(() => setEpisodes([]));
-            // Sports row
-            fetchItems(apiClient, {
-                IncludeItemTypes: 'LiveTvProgram',
-                IsSports: true
-            })
-                .then(result => setSports(result.Items || []))
-                .catch(() => setSports([]));
-            // Kids row
-            fetchItems(apiClient, {
-                IncludeItemTypes: 'LiveTvProgram',
-                IsKids: true
-            })
-                .then(result => setKids(result.Items || []))
-                .catch(() => setKids([]));
-            // News row
-            fetchItems(apiClient, {
-                IncludeItemTypes: 'LiveTvProgram',
-                IsNews: true
-            })
-                .then(result => setNews(result.Items || []))
-                .catch(() => setNews([]));
-            // Programs row
-            fetchItems(apiClient, {
-                IncludeItemTypes: 'LiveTvProgram',
-                IsMovie: false,
-                IsSeries: false,
-                IsSports: false,
-                IsKids: false,
-                IsNews: false
-            })
-                .then(result => setPrograms(result.Items || []))
-                .catch(() => setPrograms([]));
-            // Channels row
-            fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
-                .then(result => setChannels(result.Items || []))
-                .catch(() => setChannels([]));
+        if (!debouncedQuery || collectionType !== CollectionType.Livetv) {
+            return;
         }
-    }, [collectionType, parentId, query, serverId]);
+
+        const apiClient = ServerConnections.getApiClient(serverId);
+
+        // Movies row
+        fetchItems(apiClient, {
+            IncludeItemTypes: 'LiveTvProgram',
+            IsMovie: true
+        })
+            .then(result => setMovies(result.Items || []))
+            .catch(() => setMovies([]));
+        // Episodes row
+        fetchItems(apiClient, {
+            IncludeItemTypes: 'LiveTvProgram',
+            IsMovie: false,
+            IsSeries: true,
+            IsSports: false,
+            IsKids: false,
+            IsNews: false
+        })
+            .then(result => setEpisodes(result.Items || []))
+            .catch(() => setEpisodes([]));
+        // Sports row
+        fetchItems(apiClient, {
+            IncludeItemTypes: 'LiveTvProgram',
+            IsSports: true
+        })
+            .then(result => setSports(result.Items || []))
+            .catch(() => setSports([]));
+        // Kids row
+        fetchItems(apiClient, {
+            IncludeItemTypes: 'LiveTvProgram',
+            IsKids: true
+        })
+            .then(result => setKids(result.Items || []))
+            .catch(() => setKids([]));
+        // News row
+        fetchItems(apiClient, {
+            IncludeItemTypes: 'LiveTvProgram',
+            IsNews: true
+        })
+            .then(result => setNews(result.Items || []))
+            .catch(() => setNews([]));
+        // Programs row
+        fetchItems(apiClient, {
+            IncludeItemTypes: 'LiveTvProgram',
+            IsMovie: false,
+            IsSeries: false,
+            IsSports: false,
+            IsKids: false,
+            IsNews: false
+        })
+            .then(result => setPrograms(result.Items || []))
+            .catch(() => setPrograms([]));
+        // Channels row
+        fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
+            .then(result => setChannels(result.Items || []))
+            .catch(() => setChannels([]));
+    }, [collectionType, debouncedQuery, getDefaultParameters, parentId, serverId]);
 
     return (
         <div
@@ -139,7 +143,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || collectionType !== CollectionType.Livetv }
+                { 'hide': !debouncedQuery || collectionType !== CollectionType.Livetv }
             )}
         >
             <SearchResultsRow

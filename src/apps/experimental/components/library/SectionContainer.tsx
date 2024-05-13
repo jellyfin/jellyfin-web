@@ -1,43 +1,29 @@
 import type { BaseItemDto, TimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC } from 'react';
 
-import cardBuilder from 'components/cardbuilder/cardBuilder';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
 import Scroller from 'elements/emby-scroller/Scroller';
 import LinkButton from 'elements/emby-button/LinkButton';
-import imageLoader from 'components/images/imageLoader';
-
-import { CardOptions } from 'types/cardOptions';
+import Cards from 'components/cardbuilder/Card/Cards';
+import type { CardOptions } from 'types/cardOptions';
 
 interface SectionContainerProps {
     url?: string;
     sectionTitle: string;
     items: BaseItemDto[] | TimerInfoDto[];
     cardOptions: CardOptions;
+    reloadItems?: () => void;
 }
 
 const SectionContainer: FC<SectionContainerProps> = ({
     sectionTitle,
     url,
     items,
-    cardOptions
+    cardOptions,
+    reloadItems
 }) => {
-    const element = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const itemsContainer = element.current?.querySelector('.itemsContainer');
-        cardBuilder.buildCards(items, {
-            itemsContainer: itemsContainer,
-            parentContainer: element.current,
-
-            ...cardOptions
-        });
-
-        imageLoader.lazyChildren(itemsContainer);
-    }, [cardOptions, items]);
-
     return (
-        <div ref={element} className='verticalSection hide'>
+        <div className='verticalSection'>
             <div className='sectionTitleContainer sectionTitleContainer-cards padded-left'>
                 {url && items.length > 5 ? (
                     <LinkButton
@@ -66,7 +52,11 @@ const SectionContainer: FC<SectionContainerProps> = ({
             >
                 <ItemsContainer
                     className='itemsContainer scrollSlider focuscontainer-x'
-                />
+                    reloadItems={reloadItems}
+                    queryKey={cardOptions.queryKey}
+                >
+                    <Cards items={items} cardOptions={cardOptions} />
+                </ItemsContainer>
             </Scroller>
         </div>
     );

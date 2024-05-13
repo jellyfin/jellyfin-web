@@ -22,6 +22,7 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
 
 let currentContext;
 let metadataEditorInfo;
@@ -153,6 +154,7 @@ function onSubmit(e) {
         DateCreated: getDateValue(form, '#txtDateAdded', 'DateCreated'),
         EndDate: getDateValue(form, '#txtEndDate', 'EndDate'),
         ProductionYear: form.querySelector('#txtProductionYear').value,
+        Height: form.querySelector('#selectHeight').value,
         AspectRatio: form.querySelector('#txtOriginalAspectRatio').value,
         Video3DFormat: form.querySelector('#select3dFormat').value,
 
@@ -270,7 +272,7 @@ function showMoreMenu(context, button, user) {
             } else if (result.updated) {
                 reload(context, item.Id, item.ServerId);
             }
-        });
+        }).catch(() => { /* no-op */ });
     });
 }
 
@@ -589,8 +591,7 @@ function setFieldVisibilities(context, item) {
             || item.Type === 'Genre'
             || item.Type === 'Studio'
             || item.Type === 'MusicGenre'
-            || item.Type === 'TvChannel'
-            || item.Type === 'Book') {
+            || item.Type === 'TvChannel') {
         hideElement('#peopleCollapsible', context);
     } else {
         showElement('#peopleCollapsible', context);
@@ -648,6 +649,12 @@ function setFieldVisibilities(context, item) {
         context.querySelector('#txtPremiereDate').label(globalize.translate('LabelReleaseDate'));
         context.querySelector('#txtEndDate').label(globalize.translate('LabelEndDate'));
         hideElement('#fldPlaceOfBirth');
+    }
+
+    if (item.MediaType === 'Video' && item.Type === 'TvChannel') {
+        showElement('#fldHeight');
+    } else {
+        hideElement('#fldHeight');
     }
 
     if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
@@ -828,6 +835,8 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     const placeofBirth = item.ProductionLocations?.length ? item.ProductionLocations[0] : '';
     context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
 
+    context.querySelector('#selectHeight').value = item.Height || '';
+
     context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || '';
 
     context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || '';
@@ -877,10 +886,10 @@ function populateRatings(allParentalRatings, select, currentValue) {
 
 function populateStatus(select) {
     let html = '';
-
-    html += "<option value=''></option>";
-    html += "<option value='Continuing'>" + globalize.translate('Continuing') + '</option>';
-    html += "<option value='Ended'>" + globalize.translate('Ended') + '</option>';
+    html += '<option value=""></option>';
+    html += `<option value="${SeriesStatus.Continuing}">${escapeHtml(globalize.translate('Continuing'))}</option>`;
+    html += `<option value="${SeriesStatus.Ended}">${escapeHtml(globalize.translate('Ended'))}</option>`;
+    html += `<option value="${SeriesStatus.Unreleased}">${escapeHtml(globalize.translate('Unreleased'))}</option>`;
     select.innerHTML = html;
 }
 

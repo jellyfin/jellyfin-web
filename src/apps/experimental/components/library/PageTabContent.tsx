@@ -1,13 +1,13 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import SuggestionsSectionView from './SuggestionsSectionView';
 import UpcomingView from './UpcomingView';
 import GenresView from './GenresView';
 import ItemsView from './ItemsView';
-import { LibraryTab } from 'types/libraryTab';
-import { ParentId } from 'types/library';
-import { LibraryTabContent } from 'types/libraryTabContent';
 import GuideView from './GuideView';
 import ProgramsSectionView from './ProgramsSectionView';
+import { LibraryTab } from 'types/libraryTab';
+import type { ParentId } from 'types/library';
+import type { LibraryTabContent } from 'types/libraryTabContent';
 
 interface PageTabContentProps {
     parentId: ParentId;

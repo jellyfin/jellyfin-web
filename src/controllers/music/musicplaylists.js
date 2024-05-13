@@ -20,7 +20,6 @@ export default function (view, params, tabContent) {
                 },
                 view: userSettings.getSavedView(key) || 'Poster'
             };
-            pageData.query.ParentId = params.topParentId;
             userSettings.loadQuerySettings(key, pageData.query);
         }
 

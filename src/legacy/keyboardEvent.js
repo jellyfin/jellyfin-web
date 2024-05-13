@@ -17,9 +17,7 @@
         const KeyboardEvent = function (eventName, options) {
             options = options || {};
 
-            const event = document.createEvent('Event');
-
-            event.initEvent(eventName, !!options.bubbles, !!options.cancelable);
+            const event = new Event(eventName, { bubbles: !!options.bubbles, cancelable: !!options.cancelable });
 
             event.view = options.view || document.defaultView;
 

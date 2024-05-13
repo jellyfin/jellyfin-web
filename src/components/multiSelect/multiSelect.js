@@ -6,7 +6,6 @@ import dom from '../../scripts/dom';
 import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
-import PlaylistEditor from '../playlisteditor/playlisteditor';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
 import datetime from '../../scripts/datetime';
@@ -269,9 +268,16 @@ function showMenuForSelectedItems(e) {
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                new PlaylistEditor({
-                                    items: items,
-                                    serverId: serverId
+                                import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+                                    const playlistEditor = new PlaylistEditor();
+                                    playlistEditor.show({
+                                        items: items,
+                                        serverId: serverId
+                                    }).catch(() => {
+                                        // Dialog closed
+                                    });
+                                }).catch(err => {
+                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();

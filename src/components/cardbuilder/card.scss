@@ -378,7 +378,7 @@ button::-moz-focus-inner {
     margin-right: 2em;
 }
 
-.cardDefaultText {
+.cardImageContainer > .cardDefaultText {
     white-space: normal;
     text-align: center;
     font-size: 2em;
@@ -408,6 +408,7 @@ button::-moz-focus-inner {
     display: flex;
     align-items: center;
     contain: layout style;
+    z-index: 1;
 
     [dir="ltr"] & {
         right: 0.225em;
@@ -852,7 +853,7 @@ button::-moz-focus-inner {
     opacity: 1;
 }
 
-.cardOverlayFab-primary {
+.cardOverlayContainer > .cardOverlayFab-primary {
     background-color: rgba(0, 0, 0, 0.7);
     font-size: 130%;
     padding: 0;
@@ -865,7 +866,7 @@ button::-moz-focus-inner {
     left: 50%;
 }
 
-.cardOverlayFab-primary:hover {
+.cardOverlayContainer > .cardOverlayFab-primary:hover {
     transform: scale(1.4, 1.4);
     transition: 0.2s;
 }

@@ -30,6 +30,9 @@ function getTabs() {
     }, {
         href: '#/dashboard/playback/streaming',
         name: globalize.translate('TabStreaming')
+    }, {
+        href: '#/dashboard/playback/trickplay',
+        name: globalize.translate('Trickplay')
     }];
 }
 

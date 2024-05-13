@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import { useGetGroupsUpcomingEpisodes } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import globalize from 'scripts/globalize';
 import SectionContainer from './SectionContainer';
-import { LibraryViewProps } from 'types/library';
+import { CardShape } from 'utils/card';
+import type { LibraryViewProps } from 'types/library';
 
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
     const { isLoading, data: groupsUpcomingEpisodes } = useGetGroupsUpcomingEpisodes(parentId);
@@ -29,7 +30,7 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
                         sectionTitle={group.name}
                         items={group.items ?? []}
                         cardOptions={{
-                            shape: 'overflowBackdrop',
+                            shape: CardShape.BackdropOverflow,
                             showLocationTypeIndicator: false,
                             showParentTitle: true,
                             preferThumb: true,

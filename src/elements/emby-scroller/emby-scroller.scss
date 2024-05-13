@@ -26,3 +26,13 @@
         margin-left: 1.2em;
     }
 }
+
+.no-padding {
+    [dir="ltr"] & {
+        padding-left: 0;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 0;
+    }
+}

@@ -161,6 +161,10 @@ function updateBubble(range, percent, value, bubble) {
 
         let html;
 
+        if (range.updateBubbleHtml?.(bubble, value)) {
+            return;
+        }
+
         if (range.getBubbleHtml) {
             html = range.getBubbleHtml(percent, value);
         } else {
