@@ -1954,8 +1954,32 @@ export class HtmlVideoPlayer {
             name: '0.75x',
             id: 0.75
         }, {
-            name: '1x',
-            id: 1.0
+            name: "0.80x",
+            id: 0.80
+        }, {
+            name: "0.85x",
+            id: 0.85
+        }, {
+            name: "0.90x",
+            id: 0.90
+        }, {
+            name: "0.95x",
+            id: 0.95
+        }, {
+            name: "1x",
+            id: 1
+        }, {
+            name: "1.05x",
+            id: 1.05
+        }, {
+            name: "1.10x",
+            id: 1.10
+        }, {
+            name: "1.15x",
+            id: 1.15
+        }, {
+            name: "1.20x",
+            id: 1.20
         }, {
             name: '1.25x',
             id: 1.25

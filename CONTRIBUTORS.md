@@ -87,6 +87,7 @@
 - [JPUC1143](https://github.com/Jpuc1143)
 - [David Angel](https://github.com/davidangel)
 - [Pithaya](https://github.com/Pithaya)
+- [Maatss](https://github.com/Maatss)
 
 ## Emby Contributors
 
