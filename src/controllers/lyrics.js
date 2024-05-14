@@ -69,6 +69,7 @@ export default function (view) {
         if (lyric) {
             lyric.classList.remove('pastLyric');
             lyric.classList.remove('futureLyric');
+            lyric.scrollIntoView({behavior: "smooth", block: "center"});
         }
     }
 
