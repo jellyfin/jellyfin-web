@@ -899,6 +899,30 @@ export default function (options) {
             Codec: 'flac',
             Conditions: flacConditions
         });
+
+        const flacTranscodingProfiles = [];
+
+        // Split each video transcoding profile with FLAC so that the containing FLAC is only applied to 2 channels audio
+        profile.TranscodingProfiles.forEach(transcodingProfile => {
+            if (transcodingProfile.Type !== 'Video') return;
+
+            const audioCodecs = transcodingProfile.AudioCodec.split(',');
+
+            if (!audioCodecs.includes('flac')) return;
+
+            const flacTranscodingProfile = { ...transcodingProfile };
+            flacTranscodingProfile.AudioCodec = 'flac';
+            flacTranscodingProfile.ApplyConditions = [
+                ...flacTranscodingProfile.ApplyConditions || [],
+                ...flacConditions
+            ];
+
+            flacTranscodingProfiles.push(flacTranscodingProfile);
+
+            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec != 'flac').join(',');
+        });
+
+        profile.TranscodingProfiles.push(...flacTranscodingProfiles);
     }
 
     let maxH264Level = 42;
