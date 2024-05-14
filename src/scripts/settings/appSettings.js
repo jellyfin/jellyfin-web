@@ -132,6 +132,32 @@ class AppSettings {
         return toBoolean(this.get('limitSupportedVideoResolution'), false);
     }
 
+    /**
+     * Get or set 'Enable DTS' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable DTS' or undefined.
+     * @return {boolean} 'Enable DTS' state.
+     */
+    enableDts(val) {
+        if (val !== undefined) {
+            return this.set('enableDts', val.toString());
+        }
+
+        return toBoolean(this.get('enableDts'), false);
+    }
+
+    /**
+     * Get or set 'Enable TrueHD' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable TrueHD' or undefined.
+     * @return {boolean} 'Enable TrueHD' state.
+     */
+    enableTrueHd(val) {
+        if (val !== undefined) {
+            return this.set('enableTrueHd', val.toString());
+        }
+
+        return toBoolean(this.get('enableTrueHd'), false);
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         localStorage.setItem(this.#getKey(name, userId), value);

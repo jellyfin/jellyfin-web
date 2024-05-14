@@ -193,21 +193,10 @@ async function onAppReady() {
         }
     }
 
+    // Apply custom CSS
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
-        const updateStyle = (css) => {
-            let style = document.querySelector('#cssBranding');
-            if (!style) {
-                // Inject the branding css as a dom element in body so it will take
-                // precedence over other stylesheets
-                style = document.createElement('style');
-                style.id = 'cssBranding';
-                document.body.appendChild(style);
-            }
-            style.textContent = css;
-        };
-
-        const style = fetch(apiClient.getUrl('Branding/Css'))
+        const brandingCss = fetch(apiClient.getUrl('Branding/Css'))
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error(response.status + ' ' + response.statusText);
@@ -219,41 +208,33 @@ async function onAppReady() {
             });
 
         const handleStyleChange = async () => {
-            if (currentSettings.disableCustomCss()) {
-                updateStyle('');
-            } else {
-                updateStyle(await style);
+            let style = document.querySelector('#cssBranding');
+            if (!style) {
+                // Inject the branding css as a dom element in body so it will take
+                // precedence over other stylesheets
+                style = document.createElement('style');
+                style.id = 'cssBranding';
+                document.body.appendChild(style);
             }
 
-            const localCss = currentSettings.customCss();
-            let localStyle = document.querySelector('#localCssBranding');
-            if (localCss) {
-                if (!localStyle) {
-                    // Inject the branding css as a dom element in body so it will take
-                    // precedence over other stylesheets
-                    localStyle = document.createElement('style');
-                    localStyle.id = 'localCssBranding';
-                    document.body.appendChild(localStyle);
-                }
-                localStyle.textContent = localCss;
-            } else if (localStyle) {
-                localStyle.textContent = '';
-            }
+            const css = [];
+            // Only add branding CSS when enabled
+            if (!currentSettings.disableCustomCss()) css.push(await brandingCss);
+            // Always add user CSS
+            css.push(currentSettings.customCss());
+
+            style.textContent = css.join('\n');
         };
 
-        const handleUserChange = () => {
-            handleStyleChange();
-        };
-
-        Events.on(ServerConnections, 'localusersignedin', handleUserChange);
-        Events.on(ServerConnections, 'localusersignedout', handleUserChange);
+        Events.on(ServerConnections, 'localusersignedin', handleStyleChange);
+        Events.on(ServerConnections, 'localusersignedout', handleStyleChange);
         Events.on(currentSettings, 'change', (e, prop) => {
             if (prop == 'disableCustomCss' || prop == 'customCss') {
                 handleStyleChange();
             }
         });
 
-        style.then(updateStyle);
+        handleStyleChange();
     }
 }
 

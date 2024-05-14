@@ -1,6 +1,8 @@
-import type {
-    LibraryUpdateInfo
+import {
+    MediaType,
+    type LibraryUpdateInfo
 } from '@jellyfin/sdk/lib/generated-client';
+import { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
@@ -20,6 +22,7 @@ import MultiSelect from 'components/multiSelect/multiSelect';
 import loading from 'components/loading/loading';
 import focusManager from 'components/focusManager';
 import type { ParentId } from 'types/library';
+import type { PlaybackStopInfo } from 'types/playbackStopInfo';
 
 function disableEvent(e: MouseEvent) {
     e.preventDefault();
@@ -221,7 +224,7 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
     );
 
     const onLibraryChanged = useCallback(
-        (_e: Event, apiClient, data: LibraryUpdateInfo) => {
+        (_e: Event, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
             if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
                 // yes this is an assumption
                 return;
@@ -253,12 +256,12 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
     );
 
     const onPlaybackStopped = useCallback(
-        (_e: Event, apiClient, stopInfo) => {
+        (_e: Event, stopInfo: PlaybackStopInfo) => {
             const state = stopInfo.state;
 
             if (
                 state.NowPlayingItem
-                && state.NowPlayingItem.MediaType === 'Video'
+                && state.NowPlayingItem.MediaType === MediaType.Video
             ) {
                 if (eventsToMonitor.includes('videoplayback')) {
                     notifyRefreshNeeded(true);
@@ -266,8 +269,8 @@ const ItemsContainer: FC<ItemsContainerProps> = ({
                 }
             } else if (
                 state.NowPlayingItem
-                && state.NowPlayingItem.MediaType === 'Audio'
-                && eventsToMonitor.includes('videoplayback')
+                && state.NowPlayingItem.MediaType === MediaType.Audio
+                && eventsToMonitor.includes('audioplayback')
             ) {
                 notifyRefreshNeeded(true);
                 return;

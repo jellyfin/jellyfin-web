@@ -1281,5 +1281,6 @@
     "LabelMaxAudiobookResume": "דקות נותרות בספר המוקלט להמשך",
     "LabelMaxAudiobookResumeHelp": "כותרים נחשבים כנוגנו במלואם כאשר משך הזמן הנותר קטן יותר מערך זה.",
     "LabelMetadataReaders": "קוראי מטא-דאטה",
-    "LabelMetadataSavers": "שומרי מטא-דאטה"
+    "LabelMetadataSavers": "שומרי מטא-דאטה",
+    "PlaybackError.RateLimitExceeded": "מדיה"
 }
