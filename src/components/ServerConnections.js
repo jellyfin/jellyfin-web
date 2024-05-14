@@ -35,6 +35,8 @@ class ServerConnections extends ConnectionManager {
 
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
             setUserInfo(null, null);
+            // Ensure the updated credentials are persisted to storage
+            credentialProvider.credentials(credentialProvider.credentials());
 
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedOut === 'function') {
                 window.NativeShell.onLocalUserSignedOut(logoutInfo);
@@ -128,12 +130,12 @@ class ServerConnections extends ConnectionManager {
     }
 }
 
-const credentials = new Credentials();
+const credentialProvider = new Credentials();
 
 const capabilities = Dashboard.capabilities(appHost);
 
 export default new ServerConnections(
-    credentials,
+    credentialProvider,
     appHost.appName(),
     appHost.appVersion(),
     appHost.deviceName(),
