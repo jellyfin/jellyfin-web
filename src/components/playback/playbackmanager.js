@@ -2284,6 +2284,10 @@ class PlaybackManager {
             // TODO: This should be the media type requested, not the original media type
             const mediaType = item.MediaType;
 
+            const onBitrateDetectionFailure = function () {
+                return playAfterBitrateDetect(getSavedMaxStreamingBitrate(apiClient, mediaType), item, playOptions, onPlaybackStartedFn, prevSource);
+            };
+
             return runInterceptors(item, playOptions)
                 .then(() => {
                     if (playOptions.fullscreen) {
@@ -2291,23 +2295,19 @@ class PlaybackManager {
                     }
 
                     if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
-                        return Promise.reject('skip bitrate detection');
+                        return onBitrateDetectionFailure();
                     }
 
                     return apiClient.getEndpointInfo().then((endpointInfo) => {
                         if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
                             return apiClient.detectBitrate().then((bitrate) => {
                                 appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                return bitrate;
-                            });
+                                return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
+                            }, onBitrateDetectionFailure);
+                        } else {
+                            onBitrateDetectionFailure();
                         }
-
-                        return Promise.reject('skip bitrate detection');
-                    });
-                })
-                .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType))
-                .then((bitrate) => {
-                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
+                    }, onBitrateDetectionFailure);
                 })
                 .catch(onInterceptorRejection)
                 .finally(() => {
