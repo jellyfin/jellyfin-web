@@ -940,7 +940,7 @@
     "Overview": "Synopsis",
     "PackageInstallCancelled": "L'installation de {0} (version {1}) a été annulée.",
     "PackageInstallCompleted": "L'installation de {0} (version {1}) est terminée.",
-    "PackageInstallFailed": "L'installation de {0} (version {1}) a échoué.",
+    "PackageInstallFailed": "L'installation de {0} (version {1}) a échouée.",
     "ParentalRating": "Classification parentale",
     "PasswordMatchError": "Le mot de passe et sa confirmation doivent correspondre.",
     "PasswordResetComplete": "Le mot de passe a été réinitialisé.",
