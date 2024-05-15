@@ -24,11 +24,16 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     onDrawerButtonClick
 }) => {
     const location = useLocation();
+
+    // The video osd does not show the standard toolbar
+    if (location.pathname === '/video') return null;
+
     const isTabsAvailable = isTabPath(location.pathname);
+    const isPublicPath = location.pathname === '/selectserver.html';
 
     return (
         <AppToolbar
-            buttons={
+            buttons={!isPublicPath && (
                 <>
                     <SyncPlayButton />
                     <RemotePlayButton />
@@ -45,10 +50,11 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
                         </IconButton>
                     </Tooltip>
                 </>
-            }
+            )}
             isDrawerAvailable={isDrawerAvailable}
             isDrawerOpen={isDrawerOpen}
             onDrawerButtonClick={onDrawerButtonClick}
+            isUserMenuAvailable={!isPublicPath}
         >
             {isTabsAvailable && (<AppTabs isDrawerOpen={isDrawerOpen} />)}
         </AppToolbar>

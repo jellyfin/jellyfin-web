@@ -280,12 +280,14 @@ export default function (view) {
     let mouseIsDown = false;
 
     function showOsd(focusElement) {
+        Events.trigger(document, 'showVideoOsd', [ true ]);
         slideDownToShow(headerElement);
         showMainOsdControls(focusElement);
         resetIdle();
     }
 
     function hideOsd() {
+        Events.trigger(document, 'showVideoOsd', [ false ]);
         slideUpToHide(headerElement);
         hideMainOsdControls();
         mouseManager.hideCursor();
