@@ -1721,7 +1721,7 @@
     "LabelEnableAudioVbr": "Abilita codifica audio VBR",
     "LabelEnableAudioVbrHelp": "Il bitrate variabile offre una migliore qualità rispetto al rapporto bitrate medio, ma in alcuni rari casi può causare problemi di buffering e compatibilità.",
     "LabelParallelImageEncodingLimit": "Limite codifica parallela delle immagini",
-    "LabelParallelImageEncodingLimitHelp": "Numero massimo di codifiche di immagini che possono essere eseguite in parallelo. Impostandolo su 0 sceglierai un limite basato sulle specifiche del tuo sistema.",
+    "LabelParallelImageEncodingLimitHelp": "Numero massimo di codifiche di immagini che possono essere eseguite in parallelo. Impostandolo su 0 sceglierai un limite basato sul numero di core del sistema.",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Preferisci i titoli incorporati ai nomi dei file per gli extra",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Gli extra hanno spesso lo stesso nome incorporato del parent, controlla questo per usare comunque titoli incorporati per loro.",
     "SaveRecordingImagesHelp": "Salva le immagini dal fornitore di elenchi EPG insieme ai media.",
