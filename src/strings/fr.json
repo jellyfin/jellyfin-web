@@ -1865,7 +1865,7 @@
     "HeaderDeleteLyrics": "Suppression des paroles",
     "ConfirmDeleteLyrics": "En supprimant ces paroles vous les supprimez a la fois de votre systeme de fichier et de votre bibliothèque. Êtes vous sure de vouloir continuez ?",
     "DeleteLyrics": "Supprimer ces paroles",
-    "HeaderNoLyrics": "Aucune paroles n'ont êtes trouves",
+    "HeaderNoLyrics": "Aucune parole trouvée",
     "Lyrics": "Paroles",
     "ViewLyrics": "Voir les paroles",
     "SavePassword": "Sauvegarder le mot de passe",
