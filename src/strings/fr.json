@@ -3,9 +3,9 @@
     "AccessRestrictedTryAgainLater": "L'accès est actuellement restreint. Merci de réessayer plus tard.",
     "Actor": "Acteur",
     "Add": "Ajouter",
-    "AddToCollection": "Ajouter à une collection",
+    "AddToCollection": "Ajouter à la collection",
     "AddToPlayQueue": "Ajouter à la file d'attente",
-    "AddToPlaylist": "Ajouter à une liste de lecture",
+    "AddToPlaylist": "Ajouter à la liste de lecture",
     "AddedOnValue": "Ajouté le {0}",
     "AdditionalNotificationServices": "Visiter le catalogue d'extensions pour installer des services de notifications supplémentaires.",
     "AirDate": "Date de diffusion",
@@ -1887,5 +1887,9 @@
     "Colorist": "Coloriste",
     "Creator": "Créateur",
     "LibraryScanFanoutConcurrency": "Limite de tâches de scan de bibliothèque en parallèle",
-    "Translator": "Traducteur"
+    "Translator": "Traducteur",
+    "Editor": "Éditeur",
+    "Inker": "Encreur",
+    "Letterer": "Lettreur",
+    "Penciller": "Crayonneur"
 }
