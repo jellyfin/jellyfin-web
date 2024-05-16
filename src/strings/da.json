@@ -1845,5 +1845,16 @@
     "TonemappingModeHelp": "Vælg tonemapnings metode. Hvis du oplever udsprængte højlys, prøv at skifte til RGB metoden.",
     "Author": "Forfatter",
     "Colorist": "Farvelægger",
-    "ConfirmDeleteLyrics": "Sletning af disse tekster vil slette dem både fra filsystemet og dit mediebibliotek. Er du sikker på, at du vil fortsætte?"
+    "ConfirmDeleteLyrics": "Sletning af disse tekster vil slette dem både fra filsystemet og dit mediebibliotek. Er du sikker på, at du vil fortsætte?",
+    "CoverArtist": "Omslagskunstner",
+    "Creator": "Skaber",
+    "Editor": "Redaktør",
+    "DeleteLyrics": "Slet sangtekster",
+    "ErrorDeletingLyrics": "Der opstod en fejl ved sletning af sangteksterne fra serveren. Kontroller, at Jellyfin har skriveadgang til mediemappen, og prøv igen.",
+    "EnableDts": "Aktiver DTS (DCA)",
+    "EnableDtsHelp": "Aktiver kun, hvis din enhed understøtter DTS eller er tilsluttet en kompatibel lydmodtager, ellers kan det medføre afspilningsfejl.",
+    "EnableTrueHd": "Aktiver TrueHD",
+    "EnableTrueHdHelp": "Aktiver kun, hvis din enhed understøtter TrueHD eller er tilsluttet en kompatibel lydmodtager, ellers kan det medføre afspilningsfejl.",
+    "HeaderDeleteLyrics": "Slet Sangtekster",
+    "HeaderLyricDownloads": "Sangtekst-downloads"
 }
