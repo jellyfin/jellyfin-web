@@ -1366,7 +1366,7 @@
     "Poster": "Poster",
     "Photo": "Foto",
     "Other": "Sonstiges",
-    "Bwdif": "Bob Weaver DeInterlacing Filter (BWDIF)",
+    "Bwdif": "Bob Weaver Zeilenentflechtungs Filter (BWDIF)",
     "UseDoubleRateDeinterlacingHelp": "Diese Einstellung verwendet die Halbbildrate beim Deinterlacing, oft auch als Bob-Deinterlacing bezeichnet. Dabei wird die Bildrate des Videos verdoppelt, um eine vollständige Bewegung wie beim Betrachten eines Interlaced-Video auf einem Fernseher zu erzielen.",
     "UseDoubleRateDeinterlacing": "Verdoppelung der Bildfrequenz beim Deinterlacing",
     "LabelIconMaxResHelp": "Maximale Auflösung der Icons, die über die Eigenschaft 'upnp:icon' bereitgestellt wird.",
@@ -1868,5 +1868,12 @@
     "HeaderDeleteLyrics": "Songtexte löschen",
     "HeaderNoLyrics": "Keine Songtexte gefunden",
     "ViewLyrics": "Songtexte ansehen",
-    "Author": "Autor"
+    "Author": "Autor",
+    "CoverArtist": "Cover-Künstler",
+    "Creator": "Ersteller",
+    "Editor": "Bearbeiter",
+    "EnableTrueHdHelp": "Schalte dies nur ein wenn dein Gerät TrueHD unterstützt oder an einem kompatiblem audio Empfänger angeschlossen ist, andernfalls könnte es zu Widergabefehlern führen.",
+    "EnableDts": "DTS zulassen (DCA)",
+    "EnableDtsHelp": "Schalte dies nur ein, wenn dein Gerät DTS unterstützt oder mit einem kompatiblem audio Empfänger angeschlossen ist, andernfalls könnte es zu Widergabefehlern führen.",
+    "EnableTrueHd": "TrueHD zulassen"
 }
