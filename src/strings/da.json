@@ -1186,7 +1186,7 @@
     "LabelServerName": "Server navn",
     "LabelUserLoginAttemptsBeforeLockout": "Mislykkede loginforsøg før bruger lukkes ude",
     "ButtonAddImage": "Tilføj billede",
-    "AllowFfmpegThrottlingHelp": "Når en omkodning eller ompakning kommer langt nok foran den nuværende afspilningsposition, pauser processen så der forbruges færre ressourcer. Dette er mest brugbart når man ikke spoler ofte. Slå dette fra hvis du oplever problemer under afspilning.",
+    "AllowFfmpegThrottlingHelp": "Når en transkodning eller remux kommer langt nok foran den aktuelle afspilningsposition, skal du sætte processen på pause, så den bruger færre ressourcer. Dette er mest nyttigt, når du ser uden ofte at søge. Slå dette fra, hvis du oplever afspilningsproblemer.",
     "AllowFfmpegThrottling": "Begræns omkodninger",
     "AlbumArtist": "Album Kunstner",
     "Album": "Album",
@@ -1300,7 +1300,7 @@
     "YoutubeNotFound": "Video ikke fundet.",
     "ButtonCast": "Cast til enhed",
     "ClearQueue": "Ryd kø",
-    "Bwdif": "BWDIF",
+    "Bwdif": "Bob Weaver DeInterlacing Filter (BWDIF)",
     "ButtonUseQuickConnect": "Brug Quick Connect",
     "ButtonPlayer": "Afspiller",
     "Authorize": "Tillad",
@@ -1842,5 +1842,8 @@
     "MediaInfoElPresentFlag": "DV el forudindstillelses flag",
     "MediaInfoBlPresentFlag": "DV bl forudindstillelses flag",
     "LabelTonemappingMode": "Tone mapnings metode",
-    "TonemappingModeHelp": "Vælg tonemapnings metode. Hvis du oplever udsprængte højlys, prøv at skifte til RGB metoden."
+    "TonemappingModeHelp": "Vælg tonemapnings metode. Hvis du oplever udsprængte højlys, prøv at skifte til RGB metoden.",
+    "Author": "Forfatter",
+    "Colorist": "Farvelægger",
+    "ConfirmDeleteLyrics": "Sletning af disse tekster vil slette dem både fra filsystemet og dit mediebibliotek. Er du sikker på, at du vil fortsætte?"
 }
