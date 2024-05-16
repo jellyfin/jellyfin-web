@@ -18,6 +18,14 @@ interface AppToolbarProps {
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
+const PUBLIC_PATHS = [
+    '/addserver.html',
+    '/selectserver.html',
+    '/login.html',
+    '/forgotpassword.html',
+    '/forgotpasswordpin.html'
+];
+
 const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     isDrawerAvailable,
     isDrawerOpen,
@@ -29,7 +37,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     if (location.pathname === '/video') return null;
 
     const isTabsAvailable = isTabPath(location.pathname);
-    const isPublicPath = location.pathname === '/selectserver.html';
+    const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
 
     return (
         <AppToolbar
