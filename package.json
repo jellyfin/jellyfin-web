@@ -144,6 +144,7 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "webpack serve --config webpack.dev.js",
+    "serve:production": "cross-env NODE_ENV=\"production\" webpack serve --config webpack.prod.js",
     "build:analyze": "cross-env NODE_ENV=\"production\" webpack --config webpack.analyze.js",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "cross-env NODE_ENV=\"production\" webpack --config webpack.prod.js",
