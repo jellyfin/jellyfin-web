@@ -6,6 +6,7 @@ import RemotePlayButton from 'apps/experimental/components/AppToolbar/RemotePlay
 import SyncPlayButton from 'apps/experimental/components/AppToolbar/SyncPlayButton';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ViewManagerPage from 'components/viewManager/ViewManagerPage';
+import { SHOW_OSD_EVENT } from 'controllers/playback/video';
 import Events, { type Event } from 'utils/events';
 
 /**
@@ -22,10 +23,10 @@ const VideoPage: FC = () => {
     useEffect(() => {
         const doc = documentRef.current;
 
-        if (doc) Events.on(doc, 'showVideoOsd', onShowVideoOsd);
+        if (doc) Events.on(doc, SHOW_OSD_EVENT, onShowVideoOsd);
 
         return () => {
-            if (doc) Events.off(doc, 'showVideoOsd', onShowVideoOsd);
+            if (doc) Events.off(doc, SHOW_OSD_EVENT, onShowVideoOsd);
         };
     }, []);
 

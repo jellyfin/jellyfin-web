@@ -32,6 +32,8 @@ import { PluginType } from '../../../types/plugin.ts';
 const TICKS_PER_MINUTE = 600000000;
 const TICKS_PER_SECOND = 10000000;
 
+export const SHOW_OSD_EVENT = 'showVideoOsd';
+
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
 }
@@ -280,14 +282,14 @@ export default function (view) {
     let mouseIsDown = false;
 
     function showOsd(focusElement) {
-        Events.trigger(document, 'showVideoOsd', [ true ]);
+        Events.trigger(document, SHOW_OSD_EVENT, [ true ]);
         slideDownToShow(headerElement);
         showMainOsdControls(focusElement);
         resetIdle();
     }
 
     function hideOsd() {
-        Events.trigger(document, 'showVideoOsd', [ false ]);
+        Events.trigger(document, SHOW_OSD_EVENT, [ false ]);
         slideUpToHide(headerElement);
         hideMainOsdControls();
         mouseManager.hideCursor();
