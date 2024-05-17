@@ -30,6 +30,7 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
+import { EventType } from 'types/eventType';
 
 function renderHeader() {
     let html = '';
@@ -703,6 +704,8 @@ const skinHeader = document.querySelector('.skinHeader');
 let requiresUserRefresh = true;
 
 function setTabs (type, selectedIndex, builder) {
+    Events.trigger(document, EventType.SET_TABS, type ? [ type, selectedIndex, builder()] : []);
+
     import('../components/maintabsmanager').then((mainTabsManager) => {
         if (type) {
             mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
