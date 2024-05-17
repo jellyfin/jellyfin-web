@@ -13,6 +13,7 @@ import Page from 'components/Page';
 import UserProfile from './profile';
 import UserLibraryAccess from './access';
 import UserParentalControl from './parentalcontrol';
+import UserPassword from './password';
 
 const User_Settings_Tabs = [
     {
@@ -98,11 +99,10 @@ const UserSettings = () => {
                         </ToggleButtonGroup>
                     </Box>
                     <Box>
-                        {/*Todo Add Content*/}
                         {activeTab === 'profile' && <UserProfile user={user} />}
                         {activeTab === 'access' && <UserLibraryAccess user={user} />}
                         {activeTab === 'parentalcontrol' && <UserParentalControl user={user} />}
-                        {/*activeTab === 'password' && <UserPassword user={user} />*/}
+                        {activeTab === 'password' && <UserPassword user={user} />}
                     </Box>
                 </Box>
             ) : null}

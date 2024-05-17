@@ -649,6 +649,7 @@
     "LabelDropSubtitleHere": "Drop subtitle here, or click to browse.",
     "LabelDummyChapterDuration": "Interval",
     "LabelDummyChapterDurationHelp": "The interval between dummy chapters. Set to 0 to disable dummy chapter generation. Changing this will have no effect on existing dummy chapters.",
+    "LabelChangePassword": "Change Password",
     "LabelChapterImageResolution": "Resolution",
     "LabelChapterImageResolutionHelp": "The resolution of the extracted chapter images. Changing this will have no effect on existing dummy chapters.",
     "LabelDynamicExternalId": "{0} Id",
