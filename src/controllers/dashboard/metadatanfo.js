@@ -1,7 +1,6 @@
 import escapeHtml from 'escape-html';
 import 'jquery';
 import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
@@ -44,27 +43,10 @@ function showConfirmMessage() {
     });
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/libraries',
-        name: globalize.translate('HeaderLibraries')
-    }, {
-        href: '#/dashboard/libraries/display',
-        name: globalize.translate('Display')
-    }, {
-        href: '#/dashboard/libraries/metadata',
-        name: globalize.translate('Metadata')
-    }, {
-        href: '#/dashboard/libraries/nfo',
-        name: globalize.translate('TabNfoSettings')
-    }];
-}
-
 const metadataKey = 'xbmcmetadata';
 $(document).on('pageinit', '#metadataNfoPage', function () {
     $('.metadataNfoForm').off('submit', onSubmit).on('submit', onSubmit);
 }).on('pageshow', '#metadataNfoPage', function () {
-    libraryMenu.setTabs('metadata', 3, getTabs);
     loading.show();
     const page = this;
     const promise1 = ApiClient.getUsers();

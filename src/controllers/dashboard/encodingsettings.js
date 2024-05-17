@@ -2,7 +2,6 @@ import 'jquery';
 import loading from '../../components/loading/loading';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
-import libraryMenu from '../../scripts/libraryMenu';
 import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
@@ -167,22 +166,6 @@ function setDecodingCodecsVisible(context, value) {
     }
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/playback/transcoding',
-        name: globalize.translate('Transcoding')
-    }, {
-        href: '#/dashboard/playback/resume',
-        name: globalize.translate('ButtonResume')
-    }, {
-        href: '#/dashboard/playback/streaming',
-        name: globalize.translate('TabStreaming')
-    }, {
-        href: '#/dashboard/playback/trickplay',
-        name: globalize.translate('Trickplay')
-    }];
-}
-
 let systemInfo;
 function getSystemInfo() {
     return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
@@ -292,7 +275,6 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
     $('.encodingSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
 }).on('pageshow', '#encodingSettingsPage', function () {
     loading.show();
-    libraryMenu.setTabs('playback', 0, getTabs);
     const page = this;
     ApiClient.getNamedConfiguration('encoding').then(function (config) {
         ApiClient.getSystemInfo().then(function (fetchedSystemInfo) {
