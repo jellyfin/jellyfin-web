@@ -263,6 +263,7 @@ module.exports = {
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly',
                 // Build time definitions
+                __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',
                 __PACKAGE_JSON_NAME__: 'readonly',
                 __PACKAGE_JSON_VERSION__: 'readonly',
