@@ -167,24 +167,6 @@ export function enable() {
             case 'Pause':
                 inputManager.handleCommand('pause');
                 break;
-            case 'MediaPlayPause':
-                inputManager.handleCommand('playpause');
-                break;
-            case 'MediaRewind':
-                inputManager.handleCommand('rewind');
-                break;
-            case 'MediaFastForward':
-                inputManager.handleCommand('fastforward');
-                break;
-            case 'MediaStop':
-                inputManager.handleCommand('stop');
-                break;
-            case 'MediaTrackPrevious':
-                inputManager.handleCommand('previoustrack');
-                break;
-            case 'MediaTrackNext':
-                inputManager.handleCommand('nexttrack');
-                break;
 
             default:
                 capture = false;
