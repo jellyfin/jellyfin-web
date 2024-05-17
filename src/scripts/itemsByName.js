@@ -1,10 +1,10 @@
-import listView from '../components/listview/listview';
+import ServerConnections from '../components/ServerConnections';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import imageLoader from '../components/images/imageLoader';
-import globalize from './globalize';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import listView from '../components/listview/listview';
 import '../elements/emby-button/emby-button';
-import ServerConnections from '../components/ServerConnections';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import globalize from './globalize';
 
 function renderItems(page, item) {
     const sections = [];
