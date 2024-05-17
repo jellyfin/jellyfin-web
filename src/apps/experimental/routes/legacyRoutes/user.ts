@@ -50,16 +50,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'user/subtitles/index.html'
         }
     }, {
-        path: 'video',
-        pageProps: {
-            controller: 'playback/video/index',
-            view: 'playback/video/index.html',
-            type: 'video-osd',
-            isFullscreen: true,
-            isNowPlayingBarEnabled: false,
-            isThemeMediaSupported: true
-        }
-    }, {
         path: 'queue',
         pageProps: {
             controller: 'playback/queue/index',
