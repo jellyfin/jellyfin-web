@@ -253,7 +253,7 @@
     "HeaderCodecProfile": "Profil kodeków",
     "HeaderCodecProfileHelp": "Profil Kodeków określa ograniczenia urządzenia podczas odtwarzania konkretnych kodeków. Jeśli ograniczenie ma zastosowanie, media będą transkodowane, nawet jeżeli kodek jest skonfigurowany dla odtwarzania bezpośredniego.",
     "HeaderConfigureRemoteAccess": "Konfiguracja dostępu zdalnego",
-    "HeaderConfirmPluginInstallation": "Potwierdź instalację pluginu",
+    "HeaderConfirmPluginInstallation": "Potwierdź instalację wtyczki",
     "HeaderConfirmProfileDeletion": "Potwierdź usunięcie profilu",
     "HeaderConfirmRevokeApiKey": "Odwołaj Klucz API",
     "HeaderConnectToServer": "Podłącz do serwera",
