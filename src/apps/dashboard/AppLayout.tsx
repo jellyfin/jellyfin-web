@@ -11,6 +11,7 @@ import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
 import { useApi } from 'hooks/useApi';
 
+import AppTabs from './components/AppTabs';
 import AppDrawer from './components/drawer/AppDrawer';
 
 import './AppOverrides.scss';
@@ -55,7 +56,9 @@ const AppLayout: FC<AppLayoutProps> = ({
                         isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
                         isDrawerOpen={isDrawerOpen}
                         onDrawerButtonClick={onToggleDrawer}
-                    />
+                    >
+                        <AppTabs isDrawerOpen={isDrawerOpen} />
+                    </AppToolbar>
                 </AppBar>
             </ElevationScroll>
 
