@@ -70,6 +70,21 @@ function getDeviceProfile(item) {
             });
         }
 
+        const preferredTranscodeVideoAudioCodec = appSettings.preferredTranscodeVideoAudioCodec();
+        if (preferredTranscodeVideoAudioCodec) {
+            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                if (transcodingProfile.Type === 'Video') {
+                    const audioCodecs = transcodingProfile.AudioCodec.split(',');
+                    const index = audioCodecs.indexOf(preferredTranscodeVideoAudioCodec);
+                    if (index !== -1) {
+                        audioCodecs.splice(index, 1);
+                        audioCodecs.unshift(preferredTranscodeVideoAudioCodec);
+                        transcodingProfile.AudioCodec = audioCodecs.join(',');
+                    }
+                }
+            });
+        }
+
         resolve(profile);
     });
 }
