@@ -1877,5 +1877,16 @@
     "EnableDtsHelp": "Schalte dies nur ein, wenn dein Gerät DTS unterstützt oder mit einem kompatiblem audio Empfänger angeschlossen ist, andernfalls könnte es zu Widergabefehlern führen.",
     "EnableTrueHd": "TrueHD zulassen",
     "Illustrator": "Illustrator",
-    "HeaderLyricDownloads": "Lyrik Downloads"
+    "HeaderLyricDownloads": "Lyrik Downloads",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Bevorzugter Transcode-Audiocodec bei der Videowiedergabe",
+    "Translator": "Übersetzer",
+    "LibraryScanFanoutConcurrency": "Parallele Bibliotheks-Scan-Aufgaben Limit",
+    "LibraryScanFanoutConcurrencyHelp": "Maximale Anzahl der parallelen Aufgaben während der Bibliotheksscans. Wenn Sie diesen Wert auf 0 setzen, wird eine Begrenzung auf der Grundlage der Kernanzahl Ihres Systems gewählt. WARNUNG: Wenn Sie diese Zahl zu hoch einstellen, kann es zu Problemen mit Netzwerkdateisystemen kommen; wenn Sie Probleme haben, senken Sie diese Zahl.",
+    "PlaylistError.AddFailed": "Fehler beim Hinzufügen zur Wiedergabeliste",
+    "PlaylistError.CreateFailed": "Fehler beim Erstellen der Wiedergabeliste",
+    "SavePassword": "Passwort speichern",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Wählen Sie den bevorzugten Audiocodec für die Transkodierung von Videoinhalten. Wenn der bevorzugte Codec nicht unterstützt wird, verwendet der Server den nächstbesten verfügbaren Codec.",
+    "PlaylistPublicDescription": "Erlauben Sie, dass diese Wiedergabeliste für jeden eingeloggten Benutzer sichtbar ist.",
+    "SaveLyricsIntoMediaFolders": "Liedtexte in Medienordnern speichern",
+    "SaveLyricsIntoMediaFoldersHelp": "Das Speichern von Liedtexten zusammen mit den Audiodateien ermöglicht eine einfachere Verwaltung."
 }
