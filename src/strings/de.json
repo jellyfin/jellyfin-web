@@ -406,7 +406,7 @@
     "LabelAllowedRemoteAddresses": "Filter für externe IP-Adressen",
     "LabelAllowedRemoteAddressesMode": "Filtermodus für externe IP-Adressen",
     "LabelAppName": "Applikationsname",
-    "LabelAppNameExample": "Beispiel: Sickbeard, Sonarr",
+    "LabelAppNameExample": "Ein von Menschen lesbarer Name zur Identifizierung von API-Schlüsseln. Diese Einstellung hat keinen Einfluss auf die Funktionalität.",
     "LabelArtists": "Interpreten",
     "LabelArtistsHelp": "Trenne mehrere Künstler durch ein Semikolon.",
     "LabelAudioLanguagePreference": "Bevorzugte Audiosprache",
