@@ -1880,5 +1880,7 @@
     "EnableDtsHelp": "Yalnızca cihazınız DTS'yi destekliyorsa veya uyumlu bir ses alıcısına bağlıysa etkinleştirin; aksi takdirde oynatma hatasına neden olabilir.",
     "PlaylistPublic": "Genel erişime izin ver",
     "PlaylistPublicDescription": "Bu oynatma listesinin oturum açmış herhangi bir kullanıcı tarafından görüntülenmesine izin verin.",
-    "HeaderLyricDownloads": "Şarkı Sözü İndirme"
+    "HeaderLyricDownloads": "Şarkı Sözü İndirme",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Video oynatmada tercih edilen ses kod dönüştürme",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Video içeriği için tercih edilen kod dönüştürme ses codec bileşenini seçin. Tercih edilen codec desteklenmiyorsa, sunucu mevcut bir sonraki en iyi codec'i kullanacaktır."
 }
