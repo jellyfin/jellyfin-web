@@ -1789,7 +1789,7 @@
     "ButtonEditUser": "Editiere Benutzer",
     "DlnaMovedMessage": "Die DLNA-Funktion wurde in ein Plugin verschoben.",
     "DeleteName": "Löschen {0}",
-    "AllowSubtitleManagement": "Erlaube dem Nutzer Untertitel zu bearbeiten",
+    "AllowSubtitleManagement": "Erlaube diesem Nutzer Untertitel zu bearbeiten",
     "LabelUseReplayGainTagsHelp": "Audiodateien nach Replaygain-Tags durchsuchen statt den LUFS-Wert zu Berechnen. (Nutzt weniger Rechenleistung. Wird die \"LUFS Scan\" option überschreiben)",
     "LabelUseReplayGainTags": "ReplayGain-Tags Benutzen",
     "ChannelResolutionSD": "SD",
