@@ -252,7 +252,7 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
                 .canPlayType('video/mp4; codecs="dvh1.08.09"')
                 .replace(/no/, '')
             // LG TVs from at least 2020 onwards should support profile 8, but they don't report it.
-            || (browser.web0s && browser.web0sVersion > 5)
+            || (browser.web0sVersion >= 5)
         ) {
             supportedProfiles.push(8);
         }
