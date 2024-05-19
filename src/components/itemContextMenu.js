@@ -280,11 +280,11 @@ export function getCommands(options) {
         });
     }
 
-    if (item.PlaylistItemId && options.playlistId) {
+    if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
         commands.push({
             name: globalize.translate('RemoveFromPlaylist'),
             id: 'removefromplaylist',
-            icon: 'remove'
+            icon: 'playlist_remove'
         });
     }
 
@@ -292,7 +292,7 @@ export function getCommands(options) {
         commands.push({
             name: globalize.translate('RemoveFromCollection'),
             id: 'removefromcollection',
-            icon: 'remove'
+            icon: 'playlist_remove'
         });
     }
 
@@ -696,6 +696,6 @@ export function show(options) {
 }
 
 export default {
-    getCommands: getCommands,
-    show: show
+    getCommands,
+    show
 };

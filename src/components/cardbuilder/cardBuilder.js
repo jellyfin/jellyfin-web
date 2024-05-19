@@ -4,6 +4,7 @@
  * @module components/cardBuilder/cardBuilder
  */
 
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import escapeHtml from 'escape-html';
 
 import browser from 'scripts/browser';
@@ -698,8 +699,26 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             }
         }
 
-        if (options.showPersonRoleOrType && item.Role) {
-            lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+        if (options.showPersonRoleOrType && item.Type) {
+            if (item.Role) {
+                if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(item.Type)) {
+                    // List actor roles formatted like "as Character Name"
+                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+                } else if (item.Role.toLowerCase() === item.Type.toLowerCase()) {
+                    // Role and Type are the same so use the localized Type
+                    lines.push(escapeHtml(globalize.translate(item.Type)));
+                } else if (item.Role.toLowerCase().includes(item.Type.toLowerCase())) {
+                    // Avoid duplication if the Role includes the Type (i.e. Executive Producer)
+                    lines.push(escapeHtml(item.Role));
+                } else {
+                    // Type and Role are unique so list both (i.e. Writer | Novel)
+                    lines.push(escapeHtml(globalize.translate(item.Type)));
+                    lines.push(escapeHtml(item.Role));
+                }
+            } else {
+                // No Role so use the localized Type
+                lines.push(escapeHtml(globalize.translate(item.Type)));
+            }
         }
     }
 
@@ -1285,8 +1304,7 @@ function updateUserData(card, userData) {
 
         if (!playedIndicator) {
             playedIndicator = document.createElement('div');
-            playedIndicator.classList.add('playedIndicator');
-            playedIndicator.classList.add('indicator');
+            playedIndicator.classList.add('playedIndicator', 'indicator');
             indicatorsElem = ensureIndicators(card, indicatorsElem);
             indicatorsElem.appendChild(playedIndicator);
         }
@@ -1302,7 +1320,7 @@ function updateUserData(card, userData) {
 
         if (!countIndicator) {
             countIndicator = document.createElement('div');
-            countIndicator.classList.add('countIndicator');
+            countIndicator.classList.add('countIndicator', 'indicator');
             indicatorsElem = ensureIndicators(card, indicatorsElem);
             indicatorsElem.appendChild(countIndicator);
         }

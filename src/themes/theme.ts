@@ -55,7 +55,18 @@ const theme = createTheme({
         MuiButton: {
             defaultProps: {
                 variant: 'contained'
-            }
+            },
+            variants: [
+                {
+                    props: {
+                        size: 'large'
+                    },
+                    style: {
+                        fontSize: '1rem',
+                        fontWeight: 'bold'
+                    }
+                }
+            ]
         },
         MuiFormControl: {
             defaultProps: {

@@ -16,7 +16,15 @@ $mui-bp-xl: 1536px;
     }
 
     // Fix the padding of dashboard pages
-    .content-primary.content-primary {
-        padding-top: 3.25rem !important;
+    .content-primary {
+        padding-top: 3.25rem;
+    }
+    // Tabbed pages
+    .withTabs .content-primary {
+        padding-top: 6.5rem;
+
+        @media all and (min-width: $mui-bp-lg) {
+            padding-top: 3.25rem;
+        }
     }
 }

@@ -8,13 +8,40 @@ on:
       - completed
 
 jobs:
+  pr-context:
+    name: PR context
+    if: ${{ github.event.workflow_run.event == 'pull_request' }}
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ env.pr_branch }}
+      commit: ${{ env.pr_sha }}
+      pr_number: ${{ env.pr_number }}
+
+    steps:
+      - name: Get PR context
+        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+        id: pr_context
+        with:
+          run_id: ${{ github.event.workflow_run.id }}
+          name: PR_context
+
+      - name: Set PR context environment variables
+        if: ${{ steps.pr_context.conclusion == 'success' }}
+        run: |
+          echo "pr_branch=$(cat PR_branch)" >> $GITHUB_ENV
+          echo "pr_number=$(cat PR_number)" >> $GITHUB_ENV
+          echo "pr_sha=$(cat PR_sha)" >> $GITHUB_ENV
+
   publish:
     permissions:
       contents: read
       deployments: write
 
     name: Deploy to Cloudflare Pages
+    if: ${{ always() }}
     runs-on: ubuntu-latest
+    needs:
+      - pr-context
     outputs:
       url: ${{ steps.cf.outputs.url }}
 
@@ -33,31 +60,9 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: jellyfin-web
-          branch: ${{ github.event.workflow_run.head_branch }}
+          branch: ${{ needs.pr-context.outputs.branch || github.ref_name }}
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
-  pr-context:
-    name: PR context
-    if: ${{ always() && github.event.workflow_run.event == 'pull_request' }}
-    runs-on: ubuntu-latest
-    outputs:
-      commit: ${{ env.pr_sha }}
-      pr_number: ${{ env.pr_number }}
-
-    steps:
-      - name: Get PR context
-        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
-        id: pr_context
-        with:
-          run_id: ${{ github.event.workflow_run.id }}
-          name: PR_context
-
-      - name: Set PR context environment variables
-        if: ${{ steps.pr_context.conclusion == 'success' }}
-        run: |
-          echo "pr_number=$(cat PR_number)" >> $GITHUB_ENV
-          echo "pr_sha=$(cat PR_sha)" >> $GITHUB_ENV
 
   compose-comment:
     name: Compose comment
@@ -68,7 +73,7 @@ jobs:
       - pr-context
 
     with:
-      branch: ${{ github.event.workflow_run.head_branch }}
+      branch: ${{ needs.pr-context.outputs.branch || github.ref_name }}
       commit: ${{ needs.pr-context.outputs.commit != '' && needs.pr-context.outputs.commit || github.event.workflow_run.head_sha }}
       preview_url: ${{ needs.publish.outputs.url }}
       build_workflow_run_id: ${{ github.event.workflow_run.id }}

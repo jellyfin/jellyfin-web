@@ -138,9 +138,6 @@ function updateValues(isValueSet) {
         }
 
         if (range.markerContainerElement) {
-            if (!range.triedAddingMarkers) {
-                addMarkers(range);
-            }
             updateMarkers(range, value);
         }
     });
@@ -206,21 +203,6 @@ function setMarker(range, valueMarker, marker, valueProgress) {
 }
 
 function updateMarkers(range, currentValue) {
-    if (range.markerInfo?.length && range.markerElements?.length) {
-        for (let i = 0, length = range.markerElements.length; i < length; i++) {
-            if (range.markerInfo.length > i) {
-                setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
-            }
-        }
-    }
-}
-
-function addMarkers(range) {
-    range.markerInfo = [];
-    if (range.getMarkerInfo) {
-        range.markerInfo = range.getMarkerInfo();
-    }
-
     function getMarkerHtml(markerInfo) {
         let markerTypeSpecificClasses = '';
 
@@ -236,12 +218,25 @@ function addMarkers(range) {
         return `<span class="material-icons sliderMarker ${markerTypeSpecificClasses}" aria-hidden="true"></span>`;
     }
 
-    range.markerInfo.forEach(info => {
-        range.markerContainerElement.insertAdjacentHTML('beforeend', getMarkerHtml(info));
-    });
+    if (range.getMarkerInfo) {
+        range.markerInfo = range.getMarkerInfo();
 
-    range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
-    range.triedAddingMarkers = true;
+        range.markerContainerElement.innerHTML = '';
+
+        range.markerInfo.forEach(info => {
+            range.markerContainerElement.insertAdjacentHTML('beforeend', getMarkerHtml(info));
+        });
+
+        range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+    }
+
+    if (range.markerInfo?.length && range.markerElements?.length) {
+        for (let i = 0, length = range.markerElements.length; i < length; i++) {
+            if (range.markerInfo.length > i) {
+                setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
+            }
+        }
+    }
 }
 
 EmbySliderPrototype.attachedCallback = function () {

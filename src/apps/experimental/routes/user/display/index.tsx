@@ -5,7 +5,6 @@ import React, { useCallback } from 'react';
 
 import Page from 'components/Page';
 import globalize from 'scripts/globalize';
-import theme from 'themes/theme';
 import { DisplayPreferences } from './DisplayPreferences';
 import { ItemDetailPreferences } from './ItemDetailPreferences';
 import { LibraryPreferences } from './LibraryPreferences';
@@ -80,11 +79,7 @@ export default function UserDisplayPreferences() {
 
                         <Button
                             type='submit'
-                            sx={{
-                                color: theme.palette.text.primary,
-                                fontSize: theme.typography.htmlFontSize,
-                                fontWeight: theme.typography.fontWeightBold
-                            }}
+                            size='large'
                         >
                             {globalize.translate('Save')}
                         </Button>

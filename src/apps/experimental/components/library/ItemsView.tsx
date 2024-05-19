@@ -6,7 +6,7 @@ import React, { type FC, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
 import { useLocalStorage } from 'hooks/useLocalStorage';
-import { useGetItem, useGetItemsViewByType } from 'hooks/useFetchItems';
+import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
 import { CardShape } from 'utils/card';
 import Loading from 'components/loading/LoadingComponent';
@@ -28,6 +28,7 @@ import { LibraryTab } from 'types/libraryTab';
 import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
+import { useItem } from 'hooks/useItem';
 
 interface ItemsViewProps {
     viewType: LibraryTab;
@@ -79,7 +80,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         itemType,
         libraryViewSettings
     );
-    const { data: item } = useGetItem(parentId);
+    const { data: item } = useItem(parentId || undefined);
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
