@@ -982,6 +982,8 @@ export default function (view) {
                     stats: true,
                     suboffset: showSubOffset,
                     onOption: onSettingsOption
+                }).catch(() => {
+                    // prevent 'ActionSheet closed without resolving' error
                 }).finally(() => {
                     resetIdle();
                 });
@@ -1055,6 +1057,8 @@ export default function (view) {
                 if (index !== currentIndex) {
                     playbackManager.setAudioStreamIndex(index, player);
                 }
+            }).catch(() => {
+                // prevent 'ActionSheet closed without resolving' error
             }).finally(() => {
                 resetIdle();
             });
@@ -1102,10 +1106,11 @@ export default function (view) {
                     playbackManager.setSecondarySubtitleStreamIndex(index, player);
                 }
             }
-        })
-            .finally(() => {
-                resetIdle();
-            });
+        }).catch(() => {
+            // prevent 'ActionSheet closed without resolving' error
+        }).finally(() => {
+            resetIdle();
+        });
 
         setTimeout(resetIdle, 0);
     }
@@ -1182,6 +1187,8 @@ export default function (view) {
                 }
 
                 toggleSubtitleSync();
+            }).catch(() => {
+                // prevent 'ActionSheet closed without resolving' error
             }).finally(() => {
                 resetIdle();
             });
@@ -1217,7 +1224,9 @@ export default function (view) {
                 scrollY: true
             }).then(
                 chapterStartPositionTicks => playbackManager.seek(chapterStartPositionTicks, player)
-            ).finally(() => {
+            ).catch(() => {
+                // prevent 'ActionSheet closed without resolving' error
+            }).finally(() => {
                 resetIdle();
             });
 
