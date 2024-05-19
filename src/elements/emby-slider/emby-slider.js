@@ -211,7 +211,7 @@ function updateMarkers(range, currentValue) {
 
             if (typeof markerInfo.name === 'string' && markerInfo.name.length) {
                 // limit the class length in case the name contains half a novel
-                markerTypeSpecificClasses = `${markerInfo.className} marker-${markerInfo.name.substring(0, 100).toLowerCase().replace(' ', '-')}`;
+                markerTypeSpecificClasses = `${markerInfo.className} marker-${markerInfo.name.substring(0, 100).toLowerCase().replaceAll(' ', '-')}`;
             }
         }
 
