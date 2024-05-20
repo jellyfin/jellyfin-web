@@ -2267,7 +2267,7 @@ class PlaybackManager {
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
-                return Promise.reject();
+                return Promise.resolve();
             }
 
             // Normalize defaults to simplfy checks throughout the process
@@ -2285,31 +2285,15 @@ class PlaybackManager {
             const mediaType = item.MediaType;
 
             return runInterceptors(item, playOptions)
-                .then(() => {
-                    if (playOptions.fullscreen) {
-                        loading.show();
-                    }
-
-                    if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
-                        return Promise.reject('skip bitrate detection');
-                    }
-
-                    return apiClient.getEndpointInfo().then((endpointInfo) => {
-                        if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                            return apiClient.detectBitrate().then((bitrate) => {
-                                appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                return bitrate;
-                            });
-                        }
-
-                        return Promise.reject('skip bitrate detection');
-                    });
-                })
-                .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType))
-                .then((bitrate) => {
-                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
-                })
                 .catch(onInterceptorRejection)
+                .then(() => detectBitrate(apiClient, item, mediaType, playOptions))
+                .then((bitrate) => {
+                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
+                        .catch(onPlaybackRejection);
+                })
+                .catch(() => {
+                    /* NOTE: Any errors should already be handled, but interceptors will reject to prevent playback. */
+                })
                 .finally(() => {
                     if (playOptions.fullscreen) {
                         loading.hide();
@@ -2328,7 +2312,13 @@ class PlaybackManager {
             Events.trigger(self, 'playbackcancelled');
         }
 
-        function onInterceptorRejection(e) {
+        function onInterceptorRejection() {
+            cancelPlayback();
+
+            return Promise.reject();
+        }
+
+        function onPlaybackRejection(e) {
             cancelPlayback();
 
             let displayErrorCode = 'ErrorDefault';
@@ -2343,7 +2333,7 @@ class PlaybackManager {
 
             showPlaybackInfoErrorMessage(self, displayErrorCode);
 
-            return Promise.reject();
+            return Promise.resolve();
         }
 
         function destroyPlayer(player) {
@@ -2500,6 +2490,33 @@ class PlaybackManager {
             } catch (e) {
                 console.error(`AutoSet - Caught unexpected error: ${e}`);
             }
+        }
+
+        function detectBitrate(apiClient, item, mediaType, playOptions) {
+            // FIXME: This is gnarly, but don't want to change too much here in a bugfix
+            return Promise.resolve()
+                .then(() => {
+                    if (playOptions.fullscreen) {
+                        loading.show();
+                    }
+
+                    if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
+                        return Promise.reject('skip bitrate detection');
+                    }
+
+                    return apiClient.getEndpointInfo()
+                        .then((endpointInfo) => {
+                            if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
+                                return apiClient.detectBitrate().then((bitrate) => {
+                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+                                    return bitrate;
+                                });
+                            }
+
+                            return Promise.reject('skip bitrate detection');
+                        });
+                })
+                .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType));
         }
 
         function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn, prevSource) {
