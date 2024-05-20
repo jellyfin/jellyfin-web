@@ -1,15 +1,10 @@
-import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import React, { FC } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-
+import React, { type FC } from 'react';
+import { useLocation } from 'react-router-dom';
 import AppToolbar from 'components/toolbar/AppToolbar';
-import globalize from 'scripts/globalize';
-
 import AppTabs from '../tabs/AppTabs';
 import RemotePlayButton from './RemotePlayButton';
 import SyncPlayButton from './SyncPlayButton';
+import SearchButton from './SearchButton';
 import { isTabPath } from '../tabs/tabRoutes';
 
 interface AppToolbarProps {
@@ -38,6 +33,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
 
     const isTabsAvailable = isTabPath(location.pathname);
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
+    const isSearchPath = location.pathname === '/search.html';
 
     return (
         <AppToolbar
@@ -45,18 +41,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
                 <>
                     <SyncPlayButton />
                     <RemotePlayButton />
-
-                    <Tooltip title={globalize.translate('Search')}>
-                        <IconButton
-                            size='large'
-                            aria-label={globalize.translate('Search')}
-                            color='inherit'
-                            component={Link}
-                            to='/search.html'
-                        >
-                            <SearchIcon />
-                        </IconButton>
-                    </Tooltip>
+                    <SearchButton isTabsAvailable={isTabsAvailable} isSearchPath={isSearchPath} />
                 </>
             )}
             isDrawerAvailable={isDrawerAvailable}
