@@ -1833,5 +1833,7 @@
     "LabelAllowContentWithTags": "Tillåt objekt med taggarna",
     "LimitSupportedVideoResolutionHelp": "Använd 'Maximal tillåten video omkodningsupplösning' som maximal begränsad maximal videoupplösning.",
     "HeaderDeleteLyrics": "Ta bort låttexterna",
-    "HeaderNoLyrics": "Inga låttexter hittades"
+    "HeaderNoLyrics": "Inga låttexter hittades",
+    "Creator": "Skapare",
+    "EnableTrueHd": "Aktivera TrueHD"
 }
