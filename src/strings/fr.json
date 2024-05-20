@@ -1892,5 +1892,7 @@
     "Inker": "Encreur",
     "Letterer": "Lettreur",
     "Penciller": "Crayonneur",
-    "CoverArtist": "Artiste de la couverture"
+    "CoverArtist": "Artiste de la couverture",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Codec préféré de transcodage audio lors de la lecture vidéo",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Sélectionnez le codec audio cible préféré pour le transcodage du contenu vidéo. Si le codec préféré n'est pas supporté, le serveur utilisera le meilleur codec disponible suivant."
 }
