@@ -8,6 +8,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import Events from '../../utils/events.ts';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
 
 export default function (view, params, tabContent, options) {
     function getPageData() {
@@ -66,6 +67,7 @@ export default function (view, params, tabContent, options) {
     const reloadItems = () => {
         loading.show();
         isLoading = true;
+        scrollPageToTop();
         const query = getQuery();
         const promise = options.mode == 'albumartists' ?
             ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query) :
@@ -93,7 +95,6 @@ export default function (view, params, tabContent, options) {
                 reloadItems();
             }
 
-            window.scrollTo(0, 0);
             this.alphaPicker?.updateControls(query);
             let html;
             const pagingHtml = libraryBrowser.getQueryPagingHtml({

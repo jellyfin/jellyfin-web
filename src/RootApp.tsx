@@ -9,6 +9,7 @@ import { ApiProvider } from 'hooks/useApi';
 import { WebConfigProvider } from 'hooks/useWebConfig';
 import theme from 'themes/theme';
 import { queryClient } from 'utils/query/queryClient';
+import './components/visualizer/visualizers.scss';
 
 const StableAppRouter = loadable(() => import('./apps/stable/AppRouter'));
 const RootAppRouter = loadable(() => import('./RootAppRouter'));

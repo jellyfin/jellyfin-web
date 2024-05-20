@@ -5,10 +5,7 @@ $mui-bp-md: 900px;
 $mui-bp-lg: 1200px;
 $mui-bp-xl: 1536px;
 
-// Fix main pages layout to work with drawer
-.mainAnimatedPage {
-    position: relative;
-}
+$drawer-width: 240px;
 
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {

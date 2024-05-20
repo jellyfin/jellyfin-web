@@ -22,6 +22,7 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import { renderDiscImage, renderLogo, renderYear } from 'controllers/itemDetails';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -194,9 +195,9 @@ function updateNowPlayingInfo(context, state, serverId) {
         }
 
         const url = seriesImageUrl(item, {
-            maxHeight: 300
+            maxHeight: 1080
         }) || imageUrl(item, {
-            maxHeight: 300
+            maxHeight: 1080
         });
 
         let contextButton = context.querySelector('.btnToggleContextMenu');
@@ -230,6 +231,9 @@ function updateNowPlayingInfo(context, state, serverId) {
             });
         });
         setImageUrl(context, state, url);
+        renderLogo(document.querySelector('#nowPlayingPage'), item, apiClient);
+        renderYear(document.querySelector('#nowPlayingPage'), item, apiClient);
+        renderDiscImage(document.querySelector('#nowPlayingPage'), item, apiClient);
         setBackdrops([item]);
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             const userData = fullItem.UserData || {};
@@ -410,16 +414,16 @@ export default function () {
         const supportedCommands = currentPlayerSupportedCommands;
 
         if (supportedCommands.indexOf('Mute') === -1) {
-            showMuteButton = false;
+            showMuteButton = true;
         }
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
-            showVolumeSlider = false;
+            showVolumeSlider = true;
         }
 
         if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
-            showMuteButton = false;
-            showVolumeSlider = false;
+            showMuteButton = true;
+            showVolumeSlider = true;
         }
 
         const buttonMute = view.querySelector('.buttonMute');

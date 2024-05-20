@@ -192,6 +192,7 @@ a[data-role=button] {
 .checkboxLabel,
 .checkboxListLabel,
 .inputLabel,
+.sliderLabel,
 .inputLabelUnfocused,
 .paperListLabel,
 .textareaLabelUnfocused {
@@ -209,7 +210,7 @@ a[data-role=button] {
 }
 
 .cardContent {
-    border-radius: 0.8em;
+    border-radius: 0.2em;
 }
 
 .collapseContent,
@@ -218,7 +219,7 @@ a[data-role=button] {
 .paperList,
 .visualCardBox {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 0.8em;
+    border-radius: 0.2em;
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
@@ -227,11 +228,11 @@ a[data-role=button] {
 }
 
 .cardOverlayContainer {
-    border-radius: 0.8em;
+    border-radius: 0.2em;
 }
 
 .blurhash-canvas {
-    border-radius: 0.8em;
+    border-radius: 0.2em;
 }
 
 .defaultCardBackground1 {
@@ -574,7 +575,7 @@ a[data-role=button] {
 
 .cardBox:not(.visualCardBox) .cardPadder {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 0.8em;
+    border-radius: 0.2em;
 }
 
 .cardPadder .cardImageIcon {

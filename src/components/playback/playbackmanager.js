@@ -1,7 +1,6 @@
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
-
 import Events from '../../utils/events.ts';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
@@ -19,9 +18,10 @@ import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
+import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
+import { hijackMediaElementForCrossfade, timeRunningOut, xDuration } from 'components/audioEngine/crossfader.logic';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -2012,6 +2012,8 @@ class PlaybackManager {
         self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = function (options) {
+            hijackMediaElementForCrossfade();
+
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
@@ -2247,12 +2249,14 @@ class PlaybackManager {
                 introPlayOptions.items = items;
                 introPlayOptions.startIndex = playStartIndex;
 
-                return playInternal(items[playStartIndex], introPlayOptions, function () {
-                    self._playQueueManager.setPlaylist(items);
+                setTimeout(() => {
+                    return playInternal(items[playStartIndex], introPlayOptions, function () {
+                        self._playQueueManager.setPlaylist(items);
 
-                    setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
-                    loading.hide();
-                });
+                        setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
+                        loading.hide();
+                    });
+                }, Math.max(xDuration.sustain * 1000), 1);
             });
         }
 
@@ -2285,25 +2289,14 @@ class PlaybackManager {
             const mediaType = item.MediaType;
 
             return runInterceptors(item, playOptions)
-                .then(() => {
-                    if (playOptions.fullscreen) {
-                        loading.show();
-                    }
-
-                    if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
-                        return Promise.reject('skip bitrate detection');
-                    }
-
-                    return apiClient.getEndpointInfo().then((endpointInfo) => {
-                        if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                            return apiClient.detectBitrate().then((bitrate) => {
-                                appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                return bitrate;
-                            });
-                        }
-
-                        return Promise.reject('skip bitrate detection');
-                    });
+                .catch(onInterceptorRejection)
+                .then(() => detectBitrate(apiClient, item, mediaType))
+                .then((bitrate) => {
+                    const elapsedTime = performance.now() - xDuration.t0; // Calculate the elapsed time
+                    setTimeout(() => {
+                        return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
+                            .catch(onPlaybackRejection);
+                    }, Math.max(1, xDuration.sustain * 1000 - elapsedTime));
                 })
                 .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType))
                 .then((bitrate) => {
@@ -2775,6 +2768,22 @@ class PlaybackManager {
                 title: item.Name
             };
 
+            // This inserts a header link to preload the next audio track in accordance with browser availability
+            if (type === "Audio") {
+              let link = document.getElementById("next-audio-prefetch");
+
+              if (!link) {
+                link = document.createElement("link");
+                link.id = "next-audio-prefetch";
+                link.rel = "prefetch";
+                link.as = "audio";
+                document.head.appendChild(link);
+              }
+
+              // Update to point to the new upcoming track
+              link.href = mediaUrl;
+            }
+
             const backdropUrl = getItemBackdropImageUrl(apiClient, item, {}, true);
             if (backdropUrl) {
                 resultInfo.backdropUrl = backdropUrl;
@@ -2891,6 +2900,8 @@ class PlaybackManager {
         };
 
         self.setCurrentPlaylistItem = function (playlistItemId, player) {
+            hijackMediaElementForCrossfade();
+
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.setCurrentPlaylistItem(playlistItemId);
@@ -2998,6 +3009,8 @@ class PlaybackManager {
         }
 
         self.nextTrack = function (player) {
+            hijackMediaElementForCrossfade();
+
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
@@ -3272,6 +3285,7 @@ class PlaybackManager {
          * @param {MediaError} error.type
          */
         function onPlaybackError(e, error) {
+            destroyWaveSurferInstance();
             const player = this;
             error = error || {};
 
@@ -3424,6 +3438,10 @@ class PlaybackManager {
 
         function onPlaybackTimeUpdate() {
             const player = this;
+            if (timeRunningOut(player)) {
+                self.nextTrack();
+            }
+
             sendProgressUpdate(player, 'timeupdate');
         }
 

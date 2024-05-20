@@ -795,11 +795,6 @@ pageClassOn('pageshow', 'page', function (e) {
 
     updateMenuForPageType(isDashboardPage, isLibraryPage);
 
-    // TODO: Seems to do nothing? Check if needed (also in other views).
-    if (!e.detail.isRestored) {
-        window.scrollTo(0, 0);
-    }
-
     updateTitle(page);
     updateBackButton(page);
     updateLibraryNavLinks(page);

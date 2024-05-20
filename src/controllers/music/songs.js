@@ -10,6 +10,7 @@ import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
 
 export default function (view, params, tabContent) {
     function getPageData() {
@@ -52,6 +53,7 @@ export default function (view, params, tabContent) {
     function reloadItems(page) {
         loading.show();
         isLoading = true;
+        scrollPageToTop();
         const query = getQuery();
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
             function onNextPageClick() {
@@ -76,7 +78,6 @@ export default function (view, params, tabContent) {
                 reloadItems(tabContent);
             }
 
-            window.scrollTo(0, 0);
             const pagingHtml = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,

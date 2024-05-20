@@ -211,10 +211,10 @@ function moveImage(context, apiClient, itemId, type, index, newIndex, focusConte
 function renderImages(page, item, apiClient, images, imageProviders, elem) {
     let html = '';
 
-    let imageSize = 300;
+    let imageSize = 1000;
     const windowSize = dom.getWindowSize();
     if (windowSize.innerWidth >= 1280) {
-        imageSize = Math.round(windowSize.innerWidth / 4);
+        imageSize = Math.round(windowSize.innerWidth / 3);
     }
 
     const tagName = layoutManager.tv ? 'button' : 'div';

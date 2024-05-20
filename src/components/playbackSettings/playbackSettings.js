@@ -5,12 +5,14 @@ import qualityoptions from '../qualityOptions';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-checkbox/emby-checkbox';
+import { getVisualizerInputValues, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
-import escapeHTML from 'escape-html';
+
+import '../../elements/emby-slider/emby-slider';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
 
 function fillSkipLengths(select) {
     const options = [5, 10, 15, 20, 25, 30];
@@ -177,12 +179,19 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
+    context.querySelector('#sliderCrossfadeDuration').value = userSettings.crossfadeDuration();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
     context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value = appSettings.preferredTranscodeVideoAudioCodec();
+
+    context.querySelector('.chkEnableButterchurn').checked = userSettings.visualizerConfiguration().butterchurn.enabled;
+    context.querySelector('#sliderButterchurnPresetInterval').value = userSettings.visualizerConfiguration().butterchurn.presetInterval;
+    context.querySelector('.chkEnableFrequencyAnalyzer').checked = userSettings.visualizerConfiguration().frequencyAnalyzer.enabled;
+    context.querySelector('.chkEnableWavesurfer').checked = userSettings.visualizerConfiguration().waveSurfer.enabled;
+    setVisualizerSettings(userSettings.visualizerConfiguration());
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -234,6 +243,8 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
+    userSettingsInstance.crossfadeDuration(context.querySelector('#sliderCrossfadeDuration').value);
+    userSettingsInstance.visualizerConfiguration(getVisualizerInputValues(context));
     userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;

@@ -2,6 +2,10 @@ import appSettings from './appSettings';
 import browser from '../browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
+import { setXDuration } from 'components/audioEngine/crossfader.logic';
+import browser from '../browser';
+import appSettings from './appSettings';
+import { getVisualizerSettings, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
 
 function onSaveTimeout() {
     const self = this;
@@ -165,10 +169,38 @@ export class UserSettings {
      */
     selectAudioNormalization(val) {
         if (val !== undefined) {
-            return this.set('selectAudioNormalization', val, false);
+            return this.set('selectAudioNormalization', val, true);
         }
 
-        return this.get('selectAudioNormalization', false) || 'TrackGain';
+        return this.get('selectAudioNormalization', true) || 'AlbumGain';
+    }
+
+    /**
+     * Get or set 'CrossfadeDuration' state.
+     * @param {number|undefined} val - Flag to set duration for crossfade or disable with a negative value
+     * @return {number} crossfade duration in seconds
+     */
+    crossfadeDuration(val) {
+        if (val !== undefined) {
+            setXDuration(val);
+            return this.set('crossfadeDuration', val.toString(), true);
+        }
+
+        return parseFloat(this.get('crossfadeDuration', true) || 0);
+    }
+
+    /**
+     * Get or set 'Visualizer' state.
+     * @param {string|undefined} val - Flag to set Visualizer state
+     * @return {typeof visualizerSettings} parsed visualizer settings object
+     */
+    visualizerConfiguration(val) {
+        if (val !== undefined) {
+            setVisualizerSettings(val);
+            return this.set('visualizerConfiguration', getVisualizerSettings(), true);
+        }
+
+        return JSON.parse(this.get('visualizerConfiguration', true)) || getVisualizerSettings();
     }
 
     /**
@@ -256,10 +288,10 @@ export class UserSettings {
      */
     enableBackdrops(val) {
         if (val !== undefined) {
-            return this.set('enableBackdrops', val.toString(), false);
+            return this.set('enableBackdrops', val.toString(), true);
         }
 
-        return toBoolean(this.get('enableBackdrops', false), false);
+        return toBoolean(this.get('enableBackdrops', true), false);
     }
 
     /**
@@ -442,11 +474,11 @@ export class UserSettings {
         }
 
         const libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
-        if (libraryPageSize === 0) {
+        if (!libraryPageSize) {
             // Explicitly return 0 to avoid returning 100 because 0 is falsy.
             return 0;
         } else {
-            return libraryPageSize || 100;
+            return libraryPageSize || 90;
         }
     }
 
@@ -641,6 +673,8 @@ export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(cu
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
+export const crossfadeDuration = currentSettings.crossfadeDuration.bind(currentSettings);
+export const visualizerConfiguration = currentSettings.visualizerConfiguration.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);

@@ -10,6 +10,7 @@ import globalize from '../../scripts/globalize';
 import Events from '../../utils/events.ts';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
 
 export default function (view, params, tabContent) {
     function playAll() {
@@ -82,6 +83,7 @@ export default function (view, params, tabContent) {
     const reloadItems = () => {
         loading.show();
         isLoading = true;
+        scrollPageToTop();
         const query = getQuery();
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
@@ -106,7 +108,6 @@ export default function (view, params, tabContent) {
                 reloadItems();
             }
 
-            window.scrollTo(0, 0);
             this.alphaPicker?.updateControls(query);
             let html;
             const pagingHtml = libraryBrowser.getQueryPagingHtml({

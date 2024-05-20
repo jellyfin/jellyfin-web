@@ -51,9 +51,7 @@ export default function (view, params, tabContent) {
             if (userSettings.libraryPageSize() > 0) {
                 query.StartIndex += query.Limit;
             }
-            reloadItems(context).then(() => {
-                window.scrollTo(0, 0);
-            });
+            reloadItems(context);
         }
 
         function onPreviousPageClick() {
@@ -64,9 +62,7 @@ export default function (view, params, tabContent) {
             if (userSettings.libraryPageSize() > 0) {
                 query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
             }
-            reloadItems(context).then(() => {
-                window.scrollTo(0, 0);
-            });
+            reloadItems(context);
         }
 
         const query = getQuery();

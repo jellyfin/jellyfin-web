@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import globalize from 'scripts/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryViewSettings } from 'types/library';
+import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
 
 interface PaginationProps {
     libraryViewSettings: LibraryViewSettings;
@@ -31,6 +32,7 @@ const Pagination: FC<PaginationProps> = ({
     const showControls = limit > 0 && limit < totalRecordCount;
 
     const onNextPageClick = useCallback(() => {
+        scrollPageToTop();
         const newIndex = startIndex + limit;
         setLibraryViewSettings((prevState) => ({
             ...prevState,
@@ -39,6 +41,7 @@ const Pagination: FC<PaginationProps> = ({
     }, [limit, setLibraryViewSettings, startIndex]);
 
     const onPreviousPageClick = useCallback(() => {
+        scrollPageToTop();
         const newIndex = Math.max(0, startIndex - limit);
         setLibraryViewSettings((prevState) => ({
             ...prevState,
@@ -74,7 +77,7 @@ const Pagination: FC<PaginationProps> = ({
                         <IconButton
                             title={globalize.translate('Next')}
                             className='paper-icon-button-light btnNextPage autoSize'
-                            disabled={startIndex + limit >= totalRecordCount || isPreviousData }
+                            disabled={startIndex + limit >= totalRecordCount || isPlaceholderData }
                             onClick={onNextPageClick}
                         >
                             <ArrowForwardIcon />

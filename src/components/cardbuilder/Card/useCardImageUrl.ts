@@ -265,7 +265,7 @@ function useCardImageUrl({ item, cardOptions, shape }: UseCardImageUrlProps) {
     const imgTag = imgInfo.imgTag;
     const imgType = imgInfo.imgType;
     const itemId = imgInfo.itemId;
-    const ratio = window.devicePixelRatio || 1;
+    const ratio = window.devicePixelRatio * 2 || 2;
     let imgUrl;
     let blurhash;
 
@@ -278,7 +278,7 @@ function useCardImageUrl({ item, cardOptions, shape }: UseCardImageUrlProps) {
             height = Math.round(height * ratio);
         }
         imgUrl = getImageApi(api).getItemImageUrlById(itemId, imgType, {
-            quality: 96,
+            quality: 98,
             fillWidth: width,
             fillHeight: height,
             tag: imgTag

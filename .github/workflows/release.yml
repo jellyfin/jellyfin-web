@@ -1,19 +1,19 @@
-name: Build (artifact on push/PR)
+name: Release (tag → ZIP asset)
 
 on:
   push:
-    branches: [ music-visualizer ]
-  pull_request:
-    branches: [ music-visualizer ]
+    tags: [ "v*.*.*" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -31,13 +31,14 @@ jobs:
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
 
-      - name: Zip dist
+      - name: Package dist
         run: |
           mkdir -p out
-          (cd dist && zip -r ../out/jellyfin-web-${{ github.sha }}.zip .)
+          (cd dist && zip -r ../out/jellyfin-web-${{ github.ref_name }}.zip .)
 
-      - uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: jellyfin-web-${{ github.sha }}
-          path: out/*.zip
-          if-no-files-found: error
+          files: out/*.zip
+          draft: false
+          prerelease: false

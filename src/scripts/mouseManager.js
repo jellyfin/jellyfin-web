@@ -4,6 +4,7 @@ import browser from './browser';
 import layoutManager from '../components/layoutManager';
 import dom from './dom';
 import Events from '../utils/events.ts';
+import { scrollToActivePlaylistItem } from 'components/sitbackMode/sitback.logic';
 
 const self = {};
 
@@ -48,6 +49,7 @@ export function hideCursor() {
         isMouseIdle = true;
         addIdleClasses();
         Events.trigger(self, 'mouseidle');
+        scrollToActivePlaylistItem();
     }
 }
 

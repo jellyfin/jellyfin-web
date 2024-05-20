@@ -148,6 +148,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         ) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
             cardOptions.overlayPlayButton = true;
+            cardOptions.showYear = true;
         } else if (viewType === LibraryTab.Artists) {
             cardOptions.lines = 1;
             cardOptions.showYear = false;
@@ -308,7 +309,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             )}
 
             {isPaginationEnabled && (
-                <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
+                <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x padPagination'>
                     <Pagination
                         totalRecordCount={totalRecordCount}
                         libraryViewSettings={libraryViewSettings}

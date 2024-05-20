@@ -447,7 +447,6 @@ class ItemsView {
             if (!isLoading && query.Limit > 0) {
                 query.StartIndex += query.Limit;
                 self.itemsContainer.refreshItems().then(() => {
-                    window.scrollTo(0, 0);
                     autoFocus();
                 });
             }
@@ -457,7 +456,6 @@ class ItemsView {
             if (!isLoading && query.Limit > 0) {
                 query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
                 self.itemsContainer.refreshItems().then(() => {
-                    window.scrollTo(0, 0);
                     autoFocus();
                 });
             }

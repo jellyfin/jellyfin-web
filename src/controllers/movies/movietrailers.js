@@ -75,7 +75,6 @@ export default function (view, params, tabContent) {
                 reloadItems();
             }
 
-            window.scrollTo(0, 0);
             this.alphaPicker?.updateControls(query);
             const pagingHtml = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,

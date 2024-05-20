@@ -11,21 +11,24 @@ import { MusicSuggestionsSectionsView } from 'types/sections';
 const albumArtistsTabContent: LibraryTabContent = {
     viewType: LibraryTab.AlbumArtists,
     collectionType: CollectionType.Music,
-    isBtnSortEnabled: false
+    isAlphabetPickerEnabled: true,
+    isBtnSortEnabled: true
 };
 
 const albumsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Albums,
     collectionType: CollectionType.Music,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
+    isBtnPlayAllEnabled: false,
+    isAlphabetPickerEnabled: false,
+    isBtnShuffleEnabled: false,
     itemType: [BaseItemKind.MusicAlbum]
 };
 
 const artistsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Artists,
     collectionType: CollectionType.Music,
-    isBtnSortEnabled: false
+    isAlphabetPickerEnabled: true,
+    isBtnSortEnabled: true
 };
 
 const playlistsTabContent: LibraryTabContent = {

@@ -87,6 +87,8 @@
 - [JPUC1143](https://github.com/Jpuc1143)
 - [David Angel](https://github.com/davidangel)
 - [Pithaya](https://github.com/Pithaya)
+- [Peter Santos](https://github.com/prsantos-com)
+- [Carlos Velasco](https://github.com/xtreemze)
 
 ## Emby Contributors
 

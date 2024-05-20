@@ -85,7 +85,7 @@ div[data-role="page"] {
 .pageWithAbsoluteTabs .pageTabContent {
     /* provides room for the music controls */
     padding-bottom: 5em !important;
-    padding-bottom: calc(env(safe-area-inset-bottom) + 5em) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12em) !important;
 }
 
 .readOnlyContent {

@@ -14,9 +14,10 @@ import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 
 import './AppOverrides.scss';
+import Visualizers from 'components/visualizer/Visualizers';
 
 const AppLayout = () => {
-    const [ isDrawerActive, setIsDrawerActive ] = useState(false);
+    const [isDrawerActive, setIsDrawerActive] = useState(false);
     const { user } = useApi();
     const location = useLocation();
 
@@ -69,6 +70,7 @@ const AppLayout = () => {
                     flexGrow: 1
                 }}
             >
+                <Visualizers />
                 <AppBody>
                     <Outlet />
                 </AppBody>

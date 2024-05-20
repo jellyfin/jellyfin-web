@@ -664,7 +664,7 @@ function logoImageUrl(item, apiClient, options) {
     return null;
 }
 
-function renderLogo(page, item, apiClient) {
+export function renderLogo(page, item, apiClient) {
     const detailLogo = page.querySelector('.detailLogo');
 
     const url = logoImageUrl(item, apiClient, {});
@@ -674,6 +674,37 @@ function renderLogo(page, item, apiClient) {
         imageLoader.setLazyImage(detailLogo, url);
     } else {
         detailLogo.classList.add('hide');
+    }
+}
+
+export function renderYear(page, item) {
+    const productionYearElement = page.querySelector('.productionYear');
+    if (!item.PremiereDate && !item.ProductionYear) {
+        productionYearElement.innerText = '';
+        return;
+    }
+    const extractedYear = new Date(item.PremiereDate || item.ProductionYear);
+    productionYearElement.innerText = extractedYear.getFullYear();
+}
+
+function discImageUrl(item, apiClient, options) {
+    options = options || {};
+    options.type = 'Disc';
+    options.maxWidth = window.innerHeight * 0.8;
+    return apiClient.getScaledImageUrl(item.AlbumId, options);
+}
+
+export function renderDiscImage(page, item, apiClient) {
+    const discImageElement = page.querySelector('.discImage');
+    if (!discImageElement) return;
+
+    const url = discImageUrl(item, apiClient, {});
+
+    if (url) {
+        discImageElement.classList.remove('hide');
+        imageLoader.setLazyImage(discImageElement, url);
+    } else {
+        discImageElement.classList.add('hide');
     }
 }
 
@@ -1255,7 +1286,7 @@ function renderSimilarItems(page, item, context) {
                 coverImage: item.Type == 'MusicAlbum' || item.Type == 'MusicArtist',
                 overlayPlayButton: true,
                 overlayText: false,
-                showYear: item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Series'
+                showYear: item.Type == 'MusicAlbum' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Series'
             });
             const similarContent = similarCollapsible.querySelector('.similarContent');
             similarContent.innerHTML = html;
@@ -1627,9 +1658,13 @@ function inferContext(item) {
 }
 
 function filterItemsByCollectionItemType(items, typeInfo) {
-    return items.filter(function (item) {
-        if (typeInfo.mediaType) {
-            return item.MediaType == typeInfo.mediaType;
+    const filteredItems = [];
+    const leftoverItems = [];
+    items.forEach(function(item) {
+        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
+            filteredItems.push(item);
+        } else {
+            leftoverItems.push(item);
         }
 
         return item.Type == typeInfo.type;

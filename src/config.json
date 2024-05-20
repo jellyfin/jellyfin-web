@@ -1,32 +1,22 @@
 {
   "includeCorsCredentials": false,
-  "multiserver": false,
+  "multiserver": true,
   "themes": [
     {
-      "name": "Apple TV",
-      "id": "appletv",
-      "color": "#bcbcbc"
-    }, {
       "name": "Blue Radiance",
       "id": "blueradiance",
       "color": "#011432"
-    }, {
+    },
+    {
       "name": "Dark",
       "id": "dark",
       "color": "#202020",
       "default": true
-    }, {
-      "name": "Light",
-      "id": "light",
-      "color": "#303030"
-    }, {
+    },
+    {
       "name": "Purple Haze",
       "id": "purplehaze",
       "color": "#000420"
-    }, {
-      "name": "WMC",
-      "id": "wmc",
-      "color": "#0c2450"
     }
   ],
   "menuLinks": [],
@@ -37,12 +27,6 @@
     "htmlAudioPlayer/plugin",
     "htmlVideoPlayer/plugin",
     "photoPlayer/plugin",
-    "comicsPlayer/plugin",
-    "bookPlayer/plugin",
-    "youtubePlayer/plugin",
-    "backdropScreensaver/plugin",
-    "pdfPlayer/plugin",
-    "logoScreensaver/plugin",
     "sessionPlayer/plugin",
     "chromecastPlayer/plugin",
     "syncPlay/plugin"

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 
 import browser from 'scripts/browser';
 
@@ -31,7 +31,7 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
                 flexShrink: 0,
                 '& .MuiDrawer-paper': {
                     width: DRAWER_WIDTH,
-                    paddingBottom: '4.2rem', // Padding for now playing bar
+                    paddingBottom: '12rem', // Padding for now playing bar
                     boxSizing: 'border-box'
                 }
             }}
@@ -48,7 +48,7 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
             onClose={onClose}
             onOpen={onOpen}
             // Disable swipe to open on iOS since it interferes with back navigation
-            disableDiscovery={browser.iOS}
+            disableDiscovery={browser.mobile}
             ModalProps={{
                 keepMounted: true // Better open performance on mobile.
             }}

@@ -3,9 +3,12 @@ import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
+import { PluginType } from '../../types/plugin';
+import Events from '../../utils/events';
 import { MediaError } from 'types/mediaError';
+import { audioNodeBus, createGainNode, initializeMasterAudio, masterAudioOutput } from 'components/audioEngine/master.logic';
+import { hijackMediaElementForCrossfade, xDuration } from 'components/audioEngine/crossfader.logic';
+import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -13,7 +16,18 @@ function getDefaultProfile() {
 
 let fadeTimeout;
 function fade(instance, elem, startingVolume) {
-    instance._isFadingOut = true;
+    if (masterAudioOutput.mixerNode && xDuration.enabled) {
+        return new Promise(function (resolve) {
+            instance._isFadingOut = true;
+
+            hijackMediaElementForCrossfade();
+
+            setTimeout(() => {
+                instance._isFadingOut = false;
+                resolve();
+            }, xDuration.fadeOut * 1000);
+        });
+    }
 
     // Need to record the starting volume on each pass rather than querying elem.volume
     // This is due to iOS safari not allowing volume changes and always returning the system volume value
@@ -123,12 +137,26 @@ class HtmlAudioPlayer {
                         ?? options.item.NormalizationGain;
                 }
 
+                audioNodeBus[0].gain.linearRampToValueAtTime(
+                    0.01,
+                    masterAudioOutput.audioContext.currentTime
+                );
+
                 if (normalizationGain) {
-                    self.gainNode.gain.value = Math.pow(10, normalizationGain / 20);
+                    // Calculate the normalization gain
+                    const gainValue = Math.pow(10, normalizationGain / 20);
+
+                    // Set the final gain value
+                    audioNodeBus[0].gain.exponentialRampToValueAtTime(
+                        gainValue,
+                        masterAudioOutput.audioContext.currentTime + (xDuration.sustain / 24)
+                    );
                 } else {
-                    self.gainNode.gain.value = 1;
+                    audioNodeBus[0].gain.exponentialRampToValueAtTime(
+                        1,
+                        masterAudioOutput.audioContext.currentTime + (xDuration.sustain / 24)
+                    );
                 }
-                console.debug('gain: ' + self.gainNode.gain.value);
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
@@ -249,7 +277,7 @@ class HtmlAudioPlayer {
         function createMediaElement() {
             let elem = self._mediaElement;
 
-            if (elem) {
+            if (elem && elem.id === 'currentMediaElement') {
                 return elem;
             }
 
@@ -258,12 +286,16 @@ class HtmlAudioPlayer {
             if (!elem) {
                 elem = document.createElement('audio');
                 elem.classList.add('mediaPlayerAudio');
+                elem.id = 'currentMediaElement';
                 elem.classList.add('hide');
+                elem.preload = 'auto';
 
                 document.body.appendChild(elem);
             }
 
-            elem.volume = htmlMediaHelper.getSavedVolume();
+            if (!xDuration.enabled) {
+                elem.volume = htmlMediaHelper.getSavedVolume();
+            }
 
             self._mediaElement = elem;
 
@@ -274,17 +306,8 @@ class HtmlAudioPlayer {
 
         function addGainElement(elem) {
             try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
-
-                const audioCtx = new AudioContext();
-                const source = audioCtx.createMediaElementSource(elem);
-
-                const gainNode = audioCtx.createGain();
-
-                source.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                self.gainNode = gainNode;
+                initializeMasterAudio(self.destroy);
+                createGainNode(elem);
             } catch (e) {
                 console.error('Web Audio API is not supported in this browser', e);
             }
@@ -320,6 +343,11 @@ class HtmlAudioPlayer {
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
             }
             Events.trigger(self, 'playing');
+            triggerSongInfoDisplay();
+            scrollToActivePlaylistItem();
+
+            const elapsedTime = performance.now() - xDuration.t0; // Calculate the elapsed time
+            console.log('unexpected audio gap in seconds: ', (elapsedTime / 1000) - xDuration.sustain);
         }
 
         function onPlay() {
@@ -498,13 +526,44 @@ class HtmlAudioPlayer {
     }
 
     setVolume(val) {
+        const audioCtx = masterAudioOutput.audioContext;
         const mediaElement = this._mediaElement;
-        if (mediaElement) {
+
+        if (masterAudioOutput.mixerNode && audioCtx) {
+            // Apply the makeup gain
+            const gainValue = (val / 100);
+
+            masterAudioOutput.mixerNode.gain.setTargetAtTime(
+                gainValue * masterAudioOutput.makeupGain,
+                audioCtx.currentTime + 0.25,
+                0.2
+            );
+            masterAudioOutput.volume = Math.max(val, 1);
+            let muteButton = document.querySelector('.buttonMute');
+            if (!muteButton) muteButton = document.querySelector('.muteButton');
+            if (muteButton) {
+                const muteButtonIcon = muteButton?.querySelector('.material-icons');
+                muteButtonIcon?.classList.remove('volume_off', 'volume_up');
+                muteButtonIcon?.classList.add('volume_up');
+            }
+
+            const volumeSlider = document.querySelector('.nowPlayingVolumeSlider');
+            if (volumeSlider && !volumeSlider.dragging) {
+                volumeSlider.level = masterAudioOutput.volume;
+            }
+            masterAudioOutput.muted = false;
+        } else if (mediaElement) {
             mediaElement.volume = Math.pow(val / 100, 3);
         }
     }
 
     getVolume() {
+        const audioCtx = masterAudioOutput.audioContext;
+
+        if (masterAudioOutput.mixerNode && audioCtx) {
+            return Math.min(Math.round(masterAudioOutput.volume), 100);
+        }
+
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             return Math.min(Math.round(Math.pow(mediaElement.volume, 1 / 3) * 100), 100);
@@ -512,14 +571,64 @@ class HtmlAudioPlayer {
     }
 
     volumeUp() {
+        const audioCtx = masterAudioOutput.audioContext;
+
+        if (masterAudioOutput.mixerNode && audioCtx) {
+            masterAudioOutput.mixerNode.gain.exponentialRampToValueAtTime(
+                this.getVolume() + 0.05,
+                audioCtx.currentTime + 0.3
+            );
+            return;
+        }
         this.setVolume(Math.min(this.getVolume() + 2, 100));
     }
 
     volumeDown() {
+        const audioCtx = masterAudioOutput.audioContext;
+
+        if (masterAudioOutput.mixerNode && audioCtx) {
+            masterAudioOutput.mixerNode.gain.exponentialRampToValueAtTime(
+                this.getVolume() - 0.05,
+                audioCtx.currentTime + 0.3
+            );
+            return;
+        }
         this.setVolume(Math.max(this.getVolume() - 2, 0));
     }
 
     setMute(mute) {
+        const audioCtx = masterAudioOutput.audioContext;
+        if (masterAudioOutput.mixerNode && audioCtx) {
+            masterAudioOutput.mixerNode.gain.value = 0;
+            masterAudioOutput.mixerNode.gain.cancelScheduledValues(audioCtx.currentTime);
+            if (mute) {
+                masterAudioOutput.mixerNode.gain.linearRampToValueAtTime(
+                    (masterAudioOutput.volume / 100) * masterAudioOutput.makeupGain,
+                    audioCtx.currentTime
+                );
+                masterAudioOutput.mixerNode.gain.exponentialRampToValueAtTime(
+                    0.02,
+                    audioCtx.currentTime + 2
+                );
+            } else {
+                masterAudioOutput.mixerNode.gain.linearRampToValueAtTime(
+                    0.02,
+                    audioCtx.currentTime
+                );
+                masterAudioOutput.mixerNode.gain.exponentialRampToValueAtTime(
+                    (masterAudioOutput.volume / 100) * masterAudioOutput.makeupGain,
+                    audioCtx.currentTime + 2
+                );
+            }
+            let muteButton = document.querySelector('.buttonMute');
+            if (!muteButton) muteButton = document.querySelector('.muteButton');
+            if (!muteButton) return;
+            const muteButtonIcon = muteButton?.querySelector('.material-icons');
+            muteButtonIcon?.classList.remove('volume_off', 'volume_up');
+            muteButtonIcon?.classList.add(mute ? 'volume_off' : 'volume_up');
+            masterAudioOutput.muted = mute;
+            return;
+        }
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.muted = mute;
@@ -527,6 +636,11 @@ class HtmlAudioPlayer {
     }
 
     isMuted() {
+        const audioCtx = masterAudioOutput.audioContext;
+
+        if (masterAudioOutput.mixerNode && audioCtx) {
+            return masterAudioOutput.muted;
+        }
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.muted;
@@ -547,11 +661,11 @@ class HtmlAudioPlayer {
         if (mediaElement) {
             if (document.AirPlayEnabled) {
                 if (isEnabled) {
-                    mediaElement.requestAirPlay().catch(function(err) {
+                    mediaElement.requestAirPlay().catch(function (err) {
                         console.error('Error requesting AirPlay', err);
                     });
                 } else {
-                    document.exitAirPLay().catch(function(err) {
+                    document.exitAirPLay().catch(function (err) {
                         console.error('Error exiting AirPlay', err);
                     });
                 }

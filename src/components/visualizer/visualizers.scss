@@ -1,0 +1,613 @@
+#barSurfer>div.mdl-slider-background-flex-container,
+#barSurfer>input.nowPlayingBarPositionSlider,
+#barSurfer>div.sliderBubbleTrack #inputSurfer[hidden],
+#barSurfer[hidden] ::part(wrapper) {
+    display: none;
+}
+
+#barSurfer[hidden]>div.mdl-slider-background-flex-container,
+#barSurfer[hidden]>input.nowPlayingBarPositionSlider,
+#barSurfer[hidden]>div.sliderBubbleTrack {
+    display: unset;
+}
+
+header,
+div.nowPlayingBarTop {
+    padding: 1rem 1rem;
+}
+
+html.layout-desktop,
+.scrollY {
+    scrollbar-width: thin;
+}
+
+header {
+    padding-top: env(safe-area-inset-top);
+}
+
+div#barSurfer ::part(wrapper) {
+    display: block;
+    width: 100vw;
+    background-color: rgb(50 50 50 / 15%);
+    overflow: visible;
+    z-index: 6;
+}
+
+div#barSurfer,
+div#inputSurfer,
+div#inputSurfer ::part(wrapper),
+div#barSurfer ::part(wrapper),
+div.appfooter>div.nowPlayingBar {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#inputSurfer ::part(minimap) {
+    bottom: 14.6rem;
+    height: 1.5rem;
+    opacity: .9;
+    user-select: none;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    padding-left: 38%;
+    padding-right: 38%;
+}
+
+#inputSurfer {
+    bottom: 6.2rem;
+    height: 4rem;
+    width: 100vw;
+    left: 0;
+    right: 0;
+    position: fixed;
+    z-index: 0;
+    cursor: pointer;
+}
+
+#simpleSlider {
+    bottom: 17.9rem;
+    left: 0;
+    position: fixed;
+    z-index: 1;
+    right: 0;
+    padding-left: 24%;
+    padding-right: 24%;
+}
+
+#simpleSlider[hidden] .nowPlayingPositionSliderContainer {
+    opacity: 0;
+}
+
+#simpleSlider[hidden] {
+    overflow: visible;
+    user-select: none;
+    pointer-events: none;
+}
+
+.nowPlayingButtonsContainer {
+    position: relative;
+    bottom: 8rem;
+}
+
+.nowPlayingSecondaryButtons {
+    position: fixed;
+    bottom: 1.5rem;
+}
+
+#playlist {
+    background-color: rgba(7, 7, 7, 0.936);
+    z-index: 4;
+}
+
+div.infoContainer>.nowPlayingInfoContainerMedia>div,
+div.infoContainer>.nowPlayingInfoContainerMedia>div>a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 36vh;
+}
+
+div.nowPlayingPageImageContainer {
+    bottom: 27.3rem;
+    margin-right: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+    transition-delay: 0s;
+    width: 30rem;
+    position: fixed;
+    max-width: 92vw;
+    z-index: 1;
+}
+
+body.transition .nowPlayingPageImageContainer {
+    opacity: 1;
+    transition-delay: 0.5s;
+}
+
+div.infoContainer {
+    bottom: 20rem;
+    position: fixed;
+    width: 85%;
+}
+
+div.nowPlayingButtonsContainer {
+    position: fixed;
+    bottom: 12rem;
+    width: 85%;
+}
+
+div>form>div>button,
+button.button-submit.btnSave {
+    position: fixed !important;
+    bottom: 9rem;
+    right: 2rem;
+    width: 20% !important;
+    min-width: 12rem;
+    z-index: 1;
+    left: unset;
+    top: unset;
+}
+
+#barSurfer ::part(cursor) {
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.force-scroll {
+    overflow-y: visible;
+}
+
+.backgroundContainer {
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.backdropContainer {
+    z-index: -3;
+}
+
+body:not(.transition).mouseIdle .backdropContainer {
+    transition: filter 4s ease-in-out;
+    filter: contrast(0.9) saturate(0.4) brightness(0.9) opacity(1) blur(3px);
+    transition-delay: 5s;
+}
+
+body:not(.mouseIdle) .backdropContainer,
+body.transition .backdropContainer,
+body.songEnd .backdropContainer {
+    filter: contrast(0.9) saturate(0.4) brightness(0.5) opacity(1) blur(6px);
+    transition: filter 1s ease-in-out;
+}
+
+body.transition canvas#butterchurn,
+canvas#butterchurn {
+    z-index: 0;
+    position: fixed;
+    filter: contrast(0.8) saturate(0.3) brightness(0.4) opacity(0.6) blur(12px);
+    transition: filter 1.4s ease-in-out;
+}
+
+body.transition canvas#frequency-analyzer,
+canvas#frequency-analyzer {
+    // mix-blend-mode: difference;
+    filter: saturate(0.8) brightness(0.5) contrast(0.4) opacity(0.2) blur(2px);
+    transition: filter 1.4s ease-in-out;
+    z-index: 0;
+}
+
+body:not(.transition).mouseIdle canvas#butterchurn {
+    filter: contrast(0.8) saturate(0.3) brightness(0.5) opacity(0.5) blur(6px);
+    transition: filter 6s ease-in-out;
+    transition-delay: 5s;
+}
+
+body:not(.transition).mouseIdle canvas#frequency-analyzer {
+    // mix-blend-mode: normal;
+    filter: saturate(0.8) brightness(0.5) contrast(0.4) opacity(0.2) blur(2px);
+    transition: filter 6s ease-in-out;
+    transition-delay: 5s;
+}
+
+#nowPlayingPage .detailLogo {
+    bottom: 4rem;
+    height: 8rem;
+    left: 5rem;
+    position: fixed;
+    right: 5rem;
+    top: auto;
+    width: auto;
+    z-index: 2;
+    display: block;
+    pointer-events: none;
+}
+
+.productionYear {
+    position: fixed;
+    right: -6.1rem;
+    bottom: 15.3rem;
+    font-size: 8em;
+    font-weight: 800;
+    color: #bdbdbd;
+    opacity: 0.5;
+    rotate: -90deg;
+    letter-spacing: -4px;
+    z-index: -1;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1)
+}
+
+body.songEnd .productionYear {
+    transform: translateX(100vh);
+}
+
+.discImage {
+    filter: brightness(.85) contrast(1.05);
+    background-position-x: center;
+    background-position-y: center;
+    position: fixed;
+    bottom: 28rem;
+    left: calc(50vw - 21vh);
+    height: 42vh;
+    width: 42vh;
+    background-size: 42vh;
+    transform: translateX(0) rotate(-3turn);
+    transition: transform 2.4s cubic-bezier(.22, .61, .36, 1);
+    transition-delay: 0s;
+    z-index: 0;
+}
+
+body:not(.transition).mouseIdle .discImage {
+    transform: translateX(-80vh) rotate(-4turn);
+    transition: transform 1.5s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+    transition-delay: 2s;
+}
+
+body.songEnd .discImage {
+    transform: translateX(0vh) rotate(-4turn);
+    transition-duration: 3s;
+    transition-delay: 0s;
+}
+
+body.transition .discImage {
+    transform: translateX(0vh) rotate(-3turn);
+    transition-duration: 3s;
+    transition-delay: 0s;
+}
+
+@media (min-width: 690px) {
+    #inputSurfer ::part(minimap) {
+        position: fixed;
+        left: 34vw;
+        right: 34vw;
+        height: 3rem;
+        z-index: 3;
+        top: unset;
+        transform: unset;
+        bottom: -1.5rem;
+        width: 32vw;
+        opacity: 0.8;
+        max-width: unset;
+    }
+
+    #simpleslider {
+        height: 3rem;
+        position: fixed;
+        z-index: 3;
+        bottom: -1.5rem;
+        left: 20vw;
+        right: 20vw;
+        width: 60vw;
+        max-width: unset;
+    }
+
+    canvas#butterchurn body:not(.transition).mouseIdle {
+        filter: contrast(0.8) saturate(0.3) brightness(0.5) opacity(0.6) blur(6px);
+        transition: filter 6s ease-in-out;
+        transition-delay: 5s;
+    }
+
+    .nowPlayingSecondaryButtons {
+        position: unset;
+        bottom: unset;
+    }
+
+    #inputSurfer ::part(minimap) {
+        height: 3rem;
+        z-index: 3;
+        bottom: -1.4rem;
+        opacity: 0.8;
+        padding: unset;
+    }
+
+    #simpleSlider {
+        padding: unset;
+        z-index: 3;
+        bottom: 0.65rem;
+        position: fixed;
+        height: 1rem;
+        overflow: visible;
+        margin: none;
+        left: 31%;
+        right: 31%;
+        width: 38%;
+
+        &>.nowPlayingPositionSliderContainer {
+            margin-left: 2vw;
+            margin-right: 2vw;
+        }
+    }
+
+    #inputSurfer {
+        height: 4rem;
+        margin: 0;
+        position: fixed;
+        left: 0;
+        right: 0;
+        max-width: 100vw;
+        bottom: 2.5rem;
+    }
+
+    .backgroundContainer.withBackdrop,
+    body.transition .backgroundContainer.withBackdrop {
+        filter: contrast(1) saturate(0.4) brightness(0.5) opacity(0.7) blur(6px);
+        transition: filter 1.4s ease-in-out;
+    }
+
+    #playlist div>div.listViewUserDataButtons,
+    #nowPlayingPage div.playlistSection div.playlistSectionButton,
+    #playlist button div.listItemImage.lazy,
+    #playlist div.listItem>div.listItemImage.itemAction,
+    #playlist div>span {
+        opacity: 0;
+        animation: none;
+    }
+
+    #playlist div.listItem:hover div.listViewUserDataButtons,
+    #playlist button:hover div.listItemImage,
+    #playlist div.listItem:hover>div.listItemImage.itemAction,
+    #playlist div.listItem>div.listItemImage.itemAction.playlistIndexIndicatorImage,
+    #playlist button div.playlistIndexIndicatorImage,
+    #nowPlayingPage div.playlistSection div:hover.playlistSectionButton,
+    #playlist div.listItem:hover>span {
+        opacity: 1;
+    }
+
+    div#playlist {
+        background-color: unset;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        scrollbar-width: none;
+        position: relative;
+        z-index: 1;
+    }
+
+    div.nowPlayingButtonsContainer {
+        bottom: 4.5rem;
+        height: 0rem;
+        margin: 0;
+        position: fixed;
+        right: 9vw;
+        width: 56.2vw;
+        align-items: center;
+    }
+
+    .nowPlayingInfoControls>.infoContainer {
+        z-index: -1;
+        position: fixed;
+        background-color: black;
+        border-radius: 0 0.3em 0.3em 0;
+        bottom: 33rem;
+        left: -0.2em;
+        padding-bottom: 4.7rem;
+        padding-left: 69vw;
+        padding-right: 0vw;
+        padding-top: 6rem;
+        width: unset;
+        min-width: 25.4rem;
+        max-width: 31.4rem;
+    }
+
+    .nowPlayingSongName {
+        font-size: 2rem;
+        letter-spacing: -1px;
+    }
+
+    /* Base state: element is off-screen */
+    body.mouseIdle .nowPlayingInfoControls>.infoContainer {
+        transform: translateX(calc(-100vw - 6rem));
+        transition: transform 2s ease-in-out;
+    }
+
+    /* Slide in when the page loads or when the user is active */
+    body.transition .nowPlayingInfoControls>.infoContainer,
+    body:not(.mouseIdle) .nowPlayingInfoControls>.infoContainer {
+        transform: translateX(0);
+        transition-delay: 0s;
+        transition: transform 2s ease-in-out;
+        /* Ensures immediate transition when user becomes active */
+    }
+
+    /* Slide out after seconds of mouse idle */
+    body:not(.transition).mouseIdle .nowPlayingInfoControls>.infoContainer {
+        transition-delay: 2s;
+    }
+
+    body.songEnd .nowPlayingInfoControls>.infoContainer {
+        transform: translateX(calc(-100vw));
+        transition: transform 1s ease-in-out;
+        transition-delay: 0s;
+    }
+
+    header,
+    .skinHeader,
+    div#itemDetailPage,
+    div#musicPage,
+    div#indexPage,
+    #simpleSlider,
+    #simpleSlider .nowPlayingButtonsContainer,
+    div.positionTime,
+    div.runtime,
+    body.transition .nowPlayingInfoContainer>.nowPlayingPageImageContainer,
+    .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+        opacity: 1;
+        transition: opacity 400ms ease-in-out;
+        transition-delay: 100ms;
+    }
+
+    body.mouseIdle header,
+    body.mouseIdle .skinHeader,
+    body.mouseIdle div.positionTime,
+    body.mouseIdle div.runtime,
+    body.mouseIdle #simpleSlider,
+    body.mouseIdle #simpleSlider .nowPlayingPositionSliderContainer,
+    body.mouseIdle .nowPlayingButtonsContainer {
+        opacity: 0;
+        transition: opacity 500ms ease-out;
+    }
+
+    // body:not(.transition).mouseIdle div#itemDetailPage,
+    // body:not(.transition).mouseIdle div#musicPage,
+    // body:not(.transition).mouseIdle div#indexPage,
+    body:not(.transition).mouseIdle .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+        opacity: 0;
+        transition: opacity 500ms ease-out;
+        transition-delay: 5s;
+    }
+
+    body.songEnd .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+        opacity: 0;
+        transition-delay: 1.5s;
+    }
+
+    body:not(.transition).mouseIdle .backgroundContainer.withBackdrop {
+        filter: contrast(0.9) saturate(0.4) brightness(0.5) opacity(0.5) blur(6px);
+        transition: filter 12s ease-in-out;
+        transition-delay: 5s;
+    }
+
+    #nowPlayingPage .detailLogo {
+        z-index: -2;
+        bottom: 32rem;
+        height: 16.5rem;
+        right: calc(12vw + 2rem);
+        position: fixed;
+        left: calc(65vw + 2rem);
+        top: auto;
+        width: auto;
+        filter: brightness(0.75);
+    }
+
+    .discImage {
+        left: calc(21rem - 35vh);
+        bottom: calc(38.3rem - 35vh);
+        width: 60vh;
+        height: 60vh;
+        background-size: 60vh;
+    }
+
+    .nowPlayingInfoContainer {
+        height: unset;
+    }
+
+    .volumecontrol.hide {
+        display: unset;
+        flex: unset;
+    }
+
+    .playlist.vertical-list.nowPlayingPlaylist.hide {
+        display: flex;
+    }
+
+    .itemsContainer-tv>.squareCard,
+    .itemsContainer>.squareCard {
+        width: calc(100%/5);
+    }
+
+    div.playlistSection {
+        bottom: 8rem;
+        font-size: .75em;
+        max-height: 13rem;
+        overflow: auto;
+        padding: 0;
+        padding-bottom: 6rem;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 6rem;
+        right: calc(26vw - 16rem);
+        scrollbar-width: none;
+        position: absolute;
+        width: 24rem;
+    }
+
+    .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+        bottom: 10rem;
+        left: auto;
+        position: fixed;
+        right: 50vw;
+        width: 38vw;
+        z-index: 1;
+    }
+
+    .nowPlayingPageImage {
+        position: absolute;
+    }
+
+    .mediaInfoItem {
+        min-width: 1.5rem;
+    }
+
+    .listItem.listItem-border {
+        border: none !important;
+        border-style: none !important;
+        border-color: rgb(255 255 255 / 0%) !important;
+    }
+
+    .nowPlayingInfoContainerMedia {
+        margin-bottom: 0;
+    }
+
+    body::-webkit-scrollbar,
+    body.mouseIdle .remoteControlSection {
+        display: none;
+    }
+
+    div.nowPlayingInfoContainer {
+        bottom: 12rem;
+        left: 6rem;
+        max-width: 60rem;
+        position: fixed;
+        z-index: 1;
+    }
+
+    .sliderContainer.flex {
+        position: fixed;
+        bottom: 1rem;
+        left: 2.8rem;
+        right: 2.8rem;
+    }
+
+    .listItemImage.playlistIndexIndicatorImage {
+        background-size: 2em !important;
+        bottom: 0.3em;
+        opacity: unset;
+    }
+
+    .listItemBodyText {
+        margin: 0;
+        overflow: hidden;
+        padding: .1em 0;
+        text-overflow: ellipsis;
+        white-space: pre;
+        direction: ltr;
+    }
+
+    .layout-desktop,
+    .scrollY {
+        scrollbar-width: none !important;
+    }
+}

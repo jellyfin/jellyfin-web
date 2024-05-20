@@ -1,11 +1,15 @@
 {
     "name": "Jellyfin",
-    "description": "The Free Software Media System",
+    "description": "Media System",
     "lang": "en-US",
     "short_name": "Jellyfin",
     "start_url": "index.html#/home.html",
     "theme_color": "#101010",
+    "id": "Jellyfin",
     "background_color": "#101010",
+    "display_override": [
+        "fullscreen",
+    ],
     "display": "standalone",
     "icons": [
         {

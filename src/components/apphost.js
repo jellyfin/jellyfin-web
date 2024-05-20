@@ -253,11 +253,11 @@ const supportedFeatures = function () {
         features.push('htmlvideoautoplay');
     }
 
-    if (supportsFullscreen()) {
+    if (supportsFullscreen() || browser.mobile) {
         features.push('fullscreenchange');
     }
 
-    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) {
+    if (browser.tv || browser.xboxOne || browser.ps4 || browser.ipad) {
         features.push('physicalvolumecontrol');
     }
 

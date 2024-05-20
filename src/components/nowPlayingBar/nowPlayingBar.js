@@ -1,6 +1,6 @@
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
-import browser from '../../scripts/browser';
+import browser from 'scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
@@ -16,7 +16,7 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
-import { appRouter } from '../router/appRouter';
+import { destroyWaveSurferInstance, waveSurferInitialization } from 'components/visualizer/WaveSurfer';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];
@@ -51,8 +51,8 @@ function getNowPlayingBarHtml() {
     html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
     html += '<div class="nowPlayingBarTop">';
-    html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
-    html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
+    html += '<div id="barSurfer" class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
+    html += '<input id="barSlider" type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
     html += '</div>';
 
     html += '<div class="nowPlayingBarInfoContainer">';
@@ -121,6 +121,12 @@ function slideDown(elem) {
     dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
         once: true
     });
+
+    const legacy = destroyWaveSurferInstance();
+    if (!currentPlayer?.isLocalPlayer) return;
+
+    // When opening the same song, preserve the player legacy
+    waveSurferInitialization('#inputSurfer', legacy, playbackManager?.duration());
 }
 
 function slideUp(elem) {
@@ -134,6 +140,12 @@ function slideUp(elem) {
     void elem.offsetWidth;
 
     elem.classList.remove('nowPlayingBar-hidden');
+
+    const legacy = destroyWaveSurferInstance();
+    if (!currentPlayer?.isLocalPlayer) return;
+
+    // When opening the same song, preserve the player legacy
+    waveSurferInitialization('#barSurfer', legacy, playbackManager?.duration());
 }
 
 function onPlayPauseClick() {
@@ -242,7 +254,7 @@ function bindEvents(elem) {
 
     toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-    volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
+    // volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
 
     volumeSlider.addEventListener('input', (e) => {
         if (currentPlayer) {
@@ -436,19 +448,19 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
     muteButton.title = globalize.translate(isMuted ? 'Unmute' : 'Mute');
 
     if (supportedCommands.indexOf('SetVolume') === -1) {
-        showVolumeSlider = false;
+        showVolumeSlider = true;
     }
 
     if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
-        showMuteButton = false;
-        showVolumeSlider = false;
+        showMuteButton = true;
+        showVolumeSlider = true;
     }
 
-    muteButton.classList.toggle('hide', !showMuteButton);
+    // muteButton.classList.toggle('hide', !showMuteButton);
 
     // See bindEvents for why this is necessary
     if (volumeSlider) {
-        volumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
+        // volumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
 
         if (!volumeSlider.dragging) {
             volumeSlider.value = volumeLevel || 0;
@@ -552,7 +564,7 @@ function updateNowPlayingInfo(state) {
         nowPlayingTextElement.appendChild(secondaryText);
     }
 
-    const imgHeight = 70;
+    const imgHeight = 50;
 
     const url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
         height: imgHeight
