@@ -1843,7 +1843,6 @@ export default function (view) {
         if (item?.Chapters?.length) {
             item.Chapters.forEach(currentChapter => {
                 markers.push({
-                    className: 'chapterMarker',
                     name: currentChapter.Name,
                     progress: currentChapter.StartPositionTicks / item.RunTimeTicks
                 });
