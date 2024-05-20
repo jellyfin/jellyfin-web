@@ -1878,5 +1878,7 @@
     "HeaderLyricDownloads": "Descarregar letras",
     "HeaderVideoAdvanced": "Avançadas do vídeo",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Codec de áudio de transcodificação preferido na reprodução de vídeo",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Seleciona o codec de áudio preferido para transcodificar o conteúdo de vídeo. Se o codec preferido não for suportado, o servidor utilizará o próximo melhor codec disponível."
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Seleciona o codec de áudio preferido para transcodificar o conteúdo de vídeo. Se o codec preferido não for suportado, o servidor utilizará o próximo melhor codec disponível.",
+    "LibraryScanFanoutConcurrencyHelp": "Número máximo de tarefas paralelas durante as análises da biblioteca. Se definires este valor como 0, escolherás um limite com base na contagem de núcleos do teu sistema. AVISO: Definir este número demasiado alto pode causar problemas com os sistemas de ficheiros de rede; se tiveres problemas, reduz este número.",
+    "LibraryScanFanoutConcurrency": "Limite das tarefas de análise da biblioteca paralela"
 }
