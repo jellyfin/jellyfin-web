@@ -46,6 +46,11 @@ const KeyNames = {
 const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
 /**
+ * Keys used for media playback control.
+ */
+const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
+
+/**
  * Elements for which navigation should be constrained.
  */
 const InteractiveElements = ['INPUT', 'TEXTAREA'];
@@ -90,6 +95,16 @@ export function isNavigationKey(key) {
 }
 
 /**
+ * Returns _true_ if key is used for media playback control.
+ *
+ * @param {string} key - Key name.
+ * @return {boolean} _true_ if key is used for media playback control.
+ */
+export function isMediaKey(key) {
+    return MediaKeys.indexOf(key) != -1;
+}
+
+/**
  * Returns _true_ if the element is interactive.
  *
  * @param {Element} element - Element.
@@ -113,6 +128,11 @@ export function enable() {
 
         // Ignore navigation keys for non-TV
         if (!layoutManager.tv && isNavigationKey(key)) {
+            return;
+        }
+
+        // Ignore Media Keys for non-TV platform having MediaSession API
+        if (!layoutManager.tv && isMediaKey(key) && 'mediaSession' in navigator) {
             return;
         }
 
@@ -166,6 +186,24 @@ export function enable() {
                 break;
             case 'Pause':
                 inputManager.handleCommand('pause');
+                break;
+            case 'MediaPlayPause':
+                inputManager.handleCommand('playpause');
+                break;
+            case 'MediaRewind':
+                inputManager.handleCommand('rewind');
+                break;
+            case 'MediaFastForward':
+                inputManager.handleCommand('fastforward');
+                break;
+            case 'MediaStop':
+                inputManager.handleCommand('stop');
+                break;
+            case 'MediaTrackPrevious':
+                inputManager.handleCommand('previoustrack');
+                break;
+            case 'MediaTrackNext':
+                inputManager.handleCommand('nexttrack');
                 break;
 
             default:
