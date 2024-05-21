@@ -101,7 +101,7 @@ export function isNavigationKey(key) {
  * @return {boolean} _true_ if key is used for media playback control.
  */
 export function isMediaKey(key) {
-    return MediaKeys.indexOf(key) != -1;
+    return MediaKeys.includes(key);
 }
 
 /**
@@ -123,6 +123,7 @@ export function isInteractiveElement(element) {
 }
 
 export function enable() {
+    const hasMediaSession = 'mediaSession' in navigator;
     window.addEventListener('keydown', function (e) {
         const key = getKeyName(e);
 
@@ -132,7 +133,7 @@ export function enable() {
         }
 
         // Ignore Media Keys for non-TV platform having MediaSession API
-        if (!layoutManager.tv && isMediaKey(key) && 'mediaSession' in navigator) {
+        if (!layoutManager.tv && isMediaKey(key) && hasMediaSession) {
             return;
         }
 
