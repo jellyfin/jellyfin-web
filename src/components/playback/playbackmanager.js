@@ -2267,7 +2267,7 @@ class PlaybackManager {
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
-                return Promise.resolve();
+                return Promise.reject();
             }
 
             // Normalize defaults to simplfy checks throughout the process
@@ -2284,15 +2284,16 @@ class PlaybackManager {
             // TODO: This should be the media type requested, not the original media type
             const mediaType = item.MediaType;
 
+            if (playOptions.fullscreen) {
+                loading.show();
+            }
+
             return runInterceptors(item, playOptions)
                 .catch(onInterceptorRejection)
-                .then(() => detectBitrate(apiClient, item, mediaType, playOptions))
+                .then(() => detectBitrate(apiClient, item, mediaType))
                 .then((bitrate) => {
                     return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
                         .catch(onPlaybackRejection);
-                })
-                .catch(() => {
-                    /* NOTE: Any errors should already be handled, but interceptors will reject to prevent playback. */
                 })
                 .finally(() => {
                     if (playOptions.fullscreen) {
@@ -2333,7 +2334,7 @@ class PlaybackManager {
 
             showPlaybackInfoErrorMessage(self, displayErrorCode);
 
-            return Promise.resolve();
+            return Promise.reject();
         }
 
         function destroyPlayer(player) {
@@ -2492,14 +2493,10 @@ class PlaybackManager {
             }
         }
 
-        function detectBitrate(apiClient, item, mediaType, playOptions) {
+        function detectBitrate(apiClient, item, mediaType) {
             // FIXME: This is gnarly, but don't want to change too much here in a bugfix
             return Promise.resolve()
                 .then(() => {
-                    if (playOptions.fullscreen) {
-                        loading.show();
-                    }
-
                     if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
                         return Promise.reject('skip bitrate detection');
                     }
