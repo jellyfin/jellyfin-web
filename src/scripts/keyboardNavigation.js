@@ -133,7 +133,7 @@ export function enable() {
         }
 
         // Ignore Media Keys for non-TV platform having MediaSession API
-        if (!layoutManager.tv && isMediaKey(key) && hasMediaSession) {
+        if (!browser.tv && isMediaKey(key) && hasMediaSession) {
             return;
         }
 
