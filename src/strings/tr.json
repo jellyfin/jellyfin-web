@@ -1882,5 +1882,7 @@
     "PlaylistPublicDescription": "Bu oynatma listesinin oturum açmış herhangi bir kullanıcı tarafından görüntülenmesine izin verin.",
     "HeaderLyricDownloads": "Şarkı Sözü İndirme",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Video oynatmada tercih edilen ses kod dönüştürme",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Video içeriği için tercih edilen kod dönüştürme ses codec bileşenini seçin. Tercih edilen codec desteklenmiyorsa, sunucu mevcut bir sonraki en iyi codec'i kullanacaktır."
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Video içeriği için tercih edilen kod dönüştürme ses codec bileşenini seçin. Tercih edilen codec desteklenmiyorsa, sunucu mevcut bir sonraki en iyi codec'i kullanacaktır.",
+    "Letterer": "",
+    "HeaderVideoAdvanced": "Gelişmiş Video"
 }
