@@ -1892,5 +1892,7 @@
     "Penciller": "Rysownik",
     "Translator": "Tłumacz",
     "LibraryScanFanoutConcurrency": "Limit zadań równoległego skanowania bibliotek",
-    "LibraryScanFanoutConcurrencyHelp": "Maksymalna liczba zadań równoległych podczas skanowania bibliotek. Ustawienie tej opcji na 0 spowoduje wybranie limitu na podstawie liczby rdzeni systemu. OSTRZEŻENIE: ustawienie zbyt dużej liczby może powodować problemy z sieciowymi systemami plików; jeśli napotkasz problemy, obniż tę liczbę."
+    "LibraryScanFanoutConcurrencyHelp": "Maksymalna liczba zadań równoległych podczas skanowania bibliotek. Ustawienie tej opcji na 0 spowoduje wybranie limitu na podstawie liczby rdzeni systemu. OSTRZEŻENIE: ustawienie zbyt dużej liczby może powodować problemy z sieciowymi systemami plików; jeśli napotkasz problemy, obniż tę liczbę.",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferowany transkodowany kodek audio podczas odtwarzania wideo",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Wybierz preferowany kodek audio, na który chcesz transkodować zawartość wideo. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje następnego najlepszego dostępnego kodeka."
 }
