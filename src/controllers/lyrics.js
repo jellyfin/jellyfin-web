@@ -20,7 +20,7 @@ let currentItem;
 
 let savedLyrics;
 let isDynamicLyric = false;
-let autoScroll = AutoScrollType.Smooth;
+let autoScroll = AutoScrollType.Instant;
 
 function dynamicLyricHtmlReducer(htmlAccumulator, lyric, index) {
     if (layoutManager.tv) {
