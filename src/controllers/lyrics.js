@@ -13,13 +13,14 @@ import LibraryMenu from '../scripts/libraryMenu';
 import Events from '../utils/events.ts';
 
 import '../styles/lyrics.scss';
+import { AutoScrollType } from './lyrics.types';
 
 let currentPlayer;
 let currentItem;
 
 let savedLyrics;
 let isDynamicLyric = false;
-let autoScroll = true;
+let autoScroll = AutoScrollType.Smooth;
 
 function dynamicLyricHtmlReducer(htmlAccumulator, lyric, index) {
     if (layoutManager.tv) {
@@ -72,8 +73,13 @@ export default function (view) {
         if (lyric) {
             lyric.classList.remove('pastLyric');
             lyric.classList.remove('futureLyric');
-            if (autoScroll) {
+            if (autoScroll === AutoScrollType.Smooth) {
                 scrollManager.scrollToElement(lyric, true);
+            }
+            if (autoScroll === AutoScrollType.Instant) {
+                // instant scroll is used when the view is first loaded
+                scrollManager.scrollToElement(lyric, false);
+                autoScroll = AutoScrollType.Smooth;
             }
         }
     }
@@ -184,7 +190,7 @@ export default function (view) {
     }
 
     function onLyricClick(lyricTime) {
-        autoScroll = true;
+        autoScroll = AutoScrollType.Smooth;
         playbackManager.seek(lyricTime);
         if (playbackManager.paused()) {
             playbackManager.playPause(currentPlayer);
@@ -242,19 +248,19 @@ export default function (view) {
     }
 
     function onWheelOrTouchMove() {
-        autoScroll = false;
+        autoScroll = AutoScrollType.None;
     }
 
     function onKeyDown(e) {
         const key = keyboardNavigation.getKeyName(e);
         if (key === 'ArrowUp' || key === 'ArrowDown') {
-            autoScroll = false;
+            autoScroll = AutoScrollType.None;
         }
     }
 
     view.addEventListener('viewshow', function () {
         Events.on(playbackManager, 'playerchange', onPlayerChange);
-        autoScroll = true;
+        autoScroll = AutoScrollType.Instant;
         document.addEventListener('wheel', onWheelOrTouchMove);
         document.addEventListener('touchmove', onWheelOrTouchMove);
         document.addEventListener('keydown', onKeyDown);
