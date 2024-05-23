@@ -455,8 +455,8 @@ describe('resolveMixedShapeByAspectRatio', () => {
     });
 
     test('primary aspect ratio is > 0.8', () => {
+        expect(resolveMixedShapeByAspectRatio(0.81)).toEqual('mixedSquare');
         expect(resolveMixedShapeByAspectRatio(0.82)).toEqual('mixedSquare');
-        expect(resolveMixedShapeByAspectRatio(0.83)).toEqual('mixedSquare');
         expect(resolveMixedShapeByAspectRatio(1.32)).toEqual('mixedSquare');
     });
 
