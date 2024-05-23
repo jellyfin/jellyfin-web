@@ -241,7 +241,7 @@ export default function (view) {
         }
     }
 
-    function onWheel() {
+    function onWheelOrTouchMove() {
         autoScroll = false;
     }
 
@@ -255,7 +255,8 @@ export default function (view) {
     view.addEventListener('viewshow', function () {
         Events.on(playbackManager, 'playerchange', onPlayerChange);
         autoScroll = true;
-        document.addEventListener('wheel', onWheel);
+        document.addEventListener('wheel', onWheelOrTouchMove);
+        document.addEventListener('touchmove', onWheelOrTouchMove);
         document.addEventListener('keydown', onKeyDown);
         try {
             onLoad();
@@ -266,7 +267,8 @@ export default function (view) {
 
     view.addEventListener('viewbeforehide', function () {
         Events.off(playbackManager, 'playerchange', onPlayerChange);
-        document.removeEventListener('wheel', onWheel);
+        document.removeEventListener('wheel', onWheelOrTouchMove);
+        document.removeEventListener('touchmove', onWheelOrTouchMove);
         document.removeEventListener('keydown', onKeyDown);
         releaseCurrentPlayer();
     });
