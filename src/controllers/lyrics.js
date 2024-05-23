@@ -248,13 +248,13 @@ export default function (view) {
     }
 
     function onWheelOrTouchMove() {
-        autoScroll = AutoScrollType.None;
+        autoScroll = AutoScrollType.NoScroll;
     }
 
     function onKeyDown(e) {
         const key = keyboardNavigation.getKeyName(e);
         if (key === 'ArrowUp' || key === 'ArrowDown') {
-            autoScroll = AutoScrollType.None;
+            autoScroll = AutoScrollType.NoScroll;
         }
     }
 
