@@ -73,12 +73,9 @@ export default function (view) {
         if (lyric) {
             lyric.classList.remove('pastLyric');
             lyric.classList.remove('futureLyric');
-            if (autoScroll === AutoScrollType.Smooth) {
-                scrollManager.scrollToElement(lyric, true);
-            }
-            if (autoScroll === AutoScrollType.Instant) {
+            if (autoScroll !== AutoScrollType.NoScroll) {
                 // instant scroll is used when the view is first loaded
-                scrollManager.scrollToElement(lyric, false);
+                scrollManager.scrollToElement(lyric, autoScroll === AutoScrollType.Smooth);
                 autoScroll = AutoScrollType.Smooth;
             }
         }
