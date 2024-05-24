@@ -6,6 +6,7 @@ import layoutManager from 'components/layoutManager';
 import { playbackManager } from '../components/playback/playbackmanager';
 import ServerConnections from '../components/ServerConnections';
 import scrollManager from 'components/scrollManager';
+import focusManager from 'components/focusManager';
 
 import keyboardNavigation from 'scripts/keyboardNavigation';
 import globalize from '../scripts/globalize';
@@ -14,7 +15,6 @@ import Events from '../utils/events.ts';
 
 import '../styles/lyrics.scss';
 import { AutoScrollType } from './lyrics.types';
-import focusManager from 'components/focusManager';
 
 let currentPlayer;
 let currentItem;
