@@ -1888,5 +1888,6 @@
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Wählen Sie den bevorzugten Audiocodec für die Transkodierung von Videoinhalten. Wenn der bevorzugte Codec nicht unterstützt wird, verwendet der Server den nächstbesten verfügbaren Codec.",
     "PlaylistPublicDescription": "Erlauben Sie, dass diese Wiedergabeliste für jeden eingeloggten Benutzer sichtbar ist.",
     "SaveLyricsIntoMediaFolders": "Liedtexte in Medienordnern speichern",
-    "SaveLyricsIntoMediaFoldersHelp": "Das Speichern von Liedtexten zusammen mit den Audiodateien ermöglicht eine einfachere Verwaltung."
+    "SaveLyricsIntoMediaFoldersHelp": "Das Speichern von Liedtexten zusammen mit den Audiodateien ermöglicht eine einfachere Verwaltung.",
+    "PlaylistPublic": "Erlaube öffentlichen Zugriff"
 }
