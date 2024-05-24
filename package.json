@@ -83,7 +83,7 @@
     "@loadable/component": "5.16.4",
     "@mui/icons-material": "5.15.17",
     "@mui/material": "5.15.17",
-    "@mui/x-data-grid": "6.19.11",
+    "@mui/x-data-grid": "7.5.1",
     "@react-hook/resize-observer": "1.2.6",
     "@tanstack/react-query": "4.36.1",
     "@tanstack/react-query-devtools": "4.36.1",

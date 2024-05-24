@@ -60,7 +60,7 @@ const Activity = () => {
             field: 'User',
             headerName: globalize.translate('LabelUser'),
             width: 60,
-            valueGetter: ({ row }) => users[row.UserId]?.Name,
+            valueGetter: ( value, row ) => users[row.UserId]?.Name,
             renderCell: ({ row }) => (
                 <IconButton
                     size='large'
@@ -82,16 +82,16 @@ const Activity = () => {
             headerName: globalize.translate('LabelDate'),
             width: 90,
             type: 'date',
-            valueGetter: ({ value }) => parseISO8601Date(value),
-            valueFormatter: ({ value }) => toLocaleDateString(value)
+            valueGetter: ( value ) => parseISO8601Date(value),
+            valueFormatter: ( value ) => toLocaleDateString(value)
         },
         {
             field: 'Time',
             headerName: globalize.translate('LabelTime'),
             width: 100,
             type: 'dateTime',
-            valueGetter: ({ row }) => parseISO8601Date(row.Date),
-            valueFormatter: ({ value }) => toLocaleTimeString(value)
+            valueGetter: ( value, row ) => parseISO8601Date(row.Date),
+            valueFormatter: ( value ) => toLocaleTimeString(value)
         },
         {
             field: 'Severity',
@@ -113,7 +113,7 @@ const Activity = () => {
             field: 'Overview',
             headerName: globalize.translate('LabelOverview'),
             width: 200,
-            valueGetter: ({ row }) => row.ShortOverview ?? row.Overview,
+            valueGetter: ( value, row ) => row.ShortOverview ?? row.Overview,
             renderCell: ({ row }) => (
                 <OverviewCell {...row} />
             )
