@@ -24,6 +24,7 @@
 
 .upNextDialog-hidden {
     opacity: 0;
+    z-index: -9999!important;
 }
 
 .upNextDialog-countdownText {
@@ -52,5 +53,6 @@
 @media all and (orientation: landscape) {
     .upNextDialog {
         flex-direction: row;
+        z-index: 9999;
     }
 }
