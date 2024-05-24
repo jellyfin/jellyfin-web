@@ -14,6 +14,7 @@ import Events from '../utils/events.ts';
 
 import '../styles/lyrics.scss';
 import { AutoScrollType } from './lyrics.types';
+import focusManager from 'components/focusManager';
 
 let currentPlayer;
 let currentItem;
@@ -76,6 +77,7 @@ export default function (view) {
             if (autoScroll !== AutoScrollType.NoScroll) {
                 // instant scroll is used when the view is first loaded
                 scrollManager.scrollToElement(lyric, autoScroll === AutoScrollType.Smooth);
+                focusManager.focus(lyric);
                 autoScroll = AutoScrollType.Smooth;
             }
         }
