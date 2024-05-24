@@ -175,6 +175,7 @@ const config = {
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
+                    path.resolve(__dirname, 'node_modules/@mui/x-data-drid'),
                     path.resolve(__dirname, 'node_modules/@react-hook/latest'),
                     path.resolve(__dirname, 'node_modules/@react-hook/passive-layout-effect'),
                     path.resolve(__dirname, 'node_modules/@react-hook/resize-observer'),
@@ -183,7 +184,6 @@ const config = {
                     path.resolve(__dirname, 'node_modules/@tanstack/query-core'),
                     path.resolve(__dirname, 'node_modules/@tanstack/react-query'),
                     path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
-                    path.resolve(__dirname, 'node_modules/@mui/x-data-grid'),
                     path.resolve(__dirname, 'node_modules/axios'),
                     path.resolve(__dirname, 'node_modules/blurhash'),
                     path.resolve(__dirname, 'node_modules/compare-versions'),
@@ -205,7 +205,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/ssr-window'),
                     path.resolve(__dirname, 'node_modules/swiper'),
                     path.resolve(__dirname, 'node_modules/usehooks-ts'),
-                    path.resolve(__dirname, 'node_modules/')
+                    path.resolve(__dirname, 'src')
                 ],
                 use: [{
                     loader: 'babel-loader',
