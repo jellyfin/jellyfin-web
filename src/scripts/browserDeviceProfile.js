@@ -1225,13 +1225,13 @@ export default function (options) {
         // This paired with the "Prefer fMP4-HLS Container" client playback setting enables DOVI playback on webOS.
         profile.CodecProfiles.push({
             Type: 'Video',
-            Container: '-mp4',
+            Container: 'ts',
             Codec: 'hevc',
             Conditions: [
                 {
                     Condition: 'EqualsAny',
                     Property: 'VideoRangeType',
-                    Value: 'SDR|HDR10|HLG',
+                    Value: 'DOVIWithSDR|DOVIWithHDR10|DOVIWithHLG|DOVI',
                     IsRequired: false
                 }
             ]
