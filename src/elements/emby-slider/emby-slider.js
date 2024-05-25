@@ -1,3 +1,5 @@
+import isEqual from 'lodash-es/isEqual';
+
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
@@ -203,16 +205,20 @@ function setMarker(range, valueMarker, marker, valueProgress) {
 }
 
 function updateMarkers(range, currentValue) {
-    if (range.getMarkerInfo && !range.markerInfo) {
-        range.markerInfo = range.getMarkerInfo();
+    if (range.getMarkerInfo) {
+        const newMarkerInfo = range.getMarkerInfo();
 
-        let markersHtml = '';
-        range.markerInfo.forEach(() => {
-            markersHtml += '<span class="sliderMarker" aria-hidden="true"></span>';
-        });
-        range.markerContainerElement.innerHTML = markersHtml;
+        if (!range.markerInfo || !isEqual(range.markerInfo, newMarkerInfo)) {
+            range.markerInfo = newMarkerInfo;
 
-        range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+            let markersHtml = '';
+            range.markerInfo.forEach(() => {
+                markersHtml += '<span class="sliderMarker" aria-hidden="true"></span>';
+            });
+            range.markerContainerElement.innerHTML = markersHtml;
+
+            range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+        }
     }
 
     if (range.markerInfo?.length && range.markerElements?.length) {

@@ -1835,21 +1835,11 @@ export default function (view) {
     };
 
     nowPlayingPositionSlider.getMarkerInfo = function () {
-        const markers = [];
-
-        const item = currentItem;
-
         // use markers based on chapters
-        if (item?.Chapters?.length) {
-            item.Chapters.forEach(currentChapter => {
-                markers.push({
-                    name: currentChapter.Name,
-                    progress: currentChapter.StartPositionTicks / item.RunTimeTicks
-                });
-            });
-        }
-
-        return markers;
+        return currentItem?.Chapters?.map(currentChapter => ({
+            name: currentChapter.Name,
+            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks
+        })) || [];
     };
 
     view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
