@@ -883,6 +883,48 @@ export default function (options) {
         });
     }
 
+    if (browser.web0s) {
+        const flacConditions = [
+            // webOS doesn't seem to support FLAC with more than 2 channels
+            {
+                Condition: 'LessThanEqual',
+                Property: 'AudioChannels',
+                Value: '2',
+                IsRequired: false
+            }
+        ];
+
+        profile.CodecProfiles.push({
+            Type: 'VideoAudio',
+            Codec: 'flac',
+            Conditions: flacConditions
+        });
+
+        const flacTranscodingProfiles = [];
+
+        // Split each video transcoding profile with FLAC so that the containing FLAC is only applied to 2 channels audio
+        profile.TranscodingProfiles.forEach(transcodingProfile => {
+            if (transcodingProfile.Type !== 'Video') return;
+
+            const audioCodecs = transcodingProfile.AudioCodec.split(',');
+
+            if (!audioCodecs.includes('flac')) return;
+
+            const flacTranscodingProfile = { ...transcodingProfile };
+            flacTranscodingProfile.AudioCodec = 'flac';
+            flacTranscodingProfile.ApplyConditions = [
+                ...flacTranscodingProfile.ApplyConditions || [],
+                ...flacConditions
+            ];
+
+            flacTranscodingProfiles.push(flacTranscodingProfile);
+
+            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec != 'flac').join(',');
+        });
+
+        profile.TranscodingProfiles.push(...flacTranscodingProfiles);
+    }
+
     let maxH264Level = 42;
     let h264Profiles = 'high|main|baseline|constrained baseline';
 
