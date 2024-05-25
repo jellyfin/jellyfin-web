@@ -203,14 +203,14 @@ function setMarker(range, valueMarker, marker, valueProgress) {
 }
 
 function updateMarkers(range, currentValue) {
-    if (range.getMarkerInfo) {
+    if (range.getMarkerInfo && !range.markerInfo) {
         range.markerInfo = range.getMarkerInfo();
 
-        range.markerContainerElement.innerHTML = '';
-
+        let markersHtml = '';
         range.markerInfo.forEach(() => {
-            range.markerContainerElement.insertAdjacentHTML('beforeend', '<span class="sliderMarker" aria-hidden="true"></span>');
+            markersHtml += '<span class="sliderMarker" aria-hidden="true"></span>';
         });
+        range.markerContainerElement.innerHTML = markersHtml;
 
         range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
     }
