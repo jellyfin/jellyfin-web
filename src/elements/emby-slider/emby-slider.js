@@ -203,28 +203,13 @@ function setMarker(range, valueMarker, marker, valueProgress) {
 }
 
 function updateMarkers(range, currentValue) {
-    function getMarkerHtml(markerInfo) {
-        let markerTypeSpecificClasses = '';
-
-        if (markerInfo.className === 'chapterMarker') {
-            markerTypeSpecificClasses = markerInfo.className;
-
-            if (typeof markerInfo.name === 'string' && markerInfo.name.length) {
-                // limit the class length in case the name contains half a novel
-                markerTypeSpecificClasses = `${markerInfo.className} marker-${markerInfo.name.substring(0, 100).toLowerCase().replace(' ', '-')}`;
-            }
-        }
-
-        return `<span class="material-icons sliderMarker ${markerTypeSpecificClasses}" aria-hidden="true"></span>`;
-    }
-
     if (range.getMarkerInfo) {
         range.markerInfo = range.getMarkerInfo();
 
         range.markerContainerElement.innerHTML = '';
 
-        range.markerInfo.forEach(info => {
-            range.markerContainerElement.insertAdjacentHTML('beforeend', getMarkerHtml(info));
+        range.markerInfo.forEach(() => {
+            range.markerContainerElement.insertAdjacentHTML('beforeend', '<span class="sliderMarker" aria-hidden="true"></span>');
         });
 
         range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
