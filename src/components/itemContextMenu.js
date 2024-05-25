@@ -169,12 +169,30 @@ export function getCommands(options) {
         });
     }
 
-    if (item.Type === 'Season' || item.Type == 'Series') {
-        commands.push({
-            name: globalize.translate('DownloadAll'),
-            id: 'downloadall',
-            icon: 'file_download'
-        });
+    if (appHost.supports('filedownload')) {
+        // CanDownload should probably be updated to return true for these items?
+        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
+            commands.push({
+                name: globalize.translate('DownloadAll'),
+                id: 'downloadall',
+                icon: 'file_download'
+            });
+        }
+
+        // Books are promoted to major download Button and therefor excluded in the context menu
+        if (item.CanDownload && item.Type !== 'Book') {
+            commands.push({
+                name: globalize.translate('Download'),
+                id: 'download',
+                icon: 'file_download'
+            });
+
+            commands.push({
+                name: globalize.translate('CopyStreamURL'),
+                id: 'copy-stream',
+                icon: 'content_copy'
+            });
+        }
     }
 
     if (item.CanDelete && options.deleteItem !== false) {
@@ -191,21 +209,6 @@ export function getCommands(options) {
                 icon: 'delete_sweep'
             });
         }
-    }
-
-    // Books are promoted to major download Button and therefor excluded in the context menu
-    if ((item.CanDownload && appHost.supports('filedownload')) && item.Type !== 'Book') {
-        commands.push({
-            name: globalize.translate('Download'),
-            id: 'download',
-            icon: 'file_download'
-        });
-
-        commands.push({
-            name: globalize.translate('CopyStreamURL'),
-            id: 'copy-stream',
-            icon: 'content_copy'
-        });
     }
 
     if (commands.length) {
