@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { type DetailedHTMLProps, type InputHTMLAttributes, type FC, useState, useCallback } from 'react';
+import React, { type DetailedHTMLProps, type InputHTMLAttributes, useState, useCallback, forwardRef } from 'react';
 
 import './emby-input.scss';
 
@@ -8,52 +8,50 @@ interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
     label?: string
 }
 
-const Input: FC<InputProps> = ({
-    id,
-    label,
-    className,
-    onBlur,
-    onFocus,
-    ...props
-}) => {
-    const [ isFocused, setIsFocused ] = useState(false);
+const Input = forwardRef<HTMLInputElement, InputProps>(
+    ({ id, label, className, onBlur, onFocus, ...props }, ref) => {
+        const [isFocused, setIsFocused] = useState(false);
 
-    const onBlurInternal = useCallback(e => {
-        setIsFocused(false);
-        onBlur?.(e);
-    }, [ onBlur ]);
+        const onBlurInternal = useCallback(
+            (e) => {
+                setIsFocused(false);
+                onBlur?.(e);
+            },
+            [onBlur]
+        );
 
-    const onFocusInternal = useCallback(e => {
-        setIsFocused(true);
-        onFocus?.(e);
-    }, [ onFocus ]);
+        const onFocusInternal = useCallback(
+            (e) => {
+                setIsFocused(true);
+                onFocus?.(e);
+            },
+            [onFocus]
+        );
 
-    return (
-        <>
-            <label
-                htmlFor={id}
-                className={classNames(
-                    'inputLabel',
-                    {
+        return (
+            <>
+                <label
+                    htmlFor={id}
+                    className={classNames('inputLabel', {
                         inputLabelUnfocused: !isFocused,
                         inputLabelFocused: isFocused
-                    }
-                )}
-            >
-                {label}
-            </label>
-            <input
-                id={id}
-                className={classNames(
-                    'emby-input',
-                    className
-                )}
-                onBlur={onBlurInternal}
-                onFocus={onFocusInternal}
-                {...props}
-            />
-        </>
-    );
-};
+                    })}
+                >
+                    {label}
+                </label>
+                <input
+                    ref={ref}
+                    id={id}
+                    className={classNames('emby-input', className)}
+                    onBlur={onBlurInternal}
+                    onFocus={onFocusInternal}
+                    {...props}
+                />
+            </>
+        );
+    }
+);
+
+Input.displayName = 'Input';
 
 export default Input;
