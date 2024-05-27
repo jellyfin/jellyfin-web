@@ -3304,10 +3304,10 @@ class PlaybackManager {
                     const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
 
                     changeStream(player, startTime, {
-                        // force transcoding
+                        // force transcoding and only allow remuxing for remote source like liveTV
                         EnableDirectPlay: false,
                         EnableDirectStream: false,
-                        AllowVideoStreamCopy: false,
+                        AllowVideoStreamCopy: streamInfo.item.LocationType === 'Remote' ? true : false,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
                     });
 
