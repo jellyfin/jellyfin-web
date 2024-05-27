@@ -3307,7 +3307,7 @@ class PlaybackManager {
                         // force transcoding and only allow remuxing for remote source like liveTV
                         EnableDirectPlay: false,
                         EnableDirectStream: false,
-                        AllowVideoStreamCopy: streamInfo.item.LocationType === 'Remote' ? true : false,
+                        AllowVideoStreamCopy: streamInfo.item.LocationType === 'Remote',
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
                     });
 
