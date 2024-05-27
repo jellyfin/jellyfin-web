@@ -7,6 +7,7 @@ import { STABLE_APP_ROUTES } from './routes/routes';
 import Backdrop from 'components/Backdrop';
 import AppHeader from 'components/AppHeader';
 import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
+import UserThemeProvider from 'themes/UserThemeProvider';
 
 const router = createHashRouter([{
     element: <StableAppLayout />,
@@ -32,11 +33,11 @@ function StableAppLayout() {
         .some(path => location.pathname.startsWith(`/${path}`));
 
     return (
-        <>
+        <UserThemeProvider>
             <Backdrop />
             <AppHeader isHidden={isNewLayoutPath} />
 
             <Outlet />
-        </>
+        </UserThemeProvider>
     );
 }
