@@ -250,6 +250,20 @@ function bindEvents(elem) {
         }
     });
 
+    volumeSlider.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        // don't scroll the whole page
+        e.stopPropagation();
+        if (e.deltaY < 0) {
+            volumeSlider.value = Math.min(parseInt(volumeSlider.value, 10) + 2, 100);
+        } else { // Scroll down
+            volumeSlider.value = Math.max(parseInt(volumeSlider.value, 10) - 2, 0);
+        }
+        if (currentPlayer) {
+            currentPlayer.setVolume(parseInt(volumeSlider.value, 10));
+        }
+    });
+
     positionSlider.addEventListener('change', function () {
         if (currentPlayer) {
             const newPercent = parseFloat(this.value);
