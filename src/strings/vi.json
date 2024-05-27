@@ -1828,5 +1828,10 @@
     "ConfirmDeleteLyrics": "Xóa những lời bài hát này sẽ xóa chúng khỏi cả hệ thống tệp và thư viện phương tiện của bạn. Bạn có chắc muốn tiếp tục không?",
     "DeleteLyrics": "Xóa lời bài hát",
     "ErrorDeletingLyrics": "Đã xảy ra lỗi khi xóa lời bài hát khỏi máy chủ. Vui lòng kiểm tra xem Jellyfin có quyền ghi vào thư mục phương tiện hay không và thử lại.",
-    "HeaderNoLyrics": "Không tìm thấy lời bài hát"
+    "HeaderNoLyrics": "Không tìm thấy lời bài hát",
+    "LabelExtractTrickplayDuringLibraryScan": "Trích xuất hình ảnh đánh lừa trong quá trình quét thư viện",
+    "HeaderVideoAdvanced": "Video Nâng Cao",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Tạo hình ảnh đánh lừa khi video được nhập trong quá trình quét thư viện. Nếu không, chúng sẽ được trích xuất trong quá trình thực hiện nhiệm vụ theo lịch trình hình ảnh đánh lừa. Nếu việc tạo được đặt thành không chặn thì điều này sẽ không ảnh hưởng đến thời gian hoàn tất quá trình quét thư viện.",
+    "EnableTrueHd": "Bật TrueHD",
+    "EnableDts": "Bật DTS (DCA)"
 }
