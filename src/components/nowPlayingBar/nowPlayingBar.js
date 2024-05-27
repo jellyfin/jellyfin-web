@@ -781,9 +781,9 @@ function handleVolumeScroll(e) {
     e.preventDefault();
     e.stopPropagation();
     if (e.deltaY < 0) {
-        handleVolumeChange(2);
-    } else {
         handleVolumeChange(-2);
+    } else {
+        handleVolumeChange(2);
     }
 }
 
