@@ -3296,7 +3296,7 @@ class PlaybackManager {
             const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
             if (streamInfo?.url) {
-                const isAlreadyFallbacking = streamInfo.url.toLowerCase().includes('transcodereasons=directplayerror');
+                const isAlreadyFallbacking = streamInfo.url.toLowerCase().includes('transcodereasons');
                 const currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
                 const currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
