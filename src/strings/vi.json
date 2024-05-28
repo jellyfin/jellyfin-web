@@ -1867,5 +1867,6 @@
     "Translator": "Người phiên dịch",
     "LabelQscaleHelp": "Thang chất lượng của hình ảnh đầu ra bằng ffmpeg, với 2 là chất lượng cao nhất và 31 là chất lượng thấp nhất.",
     "PriorityIdle": "Nhàn rỗi",
-    "ViewLyrics": "Xem lời bài hát"
+    "ViewLyrics": "Xem lời bài hát",
+    "CoverArtist": "Bìa nghệ sĩ"
 }
