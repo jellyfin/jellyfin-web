@@ -619,7 +619,7 @@ export default function (options) {
         && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
-        if (browser.web0s) {
+        if (browser.tizen || browser.web0s) {
             hlsInTsVideoCodecs.push('hevc');
         }
     }
@@ -632,9 +632,6 @@ export default function (options) {
 
     if (canPlayHevc(videoTestElement, options)) {
         mp4VideoCodecs.push('hevc');
-        if (browser.tizen) {
-            hlsInTsVideoCodecs.push('hevc');
-        }
     }
 
     if (supportsMpeg2Video()) {
