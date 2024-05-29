@@ -3309,7 +3309,7 @@ class PlaybackManager {
 
                     changeStream(player, startTime, {
                         EnableDirectPlay: false,
-                        EnableDirectStream: false,
+                        EnableDirectStream: tryVideoStreamCopy,
                         AllowVideoStreamCopy: tryVideoStreamCopy,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
                     });
