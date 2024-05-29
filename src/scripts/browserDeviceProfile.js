@@ -555,11 +555,19 @@ export default function (options) {
     if (supportsDts) {
         videoAudioCodecs.push('dca');
         videoAudioCodecs.push('dts');
+        if (browser.web0s) {
+            hlsInTsVideoAudioCodecs.push('dts');
+            hlsInFmp4VideoAudioCodecs.push('dts');
+        }
     }
 
     if (browser.tizen || browser.web0s) {
         videoAudioCodecs.push('pcm_s16le');
         videoAudioCodecs.push('pcm_s24le');
+        if (browser.web0s) {
+            hlsInTsVideoAudioCodecs.push('pcm_s16le');
+            hlsInTsVideoAudioCodecs.push('pcm_s24le');
+        }
     }
 
     if (appSettings.enableTrueHd() || options.supportsTrueHd) {
