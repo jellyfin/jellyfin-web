@@ -235,6 +235,7 @@ function supportsHlg(options) {
 function supportsDolbyVision(options) {
     return options.supportsDolbyVision ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 13) || browser.osx)
+            || browser.edgeChromium && browser.xboxOne && window.NativeShell
     );
 }
 
