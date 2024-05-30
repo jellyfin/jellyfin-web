@@ -27,8 +27,7 @@ const SearchFields: FC<SearchFieldsProps> = ({
         const inputValue = inputRef.current?.value || '';
 
         if (value === 'backspace') {
-            onSearch(inputValue.length ? inputValue.substring(0, inputValue.length - 1) : ''
-            );
+            onSearch(inputValue.length ? inputValue.substring(0, inputValue.length - 1) : '');
         } else {
             onSearch(inputValue + value);
         }
