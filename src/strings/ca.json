@@ -916,7 +916,7 @@
     "ThemeSongs": "Cançons del tema",
     "TextSent": "Text enviat.",
     "TagsValue": "Etiquetes: {0}",
-    "TabStreaming": "Streaming",
+    "TabStreaming": "Reproducció en línia",
     "TabRepositories": "Repositoris",
     "TabNetworking": "Xarxes",
     "TabLogs": "Registres",
@@ -1396,7 +1396,7 @@
     "QuickConnectAuthorizeFail": "Codi de Quick Connect no reconegut",
     "QuickConnectAuthorizeCode": "Introduïu el codi {0} per iniciar sessió",
     "QuickConnectActivationSuccessful": "Activat amb èxit",
-    "QuickConnect": "Quick Connect",
+    "QuickConnect": "Connexió ràpida",
     "PluginFromRepo": "{0} des del repositori {1}",
     "Profile": "Perfil",
     "ProductionLocations": "Centres de producció",
@@ -1702,7 +1702,7 @@
     "HeaderPerformance": "Rendiment",
     "LabelDummyChapterCountHelp": "El nombre màxim d'imatges del capítol que s'extreuran per a cada fitxer multimèdia.",
     "LabelParallelImageEncodingLimit": "Límit de codificació paral·lela d'imatges",
-    "LabelParallelImageEncodingLimitHelp": "Quantitat màxima de codificacions d'imatge que es poden executar en paral·lel. Si s'estableix a 0, es triarà un límit en funció de les especificacions del sistema.",
+    "LabelParallelImageEncodingLimitHelp": "Número màxim de codificacions d'imatge que es poden executar en paral·lel. Si s'estableix a 0, es triarà un límit en funció del número de nuclis.",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Els extres sovint tenen el mateix nom incrustat que el principal, marqueu-ho per utilitzar-los títols incrustats de totes maneres.",
     "SaveRecordingNFO": "Desa les metadades EPG d'enregistrament a NFO",
     "SaveRecordingImages": "Guarda les imatges d'enregistrament EPG",
@@ -1883,5 +1883,9 @@
     "PlaylistPublicDescription": "Permetre que qualsevol usuari registrat vegi aquesta llista de reproducció.",
     "HeaderLyricDownloads": "Descàrregues de lletres",
     "SaveLyricsIntoMediaFolders": "Desa la lletra a les carpetes multimèdia",
-    "SaveLyricsIntoMediaFoldersHelp": "Emmagatzemar les lletres al costat dels fitxers d'àudio permetrà gestionar-les més fàcilment."
+    "SaveLyricsIntoMediaFoldersHelp": "Emmagatzemar les lletres al costat dels fitxers d'àudio permetrà gestionar-les més fàcilment.",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Còdec d'àudio de transcodificació preferit en la reproducció de vídeo",
+    "LibraryScanFanoutConcurrencyHelp": "Nombre màxim de tasques paral·leles durant les exploracions de la biblioteca. Si s'estableix a 0, es triarà un límit basat en el nombre de nuclis del vostre sistema. ADVERTÈNCIA: establir aquest número massa alt pot causar problemes amb els sistemes de fitxers de xarxa; si trobeu problemes, baixeu aquest número.",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Seleccioneu el còdec d'àudio preferit per transcodificar per al contingut de vídeo. Si el còdec preferit no és compatible, el servidor utilitzarà el següent millor còdec disponible.",
+    "LibraryScanFanoutConcurrency": "Límit de tasques d'exploració paral·leles per a les biblioteques"
 }
