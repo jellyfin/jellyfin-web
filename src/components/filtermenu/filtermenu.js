@@ -57,7 +57,7 @@ function renderDynamicFilters(context, result, options) {
 
 function setBasicFilter(context, key, elem) {
     let value = elem.checked;
-    value = value ? value : null;
+    value = value || null;
     userSettings.setFilter(key, value);
 }
 function moveCheckboxFocus(elem, offset) {
