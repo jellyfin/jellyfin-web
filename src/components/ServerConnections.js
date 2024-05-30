@@ -6,6 +6,7 @@ import Dashboard from '../utils/dashboard';
 import Events from '../utils/events.ts';
 import { setUserInfo } from '../scripts/settings/userSettings';
 import appSettings from '../scripts/settings/appSettings';
+import viewContainer from './viewContainer';
 import { queryClient } from 'utils/query/queryClient';
 
 const normalizeImageOptions = options => {
@@ -44,6 +45,8 @@ class ServerConnections extends ConnectionManager {
             credentialProvider.credentials(credentialProvider.credentials());
             // Reset the query cache
             queryClient.resetQueries();
+            // Reset cached views
+            viewContainer.reset();
 
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedOut === 'function') {
                 window.NativeShell.onLocalUserSignedOut(logoutInfo);
