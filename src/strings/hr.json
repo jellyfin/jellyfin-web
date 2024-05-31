@@ -555,7 +555,7 @@
     "MessageConfirmProfileDeletion": "Jeste li sigurni da želite obrisati ovaj profil?",
     "MessageConfirmRecordingCancellation": "Jeste li sigurni da želite poništiti ovu snimku?",
     "MessageConfirmRemoveMediaLocation": "Jeste li sigurni da želite ukloniti ovu lokaciju?",
-    "MessageConfirmRestart": "Dali ste sigurni da želite ponovo pokrenuti Jellyfin Server?",
+    "MessageConfirmRestart": "Jeste li sigurni da želite ponovno pokrenuti Jellyfin Server?",
     "MessageConfirmRevokeApiKey": "Jeste li sigurni da želite poništiti ovaj API ključ? Veza aplikacije s Jellyfin Server-om će se naglo prekinuti.",
     "MessageConfirmShutdown": "Dali ste sigurni da želite ugasiti Jellyfin Server?",
     "MessageContactAdminToResetPassword": "Molim obratite se administratoru sustava kako biste poništili zaporku.",
@@ -1558,5 +1558,9 @@
     "LabelMaxMuxingQueueSize": "Maksimalna veličina reda čekanja za konvertiranje formata",
     "LabelSyncPlaySettingsExtraTimeOffset": "Dodatni vremenski pomak",
     "LabelTranscodingFramerate": "Broj sličica u sekundi prilikom konverzije formata",
-    "LabelTranscodingProgress": "Napredak konverzije formata"
+    "LabelTranscodingProgress": "Napredak konverzije formata",
+    "Author": "Autor",
+    "Colorist": "Kolorist",
+    "CoverArtist": "Ilustrator omota",
+    "Creator": "Autor"
 }
