@@ -1879,5 +1879,18 @@
     "HeaderNoLyrics": "Ingen sangtekst blev fundet",
     "HeaderVideoAdvanced": "Video Avanceret",
     "PlaylistPublic": "Tillad offentlig adgang",
-    "PlaylistPublicDescription": "Tillad at denne afspilningsliste kan blive set af enhver forbundet bruger."
+    "PlaylistPublicDescription": "Tillad at denne afspilningsliste kan blive set af enhver forbundet bruger.",
+    "LabelTileHeight": "Flisehøjde",
+    "LabelTileHeightHelp": "Max antal af billeder per flise in Y-retningen.",
+    "LabelTrickplayThreadsHelp": "Antallet af tråde at videregive til '-threads' argumentet fra FFmpeg.",
+    "OptionExtractTrickplayImage": "Aktivér trickplay-udtrækning af billeder",
+    "ExtractTrickplayImagesHelp": "Trickplay billeder minder om kapitelbilleder, men de strækker sig over hele længden af indholdet og bruges til at vise en forhåndsvisning, når der skimmes over videoer.",
+    "LabelExtractTrickplayDuringLibraryScan": "Udtræk trickplay billeder under biblioteksscanning",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Generér trickplay billeder når videoer bliver importeret under biblioteksscanningen. Ellers vil de blive udtrukket under den planlagte trickplay billeder opgave. Hvis generering er indstillet til ikke-blokerende vil det ikke påvirke den tid, det tager at fuldføre en biblioteksscanning.",
+    "LabelJpegQuality": "JPEG Kvalitet",
+    "LabelTileWidthHelp": "Max antal af billeder per flise in X-retningen.",
+    "LabelJpegQualityHelp": "JPEG komprimeringskvaliteten for trickplay billeder.",
+    "LabelQscale": "Qskalering",
+    "LabelQscaleHelp": "Kvalitetsskaleringen af billeder fra FFmpeg, hvor 2 er den højeste kvalitet og 31 er den laveste.",
+    "LabelTrickplayThreads": "FFmpeg Tråde"
 }
