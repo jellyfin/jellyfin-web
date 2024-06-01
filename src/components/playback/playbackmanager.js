@@ -3296,18 +3296,21 @@ class PlaybackManager {
             const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
             if (streamInfo?.url) {
+                const isAlreadyFallbacking = streamInfo.url.toLowerCase().includes('transcodereasons');
                 const currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
                 const currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
                 // Auto switch to transcoding
                 if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
                     const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
+                    const isRemoteSource = streamInfo.item.LocationType === 'Remote';
+                    // force transcoding and only allow remuxing for remote source like liveTV, but only for initial trial
+                    const tryVideoStreamCopy = isRemoteSource && !isAlreadyFallbacking;
 
                     changeStream(player, startTime, {
-                        // force transcoding
                         EnableDirectPlay: false,
-                        EnableDirectStream: false,
-                        AllowVideoStreamCopy: false,
+                        EnableDirectStream: tryVideoStreamCopy,
+                        AllowVideoStreamCopy: tryVideoStreamCopy,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
                     });
 
