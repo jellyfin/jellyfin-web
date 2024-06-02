@@ -9,7 +9,7 @@ import 'abortcontroller-polyfill'; // requires fetch
 import 'resize-observer-polyfill';
 import './styles/site.scss';
 import React, { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Events from './utils/events.ts';
 import ServerConnections from './components/ServerConnections';
 import globalize from './scripts/globalize';
@@ -154,17 +154,17 @@ async function onAppReady() {
         ServerConnections.currentApiClient()?.ensureWebSocket();
     });
 
-    const root = document.getElementById('reactRoot');
+    const container = document.getElementById('reactRoot');
     // Remove the splash logo
-    root.innerHTML = '';
+    container.innerHTML = '';
 
     await appRouter.start();
 
-    ReactDOM.render(
+    const root = createRoot(container);
+    root.render(
         <StrictMode>
             <RootApp history={history} />
-        </StrictMode>,
-        root
+        </StrictMode>
     );
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {

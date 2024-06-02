@@ -1,5 +1,5 @@
-import type { SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import escapeHTML from 'escape-html';
 
 import Dashboard from '../../../../utils/dashboard';
@@ -17,13 +17,8 @@ import { getParameterByName } from '../../../../utils/url';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 
-type ResetProvider = AuthProvider & {
+type ResetProvider = BaseItemDto & {
     checkedAttribute: string
-};
-
-type AuthProvider = {
-    Name?: string;
-    Id?: string;
 };
 
 const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
@@ -40,11 +35,11 @@ function onSaveComplete() {
     toast(globalize.translate('SettingsSaved'));
 }
 
-const UserEdit: FunctionComponent = () => {
+const UserEdit = () => {
     const [ userName, setUserName ] = useState('');
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
-    const [ authProviders, setAuthProviders ] = useState<AuthProvider[]>([]);
-    const [ passwordResetProviders, setPasswordResetProviders ] = useState<ResetProvider[]>([]);
+    const [ authProviders, setAuthProviders ] = useState<NameIdPair[]>([]);
+    const [ passwordResetProviders, setPasswordResetProviders ] = useState<NameIdPair[]>([]);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
@@ -61,48 +56,27 @@ const UserEdit: FunctionComponent = () => {
         return window.ApiClient.getUser(userId);
     };
 
-    const loadAuthProviders = useCallback((user, providers) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
+    const loadAuthProviders = useCallback((page: HTMLDivElement, user: UserDto, providers: NameIdPair[]) => {
         const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider') as HTMLDivElement;
         fldSelectLoginProvider.classList.toggle('hide', providers.length <= 1);
 
         setAuthProviders(providers);
 
-        const currentProviderId = user.Policy.AuthenticationProviderId;
+        const currentProviderId = user.Policy?.AuthenticationProviderId || '';
         setAuthenticationProviderId(currentProviderId);
     }, []);
 
-    const loadPasswordResetProviders = useCallback((user, providers) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
+    const loadPasswordResetProviders = useCallback((page: HTMLDivElement, user: UserDto, providers: NameIdPair[]) => {
         const fldSelectPasswordResetProvider = page.querySelector('.fldSelectPasswordResetProvider') as HTMLDivElement;
         fldSelectPasswordResetProvider.classList.toggle('hide', providers.length <= 1);
 
         setPasswordResetProviders(providers);
 
-        const currentProviderId = user.Policy.PasswordResetProviderId;
+        const currentProviderId = user.Policy?.PasswordResetProviderId || '';
         setPasswordResetProviderId(currentProviderId);
     }, []);
 
-    const loadDeleteFolders = useCallback((user, mediaFolders) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
+    const loadDeleteFolders = useCallback((page: HTMLDivElement, user: UserDto, mediaFolders: BaseItemDto[]) => {
         window.ApiClient.getJSON(window.ApiClient.getUrl('Channels', {
             SupportsMediaDeletion: true
         })).then(function (channelsResult) {
@@ -110,22 +84,20 @@ const UserEdit: FunctionComponent = () => {
             let checkedAttribute;
             const itemsArr: ResetProvider[] = [];
 
-            for (const folder of mediaFolders) {
-                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
+            for (const mediaFolder of mediaFolders) {
+                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(mediaFolder.Id || '') != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 itemsArr.push({
-                    Id: folder.Id,
-                    Name: folder.Name,
+                    ...mediaFolder,
                     checkedAttribute: checkedAttribute
                 });
             }
 
-            for (const folder of channelsResult.Items) {
-                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
+            for (const channel of channelsResult.Items) {
+                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(channel.Id || '') != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 itemsArr.push({
-                    Id: folder.Id,
-                    Name: folder.Name,
+                    ...channel,
                     checkedAttribute: checkedAttribute
                 });
             }
@@ -133,14 +105,14 @@ const UserEdit: FunctionComponent = () => {
             setDeleteFoldersAccess(itemsArr);
 
             const chkEnableDeleteAllFolders = page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement;
-            chkEnableDeleteAllFolders.checked = user.Policy.EnableContentDeletion;
+            chkEnableDeleteAllFolders.checked = user.Policy?.EnableContentDeletion || false;
             triggerChange(chkEnableDeleteAllFolders);
         }).catch(err => {
             console.error('[useredit] failed to fetch channels', err);
         });
     }, []);
 
-    const loadUser = useCallback((user) => {
+    const loadUser = useCallback((user: UserDto) => {
         const page = element.current;
 
         if (!page) {
@@ -149,25 +121,25 @@ const UserEdit: FunctionComponent = () => {
         }
 
         window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/Providers')).then(function (providers) {
-            loadAuthProviders(user, providers);
+            loadAuthProviders(page, user, providers);
         }).catch(err => {
             console.error('[useredit] failed to fetch auth providers', err);
         });
         window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/PasswordResetProviders')).then(function (providers) {
-            loadPasswordResetProviders(user, providers);
+            loadPasswordResetProviders(page, user, providers);
         }).catch(err => {
             console.error('[useredit] failed to fetch password reset providers', err);
         });
         window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
         })).then(function (folders) {
-            loadDeleteFolders(user, folders.Items);
+            loadDeleteFolders(page, user, folders.Items);
         }).catch(err => {
             console.error('[useredit] failed to fetch media folders', err);
         });
 
         const disabledUserBanner = page.querySelector('.disabledUserBanner') as HTMLDivElement;
-        disabledUserBanner.classList.toggle('hide', !user.Policy.IsDisabled);
+        disabledUserBanner.classList.toggle('hide', !user.Policy?.IsDisabled);
 
         const txtUserName = page.querySelector('#txtUserName') as HTMLInputElement;
         txtUserName.disabled = false;
@@ -176,30 +148,30 @@ const UserEdit: FunctionComponent = () => {
         const lnkEditUserPreferences = page.querySelector('.lnkEditUserPreferences') as HTMLDivElement;
         lnkEditUserPreferences.setAttribute('href', 'mypreferencesmenu.html?userId=' + user.Id);
         LibraryMenu.setTitle(user.Name);
-        setUserName(user.Name);
-        (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name;
-        (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = user.Policy.IsAdministrator;
-        (page.querySelector('.chkDisabled') as HTMLInputElement).checked = user.Policy.IsDisabled;
-        (page.querySelector('.chkIsHidden') as HTMLInputElement).checked = user.Policy.IsHidden;
-        (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked = user.Policy.EnableCollectionManagement;
-        (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked = user.Policy.EnableSubtitleManagement;
-        (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = user.Policy.EnableSharedDeviceControl;
-        (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked = user.Policy.EnableRemoteControlOfOtherUsers;
-        (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = user.Policy.EnableContentDownloading;
-        (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked = user.Policy.EnableLiveTvManagement;
-        (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked = user.Policy.EnableLiveTvAccess;
-        (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked = user.Policy.EnableMediaPlayback;
-        (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked = user.Policy.EnableAudioPlaybackTranscoding;
-        (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked = user.Policy.EnableVideoPlaybackTranscoding;
-        (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked = user.Policy.EnablePlaybackRemuxing;
-        (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = user.Policy.ForceRemoteSourceTranscoding;
-        (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess;
-        (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy.RemoteClientBitrateLimit > 0 ?
-            (user.Policy.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
-        (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = user.Policy.LoginAttemptsBeforeLockout || '0';
-        (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = user.Policy.MaxActiveSessions || '0';
+        setUserName(user.Name || '');
+        (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name || '';
+        (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = !!user.Policy?.IsAdministrator;
+        (page.querySelector('.chkDisabled') as HTMLInputElement).checked = !!user.Policy?.IsDisabled;
+        (page.querySelector('.chkIsHidden') as HTMLInputElement).checked = !!user.Policy?.IsHidden;
+        (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked = !!user.Policy?.EnableCollectionManagement;
+        (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked = !!user.Policy?.EnableSubtitleManagement;
+        (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = !!user.Policy?.EnableSharedDeviceControl;
+        (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked = !!user.Policy?.EnableRemoteControlOfOtherUsers;
+        (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = !!user.Policy?.EnableContentDownloading;
+        (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvManagement;
+        (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvAccess;
+        (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked = !!user.Policy?.EnableMediaPlayback;
+        (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked = !!user.Policy?.EnableAudioPlaybackTranscoding;
+        (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked = !!user.Policy?.EnableVideoPlaybackTranscoding;
+        (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked = !!user.Policy?.EnablePlaybackRemuxing;
+        (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = !!user.Policy?.ForceRemoteSourceTranscoding;
+        (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy?.EnableRemoteAccess == null || user.Policy?.EnableRemoteAccess;
+        (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy?.RemoteClientBitrateLimit && user.Policy?.RemoteClientBitrateLimit > 0 ?
+            (user.Policy?.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
+        (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';
+        (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.SyncPlayAccess) || '0';
         if (window.ApiClient.isMinServerVersion('10.6.0')) {
-            (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = user.Policy.SyncPlayAccess;
+            (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(user.Policy?.SyncPlayAccess);
         }
         loading.hide();
     }, [loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
