@@ -221,10 +221,10 @@ function getParentTitle(
             title: isUsingLiveTvNaming(item.Type) ?
                 item.Name :
                 item.SeriesName
-                  || item.Series
-                  || item.Album
-                  || item.AlbumArtist
-                  || ''
+                || item.Series
+                || item.Album
+                || item.AlbumArtist
+                || ''
         };
     }
 }
@@ -574,8 +574,8 @@ function getProductionYear(item: ItemDto) {
 function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
     const name =
         cardOptions.showTitle === 'auto'
-        && !item.IsFolder
-        && item.MediaType === 'Photo' ?
+            && !item.IsFolder
+            && item.MediaType === 'Photo' ?
             '' :
             itemHelper.getDisplayName(item, {
                 includeParentInfo: cardOptions.includeParentInfoInTitle
@@ -591,6 +591,8 @@ function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
     });
 }
 
+// TODO: Refactor this function to reduce cognitive complexity
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function getParentTitleOrTitle(
     isOuterFooter: boolean,
     item: ItemDto,
@@ -617,6 +619,12 @@ function getParentTitleOrTitle(
         if (!item.EpisodeTitle && !item.IndexNumber) {
             setTitleAdded(true);
         }
+        return { title: item.Name };
+    } else if (
+        isOuterFooter
+        && item.Type === BaseItemKind.Movie
+        && item.Name
+    ) {
         return { title: item.Name };
     } else {
         const parentTitle =

@@ -124,4 +124,3 @@ export interface CardOptions {
     imageType?: ImageType;
     queryKey?: string[]
 }
-

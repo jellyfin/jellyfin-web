@@ -49,8 +49,12 @@ export enum SectionType {
     LatestRecordings = 'LatestRecordings',
     RecordingFolders = 'RecordingFolders',
     ActiveRecordings = 'ActiveRecordings',
-    UpcomingRecordings = 'UpcomingRecordings'
+    UpcomingRecordings = 'UpcomingRecordings',
+    LatestMedia = 'latestmedia',
+    ResumeItems = 'resumeItems',
 }
+
+export type HomeSectionsType = 'resume' | 'nextup' | 'latestmedia' | 'smalllibrarytiles' | 'none' | 'resumeaudio' | 'resumebook' | 'livetv' | 'librarytiles';
 
 export interface Section {
     name: string;

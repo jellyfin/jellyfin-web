@@ -368,3 +368,136 @@ export const getProgramSections = (): Section[] => {
         }
     ];
 };
+
+export const getHomeSections = (): Section[] => {
+    const parametersOptions = {
+        fields: [ItemFields.PrimaryImageAspectRatio],
+        filters: [ItemFilter.IsPlayed],
+        IsPlayed: true,
+        imageTypeLimit: 1,
+        enableImageTypes: [
+            ImageType.Primary,
+            ImageType.Backdrop,
+            ImageType.Thumb
+        ]
+    };
+    return [
+        {
+            name: 'HeaderContinueWatching',
+            apiMethod: SectionApiMethod.ResumeItems,
+            itemTypes: 'Video',
+            type: SectionType.ResumeItems,
+            parametersOptions: {
+                limit: 12,
+                includeItemTypes: [BaseItemKind.Movie, BaseItemKind.Episode],
+                ...parametersOptions
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                showParentTitleOrTitle: true,
+                shape: CardShape.BackdropOverflow,
+                preferThumb: true,
+                lines: 2,
+                showUnplayedIndicator: false,
+                showChildCountIndicator: true,
+                showYear: true
+            }
+        },
+        {
+            name: 'LatestFromLibrary',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Episode',
+            type: SectionType.LatestEpisode,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Episode]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                showTitle: true,
+                showSeriesYear: true,
+                showUnplayedIndicator: false,
+                showChildCountIndicator: true
+            }
+        },
+        {
+            name: 'LatestFromLibrary',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Movie',
+            type: SectionType.LatestMovies,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Movie]
+            },
+            cardOptions: {
+                showTitle: true,
+                preferThumb: null,
+                showYear: true
+            }
+        },
+        {
+            name: 'NextUp',
+            apiMethod: SectionApiMethod.NextUp,
+            itemTypes: 'Video',
+            type: SectionType.NextUp,
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.BackdropOverflow,
+                preferThumb: true,
+                showParentTitle: true
+            }
+        },
+        {
+            name: 'LatestFromLibrary',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Audio',
+            type: SectionType.LatestMusic,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Audio]
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.SquareOverflow,
+                showParentTitle: true,
+                overlayPlayButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderRecentlyPlayed',
+            itemTypes: 'Audio',
+            type: SectionType.RecentlyPlayedMusic,
+            parametersOptions: {
+                sortBy: [ItemSortBy.DatePlayed],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.Audio],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.SquareOverflow,
+                showParentTitle: true,
+                action: 'instantmix',
+                overlayMoreButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderFrequentlyPlayed',
+            itemTypes: 'Audio',
+            type: SectionType.FrequentlyPlayedMusic,
+            parametersOptions: {
+                sortBy: [ItemSortBy.PlayCount],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.Audio],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.SquareOverflow,
+                showParentTitle: true,
+                action: 'instantmix',
+                overlayMoreButton: true,
+                coverImage: true
+            }
+        }
+    ];
+};

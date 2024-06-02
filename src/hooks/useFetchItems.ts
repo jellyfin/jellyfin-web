@@ -1,8 +1,10 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client/models/timer-info-dto';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { DisplayPreferencesApiGetDisplayPreferencesRequest, ImageApiGetItemImageRequest, ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest, UserViewsApiGetUserViewsRequest } from '@jellyfin/sdk/lib/generated-client';
+import { getDisplayPreferencesApi } from '@jellyfin/sdk/lib/utils/api/display-preferences-api';
+
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
@@ -11,6 +13,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getMoviesApi } from '@jellyfin/sdk/lib/utils/api/movies-api';
 import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
@@ -25,10 +28,41 @@ import globalize from 'scripts/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
-import { getProgramSections, getSuggestionSections } from 'utils/sections';
+import { getHomeSections, getProgramSections, getSuggestionSections } from 'utils/sections';
 import type { LibraryViewSettings, ParentId } from 'types/library';
 import { type Section, type SectionType, SectionApiMethod } from 'types/sections';
 import { LibraryTab } from 'types/libraryTab';
+import { getUserViewsApi } from '@jellyfin/sdk/lib/utils/api/user-views-api';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+
+const fetchGetItem = async (
+    currentApi: JellyfinApiContext,
+    parentId: ParentId,
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id && parentId) {
+        const response = await getUserLibraryApi(api).getItem(
+            {
+                userId: user.Id,
+                itemId: parentId
+            },
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data;
+    }
+};
+
+export const useGetItem = (parentId: ParentId) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: ['Item', parentId],
+        queryFn: ({ signal }) => fetchGetItem(currentApi, parentId, { signal }),
+        enabled: !!parentId
+    });
+};
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
@@ -365,7 +399,7 @@ export const useGetItemsViewByType = (
                 { signal }
             ),
         refetchOnWindowFocus: false,
-        placeholderData : keepPreviousData,
+        placeholderData: keepPreviousData,
         enabled:
             [
                 LibraryTab.Movies,
@@ -406,7 +440,7 @@ export const usePlaylistsMoveItemMutation = () => {
     const currentApi = useApi();
     return useMutation({
         mutationFn: (requestParameters: PlaylistsApiMoveItemRequest) =>
-            fetchPlaylistsMoveItem(currentApi, requestParameters )
+            fetchPlaylistsMoveItem(currentApi, requestParameters)
     });
 };
 
@@ -530,7 +564,7 @@ export const useToggleFavoriteMutation = () => {
     const currentApi = useApi();
     return useMutation({
         mutationFn: ({ itemId, isFavorite }: ToggleFavoriteMutationProp) =>
-            fetchUpdateFavoriteStatus(currentApi, itemId, isFavorite )
+            fetchUpdateFavoriteStatus(currentApi, itemId, isFavorite)
     });
 };
 
@@ -566,7 +600,7 @@ export const useTogglePlayedMutation = () => {
     const currentApi = useApi();
     return useMutation({
         mutationFn: ({ itemId, isPlayed }: TogglePlayedMutationProp) =>
-            fetchUpdatePlayedState(currentApi, itemId, isPlayed )
+            fetchUpdatePlayedState(currentApi, itemId, isPlayed)
     });
 };
 
@@ -576,7 +610,7 @@ export type GroupsTimers = {
 };
 
 function groupsTimers(timers: TimerInfoDto[], indexByDate?: boolean) {
-    const items = timers.map(function (t) {
+    const items = timers.map(function(t) {
         t.Type = 'Timer';
         return t;
     });
@@ -895,5 +929,167 @@ export const useGetProgramsSectionsWithItems = (
         queryKey: ['ProgramSectionWithItems', { programSectionType }],
         queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal })
 
+    });
+};
+
+export const useGetHomeSectionsWithItems = (
+    parentId: ParentId,
+    homeSectionType: SectionType[],
+    enabled?: boolean
+) => {
+    const currentApi = useApi();
+    const sections = getHomeSections();
+    return useQuery({
+        queryKey: ['HomeSections', parentId, { homeSectionType }],
+        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, homeSectionType, { signal }),
+        enabled: enabled
+    });
+};
+
+const fetchGetUserViews = async (
+    currentApi: JellyfinApiContext,
+    parametersOptions?: UserViewsApiGetUserViewsRequest,
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getUserViewsApi(api).getUserViews(
+            {
+                userId: user.Id,
+                ...parametersOptions
+            },
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data;
+    }
+};
+
+export const useGetUserViews = (parametersOptions?: UserViewsApiGetUserViewsRequest) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: [
+            'UserViews',
+            {
+                ...parametersOptions
+            }
+        ],
+        queryFn: ({ signal }) =>
+            fetchGetUserViews(currentApi, parametersOptions, { signal })
+    });
+};
+
+const fetchGetCurrentUser = async (
+    currentApi: JellyfinApiContext,
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getUserApi(api).getCurrentUser(
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data;
+    }
+};
+
+export const useGetCurrentUser = () => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: ['CurrentUser'],
+        queryFn: ({ signal }) =>
+            fetchGetCurrentUser(currentApi, { signal })
+    });
+};
+
+export type DisplayPreferencesParameterOptions = Omit<DisplayPreferencesApiGetDisplayPreferencesRequest, 'userId'> & Partial<Pick<DisplayPreferencesApiGetDisplayPreferencesRequest, 'userId'>>;
+
+const fetchGetDisplayPreferences = async (
+    currentApi: JellyfinApiContext,
+    parametersOptions: DisplayPreferencesParameterOptions,
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getDisplayPreferencesApi(api).getDisplayPreferences(
+            {
+                ...parametersOptions,
+                userId: parametersOptions.userId ?? user.Id
+            },
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data;
+    }
+};
+
+export const useGetDisplayPreferences = (
+    parametersOptions: DisplayPreferencesParameterOptions
+) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: [
+            'DisplayPreferences',
+            {
+                ...parametersOptions
+            }
+        ],
+        queryFn: ({ signal }) =>
+            fetchGetDisplayPreferences(currentApi, parametersOptions ?? {}, { signal })
+    });
+};
+
+const fetchItemImage = async (
+    currentApi: JellyfinApiContext,
+    itemId: string | undefined,
+    parametersOptions: Omit<ImageApiGetItemImageRequest, 'itemId'>,
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id && itemId) {
+        const response = await getImageApi(api).getItemImage(
+            {
+                itemId: itemId,
+                ...parametersOptions
+            },
+            {
+                signal: options?.signal
+            }
+        );
+
+        // Make life easier and send back the content-type as well
+        return {
+            data: response.data as string,
+            contentType: response.headers['content-type'] as string
+        };
+    }
+};
+
+// This might be a bad idea to get images through react query.
+// So will override the caching and other funcitons
+// for images. Invalidating queries should be done on the id only.
+export const useGetItemImage = (
+    itemId: string | undefined,
+    parametersOptions: Omit<ImageApiGetItemImageRequest, 'itemId'>
+) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: [
+            'ItemImage',
+            itemId,
+            {
+                ...parametersOptions
+            }
+        ],
+        queryFn: ({ signal }) =>
+            fetchItemImage(currentApi, itemId, {
+                ...parametersOptions
+            }, { signal }),
+        staleTime: Infinity,
+        gcTime: Infinity,
+        enabled: !!itemId
     });
 };

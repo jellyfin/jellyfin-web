@@ -48,7 +48,7 @@ const MainDrawerContent = () => {
                     </ListItemLink>
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemLink to='/home.html?tab=1'>
+                    <ListItemLink to='/favorites.html'>
                         <ListItemIcon>
                             <Favorite />
                         </ListItemIcon>
