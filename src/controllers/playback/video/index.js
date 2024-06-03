@@ -362,11 +362,11 @@ export default function (view) {
         if (currentVisibleMenu === 'osd') {
             const elem = osdBottomElement;
             clearHideAnimationEventListeners(elem);
-            elem.classList.add('videoOsdBottom-hidden');
 
             dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
             });
+            elem.classList.add('videoOsdBottom-hidden');
             currentVisibleMenu = null;
             toggleSubtitleSync('hide');
 
