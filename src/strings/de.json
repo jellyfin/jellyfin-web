@@ -1891,5 +1891,8 @@
     "SaveLyricsIntoMediaFoldersHelp": "Das Speichern von Liedtexten zusammen mit den Audiodateien ermöglicht eine einfachere Verwaltung.",
     "PlaylistPublic": "Erlaube öffentlichen Zugriff",
     "Colorist": "Colorist",
-    "Penciller": "Bleistiftzeichner"
+    "Penciller": "Bleistiftzeichner",
+    "Inker": "Inker",
+    "Letterer": "Beschreiber",
+    "HeaderVideoAdvanced": "Erweitertes Video"
 }
