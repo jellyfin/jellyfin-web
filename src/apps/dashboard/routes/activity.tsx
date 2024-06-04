@@ -107,7 +107,7 @@ const Activity = () => {
         {
             field: 'Name',
             headerName: globalize.translate('LabelName'),
-            width: 200
+            width: 300
         },
         {
             field: 'Overview',
@@ -121,11 +121,12 @@ const Activity = () => {
         {
             field: 'Type',
             headerName: globalize.translate('LabelType'),
-            width: 120
+            width: 180
         },
         {
             field: 'actions',
             type: 'actions',
+            width: 50,
             getActions: ({ row }) => {
                 const actions = [];
 
