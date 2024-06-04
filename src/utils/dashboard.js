@@ -21,7 +21,7 @@ export function getCurrentUser() {
 
 // TODO: investigate url prefix support for serverAddress function
 export async function serverAddress() {
-    const apiClient = window.ApiClient ?? ServerConnections.currentApiClient();
+    const apiClient = window.ApiClient;
 
     if (apiClient) {
         return Promise.resolve(apiClient.serverAddress());
