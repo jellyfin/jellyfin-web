@@ -22,6 +22,23 @@ if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
     }
 }
 
+let supportsValueAutoSnap = false;
+{
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = '-30';
+    slider.max = '30';
+    slider.step = '0.1';
+
+    slider.value = '0.30000000000000004';
+
+    supportsValueAutoSnap = slider.value === '0.3';
+
+    if (!supportsValueAutoSnap) {
+        console.debug('[EmbySlider] HTMLInputElement doesn\'t snap value - use workaround.');
+    }
+}
+
 /**
  * Returns normalized slider step.
  *
@@ -113,11 +130,44 @@ function mapValueToFraction(range, value) {
 }
 
 /**
+ * Returns value snapped to the slider step.
+ *
+ * @param {HTMLInputElement} range slider itself
+ * @param {number} value slider value
+ * @return {number} value snapped to the slider step
+ */
+function snapValue(range, value) {
+    if (range.step !== 'any') {
+        const min = parseFloat(range.min);
+        const step = normalizeSliderStep(range);
+        const decimals = Math.max(decimalCount(min), decimalCount(step));
+
+        value -= min;
+        value = Math.round(value / step) * step;
+        value += min;
+
+        value = parseFloat(value.toFixed(decimals));
+    }
+
+    return value;
+}
+
+/**
      * Updates progress bar.
      *
      * @param {boolean} [isValueSet] update by 'valueset' event or by timer
      */
 function updateValues(isValueSet) {
+    if (!!isValueSet && !supportsValueAutoSnap) {
+        const value = snapValue(this, parseFloat(this.value)).toString();
+
+        if (this.value !== value) {
+            this.value = value;
+
+            if (supportsValueSetOverride) return;
+        }
+    }
+
     // Do not update values by 'valueset' in case of soft-implemented dragging
     if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
         return;
@@ -465,7 +515,7 @@ function finishKeyboardDragging(elem) {
 function stepKeyboard(elem, delta) {
     startKeyboardDragging(elem);
 
-    elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
+    elem.value = parseFloat(elem.value) + delta;
 
     const event = new Event('input', {
         bubbles: true,
