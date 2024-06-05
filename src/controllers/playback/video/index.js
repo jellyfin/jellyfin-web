@@ -323,18 +323,14 @@ export default function (view) {
     }
 
     function clearHideAnimationEventListeners(elem) {
-        dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-            once: true
-        });
+        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
         if (elem != osdBottomElement) return;
         elem.classList.add('hide');
-        dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-            once: true
-        });
+        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     const _focus = debounce((focusElement) => focusManager.focus(focusElement), 50);
@@ -364,9 +360,7 @@ export default function (view) {
             clearHideAnimationEventListeners(elem);
             elem.classList.add('videoOsdBottom-hidden');
 
-            dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-                once: true
-            });
+            elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
             currentVisibleMenu = null;
             toggleSubtitleSync('hide');
 
