@@ -1,4 +1,5 @@
 import type { BaseItemDto, BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { ApiClient } from 'jellyfin-apiclient';
 import classNames from 'classnames';
 import React, { type FC, useCallback, useEffect, useState } from 'react';
@@ -77,16 +78,32 @@ const SearchResults: FC<SearchResultsProps> = ({ serverId = window.ApiClient.ser
         ).then(ensureNonNullItems)
     ), [getDefaultParameters]);
 
-    const fetchItems = useCallback((apiClient: ApiClient, params = {}) => (
-        apiClient?.getItems(
-            apiClient.getCurrentUserId(),
-            {
-                ...getDefaultParameters(),
-                IncludeMedia: true,
-                ...params
+    const fetchItems = useCallback(async (apiClient?: ApiClient, params = {}) => {
+        if (!apiClient) {
+            console.error('[SearchResults] no apiClient; unable to fetch items');
+            return {
+                Items: []
+            };
+        }
+
+        const options = {
+            ...getDefaultParameters(),
+            IncludeMedia: true,
+            ...params
+        };
+
+        if (params.IncludeItemTypes === BaseItemKind.Episode) {
+            const user = await apiClient.getCurrentUser();
+            if (!user?.Configuration?.DisplayMissingEpisodes) {
+                options.IsMissing = false;
             }
-        ).then(ensureNonNullItems)
-    ), [getDefaultParameters]);
+        }
+
+        return apiClient.getItems(
+            apiClient.getCurrentUserId(),
+            options
+        ).then(ensureNonNullItems);
+    }, [getDefaultParameters]);
 
     const fetchPeople = useCallback((apiClient: ApiClient, params = {}) => (
         apiClient?.getPeople(
