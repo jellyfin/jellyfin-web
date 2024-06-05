@@ -99,9 +99,7 @@ function showSelection(item, isChecked) {
         parent.appendChild(itemSelectionPanel);
 
         let cssClass = 'chkItemSelect';
-        if (isChecked && !browser.firefox) {
-            // In firefox, the initial tap hold doesnt' get treated as a click
-            // In other browsers it does, so we need to make sure that initial click is ignored
+        if (isChecked) {
             cssClass += ' checkedInitial';
         }
         const checkedAttribute = isChecked ? ' checked' : '';
