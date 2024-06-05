@@ -610,13 +610,13 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)))) {
+        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || browser.opera)))) {
         // disable av1 on non-safari mobile browsers since it can be very slow software decoding
         hlsInFmp4VideoCodecs.push('av1');
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)))) {
+        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
