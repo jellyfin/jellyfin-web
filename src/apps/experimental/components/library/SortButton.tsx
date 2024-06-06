@@ -26,7 +26,7 @@ type SortOptionsMapping = Record<string, SortOption[]>;
 const movieOrFavoriteOptions = [
     { label: 'Name', value: ItemSortBy.SortName },
     { label: 'OptionRandom', value: ItemSortBy.Random },
-    { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
     { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
     { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
     { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
@@ -40,7 +40,7 @@ const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
     [LibraryTab.Trailers]: [
         { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
@@ -51,7 +51,7 @@ const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Series]: [
         { label: 'Name', value: ItemSortBy.SortName },
         { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateShowAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
         { label: 'OptionDatePlayed', value: ItemSortBy.SeriesDatePlayed },
@@ -60,7 +60,7 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.Episodes]: [
         { label: 'Name', value: ItemSortBy.SeriesSortName },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
@@ -73,7 +73,7 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'Name', value: ItemSortBy.SortName },
         { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
         { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
