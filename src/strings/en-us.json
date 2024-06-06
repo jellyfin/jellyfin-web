@@ -1201,7 +1201,6 @@
     "OptionHasThemeVideo": "Theme Video",
     "OptionHideUser": "Hide this user from login screens",
     "OptionHideUserFromLoginHelp": "Useful for private or hidden administrator accounts. The user will need to sign in manually by entering their username and password.",
-    "OptionImdbRating": "IMDb Rating",
     "OptionIsHD": "HD",
     "OptionIsSD": "SD",
     "OptionLoginAttemptsBeforeLockout": "Determine how many incorrect login tries can be made before lockout occurs.",
