@@ -1710,7 +1710,7 @@ export class HtmlVideoPlayer {
         const list = [];
 
         const video = document.createElement('video');
-        if (
+        if ((
             // Check non-standard Safari PiP support
             typeof video.webkitSupportsPresentationMode === 'function' && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === 'function'
             // Check non-standard Windows PiP support
@@ -1719,7 +1719,7 @@ export class HtmlVideoPlayer {
                     .isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay))
             // Check standard PiP support
             || document.pictureInPictureEnabled
-        ) {
+        ) && !browser.xboxOne) {
             list.push('PictureInPicture');
         }
 
