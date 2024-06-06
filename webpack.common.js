@@ -14,7 +14,7 @@ const Assets = [
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'pdfjs-dist/build/pdf.worker.mjs'
+    'pdfjs-dist/legacy/build/pdf.worker.mjs'
 ];
 
 const LibarchiveWasm = [
@@ -43,7 +43,8 @@ const config = {
             '@mui/styled-engine': '@mui/styled-engine/legacy',
             '@mui/system': '@mui/system/legacy',
             '@mui/utils': '@mui/utils/legacy',
-            '@mui/x-data-grid': '@mui/x-data-grid/legacy'
+            '@mui/x-data-grid': '@mui/x-data-grid/legacy',
+            'pdfjs-dist': 'pdfjs-dist/legacy/build/pdf.mjs'
         }
     },
     plugins: [
