@@ -100,7 +100,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass') {
+        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
             return false;
         }
     }
@@ -217,6 +217,10 @@ export class HtmlVideoPlayer {
      * @type {any | null | undefined}
      */
     #currentAssRenderer;
+    /**
+     * @type {any | null | undefined}
+     */
+    #currentPgsRenderer;
     /**
      * @type {number | undefined}
      */
@@ -1177,6 +1181,12 @@ export class HtmlVideoPlayer {
             octopus.dispose();
         }
         this.#currentAssRenderer = null;
+
+        const pgsRenderer = this.#currentPgsRenderer;
+        if (pgsRenderer) {
+            pgsRenderer.dispose();
+        }
+        this.#currentPgsRenderer = null;
     }
 
     /**
@@ -1322,6 +1332,19 @@ export class HtmlVideoPlayer {
     }
 
     /**
+     * @private
+     */
+    renderPgs(videoElement, track, item) {
+        import('libpgs').then((libpgs) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item)
+            };
+            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
+        });
+    }
+
+    /**
          * @private
          */
     requiresCustomSubtitlesElement() {
@@ -1437,6 +1460,10 @@ export class HtmlVideoPlayer {
             const format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
                 this.renderSsaAss(videoElement, track, item);
+                return;
+            }
+            if (format === 'pgssub') {
+                this.renderPgs(videoElement, track, item);
                 return;
             }
 

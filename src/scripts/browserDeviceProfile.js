@@ -48,6 +48,15 @@ function supportsTextTracks() {
     return _supportsTextTracks;
 }
 
+let _supportsCanvas2D;
+function supportsCanvas2D() {
+    if (_supportsCanvas2D == null) {
+        _supportsCanvas2D = document.createElement('canvas').getContext('2d') != null;
+    }
+
+    return _supportsCanvas2D;
+}
+
 let _canPlayHls;
 function canPlayHls() {
     if (_canPlayHls == null) {
@@ -1338,6 +1347,13 @@ export default function (options) {
             });
             profile.SubtitleProfiles.push({
                 Format: 'ssa',
+                Method: 'External'
+            });
+        }
+
+        if (supportsCanvas2D()) {
+            profile.SubtitleProfiles.push({
+                Format: 'pgssub',
                 Method: 'External'
             });
         }
