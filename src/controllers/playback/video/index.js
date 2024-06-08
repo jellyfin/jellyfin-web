@@ -551,7 +551,6 @@ export default function (view) {
     }
 
     function onPlaybackStopped(e, state) {
-        currentRuntimeTicks = null;
         resetUpNextDialog();
         console.debug('nowplaying event: ' + e.type);
 
@@ -1969,4 +1968,3 @@ export default function (view) {
         });
     }
 }
-
