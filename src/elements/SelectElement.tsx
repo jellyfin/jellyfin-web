@@ -19,7 +19,7 @@ type IProps = {
     required?: string;
     label?: string;
     children?: React.ReactNode
-}
+};
 
 const SelectElement: FunctionComponent<IProps> = ({ name, id, required, label, children }: IProps) => {
     return (

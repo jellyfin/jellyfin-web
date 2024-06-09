@@ -1,10 +1,11 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import useElementSize from 'hooks/useElementSize';
 import layoutManager from '../../components/layoutManager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
-import scrollerFactory from '../../libraries/scroller';
+import ScrollerFactory from '../../libraries/scroller';
 import ScrollButtons from '../emby-scrollbuttons/ScrollButtons';
 import './emby-scroller.scss';
 
@@ -32,15 +33,15 @@ const Scroller: FC<ScrollerProps> = ({
     isAllowNativeSmoothScrollEnabled,
     children
 }) => {
+    const [scrollRef, size] = useElementSize();
+
     const [showControls, setShowControls] = useState(false);
     const [scrollState, setScrollState] = useState({
-        scrollSize: 0,
+        scrollSize: size.width,
         scrollPos: 0,
         scrollWidth: 0
     });
-
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const scrollerFactoryRef = useRef<scrollerFactory | null>(null);
+    const scrollerFactoryRef = useRef<ScrollerFactory | null>(null);
 
     const getScrollSlider = useCallback(() => {
         if (scrollerFactoryRef.current) {
@@ -75,7 +76,7 @@ const Scroller: FC<ScrollerProps> = ({
             return 0;
         }
 
-        if (isNaN(parseInt(value))) {
+        if (isNaN(parseInt(value, 10))) {
             return 0;
         }
 
@@ -125,8 +126,8 @@ const Scroller: FC<ScrollerProps> = ({
         });
     }, [getScrollPosition, getScrollSize, getScrollWidth]);
 
-    const initCenterFocus = useCallback((elem: EventTarget, scrollerInstance: scrollerFactory) => {
-        dom.addEventListener(elem, 'focus', function (e: { target: any; }) {
+    const initCenterFocus = useCallback((elem, scrollerInstance: ScrollerFactory) => {
+        dom.addEventListener(elem, 'focus', function (e: FocusEvent) {
             const focused = focusManager.focusableParent(e.target);
             if (focused) {
                 scrollerInstance.toCenter(focused, false);
@@ -150,15 +151,10 @@ const Scroller: FC<ScrollerProps> = ({
     }, [scrollerFactoryRef]);
 
     useEffect(() => {
-        const scrollerElement = scrollRef.current as HTMLDivElement;
-
         const horizontal = isHorizontalEnabled !== false;
         const scrollbuttons = isScrollButtonsEnabled !== false;
         const mousewheel = isMouseWheelEnabled !== false;
 
-        const slider = scrollerElement.querySelector('.scrollSlider');
-
-        const scrollFrame = scrollerElement;
         const enableScrollButtons = layoutManager.desktop && horizontal && scrollbuttons;
 
         const options = {
@@ -166,7 +162,7 @@ const Scroller: FC<ScrollerProps> = ({
             mouseDragging: 1,
             mouseWheel: mousewheel,
             touchDragging: 1,
-            slidee: slider,
+            slidee: scrollRef.current?.querySelector('.scrollSlider'),
             scrollBy: 200,
             speed: horizontal ? 270 : 240,
             elasticBounds: 1,
@@ -183,12 +179,12 @@ const Scroller: FC<ScrollerProps> = ({
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
-        scrollerFactoryRef.current = new scrollerFactory(scrollFrame, options);
+        scrollerFactoryRef.current = new ScrollerFactory(scrollRef.current, options);
         scrollerFactoryRef.current.init();
         scrollerFactoryRef.current.reload();
 
         if (layoutManager.tv && isCenterFocusEnabled) {
-            initCenterFocus(scrollerElement, scrollerFactoryRef.current);
+            initCenterFocus(scrollRef.current, scrollerFactoryRef.current);
         }
 
         if (enableScrollButtons) {
@@ -200,9 +196,8 @@ const Scroller: FC<ScrollerProps> = ({
         }
 
         return () => {
-            const scrollerInstance = scrollerFactoryRef.current;
-            if (scrollerInstance) {
-                scrollerInstance.destroy();
+            if (scrollerFactoryRef.current) {
+                scrollerFactoryRef.current.destroy();
                 scrollerFactoryRef.current = null;
             }
 
@@ -223,15 +218,15 @@ const Scroller: FC<ScrollerProps> = ({
         isScrollEventEnabled,
         isSkipFocusWhenVisibleEnabled,
         onScroll,
-        removeScrollEventListener
+        removeScrollEventListener,
+        scrollRef
     ]);
 
     return (
         <>
             {
-                showControls && scrollState.scrollWidth > scrollState.scrollSize + 20 &&
-                    <ScrollButtons
-                        scrollRef={scrollRef}
+                showControls && scrollState.scrollWidth > scrollState.scrollSize + 20
+                    && <ScrollButtons
                         scrollerFactoryRef={scrollerFactoryRef}
                         scrollState={scrollState}
                     />

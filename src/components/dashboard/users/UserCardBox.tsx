@@ -3,15 +3,15 @@ import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../scripts/globalize';
-import cardBuilder from '../../cardbuilder/cardBuilder';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import escapeHTML from 'escape-html';
+import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
 
 const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl: string }) => ({
     __html: `<a
         is="emby-linkbutton"
         class="cardContent"
-        href="#/useredit.html?userId=${user.Id}"
+        href="#/dashboard/users/profile?userId=${user.Id}"
         >
         ${renderImgUrl}
     </a>`
@@ -19,7 +19,7 @@ const createLinkElement = ({ user, renderImgUrl }: { user: UserDto, renderImgUrl
 
 type IProps = {
     user?: UserDto;
-}
+};
 
 const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
@@ -56,12 +56,12 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
 
     const renderImgUrl = imgUrl ?
         `<div class='${imageClass}' style='background-image:url(${imgUrl})'></div>` :
-        `<div class='${imageClass} ${cardBuilder.getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
+        `<div class='${imageClass} ${getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center'>
             <span class='material-icons cardImageIcon person' aria-hidden='true'></span>
         </div>`;
 
     return (
-        <div data-userid={user.Id} className={cssClass}>
+        <div data-userid={user.Id} data-username={user.Name} className={cssClass}>
             <div className='cardBox visualCardBox'>
                 <div className='cardScalable visualCardBox-cardScalable'>
                     <div className='cardPadder cardPadder-square'></div>
@@ -74,7 +74,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                 </div>
                 <div className='cardFooter visualCardBox-cardFooter'>
                     <div
-                        style={{textAlign: 'right', float: 'right', paddingTop: '5px'}}
+                        style={{ textAlign: 'right', float: 'right', paddingTop: '5px' }}
                     >
                         <IconButtonElement
                             is='paper-icon-button-light'

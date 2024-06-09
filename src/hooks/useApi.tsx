@@ -7,7 +7,7 @@ import ServerConnections from '../components/ServerConnections';
 import events from '../utils/events';
 import { toApi } from '../utils/jellyfin-apiclient/compat';
 
-interface JellyfinApiContext {
+export interface JellyfinApiContext {
     __legacyApiClient__?: ApiClient
     api?: Api
     user?: UserDto

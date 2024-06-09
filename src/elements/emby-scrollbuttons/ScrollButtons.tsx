@@ -1,16 +1,11 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import scrollerFactory from '../../libraries/scroller';
 import globalize from '../../scripts/globalize';
 import IconButton from '../emby-button/IconButton';
 import './emby-scrollbuttons.scss';
-
-enum Direction {
-    RIGHT,
-    LEFT,
-  }
+import { ScrollDirection, scrollerItemSlideIntoView } from './utils';
 
 interface ScrollButtonsProps {
-    scrollRef?: React.MutableRefObject<HTMLElement | null>;
     scrollerFactoryRef: React.MutableRefObject<scrollerFactory | null>;
     scrollState: {
         scrollSize: number;
@@ -23,31 +18,16 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
     const [localeScrollPos, setLocaleScrollPos] = useState<number>(0);
     const scrollButtonsRef = useRef<HTMLDivElement>(null);
 
-    const scrollToPosition = useCallback((pos: number, immediate: boolean) => {
-        if (scrollerFactoryRef.current) {
-            scrollerFactoryRef.current.slideTo(pos, immediate, undefined );
-        }
-    }, [scrollerFactoryRef]);
+    const onScrollButtonClick = useCallback((direction: ScrollDirection) => {
+        scrollerItemSlideIntoView({
+            direction,
+            scroller: scrollerFactoryRef.current,
+            scrollState
+        });
+    }, [scrollState, scrollerFactoryRef]);
 
-    const onScrollButtonClick = useCallback((direction: Direction) => {
-        let newPos;
-        if (direction === Direction.LEFT) {
-            newPos = Math.max(0, scrollState.scrollPos - scrollState.scrollSize);
-        } else {
-            newPos = scrollState.scrollPos + scrollState.scrollSize;
-        }
-
-        if (globalize.getIsRTL() && direction === Direction.LEFT) {
-            newPos = scrollState.scrollPos + scrollState.scrollSize;
-        } else if (globalize.getIsRTL()) {
-            newPos = Math.min(0, scrollState.scrollPos - scrollState.scrollSize);
-        }
-
-        scrollToPosition(newPos, false);
-    }, [ scrollState.scrollPos, scrollState.scrollSize, scrollToPosition ]);
-
-    const triggerScrollLeft = useCallback(() => onScrollButtonClick(Direction.LEFT), [ onScrollButtonClick ]);
-    const triggerScrollRight = useCallback(() => onScrollButtonClick(Direction.RIGHT), [ onScrollButtonClick ]);
+    const triggerScrollLeft = useCallback(() => onScrollButtonClick(ScrollDirection.LEFT), [ onScrollButtonClick ]);
+    const triggerScrollRight = useCallback(() => onScrollButtonClick(ScrollDirection.RIGHT), [ onScrollButtonClick ]);
 
     useEffect(() => {
         const parent = scrollButtonsRef.current?.parentNode as HTMLDivElement;
@@ -68,7 +48,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
                 className='emby-scrollbuttons-button btnPrev'
                 onClick={triggerScrollLeft}
                 icon='chevron_left'
-                disabled={localeScrollPos > 0 ? false : true}
+                disabled={localeScrollPos <= 0}
             />
 
             <IconButton
@@ -76,7 +56,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
                 className='emby-scrollbuttons-button btnNext'
                 onClick={triggerScrollRight}
                 icon='chevron_right'
-                disabled={scrollState.scrollWidth > 0 && localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth ? true : false}
+                disabled={scrollState.scrollWidth > 0 && localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth}
             />
         </div>
     );

@@ -174,9 +174,9 @@ class QueueCore {
 
             const currentTime = new Date();
             const now = this.manager.timeSyncCore.localDateToRemote(currentTime);
-            const currentPosition = (playerWrapper.currentTimeAsync
-                ? await playerWrapper.currentTimeAsync()
-                : playerWrapper.currentTime());
+            const currentPosition = (playerWrapper.currentTimeAsync ?
+                await playerWrapper.currentTimeAsync() :
+                playerWrapper.currentTime());
             const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
             const isPlaying = playerWrapper.isPlaying();
 
@@ -227,14 +227,14 @@ class QueueCore {
 
         const serverId = apiClient.serverInfo().Id;
 
+        this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
+
         const playerWrapper = this.manager.getPlayerWrapper();
         playerWrapper.localPlay({
             ids: this.getPlaylistAsItemIds(),
             startPositionTicks: startPositionTicks,
             startIndex: this.getCurrentPlaylistIndex(),
             serverId: serverId
-        }).then(() => {
-            this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
         }).catch((error) => {
             console.error(error);
             toast(globalize.translate('MessageSyncPlayErrorMedia'));

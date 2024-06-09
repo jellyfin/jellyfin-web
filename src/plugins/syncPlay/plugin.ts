@@ -5,20 +5,24 @@ import SyncPlay from './core';
 import SyncPlayNoActivePlayer from './ui/players/NoActivePlayer';
 import SyncPlayHtmlVideoPlayer from './ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from './ui/players/HtmlAudioPlayer';
+import { Plugin, PluginType } from '../../types/plugin';
 
-class SyncPlayPlugin {
+class SyncPlayPlugin implements Plugin {
     name: string;
     id: string;
     type: string;
     priority: number;
+    instance: typeof SyncPlay;
 
     constructor() {
         this.name = 'SyncPlay Plugin';
         this.id = 'syncplay';
         // NOTE: This should probably be a "mediaplayer" so the playback manager can handle playback logic, but
         // SyncPlay needs refactored so it does not have an independent playback manager.
-        this.type = 'syncplay';
+        this.type = PluginType.SyncPlay;
         this.priority = 1;
+
+        this.instance = SyncPlay;
 
         this.init();
     }

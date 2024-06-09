@@ -3,16 +3,17 @@ import { Archive } from 'libarchive.js';
 import loading from '../../components/loading/loading';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
-import { appRouter } from '../../components/appRouter';
+import { appRouter } from '../../components/router/appRouter';
 import ServerConnections from '../../components/ServerConnections';
 import * as userSettings from '../../scripts/settings/userSettings';
+import { PluginType } from '../../types/plugin.ts';
 
 import './style.scss';
 
 export class ComicsPlayer {
     constructor() {
         this.name = 'Comics Player';
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.id = 'comicsplayer';
         this.priority = 1;
         this.imageMap = new Map();
@@ -94,10 +95,11 @@ export class ComicsPlayer {
     onDirChanged = () => {
         let langDir = this.comicsPlayerSettings.langDir;
 
-        if (!langDir || langDir === 'ltr')
+        if (!langDir || langDir === 'ltr') {
             langDir = 'rtl';
-        else
+        } else {
             langDir = 'ltr';
+        }
 
         this.changeLanguageDirection(langDir);
 
@@ -124,10 +126,11 @@ export class ComicsPlayer {
     onViewChanged = () => {
         let view = this.comicsPlayerSettings.pagesPerView;
 
-        if (!view || view === 1)
+        if (!view || view === 1) {
             view = 2;
-        else
+        } else {
             view = 1;
+        }
 
         this.changeView(view);
 

@@ -23,7 +23,7 @@
 
                         <div id="btnInstallDiv" class="hide">
                             <button is="emby-button" type="submit" id="btnInstall" class="raised button-submit block">
-                                <span>${Install}</span>
+                                <span>${HeaderInstall}</span>
                             </button>
                             <div class="fieldDescription">${ServerRestartNeededAfterPluginInstall}</div>
                         </div>
@@ -34,7 +34,9 @@
             <div class="readOnlyContent">
                 <div is="emby-collapse" title="${HeaderDeveloperInfo}">
                     <div class="collapseContent">
-                        <p id="developer"></p>
+                        <p>${LabelDeveloper}: <span id="developer"></span></p>
+                        <p>${LabelRepositoryName}: <span id="repositoryName"></span></p>
+                        <p>${LabelRepositoryUrl}: <span id="repositoryUrl"></span></p>
                     </div>
                 </div>
 

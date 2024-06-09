@@ -9,28 +9,26 @@ function render() {
     return elem;
 }
 
-class appFooter {
+class AppFooter {
     constructor() {
-        const self = this;
+        this.element = render();
 
-        self.element = render();
-        self.add = function (elem) {
-            self.element.appendChild(elem);
+        this.add = function (elem) {
+            this.element.appendChild(elem);
         };
 
-        self.insert = function (elem) {
+        this.insert = function (elem) {
             if (typeof elem === 'string') {
-                self.element.insertAdjacentHTML('afterbegin', elem);
+                this.element.insertAdjacentHTML('afterbegin', elem);
             } else {
-                self.element.insertBefore(elem, self.element.firstChild);
+                this.element.insertBefore(elem, this.element.firstChild);
             }
         };
     }
-    destroy() {
-        const self = this;
 
-        self.element = null;
+    destroy() {
+        this.element = null;
     }
 }
 
-export default new appFooter();
+export default new AppFooter();

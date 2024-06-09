@@ -1,11 +1,12 @@
-import SyncPlay from '../core';
 import SyncPlaySettingsEditor from './settings/SettingsEditor';
 import loading from '../../../components/loading/loading';
 import toast from '../../../components/toast/toast';
 import actionsheet from '../../../components/actionSheet/actionSheet';
 import globalize from '../../../scripts/globalize';
 import playbackPermissionManager from './playbackPermissionManager';
+import { pluginManager } from '../../../components/pluginManager';
 import ServerConnections from '../../../components/ServerConnections';
+import { PluginType } from '../../../types/plugin.ts';
 import Events from '../../../utils/events.ts';
 
 import './groupSelectionMenu.scss';
@@ -17,8 +18,22 @@ class GroupSelectionMenu {
     constructor() {
         // Register to SyncPlay events.
         this.syncPlayEnabled = false;
-        Events.on(SyncPlay.Manager, 'enabled', (e, enabled) => {
-            this.syncPlayEnabled = enabled;
+        this.SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+
+        if (this.SyncPlay) {
+            Events.on(this.SyncPlay.Manager, 'enabled', (_event, enabled) => {
+                this.syncPlayEnabled = enabled;
+            });
+        }
+
+        Events.on(pluginManager, 'registered', (_event0, plugin) => {
+            if (plugin.type === PluginType.SyncPlay) {
+                this.SyncPlay = plugin.instance;
+
+                Events.on(plugin.instance.Manager, 'enabled', (_event1, enabled) => {
+                    this.syncPlayEnabled = enabled;
+                });
+            }
         });
     }
 
@@ -103,10 +118,11 @@ class GroupSelectionMenu {
      * @param {Object} apiClient - ApiClient.
      */
     showLeaveGroupSelection(button, user, apiClient) {
-        const groupInfo = SyncPlay.Manager.getGroupInfo();
+        const groupInfo = this.SyncPlay?.Manager.getGroupInfo();
         const menuItems = [];
 
-        if (!SyncPlay.Manager.isPlaylistEmpty() && !SyncPlay.Manager.isPlaybackActive()) {
+        if (!this.SyncPlay?.Manager.isPlaylistEmpty()
+            && !this.SyncPlay?.Manager.isPlaybackActive()) {
             menuItems.push({
                 name: globalize.translate('LabelSyncPlayResumePlayback'),
                 icon: 'play_circle_filled',
@@ -114,7 +130,7 @@ class GroupSelectionMenu {
                 selected: false,
                 secondaryText: globalize.translate('LabelSyncPlayResumePlaybackDescription')
             });
-        } else if (SyncPlay.Manager.isPlaybackActive()) {
+        } else if (this.SyncPlay?.Manager.isPlaybackActive()) {
             menuItems.push({
                 name: globalize.translate('LabelSyncPlayHaltPlayback'),
                 icon: 'pause_circle_filled',
@@ -149,15 +165,15 @@ class GroupSelectionMenu {
             border: true
         };
 
-        actionsheet.show(menuOptions).then(function (id) {
+        actionsheet.show(menuOptions).then((id) => {
             if (id == 'resume-playback') {
-                SyncPlay.Manager.resumeGroupPlayback(apiClient);
+                this.SyncPlay?.Manager.resumeGroupPlayback(apiClient);
             } else if (id == 'halt-playback') {
-                SyncPlay.Manager.haltGroupPlayback(apiClient);
+                this.SyncPlay?.Manager.haltGroupPlayback(apiClient);
             } else if (id == 'leave-group') {
                 apiClient.leaveSyncPlayGroup();
             } else if (id == 'settings') {
-                new SyncPlaySettingsEditor(apiClient, SyncPlay.Manager.getTimeSyncCore(), { groupInfo: groupInfo })
+                new SyncPlaySettingsEditor(apiClient, this.SyncPlay?.Manager.getTimeSyncCore(), { groupInfo: groupInfo })
                     .embed()
                     .catch(error => {
                         if (error) {

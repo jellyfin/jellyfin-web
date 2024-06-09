@@ -1,50 +1,13 @@
 import DefaultConfig from '../../config.json';
+import fetchLocal from '../../utils/fetchLocal.ts';
 
 let data;
-const urlResolver = document.createElement('a');
-
-// `fetch` with `file:` support
-// Recent browsers seem to support `file` protocol under some conditions.
-// Based on https://github.com/github/fetch/pull/92#issuecomment-174730593
-//          https://github.com/github/fetch/pull/92#issuecomment-512187452
-async function fetchLocal(url, options) {
-    urlResolver.href = url;
-
-    const requestURL = urlResolver.href;
-
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest;
-
-        xhr.onload = () => {
-            // `file` protocol has invalid OK status
-            let status = xhr.status;
-            if (requestURL.startsWith('file:') && status === 0) {
-                status = 200;
-            }
-
-            /* eslint-disable-next-line compat/compat */
-            resolve(new Response(xhr.responseText, {status: status}));
-        };
-
-        xhr.onerror = () => {
-            reject(new TypeError('Local request failed'));
-        };
-
-        xhr.open('GET', url);
-
-        if (options && options.cache) {
-            xhr.setRequestHeader('Cache-Control', options.cache);
-        }
-
-        xhr.send(null);
-    });
-}
 
 async function getConfig() {
     if (data) return Promise.resolve(data);
     try {
         const response = await fetchLocal('config.json', {
-            cache: 'no-cache'
+            cache: 'no-store'
         });
 
         if (!response.ok) {
@@ -72,7 +35,7 @@ export function getIncludeCorsCredentials() {
 
 export function getMultiServer() {
     // Enable multi-server support when served by webpack
-    if (__WEBPACK_SERVE__) { // eslint-disable-line no-undef
+    if (__WEBPACK_SERVE__) {
         return Promise.resolve(true);
     }
 

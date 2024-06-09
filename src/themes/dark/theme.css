@@ -225,6 +225,10 @@ html {
     background: none;
 }
 
+.noBackdropTransparency .detailPageSecondaryContainer {
+    background-color: #101010;
+}
+
 .listItem-border {
     border-color: rgba(34, 34, 34, 0.9) !important;
 }

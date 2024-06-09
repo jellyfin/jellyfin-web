@@ -100,7 +100,7 @@ export default function (view, params, tabContent) {
     }
 
     function showFilterMenu(context) {
-        import('../../components/filterdialog/filterdialog').then(({default: FilterDialog}) => {
+        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'livetvchannels',
@@ -124,7 +124,7 @@ export default function (view, params, tabContent) {
             loading.hide();
             isLoading = false;
 
-            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(context);
             });
         });

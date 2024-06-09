@@ -76,6 +76,7 @@ declare module 'jellyfin-apiclient' {
         accessToken(): string;
         addMediaPath(virtualFolderName: string, mediaPath: string, networkSharePath: string, refreshLibrary?: boolean): Promise<void>;
         addVirtualFolder(name: string, type?: string, refreshLibrary?: boolean, libraryOptions?: any): Promise<void>;
+        ajax(request: any): Promise<any>;
         appName(): string;
         appVersion(): string;
         authenticateUserByName(name: string, password: string): Promise<AuthenticationResult>;
@@ -268,7 +269,7 @@ declare module 'jellyfin-apiclient' {
         sendWebSocketMessage(name: string, data: any): void;
         serverAddress(val?: string): string;
         serverId(): string;
-        serverVersion(): string
+        serverVersion(): string;
         setAuthenticationInfo(accessKey?: string, userId?: string): void;
         setRequestHeaders(headers: any): void;
         setSystemInfo(info: SystemInfo): void;

@@ -29,24 +29,13 @@ function initEditor(context, settings) {
     context.querySelector('.selectImageType').value = settings.imageType || 'primary';
 }
 
-function saveValues(context, settings, settingsKey, setviewsettings) {
-    if (setviewsettings) {
-        setviewsettings((prevState) => ({
-            ...prevState,
-            StartIndex: 0,
-            imageType: context.querySelector('.selectImageType').value,
-            showTitle: context.querySelector('.chkShowTitle').checked || false,
-            showYear: context.querySelector('.chkShowYear').checked || false,
-            cardLayout: context.querySelector('.chkEnableCardLayout').checked || false
-        }));
-    } else {
-        const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
-        for (const elem of elems) {
-            userSettings.set(settingsKey + '-' + elem.getAttribute('data-settingname'), elem.querySelector('input').checked);
-        }
-
-        userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
+function saveValues(context, settings, settingsKey) {
+    const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
+    for (const elem of elems) {
+        userSettings.set(settingsKey + '-' + elem.getAttribute('data-settingname'), elem.querySelector('input').checked);
     }
+
+    userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
 }
 
 function centerFocus(elem, horiz, on) {
@@ -112,7 +101,6 @@ class ViewSettings {
             dlg.querySelector('.selectImageType').addEventListener('change', function () {
                 showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list' && this.value !== 'banner');
                 showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list' && this.value !== 'banner');
-                showIfAllowed(dlg, '.chkCardLayoutContainer', this.value !== 'list' && this.value !== 'banner');
             });
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
@@ -137,7 +125,7 @@ class ViewSettings {
                 }
 
                 if (submitted) {
-                    saveValues(dlg, options.settings, options.settingsKey, options.setviewsettings);
+                    saveValues(dlg, options.settings, options.settingsKey);
                     return resolve();
                 }
 

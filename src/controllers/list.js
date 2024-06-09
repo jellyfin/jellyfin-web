@@ -12,418 +12,423 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
-/* eslint-disable indent */
+function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
+    const query = {
+        UserId: ServerConnections.getApiClient(params.serverId).getCurrentUserId(),
+        StartIndex: startIndex,
+        Fields: 'ChannelInfo,PrimaryImageAspectRatio',
+        Limit: limit
+    };
 
-    function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
-        const query = {
-            UserId: ServerConnections.getApiClient(params.serverId).getCurrentUserId(),
-            StartIndex: startIndex,
-            Fields: 'ChannelInfo,PrimaryImageAspectRatio',
-            Limit: limit
-        };
-
-        if (params.type === 'Recordings') {
-            query.IsInProgress = false;
-        } else {
-            query.HasAired = false;
-        }
-
-        if (params.genreId) {
-            query.GenreIds = params.genreId;
-        }
-
-        if (params.IsMovie === 'true') {
-            query.IsMovie = true;
-        } else if (params.IsMovie === 'false') {
-            query.IsMovie = false;
-        }
-
-        if (params.IsSeries === 'true') {
-            query.IsSeries = true;
-        } else if (params.IsSeries === 'false') {
-            query.IsSeries = false;
-        }
-
-        if (params.IsNews === 'true') {
-            query.IsNews = true;
-        } else if (params.IsNews === 'false') {
-            query.IsNews = false;
-        }
-
-        if (params.IsSports === 'true') {
-            query.IsSports = true;
-        } else if (params.IsSports === 'false') {
-            query.IsSports = false;
-        }
-
-        if (params.IsKids === 'true') {
-            query.IsKids = true;
-        } else if (params.IsKids === 'false') {
-            query.IsKids = false;
-        }
-
-        if (params.IsAiring === 'true') {
-            query.IsAiring = true;
-        } else if (params.IsAiring === 'false') {
-            query.IsAiring = false;
-        }
-
-        return modifyQueryWithFilters(instance, query);
+    if (params.type === 'Recordings') {
+        query.IsInProgress = false;
+    } else {
+        query.HasAired = false;
     }
 
-    function modifyQueryWithFilters(instance, query) {
-        const sortValues = instance.getSortValues();
+    if (params.genreId) {
+        query.GenreIds = params.genreId;
+    }
 
-        if (!query.SortBy) {
-            query.SortBy = sortValues.sortBy;
-            query.SortOrder = sortValues.sortOrder;
+    if (params.IsMovie === 'true') {
+        query.IsMovie = true;
+    } else if (params.IsMovie === 'false') {
+        query.IsMovie = false;
+    }
+
+    if (params.IsSeries === 'true') {
+        query.IsSeries = true;
+    } else if (params.IsSeries === 'false') {
+        query.IsSeries = false;
+    }
+
+    if (params.IsNews === 'true') {
+        query.IsNews = true;
+    } else if (params.IsNews === 'false') {
+        query.IsNews = false;
+    }
+
+    if (params.IsSports === 'true') {
+        query.IsSports = true;
+    } else if (params.IsSports === 'false') {
+        query.IsSports = false;
+    }
+
+    if (params.IsKids === 'true') {
+        query.IsKids = true;
+    } else if (params.IsKids === 'false') {
+        query.IsKids = false;
+    }
+
+    if (params.IsAiring === 'true') {
+        query.IsAiring = true;
+    } else if (params.IsAiring === 'false') {
+        query.IsAiring = false;
+    }
+
+    return modifyQueryWithFilters(instance, query);
+}
+
+function modifyQueryWithFilters(instance, query) {
+    const sortValues = instance.getSortValues();
+
+    if (!query.SortBy) {
+        query.SortBy = sortValues.sortBy;
+        query.SortOrder = sortValues.sortOrder;
+    }
+
+    query.Fields = query.Fields ? query.Fields + ',PrimaryImageAspectRatio' : 'PrimaryImageAspectRatio';
+    query.ImageTypeLimit = 1;
+    let hasFilters;
+    const queryFilters = [];
+    const filters = instance.getFilters();
+
+    if (filters.IsPlayed) {
+        queryFilters.push('IsPlayed');
+        hasFilters = true;
+    }
+
+    if (filters.IsUnplayed) {
+        queryFilters.push('IsUnplayed');
+        hasFilters = true;
+    }
+
+    if (filters.IsFavorite) {
+        queryFilters.push('IsFavorite');
+        hasFilters = true;
+    }
+
+    if (filters.IsResumable) {
+        queryFilters.push('IsResumable');
+        hasFilters = true;
+    }
+
+    if (filters.VideoTypes) {
+        hasFilters = true;
+        query.VideoTypes = filters.VideoTypes;
+    }
+
+    if (filters.GenreIds) {
+        hasFilters = true;
+        query.GenreIds = filters.GenreIds;
+    }
+
+    if (filters.Is4K) {
+        query.Is4K = true;
+        hasFilters = true;
+    }
+
+    if (filters.IsHD) {
+        query.IsHD = true;
+        hasFilters = true;
+    }
+
+    if (filters.IsSD) {
+        query.IsHD = false;
+        hasFilters = true;
+    }
+
+    if (filters.Is3D) {
+        query.Is3D = true;
+        hasFilters = true;
+    }
+
+    if (filters.HasSubtitles) {
+        query.HasSubtitles = true;
+        hasFilters = true;
+    }
+
+    if (filters.HasTrailer) {
+        query.HasTrailer = true;
+        hasFilters = true;
+    }
+
+    if (filters.HasSpecialFeature) {
+        query.HasSpecialFeature = true;
+        hasFilters = true;
+    }
+
+    if (filters.HasThemeSong) {
+        query.HasThemeSong = true;
+        hasFilters = true;
+    }
+
+    if (filters.HasThemeVideo) {
+        query.HasThemeVideo = true;
+        hasFilters = true;
+    }
+
+    query.Filters = queryFilters.length ? queryFilters.join(',') : null;
+    instance.setFilterStatus(hasFilters);
+
+    if (instance.alphaPicker) {
+        const newValue = instance.alphaPicker.value();
+        if (newValue === '#') {
+            query.NameLessThan = 'A';
+            delete query.NameStartsWith;
+        } else {
+            query.NameStartsWith = newValue;
+            delete query.NameLessThan;
         }
+    }
 
-        query.Fields = query.Fields ? query.Fields + ',PrimaryImageAspectRatio' : 'PrimaryImageAspectRatio';
-        query.ImageTypeLimit = 1;
-        let hasFilters;
-        const queryFilters = [];
-        const filters = instance.getFilters();
+    return query;
+}
 
-        if (filters.IsPlayed) {
-            queryFilters.push('IsPlayed');
-            hasFilters = true;
-        }
+function setSortButtonIcon(btnSortIcon, icon) {
+    btnSortIcon.classList.remove('arrow_downward');
+    btnSortIcon.classList.remove('arrow_upward');
+    btnSortIcon.classList.add(icon);
+}
 
-        if (filters.IsUnplayed) {
-            queryFilters.push('IsUnplayed');
-            hasFilters = true;
-        }
+function updateSortText(instance) {
+    const btnSortText = instance.btnSortText;
 
-        if (filters.IsFavorite) {
-            queryFilters.push('IsFavorite');
-            hasFilters = true;
-        }
+    if (btnSortText) {
+        const options = instance.getSortMenuOptions();
+        const values = instance.getSortValues();
+        const sortBy = values.sortBy;
 
-        if (filters.IsResumable) {
-            queryFilters.push('IsResumable');
-            hasFilters = true;
-        }
-
-        if (filters.VideoTypes) {
-            hasFilters = true;
-            query.VideoTypes = filters.VideoTypes;
-        }
-
-        if (filters.GenreIds) {
-            hasFilters = true;
-            query.GenreIds = filters.GenreIds;
-        }
-
-        if (filters.Is4K) {
-            query.Is4K = true;
-            hasFilters = true;
-        }
-
-        if (filters.IsHD) {
-            query.IsHD = true;
-            hasFilters = true;
-        }
-
-        if (filters.IsSD) {
-            query.IsHD = false;
-            hasFilters = true;
-        }
-
-        if (filters.Is3D) {
-            query.Is3D = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasSubtitles) {
-            query.HasSubtitles = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasTrailer) {
-            query.HasTrailer = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasSpecialFeature) {
-            query.HasSpecialFeature = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasThemeSong) {
-            query.HasThemeSong = true;
-            hasFilters = true;
-        }
-
-        if (filters.HasThemeVideo) {
-            query.HasThemeVideo = true;
-            hasFilters = true;
-        }
-
-        query.Filters = queryFilters.length ? queryFilters.join(',') : null;
-        instance.setFilterStatus(hasFilters);
-
-        if (instance.alphaPicker) {
-            const newValue = instance.alphaPicker.value();
-            if (newValue === '#') {
-                query.NameLessThan = 'A';
-                delete query.NameStartsWith;
-            } else {
-                query.NameStartsWith = newValue;
-                delete query.NameLessThan;
+        for (const option of options) {
+            if (sortBy === option.value) {
+                btnSortText.innerHTML = globalize.translate('SortByValue', option.name);
+                break;
             }
         }
 
-        return query;
+        const btnSortIcon = instance.btnSortIcon;
+
+        if (btnSortIcon) {
+            setSortButtonIcon(btnSortIcon, values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
+        }
     }
+}
 
-    function setSortButtonIcon(btnSortIcon, icon) {
-        btnSortIcon.classList.remove('arrow_downward');
-        btnSortIcon.classList.remove('arrow_upward');
-        btnSortIcon.classList.add(icon);
+function updateItemsContainerForViewType(instance) {
+    if (instance.getViewSettings().imageType === 'list') {
+        instance.itemsContainer.classList.remove('vertical-wrap');
+        instance.itemsContainer.classList.add('vertical-list');
+    } else {
+        instance.itemsContainer.classList.add('vertical-wrap');
+        instance.itemsContainer.classList.remove('vertical-list');
     }
+}
 
-    function updateSortText(instance) {
-        const btnSortText = instance.btnSortText;
+function updateAlphaPickerState(instance) {
+    if (instance.alphaPicker) {
+        const alphaPicker = instance.alphaPickerElement;
 
-        if (btnSortText) {
-            const options = instance.getSortMenuOptions();
+        if (alphaPicker) {
             const values = instance.getSortValues();
-            const sortBy = values.sortBy;
 
-            for (const option of options) {
-                if (sortBy === option.value) {
-                    btnSortText.innerHTML = globalize.translate('SortByValue', option.name);
-                    break;
-                }
-            }
-
-            const btnSortIcon = instance.btnSortIcon;
-
-            if (btnSortIcon) {
-                setSortButtonIcon(btnSortIcon, values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
+            if (values.sortBy.indexOf(ItemSortBy.SortName) !== -1) {
+                alphaPicker.classList.remove('hide');
+                instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
+            } else {
+                alphaPicker.classList.add('hide');
+                instance.itemsContainer.parentNode.classList.remove('padded-right-withalphapicker');
             }
         }
     }
+}
 
-    function updateItemsContainerForViewType(instance) {
-        if (instance.getViewSettings().imageType === 'list') {
-            instance.itemsContainer.classList.remove('vertical-wrap');
-            instance.itemsContainer.classList.add('vertical-list');
-        } else {
-            instance.itemsContainer.classList.add('vertical-wrap');
-            instance.itemsContainer.classList.remove('vertical-list');
-        }
+function getItems(instance, params, item, sortBy, startIndex, limit) {
+    const apiClient = ServerConnections.getApiClient(params.serverId);
+
+    instance.queryRecursive = false;
+    if (params.type === 'Recordings') {
+        return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params, startIndex, limit));
     }
 
-    function updateAlphaPickerState(instance) {
-        if (instance.alphaPicker) {
-            const alphaPicker = instance.alphaPickerElement;
-
-            if (alphaPicker) {
-                const values = instance.getSortValues();
-
-                if (values.sortBy.indexOf('SortName') !== -1) {
-                    alphaPicker.classList.remove('hide');
-                    instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
-                } else {
-                    alphaPicker.classList.add('hide');
-                    instance.itemsContainer.parentNode.classList.remove('padded-right-withalphapicker');
-                }
-            }
+    if (params.type === 'Programs') {
+        if (params.IsAiring === 'true') {
+            return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
         }
+
+        return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
     }
 
-    function getItems(instance, params, item, sortBy, startIndex, limit) {
-        const apiClient = ServerConnections.getApiClient(params.serverId);
+    if (params.type === 'nextup') {
+        return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
+            Limit: limit,
+            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
+            UserId: apiClient.getCurrentUserId(),
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Thumb',
+            EnableTotalRecordCount: false,
+            SortBy: sortBy,
+            EnableRewatching: userSettings.enableRewatchingInNextUp()
+        }));
+    }
 
-        instance.queryRecursive = false;
-        if (params.type === 'Recordings') {
-            return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params, startIndex, limit));
+    if (!item) {
+        instance.queryRecursive = true;
+        let method = 'getItems';
+
+        if (params.type === 'MusicArtist') {
+            method = 'getArtists';
+        } else if (params.type === 'Person') {
+            method = 'getPeople';
         }
 
-        if (params.type === 'Programs') {
-            if (params.IsAiring === 'true') {
-                return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
-            }
-
-            return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
-        }
-
-        if (params.type === 'nextup') {
-            return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
-                Limit: limit,
-                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
-                UserId: apiClient.getCurrentUserId(),
-                ImageTypeLimit: 1,
-                EnableImageTypes: 'Primary,Backdrop,Thumb',
-                EnableTotalRecordCount: false,
-                SortBy: sortBy,
-                EnableRewatching: userSettings.enableRewatchingInNextUp()
-            }));
-        }
-
-        if (!item) {
-            instance.queryRecursive = true;
-            let method = 'getItems';
-
-            if (params.type === 'MusicArtist') {
-                method = 'getArtists';
-            } else if (params.type === 'Person') {
-                method = 'getPeople';
-            }
-
-            return apiClient[method](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
-                StartIndex: startIndex,
-                Limit: limit,
-                Fields: 'PrimaryImageAspectRatio,SortName',
-                ImageTypeLimit: 1,
-                IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
-                Recursive: true,
-                IsFavorite: params.IsFavorite === 'true' || null,
-                ArtistIds: params.artistId || null,
-                SortBy: sortBy
-            }));
-        }
-
-        if (item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'Studio' || item.Type === 'Person') {
-            instance.queryRecursive = true;
-            const query = {
-                StartIndex: startIndex,
-                Limit: limit,
-                Fields: 'PrimaryImageAspectRatio,SortName',
-                Recursive: true,
-                parentId: params.parentId,
-                SortBy: sortBy
-            };
-
-            if (item.Type === 'Studio') {
-                query.StudioIds = item.Id;
-            } else if (item.Type === 'Genre' || item.Type === 'MusicGenre') {
-                query.GenreIds = item.Id;
-            } else if (item.Type === 'Person') {
-                query.PersonIds = item.Id;
-            }
-
-            if (item.Type === 'MusicGenre') {
-                query.IncludeItemTypes = 'MusicAlbum';
-            } else if (item.CollectionType === 'movies') {
-                query.IncludeItemTypes = 'Movie';
-            } else if (item.CollectionType === 'tvshows') {
-                query.IncludeItemTypes = 'Series';
-            } else if (item.Type === 'Genre') {
-                query.IncludeItemTypes = 'Movie,Series,Video';
-            } else if (item.Type === 'Person') {
-                query.IncludeItemTypes = params.type;
-            }
-
-            return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
-        }
-
-        return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
+        return apiClient[method](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName,Path,SongCount,ChildCount,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,SortName',
             ImageTypeLimit: 1,
-            ParentId: item.Id,
+            IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
+            Recursive: true,
+            IsFavorite: params.IsFavorite === 'true' || null,
+            ArtistIds: params.artistId || null,
             SortBy: sortBy
         }));
     }
 
-    function getItem(params) {
-        if (params.type === 'Recordings' || params.type === 'Programs' || params.type === 'nextup') {
-            return Promise.resolve(null);
+    if (item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'Studio' || item.Type === 'Person') {
+        instance.queryRecursive = true;
+        const query = {
+            StartIndex: startIndex,
+            Limit: limit,
+            Fields: 'PrimaryImageAspectRatio,SortName',
+            Recursive: true,
+            parentId: params.parentId,
+            SortBy: sortBy
+        };
+
+        if (item.Type === 'Studio') {
+            query.StudioIds = item.Id;
+        } else if (item.Type === 'Genre' || item.Type === 'MusicGenre') {
+            query.GenreIds = item.Id;
+        } else if (item.Type === 'Person') {
+            query.PersonIds = item.Id;
         }
 
-        const apiClient = ServerConnections.getApiClient(params.serverId);
-        const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
-
-        if (itemId) {
-            return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
+        if (item.Type === 'MusicGenre') {
+            query.IncludeItemTypes = 'MusicAlbum';
+        } else if (item.CollectionType === CollectionType.Movies) {
+            query.IncludeItemTypes = 'Movie';
+        } else if (item.CollectionType === CollectionType.Tvshows) {
+            query.IncludeItemTypes = 'Series';
+        } else if (item.Type === 'Genre') {
+            query.IncludeItemTypes = 'Movie,Series,Video';
+        } else if (item.Type === 'Person') {
+            query.IncludeItemTypes = params.type;
         }
 
+        return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
+    }
+
+    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
+        StartIndex: startIndex,
+        Limit: limit,
+        Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
+        ImageTypeLimit: 1,
+        ParentId: item.Id,
+        SortBy: sortBy
+    }));
+}
+
+function getItem(params) {
+    if (params.type === 'Recordings' || params.type === 'Programs' || params.type === 'nextup') {
         return Promise.resolve(null);
     }
 
-    function showViewSettingsMenu() {
-        const instance = this;
+    const apiClient = ServerConnections.getApiClient(params.serverId);
+    const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
 
-        import('../components/viewSettings/viewSettings').then(({default: ViewSettings}) => {
-            new ViewSettings().show({
-                settingsKey: instance.getSettingsKey(),
-                settings: instance.getViewSettings(),
-                visibleSettings: instance.getVisibleViewSettings()
-            }).then(function () {
-                updateItemsContainerForViewType(instance);
-                instance.itemsContainer.refreshItems();
-            });
-        });
+    if (itemId) {
+        return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
     }
 
-    function showFilterMenu() {
-        const instance = this;
+    return Promise.resolve(null);
+}
 
-        import('../components/filtermenu/filtermenu').then(({default: FilterMenu}) => {
-            new FilterMenu().show({
-                settingsKey: instance.getSettingsKey(),
-                settings: instance.getFilters(),
-                visibleSettings: instance.getVisibleFilters(),
-                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
-                parentId: instance.params.parentId,
-                itemTypes: instance.getItemTypes(),
-                serverId: instance.params.serverId,
-                filterMenuOptions: instance.getFilterMenuOptions()
-            }).then(function () {
-                instance.itemsContainer.refreshItems();
-            });
+function showViewSettingsMenu() {
+    const instance = this;
+
+    import('../components/viewSettings/viewSettings').then(({ default: ViewSettings }) => {
+        new ViewSettings().show({
+            settingsKey: instance.getSettingsKey(),
+            settings: instance.getViewSettings(),
+            visibleSettings: instance.getVisibleViewSettings()
+        }).then(function () {
+            updateItemsContainerForViewType(instance);
+            instance.itemsContainer.refreshItems();
         });
-    }
+    });
+}
 
-    function showSortMenu() {
-        const instance = this;
+function showFilterMenu() {
+    const instance = this;
 
-        import('../components/sortmenu/sortmenu').then(({default: SortMenu}) => {
-            new SortMenu().show({
-                settingsKey: instance.getSettingsKey(),
-                settings: instance.getSortValues(),
-                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
-                serverId: instance.params.serverId,
-                sortOptions: instance.getSortMenuOptions()
-            }).then(function () {
-                updateSortText(instance);
-                updateAlphaPickerState(instance);
-                instance.itemsContainer.refreshItems();
-            });
+    import('../components/filtermenu/filtermenu').then(({ default: FilterMenu }) => {
+        new FilterMenu().show({
+            settingsKey: instance.getSettingsKey(),
+            settings: instance.getFilters(),
+            visibleSettings: instance.getVisibleFilters(),
+            onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
+            parentId: instance.params.parentId,
+            itemTypes: instance.getItemTypes(),
+            serverId: instance.params.serverId,
+            filterMenuOptions: instance.getFilterMenuOptions()
+        }).then(function () {
+            instance.itemsContainer.refreshItems();
         });
-    }
+    });
+}
 
-    function onNewItemClick() {
-        const instance = this;
+function showSortMenu() {
+    const instance = this;
 
-        import('../components/playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
-            new playlistEditor({
-                items: [],
-                serverId: instance.params.serverId
-            });
+    import('../components/sortmenu/sortmenu').then(({ default: SortMenu }) => {
+        new SortMenu().show({
+            settingsKey: instance.getSettingsKey(),
+            settings: instance.getSortValues(),
+            onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
+            serverId: instance.params.serverId,
+            sortOptions: instance.getSortMenuOptions()
+        }).then(function () {
+            updateSortText(instance);
+            updateAlphaPickerState(instance);
+            instance.itemsContainer.refreshItems();
         });
-    }
+    });
+}
 
-    function hideOrShowAll(elems, hide) {
-        for (const elem of elems) {
-            if (hide) {
-                elem.classList.add('hide');
-            } else {
-                elem.classList.remove('hide');
-            }
+function onNewItemClick() {
+    const instance = this;
+
+    import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
+            items: [],
+            serverId: instance.params.serverId
+        }).catch(() => {
+            // Dialog closed
+        });
+    }).catch(err => {
+        console.error('[onNewItemClick] failed to load playlist editor', err);
+    });
+}
+
+function hideOrShowAll(elems, hide) {
+    for (const elem of elems) {
+        if (hide) {
+            elem.classList.add('hide');
+        } else {
+            elem.classList.remove('hide');
         }
     }
+}
 
-    function bindAll(elems, eventName, fn) {
-        for (const elem of elems) {
-            elem.addEventListener(eventName, fn);
-        }
+function bindAll(elems, eventName, fn) {
+    for (const elem of elems) {
+        elem.addEventListener(eventName, fn);
     }
+}
 
 class ItemsView {
     constructor(view, params) {
@@ -607,7 +612,7 @@ class ItemsView {
             posterOptions.lines = lines;
             posterOptions.items = items;
 
-            if (item && item.CollectionType === 'folders') {
+            if (item && item.CollectionType === CollectionType.Folders) {
                 posterOptions.context = 'folders';
             }
 
@@ -637,7 +642,7 @@ class ItemsView {
         function setTitle(item) {
             LibraryMenu.setTitle(getTitle(item) || '');
 
-            if (item && item.CollectionType === 'playlists') {
+            if (item && item.CollectionType === CollectionType.Playlists) {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), false);
             } else {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), true);
@@ -726,8 +731,13 @@ class ItemsView {
             const currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
+                const values = self.getSortValues();
                 playbackManager.play({
                     items: [currentItem],
+                    queryOptions: {
+                        SortBy: values.sortBy,
+                        SortOrder: values.sortOrder
+                    },
                     autoplay: true
                 });
             } else {
@@ -772,7 +782,7 @@ class ItemsView {
         }
 
         function autoFocus() {
-            import('../components/autoFocuser').then(({default: autoFocuser}) => {
+            import('../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(view);
             });
         }
@@ -862,7 +872,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -875,7 +885,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== 'homevideos')
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);
@@ -962,10 +972,7 @@ class ItemsView {
 
     getSortValues() {
         const basekey = this.getSettingsKey();
-        return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
-            sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
-        };
+        return userSettings.getSortValuesLegacy(basekey, this.getDefaultSortBy());
     }
 
     getDefaultSortBy() {
@@ -975,7 +982,7 @@ class ItemsView {
             return sortNameOption.value;
         }
 
-        return 'IsFolder,' + sortNameOption.value;
+        return `${ItemSortBy.IsFolder},${sortNameOption.value}`;
     }
 
     getSortMenuOptions() {
@@ -984,7 +991,7 @@ class ItemsView {
         if (this.params.type === 'Programs') {
             sortBy.push({
                 name: globalize.translate('AirDate'),
-                value: 'StartDate,SortName'
+                value: [ItemSortBy.StartDate, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1009,7 +1016,7 @@ class ItemsView {
         if (this.params.type !== 'Programs') {
             sortBy.push({
                 name: globalize.translate('DateAdded'),
-                value: 'DateCreated,SortName'
+                value: [ItemSortBy.DateCreated, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1023,13 +1030,13 @@ class ItemsView {
             option = this.getNameSortOption(this.params);
             sortBy.push({
                 name: globalize.translate('Folders'),
-                value: 'IsFolder,' + option.value
+                value: `${ItemSortBy.IsFolder},${option.value}`
             });
         }
 
         sortBy.push({
             name: globalize.translate('ParentalRating'),
-            value: 'OfficialRating,SortName'
+            value: [ItemSortBy.OfficialRating, ItemSortBy.SortName].join(',')
         });
         option = this.getPlayCountSortOption();
 
@@ -1039,11 +1046,11 @@ class ItemsView {
 
         sortBy.push({
             name: globalize.translate('ReleaseDate'),
-            value: 'ProductionYear,PremiereDate,SortName'
+            value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName].join(',')
         });
         sortBy.push({
             name: globalize.translate('Runtime'),
-            value: 'Runtime,SortName'
+            value: [ItemSortBy.Runtime, ItemSortBy.SortName].join(',')
         });
         return sortBy;
     }
@@ -1052,13 +1059,13 @@ class ItemsView {
         if (params.type === 'Episode') {
             return {
                 name: globalize.translate('Name'),
-                value: 'SeriesName,SortName'
+                value: [ItemSortBy.SeriesSortName, ItemSortBy.SortName].join(',')
             };
         }
 
         return {
             name: globalize.translate('Name'),
-            value: 'SortName'
+            value: ItemSortBy.SortName
         };
     }
 
@@ -1069,7 +1076,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('PlayCount'),
-            value: 'PlayCount,SortName'
+            value: [ItemSortBy.PlayCount, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1080,7 +1087,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('DatePlayed'),
-            value: 'DatePlayed,SortName'
+            value: [ItemSortBy.DatePlayed, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1091,14 +1098,14 @@ class ItemsView {
 
         return {
             name: globalize.translate('CriticRating'),
-            value: 'CriticRating,SortName'
+            value: [ItemSortBy.CriticRating, ItemSortBy.SortName].join(',')
         };
     }
 
     getCommunityRatingSortOption() {
         return {
             name: globalize.translate('CommunityRating'),
-            value: 'CommunityRating,SortName'
+            value: [ItemSortBy.CommunityRating, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1295,4 +1302,3 @@ class ItemsView {
 
 export default ItemsView;
 
-/* eslint-enable indent */

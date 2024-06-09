@@ -1,41 +1,47 @@
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
-import { marked } from 'marked';
 import escapeHtml from 'escape-html';
+import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
-import { appHost } from '../../components/apphost';
-import loading from '../../components/loading/loading';
-import { appRouter } from '../../components/appRouter';
-import layoutManager from '../../components/layoutManager';
-import Events from '../../utils/events.ts';
-import * as userSettings from '../../scripts/settings/userSettings';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import datetime from '../../scripts/datetime';
-import mediaInfo from '../../components/mediainfo/mediainfo';
-import { clearBackdrop, setBackdrops } from '../../components/backdrop/backdrop';
-import listView from '../../components/listview/listview';
-import itemContextMenu from '../../components/itemContextMenu';
-import itemHelper from '../../components/itemHelper';
-import dom from '../../scripts/dom';
-import imageLoader from '../../components/images/imageLoader';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
-import browser from '../../scripts/browser';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-playstatebutton/emby-playstatebutton';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-select/emby-select';
-import itemShortcuts from '../../components/shortcuts';
-import Dashboard from '../../utils/dashboard';
-import ServerConnections from '../../components/ServerConnections';
-import confirm from '../../components/confirm/confirm';
-import { download } from '../../scripts/fileDownloader';
+import { appHost } from 'components/apphost';
+import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { buildCardImage } from 'components/cardbuilder/cardImage';
+import confirm from 'components/confirm/confirm';
+import imageLoader from 'components/images/imageLoader';
+import itemContextMenu from 'components/itemContextMenu';
+import itemHelper from 'components/itemHelper';
+import mediaInfo from 'components/mediainfo/mediainfo';
+import layoutManager from 'components/layoutManager';
+import listView from 'components/listview/listview';
+import loading from 'components/loading/loading';
+import { playbackManager } from 'components/playback/playbackmanager';
+import { appRouter } from 'components/router/appRouter';
+import itemShortcuts from 'components/shortcuts';
+import ServerConnections from 'components/ServerConnections';
+import browser from 'scripts/browser';
+import datetime from 'scripts/datetime';
+import dom from 'scripts/dom';
+import { download } from 'scripts/fileDownloader';
+import globalize from 'scripts/globalize';
+import libraryMenu from 'scripts/libraryMenu';
+import * as userSettings from 'scripts/settings/userSettings';
+import { getPortraitShape, getSquareShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+import Events from 'utils/events';
+import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-checkbox/emby-checkbox';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-playstatebutton/emby-playstatebutton';
+import 'elements/emby-ratingbutton/emby-ratingbutton';
+import 'elements/emby-scroller/emby-scroller';
+import 'elements/emby-select/emby-select';
+
+import 'styles/scrollstyles.scss';
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -111,6 +117,11 @@ function getProgramScheduleHtml(items, action = 'none') {
         moreButton: false,
         recordButton: false
     });
+}
+
+function getSelectedMediaSource(page, mediaSources) {
+    const mediaSourceId = page.querySelector('.selectSource').value;
+    return mediaSources.filter(m => m.Id === mediaSourceId)[0];
 }
 
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
@@ -206,10 +217,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
 }
 
 function renderVideoSelections(page, mediaSources) {
-    const mediaSourceId = page.querySelector('.selectSource').value;
-    const mediaSource = mediaSources.filter(function (m) {
-        return m.Id === mediaSourceId;
-    })[0];
+    const mediaSource = getSelectedMediaSource(page, mediaSources);
 
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Video';
@@ -243,10 +251,8 @@ function renderVideoSelections(page, mediaSources) {
 }
 
 function renderAudioSelections(page, mediaSources) {
-    const mediaSourceId = page.querySelector('.selectSource').value;
-    const mediaSource = mediaSources.filter(function (m) {
-        return m.Id === mediaSourceId;
-    })[0];
+    const mediaSource = getSelectedMediaSource(page, mediaSources);
+
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Audio';
     });
@@ -273,10 +279,8 @@ function renderAudioSelections(page, mediaSources) {
 }
 
 function renderSubtitleSelections(page, mediaSources) {
-    const mediaSourceId = page.querySelector('.selectSource').value;
-    const mediaSource = mediaSources.filter(function (m) {
-        return m.Id === mediaSourceId;
-    })[0];
+    const mediaSource = getSelectedMediaSource(page, mediaSources);
+
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Subtitle';
     });
@@ -408,7 +412,7 @@ function renderName(item, container, context) {
     if (item.AlbumArtists) {
         parentNameHtml.push(getArtistLinksHtml(item.AlbumArtists, item.ServerId, context));
         parentNameLast = true;
-    } else if (item.ArtistItems && item.ArtistItems.length && item.Type === 'MusicVideo') {
+    } else if (item.ArtistItems?.length && item.Type === 'MusicVideo') {
         parentNameHtml.push(getArtistLinksHtml(item.ArtistItems, item.ServerId, context));
         parentNameLast = true;
     } else if (item.SeriesName && item.Type === 'Episode') {
@@ -477,22 +481,26 @@ function renderName(item, container, context) {
 }
 
 function setTrailerButtonVisibility(page, item) {
-    if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
+    if ((item.LocalTrailerCount || item.RemoteTrailers?.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
         hideAll(page, 'btnPlayTrailer', true);
     } else {
         hideAll(page, 'btnPlayTrailer');
     }
 }
 
-function renderBackdrop(item) {
+function renderBackdrop(page, item) {
     if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
-        setBackdrops([item]);
+        const isBannerEnabled = !layoutManager.tv && userSettings.detailsBanner();
+        // If backdrops are disabled, but the header banner is enabled, add a class to the page to disable the transparency
+        page.classList.toggle('noBackdropTransparency', isBannerEnabled && !userSettings.enableBackdrops());
+
+        setBackdrops([item], null, null, isBannerEnabled);
     } else {
         clearBackdrop();
     }
 }
 
-function renderDetailPageBackdrop(page, item, apiClient) {
+function renderHeaderBackdrop(page, item, apiClient) {
     // Details banner is disabled in user settings
     if (!userSettings.detailsBanner()) {
         return false;
@@ -503,34 +511,12 @@ function renderDetailPageBackdrop(page, item, apiClient) {
         return false;
     }
 
-    let imgUrl;
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    if (item.BackdropImageTags && item.BackdropImageTags.length) {
-        imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: 'Backdrop',
-            maxWidth: dom.getScreenWidth(),
-            index: 0,
-            tag: item.BackdropImageTags[0]
-        });
-        imageLoader.lazyImage(itemBackdropElement, imgUrl);
-        hasbackdrop = true;
-    } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
-        imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-            type: 'Backdrop',
-            maxWidth: dom.getScreenWidth(),
-            index: 0,
-            tag: item.ParentBackdropImageTags[0]
-        });
-        imageLoader.lazyImage(itemBackdropElement, imgUrl);
-        hasbackdrop = true;
-    } else if (item.ImageTags && item.ImageTags.Primary) {
-        imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: 'Primary',
-            maxWidth: dom.getScreenWidth(),
-            tag: item.ImageTags.Primary
-        });
+    const imgUrl = getItemBackdropImageUrl(apiClient, item, { maxWidth: dom.getScreenWidth() }, false);
+
+    if (imgUrl) {
         imageLoader.lazyImage(itemBackdropElement, imgUrl);
         hasbackdrop = true;
     } else {
@@ -546,14 +532,17 @@ function reloadFromItem(instance, page, params, item, user) {
     libraryMenu.setTitle('');
 
     // Start rendering the artwork first
-    renderImage(page, item);
+    renderImage(page, item, apiClient);
     // Save some screen real estate in TV mode
     if (!layoutManager.tv) {
         renderLogo(page, item, apiClient);
-        renderDetailPageBackdrop(page, item, apiClient);
+    }
+    // Render the mobile header backdrop
+    if (layoutManager.mobile) {
+        renderHeaderBackdrop(page, item, apiClient);
     }
 
-    renderBackdrop(item);
+    renderBackdrop(page, item);
 
     // Render the main information for the item
     page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
@@ -662,7 +651,7 @@ function logoImageUrl(item, apiClient, options) {
     options = options || {};
     options.type = 'Logo';
 
-    if (item.ImageTags && item.ImageTags.Logo) {
+    if (item.ImageTags?.Logo) {
         options.tag = item.ImageTags.Logo;
         return apiClient.getScaledImageUrl(item.Id, options);
     }
@@ -693,8 +682,8 @@ function showRecordingFields(instance, page, item, user) {
         const recordingFieldsElement = page.querySelector('.recordingFields');
 
         if (item.Type == 'Program' && user.Policy.EnableLiveTvManagement) {
-            import('../../components/recordingcreator/recordingfields').then(({ default: recordingFields }) => {
-                instance.currentRecordingFields = new recordingFields({
+            import('../../components/recordingcreator/recordingfields').then(({ default: RecordingFields }) => {
+                instance.currentRecordingFields = new RecordingFields({
                     parent: recordingFieldsElement,
                     programId: item.Id,
                     serverId: item.ServerId
@@ -737,31 +726,20 @@ function renderLinks(page, item) {
     }
 }
 
-function renderDetailImage(elem, item, loader) {
-    const itemArray = [];
-    itemArray.push(item);
-    const cardHtml = cardBuilder.getCardsHtml(itemArray, {
-        shape: 'auto',
-        showTitle: false,
-        centerText: true,
-        overlayText: false,
-        transition: false,
-        disableHoverMenu: true,
-        disableIndicators: true,
-        overlayPlayButton: layoutManager.desktop,
-        action: layoutManager.desktop ? 'resume' : 'none',
-        width: dom.getWindowSize().innerWidth * 0.25
-    });
+function renderDetailImage(apiClient, elem, item, loader) {
+    const html = buildCardImage(
+        apiClient,
+        item,
+        { width: dom.getWindowSize().innerWidth * 0.25 }
+    );
 
-    elem.innerHTML = cardHtml;
+    elem.innerHTML = html;
     loader.lazyChildren(elem);
-
-    // Avoid breaking the design by preventing focus of the poster using the keyboard.
-    elem.querySelector('a, button').tabIndex = -1;
 }
 
-function renderImage(page, item) {
+function renderImage(page, item, apiClient) {
     renderDetailImage(
+        apiClient,
         page.querySelector('.detailImageContainer'),
         item,
         imageLoader
@@ -845,7 +823,18 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#specialsCollapsible').classList.add('hide');
     }
 
-    renderCast(page, item);
+    const cast = [];
+    const guestCast = [];
+    (item.People || []).forEach(p => {
+        if (p.Type === PersonKind.GuestStar) {
+            guestCast.push(p);
+        } else {
+            cast.push(p);
+        }
+    });
+
+    renderCast(page, item, cast);
+    renderGuestCast(page, item, guestCast);
 
     if (item.PartCount && item.PartCount > 1) {
         page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
@@ -854,7 +843,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#additionalPartsCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'MusicAlbum') {
+    if (item.Type == 'MusicAlbum' || item.Type == 'MusicArtist') {
         renderMusicVideos(page, item, user);
     } else {
         page.querySelector('#musicVideosCollapsible').classList.add('hide');
@@ -878,7 +867,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = DOMPurify.sanitize(marked(item.Overview || ''));
+        const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
@@ -1056,7 +1045,7 @@ function renderMiscInfo(page, item) {
 function renderTagline(page, item) {
     const taglineElement = page.querySelector('.tagline');
 
-    if (item.Taglines && item.Taglines.length) {
+    if (item.Taglines?.length) {
         taglineElement.classList.remove('hide');
         taglineElement.innerHTML = '<bdi>' + escapeHtml(item.Taglines[0]) + '</bdi>';
     } else {
@@ -1077,6 +1066,7 @@ function renderDetails(page, item, apiClient, context) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
+    renderLyricsContainer(page, item, apiClient);
 
     // Don't allow redirection to other websites from the TV layout
     if (!layoutManager.tv && appHost.supports('externallinks')) {
@@ -1091,20 +1081,36 @@ function enableScrollX() {
     return browser.mobile && window.screen.availWidth <= 1000;
 }
 
-function getPortraitShape(scrollX) {
-    if (scrollX == null) {
-        scrollX = enableScrollX();
+function renderLyricsContainer(view, item, apiClient) {
+    const lyricContainer = view.querySelector('.lyricsContainer');
+    if (lyricContainer && item.HasLyrics) {
+        if (item.Type !== 'Audio') {
+            lyricContainer.classList.add('hide');
+            return;
+        }
+        //get lyrics
+        apiClient.ajax({
+            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
+            type: 'GET',
+            dataType: 'json'
+        }).then((response) => {
+            if (!response.Lyrics) {
+                lyricContainer.classList.add('hide');
+                return;
+            }
+            lyricContainer.classList.remove('hide');
+            const itemsContainer = lyricContainer.querySelector('.itemsContainer');
+            if (itemsContainer) {
+                const html = response.Lyrics.reduce((htmlAccumulator, lyric) => {
+                    htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
+                    return htmlAccumulator;
+                }, '');
+                itemsContainer.innerHTML = html;
+            }
+        }).catch(() => {
+            lyricContainer.classList.add('hide');
+        });
     }
-
-    return scrollX ? 'overflowPortrait' : 'portrait';
-}
-
-function getSquareShape(scrollX) {
-    if (scrollX == null) {
-        scrollX = enableScrollX();
-    }
-
-    return scrollX ? 'overflowSquare' : 'square';
 }
 
 function renderMoreFromSeason(view, item, apiClient) {
@@ -1120,7 +1126,7 @@ function renderMoreFromSeason(view, item, apiClient) {
         apiClient.getEpisodes(item.SeriesId, {
             SeasonId: item.SeasonId,
             UserId: userId,
-            Fields: 'ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount'
+            Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
         }).then(function (result) {
             if (result.Items.length < 2) {
                 section.classList.add('hide');
@@ -1157,7 +1163,7 @@ function renderMoreFromArtist(view, item, apiClient) {
     const section = view.querySelector('.moreFromArtistSection');
 
     if (section) {
-        if (item.Type !== 'MusicArtist' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
+        if (item.Type !== 'MusicArtist' && item.Type !== 'Audio' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
             section.classList.add('hide');
             return;
         }
@@ -1212,7 +1218,7 @@ function renderSimilarItems(page, item, context) {
     const similarCollapsible = page.querySelector('#similarCollapsible');
 
     if (similarCollapsible) {
-        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist') {
+        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist' && item.Type != 'Audio') {
             similarCollapsible.classList.add('hide');
             return;
         }
@@ -1265,7 +1271,7 @@ function renderSeriesAirTime(page, item) {
         return;
     }
     let html = '';
-    if (item.AirDays && item.AirDays.length) {
+    if (item.AirDays?.length) {
         if (item.AirDays.length == 7) {
             html += 'daily';
         } else {
@@ -1295,12 +1301,16 @@ function renderTags(page, item) {
         tags = [];
     }
 
-    for (let i = 0, length = tags.length; i < length; i++) {
-        tagElements.push(tags[i]);
-    }
+    tags.forEach(tag => {
+        tagElements.push(
+            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            + escapeHtml(tag)
+            + '</a>'
+        );
+    });
 
     if (tagElements.length) {
-        itemTags.innerText = globalize.translate('TagsValue', tagElements.join(', '));
+        itemTags.innerHTML = globalize.translate('TagsValue', tagElements.join(', '));
         itemTags.classList.remove('hide');
     } else {
         itemTags.innerHTML = '';
@@ -1309,7 +1319,7 @@ function renderTags(page, item) {
 }
 
 function renderChildren(page, item) {
-    let fields = 'ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount';
+    let fields = 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount';
     const query = {
         ParentId: item.Id,
         Fields: fields
@@ -1409,8 +1419,8 @@ function renderChildren(page, item) {
                     items: result.Items,
                     showIndexNumber: false,
                     enableOverview: true,
-                    enablePlayedButton: layoutManager.mobile ? false : true,
-                    infoButton: layoutManager.mobile ? false : true,
+                    enablePlayedButton: !layoutManager.mobile,
+                    infoButton: !layoutManager.mobile,
                     imageSize: 'large',
                     enableSideMediaInfo: false,
                     highlight: false,
@@ -1721,14 +1731,21 @@ function renderCollectionItemType(page, parentItem, type, items) {
 }
 
 function renderMusicVideos(page, item, user) {
-    ServerConnections.getApiClient(item.ServerId).getItems(user.Id, {
+    const request = {
         SortBy: 'SortName',
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount',
-        AlbumIds: item.Id
-    }).then(function (result) {
+        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
+    };
+
+    if (item.Type == 'MusicAlbum') {
+        request.AlbumIds = item.Id;
+    } else {
+        request.ArtistIds = item.Id;
+    }
+
+    ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then(function (result) {
         if (result.Items.length) {
             page.querySelector('#musicVideosCollapsible').classList.remove('hide');
             const musicVideosContent = page.querySelector('#musicVideosContent');
@@ -1797,11 +1814,7 @@ function renderSpecials(page, item, user) {
     });
 }
 
-function renderCast(page, item) {
-    const people = (item.People || []).filter(function (p) {
-        return p.Type === 'Actor';
-    });
-
+function renderCast(page, item, people) {
     if (!people.length) {
         page.querySelector('#castCollapsible').classList.add('hide');
         return;
@@ -1821,11 +1834,32 @@ function renderCast(page, item) {
     });
 }
 
-function itemDetailPage() {
+function renderGuestCast(page, item, people) {
+    if (!people.length) {
+        page.querySelector('#guestCastCollapsible').classList.add('hide');
+        return;
+    }
+
+    page.querySelector('#guestCastCollapsible').classList.remove('hide');
+    const guestCastContent = page.querySelector('#guestCastContent');
+
+    import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
+        peoplecardbuilder.buildPeopleCards(people, {
+            itemsContainer: guestCastContent,
+            coverImage: true,
+            serverId: item.ServerId,
+            shape: 'overflowPortrait',
+            imageBlurhashes: item.ImageBlurHashes
+        });
+    });
+}
+
+function ItemDetailPage() {
     const self = this;
     self.setInitialCollapsibleState = setInitialCollapsibleState;
     self.renderDetails = renderDetails;
     self.renderCast = renderCast;
+    self.renderGuestCast = renderGuestCast;
 }
 
 function bindAll(view, selector, eventName, fn) {
@@ -1841,7 +1875,7 @@ function onTrackSelectionsSubmit(e) {
     return false;
 }
 
-window.ItemDetailPage = new itemDetailPage();
+window.ItemDetailPage = new ItemDetailPage();
 
 export default function (view, params) {
     function getApiClient() {
@@ -1971,13 +2005,15 @@ export default function (view, params) {
             selectedItem = item;
 
             apiClient.getCurrentUser().then(function (user) {
-                itemContextMenu.show(getContextMenuOptions(selectedItem, user, button)).then(function (result) {
-                    if (result.deleted) {
-                        appRouter.goHome();
-                    } else if (result.updated) {
-                        reload(self, view, params);
-                    }
-                });
+                itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
+                    .then(function (result) {
+                        if (result.deleted) {
+                            appRouter.goHome();
+                        } else if (result.updated) {
+                            reload(self, view, params);
+                        }
+                    })
+                    .catch(() => { /* no-op */ });
             });
         });
     }
@@ -2019,7 +2055,6 @@ export default function (view, params) {
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
-        view.querySelector('.detailImageContainer').addEventListener('click', onPlayClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
@@ -2029,6 +2064,7 @@ export default function (view, params) {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
+            updateMiscInfo();
         });
         view.addEventListener('viewshow', function (e) {
             const page = this;
@@ -2039,7 +2075,7 @@ export default function (view, params) {
                 if (currentItem) {
                     libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
-                    renderBackdrop(currentItem);
+                    renderBackdrop(page, currentItem);
                 }
             } else {
                 reload(self, page, params);
@@ -2060,6 +2096,15 @@ export default function (view, params) {
             currentItem = null;
             self._currentPlaybackMediaSources = null;
             self.currentRecordingFields = null;
+        });
+    }
+
+    function updateMiscInfo() {
+        const selectedMediaSource = getSelectedMediaSource(view, self._currentPlaybackMediaSources);
+        renderMiscInfo(view, {
+            // patch currentItem (primary item) with details from the selected MediaSource:
+            ...currentItem,
+            ...selectedMediaSource
         });
     }
 

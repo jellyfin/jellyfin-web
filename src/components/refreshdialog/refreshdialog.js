@@ -13,8 +13,6 @@ import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 
-/*eslint prefer-const: "error"*/
-
 function getEditorHtml() {
     let html = '';
 

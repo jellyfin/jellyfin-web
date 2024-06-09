@@ -1,6 +1,7 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
 import serverNotifications from '../../scripts/serverNotifications';
 import ServerConnections from '../../components/ServerConnections';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 function getActivePlayerId() {
@@ -218,7 +219,7 @@ function subscribeToPlayerUpdates(instance) {
 }
 
 function normalizeImages(state, apiClient) {
-    if (state && state.NowPlayingItem) {
+    if (state?.NowPlayingItem) {
         const item = state.NowPlayingItem;
 
         if (!item.ImageTags || !item.ImageTags.Primary && item.PrimaryImageTag) {
@@ -243,7 +244,7 @@ class SessionPlayer {
         const self = this;
 
         this.name = 'Remote Control';
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';
 
@@ -350,11 +351,11 @@ class SessionPlayer {
     }
 
     queue(options) {
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
     }
 
     queueNext(options) {
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
     }
 
     canPlayMediaType(mediaType) {

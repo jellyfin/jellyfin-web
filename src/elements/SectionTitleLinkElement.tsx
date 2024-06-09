@@ -17,7 +17,7 @@ type IProps = {
     title?: string;
     className?: string;
     url?: string
-}
+};
 
 const SectionTitleLinkElement: FunctionComponent<IProps> = ({ className, title, url }: IProps) => {
     return (

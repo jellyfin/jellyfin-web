@@ -21,6 +21,7 @@ viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
         newView.initComplete = true;
 
         if (typeof options.controllerFactory === 'function') {
+            // eslint-disable-next-line new-cap
             new options.controllerFactory(newView, eventDetail.detail.params);
         } else if (options.controllerFactory && typeof options.controllerFactory.default === 'function') {
             new options.controllerFactory.default(newView, eventDetail.detail.params);
@@ -97,7 +98,7 @@ function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
     return eventResult;
 }
 
-function getViewEventDetail(view, {state, url, options = {}}, isRestored) {
+function getViewEventDetail(view, { state, url, options = {} }, isRestored) {
     const index = url.indexOf('?');
     // eslint-disable-next-line compat/compat
     const searchParams = new URLSearchParams(url.substring(index + 1));

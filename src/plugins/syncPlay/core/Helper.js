@@ -4,6 +4,7 @@
  */
 
 import Events from '../../../utils/events.ts';
+import { getItems } from '../../../utils/jellyfin-apiclient/getItems.ts';
 
 /**
  * Constants
@@ -83,12 +84,12 @@ export function getItemsForPlayback(apiClient, query) {
         });
     } else {
         query.Limit = query.Limit || 300;
-        query.Fields = 'Chapters';
+        query.Fields = ['Chapters', 'Trickplay'];
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
 
-        return apiClient.getItems(apiClient.getCurrentUserId(), query);
+        return getItems(apiClient, apiClient.getCurrentUserId(), query);
     }
 }
 
@@ -199,7 +200,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: 'Chapters'
+                    Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     let foundItem = false;
                     episodesResult.Items = episodesResult.Items.filter(function (e) {

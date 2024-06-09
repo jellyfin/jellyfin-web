@@ -134,7 +134,7 @@ class ItemsRefresher {
             }
         }
 
-        if (this.needsRefresh || (options && options.refresh)) {
+        if (this.needsRefresh || (options?.refresh)) {
             return this.refreshItems();
         }
 

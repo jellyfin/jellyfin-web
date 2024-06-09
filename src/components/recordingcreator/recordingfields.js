@@ -12,8 +12,6 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './recordingfields.template.html';
 
-/*eslint prefer-const: "error"*/
-
 function loadData(parent, program) {
     if (program.IsSeries) {
         parent.querySelector('.recordSeriesContainer').classList.remove('hide');
@@ -143,7 +141,7 @@ function onManageRecordingClick() {
     }
 
     const self = this;
-    import('./recordingeditor').then(({default: recordingEditor}) => {
+    import('./recordingeditor').then(({ default: recordingEditor }) => {
         recordingEditor.show(self.TimerId, options.serverId, {
             enableCancel: false
         }).then(function () {
@@ -161,7 +159,7 @@ function onManageSeriesRecordingClick() {
 
     const self = this;
 
-    import('./seriesrecordingeditor').then(({default: seriesRecordingEditor}) => {
+    import('./seriesrecordingeditor').then(({ default: seriesRecordingEditor }) => {
         seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
 
             enableCancel: false
@@ -193,15 +191,13 @@ function onRecordChange(e) {
                 loading.hide();
             });
         }
-    } else {
-        if (hasEnabledTimer) {
-            loading.show();
-            recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
-                Events.trigger(self, 'recordingchanged');
-                fetchData(self);
-                loading.hide();
-            });
-        }
+    } else if (hasEnabledTimer) {
+        loading.show();
+        recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
+            Events.trigger(self, 'recordingchanged');
+            fetchData(self);
+            loading.hide();
+        });
     }
 }
 
@@ -225,13 +221,11 @@ function onRecordSeriesChange(e) {
                 fetchData(self);
             });
         }
-    } else {
-        if (this.SeriesTimerId) {
-            apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
-                toast(globalize.translate('RecordingCancelled'));
-                fetchData(self);
-            });
-        }
+    } else if (this.SeriesTimerId) {
+        apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
+            toast(globalize.translate('RecordingCancelled'));
+            fetchData(self);
+        });
     }
 }
 

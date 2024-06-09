@@ -7,7 +7,7 @@
     "Absolute": "แน่นอน",
     "RemoveFromPlaylist": "ลบออกจากเพลย์ลิสต์",
     "Playlists": "เพลย์ลิสต์",
-    "LabelPlaylist": "เพลย์ลิสต์:",
+    "LabelPlaylist": "เพลย์ลิสต์",
     "HeaderAddToPlaylist": "เพิ่มลงในเพลย์ลิสต์",
     "ButtonTogglePlaylist": "เพลย์ลิสต์",
     "AddToPlaylist": "เพิ่มไปยังเพลย์ลิสต์",
@@ -29,7 +29,7 @@
     "AlbumArtist": "อัลบั้มศิลปิน",
     "Album": "อัลบั้ม",
     "AirDate": "วันที่ออกอากาศ",
-    "AddedOnValue": "เพิ่มแล้ว",
+    "AddedOnValue": "เพิ่มแล้ว {0}",
     "Framerate": "เฟรมเรต",
     "Folders": "โฟลเดอร์",
     "FileNotFound": "ไม่พบไฟล์",
@@ -140,5 +140,8 @@
     "BirthDateValue": "เกิด: {0}",
     "AllowMediaConversion": "การอนุญาตการแปลงมีเดีย",
     "AgeValue": "({0} ปี)",
-    "AddToFavorites": "เพิ่มไปยังรายการโปรด"
+    "AddToFavorites": "เพิ่มไปยังรายการโปรด",
+    "Aired": "ออกอากาศ",
+    "AlwaysPlaySubtitles": "แสดงตลอด",
+    "AllowCollectionManagement": "อนุญาตให้ผู้ใช้นี้จัดการคอลเลกชัน"
 }

@@ -2,39 +2,36 @@ import SubtitleSettings from '../../../components/subtitlesettings/subtitlesetti
 import * as userSettings from '../../../scripts/settings/userSettings';
 import autoFocuser from '../../../components/autoFocuser';
 
-/* eslint-disable indent */
+// Shortcuts
+const UserSettings = userSettings.UserSettings;
 
-    // Shortcuts
-    const UserSettings = userSettings.UserSettings;
+export default function (view, params) {
+    let subtitleSettingsInstance;
 
-    export default function (view, params) {
-        let subtitleSettingsInstance;
+    const userId = params.userId || ApiClient.getCurrentUserId();
+    const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
 
-        const userId = params.userId || ApiClient.getCurrentUserId();
-        const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+    view.addEventListener('viewshow', function () {
+        if (subtitleSettingsInstance) {
+            subtitleSettingsInstance.loadData();
+        } else {
+            subtitleSettingsInstance = new SubtitleSettings({
+                serverId: ApiClient.serverId(),
+                userId: userId,
+                element: view.querySelector('.settingsContainer'),
+                userSettings: currentSettings,
+                enableSaveButton: true,
+                enableSaveConfirmation: true,
+                autoFocus: autoFocuser.isEnabled()
+            });
+        }
+    });
 
-        view.addEventListener('viewshow', function () {
-            if (subtitleSettingsInstance) {
-                subtitleSettingsInstance.loadData();
-            } else {
-                subtitleSettingsInstance = new SubtitleSettings({
-                    serverId: ApiClient.serverId(),
-                    userId: userId,
-                    element: view.querySelector('.settingsContainer'),
-                    userSettings: currentSettings,
-                    enableSaveButton: true,
-                    enableSaveConfirmation: true,
-                    autoFocus: autoFocuser.isEnabled()
-                });
-            }
-        });
+    view.addEventListener('viewdestroy', function () {
+        if (subtitleSettingsInstance) {
+            subtitleSettingsInstance.destroy();
+            subtitleSettingsInstance = null;
+        }
+    });
+}
 
-        view.addEventListener('viewdestroy', function () {
-            if (subtitleSettingsInstance) {
-                subtitleSettingsInstance.destroy();
-                subtitleSettingsInstance = null;
-            }
-        });
-    }
-
-/* eslint-enable indent */

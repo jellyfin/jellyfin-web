@@ -194,7 +194,8 @@ function renderSearchResults(context, results) {
 
         html += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
-        const bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
+        const hasAnyFlags = result.IsHashMatch || result.AiTranslated || result.MachineTranslated || result.Forced || result.HearingImpaired;
+        const bodyClass = result.Comment || hasAnyFlags ? 'three-line' : 'two-line';
 
         html += '<div class="listItemBody ' + bodyClass + '">';
 
@@ -206,16 +207,45 @@ function renderSearchResults(context, results) {
         }
 
         if (result.DownloadCount != null) {
-            html += '<span>' + globalize.translate('DownloadsValue', result.DownloadCount) + '</span>';
+            html += '<span style="margin-right:1em;">' + globalize.translate('DownloadsValue', result.DownloadCount) + '</span>';
         }
+
+        if (result.FrameRate) {
+            html += '<span>' + globalize.translate('Framerate') + ': ' + result.FrameRate + '</span>';
+        }
+
         html += '</div>';
 
         if (result.Comment) {
-            html += '<div class="secondary listItemBodyText">' + escapeHtml(result.Comment) + '</div>';
+            html += '<div class="secondary listItemBodyText" style="white-space:pre-line;">' + escapeHtml(result.Comment) + '</div>';
         }
 
-        if (result.IsHashMatch) {
-            html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
+        if (hasAnyFlags) {
+            html += '<div class="secondary listItemBodyText">';
+
+            const spanOpen = '<span class="inline-flex align-items-center justify-content-center subtitleFeaturePillow">';
+
+            if (result.IsHashMatch) {
+                html += spanOpen + globalize.translate('PerfectMatch') + '</span>';
+            }
+
+            if (result.AiTranslated) {
+                html += spanOpen + globalize.translate('AiTranslated') + '</span>';
+            }
+
+            if (result.MachineTranslated) {
+                html += spanOpen + globalize.translate('MachineTranslated') + '</span>';
+            }
+
+            if (result.Forced) {
+                html += spanOpen + globalize.translate('ForeignPartsOnly') + '</span>';
+            }
+
+            if (result.HearingImpaired) {
+                html += spanOpen + globalize.translate('HearingImpairedShort') + '</span>';
+            }
+
+            html += '</div>';
         }
 
         html += '</div>';
@@ -342,7 +372,7 @@ function showDownloadOptions(button, context, subtitleId) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then(({default: scrollHelper}) => {
+    import('../../scripts/scrollHelper').then(({ default: scrollHelper }) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -353,7 +383,7 @@ function onOpenUploadMenu(e) {
     const selectLanguage = dialog.querySelector('#selectLanguage');
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
-    import('../subtitleuploader/subtitleuploader').then(({default: subtitleUploader}) => {
+    import('../subtitleuploader/subtitleuploader').then(({ default: subtitleUploader }) => {
         subtitleUploader.show({
             languages: {
                 list: selectLanguage.innerHTML,

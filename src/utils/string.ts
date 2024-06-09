@@ -19,9 +19,10 @@ export function toBoolean(value: string | undefined | null, defaultValue = false
  * @returns {number} The value.
  */
 export function toFloat(value: string | null | undefined, defaultValue = 0) {
-    if (!value || isNaN(value as never)) {
-        return defaultValue;
-    } else {
-        return parseFloat(value);
-    }
+    if (!value) return defaultValue;
+
+    const number = parseFloat(value);
+    if (isNaN(number)) return defaultValue;
+
+    return number;
 }

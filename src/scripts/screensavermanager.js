@@ -3,6 +3,7 @@ import { pluginManager } from '../components/pluginManager';
 import inputManager from './inputManager';
 import * as userSettings from './settings/userSettings';
 import ServerConnections from '../components/ServerConnections';
+import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 
 import './screensavermanager.scss';
@@ -34,7 +35,7 @@ function getScreensaverPlugin(isLoggedIn) {
         option = isLoggedIn ? 'backdropscreensaver' : 'logoscreensaver';
     }
 
-    const plugins = pluginManager.ofType('screensaver');
+    const plugins = pluginManager.ofType(PluginType.Screensaver);
 
     for (const plugin of plugins) {
         if (plugin.id === option) {
@@ -93,7 +94,7 @@ function ScreenSaverManager() {
         let isLoggedIn;
         const apiClient = ServerConnections.currentApiClient();
 
-        if (apiClient && apiClient.isLoggedIn()) {
+        if (apiClient?.isLoggedIn()) {
             isLoggedIn = true;
         }
 

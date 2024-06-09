@@ -17,8 +17,6 @@ import '../../styles/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './seriesrecordingeditor.template.html';
 
-/*eslint prefer-const: "error"*/
-
 let currentDialog;
 let recordingUpdated = false;
 let recordingDeleted = false;

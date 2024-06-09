@@ -1,5 +1,3 @@
-@import "../styles/noto-sans/index.scss";
-
 @mixin font($weight: null, $size: null) {
     font-weight: $weight;
     font-size: $size;
@@ -7,30 +5,9 @@
 
 html {
     @include font($size: 93%);
-    font-family: "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif;
     text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-}
-
-html[lang|="ja"] {
-    font-family: "Noto Sans", "Noto Sans JP", "Noto Sans HK", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif;
-}
-
-html[lang|="ko"] {
-    font-family: "Noto Sans", "Noto Sans KR", "Noto Sans HK", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", sans-serif;
-}
-
-html[lang|="zh-CN"] {
-    font-family: "Noto Sans", "Noto Sans SC", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans TC", sans-serif;
-}
-
-html[lang|="zh-TW"] {
-    font-family: "Noto Sans", "Noto Sans TC", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", sans-serif;
-}
-
-html[lang|="zh-HK"] {
-    font-family: "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif;
 }
 
 h1 {

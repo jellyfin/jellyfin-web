@@ -116,7 +116,11 @@ function web0sVersion(browser) {
 
         // The next is only valid for the app
 
-        if (browser.versionMajor >= 79) {
+        if (browser.versionMajor >= 94) {
+            return 23;
+        } else if (browser.versionMajor >= 87) {
+            return 22;
+        } else if (browser.versionMajor >= 79) {
             return 6;
         } else if (browser.versionMajor >= 68) {
             return 5;
@@ -148,14 +152,11 @@ let _supportsCssAnimation;
 let _supportsCssAnimationWithPrefix;
 function supportsCssAnimation(allowPrefix) {
     // TODO: Assess if this is still needed, as all of our targets should natively support CSS animations.
-    if (allowPrefix) {
-        if (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false) {
-            return _supportsCssAnimationWithPrefix;
-        }
-    } else {
-        if (_supportsCssAnimation === true || _supportsCssAnimation === false) {
-            return _supportsCssAnimation;
-        }
+    if (allowPrefix && (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false)) {
+        return _supportsCssAnimationWithPrefix;
+    }
+    if (_supportsCssAnimation === true || _supportsCssAnimation === false) {
+        return _supportsCssAnimation;
     }
 
     let animation = false;
@@ -167,8 +168,8 @@ function supportsCssAnimation(allowPrefix) {
     }
 
     if (animation === false && allowPrefix) {
-        for (let i = 0; i < domPrefixes.length; i++) {
-            if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
+        for (const domPrefix of domPrefixes) {
+            if (elm.style[domPrefix + 'AnimationName'] !== undefined) {
                 animation = true;
                 break;
             }
@@ -187,25 +188,27 @@ function supportsCssAnimation(allowPrefix) {
 const uaMatch = function (ua) {
     ua = ua.toLowerCase();
 
-    const match = /(edg)[ /]([\w.]+)/.exec(ua) ||
-        /(edga)[ /]([\w.]+)/.exec(ua) ||
-        /(edgios)[ /]([\w.]+)/.exec(ua) ||
-        /(edge)[ /]([\w.]+)/.exec(ua) ||
-        /(opera)[ /]([\w.]+)/.exec(ua) ||
-        /(opr)[ /]([\w.]+)/.exec(ua) ||
-        /(chrome)[ /]([\w.]+)/.exec(ua) ||
-        /(safari)[ /]([\w.]+)/.exec(ua) ||
-        /(firefox)[ /]([\w.]+)/.exec(ua) ||
-        ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
-        [];
+    ua = ua.replace(/(motorola edge)/, '').trim();
+
+    const match = /(edg)[ /]([\w.]+)/.exec(ua)
+        || /(edga)[ /]([\w.]+)/.exec(ua)
+        || /(edgios)[ /]([\w.]+)/.exec(ua)
+        || /(edge)[ /]([\w.]+)/.exec(ua)
+        || /(opera)[ /]([\w.]+)/.exec(ua)
+        || /(opr)[ /]([\w.]+)/.exec(ua)
+        || /(chrome)[ /]([\w.]+)/.exec(ua)
+        || /(safari)[ /]([\w.]+)/.exec(ua)
+        || /(firefox)[ /]([\w.]+)/.exec(ua)
+        || ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua)
+        || [];
 
     const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
-    let platform_match = /(ipad)/.exec(ua) ||
-        /(iphone)/.exec(ua) ||
-        /(windows)/.exec(ua) ||
-        /(android)/.exec(ua) ||
-        [];
+    let platform_match = /(ipad)/.exec(ua)
+        || /(iphone)/.exec(ua)
+        || /(windows)/.exec(ua)
+        || /(android)/.exec(ua)
+        || [];
 
     let browser = match[1] || '';
 
@@ -224,7 +227,7 @@ const uaMatch = function (ua) {
 
     version = version || match[2] || '0';
 
-    let versionMajor = parseInt(version.split('.')[0]);
+    let versionMajor = parseInt(version.split('.')[0], 10);
 
     if (isNaN(versionMajor)) {
         versionMajor = 0;
@@ -295,7 +298,7 @@ if (browser.web0s) {
     delete browser.safari;
 
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
-    browser.tizenVersion = parseInt(v[1]);
+    browser.tizenVersion = parseInt(v[1], 10);
 } else {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }

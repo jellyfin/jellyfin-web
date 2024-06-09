@@ -5,8 +5,6 @@ import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import dialog from '../dialog/dialog';
 
-/*eslint prefer-const: "error"*/
-
 function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {
     loading.show();
 

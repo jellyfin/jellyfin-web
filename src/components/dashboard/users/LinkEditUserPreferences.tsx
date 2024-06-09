@@ -4,7 +4,7 @@ import globalize from '../../../scripts/globalize';
 type IProps = {
     title?: string;
     className?: string;
-}
+};
 
 const createLinkElement = ({ className, title }: IProps) => ({
     __html: `<a

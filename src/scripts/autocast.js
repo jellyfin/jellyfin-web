@@ -12,7 +12,7 @@ export function enable(enabled) {
     if (enabled) {
         const currentPlayerInfo = playbackManager.getPlayerInfo();
 
-        if (currentPlayerInfo && currentPlayerInfo.id) {
+        if (currentPlayerInfo?.id) {
             localStorage.setItem('autocastPlayerId', currentPlayerInfo.id);
         }
     } else {
@@ -26,16 +26,16 @@ export function isEnabled() {
     const playerId = localStorage.getItem('autocastPlayerId');
     const currentPlayerInfo = playbackManager.getPlayerInfo();
 
-    return (currentPlayerInfo && playerId && currentPlayerInfo.id === playerId);
+    return playerId && currentPlayerInfo?.id === playerId;
 }
 
 function onOpen() {
     const playerId = localStorage.getItem('autocastPlayerId');
 
     playbackManager.getTargets().then(function (targets) {
-        for (let i = 0; i < targets.length; i++) {
-            if (targets[i].id == playerId) {
-                playbackManager.trySetActivePlayer(targets[i].playerName, targets[i]);
+        for (const target of targets) {
+            if (target.id == playerId) {
+                playbackManager.trySetActivePlayer(target.playerName, target);
                 break;
             }
         }

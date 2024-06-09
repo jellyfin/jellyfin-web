@@ -31,7 +31,7 @@ export default function (view, params) {
         page.querySelector('.lnkHomePreferences').setAttribute('href', '#/mypreferenceshome.html?userId=' + userId);
         page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#/mypreferencesplayback.html?userId=' + userId);
         page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#/mypreferencessubtitles.html?userId=' + userId);
-        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#/mypreferencesquickconnect.html?userId=' + userId);
+        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#/quickconnect?userId=' + userId);
         page.querySelector('.lnkControlsPreferences').setAttribute('href', '#/mypreferencescontrols.html?userId=' + userId);
 
         const supportsClientSettings = appHost.supports('clientsettings');
@@ -68,7 +68,7 @@ export default function (view, params) {
             page.querySelector('.lnkControlsPreferences').classList.add('hide');
         }
 
-        import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
+        import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(view);
         });
     });

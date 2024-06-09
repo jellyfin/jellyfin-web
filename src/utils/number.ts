@@ -3,6 +3,16 @@ function toLocaleStringSupportsOptions() {
 }
 
 /**
+ * Generates a random integer in a given range.
+ * @param {number} min - Minimum of the range.
+ * @param {number} max - Maximum of the range.
+ * @returns {number} Randomly generated number.
+ */
+export function randomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
  * Gets the value of a number formatted as a perentage.
  * @param {number} value The value as a number.
  * @param {string} locale The locale to use for formatting (i.e. en-us).
@@ -21,4 +31,17 @@ export function toPercent(value: number | null | undefined, locale: string): str
     }
 
     return `${Math.round(value * 100)}%`;
+}
+
+/**
+ * Gets decimal count of a Number.
+ * @param {number} value Number.
+ * @returns {number} Decimal count of a Number.
+ */
+export function decimalCount(value: number): number {
+    if (Number.isInteger(value)) return 0;
+
+    const arr = value.toString().split('.');
+
+    return arr[1].length;
 }

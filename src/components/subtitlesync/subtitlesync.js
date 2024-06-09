@@ -46,15 +46,8 @@ function init(instance) {
             if (inputOffset) {
                 inputOffset = inputOffset[0];
                 inputOffset = parseFloat(inputOffset);
-                inputOffset = Math.min(30, Math.max(-30, inputOffset));
 
-                // replace current text by considered offset
-                this.textContent = inputOffset + 's';
-                // set new offset
-                playbackManager.setSubtitleOffset(inputOffset, player);
-                // synchronize with slider value
-                subtitleSyncSlider.updateOffset(
-                    getPercentageFromOffset(inputOffset));
+                subtitleSyncSlider.updateOffset(inputOffset);
             } else {
                 this.textContent = (playbackManager.getPlayerSubtitleOffset(player) || 0) + 's';
             }
@@ -79,24 +72,27 @@ function init(instance) {
         }
     };
 
-    subtitleSyncSlider.updateOffset = function (percent) {
-        // default value is 0s = 50%
-        this.value = percent === undefined ? 50 : percent;
+    function updateSubtitleOffset() {
+        const value = parseFloat(subtitleSyncSlider.value);
+        // set new offset
+        playbackManager.setSubtitleOffset(value, player);
+        // synchronize with textField value
+        subtitleSyncTextField.updateOffset(value);
+    }
+
+    subtitleSyncSlider.updateOffset = function (sliderValue) {
+        // default value is 0s = 0ms
+        this.value = sliderValue === undefined ? 0 : sliderValue;
+
+        updateSubtitleOffset();
     };
 
-    subtitleSyncSlider.addEventListener('change', function () {
-        // set new offset
-        playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
-        // synchronize with textField value
-        subtitleSyncTextField.updateOffset(
-            getOffsetFromPercentage(this.value));
-    });
+    subtitleSyncSlider.addEventListener('change', () => updateSubtitleOffset());
 
-    subtitleSyncSlider.getBubbleHtml = function (value) {
-        const newOffset = getOffsetFromPercentage(value);
-        return '<h1 class="sliderBubbleText">' +
-            (newOffset > 0 ? '+' : '') + parseFloat(newOffset) + 's' +
-            '</h1>';
+    subtitleSyncSlider.getBubbleHtml = function (_, value) {
+        return '<h1 class="sliderBubbleText">'
+            + (value > 0 ? '+' : '') + parseFloat(value) + 's'
+            + '</h1>';
     };
 
     subtitleSyncCloseButton.addEventListener('click', function () {
@@ -105,23 +101,6 @@ function init(instance) {
     });
 
     instance.element = parent;
-}
-
-function getOffsetFromPercentage(value) {
-    // convert percent to fraction
-    let offset = (value - 50) / 50;
-    // multiply by offset min/max range value (-x to +x) :
-    offset *= 30;
-    return offset.toFixed(1);
-}
-
-function getPercentageFromOffset(value) {
-    // divide by offset min/max range value (-x to +x) :
-    let percentValue = value / 30;
-    // convert fraction to percent
-    percentValue *= 50;
-    percentValue += 50;
-    return Math.min(100, Math.max(0, percentValue.toFixed(1)));
 }
 
 class SubtitleSync {
@@ -155,8 +134,8 @@ class SubtitleSync {
                 if (playbackManager.isShowingSubtitleOffsetEnabled(player) && playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
                     // if no subtitle offset is defined or element has focus (offset being defined)
                     if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
-                        // set default offset to '0' = 50%
-                        subtitleSyncSlider.value = '50';
+                        // set default offset to '0' = 0ms
+                        subtitleSyncSlider.value = '0';
                         subtitleSyncTextField.textContent = '0s';
                         playbackManager.setSubtitleOffset(0, player);
                     }

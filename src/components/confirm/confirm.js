@@ -1,4 +1,4 @@
-import { appRouter } from '../appRouter';
+import { appRouter } from '../router/appRouter';
 import browser from '../../scripts/browser';
 import dialog from '../dialog/dialog';
 import globalize from '../../scripts/globalize';

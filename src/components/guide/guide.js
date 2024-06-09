@@ -29,7 +29,7 @@ import ServerConnections from '../ServerConnections';
 import template from './tvguide.template.html';
 
 function showViewSettings(instance) {
-    import('./guide-settings').then(({default: guideSettingsDialog}) => {
+    import('./guide-settings').then(({ default: guideSettingsDialog }) => {
         guideSettingsDialog.show(instance.categoryOptions).then(function () {
             instance.refresh();
         });
@@ -291,7 +291,7 @@ function Guide(options) {
             showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
             showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') !== 'false',
             showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
-            showEpisodeTitle: layoutManager.tv ? false : true
+            showEpisodeTitle: !layoutManager.tv
         };
 
         apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
@@ -675,12 +675,12 @@ function Guide(options) {
         });
 
         const activeElement = document.activeElement;
-        const itemId = activeElement && activeElement.getAttribute ? activeElement.getAttribute('data-id') : null;
+        const itemId = activeElement?.getAttribute ? activeElement.getAttribute('data-id') : null;
         let channelRowId = null;
 
         if (activeElement) {
             channelRowId = dom.parentWithClass(activeElement, 'channelPrograms');
-            channelRowId = channelRowId && channelRowId.getAttribute ? channelRowId.getAttribute('data-channelid') : null;
+            channelRowId = channelRowId?.getAttribute ? channelRowId.getAttribute('data-channelid') : null;
         }
 
         renderChannelHeaders(context, channels, apiClient);
@@ -762,12 +762,10 @@ function Guide(options) {
             } else {
                 container.scrollTo(0, pos);
             }
+        } else if (horizontal) {
+            container.scrollLeft = Math.round(pos);
         } else {
-            if (horizontal) {
-                container.scrollLeft = Math.round(pos);
-            } else {
-                container.scrollTop = Math.round(pos);
-            }
+            container.scrollTop = Math.round(pos);
         }
     }
 
@@ -1149,12 +1147,12 @@ function Guide(options) {
     guideContext.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
         const allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
 
-        const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
+        const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex, 10)];
         if (tabButton) {
-            const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
+            const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex, 10)];
 
             const date = new Date();
-            date.setTime(parseInt(tabButton.getAttribute('data-date')));
+            date.setTime(parseInt(tabButton.getAttribute('data-date'), 10));
 
             const scrollWidth = programGrid.scrollWidth;
             let scrollToTimeMs;
@@ -1166,7 +1164,7 @@ function Guide(options) {
 
             if (previousButton) {
                 const previousDate = new Date();
-                previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
+                previousDate.setTime(parseInt(previousButton.getAttribute('data-date'), 10));
 
                 scrollToTimeMs += (previousDate.getHours() * 60 * 60 * 1000);
                 scrollToTimeMs += (previousDate.getMinutes() * 60 * 1000);

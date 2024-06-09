@@ -1,11 +1,13 @@
-import layoutManager from '../../components/layoutManager';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import imageLoader from '../../components/images/imageLoader';
-import loading from '../../components/loading/loading';
-import '../../scripts/livetvcomponents';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import Dashboard from '../../utils/dashboard';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import { getBackdropShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+
+import 'elements/emby-button/emby-button';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'scripts/livetvcomponents';
 
 function enableScrollX() {
     return !layoutManager.desktop;
@@ -50,15 +52,11 @@ function renderRecordings(elem, recordings, cardOptions) {
     imageLoader.lazyChildren(recordingItems);
 }
 
-function getBackdropShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-}
-
 function renderActiveRecordings(context, promise) {
     promise.then(function (result) {
         renderRecordings(context.querySelector('#activeRecordings'), result.Items, {
             shape: enableScrollX() ? 'autooverflow' : 'auto',
-            defaultShape: getBackdropShape(),
+            defaultShape: getBackdropShape(enableScrollX()),
             showParentTitle: false,
             showParentTitleOrTitle: true,
             showTitle: true,
@@ -107,7 +105,7 @@ export default function (view, params, tabContent) {
         activeRecordingsPromise = ApiClient.getLiveTvRecordings({
             UserId: Dashboard.getCurrentUserId(),
             IsInProgress: true,
-            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
+            Fields: 'CanDelete,PrimaryImageAspectRatio',
             EnableTotalRecordCount: false,
             EnableImageTypes: 'Primary,Thumb,Backdrop'
         });

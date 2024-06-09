@@ -1,6 +1,1 @@
-.ci             @dkanada @EraYaN
-.github         @jellyfin/core
-fedora          @joshuaboniface
-debian          @joshuaboniface
-.copr           @joshuaboniface
-deployment      @joshuaboniface
+*               @jellyfin/web

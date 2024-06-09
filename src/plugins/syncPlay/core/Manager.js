@@ -246,7 +246,7 @@ class Manager {
 
     /**
      * Handles a playback command from the server.
-     * @param {Object} cmd The playback command.
+     * @param {Object|null} cmd The playback command.
      */
     processCommand(cmd) {
         if (cmd === null) return;
@@ -254,7 +254,7 @@ class Manager {
         if (typeof cmd.When === 'string') {
             cmd.When = new Date(cmd.When);
             cmd.EmittedAt = new Date(cmd.EmittedAt);
-            cmd.PositionTicks = cmd.PositionTicks ? parseInt(cmd.PositionTicks) : null;
+            cmd.PositionTicks = cmd.PositionTicks ? parseInt(cmd.PositionTicks, 10) : null;
         }
 
         if (!this.isSyncPlayEnabled()) {
@@ -294,7 +294,7 @@ class Manager {
 
     /**
      * Handles a group state change.
-     * @param {Object} update The group state update.
+     * @param {Object|null} update The group state update.
      */
     processStateChange(update) {
         if (update === null || update.State === null || update.Reason === null) return;

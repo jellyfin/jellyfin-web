@@ -2,10 +2,10 @@ const restrictedGlobals = require('confusing-browser-globals');
 
 module.exports = {
     root: true,
+    parser: '@typescript-eslint/parser',
     plugins: [
-        '@babel',
+        '@typescript-eslint',
         'react',
-        'promise',
         'import',
         'eslint-comments',
         'sonarjs'
@@ -16,18 +16,9 @@ module.exports = {
         es2017: true,
         es2020: true
     },
-    parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: 'module',
-        ecmaFeatures: {
-            impliedStrict: true,
-            jsx: true
-        }
-    },
     extends: [
         'eslint:recommended',
         'plugin:react/recommended',
-        // 'plugin:promise/recommended',
         'plugin:import/errors',
         'plugin:eslint-comments/recommended',
         'plugin:compat/recommended',
@@ -39,42 +30,67 @@ module.exports = {
         'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
         'comma-spacing': ['error'],
+        'curly': ['error', 'multi-line', 'consistent'],
         'default-case-last': ['error'],
         'eol-last': ['error'],
         'indent': ['error', 4, { 'SwitchCase': 1 }],
         'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
-        'no-throw-literal': ['error'],
         'max-statements-per-line': ['error'],
         'max-params': ['error', 7],
+        'new-cap': [
+            'error',
+            {
+                'capIsNewExceptions': ['jQuery.Deferred'],
+                'newIsCapExceptionPattern': '\\.default$'
+            }
+        ],
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
+        'no-extend-native': ['error'],
         'no-floating-decimal': ['error'],
+        'no-lonely-if': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-nested-ternary': ['error'],
+        'no-redeclare': ['off'],
+        '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: false }],
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-return-assign': ['error'],
         'no-return-await': ['error'],
         'no-sequences': ['error', { 'allowInParentheses': false }],
-        'no-shadow': ['error'],
+        'no-shadow': ['off'],
+        '@typescript-eslint/no-shadow': ['error'],
+        'no-throw-literal': ['error'],
         'no-trailing-spaces': ['error'],
-        '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
-        'no-useless-constructor': ['error'],
+        'no-undef-init': ['error'],
+        'no-unneeded-ternary': ['error'],
+        'no-unused-expressions': ['off'],
+        '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        'no-unused-private-class-members': ['error'],
+        'no-useless-rename': ['error'],
+        'no-useless-constructor': ['off'],
+        '@typescript-eslint/no-useless-constructor': ['error'],
         'no-var': ['error'],
         'no-void': ['error', { 'allowAsStatement': true }],
         'no-warning-comments': ['warn', { 'terms': ['fixme', 'hack', 'xxx'] }],
+        'object-curly-spacing': ['error', 'always'],
         'one-var': ['error', 'never'],
+        'operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
+        '@typescript-eslint/prefer-for-of': ['error'],
+        '@typescript-eslint/prefer-optional-chain': ['error'],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
-        '@babel/semi': ['error'],
+        'radix': ['error'],
+        '@typescript-eslint/semi': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error',
 
         'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
         'react/jsx-no-bind': ['error'],
+        'react/jsx-no-useless-fragment': ['error'],
         'react/jsx-no-constructed-context-values': ['error'],
         'react/no-array-index-key': ['error'],
 
@@ -87,14 +103,22 @@ module.exports = {
         react: {
             version: 'detect'
         },
-        'import/extensions': [
-            '.js',
-            '.ts',
-            '.jsx',
-            '.tsx'
-        ],
         'import/parsers': {
             '@typescript-eslint/parser': [ '.ts', '.tsx' ]
+        },
+        'import/resolver': {
+            node: {
+                extensions: [
+                    '.js',
+                    '.ts',
+                    '.jsx',
+                    '.tsx'
+                ],
+                moduleDirectory: [
+                    'node_modules',
+                    'src'
+                ]
+            }
         },
         polyfills: [
             // Native Promises Only
@@ -196,11 +220,11 @@ module.exports = {
         // JavaScript source files
         {
             files: [
-                './src/**/*.js',
-                './src/**/*.jsx',
-                './src/**/*.ts'
+                './src/**/*.{js,jsx,ts,tsx}'
             ],
-            parser: '@babel/eslint-parser',
+            parserOptions: {
+                project: ['./tsconfig.json']
+            },
             env: {
                 node: false,
                 amd: true,
@@ -237,19 +261,23 @@ module.exports = {
                 'ServerNotifications': 'writable',
                 'TaskButton': 'writable',
                 'UserParentalControlPage': 'writable',
-                'Windows': 'readonly'
+                'Windows': 'readonly',
+                // Build time definitions
+                __JF_BUILD_VERSION__: 'readonly',
+                __PACKAGE_JSON_NAME__: 'readonly',
+                __PACKAGE_JSON_VERSION__: 'readonly',
+                __USE_SYSTEM_FONTS__: 'readonly',
+                __WEBPACK_SERVE__: 'readonly'
             },
             rules: {
+                '@typescript-eslint/prefer-string-starts-ends-with': ['error']
             }
         },
         // TypeScript source files
         {
             files: [
-                './src/**/*.ts',
-                './src/**/*.tsx'
+                './src/**/*.{ts,tsx}'
             ],
-            parser: '@typescript-eslint/parser',
-            plugins: ['@typescript-eslint'],
             extends: [
                 'eslint:recommended',
                 'plugin:import/typescript',
@@ -260,14 +288,10 @@ module.exports = {
                 'plugin:jsx-a11y/recommended'
             ],
             rules: {
-                // Use TypeScript equivalent rules when required
-                'no-shadow': ['off'],
-                '@typescript-eslint/no-shadow': ['error'],
-                'no-useless-constructor': ['off'],
-                '@typescript-eslint/no-useless-constructor': ['error'],
+                '@typescript-eslint/no-floating-promises': ['error'],
+                '@typescript-eslint/no-unused-vars': ['error'],
 
-                'max-params': ['error', 7],
-                'sonarjs/cognitive-complexity': ['warn']
+                'sonarjs/cognitive-complexity': ['error']
             }
         }
     ]

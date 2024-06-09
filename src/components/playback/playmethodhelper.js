@@ -3,9 +3,9 @@ export function getDisplayPlayMethod(session) {
         return null;
     }
 
-    if (session.TranscodingInfo && session.TranscodingInfo.IsVideoDirect && session.TranscodingInfo.IsAudioDirect) {
+    if (session.TranscodingInfo?.IsVideoDirect && session.TranscodingInfo.IsAudioDirect) {
         return 'Remux';
-    } else if (session.TranscodingInfo && session.TranscodingInfo.IsVideoDirect) {
+    } else if (session.TranscodingInfo?.IsVideoDirect) {
         return 'DirectStream';
     } else if (session.PlayState.PlayMethod === 'Transcode') {
         return 'Transcode';

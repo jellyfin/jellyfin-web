@@ -1,3 +1,4 @@
+import escapeHTML from 'escape-html';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 
 export default class TableOfContents {
@@ -23,8 +24,8 @@ export default class TableOfContents {
     bindEvents() {
         const elem = this.elem;
 
-        elem.addEventListener('close', this.onDialogClosed, {once: true});
-        elem.querySelector('.btnBookplayerTocClose').addEventListener('click', this.onDialogClosed, {once: true});
+        elem.addEventListener('close', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnBookplayerTocClose').addEventListener('click', this.onDialogClosed, { once: true });
     }
 
     unbindEvents() {
@@ -51,6 +52,25 @@ export default class TableOfContents {
         });
     }
 
+    chapterTocItem(book, chapter) {
+        let itemHtml = '<li>';
+
+        // remove parent directory reference from href to fix certain books
+        const link = chapter.href.startsWith('../') ? chapter.href.slice(3) : chapter.href;
+        itemHtml += `<a href="${escapeHTML(book.path.directory + link)}">${escapeHTML(chapter.label)}</a>`;
+
+        if (chapter.subitems?.length) {
+            const subHtml = chapter.subitems
+                .map((nestedChapter) => this.chapterTocItem(book, nestedChapter))
+                .join('');
+
+            itemHtml += `<ul>${subHtml}</ul>`;
+        }
+
+        itemHtml += '</li>';
+        return itemHtml;
+    }
+
     createMediaElement() {
         const rendition = this.rendition;
 
@@ -67,12 +87,7 @@ export default class TableOfContents {
         tocHtml += '</div>';
         tocHtml += '<ul class="toc">';
         rendition.book.navigation.forEach((chapter) => {
-            tocHtml += '<li>';
-
-            // remove parent directory reference from href to fix certain books
-            const link = chapter.href.startsWith('../') ? chapter.href.slice(3) : chapter.href;
-            tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
-            tocHtml += '</li>';
+            tocHtml += this.chapterTocItem(rendition.book, chapter);
         });
 
         tocHtml += '</ul>';

@@ -12,9 +12,9 @@ type IProps = {
     listTitle?: string;
     description?: string;
     children?: React.ReactNode
-}
+};
 
-const AccessContainer: FunctionComponent<IProps> = ({containerClassName, headerTitle, checkBoxClassName, checkBoxTitle, listContainerClassName, accessClassName, listTitle, description, children }: IProps) => {
+const AccessContainer: FunctionComponent<IProps> = ({ containerClassName, headerTitle, checkBoxClassName, checkBoxTitle, listContainerClassName, accessClassName, listTitle, description, children }: IProps) => {
     return (
         <div className={containerClassName}>
             <h2>{globalize.translate(headerTitle)}</h2>

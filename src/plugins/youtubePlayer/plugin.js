@@ -1,7 +1,8 @@
 import browser from '../../scripts/browser';
-import { appRouter } from '../../components/appRouter';
+import { appRouter } from '../../components/router/appRouter';
 import loading from '../../components/loading/loading';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 /* globals YT */
@@ -197,7 +198,7 @@ function setCurrentSrc(instance, elem, options) {
 class YoutubePlayer {
     constructor() {
         this.name = 'Youtube Player';
-        this.type = 'mediaplayer';
+        this.type = PluginType.MediaPlayer;
         this.id = 'youtubeplayer';
 
         // Let any players created by plugins take priority
@@ -351,10 +352,8 @@ class YoutubePlayer {
             if (currentYoutubePlayer) {
                 currentYoutubePlayer.mute();
             }
-        } else {
-            if (currentYoutubePlayer) {
-                currentYoutubePlayer.unMute();
-            }
+        } else if (currentYoutubePlayer) {
+            currentYoutubePlayer.unMute();
         }
     }
     isMuted() {

@@ -43,10 +43,10 @@ function showQualityMenu(player, btn) {
         items: menuItems,
         positionTo: btn
     }).then(function (id) {
-        const bitrate = parseInt(id);
+        const bitrate = parseInt(id, 10);
         if (bitrate !== selectedBitrate) {
             playbackManager.setMaxStreamingBitrate({
-                enableAutomaticBitrateDetection: bitrate ? false : true,
+                enableAutomaticBitrateDetection: !bitrate,
                 maxBitrate: bitrate
             }, player);
         }
@@ -248,7 +248,7 @@ export function show(options) {
     const player = options.player;
     const currentItem = playbackManager.currentItem(player);
 
-    if (!currentItem || !currentItem.ServerId) {
+    if (!currentItem?.ServerId) {
         return showWithUser(options, player, null);
     }
 

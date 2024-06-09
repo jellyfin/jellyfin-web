@@ -9,7 +9,7 @@
     "HeaderLatestMusic": "Latest Sea Shanties",
     "HeaderAudioBooks": "Spoken Tales",
     "Books": "Scrolls",
-    "LabelHomeNetworkQuality": "Sail strength:",
+    "LabelHomeNetworkQuality": "Sail strength",
     "Home": "Poop Deck",
     "DisplayInOtherHomeScreenSections": "Show on Poop Deck such as latest booty and continue plundering",
     "Add": "Upend",
@@ -93,5 +93,13 @@
     "ButtonClose": "Shut",
     "Favorites": "Finest Loot",
     "Genres": "types o' booty",
-    "HeaderAlbumArtists": "Buccaneers o' the musical arts"
+    "HeaderAlbumArtists": "Buccaneers o' the musical arts",
+    "AllLibraries": "All Tomes",
+    "AllowedRemoteAddressesHelp": "List o' IP ports or IP/netmask regions fer ships that be allowed to dock remotely. If ye leave it empty, all remote vessels be welcome.",
+    "AllLanguages": "All Tongues",
+    "AllEpisodes": "All tales",
+    "AllComplexFormats": "All Fancy Codecs (ARR, SSA, BootySub, Pirate GoldS, Swabby, Charts, …)",
+    "AllowFfmpegThrottling": "Rein in Code Scurvy",
+    "Channels": "Channels",
+    "AllowCollectionManagement": "Permit this scallywag to handle treasures"
 }

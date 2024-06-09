@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 
 /**
  * Module for media library creator.
@@ -25,169 +24,170 @@ import toast from '../toast/toast';
 import alert from '../alert';
 import template from './mediaLibraryCreator.template.html';
 
-    function onAddLibrary() {
-        if (isCreating) {
-            return false;
-        }
-
-        if (pathInfos.length == 0) {
-            alert({
-                text: globalize.translate('PleaseAddAtLeastOneFolder'),
-                type: 'error'
-            });
-
-            return false;
-        }
-
-        isCreating = true;
-        loading.show();
-        const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-        const name = $('#txtValue', dlg).val();
-        let type = $('#selectCollectionType', dlg).val();
-
-        if (type == 'mixed') {
-            type = null;
-        }
-
-        const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
-        libraryOptions.PathInfos = pathInfos;
-        ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
-            hasChanges = true;
-            isCreating = false;
-            loading.hide();
-            dialogHelper.close(dlg);
-        }, () => {
-            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-
-            isCreating = false;
-            loading.hide();
-        });
+function onAddLibrary(e) {
+    if (isCreating) {
         return false;
     }
 
-    function getCollectionTypeOptionsHtml(collectionTypeOptions) {
-        return collectionTypeOptions.map(i => {
-            return `<option value="${i.value}">${i.name}</option>`;
-        }).join('');
-    }
-
-    function initEditor(page, collectionTypeOptions) {
-        $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
-            const value = this.value;
-            const dlg = $(this).parents('.dialog')[0];
-            libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);
-
-            if (value) {
-                dlg.querySelector('.libraryOptions').classList.remove('hide');
-            } else {
-                dlg.querySelector('.libraryOptions').classList.add('hide');
-            }
-
-            if (value != 'mixed') {
-                const index = this.selectedIndex;
-
-                if (index != -1) {
-                    const name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
-                    $('#txtValue', dlg).val(name);
-                }
-            }
-
-            const folderOption = collectionTypeOptions.find(i => i.value === value);
-            $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
+    if (pathInfos.length == 0) {
+        alert({
+            text: globalize.translate('PleaseAddAtLeastOneFolder'),
+            type: 'error'
         });
-        page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
-        page.querySelector('.btnSubmit').addEventListener('click', onAddLibrary);
-        page.querySelector('.folderList').addEventListener('click', onRemoveClick);
+
+        return false;
     }
 
-    function onAddButtonClick() {
-        const page = dom.parentWithClass(this, 'dlg-librarycreator');
+    isCreating = true;
+    loading.show();
+    const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
+    const name = $('#txtValue', dlg).val();
+    let type = $('#selectCollectionType', dlg).val();
 
-        import('../directorybrowser/directorybrowser').then(({default: DirectoryBrowser}) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                enableNetworkSharePath: true,
-                callback: function (path, networkSharePath) {
-                    if (path) {
-                        addMediaLocation(page, path, networkSharePath);
-                    }
-
-                    picker.close();
-                }
-            });
-        });
+    if (type == 'mixed') {
+        type = null;
     }
 
-    function getFolderHtml(pathInfo, index) {
-        let html = '';
-        html += '<div class="listItem listItem-border lnkPath">';
-        html += `<div class="${pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody'}">`;
-        html += `<div class="listItemBodyText" dir="ltr">${escapeHtml(pathInfo.Path)}</div>`;
+    const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
+    libraryOptions.PathInfos = pathInfos;
+    ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
+        hasChanges = true;
+        isCreating = false;
+        loading.hide();
+        dialogHelper.close(dlg);
+    }, () => {
+        toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
 
-        if (pathInfo.NetworkPath) {
-            html += `<div class="listItemBodyText secondary" dir="ltr">${escapeHtml(pathInfo.NetworkPath)}</div>`;
-        }
+        isCreating = false;
+        loading.hide();
+    });
+    e.preventDefault();
+}
 
-        html += '</div>';
-        html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle" aria-hidden="true"></span></button>`;
-        html += '</div>';
-        return html;
-    }
+function getCollectionTypeOptionsHtml(collectionTypeOptions) {
+    return collectionTypeOptions.map(i => {
+        return `<option value="${i.value}">${i.name}</option>`;
+    }).join('');
+}
 
-    function renderPaths(page) {
-        const foldersHtml = pathInfos.map(getFolderHtml).join('');
-        const folderList = page.querySelector('.folderList');
-        folderList.innerHTML = foldersHtml;
+function initEditor(page, collectionTypeOptions) {
+    $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
+        const value = this.value;
+        const dlg = $(this).parents('.dialog')[0];
+        libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);
 
-        if (foldersHtml) {
-            folderList.classList.remove('hide');
+        if (value) {
+            dlg.querySelector('.libraryOptions').classList.remove('hide');
         } else {
-            folderList.classList.add('hide');
+            dlg.querySelector('.libraryOptions').classList.add('hide');
         }
-    }
 
-    function addMediaLocation(page, path, networkSharePath) {
-        const pathLower = path.toLowerCase();
-        const pathFilter = pathInfos.filter(p => {
-            return p.Path.toLowerCase() == pathLower;
-        });
+        if (value != 'mixed') {
+            const index = this.selectedIndex;
 
-        if (!pathFilter.length) {
-            const pathInfo = {
-                Path: path
-            };
-
-            if (networkSharePath) {
-                pathInfo.NetworkPath = networkSharePath;
+            if (index != -1) {
+                const name = this.options[index].innerHTML
+                    .replaceAll('*', '')
+                    .replaceAll('&amp;', '&');
+                $('#txtValue', dlg).val(name);
             }
-
-            pathInfos.push(pathInfo);
-            renderPaths(page);
         }
-    }
 
-    function onRemoveClick(e) {
-        const button = dom.parentWithClass(e.target, 'btnRemovePath');
-        const index = parseInt(button.getAttribute('data-index'));
-        const location = pathInfos[index].Path;
-        const locationLower = location.toLowerCase();
-        pathInfos = pathInfos.filter(p => {
-            return p.Path.toLowerCase() != locationLower;
+        const folderOption = collectionTypeOptions.find(i => i.value === value);
+        $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
+    });
+    page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
+    page.querySelector('.addLibraryForm').addEventListener('submit', onAddLibrary);
+    page.querySelector('.folderList').addEventListener('click', onRemoveClick);
+}
+
+function onAddButtonClick() {
+    const page = dom.parentWithClass(this, 'dlg-librarycreator');
+
+    import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
+        const picker = new DirectoryBrowser();
+        picker.show({
+            callback: function (path, networkSharePath) {
+                if (path) {
+                    addMediaLocation(page, path, networkSharePath);
+                }
+
+                picker.close();
+            }
         });
-        renderPaths(dom.parentWithClass(button, 'dlg-librarycreator'));
+    });
+}
+
+function getFolderHtml(pathInfo, index) {
+    let html = '';
+    html += '<div class="listItem listItem-border lnkPath">';
+    html += `<div class="${pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody'}">`;
+    html += `<div class="listItemBodyText" dir="ltr">${escapeHtml(pathInfo.Path)}</div>`;
+
+    if (pathInfo.NetworkPath) {
+        html += `<div class="listItemBodyText secondary" dir="ltr">${escapeHtml(pathInfo.NetworkPath)}</div>`;
     }
 
-    function onDialogClosed() {
-        currentResolve(hasChanges);
-    }
+    html += '</div>';
+    html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle" aria-hidden="true"></span></button>`;
+    html += '</div>';
+    return html;
+}
 
-    function initLibraryOptions(dlg) {
-        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
-            $('#selectCollectionType', dlg).trigger('change');
-        });
-    }
+function renderPaths(page) {
+    const foldersHtml = pathInfos.map(getFolderHtml).join('');
+    const folderList = page.querySelector('.folderList');
+    folderList.innerHTML = foldersHtml;
 
-export class showEditor {
+    if (foldersHtml) {
+        folderList.classList.remove('hide');
+    } else {
+        folderList.classList.add('hide');
+    }
+}
+
+function addMediaLocation(page, path, networkSharePath) {
+    const pathLower = path.toLowerCase();
+    const pathFilter = pathInfos.filter(p => {
+        return p.Path.toLowerCase() == pathLower;
+    });
+
+    if (!pathFilter.length) {
+        const pathInfo = {
+            Path: path
+        };
+
+        if (networkSharePath) {
+            pathInfo.NetworkPath = networkSharePath;
+        }
+
+        pathInfos.push(pathInfo);
+        renderPaths(page);
+    }
+}
+
+function onRemoveClick(e) {
+    const button = dom.parentWithClass(e.target, 'btnRemovePath');
+    const index = parseInt(button.getAttribute('data-index'), 10);
+    const location = pathInfos[index].Path;
+    const locationLower = location.toLowerCase();
+    pathInfos = pathInfos.filter(p => {
+        return p.Path.toLowerCase() != locationLower;
+    });
+    renderPaths(dom.parentWithClass(button, 'dlg-librarycreator'));
+}
+
+function onDialogClosed() {
+    currentResolve(hasChanges);
+}
+
+function initLibraryOptions(dlg) {
+    libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
+        $('#selectCollectionType', dlg).trigger('change');
+    });
+}
+
+export class MediaLibraryCreator {
     constructor(options) {
         return new Promise((resolve) => {
             currentOptions = options;
@@ -217,11 +217,10 @@ export class showEditor {
     }
 }
 
-    let pathInfos = [];
-    let currentResolve;
-    let currentOptions;
-    let hasChanges = false;
-    let isCreating = false;
+let pathInfos = [];
+let currentResolve;
+let currentOptions;
+let hasChanges = false;
+let isCreating = false;
 
-/* eslint-enable indent */
-export default showEditor;
+export default MediaLibraryCreator;
