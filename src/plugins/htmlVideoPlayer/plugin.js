@@ -598,6 +598,9 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+        } else if (this.#currentPgsRenderer) {
+            this.updateCurrentTrackOffset(offsetValue);
+            this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -1338,7 +1341,8 @@ export class HtmlVideoPlayer {
         import('libpgs').then((libpgs) => {
             const options = {
                 video: videoElement,
-                subUrl: getTextTrackUrl(track, item)
+                subUrl: getTextTrackUrl(track, item),
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000
             };
             this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
         });
