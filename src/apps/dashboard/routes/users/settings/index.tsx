@@ -43,7 +43,7 @@ const UserSettings = () => {
     const searchParamsTab = searchParams.get('tab');
     const userId = searchParams.get('userId');
     const activeTab = searchParamsTab !== null ? searchParamsTab : 'profile';
-    const { isInitialLoading, data: user } = userHooks.useGetUserById(userId);
+    const { isLoading, data: user } = userHooks.useGetUserById(userId);
 
     const onTabChange = useCallback(
         (event: React.MouseEvent<HTMLElement>, newTab: string | null) => {
@@ -55,7 +55,7 @@ const UserSettings = () => {
         [searchParams, setSearchParams]
     );
 
-    if (isInitialLoading) return <Loading />;
+    if (isLoading) return <Loading />;
 
     return (
         <Page id='userSettings' className='mainAnimatedPage type-interior'>

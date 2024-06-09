@@ -22,7 +22,7 @@ const UserProfile: FC = () => {
     const userId = searchParams.get('userId');
     const theme = useTheme();
 
-    const { isInitialLoading, data: user } = userHooks.useGetUserById(userId);
+    const { isLoading, data: user } = userHooks.useGetUserById(userId);
 
     const { data: imgUrl } = imageHooks.useGetUserImageUrl(user, {
         tag: user?.PrimaryImageTag || ''
@@ -147,7 +147,7 @@ const UserProfile: FC = () => {
         ]
     );
 
-    if (isInitialLoading) return <Loading />;
+    if (isLoading) return <Loading />;
 
     return (
         <Page
