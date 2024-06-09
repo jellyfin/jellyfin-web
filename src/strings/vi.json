@@ -1869,5 +1869,7 @@
     "PriorityIdle": "Nhàn rỗi",
     "ViewLyrics": "Xem lời bài hát",
     "CoverArtist": "Bìa nghệ sĩ",
-    "LabelThrottleDelaySeconds": "Điều tiết sau"
+    "LabelThrottleDelaySeconds": "Điều tiết sau",
+    "Studio": "Hãng phim",
+    "StoryArc": "Cốt Truyện"
 }
