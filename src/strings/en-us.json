@@ -164,6 +164,7 @@
     "Composer": "Composer",
     "Conductor": "Conductor",
     "ConfigureDateAdded": "Set up how metadata for 'Date added' is determined in the Dashboard > Libraries > NFO Settings",
+    "ConfiguredPasswordRequiredForAdmin": "To enable this feature, first configure a password for this user",
     "ConfirmDeleteImage": "Delete image?",
     "ConfirmDeleteItem": "Deleting this item will delete it from both the file system and your media library. Are you sure you wish to continue?",
     "ConfirmDeleteSeries": "Deleting this series will delete ALL {0} episodes from both the file system and your media library. Are you sure you wish to continue?",

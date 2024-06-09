@@ -47,6 +47,7 @@ const UserPermissionsSection: FC<UserPermissionsSectionProps> = ({
                 <FormControlLabel
                     control={
                         <Checkbox
+                            disabled={!currentUser.HasConfiguredPassword}
                             checked={
                                 currentUser?.Policy
                                     ?.IsAdministrator
@@ -59,6 +60,14 @@ const UserPermissionsSection: FC<UserPermissionsSectionProps> = ({
                         'OptionAllowUserToManageServer'
                     )}
                 />
+                {
+                    !currentUser.HasConfiguredPassword && (
+                        <FormHelperText className='fieldDescription'>
+                            {globalize.translate('ConfiguredPasswordRequiredForAdmin')}
+                        </FormHelperText>
+                    )
+                }
+
                 <FormControlLabel
                     control={
                         <Checkbox
