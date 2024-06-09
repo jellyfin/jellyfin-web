@@ -525,19 +525,6 @@ function stepKeyboard(elem, delta) {
 }
 
 /**
-     * Play or pause video.
-     *
-     * @param {Object} elem slider itself
-     */
-function playPauseKeyboard(elem) {
-    const event = new Event('playpause', {
-        bubbles: true,
-        cancelable: false
-    });
-    elem.dispatchEvent(event);
-}
-
-/**
      * Handle KeyDown event
      */
 function onKeyDown(e) {
@@ -557,11 +544,9 @@ function onKeyDown(e) {
         case 'Enter':
             if (this.keyboardDragging) {
                 finishKeyboardDragging(this);
-            } else {
-                playPauseKeyboard(this);
+                e.preventDefault();
+                e.stopPropagation();
             }
-            e.preventDefault();
-            e.stopPropagation();
             break;
     }
 }
