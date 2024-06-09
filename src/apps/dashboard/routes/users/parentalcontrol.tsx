@@ -20,12 +20,12 @@ import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
 import ServerConnections from 'components/ServerConnections';
 
-type ItemArr = {
+type NamedItem = {
     name: string;
     value: UnratedItem;
 };
 
-type UnratedItemArr = ItemArr & {
+type UnratedNamedItem = NamedItem & {
     checkedAttribute: string
 };
 
@@ -63,7 +63,7 @@ function handleSaveUser(
 const UserParentalControl = () => {
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
-    const [ unratedItems, setUnratedItems ] = useState<UnratedItemArr[]>([]);
+    const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
@@ -103,7 +103,7 @@ const UserParentalControl = () => {
             return;
         }
 
-        const items: ItemArr[] = [{
+        const items: NamedItem[] = [{
             name: globalize.translate('Books'),
             value: UnratedItem.Book
         }, {
@@ -126,19 +126,19 @@ const UserParentalControl = () => {
             value: UnratedItem.Series
         }];
 
-        const itemsArr: UnratedItemArr[] = [];
+        const unratedNamedItem: UnratedNamedItem[] = [];
 
         for (const item of items) {
             const isChecked = user.Policy?.BlockUnratedItems?.indexOf(item.value) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
-            itemsArr.push({
+            unratedNamedItem.push({
                 value: item.value,
                 name: item.name,
                 checkedAttribute: checkedAttribute
             });
         }
 
-        setUnratedItems(itemsArr);
+        setUnratedItems(unratedNamedItem);
 
         const blockUnratedItems = page.querySelector('.blockUnratedItems') as HTMLDivElement;
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));

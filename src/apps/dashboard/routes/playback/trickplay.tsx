@@ -35,13 +35,13 @@ const PlaybackTrickplay: FC = () => {
         (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options?.EnableHwEncoding || false;
         (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = (options?.ScanBehavior || TrickplayScanBehavior.NonBlocking);
         (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = (options?.ProcessPriority || ProcessPriorityClass.Normal);
-        (page.querySelector('#txtInterval') as HTMLInputElement).value = String(options?.Interval);
+        (page.querySelector('#txtInterval') as HTMLInputElement).value = options?.Interval?.toString() || '10000';
         (page.querySelector('#txtWidthResolutions') as HTMLInputElement).value = options?.WidthResolutions?.join(',') || '';
-        (page.querySelector('#txtTileWidth') as HTMLInputElement).value = String(options?.TileWidth);
-        (page.querySelector('#txtTileHeight') as HTMLInputElement).value = String(options?.TileHeight);
-        (page.querySelector('#txtQscale') as HTMLInputElement).value = String(options?.Qscale);
-        (page.querySelector('#txtJpegQuality') as HTMLInputElement).value = String(options?.JpegQuality);
-        (page.querySelector('#txtProcessThreads') as HTMLInputElement).value = String(options?.ProcessThreads);
+        (page.querySelector('#txtTileWidth') as HTMLInputElement).value = options?.TileWidth?.toString() || '10';
+        (page.querySelector('#txtTileHeight') as HTMLInputElement).value = options?.TileHeight?.toString() || '10';
+        (page.querySelector('#txtQscale') as HTMLInputElement).value = options?.Qscale?.toString() || '4';
+        (page.querySelector('#txtJpegQuality') as HTMLInputElement).value = options?.JpegQuality?.toString() || '90';
+        (page.querySelector('#txtProcessThreads') as HTMLInputElement).value = options?.ProcessThreads?.toString() || '1';
 
         loading.hide();
     }, []);
