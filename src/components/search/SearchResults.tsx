@@ -11,6 +11,25 @@ import ServerConnections from '../ServerConnections';
 import SearchResultsRow from './SearchResultsRow';
 import Loading from '../loading/LoadingComponent';
 
+interface ParametersOptions {
+    ParentId?: string | null;
+    searchTerm?: string;
+    Limit?: number;
+    Fields?: string;
+    Recursive?: boolean;
+    EnableTotalRecordCount?: boolean;
+    ImageTypeLimit?: number;
+    IncludePeople?: boolean;
+    IncludeMedia?: boolean;
+    IncludeGenres?: boolean;
+    IncludeStudios?: boolean;
+    IncludeArtists?: boolean;
+    IsMissing?: boolean;
+    IncludeItemTypes?: BaseItemKind;
+    MediaTypes?: string;
+    ExcludeItemTypes?: string;
+}
+
 type SearchResultsProps = {
     serverId?: string;
     parentId?: string | null;
@@ -67,7 +86,7 @@ const SearchResults: FC<SearchResultsProps> = ({ serverId = window.ApiClient.ser
         IncludeArtists: false
     }), [ parentId, debouncedQuery ]);
 
-    const fetchArtists = useCallback((apiClient: ApiClient, params = {}) => (
+    const fetchArtists = useCallback((apiClient: ApiClient, params: ParametersOptions = {}) => (
         apiClient?.getArtists(
             apiClient.getCurrentUserId(),
             {
@@ -78,7 +97,7 @@ const SearchResults: FC<SearchResultsProps> = ({ serverId = window.ApiClient.ser
         ).then(ensureNonNullItems)
     ), [getDefaultParameters]);
 
-    const fetchItems = useCallback(async (apiClient?: ApiClient, params = {}) => {
+    const fetchItems = useCallback(async (apiClient?: ApiClient, params: ParametersOptions = {}) => {
         if (!apiClient) {
             console.error('[SearchResults] no apiClient; unable to fetch items');
             return {
@@ -86,7 +105,7 @@ const SearchResults: FC<SearchResultsProps> = ({ serverId = window.ApiClient.ser
             };
         }
 
-        const options = {
+        const options: ParametersOptions = {
             ...getDefaultParameters(),
             IncludeMedia: true,
             ...params
@@ -105,7 +124,7 @@ const SearchResults: FC<SearchResultsProps> = ({ serverId = window.ApiClient.ser
         ).then(ensureNonNullItems);
     }, [getDefaultParameters]);
 
-    const fetchPeople = useCallback((apiClient: ApiClient, params = {}) => (
+    const fetchPeople = useCallback((apiClient: ApiClient, params: ParametersOptions = {}) => (
         apiClient?.getPeople(
             apiClient.getCurrentUserId(),
             {
