@@ -33,7 +33,7 @@ const RemotePlayButton = () => {
     const [ remotePlayMenuAnchorEl, setRemotePlayMenuAnchorEl ] = useState<null | HTMLElement>(null);
     const isRemotePlayMenuOpen = Boolean(remotePlayMenuAnchorEl);
 
-    const onRemotePlayButtonClick = useCallback((event) => {
+    const onRemotePlayButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setRemotePlayMenuAnchorEl(event.currentTarget);
     }, [ setRemotePlayMenuAnchorEl ]);
 
@@ -44,7 +44,7 @@ const RemotePlayButton = () => {
     const [ remotePlayActiveMenuAnchorEl, setRemotePlayActiveMenuAnchorEl ] = useState<null | HTMLElement>(null);
     const isRemotePlayActiveMenuOpen = Boolean(remotePlayActiveMenuAnchorEl);
 
-    const onRemotePlayActiveButtonClick = useCallback((event) => {
+    const onRemotePlayActiveButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setRemotePlayActiveMenuAnchorEl(event.currentTarget);
     }, [ setRemotePlayActiveMenuAnchorEl ]);
 

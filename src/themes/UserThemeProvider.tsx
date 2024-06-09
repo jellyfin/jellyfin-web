@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material';
-import React, { type FC, useState, useEffect } from 'react';
+import React, { type FC, type PropsWithChildren, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { DASHBOARD_APP_PATHS } from 'apps/dashboard/routes/routes';
@@ -13,7 +13,7 @@ const isDashboardThemePage = (pathname: string) => [
     DASHBOARD_APP_PATHS.PluginConfig
 ].some(path => pathname.startsWith(`/${path}`));
 
-const UserThemeProvider: FC = ({ children }) => {
+const UserThemeProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     const [ isDashboard, setIsDashboard ] = useState(false);
     const [ muiTheme, setMuiTheme ] = useState(DEFAULT_THEME);
 

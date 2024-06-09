@@ -147,7 +147,7 @@ const Activity = () => {
         }
     ];
 
-    const onViewChange = useCallback((_e, newView: ActivityView | null) => {
+    const onViewChange = useCallback((_e: React.MouseEvent<HTMLElement, MouseEvent>, newView: ActivityView | null) => {
         if (newView !== null) {
             setActivityView(newView);
         }
