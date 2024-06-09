@@ -1775,6 +1775,10 @@ export default function (view) {
         }
     });
 
+    nowPlayingPositionSlider.addEventListener('playpause', function () {
+        playbackManager.playPause(currentPlayer);
+    });
+
     nowPlayingPositionSlider.updateBubbleHtml = function(bubble, value) {
         showOsd();
 
