@@ -30,7 +30,7 @@
     "cross-env": "7.0.3",
     "css-loader": "7.1.1",
     "cssnano": "7.0.1",
-    "es-check": "7.1.1",
+    "es-check": "7.2.1",
     "eslint": "8.57.0",
     "eslint-plugin-compat": "4.2.0",
     "eslint-plugin-eslint-comments": "3.2.0",
