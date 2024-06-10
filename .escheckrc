@@ -6,6 +6,7 @@
         "./dist/libraries/pdf.worker.js",
         "./dist/libraries/worker-bundle.js",
         "./dist/libraries/wasm-gen/libarchive.js",
+        "./dist/node_modules.pdfjs-dist.*.js",
         "./dist/serviceworker.js"
     ]
 }

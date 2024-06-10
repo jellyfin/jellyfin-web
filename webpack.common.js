@@ -43,8 +43,7 @@ const config = {
             '@mui/styled-engine': '@mui/styled-engine/legacy',
             '@mui/system': '@mui/system/legacy',
             '@mui/utils': '@mui/utils/legacy',
-            '@mui/x-data-grid': '@mui/x-data-grid/legacy',
-            'pdfjs-dist': 'pdfjs-dist/legacy/build/pdf.mjs'
+            '@mui/x-data-grid': '@mui/x-data-grid/legacy'
         }
     },
     plugins: [
@@ -199,6 +198,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/markdown-it'),
                     path.resolve(__dirname, 'node_modules/mdurl'),
                     path.resolve(__dirname, 'node_modules/punycode'),
+                    path.resolve(__dirname, 'node_modules/pdfjs-dist'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
                     path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
                     path.resolve(__dirname, 'node_modules/react-router'),
@@ -236,24 +236,6 @@ const config = {
                     loader: 'ts-loader',
                     options: {
                         transpileOnly: true
-                    }
-                }]
-            },
-            /* modules that Babel breaks when transforming to ESM */
-            {
-                test: /\.js$/,
-                include: [
-                    path.resolve(__dirname, 'node_modules/pdfjs-dist'),
-                    path.resolve(__dirname, 'node_modules/xmldom')
-                ],
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true,
-                        plugins: [
-                            '@babel/transform-modules-umd'
-                        ]
                     }
                 }]
             },
