@@ -1254,7 +1254,7 @@
     "OnWakeFromSleep": "Beim Aufwachen aus \"Energie sparen\"",
     "WeeklyAt": "{0} um {1}",
     "DailyAt": "Täglich um {0}",
-    "LastSeen": "Zuletzt angesehen {0}",
+    "LastSeen": "Zuletzt gesehen {0}",
     "PersonRole": "als {0}",
     "ListPaging": "{0}-{1} von {2}",
     "WriteAccessRequired": "Jellyfin benötigt Schreibrechte auf diesem Ordner. Bitte prüfe die Schreibrechte und versuche es erneut.",
