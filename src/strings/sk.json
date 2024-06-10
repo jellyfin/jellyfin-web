@@ -1894,5 +1894,8 @@
     "LibraryScanFanoutConcurrencyHelp": "Maximálny počet paralelných úloh počas skenovania knižnice. Nastavením tejto hodnoty na 0 sa zvolí limit na základe počtu jadier CPU vášho systému. UPOZORNENIE: Nastavenie príliš vysokého čísla môže spôsobiť problémy so sieťovými súborovými systémami, Ak sa vyskytnú problémy, znížte toto číslo.",
     "LibraryScanFanoutConcurrency": "Limit úloh paralelného skenovania knižnice",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferovaný zvukový kodek pre prekódovanie počas prehrávania videa",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Vyberte preferovaný zvukový kodek pre prekódovanie počas prehrávania videa. Ak preferovaný kodek nie je podporovaný, server použije ďalší najlepší dostupný kodek."
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Vyberte preferovaný zvukový kodek pre prekódovanie počas prehrávania videa. Ak preferovaný kodek nie je podporovaný, server použije ďalší najlepší dostupný kodek.",
+    "Alternate": "Alternatívne",
+    "Regional": "Regionálne",
+    "AlternateDVD": "Alternatívne DVD"
 }
