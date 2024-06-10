@@ -1458,7 +1458,7 @@ function renderChildren(page, item) {
         imageLoader.lazyChildren(childrenItemsContainer);
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
-                name: globalize.translate('HeaderVideos'),
+                name: globalize.translate('Videos'),
                 mediaType: 'Video'
             }, {
                 name: globalize.translate('Series'),
