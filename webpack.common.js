@@ -14,7 +14,7 @@ const Assets = [
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'pdfjs-dist/legacy/build/pdf.worker.mjs'
+    'pdfjs-dist/legacy/build/pdf.worker.min.mjs'
 ];
 
 const LibarchiveWasm = [
