@@ -1351,7 +1351,8 @@ export default function (options) {
             });
         }
 
-        if (supportsCanvas2D()) {
+        if (supportsCanvas2D() && options.enablePgsRender !== false && !options.isRetry
+            && subtitleBurninSetting !== 'allcomplexformats' && subtitleBurninSetting !== 'onlyimageformats') {
             profile.SubtitleProfiles.push({
                 Format: 'pgssub',
                 Method: 'External'
