@@ -17,7 +17,7 @@ const SyncPlayButton = () => {
     const [ syncPlayMenuAnchorEl, setSyncPlayMenuAnchorEl ] = useState<null | HTMLElement>(null);
     const isSyncPlayMenuOpen = Boolean(syncPlayMenuAnchorEl);
 
-    const onSyncPlayButtonClick = useCallback((event) => {
+    const onSyncPlayButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setSyncPlayMenuAnchorEl(event.currentTarget);
     }, [ setSyncPlayMenuAnchorEl ]);
 

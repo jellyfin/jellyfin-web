@@ -1267,7 +1267,7 @@
     "AlbumArtist": "Albumkünstler",
     "Album": "Album",
     "BoxSet": "Box Set",
-    "Yadif": "YADIF",
+    "Yadif": "Noch ein Zeilenentflechtungs Filter",
     "LabelLibraryPageSizeHelp": "Setzt die Anzahl der auf einer Seite angezeigten Objekte. Auf 0 setzen, um alle Elemente auf einer Seite anzuzeigen.",
     "LabelLibraryPageSize": "Größe der Bibliotheksseiten",
     "DeinterlaceMethodHelp": "Wähle die Deinterlacing-Methode zum Transkodieren von Inhalten im Zeilensprungverfahren (Interlace). Sofern bei unterstützten Geräten Deinterlacing durch Hardwarebeschleunigung aktiviert ist, wird der Hardware-Deinterlacer anstelle dieser Einstellung verwendet.",
@@ -1718,7 +1718,7 @@
     "Featurette": "Featurette",
     "Short": "Kurzfilm",
     "LabelParallelImageEncodingLimit": "Limit der parallelen Bildkodierung",
-    "LabelParallelImageEncodingLimitHelp": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden können. Wenn dieser Wert auf 0 gesetzt wird, wird eine Obergrenze auf der Grundlage deiner Systemspezifikationen gewählt.",
+    "LabelParallelImageEncodingLimitHelp": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden dürfen. Wenn Sie diesen Wert auf 0 setzen, wird eine Grenze auf der Grundlage der Kernanzahl Ihres Systems festgelegt.",
     "HeaderPerformance": "Leistung",
     "LabelEnableAudioVbr": "Aktiviere Audiokodierung mit variabler Bitrate (VBR)",
     "LabelEnableAudioVbrHelp": "Eine variable Bitrate bietet bessere Qualität im Vergleich zu einer konstanten, kann jedoch in manchen Fällen zu Problemen beim Buffering und der Kompatibilität führen.",
@@ -1889,5 +1889,10 @@
     "PlaylistPublicDescription": "Erlauben Sie, dass diese Wiedergabeliste für jeden eingeloggten Benutzer sichtbar ist.",
     "SaveLyricsIntoMediaFolders": "Liedtexte in Medienordnern speichern",
     "SaveLyricsIntoMediaFoldersHelp": "Das Speichern von Liedtexten zusammen mit den Audiodateien ermöglicht eine einfachere Verwaltung.",
-    "PlaylistPublic": "Erlaube öffentlichen Zugriff"
+    "PlaylistPublic": "Erlaube öffentlichen Zugriff",
+    "Colorist": "Colorist",
+    "Penciller": "Bleistiftzeichner",
+    "Inker": "Inker",
+    "Letterer": "Beschreiber",
+    "HeaderVideoAdvanced": "Erweitertes Video"
 }

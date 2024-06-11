@@ -3,13 +3,13 @@ import {
     type LibraryUpdateInfo
 } from '@jellyfin/sdk/lib/generated-client';
 import { ApiClient } from 'jellyfin-apiclient';
-import React, { type FC, useCallback, useEffect, useRef } from 'react';
+import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
-import Events, { Event } from 'utils/events';
+import Events, { type Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
 import inputManager from 'scripts/inputManager';
 import dom from 'scripts/dom';
@@ -48,7 +48,7 @@ interface ItemsContainerProps {
     queryKey?: string[]
 }
 
-const ItemsContainer: FC<ItemsContainerProps> = ({
+const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     className,
     isContextMenuEnabled,
     isMultiSelectEnabled,

@@ -1,4 +1,4 @@
-import React, { type ChangeEvent, type FC, useCallback } from 'react';
+import React, { type ChangeEvent, type FC, useCallback, useRef } from 'react';
 
 import AlphaPicker from '../alphaPicker/AlphaPickerComponent';
 import Input from 'elements/emby-input/Input';
@@ -20,15 +20,18 @@ const SearchFields: FC<SearchFieldsProps> = ({
     onSearch = () => { /* no-op */ },
     query
 }: SearchFieldsProps) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const onAlphaPicked = useCallback((e: Event) => {
         const value = (e as CustomEvent).detail.value;
+        const inputValue = inputRef.current?.value || '';
 
         if (value === 'backspace') {
-            onSearch(query.length ? query.substring(0, query.length - 1) : '');
+            onSearch(inputValue.length ? inputValue.substring(0, inputValue.length - 1) : '');
         } else {
-            onSearch(query + value);
+            onSearch(inputValue + value);
         }
-    }, [ onSearch, query ]);
+    }, [onSearch]);
 
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         onSearch(e.target.value);
@@ -43,6 +46,7 @@ const SearchFields: FC<SearchFieldsProps> = ({
                     style={{ marginBottom: 0 }}
                 >
                     <Input
+                        ref={inputRef}
                         id='searchTextInput'
                         className='searchfields-txtSearch'
                         type='text'

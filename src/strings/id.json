@@ -224,7 +224,7 @@
     "BoxSet": "Set Kotak",
     "AskAdminToCreateLibrary": "Minta administrator untuk membuat pustaka.",
     "Artist": "Artis",
-    "AllowFfmpegThrottlingHelp": "Saat transcode atau remux cukup jauh dari posisi pemutaran saat ini, jeda prosesnya sehingga akan mengkonsumsi lebih sedikit sumber daya. Ini paling berguna saat menonton tanpa sering mencari. Matikan ini jika Anda mengalami masalah pemutaran.",
+    "AllowFfmpegThrottlingHelp": "Saat transcode atau remux cukup jauh dari posisi pemutaran saat ini, jeda prosesnya sehingga akan mengonsumsi lebih sedikit sumber daya. Paling berguna saat menonton tanpa sering seeking. Matikan jika Anda mengalami masalah pemutaran.",
     "AllowHWTranscodingHelp": "Izinkan tuner untuk mentranskode aliran dengan cepat. Ini dapat membantu mengurangi transcoding yang dibutuhkan oleh server.",
     "AlbumArtist": "Album Artis",
     "Album": "Album",
@@ -1683,5 +1683,7 @@
     "LabelThrottleDelaySeconds": "Batasi setelah",
     "LabelSegmentKeepSeconds": "Waktu untuk menetapkan segmen",
     "AllowSubtitleManagement": "Izinkan user untuk mengubah tarakir",
-    "AllowSegmentDeletionHelp": "Hapus bagian lama setelah terunduh oleh pengguna. Fitur ini akan mencegah penyimpanan file teralihsandikan ke dalam penyimpanan. Matikan fitur ini jika terjadi masalah dalam pemutaran."
+    "AllowSegmentDeletionHelp": "Hapus bagian lama setelah terunduh oleh pengguna. Fitur ini akan mencegah penyimpanan file teralihsandikan ke dalam penyimpanan. Matikan fitur ini jika terjadi masalah dalam pemutaran.",
+    "AllowContentWithTagsHelp": "Hanya tampilkan media dengan setidaknya satu tag ditentukan.",
+    "AirPlay": "AirPlay"
 }

@@ -14,7 +14,7 @@ const UserMenuButton = () => {
     const [ userMenuAnchorEl, setUserMenuAnchorEl ] = useState<null | HTMLElement>(null);
     const isUserMenuOpen = Boolean(userMenuAnchorEl);
 
-    const onUserButtonClick = useCallback((event) => {
+    const onUserButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setUserMenuAnchorEl(event.currentTarget);
     }, [ setUserMenuAnchorEl ]);
 

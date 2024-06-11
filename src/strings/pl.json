@@ -1863,7 +1863,7 @@
     "LabelTrickplayAccelEncoding": "Włącz kodowanie MJPEG z akceleracją sprzętową",
     "ConfirmDeleteLyrics": "Usunięcie tych słów spowoduje ich usunięcie zarówno z systemu plików, jak i biblioteki multimediów. Czy na pewno chcesz kontynuować?",
     "HeaderNoLyrics": "Nie znaleziono słów",
-    "DeleteLyrics": "Usuń słowa",
+    "DeleteLyrics": "Usuń tekst",
     "ErrorDeletingLyrics": "Wystąpił błąd podczas usuwania słów z serwera. Sprawdź, czy Jellyfin ma uprawnienia do zapisu w folderze multimediów i spróbuj ponownie.",
     "HeaderDeleteLyrics": "Usuń słowa",
     "Lyrics": "Słowa",
@@ -1894,5 +1894,8 @@
     "LibraryScanFanoutConcurrency": "Limit zadań równoległego skanowania bibliotek",
     "LibraryScanFanoutConcurrencyHelp": "Maksymalna liczba zadań równoległych podczas skanowania bibliotek. Ustawienie tej opcji na 0 spowoduje wybranie limitu na podstawie liczby rdzeni systemu. OSTRZEŻENIE: ustawienie zbyt dużej liczby może powodować problemy z sieciowymi systemami plików; jeśli napotkasz problemy, obniż tę liczbę.",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferowany transkodowany kodek audio podczas odtwarzania wideo",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Wybierz preferowany kodek audio, na który chcesz transkodować zawartość wideo. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje następnego najlepszego dostępnego kodeka."
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Wybierz preferowany kodek audio, na który chcesz transkodować zawartość wideo. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje następnego najlepszego dostępnego kodeka.",
+    "Alternate": "Alternatywne",
+    "AlternateDVD": "Alternatywne DVD",
+    "Regional": "Regionalne"
 }
