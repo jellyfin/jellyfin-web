@@ -271,7 +271,7 @@ function getMediaSourceStats(session, player) {
     if (videoStream.VideoRangeType) {
         sessionStats.push({
             label: globalize.translate('LabelVideoRangeType'),
-            value: videoStream.VideoRangeType
+            value: videoStream.VideoDoViTitle || videoStream.VideoRangeType
         });
     }
 

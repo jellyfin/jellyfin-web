@@ -94,6 +94,25 @@ function supportsAc3(videoTestElement) {
     return videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '');
 }
 
+/**
+ * Checks if the device supports DTS (DCA).
+ * @param {HTMLVideoElement} videoTestElement The video test element
+ * @returns {boolean|null} _true_ if the device supports DTS (DCA). _false_ if the device doesn't support DTS (DCA). _null_ if support status is unknown.
+ */
+function canPlayDts(videoTestElement) {
+    // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
+    if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
+        return false;
+    }
+
+    if (videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '')) {
+        return true;
+    }
+
+    return null;
+}
+
 function supportsEac3(videoTestElement) {
     if (browser.tizen || browser.web0s) {
         return true;
@@ -116,6 +135,15 @@ function supportsAc3InHls(videoTestElement) {
     if (videoTestElement.canPlayType) {
         return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '')
                 || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
+    }
+
+    return false;
+}
+
+function supportsMp3InHls(videoTestElement) {
+    if (videoTestElement.canPlayType) {
+        return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '')
+                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '');
     }
 
     return false;
@@ -460,6 +488,7 @@ export default function (options) {
     }
 
     const canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+    const canPlayMp3VideoAudioInHls = supportsMp3InHls(videoTestElement);
     const canPlayAc3VideoAudio = supportsAc3(videoTestElement);
     const canPlayEac3VideoAudio = supportsEac3(videoTestElement);
     const canPlayAc3VideoAudioInHls = supportsAc3InHls(videoTestElement);
@@ -474,12 +503,15 @@ export default function (options) {
 
     if (supportsMp3VideoAudio) {
         videoAudioCodecs.push('mp3');
+    }
 
-        // PS4 fails to load HLS with mp3 audio
-        if (!browser.ps4) {
-            hlsInTsVideoAudioCodecs.push('mp3');
-        }
+    // Safari supports mp3 with HLS, but only in mpegts container, and the supportsMp3VideoAudio will return false.
+    if (browser.safari || (supportsMp3VideoAudio && !browser.ps4)) {
+        hlsInTsVideoAudioCodecs.push('mp3');
+    }
 
+    // Most browsers won't support mp3 with HLS, so this is usually false, but just in case.
+    if (canPlayMp3VideoAudioInHls) {
         hlsInFmp4VideoAudioCodecs.push('mp3');
     }
 
@@ -515,14 +547,9 @@ export default function (options) {
         hlsInFmp4VideoAudioCodecs.push('mp2');
     }
 
-    let supportsDts = options.supportsDts;
+    let supportsDts = appSettings.enableDts() || options.supportsDts;
     if (supportsDts == null) {
-        supportsDts = browser.tizen || browser.web0sVersion || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
-
-        // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
-        if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
-            supportsDts = false;
-        }
+        supportsDts = canPlayDts(videoTestElement);
     }
 
     if (supportsDts) {
@@ -535,7 +562,7 @@ export default function (options) {
         videoAudioCodecs.push('pcm_s24le');
     }
 
-    if (options.supportsTrueHd) {
+    if (appSettings.enableTrueHd() || options.supportsTrueHd) {
         videoAudioCodecs.push('truehd');
     }
 
@@ -583,13 +610,13 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome)))) {
+        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || browser.opera)))) {
         // disable av1 on non-safari mobile browsers since it can be very slow software decoding
         hlsInFmp4VideoCodecs.push('av1');
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)))) {
+        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
@@ -854,6 +881,48 @@ export default function (options) {
                 }
             ]
         });
+    }
+
+    if (browser.web0s) {
+        const flacConditions = [
+            // webOS doesn't seem to support FLAC with more than 2 channels
+            {
+                Condition: 'LessThanEqual',
+                Property: 'AudioChannels',
+                Value: '2',
+                IsRequired: false
+            }
+        ];
+
+        profile.CodecProfiles.push({
+            Type: 'VideoAudio',
+            Codec: 'flac',
+            Conditions: flacConditions
+        });
+
+        const flacTranscodingProfiles = [];
+
+        // Split each video transcoding profile with FLAC so that the containing FLAC is only applied to 2 channels audio
+        profile.TranscodingProfiles.forEach(transcodingProfile => {
+            if (transcodingProfile.Type !== 'Video') return;
+
+            const audioCodecs = transcodingProfile.AudioCodec.split(',');
+
+            if (!audioCodecs.includes('flac')) return;
+
+            const flacTranscodingProfile = { ...transcodingProfile };
+            flacTranscodingProfile.AudioCodec = 'flac';
+            flacTranscodingProfile.ApplyConditions = [
+                ...flacTranscodingProfile.ApplyConditions || [],
+                ...flacConditions
+            ];
+
+            flacTranscodingProfiles.push(flacTranscodingProfile);
+
+            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec != 'flac').join(',');
+        });
+
+        profile.TranscodingProfiles.push(...flacTranscodingProfiles);
     }
 
     let maxH264Level = 42;

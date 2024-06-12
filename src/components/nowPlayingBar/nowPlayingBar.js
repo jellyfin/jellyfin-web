@@ -43,8 +43,7 @@ let currentRuntimeTicks = 0;
 
 let isVisibilityAllowed = true;
 
-let lyricPageActive = false;
-let isAudio = false;
+let isLyricPageActive = false;
 
 function getNowPlayingBarHtml() {
     let html = '';
@@ -86,7 +85,7 @@ function getNowPlayingBarHtml() {
 
     html += `<button is="paper-icon-button-light" class="btnAirPlay mediaButton" title="${globalize.translate('AirPlay')}"><span class="material-icons airplay" aria-hidden="true"></span></button>`;
 
-    html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
+    html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton hide" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
 
     html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
     html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
@@ -220,7 +219,7 @@ function bindEvents(elem) {
     });
 
     lyricButton.addEventListener('click', function() {
-        if (lyricPageActive) {
+        if (isLyricPageActive) {
             appRouter.back();
         } else {
             appRouter.show('lyrics');
@@ -303,8 +302,8 @@ function getNowPlayingBar() {
     nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
     if (layoutManager.mobile) {
-        hideButton(nowPlayingBarElement.querySelector('.btnShuffleQueue'));
-        hideButton(nowPlayingBarElement.querySelector('.nowPlayingBarCenter'));
+        nowPlayingBarElement.querySelector('.btnShuffleQueue').classList.add('hide');
+        nowPlayingBarElement.querySelector('.nowPlayingBarCenter').classList.add('hide');
     }
 
     if (browser.safari && browser.slow) {
@@ -317,14 +316,6 @@ function getNowPlayingBar() {
     bindEvents(nowPlayingBarElement);
 
     return nowPlayingBarElement;
-}
-
-function showButton(button) {
-    button.classList.remove('hide');
-}
-
-function hideButton(button) {
-    button.classList.add('hide');
 }
 
 function updatePlayPauseState(isPaused) {
@@ -378,7 +369,7 @@ function updatePlayerStateInternal(event, state, player) {
     updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
     updateNowPlayingInfo(state);
-    updateLyricButton();
+    updateLyricButton(nowPlayingItem);
 }
 
 function updateRepeatModeDisplay(repeatMode) {
@@ -453,11 +444,7 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
         showVolumeSlider = false;
     }
 
-    if (showMuteButton) {
-        showButton(muteButton);
-    } else {
-        hideButton(muteButton);
-    }
+    muteButton.classList.toggle('hide', !showMuteButton);
 
     // See bindEvents for why this is necessary
     if (volumeSlider) {
@@ -469,20 +456,18 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
     }
 }
 
-function updateLyricButton() {
-    if (!isEnabled) {
-        return;
-    }
+function updateLyricButton(item) {
+    if (!isEnabled) return;
 
-    isAudio ? showButton(lyricButton) : hideButton(lyricButton);
+    const hasLyrics = !!item && item.Type === 'Audio' && item.HasLyrics;
+    lyricButton.classList.toggle('hide', !hasLyrics);
     setLyricButtonActiveStatus();
 }
 
 function setLyricButtonActiveStatus() {
-    if (!isEnabled) {
-        return;
-    }
-    lyricButton.classList.toggle('buttonActive', lyricPageActive);
+    if (!isEnabled) return;
+
+    lyricButton.classList.toggle('buttonActive', isLyricPageActive);
 }
 
 function seriesImageUrl(item, options) {
@@ -628,8 +613,6 @@ function onPlaybackStart(e, state) {
     console.debug('nowplaying event: ' + e.type);
     const player = this;
 
-    isAudio = state.NowPlayingItem.Type === 'Audio';
-
     onStateChanged.call(player, e, state);
 }
 
@@ -733,7 +716,7 @@ function onStateChanged(event, state) {
     }
 
     getNowPlayingBar();
-    updateLyricButton();
+    updateLyricButton(state.NowPlayingItem);
     updatePlayerStateInternal(event, state, player);
 }
 
@@ -790,7 +773,7 @@ function refreshFromPlayer(player, type) {
 }
 
 function bindToPlayer(player) {
-    lyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
+    isLyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
     if (player === currentPlayer) {
         return;
     }
@@ -823,7 +806,7 @@ Events.on(playbackManager, 'playerchange', function () {
 bindToPlayer(playbackManager.getCurrentPlayer());
 
 document.addEventListener('viewbeforeshow', function (e) {
-    lyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
+    isLyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
     setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {
         if (isVisibilityAllowed) {

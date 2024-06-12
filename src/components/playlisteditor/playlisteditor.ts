@@ -4,6 +4,7 @@ import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import escapeHtml from 'escape-html';
 
+import toast from 'components/toast/toast';
 import dom from 'scripts/dom';
 import globalize from 'scripts/globalize';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
@@ -52,12 +53,14 @@ function onSubmit(this: HTMLElement, e: Event) {
             addToPlaylist(panel, playlistId)
                 .catch(err => {
                     console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
+                    toast(globalize.translate('PlaylistError.AddFailed'));
                 })
                 .finally(loading.hide);
         } else {
             createPlaylist(panel)
                 .catch(err => {
                     console.error('[PlaylistEditor] Failed to create playlist', err);
+                    toast(globalize.translate('PlaylistError.CreateFailed'));
                 })
                 .finally(loading.hide);
         }
@@ -73,13 +76,16 @@ function createPlaylist(dlg: DialogElement) {
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const api = toApi(apiClient);
 
-    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
+    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || undefined;
 
     return getPlaylistsApi(api)
         .createPlaylist({
-            name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
-            ids: itemIds.split(','),
-            userId: apiClient.getCurrentUserId()
+            createPlaylistDto: {
+                Name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
+                IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
+                Ids: itemIds?.split(','),
+                UserId: apiClient.getCurrentUserId()
+            }
         })
         .then(result => {
             dlg.submitted = true;
@@ -147,6 +153,32 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
             recursive: true
         })
         .then(({ data }) => {
+            return Promise.all((data.Items || []).map(item => {
+                const playlist = {
+                    item,
+                    permissions: undefined
+                };
+
+                if (!item.Id) return playlist;
+
+                return getPlaylistsApi(api)
+                    .getPlaylistUser({
+                        playlistId: item.Id,
+                        userId: apiClient.getCurrentUserId()
+                    })
+                    .then(({ data: permissions }) => ({
+                        ...playlist,
+                        permissions
+                    }))
+                    .catch(err => {
+                        // If a user doesn't have access, then the request will 404 and throw
+                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
+
+                        return playlist;
+                    });
+            }));
+        })
+        .then(playlists => {
             let html = '';
 
             if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
@@ -155,8 +187,10 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
             html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-            html += data.Items?.map(i => {
-                return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
+            html += playlists.map(({ item, permissions }) => {
+                if (!permissions?.CanEdit) return '';
+
+                return `<option value="${item.Id}">${escapeHtml(item.Name)}</option>`;
             });
 
             select.innerHTML = html;
@@ -194,6 +228,17 @@ function getEditorHtml(items: string[]) {
     autoFocus = items.length ? '' : ' autofocus';
     html += `<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="${globalize.translate('LabelName')}"${autoFocus} />`;
     html += '</div>';
+
+    html += `
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkPlaylistPublic" checked />
+            <span>${globalize.translate('PlaylistPublic')}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">
+            ${globalize.translate('PlaylistPublicDescription')}
+        </div>
+    </div>`;
 
     // newPlaylistInfo
     html += '</div>';

@@ -207,7 +207,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('Name'),
                     id: 'SortName'
                 }, {
-                    name: globalize.translate('OptionImdbRating'),
+                    name: globalize.translate('OptionCommunityRating'),
                     id: 'CommunityRating,SortName'
                 }, {
                     name: globalize.translate('OptionDateAdded'),

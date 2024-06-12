@@ -12,6 +12,7 @@ import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
 import { useLegacyRouterSync } from 'hooks/useLegacyRouterSync';
 import { DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
+import UserThemeProvider from 'themes/UserThemeProvider';
 
 const router = createHashRouter([
     {
@@ -35,11 +36,11 @@ export default function RootAppRouter({ history }: Readonly<{ history: History}>
  */
 function RootAppLayout() {
     return (
-        <>
+        <UserThemeProvider>
             <Backdrop />
             <AppHeader isHidden />
 
             <Outlet />
-        </>
+        </UserThemeProvider>
     );
 }

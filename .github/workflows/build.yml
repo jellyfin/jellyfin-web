@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
 
       - name: Setup node environment
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
@@ -46,27 +46,3 @@ jobs:
           name: jellyfin-web__prod
           path: |
             dist
-
-  pr_context:
-    name: Save PR context as artifact
-    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    needs:
-      - run-build-prod
-
-    steps:
-      - name: Save PR context
-        env:
-          PR_NUMBER: ${{ github.event.number }}
-          PR_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          echo $PR_NUMBER > PR_number
-          echo $PR_SHA > PR_sha
-
-      - name: Upload PR number as artifact
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
-        with:
-          name: PR_context
-          path: |
-            PR_number
-            PR_sha

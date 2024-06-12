@@ -1,38 +1,40 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import ServerConnections from 'components/ServerConnections';
+import { getItemQuery } from 'hooks/useItem';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playbackmanager';
 
-interface PlaybackInfo {
-    item: BaseItemDto;
-    context?: string;
-}
-
-function mirrorItem(info: PlaybackInfo, player?: unknown) {
-    const { item } = info;
-
-    playbackManager.displayContent({
-        ItemName: item.Name,
-        ItemId: item.Id,
-        ItemType: item.Type,
-        Context: info.context
-    }, player);
-}
-
-function mirrorIfEnabled(info: PlaybackInfo) {
-    if (info && playbackManager.enableDisplayMirroring()) {
+async function mirrorIfEnabled(serverId: string, itemId: string) {
+    if (playbackManager.enableDisplayMirroring()) {
         const playerInfo = playbackManager.getPlayerInfo();
 
         if (playerInfo && !playerInfo.isLocalPlayer && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-            mirrorItem(info, playbackManager.getCurrentPlayer());
+            const apiClient = ServerConnections.getApiClient(serverId);
+            const api = toApi(apiClient);
+            const userId = apiClient.getCurrentUserId();
+
+            try {
+                const item = await queryClient.fetchQuery(getItemQuery(
+                    api,
+                    userId,
+                    itemId));
+
+                playbackManager.displayContent({
+                    ItemName: item.Name,
+                    ItemId: item.Id,
+                    ItemType: item.Type
+                }, playbackManager.getCurrentPlayer());
+            } catch (err) {
+                console.error('[DisplayMirrorManager] failed to mirror item', err);
+            }
         }
     }
 }
 
 document.addEventListener('viewshow', e => {
-    const state = e.detail.state || {};
-    const { item } = state;
-
-    if (item?.ServerId) {
-        mirrorIfEnabled({ item });
+    const { serverId, id } = e.detail?.params || {};
+    if (serverId && id) {
+        void mirrorIfEnabled(serverId, id);
     }
 });

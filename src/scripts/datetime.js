@@ -49,7 +49,7 @@ export function parseISO8601Date(s, toLocal) {
             ms += offset;
         }
     } else if (toLocal === false) {
-        ms += new Date().getTimezoneOffset() * 60000;
+        ms += new Date(ms).getTimezoneOffset() * 60000;
     }
 
     return new Date(ms);

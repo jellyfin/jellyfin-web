@@ -12,6 +12,8 @@ import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import { getLocationSearch } from './url.ts';
+import { queryClient } from './query/queryClient';
+import viewContainer from 'components/viewContainer';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -19,7 +21,7 @@ export function getCurrentUser() {
 
 // TODO: investigate url prefix support for serverAddress function
 export async function serverAddress() {
-    const apiClient = window.ApiClient ?? ServerConnections.currentApiClient();
+    const apiClient = window.ApiClient;
 
     if (apiClient) {
         return Promise.resolve(apiClient.serverAddress());
@@ -98,6 +100,10 @@ export function onServerChanged(_userId, _accessToken, apiClient) {
 
 export function logout() {
     ServerConnections.logout().then(function () {
+        // Clear the query cache
+        queryClient.clear();
+        // Reset cached views
+        viewContainer.reset();
         webSettings.getMultiServer().then(multi => {
             multi ? navigate('selectserver.html') : navigate('login.html');
         });

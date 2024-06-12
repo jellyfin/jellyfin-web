@@ -60,6 +60,10 @@ const enablePlayedIndicator = (item: ItemDto) => {
     return itemHelper.canMarkPlayed(item);
 };
 
+const formatCountIndicator = (count: number) => {
+    return count >= 100 ? '99+' : count.toString();
+};
+
 const useIndicator = (item: ItemDto) => {
     const getMediaSourceIndicator = () => {
         const mediaSourceCount = item.MediaSourceCount ?? 0;
@@ -135,7 +139,7 @@ const useIndicator = (item: ItemDto) => {
         if (childCount > 1) {
             return (
                 <Box className='countIndicator indicator childCountIndicator'>
-                    {datetime.toLocaleString(item.ChildCount)}
+                    {formatCountIndicator(childCount)}
                 </Box>
             );
         }
@@ -149,7 +153,7 @@ const useIndicator = (item: ItemDto) => {
             if (userData.UnplayedItemCount) {
                 return (
                     <Box className='countIndicator indicator unplayedItemCount'>
-                        {datetime.toLocaleString(userData.UnplayedItemCount)}
+                        {formatCountIndicator(userData.UnplayedItemCount)}
                     </Box>
                 );
             }

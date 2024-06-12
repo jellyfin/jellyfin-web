@@ -285,7 +285,7 @@
     "CustomDlnaProfilesHelp": "Loo kohandatud profiil uue seadme jaoks või tühista süsteemi profiil.",
     "ConfigureDateAdded": "Seadista, kuidas lisamise kuupäev kuvatakse juhtpaneeli meediakogu seadetes",
     "Banner": "Bänner",
-    "AllowTonemappingHelp": "Värvikaardistus võib muuta video dünaamilise ulatuse HDR -st SDR -ks, säilitades samal ajal pildi üksikasjad ja värvid, mis on algse stseeni kujutamisel väga oluline teave. Praegu töötab ainult 10-bitise HDR10, HLG ja DoVi videotega. See vajab vastavat OpenGL või CUDA käitusaega.",
+    "AllowTonemappingHelp": "Värvikaardistus võib muuta video dünaamilise ulatuse HDR -st SDR -ks, säilitades samal ajal pildi üksikasjad ja värvid, mis on algse stseeni kujutamisel väga oluline teave. Praegu töötab ainult 10-bitise HDR10, HLG ja DoVi videotega. See vajab vastavat GPGPU käitusaega.",
     "HeaderDirectPlayProfile": "Otse-esituse profiil",
     "HeaderContainerProfileHelp": "Konteineri profiilid näitavad seadme piiranguid teatud vormingute esitamisel. Kui kehtib piirang, meedium transkooditakse, isegi kui vorming on seadistatud otse-esituseks.",
     "HeaderCodecProfileHelp": "Koodeki profiilid näitavad seadme piiranguid konkreetsete koodekite esitamisel. Kui kehtivad piirangud, transkooditakse meedia, isegi kui koodek on seadistatud otse-esituseks.",
@@ -1656,7 +1656,7 @@
     "Select": "Vali",
     "EnableIntelLowPowerH264HwEncoder": "Luba Intel Low-Power H.264 riistvara kodeerija",
     "HeaderDummyChapter": "Peatükipildid",
-    "LabelSegmentKeepSecondsHelp": "Aeg sekundites, mille jooksul segmente tuleks hoida, enne kui need üle kirjutatakse. Peab olema suurem kui „Drossel pärast”. Töötab ainult siis, kui segmendi kustutamine on lubatud.",
+    "LabelSegmentKeepSecondsHelp": "Aeg sekundites, kui kaua segmente tuleks hoida, peale seda kui need on kliendi poolt alla laetud. Töötab ainult siis, kui segmendi kustutamine on lubatud.",
     "DeinterlaceMethodHelp": "Valige lahtipõimitud sisu tarkvara ümberkodeerimisel kasutatav lahtipõimimis meetod. Kui riistvaralist lahtipõimimist toetav riistvarakiirendus on lubatud, kasutatakse selle sätte asemel riistvaralist lahtipõimijat.",
     "EnableRewatchingNextUp": "Luba uuesti vaatamine Järgmises",
     "IntelLowPowerEncHelp": "Madala võimsusega kodeering võib hoida tarbetut CPU-GPU sünkroonimist. Linuxis tuleb need keelata, kui i915 HuC püsivara pole konfigureeritud.",
@@ -1666,8 +1666,12 @@
     "PreferSystemNativeHwDecoder": "Eelistage OS-i DXVA või VA-API riistvaradekoodereid",
     "AllowCollectionManagement": "Luba sellel kasutajal kogusid hallata",
     "AllowSegmentDeletion": "Kustuta segmendid",
-    "AllowSegmentDeletionHelp": "Kustuta vanad segmendid pärast nende kliendile saatmist. See hoiab ära kogu ümberkodeeritud faili kettale salvestamise. Töötab ainult siis, kui drossel on lubatud. Kui teil on taasesitusprobleeme, lülitage see välja.",
+    "AllowSegmentDeletionHelp": "Kustuta vanad segmendid pärast nende alla laadimist kliendi poolt. See hoiab ära kogu ümberkodeeritud faili kettale salvestamise. Lülita see välja, kui taasesitusega tekib probleeme.",
     "LabelThrottleDelaySeconds": "Drossel pärast",
     "LabelThrottleDelaySecondsHelp": "Aeg sekundites, mille järel transkooder pidurdatakse. Peab olema piisavalt suur, et klient säilitaks terve puhvri. Töötab ainult siis, kui drossel on lubatud.",
-    "LabelSegmentKeepSeconds": "Aeg hoida segmente"
+    "LabelSegmentKeepSeconds": "Aeg hoida segmente",
+    "Author": "Autor",
+    "BlockContentWithTagsHelp": "Peida meedia, millel on vähemalt üks antud silt.",
+    "ButtonEditUser": "Redigeeri kasutajat",
+    "AllowSubtitleManagement": "Luba sellel kasutajal subtiitreid muuta"
 }

@@ -9,7 +9,7 @@ import 'abortcontroller-polyfill'; // requires fetch
 import 'resize-observer-polyfill';
 import './styles/site.scss';
 import React, { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Events from './utils/events.ts';
 import ServerConnections from './components/ServerConnections';
 import globalize from './scripts/globalize';
@@ -34,6 +34,7 @@ import './legacy/domParserTextHtml';
 import './legacy/focusPreventScroll';
 import './legacy/htmlMediaElement';
 import './legacy/keyboardEvent';
+import './legacy/patchHeaders';
 import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
@@ -153,17 +154,17 @@ async function onAppReady() {
         ServerConnections.currentApiClient()?.ensureWebSocket();
     });
 
-    const root = document.getElementById('reactRoot');
+    const container = document.getElementById('reactRoot');
     // Remove the splash logo
-    root.innerHTML = '';
+    container.innerHTML = '';
 
     await appRouter.start();
 
-    ReactDOM.render(
+    const root = createRoot(container);
+    root.render(
         <StrictMode>
             <RootApp history={history} />
-        </StrictMode>,
-        root
+        </StrictMode>
     );
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
@@ -193,21 +194,10 @@ async function onAppReady() {
         }
     }
 
+    // Apply custom CSS
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
-        const updateStyle = (css) => {
-            let style = document.querySelector('#cssBranding');
-            if (!style) {
-                // Inject the branding css as a dom element in body so it will take
-                // precedence over other stylesheets
-                style = document.createElement('style');
-                style.id = 'cssBranding';
-                document.body.appendChild(style);
-            }
-            style.textContent = css;
-        };
-
-        const style = fetch(apiClient.getUrl('Branding/Css'))
+        const brandingCss = fetch(apiClient.getUrl('Branding/Css'))
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error(response.status + ' ' + response.statusText);
@@ -219,41 +209,33 @@ async function onAppReady() {
             });
 
         const handleStyleChange = async () => {
-            if (currentSettings.disableCustomCss()) {
-                updateStyle('');
-            } else {
-                updateStyle(await style);
+            let style = document.querySelector('#cssBranding');
+            if (!style) {
+                // Inject the branding css as a dom element in body so it will take
+                // precedence over other stylesheets
+                style = document.createElement('style');
+                style.id = 'cssBranding';
+                document.body.appendChild(style);
             }
 
-            const localCss = currentSettings.customCss();
-            let localStyle = document.querySelector('#localCssBranding');
-            if (localCss) {
-                if (!localStyle) {
-                    // Inject the branding css as a dom element in body so it will take
-                    // precedence over other stylesheets
-                    localStyle = document.createElement('style');
-                    localStyle.id = 'localCssBranding';
-                    document.body.appendChild(localStyle);
-                }
-                localStyle.textContent = localCss;
-            } else if (localStyle) {
-                localStyle.textContent = '';
-            }
+            const css = [];
+            // Only add branding CSS when enabled
+            if (!currentSettings.disableCustomCss()) css.push(await brandingCss);
+            // Always add user CSS
+            css.push(currentSettings.customCss());
+
+            style.textContent = css.join('\n');
         };
 
-        const handleUserChange = () => {
-            handleStyleChange();
-        };
-
-        Events.on(ServerConnections, 'localusersignedin', handleUserChange);
-        Events.on(ServerConnections, 'localusersignedout', handleUserChange);
+        Events.on(ServerConnections, 'localusersignedin', handleStyleChange);
+        Events.on(ServerConnections, 'localusersignedout', handleStyleChange);
         Events.on(currentSettings, 'change', (e, prop) => {
             if (prop == 'disableCustomCss' || prop == 'customCss') {
                 handleStyleChange();
             }
         });
 
-        style.then(updateStyle);
+        handleStyleChange();
     }
 }
 

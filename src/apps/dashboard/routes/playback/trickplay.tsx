@@ -1,5 +1,7 @@
-import type { ProcessPriorityClass, ServerConfiguration, TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client';
-import React, { type FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
+import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
+import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
+import React, { type FC, useCallback, useEffect, useRef } from 'react';
 
 import globalize from '../../../../scripts/globalize';
 import Page from '../../../../components/Page';
@@ -17,10 +19,10 @@ function onSaveComplete() {
     toast(globalize.translate('SettingsSaved'));
 }
 
-const PlaybackTrickplay: FunctionComponent = () => {
+const PlaybackTrickplay: FC = () => {
     const element = useRef<HTMLDivElement>(null);
 
-    const loadConfig = useCallback((config) => {
+    const loadConfig = useCallback((config: ServerConfiguration) => {
         const page = element.current;
         const options = config.TrickplayOptions;
 
@@ -29,17 +31,17 @@ const PlaybackTrickplay: FunctionComponent = () => {
             return;
         }
 
-        (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options.EnableHwAcceleration;
-        (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options.EnableHwEncoding;
-        (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = options.ScanBehavior;
-        (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = options.ProcessPriority;
-        (page.querySelector('#txtInterval') as HTMLInputElement).value = options.Interval;
-        (page.querySelector('#txtWidthResolutions') as HTMLInputElement).value = options.WidthResolutions.join(',');
-        (page.querySelector('#txtTileWidth') as HTMLInputElement).value = options.TileWidth;
-        (page.querySelector('#txtTileHeight') as HTMLInputElement).value = options.TileHeight;
-        (page.querySelector('#txtQscale') as HTMLInputElement).value = options.Qscale;
-        (page.querySelector('#txtJpegQuality') as HTMLInputElement).value = options.JpegQuality;
-        (page.querySelector('#txtProcessThreads') as HTMLInputElement).value = options.ProcessThreads;
+        (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options?.EnableHwAcceleration || false;
+        (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options?.EnableHwEncoding || false;
+        (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = (options?.ScanBehavior || TrickplayScanBehavior.NonBlocking);
+        (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = (options?.ProcessPriority || ProcessPriorityClass.Normal);
+        (page.querySelector('#txtInterval') as HTMLInputElement).value = options?.Interval?.toString() || '10000';
+        (page.querySelector('#txtWidthResolutions') as HTMLInputElement).value = options?.WidthResolutions?.join(',') || '';
+        (page.querySelector('#txtTileWidth') as HTMLInputElement).value = options?.TileWidth?.toString() || '10';
+        (page.querySelector('#txtTileHeight') as HTMLInputElement).value = options?.TileHeight?.toString() || '10';
+        (page.querySelector('#txtQscale') as HTMLInputElement).value = options?.Qscale?.toString() || '4';
+        (page.querySelector('#txtJpegQuality') as HTMLInputElement).value = options?.JpegQuality?.toString() || '90';
+        (page.querySelector('#txtProcessThreads') as HTMLInputElement).value = options?.ProcessThreads?.toString() || '1';
 
         loading.hide();
     }, []);

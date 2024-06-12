@@ -1645,5 +1645,6 @@
     "LabelSelectAudioNormalization": "Normalización de Audio",
     "PasswordRequiredForAdmin": "Una contraseña es requerida para las cuentas de administrador.",
     "MessageRepositoryInstallDisclaimer": "ATENCION: Instalar un repositorio de plugins de terceros conlleva riesgos. Puede contener código malicioso o inestable, y puede cambiar en cualquier momento. Instala repositorios solo de autores en los que confíes.",
-    "MessageUnauthorizedUser": "No estás autorizado para acceder al server en este momento. Por favor contacta al administrador del servidor para mas información."
+    "MessageUnauthorizedUser": "No estás autorizado para acceder al server en este momento. Por favor contacta al administrador del servidor para mas información.",
+    "AirPlay": "Salida en antena"
 }

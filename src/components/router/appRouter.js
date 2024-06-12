@@ -1,3 +1,4 @@
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { Action, createHashHistory } from 'history';
 
 import { appHost } from '../apphost';
@@ -9,8 +10,11 @@ import loading from '../loading/loading';
 import viewManager from '../viewManager/viewManager';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
-import { ConnectionState } from '../../utils/jellyfin-apiclient/ConnectionState.ts';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+
+import { queryClient } from 'utils/query/queryClient';
+import { getItemQuery } from 'hooks/useItem';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { ConnectionState } from 'utils/jellyfin-apiclient/ConnectionState.ts';
 
 export const history = createHashHistory();
 
@@ -183,18 +187,26 @@ class AppRouter {
 
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
-        if (typeof (item) === 'string') {
+        if (typeof item === 'string') {
             const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
-            apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
-                this.showItem(itemObject, options);
-            });
+            const api = toApi(apiClient);
+            const userId = apiClient.getCurrentUserId();
+
+            queryClient
+                .fetchQuery(getItemQuery(api, userId, item))
+                .then(itemObject => {
+                    this.showItem(itemObject, options);
+                })
+                .catch(err => {
+                    console.error('[AppRouter] Failed to fetch item', err);
+                });
         } else {
             if (arguments.length === 2) {
                 options = arguments[1];
             }
 
             const url = this.getRouteUrl(item, options);
-            this.show(url, { item });
+            this.show(url);
         }
     }
 

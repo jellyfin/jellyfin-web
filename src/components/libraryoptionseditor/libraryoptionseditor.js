@@ -432,6 +432,12 @@ export function setContentType(parent, contentType) {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
     }
 
+    if (contentType === 'music') {
+        parent.querySelector('.lyricSettingsSection').classList.remove('hide');
+    } else {
+        parent.querySelector('.lyricSettingsSection').classList.add('hide');
+    }
+
     parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
 
     return populateMetadataSettings(parent, contentType);
@@ -536,6 +542,7 @@ export function getLibraryOptions(parent) {
         SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked,
         SkipSubtitlesIfAudioTrackMatches: parent.querySelector('#chkSkipIfAudioTrackPresent').checked,
         SaveSubtitlesWithMedia: parent.querySelector('#chkSaveSubtitlesLocally').checked,
+        SaveLyricsWithMedia: parent.querySelector('#chkSaveLyricsLocally').checked,
         RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
         AutomaticallyAddToCollection: parent.querySelector('#chkAutomaticallyAddToCollection').checked,
         MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
@@ -596,6 +603,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
     parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
     parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
+    parent.querySelector('#chkSaveLyricsLocally').checked = options.SaveLyricsWithMedia;
     parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
     parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
     parent.querySelector('#chkAutomaticallyAddToCollection').checked = options.AutomaticallyAddToCollection;
