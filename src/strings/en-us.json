@@ -46,7 +46,7 @@
     "AllowTonemappingHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only with 10bit HDR10, HLG and DoVi videos. This requires the corresponding GPGPU runtime.",
     "AlwaysPlaySubtitles": "Always Play",
     "AlwaysPlaySubtitlesHelp": "Subtitles matching the language preference will be loaded regardless of the audio language.",
-    "AndOtherArtists": "and {0} other artists.",
+    "AndOtherArtists": "{0} and {1} other artists.",
     "AnyLanguage": "Any Language",
     "Anytime": "Anytime",
     "ApiKeysCaption": "List of the currently enabled API keys",
