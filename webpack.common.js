@@ -42,8 +42,7 @@ const config = {
             '@mui/private-theming': '@mui/private-theming/legacy',
             '@mui/styled-engine': '@mui/styled-engine/legacy',
             '@mui/system': '@mui/system/legacy',
-            '@mui/utils': '@mui/utils/legacy',
-            '@mui/x-data-grid': '@mui/x-data-grid/legacy'
+            '@mui/utils': '@mui/utils/legacy'
         }
     },
     plugins: [
@@ -176,23 +175,21 @@ const config = {
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
+                    path.resolve(__dirname, 'node_modules/@mui/x-data-grid'),
                     path.resolve(__dirname, 'node_modules/@react-hook/latest'),
                     path.resolve(__dirname, 'node_modules/@react-hook/passive-layout-effect'),
                     path.resolve(__dirname, 'node_modules/@react-hook/resize-observer'),
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/match-sorter-utils'),
                     path.resolve(__dirname, 'node_modules/@tanstack/query-core'),
                     path.resolve(__dirname, 'node_modules/@tanstack/react-query'),
                     path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
                     path.resolve(__dirname, 'node_modules/axios'),
                     path.resolve(__dirname, 'node_modules/blurhash'),
                     path.resolve(__dirname, 'node_modules/compare-versions'),
-                    path.resolve(__dirname, 'node_modules/copy-anything'),
                     path.resolve(__dirname, 'node_modules/date-fns'),
                     path.resolve(__dirname, 'node_modules/dom7'),
                     path.resolve(__dirname, 'node_modules/epubjs'),
                     path.resolve(__dirname, 'node_modules/flv.js'),
-                    path.resolve(__dirname, 'node_modules/is-what'),
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
                     path.resolve(__dirname, 'node_modules/linkify-it'),
                     path.resolve(__dirname, 'node_modules/markdown-it'),

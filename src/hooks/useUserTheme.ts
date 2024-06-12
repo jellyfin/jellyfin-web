@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
-import Events from 'utils/events';
+import Events, { type Event } from 'utils/events';
 
 import { useApi } from './useApi';
 import { useThemes } from './useThemes';
@@ -30,7 +30,7 @@ export function useUserTheme() {
         if (userDashboardTheme) setDashboardTheme(userDashboardTheme);
     }, []);
 
-    const onUserSettingsChange = useCallback((_e, name?: string) => {
+    const onUserSettingsChange = useCallback((_e: Event, name?: string) => {
         if (name && THEME_FIELD_NAMES.includes(name)) {
             updateThemesFromSettings();
         }

@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../scripts/globalize';
@@ -17,16 +18,16 @@ type userInput = {
 };
 
 type ItemsArr = {
-    Name?: string;
+    Name?: string | null;
     Id?: string;
 };
 
-const UserNew: FunctionComponent = () => {
+const UserNew = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const element = useRef<HTMLDivElement>(null);
 
-    const getItemsResult = (items: ItemsArr[]) => {
+    const getItemsResult = (items: BaseItemDto[]) => {
         return items.map(item =>
             ({
                 Id: item.Id,
@@ -35,7 +36,7 @@ const UserNew: FunctionComponent = () => {
         );
     };
 
-    const loadMediaFolders = useCallback((result) => {
+    const loadMediaFolders = useCallback((result: BaseItemDto[]) => {
         const page = element.current;
 
         if (!page) {
@@ -53,7 +54,7 @@ const UserNew: FunctionComponent = () => {
         (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked = false;
     }, []);
 
-    const loadChannels = useCallback((result) => {
+    const loadChannels = useCallback((result: BaseItemDto[]) => {
         const page = element.current;
 
         if (!page) {

@@ -1,3 +1,4 @@
+import { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, useCallback, useEffect, useState } from 'react';
 import Events, { Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
@@ -50,7 +51,7 @@ interface RefreshIndicatorProps {
 const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
     const [progress, setProgress] = useState(item.RefreshProgress || 0);
 
-    const onRefreshProgress = useCallback((_e: Event, apiClient, info) => {
+    const onRefreshProgress = useCallback((_e: Event, _apiClient: ApiClient, info: { ItemId: string | null | undefined; Progress: string; }) => {
         if (info.ItemId === item?.Id) {
             setProgress(parseFloat(info.Progress));
         }
