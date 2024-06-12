@@ -401,7 +401,7 @@ function getArtistLinksHtml(artists, serverId, context) {
     let fullHtml = html.join(' / ');
 
     if (numberOfArtists > 10) {
-        fullHtml += globalize.translate('AndOtherArtists', numberOfArtists - 10);
+        fullHtml = globalize.translate('AndOtherArtists', fullHtml, numberOfArtists - 10);
     }
 
     return fullHtml;
