@@ -1342,6 +1342,7 @@ export class HtmlVideoPlayer {
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
+                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000
             };
             this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
