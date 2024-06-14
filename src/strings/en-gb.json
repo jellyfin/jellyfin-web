@@ -1894,5 +1894,8 @@
     "PlaylistPublicDescription": "Allow this playlist to be viewed by any logged in user.",
     "HeaderLyricDownloads": "Lyric Downloads",
     "SaveLyricsIntoMediaFolders": "Save lyrics into media folders",
-    "SaveLyricsIntoMediaFoldersHelp": "Storing lyrics next to audio files will allow them to be more easily managed."
+    "SaveLyricsIntoMediaFoldersHelp": "Storing lyrics next to audio files will allow them to be more easily managed.",
+    "Alternate": "Alternate",
+    "AlternateDVD": "Alternate DVD",
+    "Regional": "Regional"
 }
