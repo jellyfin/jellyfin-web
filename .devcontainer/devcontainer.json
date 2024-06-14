@@ -5,15 +5,19 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
 
+	// Set workspace path for the dev container. This is the root of the project in the container.
+  	"workspaceFolder": "/workspace",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [ 3000 ],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	//https://github.com/microsoft/vscode-dev-containers/issues/559
-	"postCreateCommand": "source $NVM_DIR/nvm.sh && nvm install 20"
+	"postCreateCommand": "source $NVM_DIR/nvm.sh && nvm install 20",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
