@@ -13,11 +13,11 @@
 	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [ 3000 ],
+	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	//https://github.com/microsoft/vscode-dev-containers/issues/559
-	"postCreateCommand": "source $NVM_DIR/nvm.sh && nvm install 20",
+	"postCreateCommand": "npm install && bash"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
