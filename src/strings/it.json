@@ -1006,7 +1006,7 @@
     "SmallCaps": "Maiuscoletto",
     "Smart": "Intelligente",
     "SmartSubtitlesHelp": "I sottotitoli che coincidono con la lingua nelle preferenze verranno caricati quando l'audio sarà in una lingua straniera.",
-    "Songs": "Canzoni",
+    "Songs": "Brani",
     "Sort": "Ordina",
     "SortByValue": "Ordina per {0}",
     "SortChannelsBy": "Ordina canali per",
@@ -1829,7 +1829,7 @@
     "LabelAllowContentWithTags": "Consentire elementi con tag",
     "Trickplay": "Trickplay",
     "LabelProcessPriorityHelp": "L'impostazione di un valore più basso o più alto determina il modo in cui la CPU dà priorità al processo di generazione di ffmpeg Trickplay rispetto ad altri processi. Se si nota un rallentamento durante la generazione di immagini trickplay ma non si vuole interrompere completamente la loro generazione, provare a ridurre questo parametro e il numero di thread.",
-    "Lyric": "Lyric",
+    "Lyric": "Testo",
     "PlaybackError.NotAllowed": "La riproduzione di questo file non è consentita.",
     "LabelScanBehaviorHelp": "Il comportamento predefinito è quello non bloccante, che aggiunge i media alla libreria prima che venga generato il Trickplay. Il blocco assicura che i file di trickplay siano generati prima che i media siano aggiunti alla libreria, ma rende le scansioni significativamente più lunghe.",
     "AllowContentWithTagsHelp": "Mostra solo i media con almeno uno dei tag specificati.",
@@ -1888,5 +1888,14 @@
     "HeaderLyricDownloads": "Downloads Liriche",
     "LibraryScanFanoutConcurrencyHelp": "Massimo numero di task paralleli durante la scansione delle librerie. Se impostato a 0 sarà utilizzato il numero di core del sistema. ATTENZIONE: impostare un numero alto potrebbe causare problemi sui network filesystem. In caso di problemi ridurre il numero.",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Codec audio preferito per la transcodica durante la riproduzione video",
-    "LibraryScanFanoutConcurrency": "Massimo numero di task durante la scansione"
+    "LibraryScanFanoutConcurrency": "Massimo numero di task durante la scansione",
+    "Colorist": "Colorista",
+    "CoverArtist": "Artista della copertina",
+    "Alternate": "Alternativo",
+    "AlternateDVD": "DVD alternativo",
+    "Inker": "Inchiostratore",
+    "Regional": "Regionale",
+    "SaveLyricsIntoMediaFoldersHelp": "La memorizzazione dei testi accanto ai file audio consente di gestirli più facilmente.",
+    "Penciller": "Disegnatore",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Selezionare il codec audio preferito per la transcodifica dei contenuti video. Se il codec preferito non è supportato, il server utilizzerà il migliore codec successivo disponibile."
 }
