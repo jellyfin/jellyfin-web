@@ -43,7 +43,7 @@ const KeyNames = {
 /**
  * Keys used for keyboard navigation.
  */
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'];
 
 /**
  * Keys used for media playback control.
@@ -159,6 +159,13 @@ export function enable() {
                 break;
             case 'ArrowDown':
                 inputManager.handleCommand('down');
+                break;
+
+            case 'PageUp':
+                inputManager.handleCommand('nextchapter');
+                break;
+            case 'PageDown':
+                inputManager.handleCommand('previouschapter');
                 break;
 
             case 'Back':
