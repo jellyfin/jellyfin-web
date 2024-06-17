@@ -210,10 +210,6 @@ export class HtmlVideoPlayer {
      */
     #audioTrackIndexToSetOnPlaying;
     /**
-     * @type {null | undefined}
-     */
-    #currentClock;
-    /**
      * @type {any | null | undefined}
      */
     #currentAssRenderer;
@@ -1171,8 +1167,6 @@ export class HtmlVideoPlayer {
         this.destroyNativeTracks(videoElement, targetTrackIndex);
         this.destroyStoredTrackInfo(targetTrackIndex);
 
-        this.#currentClock = null;
-
         const octopus = this.#currentAssRenderer;
         if (octopus) {
             octopus.dispose();
@@ -1500,16 +1494,6 @@ export class HtmlVideoPlayer {
          * @private
          */
     updateSubtitleText(timeMs) {
-        const clock = this.#currentClock;
-        if (clock) {
-            try {
-                clock.seek(timeMs / 1000);
-            } catch (err) {
-                console.error(`error in libjass: ${err}`);
-            }
-            return;
-        }
-
         const allTrackEvents = [this.#currentTrackEvents, this.#currentSecondaryTrackEvents];
         const subtitleTextElements = [this.#videoSubtitlesElem, this.#videoSecondarySubtitlesElem];
 
