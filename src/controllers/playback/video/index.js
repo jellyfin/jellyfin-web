@@ -1382,7 +1382,7 @@ export default function (view) {
 
         // Create bubble elements if they don't already exist
         if (chapterThumbContainer) {
-            chapterThumb = chapterThumbContainer.querySelector('.chapterThumb');
+            chapterThumb = chapterThumbContainer.querySelector('.chapterThumbWrapper');
             chapterThumbText = chapterThumbContainer.querySelector('.chapterThumbText');
         } else {
             doFullUpdate = true;
@@ -1391,22 +1391,12 @@ export default function (view) {
             chapterThumbContainer.classList.add('chapterThumbContainer');
             chapterThumbContainer.style.overflow = 'hidden';
 
-            const chapterThumbWrapper = document.createElement('div');
-            chapterThumbWrapper.classList.add('chapterThumbWrapper');
-            chapterThumbWrapper.style.overflow = 'hidden';
-            chapterThumbWrapper.style.position = 'relative';
-            chapterThumbWrapper.style.width = trickplayInfo.Width + 'px';
-            chapterThumbWrapper.style.height = trickplayInfo.Height + 'px';
-            chapterThumbContainer.appendChild(chapterThumbWrapper);
-
-            chapterThumb = document.createElement('img');
-            chapterThumb.classList.add('chapterThumb');
-            chapterThumb.style.position = 'absolute';
-            chapterThumb.style.width = 'unset';
-            chapterThumb.style.minWidth = 'unset';
-            chapterThumb.style.height = 'unset';
-            chapterThumb.style.minHeight = 'unset';
-            chapterThumbWrapper.appendChild(chapterThumb);
+            chapterThumb = document.createElement('div');
+            chapterThumb.classList.add('chapterThumbWrapper');
+            chapterThumb.style.overflow = 'hidden';
+            chapterThumb.style.width = trickplayInfo.Width + 'px';
+            chapterThumb.style.height = trickplayInfo.Height + 'px';
+            chapterThumbContainer.appendChild(chapterThumb);
 
             const chapterThumbTextContainer = document.createElement('div');
             chapterThumbTextContainer.classList.add('chapterThumbTextContainer');
@@ -1435,9 +1425,9 @@ export default function (view) {
             MediaSourceId: mediaSourceId
         });
 
-        if (chapterThumb.src != imgSrc) chapterThumb.src = imgSrc;
-        chapterThumb.style.left = offsetX + 'px';
-        chapterThumb.style.top = offsetY + 'px';
+        chapterThumb.style.backgroundImage = `url('${imgSrc}')`;
+        chapterThumb.style.backgroundPositionX = offsetX + 'px';
+        chapterThumb.style.backgroundPositionY = offsetY + 'px';
 
         chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
 
