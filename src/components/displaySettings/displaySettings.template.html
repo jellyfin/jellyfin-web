@@ -263,6 +263,24 @@
         <div class="fieldDescription checkboxFieldDescription">${EnableThemeVideosHelp}</div>
     </div>
 
+    <div class="selectContainer themeMediaChecked fldThemeMediaSortBy hide">
+        <select is="emby-select" id="selectThemeMediaSortBy" label="${ThemeMediaSortBy}">
+            <option value="SortName">${SortName}</option>
+            <option value="Random">${OptionRandom}</option>
+        </select>
+        <div class="fieldDescription">${ThemeMediaSortByHelp}</div>
+        <div class="fieldDescription">${ThemeMediaFolderUsageHelp}</div>
+    </div>
+
+    <div class="selectContainer themeMediaChecked fldThemeMediaSortOrder hide">
+        <select is="emby-select" id="selectThemeMediaSortOrder" label="${ThemeMediaSortOrder}">
+            <option value="Ascending">${Ascending}</option>
+            <option value="Descending">${Descending}</option>
+        </select>
+        <div class="fieldDescription">${ThemeMediaSortOrderHelp}</div>
+        <div class="fieldDescription">${ThemeMediaFolderUsageHelp}</div>
+    </div>
+
     <div class="checkboxContainer checkboxContainer-withDescription fldDisplayMissingEpisodes hide">
         <label>
             <input type="checkbox" is="emby-checkbox" class="chkDisplayMissingEpisodes" />
