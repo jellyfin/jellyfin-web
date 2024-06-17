@@ -88,6 +88,7 @@
 - [David Angel](https://github.com/davidangel)
 - [Pithaya](https://github.com/Pithaya)
 - [Peter Santos](https://github.com/prsantos-com)
+- [ItsAllAboutTheCode ](https://github.com/ItsAllAboutTheCode)
 
 ## Emby Contributors
 

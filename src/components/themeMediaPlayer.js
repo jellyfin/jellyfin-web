@@ -10,6 +10,8 @@ import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
+import { ItemSortBy, SortOrder } from '@jellyfin/sdk/lib/generated-client';
+import { randomInt } from 'utils/number';
 
 let currentOwnerId;
 let currentThemeIds = [];
@@ -101,8 +103,25 @@ async function loadThemeMedia(serverId, itemId) {
 
         const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
 
+        let themeItems = result.Items;
+
+        if (userSettings.themeMediaSortBy() == ItemSortBy.Random) {
+            // Shuffle array using Durstenfeld algorithm https://web.archive.org/web/20240601200838/https://dl.acm.org/doi/pdf/10.1145/364520.364540#.pdf
+            const toShuffled = (array) => {
+                for (let i = array.length; i > 1; --i) {
+                    const lastIndex = i - 1;
+                    const randIndex = randomInt(0, lastIndex);
+                    // swap the elements in the randomly selected index and the last index
+                    [ array[randIndex], array[lastIndex] ] = [array[lastIndex], array[randIndex] ];
+                }
+            };
+            toShuffled(themeItems);
+        } else if (userSettings.themeMediaSortOrder() == SortOrder.Descending) {
+            themeItems = themeItems.reverse();
+        }
+
         if (result.OwnerId !== currentOwnerId) {
-            playThemeMedia(result.Items, result.OwnerId);
+            playThemeMedia(themeItems, result.OwnerId);
         }
     } catch (err) {
         console.error('[ThemeMediaPlayer] failed to load theme media', err);
