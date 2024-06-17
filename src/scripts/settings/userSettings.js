@@ -247,20 +247,20 @@ export class UserSettings {
     /**
      * Get or set 'Theme Media Sort By'' state.
      * @param {string|undefined} [val] - Enumeration to set  'Theme Media Sort By' or undefined.
-     * @return {string} 'Theme Media Sort By'.
+     * @return {string} 'Theme Media Sort By' state or 'Random' if not set.
      */
     themeMediaSortBy(val) {
         if (val !== undefined) {
             return this.set('themeMediaSortBy', val.toString(), false);
         }
 
-        return this.get('themeMediaSortBy', false) || ItemSortBy.SortName;
+        return this.get('themeMediaSortBy', false) || ItemSortBy.Random;
     }
 
     /**
      * Get or set 'Theme Media Sort Order'' state.
      * @param {string|undefined} [val] - Enumeration to set  'Theme Media Sort Order' or undefined.
-     * @return {string} 'Theme Media Sort Order'.
+     * @return {string} 'Theme Media Sort Order' or 'Ascending' if not set.
      */
     themeMediaSortOrder(val) {
         if (val !== undefined) {

@@ -230,11 +230,7 @@ function embed(options, self) {
         const themeMediaElements = options.element.querySelectorAll('.themeMediaChecked');
         const themeMediaEnabled = options.element.querySelector('#chkThemeSong').checked || options.element.querySelector('#chkThemeVideo').checked;
         for (const themeMediaElement of themeMediaElements) {
-            if (themeMediaEnabled) {
-                themeMediaElement.classList.remove('hide');
-            } else {
-                themeMediaElement.classList.add('hide');
-            }
+            themeMediaElement.classList.toggle('hide', !themeMediaEnabled);
         }
     };
 
