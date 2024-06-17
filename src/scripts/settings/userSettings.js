@@ -2,6 +2,7 @@ import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 import browser from '../browser';
 import appSettings from './appSettings';
+import { ItemSortBy, SortOrder } from '@jellyfin/sdk/lib/generated-client';
 
 function onSaveTimeout() {
     const self = this;
@@ -241,6 +242,32 @@ export class UserSettings {
         }
 
         return toBoolean(this.get('enableThemeVideos', false), false);
+    }
+
+    /**
+     * Get or set 'Theme Media Sort By'' state.
+     * @param {string|undefined} [val] - Enumeration to set  'Theme Media Sort By' or undefined.
+     * @return {string} 'Theme Media Sort By'.
+     */
+    themeMediaSortBy(val) {
+        if (val !== undefined) {
+            return this.set('themeMediaSortBy', val.toString(), false);
+        }
+
+        return this.get('themeMediaSortBy', false) || ItemSortBy.SortName;
+    }
+
+    /**
+     * Get or set 'Theme Media Sort Order'' state.
+     * @param {string|undefined} [val] - Enumeration to set  'Theme Media Sort Order' or undefined.
+     * @return {string} 'Theme Media Sort Order'.
+     */
+    themeMediaSortOrder(val) {
+        if (val !== undefined) {
+            return this.set('themeMediaSortOrder', val.toString(), false);
+        }
+
+        return this.get('themeMediaSortOrder', false) || SortOrder.Ascending;
     }
 
     /**
@@ -709,3 +736,5 @@ export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSet
 export const getSavedView = currentSettings.getSavedView.bind(currentSettings);
 export const saveViewSetting = currentSettings.saveViewSetting.bind(currentSettings);
 export const getSortValuesLegacy = currentSettings.getSortValuesLegacy.bind(currentSettings);
+export const themeMediaSortBy = currentSettings.themeMediaSortBy.bind(currentSettings);
+export const themeMediaSortOrder = currentSettings.themeMediaSortOrder.bind(currentSettings);
