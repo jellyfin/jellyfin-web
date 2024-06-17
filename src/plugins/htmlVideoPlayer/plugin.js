@@ -862,6 +862,8 @@ export class HtmlVideoPlayer {
             videoElement.parentNode.removeChild(videoElement);
         }
 
+        this._currentAspectRatio = null;
+
         const dlg = this.#videoDialog;
         if (dlg) {
             this.#videoDialog = null;
@@ -1170,7 +1172,6 @@ export class HtmlVideoPlayer {
         this.destroyStoredTrackInfo(targetTrackIndex);
 
         this.#currentClock = null;
-        this._currentAspectRatio = null;
 
         const octopus = this.#currentAssRenderer;
         if (octopus) {
