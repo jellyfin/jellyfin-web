@@ -6,6 +6,7 @@ import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import Events from '../../utils/events.ts';
+import { getFilterStatus, setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -67,6 +68,9 @@ export default function (view, params, tabContent, options) {
         loading.show();
         isLoading = true;
         const query = getQuery();
+        const hasFilters = getFilterStatus(query);
+        setFilterStatus(tabContent, hasFilters);
+
         const promise = options.mode == 'albumartists' ?
             ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query) :
             ApiClient.getArtists(ApiClient.getCurrentUserId(), query);

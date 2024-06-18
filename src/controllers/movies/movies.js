@@ -7,6 +7,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import { playbackManager } from '../../components/playback/playbackmanager';
+import { getFilterStatus, setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -39,6 +40,9 @@ export default function (view, params, tabContent, options) {
     }
 
     const afterRefresh = (result) => {
+        const hasFilters = getFilterStatus(query);
+        setFilterStatus(tabContent, hasFilters);
+
         function onNextPageClick() {
             if (isLoading) {
                 return;
