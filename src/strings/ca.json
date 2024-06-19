@@ -1890,5 +1890,8 @@
     "LibraryScanFanoutConcurrency": "Límit de tasques d'exploració paral·leles per a les biblioteques",
     "Penciller": "Llapisista",
     "Inker": "Tintador",
-    "Letterer": "Retolador"
+    "Letterer": "Retolador",
+    "Alternate": "Alternar",
+    "AlternateDVD": "DVD alternatiu",
+    "Regional": "Regional"
 }
