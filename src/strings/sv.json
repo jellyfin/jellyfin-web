@@ -1889,5 +1889,8 @@
     "LabelQscaleHelp": "Kvalitetsskalan för bilder som produceras av FFmpeg, där 2 är högsta kvalitet och 31 är lägsta kvalitet.",
     "LabelImageIntervalHelp": "Intervall av tid (ms) mellan varje ny trickplay-bild.",
     "LabelQscale": "qscale",
-    "HeaderLyricDownloads": "Låttextnedladdningar"
+    "HeaderLyricDownloads": "Låttextnedladdningar",
+    "AlternateDVD": "Växla DVD",
+    "Regional": "Regional",
+    "Alternate": "Växla"
 }
