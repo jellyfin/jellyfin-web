@@ -2,7 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client/models/timer-info-dto';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { DisplayPreferencesApiGetDisplayPreferencesRequest, ImageApiGetItemImageRequest, ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest, UserViewsApiGetUserViewsRequest } from '@jellyfin/sdk/lib/generated-client';
+import { DisplayPreferencesApiGetDisplayPreferencesRequest, ImageApiGetItemImageRequest, ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
 import { getDisplayPreferencesApi } from '@jellyfin/sdk/lib/utils/api/display-preferences-api';
 
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
@@ -848,6 +848,19 @@ const fetchGetSectionItems = async (
                 ).data;
                 break;
             }
+            case SectionApiMethod.UserViews: {
+                response = (
+                    await getUserViewsApi(api).getUserViews(
+                        {
+                            userId: user.Id
+                        },
+                        {
+                            signal: options?.signal
+                        }
+                    )
+                ).data.Items;
+                break;
+            }
             default: {
                 response = (
                     await getItemsApi(api).getItems(
@@ -884,7 +897,7 @@ const getSectionsWithItems = async (
     options?: AxiosRequestConfig
 ) => {
     if (sectionType) {
-        sections = sections.filter((section) => sectionType.includes(section.type));
+        sections = sections .filter((section) => sectionType.includes(section.type));
     }
 
     const updatedSectionWithItems: SectionWithItems[] = [];
@@ -943,40 +956,6 @@ export const useGetHomeSectionsWithItems = (
         queryKey: ['HomeSections', parentId, { homeSectionType }],
         queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, homeSectionType, { signal }),
         enabled: enabled
-    });
-};
-
-const fetchGetUserViews = async (
-    currentApi: JellyfinApiContext,
-    parametersOptions?: UserViewsApiGetUserViewsRequest,
-    options?: AxiosRequestConfig
-) => {
-    const { api, user } = currentApi;
-    if (api && user?.Id) {
-        const response = await getUserViewsApi(api).getUserViews(
-            {
-                userId: user.Id,
-                ...parametersOptions
-            },
-            {
-                signal: options?.signal
-            }
-        );
-        return response.data;
-    }
-};
-
-export const useGetUserViews = (parametersOptions?: UserViewsApiGetUserViewsRequest) => {
-    const currentApi = useApi();
-    return useQuery({
-        queryKey: [
-            'UserViews',
-            {
-                ...parametersOptions
-            }
-        ],
-        queryFn: ({ signal }) =>
-            fetchGetUserViews(currentApi, parametersOptions, { signal })
     });
 };
 

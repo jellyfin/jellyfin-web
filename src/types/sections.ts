@@ -1,12 +1,22 @@
-import { BaseItemKind, SortOrder } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind, ImageType, ItemFields, MediaType, SortOrder } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { CardOptions } from './cardOptions';
 import { SectionsView } from './libraryTabContent';
+import { HomeSectionType } from './homeSectionType';
 
 export interface ParametersOptions {
     sortBy?: ItemSortBy[];
     sortOrder?: SortOrder[];
     includeItemTypes?: BaseItemKind[];
+    mediaTypes?: MediaType[];
+    fields?: ItemFields[];
+    enableImageTypes?: ImageType[];
+    recursive?: boolean;
+    enableTotalRecordCount?: boolean;
+    disableFirstEpisode?: boolean;
+    nextUpDateCutoff?: string;
+    enableResumable?: boolean;
+    enableRewatching?: boolean;
     isAiring?: boolean;
     hasAired?: boolean;
     isMovie?: boolean;
@@ -22,39 +32,41 @@ export interface ParametersOptions {
 }
 
 export enum SectionApiMethod {
-    ResumeItems = 'resumeItems',
-    LatestMedia = 'latestMedia',
-    NextUp = 'nextUp',
-    RecommendedPrograms = 'RecommendedPrograms',
-    LiveTvPrograms = 'liveTvPrograms',
-    Recordings = 'Recordings',
-    RecordingFolders = 'RecordingFolders',
+    ResumeItems = 'resumeitems',
+    LatestMedia = 'latestmedia',
+    NextUp = 'nextup',
+    RecommendedPrograms = 'recommendedprograms',
+    LiveTvPrograms = 'livetvprograms',
+    Recordings = 'recordings',
+    RecordingFolders = 'recordingfolders',
+    UserViews = 'userviews'
 }
 
-export enum SectionType {
+export enum SuggestionSectionType {
     ContinueWatchingMovies = 'continuewatchingmovies',
     LatestMovies = 'latestmovies',
     ContinueWatchingEpisode = 'continuewatchingepisode',
     LatestEpisode = 'latestepisode',
-    NextUp = 'nextUp',
+    NextUp = 'nextup',
     LatestMusic = 'latestmusic',
     RecentlyPlayedMusic = 'recentlyplayedmusic',
     FrequentlyPlayedMusic = 'frequentlyplayedmusic',
-    ActivePrograms = 'ActivePrograms',
-    UpcomingEpisodes = 'UpcomingEpisodes',
-    UpcomingMovies = 'UpcomingMovies',
-    UpcomingSports = 'UpcomingSports',
-    UpcomingKids = 'UpcomingKids',
-    UpcomingNews = 'UpcomingNews',
-    LatestRecordings = 'LatestRecordings',
-    RecordingFolders = 'RecordingFolders',
-    ActiveRecordings = 'ActiveRecordings',
-    UpcomingRecordings = 'UpcomingRecordings',
-    LatestMedia = 'latestmedia',
-    ResumeItems = 'resumeItems',
 }
 
-export type HomeSectionsType = 'resume' | 'nextup' | 'latestmedia' | 'smalllibrarytiles' | 'none' | 'resumeaudio' | 'resumebook' | 'livetv' | 'librarytiles';
+export enum ProgramSectionType {
+    ActivePrograms = 'activeprograms',
+    UpcomingEpisodes = 'upcomingepisodes',
+    UpcomingMovies = 'upcomingmovies',
+    UpcomingSports = 'upcomingsports',
+    UpcomingKids = 'upcomingkids',
+    UpcomingNews = 'upcomingnews',
+    LatestRecordings = 'latestrecordings',
+    RecordingFolders = 'recordingfolders',
+    ActiveRecordings = 'activerecordings',
+    UpcomingRecordings = 'upcomingrecordings',
+}
+
+export type SectionType = SuggestionSectionType | ProgramSectionType | HomeSectionType;
 
 export interface Section {
     name: string;
@@ -62,52 +74,52 @@ export interface Section {
     apiMethod?: SectionApiMethod;
     itemTypes: string;
     parametersOptions?: ParametersOptions;
-    cardOptions: CardOptions;
+    cardOptions?: CardOptions;
 }
 
 export const MovieSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
-        SectionType.ContinueWatchingMovies,
-        SectionType.LatestMovies
+        SuggestionSectionType.ContinueWatchingMovies,
+        SuggestionSectionType.LatestMovies
     ],
     isMovieRecommendations: true
 };
 
 export const TvShowSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
-        SectionType.ContinueWatchingEpisode,
-        SectionType.LatestEpisode,
-        SectionType.NextUp
+        SuggestionSectionType.ContinueWatchingEpisode,
+        SuggestionSectionType.LatestEpisode,
+        SuggestionSectionType.NextUp
     ]
 };
 
 export const MusicSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
-        SectionType.LatestMusic,
-        SectionType.FrequentlyPlayedMusic,
-        SectionType.RecentlyPlayedMusic
+        SuggestionSectionType.LatestMusic,
+        SuggestionSectionType.FrequentlyPlayedMusic,
+        SuggestionSectionType.RecentlyPlayedMusic
     ]
 };
 
 export const ProgramSectionsView: SectionsView = {
     programSections: [
-        SectionType.ActivePrograms,
-        SectionType.UpcomingEpisodes,
-        SectionType.UpcomingMovies,
-        SectionType.UpcomingSports,
-        SectionType.UpcomingKids,
-        SectionType.UpcomingNews
+        ProgramSectionType.ActivePrograms,
+        ProgramSectionType.UpcomingEpisodes,
+        ProgramSectionType.UpcomingMovies,
+        ProgramSectionType.UpcomingSports,
+        ProgramSectionType.UpcomingKids,
+        ProgramSectionType.UpcomingNews
     ]
 };
 
 export const RecordingsSectionsView: SectionsView = {
     programSections: [
-        SectionType.LatestRecordings,
-        SectionType.RecordingFolders
+        ProgramSectionType.LatestRecordings,
+        ProgramSectionType.RecordingFolders
     ]
 };
 
 export const ScheduleSectionsView: SectionsView = {
-    programSections: [SectionType.ActiveRecordings],
+    programSections: [ProgramSectionType.ActiveRecordings],
     isLiveTvUpcomingRecordings: true
 };

@@ -1,45 +1,110 @@
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import React, { type FC, useMemo } from 'react';
+import { useApi } from 'hooks/useApi';
 import { useGetHomeSectionsWithItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
-import React, { FC, useMemo } from 'react';
-import SectionContainer from './SectionContainer';
 import globalize from 'scripts/globalize';
-import { SectionType } from 'types/sections';
-import { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import { HomeSectionType } from 'types/homeSectionType';
-import escapeHTML from 'escape-html';
 import { CardShape } from 'utils/card';
+import LibraryButtonsSection from './LibraryButtonsSection';
+import SectionContainer from './SectionContainer';
+import { HomeSectionType } from 'types/homeSectionType';
+import type { CardOptions } from 'types/cardOptions';
 
-type HomeViewProps = {
-    views: BaseItemDto[] | undefined;
-    view?: BaseItemDto;
-    sectionType: HomeSectionType;
+const getLatestMediaCardOptions = (userView: BaseItemDto | undefined) => {
+    let shape;
+    if (
+        userView?.Type === BaseItemKind.Channel
+        || userView?.CollectionType === CollectionType.Movies
+        || userView?.CollectionType === CollectionType.Books
+        || userView?.CollectionType === CollectionType.Tvshows
+    ) {
+        shape = CardShape.PortraitOverflow;
+    } else if (
+        userView?.CollectionType === CollectionType.Music
+        || userView?.CollectionType === CollectionType.Homevideos
+    ) {
+        shape = CardShape.SquareOverflow;
+    } else {
+        shape = CardShape.BackdropOverflow;
+    }
+
+    const cardOptions: CardOptions = {
+        shape: shape,
+        preferThumb:
+            userView?.CollectionType !== CollectionType.Movies
+            && userView?.CollectionType !== CollectionType.Tvshows
+            && userView?.Type !== BaseItemKind.Channel
+            && userView?.CollectionType !== CollectionType.Music ?
+                'auto' :
+                null,
+        showUnplayedIndicator: false,
+        showChildCountIndicator: true,
+        overlayText: false,
+        centerText: true,
+        overlayPlayButton: userView?.CollectionType !== CollectionType.Photos,
+        cardLayout: false,
+        showTitle: userView?.CollectionType !== CollectionType.Photos,
+        showYear:
+            userView?.CollectionType === CollectionType.Movies
+            || userView?.CollectionType === CollectionType.Tvshows
+            || !userView?.CollectionType,
+        showParentTitle:
+            userView?.CollectionType === CollectionType.Music
+            || userView?.CollectionType === CollectionType.Tvshows
+            || !userView?.CollectionType,
+        lines: 2
+    };
+
+    return cardOptions;
 };
 
-const HomeSectionsView: FC<HomeViewProps> = ({
+const filterExcludedItems = (
+    userViews: BaseItemDto[],
+    userExcludeItems: string[]
+) => {
+    const excludeViewTypes: CollectionType[] = [
+        CollectionType.Playlists,
+        CollectionType.Livetv,
+        CollectionType.Boxsets,
+        CollectionType.Trailers,
+        CollectionType.Folders,
+        CollectionType.Unknown
+    ];
+
+    const excludeItemTypes: BaseItemKind[] = [BaseItemKind.Channel];
+
+    return userViews.filter(
+        (userView) =>
+            userView.Id
+            && !userExcludeItems.includes(userView.Id)
+            && !(
+                userView.CollectionType
+                && excludeViewTypes.includes(userView.CollectionType)
+            )
+            && !(userView.Type && excludeItemTypes.includes(userView.Type))
+    );
+};
+
+interface HomeSectionsViewProps {
+    userViews: BaseItemDto[];
+    view?: BaseItemDto;
+    sectionType: HomeSectionType;
+}
+
+const HomeSectionsView: FC<HomeSectionsViewProps> = ({
     view,
-    views,
+    userViews,
     sectionType
 }) => {
-    // Identify the section type for the query
-    const sectionTypeQuery = useMemo(() => {
-        if (sectionType === HomeSectionType.NextUp) {
-            return [SectionType.NextUp];
-        }
+    const { user } = useApi();
 
-        if (sectionType === HomeSectionType.LatestMedia && view?.CollectionType === 'movies') {
-            return [SectionType.LatestMovies];
-        }
-
-        if (sectionType === HomeSectionType.LatestMedia && view?.CollectionType === 'tvshows') {
-            return [SectionType.LatestEpisode];
-        }
-
-        if (sectionType === HomeSectionType.Resume) {
-            return [SectionType.ResumeItems];
-        }
-
-        return [];
-    }, [sectionType, view?.CollectionType]);
+    // Get user Exclude Items for latest media
+    const userExcludeItems = useMemo(
+        () => user?.Configuration?.LatestItemsExcludes ?? [],
+        [user]
+    );
 
     // Get the parent id for latest media
     const parentId = useMemo(() => {
@@ -54,73 +119,60 @@ const HomeSectionsView: FC<HomeViewProps> = ({
         return !(sectionType === HomeSectionType.LatestMedia && !view);
     }, [sectionType, view]);
 
-    const { data: homeSections, isLoading } = useGetHomeSectionsWithItems(parentId, sectionTypeQuery, enabledQuery);
+    const { data: homeSectionsWithItems, isLoading } =
+        useGetHomeSectionsWithItems(parentId, [sectionType], enabledQuery);
 
     if (isLoading) return <Loading />;
 
     /**
-    * If the type is latestmedia we will recursively render this view
-    * with additional props to know the collection type
-    */
+     * If the type is latestmedia we will recursively render this view
+     * with additional props to know the collection type
+     */
     if (sectionType === HomeSectionType.LatestMedia && !view) {
-        return (
-            // eslint-disable-next-line react/jsx-no-useless-fragment
-            <>
-                {views?.map((v) => (
-                    <HomeSectionsView key={`${sectionType} ${v.Id}`} view={v} sectionType={sectionType} views={views} />
-                ))}
-            </>
-        );
-    }
-
-    // Only render movies and tv show collections from latest media
-    // otherwise return null
-    if (sectionType === HomeSectionType.LatestMedia && view?.CollectionType !== 'movies' && view?.CollectionType !== 'tvshows') {
-        return null;
+        const filteredViews = filterExcludedItems(userViews, userExcludeItems);
+        return filteredViews?.map((v) => (
+            <HomeSectionsView
+                key={`${sectionType}-${v.Id}`}
+                view={v}
+                sectionType={sectionType}
+                userViews={userViews}
+            />
+        ));
     }
 
     return (
-        <>
-            {homeSections?.map(({ section, items }) => (
-                <SectionContainer
-                    key={'sectionConatiner' + section.type + view?.Id}
-                    sectionTitle={globalize.translate(section.name, escapeHTML(view?.Name))}
-                    items={items ?? []}
-                    cardOptions={{
-                        ...section.cardOptions
-                    }}
-                />
-            ))}
-            {sectionType === HomeSectionType.SmallLibraryTiles && (
-                <SectionContainer
-                    key={'sectionConatiner' + sectionType + view?.Id}
-                    sectionTitle={globalize.translate('HeaderMyMedia')}
-                    items={views ?? []}
-                    cardOptions={{
-                        shape: CardShape.BackdropOverflow,
-                        showTitle: true,
-                        centerText: true,
-                        overlayText: false,
-                        lazy: true
-                    }}
-                />
+        <div>
+            {homeSectionsWithItems?.map(({ section, items }) =>
+                section.type === HomeSectionType.LibraryButtons ? (
+                    <LibraryButtonsSection
+                        key={`section-${sectionType}`}
+                        sectionTitle={globalize.translate(section.name)}
+                        userViews={items}
+                    />
+                ) : (
+                    <SectionContainer
+                        key={`section-${sectionType}${view?.Id}`}
+                        sectionTitle={
+                            section.type === HomeSectionType.LatestMedia ?
+                                globalize.translate(section.name, view?.Name) :
+                                globalize.translate(section.name)
+                        }
+                        items={items}
+                        cardOptions={
+                            section.type === HomeSectionType.LatestMedia ?
+                                getLatestMediaCardOptions(view) :
+                                {
+                                    showTitle: true,
+                                    centerText: true,
+                                    cardLayout: false,
+                                    overlayText: false,
+                                    ...section.cardOptions
+                                }
+                        }
+                    />
+                )
             )}
-            {/** TODO: Library buttons not added yet. Should make a component to handle it */}
-            {sectionType === HomeSectionType.LibraryButtons && (
-                <SectionContainer
-                    key={'sectionConatiner' + sectionType + view?.Id}
-                    sectionTitle={globalize.translate('HeaderMyMediaSmall')}
-                    items={views ?? []}
-                    cardOptions={{
-                        shape: CardShape.BackdropOverflow,
-                        showTitle: true,
-                        centerText: true,
-                        overlayText: false,
-                        lazy: true
-                    }}
-                />
-            )}
-        </>
+        </div>
     );
 };
 

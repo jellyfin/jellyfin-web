@@ -1,4 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
@@ -6,7 +7,8 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
 import { CardShape } from 'utils/card';
-import { type Section, SectionType, SectionApiMethod } from 'types/sections';
+import { type Section, SectionApiMethod, ProgramSectionType, SuggestionSectionType } from 'types/sections';
+import { HomeSectionType } from 'types/homeSectionType';
 
 export const getSuggestionSections = (): Section[] => {
     const parametersOptions = {
@@ -25,7 +27,7 @@ export const getSuggestionSections = (): Section[] => {
             name: 'HeaderContinueWatching',
             apiMethod: SectionApiMethod.ResumeItems,
             itemTypes: 'Movie',
-            type: SectionType.ContinueWatchingMovies,
+            type: SuggestionSectionType.ContinueWatchingMovies,
             parametersOptions: {
                 includeItemTypes: [BaseItemKind.Movie]
             },
@@ -40,7 +42,7 @@ export const getSuggestionSections = (): Section[] => {
             name: 'HeaderLatestMovies',
             apiMethod: SectionApiMethod.LatestMedia,
             itemTypes: 'Movie',
-            type: SectionType.LatestMovies,
+            type: SuggestionSectionType.LatestMovies,
             parametersOptions: {
                 includeItemTypes: [BaseItemKind.Movie]
             },
@@ -54,7 +56,7 @@ export const getSuggestionSections = (): Section[] => {
             name: 'HeaderContinueWatching',
             apiMethod: SectionApiMethod.ResumeItems,
             itemTypes: 'Episode',
-            type: SectionType.ContinueWatchingEpisode,
+            type: SuggestionSectionType.ContinueWatchingEpisode,
             parametersOptions: {
                 includeItemTypes: [BaseItemKind.Episode]
             },
@@ -71,7 +73,7 @@ export const getSuggestionSections = (): Section[] => {
             name: 'HeaderLatestEpisodes',
             apiMethod: SectionApiMethod.LatestMedia,
             itemTypes: 'Episode',
-            type: SectionType.LatestEpisode,
+            type: SuggestionSectionType.LatestEpisode,
             parametersOptions: {
                 includeItemTypes: [BaseItemKind.Episode]
             },
@@ -90,7 +92,7 @@ export const getSuggestionSections = (): Section[] => {
             name: 'NextUp',
             apiMethod: SectionApiMethod.NextUp,
             itemTypes: 'nextup',
-            type: SectionType.NextUp,
+            type: SuggestionSectionType.NextUp,
             cardOptions: {
                 overlayPlayButton: true,
                 shape: CardShape.BackdropOverflow,
@@ -104,7 +106,7 @@ export const getSuggestionSections = (): Section[] => {
             name: 'HeaderLatestMusic',
             apiMethod: SectionApiMethod.LatestMedia,
             itemTypes: 'Audio',
-            type: SectionType.LatestMusic,
+            type: SuggestionSectionType.LatestMusic,
             parametersOptions: {
                 includeItemTypes: [BaseItemKind.Audio]
             },
@@ -119,7 +121,7 @@ export const getSuggestionSections = (): Section[] => {
         {
             name: 'HeaderRecentlyPlayed',
             itemTypes: 'Audio',
-            type: SectionType.RecentlyPlayedMusic,
+            type: SuggestionSectionType.RecentlyPlayedMusic,
             parametersOptions: {
                 sortBy: [ItemSortBy.DatePlayed],
                 sortOrder: [SortOrder.Descending],
@@ -138,7 +140,7 @@ export const getSuggestionSections = (): Section[] => {
         {
             name: 'HeaderFrequentlyPlayed',
             itemTypes: 'Audio',
-            type: SectionType.FrequentlyPlayedMusic,
+            type: SuggestionSectionType.FrequentlyPlayedMusic,
             parametersOptions: {
                 sortBy: [ItemSortBy.PlayCount],
                 sortOrder: [SortOrder.Descending],
@@ -174,7 +176,7 @@ export const getProgramSections = (): Section[] => {
             name: 'HeaderOnNow',
             itemTypes: 'Programs',
             apiMethod: SectionApiMethod.RecommendedPrograms,
-            type: SectionType.ActivePrograms,
+            type: ProgramSectionType.ActivePrograms,
             parametersOptions: {
                 isAiring: true
             },
@@ -194,7 +196,7 @@ export const getProgramSections = (): Section[] => {
             name: 'Shows',
             itemTypes: 'Programs',
             apiMethod: SectionApiMethod.LiveTvPrograms,
-            type: SectionType.UpcomingEpisodes,
+            type: ProgramSectionType.UpcomingEpisodes,
             parametersOptions: {
                 isAiring: false,
                 hasAired: false,
@@ -219,7 +221,7 @@ export const getProgramSections = (): Section[] => {
             name: 'Movies',
             itemTypes: 'Programs',
             apiMethod: SectionApiMethod.LiveTvPrograms,
-            type: SectionType.UpcomingMovies,
+            type: ProgramSectionType.UpcomingMovies,
             parametersOptions: {
                 isAiring: false,
                 hasAired: false,
@@ -240,7 +242,7 @@ export const getProgramSections = (): Section[] => {
             name: 'Sports',
             itemTypes: 'Programs',
             apiMethod: SectionApiMethod.LiveTvPrograms,
-            type: SectionType.UpcomingSports,
+            type: ProgramSectionType.UpcomingSports,
             parametersOptions: {
                 isAiring: false,
                 hasAired: false,
@@ -261,7 +263,7 @@ export const getProgramSections = (): Section[] => {
             name: 'HeaderForKids',
             itemTypes: 'Programs',
             apiMethod: SectionApiMethod.LiveTvPrograms,
-            type: SectionType.UpcomingKids,
+            type: ProgramSectionType.UpcomingKids,
             parametersOptions: {
                 isAiring: false,
                 hasAired: false,
@@ -282,7 +284,7 @@ export const getProgramSections = (): Section[] => {
             name: 'News',
             itemTypes: 'Programs',
             apiMethod: SectionApiMethod.LiveTvPrograms,
-            type: SectionType.UpcomingNews,
+            type: ProgramSectionType.UpcomingNews,
             parametersOptions: {
                 isAiring: false,
                 hasAired: false,
@@ -304,7 +306,7 @@ export const getProgramSections = (): Section[] => {
             name: 'HeaderLatestRecordings',
             itemTypes: 'Recordings',
             apiMethod: SectionApiMethod.Recordings,
-            type: SectionType.LatestRecordings,
+            type: ProgramSectionType.LatestRecordings,
             parametersOptions: {
                 limit: 12,
                 imageTypeLimit: 1
@@ -327,7 +329,7 @@ export const getProgramSections = (): Section[] => {
             name: 'HeaderAllRecordings',
             itemTypes: 'Recordings',
             apiMethod: SectionApiMethod.RecordingFolders,
-            type: SectionType.RecordingFolders,
+            type: ProgramSectionType.RecordingFolders,
             cardOptions: {
                 showYear: false,
                 showParentTitle: false,
@@ -345,7 +347,7 @@ export const getProgramSections = (): Section[] => {
             name: 'HeaderActiveRecordings',
             itemTypes: 'Recordings',
             apiMethod: SectionApiMethod.Recordings,
-            type: SectionType.ActiveRecordings,
+            type: ProgramSectionType.ActiveRecordings,
             parametersOptions: {
                 isInProgress: true
             },
@@ -369,134 +371,171 @@ export const getProgramSections = (): Section[] => {
     ];
 };
 
+function getOldestDateForNextUp() {
+    const oldestDateForNextUp = new Date();
+    oldestDateForNextUp.setDate(
+        oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp()
+    );
+    return oldestDateForNextUp;
+}
+
 export const getHomeSections = (): Section[] => {
-    const parametersOptions = {
-        fields: [ItemFields.PrimaryImageAspectRatio],
-        filters: [ItemFilter.IsPlayed],
-        IsPlayed: true,
-        imageTypeLimit: 1,
-        enableImageTypes: [
-            ImageType.Primary,
-            ImageType.Backdrop,
-            ImageType.Thumb
-        ]
-    };
     return [
+        {
+            name: 'HeaderMyMedia',
+            apiMethod: SectionApiMethod.UserViews,
+            itemTypes: 'CollectionFolder',
+            type: HomeSectionType.LibraryButtons
+        },
+        {
+            name: 'HeaderMyMedia',
+            apiMethod: SectionApiMethod.UserViews,
+            itemTypes: 'CollectionFolder',
+            type: HomeSectionType.SmallLibraryTiles,
+            cardOptions: {
+                shape: CardShape.BackdropOverflow
+            }
+        },
         {
             name: 'HeaderContinueWatching',
             apiMethod: SectionApiMethod.ResumeItems,
             itemTypes: 'Video',
-            type: SectionType.ResumeItems,
+            type: HomeSectionType.Resume,
             parametersOptions: {
+                recursive: true,
                 limit: 12,
-                includeItemTypes: [BaseItemKind.Movie, BaseItemKind.Episode],
-                ...parametersOptions
+                mediaTypes: [MediaType.Video]
             },
             cardOptions: {
-                overlayPlayButton: true,
-                showParentTitleOrTitle: true,
                 shape: CardShape.BackdropOverflow,
                 preferThumb: true,
-                lines: 2,
-                showUnplayedIndicator: false,
-                showChildCountIndicator: true,
-                showYear: true
-            }
-        },
-        {
-            name: 'LatestFromLibrary',
-            apiMethod: SectionApiMethod.LatestMedia,
-            itemTypes: 'Episode',
-            type: SectionType.LatestEpisode,
-            parametersOptions: {
-                includeItemTypes: [BaseItemKind.Episode]
-            },
-            cardOptions: {
+                inheritThumb:
+                    !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
+                showParentTitle: true,
+                showDetailsMenu: true,
                 overlayPlayButton: true,
-                showTitle: true,
-                showSeriesYear: true,
-                showUnplayedIndicator: false,
-                showChildCountIndicator: true
+                showYear: true,
+                lines: 2
+            }
+        },
+        {
+            name: 'HeaderContinueListening',
+            apiMethod: SectionApiMethod.ResumeItems,
+            itemTypes: 'Audio',
+            type: HomeSectionType.ResumeAudio,
+            parametersOptions: {
+                recursive: true,
+                limit: 12,
+                mediaTypes: [MediaType.Audio]
+            },
+            cardOptions: {
+                shape: CardShape.PortraitOverflow,
+                showParentTitle: true,
+                showDetailsMenu: true,
+                overlayPlayButton: true,
+                showYear: true,
+                lines: 2
+            }
+        },
+        {
+            name: 'HeaderContinueReading',
+            apiMethod: SectionApiMethod.ResumeItems,
+            itemTypes: 'Book',
+            type: HomeSectionType.ResumeBook,
+            parametersOptions: {
+                recursive: true,
+                limit: 12,
+                mediaTypes: [MediaType.Book]
+            },
+            cardOptions: {
+                shape: CardShape.PortraitOverflow,
+                showParentTitle: true,
+                showDetailsMenu: true,
+                overlayPlayButton: true,
+                showYear: true,
+                lines: 2
             }
         },
         {
             name: 'LatestFromLibrary',
             apiMethod: SectionApiMethod.LatestMedia,
-            itemTypes: 'Movie',
-            type: SectionType.LatestMovies,
-            parametersOptions: {
-                includeItemTypes: [BaseItemKind.Movie]
-            },
-            cardOptions: {
-                showTitle: true,
-                preferThumb: null,
-                showYear: true
-            }
+            itemTypes: 'CollectionFolder',
+            type: HomeSectionType.LatestMedia
         },
         {
             name: 'NextUp',
             apiMethod: SectionApiMethod.NextUp,
-            itemTypes: 'Video',
-            type: SectionType.NextUp,
+            itemTypes: 'nextup',
+            type: HomeSectionType.NextUp,
+            parametersOptions: {
+                isAiring: true,
+                fields: [
+                    ItemFields.PrimaryImageAspectRatio,
+                    ItemFields.DateCreated,
+                    ItemFields.Path,
+                    ItemFields.MediaSourceCount
+                ],
+                limit: 12,
+                disableFirstEpisode: false,
+                nextUpDateCutoff: getOldestDateForNextUp().toISOString(),
+                enableResumable: false,
+                enableRewatching: userSettings.enableRewatchingInNextUp()
+            },
             cardOptions: {
-                overlayPlayButton: true,
                 shape: CardShape.BackdropOverflow,
                 preferThumb: true,
-                showParentTitle: true
+                inheritThumb:
+                    !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
+                showParentTitle: true,
+                overlayPlayButton: true
             }
         },
         {
-            name: 'LatestFromLibrary',
-            apiMethod: SectionApiMethod.LatestMedia,
-            itemTypes: 'Audio',
-            type: SectionType.LatestMusic,
+            name: 'HeaderOnNow',
+            itemTypes: 'Programs',
+            apiMethod: SectionApiMethod.RecommendedPrograms,
+            type: HomeSectionType.LiveTv,
             parametersOptions: {
-                includeItemTypes: [BaseItemKind.Audio]
+                isAiring: true
             },
             cardOptions: {
-                showUnplayedIndicator: false,
-                shape: CardShape.SquareOverflow,
-                showParentTitle: true,
-                overlayPlayButton: true,
-                coverImage: true
+                shape: CardShape.AutoOverflow,
+                defaultShape: CardShape.BackdropOverflow,
+                preferThumb: 'auto',
+                inheritThumb: false,
+                showParentTitleOrTitle: true,
+                coverImage: true,
+                showAirTime: true,
+                showChannelName: false,
+                showAirDateTime: false,
+                showAirEndTime: true,
+                lines: 3,
+                overlayPlayButton: true
             }
         },
         {
-            name: 'HeaderRecentlyPlayed',
-            itemTypes: 'Audio',
-            type: SectionType.RecentlyPlayedMusic,
+            name: 'HeaderActiveRecordings',
+            itemTypes: 'Recordings',
+            apiMethod: SectionApiMethod.Recordings,
+            type: HomeSectionType.ActiveRecordings,
             parametersOptions: {
-                sortBy: [ItemSortBy.DatePlayed],
-                sortOrder: [SortOrder.Descending],
-                includeItemTypes: [BaseItemKind.Audio],
-                ...parametersOptions
+                fields: [ItemFields.PrimaryImageAspectRatio],
+                limit: 12,
+                isInProgress: true
             },
             cardOptions: {
-                showUnplayedIndicator: false,
-                shape: CardShape.SquareOverflow,
+                shape: CardShape.AutoOverflow,
+                defaultShape: CardShape.Backdrop,
+                preferThumb: true,
                 showParentTitle: true,
-                action: 'instantmix',
+                coverImage: true,
+                showDetailsMenu: true,
+                showYear: true,
+                lines: 2,
+                overlayPlayButton: false,
                 overlayMoreButton: true,
-                coverImage: true
-            }
-        },
-        {
-            name: 'HeaderFrequentlyPlayed',
-            itemTypes: 'Audio',
-            type: SectionType.FrequentlyPlayedMusic,
-            parametersOptions: {
-                sortBy: [ItemSortBy.PlayCount],
-                sortOrder: [SortOrder.Descending],
-                includeItemTypes: [BaseItemKind.Audio],
-                ...parametersOptions
-            },
-            cardOptions: {
-                showUnplayedIndicator: false,
-                shape: CardShape.SquareOverflow,
-                showParentTitle: true,
-                action: 'instantmix',
-                overlayMoreButton: true,
-                coverImage: true
+                action: 'none',
+                centerPlayButton: true
             }
         }
     ];
