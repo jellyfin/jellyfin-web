@@ -88,6 +88,7 @@
 - [David Angel](https://github.com/davidangel)
 - [Pithaya](https://github.com/Pithaya)
 - [Peter Santos](https://github.com/prsantos-com)
+- [Ali Ali](https://github.com/bu3alwa)
 
 ## Emby Contributors
 
