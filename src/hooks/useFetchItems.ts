@@ -758,8 +758,8 @@ const fetchGetSectionItems = async (
                             imageTypeLimit: 1,
                             enableImageTypes: [
                                 ImageType.Primary,
-                                ImageType.Backdrop,
-                                ImageType.Thumb
+                                ImageType.Thumb,
+                                ImageType.Backdrop
                             ],
                             enableTotalRecordCount: false,
                             ...section.parametersOptions
@@ -782,7 +782,11 @@ const fetchGetSectionItems = async (
                                 ItemFields.MediaSourceCount
                             ],
                             imageTypeLimit: 1,
-                            enableImageTypes: [ImageType.Thumb],
+                            enableImageTypes: [
+                                ImageType.Primary,
+                                ImageType.Thumb,
+                                ImageType.Backdrop
+                            ],
                             enableTotalRecordCount: false,
                             ...section.parametersOptions
                         },
