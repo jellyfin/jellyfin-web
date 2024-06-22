@@ -591,8 +591,6 @@ function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
     });
 }
 
-// TODO: Refactor this function to reduce cognitive complexity
-// eslint-disable-next-line sonarjs/cognitive-complexity
 function getParentTitleOrTitle(
     isOuterFooter: boolean,
     item: ItemDto,
@@ -619,12 +617,6 @@ function getParentTitleOrTitle(
         if (!item.EpisodeTitle && !item.IndexNumber) {
             setTitleAdded(true);
         }
-        return { title: item.Name };
-    } else if (
-        isOuterFooter
-        && item.Type === BaseItemKind.Movie
-        && item.Name
-    ) {
         return { title: item.Name };
     } else {
         const parentTitle =
@@ -679,9 +671,10 @@ export function getCardTextLines({
         && (cardOptions.showParentTitle || cardOptions.showParentTitleOrTitle)
         && !parentTitleUnderneath
     ) {
-        addTextLine(
-            getParentTitleOrTitle(isOuterFooter, item, setTitleAdded, showTitle)
-        );
+        const parentTitleOrTitle = getParentTitleOrTitle(isOuterFooter, item, setTitleAdded, showTitle);
+        if (parentTitleOrTitle.title || parentTitleOrTitle.titleAction) {
+            addTextLine(parentTitleOrTitle);
+        }
     }
 
     const showMediaTitle = shouldShowMediaTitle(

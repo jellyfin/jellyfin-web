@@ -415,7 +415,7 @@ export const getHomeSections = (): Section[] => {
                 showDetailsMenu: true,
                 overlayPlayButton: true,
                 showYear: true,
-                lines: 2
+                lines: 3
             }
         },
         {
