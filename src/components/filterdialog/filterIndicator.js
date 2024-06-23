@@ -40,11 +40,7 @@ export function setFilterStatus(page, hasFilters) {
         }
 
         if (indicatorElem) {
-            if (hasFilters) {
-                indicatorElem.classList.remove('hide');
-            } else {
-                indicatorElem.classList.add('hide');
-            }
+            indicatorElem.classList.toggle('hide', !hasFilters);
         }
     }
 }
