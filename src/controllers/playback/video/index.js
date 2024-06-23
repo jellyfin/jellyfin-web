@@ -1445,7 +1445,7 @@ export default function (view) {
         chapterThumb.style.left = offsetX + 'px';
         chapterThumb.style.top = offsetY + 'px';
 
-        chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
+        chapterThumbText.textContent = getDisplayRunningTime(positionTicks);
 
         // Set bubble innerHTML if container isn't part of DOM
         if (doFullUpdate) {

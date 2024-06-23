@@ -11,7 +11,13 @@ import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import itemHelper from 'components/itemHelper';
 import globalize from 'scripts/globalize';
-import datetime from 'scripts/datetime';
+import {
+    getDisplayRunningTime,
+    getDisplayTime,
+    parseISO8601Date,
+    toLocaleDateString,
+    toLocaleString
+} from 'utils/datetime';
 
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';
 
@@ -118,22 +124,22 @@ export function getAirTimeText(
 
     if (item.StartDate) {
         try {
-            let date = datetime.parseISO8601Date(item.StartDate);
+            let date = parseISO8601Date(item.StartDate);
 
             if (showAirDateTime) {
                 airTimeText
-                    += datetime.toLocaleDateString(date, {
+                    += toLocaleDateString(date, {
                         weekday: 'short',
                         month: 'short',
                         day: 'numeric'
                     }) + ' ';
             }
 
-            airTimeText += datetime.getDisplayTime(date);
+            airTimeText += getDisplayTime(date);
 
             if (item.EndDate && showAirEndTime) {
-                date = datetime.parseISO8601Date(item.EndDate);
-                airTimeText += ' - ' + datetime.getDisplayTime(date);
+                date = parseISO8601Date(item.EndDate);
+                airTimeText += ' - ' + getDisplayTime(date);
             }
         } catch (e) {
             console.error('error parsing date: ' + item.StartDate);
@@ -471,7 +477,7 @@ function getSeriesTimerTime(item: ItemDto) {
     if (item.RecordAnyTime) {
         return globalize.translate('Anytime');
     } else {
-        return datetime.getDisplayTime(item.StartDate);
+        return getDisplayTime(item.StartDate);
     }
 }
 
@@ -511,7 +517,7 @@ function getChannelName(item: ItemDto) {
 
 function getRunTime(itemRunTimeTicks: NullableNumber) {
     if (itemRunTimeTicks) {
-        return datetime.getDisplayRunningTime(itemRunTimeTicks);
+        return getDisplayRunningTime(itemRunTimeTicks);
     } else {
         return '';
     }
@@ -520,8 +526,8 @@ function getRunTime(itemRunTimeTicks: NullableNumber) {
 function getPremiereDate(PremiereDate: string | null | undefined) {
     if (PremiereDate) {
         try {
-            return datetime.toLocaleDateString(
-                datetime.parseISO8601Date(PremiereDate),
+            return toLocaleDateString(
+                parseISO8601Date(PremiereDate),
                 { weekday: 'long', month: 'long', day: 'numeric' }
             );
         } catch (err) {
@@ -545,7 +551,7 @@ function getAdditionalLines(
 function getProductionYear(item: ItemDto) {
     const productionYear =
         item.ProductionYear
-        && datetime.toLocaleString(item.ProductionYear, {
+        && toLocaleString(item.ProductionYear, {
             useGrouping: false
         });
     if (item.Type === BaseItemKind.Series) {
@@ -555,8 +561,8 @@ function getProductionYear(item: ItemDto) {
                 productionYear || ''
             );
         } else if (item.EndDate && item.ProductionYear) {
-            const endYear = datetime.toLocaleString(
-                datetime.parseISO8601Date(item.EndDate).getFullYear(),
+            const endYear = toLocaleString(
+                parseISO8601Date(item.EndDate).getFullYear(),
                 { useGrouping: false }
             );
             return (

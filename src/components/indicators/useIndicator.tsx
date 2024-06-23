@@ -13,7 +13,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import PhotoAlbumIcon from '@mui/icons-material/PhotoAlbum';
 import PhotoIcon from '@mui/icons-material/Photo';
 import classNames from 'classnames';
-import datetime from 'scripts/datetime';
+import { parseISO8601Date } from 'utils/datetime';
 import itemHelper from 'components/itemHelper';
 import AutoTimeProgressBar from 'elements/emby-progressbar/AutoTimeProgressBar';
 import type { NullableString } from 'types/base/common/shared/types';
@@ -81,9 +81,7 @@ const useIndicator = (item: ItemDto) => {
         ) {
             if (item.PremiereDate) {
                 try {
-                    const premiereDate = datetime
-                        .parseISO8601Date(item.PremiereDate)
-                        .getTime();
+                    const premiereDate = parseISO8601Date(item.PremiereDate).getTime();
                     if (premiereDate > new Date().getTime()) {
                         return <Box className='unairedIndicator'>Unaired</Box>;
                     }
@@ -219,8 +217,8 @@ const useIndicator = (item: ItemDto) => {
             let endDate = 1;
 
             try {
-                startDate = datetime.parseISO8601Date(item.StartDate).getTime();
-                endDate = datetime.parseISO8601Date(item.EndDate).getTime();
+                startDate = parseISO8601Date(item.StartDate ?? '').getTime();
+                endDate = parseISO8601Date(item.EndDate ?? '').getTime();
             } catch (err) {
                 console.error(err);
             }
