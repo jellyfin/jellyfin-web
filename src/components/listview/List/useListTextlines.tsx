@@ -1,7 +1,11 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React from 'react';
 import itemHelper from '../../itemHelper';
-import datetime from 'scripts/datetime';
+import {
+    getDisplayTime,
+    parseISO8601Date,
+    toLocaleString
+} from 'utils/datetime';
 import ListTextWrapper from './ListTextWrapper';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
@@ -70,8 +74,8 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
 
     const addProgramDateTime = () => {
         if (showProgramDateTime) {
-            const programDateTime = datetime.toLocaleString(
-                datetime.parseISO8601Date(item.StartDate),
+            const programDateTime = toLocaleString(
+                parseISO8601Date(item.StartDate ?? ''),
                 {
                     weekday: 'long',
                     month: 'short',
@@ -86,8 +90,8 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
 
     const addProgramTime = () => {
         if (showProgramTime) {
-            const programTime = datetime.getDisplayTime(
-                datetime.parseISO8601Date(item.StartDate)
+            const programTime = getDisplayTime(
+                parseISO8601Date(item.StartDate ?? '')
             );
             addTextLine(programTime);
         }
