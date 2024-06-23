@@ -89,6 +89,7 @@
 - [Pithaya](https://github.com/Pithaya)
 - [Peter Santos](https://github.com/prsantos-com)
 - [ItsAllAboutTheCode ](https://github.com/ItsAllAboutTheCode)
+- [Chaitanya Shahare](https://github.com/Chaitanya-Shahare)
 
 ## Emby Contributors
 

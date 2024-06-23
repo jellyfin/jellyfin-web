@@ -19,7 +19,7 @@
     "LabelTextBackgroundColor": "Text background colour",
     "LabelTextColor": "Text colour",
     "NewCollectionHelp": "Collections allow you to create personalised groupings of films and other library content.",
-    "NoNewDevicesFound": "No new devices found. To add a new tuner, close this dialogueand enter the device information manually.",
+    "NoNewDevicesFound": "No new devices found. To add a new tuner, close this dialogue and enter the device information manually.",
     "OptionEnableExternalContentInSuggestionsHelp": "Allow internet trailers and live TV programmes to be included within suggested content.",
     "OptionIgnoreTranscodeByteRangeRequestsHelp": "These requests will be honored but will ignore the byte range header.",
     "PlaceFavoriteChannelsAtBeginning": "Place favourite channels at the beginning",

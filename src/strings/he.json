@@ -1179,7 +1179,7 @@
     "Metadata": "נתוני על",
     "AllowSegmentDeletion": "מחק אותות",
     "AllowSegmentDeletionHelp": "מחק חלקים ישנים אחרי שהם הורדו על ידי המכשיר. זה ימנע שמירת כל הקובץ המפוענח על הדיסק. כבה אפשרות זו אם הינך חווה בעיות בנגן.",
-    "LabelThrottleDelaySeconds": "חנוק אחרי",
+    "LabelThrottleDelaySeconds": "",
     "LabelSegmentKeepSeconds": "זמן שמירת אותות",
     "LabelSegmentKeepSecondsHelp": "זמן בשניות שבהן הקטעים צריכים להישאר אחרי שהם הורדו על ידי המכשיר. עובד רק כאשר מחיקת אות מאופשרת.",
     "GoHome": "מעבר למסך הבית",
@@ -1287,5 +1287,7 @@
     "Colorist": "רשימת צבעים",
     "Author": "יוצר",
     "ConfirmDeleteLyrics": "מחיקת המילים הללו ימחקו גם בקבצים שלך וגם בספריית המדיה שלך. אתה בטוח שברצונך להמשיך?",
-    "AirPlay": "AirPlay"
+    "AirPlay": "AirPlay",
+    "Alternate": "אלטרנטיבי",
+    "AlternateDVD": "DVD אלטרנטיבי"
 }
