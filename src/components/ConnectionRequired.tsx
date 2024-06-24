@@ -83,7 +83,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         if (firstConnection.State === ConnectionState.ServerSignIn) {
             // Verify the wizard is complete
             try {
-                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`);
+                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`, { cache: 'no-cache' });
                 if (!infoResponse.ok) {
                     throw new Error('Public system info request failed');
                 }
