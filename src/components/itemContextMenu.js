@@ -299,7 +299,7 @@ export function getCommands(options) {
         });
     }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItems - 1)) {
+    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
         commands.push({
             name: globalize.translate('MoveToBottom'),
             id: 'movetobottom',
@@ -585,7 +585,7 @@ function executeCommand(item, id, options) {
                 break;
             case 'movetobottom':
                 apiClient.ajax({
-                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/' + (item.PlaylistItems - 1)),
+                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/' + (item.PlaylistItemCount - 1)),
                     type: 'POST'
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();

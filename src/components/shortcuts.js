@@ -121,7 +121,7 @@ function showContextMenu(card, options = {}) {
                     }
                     index++;
                 }
-                item.PlaylistItems = index;
+                item.PlaylistItemCount = index;
             }
         }
 
