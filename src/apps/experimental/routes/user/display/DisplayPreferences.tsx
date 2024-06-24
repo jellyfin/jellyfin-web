@@ -12,10 +12,11 @@ import React, { Fragment } from 'react';
 
 import { appHost } from 'components/apphost';
 import { useApi } from 'hooks/useApi';
+import { useThemes } from 'hooks/useThemes';
 import globalize from 'scripts/globalize';
+
 import { DisplaySettingsValues } from './types';
 import { useScreensavers } from './hooks/useScreensavers';
-import { useServerThemes } from './hooks/useServerThemes';
 
 interface DisplayPreferencesProps {
     onChange: (event: SelectChangeEvent | React.SyntheticEvent) => void;
@@ -25,7 +26,7 @@ interface DisplayPreferencesProps {
 export function DisplayPreferences({ onChange, values }: Readonly<DisplayPreferencesProps>) {
     const { user } = useApi();
     const { screensavers } = useScreensavers();
-    const { themes } = useServerThemes();
+    const { themes } = useThemes();
 
     return (
         <Stack spacing={3}>

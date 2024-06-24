@@ -133,6 +133,18 @@ class AppSettings {
     }
 
     /**
+     * Get or set preferred transcode audio codec in video playback.
+     * @param {string|undefined} val - Preferred transcode audio codec or undefined.
+     * @return {string} Preferred transcode audio codec.
+     */
+    preferredTranscodeVideoAudioCodec(val) {
+        if (val !== undefined) {
+            return this.set('preferredTranscodeVideoAudioCodec', val);
+        }
+        return this.get('preferredTranscodeVideoAudioCodec') || '';
+    }
+
+    /**
      * Get or set 'Enable DTS' state.
      * @param {boolean|undefined} val - Flag to enable 'Enable DTS' or undefined.
      * @return {boolean} 'Enable DTS' state.

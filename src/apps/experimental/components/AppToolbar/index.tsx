@@ -18,17 +18,30 @@ interface AppToolbarProps {
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
+const PUBLIC_PATHS = [
+    '/addserver.html',
+    '/selectserver.html',
+    '/login.html',
+    '/forgotpassword.html',
+    '/forgotpasswordpin.html'
+];
+
 const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     isDrawerAvailable,
     isDrawerOpen,
     onDrawerButtonClick
 }) => {
     const location = useLocation();
+
+    // The video osd does not show the standard toolbar
+    if (location.pathname === '/video') return null;
+
     const isTabsAvailable = isTabPath(location.pathname);
+    const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
 
     return (
         <AppToolbar
-            buttons={
+            buttons={!isPublicPath && (
                 <>
                     <SyncPlayButton />
                     <RemotePlayButton />
@@ -45,10 +58,11 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
                         </IconButton>
                     </Tooltip>
                 </>
-            }
+            )}
             isDrawerAvailable={isDrawerAvailable}
             isDrawerOpen={isDrawerOpen}
             onDrawerButtonClick={onDrawerButtonClick}
+            isUserMenuAvailable={!isPublicPath}
         >
             {isTabsAvailable && (<AppTabs isDrawerOpen={isDrawerOpen} />)}
         </AppToolbar>

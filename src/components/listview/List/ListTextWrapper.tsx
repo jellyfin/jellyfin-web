@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -7,7 +7,7 @@ interface ListTextWrapperProps {
     isLargeStyle?: boolean;
 }
 
-const ListTextWrapper: FC<ListTextWrapperProps> = ({
+const ListTextWrapper: FC<PropsWithChildren<ListTextWrapperProps>> = ({
     index,
     isLargeStyle,
     children

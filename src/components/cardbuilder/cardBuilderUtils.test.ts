@@ -454,15 +454,15 @@ describe('resolveMixedShapeByAspectRatio', () => {
         expect(resolveMixedShapeByAspectRatio(1.34)).toEqual('mixedBackdrop');
     });
 
-    test('primary aspect ratio is > 0.71', () => {
-        expect(resolveMixedShapeByAspectRatio(0.72)).toEqual('mixedSquare');
-        expect(resolveMixedShapeByAspectRatio(0.73)).toEqual('mixedSquare');
+    test('primary aspect ratio is > 0.8', () => {
+        expect(resolveMixedShapeByAspectRatio(0.81)).toEqual('mixedSquare');
+        expect(resolveMixedShapeByAspectRatio(0.82)).toEqual('mixedSquare');
         expect(resolveMixedShapeByAspectRatio(1.32)).toEqual('mixedSquare');
     });
 
-    test('primary aspect ratio is <= 0.71', () => {
-        expect(resolveMixedShapeByAspectRatio(0.71)).toEqual('mixedPortrait');
-        expect(resolveMixedShapeByAspectRatio(0.70)).toEqual('mixedPortrait');
+    test('primary aspect ratio is <= 0.8', () => {
+        expect(resolveMixedShapeByAspectRatio(0.8)).toEqual('mixedPortrait');
+        expect(resolveMixedShapeByAspectRatio(0.79)).toEqual('mixedPortrait');
         expect(resolveMixedShapeByAspectRatio(0.01)).toEqual('mixedPortrait');
     });
 

@@ -1242,7 +1242,7 @@
     "NoCreatedLibraries": "Se pare că nu ați creat încă biblioteci. {0} Doriți să creați una acum? {1}",
     "AskAdminToCreateLibrary": "Cereți unui administrator să creeze o bibliotecă.",
     "PlaybackErrorNoCompatibleStream": "Clientul nu este compatibil cu formatul media, iar serverul nu trimite un format media compatibil.",
-    "AllowFfmpegThrottlingHelp": "Când o transcodare sau un remux se află departe de poziția actuală de redare, întrerupeți procesul, astfel încât acesta să consume mai puține resurse. Acest lucru este cel mai util când priviți fără a căuta prin film des. Dezactivați acest lucru dacă întâmpinați probleme de redare.",
+    "AllowFfmpegThrottlingHelp": "Când o transcodare sau un remux se află departe de poziția actuală de redare, întrerupeți procesul, astfel încât acesta să consume puține resurse. Acest lucru este cel mai util când priviți fără a căuta prin film des. Dezactivați acest lucru dacă întâmpinați probleme de redare.",
     "AllowFfmpegThrottling": "Limitare Transcod-uri",
     "Season": "Sezon",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Preferați informația despre episod încorporată în fișier decât numele fișierelor",

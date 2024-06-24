@@ -89,7 +89,7 @@ export function setCardData(items, options) {
                 options.coverImage = true;
             } else if (primaryImageAspectRatio >= 1.33) {
                 options.shape = getBackdropShape(requestedShape === 'autooverflow');
-            } else if (primaryImageAspectRatio > 0.71) {
+            } else if (primaryImageAspectRatio > 0.8) {
                 options.shape = getSquareShape(requestedShape === 'autooverflow');
             } else {
                 options.shape = getPortraitShape(requestedShape === 'autooverflow');

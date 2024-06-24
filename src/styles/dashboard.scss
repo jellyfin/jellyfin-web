@@ -152,29 +152,8 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .content-primary {
-    padding-top: 6em;
     padding-right: 1em;
     padding-left: 1em;
-}
-
-.withTabs .content-primary {
-    padding-top: 9em !important;
-}
-
-@media all and (min-width: 40em) {
-    .content-primary {
-        padding-top: 4.6em;
-    }
-
-    .withTabs .content-primary {
-        padding-top: 10em !important;
-    }
-}
-
-@media all and (min-width: 84em) {
-    .withTabs .content-primary {
-        padding-top: 7em !important;
-    }
 }
 
 .content-primary ul:first-child {

@@ -28,6 +28,7 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
+import { EventType } from 'types/eventType';
 
 const TICKS_PER_MINUTE = 600000000;
 const TICKS_PER_SECOND = 10000000;
@@ -280,12 +281,14 @@ export default function (view) {
     let mouseIsDown = false;
 
     function showOsd(focusElement) {
+        Events.trigger(document, EventType.SHOW_VIDEO_OSD, [ true ]);
         slideDownToShow(headerElement);
         showMainOsdControls(focusElement);
         resetIdle();
     }
 
     function hideOsd() {
+        Events.trigger(document, EventType.SHOW_VIDEO_OSD, [ false ]);
         slideUpToHide(headerElement);
         hideMainOsdControls();
         mouseManager.hideCursor();
@@ -320,18 +323,14 @@ export default function (view) {
     }
 
     function clearHideAnimationEventListeners(elem) {
-        dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-            once: true
-        });
+        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
         if (elem != osdBottomElement) return;
         elem.classList.add('hide');
-        dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-            once: true
-        });
+        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     const _focus = debounce((focusElement) => focusManager.focus(focusElement), 50);
@@ -361,9 +360,7 @@ export default function (view) {
             clearHideAnimationEventListeners(elem);
             elem.classList.add('videoOsdBottom-hidden');
 
-            dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-                once: true
-            });
+            elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
             currentVisibleMenu = null;
             toggleSubtitleSync('hide');
 
@@ -1832,22 +1829,11 @@ export default function (view) {
     };
 
     nowPlayingPositionSlider.getMarkerInfo = function () {
-        const markers = [];
-
-        const item = currentItem;
-
         // use markers based on chapters
-        if (item?.Chapters?.length) {
-            item.Chapters.forEach(currentChapter => {
-                markers.push({
-                    className: 'chapterMarker',
-                    name: currentChapter.Name,
-                    progress: currentChapter.StartPositionTicks / item.RunTimeTicks
-                });
-            });
-        }
-
-        return markers;
+        return currentItem?.Chapters?.map(currentChapter => ({
+            name: currentChapter.Name,
+            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks
+        })) || [];
     };
 
     view.querySelector('.btnPreviousTrack').addEventListener('click', function () {

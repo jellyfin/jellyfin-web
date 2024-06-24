@@ -35,7 +35,8 @@ class PlayAccessValidation {
                 return Promise.reject();
             }
 
-            return showErrorMessage().finally(Promise.reject);
+            return showErrorMessage()
+                .finally(() => Promise.reject());
         });
     }
 }

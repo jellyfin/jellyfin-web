@@ -1,5 +1,7 @@
-import { AxiosRequestConfig } from 'axios';
-import type { BaseItemDto, ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest, TimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
+import type { AxiosRequestConfig } from 'axios';
+import type { ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client/models/timer-info-dto';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
@@ -17,16 +19,16 @@ import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api'
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 import globalize from 'scripts/globalize';
 
-import { JellyfinApiContext, useApi } from './useApi';
+import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
 import { getProgramSections, getSuggestionSections } from 'utils/sections';
-import { LibraryViewSettings, ParentId } from 'types/library';
+import type { LibraryViewSettings, ParentId } from 'types/library';
+import { type Section, type SectionType, SectionApiMethod } from 'types/sections';
 import { LibraryTab } from 'types/libraryTab';
-import { Section, SectionApiMethod, SectionType } from 'types/sections';
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
@@ -59,7 +61,7 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
         ],
         queryFn: ({ signal }) =>
             fetchGetItems(currentApi, parametersOptions, { signal }),
-        cacheTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined
+        gcTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined
     });
 };
 
@@ -363,7 +365,7 @@ export const useGetItemsViewByType = (
                 { signal }
             ),
         refetchOnWindowFocus: false,
-        keepPreviousData : true,
+        placeholderData : keepPreviousData,
         enabled:
             [
                 LibraryTab.Movies,

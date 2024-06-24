@@ -1,3 +1,4 @@
+import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ConnectionManager, Credentials, ApiClient } from 'jellyfin-apiclient';
 
 import { appHost } from './apphost';
@@ -33,8 +34,13 @@ class ServerConnections extends ConnectionManager {
         super(...arguments);
         this.localApiClient = null;
 
+        // Set the apiclient minimum version to match the SDK
+        this._minServerVersion = MINIMUM_VERSION;
+
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
             setUserInfo(null, null);
+            // Ensure the updated credentials are persisted to storage
+            credentialProvider.credentials(credentialProvider.credentials());
 
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedOut === 'function') {
                 window.NativeShell.onLocalUserSignedOut(logoutInfo);
@@ -59,7 +65,7 @@ class ServerConnections extends ConnectionManager {
         );
 
         apiClient.enableAutomaticNetworking = false;
-        apiClient.manualAddressOnly = false;
+        apiClient.manualAddressOnly = true;
 
         this.addApiClient(apiClient);
 
@@ -128,12 +134,12 @@ class ServerConnections extends ConnectionManager {
     }
 }
 
-const credentials = new Credentials();
+const credentialProvider = new Credentials();
 
 const capabilities = Dashboard.capabilities(appHost);
 
 export default new ServerConnections(
-    credentials,
+    credentialProvider,
     appHost.appName(),
     appHost.appVersion(),
     appHost.deviceName(),

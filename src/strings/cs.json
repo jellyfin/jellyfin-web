@@ -890,7 +890,7 @@
     "Saturday": "Sobota",
     "Save": "Uložit",
     "ScanForNewAndUpdatedFiles": "Vyhledat nové a aktualizované soubory",
-    "Schedule": "Naplánování úlohy",
+    "Schedule": "Plánované nahrávání",
     "Screenshot": "Snímek obrazovky",
     "Screenshots": "Snímky obrazovky",
     "Search": "Vyhledávání",
@@ -1120,7 +1120,7 @@
     "LabelUserRemoteClientBitrateLimitHelp": "Přepíše výchozí globální hodnotu nastavenou v nastavení serveru, viz Nástěnka > Přehrávání > Streamování.",
     "LabelVideoCodec": "Video kodek",
     "LeaveBlankToNotSetAPassword": "Můžete ponechat prázdné pro nastavení bez hesla.",
-    "LiveTV": "Živý přenos",
+    "LiveTV": "TV vysílání",
     "Logo": "Logo",
     "ManageLibrary": "Spravovat knihovnu",
     "MediaInfoDefault": "Výchozí",
@@ -1892,5 +1892,10 @@
     "Penciller": "Výtvarník",
     "Translator": "Překladatel",
     "LibraryScanFanoutConcurrencyHelp": "Maximální počet souběžných úloh skenování knihovny. Nastavením na 0 bude počet dán počtem jader CPU. UPOZORNĚNÍ: Příliš vyskoý počet může způsobit problémy se síťovými souborými systémy. V takovém případě počet snižte.",
-    "LibraryScanFanoutConcurrency": "Maximální počet souběžných skenování knihovny"
+    "LibraryScanFanoutConcurrency": "Maximální počet souběžných skenování knihovny",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferovaný audio kodek pro překódovaní při přehrávání videí",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Vybrat preferovaný audio kodek pro překódovaní při přehrávání videí. Pokud preferovaný kodek není podporován, server vybere jiný dostupný kodek.",
+    "Alternate": "Alternativní",
+    "AlternateDVD": "Alternativní DVD",
+    "Regional": "Regionální"
 }

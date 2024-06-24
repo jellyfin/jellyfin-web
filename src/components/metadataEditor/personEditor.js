@@ -2,6 +2,7 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
@@ -60,6 +61,15 @@ function show(person) {
                 reject();
             }
         });
+
+        let selectPersonTypeOptions = '<option value=""></option>';
+        for (const type of Object.values(PersonKind)) {
+            if (type === PersonKind.Unknown) {
+                continue;
+            }
+            selectPersonTypeOptions += `<option value="${type}">\${${type}}</option>`;
+        }
+        dlg.querySelector('.selectPersonType').innerHTML = globalize.translateHtml(selectPersonTypeOptions);
 
         dlg.querySelector('.selectPersonType').addEventListener('change', function () {
             if (this.value === 'Actor') {

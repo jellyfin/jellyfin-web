@@ -1864,5 +1864,22 @@
     "ViewLyrics": "查看歌詞",
     "DeleteLyrics": "刪除歌詞",
     "ConfirmDeleteLyrics": "刪除這些歌詞將會同時從媒體庫中移除它們並從伺服器上刪除相關檔案。您是否確定刪除？",
-    "HeaderDeleteLyrics": "刪除歌詞"
+    "HeaderDeleteLyrics": "刪除歌詞",
+    "Alternate": "替換",
+    "AlternateDVD": "替代的 DVD",
+    "Letterer": "託字人",
+    "HeaderLyricDownloads": "歌詞下載",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "影片播放中的首選音訊編解碼器",
+    "Author": "作者",
+    "Colorist": "著色者",
+    "CoverArtist": "封面藝術家",
+    "Creator": "創作者",
+    "Editor": "編輯",
+    "EnableDtsHelp": "僅在設備支援 DTS 或連接到兼容音訊接收器時啟用，否則可能會導致播放失敗。",
+    "EnableTrueHd": "啟用 TrueHD",
+    "EnableTrueHdHelp": "僅在您的設備支援 TrueHD 或連接到兼容的音訊接收器時才啟用，否則可能導致播放失敗。",
+    "Illustrator": "插圖家",
+    "Inker": "著墨師",
+    "EnableDts": "啟用 DTS (DCA)",
+    "HeaderVideoAdvanced": "進階影片選項"
 }
