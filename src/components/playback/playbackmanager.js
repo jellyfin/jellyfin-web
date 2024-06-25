@@ -629,7 +629,8 @@ function truncatePlayOptions(playOptions) {
         mediaSourceId: playOptions.mediaSourceId,
         audioStreamIndex: playOptions.audioStreamIndex,
         subtitleStreamIndex: playOptions.subtitleStreamIndex,
-        startPositionTicks: playOptions.startPositionTicks
+        startPositionTicks: playOptions.startPositionTicks,
+        aspectRatio: playOptions.aspectRatio
     };
 }
 
@@ -2277,6 +2278,8 @@ class PlaybackManager {
                 playOptions.isFirstItem = false;
             } else {
                 playOptions.isFirstItem = true;
+                // resetting the aspectRatio from a previous theme video playback
+                if (!playOptions.aspectRatio) playOptions.aspectRatio = 'auto';
             }
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
@@ -2604,6 +2607,7 @@ class PlaybackManager {
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
 
                     streamInfo.fullscreen = playOptions.fullscreen;
+                    streamInfo.aspectRatio = playOptions.aspectRatio;
 
                     const playerData = getPlayerData(player);
 

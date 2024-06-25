@@ -33,14 +33,16 @@ function playThemeMedia(items, ownerId) {
         currentThemeItems.forEach((i) => {
             i.playOptions = {
                 fullscreen: false,
-                enableRemotePlayers: false
+                enableRemotePlayers: false,
+                aspectRatio: 'cover'
             };
         });
 
         playbackManager.play({
             items: currentThemeItems,
             fullscreen: false,
-            enableRemotePlayers: false
+            enableRemotePlayers: false,
+            aspectRatio: 'cover'
         }).then(function () {
             currentOwnerId = ownerId;
         });
