@@ -5,18 +5,23 @@ import { appRouter } from '../components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import { playbackManager } from '../components/playback/playbackmanager';
 import ServerConnections from '../components/ServerConnections';
+import scrollManager from 'components/scrollManager';
+import focusManager from 'components/focusManager';
 
+import keyboardNavigation from 'scripts/keyboardNavigation';
 import globalize from '../scripts/globalize';
 import LibraryMenu from '../scripts/libraryMenu';
 import Events from '../utils/events.ts';
 
 import '../styles/lyrics.scss';
+import { AutoScroll } from './lyrics.types';
 
 let currentPlayer;
 let currentItem;
 
 let savedLyrics;
 let isDynamicLyric = false;
+let autoScroll = AutoScroll.Instant;
 
 function dynamicLyricHtmlReducer(htmlAccumulator, lyric, index) {
     if (layoutManager.tv) {
@@ -69,6 +74,12 @@ export default function (view) {
         if (lyric) {
             lyric.classList.remove('pastLyric');
             lyric.classList.remove('futureLyric');
+            if (autoScroll !== AutoScroll.NoScroll) {
+                // instant scroll is used when the view is first loaded
+                scrollManager.scrollToElement(lyric, autoScroll === AutoScroll.Smooth);
+                focusManager.focus(lyric);
+                autoScroll = AutoScroll.Smooth;
+            }
         }
     }
 
@@ -178,6 +189,7 @@ export default function (view) {
     }
 
     function onLyricClick(lyricTime) {
+        autoScroll = AutoScroll.Smooth;
         playbackManager.seek(lyricTime);
         if (playbackManager.paused()) {
             playbackManager.playPause(currentPlayer);
@@ -234,8 +246,23 @@ export default function (view) {
         }
     }
 
+    function onWheelOrTouchMove() {
+        autoScroll = AutoScroll.NoScroll;
+    }
+
+    function onKeyDown(e) {
+        const key = keyboardNavigation.getKeyName(e);
+        if (key === 'ArrowUp' || key === 'ArrowDown') {
+            autoScroll = AutoScroll.NoScroll;
+        }
+    }
+
     view.addEventListener('viewshow', function () {
         Events.on(playbackManager, 'playerchange', onPlayerChange);
+        autoScroll = AutoScroll.Instant;
+        document.addEventListener('wheel', onWheelOrTouchMove);
+        document.addEventListener('touchmove', onWheelOrTouchMove);
+        document.addEventListener('keydown', onKeyDown);
         try {
             onLoad();
         } catch (e) {
@@ -245,6 +272,9 @@ export default function (view) {
 
     view.addEventListener('viewbeforehide', function () {
         Events.off(playbackManager, 'playerchange', onPlayerChange);
+        document.removeEventListener('wheel', onWheelOrTouchMove);
+        document.removeEventListener('touchmove', onWheelOrTouchMove);
+        document.removeEventListener('keydown', onKeyDown);
         releaseCurrentPlayer();
     });
 }
