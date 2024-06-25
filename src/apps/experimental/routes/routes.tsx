@@ -6,6 +6,8 @@ import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 import { toRedirectRoute } from 'components/router/Redirect';
+import ErrorBoundary from 'components/router/ErrorBoundary';
+
 import AppLayout from '../AppLayout';
 
 import { ASYNC_USER_ROUTES } from './asyncRoutes';
@@ -29,7 +31,8 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
                         path: 'video',
                         element: <VideoPage />
                     }
-                ]
+                ],
+                ErrorBoundary
             },
 
             /* Public routes */
