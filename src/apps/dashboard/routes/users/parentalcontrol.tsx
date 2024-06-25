@@ -1,7 +1,8 @@
 import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import escapeHTML from 'escape-html';
+import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../../scripts/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
@@ -12,7 +13,6 @@ import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import { getParameterByName } from '../../../../utils/url';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
@@ -57,6 +57,8 @@ function handleSaveUser(
 }
 
 const UserParentalControl: FunctionComponent = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
@@ -95,7 +97,7 @@ const UserParentalControl: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -144,7 +146,7 @@ const UserParentalControl: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -165,7 +167,7 @@ const UserParentalControl: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -186,7 +188,7 @@ const UserParentalControl: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -208,7 +210,7 @@ const UserParentalControl: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -241,8 +243,12 @@ const UserParentalControl: FunctionComponent = () => {
     }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
 
     const loadData = useCallback(() => {
+        if (!userId) {
+            console.error('[userparentalcontrol.loadData] missing user id');
+            return;
+        }
+
         loading.show();
-        const userId = getParameterByName('userId');
         const promise1 = window.ApiClient.getUser(userId);
         const promise2 = window.ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {
@@ -250,13 +256,13 @@ const UserParentalControl: FunctionComponent = () => {
         }).catch(err => {
             console.error('[userparentalcontrol] failed to load data', err);
         });
-    }, [loadUser]);
+    }, [loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -344,8 +350,12 @@ const UserParentalControl: FunctionComponent = () => {
         const saveUser = handleSaveUser(page, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
 
         const onSubmit = (e: Event) => {
+            if (!userId) {
+                console.error('[userparentalcontrol.onSubmit] missing user id');
+                return;
+            }
+
             loading.show();
-            const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
             }).catch(err => {

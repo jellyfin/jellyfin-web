@@ -1,5 +1,6 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
@@ -7,7 +8,6 @@ import globalize from '../../../../scripts/globalize';
 import toast from '../../../../components/toast/toast';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import ButtonElement from '../../../../elements/ButtonElement';
-import { getParameterByName } from '../../../../utils/url';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
@@ -21,6 +21,8 @@ type ItemsArr = {
 };
 
 const UserLibraryAccess: FunctionComponent = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -37,7 +39,7 @@ const UserLibraryAccess: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
@@ -64,7 +66,7 @@ const UserLibraryAccess: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
@@ -97,7 +99,7 @@ const UserLibraryAccess: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
@@ -138,7 +140,6 @@ const UserLibraryAccess: FunctionComponent = () => {
 
     const loadData = useCallback(() => {
         loading.show();
-        const userId = getParameterByName('userId');
         const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
         const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -150,21 +151,25 @@ const UserLibraryAccess: FunctionComponent = () => {
         }).catch(err => {
             console.error('[userlibraryaccess] failed to load data', err);
         });
-    }, [loadUser]);
+    }, [loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
         loadData();
 
         const onSubmit = (e: Event) => {
+            if (!userId) {
+                console.error('[userlibraryaccess] missing user id');
+                return;
+            }
+
             loading.show();
-            const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
             }).catch(err => {
