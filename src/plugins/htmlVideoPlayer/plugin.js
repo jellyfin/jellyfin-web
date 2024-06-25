@@ -1351,15 +1351,7 @@ export class HtmlVideoPlayer {
         }
 
         if (browser.windows) {
-            if (browser.chrome) {
-                return true;
-            }
-
-            if (browser.edgeUwp) {
-                return true;
-            }
-
-            if (browser.edg) {
+            if (browser.chrome || browser.edgeUwp || browser.edg) {
                 return true;
             }
         }
