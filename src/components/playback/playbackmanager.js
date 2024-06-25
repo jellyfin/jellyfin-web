@@ -2496,7 +2496,7 @@ class PlaybackManager {
             return Promise.resolve()
                 .then(() => {
                     if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
-                        return Promise.reject('skip bitrate detection');
+                        return Promise.reject(new Error('skip bitrate detection'));
                     }
 
                     return apiClient.getEndpointInfo()
@@ -2508,7 +2508,7 @@ class PlaybackManager {
                                 });
                             }
 
-                            return Promise.reject('skip bitrate detection');
+                            return Promise.reject(new Error('skip bitrate detection'));
                         });
                 })
                 .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType));

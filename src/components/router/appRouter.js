@@ -389,7 +389,7 @@ class AppRouter {
             if (firstResult.State === ConnectionState.ServerSignIn) {
                 const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
                 fetch(url).then(response => {
-                    if (!response.ok) return Promise.reject('fetch failed');
+                    if (!response.ok) return Promise.reject(new Error('fetch failed'));
                     return response.json();
                 }).then(data => {
                     if (data !== null && data.StartupWizardCompleted === false) {
