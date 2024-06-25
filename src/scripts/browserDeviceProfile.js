@@ -239,6 +239,8 @@ function supportsDolbyVision(options) {
 }
 
 function supportedDolbyVisionProfilesHevc(videoTestElement) {
+    if (browser.xboxOne) return [5, 8];
+
     const supportedProfiles = [];
     // Profiles 5/8 4k@60fps
     if (videoTestElement.canPlayType) {
