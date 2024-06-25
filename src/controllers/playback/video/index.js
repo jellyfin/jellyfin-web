@@ -21,7 +21,6 @@ import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../../styles/videoosd.scss';
 import ServerConnections from '../../../components/ServerConnections';
-import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/router/appRouter';
 import LibraryMenu from '../../../scripts/libraryMenu';
@@ -1501,8 +1500,6 @@ export default function (view) {
     let playPauseClickTimeout;
     function onViewHideStopPlayback() {
         if (playbackManager.isPlayingVideo()) {
-            shell.disableFullscreen();
-
             clearTimeout(playPauseClickTimeout);
             const player = currentPlayer;
             view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
@@ -1526,8 +1523,6 @@ export default function (view) {
             player.setPlaybackRate(playbackRateSpeed);
         }
     }
-
-    shell.enableFullscreen();
 
     let currentPlayer;
     let comingUpNextDisplayed;
