@@ -1584,7 +1584,11 @@ export class HtmlVideoPlayer {
                 playerDlg.innerHTML = html;
                 const videoElement = playerDlg.querySelector('video');
 
-                videoElement.volume = getSavedVolume();
+                // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+                if (!appHost.supports('physicalvolumecontrol')) {
+                    videoElement.volume = getSavedVolume();
+                }
+
                 videoElement.addEventListener('timeupdate', this.onTimeUpdate);
                 videoElement.addEventListener('ended', this.onEnded);
                 videoElement.addEventListener('volumechange', this.onVolumeChange);
