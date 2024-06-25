@@ -1,17 +1,23 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';
-import { getParameterByName } from '../../../../utils/url';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import Page from '../../../../components/Page';
 import loading from '../../../../components/loading/loading';
 
 const UserPassword: FunctionComponent = () => {
-    const userId = getParameterByName('userId');
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
 
     const loadUser = useCallback(() => {
+        if (!userId) {
+            console.error('[userpassword] missing user id');
+            return;
+        }
+
         loading.show();
         window.ApiClient.getUser(userId).then(function (user) {
             if (!user.Name) {
