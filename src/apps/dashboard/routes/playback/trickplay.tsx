@@ -142,6 +142,7 @@ const PlaybackTrickplay: FC = () => {
         <Page
             id='trickplayConfigurationPage'
             className='mainAnimatedPage type-interior playbackConfigurationPage'
+            title={globalize.translate('Trickplay')}
         >
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
