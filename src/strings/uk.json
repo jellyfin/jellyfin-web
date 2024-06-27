@@ -1535,7 +1535,7 @@
     "LabelAllowedAudioChannels": "Максимально дозволені аудіоканали",
     "PreferFmp4HlsContainer": "Надавати перевагу медіаконтейнеру fMP4-HLS",
     "LabelSyncPlayInfo": "Інформація SyncPlay",
-    "LabelOriginalMediaInfo": "Оригінальна інформація про медіа",
+    "LabelOriginalMediaInfo": "Інформація про оригінальне медіа",
     "LabelRemuxingInfo": "Інформація про ремуксування",
     "LabelDirectStreamingInfo": "Інформація про пряму трансляцію",
     "LabelTranscodingInfo": "Інформація про перекодування",
