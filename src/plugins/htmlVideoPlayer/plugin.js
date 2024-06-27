@@ -1333,6 +1333,10 @@ export class HtmlVideoPlayer {
         if (browser.edge) {
             return true;
         }
+        // font-size styling does not seem to work natively in firefox. Switching to custom subtitles element for firefox.
+        if (browser.firefox){
+            return true;
+        }
 
         if (browser.iOS) {
             const userAgent = navigator.userAgent.toLowerCase();
