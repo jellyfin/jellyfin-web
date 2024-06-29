@@ -1673,5 +1673,6 @@
     "Author": "Autor",
     "BlockContentWithTagsHelp": "Peida meedia, millel on vähemalt üks antud silt.",
     "ButtonEditUser": "Redigeeri kasutajat",
-    "AllowSubtitleManagement": "Luba sellel kasutajal subtiitreid muuta"
+    "AllowSubtitleManagement": "Luba sellel kasutajal subtiitreid muuta",
+    "AirPlay": "AirPlay"
 }
