@@ -1885,5 +1885,11 @@
     "PlaylistPublic": "Permitir acesso público",
     "PlaylistPublicDescription": "Permitir que essa lista de reprodução seja visualizada por qualquer usuário conectado.",
     "SavePassword": "Salvar senha",
-    "Translator": "Tradutor"
+    "Translator": "Tradutor",
+    "LabelTileWidthHelp": "Número máximo de imagens por bloco na direção X.",
+    "LabelTileWidth": "Largura do bloco",
+    "LabelTileHeight": "Altura do bloco",
+    "Letterer": "Letreiro",
+    "Regional": "Regional",
+    "LabelTileHeightHelp": "Número máximo de imagens por bloco na direção Y."
 }
