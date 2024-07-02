@@ -70,6 +70,21 @@ function getDeviceProfile(item) {
             });
         }
 
+        const preferredTranscodeVideoCodec = appSettings.preferredTranscodeVideoCodec();
+        if (preferredTranscodeVideoCodec) {
+            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                if (transcodingProfile.Type === 'Video') {
+                    const videoCodecs = transcodingProfile.VideoCodec.split(',');
+                    const index = videoCodecs.indexOf(preferredTranscodeVideoCodec);
+                    if (index !== -1) {
+                        videoCodecs.splice(index, 1);
+                        videoCodecs.unshift(preferredTranscodeVideoCodec);
+                        transcodingProfile.VideoCodec = videoCodecs.join(',');
+                    }
+                }
+            });
+        }
+
         const preferredTranscodeVideoAudioCodec = appSettings.preferredTranscodeVideoAudioCodec();
         if (preferredTranscodeVideoAudioCodec) {
             profile.TranscodingProfiles.forEach((transcodingProfile) => {

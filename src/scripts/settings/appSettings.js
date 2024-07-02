@@ -133,6 +133,18 @@ class AppSettings {
     }
 
     /**
+     * Get or set preferred transcode video codec.
+     * @param {string|undefined} val - Preferred transcode video codec or undefined.
+     * @return {string} Preferred transcode video codec.
+     */
+    preferredTranscodeVideoCodec(val) {
+        if (val !== undefined) {
+            return this.set('preferredTranscodeVideoCodec', val);
+        }
+        return this.get('preferredTranscodeVideoCodec') || '';
+    }
+
+    /**
      * Get or set preferred transcode audio codec in video playback.
      * @param {string|undefined} val - Preferred transcode audio codec or undefined.
      * @return {string} Preferred transcode audio codec.
