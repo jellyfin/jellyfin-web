@@ -77,6 +77,10 @@ function getLandingScreenOptions(type) {
             name: globalize.translate('Genres'),
             value: LibraryTab.Genres
         });
+        list.push({
+            name: globalize.translate('TabStudios'),
+            value: LibraryTab.Studios
+        });
     } else if (type === 'tvshows') {
         list.push({
             name: globalize.translate('Shows'),

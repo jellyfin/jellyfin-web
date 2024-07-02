@@ -49,13 +49,23 @@ const genresTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Movie]
 };
 
+const studiosTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Networks,
+    itemType: [BaseItemKind.Movie],
+    isBtnFilterEnabled: false,
+    isBtnGridListEnabled: false,
+    isBtnSortEnabled: false,
+    isAlphabetPickerEnabled: false
+};
+
 const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
     2: trailersTabContent,
     3: favoritesTabContent,
     4: collectionsTabContent,
-    5: genresTabContent
+    5: genresTabContent,
+    6: studiosTabContent
 };
 
 const Movies: FC = () => {
