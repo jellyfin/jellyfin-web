@@ -15,7 +15,6 @@ import { appHost } from '../apphost';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
-import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
@@ -1279,7 +1278,7 @@ class PlaybackManager {
             return getPlayerData(player).audioStreamIndex;
         };
 
-        function isAudioStreamSupported(mediaSource, index, deviceProfile) {
+        function isAudioStreamSupported(mediaSource, index) {
             let mediaStream;
             const mediaStreams = mediaSource.MediaStreams;
 
@@ -1294,20 +1293,7 @@ class PlaybackManager {
                 return false;
             }
 
-            const container = mediaSource.Container.toLowerCase();
-            const codec = (mediaStream.Codec || '').toLowerCase();
-
-            if (!codec) {
-                return false;
-            }
-
-            const profiles = deviceProfile.DirectPlayProfiles || [];
-
-            return profiles.some(function (p) {
-                return p.Type === 'Video'
-                    && includesAny((p.Container || '').toLowerCase(), container)
-                    && includesAny((p.AudioCodec || '').toLowerCase(), codec);
-            });
+            return mediaStream.SupportsDirectPlay;
         }
 
         self.setAudioStreamIndex = function (index, player) {
@@ -1316,20 +1302,15 @@ class PlaybackManager {
                 return player.setAudioStreamIndex(index);
             }
 
-            if (self.playMethod(player) === 'Transcode' || !player.canSetAudioStreamIndex()) {
+            if (self.playMethod(player) === 'Transcode'
+                || !player.canSetAudioStreamIndex()
+                || !isAudioStreamSupported(self.currentMediaSource(player), index)
+            ) {
                 changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
                 getPlayerData(player).audioStreamIndex = index;
             } else {
-                // See if the player supports the track without transcoding
-                player.getDeviceProfile(self.currentItem(player)).then(function (profile) {
-                    if (isAudioStreamSupported(self.currentMediaSource(player), index, profile)) {
-                        player.setAudioStreamIndex(index);
-                        getPlayerData(player).audioStreamIndex = index;
-                    } else {
-                        changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
-                        getPlayerData(player).audioStreamIndex = index;
-                    }
-                });
+                player.setAudioStreamIndex(index);
+                getPlayerData(player).audioStreamIndex = index;
             }
         };
 
