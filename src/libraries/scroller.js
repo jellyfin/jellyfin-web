@@ -293,7 +293,7 @@ const scrollerFactory = function (frame, options) {
             immediate = true;
         }
 
-        if (!immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
+        if (!immediate && o.skipSlideToWhenVisible && fullItemPos?.isVisible) {
             return;
         }
 
