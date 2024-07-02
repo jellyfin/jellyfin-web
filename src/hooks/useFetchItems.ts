@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { ActivityLogApiGetLogEntriesRequest, ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest, UserApiGetUsersRequest } from '@jellyfin/sdk/lib/generated-client';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client/models/timer-info-dto';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
@@ -29,6 +29,8 @@ import { getProgramSections, getSuggestionSections } from 'utils/sections';
 import type { LibraryViewSettings, ParentId } from 'types/library';
 import { type Section, type SectionType, SectionApiMethod } from 'types/sections';
 import { LibraryTab } from 'types/libraryTab';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
@@ -365,7 +367,7 @@ export const useGetItemsViewByType = (
                 { signal }
             ),
         refetchOnWindowFocus: false,
-        placeholderData : keepPreviousData,
+        placeholderData: keepPreviousData,
         enabled:
             [
                 LibraryTab.Movies,
@@ -406,7 +408,7 @@ export const usePlaylistsMoveItemMutation = () => {
     const currentApi = useApi();
     return useMutation({
         mutationFn: (requestParameters: PlaylistsApiMoveItemRequest) =>
-            fetchPlaylistsMoveItem(currentApi, requestParameters )
+            fetchPlaylistsMoveItem(currentApi, requestParameters)
     });
 };
 
@@ -530,7 +532,7 @@ export const useToggleFavoriteMutation = () => {
     const currentApi = useApi();
     return useMutation({
         mutationFn: ({ itemId, isFavorite }: ToggleFavoriteMutationProp) =>
-            fetchUpdateFavoriteStatus(currentApi, itemId, isFavorite )
+            fetchUpdateFavoriteStatus(currentApi, itemId, isFavorite)
     });
 };
 
@@ -566,7 +568,7 @@ export const useTogglePlayedMutation = () => {
     const currentApi = useApi();
     return useMutation({
         mutationFn: ({ itemId, isPlayed }: TogglePlayedMutationProp) =>
-            fetchUpdatePlayedState(currentApi, itemId, isPlayed )
+            fetchUpdatePlayedState(currentApi, itemId, isPlayed)
     });
 };
 
@@ -576,7 +578,7 @@ export type GroupsTimers = {
 };
 
 function groupsTimers(timers: TimerInfoDto[], indexByDate?: boolean) {
-    const items = timers.map(function (t) {
+    const items = timers.map(function(t) {
         t.Type = 'Timer';
         return t;
     });
@@ -895,5 +897,53 @@ export const useGetProgramsSectionsWithItems = (
         queryKey: ['ProgramSectionWithItems', { programSectionType }],
         queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal })
 
+    });
+};
+
+export const fetchGetUsers = async (
+    currentApi: JellyfinApiContext,
+    requestParams?: UserApiGetUsersRequest,
+    options?: AxiosRequestConfig
+) => {
+    const { api } = currentApi;
+
+    if (!api) return;
+
+    const response = await getUserApi(api).getUsers(
+        requestParams,
+        {
+            signal: options?.signal
+        });
+
+    return response.data;
+};
+
+export const useGetUsers = (requestParams?: UserApiGetUsersRequest) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: ['Users'],
+        queryFn: ({ signal }) => fetchGetUsers(currentApi, requestParams, { signal })
+    });
+};
+
+const fetchGetLogEntries = async (
+    currentApi: JellyfinApiContext,
+    requestParams: ActivityLogApiGetLogEntriesRequest,
+    options?: AxiosRequestConfig
+) => {
+    const { api } = currentApi;
+
+    if (!api) return;
+
+    const response = await getActivityLogApi(api).getLogEntries(requestParams, { signal: options?.signal });
+
+    return response.data;
+};
+
+export const useGetLogEntires = (requestParams: ActivityLogApiGetLogEntriesRequest) => {
+    const currentApi = useApi();
+    return useQuery({
+        queryKey: ['LogEntries', requestParams],
+        queryFn: ({ signal }) => fetchGetLogEntries(currentApi, requestParams, { signal })
     });
 };

@@ -1,6 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
-import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import PermMedia from '@mui/icons-material/PermMedia';
@@ -14,7 +12,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';
 import UserAvatar from 'components/UserAvatar';
-import { useApi } from 'hooks/useApi';
 import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'scripts/datetime';
 import globalize from 'scripts/globalize';
 import { toBoolean } from 'utils/string';
@@ -22,6 +19,7 @@ import { toBoolean } from 'utils/string';
 import LogLevelChip from '../components/activityTable/LogLevelChip';
 import OverviewCell from '../components/activityTable/OverviewCell';
 import GridActionsCellLink from '../components/dataGrid/GridActionsCellLink';
+import { useGetLogEntires, useGetUsers } from 'hooks/useFetchItems';
 
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';
@@ -41,26 +39,53 @@ const getActivityView = (param: string | null) => {
 const getRowId = (row: ActivityLogEntry) => row.Id ?? -1;
 
 const Activity = () => {
-    const { api } = useApi();
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const [ activityView, setActivityView ] = useState(
+    const [activityView, setActivityView] = useState(
         getActivityView(searchParams.get(VIEW_PARAM)));
-    const [ isLoading, setIsLoading ] = useState(true);
-    const [ paginationModel, setPaginationModel ] = useState({
+
+    const [paginationModel, setPaginationModel] = useState({
         page: 0,
         pageSize: DEFAULT_PAGE_SIZE
     });
-    const [ rowCount, setRowCount ] = useState(0);
-    const [ rows, setRows ] = useState<ActivityLogEntry[]>([]);
-    const [ users, setUsers ] = useState<Record<string, UserDto>>({});
+
+    const { data: usersData, isLoading: isUsersLoading } = useGetUsers();
+
+    type UsersRecords = Record<string, UserDto>;
+    const users: UsersRecords = useMemo(() => {
+        if (!usersData) return {};
+
+        return usersData.reduce<UsersRecords>((acc, user) => {
+            const userId = user.Id;
+            if (!userId) return acc;
+
+            return {
+                ...acc,
+                [userId]: user
+            };
+        }, {});
+    }, [usersData]);
+
+    const activityParams = useMemo(() => ({
+        startIndex: paginationModel.page * paginationModel.pageSize,
+        limit: paginationModel.pageSize,
+        hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
+    }), [activityView, paginationModel.page, paginationModel.pageSize]);
+
+    const { data: logEntries, isLoading: isLogEntriesLoading } = useGetLogEntires(activityParams);
+
+    const isLoading = isUsersLoading || isLogEntriesLoading;
+
+    useEffect(() => {
+        console.log(isLoading);
+    }, [isLoading]);
 
     const userColDef: GridColDef[] = activityView !== ActivityView.System ? [
         {
             field: 'User',
             headerName: globalize.translate('LabelUser'),
             width: 60,
-            valueGetter: ( value, row ) => users[row.UserId]?.Name,
+            valueGetter: (value, row) => users[row.UserId]?.Name,
             renderCell: ({ row }) => (
                 <IconButton
                     size='large'
@@ -82,16 +107,16 @@ const Activity = () => {
             headerName: globalize.translate('LabelDate'),
             width: 90,
             type: 'date',
-            valueGetter: ( value ) => parseISO8601Date(value),
-            valueFormatter: ( value ) => toLocaleDateString(value)
+            valueGetter: (value) => parseISO8601Date(value),
+            valueFormatter: (value) => toLocaleDateString(value)
         },
         {
             field: 'Time',
             headerName: globalize.translate('LabelTime'),
             width: 100,
             type: 'dateTime',
-            valueGetter: ( value, row ) => parseISO8601Date(row.Date),
-            valueFormatter: ( value ) => toLocaleTimeString(value)
+            valueGetter: (value, row) => parseISO8601Date(row.Date),
+            valueFormatter: (value) => toLocaleTimeString(value)
         },
         {
             field: 'Severity',
@@ -113,7 +138,7 @@ const Activity = () => {
             field: 'Overview',
             headerName: globalize.translate('LabelOverview'),
             width: 200,
-            valueGetter: ( value, row ) => row.ShortOverview ?? row.Overview,
+            valueGetter: (value, row) => row.ShortOverview ?? row.Overview,
             renderCell: ({ row }) => (
                 <OverviewCell {...row} />
             )
@@ -154,58 +179,6 @@ const Activity = () => {
     }, []);
 
     useEffect(() => {
-        if (api) {
-            const fetchUsers = async () => {
-                const { data } = await getUserApi(api).getUsers();
-                const usersById: Record<string, UserDto> = {};
-                data.forEach(user => {
-                    if (user.Id) {
-                        usersById[user.Id] = user;
-                    }
-                });
-
-                setUsers(usersById);
-            };
-
-            fetchUsers()
-                .catch(err => {
-                    console.error('[activity] failed to fetch users', err);
-                });
-        }
-    }, [ api ]);
-
-    useEffect(() => {
-        if (api) {
-            const fetchActivity = async () => {
-                const params: {
-                    startIndex: number,
-                    limit: number,
-                    hasUserId?: boolean
-                } = {
-                    startIndex: paginationModel.page * paginationModel.pageSize,
-                    limit: paginationModel.pageSize
-                };
-                if (activityView !== ActivityView.All) {
-                    params.hasUserId = activityView === ActivityView.User;
-                }
-
-                const { data } = await getActivityLogApi(api)
-                    .getLogEntries(params);
-
-                setRowCount(data.TotalRecordCount ?? 0);
-                setRows(data.Items ?? []);
-                setIsLoading(false);
-            };
-
-            setIsLoading(true);
-            fetchActivity()
-                .catch(err => {
-                    console.error('[activity] failed to fetch activity log entries', err);
-                });
-        }
-    }, [ activityView, api, paginationModel ]);
-
-    useEffect(() => {
         const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
         if (currentViewParam !== activityView) {
             if (activityView === ActivityView.All) {
@@ -215,7 +188,7 @@ const Activity = () => {
             }
             setSearchParams(searchParams);
         }
-    }, [ activityView, searchParams, setSearchParams ]);
+    }, [activityView, searchParams, setSearchParams]);
 
     return (
         <Page
@@ -254,12 +227,12 @@ const Activity = () => {
                 </Box>
                 <DataGrid
                     columns={columns}
-                    rows={rows}
-                    pageSizeOptions={[ 10, 25, 50, 100 ]}
+                    rows={logEntries?.Items ?? []}
+                    pageSizeOptions={[10, 25, 50, 100]}
                     paginationMode='server'
                     paginationModel={paginationModel}
                     onPaginationModelChange={setPaginationModel}
-                    rowCount={rowCount}
+                    rowCount={logEntries?.TotalRecordCount}
                     getRowId={getRowId}
                     loading={isLoading}
                     sx={{
