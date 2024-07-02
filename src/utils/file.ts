@@ -13,3 +13,18 @@ export function readFileAsBase64(file: File): Promise<string> {
         reader.readAsDataURL(file);
     });
 }
+
+/**
+ * Reads and returns the file in text format
+ */
+export function readFileAsText(file: File): Promise<string> {
+    return new Promise(function (resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = e.target?.result as string;
+            resolve(data);
+        };
+        reader.onerror = reject;
+        reader.readAsText(file);
+    });
+}
