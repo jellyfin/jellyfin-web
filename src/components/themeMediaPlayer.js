@@ -10,6 +10,8 @@ import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
+import { ItemSortBy, SortOrder } from '@jellyfin/sdk/lib/generated-client';
+import { shuffle } from 'lodash-es';
 
 let currentOwnerId;
 let currentThemeIds = [];
@@ -101,8 +103,16 @@ async function loadThemeMedia(serverId, itemId) {
 
         const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
 
+        let themeItems = result.Items;
+
+        if (userSettings.themeMediaSortBy() == ItemSortBy.Random) {
+            themeItems = shuffle(themeItems);
+        } else if (userSettings.themeMediaSortOrder() == SortOrder.Descending) {
+            themeItems = themeItems.reverse();
+        }
+
         if (result.OwnerId !== currentOwnerId) {
-            playThemeMedia(result.Items, result.OwnerId);
+            playThemeMedia(themeItems, result.OwnerId);
         }
     } catch (err) {
         console.error('[ThemeMediaPlayer] failed to load theme media', err);
