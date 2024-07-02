@@ -2106,6 +2106,12 @@ export default function (view, params) {
             ...currentItem,
             ...selectedMediaSource
         });
+
+        const apiClient = getApiClient();
+
+        apiClient.getItem(apiClient.getCurrentUserId(), selectedMediaSource.Id).then(function (item) {
+            currentItem = item;
+        });
     }
 
     init();
