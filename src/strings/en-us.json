@@ -441,6 +441,8 @@
     "HeaderNetworking": "IP Protocols",
     "HeaderNewApiKey": "New API Key",
     "HeaderNewDevices": "New Devices",
+    "HeaderNewReleases": "New Releases",
+    "NewReleasesIn": "New Releases in {0}",
     "HeaderNewRepository": "New Repository",
     "HeaderNextEpisodePlayingInValue": "Next Episode Playing in {0}",
     "HeaderNextVideoPlayingInValue": "Next Video Playing in {0}",
