@@ -22,7 +22,7 @@ import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import ServerConnections from 'components/ServerConnections';
 import browser from 'scripts/browser';
-import datetime from 'scripts/datetime';
+import { parseISO8601Date, toLocaleDateString } from 'utils/datetime';
 import dom from 'scripts/dom';
 import { download } from 'scripts/fileDownloader';
 import globalize from 'scripts/globalize';
@@ -314,7 +314,7 @@ function reloadPlayButtons(page, item) {
     if (item.Type == 'Program') {
         const now = new Date();
 
-        if (now >= datetime.parseISO8601Date(item.StartDate, true) && now < datetime.parseISO8601Date(item.EndDate, true)) {
+        if (now >= parseISO8601Date(item.StartDate, true) && now < parseISO8601Date(item.EndDate, true)) {
             hideAll(page, 'btnPlay', true);
             canPlay = true;
         } else {
@@ -584,7 +584,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.PremiereDate) {
         try {
-            const birthday = datetime.parseISO8601Date(item.PremiereDate, true);
+            const birthday = parseISO8601Date(item.PremiereDate, true);
             const durationSinceBorn = intervalToDuration({ start: birthday, end: Date.now() });
             itemBirthday.classList.remove('hide');
             if (item.EndDate) {
@@ -604,10 +604,10 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.EndDate) {
         try {
-            const deathday = datetime.parseISO8601Date(item.EndDate, true);
+            const deathday = parseISO8601Date(item.EndDate, true);
             itemDeathDate.classList.remove('hide');
             if (item.PremiereDate) {
-                const birthday = datetime.parseISO8601Date(item.PremiereDate, true);
+                const birthday = parseISO8601Date(item.PremiereDate, true);
                 const durationSinceBorn = intervalToDuration({ start: birthday, end: deathday });
 
                 itemDeathDate.innerHTML = `${globalize.translate('DeathDateValue', deathday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
@@ -1511,12 +1511,12 @@ function renderProgramsForChannel(page, result) {
 
     for (let i = 0, length = result.Items.length; i < length; i++) {
         const item = result.Items[i];
-        const itemStartDate = datetime.parseISO8601Date(item.StartDate);
+        const itemStartDate = parseISO8601Date(item.StartDate);
 
         if (!(currentStartDate && currentStartDate.toDateString() === itemStartDate.toDateString())) {
             if (currentItems.length) {
                 html += '<div class="verticalSection verticalDetailSection">';
-                html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
+                html += '<h2 class="sectionTitle padded-left">' + toLocaleDateString(currentStartDate, {
                     weekday: 'long',
                     month: 'long',
                     day: 'numeric'
@@ -1541,7 +1541,7 @@ function renderProgramsForChannel(page, result) {
 
     if (currentItems.length) {
         html += '<div class="verticalSection verticalDetailSection">';
-        html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
+        html += '<h2 class="sectionTitle padded-left">' + toLocaleDateString(currentStartDate, {
             weekday: 'long',
             month: 'long',
             day: 'numeric'

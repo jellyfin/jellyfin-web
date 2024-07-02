@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
-import datetime from 'scripts/datetime';
+import { getDisplayTime } from 'utils/datetime';
 import globalize from 'scripts/globalize';
 
 interface EndsAtProps {
@@ -19,7 +19,7 @@ const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, className }) => {
 
     const endTime = new Date().getTime() + (runTimeTicks / 10000);
     const endDate = new Date(endTime);
-    const displayTime = datetime.getDisplayTime(endDate);
+    const displayTime = getDisplayTime(endDate);
 
     return (
         <Box className={cssClass}>
