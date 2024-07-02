@@ -4,6 +4,7 @@ import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filte
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
+import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import * as userSettings from 'scripts/settings/userSettings';
 import { CardShape } from 'utils/card';
 import { type Section, SectionType, SectionApiMethod } from 'types/sections';
@@ -18,8 +19,12 @@ export const getSuggestionSections = (): Section[] => {
             ImageType.Primary,
             ImageType.Backdrop,
             ImageType.Thumb
-        ]
+        ],
+        recursive: true,
+        limit: 25,
+        enableTotalRecordCount: false
     };
+
     return [
         {
             name: 'HeaderContinueWatching',
@@ -368,3 +373,223 @@ export const getProgramSections = (): Section[] => {
         }
     ];
 };
+
+export const getFavoriteSections = (): Section[] => {
+    const parametersOptions = {
+        sortBy: [ItemSortBy.SortName],
+        sortOrder: [SortOrder.Ascending],
+        fields: [ItemFields.PrimaryImageAspectRatio],
+        filters: [ItemFilter.IsFavorite],
+        isFavorite: true,
+        limit: 25,
+        enableTotalRecordCount: false
+    };
+
+    const parametersExtraOptions = {
+        collapseBoxSetItems: false,
+        recursive: true,
+        excludeLocationTypes: [LocationType.Virtual]
+    };
+
+    const cardOptions = {
+        showTitle: true,
+        overlayText: false,
+        centerText: true,
+        cardLayout: false
+    };
+
+    return [
+        {
+            name: 'HeaderFavoriteMovies',
+            itemTypes: 'Movie',
+            type: SectionType.FavoriteMovies,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Movie],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.PortraitOverflow,
+                showYear: true,
+                overlayPlayButton: true,
+                lines: 2,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteShows',
+            itemTypes: 'Series',
+            type: SectionType.FavoriteShows,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Series],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.PortraitOverflow,
+                showYear: true,
+                overlayPlayButton: true,
+                lines: 2,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteEpisodes',
+            itemTypes: 'Episode',
+            type: SectionType.FavoriteEpisode,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Episode],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.BackdropOverflow,
+                preferThumb: false,
+                showParentTitle: true,
+                overlayPlayButton: true,
+                lines: 2,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteVideos',
+            itemTypes: 'Video,MusicVideo',
+            type: SectionType.FavoriteVideos,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Video, BaseItemKind.MusicVideo],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.BackdropOverflow,
+                preferThumb: true,
+                overlayPlayButton: true,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteCollections',
+            itemTypes: 'BoxSet',
+            type: SectionType.FavoriteCollections,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.BoxSet],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.PortraitOverflow,
+                overlayPlayButton: true,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoritePlaylists',
+            itemTypes: 'Playlist',
+            type: SectionType.FavoritePlaylists,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Playlist],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.SquareOverflow,
+                preferThumb: false,
+                showParentTitle: false,
+                overlayPlayButton: true,
+                coverImage: true,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoritePersons',
+            itemTypes: 'Person',
+            apiMethod: SectionApiMethod.Persons,
+            type: SectionType.FavoritePeople,
+            parametersOptions: {
+                ...parametersOptions
+            },
+            cardOptions: {
+                shape: CardShape.PortraitOverflow,
+                preferThumb: false,
+                showParentTitle: false,
+                overlayPlayButton: true,
+                coverImage: true,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteArtists',
+            itemTypes: 'MusicArtist',
+            apiMethod: SectionApiMethod.Artists,
+            type: SectionType.FavoriteArtists,
+            parametersOptions: {
+                ...parametersOptions
+            },
+            cardOptions: {
+                shape: CardShape.SquareOverflow,
+                preferThumb: false,
+                showParentTitle: false,
+                overlayPlayButton: true,
+                coverImage: true,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteAlbums',
+            itemTypes: 'MusicAlbum',
+            type: SectionType.FavoriteAlbums,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.MusicAlbum],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.SquareOverflow,
+                preferThumb: false,
+                showParentTitle: true,
+                overlayPlayButton: true,
+                coverImage: true,
+                lines: 2,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteSongs',
+            itemTypes: 'Audio',
+            type: SectionType.FavoriteSongs,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Audio],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.SquareOverflow,
+                preferThumb: false,
+                showParentTitle: true,
+                overlayMoreButton: true,
+                action: 'instantmix',
+                coverImage: true,
+                lines: 2,
+                ...cardOptions
+            }
+        },
+        {
+            name: 'HeaderFavoriteBooks',
+            itemTypes: 'Book',
+            type: SectionType.FavoriteBooks,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Book],
+                ...parametersOptions,
+                ...parametersExtraOptions
+            },
+            cardOptions: {
+                shape: CardShape.PortraitOverflow,
+                showYear: true,
+                overlayPlayButton: true,
+                lines: 2,
+                ...cardOptions
+            }
+        }
+    ];
+};
+
