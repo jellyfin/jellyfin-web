@@ -16,7 +16,7 @@ class AppSettings {
             this.set('enableAutoLogin', val.toString());
         }
 
-        return toBoolean(this.get('enableAutoLogin'), true);
+        return toBoolean(this.get('enableAutoLogin'), false);
     }
 
     /**
