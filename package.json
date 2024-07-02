@@ -111,7 +111,7 @@
     "markdown-it": "14.1.0",
     "material-design-icons-iconfont": "6.7.0",
     "native-promise-only": "0.8.1",
-    "pdfjs-dist": "3.11.174",
+    "pdfjs-dist": "4.2.67",
     "react": "18.3.1",
     "react-blurhash": "0.3.0",
     "react-dom": "18.3.1",
