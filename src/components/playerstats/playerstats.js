@@ -192,11 +192,15 @@ function getDisplayBitrate(bitrate) {
 }
 
 function getDisplayTranscodeFps(session, player) {
-    const mediaSource = playbackManager.currentMediaSource(player) ?? {};
-    const videoStream = (mediaSource.MediaStreams ?? []).find((s) => s.Type === 'Video') ?? {};
+    const mediaSource = playbackManager.currentMediaSource(player) || {};
+    const videoStream = (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
 
     const originalFramerate = videoStream.AverageFrameRate;
     const transcodeFramerate = session.TranscodingInfo.Framerate;
+
+    if (!originalFramerate) {
+        return `${session.TranscodingInfo.Framerate} fps`;
+    }
 
     return `${(transcodeFramerate / originalFramerate).toFixed(2)}x (${session.TranscodingInfo.Framerate} fps)`;
 }
