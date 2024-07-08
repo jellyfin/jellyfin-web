@@ -21,7 +21,6 @@ export const REDIRECTS: Redirect[] = [
     { from: 'metadataimages.html', to: '/dashboard/libraries/metadata' },
     { from: 'metadatanfo.html', to: '/dashboard/libraries/nfo' },
     { from: 'networking.html', to: '/dashboard/networking' },
-    { from: 'notificationsettings.html', to: '/dashboard/notifications' },
     { from: 'playbackconfiguration.html', to: '/dashboard/playback/resume' },
     { from: 'repositories.html', to: '/dashboard/plugins/repositories' },
     { from: 'scheduledtask.html', to: '/dashboard/tasks/edit' },
