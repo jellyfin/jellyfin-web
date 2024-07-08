@@ -1458,11 +1458,17 @@ function renderChildren(page, item) {
         imageLoader.lazyChildren(childrenItemsContainer);
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
-                name: globalize.translate('HeaderVideos'),
-                mediaType: 'Video'
+                name: globalize.translate('Movies'),
+                type: 'Movie'
             }, {
                 name: globalize.translate('Series'),
                 type: 'Series'
+            }, {
+                name: globalize.translate('Episodes'),
+                type: 'Episode'
+            }, {
+                name: globalize.translate('Videos'),
+                mediaType: 'Video'
             }, {
                 name: globalize.translate('Albums'),
                 type: 'MusicAlbum'
@@ -1627,13 +1633,16 @@ function inferContext(item) {
 }
 
 function filterItemsByCollectionItemType(items, typeInfo) {
-    return items.filter(function (item) {
-        if (typeInfo.mediaType) {
-            return item.MediaType == typeInfo.mediaType;
+    let filteredItems = [];
+    let leftoverItems = [];
+    items.forEach(function(item){
+        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
+            filteredItems.push(item);
+        } else {
+            leftoverItems.push(item);
         }
-
-        return item.Type == typeInfo.type;
     });
+    return [filteredItems, leftoverItems];
 }
 
 function canPlaySomeItemInCollection(items) {
@@ -1652,31 +1661,28 @@ function renderCollectionItems(page, parentItem, types, items) {
     page.querySelector('.collectionItems').classList.remove('hide');
     page.querySelector('.collectionItems').innerHTML = '';
 
-    for (const type of types) {
-        const typeItems = filterItemsByCollectionItemType(items, type);
-
-        if (typeItems.length) {
-            renderCollectionItemType(page, parentItem, type, typeItems);
-        }
-    }
-
-    const otherType = {
-        name: globalize.translate('HeaderOtherItems')
-    };
-    const otherTypeItems = items.filter(function (curr) {
-        return !types.filter(function (t) {
-            return filterItemsByCollectionItemType([curr], t).length > 0;
-        }).length;
-    });
-
-    if (otherTypeItems.length) {
-        renderCollectionItemType(page, parentItem, otherType, otherTypeItems);
-    }
-
     if (!items.length) {
         renderCollectionItemType(page, parentItem, {
             name: globalize.translate('Items')
         }, items);
+    } else {
+        let typeItems = [];
+        let otherTypeItems = items;
+
+        for (const type of types) {
+            [typeItems, otherTypeItems] = filterItemsByCollectionItemType(otherTypeItems, type);
+
+            if (typeItems.length) {
+                renderCollectionItemType(page, parentItem, type, typeItems);
+            }
+        }
+
+        if (otherTypeItems.length) {
+            const otherType = {
+                name: globalize.translate('HeaderOtherItems')
+            };
+            renderCollectionItemType(page, parentItem, otherType, otherTypeItems);
+        }
     }
 
     const containers = page.querySelectorAll('.collectionItemsContainer');
