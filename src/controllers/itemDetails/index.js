@@ -1633,9 +1633,9 @@ function inferContext(item) {
 }
 
 function filterItemsByCollectionItemType(items, typeInfo) {
-    let filteredItems = [];
-    let leftoverItems = [];
-    items.forEach(function(item){
+    const filteredItems = [];
+    const leftoverItems = [];
+    items.forEach(function(item) {
         if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
             filteredItems.push(item);
         } else {
