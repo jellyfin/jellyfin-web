@@ -1775,6 +1775,15 @@ export default function (view) {
         }
     });
 
+    nowPlayingPositionSlider.addEventListener('keydown', function (e) {
+        if (e.defaultPrevented) return;
+
+        const key = keyboardnavigation.getKeyName(e);
+        if (key === 'Enter') {
+            playbackManager.playPause(currentPlayer);
+        }
+    });
+
     nowPlayingPositionSlider.updateBubbleHtml = function(bubble, value) {
         showOsd();
 
