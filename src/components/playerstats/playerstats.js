@@ -199,10 +199,10 @@ function getDisplayTranscodeFps(session, player) {
     const transcodeFramerate = session.TranscodingInfo.Framerate;
 
     if (!originalFramerate) {
-        return `${session.TranscodingInfo.Framerate} fps`;
+        return `${transcodeFramerate} fps`;
     }
 
-    return `${(transcodeFramerate / originalFramerate).toFixed(2)}x (${session.TranscodingInfo.Framerate} fps)`;
+    return `${(transcodeFramerate / originalFramerate).toFixed(2)}x (${transcodeFramerate} fps)`;
 }
 
 function getReadableSize(size) {
