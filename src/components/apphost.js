@@ -170,7 +170,7 @@ function supportsFullscreen() {
     }
 
     const element = document.documentElement;
-    return !!(element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || document.createElement('video').webkitEnterFullscreen;
+    return !!(element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen || document.createElement('video').webkitEnterFullscreen);
 }
 
 function getDefaultLayout() {
