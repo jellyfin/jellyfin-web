@@ -1424,6 +1424,7 @@ export default function (options) {
     // External vtt or burn in
     profile.SubtitleProfiles = [];
     const subtitleBurninSetting = appSettings.get('subtitleburnin');
+    const subtitleRenderPgsSetting = appSettings.get('subtitlerenderpgs') === 'true';
     if (subtitleBurninSetting !== 'all') {
         if (supportsTextTracks()) {
             profile.SubtitleProfiles.push({
@@ -1442,7 +1443,7 @@ export default function (options) {
             });
         }
 
-        if (supportsCanvas2D() && options.enablePgsRender !== false && !options.isRetry
+        if (supportsCanvas2D() && options.enablePgsRender !== false && !options.isRetry && subtitleRenderPgsSetting
             && subtitleBurninSetting !== 'allcomplexformats' && subtitleBurninSetting !== 'onlyimageformats') {
             profile.SubtitleProfiles.push({
                 Format: 'pgssub',
