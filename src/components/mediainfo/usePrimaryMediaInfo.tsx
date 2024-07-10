@@ -1,6 +1,13 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import * as userSettings from 'scripts/settings/userSettings';
-import datetime from 'scripts/datetime';
+import {
+    getDisplayDuration,
+    getDisplayRunningTime,
+    getDisplayTime,
+    parseISO8601Date,
+    toLocaleDateString,
+    toLocaleString
+} from 'utils/datetime';
 import globalize from 'scripts/globalize';
 import itemHelper from '../itemHelper';
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
@@ -35,7 +42,7 @@ function addTrackCountOrItemCount(
         }
 
         if (itemRunTimeTicks) {
-            addMiscInfo({ text: datetime.getDisplayDuration(itemRunTimeTicks) });
+            addMiscInfo({ text: getDisplayDuration(itemRunTimeTicks) });
         }
     } else if (itemType === BaseItemKind.PhotoAlbum || itemType === BaseItemKind.BoxSet) {
         const count = itemChildCount;
@@ -59,11 +66,11 @@ function addOriginalAirDateInfo(
     ) {
         try {
             //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
-            const date = datetime.parseISO8601Date(
+            const date = parseISO8601Date(
                 itemPremiereDate,
                 itemType !== BaseItemKind.Episode
             );
-            addMiscInfo({ text: datetime.toLocaleDateString(date) });
+            addMiscInfo({ text: toLocaleDateString(date) });
         } catch (e) {
             console.error('error parsing date:', itemPremiereDate);
         }
@@ -82,7 +89,7 @@ function addSeriesTimerInfo(
         if (itemRecordAnyTime) {
             addMiscInfo({ text: globalize.translate('Anytime') });
         } else {
-            addMiscInfo({ text: datetime.getDisplayTime(itemStartDate) });
+            addMiscInfo({ text: getDisplayTime(itemStartDate) });
         }
 
         if (itemRecordAnyChannel) {
@@ -191,10 +198,10 @@ function addProgramTextInfo(
         addMiscInfo({ text: program.ProductionYear });
     } else if (program?.PremiereDate && isOriginalAirDateEnabled !== false) {
         try {
-            const date = datetime.parseISO8601Date(program.PremiereDate);
+            const date = parseISO8601Date(program.PremiereDate);
             const text = globalize.translate(
                 'OriginalAirDateValue',
-                datetime.toLocaleDateString(date)
+                toLocaleDateString(date)
             );
             addMiscInfo({ text: text });
         } catch (e) {
@@ -215,11 +222,11 @@ function addStartDateInfo(
         && itemType !== 'Timer'
     ) {
         try {
-            const date = datetime.parseISO8601Date(itemStartDate);
-            addMiscInfo({ text: datetime.toLocaleDateString(date) });
+            const date = parseISO8601Date(itemStartDate);
+            addMiscInfo({ text: toLocaleDateString(date) });
 
             if (itemType !== BaseItemKind.Recording) {
-                addMiscInfo({ text: datetime.getDisplayTime(date) });
+                addMiscInfo({ text: getDisplayTime(date) });
             }
         } catch (e) {
             console.error('error parsing date:', itemStartDate);
@@ -240,7 +247,7 @@ function addSeriesProductionYearInfo(
             addMiscInfo({
                 text: globalize.translate(
                     'SeriesYearToPresent',
-                    datetime.toLocaleString(itemProductionYear, {
+                    toLocaleString(itemProductionYear, {
                         useGrouping: false
                     })
                 )
@@ -256,18 +263,18 @@ function addproductionYearWithEndDate(
     itemEndDate: NullableString,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
-    let productionYear = datetime.toLocaleString(itemProductionYear, {
+    let productionYear = toLocaleString(itemProductionYear, {
         useGrouping: false
     });
 
     if (itemEndDate) {
         try {
-            const endYear = datetime.toLocaleString(
-                datetime.parseISO8601Date(itemEndDate).getFullYear(),
+            const endYear = toLocaleString(
+                parseISO8601Date(itemEndDate).getFullYear(),
                 { useGrouping: false }
             );
             /* At this point, text will contain only the start year */
-            if (endYear !== itemProductionYear) {
+            if (endYear !== productionYear) {
                 productionYear += `-${endYear}`;
             }
         } catch (e) {
@@ -298,8 +305,8 @@ function addYearInfo(
             addMiscInfo({ text: itemProductionYear });
         } else if (itemPremiereDate) {
             try {
-                const text = datetime.toLocaleString(
-                    datetime.parseISO8601Date(itemPremiereDate).getFullYear(),
+                const text = toLocaleString(
+                    parseISO8601Date(itemPremiereDate).getFullYear(),
                     { useGrouping: false }
                 );
                 addMiscInfo({ text: text });
@@ -336,9 +343,9 @@ function addRunTimeInfo(
         && isRuntimeEnabled
     ) {
         if (itemType === BaseItemKind.Audio) {
-            addMiscInfo({ text: datetime.getDisplayRunningTime(itemRunTimeTicks) });
+            addMiscInfo({ text: getDisplayRunningTime(itemRunTimeTicks) });
         } else {
-            addMiscInfo({ text: datetime.getDisplayDuration(itemRunTimeTicks) });
+            addMiscInfo({ text: getDisplayDuration(itemRunTimeTicks) });
         }
     }
 }

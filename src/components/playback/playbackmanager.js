@@ -3,7 +3,7 @@ import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
 
 import Events from '../../utils/events.ts';
-import datetime from '../../scripts/datetime';
+import { parseISO8601Date } from '../../utils/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
@@ -1027,7 +1027,7 @@ class PlaybackManager {
                     return false;
                 }
 
-                if (new Date().getTime() > datetime.parseISO8601Date(item.EndDate).getTime() || new Date().getTime() < datetime.parseISO8601Date(item.StartDate).getTime()) {
+                if (new Date().getTime() > parseISO8601Date(item.EndDate).getTime() || new Date().getTime() < parseISO8601Date(item.StartDate).getTime()) {
                     return false;
                 }
             }

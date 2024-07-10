@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import { appHost } from 'components/apphost';
-import datetime from 'scripts/datetime';
+import { supportsLocalization } from 'utils/datetime';
 import globalize from 'scripts/globalize';
 import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from './constants';
 import { DisplaySettingsValues } from './types';
@@ -20,7 +20,7 @@ interface LocalizationPreferencesProps {
 }
 
 export function LocalizationPreferences({ onChange, values }: Readonly<LocalizationPreferencesProps>) {
-    if (!appHost.supports('displaylanguage') && !datetime.supportsLocalization()) {
+    if (!appHost.supports('displaylanguage') && !supportsLocalization()) {
         return null;
     }
     return (
@@ -58,7 +58,7 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
                 </FormControl>
             ) }
 
-            { datetime.supportsLocalization() && (
+            { supportsLocalization() && (
                 <FormControl fullWidth>
                     <InputLabel id='display-settings-locale-label'>{globalize.translate('LabelDateTimeLocale')}</InputLabel>
                     <Select
