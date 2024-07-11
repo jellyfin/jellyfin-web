@@ -218,7 +218,7 @@
     "ButtonTogglePlaylist": "Lista de reprodución",
     "Bwdif": "BWDIF",
     "ChannelNumber": "Número da canle",
-    "AllowTonemappingHelp": "O mapeamento de tons pode transformar o rango dinámico do vídeo de HDR a SDR, á vez que se manteñen detalles da imaxe e cor. Sendo estas moi importantes para a reconstrución da escena orixinal. Actualmente só funciona con vídeos 10bit HDR10, HLG e Dovi. Isto require as correspondentes librarías de OpenCL ou Cuda.",
+    "AllowTonemappingHelp": "O mapeamento de tons pode transformar o rango dinámico do vídeo de HDR a SDR, á vez que se manteñen detalles da imaxe e cor. Sendo estas moi importantes para a reconstrución da escena orixinal. Actualmente só funciona con vídeos 10bit HDR10, HLG e Dovi. Isto require o entorno en tempo de execución GPGPU correspondente.",
     "ClientSettings": "Configuración do cliente",
     "ColorTransfer": "Transferencia de cor",
     "ConfirmDeleteItem": "Borrar este elemento eliminarao do sistema e da súa biblioteca. Está seguro?",
@@ -923,5 +923,12 @@
     "LabelSortOrder": "Orde",
     "MillisecondsUnit": "ms",
     "SecondarySubtitles": "Subtítulos secundarios",
-    "Yesterday": "Onte"
+    "Yesterday": "Onte",
+    "Alternate": "Alternar",
+    "AllowContentWithTagsHelp": "Mostar só medios con polo menos unha das etiquetas especificadas.",
+    "AllowSubtitleManagement": "Permitir que este usuario edite subtítulos",
+    "AllowSegmentDeletion": "Eliminar segmentos",
+    "AllowSegmentDeletionHelp": "Eliminar segmentos antigos despois de que o cliente os descargue. Isto evita ter que almacenar todo o arquivo transcodificado no almacenamento. Desactiva esta opción se tes problemas coa reproducción",
+    "LabelSegmentKeepSeconds": "Tempo no que se mantén os ficheiros",
+    "LabelSegmentKeepSecondsHelp": "Tempo en segundos durante o cal os segmentos deben manterse tras ser descargados polo cliente. Só funciona se a eliminación de segmentos está activada."
 }
