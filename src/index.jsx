@@ -61,7 +61,11 @@ function loadCoreDictionary() {
 
 function init() {
     // Log current version to console to help out with issue triage and debugging
-    console.log(`${__PACKAGE_JSON_NAME__} version ${__PACKAGE_JSON_VERSION__} build ${__JF_BUILD_VERSION__}`);
+    console.info(
+        `[${__PACKAGE_JSON_NAME__}]
+version: ${__PACKAGE_JSON_VERSION__}
+commit: ${__COMMIT_SHA__}
+build: ${__JF_BUILD_VERSION__}`);
 
     // This is used in plugins
     window.Events = Events;
