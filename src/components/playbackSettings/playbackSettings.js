@@ -178,6 +178,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
+    context.querySelector('.chkDisplayRatingsInPlayer').checked = userSettings.enableDisplayRatingsInPlayer();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
@@ -240,6 +241,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
+    userSettingsInstance.enableDisplayRatingsInPlayer(context.querySelector('.chkDisplayRatingsInPlayer').checked);
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }

@@ -185,6 +185,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Enable Display Ratings in Player' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable Display Ratings in Player' or undefined.
+     * @return {boolean} 'Enable Display Ratings in Player' state.
+     */
+    enableDisplayRatingsInPlayer(val) {
+        if (val !== undefined) {
+            return this.set('enableDisplayRatingsInPlayer', val.toString());
+        }
+
+        return toBoolean(this.get('enableDisplayRatingsInPlayer', false));
+    }
+
+    /**
      * Get or set 'Video Remaining/Total Time' state.
      * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
      * @return {boolean} 'Video Remaining/Total Time' state.
@@ -662,6 +675,7 @@ export const backdropScreensaverInterval = currentSettings.backdropScreensaverIn
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
+export const enableDisplayRatingsInPlayer = currentSettings.enableDisplayRatingsInPlayer.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);

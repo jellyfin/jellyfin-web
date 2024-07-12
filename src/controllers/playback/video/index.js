@@ -95,18 +95,20 @@ export default function (view) {
         }
 
         setTitle(displayItem, parentName);
-        ratingsText.innerHTML = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
-            officialRating: false,
-            criticRating: true,
-            starRating: true,
-            endsAt: false,
-            year: false,
-            programIndicator: false,
-            runtime: false,
-            subtitles: false,
-            originalAirDate: false,
-            episodeTitle: false
-        });
+        if (userSettings.enableDisplayRatingsInPlayer()) {
+            ratingsText.innerHTML = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
+                officialRating: false,
+                criticRating: true,
+                starRating: true,
+                endsAt: false,
+                year: false,
+                programIndicator: false,
+                runtime: false,
+                subtitles: false,
+                originalAirDate: false,
+                episodeTitle: false
+            });
+        }
 
         const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
         const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
@@ -673,7 +675,8 @@ export default function (view) {
                     currentUpNextDialog = new UpNextDialog({
                         parent: view.querySelector('.upNextContainer'),
                         player: player,
-                        nextItem: nextItem
+                        nextItem: nextItem,
+                        displayRating: userSettings.enableDisplayRatingsInPlayer()
                     });
                     Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
                 }, onUpNextHidden);
