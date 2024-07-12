@@ -108,6 +108,8 @@ export default function (view) {
                 originalAirDate: false,
                 episodeTitle: false
             });
+        } else {
+            ratingsText.innerHTML = '';
         }
 
         const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
