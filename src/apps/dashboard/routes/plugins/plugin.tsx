@@ -16,6 +16,7 @@ import Settings from '@mui/icons-material/Settings';
 import React, { type FC, useEffect, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
 
+import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';
 import { findBestPluginInfo } from 'apps/dashboard/features/plugins/api/pluginInfo';
 import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
 import { useDisablePlugin } from 'apps/dashboard/features/plugins/api/useDisablePlugin';
@@ -261,7 +262,6 @@ const PluginPage: FC = () => {
             setPluginDetails({
                 canUninstall: !!pluginInfo?.CanUninstall,
                 description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
-                hasConfiguration: !!configurationPages?.some(page => page.PluginId === pluginId),
                 id: pluginId,
                 imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
                 isEnabled: (isEnabledOverride && pluginInfo?.Status === PluginStatus.Restart)
@@ -269,6 +269,7 @@ const PluginPage: FC = () => {
                 name: pluginName || pluginInfo?.Name || packageInfo?.name,
                 owner: packageInfo?.owner,
                 status: pluginInfo?.Status,
+                configurationPage: findBestConfigurationPage(configurationPages || [], pluginId),
                 version,
                 versions: packageInfo?.versions || []
             });
@@ -360,10 +361,10 @@ const PluginPage: FC = () => {
                                     </FormGroup>
                                 )}
 
-                                {!isLoading && pluginDetails?.hasConfiguration && (
+                                {!isLoading && pluginDetails?.configurationPage?.Name && (
                                     <Button
                                         component={RouterLink}
-                                        to={`/${getPluginUrl(pluginName)}`}
+                                        to={`/${getPluginUrl(pluginDetails.configurationPage.Name)}`}
                                         startIcon={<Settings />}
                                     >
                                         {globalize.translate('Settings')}
