@@ -148,6 +148,11 @@ const PluginPage: FC = () => {
             }, {
                 onSuccess: () => {
                     setIsEnabledOverride(false);
+                },
+                onSettled: () => {
+                    installPlugin.reset();
+                    enablePlugin.reset();
+                    uninstallPlugin.reset();
                 }
             });
         } else {
@@ -157,10 +162,15 @@ const PluginPage: FC = () => {
             }, {
                 onSuccess: () => {
                     setIsEnabledOverride(true);
+                },
+                onSettled: () => {
+                    installPlugin.reset();
+                    disablePlugin.reset();
+                    uninstallPlugin.reset();
                 }
             });
         }
-    }, [ disablePlugin, enablePlugin, pluginDetails ]);
+    }, [ disablePlugin, enablePlugin, installPlugin, pluginDetails, uninstallPlugin ]);
 
     /** Install the plugin or prompt for confirmation if untrusted */
     const onInstall = useCallback((version?: VersionInfo, isConfirmed = false) => () => {
@@ -185,9 +195,12 @@ const PluginPage: FC = () => {
         }, {
             onSettled: () => {
                 setPendingInstallVersion(undefined);
+                disablePlugin.reset();
+                enablePlugin.reset();
+                uninstallPlugin.reset();
             }
         });
-    }, [ installPlugin, pluginDetails ]);
+    }, [ disablePlugin, enablePlugin, installPlugin, pluginDetails, uninstallPlugin ]);
 
     /** Confirm and install the plugin */
     const onConfirmInstall = useCallback(() => {
@@ -218,8 +231,14 @@ const PluginPage: FC = () => {
         uninstallPlugin.mutate({
             pluginId: pluginDetails.id,
             version: pluginDetails.version.version
+        }, {
+            onSettled: () => {
+                disablePlugin.reset();
+                enablePlugin.reset();
+                installPlugin.reset();
+            }
         });
-    }, [ pluginDetails, uninstallPlugin ]);
+    }, [ disablePlugin, enablePlugin, installPlugin, pluginDetails, uninstallPlugin ]);
 
     /** Close the uninstall confirmation dialog */
     const onCloseUninstallConfirmDialog = useCallback(() => {
