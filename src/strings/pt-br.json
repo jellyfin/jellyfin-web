@@ -1891,5 +1891,6 @@
     "LabelTileHeight": "Altura do bloco",
     "Letterer": "Letreiro",
     "Regional": "Regional",
-    "LabelTileHeightHelp": "Número máximo de imagens por bloco na direção Y."
+    "LabelTileHeightHelp": "Número máximo de imagens por bloco na direção Y.",
+    "Penciller": "Lápis"
 }
