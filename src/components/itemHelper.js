@@ -43,7 +43,11 @@ export function getDisplayName(item, options = {}) {
         }
 
         if (number) {
-            name = name ? (number + nameSeparator + name) : number;
+            if (item.PlaylistItemId && item.SeriesName){
+                name = name ? (item.SeriesName + nameSeparator + number + nameSeparator + name) : number;
+            } else {
+                name = name ? (number + nameSeparator + name) : number;
+            }
         }
     }
 
