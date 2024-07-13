@@ -556,7 +556,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
     if (showMediaTitle) {
         const name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
-            includeParentInfo: options.includeParentInfoInTitle
+            includeParentInfo: options.includeParentInfoInTitle,
+            collectionId: options.collectionId
         });
 
         lines.push(getTextActionButton({
