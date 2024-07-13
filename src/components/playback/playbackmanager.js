@@ -2017,12 +2017,13 @@ export class PlaybackManager {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                if (!firstItem.SeriesId) {
+                const { id } = firstItem;
+                if (!id) {
                     resolve(null);
                     return;
                 }
 
-                apiClient.getEpisodes(firstItem.SeriesId, {
+                apiClient.getEpisodes(id, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
