@@ -496,10 +496,10 @@ export default function (view) {
         icon.classList.remove('fullscreen_exit', 'fullscreen');
 
         if (playbackManager.isFullscreen(currentPlayer)) {
-            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (F)');
             icon.classList.add('fullscreen_exit');
         } else {
-            button.setAttribute('title', globalize.translate('Fullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('Fullscreen') + ' (F)');
             icon.classList.add('fullscreen');
         }
     }
@@ -721,7 +721,7 @@ export default function (view) {
         }
 
         btnPlayPauseIcon.classList.add(icon);
-        dom.setElementTitle(btnPlayPause, title + ' (k)', title);
+        dom.setElementTitle(btnPlayPause, title + ' (K)', title);
     }
 
     function updatePlayerStateInternal(event, player, state) {
