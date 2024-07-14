@@ -43,7 +43,9 @@
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "html-loader": "5.0.0",
     "html-webpack-plugin": "5.6.0",
+    "husky": "9.0.11",
     "jsdom": "24.0.0",
+    "lint-staged": "15.2.7",
     "mini-css-extract-plugin": "2.9.0",
     "postcss": "8.4.39",
     "postcss-loader": "8.1.1",
@@ -150,9 +152,12 @@
     "build:check": "tsc --noEmit",
     "escheck": "es-check",
     "lint": "eslint \"./\"",
+    "lint:fix": "eslint \"./\" --fix",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
-    "stylelint": "stylelint \"src/**/*.{css,scss}\""
+    "stylelint": "stylelint \"src/**/*.{css,scss}\"",
+    "stylelint:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
+    "prepare": "husky"
   },
   "engines": {
     "node": ">=20.0.0",
