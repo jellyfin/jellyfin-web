@@ -76,10 +76,6 @@ const Activity = () => {
 
     const isLoading = isUsersLoading || isLogEntriesLoading;
 
-    useEffect(() => {
-        console.log(isLoading);
-    }, [isLoading]);
-
     const userColDef: GridColDef[] = activityView !== ActivityView.System ? [
         {
             field: 'User',
@@ -227,12 +223,12 @@ const Activity = () => {
                 </Box>
                 <DataGrid
                     columns={columns}
-                    rows={logEntries?.Items ?? []}
+                    rows={logEntries?.Items || []}
                     pageSizeOptions={[10, 25, 50, 100]}
                     paginationMode='server'
                     paginationModel={paginationModel}
                     onPaginationModelChange={setPaginationModel}
-                    rowCount={logEntries?.TotalRecordCount}
+                    rowCount={logEntries?.TotalRecordCount || 0}
                     getRowId={getRowId}
                     loading={isLoading}
                     sx={{
