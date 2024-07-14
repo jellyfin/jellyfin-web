@@ -194,8 +194,6 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
         }
 
-    console.log(this.value)
-
         if (this.value === '' || this.value === 'amf' || this.value === 'nvenc' || this.value === 'qsv' || this.value === 'vaapi' || this.value === 'rkmpp' || this.value === 'videotoolbox') {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
         } else {
