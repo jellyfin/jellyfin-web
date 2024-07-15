@@ -404,7 +404,7 @@ export const useSearchItems = (
                     { signal }
                 );
 
-                addSection('Videos', videosData.Items, {
+                addSection('HeaderVideos', videosData.Items, {
                     showParentTitle: true
                 });
 
@@ -447,7 +447,7 @@ export const useSearchItems = (
                     },
                     { signal }
                 );
-                addSection('PhotoAlbums', photoAlbumsData.Items);
+                addSection('HeaderPhotoAlbums', photoAlbumsData.Items);
 
                 // Photos row
                 const photosData = await fetchItemsByType(
@@ -473,7 +473,7 @@ export const useSearchItems = (
                     },
                     { signal }
                 );
-                addSection('AudioBooks', audioBooksData.Items);
+                addSection('HeaderAudioBooks', audioBooksData.Items);
 
                 // Books row
                 const booksData = await fetchItemsByType(
