@@ -33,7 +33,6 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
 
     const isTabsAvailable = isTabPath(location.pathname);
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
-    const isSearchPath = location.pathname === '/search.html';
 
     return (
         <AppToolbar
@@ -41,7 +40,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
                 <>
                     <SyncPlayButton />
                     <RemotePlayButton />
-                    <SearchButton isTabsAvailable={isTabsAvailable} isSearchPath={isSearchPath} />
+                    <SearchButton isTabsAvailable={isTabsAvailable} />
                 </>
             )}
             isDrawerAvailable={isDrawerAvailable}

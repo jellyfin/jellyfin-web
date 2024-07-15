@@ -3,6 +3,7 @@ import {
     Link,
     URLSearchParamsInit,
     createSearchParams,
+    useLocation,
     useSearchParams
 } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,7 +12,8 @@ import Tooltip from '@mui/material/Tooltip';
 import globalize from 'scripts/globalize';
 
 const getUrlParams = (searchParams: URLSearchParams) => {
-    const parentId = searchParams.get('parentId') || searchParams.get('topParentId');
+    const parentId =
+        searchParams.get('parentId') || searchParams.get('topParentId');
     const collectionType = searchParams.get('collectionType');
     const params: URLSearchParamsInit = {};
 
@@ -27,15 +29,13 @@ const getUrlParams = (searchParams: URLSearchParams) => {
 
 interface SearchButtonProps {
     isTabsAvailable: boolean;
-    isSearchPath: boolean;
 }
 
-const SearchButton: FC<SearchButtonProps> = ({
-    isTabsAvailable,
-    isSearchPath
-}) => {
+const SearchButton: FC<SearchButtonProps> = ({ isTabsAvailable }) => {
+    const location = useLocation();
     const [searchParams] = useSearchParams();
 
+    const isSearchPath = location.pathname === '/search.html';
     const createSearchLink = isTabsAvailable ?
         {
             pathname: '/search.html',
