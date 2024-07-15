@@ -77,11 +77,12 @@ const AdvancedDrawerSection = () => {
                     <ListItemLink to='/dashboard/plugins' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabMyPlugins')} />
                     </ListItemLink>
-                    <ListItemLink to='/dashboard/plugins/catalog' sx={{ pl: 4 }}>
+                    <ListItemLink
+                        to='/dashboard/plugins/catalog'
+                        includePaths={[ '/dashboard/plugins/repositories' ]}
+                        sx={{ pl: 4 }}
+                    >
                         <ListItemText inset primary={globalize.translate('TabCatalog')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/plugins/repositories' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('TabRepositories')} />
                     </ListItemLink>
                 </List>
             </Collapse>
