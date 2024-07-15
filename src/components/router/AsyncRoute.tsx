@@ -1,5 +1,4 @@
-import loadable, { LoadableComponent } from '@loadable/component';
-import React from 'react';
+import type { RouteObject } from 'react-router-dom';
 
 export enum AsyncRouteType {
     Stable,
@@ -15,50 +14,27 @@ export interface AsyncRoute {
      * Will fallback to using the `path` value if not specified.
      */
     page?: string
-    /** The page element to render. */
-    element?: LoadableComponent<AsyncPageProps>
     /** The page type used to load the correct page element. */
     type?: AsyncRouteType
 }
 
-export interface AsyncPageProps {
-    /** The relative path to the page component in the routes directory. */
-    page: string
-}
-
-const DashboardAsyncPage = loadable(
-    (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${props.page}`),
-    { cacheKey: (props: AsyncPageProps) => props.page }
-);
-
-const ExperimentalAsyncPage = loadable(
-    (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${props.page}`),
-    { cacheKey: (props: AsyncPageProps) => props.page }
-);
-
-const StableAsyncPage = loadable(
-    (props: { page: string }) => import(/* webpackChunkName: "[request]" */ `../../apps/stable/routes/${props.page}`),
-    { cacheKey: (props: AsyncPageProps) => props.page }
-);
-
-export function toAsyncPageRoute({ path, page, element, type = AsyncRouteType.Stable }: AsyncRoute) {
-    let Element = element;
-    if (!Element) {
-        switch (type) {
-            case AsyncRouteType.Dashboard:
-                Element = DashboardAsyncPage;
-                break;
-            case AsyncRouteType.Experimental:
-                Element = ExperimentalAsyncPage;
-                break;
-            case AsyncRouteType.Stable:
-            default:
-                Element = StableAsyncPage;
-        }
+const importPage = (page: string, type: AsyncRouteType) => {
+    switch (type) {
+        case AsyncRouteType.Dashboard:
+            return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
+        case AsyncRouteType.Experimental:
+            return import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${page}`);
+        case AsyncRouteType.Stable:
+            return import(/* webpackChunkName: "[request]" */ `../../apps/stable/routes/${page}`);
     }
+};
 
-    return {
-        path,
-        element: <Element page={page ?? path} />
-    };
-}
+export const toAsyncPageRoute = ({ path, page, type = AsyncRouteType.Stable }: AsyncRoute): RouteObject => ({
+    path,
+    lazy: async () => {
+        const { default: Component } = await importPage(page ?? path, type);
+        return {
+            Component
+        };
+    }
+});
