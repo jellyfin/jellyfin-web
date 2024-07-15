@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography/Typography';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
 import Settings from '@mui/icons-material/Settings';
-import React, { type FC, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { type FC, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
 
 import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';
@@ -53,13 +53,12 @@ const PluginPage: FC = () => {
     const installPlugin = useInstallPackage();
     const uninstallPlugin = useUninstallPlugin();
 
-    const [ isLoading, setIsLoading ] = useState(true);
     const [ isEnabledOverride, setIsEnabledOverride ] = useState<boolean>();
     const [ isInstallConfirmOpen, setIsInstallConfirmOpen ] = useState(false);
     const [ isUninstallConfirmOpen, setIsUninstallConfirmOpen ] = useState(false);
     const [ pendingInstallVersion, setPendingInstallVersion ] = useState<VersionInfo>();
-    const [ pluginDetails, setPluginDetails ] = useState<PluginDetails>();
-    const [ pluginName, setPluginName ] = useState<string>();
+
+    const pluginName = searchParams.get('name') ?? undefined;
 
     const {
         data: configurationPages,
@@ -81,6 +80,51 @@ const PluginPage: FC = () => {
         isLoading: isPluginsLoading,
         isError: isPluginsError
     } = usePlugins();
+
+    const isLoading =
+        isConfigurationPagesLoading || isPackageInfoLoading || isPluginsLoading;
+
+    const pluginDetails = useMemo<PluginDetails | undefined>(() => {
+        if (pluginId && !isPluginsLoading) {
+            const pluginInfo = findBestPluginInfo(pluginId, plugins);
+
+            let version;
+            if (pluginInfo) {
+                // Find the installed version
+                const repoVersion = packageInfo?.versions?.find(v => v.version === pluginInfo.Version);
+                version = repoVersion || {
+                    version: pluginInfo.Version,
+                    VersionNumber: pluginInfo.Version
+                };
+            } else {
+                // Use the latest version
+                version = packageInfo?.versions?.[0];
+            }
+
+            let imageUrl;
+            if (pluginInfo?.HasImage) {
+                imageUrl = api?.axiosInstance.getUri({
+                    baseURL: api.basePath,
+                    url: `/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`
+                });
+            }
+
+            return {
+                canUninstall: !!pluginInfo?.CanUninstall,
+                description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
+                id: pluginId,
+                imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
+                isEnabled: (isEnabledOverride && pluginInfo?.Status === PluginStatus.Restart)
+                    ?? pluginInfo?.Status !== PluginStatus.Disabled,
+                name: pluginName || pluginInfo?.Name || packageInfo?.name,
+                owner: packageInfo?.owner,
+                status: pluginInfo?.Status,
+                configurationPage: findBestConfigurationPage(configurationPages || [], pluginId),
+                version,
+                versions: packageInfo?.versions || []
+            };
+        }
+    }, [api?.axiosInstance, api?.basePath, configurationPages, isEnabledOverride, isPluginsLoading, packageInfo?.description, packageInfo?.imageUrl, packageInfo?.name, packageInfo?.overview, packageInfo?.owner, packageInfo?.versions, pluginId, pluginName, plugins]);
 
     const alertMessages = useMemo(() => {
         const alerts: AlertMessage[] = [];
@@ -244,56 +288,6 @@ const PluginPage: FC = () => {
     const onCloseUninstallConfirmDialog = useCallback(() => {
         setIsUninstallConfirmOpen(false);
     }, []);
-
-    useEffect(() => {
-        setIsLoading(isConfigurationPagesLoading || isPackageInfoLoading || isPluginsLoading);
-    }, [ isConfigurationPagesLoading, isPackageInfoLoading, isPluginsLoading ]);
-
-    useEffect(() => {
-        setPluginName(searchParams.get('name') ?? undefined);
-    }, [ searchParams ]);
-
-    useEffect(() => {
-        if (pluginId && !isPluginsLoading) {
-            const pluginInfo = findBestPluginInfo(pluginId, plugins);
-
-            let version;
-            if (pluginInfo) {
-                // Find the installed version
-                const repoVersion = packageInfo?.versions?.find(v => v.version === pluginInfo.Version);
-                version = repoVersion || {
-                    version: pluginInfo.Version,
-                    VersionNumber: pluginInfo.Version
-                };
-            } else {
-                // Use the latest version
-                version = packageInfo?.versions?.[0];
-            }
-
-            let imageUrl;
-            if (pluginInfo?.HasImage) {
-                imageUrl = api?.axiosInstance.getUri({
-                    baseURL: api.basePath,
-                    url: `/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`
-                });
-            }
-
-            setPluginDetails({
-                canUninstall: !!pluginInfo?.CanUninstall,
-                description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
-                id: pluginId,
-                imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
-                isEnabled: (isEnabledOverride && pluginInfo?.Status === PluginStatus.Restart)
-                    ?? pluginInfo?.Status !== PluginStatus.Disabled,
-                name: pluginName || pluginInfo?.Name || packageInfo?.name,
-                owner: packageInfo?.owner,
-                status: pluginInfo?.Status,
-                configurationPage: findBestConfigurationPage(configurationPages || [], pluginId),
-                version,
-                versions: packageInfo?.versions || []
-            });
-        }
-    }, [ api, configurationPages, isEnabledOverride, isPluginsLoading, pluginId, packageInfo, pluginName, plugins ]);
 
     return (
         <Page
