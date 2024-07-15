@@ -88,15 +88,11 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
 
     const progressringClass = classNames('progressring', className);
 
-    return (
-        <div>
-            {showProgressBar && (
-                <div className={progressringClass}>
-                    <CircularProgressWithLabel value={Math.floor(progress)} />
-                </div>
-            )}
+    return showProgressBar ? (
+        <div className={progressringClass}>
+            <CircularProgressWithLabel value={Math.floor(progress)} />
         </div>
-    );
+    ) : null;
 };
 
 export default RefreshIndicator;
