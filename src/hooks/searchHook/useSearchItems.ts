@@ -18,7 +18,7 @@ import { useApi } from '../useApi';
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
 
-const Parameters_OPTIONS = {
+const QUERY_OPTIONS = {
     limit: 100,
     fields: [
         ItemFields.PrimaryImageAspectRatio,
@@ -37,7 +37,7 @@ const fetchItemsByType = async (
 ) => {
     const response = await getItemsApi(api).getItems(
         {
-            ...Parameters_OPTIONS,
+            ...QUERY_OPTIONS,
             userId: userId,
             recursive: true,
             ...params
@@ -55,7 +55,7 @@ const fetchPeople = async (
 ) => {
     const response = await getPersonsApi(api).getPersons(
         {
-            ...Parameters_OPTIONS,
+            ...QUERY_OPTIONS,
             userId: userId,
             ...params
         },
@@ -72,7 +72,7 @@ const fetchArtists = async (
 ) => {
     const response = await getArtistsApi(api).getArtists(
         {
-            ...Parameters_OPTIONS,
+            ...QUERY_OPTIONS,
             userId: userId,
             ...params
         },
@@ -93,7 +93,7 @@ const isTVShows = (collectionType: string) =>
 const isLivetv = (collectionType: string) =>
     collectionType === CollectionType.Livetv;
 
-const Livetv_CARD_OPTIONS = {
+const LIVETV_CARD_OPTIONS = {
     preferThumb: true,
     inheritThumb: false,
     showParentTitleOrTitle: true,
@@ -151,7 +151,7 @@ export const useSearchItems = (
                     { signal }
                 );
                 addSection('Movies', moviesData.Items, {
-                    ...Livetv_CARD_OPTIONS,
+                    ...LIVETV_CARD_OPTIONS,
                     shape: CardShape.PortraitOverflow
                 });
 
@@ -171,7 +171,7 @@ export const useSearchItems = (
                     { signal }
                 );
                 addSection('Episodes', episodesData.Items, {
-                    ...Livetv_CARD_OPTIONS
+                    ...LIVETV_CARD_OPTIONS
                 });
 
                 // Sports row
@@ -186,7 +186,7 @@ export const useSearchItems = (
                     { signal }
                 );
                 addSection('Sports', sportsData.Items, {
-                    ...Livetv_CARD_OPTIONS
+                    ...LIVETV_CARD_OPTIONS
                 });
 
                 // Kids row
@@ -201,7 +201,7 @@ export const useSearchItems = (
                     { signal }
                 );
                 addSection('Kids', kidsData.Items, {
-                    ...Livetv_CARD_OPTIONS
+                    ...LIVETV_CARD_OPTIONS
                 });
 
                 // News row
@@ -216,7 +216,7 @@ export const useSearchItems = (
                     { signal }
                 );
                 addSection('News', newsData.Items, {
-                    ...Livetv_CARD_OPTIONS
+                    ...LIVETV_CARD_OPTIONS
                 });
 
                 // Programs row
@@ -235,7 +235,7 @@ export const useSearchItems = (
                     { signal }
                 );
                 addSection('Programs', programsData.Items, {
-                    ...Livetv_CARD_OPTIONS
+                    ...LIVETV_CARD_OPTIONS
                 });
 
                 // Channels row
@@ -420,7 +420,7 @@ export const useSearchItems = (
                     { signal }
                 );
                 addSection('Programs', programsData.Items, {
-                    ...Livetv_CARD_OPTIONS
+                    ...LIVETV_CARD_OPTIONS
                 });
 
                 // Channels row
