@@ -381,6 +381,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Playlists,
                 LibraryTab.Songs,
                 LibraryTab.Books,
+                LibraryTab.PhotoAlbums,
                 LibraryTab.Photos,
                 LibraryTab.Videos,
                 LibraryTab.Channels,
