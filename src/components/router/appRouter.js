@@ -637,7 +637,7 @@ class AppRouter {
         }
 
         if (item.CollectionType == CollectionType.Livetv) {
-            return '#/livetv.html';
+            return `#/livetv.html?collectionType=${item.CollectionType}`;
         }
 
         if (item.Type === 'Genre') {
@@ -676,7 +676,7 @@ class AppRouter {
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
             if (item.CollectionType == CollectionType.Movies) {
-                url = '#/movies.html?topParentId=' + item.Id;
+                url = `#/movies.html?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=1';
@@ -686,7 +686,7 @@ class AppRouter {
             }
 
             if (item.CollectionType == CollectionType.Tvshows) {
-                url = '#/tv.html?topParentId=' + item.Id;
+                url = `#/tv.html?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=1';
@@ -696,7 +696,7 @@ class AppRouter {
             }
 
             if (item.CollectionType == CollectionType.Music) {
-                url = '#/music.html?topParentId=' + item.Id;
+                url = `#/music.html?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options?.section === 'latest') {
                     url += '&tab=1';
