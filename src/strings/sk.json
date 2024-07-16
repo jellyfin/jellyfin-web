@@ -1897,5 +1897,6 @@
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Vyberte preferovaný zvukový kodek pre prekódovanie počas prehrávania videa. Ak preferovaný kodek nie je podporovaný, server použije ďalší najlepší dostupný kodek.",
     "Alternate": "Alternatívne",
     "Regional": "Regionálne",
-    "AlternateDVD": "Alternatívne DVD"
+    "AlternateDVD": "Alternatívne DVD",
+    "LabelSelectPreferredTranscodeVideoCodec": "Preferovaný video kodek pre prekódovanie"
 }
