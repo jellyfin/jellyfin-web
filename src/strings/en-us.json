@@ -1689,7 +1689,7 @@
     "Trickplay": "Trickplay",
     "LabelTrickplayAccel": "Enable hardware decoding",
     "LabelTrickplayAccelEncoding": "Enable hardware accelerated MJPEG encoding",
-    "LabelTrickplayAccelEncodingHelp": "Currently only available on QSV and VAAPI, this option has no effect on other hardware acceleration methods.",
+    "LabelTrickplayAccelEncodingHelp": "Currently only available on QSV, VAAPI and VideoToolbox, this option has no effect on other hardware acceleration methods.",
     "NonBlockingScan": "Non Blocking - queues generation, then returns",
     "BlockingScan": "Blocking - queues generation, blocks scan until complete",
     "LabelScanBehavior": "Scan Behavior",
