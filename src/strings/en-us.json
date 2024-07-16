@@ -1691,7 +1691,7 @@
     "LabelTrickplayAccelEncoding": "Enable hardware accelerated MJPEG encoding",
     "LabelTrickplayAccelEncodingHelp": "Currently only available on QSV, VAAPI and VideoToolbox, this option has no effect on other hardware acceleration methods.",
     "LabelTrickplayKeyFrameOnlyExtraction": "Only generate images from key frames",
-    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extract key frames only for significantly faster processing with less accurate timing. Not compatible with QSV and NVDEC hardware decoders. Software processing in this mode will be faster than hardware processing not in this mode.",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extract key frames only for significantly faster processing with less accurate timing. If the configured hardware decoder does not support this mode, will use the software decoder instead.",
     "NonBlockingScan": "Non Blocking - queues generation, then returns",
     "BlockingScan": "Blocking - queues generation, blocks scan until complete",
     "LabelScanBehavior": "Scan Behavior",
