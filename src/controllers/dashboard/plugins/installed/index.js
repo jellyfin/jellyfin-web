@@ -1,5 +1,4 @@
 import loading from '../../../../components/loading/loading';
-import libraryMenu from '../../../../scripts/libraryMenu';
 import dom from '../../../../scripts/dom';
 import globalize from '../../../../scripts/globalize';
 import '../../../../components/cardbuilder/card.scss';
@@ -219,19 +218,6 @@ function reloadList(page) {
     });
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/plugins',
-        name: globalize.translate('TabMyPlugins')
-    }, {
-        href: '#/dashboard/plugins/catalog',
-        name: globalize.translate('TabCatalog')
-    }, {
-        href: '#/dashboard/plugins/repositories',
-        name: globalize.translate('TabRepositories')
-    }];
-}
-
 function onInstalledPluginsClick(e) {
     if (dom.parentWithClass(e.target, 'noConfigPluginCard')) {
         showNoConfigurationMessage();
@@ -257,7 +243,6 @@ function onFilterType(page, searchBar) {
 }
 
 pageIdOn('pageshow', 'pluginsPage', function () {
-    libraryMenu.setTabs('plugins', 0, getTabs);
     reloadList(this);
 });
 

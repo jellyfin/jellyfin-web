@@ -17,6 +17,8 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import ServerConnections from '../ServerConnections';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import markdownIt from 'markdown-it';
+import DOMPurify from 'dompurify';
 
 function getIndex(item, options) {
     if (options.index === 'disc') {
@@ -415,8 +417,9 @@ export function getListViewHtml(options) {
         }
 
         if (enableOverview && item.Overview) {
+            const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
             html += '<div class="secondary listItem-overview listItemBodyText">';
-            html += '<bdi>' + item.Overview + '</bdi>';
+            html += '<bdi>' + overview + '</bdi>';
             html += '</div>';
         }
 

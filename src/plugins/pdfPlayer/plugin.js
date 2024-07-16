@@ -207,7 +207,12 @@ export class PdfPlayer {
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
-            const downloadTask = getDocument(downloadHref);
+            const downloadTask = getDocument({
+                url: downloadHref,
+                // Disable for PDF.js XSS vulnerability
+                // https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq
+                isEvalSupported: false
+            });
             return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
                 this.book = book;

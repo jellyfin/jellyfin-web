@@ -6,6 +6,11 @@ import globalize from 'scripts/globalize';
 import { DisplaySettingsValues } from '../types';
 import { useDisplaySettings } from './useDisplaySettings';
 
+type UpdateField = {
+    name: keyof DisplaySettingsValues;
+    value: string | boolean;
+};
+
 export function useDisplaySettingForm() {
     const [urlParams] = useSearchParams();
     const {
@@ -21,7 +26,7 @@ export function useDisplaySettingForm() {
         }
     }, [formValues, loading, displaySettings]);
 
-    const updateField = useCallback(({ name, value }) => {
+    const updateField = useCallback(({ name, value }: UpdateField) => {
         if (formValues) {
             setFormValues({
                 ...formValues,

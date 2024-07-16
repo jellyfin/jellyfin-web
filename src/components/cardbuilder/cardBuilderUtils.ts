@@ -60,7 +60,7 @@ export const resolveMixedShapeByAspectRatio = (primaryImageAspectRatio: number |
 
     if (primaryImageAspectRatio >= 1.33) {
         return CardShape.MixedBackdrop;
-    } else if (primaryImageAspectRatio > 0.71) {
+    } else if (primaryImageAspectRatio > 0.8) {
         return CardShape.MixedSquare;
     } else {
         return CardShape.MixedPortrait;

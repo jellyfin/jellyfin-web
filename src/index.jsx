@@ -9,7 +9,7 @@ import 'abortcontroller-polyfill'; // requires fetch
 import 'resize-observer-polyfill';
 import './styles/site.scss';
 import React, { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Events from './utils/events.ts';
 import ServerConnections from './components/ServerConnections';
 import globalize from './scripts/globalize';
@@ -34,6 +34,7 @@ import './legacy/domParserTextHtml';
 import './legacy/focusPreventScroll';
 import './legacy/htmlMediaElement';
 import './legacy/keyboardEvent';
+import './legacy/patchHeaders';
 import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
@@ -60,7 +61,11 @@ function loadCoreDictionary() {
 
 function init() {
     // Log current version to console to help out with issue triage and debugging
-    console.log(`${__PACKAGE_JSON_NAME__} version ${__PACKAGE_JSON_VERSION__} build ${__JF_BUILD_VERSION__}`);
+    console.info(
+        `[${__PACKAGE_JSON_NAME__}]
+version: ${__PACKAGE_JSON_VERSION__}
+commit: ${__COMMIT_SHA__}
+build: ${__JF_BUILD_VERSION__}`);
 
     // This is used in plugins
     window.Events = Events;
@@ -153,17 +158,17 @@ async function onAppReady() {
         ServerConnections.currentApiClient()?.ensureWebSocket();
     });
 
-    const root = document.getElementById('reactRoot');
+    const container = document.getElementById('reactRoot');
     // Remove the splash logo
-    root.innerHTML = '';
+    container.innerHTML = '';
 
     await appRouter.start();
 
-    ReactDOM.render(
+    const root = createRoot(container);
+    root.render(
         <StrictMode>
             <RootApp history={history} />
-        </StrictMode>,
-        root
+        </StrictMode>
     );
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {

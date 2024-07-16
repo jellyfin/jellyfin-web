@@ -2,7 +2,6 @@ import escapeHtml from 'escape-html';
 import 'jquery';
 import taskButton from '../../scripts/taskbutton';
 import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import imageHelper from '../../utils/image';
@@ -358,22 +357,6 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     return html;
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/libraries',
-        name: globalize.translate('HeaderLibraries')
-    }, {
-        href: '#/dashboard/libraries/display',
-        name: globalize.translate('Display')
-    }, {
-        href: '#/dashboard/libraries/metadata',
-        name: globalize.translate('Metadata')
-    }, {
-        href: '#/dashboard/libraries/nfo',
-        name: globalize.translate('TabNfoSettings')
-    }];
-}
-
 window.WizardLibraryPage = {
     next: function () {
         Dashboard.navigate('wizardsettings.html');
@@ -383,8 +366,6 @@ pageClassOn('pageshow', 'mediaLibraryPage', function () {
     reloadLibrary(this);
 });
 pageIdOn('pageshow', 'mediaLibraryPage', function () {
-    libraryMenu.setTabs('librarysetup', 0, getTabs);
-
     const page = this;
     taskButton({
         mode: 'on',

@@ -1,19 +1,8 @@
-import { createTheme } from '@mui/material/styles';
-
-declare module '@mui/material/styles' {
-  interface Palette {
-    starIcon: Palette['primary'];
-  }
-
-  interface PaletteOptions {
-    starIcon?: PaletteOptions['primary'];
-  }
-}
+import type { ThemeOptions } from '@mui/material/styles/createTheme';
 
 const LIST_ICON_WIDTH = 36;
 
-/** The default Jellyfin app theme for mui */
-const theme = createTheme({
+export const DEFAULT_THEME_OPTIONS: ThemeOptions = {
     palette: {
         mode: 'dark',
         primary: {
@@ -52,10 +41,29 @@ const theme = createTheme({
         }
     },
     components: {
+        MuiAlert: {
+            styleOverrides: {
+                message: {
+                    // NOTE: This seems like a bug. Block content does not fill the container width.
+                    flexGrow: 1
+                }
+            }
+        },
         MuiButton: {
             defaultProps: {
                 variant: 'contained'
-            }
+            },
+            variants: [
+                {
+                    props: {
+                        size: 'large'
+                    },
+                    style: {
+                        fontSize: '1rem',
+                        fontWeight: 'bold'
+                    }
+                }
+            ]
         },
         MuiFormControl: {
             defaultProps: {
@@ -98,6 +106,4 @@ const theme = createTheme({
             }
         }
     }
-});
-
-export default theme;
+};

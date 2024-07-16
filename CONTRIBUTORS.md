@@ -86,6 +86,9 @@
 - [GeorgeH005](https://github.com/GeorgeH005)
 - [JPUC1143](https://github.com/Jpuc1143)
 - [David Angel](https://github.com/davidangel)
+- [Pithaya](https://github.com/Pithaya)
+- [Peter Santos](https://github.com/prsantos-com)
+- [Chaitanya Shahare](https://github.com/Chaitanya-Shahare)
 
 ## Emby Contributors
 
