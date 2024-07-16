@@ -1245,6 +1245,7 @@ export default function (view) {
                 }
                 break;
             case 'k':
+            case 'K':
                 playbackManager.playPause(currentPlayer);
                 showOsd(btnPlayPause);
                 break;
@@ -1257,23 +1258,27 @@ export default function (view) {
                 playbackManager.volumeDown(currentPlayer);
                 break;
             case 'l':
+            case 'L':
             case 'ArrowRight':
             case 'Right':
                 playbackManager.fastForward(currentPlayer);
                 showOsd(btnFastForward);
                 break;
             case 'j':
+            case 'J':
             case 'ArrowLeft':
             case 'Left':
                 playbackManager.rewind(currentPlayer);
                 showOsd(btnRewind);
                 break;
             case 'f':
+            case 'F':
                 if (!e.ctrlKey && !e.metaKey) {
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
             case 'm':
+            case 'M':
                 playbackManager.toggleMute(currentPlayer);
                 break;
             case 'p':
