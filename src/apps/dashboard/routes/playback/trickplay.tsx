@@ -33,6 +33,7 @@ const PlaybackTrickplay: FC = () => {
 
         (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options?.EnableHwAcceleration || false;
         (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options?.EnableHwEncoding || false;
+        (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked = options?.EnableKeyFrameOnlyExtraction || false;
         (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = (options?.ScanBehavior || TrickplayScanBehavior.NonBlocking);
         (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = (options?.ProcessPriority || ProcessPriorityClass.Normal);
         (page.querySelector('#txtInterval') as HTMLInputElement).value = options?.Interval?.toString() || '10000';
@@ -79,6 +80,7 @@ const PlaybackTrickplay: FC = () => {
             const options = config.TrickplayOptions;
             options.EnableHwAcceleration = (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked;
             options.EnableHwEncoding = (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked;
+            options.EnableKeyFrameOnlyExtraction = (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked;
             options.ScanBehavior = (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value as TrickplayScanBehavior;
             options.ProcessPriority = (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value as ProcessPriorityClass;
             options.Interval = Math.max(1, parseInt((page.querySelector('#txtInterval') as HTMLInputElement).value || '10000', 10));
@@ -166,6 +168,17 @@ const PlaybackTrickplay: FC = () => {
                         <div className='fieldDescription checkboxFieldDescription'>
                             <div className='fieldDescription'>
                                 {globalize.translate('LabelTrickplayAccelEncodingHelp')}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='checkboxContainer checkboxContainer-withDescription'>
+                        <CheckBoxElement
+                            className='chkEnableKeyFrameOnlyExtraction'
+                            title='LabelTrickplayKeyFrameOnlyExtraction'
+                        />
+                        <div className='fieldDescription checkboxFieldDescription'>
+                            <div className='fieldDescription'>
+                                {globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}
                             </div>
                         </div>
                     </div>
