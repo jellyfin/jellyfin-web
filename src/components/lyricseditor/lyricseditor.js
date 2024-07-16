@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 
-import { LyricsApi } from '@jellyfin/sdk/lib/generated-client/api/lyrics-api';
+import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
@@ -27,7 +27,7 @@ let hasChanges;
 
 function downloadRemoteLyrics(context, id) {
     const api = toApi(ServerConnections.getApiClient(currentItem.ServerId));
-    const lyricsApi = new LyricsApi(api.configuration, undefined, api.axiosInstance);
+    const lyricsApi = getLyricsApi(api);
     lyricsApi.downloadRemoteLyrics({
         itemId: currentItem.Id, lyricId: id
     }).then(function () {
@@ -128,7 +128,7 @@ function searchForLyrics(context) {
     loading.show();
 
     const api = toApi(ServerConnections.getApiClient(currentItem.ServerId));
-    const lyricsApi = new LyricsApi(api.configuration, undefined, api.axiosInstance);
+    const lyricsApi = getLyricsApi(api);
     lyricsApi.searchRemoteLyrics({
         itemId: currentItem.Id
     }).then(function (results) {
@@ -294,7 +294,7 @@ function onDeleteLyrics(e) {
 
 function fillCurrentLyrics(context, apiClient, item) {
     const api = toApi(apiClient);
-    const lyricsApi = new LyricsApi(api.configuration, undefined, api.axiosInstance);
+    const lyricsApi = getLyricsApi(api);
     lyricsApi.getLyrics({
         itemId: item.Id
     }).then((response) => {

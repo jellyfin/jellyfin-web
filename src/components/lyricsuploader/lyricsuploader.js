@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 
-import { LyricsApi } from '@jellyfin/sdk/lib/generated-client/api/lyrics-api';
+import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../ServerConnections';
@@ -91,7 +91,7 @@ async function onSubmit(e) {
     const dlg = dom.parentWithClass(this, 'dialog');
 
     const api = toApi(ServerConnections.getApiClient(currentServerId));
-    const lyricsApi = new LyricsApi(api.configuration, undefined, api.axiosInstance);
+    const lyricsApi = getLyricsApi(api);
     const data = await readFileAsText(file);
 
     lyricsApi.uploadLyrics({
