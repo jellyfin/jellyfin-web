@@ -496,10 +496,10 @@ export default function (view) {
         icon.classList.remove('fullscreen_exit', 'fullscreen');
 
         if (playbackManager.isFullscreen(currentPlayer)) {
-            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (F)');
             icon.classList.add('fullscreen_exit');
         } else {
-            button.setAttribute('title', globalize.translate('Fullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('Fullscreen') + ' (F)');
             icon.classList.add('fullscreen');
         }
     }
@@ -721,7 +721,7 @@ export default function (view) {
         }
 
         btnPlayPauseIcon.classList.add(icon);
-        dom.setElementTitle(btnPlayPause, title + ' (k)', title);
+        dom.setElementTitle(btnPlayPause, title + ' (K)', title);
     }
 
     function updatePlayerStateInternal(event, player, state) {
@@ -1245,6 +1245,7 @@ export default function (view) {
                 }
                 break;
             case 'k':
+            case 'K':
                 playbackManager.playPause(currentPlayer);
                 showOsd(btnPlayPause);
                 break;
@@ -1257,23 +1258,27 @@ export default function (view) {
                 playbackManager.volumeDown(currentPlayer);
                 break;
             case 'l':
+            case 'L':
             case 'ArrowRight':
             case 'Right':
                 playbackManager.fastForward(currentPlayer);
                 showOsd(btnFastForward);
                 break;
             case 'j':
+            case 'J':
             case 'ArrowLeft':
             case 'Left':
                 playbackManager.rewind(currentPlayer);
                 showOsd(btnRewind);
                 break;
             case 'f':
+            case 'F':
                 if (!e.ctrlKey && !e.metaKey) {
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
             case 'm':
+            case 'M':
                 playbackManager.toggleMute(currentPlayer);
                 break;
             case 'p':
