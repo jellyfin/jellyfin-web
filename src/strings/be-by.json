@@ -1864,5 +1864,6 @@
     "PriorityNormal": "Нармальны",
     "PriorityBelowNormal": "Ніжэй за норму",
     "PriorityAboveNormal": "Вышэй за норму",
-    "PriorityIdle": "Бяздзейны"
+    "PriorityIdle": "Бяздзейны",
+    "LabelProcessPriority": "Прыярытэт працэсу"
 }
