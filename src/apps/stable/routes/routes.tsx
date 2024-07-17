@@ -16,7 +16,7 @@ import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 export const STABLE_APP_ROUTES: RouteObject[] = [
     {
         path: '/*',
-        element: <AppLayout />,
+        Component: AppLayout,
         children: [
             {
                 /* User routes */

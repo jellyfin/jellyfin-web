@@ -16,8 +16,6 @@ export interface AsyncRoute {
     page?: string
     /** The page type used to load the correct page element. */
     type?: AsyncRouteType
-    /** Override for pages that don't support lazy importing */
-    Component?: React.ComponentType | null;
 }
 
 const importPage = (page: string, type: AsyncRouteType) => {
@@ -34,13 +32,8 @@ const importPage = (page: string, type: AsyncRouteType) => {
 export const toAsyncPageRoute = ({
     path,
     page,
-    Component,
     type = AsyncRouteType.Stable
 }: AsyncRoute): RouteObject => {
-    if (Component) {
-        return { path, Component };
-    }
-
     return {
         path,
         lazy: async () => {

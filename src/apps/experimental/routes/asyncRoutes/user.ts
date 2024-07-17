@@ -1,12 +1,7 @@
-import loadable from '@loadable/component';
 import { AsyncRoute, AsyncRouteType } from '../../../../components/router/AsyncRoute';
 
 export const ASYNC_USER_ROUTES: AsyncRoute[] = [
-    {
-        path: 'home.html',
-        // FIXME: The use of tab manager for the home screen breaks when using lazy route handling
-        Component: loadable(() => import('../home'))
-    },
+    { path: 'home.html', page: 'home', type: AsyncRouteType.Experimental },
     { path: 'quickconnect', page: 'quickConnect' },
     { path: 'search.html', page: 'search' },
     { path: 'userprofile.html', page: 'user/userprofile' },
