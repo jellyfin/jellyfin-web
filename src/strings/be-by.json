@@ -1847,5 +1847,8 @@
     "ViewLyrics": "Прагляд тэкстаў песень",
     "SaveLyricsIntoMediaFoldersHelp": "Захоўванне тэкстаў песен побач з аўдыяфайламі дазволіць ім лягчэй кіраваць.",
     "Translator": "Перакладчык",
-    "SaveLyricsIntoMediaFolders": "Захоўвайце тэксты песень у папках мультымедыі"
+    "SaveLyricsIntoMediaFolders": "Захоўвайце тэксты песень у папках мультымедыі",
+    "LabelEncodingFormatOptions": "Параметры фармату кадавання",
+    "AllowVideoToolboxTonemappingHelp": "Адлюстраванне тонаў з апаратным паскарэннем забяспечваецца VideoToolbox. Ён працуе з большасцю фарматаў HDR, уключаючы HDR10, HDR10+ і HLG, але не працуе з Dolby Vision Profile 5. Ён мае больш высокі прыярытэт, чым іншыя рэалізацыі Metal.",
+    "EnableVideoToolboxTonemapping": "Уключыць адлюстраванне тонаў VideoToolbox"
 }
