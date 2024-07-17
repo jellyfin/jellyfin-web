@@ -1863,5 +1863,6 @@
     "PriorityHigh": "Высокі",
     "PriorityNormal": "Нармальны",
     "PriorityBelowNormal": "Ніжэй за норму",
-    "PriorityAboveNormal": "Вышэй за норму"
+    "PriorityAboveNormal": "Вышэй за норму",
+    "PriorityIdle": "Бяздзейны"
 }
