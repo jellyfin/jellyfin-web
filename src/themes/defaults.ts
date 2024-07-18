@@ -41,6 +41,14 @@ export const DEFAULT_THEME_OPTIONS: ThemeOptions = {
         }
     },
     components: {
+        MuiAlert: {
+            styleOverrides: {
+                message: {
+                    // NOTE: This seems like a bug. Block content does not fill the container width.
+                    flexGrow: 1
+                }
+            }
+        },
         MuiButton: {
             defaultProps: {
                 variant: 'contained'

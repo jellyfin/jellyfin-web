@@ -208,7 +208,12 @@ function refreshActiveRecordings(view, apiClient) {
 
 function reloadSystemInfo(view, apiClient) {
     view.querySelector('#buildVersion').innerText = __JF_BUILD_VERSION__;
-    view.querySelector('#webVersion').innerText = __PACKAGE_JSON_VERSION__;
+
+    let webVersion = __PACKAGE_JSON_VERSION__;
+    if (__COMMIT_SHA__) {
+        webVersion += ` (${__COMMIT_SHA__})`;
+    }
+    view.querySelector('#webVersion').innerText = webVersion;
 
     queryClient
         .fetchQuery(getSystemInfoQuery(toApi(apiClient)))

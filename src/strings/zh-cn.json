@@ -1862,7 +1862,7 @@
     "ErrorDeletingLyrics": "从服务器中删除歌词时出现了错误。请检查Jellyfin是否具有对应媒体文件夹的写入权限，然后重试。",
     "Lyrics": "歌词",
     "LabelTrickplayAccelEncoding": "启用硬件加速的MJPEG编码",
-    "LabelTrickplayAccelEncodingHelp": "目前仅适用于QSV和VAAPI，此选项对其他硬件加速方法无效。",
+    "LabelTrickplayAccelEncodingHelp": "目前仅适用于 QSV 和 VA-API，此选项对其他硬件加速方法无效。",
     "ConfirmDeleteLyrics": "删除这些歌词将同时从文件系统和媒体库中删除它们。您确定要继续吗？",
     "DeleteLyrics": "删除歌词",
     "HeaderDeleteLyrics": "删除歌词",

@@ -1,5 +1,4 @@
 import Article from '@mui/icons-material/Article';
-import EditNotifications from '@mui/icons-material/EditNotifications';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Extension from '@mui/icons-material/Extension';
@@ -65,14 +64,6 @@ const AdvancedDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/notifications'>
-                    <ListItemIcon>
-                        <EditNotifications />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('Notifications')} />
-                </ListItemLink>
-            </ListItem>
-            <ListItem disablePadding>
                 <ListItemLink to='/dashboard/plugins' selected={false}>
                     <ListItemIcon>
                         <Extension />
@@ -86,11 +77,12 @@ const AdvancedDrawerSection = () => {
                     <ListItemLink to='/dashboard/plugins' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabMyPlugins')} />
                     </ListItemLink>
-                    <ListItemLink to='/dashboard/plugins/catalog' sx={{ pl: 4 }}>
+                    <ListItemLink
+                        to='/dashboard/plugins/catalog'
+                        includePaths={[ '/dashboard/plugins/repositories' ]}
+                        sx={{ pl: 4 }}
+                    >
                         <ListItemText inset primary={globalize.translate('TabCatalog')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/plugins/repositories' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('TabRepositories')} />
                     </ListItemLink>
                 </List>
             </Collapse>

@@ -36,6 +36,12 @@ const movieOrFavoriteOptions = [
     { label: 'Runtime', value: ItemSortBy.Runtime }
 ];
 
+const photosOrPhotoAlbumsOptions = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random },
+    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
+];
+
 const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
     [LibraryTab.Trailers]: [
@@ -87,6 +93,16 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime },
+        { label: 'OptionRandom', value: ItemSortBy.Random }
+    ],
+    [LibraryTab.PhotoAlbums]: photosOrPhotoAlbumsOptions,
+    [LibraryTab.Photos]: photosOrPhotoAlbumsOptions,
+    [LibraryTab.Videos]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'Runtime', value: ItemSortBy.Runtime },
         { label: 'OptionRandom', value: ItemSortBy.Random }
     ]

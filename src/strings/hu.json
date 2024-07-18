@@ -1864,5 +1864,9 @@
     "LabelTrickplayThreadsHelp": "Az ffmpeg '-threads' argumentumának átadandó szálak száma.",
     "OptionExtractTrickplayImage": "Lejátszástrükk képkockák kinyerésének engedélyezése",
     "LabelExtractTrickplayDuringLibraryScan": "Lejátszástrükk képkockák kinyerése a könyvtár beolvasásakor",
-    "LabelExtractTrickplayDuringLibraryScanHelp": "Lejátszástrükk képkockák generálása könyvtár beolvasáskor a frissen importált videóknál. Ha nincs bekapcsolva, a lejátszástrükk képkockákat az erre ütemezett feladat fogja kinyerni. Nem blokkoló magatartás esetén ez nem befolyásolja a könyvtár beolvasás idejét."
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Lejátszástrükk képkockák generálása könyvtár beolvasáskor a frissen importált videóknál. Ha nincs bekapcsolva, a lejátszástrükk képkockákat az erre ütemezett feladat fogja kinyerni. Nem blokkoló magatartás esetén ez nem befolyásolja a könyvtár beolvasás idejét.",
+    "Creator": "Készítő",
+    "Editor": "Szerkesztő",
+    "EnableDtsHelp": "Csak akkor engedélyezze, hogyha az eszköze támogatja a DTS-t vagy ha csatlakoztatott egy megfelelő audió vevőkészüléket. Ellenkező esetben visszajátszási problémákat okozhat.",
+    "Author": "Szerző"
 }

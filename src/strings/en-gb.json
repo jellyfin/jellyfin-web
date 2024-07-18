@@ -1897,5 +1897,7 @@
     "SaveLyricsIntoMediaFoldersHelp": "Storing lyrics next to audio files will allow them to be more easily managed.",
     "Alternate": "Alternate",
     "AlternateDVD": "Alternate DVD",
-    "Regional": "Regional"
+    "Regional": "Regional",
+    "SelectPreferredTranscodeVideoCodecHelp": "Select the preferred video codec to transcode to. If the preferred codec is not supported, the server will use the next best available codec.",
+    "LabelSelectPreferredTranscodeVideoCodec": "Preferred transcode video codec"
 }

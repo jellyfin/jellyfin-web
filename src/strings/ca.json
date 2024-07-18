@@ -1888,7 +1888,7 @@
     "LibraryScanFanoutConcurrencyHelp": "Nombre màxim de tasques paral·leles durant les exploracions de la biblioteca. Si s'estableix a 0, es triarà un límit basat en el nombre de nuclis del vostre sistema. ADVERTÈNCIA: establir aquest número massa alt pot causar problemes amb els sistemes de fitxers de xarxa; si trobeu problemes, baixeu aquest número.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Seleccioneu el còdec d'àudio preferit per transcodificar per al contingut de vídeo. Si el còdec preferit no és compatible, el servidor utilitzarà el següent millor còdec disponible.",
     "LibraryScanFanoutConcurrency": "Límit de tasques d'exploració paral·leles per a les biblioteques",
-    "Penciller": "Llapisista",
+    "Penciller": "Dibuixant",
     "Inker": "Tintador",
     "Letterer": "Retolador",
     "Alternate": "Alternar",

@@ -1535,7 +1535,7 @@
     "LabelAllowedAudioChannels": "Максимально дозволені аудіоканали",
     "PreferFmp4HlsContainer": "Надавати перевагу медіаконтейнеру fMP4-HLS",
     "LabelSyncPlayInfo": "Інформація SyncPlay",
-    "LabelOriginalMediaInfo": "Оригінальна інформація про медіа",
+    "LabelOriginalMediaInfo": "Інформація про оригінальне медіа",
     "LabelRemuxingInfo": "Інформація про ремуксування",
     "LabelDirectStreamingInfo": "Інформація про пряму трансляцію",
     "LabelTranscodingInfo": "Інформація про перекодування",
@@ -1893,5 +1893,7 @@
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Виберіть бажаний аудіокодек для перекодування відеоконтенту. Якщо вибраний кодек не підтримується, сервер використовуватиме наступний найкращий доступний кодек.",
     "Alternate": "Альтернатива",
     "Regional": "Регіональне",
-    "AlternateDVD": "Альтернативний DVD"
+    "AlternateDVD": "Альтернативний DVD",
+    "SelectPreferredTranscodeVideoCodecHelp": "Виберіть бажаний відеокодек для перекодування. Якщо вибраний кодек не підтримується, сервер використає наступний найкращий доступний кодек.",
+    "LabelSelectPreferredTranscodeVideoCodec": "Бажаний відеокодек для перекодування"
 }

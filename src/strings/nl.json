@@ -1896,5 +1896,7 @@
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Selecteer de gewenste geluidscodec om naartoe te transcoderen bij video-inhoud. Als de voorkeurscodec niet wordt ondersteund, gebruikt de server de beste codec die wel beschikbaar is.",
     "Alternate": "Alternatief",
     "AlternateDVD": "Alternatief dvd",
-    "Regional": "Regionaal"
+    "Regional": "Regionaal",
+    "LabelSelectPreferredTranscodeVideoCodec": "Gewenste beeldcodec voor transcoderen",
+    "SelectPreferredTranscodeVideoCodecHelp": "Selecteer de gewenste beeldcodec om naartoe te transcoderen. Als de voorkeurscodec niet wordt ondersteund, gebruikt de server de beste codec die wel beschikbaar is."
 }
