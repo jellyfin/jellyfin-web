@@ -581,7 +581,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
 
         if (isLibraryPage) {
             bodyClassList.add('libraryDocument');
-            bodyClassList.remove('dashboardDocument');
             bodyClassList.remove('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -589,7 +588,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
             }
         } else if (isDashboardPage) {
             bodyClassList.remove('libraryDocument');
-            bodyClassList.add('dashboardDocument');
             bodyClassList.remove('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -597,7 +595,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
             }
         } else {
             bodyClassList.remove('libraryDocument');
-            bodyClassList.remove('dashboardDocument');
             bodyClassList.add('hideMainDrawer');
 
             if (navDrawerInstance) {
