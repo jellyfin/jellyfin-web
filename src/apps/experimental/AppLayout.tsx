@@ -15,7 +15,7 @@ import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 
 import './AppOverrides.scss';
 
-const AppLayout = () => {
+export const Component = () => {
     const [ isDrawerActive, setIsDrawerActive ] = useState(false);
     const { user } = useApi();
     const location = useLocation();
@@ -76,5 +76,3 @@ const AppLayout = () => {
         </Box>
     );
 };
-
-export default AppLayout;

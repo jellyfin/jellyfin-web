@@ -29,12 +29,18 @@ const importPage = (page: string, type: AsyncRouteType) => {
     }
 };
 
-export const toAsyncPageRoute = ({ path, page, type = AsyncRouteType.Stable }: AsyncRoute): RouteObject => ({
+export const toAsyncPageRoute = ({
     path,
-    lazy: async () => {
-        const { default: Component } = await importPage(page ?? path, type);
-        return {
-            Component
-        };
-    }
-});
+    page,
+    type = AsyncRouteType.Stable
+}: AsyncRoute): RouteObject => {
+    return {
+        path,
+        lazy: async () => {
+            const { default: Page } = await importPage(page ?? path, type);
+            return {
+                Component: Page
+            };
+        }
+    };
+};
