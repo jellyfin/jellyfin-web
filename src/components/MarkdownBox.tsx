@@ -20,8 +20,14 @@ const MarkdownBox: FC<MarkdownBoxProps> = ({
                 undefined
         }
         sx={{
-            '> :first-child': { marginTop: 0, paddingTop: 0 },
-            '> :last-child': { marginBottom: 0, paddingBottom: 0 }
+            '> :first-child /* emotion-disable-server-rendering-unsafe-selector-warning-please-do-not-use-this-the-warning-exists-for-a-reason */': {
+                marginTop: 0,
+                paddingTop: 0
+            },
+            '> :last-child': {
+                marginBottom: 0,
+                paddingBottom: 0
+            }
         }}
     >
         {markdown ? undefined : fallback}

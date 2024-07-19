@@ -35,6 +35,7 @@ import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'scripts/globalize';
 import { getPluginUrl } from 'utils/dashboard';
+import { getUri } from 'utils/api';
 
 interface AlertMessage {
     severity?: 'success' | 'info' | 'warning' | 'error'
@@ -103,10 +104,7 @@ const PluginPage: FC = () => {
 
             let imageUrl;
             if (pluginInfo?.HasImage) {
-                imageUrl = api?.axiosInstance.getUri({
-                    baseURL: api.basePath,
-                    url: `/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`
-                });
+                imageUrl = getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`, api);
             }
 
             return {
@@ -124,7 +122,21 @@ const PluginPage: FC = () => {
                 versions: packageInfo?.versions || []
             };
         }
-    }, [api?.axiosInstance, api?.basePath, configurationPages, isEnabledOverride, isPluginsLoading, packageInfo?.description, packageInfo?.imageUrl, packageInfo?.name, packageInfo?.overview, packageInfo?.owner, packageInfo?.versions, pluginId, pluginName, plugins]);
+    }, [
+        api,
+        configurationPages,
+        isEnabledOverride,
+        isPluginsLoading,
+        packageInfo?.description,
+        packageInfo?.imageUrl,
+        packageInfo?.name,
+        packageInfo?.overview,
+        packageInfo?.owner,
+        packageInfo?.versions,
+        pluginId,
+        pluginName,
+        plugins
+    ]);
 
     const alertMessages = useMemo(() => {
         const alerts: AlertMessage[] = [];

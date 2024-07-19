@@ -46,7 +46,7 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                     </TableCell>
                     <TableCell>
                         {
-                            (isPluginLoading || !pluginDetails?.version?.version && <Skeleton />)
+                            (isPluginLoading && <Skeleton />)
                             || pluginDetails?.version?.version
                         }
                     </TableCell>
