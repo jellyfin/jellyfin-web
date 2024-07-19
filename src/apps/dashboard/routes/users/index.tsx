@@ -159,6 +159,7 @@ const UserProfiles: FunctionComponent = () => {
         <Page
             id='userProfilesPage'
             className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
+            title={globalize.translate('HeaderUsers')}
         >
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
