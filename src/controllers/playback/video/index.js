@@ -1236,6 +1236,12 @@ export default function (view) {
             case 'Enter':
                 showOsd();
                 break;
+            case 'PageUp':
+                playbackManager.nextChapter(currentPlayer);
+                break;
+            case 'PageDown':
+                playbackManager.previousChapter(currentPlayer);
+                break;
             case 'Escape':
             case 'Back':
                 // Ignore key when some dialog is opened
@@ -1244,49 +1250,29 @@ export default function (view) {
                     e.stopPropagation();
                 }
                 break;
-            case 'k':
-                playbackManager.playPause(currentPlayer);
-                showOsd(btnPlayPause);
-                break;
             case 'ArrowUp':
             case 'Up':
+                e.preventDefault();
                 playbackManager.volumeUp(currentPlayer);
                 break;
             case 'ArrowDown':
             case 'Down':
+                e.preventDefault();
                 playbackManager.volumeDown(currentPlayer);
                 break;
             case 'l':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 playbackManager.fastForward(currentPlayer);
                 showOsd(btnFastForward);
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 playbackManager.rewind(currentPlayer);
                 showOsd(btnRewind);
-                break;
-            case 'f':
-                if (!e.ctrlKey && !e.metaKey) {
-                    playbackManager.toggleFullscreen(currentPlayer);
-                }
-                break;
-            case 'm':
-                playbackManager.toggleMute(currentPlayer);
-                break;
-            case 'p':
-            case 'P':
-                if (e.shiftKey) {
-                    playbackManager.previousTrack(currentPlayer);
-                }
-                break;
-            case 'n':
-            case 'N':
-                if (e.shiftKey) {
-                    playbackManager.nextTrack(currentPlayer);
-                }
                 break;
             case 'NavigationLeft':
             case 'GamepadDPadLeft':
@@ -1312,6 +1298,35 @@ export default function (view) {
             case 'End':
                 playbackManager.seekPercent(100, currentPlayer);
                 break;
+            case 'k':
+                e.preventDefault();
+                playbackManager.playPause(currentPlayer);
+                showOsd(btnPlayPause);
+                break;
+            case 'f':
+                if (!e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    playbackManager.toggleFullscreen(currentPlayer);
+                }
+                break;
+            case 'm':
+                e.preventDefault();
+                playbackManager.toggleMute(currentPlayer);
+                break;
+            case 'p':
+            case 'P':
+                if (e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.previousTrack(currentPlayer);
+                }
+                break;
+            case 'n':
+            case 'N':
+                if (e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.nextTrack(currentPlayer);
+                }
+                break;
             case '0':
             case '1':
             case '2':
@@ -1323,22 +1338,19 @@ export default function (view) {
             case '8':
             case '9': {
                 if (!isKeyModified) {
+                    e.preventDefault();
                     const percent = parseInt(key, 10) * 10;
                     playbackManager.seekPercent(percent, currentPlayer);
                 }
                 break;
             }
             case '>':
+                e.preventDefault();
                 playbackManager.increasePlaybackRate(currentPlayer);
                 break;
             case '<':
+                e.preventDefault();
                 playbackManager.decreasePlaybackRate(currentPlayer);
-                break;
-            case 'PageUp':
-                playbackManager.nextChapter(currentPlayer);
-                break;
-            case 'PageDown':
-                playbackManager.previousChapter(currentPlayer);
                 break;
         }
     }
