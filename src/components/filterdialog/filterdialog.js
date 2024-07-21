@@ -7,6 +7,7 @@ import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
+import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
 
 function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     const elem = context.querySelector(selector);
@@ -104,6 +105,7 @@ function updateFilterControls(context, options) {
      * @param instance {FilterDialog} An instance of FilterDialog
      */
 function triggerChange(instance) {
+    stopMultiSelect();
     Events.trigger(instance, 'filterchange');
 }
 

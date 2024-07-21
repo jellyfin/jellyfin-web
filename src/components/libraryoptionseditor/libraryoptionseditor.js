@@ -4,7 +4,9 @@
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import escapeHtml from 'escape-html';
+
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -383,6 +385,13 @@ export async function embed(parent, contentType, libraryOptions) {
     });
 }
 
+const CHAPTER_CONTENT_TYPES = [
+    CollectionType.Homevideos,
+    CollectionType.Movies,
+    CollectionType.Musicvideos,
+    CollectionType.Tvshows
+];
+
 export function setContentType(parent, contentType) {
     if (contentType === 'homevideos' || contentType === 'photos') {
         parent.querySelector('.chkEnablePhotosContainer').classList.remove('hide');
@@ -390,13 +399,9 @@ export function setContentType(parent, contentType) {
         parent.querySelector('.chkEnablePhotosContainer').classList.add('hide');
     }
 
-    if (contentType !== 'tvshows' && contentType !== 'movies' && contentType !== 'homevideos' && contentType !== 'musicvideos' && contentType !== 'mixed') {
-        parent.querySelector('.trickplaySettingsSection').classList.add('hide');
-        parent.querySelector('.chapterSettingsSection').classList.add('hide');
-    } else {
-        parent.querySelector('.trickplaySettingsSection').classList.remove('hide');
-        parent.querySelector('.chapterSettingsSection').classList.remove('hide');
-    }
+    const hasChapterOptions = !contentType /* Mixed */ || CHAPTER_CONTENT_TYPES.includes(contentType);
+    parent.querySelector('.trickplaySettingsSection').classList.toggle('hide', !hasChapterOptions);
+    parent.querySelector('.chapterSettingsSection').classList.toggle('hide', !hasChapterOptions);
 
     if (contentType === 'tvshows') {
         parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.remove('hide');
@@ -623,8 +628,8 @@ let currentLibraryOptions;
 let currentAvailableOptions;
 
 export default {
-    embed: embed,
-    setContentType: setContentType,
-    getLibraryOptions: getLibraryOptions,
-    setLibraryOptions: setLibraryOptions
+    embed,
+    setContentType,
+    getLibraryOptions,
+    setLibraryOptions
 };

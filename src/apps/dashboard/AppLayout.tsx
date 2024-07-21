@@ -2,7 +2,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
@@ -32,6 +32,15 @@ export const Component: FC = () => {
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
     }, [ isDrawerActive, setIsDrawerActive ]);
+
+    // Update body class
+    useEffect(() => {
+        document.body.classList.add('dashboardDocument');
+
+        return () => {
+            document.body.classList.remove('dashboardDocument');
+        };
+    }, []);
 
     return (
         <Box sx={{ display: 'flex' }}>

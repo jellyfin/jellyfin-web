@@ -1,6 +1,7 @@
 import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
 import escapeHTML from 'escape-html';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../scripts/globalize';
@@ -13,7 +14,6 @@ import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import { getParameterByName } from '../../../../utils/url';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 
@@ -36,6 +36,8 @@ function onSaveComplete() {
 }
 
 const UserEdit = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const [ authProviders, setAuthProviders ] = useState<NameIdPair[]>([]);
@@ -52,7 +54,7 @@ const UserEdit = () => {
     };
 
     const getUser = () => {
-        const userId = getParameterByName('userId');
+        if (!userId) throw new Error('missing user id');
         return window.ApiClient.getUser(userId);
     };
 
@@ -116,7 +118,7 @@ const UserEdit = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[useredit] Unexpected null page reference');
             return;
         }
 
@@ -189,7 +191,7 @@ const UserEdit = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[useredit] Unexpected null page reference');
             return;
         }
 

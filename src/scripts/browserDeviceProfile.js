@@ -247,9 +247,13 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
             .replace(/no/, '')) {
             supportedProfiles.push(5);
         }
-        if (videoTestElement
-            .canPlayType('video/mp4; codecs="dvh1.08.09"')
-            .replace(/no/, '')) {
+        if (
+            videoTestElement
+                .canPlayType('video/mp4; codecs="dvh1.08.09"')
+                .replace(/no/, '')
+            // LG TVs from at least 2020 onwards should support profile 8, but they don't report it.
+            || (browser.web0sVersion >= 4)
+        ) {
             supportedProfiles.push(8);
         }
     }
@@ -1259,17 +1263,16 @@ export default function (options) {
     });
 
     if (browser.web0s && supportsDolbyVision(options)) {
-        // Disallow direct playing of DOVI media in containers not mp4.
-        // This paired with the "Prefer fMP4-HLS Container" client playback setting enables DOVI playback on webOS.
+        // Disallow direct playing of DOVI media in containers not ts or mp4.
         profile.CodecProfiles.push({
             Type: 'Video',
-            Container: '-mp4',
+            Container: '-mp4,ts',
             Codec: 'hevc',
             Conditions: [
                 {
                     Condition: 'EqualsAny',
                     Property: 'VideoRangeType',
-                    Value: 'SDR|HDR10|HLG',
+                    Value: hevcVideoRangeTypes.split('|').filter((v) => !v.startsWith('DOVI')).join('|'),
                     IsRequired: false
                 }
             ]

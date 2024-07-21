@@ -1,8 +1,8 @@
-import appSettings from './appSettings';
-import browser from '../browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 import { ItemSortBy, SortOrder } from '@jellyfin/sdk/lib/generated-client';
+import browser from '../browser';
+import appSettings from './appSettings';
 
 function onSaveTimeout() {
     const self = this;
@@ -143,7 +143,7 @@ export class UserSettings {
         }
 
         // Enable it by default only for the platforms that play fMP4 for sure.
-        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
+        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || (browser.chrome && !browser.web0s && !browser.tizen) || browser.edgeChromium);
     }
 
     /**

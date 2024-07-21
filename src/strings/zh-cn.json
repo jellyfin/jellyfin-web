@@ -1897,5 +1897,7 @@
     "SelectPreferredTranscodeVideoAudioCodecHelp": "选择视频内容转码到的首选音频编解码器。如果首选编解码器不受支持，服务器将使用下一个最佳可用编解码器。",
     "Regional": "区域",
     "AlternateDVD": "替换DVD",
-    "Alternate": "替换"
+    "Alternate": "替换",
+    "LabelSelectPreferredTranscodeVideoCodec": "首选转码视频编解码器",
+    "SelectPreferredTranscodeVideoCodecHelp": "选择要转码到的首选视频编解码器。如果不支持首选编解码器，服务器将使用下一个最佳可用编解码器。"
 }
