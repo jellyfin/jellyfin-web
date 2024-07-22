@@ -1,0 +1,104 @@
+name: Playback Issue
+description: You have playback issues with some files
+labels:
+  - playback
+
+body:
+  - type: textarea
+    id: playbug
+    validations:
+      required: true
+    attributes:
+      label: Describe The Bug
+      description: A clear and concise description of what the bug is.
+
+  - type: textarea
+    id: media
+    validations:
+      required: true
+    attributes:
+      label: Media Information
+      description: Please paste any ffprobe or MediaInfo logs.
+      render: bash
+
+  - type: textarea
+    id: playerScreenshots
+    validations:
+      required: false
+    attributes:
+      label: Screenshots
+      description: Add screenshots from the Playback Data and Media Info.
+
+  - type: dropdown
+    id: playSystemOS
+    validations:
+      required: true
+    attributes:
+      label: Your OS
+      description: please complete the following information
+      multiple: true
+      options:
+        - Linux
+        - Unix
+        - macOS
+        - Windows
+        - IOS
+        - Android
+        - Tizen
+        - Other (Write which above)
+
+  - type: dropdown
+    id: playBrowser
+    validations:
+      required:
+        true
+    attributes:
+      label: Browser
+      description: Which browser(s) did you use
+      multiple: true
+      options:
+        - Firefox-ESR
+        - Firefox
+        - Chrome based (Chromium, Edge)
+        - Navigator
+        - Other (Write which above)
+
+
+  - type: dropdown
+    id: playVersion
+    validations:
+      required: true
+    attributes:
+      label: Jellyfin Version
+      description: Please tell us which version of Jellyfin you are using when this happen
+      multiple: true
+      options:
+        - 10.9.0
+        - 10.9.1
+        - 10.9.2
+        - 10.9.3
+        - 10.9.4
+        - 10.9.5
+        - 10.9.6
+        - 10.9.7
+        - 10.9.8
+        - 10.9.9
+        - 10.10.0
+        - 10.10.1
+        - 10.10.2
+        - 10.10.3
+        - 10.10.4
+        - 10.10.5
+        - 10.10.6
+        - 10.10.7
+        - 10.10.8
+        - 10.10.9
+        - Other (Write which above)
+
+  - type: textarea
+    id: playAdditionInfo
+    validations:
+      required: false
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here.

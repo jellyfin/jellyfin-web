@@ -1,0 +1,128 @@
+name: Bug Report
+description: 'You have noticed a general issue or regression, and would like to report it'
+projects:
+  - jellyfin/jellyfin-web
+labels:
+  - bug
+body:
+  - type: textarea
+    id: bug_description
+    validations:
+      required: true
+    attributes:
+      label: Describe The Bug
+      description: A clear and concise description of what the bug is.
+
+  - type: textarea
+    id: reproduction
+    validations:
+      required: true
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+
+  - type: textarea
+    id: expectations
+    validations:
+      required: false
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+
+  - type: textarea
+    id: logs
+    validations:
+      required: false
+    attributes:
+      label: Logs
+      description: Please paste any log errors.
+      placeholder: |
+        You can find the logs at...
+
+      render: bash
+
+
+  - type: textarea
+    id: screenshot
+    validations:
+      required: false
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+
+  - type: dropdown
+    id: systemOS
+    validations:
+      required: true
+    attributes:
+      label: Your OS
+      description: please complete the following information
+      multiple: true
+      options:
+        - Linux
+        - Unix
+        - macOS
+        - Windows
+        - IOS
+        - Android
+        - Tizen
+        - Other (Write which above)
+
+  - type: dropdown
+    id: browser
+    validations:
+      required: true
+    attributes:
+      label: Browser
+      description: Which browser(s) did you use
+      multiple: true
+      options:
+        - Firefox-ESR
+        - Firefox
+        - Chrome based (Chromium, Edge)
+        - Navigator
+        - Other (Write which above)
+
+  - type: dropdown
+    id: version
+    validations:
+      required: true
+    attributes:
+      label: Jellyfin Version
+      description: Please tell us which version of Jellyfin you are using when this happen
+      multiple: true
+      options:
+        - 10.9.0
+        - 10.9.1
+        - 10.9.2
+        - 10.9.3
+        - 10.9.4
+        - 10.9.5
+        - 10.9.6
+        - 10.9.7
+        - 10.9.8
+        - 10.9.9
+        - 10.10.0
+        - 10.10.1
+        - 10.10.2
+        - 10.10.3
+        - 10.10.4
+        - 10.10.5
+        - 10.10.6
+        - 10.10.7
+        - 10.10.8
+        - 10.10.9
+        - Other (Write which above)
+
+  - type: textarea
+    id: additionInfo
+    validations:
+      required: false
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here.
