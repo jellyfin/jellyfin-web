@@ -13,12 +13,11 @@
     will-change: transform;
     display: flex;
     transition: transform ease-out 40ms, left ease-out 260ms;
+    z-index: 1099;
 
     [div="rtl"] & {
         transition: transform ease-out 40ms, right ease-out 260ms;
     }
-
-    z-index: 1099;
 }
 
 .touch-menu-la.transition {

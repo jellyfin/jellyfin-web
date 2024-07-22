@@ -1,0 +1,49 @@
+.item-backdrop {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+
+    .layout-desktop & {
+        @media all and (max-width: 62.5em) {
+            height: 40vh;
+        }
+    }
+
+    .layout-mobile & {
+        margin-top: 0;
+
+        @media all and (orientation: portrait) and (max-width: 40em) {
+            height: 30vh;
+        }
+    }
+
+    &-container {
+        width: 100%;
+        height: 100%;
+
+        .lazy-load-image {
+            position: absolute;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            animation: backdrop-fadein 800ms ease-in normal both;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+
+            .layout-mobile & {
+                background-attachment: initial;
+                background-position: top center;
+            }
+        }
+    }
+}
+
+@media all and (max-height: 31.25em) {
+    .item-backdrop {
+        height: 52vh;
+    }
+}

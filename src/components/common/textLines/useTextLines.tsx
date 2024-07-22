@@ -1,27 +1,27 @@
+import type { NameGuidPair } from '@jellyfin/sdk/lib/generated-client/models/name-guid-pair';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React from 'react';
 import itemHelper from '../../itemHelper';
 import datetime from 'scripts/datetime';
-import ListTextWrapper from './ListTextWrapper';
+import { appRouter } from 'components/router/appRouter';
 import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import type { TextAction, TextLine, TextLineOpts } from './types';
 
 function getParentTitle(
-    showParentTitle: boolean | undefined,
     item: ItemDto,
+    showParentTitle: boolean | undefined,
     parentTitleWithTitle: boolean | undefined,
     displayName: string | null | undefined
 ) {
-    let parentTitle = null;
+    let parentTitle;
     if (showParentTitle) {
-        if (item.Type === BaseItemKind.Episode) {
+        if (item.Type === BaseItemKind.Season || item.Type === BaseItemKind.Episode) {
             parentTitle = item.SeriesName;
         } else if (item.IsSeries || (item.EpisodeTitle && item.Name)) {
             parentTitle = item.Name;
         }
     }
     if (showParentTitle && parentTitleWithTitle) {
-        if (displayName) {
+        if (displayName && parentTitle) {
             parentTitle += ' - ';
         }
         parentTitle = (parentTitle ?? '') + displayName;
@@ -31,11 +31,11 @@ function getParentTitle(
 
 function getNameOrIndexWithName(
     item: ItemDto,
-    listOptions: ListOptions,
+    includeParentInfoInTitle: boolean | undefined,
     showIndexNumber: boolean | undefined
 ) {
     let displayName = itemHelper.getDisplayName(item, {
-        includeParentInfo: listOptions.includeParentInfoInTitle
+        includeParentInfo: includeParentInfoInTitle
     });
 
     if (showIndexNumber && item.IndexNumber != null) {
@@ -44,13 +44,29 @@ function getNameOrIndexWithName(
     return displayName;
 }
 
-interface UseListTextlinesProps {
-    item: ItemDto;
-    listOptions?: ListOptions;
-    isLargeStyle?: boolean;
+function getArtistLinks(artists: NameGuidPair[]): TextAction[] {
+    const titleActions = [];
+
+    for (const artist of artists) {
+        const url = appRouter.getRouteUrl(artist, {
+            itemType: 'MusicArtist'
+        });
+
+        titleActions.push({
+            url,
+            title: artist.Name || ''
+        });
+    }
+
+    return titleActions;
 }
 
-function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseListTextlinesProps) {
+interface UseTextLinesProps {
+    item: ItemDto;
+    textLineOpts?: TextLineOpts;
+}
+
+function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     const {
         showProgramDateTime,
         showProgramTime,
@@ -58,13 +74,16 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
         showParentTitle,
         showIndexNumber,
         parentTitleWithTitle,
-        artist
-    } = listOptions;
-    const textLines: string[] = [];
+        showArtist,
+        showCurrentProgram,
+        includeParentInfoInTitle
+    } = textLineOpts;
 
-    const addTextLine = (text: string | null) => {
-        if (text) {
-            textLines.push(text);
+    const textLines: TextLine[] = [];
+
+    const addTextLine = (textLine: TextLine) => {
+        if (textLine) {
+            textLines.push(textLine);
         }
     };
 
@@ -80,7 +99,7 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
                     minute: '2-digit'
                 }
             );
-            addTextLine(programDateTime);
+            addTextLine({ title: programDateTime });
         }
     };
 
@@ -89,50 +108,56 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
             const programTime = datetime.getDisplayTime(
                 datetime.parseISO8601Date(item.StartDate)
             );
-            addTextLine(programTime);
+            addTextLine({ title: programTime });
         }
     };
 
     const addChannelName = () => {
         if (showChannel && item.ChannelName) {
-            addTextLine(item.ChannelName);
+            addTextLine({ title: item.ChannelName });
         }
     };
 
-    const displayName = getNameOrIndexWithName(item, listOptions, showIndexNumber);
+    const displayName = getNameOrIndexWithName(item, includeParentInfoInTitle, showIndexNumber);
 
-    const parentTitle = getParentTitle(showParentTitle, item, parentTitleWithTitle, displayName );
+    const parentTitle = getParentTitle(item, showParentTitle, parentTitleWithTitle, displayName );
 
     const addParentTitle = () => {
-        addTextLine(parentTitle ?? '');
+        if (parentTitle) {
+            addTextLine({ title: parentTitle });
+        }
     };
 
     const addDisplayName = () => {
         if (displayName && !parentTitleWithTitle) {
-            addTextLine(displayName);
+            addTextLine({ title: displayName });
         }
     };
 
     const addAlbumArtistOrArtists = () => {
-        if (item.IsFolder && artist !== false) {
+        if (item.IsFolder && showArtist !== false) {
             if (item.AlbumArtist && item.Type === BaseItemKind.MusicAlbum) {
-                addTextLine(item.AlbumArtist);
+                addTextLine({ title: item.AlbumArtist });
             }
-        } else if (artist) {
+        } else if (showArtist) {
             const artistItems = item.ArtistItems;
-            if (artistItems && item.Type !== BaseItemKind.MusicAlbum) {
-                const artists = artistItems.map((a) => a.Name).join(', ');
-                addTextLine(artists);
+            // if (artistItems && item.Type !== BaseItemKind.MusicAlbum) {
+            //     const artists = artistItems.map((a) => a.Name).join(', ');
+            //     addTextLine({ title: artists });
+            // }
+            if (artistItems && item.Type) {
+                addTextLine({ titleAction: getArtistLinks(artistItems) });
             }
         }
     };
 
     const addCurrentProgram = () => {
-        if (item.Type === BaseItemKind.TvChannel && item.CurrentProgram) {
-            const currentProgram = itemHelper.getDisplayName(
-                item.CurrentProgram
-            );
-            addTextLine(currentProgram);
+        if (item.Type === BaseItemKind.TvChannel && item.CurrentProgram && showCurrentProgram !== false) {
+            const currentProgram = itemHelper.getDisplayName(item.CurrentProgram, {
+                includeParentInfo: includeParentInfoInTitle
+            });
+
+            addTextLine({ title: currentProgram });
         }
     };
 
@@ -144,24 +169,9 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
     addAlbumArtistOrArtists();
     addCurrentProgram();
 
-    const renderTextlines = (text: string, index: number) => {
-        return (
-            <ListTextWrapper
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                index={index}
-                isLargeStyle={isLargeStyle}
-            >
-                <bdi>{text}</bdi>
-            </ListTextWrapper>
-        );
-    };
-
-    const listTextLines = textLines?.map((text, index) => renderTextlines(text, index));
-
     return {
-        listTextLines
+        textLines
     };
 }
 
-export default useListTextlines;
+export default useTextLines;

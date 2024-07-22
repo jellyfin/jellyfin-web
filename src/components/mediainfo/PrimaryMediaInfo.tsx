@@ -13,6 +13,7 @@ import type { MiscInfo } from 'types/mediaInfoItem';
 
 interface PrimaryMediaInfoProps {
     className?: string;
+    mediaInfoclassName?: string;
     item: ItemDto;
     isYearEnabled?: boolean;
     isContainerEnabled?: boolean;
@@ -27,11 +28,12 @@ interface PrimaryMediaInfoProps {
     isStarRatingEnabled?: boolean;
     isCaptionIndicatorEnabled?: boolean;
     isMissingIndicatorEnabled?: boolean;
-    getMissingIndicator: () => React.JSX.Element | null
+    getMissingIndicator?: () => React.JSX.Element | null
 }
 
 const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     className,
+    mediaInfoclassName,
     item,
     isYearEnabled = false,
     isContainerEnabled = false,
@@ -71,7 +73,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     const cssClass = classNames(className);
 
     const renderMediaInfo = (info: MiscInfo | undefined, index: number) => (
-        <MediaInfoItem key={index} miscInfo={info} />
+        <MediaInfoItem key={index} className={mediaInfoclassName} miscInfo={info} />
     );
 
     return (
@@ -79,21 +81,21 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
             {miscInfo.map((info, index) => renderMediaInfo(info, index))}
 
             {isStarRatingEnabled && CommunityRating && (
-                <StarIcons communityRating={CommunityRating} />
+                <StarIcons className={mediaInfoclassName} communityRating={CommunityRating} />
             )}
 
-            {HasSubtitles && isCaptionIndicatorEnabled && <CaptionMediaInfo />}
+            {HasSubtitles && isCaptionIndicatorEnabled && <CaptionMediaInfo className={mediaInfoclassName} />}
 
             {CriticRating && isCriticRatingEnabled && (
-                <CriticRatingMediaInfo criticRating={CriticRating} />
+                <CriticRatingMediaInfo className={mediaInfoclassName} criticRating={CriticRating} />
             )}
 
             {isEndsAtEnabled
                 && MediaType === 'Video'
                 && RunTimeTicks
-                && !StartDate && <EndsAt runTimeTicks={RunTimeTicks} />}
+                && !StartDate && <EndsAt className={mediaInfoclassName} runTimeTicks={RunTimeTicks} />}
 
-            {isMissingIndicatorEnabled && (
+            {isMissingIndicatorEnabled && getMissingIndicator && (
                 getMissingIndicator()
             )}
         </Box>

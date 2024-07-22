@@ -21,6 +21,7 @@ const Media: FC<MediaProps> = ({
 }) => {
     return imgUrl ? (
         <Image
+            className='card-image'
             imgUrl={imgUrl}
             blurhash={blurhash}
             containImage={item.Type === BaseItemKind.TvChannel || imageType === ImageType.Logo}

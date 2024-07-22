@@ -4,7 +4,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import globalize from 'scripts/globalize';
 import { LibraryViewSettings } from 'types/library';
-import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 
 const statusFiltersOptions = [
     { label: 'Continuing', value: SeriesStatus.Continuing },
