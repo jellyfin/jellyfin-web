@@ -108,8 +108,16 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
                     onChange={onChange}
                     value={values.libraryThemeMediaSortBy}
                 >
-                    <MenuItem value={ItemSortBy.SortName}>{globalize.translate('OptionTrackName')}</MenuItem>
                     <MenuItem value={ItemSortBy.Random}>{globalize.translate('OptionRandom')}</MenuItem>
+                    <MenuItem value={ItemSortBy.SortName}>{globalize.translate('OptionTrackName')}</MenuItem>
+                    <MenuItem value={ItemSortBy.Album}>{globalize.translate('Album')}</MenuItem>
+                    <MenuItem value={ItemSortBy.AlbumArtist}>{globalize.translate('AlbumArtist')}</MenuItem>
+                    <MenuItem value={ItemSortBy.Artist}>{globalize.translate('Artist')}</MenuItem>
+                    <MenuItem value={ItemSortBy.DateCreated}>{globalize.translate('OptionDateAdded')}</MenuItem>
+                    <MenuItem value={ItemSortBy.DatePlayed}>{globalize.translate('OptionDatePlayed')}</MenuItem>
+                    <MenuItem value={ItemSortBy.PlayCount}>{globalize.translate('OptionPlayCount')}</MenuItem>
+                    <MenuItem value={ItemSortBy.PremiereDate}>{globalize.translate('OptionReleaseDate')}</MenuItem>
+                    <MenuItem value={ItemSortBy.Runtime}>{globalize.translate('Runtime')}</MenuItem>
                 </Select>
                 <FormHelperText component={Stack} id='display-settings-lib-theme-media-sort-by-description'>
                     <span>{globalize.translate('ThemeMediaSortByHelp')}</span>
