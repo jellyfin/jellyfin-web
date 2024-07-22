@@ -1892,5 +1892,7 @@
     "PlaylistPublicDescription": "Permitir que esta lista de reprodução seja vista por qualquer utilizador com sessão iniciada.",
     "Regional": "Regional",
     "SaveLyricsIntoMediaFolders": "Guardar letras em pastas multimédia",
-    "Translator": "Tradutor"
+    "Translator": "Tradutor",
+    "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir."
 }
