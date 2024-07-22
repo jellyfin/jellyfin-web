@@ -265,8 +265,16 @@
 
     <div class="selectContainer themeMediaChecked fldThemeMediaSortBy hide">
         <select is="emby-select" id="selectThemeMediaSortBy" label="${ThemeMediaSortBy}">
-            <option value="SortName">${SortName}</option>
             <option value="Random">${OptionRandom}</option>
+            <option value="SortName">${OptionTrackName}</option>
+            <option value="Album">${Album}</option>
+            <option value="AlbumArtist">${AlbumArtist}</option>
+            <option value="Artist">${Artist}</option>
+            <option value="DateCreated">${OptionDateAdded}</option>
+            <option value="DatePlayed">${OptionDatePlayed}</option>
+            <option value="PlayCount">${OptionPlayCount}</option>
+            <option value="PremiereDate">${OptionReleaseDate}</option>
+            <option value="Runtime">${Runtime}</option>
         </select>
         <div class="fieldDescription">${ThemeMediaSortByHelp}</div>
         <div class="fieldDescription">${ThemeMediaFolderUsageHelp}</div>
