@@ -98,21 +98,18 @@ async function loadThemeMedia(serverId, itemId) {
             return;
         }
 
-        const { data: themeMedia } = await getLibraryApi(api)
-            .getThemeMedia({ userId, itemId: item.Id, inheritFromParent: true });
+        const { data: themeMedia } = await getLibraryApi(api).getThemeMedia({
+            userId,
+            itemId: item.Id,
+            inheritFromParent: true,
+            sortBy: [userSettings.themeMediaSortBy()],
+            sortOrder: [userSettings.themeMediaSortOrder()]
+        });
 
         const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
 
-        let themeItems = result.Items;
-
-        if (userSettings.themeMediaSortBy() == ItemSortBy.Random) {
-            themeItems = shuffle(themeItems);
-        } else if (userSettings.themeMediaSortOrder() == SortOrder.Descending) {
-            themeItems = themeItems.reverse();
-        }
-
         if (result.OwnerId !== currentOwnerId) {
-            playThemeMedia(themeItems, result.OwnerId);
+            playThemeMedia(result.Items, result.OwnerId);
         }
     } catch (err) {
         console.error('[ThemeMediaPlayer] failed to load theme media', err);
