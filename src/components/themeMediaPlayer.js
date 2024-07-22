@@ -10,8 +10,6 @@ import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
-import { ItemSortBy, SortOrder } from '@jellyfin/sdk/lib/generated-client';
-import { shuffle } from 'lodash-es';
 
 let currentOwnerId;
 let currentThemeIds = [];
