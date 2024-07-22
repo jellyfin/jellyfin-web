@@ -1897,5 +1897,7 @@
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Sélectionnez le codec audio cible préféré pour le transcodage du contenu vidéo. Si le codec préféré n'est pas supporté, le serveur utilisera le meilleur codec disponible suivant.",
     "Alternate": "Alternative",
     "AlternateDVD": "Alternative DVD",
-    "Regional": "Régional"
+    "Regional": "Régional",
+    "LabelSelectPreferredTranscodeVideoCodec": "Codec vidéo de transcodage préféré",
+    "SelectPreferredTranscodeVideoCodecHelp": "Sélectionnez le codec vidéo préféré vers lequel transcoder. Si le codec préféré n’est pas pris en charge, le serveur utilisera le meilleur codec disponible suivant."
 }
