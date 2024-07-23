@@ -28,7 +28,7 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
             },
 
             /* Public routes */
-            { index: true, element: <Navigate to='/home.html' /> },
+            { index: true, element: <Navigate replace to='/home.html' /> },
             ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
         ]
     },
