@@ -57,7 +57,7 @@
     "ButtonForgotPassword": "Password Dimenticata",
     "ButtonFullscreen": "Schermo Intero",
     "ButtonGotIt": "Ho capito",
-    "ButtonLibraryAccess": "Accesso biblioteca",
+    "ButtonLibraryAccess": "Accesso libreria",
     "ButtonManualLogin": "Accesso Manuale",
     "ButtonMore": "Altro",
     "ButtonNetwork": "Rete",
@@ -437,7 +437,7 @@
     "LabelCustomCertificatePath": "Percorso personalizzato certificato SSL",
     "LabelCustomCertificatePathHelp": "Percorso del file PKCS #12 contenente il certificato e la chiave private per abilitare il supporto TLS in un dominio personalizzato.",
     "LabelCustomCss": "Codice CSS personalizzato",
-    "LabelCustomCssHelp": "Applicalo stile CSS personalizzato per i temi/branding dell'interfaccia web.",
+    "LabelCustomCssHelp": "Applica uno stile CSS personalizzato per i temi/branding dell'interfaccia web.",
     "LabelCustomDeviceDisplayNameHelp": "Fornire un nome di visualizzazione personalizzato o lasciare vuoto per utilizzare il nome riportato dal dispositivo.",
     "LabelCustomRating": "Voto personalizzato",
     "LabelDashboardTheme": "Tema del Pannello di Controllo",
@@ -679,7 +679,7 @@
     "LabelTypeText": "Testo",
     "LabelUseNotificationServices": "Utilizzare i seguenti servizi",
     "LabelUser": "Utente",
-    "LabelUserAgent": "Agente utente",
+    "LabelUserAgent": "User agent",
     "LabelUserLibrary": "Libreria utente",
     "LabelUserLibraryHelp": "Selezionare la libreria utente da visualizzare sul dispositivo. Lasciare vuoto per ereditare l'impostazione predefinita.",
     "LabelUserRemoteClientBitrateLimitHelp": "Sovrascrive il valore globale predefinito impostato nelle impostazioni, vedi di Pannello di Controllo > Riproduzione > Streaming.",
@@ -1897,5 +1897,7 @@
     "Regional": "Regionale",
     "SaveLyricsIntoMediaFoldersHelp": "La memorizzazione dei testi accanto ai file audio consente di gestirli più facilmente.",
     "Penciller": "Disegnatore",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Selezionare il codec audio preferito per la transcodifica dei contenuti video. Se il codec preferito non è supportato, il server utilizzerà il migliore codec successivo disponibile."
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Selezionare il codec audio preferito per la transcodifica dei contenuti video. Se il codec preferito non è supportato, il server utilizzerà il migliore codec successivo disponibile.",
+    "LabelSelectPreferredTranscodeVideoCodec": "Codec video preferito per la transcodifica",
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleziona il codec video preferito con cui transcodificare. Se il codec scelto non è supportato, il server userà il miglior codec disponibile."
 }
