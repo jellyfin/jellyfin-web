@@ -71,7 +71,7 @@ function getMediaSourceHtml(user, item, version) {
         const size = `${(version.Size / (1024 * 1024)).toFixed(0)} MB`;
         html += `${createAttribute(globalize.translate('MediaInfoSize'), size)}<br/>`;
     }
-    version.MediaStreams.sort(itemHelper.sortTracks);
+
     for (const stream of version.MediaStreams) {
         if (stream.Type === 'Data') {
             continue;
