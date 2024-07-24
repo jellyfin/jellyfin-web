@@ -11,6 +11,7 @@ import { ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 import VideoPage from './video';
 import loadable from '@loadable/component';
+import BangRedirect from 'components/router/BangRedirect';
 
 const AppLayout = loadable(() => import('../AppLayout'));
 
@@ -38,6 +39,11 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
             { index: true, loader: () => redirect('/home.html') },
             ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
         ]
+    },
+
+    {
+        path: '!/*',
+        Component: BangRedirect
     },
 
     /* Redirects for old paths */
