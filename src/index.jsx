@@ -22,7 +22,7 @@ import { getPlugins } from './scripts/settings/webSettings';
 import { pluginManager } from './components/pluginManager';
 import packageManager from './components/packageManager';
 import './components/playback/displayMirrorManager.ts';
-import { appRouter, history } from './components/router/appRouter';
+import { appRouter } from './components/router/appRouter';
 import './elements/emby-button/emby-button';
 import './scripts/autoThemes';
 import './components/themeMediaPlayer';
@@ -39,6 +39,7 @@ import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
 import RootApp from './RootApp.tsx';
+import { history } from 'RootAppRouter';
 
 import './styles/livetv.scss';
 import './styles/dashboard.scss';
