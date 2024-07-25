@@ -49,11 +49,20 @@ interface RefreshIndicatorProps {
 }
 
 const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
+    const [showProgressBar, setShowProgressBar] = useState(!!item.RefreshProgress);
     const [progress, setProgress] = useState(item.RefreshProgress || 0);
 
     const onRefreshProgress = useCallback((_e: Event, _apiClient: ApiClient, info: { ItemId: string | null | undefined; Progress: string; }) => {
         if (info.ItemId === item?.Id) {
-            setProgress(parseFloat(info.Progress));
+            const pct = parseFloat(info.Progress);
+
+            if (pct && pct < 100) {
+                setShowProgressBar(true);
+            } else {
+                setShowProgressBar(false);
+            }
+
+            setProgress(pct);
         }
     }, [item?.Id]);
 
@@ -77,17 +86,13 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
         };
     }, [bindEvents, item.Id, unbindEvents]);
 
-    const progressringClass = classNames(
-        'progressring',
-        className,
-        { 'hide': !progress || progress >= 100 }
-    );
+    const progressringClass = classNames('progressring', className);
 
-    return (
+    return showProgressBar ? (
         <div className={progressringClass}>
             <CircularProgressWithLabel value={Math.floor(progress)} />
         </div>
-    );
+    ) : null;
 };
 
 export default RefreshIndicator;

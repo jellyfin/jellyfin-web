@@ -2,7 +2,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
@@ -13,28 +13,34 @@ import { useApi } from 'hooks/useApi';
 
 import AppTabs from './components/AppTabs';
 import AppDrawer from './components/drawer/AppDrawer';
+import { DASHBOARD_APP_PATHS } from './routes/routes';
 
 import './AppOverrides.scss';
 
-interface AppLayoutProps {
-    drawerlessPaths: string[]
-}
+const DRAWERLESS_PATHS = [ DASHBOARD_APP_PATHS.MetadataManager ];
 
-const AppLayout: FC<AppLayoutProps> = ({
-    drawerlessPaths
-}) => {
+export const Component: FC = () => {
     const [ isDrawerActive, setIsDrawerActive ] = useState(false);
     const location = useLocation();
     const { user } = useApi();
 
     const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
     const isDrawerAvailable = Boolean(user)
-        && !drawerlessPaths.some(path => location.pathname.startsWith(`/${path}`));
+        && !DRAWERLESS_PATHS.some(path => location.pathname.startsWith(`/${path}`));
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
     }, [ isDrawerActive, setIsDrawerActive ]);
+
+    // Update body class
+    useEffect(() => {
+        document.body.classList.add('dashboardDocument');
+
+        return () => {
+            document.body.classList.remove('dashboardDocument');
+        };
+    }, []);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -86,5 +92,3 @@ const AppLayout: FC<AppLayoutProps> = ({
         </Box>
     );
 };
-
-export default AppLayout;

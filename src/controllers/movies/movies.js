@@ -321,4 +321,3 @@ export default function (view, params, tabContent, options) {
         itemsContainer = null;
     };
 }
-

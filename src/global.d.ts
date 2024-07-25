@@ -15,6 +15,7 @@ export declare global {
         'viewshow': CustomEvent;
     }
 
+    const __COMMIT_SHA__: string;
     const __JF_BUILD_VERSION__: string;
     const __PACKAGE_JSON_NAME__: string;
     const __PACKAGE_JSON_VERSION__: string;

@@ -6,7 +6,6 @@ import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
-import shell from '../../scripts/shell';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
@@ -300,19 +299,6 @@ function bindAll(elems, eventName, fn) {
 }
 
 function init(context) {
-    context.querySelector('.externalIds').addEventListener('click', function (e) {
-        const btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
-        if (btnOpenExternalId) {
-            const field = context.querySelector('#' + btnOpenExternalId.getAttribute('data-fieldid'));
-
-            const formatString = field.getAttribute('data-formatstring');
-
-            if (field.value) {
-                shell.openUrl(formatString.replace('{0}', field.value));
-            }
-        }
-    });
-
     if (!layoutManager.desktop) {
         context.querySelector('.btnBack').classList.remove('hide');
         context.querySelector('.btnClose').classList.add('hide');
@@ -442,7 +428,6 @@ function loadExternalIds(context, item, externalIds) {
         const idInfo = externalIds[i];
 
         const id = 'txt1' + idInfo.Key;
-        const formatString = idInfo.UrlFormatString || '';
 
         let fullName = idInfo.Name;
         if (idInfo.Type) {
@@ -457,14 +442,9 @@ function loadExternalIds(context, item, externalIds) {
         const value = escapeHtml(providerIds[idInfo.Key] || '');
 
         html += '<div class="flex-grow">';
-        html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" data-formatstring="' + formatString + '" id="' + id + '" label="' + labelText + '"/>';
+        html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" id="' + id + '" label="' + labelText + '"/>';
         html += '</div>';
-
-        if (formatString) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser" aria-hidden="true"></span></button>';
-        }
         html += '</div>';
-
         html += '</div>';
     }
 

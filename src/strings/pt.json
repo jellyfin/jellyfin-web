@@ -1890,5 +1890,7 @@
     "AlternateDVD": "DVD alternativo",
     "Penciller": "Lapiseira",
     "Regional": "Regional",
-    "SaveLyricsIntoMediaFolders": "Guardar letras em pastas multimédia"
+    "SaveLyricsIntoMediaFolders": "Guardar letras em pastas multimédia",
+    "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir."
 }

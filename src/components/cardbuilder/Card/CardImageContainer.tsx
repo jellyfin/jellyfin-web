@@ -54,8 +54,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                             indicator.getPlayedIndicator()}
 
                         {(item.Type === BaseItemKind.CollectionFolder
-                            || item.CollectionType)
-                            && item.RefreshProgress && (
+                            || item.CollectionType) && (
                             <RefreshIndicator item={item} />
                         )}
                     </Box>
