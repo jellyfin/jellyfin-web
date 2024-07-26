@@ -1418,7 +1418,6 @@ export default function (view) {
         }
 
         let chapter;
-        console.log(item);
         if (item?.Chapters?.length) {
             for (let i = 0, length = item.Chapters.length; i < length; i++) {
                 const currentChapter = item.Chapters[i];
