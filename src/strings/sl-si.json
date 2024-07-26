@@ -1781,5 +1781,11 @@
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Polni HD",
     "ConfirmDeleteSeries": "Serija in pripadajočih {0} epizod bo izbrisano iz datotečnega sistema in knjižnice predstavnosti. Ste prepričani, da želite nadaljevati?",
-    "AllowSubtitleManagement": "Dovoli uporabniku, da ureja podnapise"
+    "AllowSubtitleManagement": "Dovoli uporabniku, da ureja podnapise",
+    "Author": "Avtor",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "EnableDts": "Omogoči DTS (DCA)",
+    "EnableLibrary": "Omogoči knjižnico",
+    "Creator": "Ustvarjalec",
+    "Editor": "Urednik"
 }
