@@ -1899,5 +1899,7 @@
     "AlternateDVD": "Alternatywne DVD",
     "Regional": "Regionalne",
     "LabelSelectPreferredTranscodeVideoCodec": "Preferowany kodek wideo do transkodowania",
-    "SelectPreferredTranscodeVideoCodecHelp": "Wybierz preferowany kodek wideo do transkodowania. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje kolejnego najlepszego dostępnego kodeka."
+    "SelectPreferredTranscodeVideoCodecHelp": "Wybierz preferowany kodek wideo do transkodowania. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje kolejnego najlepszego dostępnego kodeka.",
+    "HeaderNextItem": "Następny {0}",
+    "HeaderNextItemPlayingInValue": "Następny {0}, odtwarzany za {1}"
 }
