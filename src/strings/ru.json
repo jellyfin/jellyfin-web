@@ -1868,5 +1868,21 @@
     "DeleteLyrics": "Удалить тексты песен",
     "ErrorDeletingLyrics": "Возникла ошибка при удалении текста песни с сервера. Пожалуйста, проверьте, имеет ли Jellyfin доступ на запись в папку с медиа, и попробуйте ещё раз.",
     "HeaderDeleteLyrics": "Удалить Текст песни",
-    "HeaderNoLyrics": "Текст песни не найден"
+    "HeaderNoLyrics": "Текст песни не найден",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Предпочтительный аудиокодек для просмотра видео",
+    "Letterer": "Писатель",
+    "PlaylistError.CreateFailed": "Ошибка создания плей-листа",
+    "PlaylistPublic": "Разрешить публичный доступ",
+    "Regional": "Региональный",
+    "Translator": "Переводчик",
+    "LabelSelectPreferredTranscodeVideoCodec": "Предпочтительный видеокодек для транскодирования",
+    "PlaylistError.AddFailed": "Ошибка добавления в плей-лист",
+    "Author": "Автор",
+    "Creator": "Создатель",
+    "CoverArtist": "Автор обложки",
+    "Editor": "Редактор",
+    "Illustrator": "Иллюстратор",
+    "HeaderLyricDownloads": "Загрузки текстов песен",
+    "Alternate": "Альтернативный",
+    "AlternateDVD": "Альтернативный DVD"
 }

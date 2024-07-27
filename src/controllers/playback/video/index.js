@@ -496,10 +496,10 @@ export default function (view) {
         icon.classList.remove('fullscreen_exit', 'fullscreen');
 
         if (playbackManager.isFullscreen(currentPlayer)) {
-            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (F)');
             icon.classList.add('fullscreen_exit');
         } else {
-            button.setAttribute('title', globalize.translate('Fullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('Fullscreen') + ' (F)');
             icon.classList.add('fullscreen');
         }
     }
@@ -721,7 +721,7 @@ export default function (view) {
         }
 
         btnPlayPauseIcon.classList.add(icon);
-        dom.setElementTitle(btnPlayPause, title + ' (k)', title);
+        dom.setElementTitle(btnPlayPause, title + ' (K)', title);
     }
 
     function updatePlayerStateInternal(event, player, state) {
@@ -1245,6 +1245,7 @@ export default function (view) {
                 }
                 break;
             case 'k':
+            case 'K':
                 playbackManager.playPause(currentPlayer);
                 showOsd(btnPlayPause);
                 break;
@@ -1257,23 +1258,27 @@ export default function (view) {
                 playbackManager.volumeDown(currentPlayer);
                 break;
             case 'l':
+            case 'L':
             case 'ArrowRight':
             case 'Right':
                 playbackManager.fastForward(currentPlayer);
                 showOsd(btnFastForward);
                 break;
             case 'j':
+            case 'J':
             case 'ArrowLeft':
             case 'Left':
                 playbackManager.rewind(currentPlayer);
                 showOsd(btnRewind);
                 break;
             case 'f':
+            case 'F':
                 if (!e.ctrlKey && !e.metaKey) {
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
             case 'm':
+            case 'M':
                 playbackManager.toggleMute(currentPlayer);
                 break;
             case 'p':
@@ -1382,7 +1387,7 @@ export default function (view) {
 
         // Create bubble elements if they don't already exist
         if (chapterThumbContainer) {
-            chapterThumb = chapterThumbContainer.querySelector('.chapterThumb');
+            chapterThumb = chapterThumbContainer.querySelector('.chapterThumbWrapper');
             chapterThumbText = chapterThumbContainer.querySelector('.chapterThumbText');
         } else {
             doFullUpdate = true;
@@ -1391,22 +1396,12 @@ export default function (view) {
             chapterThumbContainer.classList.add('chapterThumbContainer');
             chapterThumbContainer.style.overflow = 'hidden';
 
-            const chapterThumbWrapper = document.createElement('div');
-            chapterThumbWrapper.classList.add('chapterThumbWrapper');
-            chapterThumbWrapper.style.overflow = 'hidden';
-            chapterThumbWrapper.style.position = 'relative';
-            chapterThumbWrapper.style.width = trickplayInfo.Width + 'px';
-            chapterThumbWrapper.style.height = trickplayInfo.Height + 'px';
-            chapterThumbContainer.appendChild(chapterThumbWrapper);
-
-            chapterThumb = document.createElement('img');
-            chapterThumb.classList.add('chapterThumb');
-            chapterThumb.style.position = 'absolute';
-            chapterThumb.style.width = 'unset';
-            chapterThumb.style.minWidth = 'unset';
-            chapterThumb.style.height = 'unset';
-            chapterThumb.style.minHeight = 'unset';
-            chapterThumbWrapper.appendChild(chapterThumb);
+            chapterThumb = document.createElement('div');
+            chapterThumb.classList.add('chapterThumbWrapper');
+            chapterThumb.style.overflow = 'hidden';
+            chapterThumb.style.width = trickplayInfo.Width + 'px';
+            chapterThumb.style.height = trickplayInfo.Height + 'px';
+            chapterThumbContainer.appendChild(chapterThumb);
 
             const chapterThumbTextContainer = document.createElement('div');
             chapterThumbTextContainer.classList.add('chapterThumbTextContainer');
@@ -1435,9 +1430,9 @@ export default function (view) {
             MediaSourceId: mediaSourceId
         });
 
-        if (chapterThumb.src != imgSrc) chapterThumb.src = imgSrc;
-        chapterThumb.style.left = offsetX + 'px';
-        chapterThumb.style.top = offsetY + 'px';
+        chapterThumb.style.backgroundImage = `url('${imgSrc}')`;
+        chapterThumb.style.backgroundPositionX = offsetX + 'px';
+        chapterThumb.style.backgroundPositionY = offsetY + 'px';
 
         chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
 

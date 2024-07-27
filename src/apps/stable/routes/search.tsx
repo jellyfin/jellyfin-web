@@ -1,24 +1,25 @@
 import React, { type FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-import Page from 'components/Page';
-import SearchFields from 'components/search/SearchFields';
-import SearchResults from 'components/search/SearchResults';
-import SearchSuggestions from 'components/search/SearchSuggestions';
-import LiveTVSearchResults from 'components/search/LiveTVSearchResults';
+import { useDebounceValue } from 'usehooks-ts';
 import { usePrevious } from 'hooks/usePrevious';
 import globalize from 'scripts/globalize';
+import Page from 'components/Page';
+import SearchFields from 'components/search/SearchFields';
+import SearchSuggestions from 'components/search/SearchSuggestions';
+import SearchResults from 'components/search/SearchResults';
 
 const COLLECTION_TYPE_PARAM = 'collectionType';
 const PARENT_ID_PARAM = 'parentId';
 const QUERY_PARAM = 'query';
-const SERVER_ID_PARAM = 'serverId';
 
 const Search: FC = () => {
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const parentIdQuery = searchParams.get(PARENT_ID_PARAM) || undefined;
+    const collectionTypeQuery = searchParams.get(COLLECTION_TYPE_PARAM) || undefined;
     const urlQuery = searchParams.get(QUERY_PARAM) || '';
-    const [ query, setQuery ] = useState(urlQuery);
+    const [query, setQuery] = useState(urlQuery);
     const prevQuery = usePrevious(query, '');
+    const [debouncedQuery] = useDebounceValue(query, 500);
 
     useEffect(() => {
         if (query !== prevQuery) {
@@ -49,23 +50,17 @@ const Search: FC = () => {
             className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage'
         >
             <SearchFields query={query} onSearch={setQuery} />
-            {!query
-                && <SearchSuggestions
-                    parentId={searchParams.get(PARENT_ID_PARAM)}
+            {!query ? (
+                <SearchSuggestions
+                    parentId={parentIdQuery}
                 />
-            }
-            <SearchResults
-                serverId={searchParams.get(SERVER_ID_PARAM) || window.ApiClient.serverId()}
-                parentId={searchParams.get(PARENT_ID_PARAM)}
-                collectionType={searchParams.get(COLLECTION_TYPE_PARAM)}
-                query={query}
-            />
-            <LiveTVSearchResults
-                serverId={searchParams.get(SERVER_ID_PARAM) || window.ApiClient.serverId()}
-                parentId={searchParams.get(PARENT_ID_PARAM)}
-                collectionType={searchParams.get(COLLECTION_TYPE_PARAM)}
-                query={query}
-            />
+            ) : (
+                <SearchResults
+                    parentId={parentIdQuery}
+                    collectionType={collectionTypeQuery}
+                    query={debouncedQuery}
+                />
+            )}
         </Page>
     );
 };

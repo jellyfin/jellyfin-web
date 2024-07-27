@@ -6,6 +6,7 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import itemHelper from '../itemHelper';
+import ServerConnections from '../ServerConnections';
 import './upnextdialog.scss';
 import '../../elements/emby-button/emby-button';
 import '../../styles/flexstyles.scss';
@@ -54,9 +55,9 @@ function setNextVideoText() {
 
     const timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 
-    const nextVideoText = instance.itemType === 'Episode' ?
-        globalize.translate('HeaderNextEpisodePlayingInValue', timeText) :
-        globalize.translate('HeaderNextVideoPlayingInValue', timeText);
+    const nextVideoText = instance.showStaticNextText ?
+        globalize.translate('HeaderNextItem', globalize.translate(instance.itemType)) :
+        globalize.translate('HeaderNextItemPlayingInValue', globalize.translate(instance.itemType), timeText);
 
     elem.querySelector('.upNextDialog-nextVideoText').innerHTML = nextVideoText;
 }
@@ -104,7 +105,9 @@ async function onStartNowClick() {
     }
 }
 
-function init(instance, options) {
+async function init(instance, options) {
+    instance.showStaticNextText = await showStaticNextText(options.nextItem);
+
     options.parent.innerHTML = getHtml();
 
     options.parent.classList.add('hide');
@@ -199,12 +202,19 @@ function startComingUpNextHideTimer(instance) {
     setNextVideoText.call(instance);
     clearCountdownTextTimeout(instance);
 
-    instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 400);
+    if (!instance.showStaticNextText) instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 400);
+}
+
+async function showStaticNextText(nextItem) {
+    const apiClient = ServerConnections.getApiClient(nextItem);
+    const currentUser = await apiClient.getCurrentUser();
+    return !currentUser.Configuration.EnableNextEpisodeAutoPlay;
 }
 
 class UpNextDialog {
     constructor(options) {
         this.options = options;
+        this.showStaticNextText = false; // default to showing countdown text
 
         init(this, options);
     }
@@ -235,9 +245,9 @@ class UpNextDialog {
         hideComingUpNext.call(this);
 
         this.options = null;
+        this.showStaticNextText = false;
         this.itemType = null;
     }
 }
 
 export default UpNextDialog;
-

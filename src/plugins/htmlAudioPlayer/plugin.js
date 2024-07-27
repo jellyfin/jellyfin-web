@@ -263,7 +263,10 @@ class HtmlAudioPlayer {
                 document.body.appendChild(elem);
             }
 
-            elem.volume = htmlMediaHelper.getSavedVolume();
+            // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+            if (!appHost.supports('physicalvolumecontrol')) {
+                elem.volume = htmlMediaHelper.getSavedVolume();
+            }
 
             self._mediaElement = elem;
 

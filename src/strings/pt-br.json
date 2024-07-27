@@ -1889,8 +1889,10 @@
     "LabelTileWidthHelp": "Número máximo de imagens por bloco na direção X.",
     "LabelTileWidth": "Largura do bloco",
     "LabelTileHeight": "Altura do bloco",
-    "Letterer": "Letreiro",
+    "Letterer": "Letterer",
     "Regional": "Regional",
     "LabelTileHeightHelp": "Número máximo de imagens por bloco na direção Y.",
-    "Penciller": "Lápis"
+    "Penciller": "Lápis",
+    "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir."
 }

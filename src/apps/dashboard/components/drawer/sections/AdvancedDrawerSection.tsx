@@ -17,18 +17,14 @@ import { useLocation } from 'react-router-dom';
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'scripts/globalize';
 
-const PLUGIN_PATHS = [
-    '/dashboard/plugins',
-    '/dashboard/plugins/catalog',
-    '/dashboard/plugins/repositories',
-    '/dashboard/plugins/add',
-    '/configurationpage'
-];
+const isPluginPath = (path: string) => (
+    path.startsWith('/dashboard/plugins')
+    || path === '/configurationpage'
+);
 
 const AdvancedDrawerSection = () => {
     const location = useLocation();
-
-    const isPluginSectionOpen = PLUGIN_PATHS.includes(location.pathname);
+    const isPluginSectionOpen = isPluginPath(location.pathname);
 
     return (
         <List
@@ -77,11 +73,12 @@ const AdvancedDrawerSection = () => {
                     <ListItemLink to='/dashboard/plugins' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabMyPlugins')} />
                     </ListItemLink>
-                    <ListItemLink to='/dashboard/plugins/catalog' sx={{ pl: 4 }}>
+                    <ListItemLink
+                        to='/dashboard/plugins/catalog'
+                        includePaths={[ '/dashboard/plugins/repositories' ]}
+                        sx={{ pl: 4 }}
+                    >
                         <ListItemText inset primary={globalize.translate('TabCatalog')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/plugins/repositories' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('TabRepositories')} />
                     </ListItemLink>
                 </List>
             </Collapse>

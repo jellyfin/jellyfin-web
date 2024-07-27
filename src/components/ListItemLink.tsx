@@ -4,6 +4,8 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 interface ListItemLinkProps extends ListItemButtonBaseProps {
     to: string
+    includePaths?: string[]
+    excludePaths?: string[]
 }
 
 const isMatchingParams = (routeParams: URLSearchParams, currentParams: URLSearchParams) => {
@@ -19,6 +21,8 @@ const isMatchingParams = (routeParams: URLSearchParams, currentParams: URLSearch
 const ListItemLink: FC<ListItemLinkProps> = ({
     children,
     to,
+    includePaths = [],
+    excludePaths = [],
     ...params
 }) => {
     const location = useLocation();
@@ -27,8 +31,11 @@ const ListItemLink: FC<ListItemLinkProps> = ({
     const [ toPath, toParams ] = to.split('?');
     // eslint-disable-next-line compat/compat
     const toSearchParams = new URLSearchParams(`?${toParams}`);
+    const selectedPaths = [ toPath, ...includePaths ];
 
-    const selected = location.pathname === toPath && (!toParams || isMatchingParams(toSearchParams, searchParams));
+    const selected = selectedPaths.includes(location.pathname)
+        && !excludePaths.includes(location.pathname + location.search)
+        && (!toParams || isMatchingParams(toSearchParams, searchParams));
 
     return (
         <ListItemButton
