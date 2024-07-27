@@ -1467,7 +1467,7 @@ function renderChildren(page, item) {
                 name: globalize.translate('Episodes'),
                 type: 'Episode'
             }, {
-                name: globalize.translate('Videos'),
+                name: globalize.translate('HeaderVideos'),
                 mediaType: 'Video'
             }, {
                 name: globalize.translate('Albums'),
