@@ -1895,5 +1895,15 @@
     "Regional": "Регіональне",
     "AlternateDVD": "Альтернативний DVD",
     "SelectPreferredTranscodeVideoCodecHelp": "Виберіть бажаний відеокодек для перекодування. Якщо вибраний кодек не підтримується, сервер використає наступний найкращий доступний кодек.",
-    "LabelSelectPreferredTranscodeVideoCodec": "Бажаний відеокодек для перекодування"
+    "LabelSelectPreferredTranscodeVideoCodec": "Бажаний відеокодек для перекодування",
+    "LabelEnablePlugin": "Увімкнути плагін",
+    "LabelInstalled": "Встановлено",
+    "LabelNoChangelog": "Для цього випуску не надано журналу змін.",
+    "LabelNotInstalled": "Не встановлено",
+    "LabelRepository": "Репозиторій",
+    "PluginDisableError": "Виникла помилка під час відключення плагіна.",
+    "PluginEnableError": "Виникла помилка під час увімкнення плагіна.",
+    "PluginLoadConfigError": "Виникла помилка при отриманні сторінок конфігурації плагіна.",
+    "PluginLoadRepoError": "Виникла помилка при отриманні даних плагіна з репозиторію.",
+    "PluginUninstallError": "Виникла помилка під час видалення плагіна."
 }
