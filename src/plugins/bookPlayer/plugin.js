@@ -45,6 +45,7 @@ export class BookPlayer {
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.addSwipeGestures = this.addSwipeGestures.bind(this);
     }
 
     play(options) {
@@ -155,6 +156,12 @@ export class BookPlayer {
         }
     }
 
+    addSwipeGestures(e, i) {
+        this.touchHelper = new TouchHelper(i.document.documentElement);
+        Events.on(this.touchHelper, 'swipeleft', () => this.next());
+        Events.on(this.touchHelper, 'swiperight', () => this.previous());
+    }
+
     onDialogClosed() {
         this.stop();
     }
@@ -179,10 +186,7 @@ export class BookPlayer {
         document.addEventListener('keyup', this.onWindowKeyUp);
         this.rendition?.on('keyup', this.onWindowKeyUp);
 
-        const player = document.getElementById('bookPlayerContainer');
-        this.touchHelper = new TouchHelper(player);
-        Events.on(this.touchHelper, 'swipeleft', () => this.next());
-        Events.on(this.touchHelper, 'swiperight', () => this.previous());
+        this.rendition?.on('rendered', this.addSwipeGestures);
     }
 
     unbindMediaElementEvents() {
@@ -206,6 +210,8 @@ export class BookPlayer {
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
         this.rendition?.off('keyup', this.onWindowKeyUp);
+
+        this.rendition?.off('rendered', this.addSwipeGestures);
 
         this.touchHelper?.destroy();
     }
