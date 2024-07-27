@@ -528,7 +528,7 @@ class AppRouter {
         let url;
         // TODO: options will never be false. Replace condition with lodash's isEmpty()
         const itemType = item.Type || (options ? options.itemType : null);
-        const serverId = item.ServerId || options.serverId || window.ApiClient.serverId();
+        const serverId = item.ServerId || options.serverId;
 
         if (item === 'settings') {
             return '#/mypreferencesmenu.html';
