@@ -38,7 +38,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         LibraryMenu.setTitle(user.Name);
 
         if (user.HasConfiguredPassword) {
-            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+            if (!user.Policy?.IsAdministrator) {
+                (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+            }
             (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
         } else {
             (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');

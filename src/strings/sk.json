@@ -1898,5 +1898,6 @@
     "Alternate": "Alternatívne",
     "Regional": "Regionálne",
     "AlternateDVD": "Alternatívne DVD",
-    "LabelSelectPreferredTranscodeVideoCodec": "Preferovaný video kodek pre prekódovanie"
+    "LabelSelectPreferredTranscodeVideoCodec": "Preferovaný video kodek pre prekódovanie",
+    "HeaderNextItem": "Nasleduje {0}"
 }

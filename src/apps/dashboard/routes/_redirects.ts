@@ -1,7 +1,6 @@
 import type { Redirect } from 'components/router/Redirect';
 
 export const REDIRECTS: Redirect[] = [
-    { from: 'addplugin.html', to: '/dashboard/plugins/add' },
     { from: 'apikeys.html', to: '/dashboard/keys' },
     { from: 'availableplugins.html', to: '/dashboard/plugins/catalog' },
     { from: 'dashboard.html', to: '/dashboard' },

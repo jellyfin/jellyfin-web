@@ -26,7 +26,7 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
         let rejectTimeout;
         if (timeout) {
             rejectTimeout = setTimeout(() => {
-                reject('Timed out.');
+                reject(new Error('Timed out.'));
             }, timeout);
         }
 

@@ -32,12 +32,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'dashboard/devices/device.html'
         }
     }, {
-        path: 'plugins/add',
-        pageProps: {
-            controller: 'dashboard/plugins/add/index',
-            view: 'dashboard/plugins/add/index.html'
-        }
-    }, {
         path: 'libraries',
         pageProps: {
             controller: 'dashboard/library',

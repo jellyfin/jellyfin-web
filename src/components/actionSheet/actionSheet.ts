@@ -366,7 +366,7 @@ export function show(options: Options) {
 
                     resolve(selectedId);
                 } else {
-                    reject('ActionSheet closed without resolving');
+                    reject(new Error('ActionSheet closed without resolving'));
                 }
             }
         });
