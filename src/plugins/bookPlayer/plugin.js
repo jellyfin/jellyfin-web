@@ -218,7 +218,7 @@ export class BookPlayer {
         this.rendition?.off('keyup', this.onWindowKeyUp);
 
         if (!browser.safari) {
-            this.rendition?.off('rendered', this.addSwipeGestures);
+            this.rendition?.off('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
         }
 
         this.touchHelper?.destroy();
