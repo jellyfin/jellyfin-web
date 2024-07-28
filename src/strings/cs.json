@@ -1899,5 +1899,17 @@
     "AlternateDVD": "Alternativní DVD",
     "Regional": "Regionální",
     "LabelSelectPreferredTranscodeVideoCodec": "Preferovaný kodek pro překódování",
-    "SelectPreferredTranscodeVideoCodecHelp": "Vybrat preferovaný kodek pro překódování. Pokud není kodek podporován, server použije další nejlepší dostupnou volbu v pořadí."
+    "SelectPreferredTranscodeVideoCodecHelp": "Vybrat preferovaný kodek pro překódování. Pokud není kodek podporován, server použije další nejlepší dostupnou volbu v pořadí.",
+    "HeaderNextItem": "Další {0}",
+    "HeaderNextItemPlayingInValue": "Další {0} začne za {1}",
+    "LabelEnablePlugin": "Povolit zásuvný modul",
+    "LabelInstalled": "Nainstalováno",
+    "LabelNoChangelog": "Pro toto vydání není žádný seznam změn.",
+    "LabelNotInstalled": "Nenainstalováno",
+    "LabelRepository": "Repozitář",
+    "PluginDisableError": "Při zakazování zásuvného modulu došlo k chybě.",
+    "PluginEnableError": "Při povolování zásuvného modulu došlo k chybě.",
+    "PluginLoadConfigError": "Při získávání nastavení zásuvného modulu došlo k chybě.",
+    "PluginLoadRepoError": "Při získávání podrobností zásuvného z repozitáře modulu došlo k chybě.",
+    "PluginUninstallError": "Při odinstalaci zásuvného modulu došlo k chybě."
 }
