@@ -1,10 +1,10 @@
 import { playbackManager } from 'components/playback/playbackmanager';
 import toast from 'components/toast/toast';
 import globalize from 'scripts/globalize';
-import { PlayerPlugin } from 'types/player';
+import type { PlayerPlugin } from 'types/plugin';
 
 export default class SendTextSection {
-    currentPlayer: PlayerPlugin|null = null;
+    currentPlayer?: PlayerPlugin | null;
 
     constructor(context: HTMLElement) {
         context.querySelector('.typeTextForm')?.addEventListener('submit', this.onSendStringSubmit);

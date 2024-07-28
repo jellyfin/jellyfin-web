@@ -21,9 +21,7 @@ import '../../elements/emby-slider/emby-slider';
 import ServerConnections from '../ServerConnections';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
-import SendMessageSection from './sendMessageSection';
-import SendTextSection from './sendTextSection';
-import NavigationSection from './navigationSection';
+import RemoteControlSection from './remoteControlSection';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -296,20 +294,11 @@ export default function () {
         const supportedCommands = playerInfo.supportedCommands;
         currentPlayerSupportedCommands = supportedCommands;
         const playState = state.PlayState || {};
-        const isSupportedCommands = supportedCommands.includes('DisplayMessage') || supportedCommands.includes('SendString') || supportedCommands.includes('Select');
         buttonVisible(context.querySelector('.btnToggleFullscreen'), item && item.MediaType == 'Video' && supportedCommands.includes('ToggleFullscreen'));
         updateAudioTracksDisplay(player, context);
         updateSubtitleTracksDisplay(player, context);
 
-        sendMessageSection.updatePlayerState(context, supportedCommands);
-        sendTextSection.updatePlayerState(context, supportedCommands);
-        navigationSection.updatePlayerState(context, supportedCommands, currentPlayer);
-
-        if (isSupportedCommands && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.remoteControlSection').classList.remove('hide');
-        } else {
-            context.querySelector('.remoteControlSection').classList.add('hide');
-        }
+        remoteControlSection.updatePlayerState(context, supportedCommands, currentPlayer);
 
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
@@ -845,9 +834,7 @@ export default function () {
     function onPlayerChange() {
         const player = playbackManager.getCurrentPlayer();
         bindToPlayer(dlg, player);
-        sendMessageSection.onPlayerChange(player);
-        sendTextSection.onPlayerChange(player);
-        navigationSection.onPlayerChange(player);
+        remoteControlSection.onPlayerChange(player);
     }
 
     function init(ownerView, context) {
@@ -897,31 +884,23 @@ export default function () {
     let currentPlayerSupportedCommands = [];
     let lastUpdateTime = 0;
     let currentRuntimeTicks = 0;
-    let sendMessageSection;
-    let sendTextSection;
-    let navigationSection;
+    let remoteControlSection;
     const self = this;
 
     self.init = function (ownerView, context) {
         dlg = context;
         init(ownerView, dlg);
-        sendMessageSection = new SendMessageSection(dlg);
-        sendTextSection = new SendTextSection(dlg);
-        navigationSection = new NavigationSection(dlg);
+        remoteControlSection = new RemoteControlSection(dlg);
     };
 
     self.onShow = function () {
         const player = playbackManager.getCurrentPlayer();
-        sendMessageSection.onShow(player);
-        sendTextSection.onShow(player);
-        navigationSection.onShow(player);
+        remoteControlSection.onShow(player);
         onShow(dlg, player);
     };
 
     self.destroy = function () {
-        sendMessageSection.destroy();
-        sendTextSection.destroy();
-        navigationSection.destroy();
+        remoteControlSection.destroy();
         onDialogClosed();
     };
 }

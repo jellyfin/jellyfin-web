@@ -1,4 +1,4 @@
-import { PlayerPlugin } from 'types/player';
+import type { PlayerPlugin } from 'types/plugin';
 import PlaybackCommandButton from './playbackCommandButton';
 
 export default class NavigationSection {

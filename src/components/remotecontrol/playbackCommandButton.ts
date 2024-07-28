@@ -1,8 +1,8 @@
 import { playbackManager } from 'components/playback/playbackmanager';
-import { PlayerPlugin } from 'types/player';
+import type { PlayerPlugin } from 'types/plugin';
 
 export default class PlaybackCommandButton {
-    currentPlayer: PlayerPlugin|null = null;
+    currentPlayer?: PlayerPlugin | null;
     btnCommand: HTMLButtonElement;
 
     constructor (context: HTMLButtonElement) {
