@@ -188,8 +188,8 @@ export class BookPlayer {
         this.rendition?.on('keyup', this.onWindowKeyUp);
 
         if (browser.safari) {
-            const player = document.getElementById('bookPlayerContainer')
-            this.addSwipeGestures(player)
+            const player = document.getElementById('bookPlayerContainer');
+            this.addSwipeGestures(player);
         } else {
             this.rendition?.on('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
         }
