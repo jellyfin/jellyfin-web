@@ -1881,5 +1881,17 @@
     "LabelWidthResolutions": "Дазвол па шырыні",
     "LabelTileWidth": "Шырыня пліткі",
     "LabelTileWidthHelp": "Максімальная колькасць малюнкаў на плітку ў напрамку X.",
-    "LabelTileHeight": "Вышыня пліткі"
+    "LabelTileHeight": "Вышыня пліткі",
+    "HeaderNextItem": "Наступны {0}",
+    "HeaderNextItemPlayingInValue": "Наступны {0} прайграецца праз {1}",
+    "LabelEnablePlugin": "Уключыць плагін",
+    "LabelInstalled": "Устаноўлена",
+    "LabelNoChangelog": "Для гэтага выпуску журнал змяненняў не прадугледжаны.",
+    "LabelNotInstalled": "Не ўсталявана",
+    "LabelRepository": "Рэпазіторый",
+    "PluginDisableError": "Адбылася памылка пры адключэнні плагіна.",
+    "PluginEnableError": "Адбылася памылка пры ўключэнні плагіна.",
+    "PluginLoadConfigError": "Адбылася памылка падчас атрымання старонак канфігурацыі плагіна.",
+    "PluginLoadRepoError": "Адбылася памылка падчас атрымання дэталяў плагіна з рэпазітара.",
+    "PluginUninstallError": "Адбылася памылка пры выдаленні плагіна."
 }
