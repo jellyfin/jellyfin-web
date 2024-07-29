@@ -1029,7 +1029,7 @@
     "SeriesYearToPresent": "{0} - En production",
     "ServerNameIsRestarting": "Le serveur sur {0} redémarre.",
     "ServerNameIsShuttingDown": "Le serveur sur {0} s'arrête.",
-    "ServerRestartNeededAfterPluginInstall": "Jellyfin devra être redémarré après l'installation d'une extension.",
+    "ServerRestartNeededAfterPluginInstall": "Jellyfin devra être redémarré après l'installation du plugin.",
     "ServerUpdateNeeded": "Ce serveur doit être mis à jour. Pour télécharger la dernière version, veuillez visiter {0}",
     "Settings": "Paramètres",
     "SettingsSaved": "Paramètres enregistrés.",
@@ -1899,5 +1899,17 @@
     "AlternateDVD": "Alternative DVD",
     "Regional": "Régional",
     "LabelSelectPreferredTranscodeVideoCodec": "Codec vidéo de transcodage préféré",
-    "SelectPreferredTranscodeVideoCodecHelp": "Sélectionnez le codec vidéo préféré vers lequel transcoder. Si le codec préféré n’est pas pris en charge, le serveur utilisera le meilleur codec disponible suivant."
+    "SelectPreferredTranscodeVideoCodecHelp": "Sélectionnez le codec vidéo préféré vers lequel transcoder. Si le codec préféré n’est pas pris en charge, le serveur utilisera le meilleur codec disponible suivant.",
+    "HeaderNextItemPlayingInValue": "À suivre {0} Lecture dans {1}",
+    "HeaderNextItem": "À suivre",
+    "LabelInstalled": "Installé",
+    "LabelEnablePlugin": "Activer le plugin",
+    "LabelNoChangelog": "Aucune note de version n'a été fournie pour cette version.",
+    "LabelNotInstalled": "Non installé",
+    "LabelRepository": "Dépôt",
+    "PluginDisableError": "Une erreur s'est produite lors de la désactivation du plugin.",
+    "PluginEnableError": "Une erreur s'est produite lors de l'activation du plugin.",
+    "PluginLoadConfigError": "Une erreur s'est produite lors de la récupération des pages de configuration du plugin.",
+    "PluginLoadRepoError": "Une erreur s'est produite lors de la récupération des détails du plugin depuis le dépôt.",
+    "PluginUninstallError": "Une erreur s'est produite lors de la désinstallation du plugin."
 }
