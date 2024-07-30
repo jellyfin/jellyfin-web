@@ -988,7 +988,7 @@
     "SeriesYearToPresent": "{0} - Oggi",
     "ServerNameIsRestarting": "Il Server su {0} si sta riavviando.",
     "ServerNameIsShuttingDown": "Il Server su {0} si sta arrestando.",
-    "ServerRestartNeededAfterPluginInstall": "Jellyfin dovrà essere riavviato dopo l'installazione di un plugin.",
+    "ServerRestartNeededAfterPluginInstall": "Jellyfin dovrà essere riavviato dopo l'installazione del plugin.",
     "ServerUpdateNeeded": "Questo server deve essere aggiornato. Per scaricare l'ultima versione vai su {0}",
     "Settings": "Impostazioni",
     "SettingsSaved": "Settaggi salvati.",
@@ -1899,5 +1899,15 @@
     "Penciller": "Disegnatore",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Selezionare il codec audio preferito per la transcodifica dei contenuti video. Se il codec preferito non è supportato, il server utilizzerà il migliore codec successivo disponibile.",
     "LabelSelectPreferredTranscodeVideoCodec": "Codec video preferito per la transcodifica",
-    "SelectPreferredTranscodeVideoCodecHelp": "Seleziona il codec video preferito con cui transcodificare. Se il codec scelto non è supportato, il server userà il miglior codec disponibile."
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleziona il codec video preferito con cui transcodificare. Se il codec scelto non è supportato, il server userà il miglior codec disponibile.",
+    "LabelEnablePlugin": "Abilita plugin",
+    "LabelInstalled": "Installato",
+    "LabelNoChangelog": "Nessun changelog fornito per questa versione.",
+    "LabelNotInstalled": "Non installato",
+    "LabelRepository": "Repository",
+    "PluginDisableError": "Errore durante la disabilitazione del plugin.",
+    "PluginEnableError": "Errore durante l'abilitazione del plugin.",
+    "PluginLoadConfigError": "Errore durante la creazione della pagina di configurazione del plugin.",
+    "PluginLoadRepoError": "Errore durante la costruzione dei dettagli del plugin.",
+    "PluginUninstallError": "Errore durante la disinstallazione del plugin."
 }
