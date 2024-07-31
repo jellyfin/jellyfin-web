@@ -1409,12 +1409,13 @@ export default function (view) {
             chapterThumbTextContainer.classList.add('chapterThumbTextContainer');
             chapterThumbContainer.appendChild(chapterThumbTextContainer);
 
+            chapterThumbName = document.createElement('div');
+            chapterThumbName.classList.add('chapterThumbText', 'chapterThumbText-dim');
+            chapterThumbTextContainer.appendChild(chapterThumbName);
+
             chapterThumbText = document.createElement('h2');
             chapterThumbText.classList.add('chapterThumbText');
             chapterThumbTextContainer.appendChild(chapterThumbText);
-            chapterThumbName = document.createElement('span');
-            chapterThumbName.classList.add('chapterThumbName');
-            chapterThumbTextContainer.appendChild(chapterThumbName);
         }
 
         let chapter;
