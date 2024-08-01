@@ -1419,14 +1419,12 @@ export default function (view) {
         }
 
         let chapter;
-        if (item?.Chapters?.length) {
-            for (let i = 0, length = item.Chapters.length; i < length; i++) {
-                const currentChapter = item.Chapters[i];
-
-                if (positionTicks >= currentChapter.StartPositionTicks) {
-                    chapter = currentChapter;
-                }
+        for (const currentChapter of item.Chapters || []) {
+            if (positionTicks < currentChapter.StartPositionTicks) {
+                break;
             }
+
+            chapter = currentChapter;
         }
 
         // Update trickplay values
