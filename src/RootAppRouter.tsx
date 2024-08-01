@@ -1,5 +1,4 @@
 
-import { History } from '@remix-run/router';
 import React from 'react';
 import {
     RouterProvider,
@@ -8,13 +7,13 @@ import {
     useLocation
 } from 'react-router-dom';
 
+import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
 import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
+import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
-import { useLegacyRouterSync } from 'hooks/useLegacyRouterSync';
-import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
+import { createRouterHistory } from 'components/router/routerHistory';
 import UserThemeProvider from 'themes/UserThemeProvider';
-import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
 
 const layoutMode = localStorage.getItem('layout');
 const isExperimentalLayout = layoutMode === 'experimental';
@@ -29,9 +28,9 @@ const router = createHashRouter([
     }
 ]);
 
-export default function RootAppRouter({ history }: Readonly<{ history: History}>) {
-    useLegacyRouterSync({ router, history });
+export const history = createRouterHistory(router);
 
+export default function RootAppRouter() {
     return <RouterProvider router={router} />;
 }
 
