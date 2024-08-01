@@ -1,10 +1,11 @@
-import { history } from '../router/appRouter';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
 import { toBoolean } from '../../utils/string.ts';
 import dom from '../../scripts/dom';
+
+import { history } from 'RootAppRouter';
 
 import './dialoghelper.scss';
 import '../../styles/scrollstyles.scss';

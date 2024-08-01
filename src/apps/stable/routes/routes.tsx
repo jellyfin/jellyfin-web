@@ -11,6 +11,7 @@ import AppLayout from '../AppLayout';
 import { REDIRECTS } from './_redirects';
 import { ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
+import BangRedirect from 'components/router/BangRedirect';
 
 export const STABLE_APP_ROUTES: RouteObject[] = [
     {
@@ -30,6 +31,11 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
             { index: true, loader: () => redirect('/home.html') },
             ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
         ]
+    },
+
+    {
+        path: '!/*',
+        Component: BangRedirect
     },
 
     /* Redirects for old paths */
