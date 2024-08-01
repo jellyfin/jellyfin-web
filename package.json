@@ -47,7 +47,7 @@
     "html-webpack-plugin": "5.6.0",
     "jsdom": "24.1.0",
     "mini-css-extract-plugin": "2.9.0",
-    "postcss": "8.4.39",
+    "postcss": "8.4.40",
     "postcss-loader": "8.1.1",
     "postcss-preset-env": "9.6.0",
     "postcss-scss": "4.0.9",
