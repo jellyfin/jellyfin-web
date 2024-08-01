@@ -1,12 +1,14 @@
 name: Automation
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
       - master
   pull_request_target:
-    types:
-      - synchronize
 
 jobs:
   compose-comment:
