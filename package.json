@@ -43,7 +43,7 @@
     "eslint-plugin-sonarjs": "0.25.1",
     "expose-loader": "5.0.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
-    "html-loader": "5.0.0",
+    "html-loader": "5.1.0",
     "html-webpack-plugin": "5.6.0",
     "jsdom": "24.1.0",
     "mini-css-extract-plugin": "2.9.0",
