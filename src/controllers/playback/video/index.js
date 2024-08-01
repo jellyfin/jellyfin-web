@@ -1452,7 +1452,7 @@ export default function (view) {
         chapterThumb.style.backgroundPositionY = offsetY + 'px';
 
         chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
-        chapterThumbName.textContent = (chapter ? chapter?.Name : '');
+        chapterThumbName.textContent = chapter?.Name || '';
 
         // Set bubble innerHTML if container isn't part of DOM
         if (doFullUpdate) {
