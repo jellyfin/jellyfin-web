@@ -15,7 +15,7 @@
     "@types/escape-html": "1.0.4",
     "@types/loadable__component": "5.13.9",
     "@types/lodash-es": "4.17.12",
-    "@types/markdown-it": "14.1.1",
+    "@types/markdown-it": "14.1.2",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@types/sortablejs": "1.15.8",
