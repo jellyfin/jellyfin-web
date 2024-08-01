@@ -52,7 +52,7 @@
     "postcss-preset-env": "9.6.0",
     "postcss-scss": "4.0.9",
     "sass": "1.77.8",
-    "sass-loader": "14.2.1",
+    "sass-loader": "15.0.0",
     "source-map-loader": "5.0.0",
     "speed-measure-webpack-plugin": "1.5.0",
     "style-loader": "4.0.0",
@@ -68,7 +68,7 @@
     "webpack-bundle-analyzer": "4.10.2",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.0.4",
-    "webpack-merge": "5.10.0",
+    "webpack-merge": "6.0.1",
     "worker-loader": "3.0.8"
   },
   "dependencies": {
