@@ -7,8 +7,8 @@
   "devDependencies": {
     "@babel/core": "7.24.9",
     "@babel/plugin-transform-class-properties": "7.24.7",
-    "@babel/plugin-transform-private-methods": "7.24.7",
     "@babel/plugin-transform-modules-umd": "7.24.7",
+    "@babel/plugin-transform-private-methods": "7.24.7",
     "@babel/preset-env": "7.24.8",
     "@babel/preset-react": "7.24.7",
     "@types/dompurify": "3.0.5",
@@ -81,7 +81,7 @@
     "@fontsource/noto-sans-sc": "5.0.19",
     "@fontsource/noto-sans-tc": "5.0.19",
     "@jellyfin/libass-wasm": "4.2.2",
-    "@jellyfin/sdk": "0.0.0-unstable.202407310501",
+    "@jellyfin/sdk": "0.0.0-unstable.202408020501",
     "@mui/icons-material": "5.15.19",
     "@mui/material": "5.15.19",
     "@mui/x-data-grid": "7.6.1",
