@@ -1268,7 +1268,7 @@
     "WeeklyAt": "{0} à {1}",
     "DailyAt": "Tous les jours à {0}",
     "LastSeen": "Vu pour la dernière fois {0}",
-    "PersonRole": "en tant que {0}",
+    "PersonRole": "est {0}",
     "ListPaging": "{0}-{1} de {2}",
     "WriteAccessRequired": "Jellyfin a besoin d'un accès en écriture à ce dossier. Merci de vérifier les permissions de ce-dernier puis de réessayer.",
     "PathNotFound": "Le chemin d'accès n'a pas pu être trouvé. Merci de vérifier qu'il est valide et de réessayer.",
