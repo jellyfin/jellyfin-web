@@ -91,6 +91,7 @@
 - [Chaitanya Shahare](https://github.com/Chaitanya-Shahare)
 - [Venkat Karasani](https://github.com/venkat-karasani)
 - [Connor Smith](https://github.com/ConnorS1110)
+- [Damian Kacperski](https://github.com/dkacperski97)
 
 ## Emby Contributors
 
