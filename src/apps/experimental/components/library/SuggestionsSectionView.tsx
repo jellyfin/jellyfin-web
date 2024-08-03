@@ -3,10 +3,6 @@ import {
     RecommendationType
 } from '@jellyfin/sdk/lib/generated-client';
 import React, { type FC } from 'react';
-import {
-    useGetMovieRecommendations,
-    useGetSuggestionSectionsWithItems
-} from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
@@ -14,6 +10,8 @@ import SectionContainer from './SectionContainer';
 import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
+import { useGetMovieRecommendations } from 'hooks/useQueries/useGetMovieRecomendations';
+import { useGetSuggestionSectionsWithItems } from 'hooks/useQueries/useGetSectionsWithItems';
 
 interface SuggestionsSectionViewProps {
     parentId: ParentId;

@@ -14,7 +14,6 @@ import { Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'scripts/globalize';
 
 import FiltersFeatures from './FiltersFeatures';
@@ -30,6 +29,8 @@ import FiltersYears from './FiltersYears';
 
 import { LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import { useGetQueryFiltersLegacy } from 'hooks/useQueries/useGetQueryFiltersLegacy';
+import { useGetStudios } from 'hooks/useQueries/useGetStudios';
 
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion

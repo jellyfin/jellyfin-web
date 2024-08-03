@@ -5,7 +5,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { IconButton } from '@mui/material';
 import classNames from 'classnames';
 import globalize from 'scripts/globalize';
-import { useTogglePlayedMutation } from 'hooks/useFetchItems';
+import { useTogglePlayedMutation } from 'hooks/useQueries/useTogglePlayedMutation';
 
 interface PlayedButtonProps {
     className?: string;
