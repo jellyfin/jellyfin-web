@@ -1330,7 +1330,7 @@
     "EnableBlurHashHelp": "Les images en cours de chargement seront remplacées par une image générique floue.",
     "EnableBlurHash": "Images floues de substitution",
     "ButtonCast": "Diffuser sur l'appareil",
-    "ButtonSyncPlay": "Lecture à plusieurs",
+    "ButtonSyncPlay": "SyncPlay",
     "TabRepositories": "Dépôts",
     "MessageNoGenresAvailable": "Utiliser des fournisseurs de métadonnées pour récupérer les genres depuis Internet.",
     "MessageAddRepository": "Si vous souhaitez ajouter un dépôt, cliquez sur le bouton près de l'entête et renseignez les informations demandées.",
