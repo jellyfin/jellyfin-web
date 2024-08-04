@@ -207,27 +207,27 @@
 </div>
 
 <div class="audioTagSettingsSection hide">
-    <h2>Audio Tag settings</h2>
+    <h2>${LabelAudioTagSettings}</h2>
     <div class="checkboxContainer checkboxContainer-withDescription advanced">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkPreferNonstandardArtistsTag" />
-            <span>Prefer ARTISTS tag if available</span>
+            <span>${PreferNonStandardArtistsTag}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${PreferNonstandardArtistsTagHelp}</div>
     </div>
     <div class="checkboxContainer checkboxContainer-withDescription advanced">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkUseCustomTagDelimiters" />
-            <span>Use custom tag splitter</span>
+            <span>${UseCustomTagDelimiters}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${UseCustomTagDelimitersHelp}</div>
     </div>
     <div class="inputContainer">
-        <input type="text" is="emby-input" id="customTagDelimitersInput" label="Custom Tag Delimiter" value="/|;\"/>
+        <input type="text" is="emby-input" id="customTagDelimitersInput" label="${LabelcustomTagDelimiters}" value="/|;\"/>
         <div class="fieldDescription">${LabelcustomTagDelimitersHelp}</div>
     </div>
     <div class="inputContainer">
-        <textarea is="emby-textarea" id="tagDelimiterWhitelist" label="Delimiter Whitelist" class="textarea-mono" style="resize: none;min-height:2.5em"></textarea>
+        <textarea is="emby-textarea" id="tagDelimiterWhitelist" label="${LabelDelimiterWhitelist}" class="textarea-mono" style="resize: none;min-height:2.5em"></textarea>
         <div class="fieldDescription">${LabelDelimiterWhitelistHelp}</div>
     </div>
 </div>
