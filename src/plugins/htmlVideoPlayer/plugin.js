@@ -12,7 +12,6 @@ import {
     destroyFlvPlayer,
     destroyCastPlayer,
     getCrossOriginValue,
-    enableHlsJsPlayer,
     enableHlsJsPlayerForCodecs,
     applySrc,
     resetSrc,

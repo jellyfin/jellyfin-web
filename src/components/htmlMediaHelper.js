@@ -33,9 +33,9 @@ export function enableHlsJsPlayerForCodecs(mediaSource, mediaType) {
     // Force using HLS.js because desktop Safari's native HLS player does not play VP9 over HLS
     // browser.osx will return true on iPad, cannot use
     if (!browser.iOS && browser.safari && mediaSource.MediaStreams.some(x => x.Codec === 'vp9')) {
-        return true
+        return true;
     }
-    return enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType)
+    return enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType);
 }
 
 export function enableHlsJsPlayer(runTimeTicks, mediaType) {

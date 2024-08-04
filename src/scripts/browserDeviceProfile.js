@@ -584,12 +584,10 @@ export default function (options) {
         hlsInFmp4VideoAudioCodecs.push('opus');
     }
 
-    if (browser.safari) {
-        if (safariSupportsOpus) {
-            videoAudioCodecs.push('opus');
-            webmAudioCodecs.push('opus');
-            hlsInFmp4VideoAudioCodecs.push('opus');
-        }
+    if (safariSupportsOpus) {
+        videoAudioCodecs.push('opus');
+        webmAudioCodecs.push('opus');
+        hlsInFmp4VideoAudioCodecs.push('opus');
     }
 
     // FLAC audio in video plays with a delay on Tizen
