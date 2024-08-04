@@ -12,6 +12,7 @@ import dom from '../../scripts/dom';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
+import '../../elements/emby-textarea/emby-textarea';
 import './style.scss';
 import template from './libraryoptionseditor.template.html';
 
@@ -439,8 +440,10 @@ export function setContentType(parent, contentType) {
 
     if (contentType === 'music') {
         parent.querySelector('.lyricSettingsSection').classList.remove('hide');
+        parent.querySelector('.audioTagSettingsSection').classList.remove('hide');
     } else {
         parent.querySelector('.lyricSettingsSection').classList.add('hide');
+        parent.querySelector('.audioTagSettingsSection').classList.add('hide');
     }
 
     parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
@@ -550,6 +553,8 @@ export function getLibraryOptions(parent) {
         SaveLyricsWithMedia: parent.querySelector('#chkSaveLyricsLocally').checked,
         RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
         AutomaticallyAddToCollection: parent.querySelector('#chkAutomaticallyAddToCollection').checked,
+        PreferNonstandardArtistsTag: parent.querySelector('#chkPreferNonstandardArtistsTag').checked,
+        UseCustomTagDelimiters: parent.querySelector('#chkUseCustomTagDelimiters').checked,
         MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
             return elem.checked;
         }), elem => {
@@ -566,6 +571,8 @@ export function getLibraryOptions(parent) {
     }), elem => {
         return elem.getAttribute('data-lang');
     });
+    options.CustomTagDelimiters = parent.querySelector('#customTagDelimitersInput').value.split('');
+    options.DelimiterWhitelist = parent.querySelector('#tagDelimiterWhitelist').value.split('\n');
     setSubtitleFetchersIntoOptions(parent, options);
     setMetadataFetchersIntoOptions(parent, options);
     setImageFetchersIntoOptions(parent, options);
@@ -612,12 +619,16 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
     parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
     parent.querySelector('#chkAutomaticallyAddToCollection').checked = options.AutomaticallyAddToCollection;
+    parent.querySelector('#chkPreferNonstandardArtistsTag').checked = options.PreferNonstandardArtistsTag;
+    parent.querySelector('#chkUseCustomTagDelimiters').checked = options.UseCustomTagDelimiters;
     Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
         elem.checked = options.MetadataSavers ? options.MetadataSavers.includes(elem.getAttribute('data-pluginname')) : elem.getAttribute('data-defaultenabled') === 'true';
     });
     Array.prototype.forEach.call(parent.querySelectorAll('.chkSubtitleLanguage'), elem => {
         elem.checked = !!options.SubtitleDownloadLanguages && options.SubtitleDownloadLanguages.includes(elem.getAttribute('data-lang'));
     });
+    parent.querySelector('#customTagDelimitersInput').value = options.CustomTagDelimiters.join('');
+    parent.querySelector('#tagDelimiterWhitelist').value = options.DelimiterWhitelist.join('\n').filter(item => item.trim());
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
     renderMetadataFetchers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
