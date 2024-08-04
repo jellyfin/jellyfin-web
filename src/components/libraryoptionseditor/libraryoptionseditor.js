@@ -572,7 +572,7 @@ export function getLibraryOptions(parent) {
         return elem.getAttribute('data-lang');
     });
     options.CustomTagDelimiters = parent.querySelector('#customTagDelimitersInput').value.split('');
-    options.DelimiterWhitelist = parent.querySelector('#tagDelimiterWhitelist').value.split('\n');
+    options.DelimiterWhitelist = parent.querySelector('#tagDelimiterWhitelist').value.split('\n').filter(item => item.trim());
     setSubtitleFetchersIntoOptions(parent, options);
     setMetadataFetchersIntoOptions(parent, options);
     setImageFetchersIntoOptions(parent, options);
@@ -628,7 +628,7 @@ export function setLibraryOptions(parent, options) {
         elem.checked = !!options.SubtitleDownloadLanguages && options.SubtitleDownloadLanguages.includes(elem.getAttribute('data-lang'));
     });
     parent.querySelector('#customTagDelimitersInput').value = options.CustomTagDelimiters.join('');
-    parent.querySelector('#tagDelimiterWhitelist').value = options.DelimiterWhitelist.join('\n').filter(item => item.trim());
+    parent.querySelector('#tagDelimiterWhitelist').value = options.DelimiterWhitelist.filter(item => item.trim()).join('\n');
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
     renderMetadataFetchers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
