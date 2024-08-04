@@ -194,7 +194,7 @@ export class UserSettings {
             return this.set('enableDisplayRatingsInPlayer', val.toString());
         }
 
-        return toBoolean(this.get('enableDisplayRatingsInPlayer', false));
+        return toBoolean(this.get('enableDisplayRatingsInPlayer', false), true);
     }
 
     /**
