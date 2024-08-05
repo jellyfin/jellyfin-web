@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteObject, redirect } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
 import { REDIRECTS } from 'apps/dashboard/routes/_redirects';
 import ConnectionRequired from 'components/ConnectionRequired';
@@ -36,7 +36,7 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
             },
 
             /* Public routes */
-            { index: true, loader: () => redirect('/home.html') },
+            { index: true, element: <Navigate replace to='/home.html' /> },
             ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
         ]
     },
