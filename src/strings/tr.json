@@ -1889,5 +1889,13 @@
     "Penciller": "Eskiz",
     "AlternateDVD": "Alternatif DVD",
     "Regional": "Bölgesel",
-    "Alternate": "Alternatif"
+    "Alternate": "Alternatif",
+    "LabelSelectPreferredTranscodeVideoCodec": "Tercih edilen kod dönüştürme video codec bileşeni",
+    "LabelEnablePlugin": "Eklentiyi etkinleştir",
+    "LabelInstalled": "Yüklendi",
+    "LabelNoChangelog": "Bu sürüm için değişiklik günlüğü yok.",
+    "LabelNotInstalled": "Yüklü değil",
+    "LabelRepository": "Depo",
+    "PluginDisableError": "Eklenti devre dışı bırakılırken bir hata oluştu.",
+    "PluginEnableError": "Eklenti etkinleştirilirken bir hata oluştu."
 }
