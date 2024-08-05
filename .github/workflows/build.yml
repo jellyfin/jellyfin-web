@@ -7,9 +7,9 @@ concurrency:
 on:
   push:
     branches: [ master, release* ]
-  pull_request:
+  pull_request_target:
     branches: [ master, release* ]
-  workflow_dispatch:
+    types: [ synchronize ]
 
 jobs:
   run-build-prod:
@@ -44,5 +44,82 @@ jobs:
         uses: actions/upload-artifact@89ef406dd8d7e03cfd12d9e0a4a378f454709029 # v4.3.5
         with:
           name: jellyfin-web__prod
-          path: |
-            dist
+          path: dist
+
+  publish:
+    name: Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    if: ${{
+        github.repository == 'jellyfin/jellyfin-web'
+        && github.event_name == 'pull_request_target'
+      }}
+    needs:
+      - run-build-prod
+
+    steps:
+      - name: Add comment
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | 🔄 Deploying... |
+            | **Preview URL**   | Not available |
+            | **Type**          | ${{ github.ref_name != 'master' && '🔀 Preview' || '⚙️ Production' }} |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
+
+      - name: Download workflow artifact
+        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+        with:
+          name: jellyfin-web__prod
+          path: dist
+
+      - name: Publish to Cloudflare
+        id: cf
+        uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca # 1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: jellyfin-web
+          branch: ${{ github.ref_name }}
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update status comment (Success)
+        if: ${{ success() }}
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | ✅ Deployed! |
+            | **Preview URL**   | ${{ steps.cf.outputs.url != '' && (github.ref_name != 'master' && steps.cf.outputs.url || format('https://jellyfin-web.pages.dev ({0})', steps.cf.outputs.url)) || 'Not available' }} |
+            | **Type**          | ${{ github.ref_name != 'master' && '🔀 Preview' || '⚙️ Production' }} |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
+
+      - name: Update status comment (Failure)
+        if: ${{ failure() }}
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | ❌ Failure. Check workflow logs for details |
+            | **Preview URL**   | Not available |
+            | **Type**          | ${{ github.ref_name != 'master' && '🔀 Preview' || '⚙️ Production' }} |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
