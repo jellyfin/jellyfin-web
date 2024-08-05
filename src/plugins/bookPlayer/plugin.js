@@ -7,6 +7,7 @@ import ServerConnections from '../../components/ServerConnections';
 import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
 import { translateHtml } from '../../scripts/globalize';
+import browser from 'scripts/browser';
 import * as userSettings from '../../scripts/settings/userSettings';
 import TouchHelper from 'scripts/touchHelper';
 import { PluginType } from '../../types/plugin.ts';
@@ -45,6 +46,7 @@ export class BookPlayer {
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.addSwipeGestures = this.addSwipeGestures.bind(this);
     }
 
     play(options) {
@@ -155,6 +157,12 @@ export class BookPlayer {
         }
     }
 
+    addSwipeGestures(element) {
+        this.touchHelper = new TouchHelper(element);
+        Events.on(this.touchHelper, 'swipeleft', () => this.next());
+        Events.on(this.touchHelper, 'swiperight', () => this.previous());
+    }
+
     onDialogClosed() {
         this.stop();
     }
@@ -179,10 +187,12 @@ export class BookPlayer {
         document.addEventListener('keyup', this.onWindowKeyUp);
         this.rendition?.on('keyup', this.onWindowKeyUp);
 
-        const player = document.getElementById('bookPlayerContainer');
-        this.touchHelper = new TouchHelper(player);
-        Events.on(this.touchHelper, 'swipeleft', () => this.next());
-        Events.on(this.touchHelper, 'swiperight', () => this.previous());
+        if (browser.safari) {
+            const player = document.getElementById('bookPlayerContainer');
+            this.addSwipeGestures(player);
+        } else {
+            this.rendition?.on('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+        }
     }
 
     unbindMediaElementEvents() {
@@ -206,6 +216,10 @@ export class BookPlayer {
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
         this.rendition?.off('keyup', this.onWindowKeyUp);
+
+        if (!browser.safari) {
+            this.rendition?.off('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+        }
 
         this.touchHelper?.destroy();
     }
