@@ -7,8 +7,6 @@ concurrency:
 on:
   pull_request_target:
     branches: [ master, release* ]
-    types:
-      - synchronize
 
 jobs:
   run-eslint:
