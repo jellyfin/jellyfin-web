@@ -1897,5 +1897,6 @@
     "LabelNotInstalled": "Yüklü değil",
     "LabelRepository": "Depo",
     "PluginDisableError": "Eklenti devre dışı bırakılırken bir hata oluştu.",
-    "PluginEnableError": "Eklenti etkinleştirilirken bir hata oluştu."
+    "PluginEnableError": "Eklenti etkinleştirilirken bir hata oluştu.",
+    "PluginLoadConfigError": "Eklenti yapılandırma sayfaları alınırken bir hata oluştu."
 }
