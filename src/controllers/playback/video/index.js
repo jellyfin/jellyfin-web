@@ -870,10 +870,10 @@ export default function (view) {
         buttonMuteIcon.classList.remove('volume_off', 'volume_up');
 
         if (isMuted) {
-            buttonMute.setAttribute('title', globalize.translate('Unmute') + ' (m)');
+            buttonMute.setAttribute('title', globalize.translate('Unmute') + ' (M)');
             buttonMuteIcon.classList.add('volume_off');
         } else {
-            buttonMute.setAttribute('title', globalize.translate('Mute') + ' (m)');
+            buttonMute.setAttribute('title', globalize.translate('Mute') + ' (M)');
             buttonMuteIcon.classList.add('volume_up');
         }
 
