@@ -1516,7 +1516,7 @@
     "MessageNoPluginsInstalled": "Yüklü hiçbir eklentiniz yok.",
     "MessageNoServersAvailable": "Otomatik sunucu keşfi kullanılarak hiçbir sunucu bulunamadı.",
     "StopRecording": "Kaydı durdur",
-    "ServerRestartNeededAfterPluginInstall": "Bir eklenti kurulduktan sonra Jellyfin'in yeniden başlatılması gerekecektir.",
+    "ServerRestartNeededAfterPluginInstall": "Eklenti kurulduktan sonra Jellyfin'in yeniden başlatılması gerekecektir.",
     "ReplaceExistingImages": "Mevcut resimleri değiştir",
     "RecordingScheduled": "Kayıt planlandı.",
     "ProductionLocations": "Yapım yerleri",
@@ -1898,5 +1898,10 @@
     "LabelRepository": "Depo",
     "PluginDisableError": "Eklenti devre dışı bırakılırken bir hata oluştu.",
     "PluginEnableError": "Eklenti etkinleştirilirken bir hata oluştu.",
-    "PluginLoadConfigError": "Eklenti yapılandırma sayfaları alınırken bir hata oluştu."
+    "PluginLoadConfigError": "Eklenti yapılandırma sayfaları alınırken bir hata oluştu.",
+    "HeaderNextItemPlayingInValue": "Sonraki {0} {1} İçinde Oynatılıyor",
+    "HeaderNextItem": "Sonraki {0}",
+    "SelectPreferredTranscodeVideoCodecHelp": "Kod dönüştürme için tercih edilen video codec bileşenini seçin. Tercih edilen codec bileşeni desteklenmiyorsa, sunucu bir sonraki mevcut en iyi codec bileşenini kullanacaktır.",
+    "PluginLoadRepoError": "Depodan eklenti ayrıntıları alınırken bir hata oluştu.",
+    "PluginUninstallError": "Eklenti kaldırılırken bir hata oluştu."
 }
