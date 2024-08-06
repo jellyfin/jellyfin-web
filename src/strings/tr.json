@@ -1899,7 +1899,7 @@
     "PluginDisableError": "Eklenti devre dışı bırakılırken bir hata oluştu.",
     "PluginEnableError": "Eklenti etkinleştirilirken bir hata oluştu.",
     "PluginLoadConfigError": "Eklenti yapılandırma sayfaları alınırken bir hata oluştu.",
-    "HeaderNextItemPlayingInValue": "Sonraki {0} {1} İçinde Oynatılıyor",
+    "HeaderNextItemPlayingInValue": "Sonraki {0} {1} içinde oynatılacak",
     "HeaderNextItem": "Sonraki {0}",
     "SelectPreferredTranscodeVideoCodecHelp": "Kod dönüştürme için tercih edilen video codec bileşenini seçin. Tercih edilen codec bileşeni desteklenmiyorsa, sunucu bir sonraki mevcut en iyi codec bileşenini kullanacaktır.",
     "PluginLoadRepoError": "Depodan eklenti ayrıntıları alınırken bir hata oluştu.",
