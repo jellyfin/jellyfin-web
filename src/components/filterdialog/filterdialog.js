@@ -87,6 +87,7 @@ function updateFilterControls(context, options) {
     context.querySelector('.chk4KFilter').checked = query.Is4K === true;
     context.querySelector('.chkSDFilter').checked = query.IsHD === false;
     context.querySelector('#chkSubtitle').checked = query.HasSubtitles === true;
+    context.querySelector('#chkNoSubtitle').checked = query.NoSubtitles === true;
     context.querySelector('#chkTrailer').checked = query.HasTrailer === true;
     context.querySelector('#chkThemeSong').checked = query.HasThemeSong === true;
     context.querySelector('#chkThemeVideo').checked = query.HasThemeVideo === true;
@@ -334,6 +335,12 @@ class FilterDialog {
         chkSubtitle.addEventListener('change', () => {
             query.StartIndex = 0;
             query.HasSubtitles = chkSubtitle.checked ? true : null;
+            triggerChange(this);
+        });
+        const chkNoSubtitle = context.querySelector('#chkNoSubtitle');
+        chkNoSubtitle.addEventListener('change', () => {
+            query.StartIndex = 0;
+            query.HasSubtitles = chkNoSubtitle.checked ? false : null;
             triggerChange(this);
         });
         context.addEventListener('change', (e) => {

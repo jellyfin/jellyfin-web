@@ -13,6 +13,7 @@ export interface LibraryViewProps {
 
 export enum FeatureFilters {
     HasSubtitles = 'HasSubtitles',
+    NoSubtitles = 'NoSubtitles',
     HasTrailer = 'HasTrailer',
     HasSpecialFeature = 'HasSpecialFeature',
     HasThemeSong = 'HasThemeSong',
