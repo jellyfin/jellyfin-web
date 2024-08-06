@@ -1905,5 +1905,10 @@
     "LabelInstalled": "已安装",
     "LabelNoChangelog": "这个版本并没有更改日志。",
     "LabelNotInstalled": "未安装",
-    "LabelRepository": "仓库"
+    "LabelRepository": "仓库",
+    "PluginDisableError": "在安装插件时发生错误。",
+    "PluginEnableError": "在启用插件的时候发生错误。",
+    "PluginLoadConfigError": "在获取插件配置页面的时候发生错误。",
+    "PluginLoadRepoError": "在从仓库获取插件详情的时候发生了错误。",
+    "PluginUninstallError": "在卸载插件的时候发生了错误。"
 }
