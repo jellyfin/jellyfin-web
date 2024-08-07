@@ -1,5 +1,6 @@
+import { Action } from 'history';
 import { FunctionComponent, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigationType } from 'react-router-dom';
 
 import globalize from '../../scripts/globalize';
 import type { RestoreViewFailResponse } from '../../types/viewManager';
@@ -15,6 +16,34 @@ export interface ViewManagerPageProps {
     transition?: string
 }
 
+interface ViewOptions {
+    url: string
+    type?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    state: any
+    autoFocus: boolean
+    fullscreen?: boolean
+    transition?: string
+    options: {
+        supportsThemeMedia?: boolean
+        enableMediaControl?: boolean
+    }
+}
+
+const loadView = async (controller: string, view: string, viewOptions: ViewOptions) => {
+    const [ controllerFactory, viewHtml ] = await Promise.all([
+        import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
+        import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+            .then(html => globalize.translateHtml(html))
+    ]);
+
+    viewManager.loadView({
+        ...viewOptions,
+        controllerFactory,
+        view: viewHtml
+    });
+};
+
 /**
  * Page component that renders legacy views via the ViewManager.
  * NOTE: Any new pages should use the generic Page component instead.
@@ -29,6 +58,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
     transition
 }) => {
     const location = useLocation();
+    const navigationType = useNavigationType();
 
     useEffect(() => {
         const loadPage = () => {
@@ -45,27 +75,24 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
                 }
             };
 
-            viewManager.tryRestoreView(viewOptions)
+            if (navigationType !== Action.Pop) {
+                console.debug('[ViewManagerPage] loading view [%s]', view);
+                return loadView(controller, view, viewOptions);
+            }
+
+            console.debug('[ViewManagerPage] restoring view [%s]', view);
+            return viewManager.tryRestoreView(viewOptions)
                 .catch(async (result?: RestoreViewFailResponse) => {
                     if (!result?.cancelled) {
-                        const [ controllerFactory, viewHtml ] = await Promise.all([
-                            import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-                            import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
-                                .then(html => globalize.translateHtml(html))
-                        ]);
-
-                        viewManager.loadView({
-                            ...viewOptions,
-                            controllerFactory,
-                            view: viewHtml
-                        });
+                        console.debug('[ViewManagerPage] restore failed; loading view [%s]', view);
+                        return loadView(controller, view, viewOptions);
                     }
                 });
         };
 
         loadPage();
     },
-    // location.state is NOT included as a dependency here since dialogs will update state while the current view stays the same
+    // location.state and navigationType are  NOT included as dependencies here since dialogs will update state while the current view stays the same
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
         controller,
