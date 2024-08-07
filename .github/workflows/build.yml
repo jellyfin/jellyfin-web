@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     branches: [ master, release* ]
-  pull_request:
+  pull_request_target:
     branches: [ master, release* ]
   workflow_dispatch:
 
@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup node environment
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
@@ -44,5 +46,83 @@ jobs:
         uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
         with:
           name: jellyfin-web__prod
-          path: |
-            dist
+          path: dist
+
+  publish:
+    name: Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+    needs:
+      - run-build-prod
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Add comment
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        if: ${{ github.event_name == 'pull_request_target' }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | 🔄 Deploying... |
+            | **Preview URL**   | Not available |
+            | **Type**          | 🔀 Preview |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
+
+      - name: Download workflow artifact
+        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+        with:
+          name: jellyfin-web__prod
+          path: dist
+
+      - name: Publish to Cloudflare
+        id: cf
+        uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca # v1.5.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: jellyfin-web
+          branch: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update status comment (Success)
+        if: ${{ github.event_name == 'pull_request_target' && success() }}
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | ✅ Deployed! |
+            | **Preview URL**   | ${{ steps.cf.outputs.url != '' && steps.cf.outputs.url || 'Not available' }} |
+            | **Type**          | 🔀 Preview |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
+
+      - name: Update status comment (Failure)
+        if: ${{ github.event_name == 'pull_request_target' && failure() }}
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | ❌ Failure. Check workflow logs for details |
+            | **Preview URL**   | Not available |
+            | **Type**          | 🔀 Preview |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
