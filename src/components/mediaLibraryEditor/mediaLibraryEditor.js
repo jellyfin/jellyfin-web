@@ -31,6 +31,14 @@ function onEditLibrary() {
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
     let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
+    // when the library has moved or symlinked, the ItemId is not correct anymore
+    // this can lead to a forever spinning value on edit the library parameters
+    if (currentOptions.library.ItemId == undefined) {
+        toast('The library setting is in an invalid state, cannot edit. You are most likely suffering from a bug where the path in the database is not the absolute path in the filesystem');
+        loading.hide();
+        dialogHelper.close(dlg);
+        return false;
+    }
     libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
     ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
         hasChanges = true;
