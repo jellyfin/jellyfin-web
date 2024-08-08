@@ -357,7 +357,7 @@ function addOfficialRatingInfo(
     ) {
         addMiscInfo({
             text: itemOfficialRating,
-            cssClass: 'mediaInfoOfficialRating'
+            cssClass: 'mediaInfoText mediaInfoOfficialRating'
         });
     }
 }

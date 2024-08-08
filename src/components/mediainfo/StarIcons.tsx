@@ -13,7 +13,6 @@ const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
     const theme = useTheme();
     const cssClass = classNames(
         'mediaInfoItem',
-        'mediaInfoText',
         'starRatingContainer',
         className
     );

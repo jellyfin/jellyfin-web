@@ -61,7 +61,7 @@ const CardBox: FC<CardBoxProps> = ({
                     />
                 )}
             </div>
-            {!overlayText && (
+            {!overlayText && cardOptions.disableCardFooter !== true && (
                 <CardOuterFooter
                     item={item}
                     cardOptions={cardOptions}

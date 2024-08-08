@@ -12,8 +12,8 @@ const CriticRatingMediaInfo: FC<CriticRatingMediaInfoProps> = ({
     criticRating
 }) => {
     const cssClass = classNames(
-        'mediaInfoCriticRating',
         'mediaInfoItem',
+        'mediaInfoCriticRating',
         criticRating >= 60 ?
             'mediaInfoCriticRatingFresh' :
             'mediaInfoCriticRatingRotten',
