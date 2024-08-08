@@ -14,15 +14,6 @@ $drawer-width: 240px;
     }
 }
 
-// Hide some items from the user "settings" page that are in the drawer
-#myPreferencesMenuPage {
-    .lnkQuickConnectPreferences,
-    .adminSection,
-    .userSection {
-        display: none !important;
-    }
-}
-
 // Fix the padding of some pages
 .homePage.libraryPage.withTabs, // Home page
 // Library pages excluding the item details page and tabbed pages
