@@ -1345,6 +1345,12 @@ export default function (view) {
             case 'PageDown':
                 playbackManager.previousChapter(currentPlayer);
                 break;
+            case 'g':
+                subtitleSyncOverlay?.decrementOffset();
+                break;
+            case 'h':
+                subtitleSyncOverlay?.incrementOffset();
+                break;
         }
     }
 
