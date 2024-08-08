@@ -3,8 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';
 import classNames from 'classnames';
-import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
 import globalize from 'scripts/globalize';
+import { useToggleFavoriteMutation } from 'hooks/useQueries/useToggleFavoriteMutation';
 
 interface FavoriteButtonProps {
     className?: string;

@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
 import { useQueryClient } from '@tanstack/react-query';
-import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
 import inputManager from 'scripts/inputManager';
@@ -23,6 +22,7 @@ import loading from 'components/loading/loading';
 import focusManager from 'components/focusManager';
 import type { ParentId } from 'types/library';
 import type { PlaybackStopInfo } from 'types/playbackStopInfo';
+import { usePlaylistsMoveItemMutation } from 'hooks/useQueries/usePlaylistMoveItemMutation';
 
 function disableEvent(e: MouseEvent) {
     e.preventDefault();

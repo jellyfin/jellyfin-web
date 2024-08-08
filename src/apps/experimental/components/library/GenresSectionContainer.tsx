@@ -6,12 +6,12 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
-import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from './SectionContainer';
 import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
+import { useGetItems } from 'hooks/useQueries/useGetItems';
 
 interface GenresSectionContainerProps {
     parentId: ParentId;

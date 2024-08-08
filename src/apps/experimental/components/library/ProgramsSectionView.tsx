@@ -1,5 +1,4 @@
 import React, { type FC } from 'react';
-import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'scripts/globalize';
 import Loading from 'components/loading/LoadingComponent';
@@ -7,6 +6,8 @@ import SectionContainer from './SectionContainer';
 import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
+import { useGetProgramsSectionsWithItems } from 'hooks/useQueries/useGetSectionsWithItems';
+import { useGetTimers } from 'hooks/useQueries/useGetTimers';
 
 interface ProgramsSectionViewProps {
     parentId: ParentId;
