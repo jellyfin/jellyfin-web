@@ -61,6 +61,9 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#sliderVerticalPosition').value = appearanceSettings.verticalPosition;
 
         context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
+        context.querySelector('#chkSubtitleRenderPgs').checked = appSettings.get('subtitlerenderpgs') === 'true' || false;
+
+        context.querySelector('#selectSubtitleBurnIn').dispatchEvent(new CustomEvent('change', {}));
 
         onAppearanceFieldChange({
             target: context.querySelector('#selectTextSize')
@@ -86,6 +89,7 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
     loading.show();
 
     appSettings.set('subtitleburnin', context.querySelector('#selectSubtitleBurnIn').value);
+    appSettings.set('subtitlerenderpgs', context.querySelector('#chkSubtitleRenderPgs').checked);
 
     apiClient.getUser(userId).then(function (user) {
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
@@ -109,6 +113,19 @@ function onSubtitleModeChange(e) {
         subtitlesHelp[i].classList.add('hide');
     }
     view.querySelector('.subtitles' + this.value + 'Help').classList.remove('hide');
+}
+
+function onSubtitleBurnInChange(e) {
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
+
+    const fieldRenderPgs = view.querySelector('.fldRenderPgs');
+
+    // Pgs option is only available if burn-in mode is set to 'auto' (empty string)
+    if (this.value) {
+        fieldRenderPgs.classList.add('hide');
+    } else {
+        fieldRenderPgs.classList.remove('hide');
+    }
 }
 
 function onAppearanceFieldChange(e) {
@@ -166,6 +183,7 @@ function embed(options, self) {
     options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 
     options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
+    options.element.querySelector('#selectSubtitleBurnIn').addEventListener('change', onSubtitleBurnInChange);
     options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
