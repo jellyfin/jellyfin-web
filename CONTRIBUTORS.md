@@ -81,6 +81,7 @@
 - [ntarelix](https://github.com/ntarelix)
 - [btopherjohnson](https://github.com/btopherjohnson)
 - [András Maróy](https://github.com/andrasmaroy)
+- [StableCrimson](https://github.com/StableCrimson)
 - [Chris-Codes-It](https://github.com/Chris-Codes-It)
 - [Vedant](https://github.com/viktory36)
 - [GeorgeH005](https://github.com/GeorgeH005)
