@@ -1674,5 +1674,15 @@
     "LabelAlbumGain": "Gain na Album",
     "LabelThrottleDelaySecondsHelp": "Oras sa segundo pagkatapos babagal ang transcoder. Kailangan sapat ang laki upang mapanatili ng kliyente ang isang malusog ang buffer. Gumagana lang kung naka-enable ang throttling.",
     "LabelSegmentKeepSeconds": "Oras upang panatilihin ang mga segmenta",
-    "BackdropScreensaver": "Backdrop Screensaver"
+    "BackdropScreensaver": "Backdrop Screensaver",
+    "AllowAv1Encoding": "Payagan ang pag-encode sa AV1 na pormat",
+    "AiTranslated": "Isinalin ng AI",
+    "Alternate": "Kahalili",
+    "AlternateDVD": "Kahaliling DVD",
+    "LabelSegmentKeepSecondsHelp": "Oras sa mga segundo kung aling mga segment ang dapat itago pagkatapos ma-download ng kliyente. Gumagana lang kung naka-enable ang pagtanggal ng segment.",
+    "LabelTonemappingMode": "Mode ng pagmamapa ng tono",
+    "TonemappingModeHelp": "Piliin ang tone mapping mode. Kung nakakaranas ka ng mga blown out na highlight subukang lumipat sa RGB mode.",
+    "Unknown": "Hindi killala",
+    "AllowContentWithTagsHelp": "Ipakita lamang ang media na may hindi bababa sa isa sa mga tinukoy na tag.",
+    "AllowSubtitleManagement": "Payagan ang user na mag-palit ng mga subtitle"
 }
