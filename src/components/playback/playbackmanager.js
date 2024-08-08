@@ -1300,6 +1300,10 @@ class PlaybackManager {
                 return false;
             }
 
+            if (mediaStream.SupportsDirectPlay != null) {
+                return mediaStream.SupportsDirectPlay;
+            }
+
             const container = mediaSource.Container.toLowerCase();
             const codec = (mediaStream.Codec || '').toLowerCase();
 
