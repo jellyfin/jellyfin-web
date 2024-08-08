@@ -51,7 +51,6 @@ jobs:
   publish:
     name: Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
     needs:
       - run-build-prod
     permissions:
