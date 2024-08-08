@@ -1,0 +1,36 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderUploadLyrics}
+    </h3>
+</div>
+
+<div class="formDialogContent">
+    <div class="dialogContentInner">
+
+        <form class="uploadLyricsForm">
+
+            <div class="flex align-items-center" style="margin:1.5em 0;">
+                <h2 style="margin:0;">${HeaderAddLyrics}</h2>
+
+                <button is="emby-button" type="button" class="raised raised-mini btnBrowse">
+                    <span class="material-icons folder" aria-hidden="true"></span>
+                    <span>${Browse}</span>
+                </button>
+            </div>
+            <div>
+                <div class="lyricsEditor-dropZone fieldDescription">
+                    <div id="labelDropLyrics">${LabelDropLyricsHere}</div>
+                    <output id="lyricsOutput" class="flex align-items-center justify-content-center" style="position: absolute;top:0;left:0;right:0;bottom:0;width:100%;"></output>
+                    <input type="file" accept=".lrc,.txt" id="uploadLyrics" name="uploadLyrics" style="position: absolute;top:0;left:0;right:0;bottom:0;width:100%;opacity:0;"/>
+                </div>
+                <div id="fldUpload" class="hide">
+                    <br />
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${Upload}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
