@@ -523,16 +523,7 @@ export class UserSettings {
      * @param {Object} query - Query.
      */
     saveQuerySettings(key, query) {
-        const values = {};
-        if (query.SortBy) {
-            values.SortBy = query.SortBy;
-        }
-
-        if (query.SortOrder) {
-            values.SortOrder = query.SortOrder;
-        }
-
-        return this.set(key, JSON.stringify(values));
+        return this.set(key, JSON.stringify(query));
     }
 
     /**
