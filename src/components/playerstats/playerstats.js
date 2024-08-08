@@ -163,7 +163,7 @@ function getTranscodingStats(session, player, displayPlayMethod) {
         if (session.TranscodingInfo.Framerate) {
             sessionStats.push({
                 label: globalize.translate('LabelTranscodingFramerate'),
-                value: session.TranscodingInfo.Framerate + ' fps'
+                value: getDisplayTranscodeFps(session, player)
             });
         }
         if (session.TranscodingInfo.TranscodeReasons?.length) {
@@ -189,6 +189,20 @@ function getDisplayBitrate(bitrate) {
     } else {
         return Math.floor(bitrate / 1000) + ' kbps';
     }
+}
+
+function getDisplayTranscodeFps(session, player) {
+    const mediaSource = playbackManager.currentMediaSource(player) || {};
+    const videoStream = (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
+
+    const originalFramerate = videoStream.AverageFrameRate;
+    const transcodeFramerate = session.TranscodingInfo.Framerate;
+
+    if (!originalFramerate) {
+        return `${transcodeFramerate} fps`;
+    }
+
+    return `${(transcodeFramerate / originalFramerate).toFixed(2)}x (${transcodeFramerate} fps)`;
 }
 
 function getReadableSize(size) {
