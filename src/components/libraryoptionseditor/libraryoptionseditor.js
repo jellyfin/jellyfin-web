@@ -530,6 +530,7 @@ export function getLibraryOptions(parent) {
         EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
         EnableLUFSScan: parent.querySelector('.chkEnableLUFSScan').checked,
         ExtractTrickplayImagesDuringLibraryScan: parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked,
+        SaveTrickplayWithMedia: parent.querySelector('.chkSaveTrickplayLocally').checked,
         EnableTrickplayImageExtraction: parent.querySelector('.chkExtractTrickplayImages').checked,
         ExtractChapterImagesDuringLibraryScan: parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked,
         EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
@@ -597,6 +598,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('.chkEnableLUFSScan').checked = options.EnableLUFSScan;
     parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked = options.ExtractTrickplayImagesDuringLibraryScan;
     parent.querySelector('.chkExtractTrickplayImages').checked = options.EnableTrickplayImageExtraction;
+    parent.querySelector('.chkSaveTrickplayLocally').checked = options.SaveTrickplayWithMedia;
     parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked = options.ExtractChapterImagesDuringLibraryScan;
     parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
     parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
