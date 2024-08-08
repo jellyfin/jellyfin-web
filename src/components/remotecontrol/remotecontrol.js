@@ -19,9 +19,9 @@ import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-slider/emby-slider';
 import ServerConnections from '../ServerConnections';
-import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import RemoteControlSection from './remoteControlSection';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -266,7 +266,7 @@ function buttonVisible(btn, enabled) {
 }
 
 function updateSupportedCommands(context, commands) {
-    const all = context.querySelectorAll('.btnCommand');
+    const all = context.querySelectorAll('.repeatToggleButton');
 
     for (let i = 0, length = all.length; i < length; i++) {
         const enableButton = commands.indexOf(all[i].getAttribute('data-command')) !== -1;
@@ -295,34 +295,11 @@ export default function () {
         const supportedCommands = playerInfo.supportedCommands;
         currentPlayerSupportedCommands = supportedCommands;
         const playState = state.PlayState || {};
-        const isSupportedCommands = supportedCommands.includes('DisplayMessage') || supportedCommands.includes('SendString') || supportedCommands.includes('Select');
         buttonVisible(context.querySelector('.btnToggleFullscreen'), item && item.MediaType == 'Video' && supportedCommands.includes('ToggleFullscreen'));
         updateAudioTracksDisplay(player, context);
         updateSubtitleTracksDisplay(player, context);
 
-        if (supportedCommands.includes('DisplayMessage') && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.sendMessageSection').classList.remove('hide');
-        } else {
-            context.querySelector('.sendMessageSection').classList.add('hide');
-        }
-
-        if (supportedCommands.includes('SendString') && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.sendTextSection').classList.remove('hide');
-        } else {
-            context.querySelector('.sendTextSection').classList.add('hide');
-        }
-
-        if (supportedCommands.includes('Select') && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.navigationSection').classList.remove('hide');
-        } else {
-            context.querySelector('.navigationSection').classList.add('hide');
-        }
-
-        if (isSupportedCommands && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.remoteControlSection').classList.remove('hide');
-        } else {
-            context.querySelector('.remoteControlSection').classList.add('hide');
-        }
+        remoteControlSection.updatePlayerState(context, supportedCommands, currentPlayer);
 
         buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio' && !layoutManager.mobile);
         buttonVisible(context.querySelector('.btnStop'), item != null);
@@ -681,16 +658,9 @@ export default function () {
             updateSupportedCommands(context, supportedCommands);
         }
     }
-
-    function onBtnCommandClick() {
+    function onRepeatToggleButtonClick() {
         if (currentPlayer) {
-            if (this.classList.contains('repeatToggleButton')) {
-                toggleRepeat();
-            } else {
-                playbackManager.sendCommand({
-                    Name: this.getAttribute('data-command')
-                }, currentPlayer);
-            }
+            toggleRepeat();
         }
     }
 
@@ -724,12 +694,12 @@ export default function () {
     }
 
     function bindEvents(context) {
-        const btnCommand = context.querySelectorAll('.btnCommand');
-        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
-
-        for (let i = 0, length = btnCommand.length; i < length; i++) {
-            btnCommand[i].addEventListener('click', onBtnCommandClick);
+        const repeatToggleButtons = context.querySelectorAll('.repeatToggleButton');
+        for (let i = 0, length = repeatToggleButtons.length; i < length; i++) {
+            repeatToggleButtons[i].addEventListener('click', onRepeatToggleButtonClick);
         }
+
+        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
         context.querySelector('.btnToggleFullscreen').addEventListener('click', function () {
             if (currentPlayer) {
@@ -873,42 +843,9 @@ export default function () {
     }
 
     function onPlayerChange() {
-        bindToPlayer(dlg, playbackManager.getCurrentPlayer());
-    }
-
-    function onMessageSubmit(e) {
-        const form = e.target;
-        playbackManager.sendCommand({
-            Name: 'DisplayMessage',
-            Arguments: {
-                Header: form.querySelector('#txtMessageTitle').value,
-                Text: form.querySelector('#txtMessageText', form).value
-            }
-        }, currentPlayer);
-        form.querySelector('input').value = '';
-
-        toast(globalize.translate('MessageSent'));
-
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-
-    function onSendStringSubmit(e) {
-        const form = e.target;
-        playbackManager.sendCommand({
-            Name: 'SendString',
-            Arguments: {
-                String: form.querySelector('#txtTypeText', form).value
-            }
-        }, currentPlayer);
-        form.querySelector('input').value = '';
-
-        toast(globalize.translate('TextSent'));
-
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
+        const player = playbackManager.getCurrentPlayer();
+        bindToPlayer(dlg, player);
+        remoteControlSection.onPlayerChange(player);
     }
 
     function init(ownerView, context) {
@@ -933,8 +870,6 @@ export default function () {
         }
 
         bindEvents(context);
-        context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
-        context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
         Events.on(playbackManager, 'playerchange', onPlayerChange);
 
         if (layoutManager.tv) {
@@ -950,8 +885,8 @@ export default function () {
         lastPlayerState = null;
     }
 
-    function onShow(context) {
-        bindToPlayer(context, playbackManager.getCurrentPlayer());
+    function onShow(context, player) {
+        bindToPlayer(context, player);
     }
 
     let dlg;
@@ -960,18 +895,23 @@ export default function () {
     let currentPlayerSupportedCommands = [];
     let lastUpdateTime = 0;
     let currentRuntimeTicks = 0;
+    let remoteControlSection;
     const self = this;
 
     self.init = function (ownerView, context) {
         dlg = context;
         init(ownerView, dlg);
+        remoteControlSection = new RemoteControlSection(dlg);
     };
 
     self.onShow = function () {
-        onShow(dlg);
+        const player = playbackManager.getCurrentPlayer();
+        remoteControlSection.onShow(player);
+        onShow(dlg, player);
     };
 
     self.destroy = function () {
+        remoteControlSection.destroy();
         onDialogClosed();
     };
 }
