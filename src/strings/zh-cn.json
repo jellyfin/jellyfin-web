@@ -1910,5 +1910,6 @@
     "PluginEnableError": "在启用插件的时候发生错误。",
     "PluginLoadConfigError": "在获取插件配置页面的时候发生错误。",
     "PluginLoadRepoError": "在从仓库获取插件详情的时候发生了错误。",
-    "PluginUninstallError": "在卸载插件的时候发生了错误。"
+    "PluginUninstallError": "在卸载插件的时候发生了错误。",
+    "HeaderNextItemPlayingInValue": "下一个 {0} 在 {1} 播放"
 }
