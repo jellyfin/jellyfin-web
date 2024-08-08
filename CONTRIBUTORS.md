@@ -91,6 +91,7 @@
 - [Chaitanya Shahare](https://github.com/Chaitanya-Shahare)
 - [Venkat Karasani](https://github.com/venkat-karasani)
 - [Connor Smith](https://github.com/ConnorS1110)
+- [ItsAllAboutTheCode](https://github.com/ItsAllAboutTheCode)
 
 ## Emby Contributors
 
