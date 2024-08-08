@@ -84,19 +84,15 @@ jobs:
 
       - name: Publish to Cloudflare
         id: cf
-        uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca # v1.5.0
+        uses: cloudflare/wrangler-action@f84a562284fc78278ff9052435d9526f9c718361 # v3.7.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: jellyfin-web
-          branch: |
-            ${{
-              github.event.pull_request.head.repo.full_name == github.repository
-              && (github.event.pull_request.head.ref || github.ref_name)
-              || format('{0}/{1}', github.event.pull_request.head.repo.full_name, github.event.pull_request.head.ref)
-            }}
-          directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy dist --project-name=jellyfin-web --branch=${{
+                  github.event.pull_request.head.repo.full_name == github.repository
+                  && (github.event.pull_request.head.ref || github.ref_name)
+                  || format('{0}/{1}', github.event.pull_request.head.repo.full_name, github.event.pull_request.head.ref)
+                }} --commit-hash=${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Update status comment (Success)
         if: ${{ github.event_name == 'pull_request_target' && success() }}
@@ -109,7 +105,7 @@ jobs:
             | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
             |-------------------|:-:|
             | **Status**        | ✅ Deployed! |
-            | **Preview URL**   | ${{ steps.cf.outputs.url != '' && steps.cf.outputs.url || 'Not available' }} |
+            | **Preview URL**   | ${{ steps.cf.outputs.deployment-url != '' && steps.cf.outputs.deployment-url || 'Not available' }} |
             | **Type**          | 🔀 Preview |
           pr_number: ${{ github.event.pull_request.number }}
           comment_tag: CFPages-deployment
