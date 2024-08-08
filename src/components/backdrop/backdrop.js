@@ -178,7 +178,7 @@ function getItemImageUrls(item, imageOptions) {
         });
     }
 
-    if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+    if (item.ParentBackdropItemId && item.ParentBackdropImageTags?.length) {
         return item.ParentBackdropImageTags.map((imgTag, index) => {
             return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
                 type: 'Backdrop',

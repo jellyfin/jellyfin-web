@@ -64,7 +64,7 @@ function getMediaSourceHtml(user, item, version) {
     if (version.Formats?.length) {
         html += `${createAttribute(globalize.translate('MediaInfoFormat'), version.Formats.join(','))}<br/>`;
     }
-    if (version.Path && user && user.Policy.IsAdministrator) {
+    if (version.Path && user?.Policy.IsAdministrator) {
         html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path, true)}<br/>`;
     }
     if (version.Size) {

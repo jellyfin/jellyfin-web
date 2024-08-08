@@ -316,7 +316,7 @@ export function getCommands(options) {
     }
     // Show Album Artist by default, as a song can have multiple artists, which specific one would this option refer to?
     // Although some albums can have multiple artists, it's not as common as songs.
-    if (options.openArtist !== false && item.AlbumArtists && item.AlbumArtists.length) {
+    if (options.openArtist !== false && item.AlbumArtists?.length) {
         commands.push({
             name: globalize.translate('ViewAlbumArtist'),
             id: 'artist',
@@ -609,7 +609,7 @@ function play(item, resume, queue, queueNext) {
     }
 
     let startPosition = 0;
-    if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {
+    if (resume && item.UserData?.PlaybackPositionTicks) {
         startPosition = item.UserData.PlaybackPositionTicks;
     }
 

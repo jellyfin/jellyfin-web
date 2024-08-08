@@ -716,7 +716,7 @@ class ChromecastPlayer {
             });
         }
 
-        if (options.items.length > 1 && options && options.ids) {
+        if (options.items.length > 1 && options?.ids) {
             // Use the original request id array for sorting the result in the proper order
             options.items.sort(function (a, b) {
                 return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);

@@ -152,7 +152,7 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 }
 
 export function applySrc(elem, src, options) {
-    if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
+    if (window.Windows && options.mediaSource?.IsLocal) {
         return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
             const playlist = new Windows.Media.Playback.MediaPlaybackList();
 
