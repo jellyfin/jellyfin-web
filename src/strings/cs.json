@@ -1371,7 +1371,7 @@
     "LabelIconMaxResHelp": "Maximální rozlišení ikon daných vlastností 'upnp:icon'.",
     "LabelAlbumArtMaxResHelp": "Maximální rozlišení obrázku v souboru dané vlastností 'upnp:albumArtURI'.",
     "Other": "Ostatní",
-    "Bwdif": "Bob Weaver DeInterlacing Filter (BWDIF)",
+    "Bwdif": "Odstranění prokládání \"Bob Weaver\" (BWDIF)",
     "UseDoubleRateDeinterlacingHelp": "Toto nastavení při odstranění prokládání zdvojnásobuje snímkovou frekvenci, aby výsledné video vypadalo stejně plynule, jako při přehrávání prokládaného obsahu v televizi.",
     "UseDoubleRateDeinterlacing": "Zdvojnásobit snímkovou frekvenci při odstranění prokládání",
     "LabelTonemappingParamHelp": "Pro ladění algoritmu mapování tónů. Doporučená a výchozí hodnota je NaN. Obecně je pole ponecháváno prázdné.",
