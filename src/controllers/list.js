@@ -142,6 +142,11 @@ function modifyQueryWithFilters(instance, query) {
         hasFilters = true;
     }
 
+    if (filters.NoSubtitles) {
+        query.HasSubtitles = false;
+        hasFilters = true;
+    }
+
     if (filters.HasTrailer) {
         query.HasTrailer = true;
         hasFilters = true;
@@ -963,6 +968,7 @@ class ItemsView {
             VideoTypes: userSettings.getFilter(basekey + '-filter-VideoTypes'),
             SeriesStatus: userSettings.getFilter(basekey + '-filter-SeriesStatus'),
             HasSubtitles: userSettings.getFilter(basekey + '-filter-HasSubtitles'),
+            NoSubtitles: userSettings.getFilter(basekey + '-filter-NoSubtitles'),
             HasTrailer: userSettings.getFilter(basekey + '-filter-HasTrailer'),
             HasSpecialFeature: userSettings.getFilter(basekey + '-filter-HasSpecialFeature'),
             HasThemeSong: userSettings.getFilter(basekey + '-filter-HasThemeSong'),
@@ -1128,6 +1134,7 @@ class ItemsView {
                 filters.push('IsResumable');
                 filters.push('VideoType');
                 filters.push('HasSubtitles');
+                filters.push('NoSubtitles');
                 filters.push('HasTrailer');
                 filters.push('HasSpecialFeature');
                 filters.push('HasThemeSong');
