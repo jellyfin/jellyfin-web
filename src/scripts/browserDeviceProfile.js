@@ -1281,6 +1281,23 @@ export default function (options) {
         });
     }
 
+    if (browser.safari && browser.version >= 17.5) {
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Container: 'hls',
+            SubContainer: 'mp4',
+            Codec: 'h264',
+            Conditions: [
+                {
+                   Condition: 'EqualsAny',
+                   Property: 'VideoProfile',
+                   Value: h264Profiles + '|high 10',
+                   IsRequired: false
+                }
+            ]
+        });
+    }
+
     profile.CodecProfiles.push({
         Type: 'Video',
         Codec: 'hevc',
