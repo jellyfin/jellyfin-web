@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack/Stack';
 import React, { type FC } from 'react';
 
 import MarkdownBox from 'components/MarkdownBox';
-import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
+import { parseISO8601Date, toLocaleString } from 'utils/datetime';
 import globalize from 'scripts/globalize';
 
 import type { PluginDetails } from '../types/PluginDetails';
