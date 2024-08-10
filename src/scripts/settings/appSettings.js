@@ -182,6 +182,19 @@ class AppSettings {
         return toBoolean(this.get('enableTrueHd'), false);
     }
 
+    /**
+     * Get or set 'Enable H.264 High 10 Profile' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable H.264 High 10 Profile' or undefined.
+     * @return {boolean} 'Enable H.264 High 10 Profile' state.
+     */
+    enableHi10p(val) {
+        if (val !== undefined) {
+            return this.set('enableHi10p', val.toString());
+        }
+
+        return toBoolean(this.get('enableHi10p'), false);
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         localStorage.setItem(this.#getKey(name, userId), value);

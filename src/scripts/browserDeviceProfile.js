@@ -1281,7 +1281,7 @@ export default function (options) {
         });
     }
 
-    if (browser.safari && browser.version >= 17.5) {
+    if (browser.safari && appSettings.enableHi10p()) {
         profile.CodecProfiles.push({
             Type: 'Video',
             Container: 'hls',

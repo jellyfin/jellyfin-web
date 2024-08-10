@@ -1,5 +1,6 @@
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
+import browser from '../../scripts/browser';
 import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
 import globalize from '../../scripts/globalize';
@@ -143,6 +144,10 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     showHideQualityFields(context, user, apiClient);
 
+    if (browser.safari) {
+        context.querySelector('.enableHi10pSection').classList.remove('hide');
+    }
+
     context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
 
     apiClient.getCultures().then(allCultures => {
@@ -175,6 +180,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
     context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
     context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
+    context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
@@ -224,6 +230,8 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
     appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
+
+    appSettings.enableHi10p(context.querySelector('.chkEnableHi10p').checked);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');

@@ -260,6 +260,8 @@
     "EnableFasterAnimations": "Faster animations",
     "EnableFasterAnimationsHelp": "Use faster animations and transitions.",
     "EnableHardwareEncoding": "Enable hardware encoding",
+    "EnableHi10p": "Enable H.264 High 10 Profile",
+    "EnableHi10pHelp": "Enable to avoid transcoding H.264 10-bit videos. Disable this option if the video displays blank frames.",
     "EnableLibrary": "Enable the library",
     "EnableLibraryHelp": "Disabling the library will hide it from all user views.",
     "EnableNextVideoInfoOverlay": "Show next video info during playback",
