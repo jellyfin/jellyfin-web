@@ -1289,10 +1289,10 @@ export default function (options) {
             Codec: 'h264',
             Conditions: [
                 {
-                   Condition: 'EqualsAny',
-                   Property: 'VideoProfile',
-                   Value: h264Profiles + '|high 10',
-                   IsRequired: false
+                    Condition: 'EqualsAny',
+                    Property: 'VideoProfile',
+                    Value: h264Profiles + '|high 10',
+                    IsRequired: false
                 }
             ]
         });
