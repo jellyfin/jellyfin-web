@@ -145,7 +145,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     showHideQualityFields(context, user, apiClient);
 
     if (browser.safari) {
-        context.querySelector('.enableHi10pSection').classList.remove('hide');
+        context.querySelector('.fldEnableHi10p').classList.remove('hide');
     }
 
     context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
