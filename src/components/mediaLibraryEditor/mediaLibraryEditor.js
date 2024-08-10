@@ -18,6 +18,7 @@ import '../formdialog.scss';
 import '../../elements/emby-toggle/emby-toggle';
 import '../../styles/flexstyles.scss';
 import './style.scss';
+import alert from '../alert';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './mediaLibraryEditor.template.html';
@@ -30,15 +31,17 @@ function onEditLibrary() {
     isCreating = true;
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
-    let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     // when the library has moved or symlinked, the ItemId is not correct anymore
     // this can lead to a forever spinning value on edit the library parameters
     if (currentOptions.library.ItemId == undefined) {
-        toast('The library setting is in an invalid state, cannot edit. You are most likely suffering from a bug where the path in the database is not the absolute path in the filesystem');
         loading.hide();
         dialogHelper.close(dlg);
+        alert({
+            text: globalize.translate('LibraryInvalidItemIdError')
+        });
         return false;
     }
+    let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
     ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
         hasChanges = true;
