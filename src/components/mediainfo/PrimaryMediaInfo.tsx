@@ -12,54 +12,46 @@ import EndsAt from './EndsAt';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
+import type { PrimaryInfoOpts } from './type';
 
-interface PrimaryMediaInfoProps {
+interface PrimaryMediaInfoProps extends PrimaryInfoOpts {
     className?: string;
     item: ItemDto;
-    isYearEnabled?: boolean;
-    isContainerEnabled?: boolean;
-    isEpisodeTitleEnabled?: boolean;
-    isCriticRatingEnabled?: boolean;
-    isEndsAtEnabled?: boolean;
-    isOriginalAirDateEnabled?: boolean;
-    isRuntimeEnabled?: boolean;
-    isProgramIndicatorEnabled?: boolean;
-    isEpisodeTitleIndexNumberEnabled?: boolean;
-    isOfficialRatingEnabled?: boolean;
-    isStarRatingEnabled?: boolean;
-    isCaptionIndicatorEnabled?: boolean;
-    isMissingIndicatorEnabled?: boolean;
-    getMissingIndicator: () => React.JSX.Element | null
+    showStarRatingInfo?: boolean;
+    showCaptionIndicatorInfo?: boolean;
+    showCriticRatingInfo?: boolean;
+    showEndsAtInfo?: boolean;
+    showMissingIndicatorInfo?: boolean;
+    getMissingIndicator?: () => React.JSX.Element | null
 }
 
 const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     className,
     item,
-    isYearEnabled = false,
-    isContainerEnabled = false,
-    isEpisodeTitleEnabled = false,
-    isCriticRatingEnabled = false,
-    isEndsAtEnabled = false,
-    isOriginalAirDateEnabled = false,
-    isRuntimeEnabled = false,
-    isProgramIndicatorEnabled = false,
-    isEpisodeTitleIndexNumberEnabled = false,
-    isOfficialRatingEnabled = false,
-    isStarRatingEnabled = false,
-    isCaptionIndicatorEnabled = false,
-    isMissingIndicatorEnabled = false,
+    showYearInfo,
+    showAudioContainerInfo,
+    showEpisodeTitleInfo,
+    showOriginalAirDateInfo,
+    showRuntimeInfo,
+    showProgramIndicatorInfo,
+    includeEpisodeTitleIndexNumber,
+    showOfficialRatingInfo,
+    showStarRatingInfo = false,
+    showCaptionIndicatorInfo = false,
+    showCriticRatingInfo = false,
+    showEndsAtInfo = false,
     getMissingIndicator
 }) => {
     const miscInfo = usePrimaryMediaInfo({
         item,
-        isYearEnabled,
-        isContainerEnabled,
-        isEpisodeTitleEnabled,
-        isOriginalAirDateEnabled,
-        isRuntimeEnabled,
-        isProgramIndicatorEnabled,
-        isEpisodeTitleIndexNumberEnabled,
-        isOfficialRatingEnabled
+        showYearInfo,
+        showAudioContainerInfo,
+        showEpisodeTitleInfo,
+        showOriginalAirDateInfo,
+        showRuntimeInfo,
+        showProgramIndicatorInfo,
+        includeEpisodeTitleIndexNumber,
+        showOfficialRatingInfo
     });
     const {
         StartDate,
@@ -80,24 +72,22 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         <Box className={cssClass}>
             {miscInfo.map((info, index) => renderMediaInfo(info, index))}
 
-            {isStarRatingEnabled && CommunityRating && (
+            {showStarRatingInfo && CommunityRating && (
                 <StarIcons communityRating={CommunityRating} />
             )}
 
-            {HasSubtitles && isCaptionIndicatorEnabled && <CaptionMediaInfo />}
+            {showCaptionIndicatorInfo && HasSubtitles && <CaptionMediaInfo />}
 
-            {CriticRating && isCriticRatingEnabled && (
+            {showCriticRatingInfo && CriticRating && (
                 <CriticRatingMediaInfo criticRating={CriticRating} />
             )}
 
-            {isEndsAtEnabled
+            {showEndsAtInfo
                 && MediaType === ItemMediaKind.Video
                 && RunTimeTicks
                 && !StartDate && <EndsAt runTimeTicks={RunTimeTicks} />}
 
-            {isMissingIndicatorEnabled && (
-                getMissingIndicator()
-            )}
+            {getMissingIndicator?.()}
         </Box>
     );
 };

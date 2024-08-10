@@ -79,11 +79,11 @@ const ListContent: FC<ListContentProps> = ({
                 <PrimaryMediaInfo
                     className='secondary listItemMediaInfo'
                     item={item}
-                    isRuntimeEnabled={true}
-                    isStarRatingEnabled={true}
-                    isCaptionIndicatorEnabled={true}
-                    isEpisodeTitleEnabled={true}
-                    isOfficialRatingEnabled={true}
+                    showRuntimeInfo
+                    showStarRatingInfo
+                    showCaptionIndicatorInfo
+                    showEpisodeTitleInfo
+                    showOfficialRatingInfo
                     getMissingIndicator={indicator.getMissingIndicator}
                 />
             )}

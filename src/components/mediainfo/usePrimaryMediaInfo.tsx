@@ -9,6 +9,7 @@ import { ItemStatus } from 'types/base/models/item-status';
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
+import { PrimaryInfoOpts } from './type';
 
 function shouldShowFolderRuntime(
     itemType: ItemKind,
@@ -28,7 +29,7 @@ function addTrackCountOrItemCount(
     itemSongCount: NullableNumber,
     itemChildCount: NullableNumber,
     itemRunTimeTicks: NullableNumber,
-    itemType: NullableString,
+    itemType: ItemKind,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (showFolderRuntime) {
@@ -51,14 +52,14 @@ function addTrackCountOrItemCount(
 function addOriginalAirDateInfo(
     itemType: ItemKind,
     itemMediaType: ItemMediaKind,
-    isOriginalAirDateEnabled: boolean,
+    showOriginalAirDateInfo: boolean,
     itemPremiereDate: NullableString,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
         itemPremiereDate
         && (itemType === ItemKind.Episode || itemMediaType === ItemMediaKind.Photo)
-        && isOriginalAirDateEnabled
+        && showOriginalAirDateInfo
     ) {
         try {
             //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
@@ -104,7 +105,7 @@ function addProgramIndicatorInfo(
 ): void {
     if (
         program?.IsLive
-        && userSettings.get('guide-indicator-live', false) === 'true'
+        && userSettings.get('guide-indicator-live') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('Live'),
@@ -112,7 +113,7 @@ function addProgramIndicatorInfo(
         });
     } else if (
         program?.IsPremiere
-        && userSettings.get('guide-indicator-premiere', false) === 'true'
+        && userSettings.get('guide-indicator-premiere') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('Premiere'),
@@ -121,7 +122,7 @@ function addProgramIndicatorInfo(
     } else if (
         program?.IsSeries
         && !program?.IsRepeat
-        && userSettings.get('guide-indicator-new', false) === 'true'
+        && userSettings.get('guide-indicator-new') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('New'),
@@ -130,7 +131,7 @@ function addProgramIndicatorInfo(
     } else if (
         program?.IsSeries
         && program?.IsRepeat
-        && userSettings.get('guide-indicator-repeat', false) === 'true'
+        && userSettings.get('guide-indicator-repeat') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('Repeat'),
@@ -141,11 +142,11 @@ function addProgramIndicatorInfo(
 
 function addProgramIndicators(
     item: ItemDto,
-    isYearEnabled: boolean,
-    isEpisodeTitleEnabled: boolean,
-    isOriginalAirDateEnabled: boolean,
-    isProgramIndicatorEnabled: boolean,
-    isEpisodeTitleIndexNumberEnabled: boolean,
+    showYearInfo: boolean,
+    showEpisodeTitleInfo: boolean,
+    showOriginalAirDateInfo: boolean,
+    showProgramIndicatorInfo: boolean,
+    includeEpisodeTitleIndexNumber: boolean,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (item.Type === ItemKind.Program || item.Type === ItemKind.Timer) {
@@ -154,16 +155,16 @@ function addProgramIndicators(
             program = item.ProgramInfo;
         }
 
-        if (isProgramIndicatorEnabled !== false) {
+        if (showProgramIndicatorInfo !== false) {
             addProgramIndicatorInfo(program, addMiscInfo);
         }
 
         addProgramTextInfo(
             program,
-            isEpisodeTitleEnabled,
-            isEpisodeTitleIndexNumberEnabled,
-            isOriginalAirDateEnabled,
-            isYearEnabled,
+            showEpisodeTitleInfo,
+            includeEpisodeTitleIndexNumber,
+            showOriginalAirDateInfo,
+            showYearInfo,
             addMiscInfo
         );
     }
@@ -171,16 +172,18 @@ function addProgramIndicators(
 
 function addProgramTextInfo(
     program: ItemDto,
-    isEpisodeTitleEnabled: boolean,
-    isEpisodeTitleIndexNumberEnabled: boolean,
-    isOriginalAirDateEnabled: boolean,
-    isYearEnabled: boolean,
+    showEpisodeTitleInfo: boolean,
+    includeEpisodeTitleIndexNumber: boolean,
+    showOriginalAirDateInfo: boolean,
+    showYearInfo: boolean,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
-    if ((program?.IsSeries || program?.EpisodeTitle)
-    && isEpisodeTitleEnabled !== false) {
+    if (
+        (program?.IsSeries || program?.EpisodeTitle)
+        && showEpisodeTitleInfo !== false
+    ) {
         const text = itemHelper.getDisplayName(program, {
-            includeIndexNumber: isEpisodeTitleIndexNumberEnabled
+            includeIndexNumber: includeEpisodeTitleIndexNumber
         });
 
         if (text) {
@@ -188,11 +191,11 @@ function addProgramTextInfo(
         }
     } else if (
         program?.ProductionYear
-        && ((program?.IsMovie && isOriginalAirDateEnabled !== false)
-            || isYearEnabled !== false)
+        && ((program?.IsMovie && showOriginalAirDateInfo !== false)
+            || showYearInfo !== false)
     ) {
         addMiscInfo({ text: program.ProductionYear });
-    } else if (program?.PremiereDate && isOriginalAirDateEnabled !== false) {
+    } else if (program?.PremiereDate && showOriginalAirDateInfo !== false) {
         try {
             const date = datetime.parseISO8601Date(program.PremiereDate);
             const text = globalize.translate(
@@ -233,12 +236,12 @@ function addStartDateInfo(
 function addSeriesProductionYearInfo(
     itemProductionYear: NullableNumber,
     itemType: ItemKind,
-    isYearEnabled: boolean,
+    showYearInfo: boolean,
     itemStatus: ItemStatus,
     itemEndDate: NullableString,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
-    if (itemProductionYear && isYearEnabled && itemType === ItemKind.Series) {
+    if (itemProductionYear && showYearInfo && itemType === ItemKind.Series) {
         if (itemStatus === ItemStatus.Continuing) {
             addMiscInfo({
                 text: globalize.translate(
@@ -281,7 +284,7 @@ function addproductionYearWithEndDate(
 }
 
 function addYearInfo(
-    isYearEnabled: boolean,
+    showYearInfo: boolean,
     itemType: ItemKind,
     itemMediaType: ItemMediaKind,
     itemProductionYear: NullableNumber,
@@ -289,7 +292,7 @@ function addYearInfo(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        isYearEnabled
+        showYearInfo
         && itemType !== ItemKind.Series
         && itemType !== ItemKind.Episode
         && itemType !== ItemKind.Person
@@ -326,7 +329,7 @@ function addRunTimeInfo(
     itemRunTimeTicks: NullableNumber,
     itemType: ItemKind,
     showFolderRuntime: boolean,
-    isRuntimeEnabled: boolean,
+    showRuntimeInfo: boolean,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
@@ -336,7 +339,7 @@ function addRunTimeInfo(
         && itemType !== ItemKind.Timer
         && itemType !== ItemKind.Book
         && !showFolderRuntime
-        && isRuntimeEnabled
+        && showRuntimeInfo
     ) {
         if (itemType === ItemKind.Audio) {
             addMiscInfo({ text: datetime.getDisplayRunningTime(itemRunTimeTicks) });
@@ -349,29 +352,33 @@ function addRunTimeInfo(
 function addOfficialRatingInfo(
     itemOfficialRating: NullableString,
     itemType: ItemKind,
-    isOfficialRatingEnabled: boolean,
+    showOfficialRatingInfo: boolean,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
         itemOfficialRating
-        && isOfficialRatingEnabled
+        && showOfficialRatingInfo
         && itemType !== ItemKind.Season
         && itemType !== ItemKind.Episode
     ) {
         addMiscInfo({
             text: itemOfficialRating,
-            cssClass: 'mediaInfoOfficialRating'
+            cssClass: 'mediaInfoText mediaInfoOfficialRating'
         });
     }
 }
 
 function addAudioContainer(
     itemContainer: NullableString,
-    isContainerEnabled: boolean,
+    showAudioContainerInfo: boolean,
     itemType: ItemKind,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
-    if (itemContainer && isContainerEnabled && itemType === ItemKind.Audio) {
+    if (
+        itemContainer
+        && showAudioContainerInfo
+        && itemType === ItemKind.Audio
+    ) {
         addMiscInfo({ text: itemContainer });
     }
 }
@@ -389,28 +396,20 @@ function addPhotoSize(
     }
 }
 
-interface UsePrimaryMediaInfoProps {
+interface UsePrimaryMediaInfoProps extends PrimaryInfoOpts {
     item: ItemDto;
-    isYearEnabled: boolean;
-    isContainerEnabled: boolean;
-    isEpisodeTitleEnabled: boolean;
-    isOriginalAirDateEnabled: boolean;
-    isRuntimeEnabled: boolean;
-    isProgramIndicatorEnabled: boolean;
-    isEpisodeTitleIndexNumberEnabled: boolean;
-    isOfficialRatingEnabled: boolean;
 }
 
 function usePrimaryMediaInfo({
     item,
-    isYearEnabled = false,
-    isContainerEnabled = false,
-    isEpisodeTitleEnabled = false,
-    isOriginalAirDateEnabled = false,
-    isRuntimeEnabled = false,
-    isProgramIndicatorEnabled = false,
-    isEpisodeTitleIndexNumberEnabled = false,
-    isOfficialRatingEnabled = false
+    showYearInfo = false,
+    showAudioContainerInfo = false,
+    showEpisodeTitleInfo = false,
+    showOriginalAirDateInfo = false,
+    showRuntimeInfo = false,
+    showProgramIndicatorInfo = false,
+    includeEpisodeTitleIndexNumber = false,
+    showOfficialRatingInfo = false
 }: UsePrimaryMediaInfoProps) {
     const {
         EndDate,
@@ -455,7 +454,7 @@ function usePrimaryMediaInfo({
     addOriginalAirDateInfo(
         Type,
         MediaType,
-        isOriginalAirDateEnabled,
+        showOriginalAirDateInfo,
         PremiereDate,
         addMiscInfo
     );
@@ -474,7 +473,7 @@ function usePrimaryMediaInfo({
     addSeriesProductionYearInfo(
         ProductionYear,
         Type,
-        isYearEnabled,
+        showYearInfo,
         Status,
         EndDate,
         addMiscInfo
@@ -482,16 +481,16 @@ function usePrimaryMediaInfo({
 
     addProgramIndicators(
         item,
-        isProgramIndicatorEnabled,
-        isEpisodeTitleEnabled,
-        isEpisodeTitleIndexNumberEnabled,
-        isOriginalAirDateEnabled,
-        isYearEnabled,
+        showProgramIndicatorInfo,
+        showEpisodeTitleInfo,
+        includeEpisodeTitleIndexNumber,
+        showOriginalAirDateInfo,
+        showYearInfo,
         addMiscInfo
     );
 
     addYearInfo(
-        isYearEnabled,
+        showYearInfo,
         Type,
         MediaType,
         ProductionYear,
@@ -503,14 +502,14 @@ function usePrimaryMediaInfo({
         RunTimeTicks,
         Type,
         showFolderRuntime,
-        isRuntimeEnabled,
+        showRuntimeInfo,
         addMiscInfo
     );
 
     addOfficialRatingInfo(
         OfficialRating,
         Type,
-        isOfficialRatingEnabled,
+        showOfficialRatingInfo,
         addMiscInfo
     );
 
@@ -518,7 +517,7 @@ function usePrimaryMediaInfo({
 
     addPhotoSize(MediaType, Width, Height, addMiscInfo);
 
-    addAudioContainer(Container, isContainerEnabled, Type, addMiscInfo);
+    addAudioContainer(Container, showAudioContainerInfo, Type, addMiscInfo);
 
     return miscInfo;
 }

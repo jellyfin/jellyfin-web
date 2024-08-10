@@ -62,9 +62,9 @@ const ListItemBody: FC<ListItemBodyProps> = ({
                 <PrimaryMediaInfo
                     className='secondary listItemMediaInfo listItemBodyText'
                     item={item}
-                    isEpisodeTitleEnabled={true}
-                    isOriginalAirDateEnabled={true}
-                    isCaptionIndicatorEnabled={true}
+                    showEpisodeTitleInfo
+                    showOriginalAirDateInfo
+                    showCaptionIndicatorInfo
                     getMissingIndicator={getMissingIndicator}
                 />
             )}
