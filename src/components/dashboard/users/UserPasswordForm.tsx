@@ -7,6 +7,7 @@ import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import ButtonElement from '../../../elements/ButtonElement';
 import InputElement from '../../../elements/InputElement';
+import { UserDto } from '@jellyfin/sdk/lib/generated-client';
 
 type IProps = {
     userId: string | null;
@@ -14,6 +15,7 @@ type IProps = {
 
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
+    let user: UserDto
 
     const loadUser = useCallback(async () => {
         const page = element.current;
@@ -28,7 +30,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             return;
         }
 
-        const user = await window.ApiClient.getUser(userId);
+        user = await window.ApiClient.getUser(userId);
         const loggedInUser = await Dashboard.getCurrentUser();
 
         if (!user.Policy || !user.Configuration) {
@@ -76,6 +78,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         const onSubmit = (e: Event) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
                 toast(globalize.translate('PasswordMatchError'));
+            } else if((page.querySelector('#txtNewPassword') as HTMLInputElement).value == '' && user.Policy?.IsAdministrator) {
+                toast(globalize.translate('PasswordMissingSaveError'));
             } else {
                 loading.show();
                 savePassword();
