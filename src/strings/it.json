@@ -1242,8 +1242,8 @@
     "LabelDroppedFrames": "Frame persi",
     "LabelCorruptedFrames": "Frame corrotti",
     "AskAdminToCreateLibrary": "Chiedi ad un amministratore di creare una libreria.",
-    "AllowFfmpegThrottlingHelp": "Quando una transcodifica o un remux sono abbastanza avanti rispetto alla corrente posizione di riproduzione, pausa il processo così da consumare meno risorse. Questo è utile quando si guarda un video senza avanzare spesso durante la riproduzione. Disattiva questa opzione se stai avendo problemi di riproduzione.",
-    "AllowFfmpegThrottling": "Acceleratore Transcodifica",
+    "AllowFfmpegThrottlingHelp": "Quando una transcodifica o un remux sono abbastanza avanti rispetto alla corrente posizione di riproduzione, metti in pausa il processo per consumare meno risorse. Questo è utile quando si guarda un video senza avanzare spesso durante la riproduzione. Disattiva questa opzione se stai avendo problemi di riproduzione.",
+    "AllowFfmpegThrottling": "Limita Transcodifica",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Preferisci le informazioni incorporate nell'episodio rispetto ai nomi dei file",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Utilizza le informazioni dell'episodio provenienti dai metadata incorporati, se disponibili.",
     "ClientSettings": "Impostazioni del client",
@@ -1909,5 +1909,7 @@
     "PluginEnableError": "Errore durante l'abilitazione del plugin.",
     "PluginLoadConfigError": "Errore durante la creazione della pagina di configurazione del plugin.",
     "PluginLoadRepoError": "Errore durante la costruzione dei dettagli del plugin.",
-    "PluginUninstallError": "Errore durante la disinstallazione del plugin."
+    "PluginUninstallError": "Errore durante la disinstallazione del plugin.",
+    "HeaderNextItem": "Prossimo {0}",
+    "HeaderNextItemPlayingInValue": "Prossimo {0} tra {1}"
 }
