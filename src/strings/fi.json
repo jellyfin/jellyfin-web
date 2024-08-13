@@ -1874,5 +1874,10 @@
     "ViewLyrics": "Näytä sanoitukset",
     "HeaderLyricDownloads": "Sanoitusten lataaminen",
     "SaveLyricsIntoMediaFolders": "Tallenna sanoitukset mediakansioon",
-    "PlaylistPublic": "Salli julkinen pääsy"
+    "PlaylistPublic": "Salli julkinen pääsy",
+    "EnableTrueHdHelp": "Ota käyttöön ainostaan, jos laitteesi tukee TrueHD ääniä, tai on kytkettynä yhteensopivaan vastaanottimeen. Median toisto saattaa muutoin epäonnistua.",
+    "ConfirmDeleteLyrics": "Sanoituksien poistaminen poistaa ne tiedostojärjestelmältä ja mediakirjastosta. Haluatko varmasti jatkaa?",
+    "EnableDts": "Ota DTS (DCA) käyttöön",
+    "EnableDtsHelp": "Ota käyttöön ainoastaan, jos laitteesi tukee DTS ääniä, tai on kytkettynä yhteensopivaan vastaanottimeen. Median toisto saattaa muutoin epäonnistua.",
+    "EnableTrueHd": "Ota TrueHD käyttöön"
 }
