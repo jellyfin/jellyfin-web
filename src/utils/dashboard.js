@@ -52,7 +52,7 @@ export async function serverAddress() {
     console.debug('URL candidates:', urls);
 
     const promises = urls.map(url => {
-        return fetch(`${url}/System/Info/Public`)
+        return fetch(`${url}/System/Info/Public`, { cache: 'no-cache' })
             .then(async resp => {
                 if (!resp.ok) {
                     return;
