@@ -39,8 +39,7 @@ export default function (urls) {
         throw new Error('`urls` required');
     }
 
-    if (typeof document.createElement('a').download === 'undefined'
-        || browser.iOS) {
+    if (typeof document.createElement('a').download === 'undefined' || browser.iOS) {
         return fallback(urls);
     }
 
