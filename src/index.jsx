@@ -24,6 +24,7 @@ import packageManager from './components/packageManager';
 import './components/playback/displayMirrorManager.ts';
 import { appRouter } from './components/router/appRouter';
 import './elements/emby-button/emby-button';
+import { initialize as initializeAutoCast } from 'scripts/autocast';
 import './scripts/autoThemes';
 import './components/themeMediaPlayer';
 import { pageClassOn, serverAddress } from './utils/dashboard';
@@ -78,6 +79,8 @@ build: ${__JF_BUILD_VERSION__}`);
         }
     }).then(() => {
         console.debug('initAfterDependencies promises resolved');
+
+        initializeAutoCast(ServerConnections.currentApiClient());
 
         loadCoreDictionary().then(function () {
             onGlobalizeInit();
