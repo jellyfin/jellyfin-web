@@ -35,7 +35,7 @@ async function nativeConfirm(options: string | ConfirmOptions) {
         } as ConfirmOptions;
     }
 
-    const text = (options.text || '').replace('<br/>', '\n');
+    const text = (options.text || '').replaceAll('<br/>', '\n');
     await appRouter.ready();
     const result = window.confirm(text);
 
