@@ -1,12 +1,6 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import 'jquery';
-import 'fast-text-encoding';
-import 'intersection-observer';
-import 'classlist.js';
-import 'whatwg-fetch';
-import 'abortcontroller-polyfill'; // requires fetch
-import 'resize-observer-polyfill';
+// import legacy browser polyfills
+import 'lib/legacy';
+
 import './styles/site.scss';
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -31,12 +25,6 @@ import { pageClassOn, serverAddress } from './utils/dashboard';
 import './scripts/screensavermanager';
 import './scripts/serverNotifications';
 import './components/playback/playerSelectionMenu';
-import './legacy/domParserTextHtml';
-import './legacy/focusPreventScroll';
-import './legacy/htmlMediaElement';
-import './legacy/keyboardEvent';
-import './legacy/patchHeaders';
-import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
 import taskButton from './scripts/taskbutton';
 import RootApp from './RootApp.tsx';
