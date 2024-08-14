@@ -47,7 +47,7 @@ import './styles/dashboard.scss';
 import './styles/detailtable.scss';
 import './styles/librarybrowser.scss';
 
-function init() {
+async function init() {
     // Log current version to console to help out with issue triage and debugging
     console.info(
         `[${__PACKAGE_JSON_NAME__}]
@@ -55,40 +55,58 @@ version: ${__PACKAGE_JSON_VERSION__}
 commit: ${__COMMIT_SHA__}
 build: ${__JF_BUILD_VERSION__}`);
 
-    // This is used in plugins
+    // Register globals used in plugins
     window.Events = Events;
     window.TaskButton = taskButton;
 
-    serverAddress().then(server => {
-        if (server) {
-            ServerConnections.initApiClient(server);
-        }
-    }).then(() => {
-        console.debug('initAfterDependencies promises resolved');
-
-        initializeAutoCast(ServerConnections.currentApiClient());
-
-        loadCoreDictionary().then(function () {
-            onGlobalizeInit();
-        });
-
-        keyboardNavigation.enable();
-        autoFocuser.enable();
-
-        Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
-        Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
-    });
-}
-
-function onGlobalizeInit() {
-    if (window.appMode === 'android'
-        && window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1
-    ) {
-        return onAppReady();
+    // Initialize the api client
+    const serverUrl = await serverAddress();
+    if (serverUrl) {
+        ServerConnections.initApiClient(serverUrl);
     }
 
+    // Initialize automatic (default) cast target
+    initializeAutoCast(ServerConnections.currentApiClient());
+
+    // Load the translation dictionary
+    await loadCoreDictionary();
+    // Update localization on user changes
+    Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
+    Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
+    // Localize the document title
     document.title = globalize.translateHtml(document.title, 'core');
 
+    // Load the font styles
+    loadFonts();
+
+    // Load iOS specific styles
+    if (browser.iOS) {
+        import('./styles/ios.scss');
+    }
+
+    // Load frontend plugins
+    await loadPlugins();
+
+    // Establish the websocket connection
+    Events.on(appHost, 'resume', () => {
+        ServerConnections.currentApiClient()?.ensureWebSocket();
+    });
+
+    // Render the app
+    await renderApp();
+
+    // Load platform specific features
+    loadPlatformFeatures();
+
+    // Load custom CSS styles
+    loadCustomCss();
+
+    // Enable navigation controls
+    keyboardNavigation.enable();
+    autoFocuser.enable();
+}
+
+function loadFonts() {
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
         import('./styles/fonts.sized.scss');
@@ -100,8 +118,6 @@ function onGlobalizeInit() {
         import('./styles/fonts.scss');
         import('./styles/fonts.noto.scss');
     }
-
-    loadPlugins().then(onAppReady);
 }
 
 function loadPlugins() {
@@ -133,32 +149,7 @@ function loadPlugins() {
     });
 }
 
-async function onAppReady() {
-    console.debug('begin onAppReady');
-
-    console.debug('onAppReady: loading dependencies');
-
-    if (browser.iOS) {
-        import('./styles/ios.scss');
-    }
-
-    Events.on(appHost, 'resume', () => {
-        ServerConnections.currentApiClient()?.ensureWebSocket();
-    });
-
-    const container = document.getElementById('reactRoot');
-    // Remove the splash logo
-    container.innerHTML = '';
-
-    await appRouter.start();
-
-    const root = createRoot(container);
-    root.render(
-        <StrictMode>
-            <RootApp history={history} />
-        </StrictMode>
-    );
-
+function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
         import('./components/nowPlayingBar/nowPlayingBar');
     }
@@ -185,7 +176,9 @@ async function onAppReady() {
             import('./components/notifications/notifications');
         }
     }
+}
 
+function loadCustomCss() {
     // Apply custom CSS
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
@@ -243,6 +236,21 @@ function registerServiceWorker() {
         console.warn('serviceWorker unsupported');
     }
     /* eslint-enable compat/compat */
+}
+
+async function renderApp() {
+    const container = document.getElementById('reactRoot');
+    // Remove the splash logo
+    container.innerHTML = '';
+
+    await appRouter.start();
+
+    const root = createRoot(container);
+    root.render(
+        <StrictMode>
+            <RootApp history={history} />
+        </StrictMode>
+    );
 }
 
 init();
