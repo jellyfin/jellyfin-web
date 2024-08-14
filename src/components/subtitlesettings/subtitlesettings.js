@@ -117,15 +117,10 @@ function onSubtitleModeChange(e) {
 
 function onSubtitleBurnInChange(e) {
     const view = dom.parentWithClass(e.target, 'subtitlesettings');
-
     const fieldRenderPgs = view.querySelector('.fldRenderPgs');
 
     // Pgs option is only available if burn-in mode is set to 'auto' (empty string)
-    if (this.value) {
-        fieldRenderPgs.classList.add('hide');
-    } else {
-        fieldRenderPgs.classList.remove('hide');
-    }
+    fieldRenderPgs.classList.toggle('hide', !!this.value);
 }
 
 function onAppearanceFieldChange(e) {
