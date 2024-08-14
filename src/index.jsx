@@ -120,33 +120,34 @@ function loadFonts() {
     }
 }
 
-function loadPlugins() {
+async function loadPlugins() {
     console.groupCollapsed('loading installed plugins');
     console.dir(pluginManager);
-    return getPlugins().then(function (list) {
-        if (!appHost.supports('remotecontrol')) {
-            // Disable remote player plugins if not supported
-            list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
-                && !plugin.startsWith('chromecastPlayer'));
-        } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
-            // Disable chromecast player in unsupported browsers
-            list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
-        }
 
-        // add any native plugins
-        if (window.NativeShell) {
-            list = list.concat(window.NativeShell.getPlugins());
-        }
+    let list = await getPlugins();
+    if (!appHost.supports('remotecontrol')) {
+        // Disable remote player plugins if not supported
+        list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
+            && !plugin.startsWith('chromecastPlayer'));
+    } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
+        // Disable chromecast player in unsupported browsers
+        list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
+    }
 
-        Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)))
-            .then(() => console.debug('finished loading plugins'))
-            .catch(e => console.warn('failed loading plugins', e))
-            .finally(() => {
-                console.groupEnd('loading installed plugins');
-                packageManager.init();
-            })
-        ;
-    });
+    // add any native plugins
+    if (window.NativeShell) {
+        list = list.concat(window.NativeShell.getPlugins());
+    }
+
+    try {
+        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        console.debug('finished loading plugins');
+    } catch (e) {
+        console.warn('failed loading plugins', e);
+    }
+
+    console.groupEnd('loading installed plugins');
+    packageManager.init();
 }
 
 function loadPlatformFeatures() {
