@@ -9,7 +9,6 @@ import ServerConnections from './components/ServerConnections';
 
 import { appHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
-import packageManager from './components/packageManager';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
 import globalize from './lib/globalize';
@@ -147,7 +146,6 @@ async function loadPlugins() {
     }
 
     console.groupEnd('loading installed plugins');
-    packageManager.init();
 }
 
 function loadPlatformFeatures() {
