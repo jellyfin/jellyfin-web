@@ -1,40 +1,51 @@
-// import legacy browser polyfills
+// Import legacy browser polyfills
 import 'lib/legacy';
 
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import './styles/site.scss';
-import Events from './utils/events.ts';
+// NOTE: We need to import this first to initialize the connection
 import ServerConnections from './components/ServerConnections';
+
+import { appHost } from './components/apphost';
+import autoFocuser from './components/autoFocuser';
+import packageManager from './components/packageManager';
+import { pluginManager } from './components/pluginManager';
+import { appRouter } from './components/router/appRouter';
 import globalize from './lib/globalize';
+import { loadCoreDictionary } from 'lib/globalize/loader';
+import { initialize as initializeAutoCast } from 'scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
-import './scripts/mouseManager';
-import autoFocuser from './components/autoFocuser';
-import { appHost } from './components/apphost';
-import { getPlugins } from './scripts/settings/webSettings';
-import { pluginManager } from './components/pluginManager';
-import packageManager from './components/packageManager';
-import './components/playback/displayMirrorManager.ts';
-import { appRouter } from './components/router/appRouter';
-import { loadCoreDictionary } from 'lib/globalize/loader';
-import './elements/emby-button/emby-button';
-import { initialize as initializeAutoCast } from 'scripts/autocast';
-import './scripts/autoThemes';
-import './components/themeMediaPlayer';
-import { pageClassOn, serverAddress } from './utils/dashboard';
-import './scripts/screensavermanager';
-import './scripts/serverNotifications';
-import './components/playback/playerSelectionMenu';
 import { currentSettings } from './scripts/settings/userSettings';
+import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
-import RootApp from './RootApp.tsx';
+import { pageClassOn, serverAddress } from './utils/dashboard';
+import Events from './utils/events';
+
+import RootApp from './RootApp';
 import { history } from 'RootAppRouter';
 
+// Import the button webcomponent for use throughout the site
+// NOTE: This is a bit of a hack, files should ensure the component is imported before use
+import './elements/emby-button/emby-button';
+
+// Import auto-running components
+// NOTE: This is an anti-pattern
+import './components/playback/displayMirrorManager';
+import './components/playback/playerSelectionMenu';
+import './components/themeMediaPlayer';
+import './scripts/autoThemes';
+import './scripts/mouseManager';
+import './scripts/screensavermanager';
+import './scripts/serverNotifications';
+
+// Import site styles
+import './styles/site.scss';
 import './styles/livetv.scss';
 import './styles/dashboard.scss';
 import './styles/detailtable.scss';
+import './styles/librarybrowser.scss';
 
 function init() {
     // Log current version to console to help out with issue triage and debugging
@@ -89,8 +100,6 @@ function onGlobalizeInit() {
         import('./styles/fonts.scss');
         import('./styles/fonts.noto.scss');
     }
-
-    import('./styles/librarybrowser.scss');
 
     loadPlugins().then(onAppReady);
 }
