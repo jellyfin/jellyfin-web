@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';

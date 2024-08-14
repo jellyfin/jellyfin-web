@@ -25,7 +25,7 @@ import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
 import { download } from 'scripts/fileDownloader';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { getPortraitShape, getSquareShape } from 'utils/card';

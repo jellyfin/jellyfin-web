@@ -9,7 +9,7 @@ import dom from '../scripts/dom';
 import focusManager from '../components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
 import '../styles/scrollstyles.scss';
-import globalize from '../scripts/globalize';
+import globalize from './globalize';
 
 /**
 * Return type of the value.

@@ -7,7 +7,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';

@@ -10,7 +10,7 @@ import escapeHtml from 'escape-html';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import imageHelper from 'utils/image';
 

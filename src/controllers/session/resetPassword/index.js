@@ -1,4 +1,4 @@
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import Dashboard from '../../../utils/dashboard';
 
 function processForgotPasswordResult(result) {

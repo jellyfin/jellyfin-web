@@ -8,7 +8,7 @@ import dom from '../../scripts/dom';
 import loading from '../../components/loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import template from './subtitleuploader.template.html';
 import toast from '../toast/toast';
 import '../../elements/emby-button/emby-button';

@@ -2,7 +2,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-select/emby-select';

@@ -4,7 +4,7 @@ import { IconButton } from '@mui/material';
 import QueueIcon from '@mui/icons-material/Queue';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface QueueButtonProps {
     item: BaseItemDto | undefined

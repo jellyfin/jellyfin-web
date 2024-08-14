@@ -1,12 +1,13 @@
 // import legacy browser polyfills
 import 'lib/legacy';
 
-import './styles/site.scss';
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+
+import './styles/site.scss';
 import Events from './utils/events.ts';
 import ServerConnections from './components/ServerConnections';
-import globalize from './scripts/globalize';
+import globalize from './lib/globalize';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
 import './scripts/mouseManager';
@@ -17,6 +18,7 @@ import { pluginManager } from './components/pluginManager';
 import packageManager from './components/packageManager';
 import './components/playback/displayMirrorManager.ts';
 import { appRouter } from './components/router/appRouter';
+import { loadCoreDictionary } from 'lib/globalize/loader';
 import './elements/emby-button/emby-button';
 import { initialize as initializeAutoCast } from 'scripts/autocast';
 import './scripts/autoThemes';
@@ -33,21 +35,6 @@ import { history } from 'RootAppRouter';
 import './styles/livetv.scss';
 import './styles/dashboard.scss';
 import './styles/detailtable.scss';
-
-function loadCoreDictionary() {
-    const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es_419', 'es-ar', 'es_do', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'lv', 'mr', 'ms', 'nb', 'nl', 'nn', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
-    const translations = languages.map(function (language) {
-        return {
-            lang: language,
-            path: language + '.json'
-        };
-    });
-    globalize.defaultModule('core');
-    return globalize.loadStrings({
-        name: 'core',
-        translations: translations
-    });
-}
 
 function init() {
     // Log current version to console to help out with issue triage and debugging

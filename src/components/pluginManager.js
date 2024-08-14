@@ -1,5 +1,5 @@
 import Events from '../utils/events.ts';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize/index.js';
 import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';

@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { PluginType } from 'types/plugin';
 
 import AppSyncPlayMenu, { ID } from './menus/SyncPlayMenu';

@@ -1,8 +1,8 @@
 import isEmpty from 'lodash-es/isEmpty';
 
-import { currentSettings as userSettings } from './settings/userSettings';
-import Events from '../utils/events.ts';
-import { updateLocale } from '../utils/dateFnsLocale.ts';
+import { currentSettings as userSettings } from 'scripts/settings/userSettings';
+import Events from 'utils/events';
+import { updateLocale } from 'utils/dateFnsLocale';
 
 const Direction = {
     rtl: 'rtl',
@@ -65,7 +65,7 @@ function setDocumentDirection(direction) {
     document.getElementsByTagName('body')[0].setAttribute('dir', direction);
     document.getElementsByTagName('html')[0].setAttribute('dir', direction);
     if (direction === Direction.rtl) {
-        import('../styles/rtl.scss');
+        import('../../styles/rtl.scss');
     }
 }
 
@@ -196,7 +196,7 @@ function loadTranslation(translations, lang) {
 
         const url = filtered[0].path;
 
-        import(/* webpackChunkName: "[request]" */ `../strings/${url}`).then((fileContent) => {
+        import(/* webpackChunkName: "[request]" */ `../../strings/${url}`).then((fileContent) => {
             resolve(fileContent);
         }).catch(() => {
             resolve({});

@@ -16,7 +16,7 @@ import Page from 'components/Page';
 import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';
 import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'scripts/datetime';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { toBoolean } from 'utils/string';
 
 import LogLevelChip from '../components/activityTable/LogLevelChip';
