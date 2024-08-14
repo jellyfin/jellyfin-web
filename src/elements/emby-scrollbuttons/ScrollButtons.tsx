@@ -1,5 +1,5 @@
 import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
-import scrollerFactory from '../../libraries/scroller';
+import scrollerFactory from 'lib/scroller';
 import globalize from '../../scripts/globalize';
 import IconButton from '../emby-button/IconButton';
 import './emby-scrollbuttons.scss';

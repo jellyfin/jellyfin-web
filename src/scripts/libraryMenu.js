@@ -667,7 +667,7 @@ function loadNavDrawer() {
     navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
     navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
     return new Promise(function (resolve) {
-        import('../libraries/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
+        import('../lib/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
             navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
             if (!layoutManager.tv) {

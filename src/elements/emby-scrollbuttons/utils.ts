@@ -1,4 +1,4 @@
-import ScrollerFactory from 'libraries/scroller';
+import ScrollerFactory from 'lib/scroller';
 import globalize from 'scripts/globalize';
 
 export enum ScrollDirection {
