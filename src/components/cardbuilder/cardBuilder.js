@@ -1140,7 +1140,7 @@ function getHoverMenuHtml(item, action) {
 
     html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
     const url = appRouter.getRouteUrl(item, {
-        serverId: item.ServerId ?? ServerConnections.currentApiClient().serverId()
+        serverId: item.ServerId || ServerConnections.currentApiClient().serverId()
     });
     html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
