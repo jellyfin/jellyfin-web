@@ -814,7 +814,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#childrenCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'Series') {
+    if (item.Type == 'Series' || item.Type == 'BoxSet') {
         renderSeriesSchedule(page, item);
         renderNextUp(page, item, user);
     } else {
