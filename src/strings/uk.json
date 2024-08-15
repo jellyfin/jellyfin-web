@@ -796,7 +796,7 @@
     "LabelHardwareAccelerationType": "Апаратне прискорення",
     "LabelH265Crf": "H.265 з кодуванням CRF",
     "LabelH264Crf": "H.264 з кодуванням CRF",
-    "LabelGroupMoviesIntoCollectionsHelp": "Фільми в колекції будуть відображатися як один згрупований елемент під час відображенні списків фільмів.",
+    "LabelGroupMoviesIntoCollectionsHelp": "Фільми в колекції будуть відображатися як один згрупований елемент під час відображення списків фільмів.",
     "LabelGroupMoviesIntoCollections": "Групувати фільми в колекції",
     "LabelFriendlyName": "Зрозуміле ім’я",
     "LabelFormat": "Формат",
@@ -1895,5 +1895,18 @@
     "Regional": "Регіональне",
     "AlternateDVD": "Альтернативний DVD",
     "SelectPreferredTranscodeVideoCodecHelp": "Виберіть бажаний відеокодек для перекодування. Якщо вибраний кодек не підтримується, сервер використає наступний найкращий доступний кодек.",
-    "LabelSelectPreferredTranscodeVideoCodec": "Бажаний відеокодек для перекодування"
+    "LabelSelectPreferredTranscodeVideoCodec": "Бажаний відеокодек для перекодування",
+    "LabelEnablePlugin": "Увімкнути плагін",
+    "LabelInstalled": "Встановлено",
+    "LabelNoChangelog": "Для цього випуску не надано журналу змін.",
+    "LabelNotInstalled": "Не встановлено",
+    "LabelRepository": "Репозиторій",
+    "PluginDisableError": "Виникла помилка під час відключення плагіна.",
+    "PluginEnableError": "Виникла помилка під час увімкнення плагіна.",
+    "PluginLoadConfigError": "Виникла помилка при отриманні сторінок конфігурації плагіна.",
+    "PluginLoadRepoError": "Виникла помилка при отриманні даних плагіна з репозиторію.",
+    "PluginUninstallError": "Виникла помилка під час видалення плагіна.",
+    "HeaderNextItem": "Наступний {0}",
+    "HeaderNextItemPlayingInValue": "Наступний {0} відтвориться через {1}",
+    "HeaderVideoAdvanced": "Розширене відео"
 }

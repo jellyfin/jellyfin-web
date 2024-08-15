@@ -984,7 +984,7 @@
     "SeriesYearToPresent": "{0}-Heute",
     "ServerNameIsRestarting": "Jellyfin-Server auf {0} startet neu.",
     "ServerNameIsShuttingDown": "Der Server auf {0} fährt herunter.",
-    "ServerRestartNeededAfterPluginInstall": "Jellyfin muss nach der Installation eines Plugins neu gestartet werden.",
+    "ServerRestartNeededAfterPluginInstall": "Jellyfin muss nach der Installation des Plugins neu gestartet werden.",
     "ServerUpdateNeeded": "Dieser Server muss aktualisiert werden. Um die neueste Version herunterzuladen, besuche bitte {0}",
     "Settings": "Einstellungen",
     "SettingsSaved": "Einstellungen gespeichert.",
@@ -1899,5 +1899,17 @@
     "AlternateDVD": "Alternative DVD",
     "Regional": "Regional",
     "LabelSelectPreferredTranscodeVideoCodec": "Bevorzugter transkodierter Videocodec",
-    "SelectPreferredTranscodeVideoCodecHelp": "Wähle den bevorzugten Videocodec für die Transkodierung aus. Wenn der bevorzugte Codec nicht unterstützt wird, verwendet der Server den nächstbesten verfügbaren Codec."
+    "SelectPreferredTranscodeVideoCodecHelp": "Wähle den bevorzugten Videocodec für die Transkodierung aus. Wenn der bevorzugte Codec nicht unterstützt wird, verwendet der Server den nächstbesten verfügbaren Codec.",
+    "HeaderNextItemPlayingInValue": "Nächster/s {0} wird in {1} abgespielt",
+    "HeaderNextItem": "Nächster/s {0}",
+    "LabelEnablePlugin": "Plugin aktivieren",
+    "LabelInstalled": "Installiert",
+    "LabelNoChangelog": "Zu dieser Version wurde kein Änderungsprotokoll zur Verfügung gestellt.",
+    "LabelNotInstalled": "Nicht installiert",
+    "LabelRepository": "Repository",
+    "PluginDisableError": "Bei der Deaktivierung des Plugins ist ein Fehler aufgetreten.",
+    "PluginEnableError": "Bei der Aktivierung des Plugins ist ein Fehler aufgetreten.",
+    "PluginLoadConfigError": "Beim Abrufen der Plugin-Konfigurationsseiten ist ein Fehler aufgetreten.",
+    "PluginLoadRepoError": "Beim Abrufen der Plugin-Details aus dessen Software-Depot ist ein Fehler aufgetreten.",
+    "PluginUninstallError": "Beim Deinstallieren des Plugins ist ein Fehler aufgetreten."
 }

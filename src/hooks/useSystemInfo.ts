@@ -23,7 +23,7 @@ export const getSystemInfoQuery = (
     api?: Api
 ) => queryOptions({
     queryKey: [ 'SystemInfo' ],
-    queryFn: ({ signal }) => fetchSystemInfo(api, { signal }),
+    queryFn: ({ signal }) => fetchSystemInfo(api, { signal, headers: { 'Cache-Control': 'no-cache' } }),
     // Allow for query reuse in legacy javascript.
     staleTime: 1000, // 1 second
     enabled: !!api

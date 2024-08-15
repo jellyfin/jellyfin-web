@@ -119,7 +119,8 @@ function onSearchBarType(searchBar) {
 
 function getPluginHtml(plugin, options, installedPlugins) {
     let html = '';
-    let href = plugin.externalUrl ? plugin.externalUrl : '#/dashboard/plugins/add?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+    let href = plugin.externalUrl ? plugin.externalUrl :
+        `#/dashboard/plugins/${plugin.guid}?name=${encodeURIComponent(plugin.name)}`;
 
     if (options.context) {
         href += '&context=' + options.context;
