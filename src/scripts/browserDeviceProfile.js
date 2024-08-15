@@ -720,10 +720,10 @@ export default function (options) {
             // mp3 is a special case because it is allowed in hls-fmp4 on the server-side
             // but not really supported in most browsers
             profile.DirectPlayProfiles.push({
-                 Container: 'ts',
-                 AudioCodec: 'mp3',
-                 Type: 'Audio'
-             });
+                Container: 'ts',
+                AudioCodec: 'mp3',
+                Type: 'Audio'
+            });
         }
 
         profile.DirectPlayProfiles.push({
