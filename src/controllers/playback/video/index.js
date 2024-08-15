@@ -260,7 +260,9 @@ export default function (view) {
 
         // Display the item with its premiere date if it has one
         let title = itemName;
-        if (item.PremiereDate) {
+        if (item.Type == 'Movie' && item.ProductionYear) {
+            title += ` (${datetime.toLocaleString(item.ProductionYear, { useGrouping: false })})`;
+        } else if (item.PremiereDate) {
             try {
                 const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                 title += ` (${year})`;
