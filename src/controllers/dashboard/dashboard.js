@@ -319,7 +319,7 @@ function renderActiveConnections(view, sessions) {
             html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
 
             let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
-            const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
+            const playIcon = session.PlayState.IsPaused ? 'play_arrow' : 'pause';
 
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><span class="material-icons stop" aria-hidden="true"></span></button>';
