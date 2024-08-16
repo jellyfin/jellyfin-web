@@ -10,7 +10,7 @@ import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';

@@ -33,7 +33,7 @@ import type { PluginDetails } from 'apps/dashboard/features/plugins/types/Plugin
 import ConfirmDialog from 'components/ConfirmDialog';
 import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getPluginUrl } from 'utils/dashboard';
 import { getUri } from 'utils/api';
 

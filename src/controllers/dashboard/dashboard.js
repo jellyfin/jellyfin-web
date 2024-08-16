@@ -5,7 +5,7 @@ import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../utils/dateFnsLocale.ts';
 import loading from '../../components/loading/loading';

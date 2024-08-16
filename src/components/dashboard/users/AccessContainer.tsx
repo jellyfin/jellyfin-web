@@ -1,5 +1,5 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import CheckBoxElement from '../../../elements/CheckBoxElement';
 
 interface AccessContainerProps {

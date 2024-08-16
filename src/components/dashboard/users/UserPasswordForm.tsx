@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
 import Dashboard from '../../../utils/dashboard';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';

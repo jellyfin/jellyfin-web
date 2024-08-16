@@ -3,7 +3,7 @@ import { Action } from 'history';
 
 import { appHost } from '../apphost';
 import { clearBackdrop, setBackdropTransparency } from '../backdrop/backdrop';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import itemHelper from '../itemHelper';
 import loading from '../loading/loading';

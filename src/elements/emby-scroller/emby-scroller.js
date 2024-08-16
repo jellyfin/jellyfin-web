@@ -1,4 +1,4 @@
-import ScrollerFactory from '../../libraries/scroller';
+import ScrollerFactory from 'lib/scroller';
 import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';

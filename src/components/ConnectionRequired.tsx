@@ -6,7 +6,7 @@ import alert from './alert';
 import { appRouter } from './router/appRouter';
 import Loading from './loading/LoadingComponent';
 import ServerConnections from './ServerConnections';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
 
 enum BounceRoutes {

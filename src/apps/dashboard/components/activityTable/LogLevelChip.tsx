@@ -2,7 +2,7 @@ import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import Chip from '@mui/material/Chip';
 import React from 'react';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 const LogLevelChip = ({ level }: { level: LogLevel }) => {
     let color: 'info' | 'warning' | 'error' | undefined;

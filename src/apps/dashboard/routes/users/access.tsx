@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import toast from '../../../../components/toast/toast';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import ButtonElement from '../../../../elements/ButtonElement';

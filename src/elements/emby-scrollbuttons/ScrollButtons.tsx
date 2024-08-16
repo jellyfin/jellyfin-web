@@ -1,6 +1,6 @@
 import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
-import scrollerFactory from '../../libraries/scroller';
-import globalize from '../../scripts/globalize';
+import scrollerFactory from 'lib/scroller';
+import globalize from 'lib/globalize';
 import IconButton from '../emby-button/IconButton';
 import './emby-scrollbuttons.scss';
 import { ScrollDirection, scrollerItemSlideIntoView } from './utils';

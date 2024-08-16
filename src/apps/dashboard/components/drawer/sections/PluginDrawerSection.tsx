@@ -8,7 +8,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React, { useEffect } from 'react';
 
 import ListItemLink from 'components/ListItemLink';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
 import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
 

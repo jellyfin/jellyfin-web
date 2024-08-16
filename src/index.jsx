@@ -1,67 +1,52 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import 'jquery';
-import 'fast-text-encoding';
-import 'intersection-observer';
-import 'classlist.js';
-import 'whatwg-fetch';
-import 'abortcontroller-polyfill'; // requires fetch
-import 'resize-observer-polyfill';
-import './styles/site.scss';
+// Import legacy browser polyfills
+import 'lib/legacy';
+
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import Events from './utils/events.ts';
+
+// NOTE: We need to import this first to initialize the connection
 import ServerConnections from './components/ServerConnections';
-import globalize from './scripts/globalize';
+
+import { appHost } from './components/apphost';
+import autoFocuser from './components/autoFocuser';
+import { pluginManager } from './components/pluginManager';
+import { appRouter } from './components/router/appRouter';
+import globalize from './lib/globalize';
+import { loadCoreDictionary } from 'lib/globalize/loader';
+import { initialize as initializeAutoCast } from 'scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
-import './scripts/mouseManager';
-import autoFocuser from './components/autoFocuser';
-import { appHost } from './components/apphost';
-import { getPlugins } from './scripts/settings/webSettings';
-import { pluginManager } from './components/pluginManager';
-import packageManager from './components/packageManager';
-import './components/playback/displayMirrorManager.ts';
-import { appRouter } from './components/router/appRouter';
-import './elements/emby-button/emby-button';
-import { initialize as initializeAutoCast } from 'scripts/autocast';
-import './scripts/autoThemes';
-import './components/themeMediaPlayer';
-import { pageClassOn, serverAddress } from './utils/dashboard';
-import './scripts/screensavermanager';
-import './scripts/serverNotifications';
-import './components/playback/playerSelectionMenu';
-import './legacy/domParserTextHtml';
-import './legacy/focusPreventScroll';
-import './legacy/htmlMediaElement';
-import './legacy/keyboardEvent';
-import './legacy/patchHeaders';
-import './legacy/vendorStyles';
 import { currentSettings } from './scripts/settings/userSettings';
+import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
-import RootApp from './RootApp.tsx';
+import { pageClassOn, serverAddress } from './utils/dashboard';
+import Events from './utils/events';
+
+import RootApp from './RootApp';
 import { history } from 'RootAppRouter';
 
+// Import the button webcomponent for use throughout the site
+// NOTE: This is a bit of a hack, files should ensure the component is imported before use
+import './elements/emby-button/emby-button';
+
+// Import auto-running components
+// NOTE: This is an anti-pattern
+import './components/playback/displayMirrorManager';
+import './components/playback/playerSelectionMenu';
+import './components/themeMediaPlayer';
+import './scripts/autoThemes';
+import './scripts/mouseManager';
+import './scripts/screensavermanager';
+import './scripts/serverNotifications';
+
+// Import site styles
+import './styles/site.scss';
 import './styles/livetv.scss';
 import './styles/dashboard.scss';
 import './styles/detailtable.scss';
+import './styles/librarybrowser.scss';
 
-function loadCoreDictionary() {
-    const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es_419', 'es-ar', 'es_do', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'lv', 'mr', 'ms', 'nb', 'nl', 'nn', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
-    const translations = languages.map(function (language) {
-        return {
-            lang: language,
-            path: language + '.json'
-        };
-    });
-    globalize.defaultModule('core');
-    return globalize.loadStrings({
-        name: 'core',
-        translations: translations
-    });
-}
-
-function init() {
+async function init() {
     // Log current version to console to help out with issue triage and debugging
     console.info(
         `[${__PACKAGE_JSON_NAME__}]
@@ -69,40 +54,66 @@ version: ${__PACKAGE_JSON_VERSION__}
 commit: ${__COMMIT_SHA__}
 build: ${__JF_BUILD_VERSION__}`);
 
-    // This is used in plugins
+    // Register globals used in plugins
     window.Events = Events;
     window.TaskButton = taskButton;
 
-    serverAddress().then(server => {
-        if (server) {
-            ServerConnections.initApiClient(server);
-        }
-    }).then(() => {
-        console.debug('initAfterDependencies promises resolved');
-
-        initializeAutoCast(ServerConnections.currentApiClient());
-
-        loadCoreDictionary().then(function () {
-            onGlobalizeInit();
-        });
-
-        keyboardNavigation.enable();
-        autoFocuser.enable();
-
-        Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
-        Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
+    // Register handlers to update header classes
+    pageClassOn('viewshow', 'standalonePage', function () {
+        document.querySelector('.skinHeader').classList.add('noHeaderRight');
     });
-}
+    pageClassOn('viewhide', 'standalonePage', function () {
+        document.querySelector('.skinHeader').classList.remove('noHeaderRight');
+    });
 
-function onGlobalizeInit() {
-    if (window.appMode === 'android'
-        && window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1
-    ) {
-        return onAppReady();
+    // Initialize the api client
+    const serverUrl = await serverAddress();
+    if (serverUrl) {
+        ServerConnections.initApiClient(serverUrl);
     }
 
+    // Initialize automatic (default) cast target
+    initializeAutoCast(ServerConnections.currentApiClient());
+
+    // Load the translation dictionary
+    await loadCoreDictionary();
+    // Update localization on user changes
+    Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
+    Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
+    // Localize the document title
     document.title = globalize.translateHtml(document.title, 'core');
 
+    // Load the font styles
+    loadFonts();
+
+    // Load iOS specific styles
+    if (browser.iOS) {
+        import('./styles/ios.scss');
+    }
+
+    // Load frontend plugins
+    await loadPlugins();
+
+    // Establish the websocket connection
+    Events.on(appHost, 'resume', () => {
+        ServerConnections.currentApiClient()?.ensureWebSocket();
+    });
+
+    // Render the app
+    await renderApp();
+
+    // Load platform specific features
+    loadPlatformFeatures();
+
+    // Load custom CSS styles
+    loadCustomCss();
+
+    // Enable navigation controls
+    keyboardNavigation.enable();
+    autoFocuser.enable();
+}
+
+function loadFonts() {
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
         import('./styles/fonts.sized.scss');
@@ -114,67 +125,38 @@ function onGlobalizeInit() {
         import('./styles/fonts.scss');
         import('./styles/fonts.noto.scss');
     }
-
-    import('./styles/librarybrowser.scss');
-
-    loadPlugins().then(onAppReady);
 }
 
-function loadPlugins() {
+async function loadPlugins() {
     console.groupCollapsed('loading installed plugins');
     console.dir(pluginManager);
-    return getPlugins().then(function (list) {
-        if (!appHost.supports('remotecontrol')) {
-            // Disable remote player plugins if not supported
-            list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
-                && !plugin.startsWith('chromecastPlayer'));
-        } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
-            // Disable chromecast player in unsupported browsers
-            list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
-        }
 
-        // add any native plugins
-        if (window.NativeShell) {
-            list = list.concat(window.NativeShell.getPlugins());
-        }
-
-        Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)))
-            .then(() => console.debug('finished loading plugins'))
-            .catch(e => console.warn('failed loading plugins', e))
-            .finally(() => {
-                console.groupEnd('loading installed plugins');
-                packageManager.init();
-            })
-        ;
-    });
-}
-
-async function onAppReady() {
-    console.debug('begin onAppReady');
-
-    console.debug('onAppReady: loading dependencies');
-
-    if (browser.iOS) {
-        import('./styles/ios.scss');
+    let list = await getPlugins();
+    if (!appHost.supports('remotecontrol')) {
+        // Disable remote player plugins if not supported
+        list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
+            && !plugin.startsWith('chromecastPlayer'));
+    } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
+        // Disable chromecast player in unsupported browsers
+        list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
     }
 
-    Events.on(appHost, 'resume', () => {
-        ServerConnections.currentApiClient()?.ensureWebSocket();
-    });
+    // add any native plugins
+    if (window.NativeShell) {
+        list = list.concat(window.NativeShell.getPlugins());
+    }
 
-    const container = document.getElementById('reactRoot');
-    // Remove the splash logo
-    container.innerHTML = '';
+    try {
+        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        console.debug('finished loading plugins');
+    } catch (e) {
+        console.warn('failed loading plugins', e);
+    }
 
-    await appRouter.start();
+    console.groupEnd('loading installed plugins');
+}
 
-    const root = createRoot(container);
-    root.render(
-        <StrictMode>
-            <RootApp history={history} />
-        </StrictMode>
-    );
-
+function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
         import('./components/nowPlayingBar/nowPlayingBar');
     }
@@ -201,7 +183,9 @@ async function onAppReady() {
             import('./components/notifications/notifications');
         }
     }
+}
 
+function loadCustomCss() {
     // Apply custom CSS
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
@@ -261,12 +245,19 @@ function registerServiceWorker() {
     /* eslint-enable compat/compat */
 }
 
+async function renderApp() {
+    const container = document.getElementById('reactRoot');
+    // Remove the splash logo
+    container.innerHTML = '';
+
+    await appRouter.start();
+
+    const root = createRoot(container);
+    root.render(
+        <StrictMode>
+            <RootApp history={history} />
+        </StrictMode>
+    );
+}
+
 init();
-
-pageClassOn('viewshow', 'standalonePage', function () {
-    document.querySelector('.skinHeader').classList.add('noHeaderRight');
-});
-
-pageClassOn('viewhide', 'standalonePage', function () {
-    document.querySelector('.skinHeader').classList.remove('noHeaderRight');
-});

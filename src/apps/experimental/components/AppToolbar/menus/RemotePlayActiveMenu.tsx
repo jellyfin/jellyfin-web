@@ -13,7 +13,7 @@ import React, { FC, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { enable, isEnabled } from 'scripts/autocast';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface RemotePlayActiveMenuProps extends MenuProps {
     onMenuClose: () => void

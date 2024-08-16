@@ -6,7 +6,7 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../../components/ServerConnections';
 import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
-import { translateHtml } from '../../scripts/globalize';
+import { translateHtml } from '../../lib/globalize';
 import browser from 'scripts/browser';
 import * as userSettings from '../../scripts/settings/userSettings';
 import TouchHelper from 'scripts/touchHelper';

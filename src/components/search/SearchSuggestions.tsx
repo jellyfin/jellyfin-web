@@ -2,7 +2,7 @@ import React, { type FC } from 'react';
 import { useSearchSuggestions } from 'hooks/searchHook';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import LinkButton from 'elements/emby-button/LinkButton';
 import '../../elements/emby-button/emby-button';
 

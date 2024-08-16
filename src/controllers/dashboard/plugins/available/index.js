@@ -1,7 +1,7 @@
 import escapeHTML from 'escape-html';
 
 import loading from '../../../../components/loading/loading';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import '../../../../components/cardbuilder/card.scss';
 import '../../../../elements/emby-button/emby-button';
 import '../../../../elements/emby-checkbox/emby-checkbox';

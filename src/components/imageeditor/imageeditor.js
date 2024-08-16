@@ -3,7 +3,7 @@ import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import scrollHelper from '../../scripts/scrollHelper';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';

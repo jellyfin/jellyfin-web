@@ -10,7 +10,7 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import itemHelper from 'components/itemHelper';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import datetime from 'scripts/datetime';
 
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';

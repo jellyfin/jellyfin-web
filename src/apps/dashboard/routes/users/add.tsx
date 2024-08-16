@@ -2,7 +2,7 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
