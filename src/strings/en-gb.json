@@ -1911,5 +1911,6 @@
     "PluginEnableError": "An error occurred while enabling the plugin.",
     "PluginLoadConfigError": "An error occurred while getting the plugin configuration pages.",
     "PluginLoadRepoError": "An error occurred while getting the plugin details from the repository.",
-    "PluginUninstallError": "An error occurred while uninstalling the plugin."
+    "PluginUninstallError": "An error occurred while uninstalling the plugin.",
+    "AndOtherArtists": "{0} and {1} other artists."
 }
