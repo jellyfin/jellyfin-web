@@ -1911,5 +1911,6 @@
     "PluginEnableError": "Wystąpił błąd podczas włączania wtyczki.",
     "PluginLoadConfigError": "Wystąpił błąd podczas pobierania stron konfiguracji wtyczki.",
     "PluginLoadRepoError": "Wystąpił błąd podczas pobierania szczegółów wtyczki z repozytorium.",
-    "PluginUninstallError": "Wystąpił błąd podczas odinstalowywania wtyczki."
+    "PluginUninstallError": "Wystąpił błąd podczas odinstalowywania wtyczki.",
+    "AndOtherArtists": "{0} i {1} innych wykonawców."
 }
