@@ -3,6 +3,7 @@ import './filterIndicator.scss';
 export function getFilterStatus(query) {
     return Boolean(
         query.Filters
+            || query.IsFavorite
             || query.VideoTypes
             || query.SeriesStatus
             || query.Is4K
@@ -25,18 +26,18 @@ export function getFilterStatus(query) {
 }
 
 export function setFilterStatus(page, hasFilters) {
-    const btnFilter = page.querySelector('.btnFilter');
+    const btnFilterWrapper = page.querySelector('.btnFilter-wrapper');
 
-    if (btnFilter) {
-        let indicatorElem = btnFilter.querySelector('.filterIndicator');
+    if (btnFilterWrapper) {
+        let indicatorElem = btnFilterWrapper.querySelector('.filterIndicator');
 
         if (!indicatorElem && hasFilters) {
-            btnFilter.insertAdjacentHTML(
-                'beforeend',
+            btnFilterWrapper.insertAdjacentHTML(
+                'afterbegin',
                 '<div class="filterIndicator">!</div>'
             );
-            btnFilter.classList.add('btnFilterWithIndicator');
-            indicatorElem = btnFilter.querySelector('.filterIndicator');
+            btnFilterWrapper.classList.add('btnFilterWithIndicator');
+            indicatorElem = btnFilterWrapper.querySelector('.filterIndicator');
         }
 
         if (indicatorElem) {
