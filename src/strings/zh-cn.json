@@ -1899,5 +1899,17 @@
     "AlternateDVD": "替换DVD",
     "Alternate": "替换",
     "LabelSelectPreferredTranscodeVideoCodec": "首选转码视频编解码器",
-    "SelectPreferredTranscodeVideoCodecHelp": "选择要转码到的首选视频编解码器。如果不支持首选编解码器，服务器将使用下一个最佳可用编解码器。"
+    "SelectPreferredTranscodeVideoCodecHelp": "选择要转码到的首选视频编解码器。如果不支持首选编解码器，服务器将使用下一个最佳可用编解码器。",
+    "HeaderNextItem": "下 {0} 页",
+    "LabelEnablePlugin": "启用插件",
+    "LabelInstalled": "已安装",
+    "LabelNoChangelog": "这个版本并没有更改日志。",
+    "LabelNotInstalled": "未安装",
+    "LabelRepository": "仓库",
+    "PluginDisableError": "在安装插件时发生错误。",
+    "PluginEnableError": "在启用插件的时候发生错误。",
+    "PluginLoadConfigError": "在获取插件配置页面的时候发生错误。",
+    "PluginLoadRepoError": "在从仓库获取插件详情的时候发生了错误。",
+    "PluginUninstallError": "在卸载插件的时候发生了错误。",
+    "HeaderNextItemPlayingInValue": "下一个 {0} 在 {1} 播放"
 }

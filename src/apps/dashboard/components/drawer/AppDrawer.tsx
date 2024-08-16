@@ -29,8 +29,8 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
         <ServerDrawerSection />
         <DevicesDrawerSection />
         <LiveTvDrawerSection />
-        <AdvancedDrawerSection />
         <PluginDrawerSection />
+        <AdvancedDrawerSection />
     </ResponsiveDrawer>
 );
 

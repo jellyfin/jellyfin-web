@@ -1892,5 +1892,12 @@
     "HeaderLyricDownloads": "Låttextnedladdningar",
     "AlternateDVD": "Växla DVD",
     "Regional": "Regional",
-    "Alternate": "Växla"
+    "Alternate": "Växla",
+    "LabelInstalled": "Installerad",
+    "LabelEnablePlugin": "Aktivera tillägg",
+    "LabelNoChangelog": "Ingen versionshistorik har tillhandahållits för denna version.",
+    "LabelNotInstalled": "Inte installerad",
+    "PluginDisableError": "Ett fel inträffade vid inaktivering av tillägget.",
+    "PluginUninstallError": "Ett fel inträffade vid avinstallationen av tillägget.",
+    "PluginEnableError": "Ett fel inträffade när tillägget aktiverades."
 }

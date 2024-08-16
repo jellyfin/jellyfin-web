@@ -386,17 +386,25 @@ function reloadUserDataButtons(page, item) {
 
 function getArtistLinksHtml(artists, serverId, context) {
     const html = [];
+    const numberOfArtists = artists.length;
 
-    for (const artist of artists) {
+    for (let i = 0; i < Math.min(numberOfArtists, 10); i++) {
+        const artist = artists[i];
         const href = appRouter.getRouteUrl(artist, {
-            context: context,
+            context,
             itemType: 'MusicArtist',
-            serverId: serverId
+            serverId
         });
         html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
     }
 
-    return html.join(' / ');
+    let fullHtml = html.join(' / ');
+
+    if (numberOfArtists > 10) {
+        fullHtml = globalize.translate('AndOtherArtists', fullHtml, numberOfArtists - 10);
+    }
+
+    return fullHtml;
 }
 
 /**
@@ -533,10 +541,9 @@ function reloadFromItem(instance, page, params, item, user) {
 
     // Start rendering the artwork first
     renderImage(page, item, apiClient);
-    // Save some screen real estate in TV mode
-    if (!layoutManager.tv) {
-        renderLogo(page, item, apiClient);
-    }
+
+    renderLogo(page, item, apiClient);
+
     // Render the mobile header backdrop
     if (layoutManager.mobile) {
         renderHeaderBackdrop(page, item, apiClient);
@@ -1458,11 +1465,17 @@ function renderChildren(page, item) {
         imageLoader.lazyChildren(childrenItemsContainer);
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
-                name: globalize.translate('HeaderVideos'),
-                mediaType: 'Video'
+                name: globalize.translate('Movies'),
+                type: 'Movie'
             }, {
                 name: globalize.translate('Series'),
                 type: 'Series'
+            }, {
+                name: globalize.translate('Episodes'),
+                type: 'Episode'
+            }, {
+                name: globalize.translate('HeaderVideos'),
+                mediaType: 'Video'
             }, {
                 name: globalize.translate('Albums'),
                 type: 'MusicAlbum'
@@ -1627,13 +1640,16 @@ function inferContext(item) {
 }
 
 function filterItemsByCollectionItemType(items, typeInfo) {
-    return items.filter(function (item) {
-        if (typeInfo.mediaType) {
-            return item.MediaType == typeInfo.mediaType;
+    const filteredItems = [];
+    const leftoverItems = [];
+    items.forEach(function(item) {
+        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
+            filteredItems.push(item);
+        } else {
+            leftoverItems.push(item);
         }
-
-        return item.Type == typeInfo.type;
     });
+    return [filteredItems, leftoverItems];
 }
 
 function canPlaySomeItemInCollection(items) {
@@ -1652,31 +1668,28 @@ function renderCollectionItems(page, parentItem, types, items) {
     page.querySelector('.collectionItems').classList.remove('hide');
     page.querySelector('.collectionItems').innerHTML = '';
 
-    for (const type of types) {
-        const typeItems = filterItemsByCollectionItemType(items, type);
-
-        if (typeItems.length) {
-            renderCollectionItemType(page, parentItem, type, typeItems);
-        }
-    }
-
-    const otherType = {
-        name: globalize.translate('HeaderOtherItems')
-    };
-    const otherTypeItems = items.filter(function (curr) {
-        return !types.filter(function (t) {
-            return filterItemsByCollectionItemType([curr], t).length > 0;
-        }).length;
-    });
-
-    if (otherTypeItems.length) {
-        renderCollectionItemType(page, parentItem, otherType, otherTypeItems);
-    }
-
     if (!items.length) {
         renderCollectionItemType(page, parentItem, {
             name: globalize.translate('Items')
         }, items);
+    } else {
+        let typeItems = [];
+        let otherTypeItems = items;
+
+        for (const type of types) {
+            [typeItems, otherTypeItems] = filterItemsByCollectionItemType(otherTypeItems, type);
+
+            if (typeItems.length) {
+                renderCollectionItemType(page, parentItem, type, typeItems);
+            }
+        }
+
+        if (otherTypeItems.length) {
+            const otherType = {
+                name: globalize.translate('HeaderOtherItems')
+            };
+            renderCollectionItemType(page, parentItem, otherType, otherTypeItems);
+        }
     }
 
     const containers = page.querySelectorAll('.collectionItemsContainer');

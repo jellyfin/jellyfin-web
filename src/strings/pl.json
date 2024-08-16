@@ -1899,5 +1899,18 @@
     "AlternateDVD": "Alternatywne DVD",
     "Regional": "Regionalne",
     "LabelSelectPreferredTranscodeVideoCodec": "Preferowany kodek wideo do transkodowania",
-    "SelectPreferredTranscodeVideoCodecHelp": "Wybierz preferowany kodek wideo do transkodowania. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje kolejnego najlepszego dostępnego kodeka."
+    "SelectPreferredTranscodeVideoCodecHelp": "Wybierz preferowany kodek wideo do transkodowania. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje kolejnego najlepszego dostępnego kodeka.",
+    "HeaderNextItem": "Następny {0}",
+    "HeaderNextItemPlayingInValue": "Następny {0}, odtwarzany za {1}",
+    "LabelEnablePlugin": "Włącz wtyczkę",
+    "LabelInstalled": "Zainstalowano",
+    "LabelNoChangelog": "Dla tej wersji nie podano dziennika zmian.",
+    "LabelNotInstalled": "Nie zainstalowano",
+    "LabelRepository": "Repozytorium",
+    "PluginDisableError": "Wystąpił błąd podczas wyłączania wtyczki.",
+    "PluginEnableError": "Wystąpił błąd podczas włączania wtyczki.",
+    "PluginLoadConfigError": "Wystąpił błąd podczas pobierania stron konfiguracji wtyczki.",
+    "PluginLoadRepoError": "Wystąpił błąd podczas pobierania szczegółów wtyczki z repozytorium.",
+    "PluginUninstallError": "Wystąpił błąd podczas odinstalowywania wtyczki.",
+    "AndOtherArtists": "{0} i {1} innych wykonawców."
 }

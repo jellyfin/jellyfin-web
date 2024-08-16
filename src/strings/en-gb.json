@@ -437,7 +437,7 @@
     "SettingsSaved": "Settings saved.",
     "Settings": "Settings",
     "ServerUpdateNeeded": "This server needs to be updated. To download the latest version, please visit {0}",
-    "ServerRestartNeededAfterPluginInstall": "Jellyfin will need to be restarted after installing a plugin.",
+    "ServerRestartNeededAfterPluginInstall": "Jellyfin will need to be restarted after installing the plugin.",
     "ServerNameIsShuttingDown": "The server at {0} is shutting down.",
     "SeriesYearToPresent": "{0} - Present",
     "SeriesSettings": "Programmes settings",
@@ -1899,5 +1899,17 @@
     "AlternateDVD": "Alternate DVD",
     "Regional": "Regional",
     "SelectPreferredTranscodeVideoCodecHelp": "Select the preferred video codec to transcode to. If the preferred codec is not supported, the server will use the next best available codec.",
-    "LabelSelectPreferredTranscodeVideoCodec": "Preferred transcode video codec"
+    "LabelSelectPreferredTranscodeVideoCodec": "Preferred transcode video codec",
+    "HeaderNextItem": "Next {0}",
+    "HeaderNextItemPlayingInValue": "Next {0} Playing in {1}",
+    "LabelEnablePlugin": "Enable plugin",
+    "LabelInstalled": "Installed",
+    "LabelNoChangelog": "No changelog provided for this release.",
+    "LabelNotInstalled": "Not installed",
+    "LabelRepository": "Repository",
+    "PluginDisableError": "An error occurred while disabling the plugin.",
+    "PluginEnableError": "An error occurred while enabling the plugin.",
+    "PluginLoadConfigError": "An error occurred while getting the plugin configuration pages.",
+    "PluginLoadRepoError": "An error occurred while getting the plugin details from the repository.",
+    "PluginUninstallError": "An error occurred while uninstalling the plugin."
 }

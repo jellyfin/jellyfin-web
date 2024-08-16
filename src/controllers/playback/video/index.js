@@ -260,7 +260,9 @@ export default function (view) {
 
         // Display the item with its premiere date if it has one
         let title = itemName;
-        if (item.PremiereDate) {
+        if (item.Type == 'Movie' && item.ProductionYear) {
+            title += ` (${datetime.toLocaleString(item.ProductionYear, { useGrouping: false })})`;
+        } else if (item.PremiereDate) {
             try {
                 const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                 title += ` (${year})`;
@@ -870,10 +872,10 @@ export default function (view) {
         buttonMuteIcon.classList.remove('volume_off', 'volume_up');
 
         if (isMuted) {
-            buttonMute.setAttribute('title', globalize.translate('Unmute') + ' (m)');
+            buttonMute.setAttribute('title', globalize.translate('Unmute') + ' (M)');
             buttonMuteIcon.classList.add('volume_off');
         } else {
-            buttonMute.setAttribute('title', globalize.translate('Mute') + ' (m)');
+            buttonMute.setAttribute('title', globalize.translate('Mute') + ' (M)');
             buttonMuteIcon.classList.add('volume_up');
         }
 
@@ -1384,11 +1386,13 @@ export default function (view) {
         let chapterThumbContainer = bubble.querySelector('.chapterThumbContainer');
         let chapterThumb;
         let chapterThumbText;
+        let chapterThumbName;
 
         // Create bubble elements if they don't already exist
         if (chapterThumbContainer) {
             chapterThumb = chapterThumbContainer.querySelector('.chapterThumbWrapper');
-            chapterThumbText = chapterThumbContainer.querySelector('.chapterThumbText');
+            chapterThumbText = chapterThumbContainer.querySelector('h2.chapterThumbText');
+            chapterThumbName = chapterThumbContainer.querySelector('div.chapterThumbText');
         } else {
             doFullUpdate = true;
 
@@ -1407,9 +1411,22 @@ export default function (view) {
             chapterThumbTextContainer.classList.add('chapterThumbTextContainer');
             chapterThumbContainer.appendChild(chapterThumbTextContainer);
 
+            chapterThumbName = document.createElement('div');
+            chapterThumbName.classList.add('chapterThumbText', 'chapterThumbText-dim');
+            chapterThumbTextContainer.appendChild(chapterThumbName);
+
             chapterThumbText = document.createElement('h2');
             chapterThumbText.classList.add('chapterThumbText');
             chapterThumbTextContainer.appendChild(chapterThumbText);
+        }
+
+        let chapter;
+        for (const currentChapter of item.Chapters || []) {
+            if (positionTicks < currentChapter.StartPositionTicks) {
+                break;
+            }
+
+            chapter = currentChapter;
         }
 
         // Update trickplay values
@@ -1435,6 +1452,7 @@ export default function (view) {
         chapterThumb.style.backgroundPositionY = offsetY + 'px';
 
         chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
+        chapterThumbName.textContent = chapter?.Name || '';
 
         // Set bubble innerHTML if container isn't part of DOM
         if (doFullUpdate) {
