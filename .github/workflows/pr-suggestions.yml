@@ -7,8 +7,6 @@ concurrency:
 on:
   pull_request_target:
     branches: [ master, release* ]
-    types:
-      - synchronize
 
 jobs:
   run-eslint:
@@ -22,7 +20,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup node environment
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: 20
           check-latest: true
@@ -33,6 +31,6 @@ jobs:
 
       - name: Run eslint
         if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-        uses: CatChen/eslint-suggestion-action@e54ff640f89e75196c0ba3a0f15cce37053d1d0b # v4.1.4
+        uses: CatChen/eslint-suggestion-action@bc82950fa97bb3e46d9cca16a8bf2ad3e3c010fc # v4.1.5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

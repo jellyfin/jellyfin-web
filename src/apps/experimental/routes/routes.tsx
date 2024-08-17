@@ -1,12 +1,13 @@
 import React from 'react';
-import { RouteObject, redirect } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
 import { REDIRECTS } from 'apps/dashboard/routes/_redirects';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
+import BangRedirect from 'components/router/BangRedirect';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 import { toRedirectRoute } from 'components/router/Redirect';
-import AppLayout from '../AppLayout';
+import ErrorBoundary from 'components/router/ErrorBoundary';
 
 import { ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
@@ -15,7 +16,7 @@ import VideoPage from './video';
 export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
     {
         path: '/*',
-        element: <AppLayout />,
+        lazy: () => import('../AppLayout'),
         children: [
             {
                 /* User routes: Any child route of this layout is authenticated */
@@ -29,13 +30,19 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
                         path: 'video',
                         element: <VideoPage />
                     }
-                ]
+                ],
+                ErrorBoundary
             },
 
             /* Public routes */
-            { index: true, loader: () => redirect('/home.html') },
+            { index: true, element: <Navigate replace to='/home.html' /> },
             ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
         ]
+    },
+
+    {
+        path: '!/*',
+        Component: BangRedirect
     },
 
     /* Redirects for old paths */

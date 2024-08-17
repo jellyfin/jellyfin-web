@@ -1893,5 +1893,7 @@
     "HeaderVideoAdvanced": "Video Avanzado",
     "SaveLyricsIntoMediaFolders": "Guardar letras en carpeta de media",
     "Alternate": "Alternar",
-    "AlternateDVD": "DVD alternativo"
+    "AlternateDVD": "DVD alternativo",
+    "HeaderNextItem": "Siguiente {0}",
+    "HeaderNextItemPlayingInValue": "Siguiente {0} Reproduciendo en {1}"
 }

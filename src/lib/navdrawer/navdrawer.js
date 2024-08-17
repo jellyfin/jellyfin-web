@@ -7,7 +7,7 @@ import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './navdrawer.scss';
 import '../../styles/scrollstyles.scss';
-import globalize from '../../scripts/globalize';
+import globalize from '../globalize';
 
 function getTouches(e) {
     return e.changedTouches || e.targetTouches || e.touches;

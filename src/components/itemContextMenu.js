@@ -1,7 +1,7 @@
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
 import dom from '../scripts/dom';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';

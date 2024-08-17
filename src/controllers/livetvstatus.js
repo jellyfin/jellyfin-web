@@ -1,5 +1,5 @@
 import 'jquery';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import taskButton from '../scripts/taskbutton';
 import dom from '../scripts/dom';
 import layoutManager from '../components/layoutManager';

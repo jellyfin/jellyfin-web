@@ -3,7 +3,7 @@ import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
 import React, { type FC, useCallback, useEffect, useRef } from 'react';
 
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import Page from '../../../../components/Page';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import ButtonElement from '../../../../elements/ButtonElement';
@@ -142,6 +142,7 @@ const PlaybackTrickplay: FC = () => {
         <Page
             id='trickplayConfigurationPage'
             className='mainAnimatedPage type-interior playbackConfigurationPage'
+            title={globalize.translate('Trickplay')}
         >
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>

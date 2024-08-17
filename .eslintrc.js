@@ -79,6 +79,7 @@ module.exports = {
         'operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
         'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
+        'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
         '@typescript-eslint/prefer-for-of': ['error'],
         '@typescript-eslint/prefer-optional-chain': ['error'],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
@@ -263,6 +264,7 @@ module.exports = {
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly',
                 // Build time definitions
+                __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',
                 __PACKAGE_JSON_NAME__: 'readonly',
                 __PACKAGE_JSON_VERSION__: 'readonly',

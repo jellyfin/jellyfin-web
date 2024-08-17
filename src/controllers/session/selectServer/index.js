@@ -5,7 +5,7 @@ import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import appSettings from '../../../scripts/settings/appSettings';
 import focusManager from '../../../components/focusManager';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
 import dom from '../../../scripts/dom';
 import browser from '../../../scripts/browser';

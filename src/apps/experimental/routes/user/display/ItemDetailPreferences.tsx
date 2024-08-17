@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { DisplaySettingsValues } from './types';
 
 interface ItemDetailPreferencesProps {

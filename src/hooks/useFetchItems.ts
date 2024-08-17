@@ -21,7 +21,7 @@ import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
@@ -381,6 +381,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Playlists,
                 LibraryTab.Songs,
                 LibraryTab.Books,
+                LibraryTab.PhotoAlbums,
                 LibraryTab.Photos,
                 LibraryTab.Videos,
                 LibraryTab.Channels,
@@ -758,8 +759,8 @@ const fetchGetSectionItems = async (
                             imageTypeLimit: 1,
                             enableImageTypes: [
                                 ImageType.Primary,
-                                ImageType.Backdrop,
-                                ImageType.Thumb
+                                ImageType.Thumb,
+                                ImageType.Backdrop
                             ],
                             enableTotalRecordCount: false,
                             ...section.parametersOptions
@@ -782,7 +783,11 @@ const fetchGetSectionItems = async (
                                 ItemFields.MediaSourceCount
                             ],
                             imageTypeLimit: 1,
-                            enableImageTypes: [ImageType.Thumb],
+                            enableImageTypes: [
+                                ImageType.Primary,
+                                ImageType.Thumb,
+                                ImageType.Backdrop
+                            ],
                             enableTotalRecordCount: false,
                             ...section.parametersOptions
                         },

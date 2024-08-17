@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';

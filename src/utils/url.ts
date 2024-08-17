@@ -5,13 +5,19 @@
  * @returns The url search string.
  */
 export const getLocationSearch = () => {
+    // Check location.hash for a search string (this should be the case for our routing library)
+    let index = window.location.hash.indexOf('?');
+    if (index !== -1) {
+        return window.location.hash.substring(index);
+    }
+
     // Return location.search if it exists
     if (window.location.search) {
         return window.location.search;
     }
 
-    // Check the entire url in case the search string is in the hash
-    const index = window.location.href.indexOf('?');
+    // Fallback to checking the entire url
+    index = window.location.href.indexOf('?');
     if (index !== -1) {
         return window.location.href.substring(index);
     }

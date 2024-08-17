@@ -1858,5 +1858,7 @@
     "LabelProcessPriorityHelp": "Setarea acestei valori mai mici sau mai mari va determina modul în care CPU acordă prioritate procesului de generare a trucurilor ffmpeg trickplay în raport cu alte procese. Dacă observați o încetinire în timpul generării imaginilor trickplay, dar nu doriți să opriți complet generarea acestora, încercați să reduceți acest lucru, precum și numărul de fire de execuție.",
     "LabelWidthResolutionsHelp": "Listă separată prin virgulă a lățimilor (px) la care vor fi generate imaginile trickplay. Toate imaginile ar trebui să fie generate proporțional cu sursa, astfel încât o lățime de 320 pe un videoclip 16:9 se va ajunge la aproximativ 320x180.",
     "LabelServerVersion": "Versiunea serverului",
-    "EnableSmoothScroll": "Activați defilarea lină"
+    "EnableSmoothScroll": "Activați defilarea lină",
+    "Alternate": "Alternativ",
+    "AlternateDVD": "DVD Alternativ"
 }

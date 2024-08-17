@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     branches: [ master, release* ]
-  pull_request:
+  pull_request_target:
     branches: [ master, release* ]
   workflow_dispatch:
 
@@ -19,9 +19,11 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup node environment
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: 20
           check-latest: true
@@ -41,8 +43,87 @@ jobs:
           mv dist/config.tmp.json dist/config.json
 
       - name: Upload artifact
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
         with:
           name: jellyfin-web__prod
-          path: |
-            dist
+          path: dist
+
+  publish:
+    name: Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+    needs:
+      - run-build-prod
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Add comment
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        if: ${{ github.event_name == 'pull_request_target' }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | 🔄 Deploying... |
+            | **Preview URL**   | Not available |
+            | **Type**          | 🔀 Preview |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
+
+      - name: Download workflow artifact
+        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+        with:
+          name: jellyfin-web__prod
+          path: dist
+
+      - name: Publish to Cloudflare
+        id: cf
+        uses: cloudflare/wrangler-action@f84a562284fc78278ff9052435d9526f9c718361 # v3.7.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=jellyfin-web --branch=${{
+                  (github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository)
+                  && (github.event.pull_request.head.ref || github.ref_name)
+                  || format('{0}/{1}', github.event.pull_request.head.repo.full_name, github.event.pull_request.head.ref)
+                }} --commit-hash=${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Update status comment (Success)
+        if: ${{ github.event_name == 'pull_request_target' && success() }}
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | ✅ Deployed! |
+            | **Preview URL**   | ${{ steps.cf.outputs.deployment-url != '' && steps.cf.outputs.deployment-url || 'Not available' }} |
+            | **Type**          | 🔀 Preview |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate
+
+      - name: Update status comment (Failure)
+        if: ${{ github.event_name == 'pull_request_target' && failure() }}
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+          message: |
+            ## Cloudflare Pages deployment
+
+            | **Latest commit** | <code>${{ github.event.pull_request.head.sha || github.sha }}</code> |
+            |-------------------|:-:|
+            | **Status**        | ❌ Failure. Check workflow logs for details |
+            | **Preview URL**   | Not available |
+            | **Type**          | 🔀 Preview |
+          pr_number: ${{ github.event.pull_request.number }}
+          comment_tag: CFPages-deployment
+          mode: recreate

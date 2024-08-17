@@ -1,4 +1,4 @@
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import loading from '../components/loading/loading';
 import dom from '../scripts/dom';
 import '../elements/emby-input/emby-input';

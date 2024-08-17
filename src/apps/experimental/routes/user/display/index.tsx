@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import React, { useCallback } from 'react';
 
 import Page from 'components/Page';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { DisplayPreferences } from './DisplayPreferences';
 import { ItemDetailPreferences } from './ItemDetailPreferences';
 import { LibraryPreferences } from './LibraryPreferences';

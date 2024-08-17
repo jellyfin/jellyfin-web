@@ -89,6 +89,9 @@
 - [Pithaya](https://github.com/Pithaya)
 - [Peter Santos](https://github.com/prsantos-com)
 - [Chaitanya Shahare](https://github.com/Chaitanya-Shahare)
+- [Venkat Karasani](https://github.com/venkat-karasani)
+- [Connor Smith](https://github.com/ConnorS1110)
+- [iFraan](https://github.com/iFraan)
 
 ## Emby Contributors
 

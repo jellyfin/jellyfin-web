@@ -20,7 +20,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
 import { useSyncPlayGroups } from 'hooks/useSyncPlayGroups';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { PluginType } from 'types/plugin';
 import Events, { Event } from 'utils/events';
 

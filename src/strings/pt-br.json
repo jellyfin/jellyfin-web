@@ -1885,5 +1885,14 @@
     "PlaylistPublic": "Permitir acesso público",
     "PlaylistPublicDescription": "Permitir que essa lista de reprodução seja visualizada por qualquer usuário conectado.",
     "SavePassword": "Salvar senha",
-    "Translator": "Tradutor"
+    "Translator": "Tradutor",
+    "LabelTileWidthHelp": "Número máximo de imagens por bloco na direção X.",
+    "LabelTileWidth": "Largura do bloco",
+    "LabelTileHeight": "Altura do bloco",
+    "Letterer": "Letterer",
+    "Regional": "Regional",
+    "LabelTileHeightHelp": "Número máximo de imagens por bloco na direção Y.",
+    "Penciller": "Lápis",
+    "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir."
 }

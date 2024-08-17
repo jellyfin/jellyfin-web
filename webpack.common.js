@@ -23,6 +23,15 @@ const LibarchiveWasm = [
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
+let COMMIT_SHA = '';
+try {
+    COMMIT_SHA = require('child_process')
+        .execSync('git describe --always --dirty')
+        .toString()
+        .trim();
+} catch (err) {
+    console.warn('Failed to get commit sha. Is git installed?', err);
+}
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 
@@ -47,14 +56,15 @@ const config = {
     },
     plugins: [
         new DefinePlugin({
+            __COMMIT_SHA__: JSON.stringify(COMMIT_SHA),
             __JF_BUILD_VERSION__: JSON.stringify(
                 process.env.WEBPACK_SERVE ?
                     'Dev Server' :
                     process.env.JELLYFIN_VERSION || 'Release'),
             __PACKAGE_JSON_NAME__: JSON.stringify(packageJson.name),
             __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version),
-            __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
-            __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
+            __USE_SYSTEM_FONTS__: !!JSON.parse(process.env.USE_SYSTEM_FONTS || '0'),
+            __WEBPACK_SERVE__: !!JSON.parse(process.env.WEBPACK_SERVE || '0')
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({

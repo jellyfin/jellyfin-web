@@ -4,7 +4,7 @@ import libraryBrowser from '../../scripts/libraryBrowser';
 import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import { playbackManager } from '../../components/playback/playbackmanager';
 
@@ -321,4 +321,3 @@ export default function (view, params, tabContent, options) {
         itemsContainer = null;
     };
 }
-

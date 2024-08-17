@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
 import Dashboard from '../../../utils/dashboard';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
@@ -9,7 +9,7 @@ import ButtonElement from '../../../elements/ButtonElement';
 import InputElement from '../../../elements/InputElement';
 
 type IProps = {
-    userId: string;
+    userId: string | null;
 };
 
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
@@ -19,7 +19,12 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[UserPasswordForm] Unexpected null page reference');
+            return;
+        }
+
+        if (!userId) {
+            console.error('[UserPasswordForm] missing user id');
             return;
         }
 
@@ -33,7 +38,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         LibraryMenu.setTitle(user.Name);
 
         if (user.HasConfiguredPassword) {
-            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+            if (!user.Policy?.IsAdministrator) {
+                (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+            }
             (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
         } else {
             (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
@@ -58,7 +65,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[UserPasswordForm] Unexpected null page reference');
             return;
         }
 
@@ -79,6 +86,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         };
 
         const savePassword = () => {
+            if (!userId) {
+                console.error('[UserPasswordForm.savePassword] missing user id');
+                return;
+            }
+
             let currentPassword = (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value;
             const newPassword = (page.querySelector('#txtNewPassword') as HTMLInputElement).value;
 
@@ -105,6 +117,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         };
 
         const resetPassword = () => {
+            if (!userId) {
+                console.error('[UserPasswordForm.resetPassword] missing user id');
+                return;
+            }
+
             const msg = globalize.translate('PasswordResetConfirmation');
             confirm(msg, globalize.translate('ResetPassword')).then(function () {
                 loading.show();

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import toast from 'components/toast/toast';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { DisplaySettingsValues } from '../types';
 import { useDisplaySettings } from './useDisplaySettings';
 

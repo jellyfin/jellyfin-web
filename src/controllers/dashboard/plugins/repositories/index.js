@@ -1,5 +1,5 @@
 import loading from '../../../../components/loading/loading';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
 import confirm from '../../../../components/confirm/confirm';
 
