@@ -124,13 +124,13 @@ class HtmlAudioPlayer {
                 }
 
                 if (normalizationGain) {
-                    self.gainNode.gain.value = Math.pow(10, normalizationGain / 20);
-                    self.normalizationGain = self.gainNode.gain.value;
+                    self.normalizationGain = Math.pow(10, normalizationGain / 20);
+                    self.gainNode.gain.value = browser.safari ? elem.volume * self.normalizationGain : self.normalizationGain;
                 } else {
-                    self.gainNode.gain.value = 1;
+                    self.gainNode.gain.value = browser.safari ? elem.volume : 1;
                     self.normalizationGain = 1;
                 }
-                console.debug('gain: ' + self.gainNode.gain.value);
+                console.debug('gain: ' + self.normalizationGain);
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
