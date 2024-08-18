@@ -125,10 +125,15 @@ class HtmlAudioPlayer {
 
                 if (normalizationGain) {
                     self.normalizationGain = Math.pow(10, normalizationGain / 20);
-                    self.gainNode.gain.value = browser.safari ? elem.volume * self.normalizationGain : self.normalizationGain;
+                    self.gainNode.gain.value = self.normalizationGain;
+
                 } else {
-                    self.gainNode.gain.value = browser.safari ? elem.volume : 1;
+                    self.gainNode.gain.value = 1;
                     self.normalizationGain = 1;
+                }
+                if (browser.safari) {
+                    // Gain value is absolute in Safari. Add volume from the slider
+                    self.gainNode.gain.value *= elem.volume;
                 }
                 console.debug('gain: ' + self.normalizationGain);
             }).catch((err) => {
