@@ -131,9 +131,11 @@ export function resume(elem, options) {
     const elems = elem.querySelectorAll('.itemsContainer');
     const promises = [];
 
-    for (let i = 0, length = elems.length; i < length; i++) {
-        promises.push(elems[i].resume(options));
-    }
+    Array.prototype.forEach.call(elems, section => {
+        if (section.resume) {
+            promises.push(section.resume(options));
+        }
+    });
 
     return Promise.all(promises);
 }
