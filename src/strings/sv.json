@@ -1899,5 +1899,10 @@
     "LabelNotInstalled": "Inte installerad",
     "PluginDisableError": "Ett fel inträffade vid inaktivering av tillägget.",
     "PluginUninstallError": "Ett fel inträffade vid avinstallationen av tillägget.",
-    "PluginEnableError": "Ett fel inträffade när tillägget aktiverades."
+    "PluginEnableError": "Ett fel inträffade när tillägget aktiverades.",
+    "HeaderNextItem": "Nästa {0}",
+    "HeaderNextItemPlayingInValue": "Nästa {0} Spelar om {1}",
+    "LabelSelectPreferredTranscodeVideoCodec": "Föredragen omkodnings videokodek",
+    "LabelRepository": "Förvaringsplats",
+    "AndOtherArtists": "{0} och {1} andra artister."
 }
