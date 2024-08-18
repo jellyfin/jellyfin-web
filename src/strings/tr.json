@@ -1903,5 +1903,6 @@
     "HeaderNextItem": "Sonraki {0}",
     "SelectPreferredTranscodeVideoCodecHelp": "Kod dönüştürme için tercih edilen video codec bileşenini seçin. Tercih edilen codec bileşeni desteklenmiyorsa, sunucu bir sonraki mevcut en iyi codec bileşenini kullanacaktır.",
     "PluginLoadRepoError": "Depodan eklenti ayrıntıları alınırken bir hata oluştu.",
-    "PluginUninstallError": "Eklenti kaldırılırken bir hata oluştu."
+    "PluginUninstallError": "Eklenti kaldırılırken bir hata oluştu.",
+    "AndOtherArtists": "{0} ve {1} sanatçı daha."
 }
