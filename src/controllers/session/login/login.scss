@@ -24,3 +24,26 @@
         width: fit-content;
     }
 }
+
+.inputContainer {
+    position: relative;
+}
+
+.passwordToggle {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: calc(50% - 0.2em);
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.2em;
+    align-items: center;
+    justify-content: center;
+}
+
+.passwordToggle .material-icons {
+    font-size: 24px;
+    color: #666;
+}
