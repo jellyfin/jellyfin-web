@@ -126,7 +126,6 @@ class HtmlAudioPlayer {
                 if (normalizationGain) {
                     self.normalizationGain = Math.pow(10, normalizationGain / 20);
                     self.gainNode.gain.value = self.normalizationGain;
-
                 } else {
                     self.gainNode.gain.value = 1;
                     self.normalizationGain = 1;
