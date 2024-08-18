@@ -29,7 +29,8 @@ function downloadRemoteLyrics(context, id) {
     const api = toApi(ServerConnections.getApiClient(currentItem.ServerId));
     const lyricsApi = getLyricsApi(api);
     lyricsApi.downloadRemoteLyrics({
-        itemId: currentItem.Id, lyricId: id
+        itemId: currentItem.Id,
+        lyricId: id
     }).then(function () {
         hasChanges = true;
 
@@ -289,6 +290,8 @@ function onDeleteLyrics(e) {
         const context = dom.parentWithClass(e.target, 'formDialogContent');
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
         reload(context, apiClient, currentItem.Id);
+    }).catch(() => {
+        console.warn('Failed to delete lyrics for', currentItem.Name);
     });
 }
 
