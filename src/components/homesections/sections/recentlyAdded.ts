@@ -13,12 +13,15 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 
 import type { SectionContainerElement, SectionOptions } from './section';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client';
+import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 
 function getFetchLatestItemsFn(
     serverId: string,
     parentId: string | undefined,
     collectionType: string | null | undefined,
-    { enableOverflow }: SectionOptions
+    { enableOverflow }: SectionOptions,
+    user: UserDto
 ) {
     return function () {
         const apiClient = ServerConnections.getApiClient(serverId);
@@ -36,15 +39,42 @@ function getFetchLatestItemsFn(
             limit = 8;
         }
 
-        const options = {
-            Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,Path',
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Thumb',
-            ParentId: parentId
-        };
-
-        return apiClient.getLatestItems(options);
+        if (collectionType === CollectionType.Music) {
+            const options = {
+                Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,Path',
+                ImageTypeLimit: 1,
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
+                ParentId: parentId,
+                SortBy: ItemSortBy.DateCreated,
+                SortOrder: SortOrder.Descending,
+                Recursive: true,
+                IncludeItemTypes: 'MusicAlbum'
+            };
+            return apiClient.getItems(apiClient.getCurrentUserId(), options);
+        } else if (collectionType === CollectionType.Tvshows) {
+            const hidePlayed = user.Configuration?.HidePlayedInLatest ?? false;
+            const options = {
+                Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,Path',
+                ImageTypeLimit: 1,
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
+                ParentId: parentId,
+                SortBy: ItemSortBy.DateLastContentAdded,
+                SortOrder: SortOrder.Descending,
+                Filters: hidePlayed ? 'IsUnplayed' : undefined
+            };
+            return apiClient.getItems(apiClient.getCurrentUserId(), options);
+        } else {
+            const options = {
+                Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,Path',
+                ImageTypeLimit: 1,
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
+                ParentId: parentId
+            };
+            return apiClient.getLatestItems(options);
+        }
     };
 }
 
@@ -124,7 +154,7 @@ function renderLatestSection(
 
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType, options);
+    itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType, options, user);
     itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType, options);
     itemsContainer.parentContainer = elem;
 }
