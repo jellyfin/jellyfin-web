@@ -31,19 +31,20 @@
 
 .passwordToggle {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    top: calc(50% - 0.2em);
-    right: 10px;
+    width: 3em;
+    height: 3em;
+    top: 2.95em;
+    transform: translateY(-50%);
+    right: 0.1em;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.2em;
+    padding: 0.1em;
     align-items: center;
     justify-content: center;
 }
 
 .passwordToggle .material-icons {
-    font-size: 24px;
+    font-size: 1.8em;
     color: #666;
 }
