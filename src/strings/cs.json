@@ -1911,5 +1911,6 @@
     "PluginEnableError": "Při povolování zásuvného modulu došlo k chybě.",
     "PluginLoadConfigError": "Při získávání nastavení zásuvného modulu došlo k chybě.",
     "PluginLoadRepoError": "Při získávání podrobností zásuvného z repozitáře modulu došlo k chybě.",
-    "PluginUninstallError": "Při odinstalaci zásuvného modulu došlo k chybě."
+    "PluginUninstallError": "Při odinstalaci zásuvného modulu došlo k chybě.",
+    "AndOtherArtists": "{0} a {1} dalších umělců."
 }
