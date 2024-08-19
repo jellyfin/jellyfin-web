@@ -1911,5 +1911,6 @@
     "PluginEnableError": "Bei der Aktivierung des Plugins ist ein Fehler aufgetreten.",
     "PluginLoadConfigError": "Beim Abrufen der Plugin-Konfigurationsseiten ist ein Fehler aufgetreten.",
     "PluginLoadRepoError": "Beim Abrufen der Plugin-Details aus dessen Software-Depot ist ein Fehler aufgetreten.",
-    "PluginUninstallError": "Beim Deinstallieren des Plugins ist ein Fehler aufgetreten."
+    "PluginUninstallError": "Beim Deinstallieren des Plugins ist ein Fehler aufgetreten.",
+    "AndOtherArtists": "{0} und {1} andere Künstler."
 }
