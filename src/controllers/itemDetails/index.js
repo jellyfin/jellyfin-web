@@ -764,16 +764,29 @@ function setPeopleHeader(page, item) {
 function renderNextUp(page, item, user) {
     const section = page.querySelector('.nextUpSection');
 
-    if (item.Type != 'Series') {
+    if (item.Type != 'Series' && item.Type != 'BoxSet') {
         section.classList.add('hide');
         return;
     }
 
-    ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
-        SeriesId: item.Id,
-        UserId: user.Id,
-        Fields: 'MediaSourceCount'
-    }).then(function (result) {
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    let apiCall;
+
+    if (item.Type === 'Series') {
+        apiCall = apiClient.getNextUpEpisodes({
+            SeriesId: item.Id,
+            UserId: user.Id,
+            Fields: 'MediaSourceCount'
+        });
+    } else if (item.Type === 'BoxSet') {
+        apiCall = apiClient.getItems({
+            ParentId: item.Id,
+            UserId: user.Id,
+            Fields: 'MediaSourceCount'
+        });
+    }
+
+    apiCall.then(function (result) {
         if (result.Items.length) {
             section.classList.remove('hide');
         } else {
@@ -814,7 +827,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#childrenCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'Series') {
+    if (item.Type == 'Series' || item.Type == 'BoxSet') {
         renderSeriesSchedule(page, item);
         renderNextUp(page, item, user);
     } else {
