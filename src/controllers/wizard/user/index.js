@@ -76,8 +76,15 @@ function togglePassword() {
     const inputIds = ['txtManualPassword', 'txtPasswordConfirm'];
     inputIds.forEach(id => {
         const input = document.getElementById(id);
-        if (input) {
-            input.type = (input.type === 'password') ? 'text' : 'password';
+        input.type = (input.type === 'password') ? 'text' : 'password';
+    });
+    document.querySelectorAll('.passwordToggle .material-icons').forEach(icon => {
+        if (icon.classList.contains('visibility')) {
+            icon.classList.remove('visibility');
+            icon.classList.add('visibility_off');
+        } else {
+            icon.classList.remove('visibility_off');
+            icon.classList.add('visibility');
         }
     });
 }

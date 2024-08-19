@@ -182,11 +182,17 @@ function loadUserList(context, apiClient, users) {
 }
 
 function togglePassword() {
-    const input = document.getElementById('txtManualPassword');
+    const input = document.querySelector('.inputContainer #txtManualPassword');
+    const icon = document.querySelector('.inputContainer .passwordToggle .material-icons');
+
     if (input.type === 'password') {
         input.type = 'text';
+        icon.classList.remove('visibility');
+        icon.classList.add('visibility_off');
     } else {
         input.type = 'password';
+        icon.classList.remove('visibility_off');
+        icon.classList.add('visibility');
     }
 }
 
