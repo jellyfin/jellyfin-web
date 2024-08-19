@@ -33,7 +33,7 @@ function onEditLibrary() {
     const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
     // when the library has moved or symlinked, the ItemId is not correct anymore
     // this can lead to a forever spinning value on edit the library parameters
-    if (currentOptions.library.ItemId == undefined) {
+    if (!currentOptions.library.ItemId) {
         loading.hide();
         dialogHelper.close(dlg);
         alert({
