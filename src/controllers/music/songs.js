@@ -8,6 +8,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -53,6 +54,8 @@ export default function (view, params, tabContent) {
         loading.show();
         isLoading = true;
         const query = getQuery();
+        setFilterStatus(tabContent, query);
+
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
             function onNextPageClick() {
                 if (isLoading) {
