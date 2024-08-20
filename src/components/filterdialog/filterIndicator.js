@@ -1,6 +1,6 @@
 import './filterIndicator.scss';
 
-export function getFilterStatus(query) {
+function getFilterStatus(query) {
     return Boolean(
         query.Filters
             || query.IsFavorite
@@ -25,7 +25,9 @@ export function getFilterStatus(query) {
     );
 }
 
-export function setFilterStatus(page, hasFilters) {
+export function setFilterStatus(page, query) {
+    const hasFilters = getFilterStatus(query);
+
     const btnFilterWrapper = page.querySelector('.btnFilter-wrapper');
 
     if (btnFilterWrapper) {
