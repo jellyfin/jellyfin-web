@@ -291,7 +291,7 @@ function onDeleteLyrics(e) {
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
         reload(context, apiClient, currentItem.Id);
     }).catch(() => {
-        console.warn('Failed to delete lyrics for', currentItem.Name);
+        // delete dialog closed
     });
 }
 
