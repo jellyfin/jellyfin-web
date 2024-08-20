@@ -582,9 +582,7 @@ export default function (options) {
             hlsInTsVideoAudioCodecs.push('opus');
         }
         hlsInFmp4VideoAudioCodecs.push('opus');
-    }
-
-    if (safariSupportsOpus) {
+    } else if (safariSupportsOpus) {
         videoAudioCodecs.push('opus');
         webmAudioCodecs.push('opus');
         hlsInFmp4VideoAudioCodecs.push('opus');
