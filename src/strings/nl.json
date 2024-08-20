@@ -1911,5 +1911,15 @@
     "PluginLoadConfigError": "Er is een fout opgetreden bij het ophalen van de configuratiepagina's voor de plug-in.",
     "PluginLoadRepoError": "Er is een fout opgetreden bij het ophalen van de plug-indetails uit de repository.",
     "PluginUninstallError": "Er is een fout opgetreden bij het deïnstalleren van de plug-in.",
-    "AndOtherArtists": "{0} en {1} andere artiesten."
+    "AndOtherArtists": "{0} en {1} andere artiesten.",
+    "EditLyrics": "Liedtekst bewerken",
+    "HeaderAddLyrics": "Liedtekst toevoegen",
+    "HeaderPreviewLyrics": "Voorvertoning liedtekst",
+    "HeaderUploadLyrics": "Liedtekst uploaden",
+    "LabelDuration": "Duur",
+    "LabelDropLyricsHere": "Sleep hier een liedtekst naartoe, of klik om te bladeren.",
+    "LabelIsSynced": "Is gesynchroniseerd",
+    "NoLyricsSearchResultsFound": "Geen liedteksten gevonden.",
+    "PreviewLyrics": "Voorvertoning liedtekst",
+    "SearchForLyrics": "Zoeken naar liedteksten"
 }
