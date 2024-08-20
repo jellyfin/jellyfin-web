@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../scripts/globalize';
 import LibraryMenu from '../../../scripts/libraryMenu';
@@ -7,7 +8,6 @@ import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import ButtonElement from '../../../elements/ButtonElement';
 import InputElement from '../../../elements/InputElement';
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 
 type IProps = {
     userId: string | null;
