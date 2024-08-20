@@ -1,10 +1,38 @@
-import React, { type FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
+import classNames from 'classnames';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import useTextLines from './useTextLines';
-import TextWrapper from './TextWrapper';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { TextLine, TextLineOpts } from './types';
+
+interface TextWrapperProps {
+    isHeading?: boolean;
+    isLargeStyle?: boolean;
+    className?: string;
+}
+
+const TextWrapper: FC<PropsWithChildren<TextWrapperProps>> = ({
+    isHeading,
+    isLargeStyle,
+    className,
+    children
+}) => {
+    if (isHeading) {
+        return (
+            <Typography className={classNames('primary', className)} variant={isLargeStyle ? 'h1' : 'h3'}>
+                {children}
+            </Typography>
+        );
+    } else {
+        return (
+            <Box className={classNames('secondary', className )}>
+                {children}
+            </Box>
+        );
+    }
+};
 
 interface TextLinesProps {
     item: ItemDto;
@@ -27,11 +55,11 @@ const TextLines: FC<TextLinesProps> = ({
         return (
             <TextWrapper
                 key={index}
-                index={index}
+                isHeading={index === 0}
                 isLargeStyle={isLargeStyle}
                 className={textClassName}
             >
-                {text.title}
+                <bdi>{text.title}</bdi>
             </TextWrapper>
         );
     };
