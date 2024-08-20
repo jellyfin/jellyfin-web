@@ -7,7 +7,7 @@ import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import ButtonElement from '../../../elements/ButtonElement';
 import InputElement from '../../../elements/InputElement';
-import { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 
 type IProps = {
     userId: string | null;
