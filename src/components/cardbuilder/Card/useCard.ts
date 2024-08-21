@@ -104,6 +104,7 @@ function useCard({ item, cardOptions }: UseCardProps) {
     });
 
     const getCardBoxProps = () => ({
+        action,
         item,
         cardOptions,
         className: cardBoxClass,
