@@ -23,3 +23,12 @@ export interface SecondaryInfoOpts {
     showChannelInfo?: boolean;
     channelInteractive?: boolean;
 }
+
+export interface MediaInfoStatsOpts {
+    showVideoTypeInfo?: boolean;
+    showResolutionInfo?: boolean;
+    showVideoStreamCodecInfo?: boolean;
+    showAudoChannelInfo?: boolean;
+    showAudioStreamCodecInfo?: boolean;
+    showDateAddedInfo?: boolean;
+}

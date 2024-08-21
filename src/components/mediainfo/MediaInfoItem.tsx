@@ -11,7 +11,7 @@ interface MediaInfoItemProps {
 }
 
 const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
-    const { text, textAction, cssClass } = miscInfo;
+    const { text, textAction, cssClass, type } = miscInfo;
 
     const renderText = () => {
         if (textAction) {
@@ -31,7 +31,7 @@ const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
     };
 
     return (
-        <Box className={classNames('mediaInfoItem', cssClass, className)}>
+        <Box className={classNames('mediaInfoItem', cssClass, type, className)}>
             {renderText()}
         </Box>
     );

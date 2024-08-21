@@ -5,6 +5,7 @@ interface TextAction {
 }
 export interface MiscInfo {
     text?: string | number;
+    type?: string;
     textAction?: TextAction;
     cssClass?: string;
 }
