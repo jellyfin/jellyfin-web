@@ -11,6 +11,7 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardBoxProps {
+    action: string;
     item: ItemDto;
     cardOptions: CardOptions;
     className: string;
@@ -23,6 +24,7 @@ interface CardBoxProps {
 }
 
 const CardBox: FC<CardBoxProps> = ({
+    action,
     item,
     cardOptions,
     className,
@@ -57,6 +59,7 @@ const CardBox: FC<CardBoxProps> = ({
                 {layoutManager.desktop
                         && !cardOptions.disableHoverMenu && (
                     <CardHoverMenu
+                        action={action}
                         item={item}
                         cardOptions={cardOptions}
                     />
