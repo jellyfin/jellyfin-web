@@ -1921,5 +1921,6 @@
     "LabelIsSynced": "Is gesynchroniseerd",
     "NoLyricsSearchResultsFound": "Geen liedteksten gevonden.",
     "PreviewLyrics": "Voorvertoning liedtekst",
-    "SearchForLyrics": "Zoeken naar liedteksten"
+    "SearchForLyrics": "Zoeken naar liedteksten",
+    "PasswordMissingSaveError": "Nieuw wachtwoord kan niet leeg zijn."
 }
