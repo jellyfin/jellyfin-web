@@ -12,7 +12,6 @@ interface MediaInfoItemProps {
 const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
     const cssClass = classNames(
         'mediaInfoItem',
-        'mediaInfoText',
         className,
         miscInfo?.cssClass
     );

@@ -12,7 +12,6 @@ interface EndsAtProps {
 const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, className }) => {
     const cssClass = classNames(
         'mediaInfoItem',
-        'mediaInfoText',
         'endsAt',
         className
     );

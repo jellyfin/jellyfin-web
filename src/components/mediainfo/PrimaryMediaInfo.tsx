@@ -16,26 +16,34 @@ import type { PrimaryInfoOpts } from './type';
 
 interface PrimaryMediaInfoProps extends PrimaryInfoOpts {
     className?: string;
+    infoclass?: string;
     item: ItemDto;
     showStarRatingInfo?: boolean;
     showCaptionIndicatorInfo?: boolean;
     showCriticRatingInfo?: boolean;
     showEndsAtInfo?: boolean;
     showMissingIndicatorInfo?: boolean;
-    getMissingIndicator?: () => React.JSX.Element | null
+    getMissingIndicator?: () => React.JSX.Element | null;
 }
 
 const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     className,
+    infoclass,
     item,
     showYearInfo,
     showAudioContainerInfo,
     showEpisodeTitleInfo,
     showOriginalAirDateInfo,
+    showFolderRuntimeInfo,
     showRuntimeInfo,
+    showItemCountInfo,
+    showSeriesTimerInfo,
+    showStartDateInfo,
     showProgramIndicatorInfo,
     includeEpisodeTitleIndexNumber,
     showOfficialRatingInfo,
+    showVideo3DFormatInfo,
+    showPhotoSizeInfo,
     showStarRatingInfo = false,
     showCaptionIndicatorInfo = false,
     showCriticRatingInfo = false,
@@ -48,10 +56,16 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         showAudioContainerInfo,
         showEpisodeTitleInfo,
         showOriginalAirDateInfo,
+        showFolderRuntimeInfo,
         showRuntimeInfo,
+        showItemCountInfo,
+        showSeriesTimerInfo,
+        showStartDateInfo,
         showProgramIndicatorInfo,
         includeEpisodeTitleIndexNumber,
-        showOfficialRatingInfo
+        showOfficialRatingInfo,
+        showVideo3DFormatInfo,
+        showPhotoSizeInfo
     });
     const {
         StartDate,
@@ -64,8 +78,8 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
 
     const cssClass = classNames(className);
 
-    const renderMediaInfo = (info: MiscInfo | undefined, index: number) => (
-        <MediaInfoItem key={index} miscInfo={info} />
+    const renderMediaInfo = (info: MiscInfo, index: number) => (
+        <MediaInfoItem key={index} className={infoclass} miscInfo={info} />
     );
 
     return (
@@ -73,19 +87,29 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
             {miscInfo.map((info, index) => renderMediaInfo(info, index))}
 
             {showStarRatingInfo && CommunityRating && (
-                <StarIcons communityRating={CommunityRating} />
+                <StarIcons
+                    className={infoclass}
+                    communityRating={CommunityRating}
+                />
             )}
 
-            {showCaptionIndicatorInfo && HasSubtitles && <CaptionMediaInfo />}
+            {showCaptionIndicatorInfo && HasSubtitles && (
+                <CaptionMediaInfo className={infoclass} />
+            )}
 
             {showCriticRatingInfo && CriticRating && (
-                <CriticRatingMediaInfo criticRating={CriticRating} />
+                <CriticRatingMediaInfo
+                    className={infoclass}
+                    criticRating={CriticRating}
+                />
             )}
 
             {showEndsAtInfo
                 && MediaType === ItemMediaKind.Video
                 && RunTimeTicks
-                && !StartDate && <EndsAt runTimeTicks={RunTimeTicks} />}
+                && !StartDate && (
+                <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} />
+            )}
 
             {getMissingIndicator?.()}
         </Box>

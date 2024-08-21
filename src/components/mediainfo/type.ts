@@ -4,7 +4,13 @@ export interface PrimaryInfoOpts {
     showEpisodeTitleInfo?: boolean;
     includeEpisodeTitleIndexNumber?: boolean;
     showOriginalAirDateInfo?: boolean;
+    showFolderRuntimeInfo?: boolean;
     showRuntimeInfo?: boolean;
+    showItemCountInfo?: boolean;
+    showSeriesTimerInfo?: boolean;
+    showStartDateInfo?: boolean;
     showProgramIndicatorInfo?: boolean;
     showOfficialRatingInfo?: boolean;
+    showVideo3DFormatInfo?: boolean;
+    showPhotoSizeInfo?: boolean;
 }
