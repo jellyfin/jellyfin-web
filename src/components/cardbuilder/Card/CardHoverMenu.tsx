@@ -16,8 +16,8 @@ import type { CardOptions } from 'types/cardOptions';
 
 interface CardHoverMenuProps {
     action: string,
-	item: ItemDto;
-	cardOptions: CardOptions;
+    item: ItemDto;
+    cardOptions: CardOptions;
 }
 
 const CardHoverMenu: FC<CardHoverMenuProps> = ({
