@@ -194,13 +194,14 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
         }
 
-        if (this.value === '' || this.value === 'amf' || this.value === 'nvenc' || this.value === 'qsv' || this.value === 'vaapi' || this.value === 'rkmpp' || this.value === 'videotoolbox') {
+        const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
+        if (this.value === '' || isHwaSelected) {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
         }
 
-        if (this.value === 'amf' || this.value === 'nvenc' || this.value === 'qsv' || this.value === 'vaapi' || this.value === 'rkmpp' || this.value === 'videotoolbox') {
+        if (isHwaSelected) {
             page.querySelector('.tonemappingModeOptions').classList.remove('hide');
             page.querySelector('.AllowTonemappingHardwareHelp').classList.remove('hide');
             page.querySelector('.AllowTonemappingSoftwareHelp').classList.add('hide');
