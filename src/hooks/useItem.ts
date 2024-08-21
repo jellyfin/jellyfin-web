@@ -4,6 +4,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from './useApi';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 const fetchItem = async (
     api?: Api,
@@ -16,7 +17,7 @@ const fetchItem = async (
 
     const response = await getUserLibraryApi(api)
         .getItem({ userId, itemId }, options);
-    return response.data;
+    return response.data as ItemDto;
 };
 
 export const getItemQuery = (
