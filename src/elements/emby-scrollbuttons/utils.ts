@@ -2,18 +2,18 @@ import ScrollerFactory from 'lib/scroller';
 import globalize from 'lib/globalize';
 
 export enum ScrollDirection {
-  RIGHT = 'right',
-  LEFT = 'left',
+    RIGHT = 'right',
+    LEFT = 'left'
 }
 
 interface ScrollState {
-  scrollPos: number;
+    scrollPos: number;
 }
 
 interface ScrollerItemSlideIntoViewProps {
-  direction: ScrollDirection;
-  scroller: ScrollerFactory | null;
-  scrollState: ScrollState;
+    direction: ScrollDirection;
+    scroller: ScrollerFactory | null;
+    scrollState: ScrollState;
 }
 
 interface ScrollToWindowProps {

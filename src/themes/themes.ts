@@ -8,13 +8,13 @@ import purplehaze from './purplehaze';
 import wmc from './wmc';
 
 declare module '@mui/material/styles' {
-  interface Palette {
-    starIcon: Palette['primary'];
-  }
+    interface Palette {
+        starIcon: Palette['primary'];
+    }
 
-  interface PaletteOptions {
-    starIcon?: PaletteOptions['primary'];
-  }
+    interface PaletteOptions {
+        starIcon?: PaletteOptions['primary'];
+    }
 }
 
 const ALL_THEMES = {
