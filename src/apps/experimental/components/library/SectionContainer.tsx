@@ -1,4 +1,3 @@
-import type { BaseItemDto, TimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC } from 'react';
 
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
@@ -6,11 +5,12 @@ import Scroller from 'elements/emby-scroller/Scroller';
 import LinkButton from 'elements/emby-button/LinkButton';
 import Cards from 'components/cardbuilder/Card/Cards';
 import type { CardOptions } from 'types/cardOptions';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface SectionContainerProps {
     url?: string;
     sectionTitle: string;
-    items: BaseItemDto[] | TimerInfoDto[];
+    items: ItemDto[];
     cardOptions: CardOptions;
     reloadItems?: () => void;
 }
