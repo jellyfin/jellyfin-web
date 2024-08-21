@@ -14,3 +14,12 @@ export interface PrimaryInfoOpts {
     showVideo3DFormatInfo?: boolean;
     showPhotoSizeInfo?: boolean;
 }
+
+export interface SecondaryInfoOpts {
+    showProgramTimeInfo?: boolean;
+    showStartDateInfo?: boolean;
+    showEndDateInfo?: boolean;
+    showChannelNumberInfo?: boolean;
+    showChannelInfo?: boolean;
+    channelInteractive?: boolean;
+}
