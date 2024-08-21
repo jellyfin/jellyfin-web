@@ -15,8 +15,8 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardHoverMenuProps {
-	item: ItemDto;
-	cardOptions: CardOptions;
+    item: ItemDto;
+    cardOptions: CardOptions;
 }
 
 const CardHoverMenu: FC<CardHoverMenuProps> = ({

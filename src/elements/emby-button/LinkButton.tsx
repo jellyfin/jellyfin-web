@@ -8,11 +8,11 @@ import './emby-button.scss';
 
 interface LinkButtonProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>,
     HTMLAnchorElement
-  > {
-  className?: string;
-  isAutoHideEnabled?: boolean;
-  href?: string;
-  target?: string;
+> {
+    className?: string;
+    isAutoHideEnabled?: boolean;
+    href?: string;
+    target?: string;
 }
 
 const LinkButton: React.FC<LinkButtonProps> = ({

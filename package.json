@@ -11,6 +11,7 @@
     "@babel/plugin-transform-private-methods": "7.24.7",
     "@babel/preset-env": "7.24.8",
     "@babel/preset-react": "7.24.7",
+    "@stylistic/eslint-plugin": "2.6.4",
     "@types/dompurify": "3.0.5",
     "@types/escape-html": "1.0.4",
     "@types/loadable__component": "5.13.9",
