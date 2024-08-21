@@ -203,12 +203,12 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         if (isHwaSelected) {
             page.querySelector('.tonemappingModeOptions').classList.remove('hide');
-            page.querySelector('.AllowTonemappingHardwareHelp').classList.remove('hide');
-            page.querySelector('.AllowTonemappingSoftwareHelp').classList.add('hide');
+            page.querySelector('.allowTonemappingHardwareHelp').classList.remove('hide');
+            page.querySelector('.allowTonemappingSoftwareHelp').classList.add('hide');
         } else {
             page.querySelector('.tonemappingModeOptions').classList.add('hide');
-            page.querySelector('.AllowTonemappingHardwareHelp').classList.add('hide');
-            page.querySelector('.AllowTonemappingSoftwareHelp').classList.remove('hide');
+            page.querySelector('.allowTonemappingHardwareHelp').classList.add('hide');
+            page.querySelector('.allowTonemappingSoftwareHelp').classList.remove('hide');
         }
 
         if (this.value == 'qsv' || this.value == 'vaapi') {
