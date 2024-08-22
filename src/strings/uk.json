@@ -1909,5 +1909,16 @@
     "HeaderNextItem": "Наступний {0}",
     "HeaderNextItemPlayingInValue": "Наступний {0} відтвориться через {1}",
     "HeaderVideoAdvanced": "Розширене відео",
-    "AndOtherArtists": "{0} та ще {1} художників."
+    "AndOtherArtists": "{0} та ще {1} художників.",
+    "PasswordMissingSaveError": "Новий пароль не може бути порожнім.",
+    "EditLyrics": "Редагувати текст пісні",
+    "HeaderAddLyrics": "Додати текст пісні",
+    "HeaderPreviewLyrics": "Попередній перегляд тексту пісні",
+    "HeaderUploadLyrics": "Завантажити текст пісні",
+    "LabelDuration": "Тривалість",
+    "LabelDropLyricsHere": "Перетягніть текст пісні сюди або натисніть, щоб переглянути.",
+    "LabelIsSynced": "Синхронізовано",
+    "NoLyricsSearchResultsFound": "Текстів пісень не знайдено.",
+    "PreviewLyrics": "Попередній перегляд тексту пісні",
+    "SearchForLyrics": "Пошук текстів пісень"
 }
