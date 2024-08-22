@@ -1922,5 +1922,6 @@
     "LabelIsSynced": "Zsynchronizowane",
     "NoLyricsSearchResultsFound": "Nie znaleziono słów.",
     "PreviewLyrics": "Podgląd słów",
-    "SearchForLyrics": "Wyszukaj słowa"
+    "SearchForLyrics": "Wyszukaj słowa",
+    "PasswordMissingSaveError": "Nowe hasło nie może być puste."
 }
