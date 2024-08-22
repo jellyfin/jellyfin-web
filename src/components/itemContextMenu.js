@@ -659,7 +659,7 @@ function deleteItem(apiClient, item) {
         import('../scripts/deleteHelper').then((deleteHelper) => {
             deleteHelper.deleteItem({
                 item: item,
-                navigate: true
+                navigate: false
             }).then(function () {
                 resolve(true);
             }, reject);
