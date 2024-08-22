@@ -1922,5 +1922,6 @@
     "LabelIsSynced": "Je synchronizovaný",
     "NoLyricsSearchResultsFound": "Žádné texty k písni nenalezeny.",
     "PreviewLyrics": "Náhled textu k písni",
-    "SearchForLyrics": "Hledat texty k písni"
+    "SearchForLyrics": "Hledat texty k písni",
+    "PasswordMissingSaveError": "Nové heslo nesmí být prázdné."
 }
