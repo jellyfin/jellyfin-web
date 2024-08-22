@@ -201,16 +201,6 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.tonemappingOptions').classList.add('hide');
         }
 
-        // if (isHwaSelected) {
-        //     page.querySelector('.tonemappingModeOptions').classList.remove('hide');
-        //     page.querySelector('.allowTonemappingHardwareHelp').classList.remove('hide');
-        //     page.querySelector('.allowTonemappingSoftwareHelp').classList.add('hide');
-        // } else {
-        //     page.querySelector('.tonemappingModeOptions').classList.add('hide');
-        //     page.querySelector('.allowTonemappingHardwareHelp').classList.add('hide');
-        //     page.querySelector('.allowTonemappingSoftwareHelp').classList.remove('hide');
-        // }
-
         page.querySelector('.tonemappingModeOptions').classList.toggle('hide', !isHwaSelected);
         page.querySelector('.allowTonemappingHardwareHelp').classList.toggle('hide', !isHwaSelected);
         page.querySelector('.allowTonemappingSoftwareHelp').classList.toggle('hide', isHwaSelected);
