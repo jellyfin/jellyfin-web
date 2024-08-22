@@ -10,7 +10,7 @@ import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
 import { DisplaySettingsValues } from '../types';
 
 interface UseDisplaySettingsParams {
-  userId?: string | null;
+    userId?: string | null;
 }
 
 export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {

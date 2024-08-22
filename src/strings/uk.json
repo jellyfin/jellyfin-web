@@ -1908,5 +1908,6 @@
     "PluginUninstallError": "Виникла помилка під час видалення плагіна.",
     "HeaderNextItem": "Наступний {0}",
     "HeaderNextItemPlayingInValue": "Наступний {0} відтвориться через {1}",
-    "HeaderVideoAdvanced": "Розширене відео"
+    "HeaderVideoAdvanced": "Розширене відео",
+    "AndOtherArtists": "{0} та ще {1} художників."
 }

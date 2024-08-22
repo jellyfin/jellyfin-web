@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import actionsheet from '../actionSheet/actionSheet';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';

@@ -10,7 +10,7 @@ import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
 import Events from '../../../utils/events.ts';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
@@ -260,7 +260,9 @@ export default function (view) {
 
         // Display the item with its premiere date if it has one
         let title = itemName;
-        if (item.PremiereDate) {
+        if (item.Type == 'Movie' && item.ProductionYear) {
+            title += ` (${datetime.toLocaleString(item.ProductionYear, { useGrouping: false })})`;
+        } else if (item.PremiereDate) {
             try {
                 const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                 title += ` (${year})`;
@@ -1344,6 +1346,14 @@ export default function (view) {
                 break;
             case 'PageDown':
                 playbackManager.previousChapter(currentPlayer);
+                break;
+            case 'g':
+            case 'G':
+                subtitleSyncOverlay?.decrementOffset();
+                break;
+            case 'h':
+            case 'H':
+                subtitleSyncOverlay?.incrementOffset();
                 break;
         }
     }

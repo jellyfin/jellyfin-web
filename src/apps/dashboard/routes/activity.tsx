@@ -16,7 +16,7 @@ import Page from 'components/Page';
 import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';
 import { parseISO8601Date, toLocaleDateString, toLocaleTimeString } from 'scripts/datetime';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { toBoolean } from 'utils/string';
 
 import LogLevelChip from '../components/activityTable/LogLevelChip';
@@ -223,7 +223,14 @@ const Activity = () => {
             title={globalize.translate('HeaderActivity')}
             className='mainAnimatedPage type-interior'
         >
-            <div className='content-primary'>
+            <Box
+                className='content-primary'
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
+                }}
+            >
                 <Box
                     sx={{
                         display: 'flex',
@@ -262,11 +269,8 @@ const Activity = () => {
                     rowCount={rowCount}
                     getRowId={getRowId}
                     loading={isLoading}
-                    sx={{
-                        minHeight: 500
-                    }}
                 />
-            </div>
+            </Box>
         </Page>
     );
 };

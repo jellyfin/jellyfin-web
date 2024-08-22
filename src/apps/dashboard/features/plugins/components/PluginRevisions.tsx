@@ -10,7 +10,7 @@ import React, { type FC } from 'react';
 
 import MarkdownBox from 'components/MarkdownBox';
 import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import type { PluginDetails } from '../types/PluginDetails';
 import { VersionInfo } from '@jellyfin/sdk/lib/generated-client';

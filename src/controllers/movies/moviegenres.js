@@ -5,7 +5,7 @@ import layoutManager from 'components/layoutManager';
 import lazyLoader from 'components/lazyLoader/lazyLoaderIntersectionObserver';
 import loading from 'components/loading/loading';
 import { appRouter } from 'components/router/appRouter';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { getBackdropShape, getPortraitShape } from 'utils/card';
 

@@ -5,7 +5,7 @@ import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
 import TagList from '../../../../components/dashboard/users/TagList';

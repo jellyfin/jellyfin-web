@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { pluginManager } from 'components/pluginManager';
 import { Plugin, PluginType } from 'types/plugin';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 export function useScreensavers() {
     const screensavers = useMemo<Plugin[]>(() => {

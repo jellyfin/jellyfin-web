@@ -28,6 +28,16 @@ function canPlayNativeHls() {
             || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
 }
 
+export function enableHlsJsPlayerForCodecs(mediaSource, mediaType) {
+    // Workaround for VP9 HLS support on desktop Safari
+    // Force using HLS.js because desktop Safari's native HLS player does not play VP9 over HLS
+    // browser.osx will return true on iPad, cannot use
+    if (!browser.iOS && browser.safari && mediaSource.MediaStreams.some(x => x.Codec === 'vp9')) {
+        return true;
+    }
+    return enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType);
+}
+
 export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     if (window.MediaSource == null) {
         return false;
@@ -152,7 +162,7 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 }
 
 export function applySrc(elem, src, options) {
-    if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
+    if (window.Windows && options.mediaSource?.IsLocal) {
         return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
             const playlist = new Windows.Media.Playback.MediaPlaybackList();
 

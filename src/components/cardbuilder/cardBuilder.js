@@ -10,7 +10,7 @@ import escapeHtml from 'escape-html';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import imageHelper from 'utils/image';
 
@@ -277,16 +277,16 @@ export function getCardImageUrl(item, apiClient, options, shape) {
     let itemId = null;
 
     /* eslint-disable sonarjs/no-duplicated-branches */
-    if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
+    if (options.preferThumb && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
-    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
+    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags?.Banner) {
         imgType = 'Banner';
         imgTag = item.ImageTags.Banner;
-    } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
+    } else if (options.preferDisc && item.ImageTags?.Disc) {
         imgType = 'Disc';
         imgTag = item.ImageTags.Disc;
-    } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
+    } else if (options.preferLogo && item.ImageTags?.Logo) {
         imgType = 'Logo';
         imgTag = item.ImageTags.Logo;
     } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
@@ -301,11 +301,11 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Thumb';
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
-    } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
+    } else if (options.preferThumb && item.BackdropImageTags?.length) {
         imgType = 'Backdrop';
         imgTag = item.BackdropImageTags[0];
         forceName = true;
-    } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
+    } else if (options.preferThumb && item.ParentBackdropImageTags?.length && options.inheritThumb !== false && item.Type === 'Episode') {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
@@ -351,7 +351,7 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
+    } else if (item.Type === 'Season' && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
     } else if (item.BackdropImageTags?.length) {
@@ -571,7 +571,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
     if (showOtherText) {
         if (options.showParentTitle && parentTitleUnderneath) {
-            if (flags.isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
+            if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 item.AlbumArtists[0].Type = 'MusicArtist';
                 item.AlbumArtists[0].IsFolder = true;
                 lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));

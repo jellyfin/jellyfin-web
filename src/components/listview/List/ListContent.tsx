@@ -75,7 +75,7 @@ const ListContent: FC<ListContentProps> = ({
                 getMissingIndicator={indicator.getMissingIndicator}
             />
 
-            {listOptions.mediaInfo !== false && enableSideMediaInfo && (
+            {listOptions.showMediaInfo !== false && enableSideMediaInfo && (
                 <PrimaryMediaInfo
                     className='secondary listItemMediaInfo'
                     item={item}

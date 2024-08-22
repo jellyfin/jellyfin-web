@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 export enum AsyncRouteType {
     Stable,
     Experimental,
-    Dashboard,
+    Dashboard
 }
 
 export interface AsyncRoute {

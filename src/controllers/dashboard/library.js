@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 import 'jquery';
 import taskButton from '../../scripts/taskbutton';
 import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import imageHelper from '../../utils/image';
 import '../../components/cardbuilder/card.scss';

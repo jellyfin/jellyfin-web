@@ -2,7 +2,7 @@ import browser from '../../scripts/browser';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/emby-button';

@@ -1863,7 +1863,7 @@
     "LabelTrickplayAccelEncoding": "Włącz kodowanie MJPEG z akceleracją sprzętową",
     "ConfirmDeleteLyrics": "Usunięcie tych słów spowoduje ich usunięcie zarówno z systemu plików, jak i biblioteki multimediów. Czy na pewno chcesz kontynuować?",
     "HeaderNoLyrics": "Nie znaleziono słów",
-    "DeleteLyrics": "Usuń tekst",
+    "DeleteLyrics": "Usuń słowa",
     "ErrorDeletingLyrics": "Wystąpił błąd podczas usuwania słów z serwera. Sprawdź, czy Jellyfin ma uprawnienia do zapisu w folderze multimediów i spróbuj ponownie.",
     "HeaderDeleteLyrics": "Usuń słowa",
     "Lyrics": "Słowa",
@@ -1911,5 +1911,17 @@
     "PluginEnableError": "Wystąpił błąd podczas włączania wtyczki.",
     "PluginLoadConfigError": "Wystąpił błąd podczas pobierania stron konfiguracji wtyczki.",
     "PluginLoadRepoError": "Wystąpił błąd podczas pobierania szczegółów wtyczki z repozytorium.",
-    "PluginUninstallError": "Wystąpił błąd podczas odinstalowywania wtyczki."
+    "PluginUninstallError": "Wystąpił błąd podczas odinstalowywania wtyczki.",
+    "AndOtherArtists": "{0} i {1} innych wykonawców.",
+    "EditLyrics": "Edytuj słowa",
+    "HeaderAddLyrics": "Dodaj słowa",
+    "HeaderPreviewLyrics": "Podgląd słów",
+    "HeaderUploadLyrics": "Wyślij słowa",
+    "LabelDuration": "Długość",
+    "LabelDropLyricsHere": "Upuść słowa tutaj lub kliknij, aby przeglądać.",
+    "LabelIsSynced": "Zsynchronizowane",
+    "NoLyricsSearchResultsFound": "Nie znaleziono słów.",
+    "PreviewLyrics": "Podgląd słów",
+    "SearchForLyrics": "Wyszukaj słowa",
+    "PasswordMissingSaveError": "Nowe hasło nie może być puste."
 }

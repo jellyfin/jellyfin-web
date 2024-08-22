@@ -1,4 +1,4 @@
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import listView from '../components/listview/listview';
 import * as userSettings from '../scripts/settings/userSettings';
 import focusManager from '../components/focusManager';

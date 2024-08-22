@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 import { appHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';

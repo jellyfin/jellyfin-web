@@ -3,13 +3,13 @@
  * It is a legacy library that should be replaced at some point.
  */
 
-import browser from '../scripts/browser';
-import layoutManager from '../components/layoutManager';
-import dom from '../scripts/dom';
-import focusManager from '../components/focusManager';
+import browser from '../../scripts/browser';
+import layoutManager from '../../components/layoutManager';
+import dom from '../../scripts/dom';
+import focusManager from '../../components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
-import '../styles/scrollstyles.scss';
-import globalize from '../scripts/globalize';
+import '../../styles/scrollstyles.scss';
+import globalize from '../globalize';
 
 /**
 * Return type of the value.
@@ -293,7 +293,7 @@ const scrollerFactory = function (frame, options) {
             immediate = true;
         }
 
-        if (!immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
+        if (!immediate && o.skipSlideToWhenVisible && fullItemPos?.isVisible) {
             return;
         }
 

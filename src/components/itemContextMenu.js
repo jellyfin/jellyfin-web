@@ -1,7 +1,7 @@
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
 import dom from '../scripts/dom';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
@@ -201,14 +201,6 @@ export function getCommands(options) {
             id: 'delete',
             icon: 'delete'
         });
-
-        if (item.Type === 'Audio' && item.HasLyrics && window.location.href.includes(item.Id)) {
-            commands.push({
-                name: globalize.translate('DeleteLyrics'),
-                id: 'deleteLyrics',
-                icon: 'delete_sweep'
-            });
-        }
     }
 
     if (commands.length) {
@@ -240,6 +232,14 @@ export function getCommands(options) {
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',
             icon: 'closed_caption'
+        });
+    }
+
+    if (itemHelper.canEditLyrics(user, item)) {
+        commands.push({
+            name: globalize.translate('EditLyrics'),
+            id: 'editlyrics',
+            icon: 'lyrics'
         });
     }
 
@@ -316,7 +316,7 @@ export function getCommands(options) {
     }
     // Show Album Artist by default, as a song can have multiple artists, which specific one would this option refer to?
     // Although some albums can have multiple artists, it's not as common as songs.
-    if (options.openArtist !== false && item.AlbumArtists && item.AlbumArtists.length) {
+    if (options.openArtist !== false && item.AlbumArtists?.length) {
         commands.push({
             name: globalize.translate('ViewAlbumArtist'),
             id: 'artist',
@@ -441,6 +441,11 @@ function executeCommand(item, id, options) {
                     subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 });
                 break;
+            case 'editlyrics':
+                import('./lyricseditor/lyricseditor').then(({ default: lyricseditor }) => {
+                    lyricseditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                });
+                break;
             case 'edit':
                 editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 break;
@@ -513,9 +518,6 @@ function executeCommand(item, id, options) {
                 break;
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
-                break;
-            case 'deleteLyrics':
-                deleteLyrics(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 break;
             case 'share':
                 navigator.share({
@@ -609,7 +611,7 @@ function play(item, resume, queue, queueNext) {
     }
 
     let startPosition = 0;
-    if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {
+    if (resume && item.UserData?.PlaybackPositionTicks) {
         startPosition = item.UserData.PlaybackPositionTicks;
     }
 
@@ -664,12 +666,6 @@ function deleteItem(apiClient, item) {
                 resolve(true);
             }, reject);
         });
-    });
-}
-
-function deleteLyrics(apiClient, item) {
-    return import('../scripts/deleteHelper').then((deleteHelper) => {
-        return deleteHelper.deleteLyrics(item);
     });
 }
 

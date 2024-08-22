@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import ServerConnections from './ServerConnections';
 import viewManager from './viewManager/viewManager';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import type { RestoreViewFailResponse } from '../types/viewManager';
 
 interface ServerContentPageProps {

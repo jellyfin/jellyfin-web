@@ -1,7 +1,5 @@
 import type { AxiosRequestConfig } from 'axios';
 import type { ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client/models/timer-info-dto';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
@@ -21,14 +19,18 @@ import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
 import { getProgramSections, getSuggestionSections } from 'utils/sections';
+
 import type { LibraryViewSettings, ParentId } from 'types/library';
 import { type Section, type SectionType, SectionApiMethod } from 'types/sections';
 import { LibraryTab } from 'types/libraryTab';
+import { ItemKind } from 'types/base/models/item-kind';
+import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
@@ -46,7 +48,7 @@ const fetchGetItems = async (
                 signal: options?.signal
             }
         );
-        return response.data;
+        return response.data as ItemDtoQueryResult;
     }
 };
 
@@ -61,7 +63,8 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
         ],
         queryFn: ({ signal }) =>
             fetchGetItems(currentApi, parametersOptions, { signal }),
-        gcTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined
+        gcTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined,
+        enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };
 
@@ -95,8 +98,8 @@ export const useGetMovieRecommendations = (isMovieRecommendationEnabled: boolean
     const currentApi = useApi();
     return useQuery({
         queryKey: ['MovieRecommendations', isMovieRecommendationEnabled, parentId],
-        queryFn: ({ signal }) =>
-            isMovieRecommendationEnabled ? fetchGetMovieRecommendations(currentApi, parentId, { signal }) : []
+        queryFn: ({ signal }) => fetchGetMovieRecommendations(currentApi, parentId, { signal }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id && isMovieRecommendationEnabled
     });
 };
 
@@ -121,7 +124,7 @@ const fetchGetGenres = async (
                 signal: options?.signal
             }
         );
-        return response.data;
+        return response.data as ItemDtoQueryResult;
     }
 };
 
@@ -131,7 +134,7 @@ export const useGetGenres = (itemType: BaseItemKind[], parentId: ParentId) => {
         queryKey: ['Genres', parentId],
         queryFn: ({ signal }) =>
             fetchGetGenres(currentApi, itemType, parentId, { signal }),
-        enabled: !!parentId
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
 
@@ -170,7 +173,7 @@ export const useGetStudios = (parentId: ParentId, itemType: BaseItemKind[]) => {
         queryKey: ['Studios', parentId, itemType],
         queryFn: ({ signal }) =>
             fetchGetStudios(currentApi, parentId, itemType, { signal }),
-        enabled: !!parentId && !isLivetv
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
     });
 };
 
@@ -208,7 +211,7 @@ export const useGetQueryFiltersLegacy = (
             fetchGetQueryFiltersLegacy(currentApi, parentId, itemType, {
                 signal
             }),
-        enabled: !!parentId && !isLivetv
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
     });
 };
 
@@ -334,7 +337,7 @@ const fetchGetItemsViewByType = async (
                 break;
             }
         }
-        return response.data;
+        return response.data as ItemDtoQueryResult;
     }
 };
 
@@ -366,8 +369,8 @@ export const useGetItemsViewByType = (
             ),
         refetchOnWindowFocus: false,
         placeholderData : keepPreviousData,
-        enabled:
-            [
+        enabled: !!currentApi.api && !!currentApi.user?.Id
+            && [
                 LibraryTab.Movies,
                 LibraryTab.Favorites,
                 LibraryTab.Collections,
@@ -413,13 +416,13 @@ export const usePlaylistsMoveItemMutation = () => {
 
 type GroupsUpcomingEpisodes = {
     name: string;
-    items: BaseItemDto[];
+    items: ItemDto[];
 };
 
-function groupsUpcomingEpisodes(items: BaseItemDto[]) {
+function groupsUpcomingEpisodes(items: ItemDto[]) {
     const groups: GroupsUpcomingEpisodes[] = [];
     let currentGroupName = '';
-    let currentGroup: BaseItemDto[] = [];
+    let currentGroup: ItemDto[] = [];
 
     for (const item of items) {
         let dateText = '';
@@ -483,7 +486,7 @@ const fetchGetGroupsUpcomingEpisodes = async (
                 signal: options?.signal
             }
         );
-        const items = response.data.Items ?? [];
+        const items = (response.data.Items as ItemDto[]) || [];
 
         return groupsUpcomingEpisodes(items);
     }
@@ -495,7 +498,7 @@ export const useGetGroupsUpcomingEpisodes = (parentId: ParentId) => {
         queryKey: ['GroupsUpcomingEpisodes', parentId],
         queryFn: ({ signal }) =>
             fetchGetGroupsUpcomingEpisodes(currentApi, parentId, { signal }),
-        enabled: !!parentId
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
 
@@ -573,17 +576,17 @@ export const useTogglePlayedMutation = () => {
 
 export type GroupsTimers = {
     name: string;
-    timerInfo: TimerInfoDto[];
+    timerInfo: ItemDto[];
 };
 
-function groupsTimers(timers: TimerInfoDto[], indexByDate?: boolean) {
+function groupsTimers(timers: ItemDto[], indexByDate?: boolean) {
     const items = timers.map(function (t) {
-        t.Type = 'Timer';
+        t.Type = ItemKind.Timer;
         return t;
     });
     const groups: GroupsTimers[] = [];
     let currentGroupName = '';
-    let currentGroup: TimerInfoDto[] = [];
+    let currentGroup: ItemDto[] = [];
 
     for (const item of items) {
         let dateText = '';
@@ -642,7 +645,7 @@ const fetchGetTimers = async (
             }
         );
 
-        const timers = response.data.Items ?? [];
+        const timers = (response.data.Items as ItemDto[]) || [];
 
         return groupsTimers(timers, indexByDate);
     }
@@ -652,8 +655,8 @@ export const useGetTimers = (isUpcomingRecordingsEnabled: boolean, indexByDate?:
     const currentApi = useApi();
     return useQuery({
         queryKey: ['Timers', { isUpcomingRecordingsEnabled, indexByDate }],
-        queryFn: ({ signal }) =>
-            isUpcomingRecordingsEnabled ? fetchGetTimers(currentApi, indexByDate, { signal }) : []
+        queryFn: ({ signal }) => fetchGetTimers(currentApi, indexByDate, { signal }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id && isUpcomingRecordingsEnabled
     });
 };
 
@@ -838,13 +841,13 @@ const fetchGetSectionItems = async (
                 break;
             }
         }
-        return response;
+        return response as ItemDto[] || [] ;
     }
 };
 
 type SectionWithItems = {
     section: Section;
-    items: BaseItemDto[];
+    items: ItemDto[];
 };
 
 const getSectionsWithItems = async (
@@ -886,7 +889,7 @@ export const useGetSuggestionSectionsWithItems = (
         queryKey: ['SuggestionSectionWithItems', { suggestionSectionType }],
         queryFn: ({ signal }) =>
             getSectionsWithItems(currentApi, parentId, sections, suggestionSectionType, { signal }),
-        enabled: !!parentId
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
 
@@ -898,7 +901,7 @@ export const useGetProgramsSectionsWithItems = (
     const sections = getProgramSections();
     return useQuery({
         queryKey: ['ProgramSectionWithItems', { programSectionType }],
-        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal })
-
+        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };

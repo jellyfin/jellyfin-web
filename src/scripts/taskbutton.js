@@ -1,6 +1,6 @@
 
 import serverNotifications from '../scripts/serverNotifications';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import ServerConnections from '../components/ServerConnections';
 import Events from '../utils/events.ts';
 

@@ -2,7 +2,7 @@ import 'jquery';
 import loading from '../../../components/loading/loading';
 import datetime from '../../../scripts/datetime';
 import dom from '../../../scripts/dom';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';

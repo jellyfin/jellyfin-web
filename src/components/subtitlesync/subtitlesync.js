@@ -151,6 +151,21 @@ class SubtitleSync {
             subtitleSyncContainer.classList.add('hide');
         }
     }
+
+    update(offset) {
+        this.toggle();
+
+        const value = parseFloat(subtitleSyncSlider.value) + offset;
+        subtitleSyncSlider.updateOffset(value);
+    }
+
+    incrementOffset() {
+        this.update(+subtitleSyncSlider.step);
+    }
+
+    decrementOffset() {
+        this.update(-subtitleSyncSlider.step);
+    }
 }
 
 export default SubtitleSync;

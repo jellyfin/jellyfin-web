@@ -3,7 +3,7 @@ import { Action } from 'history';
 
 import { appHost } from '../apphost';
 import { clearBackdrop, setBackdropTransparency } from '../backdrop/backdrop';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
@@ -387,7 +387,7 @@ class AppRouter {
         if (firstResult) {
             if (firstResult.State === ConnectionState.ServerSignIn) {
                 const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
-                fetch(url).then(response => {
+                fetch(url, { cache: 'no-cache' }).then(response => {
                     if (!response.ok) return Promise.reject(new Error('fetch failed'));
                     return response.json();
                 }).then(data => {

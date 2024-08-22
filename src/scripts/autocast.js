@@ -1,14 +1,7 @@
 import { playbackManager } from '../components/playback/playbackmanager';
-import ServerConnections from '../components/ServerConnections';
 import Events from '../utils/events.ts';
 
-export function supported() {
-    return typeof(Storage) !== 'undefined';
-}
-
 export function enable(enabled) {
-    if (!supported()) return;
-
     if (enabled) {
         const currentPlayerInfo = playbackManager.getPlayerInfo();
 
@@ -21,8 +14,6 @@ export function enable(enabled) {
 }
 
 export function isEnabled() {
-    if (!supported()) return false;
-
     const playerId = localStorage.getItem('autocastPlayerId');
     const currentPlayerInfo = playbackManager.getPlayerInfo();
 
@@ -42,12 +33,10 @@ function onOpen() {
     });
 }
 
-try {
-    const apiClient = ServerConnections.currentApiClient();
-
-    if (apiClient && supported()) {
+export function initialize(apiClient) {
+    if (apiClient) {
         Events.on(apiClient, 'websocketopen', onOpen);
+    } else {
+        console.warn('[autoCast] cannot initialize missing apiClient');
     }
-} catch (ex) {
-    console.warn('Could not get current apiClient', ex);
 }

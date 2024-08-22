@@ -1,27 +1,25 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React from 'react';
 import itemHelper from '../../itemHelper';
 import datetime from 'scripts/datetime';
-import ListTextWrapper from './ListTextWrapper';
 import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import type { TextLine, TextLineOpts } from './types';
+import { ItemKind } from 'types/base/models/item-kind';
 
 function getParentTitle(
-    showParentTitle: boolean | undefined,
     item: ItemDto,
+    showParentTitle: boolean | undefined,
     parentTitleWithTitle: boolean | undefined,
     displayName: string | null | undefined
 ) {
-    let parentTitle = null;
+    let parentTitle;
     if (showParentTitle) {
-        if (item.Type === BaseItemKind.Episode) {
+        if (item.Type === ItemKind.Season || item.Type === ItemKind.Episode) {
             parentTitle = item.SeriesName;
         } else if (item.IsSeries || (item.EpisodeTitle && item.Name)) {
             parentTitle = item.Name;
         }
     }
     if (showParentTitle && parentTitleWithTitle) {
-        if (displayName) {
+        if (displayName && parentTitle) {
             parentTitle += ' - ';
         }
         parentTitle = (parentTitle ?? '') + displayName;
@@ -31,11 +29,13 @@ function getParentTitle(
 
 function getNameOrIndexWithName(
     item: ItemDto,
-    listOptions: ListOptions,
-    showIndexNumber: boolean | undefined
+    showIndexNumber?: boolean,
+    includeParentInfoInTitle?: boolean,
+    includeIndexNumber?: boolean
 ) {
     let displayName = itemHelper.getDisplayName(item, {
-        includeParentInfo: listOptions.includeParentInfoInTitle
+        includeParentInfo: includeParentInfoInTitle,
+        includeIndexNumber
     });
 
     if (showIndexNumber && item.IndexNumber != null) {
@@ -44,27 +44,31 @@ function getNameOrIndexWithName(
     return displayName;
 }
 
-interface UseListTextlinesProps {
+interface UseTextLinesProps {
     item: ItemDto;
-    listOptions?: ListOptions;
-    isLargeStyle?: boolean;
+    textLineOpts?: TextLineOpts;
 }
 
-function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseListTextlinesProps) {
+function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     const {
+        showTitle,
         showProgramDateTime,
         showProgramTime,
         showChannel,
         showParentTitle,
         showIndexNumber,
         parentTitleWithTitle,
-        artist
-    } = listOptions;
-    const textLines: string[] = [];
+        showArtist,
+        showCurrentProgram,
+        includeParentInfoInTitle,
+        includeIndexNumber
+    } = textLineOpts;
 
-    const addTextLine = (text: string | null) => {
-        if (text) {
-            textLines.push(text);
+    const textLines: TextLine[] = [];
+
+    const addTextLine = (textLine: TextLine) => {
+        if (textLine) {
+            textLines.push(textLine);
         }
     };
 
@@ -80,7 +84,7 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
                     minute: '2-digit'
                 }
             );
-            addTextLine(programDateTime);
+            addTextLine({ title: programDateTime });
         }
     };
 
@@ -89,50 +93,54 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
             const programTime = datetime.getDisplayTime(
                 datetime.parseISO8601Date(item.StartDate)
             );
-            addTextLine(programTime);
+            addTextLine({ title: programTime });
         }
     };
 
     const addChannelName = () => {
         if (showChannel && item.ChannelName) {
-            addTextLine(item.ChannelName);
+            addTextLine({ title: item.ChannelName });
         }
     };
 
-    const displayName = getNameOrIndexWithName(item, listOptions, showIndexNumber);
+    const displayName = getNameOrIndexWithName(item, showIndexNumber, includeParentInfoInTitle, includeIndexNumber);
 
-    const parentTitle = getParentTitle(showParentTitle, item, parentTitleWithTitle, displayName );
+    const parentTitle = getParentTitle(item, showParentTitle, parentTitleWithTitle, displayName );
 
     const addParentTitle = () => {
-        addTextLine(parentTitle ?? '');
+        if (parentTitle) {
+            addTextLine({ title: parentTitle });
+        }
     };
 
     const addDisplayName = () => {
-        if (displayName && !parentTitleWithTitle) {
-            addTextLine(displayName);
+        if (displayName && !parentTitleWithTitle && showTitle !== false) {
+            addTextLine({ title: displayName });
         }
     };
 
     const addAlbumArtistOrArtists = () => {
-        if (item.IsFolder && artist !== false) {
-            if (item.AlbumArtist && item.Type === BaseItemKind.MusicAlbum) {
-                addTextLine(item.AlbumArtist);
+        if (item.IsFolder && showArtist !== false) {
+            if (item.AlbumArtist && item.Type === ItemKind.MusicAlbum) {
+                addTextLine({ title: item.AlbumArtist });
             }
-        } else if (artist) {
+        } else if (showArtist) {
             const artistItems = item.ArtistItems;
-            if (artistItems && item.Type !== BaseItemKind.MusicAlbum) {
+            if (artistItems && item.Type !== ItemKind.MusicAlbum) {
                 const artists = artistItems.map((a) => a.Name).join(', ');
-                addTextLine(artists);
+                addTextLine({ title: artists });
             }
         }
     };
 
     const addCurrentProgram = () => {
-        if (item.Type === BaseItemKind.TvChannel && item.CurrentProgram) {
-            const currentProgram = itemHelper.getDisplayName(
-                item.CurrentProgram
-            );
-            addTextLine(currentProgram);
+        if (item.Type === ItemKind.TvChannel && item.CurrentProgram && showCurrentProgram !== false) {
+            const currentProgram = itemHelper.getDisplayName(item.CurrentProgram, {
+                includeParentInfo: includeParentInfoInTitle,
+                includeIndexNumber
+            });
+
+            addTextLine({ title: currentProgram });
         }
     };
 
@@ -144,24 +152,9 @@ function useListTextlines({ item = {}, listOptions = {}, isLargeStyle }: UseList
     addAlbumArtistOrArtists();
     addCurrentProgram();
 
-    const renderTextlines = (text: string, index: number) => {
-        return (
-            <ListTextWrapper
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                index={index}
-                isLargeStyle={isLargeStyle}
-            >
-                <bdi>{text}</bdi>
-            </ListTextWrapper>
-        );
-    };
-
-    const listTextLines = textLines?.map((text, index) => renderTextlines(text, index));
-
     return {
-        listTextLines
+        textLines
     };
 }
 
-export default useListTextlines;
+export default useTextLines;

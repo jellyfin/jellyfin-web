@@ -7,7 +7,7 @@ import { queryClient } from 'utils/query/queryClient';
 
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import homeSections from '../homesections/homesections';

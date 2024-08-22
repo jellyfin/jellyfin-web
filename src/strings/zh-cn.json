@@ -1911,5 +1911,17 @@
     "PluginLoadConfigError": "在获取插件配置页面的时候发生错误。",
     "PluginLoadRepoError": "在从仓库获取插件详情的时候发生了错误。",
     "PluginUninstallError": "在卸载插件的时候发生了错误。",
-    "HeaderNextItemPlayingInValue": "下一个 {0} 在 {1} 播放"
+    "HeaderNextItemPlayingInValue": "下一个 {0} 在 {1} 播放",
+    "AndOtherArtists": "{0} 和 {1} 位其他艺术家。",
+    "PasswordMissingSaveError": "新密码不能为空。",
+    "PreviewLyrics": "预览歌词",
+    "EditLyrics": "编辑歌词",
+    "HeaderAddLyrics": "添加歌词",
+    "HeaderPreviewLyrics": "预览歌词",
+    "HeaderUploadLyrics": "上传歌词",
+    "LabelDuration": "期间",
+    "LabelDropLyricsHere": "将歌词拖放到此处，或单击进行浏览。",
+    "LabelIsSynced": "已同步",
+    "NoLyricsSearchResultsFound": "未找到歌词。",
+    "SearchForLyrics": "搜索歌词"
 }
