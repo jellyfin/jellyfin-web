@@ -28,7 +28,7 @@ export enum SectionApiMethod {
     RecommendedPrograms = 'RecommendedPrograms',
     LiveTvPrograms = 'liveTvPrograms',
     Recordings = 'Recordings',
-    RecordingFolders = 'RecordingFolders',
+    RecordingFolders = 'RecordingFolders'
 }
 
 export enum SectionType {

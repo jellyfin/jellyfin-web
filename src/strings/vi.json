@@ -1888,5 +1888,21 @@
     "PluginEnableError": "Đã xảy ra lỗi khi bật tính năng mở rộng.",
     "PluginLoadConfigError": "Đã xảy ra lỗi khi tải trang cấu hình tính năng mở rộng.",
     "PluginUninstallError": "Đã xảy ra lỗi khi gỡ cài đặt tính năng mở rộng.",
-    "SelectPreferredTranscodeVideoCodecHelp": "Chọn mã hóa video ưa thích để chuyển mã sang. Nếu bộ mã ưu tiên không được hỗ trợ, máy chủ sẽ sử dụng bộ mã hóa tốt nhất hiện có tiếp theo."
+    "SelectPreferredTranscodeVideoCodecHelp": "Chọn mã hóa video ưa thích để chuyển mã sang. Nếu bộ mã ưu tiên không được hỗ trợ, máy chủ sẽ sử dụng bộ mã hóa tốt nhất hiện có tiếp theo.",
+    "PasswordMissingSaveError": "Mật khẩu mới không được để trống.",
+    "Alternate": "Thay thế",
+    "AlternateDVD": "Thay thế DVD",
+    "OptionDateShowAdded": "Ngày Thêm Show",
+    "Regional": "Vùng",
+    "EditLyrics": "Sửa lời",
+    "HeaderAddLyrics": "Thêm lời",
+    "HeaderPreviewLyrics": "Xem thử lời",
+    "HeaderUploadLyrics": "Tải lời lên",
+    "LabelDuration": "Thời gian",
+    "LabelDropLyricsHere": "Thả lời vào đây hoặc bấm để duyệt.",
+    "LabelIsSynced": "Đã Đồng Bộ",
+    "NoLyricsSearchResultsFound": "Không tìm thấy lời.",
+    "PreviewLyrics": "Xem thử lời",
+    "SearchForLyrics": "Tìm lời",
+    "AndOtherArtists": "{0} và {1} nghệ sĩ khác."
 }

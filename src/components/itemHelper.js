@@ -186,6 +186,16 @@ export function canEditSubtitles (user, item) {
            || user.Policy.IsAdministrator;
 }
 
+export function canEditLyrics (user, item) {
+    if (item.MediaType !== MediaType.Audio) {
+        return false;
+    }
+    if (isLocalItem(item)) {
+        return false;
+    }
+    return user.Policy.IsAdministrator;
+}
+
 export function canShare (item, user) {
     if (item.Type === 'Program') {
         return false;
@@ -332,6 +342,7 @@ export default {
     canEdit: canEdit,
     canEditImages: canEditImages,
     canEditSubtitles,
+    canEditLyrics,
     canShare: canShare,
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,

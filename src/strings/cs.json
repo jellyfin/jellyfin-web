@@ -1912,5 +1912,16 @@
     "PluginLoadConfigError": "Při získávání nastavení zásuvného modulu došlo k chybě.",
     "PluginLoadRepoError": "Při získávání podrobností zásuvného z repozitáře modulu došlo k chybě.",
     "PluginUninstallError": "Při odinstalaci zásuvného modulu došlo k chybě.",
-    "AndOtherArtists": "{0} a {1} dalších umělců."
+    "AndOtherArtists": "{0} a {1} dalších umělců.",
+    "EditLyrics": "Upravit texty k písni",
+    "HeaderAddLyrics": "Přidat texty k písni",
+    "HeaderPreviewLyrics": "Náhled textu k písni",
+    "HeaderUploadLyrics": "Nahrát text k písni",
+    "LabelDuration": "Délka",
+    "LabelDropLyricsHere": "Přetáhněte texty zde nebo kliknutím vyberte soubor.",
+    "LabelIsSynced": "Je synchronizovaný",
+    "NoLyricsSearchResultsFound": "Žádné texty k písni nenalezeny.",
+    "PreviewLyrics": "Náhled textu k písni",
+    "SearchForLyrics": "Hledat texty k písni",
+    "PasswordMissingSaveError": "Nové heslo nesmí být prázdné."
 }

@@ -223,7 +223,14 @@ const Activity = () => {
             title={globalize.translate('HeaderActivity')}
             className='mainAnimatedPage type-interior'
         >
-            <div className='content-primary'>
+            <Box
+                className='content-primary'
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
+                }}
+            >
                 <Box
                     sx={{
                         display: 'flex',
@@ -262,11 +269,8 @@ const Activity = () => {
                     rowCount={rowCount}
                     getRowId={getRowId}
                     loading={isLoading}
-                    sx={{
-                        minHeight: 500
-                    }}
                 />
-            </div>
+            </Box>
         </Page>
     );
 };

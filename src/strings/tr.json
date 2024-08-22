@@ -1904,5 +1904,15 @@
     "SelectPreferredTranscodeVideoCodecHelp": "Kod dönüştürme için tercih edilen video codec bileşenini seçin. Tercih edilen codec bileşeni desteklenmiyorsa, sunucu bir sonraki mevcut en iyi codec bileşenini kullanacaktır.",
     "PluginLoadRepoError": "Depodan eklenti ayrıntıları alınırken bir hata oluştu.",
     "PluginUninstallError": "Eklenti kaldırılırken bir hata oluştu.",
-    "AndOtherArtists": "{0} ve {1} sanatçı daha."
+    "AndOtherArtists": "{0} ve {1} sanatçı daha.",
+    "EditLyrics": "Şarkı Sözlerini Düzenle",
+    "HeaderPreviewLyrics": "Şarkı Sözü Önizlemesi",
+    "HeaderAddLyrics": "Şarkı Sözü Ekle",
+    "HeaderUploadLyrics": "Şarkı Sözlerini Karşıya Yükle",
+    "LabelDuration": "Süre",
+    "LabelDropLyricsHere": "Şarkı sözlerini buraya bırakın veya göz atmak için tıklayın.",
+    "LabelIsSynced": "Senkronize",
+    "NoLyricsSearchResultsFound": "Şarkı sözü bulunamadı.",
+    "SearchForLyrics": "Şarkı Sözlerini Ara",
+    "PreviewLyrics": "Şarkı Sözlerini Önizle"
 }

@@ -1633,7 +1633,7 @@
     "ShowParentImages": "Show programme images",
     "NextUpRewatching": "Rewatching",
     "MixedMoviesShows": "Mixed Films and Programmes",
-    "AddToFavorites": "Add to Favourites",
+    "AddToFavorites": "Add to favourites",
     "CopyFailed": "Could not copy",
     "Copy": "Copy",
     "Copied": "Copied",
@@ -1912,5 +1912,16 @@
     "PluginLoadConfigError": "An error occurred while getting the plugin configuration pages.",
     "PluginLoadRepoError": "An error occurred while getting the plugin details from the repository.",
     "PluginUninstallError": "An error occurred while uninstalling the plugin.",
-    "AndOtherArtists": "{0} and {1} other artists."
+    "AndOtherArtists": "{0} and {1} other artists.",
+    "PasswordMissingSaveError": "New password cannot be empty.",
+    "EditLyrics": "Edit lyrics",
+    "HeaderAddLyrics": "Add Lyrics",
+    "HeaderPreviewLyrics": "Preview Lyrics",
+    "HeaderUploadLyrics": "Upload Lyrics",
+    "LabelDuration": "Duration",
+    "LabelDropLyricsHere": "Drop lyrics here, or click to browse.",
+    "LabelIsSynced": "Is Synced",
+    "NoLyricsSearchResultsFound": "No lyrics found.",
+    "PreviewLyrics": "Preview Lyrics",
+    "SearchForLyrics": "Search for Lyrics"
 }

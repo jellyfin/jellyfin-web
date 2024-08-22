@@ -201,14 +201,6 @@ export function getCommands(options) {
             id: 'delete',
             icon: 'delete'
         });
-
-        if (item.Type === 'Audio' && item.HasLyrics && window.location.href.includes(item.Id)) {
-            commands.push({
-                name: globalize.translate('DeleteLyrics'),
-                id: 'deleteLyrics',
-                icon: 'delete_sweep'
-            });
-        }
     }
 
     if (commands.length) {
@@ -240,6 +232,14 @@ export function getCommands(options) {
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',
             icon: 'closed_caption'
+        });
+    }
+
+    if (itemHelper.canEditLyrics(user, item)) {
+        commands.push({
+            name: globalize.translate('EditLyrics'),
+            id: 'editlyrics',
+            icon: 'lyrics'
         });
     }
 
@@ -441,6 +441,11 @@ function executeCommand(item, id, options) {
                     subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 });
                 break;
+            case 'editlyrics':
+                import('./lyricseditor/lyricseditor').then(({ default: lyricseditor }) => {
+                    lyricseditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                });
+                break;
             case 'edit':
                 editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 break;
@@ -513,9 +518,6 @@ function executeCommand(item, id, options) {
                 break;
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
-                break;
-            case 'deleteLyrics':
-                deleteLyrics(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 break;
             case 'share':
                 navigator.share({
@@ -664,12 +666,6 @@ function deleteItem(apiClient, item) {
                 resolve(true);
             }, reject);
         });
-    });
-}
-
-function deleteLyrics(apiClient, item) {
-    return import('../scripts/deleteHelper').then((deleteHelper) => {
-        return deleteHelper.deleteLyrics(item);
     });
 }
 

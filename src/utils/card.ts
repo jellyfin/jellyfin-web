@@ -13,7 +13,7 @@ export enum CardShape {
     Mixed = 'mixed',
     MixedSquare = 'mixedSquare',
     MixedBackdrop = 'mixedBackdrop',
-    MixedPortrait = 'mixedPortrait',
+    MixedPortrait = 'mixedPortrait'
 }
 
 export function getSquareShape(enableOverflow = true) {

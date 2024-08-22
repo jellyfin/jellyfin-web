@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../lib/globalize';
 import LibraryMenu from '../../../scripts/libraryMenu';
@@ -14,6 +15,7 @@ type IProps = {
 
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
+    const user = useRef<UserDto>();
 
     const loadUser = useCallback(async () => {
         const page = element.current;
@@ -28,17 +30,17 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             return;
         }
 
-        const user = await window.ApiClient.getUser(userId);
+        user.current = await window.ApiClient.getUser(userId);
         const loggedInUser = await Dashboard.getCurrentUser();
 
-        if (!user.Policy || !user.Configuration) {
+        if (!user.current.Policy || !user.current.Configuration) {
             throw new Error('Unexpected null user policy or configuration');
         }
 
-        LibraryMenu.setTitle(user.Name);
+        LibraryMenu.setTitle(user.current.Name);
 
-        if (user.HasConfiguredPassword) {
-            if (!user.Policy?.IsAdministrator) {
+        if (user.current.HasConfiguredPassword) {
+            if (!user.current.Policy?.IsAdministrator) {
                 (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
             }
             (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
@@ -47,7 +49,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
         }
 
-        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
+        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.current.Policy.EnableUserPreferenceAccess;
         (page.querySelector('.passwordSection') as HTMLDivElement).classList.toggle('hide', !canChangePassword);
 
         import('../../autoFocuser').then(({ default: autoFocuser }) => {
@@ -76,6 +78,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         const onSubmit = (e: Event) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
                 toast(globalize.translate('PasswordMatchError'));
+            } else if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value == '' && user.current?.Policy?.IsAdministrator) {
+                toast(globalize.translate('PasswordMissingSaveError'));
             } else {
                 loading.show();
                 savePassword();

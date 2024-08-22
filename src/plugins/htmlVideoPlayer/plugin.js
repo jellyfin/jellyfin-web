@@ -12,7 +12,7 @@ import {
     destroyFlvPlayer,
     destroyCastPlayer,
     getCrossOriginValue,
-    enableHlsJsPlayer,
+    enableHlsJsPlayerForCodecs,
     applySrc,
     resetSrc,
     playWithPromise,
@@ -515,7 +515,7 @@ export class HtmlVideoPlayer {
             elem.crossOrigin = crossOrigin;
         }
 
-        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
+        if (enableHlsJsPlayerForCodecs(options.mediaSource, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
         } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
