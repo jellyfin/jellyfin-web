@@ -86,7 +86,7 @@
     "@mui/icons-material": "5.15.19",
     "@mui/material": "5.15.19",
     "@mui/x-data-grid": "7.6.1",
-    "@react-hook/resize-observer": "2.0.1",
+    "@react-hook/resize-observer": "2.0.2",
     "@tanstack/react-query": "5.51.23",
     "@tanstack/react-query-devtools": "5.51.23",
     "@types/react-lazy-load-image-component": "1.6.4",
