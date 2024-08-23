@@ -15,8 +15,8 @@ import { useApi } from 'hooks/useApi';
 import { useThemes } from 'hooks/useThemes';
 import globalize from 'lib/globalize';
 
-import { DisplaySettingsValues } from './types';
-import { useScreensavers } from './hooks/useScreensavers';
+import { useScreensavers } from '../hooks/useScreensavers';
+import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface DisplayPreferencesProps {
     onChange: (event: SelectChangeEvent | React.SyntheticEvent) => void;

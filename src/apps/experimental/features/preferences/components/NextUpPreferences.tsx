@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import globalize from 'lib/globalize';
-import { DisplaySettingsValues } from './types';
+
+import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface NextUpPreferencesProps {
     onChange: (event: React.SyntheticEvent) => void;
