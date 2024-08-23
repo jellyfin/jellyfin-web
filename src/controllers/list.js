@@ -852,6 +852,7 @@ class ItemsView {
             getItem(params).then(function (item) {
                 setTitle(item);
                 self.currentItem = item;
+                item.ParentId = params.parentId;
                 const refresh = !isRestored;
                 self.itemsContainer.resume({
                     refresh: refresh
