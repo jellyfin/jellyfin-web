@@ -1,4 +1,5 @@
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
+import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
 
@@ -22,6 +23,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -401,7 +403,7 @@ function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
     });
 }
 
-function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
+async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
         return Promise.resolve({
             MediaSources: [
@@ -426,6 +428,9 @@ function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, 
         UserId: apiClient.getCurrentUserId(),
         StartTimeTicks: options.startPosition || 0
     };
+
+    const api = toApi(apiClient);
+    const mediaInfoApi = getMediaInfoApi(api);
 
     if (options.isPlayback) {
         query.IsPlayback = true;
@@ -480,7 +485,12 @@ function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, 
         query.DirectPlayProtocols = player.getDirectPlayProtocols();
     }
 
-    return apiClient.getPlaybackInfo(itemId, query, deviceProfile);
+    query.AlwaysBurnInSubtitleWhenTranscoding = appSettings.alwaysBurnInSubtitleWhenTranscoding();
+
+    query.DeviceProfile = deviceProfile;
+
+    const res = await mediaInfoApi.getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
+    return res.data;
 }
 
 function getOptimalMediaSource(apiClient, item, versions) {
