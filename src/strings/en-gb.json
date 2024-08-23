@@ -1846,7 +1846,7 @@
     "LabelAllowContentWithTags": "Allow items with tags",
     "EnableSmoothScroll": "Enable smooth scroll",
     "EncodingFormatHelp": "Select the video encoding that Jellyfin should transcode to. Jellyfin will use software encoding when hardware acceleration for the selected format is not available. H264 encoding will always be enabled.",
-    "LabelTrickplayAccelEncodingHelp": "Currently only available on QSV and VAAPI, this option has no effect on other hardware acceleration methods.",
+    "LabelTrickplayAccelEncodingHelp": "Currently only available on QSV, VAAPI and VideoToolbox, this option has no effect on other hardware acceleration methods.",
     "LabelEncodingFormatOptions": "Encoding format options",
     "LabelTrickplayAccelEncoding": "Enable hardware accelerated MJPEG encoding",
     "LimitSupportedVideoResolutionHelp": "Use 'Maximum Allowed Video Transcoding Resolution' as maximum supported video resolution.",
@@ -1923,5 +1923,10 @@
     "LabelIsSynced": "Is Synced",
     "NoLyricsSearchResultsFound": "No lyrics found.",
     "PreviewLyrics": "Preview Lyrics",
-    "SearchForLyrics": "Search for Lyrics"
+    "SearchForLyrics": "Search for Lyrics",
+    "MoveToBottom": "Move to bottom",
+    "MoveToTop": "Move to top",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extract key frames only for significantly faster processing with less accurate timing. If the configured hardware decoder does not support this mode, will use the software decoder instead.",
+    "AllowTonemappingSoftwareHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only with 10bit HDR10 and HLG videos.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Only generate images from key frames"
 }
