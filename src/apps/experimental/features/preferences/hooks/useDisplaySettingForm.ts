@@ -3,7 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
-import { DisplaySettingsValues } from '../types';
+
+import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 import { useDisplaySettings } from './useDisplaySettings';
 
 type UpdateField = {

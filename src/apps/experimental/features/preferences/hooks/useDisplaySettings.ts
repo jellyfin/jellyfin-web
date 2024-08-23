@@ -1,4 +1,4 @@
-import { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ApiClient } from 'jellyfin-apiclient';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -7,7 +7,8 @@ import layoutManager from 'components/layoutManager';
 import { useApi } from 'hooks/useApi';
 import themeManager from 'scripts/themeManager';
 import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
-import { DisplaySettingsValues } from '../types';
+
+import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface UseDisplaySettingsParams {
     userId?: string | null;
