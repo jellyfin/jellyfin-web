@@ -851,7 +851,6 @@ class ItemsView {
             setTitle(null);
             getItem(params).then(function (item) {
                 setTitle(item);
-                
                 if (item.Type == 'Genre') {
                     item.ParentId = params.parentId;
                 }
