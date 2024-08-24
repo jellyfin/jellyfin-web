@@ -1912,5 +1912,15 @@
     "PluginLoadConfigError": "Beim Abrufen der Plugin-Konfigurationsseiten ist ein Fehler aufgetreten.",
     "PluginLoadRepoError": "Beim Abrufen der Plugin-Details aus dessen Software-Depot ist ein Fehler aufgetreten.",
     "PluginUninstallError": "Beim Deinstallieren des Plugins ist ein Fehler aufgetreten.",
-    "AndOtherArtists": "{0} und {1} andere Künstler."
+    "AndOtherArtists": "{0} und {1} andere Künstler.",
+    "PasswordMissingSaveError": "Neues Passwort kann nicht leer sein.",
+    "SearchForLyrics": "Songtext suchen",
+    "EditLyrics": "Songtext bearbeiten",
+    "HeaderAddLyrics": "Songtext hinzufügen",
+    "HeaderPreviewLyrics": "Songtextvorschau anzeigen",
+    "HeaderUploadLyrics": "Songtext hochladen",
+    "LabelDuration": "Dauer",
+    "LabelIsSynced": "Ist synchronisiert",
+    "NoLyricsSearchResultsFound": "Kein Songtext gefunden.",
+    "PreviewLyrics": "Songtextvorschau anzeigen"
 }

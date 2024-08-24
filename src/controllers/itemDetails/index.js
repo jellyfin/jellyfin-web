@@ -2021,7 +2021,13 @@ export default function (view, params) {
                 itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
                     .then(function (result) {
                         if (result.deleted) {
-                            appRouter.goHome();
+                            const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
+
+                            if (parentId) {
+                                appRouter.showItem(parentId, item.ServerId);
+                            } else {
+                                appRouter.goHome();
+                            }
                         } else if (result.updated) {
                             reload(self, view, params);
                         }

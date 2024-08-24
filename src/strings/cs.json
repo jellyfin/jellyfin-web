@@ -1858,7 +1858,7 @@
     "LabelEncodingFormatOptions": "Možnosti formátu kódování",
     "EncodingFormatHelp": "Vyberte formát, do kterého by měly být překódovány videa. Pokud není k dispozici hardwarová akcelerace pro vybraný formát, bude použito softwarové kódování. Kódování do formátu H.264 bude vždy povoleno.",
     "LabelTrickplayAccelEncoding": "Povolit hardwarově akcelerované kódování MJPEG",
-    "LabelTrickplayAccelEncodingHelp": "Tato možnost je momentálně dostupná pouze při použití QSV a VAAPI. Nemá vliv na ostatní hardwarovou akceleraci.",
+    "LabelTrickplayAccelEncodingHelp": "Tato možnost je momentálně dostupná pouze při použití QSV, VAAPI a VideoToolbox. Nemá vliv na ostatní hardwarovou akceleraci.",
     "EnableLibrary": "Povolit knihovnu",
     "EnableLibraryHelp": "Vypnutím knihovny ji skryjete ze všech míst, kde je uživateli zobrazena.",
     "ConfirmDeleteLyrics": "Písně budou odstraněny ze systému i knihovny médií. Opravdu chcete pokračovat?",
@@ -1923,5 +1923,10 @@
     "NoLyricsSearchResultsFound": "Žádné texty k písni nenalezeny.",
     "PreviewLyrics": "Náhled textu k písni",
     "SearchForLyrics": "Hledat texty k písni",
-    "PasswordMissingSaveError": "Nové heslo nesmí být prázdné."
+    "PasswordMissingSaveError": "Nové heslo nesmí být prázdné.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Generovat obrázky jen z klíčových snímků",
+    "MoveToBottom": "Přesunou vespod",
+    "MoveToTop": "Přesunout nahoru",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahovat pouze klíčové snímky, čímž se výrazně urychlí zpracování na úkor přesnosti. Pokud nastavený hardwarový dekodér tuto funkci nepodporuje, bude použito softwarové dekódování.",
+    "AllowTonemappingSoftwareHelp": "Mapováním tónů je možné změnit dynamický rozsah videa z HRD na SDR při zachování detailů a barev obrazu, tj. důležitých informací reprezentujících původní scénu. Momentálně funguje pouze u videí s 10bitovým HDR10 a HLG."
 }

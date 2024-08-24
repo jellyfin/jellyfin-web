@@ -8,11 +8,12 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
+import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from 'apps/experimental/features/preferences/constants/locales';
 import { appHost } from 'components/apphost';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
-import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from './constants';
-import { DisplaySettingsValues } from './types';
+
+import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface LocalizationPreferencesProps {
     onChange: (event: SelectChangeEvent) => void;

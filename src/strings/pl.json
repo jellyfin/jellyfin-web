@@ -1859,7 +1859,7 @@
     "EncodingFormatHelp": "Wybierz kodowanie wideo, którym Jellyfin powinien transkodować. Jellyfin użyje kodowania programowego, gdy akceleracja sprzętowa dla wybranego formatu nie jest dostępna. Kodowanie H264 będzie zawsze włączone.",
     "EnableLibrary": "Włącz bibliotekę",
     "EnableLibraryHelp": "Wyłączenie biblioteki spowoduje ukrycie jej przed wszystkimi widokami użytkowników.",
-    "LabelTrickplayAccelEncodingHelp": "Opcja ta jest obecnie dostępna tylko przy użyciu QSV i VAAPI, nie ma wpływu na inne metody akceleracji sprzętowej.",
+    "LabelTrickplayAccelEncodingHelp": "Opcja ta jest obecnie dostępna tylko przy użyciu QSV, VAAPI i VideoToolbox, nie ma wpływu na inne metody akceleracji sprzętowej.",
     "LabelTrickplayAccelEncoding": "Włącz kodowanie MJPEG z akceleracją sprzętową",
     "ConfirmDeleteLyrics": "Usunięcie tych słów spowoduje ich usunięcie zarówno z systemu plików, jak i biblioteki multimediów. Czy na pewno chcesz kontynuować?",
     "HeaderNoLyrics": "Nie znaleziono słów",
@@ -1923,5 +1923,10 @@
     "NoLyricsSearchResultsFound": "Nie znaleziono słów.",
     "PreviewLyrics": "Podgląd słów",
     "SearchForLyrics": "Wyszukaj słowa",
-    "PasswordMissingSaveError": "Nowe hasło nie może być puste."
+    "PasswordMissingSaveError": "Nowe hasło nie może być puste.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Generuj obrazy tylko z klatek kluczowych",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Wyodrębnij klatki kluczowe tylko w celu znacznie szybszego przetwarzania z mniej dokładnym czasem. Jeśli skonfigurowany dekoder sprzętowy nie obsługuje tego trybu, zamiast tego zostanie użyty dekoder programowy.",
+    "MoveToBottom": "Przesuń na dół",
+    "MoveToTop": "Przesuń na górę",
+    "AllowTonemappingSoftwareHelp": "Mapowanie tonów może przekształcić zakres dynamiki wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami do przedstawienia oryginalnej sceny. Obecnie działa tylko z 10-bitowymi filmami HDR10 i HLG."
 }
