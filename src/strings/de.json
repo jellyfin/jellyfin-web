@@ -1922,5 +1922,6 @@
     "LabelDuration": "Dauer",
     "LabelIsSynced": "Ist synchronisiert",
     "NoLyricsSearchResultsFound": "Kein Songtext gefunden.",
-    "PreviewLyrics": "Songtextvorschau anzeigen"
+    "PreviewLyrics": "Songtextvorschau anzeigen",
+    "AllowTonemappingSoftwareHelp": "Tone-Mapping kann den Dynamikbereich eines Videos von HDR in SDR umwandeln und dabei Bilddetails und Farben beibehalten, die für die Darstellung der ursprünglichen Szene sehr wichtig sind. Funktioniert derzeit nur mit 10bit HDR10- und HLG-Videos."
 }
