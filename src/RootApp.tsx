@@ -18,7 +18,9 @@ const RootApp = () => (
                 </WebConfigProvider>
             </UserSettingsProvider>
         </ApiProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {window.Proxy && ( // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
+            <ReactQueryDevtools initialIsOpen={false} />
+        )}
     </QueryClientProvider>
 );
 
