@@ -1255,7 +1255,7 @@
     "Yadif": "YADIF",
     "ListPaging": "{2} 的 {0}-{1}",
     "PersonRole": "飾演 {0}",
-    "LastSeen": "上次觀看 {0}",
+    "LastSeen": "上次登入 {0}",
     "DailyAt": "每日的 {0}",
     "WeeklyAt": "每週第 {0} 天的 {1}",
     "OnWakeFromSleep": "當從睡眠中喚醒時",
