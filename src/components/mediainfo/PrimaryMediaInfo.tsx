@@ -22,7 +22,6 @@ interface PrimaryMediaInfoProps extends PrimaryInfoOpts {
     showCaptionIndicatorInfo?: boolean;
     showCriticRatingInfo?: boolean;
     showEndsAtInfo?: boolean;
-    showMissingIndicatorInfo?: boolean;
     getMissingIndicator?: () => React.JSX.Element | null;
 }
 
