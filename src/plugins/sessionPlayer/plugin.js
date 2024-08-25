@@ -126,10 +126,16 @@ function getChangedEvents(state1) {
         return names;
     }
 
-    // TODO: Trim these down to prevent the UI from over-refreshing
-    names.push('statechange');
-    names.push('timeupdate');
-    names.push('pause');
+    // Check for changes that would warrant a UI update
+    if (state1.PlayState?.PositionTicks !== this.lastPlayerData?.PlayState?.PositionTicks) {
+        names.push('timeupdate');
+    }
+    if (state1.PlayState?.IsPaused !== this.lastPlayerData?.PlayState?.IsPaused) {
+        names.push('pause');
+    }
+    if (state1.NowPlayingItem?.Id !== this.lastPlayerData?.NowPlayingItem?.Id) {
+        names.push('statechange');
+    }
 
     return names;
 }
