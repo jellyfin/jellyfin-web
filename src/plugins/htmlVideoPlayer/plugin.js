@@ -1244,15 +1244,15 @@ export class HtmlVideoPlayer {
          * @private
          */
     renderSsaAss(videoElement, track, item) {
-        const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
-        const availableFonts = [];
+        const supportedFontMimeTypes = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
+        const fontsToPreload = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
         const apiClient = ServerConnections.getApiClient(item);
         attachments.forEach(i => {
             // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
-            if (supportedFonts.includes(i.MimeType)) {
+            if (supportedFontMimeTypes.includes(i.MimeType)) {
                 // embedded font url
-                availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                fontsToPreload.push(apiClient.getUrl(i.DeliveryUrl));
             }
         });
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
@@ -1263,7 +1263,7 @@ export class HtmlVideoPlayer {
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: availableFonts,
+                fonts: fontsToPreload,
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
@@ -1301,12 +1301,18 @@ export class HtmlVideoPlayer {
 
                 if (config.EnableFallbackFont) {
                     apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                        const availableFonts = {};
                         fontFiles.forEach(font => {
-                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
-                                api_key: apiClient.accessToken()
-                            });
-                            availableFonts.push(fontUrl);
+                            if (!font.FamilyName) return;
+                            const familyNameLower = font.FamilyName.trim().toLowerCase();
+                            if (!(familyNameLower in availableFonts)) {
+                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
+                                    api_key: apiClient.accessToken()
+                                });
+                                availableFonts[familyNameLower] = fontUrl;
+                            }
                         });
+                        options.availableFonts = availableFonts;
                         this.#currentAssRenderer = new SubtitlesOctopus(options);
                     });
                 } else {
