@@ -43,7 +43,7 @@ const KeyNames = {
 /**
  * Keys used for keyboard navigation.
  */
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
 
 /**
  * Keys used for media playback control.
@@ -180,6 +180,13 @@ export function enable() {
                 } else {
                     capture = false;
                 }
+                break;
+
+            case 'Find':
+                inputManager.handleCommand('search');
+                break;
+            case 'BrowserHome':
+                inputManager.handleCommand('home');
                 break;
 
             case 'MediaPlay':
