@@ -118,6 +118,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
 function getChangedEvents(state1) {
     const names = [];
 
+    // Initial state, trigger all events to ensure UI is updated.
     if (!state1) {
         names.push('statechange');
         names.push('timeupdate');
@@ -126,7 +127,7 @@ function getChangedEvents(state1) {
         return names;
     }
 
-    // Check for changes that would warrant a UI update
+    // Check for changes that would warrant a UI update.
     if (state1.PlayState?.PositionTicks !== this.lastPlayerData?.PlayState?.PositionTicks) {
         names.push('timeupdate');
     }
