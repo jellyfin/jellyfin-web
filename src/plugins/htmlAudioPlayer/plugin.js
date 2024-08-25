@@ -125,8 +125,10 @@ class HtmlAudioPlayer {
 
                 if (normalizationGain) {
                     self.gainNode.gain.value = Math.pow(10, normalizationGain / 20);
+                    self.normalizationGain = self.gainNode.gain.value;
                 } else {
                     self.gainNode.gain.value = 1;
+                    self.normalizationGain = 1;
                 }
                 console.debug('gain: ' + self.gainNode.gain.value);
             }).catch((err) => {
@@ -311,6 +313,9 @@ class HtmlAudioPlayer {
         function onVolumeChange() {
             if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
+                if (browser.safari) {
+                    self.gainNode.gain.value = this.volume * self.normalizationGain;
+                }
                 Events.trigger(self, 'volumechange');
             }
         }
