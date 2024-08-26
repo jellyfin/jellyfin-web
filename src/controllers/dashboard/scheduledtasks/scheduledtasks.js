@@ -132,8 +132,11 @@ function updateTaskButton(elem, state) {
 export default function(view) {
     function updateTasks(tasks) {
         for (const task of tasks) {
-            view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
-            updateTaskButton(view.querySelector('#btnTask' + task.Id), task.State);
+            const taskProgress = view.querySelector(`#taskProgress${task.Id}`);
+            if (taskProgress) taskProgress.innerHTML = getTaskProgressHtml(task);
+
+            const taskButton = view.querySelector(`#btnTask${task.Id}`);
+            if (taskButton) updateTaskButton(taskButton, task.State);
         }
     }
 
