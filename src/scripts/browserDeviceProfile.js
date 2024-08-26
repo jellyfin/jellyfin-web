@@ -220,11 +220,17 @@ function supportsHdr10(options) {
     return options.supportsHdr10 ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
             || browser.tizen
             || browser.web0s
-            || browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)
-            // Chrome mobile and Firefox have no client side tone-mapping
+            // All browsers on iOS are required to use WebKit underneath. HDR support in browsers was added in iOS 13.4 when Safari 13.1 was released.
+            //  * https://developer.apple.com/documentation/safari-release-notes/safari-13_1-release_notes
+            || browser.iOS && browser.iOSVersion >= 13.4
+            // Chrome mobile have no client side tone-mapping
             // Edge Chromium 121+ fixed the tone-mapping color issue on Nvidia
             || browser.edgeChromium && (browser.versionMajor >= 121)
-            || browser.chrome && !browser.mobile
+            // Chrome on mobile now has client side tone-mapping. Tested on Chrome Android 128 but first support version is unknown.
+            || browser.chrome && !browser.iOS && browser.mobile && (browser.versionMajor >= 128)
+            // Firefox 100+ has support for HDR on macOS/OS X. It requires OS support, which was added in macOS 10.15 Catalina.
+            //  * https://www.mozilla.org/en-US/firefox/100.0/releasenotes/
+            || browser.firefox && browser.osx && (!browser.iphone && !browser.ipod && !browser.ipad) && (browser.osxVersion >= 10.15) && (browser.versionMajor >= 100)
     );
 }
 
@@ -233,8 +239,20 @@ function supportsHlg(options) {
 }
 
 function supportsDolbyVision(options) {
+    // Safari 13.1 added support for Dolby Vision:
+    //  * https://developer.apple.com/documentation/safari-release-notes/safari-13_1-release_notes
+    const safariSupportsDoVi = browser.safari && (false // eslint-disable-line sonarjs/no-redundant-boolean
+        || browser.versionMajor == 13 && browser.versionMinor >= 1
+        || browser.versionMajor >= 14
+    );
+
     return options.supportsDolbyVision ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
-            || browser.safari && ((browser.iOS && browser.iOSVersion >= 13) || browser.osx)
+            || safariSupportsDoVi
+            // Chrome/Chromium-based browsers added support for Dolby Vision fallback on version 122+.
+            // This does not mean its supported, just that media extensions now report support (and more importantly, no support) properly.
+            //   * https://chromium-review.googlesource.com/c/chromium/src/+/5058372
+            || browser.chrome && (browser.versionMajor >= 122)
+            || browser.edgeChromium && (browser.versionMajor >= 122)
     );
 }
 
@@ -659,6 +677,14 @@ export default function (options) {
         webmVideoCodecs.push('vp8');
     }
 
+    // WebM support is partial/unreliable from Safari versions 17.0-17.3. It was fixed in 17.4:
+    //  * https://developer.apple.com/documentation/safari-release-notes/safari-17_4-release-notes
+    const safariSupportsWebm = browser.safari && (false // eslint-disable-line sonarjs/no-redundant-boolean
+        || browser.versionMajor >= 15 && browser.versionMajor < 17
+        || browser.versionMajor == 17 && browser.versionMinor >= 4
+        || browser.versionMajor > 17
+    );
+
     if (canPlayVp9) {
         if (!browser.iOS) {
             // iOS safari may fail to direct play vp9 in mp4 container
@@ -670,18 +696,16 @@ export default function (options) {
         if (browser.safari) {
             hlsInFmp4VideoCodecs.push('vp9');
         }
-        // webm support is unreliable on safari 17
-        if (!browser.safari
-             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+        // WebM support is unreliable in some versions of Safari.
+        if (!browser.safari || safariSupportsWebm) {
             webmVideoCodecs.push('vp9');
         }
     }
 
     if (canPlayAv1(videoTestElement)) {
         mp4VideoCodecs.push('av1');
-        // webm support is unreliable on safari 17
-        if (!browser.safari
-             || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
+        // WebM support is unreliable in some versions of Safari.
+        if (!browser.safari || safariSupportsWebm) {
             webmVideoCodecs.push('av1');
         }
     }

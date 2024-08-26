@@ -99,6 +99,19 @@ function iOSversion() {
     return [];
 }
 
+function osxVersion() {
+    const matches = /Mac OS X (\d+)[._](\d+)[._]?(\d+)?/i.test(navigator.userAgent);
+    if (matches) {
+        return [
+            parseInt(matches[1], 10),
+            parseInt(matches[2], 10),
+            parseInt(matches[3] || 0, 10)
+        ];
+    }
+
+    return [];
+}
+
 function web0sVersion(browser) {
     // Detect webOS version by web engine version
 
@@ -228,16 +241,21 @@ const uaMatch = function (ua) {
     version = version || match[2] || '0';
 
     let versionMajor = parseInt(version.split('.')[0], 10);
-
     if (isNaN(versionMajor)) {
         versionMajor = 0;
+    }
+
+    let versionMinor = parseInt(version.split('.')[1], 10);
+    if (isNaN(versionMinor)) {
+        versionMinor = 0;
     }
 
     return {
         browser: browser,
         version: version,
         platform: platform_match[0] || '',
-        versionMajor: versionMajor
+        versionMajor: versionMajor,
+        versionMinor: versionMinor
     };
 };
 
@@ -250,6 +268,7 @@ if (matched.browser) {
     browser[matched.browser] = true;
     browser.version = matched.version;
     browser.versionMajor = matched.versionMajor;
+    browser.versionMinor = matched.versionMinor;
 }
 
 if (matched.platform) {
@@ -269,6 +288,18 @@ browser.osx = userAgent.toLowerCase().indexOf('mac os x') !== -1;
 // https://forums.developer.apple.com/thread/119186
 if (browser.osx && !browser.iphone && !browser.ipod && !browser.ipad && navigator.maxTouchPoints > 1) {
     browser.ipad = true;
+}
+
+if (browser.osx && !browser.iphone && !browser.ipod && !browser.ipad) {
+    browser.osxVersion = osxVersion();
+
+    if (browser.osxVersion) {
+        if (browser.osxVersion.length >= 2) {
+            browser.osxVersion = browser.osxVersion[0] + (browser.osxVersion[1] / 10);
+        } else {
+            browser.osxVersion = browser.osxVersion[0];
+        }
+    }
 }
 
 if (userAgent.toLowerCase().indexOf('playstation 4') !== -1) {
