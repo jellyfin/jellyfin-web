@@ -298,17 +298,19 @@ function bindAll(elems, eventName, fn) {
     }
 }
 
-function onResetClick(e) {
+function onResetClick() {
     const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
         '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
         '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
         '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
         '#txtSeriesRuntime', '#txtTagline'];
-    const form = e.target.parentElement.parentElement.parentElement;
+    const form = currentContext?.querySelector('form');
     resetElementId.forEach(function (id) {
         form.querySelector(id).value = null;
     });
     form.querySelector('#selectDisplayOrder').value = '';
+    form.querySelector('#selectLanguage').value = '';
+    form.querySelector('#selectCountry').value = '';
     form.querySelector('#listGenres').innerHTML = '';
     form.querySelector('#listTags').innerHTML = '';
     form.querySelector('#listStudios').innerHTML = '';
