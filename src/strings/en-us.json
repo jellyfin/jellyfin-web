@@ -969,7 +969,7 @@
     "LanNetworksHelp": "Comma separated list of IP addresses or IP/netmask entries for networks that will be considered on local network when enforcing bandwidth restrictions. If set, all other IP addresses will be considered to be on the external network and will be subject to the external bandwidth restrictions. If left blank, only the server's subnet is considered to be on the local network.",
     "Large": "Large",
     "Larger": "Larger",
-    "LastSeen": "Last logged in {0}",
+    "LastSeen": "Last activity: {0}",
     "LatestFromLibrary": "Recently Added in {0}",
     "LearnHowYouCanContribute": "Learn how you can contribute.",
     "LeaveBlankToNotSetAPassword": "You can leave this field blank to set no password.",
