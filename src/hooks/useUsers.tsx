@@ -1,18 +1,20 @@
 import type { AxiosRequestConfig } from 'axios';
+import type { Api } from '@jellyfin/sdk';
 import type { UserApiGetUsersRequest } from '@jellyfin/sdk/lib/generated-client';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import { useQuery } from '@tanstack/react-query';
 
-import { type JellyfinApiContext, useApi } from './useApi';
+import { useApi } from './useApi';
 
-export const fetchGetUsers = async (
-    currentApi: JellyfinApiContext,
+const fetchUsers = async (
+    api?: Api,
     requestParams?: UserApiGetUsersRequest,
     options?: AxiosRequestConfig
 ) => {
-    const { api } = currentApi;
-
-    if (!api) return;
+    if (!api) {
+        console.warn('[fetchUsers] No API instance available');
+        return;
+    }
 
     const response = await getUserApi(api).getUsers(requestParams, {
         signal: options?.signal
@@ -22,10 +24,11 @@ export const fetchGetUsers = async (
 };
 
 export const useUsers = (requestParams?: UserApiGetUsersRequest) => {
-    const currentApi = useApi();
+    const { api } = useApi();
     return useQuery({
         queryKey: ['Users'],
         queryFn: ({ signal }) =>
-            fetchGetUsers(currentApi, requestParams, { signal })
+            fetchUsers(api, requestParams, { signal }),
+        enabled: !!api
     });
 };

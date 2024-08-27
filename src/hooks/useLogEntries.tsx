@@ -1,18 +1,20 @@
 import type { ActivityLogApiGetLogEntriesRequest } from '@jellyfin/sdk/lib/generated-client';
 import type { AxiosRequestConfig } from 'axios';
+import type { Api } from '@jellyfin/sdk';
 import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
 import { useQuery } from '@tanstack/react-query';
 
-import { JellyfinApiContext, useApi } from './useApi';
+import { useApi } from './useApi';
 
-const fetchGetLogEntries = async (
-    currentApi: JellyfinApiContext,
-    requestParams: ActivityLogApiGetLogEntriesRequest,
+const fetchLogEntries = async (
+    api?: Api,
+    requestParams?: ActivityLogApiGetLogEntriesRequest,
     options?: AxiosRequestConfig
 ) => {
-    const { api } = currentApi;
-
-    if (!api) return;
+    if (!api) {
+        console.warn('[fetchLogEntries] No API instance available');
+        return;
+    }
 
     const response = await getActivityLogApi(api).getLogEntries(requestParams, {
         signal: options?.signal
@@ -24,10 +26,11 @@ const fetchGetLogEntries = async (
 export const useLogEntires = (
     requestParams: ActivityLogApiGetLogEntriesRequest
 ) => {
-    const currentApi = useApi();
+    const { api } = useApi();
     return useQuery({
         queryKey: ['LogEntries', requestParams],
         queryFn: ({ signal }) =>
-            fetchGetLogEntries(currentApi, requestParams, { signal })
+            fetchLogEntries(api, requestParams, { signal }),
+        enabled: !!api
     });
 };
