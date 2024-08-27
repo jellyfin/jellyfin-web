@@ -185,7 +185,6 @@ const config = {
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
-                    path.resolve(__dirname, 'node_modules/@mui/x-data-grid'),
                     path.resolve(__dirname, 'node_modules/@mui/x-date-pickers'),
                     path.resolve(__dirname, 'node_modules/@react-hook/latest'),
                     path.resolve(__dirname, 'node_modules/@react-hook/passive-layout-effect'),
