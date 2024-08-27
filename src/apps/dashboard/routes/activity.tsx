@@ -1,40 +1,46 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
-import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import PermMedia from '@mui/icons-material/PermMedia';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
-import { type MRT_Cell, type MRT_ColumnDef, type MRT_Row, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
-import { Link, useSearchParams } from 'react-router-dom';
+import { type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
+import { useSearchParams } from 'react-router-dom';
 
+import { useLogEntires } from 'apps/dashboard/features/activity/api/useLogEntries';
+import ActionsCell from 'apps/dashboard/features/activity/components/ActionsCell';
+import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCell';
+import OverviewCell from 'apps/dashboard/features/activity/components/OverviewCell';
+import UserAvatarButton from 'apps/dashboard/features/activity/components/UserAvatarButton';
+import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
 import Page from 'components/Page';
-import UserAvatar from 'components/UserAvatar';
-import { useLogEntires } from 'hooks/useLogEntries';
 import { useUsers } from 'hooks/useUsers';
 import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
 import globalize from 'lib/globalize';
 import { toBoolean } from 'utils/string';
 
-import LogLevelChip from '../components/activityTable/LogLevelChip';
-import OverviewCell from '../components/activityTable/OverviewCell';
+type UsersRecords = Record<string, UserDto>;
 
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';
 
 const enum ActivityView {
-    All,
-    User,
-    System
+    All = 'All',
+    User = 'User',
+    System = 'System'
 }
 
 const getActivityView = (param: string | null) => {
     if (param === null) return ActivityView.All;
     if (toBoolean(param)) return ActivityView.User;
     return ActivityView.System;
+};
+
+const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
+    return (
+        <UserAvatarButton user={row.original.UserId && users[row.original.UserId] || undefined} />
+    );
 };
 
 const Activity = () => {
@@ -50,7 +56,6 @@ const Activity = () => {
 
     const { data: usersData, isLoading: isUsersLoading } = useUsers();
 
-    type UsersRecords = Record<string, UserDto>;
     const users: UsersRecords = useMemo(() => {
         if (!usersData) return {};
 
@@ -64,6 +69,8 @@ const Activity = () => {
             };
         }, {});
     }, [usersData]);
+
+    const UserCell = getUserCell(users);
 
     const activityParams = useMemo(() => ({
         startIndex: pagination.pageIndex * pagination.pageSize,
@@ -87,11 +94,7 @@ const Activity = () => {
             accessorKey: 'Severity',
             header: globalize.translate('LabelLevel'),
             size: 90,
-            Cell: ({ cell }: { cell: MRT_Cell<ActivityLogEntry> }) => (
-                cell.getValue<LogLevel | undefined>() ? (
-                    <LogLevelChip level={cell.getValue<LogLevel>()} />
-                ) : undefined
-            ),
+            Cell: LogLevelCell,
             enableResizing: false,
             muiTableBodyCellProps: {
                 align: 'center'
@@ -102,20 +105,7 @@ const Activity = () => {
             accessorFn: row => row.UserId && users[row.UserId]?.Name,
             header: globalize.translate('LabelUser'),
             size: 75,
-            Cell: ({ row }: { row: MRT_Row<ActivityLogEntry> }) => (
-                row.original.UserId ? (
-                    <IconButton
-                        size='large'
-                        color='inherit'
-                        sx={{ padding: 0 }}
-                        title={users[row.original.UserId]?.Name || undefined}
-                        component={Link}
-                        to={`/dashboard/users/profile?userId=${row.original.UserId}`}
-                    >
-                        <UserAvatar user={users[row.original.UserId]} />
-                    </IconButton>
-                ) : undefined
-            ),
+            Cell: UserCell,
             enableResizing: false,
             visibleInShowHideMenu: activityView !== ActivityView.System,
             muiTableBodyCellProps: {
@@ -132,9 +122,7 @@ const Activity = () => {
             accessorFn: row => row.ShortOverview || row.Overview,
             header: globalize.translate('LabelOverview'),
             size: 170,
-            Cell: ({ row }: { row: MRT_Row<ActivityLogEntry> }) => (
-                <OverviewCell {...row.original} />
-            )
+            Cell: OverviewCell
         },
         {
             accessorKey: 'Type',
@@ -146,24 +134,13 @@ const Activity = () => {
             accessorFn: row => row.ItemId,
             header: '',
             size: 60,
-            Cell: ({ row }: { row: MRT_Row<ActivityLogEntry> }) => (
-                row.original.ItemId ? (
-                    <IconButton
-                        size='large'
-                        title={globalize.translate('LabelMediaDetails')}
-                        component={Link}
-                        to={`/details?id=${row.original.ItemId}`}
-                    >
-                        <PermMedia fontSize='inherit' />
-                    </IconButton>
-                ) : undefined
-            ),
+            Cell: ActionsCell,
             enableColumnActions: false,
             enableColumnFilter: false,
             enableResizing: false,
             enableSorting: false
         }
-    ], [ activityView, users ]);
+    ], [ UserCell, activityView, users ]);
 
     const onViewChange = useCallback((_e: React.MouseEvent<HTMLElement, MouseEvent>, newView: ActivityView | null) => {
         if (newView !== null) {
@@ -201,6 +178,9 @@ const Activity = () => {
         },
 
         // State
+        initialState: {
+            density: 'compact'
+        },
         state: {
             isLoading,
             pagination,
