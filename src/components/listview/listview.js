@@ -9,7 +9,7 @@ import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import './listview.scss';

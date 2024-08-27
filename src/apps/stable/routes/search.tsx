@@ -2,7 +2,7 @@ import React, { type FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDebounceValue } from 'usehooks-ts';
 import { usePrevious } from 'hooks/usePrevious';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Page from 'components/Page';
 import SearchFields from 'components/search/SearchFields';
 import SearchSuggestions from 'components/search/SearchSuggestions';

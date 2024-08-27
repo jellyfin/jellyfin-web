@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Events from 'utils/events';
 
 import RemotePlayMenu, { ID } from './menus/RemotePlayMenu';

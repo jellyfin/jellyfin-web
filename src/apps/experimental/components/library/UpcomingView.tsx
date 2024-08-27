@@ -2,7 +2,7 @@ import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import { useGetGroupsUpcomingEpisodes } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import SectionContainer from './SectionContainer';
 import { CardShape } from 'utils/card';
 import type { LibraryViewProps } from 'types/library';

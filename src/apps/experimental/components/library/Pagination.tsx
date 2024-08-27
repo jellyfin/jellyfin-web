@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import IconButton from '@mui/material/IconButton';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryViewSettings } from 'types/library';
 

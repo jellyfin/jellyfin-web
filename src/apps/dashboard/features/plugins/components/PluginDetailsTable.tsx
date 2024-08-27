@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow/TableRow';
 import React, { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import type { PluginDetails } from '../types/PluginDetails';
 

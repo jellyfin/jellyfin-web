@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
 import ButtonElement from '../../../../elements/ButtonElement';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';

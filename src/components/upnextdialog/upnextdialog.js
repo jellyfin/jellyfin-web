@@ -4,7 +4,7 @@ import Events from '../../utils/events.ts';
 import mediaInfo from '../mediainfo/mediainfo';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import itemHelper from '../itemHelper';
 import ServerConnections from '../ServerConnections';
 import './upnextdialog.scss';

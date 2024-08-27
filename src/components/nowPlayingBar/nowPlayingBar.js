@@ -7,7 +7,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';

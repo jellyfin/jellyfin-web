@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';

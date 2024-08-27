@@ -1,5 +1,5 @@
 import { appHost } from '../components/apphost';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import appSettings from '../scripts/settings/appSettings';
 
 export function getVideoQualityOptions(options) {

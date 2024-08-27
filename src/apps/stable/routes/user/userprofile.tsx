@@ -4,7 +4,7 @@ import React, { FunctionComponent, useEffect, useState, useRef, useCallback } fr
 import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import LibraryMenu from '../../../../scripts/libraryMenu';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';

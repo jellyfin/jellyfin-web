@@ -10,7 +10,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import 'jquery';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';

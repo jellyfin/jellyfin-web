@@ -3,7 +3,7 @@ import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
 
 const appName = 'Jellyfin Web';
@@ -272,7 +272,7 @@ const supportedFeatures = function () {
         features.push('fullscreenchange');
     }
 
-    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) {
+    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile || browser.ipad) {
         features.push('physicalvolumecontrol');
     }
 

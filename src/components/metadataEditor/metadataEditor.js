@@ -5,7 +5,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
@@ -298,6 +298,44 @@ function bindAll(elems, eventName, fn) {
     }
 }
 
+function onResetClick() {
+    const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
+        '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
+        '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
+        '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
+        '#txtSeriesRuntime', '#txtTagline'];
+    const form = currentContext?.querySelector('form');
+    resetElementId.forEach(function (id) {
+        form.querySelector(id).value = null;
+    });
+    form.querySelector('#selectDisplayOrder').value = '';
+    form.querySelector('#selectLanguage').value = '';
+    form.querySelector('#selectCountry').value = '';
+    form.querySelector('#listGenres').innerHTML = '';
+    form.querySelector('#listTags').innerHTML = '';
+    form.querySelector('#listStudios').innerHTML = '';
+    form.querySelector('#peopleList').innerHTML = '';
+    currentItem.People = [];
+
+    const checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
+    checkedItems.forEach(function (checkbox) {
+        checkbox.checked = false;
+    });
+
+    const idElements = form.querySelectorAll('.txtExternalId');
+    idElements.forEach(function (idElem) {
+        idElem.value = null;
+    });
+
+    form.querySelector('#chkLockData').checked = false;
+    showElement('.providerSettingsContainer');
+
+    const lockedFields = form.querySelectorAll('.selectLockedField');
+    lockedFields.forEach(function (checkbox) {
+        checkbox.checked = true;
+    });
+}
+
 function init(context) {
     if (!layoutManager.desktop) {
         context.querySelector('.btnBack').classList.remove('hide');
@@ -333,6 +371,8 @@ function init(context) {
     const form = context.querySelector('form');
     form.removeEventListener('submit', onSubmit);
     form.addEventListener('submit', onSubmit);
+
+    context.querySelector('.btnReset').addEventListener('click', onResetClick);
 
     context.querySelector('#btnAddPerson').addEventListener('click', function () {
         editPerson(context, {}, -1);

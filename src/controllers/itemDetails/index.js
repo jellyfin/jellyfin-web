@@ -25,7 +25,7 @@ import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
 import { download } from 'scripts/fileDownloader';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { getPortraitShape, getSquareShape } from 'utils/card';
@@ -386,17 +386,25 @@ function reloadUserDataButtons(page, item) {
 
 function getArtistLinksHtml(artists, serverId, context) {
     const html = [];
+    const numberOfArtists = artists.length;
 
-    for (const artist of artists) {
+    for (let i = 0; i < Math.min(numberOfArtists, 10); i++) {
+        const artist = artists[i];
         const href = appRouter.getRouteUrl(artist, {
-            context: context,
+            context,
             itemType: 'MusicArtist',
-            serverId: serverId
+            serverId
         });
         html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
     }
 
-    return html.join(' / ');
+    let fullHtml = html.join(' / ');
+
+    if (numberOfArtists > 10) {
+        fullHtml = globalize.translate('AndOtherArtists', fullHtml, numberOfArtists - 10);
+    }
+
+    return fullHtml;
 }
 
 /**
@@ -2013,7 +2021,13 @@ export default function (view, params) {
                 itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
                     .then(function (result) {
                         if (result.deleted) {
-                            appRouter.goHome();
+                            const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
+
+                            if (parentId) {
+                                appRouter.showItem(parentId, item.ServerId);
+                            } else {
+                                appRouter.goHome();
+                            }
                         } else if (result.updated) {
                             reload(self, view, params);
                         }

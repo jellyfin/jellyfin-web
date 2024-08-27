@@ -1,4 +1,3 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import React from 'react';
 import Box from '@mui/material/Box';
@@ -13,9 +12,15 @@ import FolderIcon from '@mui/icons-material/Folder';
 import PhotoAlbumIcon from '@mui/icons-material/PhotoAlbum';
 import PhotoIcon from '@mui/icons-material/Photo';
 import classNames from 'classnames';
+
 import datetime from 'scripts/datetime';
 import itemHelper from 'components/itemHelper';
 import AutoTimeProgressBar from 'elements/emby-progressbar/AutoTimeProgressBar';
+
+import { ItemKind } from 'types/base/models/item-kind';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
+import { ItemStatus } from 'types/base/models/item-status';
+
 import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ProgressOptions } from 'types/progressOptions';
@@ -32,25 +37,25 @@ const getTypeIcon = (itemType: NullableString) => {
 };
 
 const enableProgressIndicator = (
-    itemType: NullableString,
-    itemMediaType: NullableString
+    itemType: ItemKind,
+    itemMediaType: ItemMediaKind
 ) => {
     return (
-        (itemMediaType === 'Video' && itemType !== BaseItemKind.TvChannel)
-        || itemType === BaseItemKind.AudioBook
-        || itemType === 'AudioPodcast'
+        (itemMediaType === ItemMediaKind.Video && itemType !== ItemKind.TvChannel)
+        || itemType === ItemKind.AudioBook
+        || itemType === ItemKind.AudioPodcast
     );
 };
 
 const enableAutoTimeProgressIndicator = (
-    itemType: NullableString,
+    itemType: ItemKind,
     itemStartDate: NullableString,
     itemEndDate: NullableString
 ) => {
     return (
-        (itemType === BaseItemKind.Program
-            || itemType === 'Timer'
-            || itemType === BaseItemKind.Recording)
+        (itemType === ItemKind.Program
+            || itemType === ItemKind.Timer
+            || itemType === ItemKind.Recording)
         && Boolean(itemStartDate)
         && Boolean(itemEndDate)
     );
@@ -76,7 +81,7 @@ const useIndicator = (item: ItemDto) => {
 
     const getMissingIndicator = () => {
         if (
-            item.Type === BaseItemKind.Episode
+            item.Type === ItemKind.Episode
             && item.LocationType === LocationType.Virtual
         ) {
             if (item.PremiereDate) {
@@ -102,11 +107,11 @@ const useIndicator = (item: ItemDto) => {
 
         let status;
 
-        if (item.Type === 'SeriesTimer') {
+        if (item.Type === ItemKind.SeriesTimer) {
             return <FiberSmartRecordIcon className={indicatorIconClass} />;
         } else if (item.TimerId || item.SeriesTimerId) {
-            status = item.Status || 'Cancelled';
-        } else if (item.Type === 'Timer') {
+            status = item.Status || ItemStatus.Cancelled;
+        } else if (item.Type === ItemKind.Timer) {
             status = item.Status;
         } else {
             return null;
@@ -116,7 +121,7 @@ const useIndicator = (item: ItemDto) => {
             return (
                 <FiberSmartRecordIcon
                     className={`${indicatorIconClass} ${
-                        status === 'Cancelled' ? 'timerIndicator-inactive' : ''
+                        status === ItemStatus.Cancelled ? 'timerIndicator-inactive' : ''
                     }`}
                 />
             );
@@ -198,7 +203,7 @@ const useIndicator = (item: ItemDto) => {
     const getProgressBar = (progressOptions?: ProgressOptions) => {
         if (
             enableProgressIndicator(item.Type, item.MediaType)
-            && item.Type !== BaseItemKind.Recording
+            && item.Type !== ItemKind.Recording
         ) {
             const playedPercentage = progressOptions?.userData?.PlayedPercentage ?
                 progressOptions.userData.PlayedPercentage :
@@ -231,8 +236,8 @@ const useIndicator = (item: ItemDto) => {
 
             if (pct > 0 && pct < 100) {
                 const isRecording =
-                    item.Type === 'Timer'
-                    || item.Type === BaseItemKind.Recording
+                    item.Type === ItemKind.Timer
+                    || item.Type === ItemKind.Recording
                     || Boolean(item.TimerId);
                 return (
                     <AutoTimeProgressBar

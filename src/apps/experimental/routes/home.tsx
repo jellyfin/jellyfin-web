@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
 import Page from '../../../components/Page';

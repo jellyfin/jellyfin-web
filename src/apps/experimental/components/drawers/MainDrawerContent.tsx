@@ -18,7 +18,7 @@ import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import { useUserViews } from 'hooks/useUserViews';
 import { useWebConfig } from 'hooks/useWebConfig';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import LibraryIcon from '../LibraryIcon';
 import DrawerHeaderLink from './DrawerHeaderLink';

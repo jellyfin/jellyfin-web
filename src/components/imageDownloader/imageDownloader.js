@@ -6,7 +6,7 @@ import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';

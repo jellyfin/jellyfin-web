@@ -9,7 +9,7 @@ import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
 import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import ServerConnections from '../ServerConnections';

@@ -1,9 +1,9 @@
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { Action, createHashHistory } from 'history';
+import { Action } from 'history';
 
 import { appHost } from '../apphost';
 import { clearBackdrop, setBackdropTransparency } from '../backdrop/backdrop';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
@@ -15,8 +15,7 @@ import { queryClient } from 'utils/query/queryClient';
 import { getItemQuery } from 'hooks/useItem';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { ConnectionState } from 'utils/jellyfin-apiclient/ConnectionState.ts';
-
-export const history = createHashHistory();
+import { history } from 'RootAppRouter';
 
 /**
  * Page types of "no return" (when "Go back" should behave differently, probably quitting the application).
@@ -388,7 +387,7 @@ class AppRouter {
         if (firstResult) {
             if (firstResult.State === ConnectionState.ServerSignIn) {
                 const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
-                fetch(url).then(response => {
+                fetch(url, { cache: 'no-cache' }).then(response => {
                     if (!response.ok) return Promise.reject(new Error('fetch failed'));
                     return response.json();
                 }).then(data => {

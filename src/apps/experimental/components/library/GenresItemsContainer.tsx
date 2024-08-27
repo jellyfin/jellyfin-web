@@ -2,7 +2,7 @@ import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/bas
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { FC } from 'react';
 import { useGetGenres } from 'hooks/useFetchItems';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import GenresSectionContainer from './GenresSectionContainer';
 import type { ParentId } from 'types/library';

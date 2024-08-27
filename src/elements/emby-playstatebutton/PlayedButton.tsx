@@ -4,7 +4,7 @@ import React, { type FC, useCallback } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import { IconButton } from '@mui/material';
 import classNames from 'classnames';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { useTogglePlayedMutation } from 'hooks/useFetchItems';
 
 interface PlayedButtonProps {

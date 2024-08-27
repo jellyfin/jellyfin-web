@@ -3,7 +3,7 @@ import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
 import React, { type FC, useCallback, useEffect, useRef } from 'react';
 
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import Page from '../../../../components/Page';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import ButtonElement from '../../../../elements/ButtonElement';
@@ -33,6 +33,7 @@ const PlaybackTrickplay: FC = () => {
 
         (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options?.EnableHwAcceleration || false;
         (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options?.EnableHwEncoding || false;
+        (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked = options?.EnableKeyFrameOnlyExtraction || false;
         (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = (options?.ScanBehavior || TrickplayScanBehavior.NonBlocking);
         (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = (options?.ProcessPriority || ProcessPriorityClass.Normal);
         (page.querySelector('#txtInterval') as HTMLInputElement).value = options?.Interval?.toString() || '10000';
@@ -79,6 +80,7 @@ const PlaybackTrickplay: FC = () => {
             const options = config.TrickplayOptions;
             options.EnableHwAcceleration = (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked;
             options.EnableHwEncoding = (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked;
+            options.EnableKeyFrameOnlyExtraction = (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked;
             options.ScanBehavior = (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value as TrickplayScanBehavior;
             options.ProcessPriority = (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value as ProcessPriorityClass;
             options.Interval = Math.max(1, parseInt((page.querySelector('#txtInterval') as HTMLInputElement).value || '10000', 10));
@@ -167,6 +169,17 @@ const PlaybackTrickplay: FC = () => {
                         <div className='fieldDescription checkboxFieldDescription'>
                             <div className='fieldDescription'>
                                 {globalize.translate('LabelTrickplayAccelEncodingHelp')}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='checkboxContainer checkboxContainer-withDescription'>
+                        <CheckBoxElement
+                            className='chkEnableKeyFrameOnlyExtraction'
+                            title='LabelTrickplayKeyFrameOnlyExtraction'
+                        />
+                        <div className='fieldDescription checkboxFieldDescription'>
+                            <div className='fieldDescription'>
+                                {globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}
                             </div>
                         </div>
                     </div>
