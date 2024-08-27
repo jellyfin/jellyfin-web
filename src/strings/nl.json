@@ -1927,5 +1927,6 @@
     "MoveToTop": "Bovenaan zetten",
     "LabelTrickplayKeyFrameOnlyExtraction": "Afbeeldingen enkel genereren uit keyframes",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Door enkel keyframes uit te pakken wordt de verwerkingssnelheid verhoogd, maar wordt de timing minder nauwkeurig. Als de ingestelde hardwaredecoder deze optie niet ondersteunt, wordt de softwaredecoder gebruikt.",
-    "AllowTonemappingSoftwareHelp": "Tonemapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10- en HLG-video's."
+    "AllowTonemappingSoftwareHelp": "Tonemapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10- en HLG-video's.",
+    "Reset": "Herstellen"
 }
