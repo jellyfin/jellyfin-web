@@ -1262,7 +1262,7 @@
     "WeeklyAt": "每周第 {0} 天的 {1}",
     "OnWakeFromSleep": "当从睡眠中唤醒时",
     "DailyAt": "每天的 {0}",
-    "LastSeen": "上次观看 {0}",
+    "LastSeen": "上次活动 {0}",
     "PersonRole": "饰演 {0}",
     "OnApplicationStartup": "当应用启动时",
     "EveryXHours": "每 {0} 小时",
@@ -1928,5 +1928,6 @@
     "MoveToBottom": "移至底部",
     "MoveToTop": "移至顶部",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "仅提取关键帧以实现更快的处理速度，但时间精度较低。如果配置的硬件解码器不支持此模式，则将改用软件解码器。",
-    "AllowTonemappingSoftwareHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅对 10bit HDR10 和 HLG 视频生效。"
+    "AllowTonemappingSoftwareHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅对 10bit HDR10 和 HLG 视频生效。",
+    "Reset": "重置"
 }
