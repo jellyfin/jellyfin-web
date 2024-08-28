@@ -232,7 +232,7 @@
     "HeaderContainerProfile": "Behållareprofil",
     "HeaderContainerProfileHelp": "Behållareprofiler bestämmer begränsningarna hos en enhet när den spelar upp olika filformat. Om en begränsning är aktuell kommer innehållet att kodas om, även om formatet i sig är konfigurerat för direktuppspelning.",
     "HeaderContinueListening": "Fortsätt lyssna på",
-    "HeaderContinueWatching": "Fortsätt titta på",
+    "HeaderContinueWatching": "Fortsätt titta",
     "HeaderCustomDlnaProfiles": "Anpassade profiler",
     "HeaderDateIssued": "Utgivningsdatum",
     "HeaderDefaultRecordingSettings": "Standard inspelningsinställningar",
