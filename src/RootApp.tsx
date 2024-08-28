@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 
 import { ApiProvider } from 'hooks/useApi';
+import { UserSettingsProvider } from 'hooks/useUserSettings';
 import { WebConfigProvider } from 'hooks/useWebConfig';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -11,9 +12,11 @@ import RootAppRouter from 'RootAppRouter';
 const RootApp = () => (
     <QueryClientProvider client={queryClient}>
         <ApiProvider>
-            <WebConfigProvider>
-                <RootAppRouter />
-            </WebConfigProvider>
+            <UserSettingsProvider>
+                <WebConfigProvider>
+                    <RootAppRouter />
+                </WebConfigProvider>
+            </UserSettingsProvider>
         </ApiProvider>
         <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

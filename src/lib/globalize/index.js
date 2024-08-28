@@ -9,7 +9,7 @@ const Direction = {
     ltr: 'ltr'
 };
 
-const fallbackCulture = 'en-us';
+export const FALLBACK_CULTURE = 'en-us';
 const RTL_LANGS = ['ar', 'fa', 'ur', 'he'];
 
 const allTranslations = {};
@@ -41,7 +41,7 @@ function getDefaultLanguage() {
         return navigator.languages[0];
     }
 
-    return fallbackCulture;
+    return FALLBACK_CULTURE;
 }
 
 export function getIsRTL() {
@@ -50,7 +50,6 @@ export function getIsRTL() {
 
 function checkAndProcessDir(culture) {
     isRTL = false;
-    console.log(culture);
     for (const lang of RTL_LANGS) {
         if (culture.includes(lang)) {
             isRTL = true;
@@ -111,9 +110,9 @@ function ensureTranslations(culture) {
     for (const i in allTranslations) {
         ensureTranslation(allTranslations[i], culture);
     }
-    if (culture !== fallbackCulture) {
+    if (culture !== FALLBACK_CULTURE) {
         for (const i in allTranslations) {
-            ensureTranslation(allTranslations[i], fallbackCulture);
+            ensureTranslation(allTranslations[i], FALLBACK_CULTURE);
         }
     }
 }
@@ -163,7 +162,7 @@ export function loadStrings(options) {
         register(options);
     }
     promises.push(ensureTranslation(allTranslations[optionsName], locale));
-    promises.push(ensureTranslation(allTranslations[optionsName], fallbackCulture));
+    promises.push(ensureTranslation(allTranslations[optionsName], FALLBACK_CULTURE));
     return Promise.all(promises);
 }
 
@@ -183,7 +182,7 @@ function loadTranslation(translations, lang) {
 
         if (!filtered.length) {
             filtered = translations.filter(function (t) {
-                return normalizeLocaleName(t.lang) === fallbackCulture;
+                return normalizeLocaleName(t.lang) === FALLBACK_CULTURE;
             });
         }
     }
@@ -222,7 +221,7 @@ function translateKeyFromModule(key, module) {
         return dictionary[key];
     }
 
-    dictionary = getDictionary(module, fallbackCulture);
+    dictionary = getDictionary(module, FALLBACK_CULTURE);
     if (dictionary?.[key]) {
         return dictionary[key];
     }
