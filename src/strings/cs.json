@@ -1266,7 +1266,7 @@
     "WriteAccessRequired": "Jellyfin vyžaduje oprávnění pro zápis do této složky. Zkontrolujte oprávnění a zkuste to znovu.",
     "PathNotFound": "Cesta nebyla nalezena. Zkontrolujte, zda je platná a zkuste to znovu.",
     "WeeklyAt": "V {0} v {1}",
-    "LastSeen": "Naposledy zobrazené {0}",
+    "LastSeen": "Poslední aktivita {0}",
     "Yadif": "Yet Another DeInterlacing Filter (YADIF)",
     "LabelLibraryPageSizeHelp": "Počet položek k zobrazení na stránce knihovny. Nastavte na 0 pro vypnutí stránkování.",
     "LabelLibraryPageSize": "Velikost stránky knihovny",
@@ -1928,5 +1928,6 @@
     "MoveToBottom": "Přesunou vespod",
     "MoveToTop": "Přesunout nahoru",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahovat pouze klíčové snímky, čímž se výrazně urychlí zpracování na úkor přesnosti. Pokud nastavený hardwarový dekodér tuto funkci nepodporuje, bude použito softwarové dekódování.",
-    "AllowTonemappingSoftwareHelp": "Mapováním tónů je možné změnit dynamický rozsah videa z HRD na SDR při zachování detailů a barev obrazu, tj. důležitých informací reprezentujících původní scénu. Momentálně funguje pouze u videí s 10bitovým HDR10 a HLG."
+    "AllowTonemappingSoftwareHelp": "Mapováním tónů je možné změnit dynamický rozsah videa z HRD na SDR při zachování detailů a barev obrazu, tj. důležitých informací reprezentujících původní scénu. Momentálně funguje pouze u videí s 10bitovým HDR10 a HLG.",
+    "Reset": "Resetovat"
 }

@@ -140,7 +140,7 @@
     "LabelAudioBitDepth": "Heli bitisügavus",
     "LabelArtistsHelp": "Eralda mitu esitajat semikooloniga.",
     "LabelArtists": "Esitajad",
-    "LabelAppNameExample": "Näide: Sickbeard, Sonarr",
+    "LabelAppNameExample": "Inimesele loetav nimi API võtmete tuvastamiseks. See sätte ei mõjuta funktsionaalsust.",
     "LabelAppName": "Rakenduse nimi",
     "LabelAllowHWTranscoding": "Luba riistvaraline transkoodimine",
     "LabelAllowedRemoteAddresses": "Kaug-IP aadressi filter",
