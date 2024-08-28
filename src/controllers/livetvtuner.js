@@ -61,7 +61,10 @@ function fillTunerHostInfo(view, info) {
     view.querySelector('.chkFavorite').checked = info.ImportFavoritesOnly;
     view.querySelector('.chkTranscode').checked = info.AllowHWTranscoding;
     view.querySelector('.chkStreamLoop').checked = info.EnableStreamLooping;
+    view.querySelector('.chkFmp4Container').checked = info.AllowFmp4TranscodingContainer;
+    view.querySelector('.chkStreamSharing').checked = info.AllowStreamSharing;
     view.querySelector('.chkIgnoreDts').checked = info.IgnoreDts;
+    view.querySelector('.txtFallbackMaxStreamingBitrate').value = info.FallbackMaxStreamingBitrate / 1e6 || '30';
     view.querySelector('.txtTunerCount').value = info.TunerCount || '0';
 }
 
@@ -74,8 +77,11 @@ function submitForm(page) {
         FriendlyName: page.querySelector('.txtFriendlyName').value || null,
         DeviceId: page.querySelector('.fldDeviceId').value || null,
         TunerCount: page.querySelector('.txtTunerCount').value || 0,
+        FallbackMaxStreamingBitrate: parseInt(1e6 * parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'), 10),
         ImportFavoritesOnly: page.querySelector('.chkFavorite').checked,
         AllowHWTranscoding: page.querySelector('.chkTranscode').checked,
+        AllowFmp4TranscodingContainer: page.querySelector('.chkFmp4Container').checked,
+        AllowStreamSharing: page.querySelector('.chkStreamSharing').checked,
         EnableStreamLooping: page.querySelector('.chkStreamLoop').checked,
         IgnoreDts: page.querySelector('.chkIgnoreDts').checked
     };
@@ -125,6 +131,9 @@ function onTypeChange() {
     const supportsIgnoreDts = value === 'm3u';
     const supportsTunerCount = value === 'm3u';
     const supportsUserAgent = value === 'm3u';
+    const supportsFmp4Container = value === 'm3u';
+    const supportsStreamSharing = value === 'm3u';
+    const supportsFallbackBitrate = value === 'm3u' || value === 'hdhomerun';
     const suppportsSubmit = value !== 'other';
     const supportsSelectablePath = supportsTunerFileOrUrl;
     const txtDevicePath = view.querySelector('.txtDevicePath');
@@ -163,6 +172,24 @@ function onTypeChange() {
         view.querySelector('.fldTranscode').classList.remove('hide');
     } else {
         view.querySelector('.fldTranscode').classList.add('hide');
+    }
+
+    if (supportsFmp4Container) {
+        view.querySelector('.fldFmp4Container').classList.remove('hide');
+    } else {
+        view.querySelector('.fldFmp4Container').classList.add('hide');
+    }
+
+    if (supportsStreamSharing) {
+        view.querySelector('.fldStreamSharing').classList.remove('hide');
+    } else {
+        view.querySelector('.fldStreamSharing').classList.add('hide');
+    }
+
+    if (supportsFallbackBitrate) {
+        view.querySelector('.fldFallbackMaxStreamingBitrate').classList.remove('hide');
+    } else {
+        view.querySelector('.fldFallbackMaxStreamingBitrate').classList.add('hide');
     }
 
     if (supportsStreamLooping) {
