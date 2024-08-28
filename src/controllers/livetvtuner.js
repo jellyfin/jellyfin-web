@@ -174,23 +174,9 @@ function onTypeChange() {
         view.querySelector('.fldTranscode').classList.add('hide');
     }
 
-    if (supportsFmp4Container) {
-        view.querySelector('.fldFmp4Container').classList.remove('hide');
-    } else {
-        view.querySelector('.fldFmp4Container').classList.add('hide');
-    }
-
-    if (supportsStreamSharing) {
-        view.querySelector('.fldStreamSharing').classList.remove('hide');
-    } else {
-        view.querySelector('.fldStreamSharing').classList.add('hide');
-    }
-
-    if (supportsFallbackBitrate) {
-        view.querySelector('.fldFallbackMaxStreamingBitrate').classList.remove('hide');
-    } else {
-        view.querySelector('.fldFallbackMaxStreamingBitrate').classList.add('hide');
-    }
+    view.querySelector('.fldFmp4Container').classList.toggle('hide', !supportsFmp4Container);
+    view.querySelector('.fldStreamSharing').classList.toggle('hide', !supportsStreamSharing);
+    view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle('hide', !supportsFallbackBitrate);
 
     if (supportsStreamLooping) {
         view.querySelector('.fldStreamLoop').classList.remove('hide');
