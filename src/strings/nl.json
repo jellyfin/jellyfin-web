@@ -1266,7 +1266,7 @@
     "OnWakeFromSleep": "Bij ontwaken uit slaapstand",
     "WeeklyAt": "{0}s om {1}",
     "DailyAt": "Dagelijks om {0}",
-    "LastSeen": "Laatst gezien {0}",
+    "LastSeen": "Laatste activiteit {0}",
     "PersonRole": "als {0}",
     "ListPaging": "{0}-{1} van {2}",
     "WriteAccessRequired": "Jellyfin vereist schrijftoegang tot deze map. Zorg voor schrijftoegang en probeer het opnieuw.",
