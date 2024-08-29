@@ -1258,7 +1258,7 @@
     "OnWakeFromSleep": "On wake from sleep",
     "WeeklyAt": "{0}s at {1}",
     "DailyAt": "Daily at {0}",
-    "LastSeen": "Last seen {0}",
+    "LastSeen": "Last activity {0}",
     "PersonRole": "as {0}",
     "ListPaging": "{0}-{1} of {2}",
     "WriteAccessRequired": "Jellyfin requires write access to this folder. Please ensure write access and try again.",
@@ -1928,5 +1928,7 @@
     "MoveToTop": "Move to top",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extract key frames only for significantly faster processing with less accurate timing. If the configured hardware decoder does not support this mode, will use the software decoder instead.",
     "AllowTonemappingSoftwareHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only with 10bit HDR10 and HLG videos.",
-    "LabelTrickplayKeyFrameOnlyExtraction": "Only generate images from key frames"
+    "LabelTrickplayKeyFrameOnlyExtraction": "Only generate images from key frames",
+    "Reset": "Reset",
+    "MediaInfoRotation": "Rotation"
 }
