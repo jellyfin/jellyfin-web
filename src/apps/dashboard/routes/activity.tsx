@@ -82,6 +82,19 @@ const Activity = () => {
 
     const isLoading = isUsersLoading || isLogEntriesLoading;
 
+    const userColumn: MRT_ColumnDef<ActivityLogEntry>[] = useMemo(() =>
+        (activityView === ActivityView.System) ? [] : [{
+            id: 'User',
+            accessorFn: row => row.UserId && users[row.UserId]?.Name,
+            header: globalize.translate('LabelUser'),
+            size: 75,
+            Cell: UserCell,
+            enableResizing: false,
+            muiTableBodyCellProps: {
+                align: 'center'
+            }
+        }], [ activityView, users, UserCell ]);
+
     const columns = useMemo<MRT_ColumnDef<ActivityLogEntry>[]>(() => [
         {
             id: 'Date',
@@ -100,18 +113,7 @@ const Activity = () => {
                 align: 'center'
             }
         },
-        {
-            id: 'User',
-            accessorFn: row => row.UserId && users[row.UserId]?.Name,
-            header: globalize.translate('LabelUser'),
-            size: 75,
-            Cell: UserCell,
-            enableResizing: false,
-            visibleInShowHideMenu: activityView !== ActivityView.System,
-            muiTableBodyCellProps: {
-                align: 'center'
-            }
-        },
+        ...userColumn,
         {
             accessorKey: 'Name',
             header: globalize.translate('LabelName'),
@@ -140,7 +142,7 @@ const Activity = () => {
             enableResizing: false,
             enableSorting: false
         }
-    ], [ UserCell, activityView, users ]);
+    ], [ userColumn ]);
 
     const onViewChange = useCallback((_e: React.MouseEvent<HTMLElement, MouseEvent>, newView: ActivityView | null) => {
         if (newView !== null) {
@@ -183,10 +185,7 @@ const Activity = () => {
         },
         state: {
             isLoading,
-            pagination,
-            columnVisibility: {
-                User: activityView !== ActivityView.System
-            }
+            pagination
         },
 
         // Server pagination
