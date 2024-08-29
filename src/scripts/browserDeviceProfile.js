@@ -738,10 +738,19 @@ export default function (options) {
             });
         }
 
-        profile.DirectPlayProfiles.push({
-            Container: audioFormat,
-            Type: 'Audio'
-        });
+        if (audioFormat === 'flac' && appSettings.alwaysRemuxFlac()) {
+            // force remux flac in fmp4. Clients not supporting this configuration should disable this option
+            profile.DirectPlayProfiles.push({
+                Container: 'mp4',
+                AudioCodec: 'flac',
+                Type: 'Audio'
+            });
+        } else if (audioFormat !== 'mp3' || !appSettings.alwaysRemuxMp3()) { // mp3 remux profile is already injected
+            profile.DirectPlayProfiles.push({
+                Container: audioFormat,
+                Type: 'Audio'
+            });
+        }
 
         // https://www.webmproject.org/about/faq/
         if (audioFormat === 'opus' || audioFormat === 'webma') {
@@ -794,7 +803,8 @@ export default function (options) {
             Protocol: 'hls',
             MaxAudioChannels: physicalAudioChannels.toString(),
             MinSegments: browser.iOS || browser.osx ? '2' : '1',
-            BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+            BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+            EnableAudioVbrEncoding: !appSettings.disableVbrAudio()
         });
     }
 
