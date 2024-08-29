@@ -194,6 +194,9 @@ function getMediaSourceHtml(user, item, version) {
         if (stream.RefFrames) {
             attributes.push(createAttribute(globalize.translate('MediaInfoRefFrames'), stream.RefFrames));
         }
+        if (stream.Rotation && stream.Type === 'Video') {
+            attributes.push(createAttribute(globalize.translate('MediaInfoRotation'), stream.Rotation));
+        }
         if (stream.NalLengthSize) {
             attributes.push(createAttribute('NAL', stream.NalLengthSize));
         }
