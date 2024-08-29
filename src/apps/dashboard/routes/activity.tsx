@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
+import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import Box from '@mui/material/Box';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -68,7 +69,15 @@ const Activity = () => {
                 [userId]: user
             };
         }, {});
-    }, [usersData]);
+    }, [ usersData ]);
+
+    const userNames = useMemo(() => {
+        const names: string[] = [];
+        usersData?.forEach(user => {
+            if (user.Name) names.push(user.Name);
+        });
+        return names;
+    }, [ usersData ]);
 
     const UserCell = getUserCell(users);
 
@@ -92,8 +101,10 @@ const Activity = () => {
             enableResizing: false,
             muiTableBodyCellProps: {
                 align: 'center'
-            }
-        }], [ activityView, users, UserCell ]);
+            },
+            filterVariant: 'multi-select',
+            filterSelectOptions: userNames
+        }], [ activityView, userNames, users, UserCell ]);
 
     const columns = useMemo<MRT_ColumnDef<ActivityLogEntry>[]>(() => [
         {
@@ -112,7 +123,9 @@ const Activity = () => {
             enableResizing: false,
             muiTableBodyCellProps: {
                 align: 'center'
-            }
+            },
+            filterVariant: 'multi-select',
+            filterSelectOptions: Object.values(LogLevel).map(level => globalize.translate(`LogLevel.${level}`))
         },
         ...userColumn,
         {
