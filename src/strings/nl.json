@@ -1266,7 +1266,7 @@
     "OnWakeFromSleep": "Bij ontwaken uit slaapstand",
     "WeeklyAt": "{0}s om {1}",
     "DailyAt": "Dagelijks om {0}",
-    "LastSeen": "Laatst gezien {0}",
+    "LastSeen": "Laatste activiteit {0}",
     "PersonRole": "als {0}",
     "ListPaging": "{0}-{1} van {2}",
     "WriteAccessRequired": "Jellyfin vereist schrijftoegang tot deze map. Zorg voor schrijftoegang en probeer het opnieuw.",
@@ -1927,5 +1927,7 @@
     "MoveToTop": "Bovenaan zetten",
     "LabelTrickplayKeyFrameOnlyExtraction": "Afbeeldingen enkel genereren uit keyframes",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Door enkel keyframes uit te pakken wordt de verwerkingssnelheid verhoogd, maar wordt de timing minder nauwkeurig. Als de ingestelde hardwaredecoder deze optie niet ondersteunt, wordt de softwaredecoder gebruikt.",
-    "AllowTonemappingSoftwareHelp": "Tonemapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10- en HLG-video's."
+    "AllowTonemappingSoftwareHelp": "Tonemapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10- en HLG-video's.",
+    "Reset": "Herstellen",
+    "MediaInfoRotation": "Rotatie"
 }

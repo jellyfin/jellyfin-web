@@ -202,7 +202,7 @@ function getDisplayTranscodeFps(session, player) {
         return `${transcodeFramerate} fps`;
     }
 
-    return `${(transcodeFramerate / originalFramerate).toFixed(2)}x (${transcodeFramerate} fps)`;
+    return `${transcodeFramerate} fps (${(transcodeFramerate / originalFramerate).toFixed(2)}x)`;
 }
 
 function getReadableSize(size) {
