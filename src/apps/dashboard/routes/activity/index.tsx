@@ -2,11 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import Box from '@mui/material/Box';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Typography from '@mui/material/Typography';
-import { type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
 import { useSearchParams } from 'react-router-dom';
 
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
@@ -15,11 +13,12 @@ import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCe
 import OverviewCell from 'apps/dashboard/features/activity/components/OverviewCell';
 import UserAvatarButton from 'apps/dashboard/features/activity/components/UserAvatarButton';
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
-import Page from 'components/Page';
 import { useUsers } from 'hooks/useUsers';
 import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
 import globalize from 'lib/globalize';
 import { toBoolean } from 'utils/string';
+
+import TablePage from '../components/TablePage';
 
 type UsersRecords = Record<string, UserDto>;
 
@@ -229,31 +228,12 @@ const Activity = () => {
     });
 
     return (
-        <Page
+        <TablePage
             id='serverActivityPage'
             title={globalize.translate('HeaderActivity')}
             className='mainAnimatedPage type-interior'
-        >
-            <Box
-                className='content-primary'
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%'
-                }}
-            >
-                <Box
-                    sx={{
-                        marginBottom: 1
-                    }}
-                >
-                    <Typography variant='h2'>
-                        {globalize.translate('HeaderActivity')}
-                    </Typography>
-                </Box>
-                <MaterialReactTable table={table} />
-            </Box>
-        </Page>
+            table={table}
+        />
     );
 };
 
