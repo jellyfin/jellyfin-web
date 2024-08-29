@@ -540,6 +540,7 @@ function setFieldVisibilities(context, item) {
     } else {
         hideElement('#fldPath', context);
     }
+    
     if (item.Type === 'Series' || item.Type === 'Season' || item.Type === 'Episode' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Person') {
         showElement('#fldOriginalName', context);
     } else {
