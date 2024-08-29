@@ -101,7 +101,8 @@ const Activity = () => {
             accessorFn: row => parseISO8601Date(row.Date),
             header: globalize.translate('LabelTime'),
             size: 160,
-            Cell: ({ cell }) => toLocaleString(cell.getValue<Date>())
+            Cell: ({ cell }) => toLocaleString(cell.getValue<Date>()),
+            filterVariant: 'datetime-range'
         },
         {
             accessorKey: 'Severity',

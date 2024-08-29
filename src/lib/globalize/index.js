@@ -25,7 +25,7 @@ export function getCurrentDateTimeLocale() {
     return currentDateTimeCulture;
 }
 
-function getDefaultLanguage() {
+export function getDefaultLanguage() {
     const culture = document.documentElement.getAttribute('data-culture');
     if (culture) {
         return culture;
@@ -127,7 +127,7 @@ function ensureTranslation(translationInfo, culture) {
     });
 }
 
-function normalizeLocaleName(culture) {
+export function normalizeLocaleName(culture) {
     return culture.replace('_', '-').toLowerCase();
 }
 
