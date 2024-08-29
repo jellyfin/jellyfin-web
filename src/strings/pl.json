@@ -1929,5 +1929,6 @@
     "MoveToBottom": "Przesuń na dół",
     "MoveToTop": "Przesuń na górę",
     "AllowTonemappingSoftwareHelp": "Mapowanie tonów może przekształcić zakres dynamiki wideo z HDR na SDR, zachowując jednocześnie szczegóły obrazu i kolory, które są bardzo ważnymi informacjami do przedstawienia oryginalnej sceny. Obecnie działa tylko z 10-bitowymi filmami HDR10 i HLG.",
-    "Reset": "Resetuj"
+    "Reset": "Resetuj",
+    "MediaInfoRotation": "Obrót"
 }
