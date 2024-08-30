@@ -1,12 +1,12 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import type { LibraryTab } from './libraryTab';
-import type { SectionType } from './sections';
+import type { ProgramSectionType, FavoriteSectionType, SuggestionSectionType } from './sections';
 
 export interface SectionsView {
-    suggestionSections?: SectionType[];
-    favoriteSections?: SectionType[];
-    programSections?: SectionType[];
+    suggestionSections?: SuggestionSectionType[];
+    favoriteSections?: FavoriteSectionType[];
+    programSections?: ProgramSectionType[];
     isMovieRecommendations?: boolean;
     isLiveTvUpcomingRecordings?: boolean;
 }

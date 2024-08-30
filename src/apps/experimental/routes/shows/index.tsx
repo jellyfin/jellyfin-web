@@ -1,12 +1,12 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { TvShowSuggestionsSectionsView } from 'types/sections';
+import { TvShowFavoritesSectionsView, TvShowSuggestionsSectionsView } from 'types/sections';
 
 const episodesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Episodes,
@@ -48,13 +48,20 @@ const genresTabContent: LibraryTabContent = {
     collectionType: CollectionType.Tvshows
 };
 
+const favoritesTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Favorites,
+    collectionType: CollectionType.Tvshows,
+    sectionsView: TvShowFavoritesSectionsView
+};
+
 const tvShowsTabMapping: LibraryTabMapping = {
     0: seriesTabContent,
     1: suggestionsTabContent,
     2: upcomingTabContent,
     3: genresTabContent,
     4: networksTabContent,
-    5: episodesTabContent
+    5: episodesTabContent,
+    6: favoritesTabContent
 };
 
 const Shows: FC = () => {

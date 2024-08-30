@@ -25,32 +25,53 @@ export enum SectionApiMethod {
     ResumeItems = 'resumeItems',
     LatestMedia = 'latestMedia',
     NextUp = 'nextUp',
-    RecommendedPrograms = 'RecommendedPrograms',
+    RecommendedPrograms = 'recommendedPrograms',
     LiveTvPrograms = 'liveTvPrograms',
-    Recordings = 'Recordings',
-    RecordingFolders = 'RecordingFolders'
+    Recordings = 'recordings',
+    RecordingFolders = 'recordingFolders',
+    Artists = 'artists',
+    Persons = 'persons'
 }
 
-export enum SectionType {
+export enum SuggestionSectionType {
     ContinueWatchingMovies = 'continuewatchingmovies',
     LatestMovies = 'latestmovies',
     ContinueWatchingEpisode = 'continuewatchingepisode',
     LatestEpisode = 'latestepisode',
-    NextUp = 'nextUp',
+    NextUp = 'nextup',
     LatestMusic = 'latestmusic',
     RecentlyPlayedMusic = 'recentlyplayedmusic',
-    FrequentlyPlayedMusic = 'frequentlyplayedmusic',
-    ActivePrograms = 'ActivePrograms',
-    UpcomingEpisodes = 'UpcomingEpisodes',
-    UpcomingMovies = 'UpcomingMovies',
-    UpcomingSports = 'UpcomingSports',
-    UpcomingKids = 'UpcomingKids',
-    UpcomingNews = 'UpcomingNews',
-    LatestRecordings = 'LatestRecordings',
-    RecordingFolders = 'RecordingFolders',
-    ActiveRecordings = 'ActiveRecordings',
-    UpcomingRecordings = 'UpcomingRecordings'
+    FrequentlyPlayedMusic = 'frequentlyplayedmusic'
 }
+
+export enum ProgramSectionType {
+    ActivePrograms = 'activeprograms',
+    UpcomingEpisodes = 'upcomingepisodes',
+    UpcomingMovies = 'upcomingmovies',
+    UpcomingSports = 'upcomingsports',
+    UpcomingKids = 'upcomingkids',
+    UpcomingNews = 'upcomingnews',
+    LatestRecordings = 'latestrecordings',
+    RecordingFolders = 'recordingfolders',
+    ActiveRecordings = 'activerecordings',
+    UpcomingRecordings = 'upcomingrecordings'
+}
+
+export enum FavoriteSectionType {
+    FavoriteMovies = 'favoriteMovies',
+    FavoriteShows = 'favoriteShows',
+    FavoriteEpisode = 'favoriteEpisode',
+    FavoriteVideos = 'favoriteVideos',
+    FavoriteCollections = 'favoriteCollections',
+    FavoritePlaylists = 'favoritePlaylists',
+    FavoritePeople = 'favoritePeople',
+    FavoriteArtists = 'favoriteArtists',
+    FavoriteAlbums = 'favoriteAlbums',
+    FavoriteSongs = 'favoriteSongs',
+    FavoriteBooks = 'favoriteBooks'
+}
+
+export type SectionType = SuggestionSectionType | ProgramSectionType | FavoriteSectionType;
 
 export interface Section {
     name: string;
@@ -63,47 +84,69 @@ export interface Section {
 
 export const MovieSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
-        SectionType.ContinueWatchingMovies,
-        SectionType.LatestMovies
+        SuggestionSectionType.ContinueWatchingMovies,
+        SuggestionSectionType.LatestMovies
     ],
     isMovieRecommendations: true
 };
 
+export const MovieFavoritesSectionsView: SectionsView = {
+    favoriteSections: [
+        FavoriteSectionType.FavoriteMovies,
+        FavoriteSectionType.FavoriteCollections
+    ]
+};
+
 export const TvShowSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
-        SectionType.ContinueWatchingEpisode,
-        SectionType.LatestEpisode,
-        SectionType.NextUp
+        SuggestionSectionType.ContinueWatchingEpisode,
+        SuggestionSectionType.LatestEpisode,
+        SuggestionSectionType.NextUp
+    ]
+};
+
+export const TvShowFavoritesSectionsView: SectionsView = {
+    favoriteSections: [
+        FavoriteSectionType.FavoriteShows,
+        FavoriteSectionType.FavoriteEpisode
     ]
 };
 
 export const MusicSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
-        SectionType.LatestMusic,
-        SectionType.FrequentlyPlayedMusic,
-        SectionType.RecentlyPlayedMusic
+        SuggestionSectionType.LatestMusic,
+        SuggestionSectionType.FrequentlyPlayedMusic,
+        SuggestionSectionType.RecentlyPlayedMusic
+    ]
+};
+
+export const MusicFavoritesSectionsView: SectionsView = {
+    favoriteSections: [
+        FavoriteSectionType.FavoriteArtists,
+        FavoriteSectionType.FavoriteAlbums,
+        FavoriteSectionType.FavoriteSongs
     ]
 };
 
 export const ProgramSectionsView: SectionsView = {
     programSections: [
-        SectionType.ActivePrograms,
-        SectionType.UpcomingEpisodes,
-        SectionType.UpcomingMovies,
-        SectionType.UpcomingSports,
-        SectionType.UpcomingKids,
-        SectionType.UpcomingNews
+        ProgramSectionType.ActivePrograms,
+        ProgramSectionType.UpcomingEpisodes,
+        ProgramSectionType.UpcomingMovies,
+        ProgramSectionType.UpcomingSports,
+        ProgramSectionType.UpcomingKids,
+        ProgramSectionType.UpcomingNews
     ]
 };
 
 export const RecordingsSectionsView: SectionsView = {
     programSections: [
-        SectionType.LatestRecordings,
-        SectionType.RecordingFolders
+        ProgramSectionType.LatestRecordings,
+        ProgramSectionType.RecordingFolders
     ]
 };
 
 export const ScheduleSectionsView: SectionsView = {
-    programSections: [SectionType.ActiveRecordings],
+    programSections: [ProgramSectionType.ActiveRecordings],
     isLiveTvUpcomingRecordings: true
 };
