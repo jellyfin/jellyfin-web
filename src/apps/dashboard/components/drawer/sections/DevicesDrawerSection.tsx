@@ -28,6 +28,14 @@ const DevicesDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
+                <ListItemLink to='/dashboard/devices2'>
+                    <ListItemIcon>
+                        <Devices />
+                    </ListItemIcon>
+                    <ListItemText primary={globalize.translate('HeaderDevices')} />
+                </ListItemLink>
+            </ListItem>
+            <ListItem disablePadding>
                 <ListItemLink to='/dashboard/activity'>
                     <ListItemIcon>
                         <Analytics />

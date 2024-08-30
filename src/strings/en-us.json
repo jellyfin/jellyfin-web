@@ -661,6 +661,7 @@
     "LabelDelimiterWhitelist": "Delimiter Whitelist",
     "LabelDelimiterWhitelistHelp": "Items to be excluded from tag splitting. One item per line.",
     "LabelDeveloper": "Developer",
+    "LabelDevice": "Device",
     "LabelDisableCustomCss": "Disable custom CSS code for theming/branding provided from the server.",
     "LabelDisableVbrAudioEncoding": "Disable VBR audio encoding",
     "LabelDiscNumber": "Disc number",
