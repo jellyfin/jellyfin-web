@@ -1929,5 +1929,6 @@
     "MoveToTop": "Přesunout nahoru",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahovat pouze klíčové snímky, čímž se výrazně urychlí zpracování na úkor přesnosti. Pokud nastavený hardwarový dekodér tuto funkci nepodporuje, bude použito softwarové dekódování.",
     "AllowTonemappingSoftwareHelp": "Mapováním tónů je možné změnit dynamický rozsah videa z HRD na SDR při zachování detailů a barev obrazu, tj. důležitých informací reprezentujících původní scénu. Momentálně funguje pouze u videí s 10bitovým HDR10 a HLG.",
-    "Reset": "Resetovat"
+    "Reset": "Resetovat",
+    "MediaInfoRotation": "Rotace"
 }
