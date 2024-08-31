@@ -840,6 +840,8 @@
     "LabelPublicHttpsPortHelp": "The public port number that should be mapped to the local HTTPS port.",
     "LabelPublishedServerUri": "Published Server URIs",
     "LabelPublishedServerUriHelp": "Override the URI used by Jellyfin, based on the interface, or client IP address. For example: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, or all=https://jellyfin.example.com",
+    "LabelQsvDevice": "QSV Device",
+    "LabelQsvDeviceHelp": "This is the render node that is used for hardware acceleration.",
     "LabelQuickConnectCode": "Quick Connect code",
     "LabelReasonForTranscoding": "Reason for transcoding",
     "LabelRecord": "Record",
