@@ -89,5 +89,7 @@
     "HeaderLibraries": "Lyvervaow",
     "HeaderInstall": "Ynstallya",
     "HeaderMedia": "Media",
-    "HeaderNextItem": "Nessa {0}"
+    "HeaderNextItem": "Nessa {0}",
+    "LabelMetadata": "Metamanylyon",
+    "Metadata": "Metamanylyon"
 }
