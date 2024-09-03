@@ -242,16 +242,16 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
     if (browser.xboxOne) return [5, 8];
 
     const supportedProfiles = [];
-    // Profiles 5/8 4k@60fps
+    // Profiles 5/8 4k@24fps
     if (videoTestElement.canPlayType) {
         if (videoTestElement
-            .canPlayType('video/mp4; codecs="dvh1.05.09"')
+            .canPlayType('video/mp4; codecs="dvh1.05.06"')
             .replace(/no/, '')) {
             supportedProfiles.push(5);
         }
         if (
             videoTestElement
-                .canPlayType('video/mp4; codecs="dvh1.08.09"')
+                .canPlayType('video/mp4; codecs="dvh1.08.06"')
                 .replace(/no/, '')
             // LG TVs from at least 2020 onwards should support profile 8, but they don't report it.
             || (browser.web0sVersion >= 4)
