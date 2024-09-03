@@ -29,7 +29,7 @@ const AppLayout = () => {
     }, [ isDrawerActive, setIsDrawerActive ]);
 
     return (
-        <Box sx={{ position: 'relative', display: 'flex' }}>
+        <Box sx={{ position: 'relative', display: 'flex', height: '100%' }}>
             <ElevationScroll elevate={false}>
                 <AppBar
                     position='fixed'
