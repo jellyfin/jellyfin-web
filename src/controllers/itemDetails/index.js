@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
@@ -988,6 +989,9 @@ function renderDirector(page, item, context) {
 }
 
 function renderStudio(page, item, context) {
+    // The list of studios can be massive for collections of items
+    if ([BaseItemKind.BoxSet, BaseItemKind.Playlist].includes(item.Type)) return;
+
     const studios = item.Studios || [];
 
     const html = studios.map(function (studio) {
