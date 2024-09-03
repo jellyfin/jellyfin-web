@@ -1254,7 +1254,7 @@
     "OnWakeFromSleep": "Beim Aufwachen aus \"Energie sparen\"",
     "WeeklyAt": "{0} um {1}",
     "DailyAt": "Täglich um {0}",
-    "LastSeen": "Zuletzt angesehen {0}",
+    "LastSeen": "Letzte Aktivität {0}",
     "PersonRole": "als {0}",
     "ListPaging": "{0}-{1} von {2}",
     "WriteAccessRequired": "Jellyfin benötigt Schreibrechte auf diesem Ordner. Bitte prüfe die Schreibrechte und versuche es erneut.",
@@ -1928,5 +1928,6 @@
     "MoveToBottom": "Nach unten bewegen",
     "MoveToTop": "Nach oben bewegen",
     "LabelDropLyricsHere": "Text hier ablegen, oder klicke zum Durchsuchen.",
-    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahiert nur Schlüsselbilder für eine deutlich schnellere Verarbeitung mit weniger genauem Timing. Wenn der konfigurierte Hardware-Decoder diesen Modus nicht unterstützt, wird stattdessen der Software-Decoder verwendet."
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahiert nur Schlüsselbilder für eine deutlich schnellere Verarbeitung mit weniger genauem Timing. Wenn der konfigurierte Hardware-Decoder diesen Modus nicht unterstützt, wird stattdessen der Software-Decoder verwendet.",
+    "Reset": "Zurücksetzen"
 }
