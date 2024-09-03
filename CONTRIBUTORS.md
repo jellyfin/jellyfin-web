@@ -96,6 +96,7 @@
 - [K. Kyle Puchkov](https://github.com/kepper104)
 - [ItsAllAboutTheCode](https://github.com/ItsAllAboutTheCode)
 - [Jxiced](https://github.com/Jxiced)
+- [Lampan-git](https://github.com/Lampan-git)
 
 ## Emby Contributors
 
