@@ -565,6 +565,7 @@
     "OptionAllowAudioPlaybackTranscoding": "Allow audio playback that requires transcoding",
     "OptionAllUsers": "All users",
     "Option3D": "3D",
+    "OriginalLanguage": "Original Language",
     "OnlyImageFormats": "Only Image Formats (VobSub, PGS, SUB)",
     "OnlyForcedSubtitlesHelp": "Only subtitles marked as forced will be loaded.",
     "Normal": "Normal",
