@@ -8,7 +8,11 @@ import ItemLogo from '../components/ItemLogo';
 import { TrackSelectionsProvider } from '../components/track-selections';
 import DetailPrimaryContainer from '../components/DetailPrimaryContainer';
 import DetailSecondaryContainer from '../components/DetailSecondaryContainer';
+
+import SeriesTimerSchedule from '../components/section/SeriesTimerSchedule';
+
 import type { ItemDto } from 'types/base/models/item-dto';
+import { ItemKind } from 'types/base/models/item-kind';
 
 import './details.scss';
 
@@ -35,6 +39,14 @@ export const DetailView: FC<DetailViewProps> = ({ item, paramId, context }) => {
                                 context={context}
                                 user={user}
                             />
+
+                            {item.Type === ItemKind.SeriesTimer
+                                        && user?.Policy
+                                            ?.EnableLiveTvManagement && (
+                                <SeriesTimerSchedule
+                                    seriesTimerId={item.Id}
+                                />
+                            )}
                         </Box>
                     </Box>
                 </Box>
