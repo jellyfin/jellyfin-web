@@ -25,6 +25,8 @@ import alert from '../alert';
 import template from './mediaLibraryCreator.template.html';
 
 function onAddLibrary(e) {
+    e.preventDefault();
+
     if (isCreating) {
         return false;
     }
@@ -61,7 +63,6 @@ function onAddLibrary(e) {
         isCreating = false;
         loading.hide();
     });
-    e.preventDefault();
 }
 
 function getCollectionTypeOptionsHtml(collectionTypeOptions) {
