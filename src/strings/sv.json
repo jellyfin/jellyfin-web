@@ -882,6 +882,7 @@
     "OptionWeekends": "Helger",
     "OptionWeekly": "Varje vecka",
     "OriginalAirDateValue": "Ursprungligt sändningsdatum: {0}",
+    "OriginalLanguage": "Orignalspråk",
     "Overview": "Översikt",
     "PackageInstallCancelled": "Installationen av {0} (version {1}) avbröts.",
     "PackageInstallCompleted": "Installationen av {0} (version {1}) slutfördes.",
