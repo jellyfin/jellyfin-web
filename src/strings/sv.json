@@ -1268,7 +1268,7 @@
     "LabelLibraryPageSize": "Bibliotekets sidstorlek",
     "LabelDeinterlaceMethod": "Deinterlacing-metod",
     "WeeklyAt": "{0}s vid {1}",
-    "LastSeen": "Senast sedd {0}",
+    "LastSeen": "Senast aktivitet {0}",
     "Yadif": "Ännu en Deinterlacing-filter (YADIF)",
     "Filter": "Filter",
     "New": "Ny",
@@ -1904,5 +1904,14 @@
     "HeaderNextItemPlayingInValue": "Nästa {0} Spelar om {1}",
     "LabelSelectPreferredTranscodeVideoCodec": "Föredragen omkodnings videokodek",
     "LabelRepository": "Förvaringsplats",
-    "AndOtherArtists": "{0} och {1} andra artister."
+    "AndOtherArtists": "{0} och {1} andra artister.",
+    "MediaInfoRotation": "Rotation",
+    "EditLyrics": "Redigera sångtext",
+    "HeaderAddLyrics": "Lägg till sångtext",
+    "HeaderUploadLyrics": "Ladda upp sångtext",
+    "LabelDuration": "Varaktighet",
+    "LabelDropLyricsHere": "Släpp sångtext här, eller klicka för att bläddra.",
+    "LabelIsSynced": "Är synkroniserad",
+    "AllowTonemappingSoftwareHelp": "Tonmappning kan konvertera det dynamiska omfånget för en video från HDR till SDR samtidigt som bilddetaljer och färger bibehålls, vilket är mycket viktig information för att representera den ursprungliga scenen. Fungerar för närvarande endast med 10-bitars HDR10- och HLG-videor.",
+    "HeaderPreviewLyrics": "Förhandsgranska sångtext"
 }
