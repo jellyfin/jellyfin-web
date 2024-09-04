@@ -622,7 +622,7 @@ export function getLibraryOptions(parent) {
     return options;
 }
 
-function getOrderedPlugins(plugins, configuredOrder) {
+function getOrderedPlugins(plugins = [], configuredOrder = []) {
     plugins = plugins.slice(0);
     plugins.sort((a, b) => {
         a = configuredOrder.indexOf(a.Name);
