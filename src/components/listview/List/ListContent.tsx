@@ -78,12 +78,13 @@ const ListContent: FC<ListContentProps> = ({
             {listOptions.showMediaInfo !== false && enableSideMediaInfo && (
                 <PrimaryMediaInfo
                     className='secondary listItemMediaInfo'
+                    infoclass='mediaInfoText'
                     item={item}
-                    isRuntimeEnabled={true}
-                    isStarRatingEnabled={true}
-                    isCaptionIndicatorEnabled={true}
-                    isEpisodeTitleEnabled={true}
-                    isOfficialRatingEnabled={true}
+                    showRuntimeInfo
+                    showOfficialRatingInfo
+                    showOriginalAirDateInfo
+                    showStarRatingInfo
+                    showCaptionIndicatorInfo
                     getMissingIndicator={indicator.getMissingIndicator}
                 />
             )}
