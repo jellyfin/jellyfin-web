@@ -674,7 +674,7 @@ class AppRouter {
         }
 
         if (item === 'tag') {
-            url = `#/list.html?tag=${encodeURIComponent(options.tag)}&serverId=${serverId}`;
+            url = `#/list.html?type=tag&tag=${encodeURIComponent(options.tag)}&serverId=${serverId}`;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;

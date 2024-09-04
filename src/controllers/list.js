@@ -334,7 +334,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 }
 
 function getItem(params) {
-    if ([ 'Recordings', 'Programs', 'nextup' ].includes(params.type) || params.tag) {
+    if ([ 'Recordings', 'Programs', 'nextup', 'tag' ].includes(params.type)) {
         return Promise.resolve(null);
     }
 
@@ -1208,7 +1208,7 @@ class ItemsView {
             showTitle = true;
         } else if (showTitle === 'false') {
             showTitle = false;
-        } else if (params.type === 'Programs' || params.type === 'Recordings' || params.type === 'Person' || params.type === 'nextup' || params.type === 'Audio' || params.type === 'MusicAlbum' || params.type === 'MusicArtist') {
+        } else if ([ 'Audio', 'MusicAlbum', 'MusicArtist', 'Person', 'Programs', 'Recordings', 'nextup', 'tag' ].includes(params.type)) {
             showTitle = true;
         } else if (item && item.Type !== 'PhotoAlbum') {
             showTitle = true;
@@ -1225,7 +1225,7 @@ class ItemsView {
         }
 
         return {
-            showTitle: showTitle,
+            showTitle,
             showYear: userSettings.get(basekey + '-showYear') !== 'false',
             imageType: imageType || 'primary',
             viewType: userSettings.get(basekey + '-viewType') || 'images'
