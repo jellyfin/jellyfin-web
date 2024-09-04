@@ -1930,5 +1930,6 @@
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "仅提取关键帧以实现更快的处理速度，但时间精度较低。如果配置的硬件解码器不支持此模式，则将改用软件解码器。",
     "AllowTonemappingSoftwareHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅对 10bit HDR10 和 HLG 视频生效。",
     "Reset": "重置",
-    "MediaInfoRotation": "旋转"
+    "MediaInfoRotation": "旋转",
+    "LibraryInvalidItemIdError": "该媒体库处于无效状态，无法编辑。您可能遇到了错误：数据库中的路径不是文件系统上的正确路径。"
 }
