@@ -1930,5 +1930,6 @@
     "AllowTonemappingSoftwareHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only with 10bit HDR10 and HLG videos.",
     "LabelTrickplayKeyFrameOnlyExtraction": "Only generate images from key frames",
     "Reset": "Reset",
-    "MediaInfoRotation": "Rotation"
+    "MediaInfoRotation": "Rotation",
+    "LibraryInvalidItemIdError": "The library is in an invalid state and cannot be edited. You are possibly encountering a bug: the path in the database is not the correct path on the filesystem."
 }
