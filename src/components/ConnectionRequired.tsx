@@ -3,7 +3,6 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ConnectResponse } from 'jellyfin-apiclient';
 
 import alert from './alert';
-import { appRouter } from './router/appRouter';
 import Loading from './loading/LoadingComponent';
 import ServerConnections from './ServerConnections';
 import globalize from '../lib/globalize';
@@ -149,24 +148,20 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     }, [bounce, isAdminRequired, isUserRequired]);
 
     useEffect(() => {
-        // TODO: appRouter will call appHost.exit() if navigating back when you are already at the default route.
-        // This case will need to be handled elsewhere before appRouter can be killed.
-
         // Check connection status on initial page load
-        const firstConnection = appRouter.firstConnectionResult;
-        appRouter.firstConnectionResult = null;
+        ServerConnections.connect()
+            .then(firstConnection => {
+                console.debug('[ConnectionRequired] connection state', firstConnection?.State);
 
-        if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
-            handleIncompleteWizard(firstConnection)
-                .catch(err => {
-                    console.error('[ConnectionRequired] failed to start wizard', err);
-                });
-        } else {
-            validateUserAccess()
-                .catch(err => {
-                    console.error('[ConnectionRequired] failed to validate user access', err);
-                });
-        }
+                if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
+                    return handleIncompleteWizard(firstConnection);
+                } else {
+                    return validateUserAccess();
+                }
+            })
+            .catch(err => {
+                console.error('[ConnectionRequired] failed to connect to server', err);
+            });
     }, [handleIncompleteWizard, validateUserAccess]);
 
     if (isLoading) {

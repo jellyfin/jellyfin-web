@@ -1,3 +1,4 @@
+import { appRouter, isLyricsPage } from 'components/router/appRouter';
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
@@ -16,7 +17,6 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
-import { appRouter } from '../router/appRouter';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];
@@ -773,7 +773,7 @@ function refreshFromPlayer(player, type) {
 }
 
 function bindToPlayer(player) {
-    isLyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
+    isLyricPageActive = isLyricsPage();
     if (player === currentPlayer) {
         return;
     }
@@ -806,7 +806,7 @@ Events.on(playbackManager, 'playerchange', function () {
 bindToPlayer(playbackManager.getCurrentPlayer());
 
 document.addEventListener('viewbeforeshow', function (e) {
-    isLyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
+    isLyricPageActive = isLyricsPage();
     setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {
         if (isVisibilityAllowed) {
