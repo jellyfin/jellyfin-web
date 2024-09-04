@@ -21,7 +21,7 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
-import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind, SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
 
 let currentContext;
 let metadataEditorInfo;
@@ -541,7 +541,7 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldPath', context);
     }
 
-    if (item.Type === 'Series' || item.Type === 'Season' || item.Type === 'Episode' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Person') {
+    if ([BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type)) {
         showElement('#fldOriginalName', context);
     } else {
         hideElement('#fldOriginalName', context);
