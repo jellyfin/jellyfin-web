@@ -1929,5 +1929,7 @@
     "MoveToTop": "Nach oben bewegen",
     "LabelDropLyricsHere": "Text hier ablegen, oder klicke zum Durchsuchen.",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahiert nur Schlüsselbilder für eine deutlich schnellere Verarbeitung mit weniger genauem Timing. Wenn der konfigurierte Hardware-Decoder diesen Modus nicht unterstützt, wird stattdessen der Software-Decoder verwendet.",
-    "Reset": "Zurücksetzen"
+    "Reset": "Zurücksetzen",
+    "LibraryInvalidItemIdError": "Die Bibliothek ist in einem Unerlaubten Zustand und kann nicht verändert werden. Dies ist möglicherweise ein Bug: Der Pfad der Datenbank im Dateisystem ist nicht korrekt.",
+    "MediaInfoRotation": "Rotation"
 }
