@@ -1930,5 +1930,6 @@
     "PluginEnableError": "Un error ha ocurrido mientras se habilitaba el complemento.",
     "PluginLoadConfigError": "Un error ha ocurrido mientras se obtenian las páginas de configuración del complemento.",
     "PluginLoadRepoError": "Un error ha ocurrido mientras se obtenian del repositorio los detalles del complemeno.",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Selecciona el codec de audio preferido al cual transcodificar el contenido del video. Si el codec seleccionado no está soportado el servidor utilizará el siguiente mejor codec disponible."
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Selecciona el codec de audio preferido al cual transcodificar el contenido del video. Si el codec seleccionado no está soportado el servidor utilizará el siguiente mejor codec disponible.",
+    "LibraryInvalidItemIdError": "La biblioteca está en un estado no válido y no se puede editar. Es posible que estés encontrando un error: la ruta en la base de datos no es la ruta correcta en el sistema de archivos."
 }
