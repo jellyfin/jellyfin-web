@@ -673,6 +673,16 @@ class AppRouter {
             return url;
         }
 
+        if (item === 'tag') {
+            url = `#/list.html?tag=${encodeURIComponent(options.tag)}&serverId=${serverId}`;
+
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+
+            return url;
+        }
+
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
             if (item.CollectionType == CollectionType.Movies) {
                 url = `#/movies.html?topParentId=${item.Id}&collectionType=${item.CollectionType}`;

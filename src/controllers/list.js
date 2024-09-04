@@ -284,7 +284,8 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             Recursive: true,
             IsFavorite: params.IsFavorite === 'true' || null,
             ArtistIds: params.artistId || null,
-            SortBy: sortBy
+            SortBy: sortBy,
+            Tags: params.tag || null
         }));
     }
 
@@ -333,7 +334,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 }
 
 function getItem(params) {
-    if (params.type === 'Recordings' || params.type === 'Programs' || params.type === 'nextup') {
+    if ([ 'Recordings', 'Programs', 'nextup' ].includes(params.type) || params.tag) {
         return Promise.resolve(null);
     }
 
@@ -725,6 +726,10 @@ class ItemsView {
 
             if (params.type === 'Video') {
                 return globalize.translate('Videos');
+            }
+
+            if (params.tag) {
+                return params.tag;
             }
         }
 

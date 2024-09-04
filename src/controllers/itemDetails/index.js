@@ -1080,7 +1080,7 @@ function renderDetails(page, item, apiClient, context) {
         renderLinks(page, item);
     }
 
-    renderTags(page, item);
+    renderTags(page, item, context);
     renderSeriesAirTime(page, item);
 }
 
@@ -1299,7 +1299,7 @@ function renderSeriesAirTime(page, item) {
     }
 }
 
-function renderTags(page, item) {
+function renderTags(page, item, context) {
     const itemTags = page.querySelector('.itemTags');
     const tagElements = [];
     let tags = item.Tags || [];
@@ -1309,8 +1309,13 @@ function renderTags(page, item) {
     }
 
     tags.forEach(tag => {
+        const href = appRouter.getRouteUrl('tag', {
+            context,
+            tag,
+            serverId: item.ServerId
+        });
         tagElements.push(
-            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            `<a href="${href}" class="button-link emby-button" is="emby-linkbutton">`
             + escapeHtml(tag)
             + '</a>'
         );
