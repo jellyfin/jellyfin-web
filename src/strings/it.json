@@ -1929,5 +1929,6 @@
     "AllowTonemappingSoftwareHelp": "Tone-mapping trasforma il range dinamico di un video da HDR a SDR mantenendo però dettagli e colori per rappresentare fedelmente la scena originale. Al momento funzionante solo con video HDR10 e HLG a 10bit.",
     "LabelDuration": "Durata",
     "LabelDropLyricsHere": "Trascina i testi qui o clicca per scegliere.",
-    "LabelIsSynced": "Sincronizzato"
+    "LabelIsSynced": "Sincronizzato",
+    "MediaInfoRotation": "Rotazione"
 }
