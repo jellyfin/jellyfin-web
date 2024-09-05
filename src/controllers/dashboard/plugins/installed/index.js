@@ -1,6 +1,6 @@
 import loading from '../../../../components/loading/loading';
 import dom from '../../../../scripts/dom';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import '../../../../components/cardbuilder/card.scss';
 import '../../../../elements/emby-button/emby-button';
 import Dashboard, { pageIdOn } from '../../../../utils/dashboard';

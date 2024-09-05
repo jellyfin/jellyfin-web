@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
@@ -194,11 +194,16 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
         }
 
-        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp' || this.value == 'videotoolbox') {
+        const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
+        if (this.value === '' || isHwaSelected) {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
         }
+
+        page.querySelector('.tonemappingModeOptions').classList.toggle('hide', !isHwaSelected);
+        page.querySelector('.allowTonemappingHardwareHelp').classList.toggle('hide', !isHwaSelected);
+        page.querySelector('.allowTonemappingSoftwareHelp').classList.toggle('hide', isHwaSelected);
 
         if (this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.fldIntelLp').classList.remove('hide');

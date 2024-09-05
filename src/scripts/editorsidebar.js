@@ -1,9 +1,10 @@
 import escapeHtml from 'escape-html';
 import 'jquery';
-import globalize from './globalize';
 import 'material-design-icons-iconfont';
-import Dashboard from '../utils/dashboard';
-import { getParameterByName } from '../utils/url.ts';
+
+import globalize from 'lib/globalize';
+import Dashboard from 'utils/dashboard';
+import { getParameterByName } from 'utils/url';
 
 function getNode(item, folderState, selected) {
     const htmlName = getNodeInnerHtml(item);

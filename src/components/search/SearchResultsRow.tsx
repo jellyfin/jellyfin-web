@@ -1,8 +1,8 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { type FC, useEffect, useRef } from 'react';
 
 import cardBuilder from '../cardbuilder/cardBuilder';
-
+import type { CardOptions } from 'types/cardOptions';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -16,46 +16,18 @@ const createScroller = ({ title = '' }) => ({
 </div>`
 });
 
-type CardOptions = {
-    itemsContainer?: HTMLElement,
-    parentContainer?: HTMLElement,
-    allowBottomPadding?: boolean,
-    centerText?: boolean,
-    coverImage?: boolean,
-    inheritThumb?: boolean,
-    overlayMoreButton?: boolean,
-    overlayText?: boolean,
-    preferThumb?: boolean,
-    scalable?: boolean,
-    shape?: string,
-    showParentTitle?: boolean,
-    showParentTitleOrTitle?: boolean,
-    showAirTime?: boolean,
-    showAirDateTime?: boolean,
-    showChannelName?: boolean,
-    showTitle?: boolean,
-    showYear?: boolean
-};
-
-type SearchResultsRowProps = {
+interface SearchResultsRowProps {
     title?: string;
     items?: BaseItemDto[];
     cardOptions?: CardOptions;
-};
+}
 
-const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {
+const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         cardBuilder.buildCards(items, {
             itemsContainer: element.current?.querySelector('.itemsContainer'),
-            parentContainer: element.current,
-            shape: 'autooverflow',
-            scalable: true,
-            showTitle: true,
-            overlayText: false,
-            centerText: true,
-            allowBottomPadding: false,
             ...cardOptions
         });
     }, [cardOptions, items]);

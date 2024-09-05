@@ -10,7 +10,7 @@ import layoutManager from '../layoutManager';
 import toast from '../toast/toast';
 import { copy } from '../../scripts/clipboard';
 import dom from '../../scripts/dom';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import itemHelper from '../../components/itemHelper';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
@@ -64,7 +64,7 @@ function getMediaSourceHtml(user, item, version) {
     if (version.Formats?.length) {
         html += `${createAttribute(globalize.translate('MediaInfoFormat'), version.Formats.join(','))}<br/>`;
     }
-    if (version.Path && user && user.Policy.IsAdministrator) {
+    if (version.Path && user?.Policy.IsAdministrator) {
         html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path, true)}<br/>`;
     }
     if (version.Size) {
@@ -193,6 +193,9 @@ function getMediaSourceHtml(user, item, version) {
         }
         if (stream.RefFrames) {
             attributes.push(createAttribute(globalize.translate('MediaInfoRefFrames'), stream.RefFrames));
+        }
+        if (stream.Rotation && stream.Type === 'Video') {
+            attributes.push(createAttribute(globalize.translate('MediaInfoRotation'), stream.Rotation));
         }
         if (stream.NalLengthSize) {
             attributes.push(createAttribute('NAL', stream.NalLengthSize));

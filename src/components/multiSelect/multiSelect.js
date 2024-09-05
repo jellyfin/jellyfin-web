@@ -1,7 +1,7 @@
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
@@ -570,4 +570,8 @@ export default function (options) {
 
 export const startMultiSelect = (card) => {
     showSelections(card);
+};
+
+export const stopMultiSelect = () => {
+    hideSelections();
 };

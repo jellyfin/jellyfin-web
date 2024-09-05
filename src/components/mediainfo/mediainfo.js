@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { appRouter } from '../router/appRouter';
 import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';
@@ -271,7 +271,7 @@ export function getMediaInfoHtml(item, options = {}) {
     if (options.officialRating !== false && item.OfficialRating && item.Type !== 'Season' && item.Type !== 'Episode') {
         miscInfo.push({
             text: item.OfficialRating,
-            cssClass: 'mediaInfoOfficialRating'
+            cssClass: 'mediaInfoText mediaInfoOfficialRating'
         });
     }
 

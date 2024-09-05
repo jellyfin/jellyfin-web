@@ -1,5 +1,5 @@
 
-import globalize from './globalize';
+import globalize from 'lib/globalize';
 import alert from '../components/alert';
 import confirm from '../components/confirm/confirm';
 import { appRouter } from '../components/router/appRouter';

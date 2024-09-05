@@ -4,7 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';
 import classNames from 'classnames';
 import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface FavoriteButtonProps {
     className?: string;

@@ -1,4 +1,3 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
@@ -12,12 +11,13 @@ import { appRouter } from 'components/router/appRouter';
 import SectionContainer from './SectionContainer';
 import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface GenresSectionContainerProps {
     parentId: ParentId;
     collectionType: CollectionType | undefined;
     itemType: BaseItemKind[];
-    genre: BaseItemDto;
+    genre: ItemDto;
 }
 
 const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
@@ -47,7 +47,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
 
     const { isLoading, data: itemsResult } = useGetItems(getParametersOptions());
 
-    const getRouteUrl = (item: BaseItemDto) => {
+    const getRouteUrl = (item: ItemDto) => {
         return appRouter.getRouteUrl(item, {
             context: collectionType,
             parentId: parentId

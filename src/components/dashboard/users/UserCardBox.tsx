@@ -2,7 +2,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import escapeHTML from 'escape-html';
 import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
