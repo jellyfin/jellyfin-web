@@ -1,5 +1,5 @@
 import TabbedView from '../components/tabbedview/tabbedview';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-scroller/emby-scroller';

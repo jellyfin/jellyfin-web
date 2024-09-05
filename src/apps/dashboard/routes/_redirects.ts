@@ -1,7 +1,6 @@
 import type { Redirect } from 'components/router/Redirect';
 
 export const REDIRECTS: Redirect[] = [
-    { from: 'addplugin.html', to: '/dashboard/plugins/add' },
     { from: 'apikeys.html', to: '/dashboard/keys' },
     { from: 'availableplugins.html', to: '/dashboard/plugins/catalog' },
     { from: 'dashboard.html', to: '/dashboard' },
@@ -21,7 +20,6 @@ export const REDIRECTS: Redirect[] = [
     { from: 'metadataimages.html', to: '/dashboard/libraries/metadata' },
     { from: 'metadatanfo.html', to: '/dashboard/libraries/nfo' },
     { from: 'networking.html', to: '/dashboard/networking' },
-    { from: 'notificationsettings.html', to: '/dashboard/notifications' },
     { from: 'playbackconfiguration.html', to: '/dashboard/playback/resume' },
     { from: 'repositories.html', to: '/dashboard/plugins/repositories' },
     { from: 'scheduledtask.html', to: '/dashboard/tasks/edit' },

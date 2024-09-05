@@ -6,9 +6,10 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../../components/ServerConnections';
 import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
-import dom from '../../scripts/dom';
-import { translateHtml } from '../../scripts/globalize';
+import { translateHtml } from '../../lib/globalize';
+import browser from 'scripts/browser';
 import * as userSettings from '../../scripts/settings/userSettings';
+import TouchHelper from 'scripts/touchHelper';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
@@ -45,7 +46,7 @@ export class BookPlayer {
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
+        this.addSwipeGestures = this.addSwipeGestures.bind(this);
     }
 
     play(options) {
@@ -156,17 +157,10 @@ export class BookPlayer {
         }
     }
 
-    onTouchStart(e) {
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-
-        // epubjs stores pages off the screen or something for preloading
-        // get the modulus of the touch event to account for the increased width
-        const touchX = e.touches[0].clientX % dom.getWindowSize().innerWidth;
-        if (touchX < dom.getWindowSize().innerWidth / 2) {
-            this.previous();
-        } else {
-            this.next();
-        }
+    addSwipeGestures(element) {
+        this.touchHelper = new TouchHelper(element);
+        Events.on(this.touchHelper, 'swipeleft', () => this.next());
+        Events.on(this.touchHelper, 'swiperight', () => this.previous());
     }
 
     onDialogClosed() {
@@ -191,9 +185,14 @@ export class BookPlayer {
         this.bindMediaElementEvents();
 
         document.addEventListener('keyup', this.onWindowKeyUp);
+        this.rendition?.on('keyup', this.onWindowKeyUp);
 
-        this.rendition.on('touchstart', this.onTouchStart);
-        this.rendition.on('keyup', this.onWindowKeyUp);
+        if (browser.safari) {
+            const player = document.getElementById('bookPlayerContainer');
+            this.addSwipeGestures(player);
+        } else {
+            this.rendition?.on('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+        }
     }
 
     unbindMediaElementEvents() {
@@ -216,9 +215,13 @@ export class BookPlayer {
         }
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
-
-        this.rendition?.off('touchstart', this.onTouchStart);
         this.rendition?.off('keyup', this.onWindowKeyUp);
+
+        if (!browser.safari) {
+            this.rendition?.off('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+        }
+
+        this.touchHelper?.destroy();
     }
 
     openTableOfContents() {
@@ -335,9 +338,7 @@ export class BookPlayer {
                     width: '100%',
                     height: renderHeight,
                     // TODO: Add option for scrolled-doc
-                    flow: 'paginated',
-                    // Scripted content is required to allow touch event passthrough in Safari
-                    allowScriptedContent: true
+                    flow: 'paginated'
                 });
 
                 this.currentSrc = downloadHref;

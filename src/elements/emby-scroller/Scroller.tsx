@@ -5,7 +5,7 @@ import layoutManager from '../../components/layoutManager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
-import ScrollerFactory from '../../libraries/scroller';
+import ScrollerFactory from 'lib/scroller';
 import ScrollButtons from '../emby-scrollbuttons/ScrollButtons';
 import './emby-scroller.scss';
 

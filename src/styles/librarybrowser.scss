@@ -921,8 +921,11 @@
     position: relative;
 }
 
-.layout-mobile .detailLogo {
-    display: none;
+.layout-mobile,
+.layout-tv {
+    .detailLogo {
+        display: none;
+    }
 }
 
 @media all and (max-width: 68.75em) {

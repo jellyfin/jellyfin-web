@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface NoItemsMessageProps {
     noItemsMessage?: string;

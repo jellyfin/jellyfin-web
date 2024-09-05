@@ -239,6 +239,8 @@ function supportsDolbyVision(options) {
 }
 
 function supportedDolbyVisionProfilesHevc(videoTestElement) {
+    if (browser.xboxOne) return [5, 8];
+
     const supportedProfiles = [];
     // Profiles 5/8 4k@60fps
     if (videoTestElement.canPlayType) {
@@ -247,9 +249,13 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
             .replace(/no/, '')) {
             supportedProfiles.push(5);
         }
-        if (videoTestElement
-            .canPlayType('video/mp4; codecs="dvh1.08.09"')
-            .replace(/no/, '')) {
+        if (
+            videoTestElement
+                .canPlayType('video/mp4; codecs="dvh1.08.09"')
+                .replace(/no/, '')
+            // LG TVs from at least 2020 onwards should support profile 8, but they don't report it.
+            || (browser.web0sVersion >= 4)
+        ) {
             supportedProfiles.push(8);
         }
     }
@@ -447,6 +453,7 @@ export default function (options) {
 
     const canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
     const canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
+    const safariSupportsOpus = browser.safari && browser.versionMajor >= 17 && !!document.createElement('audio').canPlayType('audio/x-caf; codecs="opus"').replace(/no/, '');
     const webmAudioCodecs = ['vorbis'];
 
     const canPlayMkv = testCanPlayMkv(videoTestElement);
@@ -576,9 +583,11 @@ export default function (options) {
         if (browser.tizen) {
             hlsInTsVideoAudioCodecs.push('opus');
         }
-        if (!browser.safari) {
-            hlsInFmp4VideoAudioCodecs.push('opus');
-        }
+        hlsInFmp4VideoAudioCodecs.push('opus');
+    } else if (safariSupportsOpus) {
+        videoAudioCodecs.push('opus');
+        webmAudioCodecs.push('opus');
+        hlsInFmp4VideoAudioCodecs.push('opus');
     }
 
     // FLAC audio in video plays with a delay on Tizen
@@ -651,7 +660,16 @@ export default function (options) {
     }
 
     if (canPlayVp9) {
-        mp4VideoCodecs.push('vp9');
+        if (!browser.iOS) {
+            // iOS safari may fail to direct play vp9 in mp4 container
+            mp4VideoCodecs.push('vp9');
+        }
+        // Only iOS Safari's native HLS player understands vp9 in fmp4
+        // This should be used in conjunction with forcing
+        // using HLS.js for VP9 remuxing on desktop Safari.
+        if (browser.safari) {
+            hlsInFmp4VideoCodecs.push('vp9');
+        }
         // webm support is unreliable on safari 17
         if (!browser.safari
              || (browser.safari && browser.versionMajor >= 15 && browser.versionMajor < 17)) {
@@ -668,7 +686,7 @@ export default function (options) {
         }
     }
 
-    if (canPlayVp8 || browser.tizen) {
+    if ((!browser.safari && canPlayVp8) || browser.tizen) {
         videoAudioCodecs.push('vorbis');
     }
 
@@ -709,6 +727,17 @@ export default function (options) {
     });
 
     ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+        // Place container overrides before direct profile for remux container override
+        if (audioFormat == 'mp3' && !canPlayMp3VideoAudioInHls) {
+            // mp3 is a special case because it is allowed in hls-fmp4 on the server-side
+            // but not really supported in most browsers
+            profile.DirectPlayProfiles.push({
+                Container: 'ts',
+                AudioCodec: 'mp3',
+                Type: 'Audio'
+            });
+        }
+
         profile.DirectPlayProfiles.push({
             Container: audioFormat,
             Type: 'Audio'
@@ -739,6 +768,14 @@ export default function (options) {
             });
         }
     });
+
+    if (safariSupportsOpus) {
+        profile.DirectPlayProfiles.push({
+            Container: 'mp4',
+            AudioCodec: 'opus',
+            Type: 'Audio'
+        });
+    }
 
     profile.TranscodingProfiles = [];
 
@@ -1259,17 +1296,16 @@ export default function (options) {
     });
 
     if (browser.web0s && supportsDolbyVision(options)) {
-        // Disallow direct playing of DOVI media in containers not mp4.
-        // This paired with the "Prefer fMP4-HLS Container" client playback setting enables DOVI playback on webOS.
+        // Disallow direct playing of DOVI media in containers not ts or mp4.
         profile.CodecProfiles.push({
             Type: 'Video',
-            Container: '-mp4',
+            Container: '-mp4,ts',
             Codec: 'hevc',
             Conditions: [
                 {
                     Condition: 'EqualsAny',
                     Property: 'VideoRangeType',
-                    Value: 'SDR|HDR10|HLG',
+                    Value: hevcVideoRangeTypes.split('|').filter((v) => !v.startsWith('DOVI')).join('|'),
                     IsRequired: false
                 }
             ]

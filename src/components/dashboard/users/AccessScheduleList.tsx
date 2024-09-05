@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import datetime from '../../../scripts/datetime';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
 type AccessScheduleListProps = {

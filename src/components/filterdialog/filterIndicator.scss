@@ -1,0 +1,21 @@
+.btnFilterWithIndicator {
+    position: relative;
+}
+
+.filterIndicator {
+    color: #fff;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 1.8em;
+    height: 1.8em;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60%;
+    border-radius: 100em;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    background: #03a9f4;
+    font-weight: bold;
+}

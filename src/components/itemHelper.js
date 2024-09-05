@@ -1,5 +1,5 @@
 import { appHost } from './apphost';
-import globalize from '../scripts/globalize';
+import globalize from 'lib/globalize';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
@@ -186,6 +186,16 @@ export function canEditSubtitles (user, item) {
            || user.Policy.IsAdministrator;
 }
 
+export function canEditLyrics (user, item) {
+    if (item.MediaType !== MediaType.Audio) {
+        return false;
+    }
+    if (isLocalItem(item)) {
+        return false;
+    }
+    return user.Policy.IsAdministrator;
+}
+
 export function canShare (item, user) {
     if (item.Type === 'Program') {
         return false;
@@ -332,6 +342,7 @@ export default {
     canEdit: canEdit,
     canEditImages: canEditImages,
     canEditSubtitles,
+    canEditLyrics,
     canShare: canShare,
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,

@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import SectionContainer from './SectionContainer';
 import { CardShape } from 'utils/card';

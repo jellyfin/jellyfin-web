@@ -1,19 +1,18 @@
-import {
-    type RecommendationDto,
-    RecommendationType
-} from '@jellyfin/sdk/lib/generated-client';
+import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/models/recommendation-dto';
+import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
 import React, { type FC } from 'react';
 import {
     useGetMovieRecommendations,
     useGetSuggestionSectionsWithItems
 } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import SectionContainer from './SectionContainer';
 import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface SuggestionsSectionViewProps {
     parentId: ParentId;
@@ -116,7 +115,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                     // eslint-disable-next-line react/no-array-index-key
                     key={`${recommendation.CategoryId}-${index}`} // use a unique id return value may have duplicate id
                     sectionTitle={getRecommendationTittle(recommendation)}
-                    items={recommendation.Items ?? []}
+                    items={(recommendation.Items as ItemDto[]) ?? []}
                     cardOptions={{
                         queryKey: ['MovieRecommendations'],
                         shape: CardShape.PortraitOverflow,
