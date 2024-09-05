@@ -1923,13 +1923,13 @@
     "LabelIsSynced": "Ist synchronisiert",
     "NoLyricsSearchResultsFound": "Kein Songtext gefunden.",
     "PreviewLyrics": "Songtextvorschau anzeigen",
-    "AllowTonemappingSoftwareHelp": "Tone-Mapping kann den Dynamikbereich eines Videos von HDR in SDR umwandeln und dabei Bilddetails und Farben beibehalten, die für die Darstellung der ursprünglichen Szene sehr wichtig sind. Funktioniert derzeit nur mit 10bit HDR10- und HLG-Videos.",
+    "AllowTonemappingSoftwareHelp": "Tone-Mapping kann den Dynamikbereich eines Videos von HDR in SDR umwandeln und dabei Bilddetails und Farben beibehalten, die für die Darstellung der ursprünglichen Szene sehr wichtig sind. Funktioniert derzeit nur mit 10bit HDR10-,HLG- und DoVi-Videos.",
     "LabelTrickplayKeyFrameOnlyExtraction": "Nur Bilder von Schlüsselbildern erzeugen",
     "MoveToBottom": "Nach unten bewegen",
     "MoveToTop": "Nach oben bewegen",
     "LabelDropLyricsHere": "Text hier ablegen, oder klicke zum Durchsuchen.",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahiert nur Schlüsselbilder für eine deutlich schnellere Verarbeitung mit weniger genauem Timing. Wenn der konfigurierte Hardware-Decoder diesen Modus nicht unterstützt, wird stattdessen der Software-Decoder verwendet.",
     "Reset": "Zurücksetzen",
-    "LibraryInvalidItemIdError": "Die Bibliothek ist in einem Unerlaubten Zustand und kann nicht verändert werden. Dies ist möglicherweise ein Bug: Der Pfad der Datenbank im Dateisystem ist nicht korrekt.",
+    "LibraryInvalidItemIdError": "Die Bibliothek ist in einem ungültigen Zustand und kann nicht verändert werden. Dies ist möglicherweise ein Bug: Der Pfad in der Datenbank ist nicht der richtige Pfad im Dateisystem.",
     "MediaInfoRotation": "Rotation"
 }
