@@ -35,6 +35,7 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
     // toggle the checkbox, if it wasn't clicked on
     if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
         const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
+
         if (chkItemSelect) {
             if (chkItemSelect.classList.contains('checkedInitial')) {
                 chkItemSelect.classList.remove('checkedInitial');
