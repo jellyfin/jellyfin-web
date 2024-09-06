@@ -8,14 +8,14 @@ import SectionContainer from 'components/common/SectionContainer';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface SeriesTimerScheduleProps {
-    seriesTimerId?: string | null;
+    seriesTimerId: string;
 }
 
 const SeriesTimerSchedule: FC<SeriesTimerScheduleProps> = ({
     seriesTimerId
 }) => {
     const { isLoading, data: timerInfoResult, refetch } = useGetTimers({
-        seriesTimerId: seriesTimerId || ''
+        seriesTimerId: seriesTimerId
     });
 
     const timers = timerInfoResult?.Items as ItemDto[];

@@ -10,6 +10,7 @@ import DetailPrimaryContainer from '../components/DetailPrimaryContainer';
 import DetailSecondaryContainer from '../components/DetailSecondaryContainer';
 
 import SeriesTimerSchedule from '../components/section/SeriesTimerSchedule';
+import NextUp from '../components/section/NextUp';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import { ItemKind } from 'types/base/models/item-kind';
@@ -40,12 +41,16 @@ export const DetailView: FC<DetailViewProps> = ({ item, paramId, context }) => {
                                 user={user}
                             />
 
-                            {item.Type === ItemKind.SeriesTimer
-                                        && user?.Policy
-                                            ?.EnableLiveTvManagement && (
+                            {item.Id
+                                && item.Type === ItemKind.SeriesTimer
+                                && user?.Policy?.EnableLiveTvManagement && (
                                 <SeriesTimerSchedule
                                     seriesTimerId={item.Id}
                                 />
+                            )}
+
+                            {item.Id && item.Type === ItemKind.Series && (
+                                <NextUp seriesId={item.Id} userId={user?.Id} />
                             )}
                         </Box>
                     </Box>
