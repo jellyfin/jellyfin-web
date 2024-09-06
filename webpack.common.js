@@ -230,6 +230,23 @@ const config = {
                     }
                 }]
             },
+            // Strict EcmaScript modules require additional flags
+            {
+                test: /\.(js|jsx|mjs)$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/@tanstack/query-devtools')
+                ],
+                resolve: {
+                    fullySpecified: false
+                },
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true
+                    }
+                }]
+            },
             {
                 test: /\.worker\.ts$/,
                 exclude: /node_modules/,
