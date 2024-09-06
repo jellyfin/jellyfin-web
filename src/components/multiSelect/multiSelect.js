@@ -35,7 +35,6 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
     // toggle the checkbox, if it wasn't clicked on
     if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
         const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
-
         if (chkItemSelect) {
             if (chkItemSelect.classList.contains('checkedInitial')) {
                 chkItemSelect.classList.remove('checkedInitial');
@@ -87,7 +86,7 @@ function onSelectionChange() {
     updateItemSelection(this, this.checked);
 }
 
-function showSelection(item, isChecked) {
+function showSelection(item, isChecked, addInitialCheck) {
     let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
     if (!itemSelectionPanel) {
@@ -99,7 +98,7 @@ function showSelection(item, isChecked) {
         parent.appendChild(itemSelectionPanel);
 
         let cssClass = 'chkItemSelect';
-        if (isChecked) {
+        if (isChecked && addInitialCheck) {
             cssClass += ' checkedInitial';
         }
         const checkedAttribute = isChecked ? ' checked' : '';
@@ -361,11 +360,11 @@ function combineVersions(apiClient, selection) {
     });
 }
 
-function showSelections(initialCard) {
+function showSelections(initialCard, addInitialCheck) {
     import('../../elements/emby-checkbox/emby-checkbox').then(() => {
         const cards = document.querySelectorAll('.card');
         for (let i = 0, length = cards.length; i < length; i++) {
-            showSelection(cards[i], initialCard === cards[i]);
+            showSelection(cards[i], initialCard === cards[i], addInitialCheck);
         }
 
         showSelectionCommands();
@@ -402,7 +401,7 @@ export default function (options) {
         const card = dom.parentWithClass(e.target, 'card');
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
 
         e.preventDefault();
@@ -500,7 +499,7 @@ export default function (options) {
         touchTarget = null;
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
     }
 
@@ -569,7 +568,7 @@ export default function (options) {
 }
 
 export const startMultiSelect = (card) => {
-    showSelections(card);
+    showSelections(card, false);
 };
 
 export const stopMultiSelect = () => {
