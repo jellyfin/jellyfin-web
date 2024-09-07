@@ -262,6 +262,11 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
     return supportedProfiles;
 }
 
+function supportedDolbyVisionProfileAv1(videoTestElement) {
+    // Profile 10 4k@24fps
+    return videoTestElement.canPlayType?.('video/mp4; codecs="dav1.10.06"').replace(/no/, '');
+}
+
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
     let supported = false;
     let profileContainer = container;
@@ -1065,6 +1070,10 @@ export default function (options) {
         if (profiles.includes(8)) {
             hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
         }
+    }
+
+    if (supportsDolbyVision(options) && supportedDolbyVisionProfileAv1(videoTestElement)) {
+        av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
     }
 
     const h264CodecProfileConditions = [
