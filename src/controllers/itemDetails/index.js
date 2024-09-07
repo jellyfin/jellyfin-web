@@ -1080,7 +1080,7 @@ function renderDetails(page, item, apiClient, context) {
         renderLinks(page, item);
     }
 
-    renderTags(page, item, context);
+    renderTags(page, item);
     renderSeriesAirTime(page, item);
 }
 
@@ -1299,7 +1299,7 @@ function renderSeriesAirTime(page, item) {
     }
 }
 
-function renderTags(page, item, context) {
+function renderTags(page, item) {
     const itemTags = page.querySelector('.itemTags');
     const tagElements = [];
     let tags = item.Tags || [];
@@ -1310,7 +1310,6 @@ function renderTags(page, item, context) {
 
     tags.forEach(tag => {
         const href = appRouter.getRouteUrl('tag', {
-            context,
             tag,
             serverId: item.ServerId
         });
