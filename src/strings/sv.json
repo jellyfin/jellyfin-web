@@ -1913,5 +1913,11 @@
     "LabelDropLyricsHere": "Släpp sångtext här, eller klicka för att bläddra.",
     "LabelIsSynced": "Är synkroniserad",
     "AllowTonemappingSoftwareHelp": "Tonmappning kan konvertera det dynamiska omfånget för en video från HDR till SDR samtidigt som bilddetaljer och färger bibehålls, vilket är mycket viktig information för att representera den ursprungliga scenen. Fungerar för närvarande endast med 10-bitars HDR10- och HLG-videor.",
-    "HeaderPreviewLyrics": "Förhandsgranska sångtext"
+    "HeaderPreviewLyrics": "Förhandsgranska sångtext",
+    "LibraryInvalidItemIdError": "Biblioteket är i ett ogiltigt tillstånd och kan inte redigeras. Det är möjligt att du stött på en bugg: sökvägen i databasen är inte rätt sökväg i filsystemet.",
+    "MoveToTop": "Flytta längst upp",
+    "MoveToBottom": "Flytta längst ned",
+    "PasswordMissingSaveError": "Det nya lösenordet får inte vara tomt.",
+    "PluginLoadConfigError": "Någonting gick fel vid hämtning av sidan för konfiguration av tillägg.",
+    "NoLyricsSearchResultsFound": "Ingen sångtext hittades."
 }
