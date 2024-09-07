@@ -906,17 +906,45 @@ export default function (options) {
         });
     }
 
+    const globalAudioCodecProfileConditions = [];
+    const globalVideoAudioCodecProfileConditions = [];
+
+    if (parseInt(userSettings.allowedAudioChannels(), 10) > 0) {
+        globalAudioCodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'AudioChannels',
+            Value: physicalAudioChannels.toString(),
+            IsRequired: false
+        });
+
+        globalVideoAudioCodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'AudioChannels',
+            Value: physicalAudioChannels.toString(),
+            IsRequired: false
+        });
+    }
+
     if (!supportsSecondaryAudio) {
+        globalVideoAudioCodecProfileConditions.push({
+            Condition: 'Equals',
+            Property: 'IsSecondaryAudio',
+            Value: 'false',
+            IsRequired: false
+        });
+    }
+
+    if (globalAudioCodecProfileConditions.length) {
+        profile.CodecProfiles.push({
+            Type: 'Audio',
+            Conditions: globalAudioCodecProfileConditions
+        });
+    }
+
+    if (globalVideoAudioCodecProfileConditions.length) {
         profile.CodecProfiles.push({
             Type: 'VideoAudio',
-            Conditions: [
-                {
-                    Condition: 'Equals',
-                    Property: 'IsSecondaryAudio',
-                    Value: 'false',
-                    IsRequired: false
-                }
-            ]
+            Conditions: globalVideoAudioCodecProfileConditions
         });
     }
 
