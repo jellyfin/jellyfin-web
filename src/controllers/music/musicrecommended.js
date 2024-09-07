@@ -5,7 +5,7 @@ import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
 import browser from 'scripts/browser';
 import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -86,7 +86,7 @@ function loadRecentlyPlayed(page, parentId) {
         IncludeItemTypes: 'Audio',
         Limit: itemsPerRow(),
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,AudioInfo',
+        Fields: 'PrimaryImageAspectRatio',
         Filters: 'IsPlayed',
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -128,7 +128,7 @@ function loadFrequentlyPlayed(page, parentId) {
         IncludeItemTypes: 'Audio',
         Limit: itemsPerRow(),
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,AudioInfo',
+        Fields: 'PrimaryImageAspectRatio',
         Filters: 'IsPlayed',
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -399,4 +399,3 @@ export default function (view, params) {
         });
     });
 }
-

@@ -1,6 +1,6 @@
 import layoutManager from 'components/layoutManager';
 import { getUserViewsQuery } from 'hooks/useUserViews';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { DEFAULT_SECTIONS, HomeSectionType } from 'types/homeSectionType';
 import Dashboard from 'utils/dashboard';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -131,9 +131,11 @@ export function resume(elem, options) {
     const elems = elem.querySelectorAll('.itemsContainer');
     const promises = [];
 
-    for (let i = 0, length = elems.length; i < length; i++) {
-        promises.push(elems[i].resume(options));
-    }
+    Array.prototype.forEach.call(elems, section => {
+        if (section.resume) {
+            promises.push(section.resume(options));
+        }
+    });
 
     return Promise.all(promises);
 }

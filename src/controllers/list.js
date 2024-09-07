@@ -1,4 +1,4 @@
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import listView from '../components/listview/listview';
 import * as userSettings from '../scripts/settings/userSettings';
 import focusManager from '../components/focusManager';
@@ -13,6 +13,8 @@ import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { stopMultiSelect } from 'components/multiSelect/multiSelect';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {
@@ -223,7 +225,7 @@ function updateAlphaPickerState(instance) {
         if (alphaPicker) {
             const values = instance.getSortValues();
 
-            if (values.sortBy.indexOf('SortName') !== -1) {
+            if (values.sortBy.indexOf(ItemSortBy.SortName) !== -1) {
                 alphaPicker.classList.remove('hide');
                 instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
             } else {
@@ -401,10 +403,15 @@ function onNewItemClick() {
     const instance = this;
 
     import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-        new PlaylistEditor({
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
             items: [],
             serverId: instance.params.serverId
+        }).catch(() => {
+            // Dialog closed
         });
+    }).catch(err => {
+        console.error('[onNewItemClick] failed to load playlist editor', err);
     });
 }
 
@@ -976,7 +983,7 @@ class ItemsView {
             return sortNameOption.value;
         }
 
-        return 'IsFolder,' + sortNameOption.value;
+        return `${ItemSortBy.IsFolder},${sortNameOption.value}`;
     }
 
     getSortMenuOptions() {
@@ -985,7 +992,7 @@ class ItemsView {
         if (this.params.type === 'Programs') {
             sortBy.push({
                 name: globalize.translate('AirDate'),
-                value: 'StartDate,SortName'
+                value: [ItemSortBy.StartDate, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1010,7 +1017,7 @@ class ItemsView {
         if (this.params.type !== 'Programs') {
             sortBy.push({
                 name: globalize.translate('DateAdded'),
-                value: 'DateCreated,SortName'
+                value: [ItemSortBy.DateCreated, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1024,13 +1031,13 @@ class ItemsView {
             option = this.getNameSortOption(this.params);
             sortBy.push({
                 name: globalize.translate('Folders'),
-                value: 'IsFolder,' + option.value
+                value: `${ItemSortBy.IsFolder},${option.value}`
             });
         }
 
         sortBy.push({
             name: globalize.translate('ParentalRating'),
-            value: 'OfficialRating,SortName'
+            value: [ItemSortBy.OfficialRating, ItemSortBy.SortName].join(',')
         });
         option = this.getPlayCountSortOption();
 
@@ -1040,11 +1047,11 @@ class ItemsView {
 
         sortBy.push({
             name: globalize.translate('ReleaseDate'),
-            value: 'ProductionYear,PremiereDate,SortName'
+            value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName].join(',')
         });
         sortBy.push({
             name: globalize.translate('Runtime'),
-            value: 'Runtime,SortName'
+            value: [ItemSortBy.Runtime, ItemSortBy.SortName].join(',')
         });
         return sortBy;
     }
@@ -1053,13 +1060,13 @@ class ItemsView {
         if (params.type === 'Episode') {
             return {
                 name: globalize.translate('Name'),
-                value: 'SeriesName,SortName'
+                value: [ItemSortBy.SeriesSortName, ItemSortBy.SortName].join(',')
             };
         }
 
         return {
             name: globalize.translate('Name'),
-            value: 'SortName'
+            value: ItemSortBy.SortName
         };
     }
 
@@ -1070,7 +1077,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('PlayCount'),
-            value: 'PlayCount,SortName'
+            value: [ItemSortBy.PlayCount, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1081,7 +1088,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('DatePlayed'),
-            value: 'DatePlayed,SortName'
+            value: [ItemSortBy.DatePlayed, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1092,14 +1099,14 @@ class ItemsView {
 
         return {
             name: globalize.translate('CriticRating'),
-            value: 'CriticRating,SortName'
+            value: [ItemSortBy.CriticRating, ItemSortBy.SortName].join(',')
         };
     }
 
     getCommunityRatingSortOption() {
         return {
             name: globalize.translate('CommunityRating'),
-            value: 'CommunityRating,SortName'
+            value: [ItemSortBy.CommunityRating, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1133,6 +1140,9 @@ class ItemsView {
 
     setFilterStatus(hasFilters) {
         this.hasFilters = hasFilters;
+        if (this.hasFilters) {
+            stopMultiSelect();
+        }
         const filterButtons = this.filterButtons;
 
         if (filterButtons.length) {
@@ -1295,4 +1305,3 @@ class ItemsView {
 }
 
 export default ItemsView;
-

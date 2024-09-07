@@ -1,10 +1,8 @@
 import type { Api } from '@jellyfin/sdk/lib/api';
 import type { UserViewsApiGetUserViewsRequest } from '@jellyfin/sdk/lib/generated-client/api/user-views-api';
 import { getUserViewsApi } from '@jellyfin/sdk/lib/utils/api/user-views-api';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
-
-import { queryOptions } from 'utils/query/queryOptions';
 
 import { useApi } from './useApi';
 

@@ -4,9 +4,10 @@ import libraryBrowser from '../../scripts/libraryBrowser';
 import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import { playbackManager } from '../../components/playback/playbackmanager';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -39,6 +40,8 @@ export default function (view, params, tabContent, options) {
     }
 
     const afterRefresh = (result) => {
+        setFilterStatus(tabContent, query);
+
         function onNextPageClick() {
             if (isLoading) {
                 return;
@@ -212,7 +215,7 @@ export default function (view, params, tabContent, options) {
                         name: globalize.translate('OptionRandom'),
                         id: 'Random'
                     }, {
-                        name: globalize.translate('OptionImdbRating'),
+                        name: globalize.translate('OptionCommunityRating'),
                         id: 'CommunityRating,SortName,ProductionYear'
                     }, {
                         name: globalize.translate('OptionCriticRating'),
@@ -297,6 +300,7 @@ export default function (view, params, tabContent, options) {
             });
             Events.on(filterDialog, 'filterchange', () => {
                 query.StartIndex = 0;
+                userSettings.saveQuerySettings(savedQueryKey, query);
                 itemsContainer.refreshItems();
             });
             filterDialog.show();
@@ -321,4 +325,3 @@ export default function (view, params, tabContent, options) {
         itemsContainer = null;
     };
 }
-

@@ -1,6 +1,6 @@
 import appSettings from '../../../scripts/settings/appSettings';
 import loading from '../../../components/loading/loading';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
 import ServerConnections from '../../../components/ServerConnections';
@@ -36,7 +36,7 @@ function handleConnectionResult(page, result) {
 
 function submitServer(page) {
     loading.show();
-    const host = page.querySelector('#txtServerHost').value;
+    const host = page.querySelector('#txtServerHost').value.replace(/\/+$/, '');
     ServerConnections.connectToAddress(host, {
         enableAutoLogin: appSettings.enableAutoLogin()
     }).then(function(result) {

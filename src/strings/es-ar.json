@@ -1732,5 +1732,8 @@
     "EnableAudioNormalization": "Normalización de audio",
     "LabelEnableLUFSScan": "Habilitar escaneo LUFS",
     "GetThePlugin": "Obtener el complemento",
-    "AllowSegmentDeletion": "Eliminar segmentos"
+    "AllowSegmentDeletion": "Eliminar segmentos",
+    "AirPlay": "AirPlay",
+    "AllowContentWithTagsHelp": "Mostrar solo medios con al menos una de las etiquetas especificadas.",
+    "AllowSubtitleManagement": "Permitir que este usuario edite subtítulos"
 }

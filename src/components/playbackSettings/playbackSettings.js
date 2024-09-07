@@ -2,7 +2,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-select/emby-select';
@@ -173,12 +173,17 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
     context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
+    context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
+    context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
+    context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
+    context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
+    context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value = appSettings.preferredTranscodeVideoAudioCodec();
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -194,8 +199,8 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     selectChromecastVersion.innerHTML = ccAppsHtml;
     selectChromecastVersion.value = user.Configuration.CastReceiverId;
 
-    const selectLabelMaxVideoWidth = context.querySelector('.selectLabelMaxVideoWidth');
-    selectLabelMaxVideoWidth.value = appSettings.maxVideoWidth();
+    const selectMaxVideoWidth = context.querySelector('.selectMaxVideoWidth');
+    selectMaxVideoWidth.value = appSettings.maxVideoWidth();
 
     const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
     fillSkipLengths(selectSkipForwardLength);
@@ -212,7 +217,13 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
 
     appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
-    appSettings.maxVideoWidth(context.querySelector('.selectLabelMaxVideoWidth').value);
+    appSettings.maxVideoWidth(context.querySelector('.selectMaxVideoWidth').value);
+    appSettings.limitSupportedVideoResolution(context.querySelector('.chkLimitSupportedVideoResolution').checked);
+    appSettings.preferredTranscodeVideoCodec(context.querySelector('#selectPreferredTranscodeVideoCodec').value);
+    appSettings.preferredTranscodeVideoAudioCodec(context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value);
+
+    appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
+    appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -309,7 +320,7 @@ function embed(options, self) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
 
-    options.element.querySelector('.selectLabelMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
+    options.element.querySelector('.selectMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
 
     self.loadData();
 

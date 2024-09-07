@@ -4,7 +4,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';

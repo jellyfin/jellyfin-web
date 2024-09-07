@@ -26,7 +26,7 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
         let rejectTimeout;
         if (timeout) {
             rejectTimeout = setTimeout(() => {
-                reject('Timed out.');
+                reject(new Error('Timed out.'));
             }, timeout);
         }
 
@@ -84,7 +84,7 @@ export function getItemsForPlayback(apiClient, query) {
         });
     } else {
         query.Limit = query.Limit || 300;
-        query.Fields = 'Chapters';
+        query.Fields = ['Chapters', 'Trickplay'];
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
@@ -105,7 +105,7 @@ function mergePlaybackQueries(obj1, obj2) {
 }
 
 export function translateItemsForPlayback(apiClient, items, options) {
-    if (items.length > 1 && options && options.ids) {
+    if (items.length > 1 && options?.ids) {
         // Use the original request id array for sorting the result in the proper order.
         items.sort(function (a, b) {
             return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
@@ -200,7 +200,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: 'Chapters'
+                    Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     let foundItem = false;
                     episodesResult.Items = episodesResult.Items.filter(function (e) {

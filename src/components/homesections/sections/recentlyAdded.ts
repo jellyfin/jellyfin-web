@@ -7,7 +7,7 @@ import type { ApiClient } from 'jellyfin-apiclient';
 
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import ServerConnections from 'components/ServerConnections';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
@@ -137,15 +137,15 @@ export function loadRecentlyAdded(
     options: SectionOptions
 ) {
     elem.classList.remove('verticalSection');
-    const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
+    const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
     const userExcludeItems = user.Configuration?.LatestItemsExcludes ?? [];
 
     userViews.forEach(item => {
-        if (!item.Id || userExcludeItems.indexOf(item.Id) !== -1) {
+        if (!item.Id || userExcludeItems.includes(item.Id)) {
             return;
         }
 
-        if (!item.CollectionType || excludeViewTypes.indexOf(item.CollectionType) !== -1) {
+        if (item.CollectionType && excludeViewTypes.includes(item.CollectionType)) {
             return;
         }
 

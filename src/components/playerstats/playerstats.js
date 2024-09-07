@@ -1,5 +1,5 @@
 import '../../elements/emby-button/paper-icon-button-light';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
@@ -163,7 +163,7 @@ function getTranscodingStats(session, player, displayPlayMethod) {
         if (session.TranscodingInfo.Framerate) {
             sessionStats.push({
                 label: globalize.translate('LabelTranscodingFramerate'),
-                value: session.TranscodingInfo.Framerate + ' fps'
+                value: getDisplayTranscodeFps(session, player)
             });
         }
         if (session.TranscodingInfo.TranscodeReasons?.length) {
@@ -189,6 +189,20 @@ function getDisplayBitrate(bitrate) {
     } else {
         return Math.floor(bitrate / 1000) + ' kbps';
     }
+}
+
+function getDisplayTranscodeFps(session, player) {
+    const mediaSource = playbackManager.currentMediaSource(player) || {};
+    const videoStream = (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
+
+    const originalFramerate = videoStream.AverageFrameRate;
+    const transcodeFramerate = session.TranscodingInfo.Framerate;
+
+    if (!originalFramerate) {
+        return `${transcodeFramerate} fps`;
+    }
+
+    return `${transcodeFramerate} fps (${(transcodeFramerate / originalFramerate).toFixed(2)}x)`;
 }
 
 function getReadableSize(size) {
@@ -271,7 +285,7 @@ function getMediaSourceStats(session, player) {
     if (videoStream.VideoRangeType) {
         sessionStats.push({
             label: globalize.translate('LabelVideoRangeType'),
-            value: videoStream.VideoRangeType
+            value: videoStream.VideoDoViTitle || videoStream.VideoRangeType
         });
     }
 

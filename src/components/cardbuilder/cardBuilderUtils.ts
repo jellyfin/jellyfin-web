@@ -1,3 +1,4 @@
+import { CardShape } from '../../utils/card';
 import { randomInt } from '../../utils/number';
 import classNames from 'classnames';
 
@@ -10,10 +11,10 @@ const ASPECT_RATIOS = {
 
 /**
  * Determines if the item is live TV.
- * @param {string} itemType - Item type to use for the check.
+ * @param {string | null | undefined} itemType - Item type to use for the check.
  * @returns {boolean} Flag showing if the item is live TV.
  */
-export const isUsingLiveTvNaming = (itemType: string): boolean => itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording';
+export const isUsingLiveTvNaming = (itemType: string | null | undefined): boolean => itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording';
 
 /**
  * Resolves Card action to display
@@ -54,15 +55,15 @@ export const isResizable = (windowWidth: number): boolean => {
  */
 export const resolveMixedShapeByAspectRatio = (primaryImageAspectRatio: number | null | undefined) => {
     if (primaryImageAspectRatio === undefined || primaryImageAspectRatio === null) {
-        return 'mixedSquare';
+        return CardShape.MixedSquare;
     }
 
     if (primaryImageAspectRatio >= 1.33) {
-        return 'mixedBackdrop';
-    } else if (primaryImageAspectRatio > 0.71) {
-        return 'mixedSquare';
+        return CardShape.MixedBackdrop;
+    } else if (primaryImageAspectRatio > 0.8) {
+        return CardShape.MixedSquare;
     } else {
-        return 'mixedPortrait';
+        return CardShape.MixedPortrait;
     }
 };
 
@@ -102,7 +103,7 @@ export const resolveCardCssClasses = (opts: CardCssClassOpts): string => {
  * Resolves applicable Card Image container CSS classes
  * @param opts options for determining which CSS classes are applicable
  */
-export const resolveCardImageContainerCssClasses = (opts: { itemType: string, hasCoverImage: boolean, itemName?: string, imgUrl?: string}): string => {
+export const resolveCardImageContainerCssClasses = (opts: { itemType: string, hasCoverImage: boolean, itemName?: string, imgUrl?: string }): string => {
     return classNames({
         'cardImageContainer': true,
         'coveredImage': opts.hasCoverImage,

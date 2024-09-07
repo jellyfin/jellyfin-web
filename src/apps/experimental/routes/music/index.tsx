@@ -79,7 +79,10 @@ const Music: FC = () => {
             <PageTabContent
                 key={`${currentTab.viewType} - ${libraryId}`}
                 currentTab={currentTab}
-                parentId={libraryId}
+                parentId={
+                    // Playlists exist outside of the scope of the library
+                    currentTab.viewType === LibraryTab.Playlists ? undefined : libraryId
+                }
             />
         </Page>
     );

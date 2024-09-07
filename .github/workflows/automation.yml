@@ -1,20 +1,22 @@
-name: 'Automation'
+name: Automation
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 on:
   push:
     branches:
       - master
   pull_request_target:
-    types:
-      - synchronize
 
 jobs:
-  triage:
-    name: 'Merge conflict labeling'
+  conflicts:
+    name: Merge conflict labeling
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
     steps:
-      - uses: eps1lon/actions-label-merge-conflict@fd1f295ee7443d13745804bc49fe158e240f6c6e # tag=v2.1.0
+      - uses: eps1lon/actions-label-merge-conflict@1b1b1fcde06a9b3d089f3464c96417961dde1168 # v3.0.2
         with:
           dirtyLabel: 'merge conflict'
           commentOnDirty: 'This pull request has merge conflicts. Please resolve the conflicts so the PR can be successfully reviewed and merged.'

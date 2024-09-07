@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
@@ -26,7 +26,7 @@ type SortOptionsMapping = Record<string, SortOption[]>;
 const movieOrFavoriteOptions = [
     { label: 'Name', value: ItemSortBy.SortName },
     { label: 'OptionRandom', value: ItemSortBy.Random },
-    { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
     { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
     { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
     { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
@@ -36,11 +36,17 @@ const movieOrFavoriteOptions = [
     { label: 'Runtime', value: ItemSortBy.Runtime }
 ];
 
+const photosOrPhotoAlbumsOptions = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random },
+    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
+];
+
 const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
     [LibraryTab.Trailers]: [
         { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
@@ -51,7 +57,7 @@ const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Series]: [
         { label: 'Name', value: ItemSortBy.SortName },
         { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateShowAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
         { label: 'OptionDatePlayed', value: ItemSortBy.SeriesDatePlayed },
@@ -60,7 +66,7 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.Episodes]: [
         { label: 'Name', value: ItemSortBy.SeriesSortName },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
@@ -73,7 +79,7 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'Name', value: ItemSortBy.SortName },
         { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
-        { label: 'OptionImdbRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
         { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
@@ -87,6 +93,16 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime },
+        { label: 'OptionRandom', value: ItemSortBy.Random }
+    ],
+    [LibraryTab.PhotoAlbums]: photosOrPhotoAlbumsOptions,
+    [LibraryTab.Photos]: photosOrPhotoAlbumsOptions,
+    [LibraryTab.Videos]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'Runtime', value: ItemSortBy.Runtime },
         { label: 'OptionRandom', value: ItemSortBy.Random }
     ]

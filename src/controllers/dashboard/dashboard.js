@@ -1,10 +1,11 @@
 import escapeHtml from 'escape-html';
+
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../utils/dateFnsLocale.ts';
 import loading from '../../components/loading/loading';
@@ -14,16 +15,23 @@ import imageLoader from '../../components/images/imageLoader';
 import ActivityLog from '../../components/activitylog';
 import imageHelper from '../../utils/image';
 import indicators from '../../components/indicators/indicators';
-import '../../components/listview/listview.scss';
-import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
 import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import confirm from '../../components/confirm/confirm';
 import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
+
+import { getSystemInfoQuery } from 'hooks/useSystemInfo';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+
+import '../../components/listview/listview.scss';
+import '../../styles/flexstyles.scss';
+import './dashboard.scss';
 
 function showPlaybackInfo(btn, session) {
     let title;
@@ -199,22 +207,26 @@ function refreshActiveRecordings(view, apiClient) {
 }
 
 function reloadSystemInfo(view, apiClient) {
-    apiClient.getSystemInfo().then(function (systemInfo) {
-        view.querySelector('#serverName').innerText = globalize.translate('DashboardServerName', systemInfo.ServerName);
-        view.querySelector('#versionNumber').innerText = globalize.translate('DashboardVersionNumber', systemInfo.Version);
+    view.querySelector('#buildVersion').innerText = __JF_BUILD_VERSION__;
 
-        if (systemInfo.CanSelfRestart) {
-            view.querySelector('#btnRestartServer').classList.remove('hide');
-        } else {
-            view.querySelector('#btnRestartServer').classList.add('hide');
-        }
+    let webVersion = __PACKAGE_JSON_VERSION__;
+    if (__COMMIT_SHA__) {
+        webVersion += ` (${__COMMIT_SHA__})`;
+    }
+    view.querySelector('#webVersion').innerText = webVersion;
 
-        view.querySelector('#cachePath').innerText = systemInfo.CachePath;
-        view.querySelector('#logPath').innerText = systemInfo.LogPath;
-        view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
-        view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
-        view.querySelector('#webPath').innerText = systemInfo.WebPath;
-    });
+    queryClient
+        .fetchQuery(getSystemInfoQuery(toApi(apiClient)))
+        .then(systemInfo => {
+            view.querySelector('#serverName').innerText = systemInfo.ServerName;
+            view.querySelector('#versionNumber').innerText = systemInfo.Version;
+
+            view.querySelector('#cachePath').innerText = systemInfo.CachePath;
+            view.querySelector('#logPath').innerText = systemInfo.LogPath;
+            view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
+            view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
+            view.querySelector('#webPath').innerText = systemInfo.WebPath;
+        });
 }
 
 function renderInfo(view, sessions) {
@@ -312,7 +324,7 @@ function renderActiveConnections(view, sessions) {
             html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
 
             let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
-            const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
+            const playIcon = session.PlayState.IsPaused ? 'play_arrow' : 'pause';
 
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><span class="material-icons stop" aria-hidden="true"></span></button>';

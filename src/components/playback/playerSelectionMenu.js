@@ -4,9 +4,9 @@ import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { appHost } from '../apphost';
-import { enable, isEnabled, supported } from '../../scripts/autocast';
+import { enable, isEnabled } from '../../scripts/autocast';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import dialog from '../dialog/dialog';
@@ -200,13 +200,11 @@ function showActivePlayerMenuInternal(playerInfo) {
 
     html += '</div>';
 
-    if (supported()) {
-        html += '<div><label class="checkboxContainer">';
-        const checkedHtmlAC = isEnabled() ? ' checked' : '';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
-        html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
-        html += '</label></div>';
-    }
+    html += '<div><label class="checkboxContainer">';
+    const checkedHtmlAC = isEnabled() ? ' checked' : '';
+    html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
+    html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
+    html += '</label></div>';
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
 

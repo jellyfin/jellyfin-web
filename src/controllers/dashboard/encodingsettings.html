@@ -1,4 +1,4 @@
-<div id="encodingSettingsPage" data-role="page" class="page type-interior playbackConfigurationPage withTabs">
+<div id="encodingSettingsPage" data-role="page" class="page type-interior playbackConfigurationPage" data-title="${TitlePlayback}">
     <div>
         <div class="content-primary">
             <form class="encodingSettingsForm">
@@ -47,15 +47,15 @@
                                 <span>MPEG1</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg2video" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg2video" data-types="amf,nvenc,qsv,vaapi,rkmpp" />
                                 <span>MPEG2</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg4" data-types="nvenc,rkmpp,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg4" data-types="nvenc,rkmpp" />
                                 <span>MPEG4</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vc1" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vc1" data-types="amf,nvenc,qsv,vaapi" />
                                 <span>VC1</span>
                             </label>
                             <label>
@@ -123,6 +123,8 @@
                 </div>
 
                 <div class="checkboxListContainer">
+                    <h3 class="checkboxListLabel">${LabelEncodingFormatOptions}</h3>
+                    <div class="fieldDescription">${EncodingFormatHelp}</div>
                     <div class="checkboxList">
                         <label>
                             <input type="checkbox" is="emby-checkbox" id="chkAllowHevcEncoding" />
@@ -155,13 +157,24 @@
                     </div>
                 </div>
 
+                <div class="videoToolboxTonemappingOptions hide">
+                    <div class="checkboxListContainer checkboxContainer-withDescription">
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkVideoToolboxTonemapping" />
+                            <span>${EnableVideoToolboxTonemapping}</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">${AllowVideoToolboxTonemappingHelp}</div>
+                    </div>
+                </div>
+
                 <div class="tonemappingOptions hide">
                     <div class="checkboxListContainer checkboxContainer-withDescription">
                         <label>
                             <input type="checkbox" is="emby-checkbox" id="chkTonemapping" />
                             <span>${EnableTonemapping}</span>
                         </label>
-                        <div class="fieldDescription checkboxFieldDescription">${AllowTonemappingHelp}</div>
+                        <div class="fieldDescription checkboxFieldDescription allowTonemappingHardwareHelp">${AllowTonemappingHelp}</div>
+                        <div class="fieldDescription checkboxFieldDescription allowTonemappingSoftwareHelp">${AllowTonemappingSoftwareHelp}</div>
                     </div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectTonemappingAlgorithm" label="${LabelTonemappingAlgorithm}">
@@ -178,11 +191,13 @@
                             <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="http://ffmpeg.org/ffmpeg-all.html#tonemap_005fopencl" target="_blank">${TonemappingAlgorithmHelp}</a>
                         </div>
                     </div>
-                    <div class="selectContainer">
+                    <div class="tonemappingModeOptions selectContainer">
                         <select is="emby-select" id="selectTonemappingMode" label="${LabelTonemappingMode}">
                             <option value="auto">${Auto}</option>
                             <option value="max">MAX</option>
                             <option value="rgb">RGB</option>
+                            <option value="lum">LUM</option>
+                            <option value="itp">ITP</option>
                         </select>
                         <div class="fieldDescription">${TonemappingModeHelp}</div>
                     </div>
@@ -235,9 +250,8 @@
                 <div class="inputContainer fldEncoderPath">
                     <div style="display: flex; align-items: center;">
                         <div style="flex-grow:1;">
-                            <input is="emby-input" class="txtEncoderPath" label="${LabelffmpegPath}" autocomplete="off" dir="ltr" />
+                            <input is="emby-input" class="txtEncoderPath" label="${LabelffmpegPath}" autocomplete="off" dir="ltr" disabled/>
                         </div>
-                        <button type="button" is="paper-icon-button-light" id="btnSelectEncoderPath" class="emby-input-iconbutton"><span class="material-icons search" aria-hidden="true"></span></button>
                     </div>
                     <div class="fieldDescription">
                         <div>${LabelffmpegPathHelp}</div>
@@ -286,6 +300,8 @@
                         <option value="None">${None}</option>
                         <option value="Dave750">Dave750</option>
                         <option value="NightmodeDialogue">NightmodeDialogue</option>
+                        <option value="Rfc7845">RFC7845</option>
+                        <option value="Ac4">AC-4</option>
                     </select>
                     <div class="fieldDescription">${StereoDownmixAlgorithmHelp}</div>
                 </div>

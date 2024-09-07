@@ -7,7 +7,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';
@@ -222,7 +222,8 @@ function updateNowPlayingInfo(context, state, serverId) {
                 contextButton.addEventListener('click', function () {
                     itemContextMenu.show(Object.assign({
                         item: fullItem,
-                        user: user
+                        user: user,
+                        isMobile: layoutManager.mobile
                     }, options))
                         .catch(() => { /* no-op */ });
                 });
@@ -233,8 +234,8 @@ function updateNowPlayingInfo(context, state, serverId) {
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             const userData = fullItem.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
-            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
-            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
         });
     } else {
         clearBackdrop();
@@ -323,6 +324,7 @@ export default function () {
             context.querySelector('.remoteControlSection').classList.add('hide');
         }
 
+        buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio' && !layoutManager.mobile);
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
@@ -704,15 +706,20 @@ export default function () {
         import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
             getSaveablePlaylistItems().then(function (items) {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                new PlaylistEditor({
+                const playlistEditor = new PlaylistEditor();
+                playlistEditor.show({
                     items: items.map(function (i) {
                         return i.Id;
                     }),
                     serverId: serverId,
                     enableAddToPlayQueue: false,
                     defaultValue: 'new'
+                }).catch(() => {
+                    // Dialog closed
                 });
             });
+        }).catch(err => {
+            console.error('[savePlaylist] failed to load playlist editor', err);
         });
     }
 
@@ -730,12 +737,12 @@ export default function () {
             }
         });
         context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
-            if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
+            if (currentPlayer && lastPlayerState?.NowPlayingItem) {
                 showAudioMenu(context, currentPlayer, e.target);
             }
         });
         context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
-            if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
+            if (currentPlayer && lastPlayerState?.NowPlayingItem) {
                 showSubtitleMenu(context, currentPlayer, e.target);
             }
         });
@@ -764,6 +771,10 @@ export default function () {
                 playbackManager.fastForward(currentPlayer);
             }
         });
+        context.querySelector('.btnLyrics').addEventListener('click', function () {
+            appRouter.show('lyrics');
+        });
+
         for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
             shuffleButton.addEventListener('click', function () {
                 if (currentPlayer) {

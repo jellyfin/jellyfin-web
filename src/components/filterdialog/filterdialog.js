@@ -1,12 +1,13 @@
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
+import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
 
 function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     const elem = context.querySelector(selector);
@@ -104,6 +105,7 @@ function updateFilterControls(context, options) {
      * @param instance {FilterDialog} An instance of FilterDialog
      */
 function triggerChange(instance) {
+    stopMultiSelect();
     Events.trigger(instance, 'filterchange');
 }
 

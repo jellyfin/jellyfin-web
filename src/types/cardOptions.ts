@@ -1,10 +1,17 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import type { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
+import type { BaseItemDtoImageBlurHashes } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-image-blur-hashes';
+import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { CardShape } from 'utils/card';
+import type { NullableString } from './base/common/shared/types';
+import type { ItemDto } from './base/models/item-dto';
+import type { ParentId } from './library';
 
 export interface CardOptions {
     itemsContainer?: HTMLElement | null;
     parentContainer?: HTMLElement | null;
-    items?: BaseItemDto[] | null;
+    items?: ItemDto[] | null;
     allowBottomPadding?: boolean;
     centerText?: boolean;
     coverImage?: boolean;
@@ -12,13 +19,16 @@ export interface CardOptions {
     overlayMoreButton?: boolean;
     overlayPlayButton?: boolean;
     overlayText?: boolean;
+    imageBlurhashes?: BaseItemDtoImageBlurHashes | null;
+    preferBanner?: boolean;
     preferThumb?: boolean | string | null;
     preferDisc?: boolean;
     preferLogo?: boolean;
     scalable?: boolean;
-    shape?: string | null;
+    shape?: CardShape;
+    defaultShape?: CardShape;
     lazy?: boolean;
-    cardLayout?: boolean | string;
+    cardLayout?: boolean | null;
     showParentTitle?: boolean;
     showParentTitleOrTitle?: boolean;
     showAirTime?: boolean;
@@ -35,9 +45,8 @@ export interface CardOptions {
     lines?: number;
     context?: CollectionType;
     action?: string | null;
-    defaultShape?: string;
     indexBy?: string;
-    parentId?: string | null;
+    parentId?: ParentId;
     showMenu?: boolean;
     cardCssClass?: string | null;
     cardClass?: string | null;
@@ -61,9 +70,10 @@ export interface CardOptions {
     showSeriesTimerChannel?: boolean;
     showSongCount?: boolean;
     width?: number;
+    widths?: any;
     showChannelLogo?: boolean;
     showLogo?: boolean;
-    serverId?: string;
+    serverId?: NullableString;
     collectionId?: string | null;
     playlistId?: string | null;
     defaultCardImageIcon?: string;
@@ -72,4 +82,46 @@ export interface CardOptions {
     showGroupCount?: boolean;
     containerClass?: string;
     noItemsMessage?: string;
+    showIndex?: boolean;
+    index?: string;
+    showIndexNumber?: boolean;
+    enableContentWrapper?: boolean;
+    enableOverview?: boolean;
+    enablePlayedButton?: boolean;
+    infoButton?: boolean;
+    imageSize?: string;
+    enableSideMediaInfo?: boolean;
+    imagePlayButton?: boolean;
+    border?: boolean;
+    highlight?: boolean;
+    smallIcon?: boolean;
+    artist?: boolean;
+    addToListButton?: boolean;
+    enableUserDataButtons?: boolean;
+    enableRatingButton?: boolean;
+    image?: boolean;
+    imageSource?: string;
+    showProgramDateTime?: boolean;
+    showChannel?: boolean;
+    mediaInfo?: boolean;
+    moreButton?: boolean;
+    recordButton?: boolean;
+    dragHandle?: boolean;
+    showProgramTime?: boolean;
+    parentTitleWithTitle?: boolean;
+    showIndexNumberLeft?: boolean;
+    sortBy?: string;
+    textLines?: (item: ItemDto) => (BaseItemKind | string | undefined)[];
+    userData?: UserItemDataDto;
+    rightButtons?: {
+        icon: string;
+        title: string;
+        id: string;
+    }[];
+    uiAspect?: number | null;
+    primaryImageAspectRatio?: number | null;
+    rows?: number | null;
+    imageType?: ImageType;
+    queryKey?: string[]
 }
+

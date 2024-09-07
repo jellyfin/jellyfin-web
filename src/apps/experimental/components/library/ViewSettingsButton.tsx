@@ -15,7 +15,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Popover from '@mui/material/Popover';
 import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 

@@ -1,16 +1,12 @@
 import type { Redirect } from 'components/router/Redirect';
 
 export const REDIRECTS: Redirect[] = [
-    { from: 'addplugin.html', to: '/dashboard/plugins/add' },
     { from: 'apikeys.html', to: '/dashboard/keys' },
     { from: 'availableplugins.html', to: '/dashboard/plugins/catalog' },
     { from: 'dashboard.html', to: '/dashboard' },
     { from: 'dashboardgeneral.html', to: '/dashboard/settings' },
     { from: 'device.html', to: '/dashboard/devices/edit' },
     { from: 'devices.html', to: '/dashboard/devices' },
-    { from: 'dlnaprofile.html', to: '/dashboard/dlna/profiles/edit' },
-    { from: 'dlnaprofiles.html', to: '/dashboard/dlna/profiles' },
-    { from: 'dlnasettings.html', to: '/dashboard/dlna' },
     { from: 'edititemmetadata.html', to: '/metadata' },
     { from: 'encodingsettings.html', to: '/dashboard/playback/transcoding' },
     { from: 'installedplugins.html', to: '/dashboard/plugins' },
@@ -24,7 +20,6 @@ export const REDIRECTS: Redirect[] = [
     { from: 'metadataimages.html', to: '/dashboard/libraries/metadata' },
     { from: 'metadatanfo.html', to: '/dashboard/libraries/nfo' },
     { from: 'networking.html', to: '/dashboard/networking' },
-    { from: 'notificationsettings.html', to: '/dashboard/notifications' },
     { from: 'playbackconfiguration.html', to: '/dashboard/playback/resume' },
     { from: 'repositories.html', to: '/dashboard/plugins/repositories' },
     { from: 'scheduledtask.html', to: '/dashboard/tasks/edit' },

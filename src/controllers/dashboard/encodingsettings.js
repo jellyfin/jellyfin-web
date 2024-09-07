@@ -1,8 +1,7 @@
 import 'jquery';
 import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
-import libraryMenu from '../../scripts/libraryMenu';
 import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
@@ -32,6 +31,7 @@ function loadPage(page, config, systemInfo) {
     $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
     page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
     page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
+    page.querySelector('#chkVideoToolboxTonemapping').checked = config.EnableVideoToolboxTonemapping;
     page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
     page.querySelector('#selectTonemappingMode').value = config.TonemappingMode;
     page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
@@ -93,6 +93,7 @@ function onSubmit() {
             config.VaapiDevice = $('#txtVaapiDevice', form).val();
             config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
             config.EnableVppTonemapping = form.querySelector('#chkVppTonemapping').checked;
+            config.EnableVideoToolboxTonemapping = form.querySelector('#chkVideoToolboxTonemapping').checked;
             config.TonemappingAlgorithm = form.querySelector('#selectTonemappingAlgorithm').value;
             config.TonemappingMode = form.querySelector('#selectTonemappingMode').value;
             config.TonemappingRange = form.querySelector('#selectTonemappingRange').value;
@@ -165,19 +166,6 @@ function setDecodingCodecsVisible(context, value) {
     }
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/playback/transcoding',
-        name: globalize.translate('Transcoding')
-    }, {
-        href: '#/dashboard/playback/resume',
-        name: globalize.translate('ButtonResume')
-    }, {
-        href: '#/dashboard/playback/streaming',
-        name: globalize.translate('TabStreaming')
-    }];
-}
-
 let systemInfo;
 function getSystemInfo() {
     return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
@@ -206,11 +194,16 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
         }
 
-        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp') {
+        const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
+        if (this.value === '' || isHwaSelected) {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
         }
+
+        page.querySelector('.tonemappingModeOptions').classList.toggle('hide', !isHwaSelected);
+        page.querySelector('.allowTonemappingHardwareHelp').classList.toggle('hide', !isHwaSelected);
+        page.querySelector('.allowTonemappingSoftwareHelp').classList.toggle('hide', isHwaSelected);
 
         if (this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.fldIntelLp').classList.remove('hide');
@@ -218,7 +211,13 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fldIntelLp').classList.add('hide');
         }
 
-        if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {
+        if (this.value === 'videotoolbox') {
+            page.querySelector('.videoToolboxTonemappingOptions').classList.remove('hide');
+        } else {
+            page.querySelector('.videoToolboxTonemappingOptions').classList.add('hide');
+        }
+
+        if (this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.vppTonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.vppTonemappingOptions').classList.add('hide');
@@ -243,21 +242,6 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         }
 
         setDecodingCodecsVisible(page, this.value);
-    });
-    $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-        import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                includeFiles: true,
-                callback: function (path) {
-                    if (path) {
-                        $('.txtEncoderPath', page).val(path);
-                    }
-
-                    picker.close();
-                }
-            });
-        });
     });
     $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
         import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
@@ -296,7 +280,6 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
     $('.encodingSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
 }).on('pageshow', '#encodingSettingsPage', function () {
     loading.show();
-    libraryMenu.setTabs('playback', 0, getTabs);
     const page = this;
     ApiClient.getNamedConfiguration('encoding').then(function (config) {
         ApiClient.getSystemInfo().then(function (fetchedSystemInfo) {

@@ -1,7 +1,7 @@
 import './emby-progressring.scss';
 import 'webcomponents.js/webcomponents-lite';
 import template from './emby-progressring.template.html';
-import { getCurrentDateTimeLocale } from '../../scripts/globalize';
+import { getCurrentDateTimeLocale } from '../../lib/globalize';
 import { toPercent } from '../../utils/number.ts';
 
 const EmbyProgressRing = Object.create(HTMLDivElement.prototype);

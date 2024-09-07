@@ -15,7 +15,7 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
