@@ -574,6 +574,7 @@
     "LabelOptionalNetworkPathHelp": "Om denna mappen delas på ditt nätverk, kan den delade sökvägen tillåta klienter på andra enheter att streama mediafiler direkt. Till exempel, {0} eller {1}.",
     "LabelOriginalAspectRatio": "Ursprungligt bildförhållande",
     "LabelOriginalTitle": "Originaltitel",
+    "LabelOriginalLanguage": "Originalspråk",
     "LabelOverview": "Sammanfattning",
     "LabelParentNumber": "Parentnummer",
     "LabelParentalRating": "Åldersgräns",

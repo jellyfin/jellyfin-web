@@ -846,6 +846,7 @@
     "LabelOriginalAspectRatio": "Original aspect ratio",
     "LabelOriginalName": "Original name",
     "LabelOriginalTitle": "Original title",
+    "LabelOriginalLanguage": "Original language",
     "LabelOverview": "Overview",
     "LabelParallelImageEncodingLimit": "Parallel image encoding limit",
     "LabelParallelImageEncodingLimitHelp": "Maximum number of image encodings that are allowed to run in parallel. Leaving this empty will choose a limit based on your systems core count.",
