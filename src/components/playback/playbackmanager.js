@@ -1862,6 +1862,15 @@ class PlaybackManager {
                         SortBy: options.shuffle ? 'Random' : 'SortName',
                         MediaTypes: 'Audio'
                     }, queryOptions));
+                case 'Genre':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        GenreIds: firstItem.Id,
+                        ParentId: firstItem.ParentId,
+                        Filters: 'IsNotFolder',
+                        Recursive: true,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Video'
+                    }, queryOptions));
                 case 'Series':
                 case 'Season':
                     return getSeriesOrSeasonPlaybackPromise(firstItem, options, items);
