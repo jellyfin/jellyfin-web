@@ -669,7 +669,6 @@ function setFieldVisibilities(context, item) {
         context.querySelector('#txtName').label(globalize.translate('LabelName'));
         context.querySelector('#txtSortName').label(globalize.translate('LabelSortName'));
         context.querySelector('#txtOriginalName').label(globalize.translate('LabelOriginalName'));
-        context.querySelector('#txtOriginalLanguage').label(globalize.translate('LabelOriginalName'));
         context.querySelector('#txtProductionYear').label(globalize.translate('LabelBirthYear'));
         context.querySelector('#txtPremiereDate').label(globalize.translate('LabelBirthDate'));
         context.querySelector('#txtEndDate').label(globalize.translate('LabelDeathDate'));
