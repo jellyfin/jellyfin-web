@@ -4,19 +4,17 @@ import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { useQuery } from '@tanstack/react-query';
 import { type JellyfinApiContext, useApi } from 'hooks/useApi';
 import type { ItemDto } from 'types/base/models/item-dto';
-import type{ NullableString } from 'types/base/common/shared/types';
 import { ItemKind } from 'types/base/models/item-kind';
 
 const getItemByType = async (
     apiContext: JellyfinApiContext,
     itemType: ItemKind,
-    itemId: NullableString,
+    itemId: string,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = apiContext;
     if (!api) throw new Error('No API instance available');
     if (!user?.Id) throw new Error('No User ID provided');
-    if (!itemId) throw new Error('No item ID provided');
 
     let response;
     switch (itemType) {
@@ -46,7 +44,7 @@ const getItemByType = async (
 
 interface UseGetItemByTypeProps {
     itemType: ItemKind;
-    itemId: NullableString;
+    itemId: string;
 }
 
 export const useGetItemByType = ({

@@ -82,7 +82,6 @@ export interface ContextMenuOpts {
 }
 
 interface MoreCommandsButtonProps {
-    className?: string;
     itemType: ItemKind;
     selectedItemId?: string;
     itemId?: string;
@@ -96,7 +95,6 @@ interface MoreCommandsButtonProps {
 }
 
 const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
-    className,
     itemType,
     selectedItemId,
     itemId,
@@ -112,7 +110,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
     const queryClient = useQueryClient();
     const { data: item } = useGetItemByType({
         itemType,
-        itemId: selectedItemId || itemId
+        itemId: selectedItemId || itemId || ''
     });
     const parentId = item?.SeasonId || item?.SeriesId || item?.ParentId;
 
@@ -206,7 +204,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
     ) {
         return (
             <IconButton
-                className={className}
+                className='button-flat btnMoreCommands'
                 title={globalize.translate('ButtonMore')}
                 onClick={onMoreCommandsClick}
             >

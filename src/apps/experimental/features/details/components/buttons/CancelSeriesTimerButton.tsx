@@ -39,6 +39,8 @@ const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
                             navigate('/livetv.html');
                         },
                         onError: (err: unknown) => {
+                            loading.hide();
+                            toast(globalize.translate('MessageCancelSeriesTimerError'));
                             console.error(
                                 '[cancelSeriesTimer] failed to cancel series timer',
                                 err

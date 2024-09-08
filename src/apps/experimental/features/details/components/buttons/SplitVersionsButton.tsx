@@ -6,6 +6,7 @@ import { useDeleteAlternateSources } from 'hooks/api/videosHooks';
 import globalize from 'lib/globalize';
 import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
+import toast from 'components/toast/toast';
 
 interface SplitVersionsButtonProps {
     paramId: string;
@@ -38,8 +39,10 @@ const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
                             });
                         },
                         onError: (err: unknown) => {
+                            loading.hide();
+                            toast(globalize.translate('MessageSplitVersionsError'));
                             console.error(
-                                '[splitVersions] failed to delete Videos',
+                                '[splitVersions] failed to split versions',
                                 err
                             );
                         }

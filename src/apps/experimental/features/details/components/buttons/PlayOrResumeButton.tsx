@@ -70,7 +70,7 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
 
     return (
         <IconButton
-            className='button-flat btnPlay'
+            className='button-flat btnPlayOrResume'
             data-action={isResumable ? 'resume' : 'play'}
             title={
                 isResumable ?
