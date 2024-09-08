@@ -666,7 +666,7 @@ export default function (options) {
     }
 
     if (canPlayVp9) {
-        if (!browser.iOS && (!browser.firefox || !browser.osx)) {
+        if (!browser.iOS && !(browser.firefox && browser.osx)) {
             // iOS safari may fail to direct play vp9 in mp4 container
             //
             // Firefox can play vp9 in mp4 container but fails to detect HDR. Since HDR is
