@@ -9,6 +9,7 @@ import ServerConnections from './components/ServerConnections';
 
 import { appHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
+import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
 import globalize from './lib/globalize';
@@ -97,6 +98,16 @@ build: ${__JF_BUILD_VERSION__}`);
     // Establish the websocket connection
     Events.on(appHost, 'resume', () => {
         ServerConnections.currentApiClient()?.ensureWebSocket();
+    });
+
+    // Register API request error handlers
+    ServerConnections.getApiClients().forEach(apiClient => {
+        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
+        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
+    });
+    Events.on(ServerConnections, 'apiclientcreated', (_e, apiClient) => {
+        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
+        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });
 
     // Render the app
@@ -250,7 +261,7 @@ async function renderApp() {
     // Remove the splash logo
     container.innerHTML = '';
 
-    await appRouter.start();
+    loading.show();
 
     const root = createRoot(container);
     root.render(
