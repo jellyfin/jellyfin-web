@@ -351,12 +351,13 @@ export function getCommands(options) {
     return commands;
 }
 
-function getResolveFunction(resolve, id, changed, deleted) {
+function getResolveFunction(resolve, commandId, changed, deleted, itemId) {
     return function () {
         resolve({
-            command: id,
+            command: commandId,
             updated: changed,
-            deleted: deleted
+            deleted: deleted,
+            itemId: itemId
         });
     };
 }
@@ -533,7 +534,7 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'delete':
-                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
+                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
                 break;
             case 'share':
                 navigator.share({
