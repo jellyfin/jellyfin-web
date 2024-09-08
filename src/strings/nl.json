@@ -1930,5 +1930,7 @@
     "AllowTonemappingSoftwareHelp": "Tonemapping kan het dynamische bereik van een video transformeren van HDR naar SDR met behoud van beelddetails en kleuren, wat zeer belangrijke informatie is voor het weergeven van de originele scène. Werkt momenteel alleen met 10bit HDR10-, HLG- en DoVi-video's.",
     "Reset": "Herstellen",
     "MediaInfoRotation": "Rotatie",
-    "LibraryInvalidItemIdError": "De bibliotheek bevindt zich in een ongeldige staat en kan niet worden bewerkt. Dit is mogelijk een bug: het pad in de database komt niet overeen met het juiste pad op het bestandssysteem."
+    "LibraryInvalidItemIdError": "De bibliotheek bevindt zich in een ongeldige staat en kan niet worden bewerkt. Dit is mogelijk een bug: het pad in de database komt niet overeen met het juiste pad op het bestandssysteem.",
+    "EnableHi10p": "H.264 High 10-profiel inschakelen",
+    "EnableHi10pHelp": "Met deze optie wordt het transcoderen van H.264 10-bit-video's voorkomen. Schakel de optie uit als de video lege beelden bevat."
 }
