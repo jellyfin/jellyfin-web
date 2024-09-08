@@ -1070,10 +1070,10 @@ export default function (options) {
         if (profiles.includes(8)) {
             hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
         }
-    }
 
-    if (supportsDolbyVision(options) && supportedDolbyVisionProfileAv1(videoTestElement)) {
-        av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+        if (supportedDolbyVisionProfileAv1(videoTestElement)) {
+            av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+        }
     }
 
     const h264CodecProfileConditions = [
