@@ -1931,5 +1931,7 @@
     "AllowTonemappingSoftwareHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅对 10bit HDR10，HLG 和 DoVi 视频生效。",
     "Reset": "重置",
     "MediaInfoRotation": "旋转",
-    "LibraryInvalidItemIdError": "该媒体库处于无效状态，无法编辑。您可能遇到了错误：数据库中的路径不是文件系统上的正确路径。"
+    "LibraryInvalidItemIdError": "该媒体库处于无效状态，无法编辑。您可能遇到了错误：数据库中的路径不是文件系统上的正确路径。",
+    "EnableHi10pHelp": "启用以避免转码 H.264 10-bit 视频。如果视频显示空白帧，请禁用这个选项。",
+    "EnableHi10p": "启用 H.264 High 10 Profile"
 }
