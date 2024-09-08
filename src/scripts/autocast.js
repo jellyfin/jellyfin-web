@@ -1,3 +1,4 @@
+import ServerConnections from 'components/ServerConnections';
 import { playbackManager } from '../components/playback/playbackmanager';
 import Events from '../utils/events.ts';
 
@@ -43,16 +44,14 @@ function onOpen() {
     });
 }
 
-export function initialize(apiClient) {
-    if (apiClient) {
-        if (apiClient.isWebSocketOpen()) {
-            console.debug('[autoCast] connection ready');
-            onOpen();
-        } else {
-            console.debug('[autoCast] initializing connection listener');
-            Events.on(apiClient, 'websocketopen', onOpen);
-        }
-    } else {
-        console.warn('[autoCast] cannot initialize missing apiClient');
-    }
+export function initialize() {
+    ServerConnections.getApiClients().forEach(apiClient => {
+        Events.off(apiClient, 'websocketopen', onOpen);
+        Events.on(apiClient, 'websocketopen', onOpen);
+    });
+
+    Events.on(ServerConnections, 'apiclientcreated', (e, apiClient) => {
+        Events.off(apiClient, 'websocketopen', onOpen);
+        Events.on(apiClient, 'websocketopen', onOpen);
+    });
 }

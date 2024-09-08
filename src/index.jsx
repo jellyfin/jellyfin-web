@@ -74,7 +74,7 @@ build: ${__JF_BUILD_VERSION__}`);
     }
 
     // Initialize automatic (default) cast target
-    initializeAutoCast(ServerConnections.currentApiClient());
+    initializeAutoCast();
 
     // Load the translation dictionary
     await loadCoreDictionary();
