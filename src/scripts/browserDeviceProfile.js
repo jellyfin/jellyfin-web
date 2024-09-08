@@ -1317,6 +1317,23 @@ export default function (options) {
         profile.CodecProfiles.push(codecProfileMp4);
     }
 
+    if (browser.safari && appSettings.enableHi10p()) {
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Container: 'hls',
+            SubContainer: 'mp4',
+            Codec: 'h264',
+            Conditions: [
+                {
+                    Condition: 'EqualsAny',
+                    Property: 'VideoProfile',
+                    Value: h264Profiles + '|high 10',
+                    IsRequired: false
+                }
+            ]
+        });
+    }
+
     profile.CodecProfiles.push({
         Type: 'Video',
         Codec: 'h264',
