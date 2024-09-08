@@ -1931,5 +1931,7 @@
     "AllowTonemappingSoftwareHelp": "Mapováním tónů je možné změnit dynamický rozsah videa z HRD na SDR při zachování detailů a barev obrazu, tj. důležitých informací reprezentujících původní scénu. Momentálně funguje pouze u videí s 10bitovým HDR10, HLG a Dolby Vision.",
     "Reset": "Resetovat",
     "MediaInfoRotation": "Rotace",
-    "LibraryInvalidItemIdError": "Knihovna je v neplatném stavu a není možné ji upravit. Je možné, že jste narazili na chybu: cesta v databázi není správná cesta v souborovém systému."
+    "LibraryInvalidItemIdError": "Knihovna je v neplatném stavu a není možné ji upravit. Je možné, že jste narazili na chybu: cesta v databázi není správná cesta v souborovém systému.",
+    "EnableHi10p": "Povolit profil H.264 High 10",
+    "EnableHi10pHelp": "Zapnutím zabráníte překódování 10bitových videí kodeku H.264. Tuto možnost vypněte pokud se ve videu zobrazují prázdné snímky."
 }
