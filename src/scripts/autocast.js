@@ -45,6 +45,7 @@ function onOpen() {
 }
 
 export function initialize() {
+    console.debug('[autoCast] initializing connection listener');
     ServerConnections.getApiClients().forEach(apiClient => {
         Events.off(apiClient, 'websocketopen', onOpen);
         Events.on(apiClient, 'websocketopen', onOpen);
