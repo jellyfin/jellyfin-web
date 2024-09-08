@@ -1313,8 +1313,12 @@ function renderTags(page, item) {
     }
 
     tags.forEach(tag => {
+        const href = appRouter.getRouteUrl('tag', {
+            tag,
+            serverId: item.ServerId
+        });
         tagElements.push(
-            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            `<a href="${href}" class="button-link emby-button" is="emby-linkbutton">`
             + escapeHtml(tag)
             + '</a>'
         );
