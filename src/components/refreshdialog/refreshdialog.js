@@ -76,7 +76,7 @@ function onSubmit(e) {
 
     const mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
     const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
-    const replaceTrickplayImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceTrickplayImages').checked;
+    const replaceTrickplayImages = dlg.querySelector('.chkReplaceTrickplayImages').checked;
 
     options.itemIds.forEach(function (itemId) {
         apiClient.refreshItem(itemId, {
@@ -84,7 +84,7 @@ function onSubmit(e) {
             ImageRefreshMode: mode,
             MetadataRefreshMode: mode,
             ReplaceAllImages: replaceAllImages,
-            replaceTrickplayImages: replaceTrickplayImages,
+            RegenerateTrickplay: replaceTrickplayImages,
             ReplaceAllMetadata: replaceAllMetadata
         });
     });
