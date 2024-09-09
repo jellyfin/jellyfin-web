@@ -190,6 +190,9 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
     context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
     context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value = appSettings.preferredTranscodeVideoAudioCodec();
+    context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
+    context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
+    context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -232,6 +235,9 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
 
     appSettings.enableHi10p(context.querySelector('.chkEnableHi10p').checked);
+    appSettings.disableVbrAudio(context.querySelector('.chkDisableVbrAudioEncoding').checked);
+    appSettings.alwaysRemuxFlac(context.querySelector('.chkAlwaysRemuxFlac').checked);
+    appSettings.alwaysRemuxMp3(context.querySelector('.chkAlwaysRemuxMp3').checked);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');

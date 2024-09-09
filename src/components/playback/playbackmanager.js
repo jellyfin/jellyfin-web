@@ -309,7 +309,8 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: appHost.supports('remoteaudio')
+        EnableRemoteMedia: appHost.supports('remoteaudio'),
+        EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
     });
 }
 
