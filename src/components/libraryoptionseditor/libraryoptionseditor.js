@@ -220,12 +220,11 @@ function renderLyricFetchers(page, availableOptions, libraryOptions) {
     const elem = page.querySelector('.lyricFetchers');
 
     let plugins = availableOptions.LyricFetchers;
-    plugins = getOrderedPlugins(plugins, libraryOptions.LyricFetcherOrder || []);
+    plugins = getOrderedPlugins(plugins, libraryOptions.LyricFetcherOrder);
     if (!plugins.length) return html;
 
     html += `<h3 class="checkboxListLabel">${globalize.translate('LabelLyricDownloaders')}</h3>`;
     html += '<div class="checkboxList paperList checkboxList-paperList">';
-    console.log(libraryOptions);
     for (let i = 0; i < plugins.length; i++) {
         const plugin = plugins[i];
         html += `<div class="listItem lyricFetcherItem sortableOption" data-pluginname="${escapeHtml(plugin.Name)}">`;
