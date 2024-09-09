@@ -1872,7 +1872,7 @@
     "EnableDtsHelp": "Schakel dit alleen in als je apparaat DTS ondersteunt of is verbonden met een compatibele geluidsontvanger, anders kan dit afspeelfouten veroorzaken.",
     "EnableTrueHd": "TrueHD inschakelen",
     "EnableTrueHdHelp": "Schakel dit alleen in als je apparaat TrueHD ondersteunt of is verbonden met een compatibele geluidsontvanger, anders kan dit afspeelfouten veroorzaken.",
-    "HeaderVideoAdvanced": "Video geavanceerd",
+    "HeaderVideoAdvanced": "Geavanceerde beeldinstellingen",
     "PlaylistError.CreateFailed": "Fout bij aanmaken afspeellijst",
     "PlaylistError.AddFailed": "Fout bij toevoegen aan afspeellijst",
     "PlaylistPublicDescription": "Iedere aangemelde gebruiker toestaan deze afspeellijst te bekijken.",
@@ -1932,5 +1932,10 @@
     "MediaInfoRotation": "Rotatie",
     "LibraryInvalidItemIdError": "De bibliotheek bevindt zich in een ongeldige staat en kan niet worden bewerkt. Dit is mogelijk een bug: het pad in de database komt niet overeen met het juiste pad op het bestandssysteem.",
     "EnableHi10p": "H.264 High 10-profiel inschakelen",
-    "EnableHi10pHelp": "Met deze optie wordt het transcoderen van H.264 10-bit-video's voorkomen. Schakel de optie uit als de video lege beelden bevat."
+    "EnableHi10pHelp": "Met deze optie wordt het transcoderen van H.264 10-bit-video's voorkomen. Schakel de optie uit als de video lege beelden bevat.",
+    "DisableVbrAudioEncodingHelp": "Voorkom dat de server voor deze cliënt geluid codeert met VBR.",
+    "HeaderAudioAdvanced": "Geavanceerde geluidsinstellingen",
+    "LabelAlwaysRemuxFlacAudioFiles": "FLAC-geluidsbestanden altijd remuxen",
+    "LabelAlwaysRemuxMp3AudioFiles": "MP3-geluidsbestanden altijd remuxen",
+    "LabelDisableVbrAudioEncoding": "VBR-audiocodering uitschakelen"
 }
