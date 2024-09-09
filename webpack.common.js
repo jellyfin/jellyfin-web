@@ -18,8 +18,8 @@ const Assets = [
 ];
 
 const LibarchiveWasm = [
-    'libarchive.js/dist/wasm-gen/libarchive.js',
-    'libarchive.js/dist/wasm-gen/libarchive.wasm'
+    'libarchive.js/dist/libarchive.js',
+    'libarchive.js/dist/libarchive.wasm'
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
