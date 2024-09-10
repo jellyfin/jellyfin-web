@@ -1195,8 +1195,12 @@ export default function (view) {
     function onKeyDown(e) {
         clickedElement = e.target;
 
-        const key = keyboardnavigation.getKeyName(e);
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
+
+        // Skip modified keys
+        if (isKeyModified) return;
+
+        const key = keyboardnavigation.getKeyName(e);
 
         const btnPlayPause = osdBottomElement.querySelector('.btnPause');
 
@@ -1219,8 +1223,10 @@ export default function (view) {
             switch (key) {
                 case 'ArrowLeft':
                 case 'ArrowRight':
-                    showOsd(nowPlayingPositionSlider);
-                    nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
+                    if (!e.shiftKey) {
+                        showOsd(nowPlayingPositionSlider);
+                        nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
+                    }
                     return;
                 case 'Enter':
                     playbackManager.playPause(currentPlayer);
@@ -1230,7 +1236,7 @@ export default function (view) {
         }
 
         if (layoutManager.tv && keyboardnavigation.isNavigationKey(key)) {
-            showOsd();
+            if (!e.shiftKey) showOsd();
             return;
         }
 
@@ -1248,47 +1254,59 @@ export default function (view) {
                 break;
             case 'k':
             case 'K':
-                e.preventDefault();
-                playbackManager.playPause(currentPlayer);
-                showOsd(btnPlayPause);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.playPause(currentPlayer);
+                    showOsd(btnPlayPause);
+                }
                 break;
             case 'ArrowUp':
             case 'Up':
-                e.preventDefault();
-                playbackManager.volumeUp(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.volumeUp(currentPlayer);
+                }
                 break;
             case 'ArrowDown':
             case 'Down':
-                e.preventDefault();
-                playbackManager.volumeDown(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.volumeDown(currentPlayer);
+                }
                 break;
             case 'l':
             case 'L':
             case 'ArrowRight':
             case 'Right':
-                e.preventDefault();
-                playbackManager.fastForward(currentPlayer);
-                showOsd(btnFastForward);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.fastForward(currentPlayer);
+                    showOsd(btnFastForward);
+                }
                 break;
             case 'j':
             case 'J':
             case 'ArrowLeft':
             case 'Left':
-                e.preventDefault();
-                playbackManager.rewind(currentPlayer);
-                showOsd(btnRewind);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.rewind(currentPlayer);
+                    showOsd(btnRewind);
+                }
                 break;
             case 'f':
             case 'F':
-                if (!e.ctrlKey && !e.metaKey) {
+                if (!e.shiftKey) {
                     e.preventDefault();
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
             case 'm':
             case 'M':
-                e.preventDefault();
-                playbackManager.toggleMute(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.toggleMute(currentPlayer);
+                }
                 break;
             case 'p':
             case 'P':
@@ -1323,12 +1341,16 @@ export default function (view) {
                 }
                 break;
             case 'Home':
-                e.preventDefault();
-                playbackManager.seekPercent(0, currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.seekPercent(0, currentPlayer);
+                }
                 break;
             case 'End':
-                e.preventDefault();
-                playbackManager.seekPercent(100, currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.seekPercent(100, currentPlayer);
+                }
                 break;
             case '0':
             case '1':
@@ -1339,39 +1361,45 @@ export default function (view) {
             case '6':
             case '7':
             case '8':
-            case '9': {
-                if (!isKeyModified) {
-                    e.preventDefault();
-                    const percent = parseInt(key, 10) * 10;
-                    playbackManager.seekPercent(percent, currentPlayer);
-                }
+            case '9': { // no Shift
+                e.preventDefault();
+                const percent = parseInt(key, 10) * 10;
+                playbackManager.seekPercent(percent, currentPlayer);
                 break;
             }
-            case '>':
+            case '>': // Shift+.
                 e.preventDefault();
                 playbackManager.increasePlaybackRate(currentPlayer);
                 break;
-            case '<':
+            case '<': // Shift+,
                 e.preventDefault();
                 playbackManager.decreasePlaybackRate(currentPlayer);
                 break;
             case 'PageUp':
-                e.preventDefault();
-                playbackManager.nextChapter(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.nextChapter(currentPlayer);
+                }
                 break;
             case 'PageDown':
-                e.preventDefault();
-                playbackManager.previousChapter(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.previousChapter(currentPlayer);
+                }
                 break;
             case 'g':
             case 'G':
-                e.preventDefault();
-                subtitleSyncOverlay?.decrementOffset();
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    subtitleSyncOverlay?.decrementOffset();
+                }
                 break;
             case 'h':
             case 'H':
-                e.preventDefault();
-                subtitleSyncOverlay?.incrementOffset();
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    subtitleSyncOverlay?.incrementOffset();
+                }
                 break;
         }
     }

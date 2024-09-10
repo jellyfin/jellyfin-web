@@ -131,6 +131,9 @@ export class BookPlayer {
     }
 
     onWindowKeyDown(e) {
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = keyboardnavigation.getKeyName(e);
 
         if (!this.loaded) return;

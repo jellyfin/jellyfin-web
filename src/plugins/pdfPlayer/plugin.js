@@ -91,6 +91,9 @@ export class PdfPlayer {
     onWindowKeyDown(e) {
         if (!this.loaded) return;
 
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = keyboardnavigation.getKeyName(e);
 
         switch (key) {
