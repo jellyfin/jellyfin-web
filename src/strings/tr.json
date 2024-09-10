@@ -1852,7 +1852,7 @@
     "EnableLibrary": "Kütüphaneyi etkinleştir",
     "EnableLibraryHelp": "Kütüphanenin devre dışı bırakılması kütüphaneyi tüm kullanıcı görünümlerinden gizleyecektir.",
     "LabelTrickplayAccelEncoding": "Donanım hızlandırmalı MJPEG kodlamayı etkinleştir",
-    "LabelTrickplayAccelEncodingHelp": "Şu anda yalnızca QSV ve VAAPI'de kullanılabilir. Bu seçeneğin diğer donanım hızlandırma yöntemleri üzerinde bir etkisi yoktur.",
+    "LabelTrickplayAccelEncodingHelp": "Şu anda yalnızca QSV, VAAPI ve VideoToolbox ile kullanılabilir. Bu seçeneğin diğer donanım hızlandırma yöntemleri üzerinde bir etkisi yoktur.",
     "HeaderDeleteLyrics": "Şarkı Sözlerini Sil",
     "ViewLyrics": "Şarkı sözünü göster",
     "ConfirmDeleteLyrics": "Bu şarkı sözlerini silmek, onları hem dosya sisteminden hem de medya kütüphanenizden silecektir. Devam etmek istediğinizden emin misiniz?",
@@ -1924,5 +1924,13 @@
     "HeaderAudioAdvanced": "Gelişmiş Ses",
     "LabelAlwaysRemuxFlacAudioFiles": "FLAC ses dosyalarını her zaman yeniden birleştir",
     "LabelAlwaysRemuxMp3AudioFiles": "MP3 ses dosyalarını her zaman yeniden birleştir",
-    "LabelDisableVbrAudioEncoding": "VBR ses kodlamasını devre dışı bırak"
+    "LabelDisableVbrAudioEncoding": "VBR ses kodlamasını devre dışı bırak",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Daha az doğru zamanlama ile önemli ölçüde daha hızlı işleme için yalnızca anahtar kareleri ayıklayın. Yapılandırılmış donanım kod çözücüsü bu modu desteklemiyorsa, bunun yerine yazılım kod çözücüsü kullanılacaktır.",
+    "Reset": "Sıfırla",
+    "PasswordMissingSaveError": "Yeni parola boş bırakılamaz.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Yalnızca anahtar karelerden görüntü oluşturun",
+    "MediaInfoRotation": "Döndürme",
+    "MoveToBottom": "Aşağıya taşı",
+    "MoveToTop": "Yukarıya taşı",
+    "LibraryInvalidItemIdError": "Kütüphane geçersiz bir durumda ve düzenlenemiyor. Muhtemelen bir hatayla karşılaşıyorsunuz: veritabanındaki yol, dosya sistemindeki doğru yol değil."
 }
