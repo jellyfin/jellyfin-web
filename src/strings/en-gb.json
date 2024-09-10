@@ -1927,9 +1927,18 @@
     "MoveToBottom": "Move to bottom",
     "MoveToTop": "Move to top",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extract key frames only for significantly faster processing with less accurate timing. If the configured hardware decoder does not support this mode, will use the software decoder instead.",
-    "AllowTonemappingSoftwareHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only with 10bit HDR10 and HLG videos.",
+    "AllowTonemappingSoftwareHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only with 10bit HDR10, HLG and DoVi videos.",
     "LabelTrickplayKeyFrameOnlyExtraction": "Only generate images from key frames",
     "Reset": "Reset",
     "MediaInfoRotation": "Rotation",
-    "LibraryInvalidItemIdError": "The library is in an invalid state and cannot be edited. You are possibly encountering a bug: the path in the database is not the correct path on the filesystem."
+    "LibraryInvalidItemIdError": "The library is in an invalid state and cannot be edited. You are possibly encountering a bug: the path in the database is not the correct path on the filesystem.",
+    "AlwaysRemuxFlacAudioFilesHelp": "If you have files that your browser rejects to play or where it inaccurately calculates timestamps, enable this as a workaround.",
+    "AlwaysRemuxMp3AudioFilesHelp": "If you have files that your browser inaccurately calculates timestamps, enable this as a workaround.",
+    "DisableVbrAudioEncodingHelp": "Prevent the server from encoding audio with VBR for this client.",
+    "HeaderAudioAdvanced": "Audio Advanced",
+    "LabelAlwaysRemuxFlacAudioFiles": "Always remux FLAC audio files",
+    "LabelAlwaysRemuxMp3AudioFiles": "Always remux MP3 audio files",
+    "LabelDisableVbrAudioEncoding": "Disable VBR audio encoding",
+    "EnableHi10p": "Enable H.264 High 10 Profile",
+    "EnableHi10pHelp": "Enable to avoid transcoding H.264 10-bit videos. Disable this option if the video displays blank frames."
 }
