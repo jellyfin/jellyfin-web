@@ -1933,5 +1933,12 @@
     "MediaInfoRotation": "Obrót",
     "LibraryInvalidItemIdError": "Biblioteka jest w nieprawidłowym stanie i nie można jej edytować. Prawdopodobnie występuje błąd: ścieżka w bazie danych nie jest poprawną ścieżką w systemie plików.",
     "EnableHi10p": "Włącz profil H.264 High 10",
-    "EnableHi10pHelp": "Włącz, aby uniknąć transkodowania wideo H.264 10-bit. Wyłącz tę opcję, jeśli wideo wyświetla puste klatki."
+    "EnableHi10pHelp": "Włącz, aby uniknąć transkodowania wideo H.264 10-bit. Wyłącz tę opcję, jeśli wideo wyświetla puste klatki.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Jeśli masz pliki, dla których przeglądarka nieprawidłowo oblicza znaczniki czasu, włącz tę opcję jako obejście problemu.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Jeśli przeglądarka odmawia odtworzenia niektórych plików lub nieprawidłowo oblicza znaczniki czasu, włącz tę opcję jako obejście problemu.",
+    "DisableVbrAudioEncodingHelp": "Zapobiegaj kodowaniu dźwięku przez serwer przy użyciu VBR dla tego klienta.",
+    "HeaderAudioAdvanced": "Zaawansowane audio",
+    "LabelAlwaysRemuxFlacAudioFiles": "Zawsze remuksuj pliki audio FLAC",
+    "LabelAlwaysRemuxMp3AudioFiles": "Zawsze remuksuj pliki audio MP3",
+    "LabelDisableVbrAudioEncoding": "Wyłącz kodowanie dźwięku VBR"
 }
