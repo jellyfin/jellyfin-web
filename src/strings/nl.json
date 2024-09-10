@@ -1937,5 +1937,7 @@
     "HeaderAudioAdvanced": "Geavanceerde geluidsinstellingen",
     "LabelAlwaysRemuxFlacAudioFiles": "FLAC-geluidsbestanden altijd remuxen",
     "LabelAlwaysRemuxMp3AudioFiles": "MP3-geluidsbestanden altijd remuxen",
-    "LabelDisableVbrAudioEncoding": "VBR-audiocodering uitschakelen"
+    "LabelDisableVbrAudioEncoding": "VBR-audiocodering uitschakelen",
+    "AlwaysRemuxFlacAudioFilesHelp": "Als je bestanden hebt die je browser weigert af te spelen of waarvoor deze de tijdstempels verkeerd berekent, schakel dan deze optie in als tijdelijke oplossing.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Als je bestanden hebt waarvoor je browser de tijdstempels verkeerd berekent, schakel dan deze optie in als tijdelijke oplossing."
 }
