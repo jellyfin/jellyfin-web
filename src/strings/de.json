@@ -1933,5 +1933,6 @@
     "LibraryInvalidItemIdError": "Die Bibliothek ist in einem ungültigen Zustand und kann nicht verändert werden. Dies ist möglicherweise ein Bug: Der Pfad in der Datenbank ist nicht der richtige Pfad im Dateisystem.",
     "MediaInfoRotation": "Rotation",
     "EnableHi10p": "H.264 High 10 Profil aktivieren",
-    "EnableHi10pHelp": "Aktivieren, um die Transkodierung von H.264-Videos zu verhindern. Deaktivieren, wenn die Videos nur leere Frames zeigen."
+    "EnableHi10pHelp": "Aktivieren, um die Transkodierung von H.264-Videos zu verhindern. Deaktivieren, wenn die Videos nur leere Frames zeigen.",
+    "LabelDisableVbrAudioEncoding": "VBR-Audiocodierung deaktivieren"
 }
