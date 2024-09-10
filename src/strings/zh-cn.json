@@ -1933,5 +1933,12 @@
     "MediaInfoRotation": "旋转",
     "LibraryInvalidItemIdError": "该媒体库处于无效状态，无法编辑。您可能遇到了错误：数据库中的路径不是文件系统上的正确路径。",
     "EnableHi10pHelp": "启用以避免转码 H.264 10-bit 视频。如果视频显示空白帧，请禁用这个选项。",
-    "EnableHi10p": "启用 H.264 High 10 Profile"
+    "EnableHi10p": "启用 H.264 High 10 Profile",
+    "HeaderAudioAdvanced": "高级音频选项",
+    "AlwaysRemuxFlacAudioFilesHelp": "如果您的浏览器拒绝播放某些文件或者无法准确计算时间戳，请启用此功能作为解决方法。",
+    "AlwaysRemuxMp3AudioFilesHelp": "如果您的浏览器无法准确计算文件的时间戳，请启用此功能作为解决方法。",
+    "DisableVbrAudioEncodingHelp": "禁止服务器为此客户端使用 VBR 编码音频。",
+    "LabelAlwaysRemuxMp3AudioFiles": "总是重新混合 MP3 音频文件",
+    "LabelAlwaysRemuxFlacAudioFiles": "总是重新混合 FLAC 音频文件",
+    "LabelDisableVbrAudioEncoding": "禁用 VBR 音频编码"
 }
