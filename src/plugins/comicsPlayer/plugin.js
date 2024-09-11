@@ -9,6 +9,11 @@ import { PluginType } from '../../types/plugin.ts';
 
 import './style.scss';
 
+// supported book file extensions
+const FILE_EXTENSIONS = ['.cbr', '.cbt', '.cbz', '.cb7'];
+// the comic book archive supports any kind of image format as it's just a zip archive
+const IMAGE_FORMATS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif', 'webp'];
+
 export class ComicsPlayer {
     constructor() {
         this.name = 'Comics Player';
@@ -358,12 +363,9 @@ export class ComicsPlayer {
     }
 
     canPlayItem(item) {
-        return item.Path && (item.Path.endsWith('cbz') || item.Path.endsWith('cbr'));
+        return item.Path && FILE_EXTENSIONS.some(ext => item.Path.endsWith(ext));
     }
 }
-
-// the comic book archive supports any kind of image format as it's just a zip archive
-const supportedFormats = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif', 'webp'];
 
 class ArchiveSource {
     constructor(url) {
@@ -389,7 +391,7 @@ class ArchiveSource {
         files = files.filter((file) => {
             const name = file.file.name;
             const index = name.lastIndexOf('.');
-            return index !== -1 && supportedFormats.includes(name.slice(index + 1));
+            return index !== -1 && IMAGE_FORMATS.includes(name.slice(index + 1));
         });
         files.sort((a, b) => {
             if (a.file.name < b.file.name) {
