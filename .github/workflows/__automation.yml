@@ -1,20 +1,12 @@
-name: Automation
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+name: Automation 🎛️
 
 on:
-  push:
-    branches:
-      - master
-  pull_request_target:
+  workflow_call:
 
 jobs:
   conflicts:
-    name: Merge conflict labeling
+    name: Merge conflict labeling 🏷️
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
     steps:
       - uses: eps1lon/actions-label-merge-conflict@1b1b1fcde06a9b3d089f3464c96417961dde1168 # v3.0.2
         with:
