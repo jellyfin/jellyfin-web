@@ -1388,7 +1388,7 @@
     "PlaybackRate": "播放速度",
     "LabelMaxMuxingQueueSize": "最大混合器队列大小",
     "LabelMaxMuxingQueueSizeHelp": "等待所有流初始化时可以缓冲的最大数据包数。 如果您在 FFmpeg 日志中仍然遇到“为输出流缓冲的数据包过多”错误，请尝试增加它。 推荐值为 2048。",
-    "Profile": "简介",
+    "Profile": "个人信息",
     "LabelIconMaxResHelp": "通过 “upnp:icon” 属性公开的图标的最大分辨率。",
     "LabelAlbumArtMaxResHelp": "通过“upnp:albumArtURI”属性公开的专辑封面的最大分辨率。",
     "VideoAudio": "视频音频",
