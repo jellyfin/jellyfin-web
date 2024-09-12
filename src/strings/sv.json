@@ -1928,5 +1928,10 @@
     "PreviewLyrics": "Förhandsgranska sångtext",
     "EnableHi10p": "Slå på High 10-profilen för H.264",
     "EnableHi10pHelp": "Slå på detta för att undvika att omkoda H.264 10-bits videos. Slå av detta val om videon visar tomma bildrutor.",
-    "SearchForLyrics": "Sök efter låttext"
+    "SearchForLyrics": "Sök efter låttext",
+    "HeaderAudioAdvanced": "Audio Advanced",
+    "LabelDisableVbrAudioEncoding": "Inaktivera VBR-ljudkodning",
+    "AlwaysRemuxFlacAudioFilesHelp": "Om du har filer som din webbläsare vägrar att spela upp eller där den beräknar tidsstämplar felaktigt, aktivera detta som en lösning.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Om du har filer som din webbläsare beräknar tidsstämplar felaktigt, aktivera detta som en lösning.",
+    "DisableVbrAudioEncodingHelp": "Förhindra servern från att koda ljud med VBR för den här klienten."
 }
