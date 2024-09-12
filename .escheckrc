@@ -3,7 +3,8 @@
     "modules": "false",
     "files": "./dist/**/*.js",
     "not": [
-        "./dist/libraries/pdf.worker.js",
+        "./dist/libraries/pdf.worker.mjs",
+        "./dist/node_modules.pdfjs-dist.*",
         "./dist/libraries/worker-bundle.js",
         "./dist/serviceworker.js"
     ]

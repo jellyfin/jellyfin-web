@@ -4,6 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { TransformAsyncModulesPlugin } = require('transform-async-modules-webpack-plugin');
 const { DefinePlugin, IgnorePlugin } = require('webpack');
 const packageJson = require('./package.json');
 
@@ -15,7 +16,7 @@ const Assets = [
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'pdfjs-dist/build/pdf.worker.js'
+    'pdfjs-dist/build/pdf.worker.min.mjs'
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
@@ -109,7 +110,9 @@ const config = {
             typescript: {
                 configFile: path.resolve(__dirname, 'tsconfig.json')
             }
-        })
+        }),
+        // Transform any modules using top-level await (pdf.js)
+        new TransformAsyncModulesPlugin()
     ],
     output: {
         filename: pathData => (
@@ -205,6 +208,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/markdown-it'),
                     path.resolve(__dirname, 'node_modules/material-react-table'),
                     path.resolve(__dirname, 'node_modules/mdurl'),
+                    path.resolve(__dirname, 'node_modules/pdfjs-dist'),
                     path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
                     path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
@@ -268,7 +272,6 @@ const config = {
             {
                 test: /\.js$/,
                 include: [
-                    path.resolve(__dirname, 'node_modules/pdfjs-dist'),
                     path.resolve(__dirname, 'node_modules/xmldom')
                 ],
                 use: [{
