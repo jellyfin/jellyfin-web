@@ -1926,5 +1926,14 @@
     "PluginUninstallError": "Ocorreu um erro ao desinstalar o plugin.",
     "AllowTonemappingSoftwareHelp": "O mapeamento de tons pode transformar a faixa dinâmica de um vídeo de HDR para SDR, mantendo os detalhes e as cores da imagem, que são informações muito importantes para representar a cena original. Atualmente funciona apenas com vídeos HDR10, HLG e DoVi de 10 bits.",
     "HeaderUploadLyrics": "Fazer upload da letra",
-    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraia quadros-chave somente para processamento significativamente mais rápido com temporização menos precisa. Se o decodificador de hardware configurado não suportar esse modo, usará o decodificador de software em vez disso."
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraia quadros-chave somente para processamento significativamente mais rápido com temporização menos precisa. Se o decodificador de hardware configurado não suportar esse modo, usará o decodificador de software em vez disso.",
+    "EnableHi10p": "Ativar o perfil H.264 High 10",
+    "EnableHi10pHelp": "Ative para evitar a transcodificação de vídeos H.264 de 10 bits. Desative essa opção se o vídeo exibir quadros em branco.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Se você tiver arquivos que seu navegador rejeita reproduzir ou nos quais ele calcula de forma imprecisa os registros de data e hora, ative essa opção como solução alternativa.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Se você tiver arquivos que seu navegador calcula de forma imprecisa os carimbos de data e hora, ative essa opção como uma solução alternativa.",
+    "DisableVbrAudioEncodingHelp": "Impedir que o servidor codifique o áudio com VBR para esse cliente.",
+    "HeaderAudioAdvanced": "Áudio avançado",
+    "LabelAlwaysRemuxFlacAudioFiles": "Sempre remuxar arquivos de áudio FLAC",
+    "LabelAlwaysRemuxMp3AudioFiles": "Sempre remuxar arquivos de áudio MP3",
+    "LabelDisableVbrAudioEncoding": "Desativar a codificação de áudio VBR"
 }
