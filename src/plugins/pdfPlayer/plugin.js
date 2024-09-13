@@ -89,9 +89,10 @@ export class PdfPlayer {
     }
 
     onWindowKeyUp(e) {
+        if (!this.loaded) return;
+
         const key = keyboardnavigation.getKeyName(e);
 
-        if (!this.loaded) return;
         switch (key) {
             case 'l':
             case 'ArrowRight':
