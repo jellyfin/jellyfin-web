@@ -138,14 +138,17 @@ export class BookPlayer {
             case 'l':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 this.next();
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 this.previous();
                 break;
             case 'Escape':
+                e.preventDefault();
                 if (this.tocElement) {
                     // Close table of contents on ESC if it is open
                     this.tocElement.destroy();

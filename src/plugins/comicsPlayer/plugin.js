@@ -180,6 +180,7 @@ export class ComicsPlayer {
     onWindowKeyDown(e) {
         const key = keyboardnavigation.getKeyName(e);
         if (key === 'Escape') {
+            e.preventDefault();
             this.stop();
         }
     }

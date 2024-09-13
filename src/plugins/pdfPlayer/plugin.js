@@ -97,14 +97,17 @@ export class PdfPlayer {
             case 'l':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 this.next();
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 this.previous();
                 break;
             case 'Escape':
+                e.preventDefault();
                 this.stop();
                 break;
         }

@@ -1323,9 +1323,11 @@ export default function (view) {
                 }
                 break;
             case 'Home':
+                e.preventDefault();
                 playbackManager.seekPercent(0, currentPlayer);
                 break;
             case 'End':
+                e.preventDefault();
                 playbackManager.seekPercent(100, currentPlayer);
                 break;
             case '0':
@@ -1354,17 +1356,21 @@ export default function (view) {
                 playbackManager.decreasePlaybackRate(currentPlayer);
                 break;
             case 'PageUp':
+                e.preventDefault();
                 playbackManager.nextChapter(currentPlayer);
                 break;
             case 'PageDown':
+                e.preventDefault();
                 playbackManager.previousChapter(currentPlayer);
                 break;
             case 'g':
             case 'G':
+                e.preventDefault();
                 subtitleSyncOverlay?.decrementOffset();
                 break;
             case 'h':
             case 'H':
+                e.preventDefault();
                 subtitleSyncOverlay?.incrementOffset();
                 break;
         }
