@@ -18,7 +18,7 @@ export class PdfPlayer {
         this.priority = 1;
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
-        this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
     }
 
@@ -88,7 +88,7 @@ export class PdfPlayer {
         return true;
     }
 
-    onWindowKeyUp(e) {
+    onWindowKeyDown(e) {
         if (!this.loaded) return;
 
         const key = keyboardnavigation.getKeyName(e);
@@ -133,7 +133,7 @@ export class PdfPlayer {
     bindEvents() {
         this.bindMediaElementEvents();
 
-        document.addEventListener('keyup', this.onWindowKeyUp);
+        document.addEventListener('keydown', this.onWindowKeyDown);
         document.addEventListener('touchstart', this.onTouchStart);
     }
 
@@ -149,7 +149,7 @@ export class PdfPlayer {
             this.unbindMediaElementEvents();
         }
 
-        document.removeEventListener('keyup', this.onWindowKeyUp);
+        document.removeEventListener('keydown', this.onWindowKeyDown);
         document.removeEventListener('touchstart', this.onTouchStart);
     }
 

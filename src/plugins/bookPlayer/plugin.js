@@ -45,7 +45,7 @@ export class BookPlayer {
         this.decreaseFontSize = this.decreaseFontSize.bind(this);
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
-        this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.addSwipeGestures = this.addSwipeGestures.bind(this);
     }
 
@@ -130,7 +130,7 @@ export class BookPlayer {
         return true;
     }
 
-    onWindowKeyUp(e) {
+    onWindowKeyDown(e) {
         const key = keyboardnavigation.getKeyName(e);
 
         if (!this.loaded) return;
@@ -184,8 +184,8 @@ export class BookPlayer {
     bindEvents() {
         this.bindMediaElementEvents();
 
-        document.addEventListener('keyup', this.onWindowKeyUp);
-        this.rendition?.on('keyup', this.onWindowKeyUp);
+        document.addEventListener('keydown', this.onWindowKeyDown);
+        this.rendition?.on('keydown', this.onWindowKeyDown);
 
         if (browser.safari) {
             const player = document.getElementById('bookPlayerContainer');
@@ -214,8 +214,8 @@ export class BookPlayer {
             this.unbindMediaElementEvents();
         }
 
-        document.removeEventListener('keyup', this.onWindowKeyUp);
-        this.rendition?.off('keyup', this.onWindowKeyUp);
+        document.removeEventListener('keydown', this.onWindowKeyDown);
+        this.rendition?.off('keydown', this.onWindowKeyDown);
 
         if (!browser.safari) {
             this.rendition?.off('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
