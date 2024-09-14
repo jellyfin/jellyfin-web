@@ -46,7 +46,7 @@ export function getVideoQualityOptions(options) {
         if (videoBitRate < 0 || (videoBitRate > 0 && c.bitrate < videoBitRate)) {
             qualityOptions.push(c);
         }
-    })
+    });
 
     if (maxStreamingBitrate) {
         let selectedIndex = qualityOptions.length - 1;
