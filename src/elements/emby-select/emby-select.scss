@@ -80,6 +80,10 @@
     align-items: center;
 }
 
+.selectContainer-inline.selectContainerWithButton {
+    position: relative;
+}
+
 .selectLabel {
     display: block;
     margin-bottom: 0.25em;
@@ -119,6 +123,10 @@
     top: initial;
     bottom: 0.24em;
     font-size: 90%;
+}
+
+.selectContainerWithButton > .selectArrowContainer {
+    visibility: hidden;
 }
 
 .emby-select[disabled] + .selectArrowContainer {

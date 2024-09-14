@@ -38,6 +38,12 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'user/menu/index.html'
         }
     }, {
+        path: 'mypreferencesbackgroundplayback.html',
+        pageProps: {
+            controller: 'user/backgroundPlayback/index',
+            view: 'user/backgroundPlayback/index.html'
+        }
+    }, {
         path: 'mypreferencescontrols.html',
         pageProps: {
             controller: 'user/controls/index',

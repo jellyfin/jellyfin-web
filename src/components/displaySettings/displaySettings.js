@@ -67,6 +67,11 @@ function showOrHideMissingEpisodesField(context) {
     context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
 }
 
+function showBackgroundPlaybackSection(context, user) {
+    context.querySelector('.lnkBackgroundPlaybackPreferences').setAttribute('href', '#/mypreferencesbackgroundplayback.html?userId=' + user.Id);
+}
+
+
 function loadForm(context, user, userSettings) {
     if (appHost.supports('displaylanguage')) {
         context.querySelector('.languageSection').classList.remove('hide');
@@ -114,19 +119,8 @@ function loadForm(context, user, userSettings) {
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
-    const themeSongSelector = context.querySelector('#chkThemeSong');
-    themeSongSelector.checked = userSettings.enableThemeSongs();
-    context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
-
-    context.querySelector('#selectThemeMediaSortBy').value = userSettings.themeMediaSortBy();
-    context.querySelector('#selectThemeMediaSortOrder').value = userSettings.themeMediaSortOrder();
-
-    // Trigger initial change event to update the Theme Sort By / Theme Sort Order visibility
-    themeSongSelector.dispatchEvent(new CustomEvent('change', {}));
-
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
-    context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
     context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
     context.querySelector('#chkDisableCustomCss').checked = userSettings.disableCustomCss();
@@ -145,6 +139,8 @@ function loadForm(context, user, userSettings) {
 
     showOrHideMissingEpisodesField(context);
 
+    showBackgroundPlaybackSection(context, user);
+
     loading.hide();
 }
 
@@ -157,10 +153,6 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     userSettingsInstance.dateTimeLocale(context.querySelector('.selectDateTimeLocale').value);
 
-    userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
-    userSettingsInstance.themeMediaSortBy(context.querySelector('#selectThemeMediaSortBy').value);
-    userSettingsInstance.themeMediaSortOrder(context.querySelector('#selectThemeMediaSortOrder').value);
-    userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
     userSettingsInstance.theme(context.querySelector('#selectTheme').value);
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
@@ -175,7 +167,6 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
     userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
-    userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
     userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
 
     userSettingsInstance.disableCustomCss(context.querySelector('#chkDisableCustomCss').checked);
@@ -226,19 +217,6 @@ function onSubmit(e) {
 function embed(options, self) {
     options.element.innerHTML = globalize.translateHtml(template, 'core');
     options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
-    const updateThemeMediaSortShowState = function () {
-        const themeMediaElements = options.element.querySelectorAll('.themeMediaChecked');
-        const themeMediaEnabled = options.element.querySelector('#chkThemeSong').checked || options.element.querySelector('#chkThemeVideo').checked;
-        for (const themeMediaElement of themeMediaElements) {
-            themeMediaElement.classList.toggle('hide', !themeMediaEnabled);
-        }
-    };
-
-    const themeSongSelector = options.element.querySelector('#chkThemeSong');
-    themeSongSelector.addEventListener('change', updateThemeMediaSortShowState);
-    const themeVideoSelector = options.element.querySelector('#chkThemeVideo');
-    themeVideoSelector.addEventListener('change', updateThemeMediaSortShowState);
-
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
