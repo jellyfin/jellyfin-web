@@ -1,4 +1,3 @@
-import minBy from 'lodash-es/minBy';
 import globalize from '../lib/globalize';
 
 export function getVideoQualityOptions(options) {
@@ -38,7 +37,7 @@ export function getVideoQualityOptions(options) {
 
     if (videoBitRate > 0 && videoBitRate < 120000000) {
         // Push one entry that has higher limit than video bitrate to allow using source bitrate when Auto is also limited
-        const sourceOptions = minBy(bitrateConfigurations.filter((c) => c.bitrate > videoBitRate), (x) => x.bitrate);
+        const sourceOptions = bitrateConfigurations.filter((c) => c.bitrate > videoBitRate).pop();
         qualityOptions.push(sourceOptions);
     }
 
