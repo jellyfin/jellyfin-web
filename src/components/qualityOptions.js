@@ -1,12 +1,8 @@
 import minBy from 'lodash-es/minBy';
-import { appHost } from '../components/apphost';
 import globalize from '../lib/globalize';
-import appSettings from '../scripts/settings/appSettings';
 
 export function getVideoQualityOptions(options) {
     const maxStreamingBitrate = options.currentMaxBitrate;
-    let videoWidth = options.videoWidth;
-    const videoHeight = options.videoHeight;
     const videoBitRate = options.videoBitRate ?? -1;
 
     // Quality options are indexed by bitrate. If you must duplicate them, make sure each of them are unique (by making the last digit a 1)
@@ -25,8 +21,8 @@ export function getVideoQualityOptions(options) {
         { name: '3 Mbps', maxHeight: 720, bitrate: 3000000 },
         { name: '1.5 Mbps', maxHeight: 720, bitrate: 1500000 },
         { name: '720 kbps', maxHeight: 480, bitrate: 720000 },
-        { name: '420 kbps', maxHeight: 360, bitrate: 420000 },
-    ]
+        { name: '420 kbps', maxHeight: 360, bitrate: 420000 }
+    ];
 
     const qualityOptions = [];
 
@@ -47,9 +43,7 @@ export function getVideoQualityOptions(options) {
     }
 
     bitrateConfigurations.forEach((c) => {
-        if (videoBitRate > 0 && c.bitrate < videoBitRate) {
-            qualityOptions.push(c);
-        } else if (videoBitRate < 0) {
+        if (videoBitRate < 0 || (videoBitRate > 0 && c.bitrate < videoBitRate)) {
             qualityOptions.push(c);
         }
     })
