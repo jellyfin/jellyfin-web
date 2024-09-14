@@ -35,14 +35,14 @@ export function getVideoQualityOptions(options) {
         qualityOptions.push(autoQualityOption);
     }
 
-    if (videoBitRate > 0 && videoBitRate < 120000000) {
+    if (videoBitRate > 0 && videoBitRate < bitrateConfigurations[0].bitrate) {
         // Push one entry that has higher limit than video bitrate to allow using source bitrate when Auto is also limited
         const sourceOptions = bitrateConfigurations.filter((c) => c.bitrate > videoBitRate).pop();
         qualityOptions.push(sourceOptions);
     }
 
     bitrateConfigurations.forEach((c) => {
-        if (videoBitRate < 0 || (videoBitRate > 0 && c.bitrate < videoBitRate)) {
+        if (videoBitRate <= 0 || c.bitrate <= videoBitRate) {
             qualityOptions.push(c);
         }
     });
