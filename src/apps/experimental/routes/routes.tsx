@@ -1,12 +1,9 @@
 import React from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
-import { REDIRECTS } from 'apps/dashboard/routes/_redirects';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
-import BangRedirect from 'components/router/BangRedirect';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
-import { toRedirectRoute } from 'components/router/Redirect';
 import ErrorBoundary from 'components/router/ErrorBoundary';
 
 import { ASYNC_USER_ROUTES } from './asyncRoutes';
@@ -38,13 +35,5 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
             { index: true, element: <Navigate replace to='/home.html' /> },
             ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
         ]
-    },
-
-    {
-        path: '!/*',
-        Component: BangRedirect
-    },
-
-    /* Redirects for old paths */
-    ...REDIRECTS.map(toRedirectRoute)
+    }
 ];
