@@ -1940,5 +1940,8 @@
     "HeaderAudioAdvanced": "Zaawansowane audio",
     "LabelAlwaysRemuxFlacAudioFiles": "Zawsze remuksuj pliki audio FLAC",
     "LabelAlwaysRemuxMp3AudioFiles": "Zawsze remuksuj pliki audio MP3",
-    "LabelDisableVbrAudioEncoding": "Wyłącz kodowanie dźwięku VBR"
+    "LabelDisableVbrAudioEncoding": "Wyłącz kodowanie dźwięku VBR",
+    "LabelSaveTrickplayLocally": "Zapisz obrazy trickplay obok mediów",
+    "LabelSaveTrickplayLocallyHelp": "Zapisywanie obrazów trickplay w folderach mediów spowoduje umieszczenie ich obok mediów, co ułatwi migrację i dostęp do nich.",
+    "ReplaceTrickplayImages": "Zastąp istniejące obrazy trickplay"
 }
