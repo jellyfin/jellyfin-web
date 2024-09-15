@@ -71,7 +71,6 @@ function showBackgroundPlaybackSection(context, user) {
     context.querySelector('.lnkBackgroundPlaybackPreferences').setAttribute('href', '#/mypreferencesbackgroundplayback.html?userId=' + user.Id);
 }
 
-
 function loadForm(context, user, userSettings) {
     if (appHost.supports('displaylanguage')) {
         context.querySelector('.languageSection').classList.remove('hide');

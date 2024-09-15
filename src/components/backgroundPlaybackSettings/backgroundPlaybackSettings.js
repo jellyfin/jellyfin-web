@@ -1,56 +1,56 @@
-import focusManager from "../focusManager";
-import { SortOrder } from "@jellyfin/sdk/lib/generated-client";
-import globalize from "../../lib/globalize";
-import loading from "../loading/loading";
-import Events from "../../utils/events.ts";
-import "../../elements/emby-select/emby-select";
-import "../../elements/emby-checkbox/emby-checkbox";
-import "../../elements/emby-button/emby-button";
-import "../../elements/emby-textarea/emby-textarea";
-import ServerConnections from "../ServerConnections";
-import toast from "../toast/toast";
-import template from "./backgroundPlaybackSettings.template.html";
+import focusManager from '../focusManager';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client';
+import globalize from '../../lib/globalize';
+import loading from '../loading/loading';
+import Events from '../../utils/events.ts';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-textarea/emby-textarea';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import template from './backgroundPlaybackSettings.template.html';
 
-const ascendingArrow = ".arrow_upward";
-const descendingArrow = ".arrow_downward";
+const ascendingArrow = '.arrow_upward';
+const descendingArrow = '.arrow_downward';
 
 function loadForm(context, user, userSettings) {
-    context.querySelector("#chkBackdrops").checked =
+    context.querySelector('#chkBackdrops').checked =
         userSettings.enableBackdrops();
-    context.querySelector("#chkThemeSong").checked =
+    context.querySelector('#chkThemeSong').checked =
         userSettings.enableThemeSongs();
-    context.querySelector("#chkThemeVideo").checked =
+    context.querySelector('#chkThemeVideo').checked =
         userSettings.enableThemeVideos();
 
-    context.querySelector("#selectThemeMediaSortBy").value =
+    context.querySelector('#selectThemeMediaSortBy').value =
         userSettings.themeMediaSortBy();
     const sortOrder = userSettings.themeMediaSortOrder();
-    context.querySelector("#selectThemeMediaSortOrder").value = sortOrder;
+    context.querySelector('#selectThemeMediaSortOrder').value = sortOrder;
     context
         .querySelector(ascendingArrow)
-        .classList.toggle("hide", sortOrder != SortOrder.Ascending);
+        .classList.toggle('hide', sortOrder != SortOrder.Ascending);
     context
         .querySelector(descendingArrow)
-        .classList.toggle("hide", sortOrder != SortOrder.Descending);
+        .classList.toggle('hide', sortOrder != SortOrder.Descending);
 
     loading.hide();
 }
 
 function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.enableBackdrops(
-        context.querySelector("#chkBackdrops").checked
+        context.querySelector('#chkBackdrops').checked
     );
     userSettingsInstance.enableThemeSongs(
-        context.querySelector("#chkThemeSong").checked
+        context.querySelector('#chkThemeSong').checked
     );
     userSettingsInstance.themeMediaSortBy(
-        context.querySelector("#selectThemeMediaSortBy").value
+        context.querySelector('#selectThemeMediaSortBy').value
     );
     userSettingsInstance.themeMediaSortOrder(
-        context.querySelector("#selectThemeMediaSortOrder").value
+        context.querySelector('#selectThemeMediaSortOrder').value
     );
     userSettingsInstance.enableThemeVideos(
-        context.querySelector("#chkThemeVideo").checked
+        context.querySelector('#chkThemeVideo').checked
     );
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
@@ -71,9 +71,9 @@ function save(
             () => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    toast(globalize.translate("SettingsSaved"));
+                    toast(globalize.translate('SettingsSaved'));
                 }
-                Events.trigger(instance, "saved");
+                Events.trigger(instance, 'saved');
             },
             () => {
                 loading.hide();
@@ -85,7 +85,7 @@ function save(
 function onSubmit(e) {
     const eventSubmitter = e.submitter;
     const context = this.options.element;
-    if (eventSubmitter.id === "saveButton") {
+    if (eventSubmitter.id === 'saveButton') {
         const self = this;
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
@@ -102,7 +102,7 @@ function onSubmit(e) {
                 enableSaveConfirmation
             );
         });
-    } else if (eventSubmitter.id === "selectThemeMediaSortOrder") {
+    } else if (eventSubmitter.id === 'selectThemeMediaSortOrder') {
         switch (eventSubmitter.value) {
             case SortOrder.Ascending:
                 eventSubmitter.value = SortOrder.Descending;
@@ -116,10 +116,10 @@ function onSubmit(e) {
         const newSortOrder = eventSubmitter.value;
         context
             .querySelector(ascendingArrow)
-            .classList.toggle("hide", newSortOrder != SortOrder.Ascending);
+            .classList.toggle('hide', newSortOrder != SortOrder.Ascending);
         context
             .querySelector(descendingArrow)
-            .classList.toggle("hide", newSortOrder != SortOrder.Descending);
+            .classList.toggle('hide', newSortOrder != SortOrder.Descending);
     }
 
     // Disable default form submission
@@ -130,13 +130,13 @@ function onSubmit(e) {
 }
 
 function embed(options, self) {
-    options.element.innerHTML = globalize.translateHtml(template, "core");
+    options.element.innerHTML = globalize.translateHtml(template, 'core');
     options.element
-        .querySelector("form")
-        .addEventListener("submit", onSubmit.bind(self));
+        .querySelector('form')
+        .addEventListener('submit', onSubmit.bind(self));
 
     if (options.enableSaveButton) {
-        options.element.querySelector(".btnSave").classList.remove("hide");
+        options.element.querySelector('.btnSave').classList.remove('hide');
     }
     self.loadData(options.autoFocus);
 }
