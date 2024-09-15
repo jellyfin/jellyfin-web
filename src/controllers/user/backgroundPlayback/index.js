@@ -1,6 +1,6 @@
-import BackgroundPlaybackSettings from "../../../components/backgroundPlaybackSettings/backgroundPlaybackSettings";
-import * as userSettings from "../../../scripts/settings/userSettings";
-import autoFocuser from "../../../components/autoFocuser";
+import BackgroundPlaybackSettings from '../../../components/backgroundPlaybackSettings/backgroundPlaybackSettings';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import autoFocuser from '../../../components/autoFocuser';
 
 // Shortcuts
 const UserSettings = userSettings.UserSettings;
@@ -10,27 +10,27 @@ export default function (view, params) {
 
     const userId = params.userId || ApiClient.getCurrentUserId();
     const currentSettings =
-        userId === ApiClient.getCurrentUserId()
-            ? userSettings
-            : new UserSettings();
+        userId === ApiClient.getCurrentUserId() ?
+            userSettings :
+            new UserSettings();
 
-    view.addEventListener("viewshow", function () {
+    view.addEventListener('viewshow', function () {
         if (settingsInstance) {
             settingsInstance.loadData();
         } else {
             settingsInstance = new BackgroundPlaybackSettings({
                 serverId: ApiClient.serverId(),
                 userId: userId,
-                element: view.querySelector(".settingsContainer"),
+                element: view.querySelector('.settingsContainer'),
                 userSettings: currentSettings,
                 enableSaveButton: true,
                 enableSaveConfirmation: true,
-                autoFocus: autoFocuser.isEnabled(),
+                autoFocus: autoFocuser.isEnabled()
             });
         }
     });
 
-    view.addEventListener("viewdestroy", function () {
+    view.addEventListener('viewdestroy', function () {
         if (settingsInstance) {
             settingsInstance.destroy();
             settingsInstance = null;

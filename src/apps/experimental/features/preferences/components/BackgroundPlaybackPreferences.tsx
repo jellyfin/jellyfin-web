@@ -1,22 +1,22 @@
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import React, { useCallback } from "react";
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import React, { useCallback } from 'react';
 
-import globalize from "lib/globalize";
+import globalize from 'lib/globalize';
 
-import type { DisplaySettingsValues } from "../types/displaySettingsValues";
+import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
-import { ItemSortBy, SortOrder } from "@jellyfin/sdk/lib/generated-client";
-import { Button, Dialog, IconButton, Popover, SxProps } from "@mui/material";
-import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
-import classNames from "classnames";
-import "./BackgroundPlaybackPreferences.scss";
+import { ItemSortBy, SortOrder } from '@jellyfin/sdk/lib/generated-client';
+import { Button, IconButton, Popover, SxProps } from '@mui/material';
+import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
+
+import './BackgroundPlaybackPreferences.scss';
 
 interface BackgroundPlaybackPreferencesProps {
     onChange: (event: SelectChangeEvent | React.SyntheticEvent) => void;
@@ -25,7 +25,7 @@ interface BackgroundPlaybackPreferencesProps {
 
 export function BackgroundPlaybackPreferences({
     onChange,
-    values,
+    values
 }: Readonly<BackgroundPlaybackPreferencesProps>) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const openPopover = Boolean(anchorEl);
@@ -38,16 +38,12 @@ export function BackgroundPlaybackPreferences({
         setAnchorEl(null);
     }, []);
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
     // Create wrapper on change callback to toggle the Sort Order state
     // when the Icon Button is pressed
-    const handleSortOrderChange = (
+    const handleSortOrderChange = useCallback((
         e: SelectChangeEvent | React.SyntheticEvent
     ) => {
-        let target = e.currentTarget as HTMLInputElement;
+        const target = e.currentTarget as HTMLInputElement;
         const fieldName = target.name as keyof DisplaySettingsValues;
         const fieldValue = target.value;
 
@@ -73,29 +69,31 @@ export function BackgroundPlaybackPreferences({
 
         // Delegate to the supplied onChange function for normal processing
         onChange(e);
-    };
+    }, [onChange, values]);
 
-    const popoverCssClass = classNames("backgroundPlaybackPopover");
-    const dialogCssClass = classNames("backgroundPlaybackDialog");
-    const stackCssClass = classNames("backgroundPlaybackStack");
-    const themeMediaCheckboxCssClass = classNames(
-        "checkboxContainer",
-        "checkboxContainer-withDescription"
-    );
+    const popoverCssClass = 'backgroundPlaybackPopover';
+    const stackCssClass = 'backgroundPlaybackStack';
+    const themeMediaCheckboxCssClass =
+        'checkboxContainer checkboxContainer-withDescription';
 
     const themeMediaCheckboxLabelStyleProps: SxProps = {
-        marginLeft: 0,
+        marginLeft: 0
     };
 
     return (
-        <div id="background-playback-settings-preferences">
-            <Typography variant='h2' id="background-playback-settings-header">{globalize.translate('BackgroundPlayback')}</Typography>
-            <Button onClick={handleClick} id="background-playback-settings-model-button">
-                {globalize.translate("BackgroundPlayback")}
+        <div id='background-playback-settings-preferences'>
+            <Typography variant='h2' id='background-playback-settings-header'>
+                {globalize.translate('BackgroundPlayback')}
+            </Typography>
+            <Button
+                onClick={handleClick}
+                id='background-playback-settings-model-button'
+            >
+                {globalize.translate('BackgroundPlayback')}
             </Button>
             <Popover
-                id="background-playback-settings-popover"
-                aria-describedBy="background-playback-settings-popover-description"
+                id='background-playback-settings-popover'
+                aria-describedby='background-playback-settings-popover-description'
                 className={popoverCssClass}
                 open={openPopover}
                 anchorEl={anchorEl}
@@ -109,127 +107,120 @@ export function BackgroundPlaybackPreferences({
                     horizontal: 'left'
                 }}
             >
-            {/*<Dialog
-                open={open}
-                onClose={handleClose}
-                className={dialogCssClass}
-                aria-describedby="background-playback-settings-model-description"
-            >*/}
                 <Stack spacing={1} className={stackCssClass}>
                     <Typography
-                        variant="h3"
-                        id="background-playback-settings-play-theme-media-label"
+                        variant='h3'
+                        id='background-playback-settings-play-theme-media-label'
                     >
-                        {globalize.translate("ThemeMediaPlayInBackgroundHelp")}
+                        {globalize.translate('ThemeMediaPlayInBackgroundHelp')}
                     </Typography>
                     <FormControl
                         fullWidth
                         className={themeMediaCheckboxCssClass}
                     >
                         <FormControlLabel
-                            aria-describedby="background-playback-settings-lib-backdrops-description"
+                            aria-describedby='background-playback-settings-lib-backdrops-description'
                             control={
                                 <Checkbox
                                     checked={values.enableLibraryBackdrops}
                                     onChange={onChange}
                                 />
                             }
-                            label={globalize.translate("Backdrops")}
-                            name="enableLibraryBackdrops"
+                            label={globalize.translate('Backdrops')}
+                            name='enableLibraryBackdrops'
                             sx={themeMediaCheckboxLabelStyleProps}
                         />
                         <FormControlLabel
-                            aria-describedby="background-playback-settings-lib-theme-songs-description"
+                            aria-describedby='background-playback-settings-lib-theme-songs-description'
                             control={
                                 <Checkbox
                                     checked={values.enableLibraryThemeSongs}
                                     onChange={onChange}
                                 />
                             }
-                            label={globalize.translate("ThemeSongs")}
-                            name="enableLibraryThemeSongs"
+                            label={globalize.translate('ThemeSongs')}
+                            name='enableLibraryThemeSongs'
                             sx={themeMediaCheckboxLabelStyleProps}
                         />
                         <FormControlLabel
-                            aria-describedby="background-playback-settings-lib-theme-videos-description"
+                            aria-describedby='background-playback-settings-lib-theme-videos-description'
                             control={
                                 <Checkbox
                                     checked={values.enableLibraryThemeVideos}
                                     onChange={onChange}
                                 />
                             }
-                            label={globalize.translate("ThemeVideos")}
-                            name="enableLibraryThemeVideos"
+                            label={globalize.translate('ThemeVideos')}
+                            name='enableLibraryThemeVideos'
                             sx={themeMediaCheckboxLabelStyleProps}
                         />
                     </FormControl>
 
                     <Stack
-                        direction={"row"}
+                        direction={'row'}
                         spacing={1}
-                        id="background-playback-sort-by-select-stack"
+                        id='background-playback-sort-by-select-stack'
                     >
-                        <FormControl id="background-playback-sort-by-select-container">
-                            <InputLabel id="background-playback-sort-by-select-label">
-                                {globalize.translate("ThemeMediaSortBy")}
+                        <FormControl id='background-playback-sort-by-select-container'>
+                            <InputLabel id='background-playback-sort-by-select-label'>
+                                {globalize.translate('ThemeMediaSortBy')}
                             </InputLabel>
                             <Select
-                                aria-describedby="background-playback-settings-lib-theme-media-sort-by-description"
+                                aria-describedby='background-playback-settings-lib-theme-media-sort-by-description'
                                 inputProps={{
-                                    name: "libraryThemeMediaSortBy",
+                                    name: 'libraryThemeMediaSortBy'
                                 }}
-                                labelId="background-playback-sort-by-select-label"
-                                id="background-playback-sort-by-select-dropdown"
+                                labelId='background-playback-sort-by-select-label'
+                                id='background-playback-sort-by-select-dropdown'
                                 onChange={onChange}
                                 value={values.libraryThemeMediaSortBy}
                             >
                                 <MenuItem value={ItemSortBy.Random}>
-                                    {globalize.translate("OptionRandom")}
+                                    {globalize.translate('OptionRandom')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.SortName}>
-                                    {globalize.translate("Name")}
+                                    {globalize.translate('Name')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.Album}>
-                                    {globalize.translate("Album")}
+                                    {globalize.translate('Album')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.AlbumArtist}>
-                                    {globalize.translate("AlbumArtist")}
+                                    {globalize.translate('AlbumArtist')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.Artist}>
-                                    {globalize.translate("Artist")}
+                                    {globalize.translate('Artist')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.DateCreated}>
-                                    {globalize.translate("OptionDateAdded")}
+                                    {globalize.translate('OptionDateAdded')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.DatePlayed}>
-                                    {globalize.translate("OptionDatePlayed")}
+                                    {globalize.translate('OptionDatePlayed')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.PlayCount}>
-                                    {globalize.translate("OptionPlayCount")}
+                                    {globalize.translate('OptionPlayCount')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.PremiereDate}>
-                                    {globalize.translate("OptionReleaseDate")}
+                                    {globalize.translate('OptionReleaseDate')}
                                 </MenuItem>
                                 <MenuItem value={ItemSortBy.Runtime}>
-                                    {globalize.translate("Runtime")}
+                                    {globalize.translate('Runtime')}
                                 </MenuItem>
                             </Select>
                         </FormControl>
                         <IconButton
-                            id="background-playback-sort-order-icon-button"
-                            aria-label="sort-order-by"
+                            id='background-playback-sort-order-icon-button'
+                            aria-label='sort-order-by'
                             onClick={handleSortOrderChange}
-                            name="libraryThemeMediaSortOrder"
+                            name='libraryThemeMediaSortOrder'
                             value={values.libraryThemeMediaSortOrder}
                         >
-                            {values.libraryThemeMediaSortOrder ==
-                                SortOrder.Ascending && <ArrowUpward />}
-                            {values.libraryThemeMediaSortOrder ==
-                                SortOrder.Descending && <ArrowDownward />}
+                            {values.libraryThemeMediaSortOrder
+                                == SortOrder.Ascending && <ArrowUpward />}
+                            {values.libraryThemeMediaSortOrder
+                                == SortOrder.Descending && <ArrowDownward />}
                         </IconButton>
                     </Stack>
                 </Stack>
-            {/*</Dialog>*/}
             </Popover>
         </div>
     );
