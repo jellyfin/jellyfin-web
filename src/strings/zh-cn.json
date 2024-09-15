@@ -1940,5 +1940,8 @@
     "DisableVbrAudioEncodingHelp": "禁止服务器为此客户端使用 VBR 编码音频。",
     "LabelAlwaysRemuxMp3AudioFiles": "总是重新混合 MP3 音频文件",
     "LabelAlwaysRemuxFlacAudioFiles": "总是重新混合 FLAC 音频文件",
-    "LabelDisableVbrAudioEncoding": "禁用 VBR 音频编码"
+    "LabelDisableVbrAudioEncoding": "禁用 VBR 音频编码",
+    "LabelSaveTrickplayLocally": "将特技播放图像保存在媒体旁边",
+    "LabelSaveTrickplayLocallyHelp": "将特技播放图像保存到媒体文件夹中会将它们放在媒体旁边，以便于迁移和访问。",
+    "ReplaceTrickplayImages": "替换现有的特技图像"
 }
