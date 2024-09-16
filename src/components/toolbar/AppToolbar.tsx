@@ -16,8 +16,8 @@ interface AppToolbarProps {
     buttons?: ReactNode
     isDrawerAvailable: boolean
     isDrawerOpen: boolean
-    onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void,
-    isFullscreen?: boolean,
+    onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void
+    isBackButtonAvailable?: boolean
     isUserMenuAvailable?: boolean
 }
 
@@ -34,31 +34,21 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     isDrawerAvailable,
     isDrawerOpen,
     onDrawerButtonClick = () => { /* no-op */ },
-    isFullscreen = false,
+    isBackButtonAvailable = false,
     isUserMenuAvailable = true
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
 
-    const isBackButtonAvailable = appRouter.canGoBack();
-
-    // Only use the left safe area padding when the drawer is not pinned or in a fullscreen view
-    const useSafeAreaLeft = isDrawerAvailable || isFullscreen;
-
     return (
         <Toolbar
             variant='dense'
             sx={{
-                flexWrap: {
-                    xs: 'wrap',
-                    lg: 'nowrap'
+                flexWrap: 'wrap',
+                pl: {
+                    xs: 'max(16px, env(safe-area-inset-left))',
+                    sm: 'max(24px, env(safe-area-inset-left))'
                 },
-                ...(useSafeAreaLeft && {
-                    pl: {
-                        xs: 'max(16px, env(safe-area-inset-left))',
-                        sm: 'max(24px, env(safe-area-inset-left))'
-                    }
-                }),
                 pr: {
                     xs: 'max(16px, env(safe-area-inset-left))',
                     sm: 'max(24px, env(safe-area-inset-left))'
