@@ -1,5 +1,6 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import Favorite from '@mui/icons-material/Favorite';
 import Movie from '@mui/icons-material/Movie';
 import MusicNote from '@mui/icons-material/MusicNote';
 import Photo from '@mui/icons-material/Photo';
@@ -21,6 +22,10 @@ interface LibraryIconProps {
 const LibraryIcon: FC<LibraryIconProps> = ({
     item
 }) => {
+    if (item.Id === 'favorites') {
+        return <Favorite />;
+    }
+
     switch (item.CollectionType) {
         case CollectionType.Movies:
             return <Movie />;
