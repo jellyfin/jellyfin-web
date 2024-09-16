@@ -42,6 +42,12 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item, items, viewType, hasFilte
             title={globalize.translate('Shuffle')}
             className='paper-icon-button-light btnShuffle autoSize'
             onClick={shuffle}
+            sx={{
+                order: {
+                    xs: 2,
+                    sm: 'unset'
+                }
+            }}
         >
             <ShuffleIcon />
         </IconButton>

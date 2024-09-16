@@ -47,10 +47,15 @@ const Pagination: FC<PaginationProps> = ({
     }, [limit, setLibraryViewSettings, startIndex]);
 
     return (
-        <Box className='paging'>
+        <Box
+            className='paging'
+            sx={{
+                display: 'flex'
+            }}
+        >
             <Box
                 className='listPaging'
-                style={{ display: 'flex', alignItems: 'center' }}
+                sx={{ display: 'flex', alignItems: 'center' }}
             >
                 <span>
                     {globalize.translate(
