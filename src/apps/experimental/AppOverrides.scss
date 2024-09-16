@@ -12,11 +12,11 @@ $drawer-width: 240px;
 }
 
 // Fix main pages layout to work with drawer
-.mainAnimatedPage {
-    @media all and (min-width: $mui-bp-md) {
-        left: $drawer-width;
-    }
-}
+// .mainAnimatedPage {
+//     @media all and (min-width: $mui-bp-md) {
+//         left: $drawer-width;
+//     }
+// }
 
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {
@@ -40,9 +40,9 @@ $drawer-width: 240px;
 .libraryPage.withTabs {
     padding-top: 6.5rem !important;
 
-    @media all and (min-width: $mui-bp-lg) {
-        padding-top: 3.25rem !important;
-    }
+    // @media all and (min-width: $mui-bp-lg) {
+    //     padding-top: 3.25rem !important;
+    // }
 }
 
 // Fix backdrop position on mobile item details page

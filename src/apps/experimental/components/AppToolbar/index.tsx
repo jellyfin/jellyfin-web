@@ -1,11 +1,16 @@
+import { Divider } from '@mui/material';
 import React, { type FC } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import AppToolbar from 'components/toolbar/AppToolbar';
+import MainMenuButton from 'components/toolbar/MainMenuButton';
+
 import AppTabs from '../tabs/AppTabs';
 import RemotePlayButton from './RemotePlayButton';
 import SyncPlayButton from './SyncPlayButton';
 import SearchButton from './SearchButton';
 import { isTabPath } from '../tabs/tabRoutes';
+import UserViewButtons from './userViews/UserViewButtons';
 
 interface AppToolbarProps {
     isDrawerAvailable: boolean
@@ -48,6 +53,18 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
             onDrawerButtonClick={onDrawerButtonClick}
             isUserMenuAvailable={!isPublicPath}
         >
+            {!isDrawerAvailable && (
+                <>
+                    <MainMenuButton disabled={isPublicPath} />
+                    {!isPublicPath && (
+                        <>
+                            <Divider orientation='vertical' flexItem variant='middle' />
+                            <UserViewButtons />
+                        </>
+                    )}
+                </>
+            )}
+
             {isTabsAvailable && (<AppTabs isDrawerOpen={isDrawerOpen} />)}
         </AppToolbar>
     );
