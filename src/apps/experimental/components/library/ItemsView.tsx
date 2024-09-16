@@ -2,7 +2,7 @@ import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/bas
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import React, { type FC, useCallback } from 'react';
+import React, { type FC, useCallback, useState } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
 import { useLocalStorage } from 'hooks/useLocalStorage';
@@ -29,6 +29,16 @@ import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
 import { useItem } from 'hooks/useItem';
+import TabRoutes from '../tabs/tabRoutes';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import useCurrentTab from 'hooks/useCurrentTab';
+import Button from '@mui/material/Button/Button';
+import { ArrowDropDown } from '@mui/icons-material';
+import globalize from 'lib/globalize';
+import Menu from '@mui/material/Menu/Menu';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+
+const TABS_MENU_ID = 'items-view-tabs-menu';
 
 interface ItemsViewProps {
     viewType: LibraryTab;
@@ -63,6 +73,10 @@ const ItemsView: FC<ItemsViewProps> = ({
     itemType,
     noItemsMessage
 }) => {
+    const location = useLocation();
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    const { activeTab } = useCurrentTab();
+
     const [libraryViewSettings, setLibraryViewSettings] =
         useLocalStorage<LibraryViewSettings>(
             getSettingsKey(viewType, parentId),
@@ -81,6 +95,17 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings
     );
     const { data: item } = useItem(parentId || undefined);
+
+    const [ tabsAnchorEl, setTabsAnchorEl ] = useState<null | HTMLElement>(null);
+    const isTabsMenuOpen = Boolean(tabsAnchorEl);
+
+    const onTabsButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
+        setTabsAnchorEl(event.currentTarget);
+    }, []);
+
+    const onTabsMenuClose = useCallback(() => {
+        setTabsAnchorEl(null);
+    }, []);
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
@@ -221,16 +246,61 @@ const ItemsView: FC<ItemsViewProps> = ({
             'vertical-list' :
             'vertical-wrap'
     );
+
+    const currentTabRoute = TabRoutes.find(({ path }) => path === location.pathname);
+    const currentTab = currentTabRoute?.tabs.find(({ index }) => index === activeTab);
+
     return (
         <Box>
-            <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
-                {isPaginationEnabled && (
-                    <Pagination
-                        totalRecordCount={totalRecordCount}
-                        libraryViewSettings={libraryViewSettings}
-                        isPlaceholderData={isPlaceholderData}
-                        setLibraryViewSettings={setLibraryViewSettings}
-                    />
+            <Box
+                className={classNames(
+                    'padded-top padded-left padded-right padded-bottom',
+                    { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
+                )}
+                sx={{
+                    display: 'flex'
+                }}
+            >
+
+                {currentTab && (
+                    <>
+                        <Button
+                            variant='text'
+                            size='large'
+                            color='inherit'
+                            endIcon={<ArrowDropDown />}
+                            // FIXME: Add label
+                            aria-label={''}
+                            aria-controls={TABS_MENU_ID}
+                            aria-haspopup='true'
+                            onClick={onTabsButtonClick}
+                        >
+                            {globalize.translate(currentTab.label)}
+                        </Button>
+
+                        <Menu
+                            anchorEl={tabsAnchorEl}
+                            id={TABS_MENU_ID}
+                            keepMounted
+                            open={isTabsMenuOpen}
+                            onClose={onTabsMenuClose}
+                        >
+                            {currentTabRoute?.tabs.map(tab => (
+                                <MenuItem
+                                    key={tab.value}
+                                    // eslint-disable-next-line react/jsx-no-bind
+                                    onClick={() => {
+                                        searchParams.set('tab', `${tab.index}`);
+                                        setSearchParams(searchParams);
+                                        onTabsMenuClose();
+                                    }}
+                                    selected={tab.index === currentTab.index}
+                                >
+                                    {globalize.translate(tab.label)}
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </>
                 )}
 
                 {isBtnPlayAllEnabled && (
@@ -285,6 +355,23 @@ const ItemsView: FC<ItemsViewProps> = ({
                         setLibraryViewSettings={setLibraryViewSettings}
                     />
                 )}
+
+                {isPaginationEnabled && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            flexGrow: 1
+                        }}
+                    >
+                        <Pagination
+                            totalRecordCount={totalRecordCount}
+                            libraryViewSettings={libraryViewSettings}
+                            isPlaceholderData={isPlaceholderData}
+                            setLibraryViewSettings={setLibraryViewSettings}
+                        />
+                    </Box>
+                )}
             </Box>
 
             {isAlphabetPickerEnabled && hasSortName && (
@@ -308,7 +395,16 @@ const ItemsView: FC<ItemsViewProps> = ({
             )}
 
             {isPaginationEnabled && (
-                <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
+                <Box
+                    className={classNames(
+                        'padded-top padded-left padded-right padded-bottom',
+                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
+                    )}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end'
+                    }}
+                >
                     <Pagination
                         totalRecordCount={totalRecordCount}
                         libraryViewSettings={libraryViewSettings}

@@ -52,12 +52,12 @@ const AppTabs: FC<AppTabsParams> = ({
                                 sx={{
                                     width: '100%',
                                     flexShrink: {
-                                        xs: 0,
-                                        lg: 'unset'
+                                        xs: 0
+                                        // lg: 'unset'
                                     },
                                     order: {
-                                        xs: 100,
-                                        lg: 'unset'
+                                        xs: 100
+                                        // lg: 'unset'
                                     }
                                 }}
                                 variant={isBigScreen ? 'standard' : 'scrollable'}
