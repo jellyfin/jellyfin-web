@@ -3,6 +3,8 @@ import globalize from '../lib/globalize';
 export function getVideoQualityOptions(options) {
     const maxStreamingBitrate = options.currentMaxBitrate;
     const videoBitRate = options.videoBitRate ?? -1;
+    const videoCodec = options.videoCodec;
+    let referenceBitRate = videoBitRate;
 
     // Quality options are indexed by bitrate. If you must duplicate them, make sure each of them are unique (by making the last digit a 1)
     // Question: the maxHeight field seems not be used anywhere, is it safe to remove those?
@@ -36,13 +38,18 @@ export function getVideoQualityOptions(options) {
     }
 
     if (videoBitRate > 0 && videoBitRate < bitrateConfigurations[0].bitrate) {
+        // Slightly increase reference bitrate for high efficiency codecs when it is not too high
+        // Ideally we only need to do this for transcoding to h264, but we need extra api request to get that info which is not ideal for this
+        if (videoCodec && ['hevc', 'av1', 'vp9'].includes(videoCodec) && referenceBitRate <= 20000000) {
+            referenceBitRate *= 1.5;
+        }
         // Push one entry that has higher limit than video bitrate to allow using source bitrate when Auto is also limited
-        const sourceOptions = bitrateConfigurations.filter((c) => c.bitrate > videoBitRate).pop();
+        const sourceOptions = bitrateConfigurations.filter((c) => c.bitrate > referenceBitRate).pop();
         qualityOptions.push(sourceOptions);
     }
 
     bitrateConfigurations.forEach((c) => {
-        if (videoBitRate <= 0 || c.bitrate <= videoBitRate) {
+        if (videoBitRate <= 0 || c.bitrate <= referenceBitRate) {
             qualityOptions.push(c);
         }
     });
