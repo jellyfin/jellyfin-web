@@ -90,7 +90,7 @@ export function getLibraryIcon(library: CollectionType | string | null | undefin
         case CollectionType.Tvshows:
             return 'tv';
         case CollectionType.Trailers:
-            return 'local_movies';
+            return 'theaters';
         case CollectionType.Musicvideos:
             return 'music_video';
         case CollectionType.Books:
@@ -98,7 +98,7 @@ export function getLibraryIcon(library: CollectionType | string | null | undefin
         case CollectionType.Boxsets:
             return 'video_library';
         case CollectionType.Playlists:
-            return 'library_add';
+            return 'queue';
         case 'channels':
             return 'videocam';
         case undefined:
@@ -131,7 +131,7 @@ export function getItemTypeIcon(itemType: BaseItemKind | string, defaultIcon?: s
         case BaseItemKind.BoxSet:
             return 'video_library';
         case BaseItemKind.Playlist:
-            return 'library_add';
+            return 'queue';
         case BaseItemKind.Photo:
             return 'photo';
         case BaseItemKind.PhotoAlbum:
