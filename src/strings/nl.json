@@ -1419,7 +1419,7 @@
     "EnableAutoCast": "Instellen als standaard",
     "ButtonActivate": "Activeren",
     "Authorize": "Autoriseren",
-    "EnableFallbackFontHelp": "Aangepaste alternatieve lettertypen inschakelen. Dit kan foutief renderen van ondertiteling voorkomen.",
+    "EnableFallbackFontHelp": "Aangepaste alternatieve lettertypen inschakelen. Dit kan onjuiste weergave van ondertiteling voorkomen.",
     "LabelFallbackFontPathHelp": "Sommige cliënten gebruiken deze lettertypen om ondertiteling weer te geven. Raadpleeg de documentatie voor meer informatie.",
     "EnableFallbackFont": "Terugvallettertypen inschakelen",
     "LabelFallbackFontPath": "Pad naar map terugvallettertype",
@@ -1943,5 +1943,11 @@
     "LabelSaveTrickplayLocally": "Trickplay-afbeeldingen naast media opslaan",
     "ReplaceTrickplayImages": "Bestaande trickplay-afbeeldingen vervangen",
     "LabelSaveTrickplayLocallyHelp": "Door trickplay-afbeeldingen naast je media in de mediamappen op te slaan zijn ze eenvoudiger te bereiken en te verplaatsen.",
-    "VideoCodecTagNotSupported": "Het beeldcodec-label wordt niet ondersteund"
+    "VideoCodecTagNotSupported": "Het beeldcodec-label wordt niet ondersteund",
+    "AllowFmp4TranscodingContainerHelp": "Sta fMP4-transcodering toe voor deze tuner om HEVC- en HDR-inhoud kunnen verwerken. Niet alle tuners zijn compatibel met deze container. Schakel dit uit als je afspeelproblemen ondervindt.",
+    "AllowStreamSharingHelp": "Sta Jellyfin toe de mpegts-stream van de tuner te dupliceren en deze gedupliceerde stream naar de cliënten te versturen. Dit is handig wanneer de tuner een limiet hanteert voor het aantal streams, maar kan ook afspeelproblemen veroorzaken.",
+    "FallbackMaxStreamingBitrateHelp": "De maximale bitsnelheid voor streamen wordt als terugvaloptie gebruikt als ffprobe de bitsnelheid van de bronstream niet kan bepalen. Dit voorkomt dat cliënten een overdreven hoge transcoderingsbitsnelheid aanvragen, wat de speler zou kunnen doen vastlopen en de codering overbelasten.",
+    "LabelAllowFmp4TranscodingContainer": "fMP4-container voor transcodering toestaan",
+    "LabelAllowStreamSharing": "Streamdelen toestaan",
+    "LabelFallbackMaxStreamingBitrate": "Maximale terugvalbitsnelheid voor streamen (Mbps)"
 }
