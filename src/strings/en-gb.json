@@ -1940,5 +1940,15 @@
     "LabelAlwaysRemuxMp3AudioFiles": "Always remux MP3 audio files",
     "LabelDisableVbrAudioEncoding": "Disable VBR audio encoding",
     "EnableHi10p": "Enable H.264 High 10 Profile",
-    "EnableHi10pHelp": "Enable to avoid transcoding H.264 10-bit videos. Disable this option if the video displays blank frames."
+    "EnableHi10pHelp": "Enable to avoid transcoding H.264 10-bit videos. Disable this option if the video displays blank frames.",
+    "FallbackMaxStreamingBitrateHelp": "The maximum streaming bitrate is used as a fallback when ffprobe is unable to determine the source stream bitrate. This helps prevent clients from requesting an excessively high transcoding bitrate, which could cause the player to fail and overload the encoder.",
+    "AllowStreamSharingHelp": "Allow Jellyfin to duplicate the MPEGTS stream from tuner and share this duplicated stream to its clients. This is useful when the tuner has total stream count limit but may also cause playback issues.",
+    "LabelAllowFmp4TranscodingContainer": "Allow fMP4 transcoding container",
+    "AllowFmp4TranscodingContainerHelp": "Allow fMP4 transcoding container for this tuner to enable HEVC and HDR contents. Not all tuners are compatible with this container. Disable this if you experience playback issues.",
+    "LabelAllowStreamSharing": "Allow stream sharing",
+    "LabelFallbackMaxStreamingBitrate": "Fallback max stream bitrate (Mbps)",
+    "VideoCodecTagNotSupported": "The video codec tag is not supported",
+    "LabelSaveTrickplayLocally": "Save trickplay images next to media",
+    "LabelSaveTrickplayLocallyHelp": "Saving trickplay images into media folders will put them next to your media for easy migration and access.",
+    "ReplaceTrickplayImages": "Replace existing trickplay images"
 }
