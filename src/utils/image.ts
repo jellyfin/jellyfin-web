@@ -108,7 +108,7 @@ export function getLibraryIcon(library: CollectionType | string | null | undefin
     }
 }
 
-export function getItemTypeIcon(itemType: BaseItemKind | string, defaultIcon?: string) {
+export function getItemTypeIcon(itemType: BaseItemKind | string | undefined, defaultIcon?: string) {
     switch (itemType) {
         case BaseItemKind.MusicAlbum:
             return 'album';
@@ -136,8 +136,10 @@ export function getItemTypeIcon(itemType: BaseItemKind | string, defaultIcon?: s
             return 'photo';
         case BaseItemKind.PhotoAlbum:
             return 'photo_album';
+        case undefined:
+            return;
         default:
-            return defaultIcon || 'folder';
+            return defaultIcon;
     }
 }
 
