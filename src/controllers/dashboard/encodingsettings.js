@@ -192,13 +192,13 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('#txtVaapiDevice').removeAttribute('required');
         }
 
-        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp' || this.value == 'videotoolbox') {
+        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp') {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.remove('hide');
         } else {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
         }
 
-        if (this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'videotoolbox') {
+        if (this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.fldHevcRextHwDecoding').classList.remove('hide');
         } else {
             page.querySelector('.fldHevcRextHwDecoding').classList.add('hide');
