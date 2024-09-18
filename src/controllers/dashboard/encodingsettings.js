@@ -199,15 +199,9 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         }
 
         if (this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'videotoolbox') {
-            page.querySelector('.fld10bitHevcRextHwDecoding').classList.remove('hide');
+            page.querySelector('.fldHevcRextHwDecoding').classList.remove('hide');
         } else {
-            page.querySelector('.fld10bitHevcRextHwDecoding').classList.add('hide');
-        }
-
-        if (this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi') {
-            page.querySelector('.fld12bitHevcRextHwDecoding').classList.remove('hide');
-        } else {
-            page.querySelector('.fld12bitHevcRextHwDecoding').classList.add('hide');
+            page.querySelector('.fldHevcRextHwDecoding').classList.add('hide');
         }
 
         const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
