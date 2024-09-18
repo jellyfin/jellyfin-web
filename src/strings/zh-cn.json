@@ -1943,5 +1943,12 @@
     "LabelDisableVbrAudioEncoding": "禁用 VBR 音频编码",
     "LabelSaveTrickplayLocally": "将特技播放图像保存在媒体旁边",
     "LabelSaveTrickplayLocallyHelp": "将特技播放图像保存到媒体文件夹中会将它们放在媒体旁边，以便于迁移和访问。",
-    "ReplaceTrickplayImages": "替换现有的特技图像"
+    "ReplaceTrickplayImages": "替换现有的特技图像",
+    "AllowFmp4TranscodingContainerHelp": "允许此调谐器使用 fMP4 转码容器来启用 HEVC 和 HDR 内容。并非所有调谐器都兼容此容器。如果您遇到播放问题，请禁用此功能。",
+    "AllowStreamSharingHelp": "允许 Jellyfin 复制调谐器中的 mpegts 流并将此复制的流共享给其客户端。当调谐器的总流数有限制时，这很有用，但也可能导致播放问题。",
+    "FallbackMaxStreamingBitrateHelp": "当 ffprobe 无法确定源流比特率时，最大流比特率将用作后备。这有助于防止客户端请求过高的转码比特率，这可能会导致播放器失败并使编码器过载。",
+    "LabelAllowFmp4TranscodingContainer": "允许 fMP4 转码容器",
+    "LabelAllowStreamSharing": "允许流共享",
+    "LabelFallbackMaxStreamingBitrate": "回退最大流比特率 (Mbps)",
+    "VideoCodecTagNotSupported": "不支持视频编解码器标签"
 }
