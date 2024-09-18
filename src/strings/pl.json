@@ -1943,5 +1943,12 @@
     "LabelDisableVbrAudioEncoding": "Wyłącz kodowanie dźwięku VBR",
     "LabelSaveTrickplayLocally": "Zapisz obrazy trickplay obok mediów",
     "LabelSaveTrickplayLocallyHelp": "Zapisywanie obrazów trickplay w folderach mediów spowoduje umieszczenie ich obok mediów, co ułatwi migrację i dostęp do nich.",
-    "ReplaceTrickplayImages": "Zastąp istniejące obrazy trickplay"
+    "ReplaceTrickplayImages": "Zastąp istniejące obrazy trickplay",
+    "AllowFmp4TranscodingContainerHelp": "Zezwalaj na kontener transkodowania fMP4 dla tego tunera, aby włączyć treści HEVC i HDR. Nie wszystkie tunery są zgodne z tym kontenerem. Wyłącz to, jeśli występują problemy z odtwarzaniem.",
+    "AllowStreamSharingHelp": "Zezwól Jellyfin na duplikowanie strumienia mpegts z tunera i udostępnianie tego zduplikowanego strumienia swoim klientom. Jest to przydatne, gdy tuner ma całkowity limit liczby strumieni, ale może również powodować problemy z odtwarzaniem.",
+    "FallbackMaxStreamingBitrateHelp": "Maksymalna szybkość transmisji strumieniowej jest używana jako zapas, gdy ffprobe nie jest w stanie określić szybkości transmisji strumienia źródłowego. Pomaga to zapobiec żądaniu przez klienty nadmiernie wysokiej szybkości transmisji transkodowania, co mogłoby spowodować awarię odtwarzacza i przeciążenie kodera.",
+    "LabelAllowFmp4TranscodingContainer": "Zezwalaj na kontener transkodowania fMP4",
+    "LabelAllowStreamSharing": "Zezwalaj na udostępnianie strumieniowe",
+    "LabelFallbackMaxStreamingBitrate": "Zastępcze maksimum przepływności strumienia (Mbps)",
+    "VideoCodecTagNotSupported": "Tag kodeka wideo nie jest obsługiwany"
 }
