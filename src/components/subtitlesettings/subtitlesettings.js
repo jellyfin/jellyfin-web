@@ -121,7 +121,7 @@ function onSubtitleStyleChange(e) {
         subtitleStylingHelp[i].classList.add('hide');
     }
     view.querySelector('.subtitleStyling' + this.value + 'Help').classList.remove('hide');
-    if(this.value !== 'Native' ){
+    if (this.value !== 'Native') {
         onAppearanceFieldChange(e);
     }
 }
