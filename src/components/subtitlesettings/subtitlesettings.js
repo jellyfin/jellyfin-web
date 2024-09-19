@@ -52,7 +52,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 
         context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 
-        context.querySelector('#selectSubtitleStyling').value = appearanceSettings.subtitleStyling || 'custom';
+        context.querySelector('#selectSubtitleStyling').value = appearanceSettings.subtitleStyling || 'Auto';
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
         context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
@@ -113,6 +113,19 @@ function onSubtitleModeChange(e) {
     view.querySelector('.subtitles' + this.value + 'Help').classList.remove('hide');
 }
 
+function onSubtitleStyleChange(e) {
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
+
+    const subtitleStylingHelp = view.querySelectorAll('.subtitleStylingHelp');
+    for (let i = 0, length = subtitleStylingHelp.length; i < length; i++) {
+        subtitleStylingHelp[i].classList.add('hide');
+    }
+    view.querySelector('.subtitleStyling' + this.value + 'Help').classList.remove('hide');
+    if(this.value !== 'Native' ){
+        onAppearanceFieldChange(e);
+    }
+}
+
 function onAppearanceFieldChange(e) {
     const view = dom.parentWithClass(e.target, 'subtitlesettings');
 
@@ -168,7 +181,7 @@ function embed(options, self) {
     options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 
     options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
-    options.element.querySelector('#selectSubtitleStyling').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectSubtitleStyling').addEventListener('change', onSubtitleStyleChange);
     options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);

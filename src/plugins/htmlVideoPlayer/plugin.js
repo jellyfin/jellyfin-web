@@ -1322,12 +1322,38 @@ export class HtmlVideoPlayer {
     requiresCustomSubtitlesElement(userSettings) {
         const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
         switch (subtitleAppearance.subtitleStyling) {
-            case 'native':
+            case 'Native':
                 return false;
-            case 'custom':
+            case 'Custom':
                 return true;
             default:
-                return true;
+                // after a system update, ps4 isn't showing anything when creating a track element dynamically
+                // going to have to do it ourselves
+                if (browser.ps4) {
+                    return true;
+                }
+
+                if (browser.web0s) {
+                    return true;
+                }
+
+                if (browser.edge) {
+                    return true;
+                }
+                // font-size styling does not seem to work natively in firefox. Switching to custom subtitles element for firefox.
+                if (browser.firefox){
+                    return true;
+                }
+
+                if (browser.iOS) {
+                    const userAgent = navigator.userAgent.toLowerCase();
+                    // works in the browser but not the native app
+                    if ((userAgent.includes('os 9') || userAgent.includes('os 8')) && !userAgent.includes('safari')) {
+                        return true;
+                    }
+                }
+
+                return false;
         }
     }
 
@@ -1405,6 +1431,7 @@ export class HtmlVideoPlayer {
                 styleElem.id = elementId;
                 document.getElementsByTagName('head')[0].appendChild(styleElem);
             }
+
             styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings()), '.htmlvideoplayer');
         });
     }
@@ -1452,6 +1479,7 @@ export class HtmlVideoPlayer {
             // download the track json
             this.fetchSubtitles(track, item).then(function (data) {
                 console.debug(`downloaded ${data.TrackEvents.length} track events`);
+
                 const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
                 const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
