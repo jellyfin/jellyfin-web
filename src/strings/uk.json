@@ -1939,5 +1939,13 @@
     "LabelAlwaysRemuxFlacAudioFiles": "Завжди ремуксувати аудіофайли FLAC",
     "LabelAlwaysRemuxMp3AudioFiles": "Завжди ремуксувати аудіофайли MP3",
     "LabelDisableVbrAudioEncoding": "Вимкнути кодування аудіо з VBR",
-    "LabelSaveTrickplayLocally": "Зберігати trickplay-зображення поруч із медіа"
+    "LabelSaveTrickplayLocally": "Зберігати trickplay-зображення поруч із медіа",
+    "AllowFmp4TranscodingContainerHelp": "Дозволити контейнер перекодування fMP4 для цього тюнера, щоб увімкнути вміст HEVC та HDR. Не всі тюнери сумісні з цим контейнером. Вимкніть цю опцію, якщо у вас виникають проблеми з відтворенням.",
+    "AllowStreamSharingHelp": "Дозволити Jellyfin дублювати потік mpegts з тюнера і надавати цей дубльований потік своїм клієнтам. Це корисно, коли тюнер має обмеження на загальну кількість потоків, але також може спричинити проблеми з відтворенням.",
+    "FallbackMaxStreamingBitrateHelp": "Максимальний бітрейт потоку використовується як запасний варіант, коли ffprobe не може визначити бітрейт вихідного потоку. Це допомагає запобігти запитам клієнтів на надто високий бітрейт перекодування, що може призвести до збою програвача і перевантаження кодера.",
+    "LabelAllowFmp4TranscodingContainer": "Дозволити fMP4 контейнер для перекодування",
+    "LabelAllowStreamSharing": "Дозволити спільний доступ до потоку",
+    "LabelFallbackMaxStreamingBitrate": "Резервна максимальна швидкість потоку (Мбіт/с)",
+    "VideoCodecTagNotSupported": "Тег відеокодека не підтримується",
+    "HeaderAudioAdvanced": "Розширене аудіо"
 }
