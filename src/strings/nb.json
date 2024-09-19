@@ -1895,5 +1895,11 @@
     "PriorityAboveNormal": "Over normalen",
     "LabelImageInterval": "Bildeintervall",
     "LabelWidthResolutions": "Breddeoppløsninger",
-    "LabelJpegQuality": "JPEG kvalitet"
+    "LabelJpegQuality": "JPEG kvalitet",
+    "AllowFmp4TranscodingContainerHelp": "Tillat fMP4-omkoderbeholder for denne tuneren for å aktivere HEVC- og HDR_innhold. Ikke alle tunere er kompatibel med denne beholderen. Deaktiver dette om du opplever avspillingsproblemer.",
+    "AllowStreamSharingHelp": "Tillat Jellyfin å duplisere mpegts-strømmer fra tuneren og del denne dupliserte strømmen til sine klienter. Dette er nyttig når tuneren har en grense for totalt antall strømmer, men kan også forårsake avspillingsproblemer.",
+    "FallbackMaxStreamingBitrateHelp": "Den maksimale strømmingbitraten brukes som en fallback når ffprobe ikke klarer å bestemme kildestrømmens bitrate. Dette bidrar til å forhindre at klienter ber om en for høy transkodingsbitrate, noe som kan føre til at spilleren mislykkes og overbelaste enkoderen.",
+    "LabelAllowFmp4TranscodingContainer": "Tillat fMP4 omkoderbeholder",
+    "LabelAllowStreamSharing": "Tillat strømdeling",
+    "LabelFallbackMaxStreamingBitrate": "Fallback maksimum strømbitrate (Mb/s)"
 }
