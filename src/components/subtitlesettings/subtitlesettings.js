@@ -53,6 +53,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 
         context.querySelector('#selectSubtitleStyling').value = appearanceSettings.subtitleStyling || 'Auto';
+        context.querySelector('#selectSubtitleStyling').dispatchEvent(new CustomEvent('change', {}));
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
         context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
