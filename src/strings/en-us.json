@@ -1393,6 +1393,8 @@
     "Remixer": "Remixer",
     "RemoveFromCollection": "Remove from collection",
     "RemoveFromPlaylist": "Remove from playlist",
+    "RenderPgsSubtitle": "Experimental PGS subtitle rendering",
+    "RenderPgsSubtitleHelp": "Determine if the client should render PGS subtitles instead of using burned in subtitles. This can avoid server-side transcoding in exchange of client-side rendering performance.",
     "Repeat": "Repeat",
     "RepeatAll": "Repeat all",
     "RepeatEpisodes": "Repeat episodes",

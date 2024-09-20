@@ -48,6 +48,15 @@ function supportsTextTracks() {
     return _supportsTextTracks;
 }
 
+let _supportsCanvas2D;
+function supportsCanvas2D() {
+    if (_supportsCanvas2D == null) {
+        _supportsCanvas2D = document.createElement('canvas').getContext('2d') != null;
+    }
+
+    return _supportsCanvas2D;
+}
+
 let _canPlayHls;
 function canPlayHls() {
     if (_canPlayHls == null) {
@@ -1424,6 +1433,7 @@ export default function (options) {
     // External vtt or burn in
     profile.SubtitleProfiles = [];
     const subtitleBurninSetting = appSettings.get('subtitleburnin');
+    const subtitleRenderPgsSetting = appSettings.get('subtitlerenderpgs') === 'true';
     if (subtitleBurninSetting !== 'all') {
         if (supportsTextTracks()) {
             profile.SubtitleProfiles.push({
@@ -1438,6 +1448,14 @@ export default function (options) {
             });
             profile.SubtitleProfiles.push({
                 Format: 'ssa',
+                Method: 'External'
+            });
+        }
+
+        if (supportsCanvas2D() && options.enablePgsRender !== false && !options.isRetry && subtitleRenderPgsSetting
+            && subtitleBurninSetting !== 'allcomplexformats' && subtitleBurninSetting !== 'onlyimageformats') {
+            profile.SubtitleProfiles.push({
+                Format: 'pgssub',
                 Method: 'External'
             });
         }
