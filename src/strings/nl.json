@@ -1205,7 +1205,7 @@
     "LabelWeb": "Web",
     "LeaveBlankToNotSetAPassword": "Je kunt dit veld leeg laten om geen wachtwoord in te stellen.",
     "DashboardServerName": "Server: {0}",
-    "LabelVideoBitrate": "Beeldbitsnelheid",
+    "LabelVideoBitrate": "Bitsnelheid beeld",
     "LabelVideoCodec": "Beeldcodec",
     "LabelXDlnaCap": "Device Capability-id",
     "DashboardVersionNumber": "Versie: {0}",
@@ -1442,7 +1442,7 @@
     "PreferFmp4HlsContainerHelp": "Gebruik fMP4 als de standaardcontainer voor HLS, waardoor direct streamen van HEVC- en AV1-inhoud op ondersteunde apparaten mogelijk wordt.",
     "PreferFmp4HlsContainer": "fMP4-HLS-mediacontainer verkiezen",
     "LabelSyncPlayInfo": "SyncPlay-informatie",
-    "LabelOriginalMediaInfo": "Informatie oorspronkelijke media",
+    "LabelOriginalMediaInfo": "Oorspronkelijke media-informatie",
     "LabelRemuxingInfo": "Remux-informatie",
     "LabelDirectStreamingInfo": "Informatie direct streamen",
     "LabelTranscodingInfo": "Transcoderingsinformatie",
@@ -1952,5 +1952,6 @@
     "LabelFallbackMaxStreamingBitrate": "Maximale terugvalbitsnelheid voor streamen (Mbps)",
     "LabelLyricDownloaders": "Ophalers voor liedteksten",
     "LyricDownloadersHelp": "Rangschik je voorkeursophalers voor liedteksten op volgorde van prioritieit.",
-    "RenderPgsSubtitle": "PGS-ondertiteling weergeven (experimenteel)"
+    "RenderPgsSubtitle": "PGS-ondertiteling weergeven (experimenteel)",
+    "RenderPgsSubtitleHelp": "Bepaal of de cliënt PGS-ondertiteling zelf moet weergeven in plaats van ingebrande ondertiteling te gebruiken. Dit voorkomt transcoderen aan de serverkant maar kan de weergaveprestaties aan de cliëntkant beïnvloeden."
 }
