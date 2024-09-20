@@ -1318,7 +1318,7 @@ function renderTags(page, item) {
             serverId: item.ServerId
         });
         tagElements.push(
-            `<a href="${href}" class="button-link emby-button" is="emby-linkbutton">`
+            `<a href="${href}" class="button-link" is="emby-linkbutton">`
             + escapeHtml(tag)
             + '</a>'
         );
