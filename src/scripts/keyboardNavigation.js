@@ -125,6 +125,9 @@ export function isInteractiveElement(element) {
 export function enable() {
     const hasMediaSession = 'mediaSession' in navigator;
     window.addEventListener('keydown', function (e) {
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = getKeyName(e);
 
         // Ignore navigation keys for non-TV

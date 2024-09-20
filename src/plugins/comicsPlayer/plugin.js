@@ -23,7 +23,7 @@ export class ComicsPlayer {
         this.imageMap = new Map();
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
-        this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
     }
 
     play(options) {
@@ -177,9 +177,13 @@ export class ComicsPlayer {
         this.swiperInstance.update();
     }
 
-    onWindowKeyUp(e) {
+    onWindowKeyDown(e) {
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = keyboardnavigation.getKeyName(e);
         if (key === 'Escape') {
+            e.preventDefault();
             this.stop();
         }
     }
@@ -196,7 +200,7 @@ export class ComicsPlayer {
     bindEvents() {
         this.bindMediaElementEvents();
 
-        document.addEventListener('keyup', this.onWindowKeyUp);
+        document.addEventListener('keydown', this.onWindowKeyDown);
     }
 
     unbindMediaElementEvents() {
@@ -211,7 +215,7 @@ export class ComicsPlayer {
     unbindEvents() {
         this.unbindMediaElementEvents();
 
-        document.removeEventListener('keyup', this.onWindowKeyUp);
+        document.removeEventListener('keydown', this.onWindowKeyDown);
     }
 
     createMediaElement() {
