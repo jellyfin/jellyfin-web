@@ -21,7 +21,8 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
-import { BaseItemKind, SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 
 let currentContext;
 let metadataEditorInfo;
