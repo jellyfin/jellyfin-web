@@ -117,11 +117,11 @@ function onSubtitleModeChange(e) {
 function onSubtitleStyleChange(e) {
     const view = dom.parentWithClass(e.target, 'subtitlesettings');
 
-    const subtitleStylingHelp = view.querySelectorAll('.subtitleStylingHelp');
-    for (let i = 0, length = subtitleStylingHelp.length; i < length; i++) {
-        subtitleStylingHelp[i].classList.add('hide');
-    }
-    view.querySelector('.subtitleStyling' + this.value + 'Help').classList.remove('hide');
+    const subtitleStylingHelperElements = view.querySelectorAll('.subtitleStylingHelp');
+    subtitleStylingHelperElements.forEach((elem)=>{
+        elem.classList.add('hide');
+    });
+    view.querySelector(`.subtitleStyling${this.value}Help`).classList.remove('hide');
     if (this.value !== 'Native') {
         onAppearanceFieldChange(e);
     }
