@@ -234,6 +234,12 @@ function supportsHdr10(options) {
             // Edge Chromium 121+ fixed the tone-mapping color issue on Nvidia
             || browser.edgeChromium && (browser.versionMajor >= 121)
             || browser.chrome && !browser.mobile
+            // Firefox 100+ has support for HDR on macOS/OS X. It requires OS support, which was
+            // added in macOS 10.15 Catalina. If enabling HDR on other platforms, be careful about
+            // allowing HDR VP9 in mp4 containers.
+            //  * https://www.mozilla.org/en-US/firefox/100.0/releasenotes/
+            //  * https://bugzilla.mozilla.org/show_bug.cgi?id=1915265
+            || browser.firefox && browser.osx && (!browser.iphone && !browser.ipod && !browser.ipad) && (browser.versionMajor >= 100)
     );
 }
 
@@ -674,8 +680,12 @@ export default function (options) {
     }
 
     if (canPlayVp9) {
-        if (!browser.iOS) {
+        if (!browser.iOS && !(browser.firefox && browser.osx)) {
             // iOS safari may fail to direct play vp9 in mp4 container
+            //
+            // Firefox can play vp9 in mp4 container but fails to detect HDR. Since HDR is
+            // unsupported for all other non-Mac platforms, it's fine to allow vp9 in mp4 for them.
+            //   * https://bugzilla.mozilla.org/show_bug.cgi?id=1915265
             mp4VideoCodecs.push('vp9');
         }
         // Only iOS Safari's native HLS player understands vp9 in fmp4
