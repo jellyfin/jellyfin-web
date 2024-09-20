@@ -205,7 +205,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         }
 
         const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
-        if (this.value === '' || isHwaSelected) {
+        if (this.value === 'none' || isHwaSelected) {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
