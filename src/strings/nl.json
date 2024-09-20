@@ -654,7 +654,7 @@
     "LabelStartWhenPossible": "Starten indien mogelijk",
     "LabelStopWhenPossible": "Stoppen indien mogelijk",
     "LabelStopping": "Stoppen",
-    "LabelSubtitleDownloaders": "Ondertitelingsdownloaders",
+    "LabelSubtitleDownloaders": "Ophalers voor ondertiteling",
     "LabelSubtitleFormatHelp": "Voorbeeld: srt",
     "LabelSubtitlePlaybackMode": "Ondertitelingsmodus",
     "LabelSupportedMediaTypes": "Ondersteunde mediatypes",
@@ -1156,7 +1156,7 @@
     "OptionDvd": "Dvd",
     "OptionResElement": "'res'-element",
     "TV": "Tv",
-    "LabelTypeMetadataDownloaders": "Metadata-downloaders ({0})",
+    "LabelTypeMetadataDownloaders": "Ophalers voor metadata ({0})",
     "OptionLoginAttemptsBeforeLockout": "Bepaal hoeveel foutieve aanmeldpogingen kunnen plaatsvinden voordat de gebruiker buitengesloten wordt.",
     "Premiere": "Première",
     "TabPlugins": "Plug-ins",
@@ -1949,5 +1949,7 @@
     "FallbackMaxStreamingBitrateHelp": "De maximale bitsnelheid voor streamen wordt als terugvaloptie gebruikt als ffprobe de bitsnelheid van de bronstream niet kan bepalen. Dit voorkomt dat cliënten een overdreven hoge transcoderingsbitsnelheid aanvragen, wat de speler zou kunnen doen vastlopen en de codering overbelasten.",
     "LabelAllowFmp4TranscodingContainer": "fMP4-container voor transcodering toestaan",
     "LabelAllowStreamSharing": "Streamdelen toestaan",
-    "LabelFallbackMaxStreamingBitrate": "Maximale terugvalbitsnelheid voor streamen (Mbps)"
+    "LabelFallbackMaxStreamingBitrate": "Maximale terugvalbitsnelheid voor streamen (Mbps)",
+    "LabelLyricDownloaders": "Ophalers voor liedteksten",
+    "LyricDownloadersHelp": "Rangschik je voorkeursophalers voor liedteksten op volgorde van prioritieit."
 }
