@@ -1951,5 +1951,6 @@
     "LabelAllowStreamSharing": "Streamdelen toestaan",
     "LabelFallbackMaxStreamingBitrate": "Maximale terugvalbitsnelheid voor streamen (Mbps)",
     "LabelLyricDownloaders": "Ophalers voor liedteksten",
-    "LyricDownloadersHelp": "Rangschik je voorkeursophalers voor liedteksten op volgorde van prioritieit."
+    "LyricDownloadersHelp": "Rangschik je voorkeursophalers voor liedteksten op volgorde van prioritieit.",
+    "RenderPgsSubtitle": "PGS-ondertiteling weergeven (experimenteel)"
 }
