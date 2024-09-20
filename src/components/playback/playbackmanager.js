@@ -1957,7 +1957,7 @@ class PlaybackManager {
                 episodesResult.StartIndex = undefined;
                 let seasonStartIndex;
                 for (const [index, e] of episodesResult.Items.entries()) {
-                    if (startSeasonId) {
+                    if (startSeasonId && items.length != 1) {
                         if (e.SeasonId == startSeasonId) {
                             if (seasonStartIndex === undefined) {
                                 seasonStartIndex = index;
