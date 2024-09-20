@@ -277,36 +277,6 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
     });
 }
 
-function setSelectValue(select, value, defaultValue) {
-    select.value = value;
-
-    if (select.selectedIndex < 0) {
-        select.value = defaultValue;
-    }
-}
-
-function onMaxVideoWidthChange(e) {
-    const context = this.options.element;
-
-    const selectVideoInNetworkQuality = context.querySelector('.selectVideoInNetworkQuality');
-    const selectVideoInternetQuality = context.querySelector('.selectVideoInternetQuality');
-    const selectChromecastVideoQuality = context.querySelector('.selectChromecastVideoQuality');
-
-    const selectVideoInNetworkQualityValue = selectVideoInNetworkQuality.value;
-    const selectVideoInternetQualityValue = selectVideoInternetQuality.value;
-    const selectChromecastVideoQualityValue = selectChromecastVideoQuality.value;
-
-    const maxVideoWidth = parseInt(e.target.value || '0', 10) || 0;
-
-    fillQuality(selectVideoInNetworkQuality, true, 'Video', maxVideoWidth);
-    fillQuality(selectVideoInternetQuality, false, 'Video', maxVideoWidth);
-    fillChromecastQuality(selectChromecastVideoQuality, maxVideoWidth);
-
-    setSelectValue(selectVideoInNetworkQuality, selectVideoInNetworkQualityValue, '');
-    setSelectValue(selectVideoInternetQuality, selectVideoInternetQualityValue, '');
-    setSelectValue(selectChromecastVideoQuality, selectChromecastVideoQualityValue, '');
-}
-
 function onSubmit(e) {
     const self = this;
     const apiClient = ServerConnections.getApiClient(self.options.serverId);
@@ -333,8 +303,6 @@ function embed(options, self) {
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
-
-    options.element.querySelector('.selectMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
 
     self.loadData();
 
