@@ -11,6 +11,8 @@ function loadPage(page, config, systemInfo) {
     });
     page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
     page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
+    page.querySelector('#chkDecodingColorDepth10HevcRext').checked = config.EnableDecodingColorDepth10HevcRext;
+    page.querySelector('#chkDecodingColorDepth12HevcRext').checked = config.EnableDecodingColorDepth12HevcRext;
     page.querySelector('#chkEnhancedNvdecDecoder').checked = config.EnableEnhancedNvdecDecoder;
     page.querySelector('#chkSystemNativeHwDecoder').checked = config.PreferSystemNativeHwDecoder;
     page.querySelector('#chkIntelLpH264HwEncoder').checked = config.EnableIntelLowPowerH264HwEncoder;
@@ -119,6 +121,8 @@ function onSubmit() {
             });
             config.EnableDecodingColorDepth10Hevc = form.querySelector('#chkDecodingColorDepth10Hevc').checked;
             config.EnableDecodingColorDepth10Vp9 = form.querySelector('#chkDecodingColorDepth10Vp9').checked;
+            config.EnableDecodingColorDepth10HevcRext = form.querySelector('#chkDecodingColorDepth10HevcRext').checked;
+            config.EnableDecodingColorDepth12HevcRext = form.querySelector('#chkDecodingColorDepth12HevcRext').checked;
             config.EnableEnhancedNvdecDecoder = form.querySelector('#chkEnhancedNvdecDecoder').checked;
             config.PreferSystemNativeHwDecoder = form.querySelector('#chkSystemNativeHwDecoder').checked;
             config.EnableIntelLowPowerH264HwEncoder = form.querySelector('#chkIntelLpH264HwEncoder').checked;
@@ -188,10 +192,16 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('#txtVaapiDevice').removeAttribute('required');
         }
 
-        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp' || this.value == 'videotoolbox') {
+        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp') {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.remove('hide');
         } else {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
+        }
+
+        if (this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi') {
+            page.querySelector('.fldHevcRextHwDecoding').classList.remove('hide');
+        } else {
+            page.querySelector('.fldHevcRextHwDecoding').classList.add('hide');
         }
 
         const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
