@@ -1862,7 +1862,7 @@
     "ErrorDeletingLyrics": "从服务器中删除歌词时出现了错误。请检查Jellyfin是否具有对应媒体文件夹的写入权限，然后重试。",
     "Lyrics": "歌词",
     "LabelTrickplayAccelEncoding": "启用硬件加速的 MJPEG 编码",
-    "LabelTrickplayAccelEncodingHelp": "目前仅适用于 QSV，VA-API 和 VideoToolbox，此选项对其他硬件加速方法不起作用。",
+    "LabelTrickplayAccelEncodingHelp": "目前仅适用于 QSV，VA-API，VideoToolbox 和 RKMPP，此选项对其他硬件加速方法不起作用。",
     "ConfirmDeleteLyrics": "删除这些歌词将同时从文件系统和媒体库中删除它们。您确定要继续吗？",
     "DeleteLyrics": "删除歌词",
     "HeaderDeleteLyrics": "删除歌词",
@@ -1950,5 +1950,9 @@
     "LabelAllowFmp4TranscodingContainer": "允许 fMP4 转码容器",
     "LabelAllowStreamSharing": "允许流共享",
     "LabelFallbackMaxStreamingBitrate": "回退最大流比特率 (Mbps)",
-    "VideoCodecTagNotSupported": "不支持视频编解码器标签"
+    "VideoCodecTagNotSupported": "不支持视频编解码器标签",
+    "LabelLyricDownloaders": "歌词下载",
+    "LyricDownloadersHelp": "启用并按优先级顺序排列您喜欢的下载器。",
+    "RenderPgsSubtitle": "实验性 PGS 字幕渲染",
+    "RenderPgsSubtitleHelp": "在客户端渲染 PGS 字幕，而不是烧录字幕。这以降低客户端渲染性能为代价来避免服务器端转码。"
 }
