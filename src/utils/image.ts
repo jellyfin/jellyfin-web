@@ -136,8 +136,6 @@ export function getItemTypeIcon(itemType: BaseItemKind | string | undefined, def
             return 'photo';
         case BaseItemKind.PhotoAlbum:
             return 'photo_album';
-        case undefined:
-            return;
         default:
             return defaultIcon;
     }

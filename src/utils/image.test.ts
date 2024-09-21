@@ -68,11 +68,6 @@ describe('getItemTypeIcon()', () => {
         });
     });
 
-    it('Should return undefined for undefined type', () => {
-        expect(getItemTypeIcon(undefined, 'default'))
-            .toBeUndefined();
-    });
-
     it('Should return the default icon for unknown type if provided', () => {
         expect(getItemTypeIcon('foobar', 'default'))
             .toBe('default');
