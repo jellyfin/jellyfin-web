@@ -1613,7 +1613,7 @@ export class HtmlVideoPlayer {
                 // unset stream when switching to transcode
                 player.setTrackForDisplay(player.#mediaElement, null, -1);
             }
-        })
+        });
     }
 
     /**
