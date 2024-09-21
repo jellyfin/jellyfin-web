@@ -627,7 +627,7 @@
     "AllowMediaConversionHelp": "Luba või keela meedia teisendamine.",
     "AllowMediaConversion": "Luba meedia teisendamine",
     "AllowHWTranscodingHelp": "Luba tuuneril voogesituse ajal transkoodida. See võib aidata vähendada serveri nõutavat transkoodimist.",
-    "AllowFfmpegThrottlingHelp": "Kui transkoodimine jõuab taasesituskohast ette, peata protsess ressursside säästmiseks. See on kasulik, kui enamasti vaatad filme otsimata. Lülita see välja, kui taasesitusega tekib probleeme.",
+    "AllowFfmpegThrottlingHelp": "Kui transkodeerimine jõuab taasesituskohast ette, peata protsess ressursside säästmiseks. See on kasulik, kui enamasti vaatad filme otsimata. Kui taasesitusega tekib probleeme siis lülita see välja.",
     "AllowFfmpegThrottling": "Piira transkoodimist",
     "AllowedRemoteAddressesHelp": "Komaga eraldatud IP-aadresside loend või IP/võrgumaski kirjed võrkudele, millel on lubatud kaugühendus luua. Kui see tühjaks jäetakse, on kõik kaugaadressid lubatud.",
     "AgeValue": "({0} aastat vana)",
@@ -1695,10 +1695,13 @@
     "Editor": "Toimetaja",
     "EnableTrueHd": "Luba TrueHD",
     "EnableTrueHdHelp": "Luba TrueHD ainult siis, kui sinu seade või sellega ühendatud audioresiiver seda toetab. Vastasel juhul võib esitlus ebaõnnestuda.",
-    "AllowContentWithTagsHelp": "Näita ainult meediat, millel on vähemalt üks sisestatud silt",
+    "AllowContentWithTagsHelp": "Näita ainult meediat, millel on vähemalt üks sisestatud silt.",
     "ChannelResolutionSD": "SD",
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Full HD",
-    "EnableSmoothScroll": "Luba sujuv kerimine"
+    "EnableSmoothScroll": "Luba sujuv kerimine",
+    "AllowFmp4TranscodingContainerHelp": "Luba sellel tuuneril fMP4 transkodeerimise konteiner, et lubada HEVC ja HDR sisu. Kõik tuunerid ei ühildu selle konteineriga kui taasesitusega tekib probleeme siis lülita see välja.",
+    "AllowStreamSharingHelp": "Luba Jellyfin'il duplikeerida mpegts striim ja jagada seda striimi klientidele. See on kasulik kui tuuneril on piirang striimide hulgale kuid see võib põhjustada probleeme taasesitamisega.",
+    "AllowTonemappingSoftwareHelp": "Toonikaardistus suudab teisendada dünaamilise HDR sisu SDR'iks säilitades pildi detailid ja värvid mis on oluline et säiliks originaalstseen. Hetkel toimib vaid 10bit HDR10, HLG ja DoVi videotega."
 }
