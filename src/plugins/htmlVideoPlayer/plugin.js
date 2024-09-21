@@ -1605,6 +1605,7 @@ export class HtmlVideoPlayer {
                 }
             } else {
                 // record the original delivery method and set all delivery method to encode
+                // this is needed for subtitle track switching to properly reload the video stream
                 mediaStreamTextTracks.forEach((t) => {
                     t.realDeliveryMethod = t.DeliveryMethod;
                     t.DeliveryMethod = 'Encode';
