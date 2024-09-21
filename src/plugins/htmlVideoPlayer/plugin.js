@@ -1571,47 +1571,48 @@ export class HtmlVideoPlayer {
         const isDirectPlay = this._currentPlayOptions.playMethod === 'DirectPlay';
         const burnInWhenTranscoding = appSettings.alwaysBurnInSubtitleWhenTranscoding();
 
+        let sessionPromise;
         if (!isDirectPlay && burnInWhenTranscoding) {
             const apiClient = ServerConnections.getApiClient(this._currentPlayOptions.item.ServerId);
-            const sessionPromise = apiClient.getSessions({
+            sessionPromise = apiClient.getSessions({
                 deviceId: apiClient.deviceId()
             }).then(function (sessions) {
                 return sessions[0] || {};
             }, function () {
                 return Promise.resolve({});
             });
+        } else {
+            sessionPromise = Promise.resolve({});
+        }
 
-            const player = this;
+        const player = this;
 
-            sessionPromise.then((s) => {
-                if (!s.TranscodingInfo || s.TranscodingInfo?.IsVideoDirect) {
-                    player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex);
-                    if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
-                        if (streamIndex !== -1) {
-                            player.setCueAppearance();
-                        }
-                    } else {
-                        // null these out to disable the player's native display (handled below)
-                        streamIndex = -1;
-                        track = null;
+        sessionPromise.then((s) => {
+            if (!s.TranscodingInfo || s.TranscodingInfo?.IsVideoDirect) {
+                // restore recorded delivery method if any
+                mediaStreamTextTracks.forEach((t) => {
+                    t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
+                });
+                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex);
+                if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
+                    if (streamIndex !== -1) {
+                        player.setCueAppearance();
                     }
                 } else {
-                    // unset stream when switching to transcode
-                    player.setTrackForDisplay(player.#mediaElement, null, -1);
-                }
-            });
-        } else {
-            this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
-            if (enableNativeTrackSupport(this._currentPlayOptions?.mediaSource, track)) {
-                if (streamIndex !== -1) {
-                    this.setCueAppearance();
+                    // null these out to disable the player's native display (handled below)
+                    streamIndex = -1;
+                    track = null;
                 }
             } else {
-                // null these out to disable the player's native display (handled below)
-                streamIndex = -1;
-                track = null;
+                // record the original delivery method and set all delivery method to encode
+                mediaStreamTextTracks.forEach((t) => {
+                    t.realDeliveryMethod = t.DeliveryMethod;
+                    t.DeliveryMethod = 'Encode';
+                });
+                // unset stream when switching to transcode
+                player.setTrackForDisplay(player.#mediaElement, null, -1);
             }
-        }
+        })
     }
 
     /**
