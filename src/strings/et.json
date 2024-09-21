@@ -1703,5 +1703,8 @@
     "EnableSmoothScroll": "Luba sujuv kerimine",
     "AllowFmp4TranscodingContainerHelp": "Luba sellel tuuneril fMP4 transkodeerimise konteiner, et lubada HEVC ja HDR sisu. Kõik tuunerid ei ühildu selle konteineriga kui taasesitusega tekib probleeme siis lülita see välja.",
     "AllowStreamSharingHelp": "Luba Jellyfin'il duplikeerida mpegts striim ja jagada seda striimi klientidele. See on kasulik kui tuuneril on piirang striimide hulgale kuid see võib põhjustada probleeme taasesitamisega.",
-    "AllowTonemappingSoftwareHelp": "Toonikaardistus suudab teisendada dünaamilise HDR sisu SDR'iks säilitades pildi detailid ja värvid mis on oluline et säiliks originaalstseen. Hetkel toimib vaid 10bit HDR10, HLG ja DoVi videotega."
+    "AllowTonemappingSoftwareHelp": "Toonikaardistus suudab teisendada dünaamilise HDR sisu SDR'iks säilitades pildi detailid ja värvid mis on oluline et säiliks originaalstseen. Hetkel toimib vaid 10bit HDR10, HLG ja DoVi videotega.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Kui sul on faile mida su brauser et mängi või kus ajatemplid arvutatakse valesti siis lubage see lahenduseks.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Kui sul on faile kus brauser arvutab ajatemplid valesti siis lubage see lahenduseks.",
+    "AndOtherArtists": "{0} ja{1} teist artisti."
 }
