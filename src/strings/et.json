@@ -1741,5 +1741,16 @@
     "LabelAllowContentWithTags": "Lubage siltidega objektid",
     "LabelSelectAudioNormalization": "Heli normaliseerimine",
     "IgnoreDtsHelp": "Selle valiku väljalülitamine võib lahendada mõned probleemid, nt puuduv heli eraldi heli- ja videovoogudega kanalitel.",
-    "HeaderUploadLyrics": "Lae laulusõnad üles"
+    "HeaderUploadLyrics": "Lae laulusõnad üles",
+    "LabelBuildVersion": "Buildi versioon",
+    "LabelDuration": "Kestus",
+    "LabelDropLyricsHere": "Tiri laulusõnad siia või vajuta failide valimiseks.",
+    "LabelDate": "Kuupäev",
+    "LabelDisableVbrAudioEncoding": "Keela VBR helikodeering",
+    "LabelBackdropScreensaverInterval": "Taustakuva ekraanisäästja intervall",
+    "LabelBackdropScreensaverIntervalHelp": "Aeg sekundites erinevate taustapiltide vahel, kui kasutate taustapildi ekraanisäästjat.",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Eelistatud heli transkodeerimise koodek video taasesitamisel",
+    "LabelStereoDownmixAlgorithm": "Stereo Downmixi algorütm",
+    "LabelDummyChapterDuration": "Intervall",
+    "LabelDeveloper": "Arendaja"
 }
