@@ -1568,7 +1568,7 @@ export class HtmlVideoPlayer {
         })[0];
 
         // This play method can only check if it is real direct play, and will mark Remux as Transcode as well
-        const isDirectPlay = this._currentPlayOptions.playMethod === "DirectPlay";
+        const isDirectPlay = this._currentPlayOptions.playMethod === 'DirectPlay';
         const burnInWhenTranscoding = appSettings.alwaysBurnInSubtitleWhenTranscoding();
 
         if (!isDirectPlay && burnInWhenTranscoding) {
@@ -1576,7 +1576,7 @@ export class HtmlVideoPlayer {
             const sessionPromise = apiClient.getSessions({
                 deviceId: apiClient.deviceId()
             }).then(function (sessions) {
-                return sessions[0] || {};;
+                return sessions[0] || {};
             }, function () {
                 return Promise.resolve({});
             });
@@ -1599,7 +1599,7 @@ export class HtmlVideoPlayer {
                     // unset stream when switching to transcode
                     player.setTrackForDisplay(player.#mediaElement, null, -1);
                 }
-            })
+            });
         } else {
             this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
             if (enableNativeTrackSupport(this._currentPlayOptions?.mediaSource, track)) {
