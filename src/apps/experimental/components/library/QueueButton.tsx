@@ -1,14 +1,14 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import QueueIcon from '@mui/icons-material/Queue';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface QueueButtonProps {
-    item: BaseItemDto | undefined
-    items: BaseItemDto[];
+    item: ItemDto | undefined
+    items: ItemDto[];
     hasFilters: boolean;
 }
 

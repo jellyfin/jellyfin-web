@@ -1,17 +1,17 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllButtonProps {
-    item: BaseItemDto | undefined;
-    items: BaseItemDto[];
+    item: ItemDto | undefined;
+    items: ItemDto[];
     viewType: LibraryTab;
     hasFilters: boolean;
     libraryViewSettings: LibraryViewSettings

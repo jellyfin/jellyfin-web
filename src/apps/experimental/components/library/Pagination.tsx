@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import IconButton from '@mui/material/IconButton';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryViewSettings } from 'types/library';
 
@@ -13,14 +13,14 @@ interface PaginationProps {
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
     totalRecordCount: number;
-    isPreviousData: boolean
+    isPlaceholderData: boolean
 }
 
 const Pagination: FC<PaginationProps> = ({
     libraryViewSettings,
     setLibraryViewSettings,
     totalRecordCount,
-    isPreviousData
+    isPlaceholderData
 }) => {
     const limit = userSettings.libraryPageSize(undefined);
     const startIndex = libraryViewSettings.StartIndex ?? 0;
@@ -65,7 +65,7 @@ const Pagination: FC<PaginationProps> = ({
                         <IconButton
                             title={globalize.translate('Previous')}
                             className='paper-icon-button-light btnPreviousPage autoSize'
-                            disabled={startIndex == 0 || isPreviousData}
+                            disabled={startIndex == 0 || isPlaceholderData}
                             onClick={onPreviousPageClick}
                         >
                             <ArrowBackIcon />
@@ -74,7 +74,7 @@ const Pagination: FC<PaginationProps> = ({
                         <IconButton
                             title={globalize.translate('Next')}
                             className='paper-icon-button-light btnNextPage autoSize'
-                            disabled={startIndex + limit >= totalRecordCount || isPreviousData }
+                            disabled={startIndex + limit >= totalRecordCount || isPlaceholderData }
                             onClick={onNextPageClick}
                         >
                             <ArrowForwardIcon />

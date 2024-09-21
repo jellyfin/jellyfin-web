@@ -3,7 +3,7 @@ import React, { FC, FormEvent, useCallback, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import Page from 'components/Page';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import InputElement from 'elements/InputElement';
 import ButtonElement from 'elements/ButtonElement';
 import { useApi } from 'hooks/useApi';

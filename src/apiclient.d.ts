@@ -76,6 +76,7 @@ declare module 'jellyfin-apiclient' {
         accessToken(): string;
         addMediaPath(virtualFolderName: string, mediaPath: string, networkSharePath: string, refreshLibrary?: boolean): Promise<void>;
         addVirtualFolder(name: string, type?: string, refreshLibrary?: boolean, libraryOptions?: any): Promise<void>;
+        ajax(request: any): Promise<any>;
         appName(): string;
         appVersion(): string;
         authenticateUserByName(name: string, password: string): Promise<AuthenticationResult>;
@@ -181,7 +182,7 @@ declare module 'jellyfin-apiclient' {
         getPluginConfiguration(id: string): Promise<any>;
         getPublicSystemInfo(): Promise<PublicSystemInfo>;
         getPublicUsers(): Promise<UserDto[]>;
-        getQuickConnect(verb: string): Promise<void|boolean|number|QuickConnectResult|QuickConnectState>;
+        getQuickConnect(verb: string): Promise<void | boolean | number | QuickConnectResult | QuickConnectState>;
         getReadySyncItems(deviceId: string): Promise<any>;
         getRecordingFolders(userId: string): Promise<BaseItemDtoQueryResult>;
         getRegistrationInfo(feature: string): Promise<any>;
@@ -307,7 +308,7 @@ declare module 'jellyfin-apiclient' {
     class AppStore {
         constructor();
 
-        getItem(name: string): string|null;
+        getItem(name: string): string | null;
         removeItem(name: string): void;
         setItem(name: string, value: string): void;
     }
@@ -328,7 +329,7 @@ declare module 'jellyfin-apiclient' {
         connectToServer(server: any, options?: any): Promise<any>;
         connectToServers(servers: any[], options?: any): Promise<any>;
         deleteServer(serverId: string): Promise<void>;
-        getApiClient(item: BaseItemDto|string): ApiClient;
+        getApiClient(item: BaseItemDto | string): ApiClient;
         getApiClients(): ApiClient[];
         getAvailableServers(): any[];
         getOrCreateApiClient(serverId: string): ApiClient;

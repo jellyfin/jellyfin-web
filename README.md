@@ -85,8 +85,11 @@ Jellyfin Web is the frontend used for most of the clients available for end user
     ├── controllers       # Legacy page views and controllers 🧹
     ├── elements          # Basic webcomponents and React wrappers 🧹
     ├── hooks             # Custom React hooks
-    ├── legacy            # Polyfills for legacy browsers
-    ├── libraries         # Third party libraries 🧹
+    ├── lib               # Reusable libraries
+    │   ├── globalize     # Custom localization library
+    │   ├── legacy        # Polyfills for legacy browsers
+    │   ├── navdrawer     # Navigation drawer library for classic layout
+    │   └── scroller      # Content scrolling library
     ├── plugins           # Client plugins
     ├── scripts           # Random assortment of visual components and utilities 🐉
     ├── strings           # Translation files

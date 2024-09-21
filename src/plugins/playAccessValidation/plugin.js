@@ -1,4 +1,4 @@
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import { PluginType } from '../../types/plugin.ts';
@@ -35,7 +35,8 @@ class PlayAccessValidation {
                 return Promise.reject();
             }
 
-            return showErrorMessage().finally(Promise.reject);
+            return showErrorMessage()
+                .finally(() => Promise.reject());
         });
     }
 }

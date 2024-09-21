@@ -1,5 +1,3 @@
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import { getUserViewsApi } from '@jellyfin/sdk/lib/utils/api/user-views-api';
 import Dashboard from '@mui/icons-material/Dashboard';
 import Edit from '@mui/icons-material/Edit';
 import Favorite from '@mui/icons-material/Favorite';
@@ -12,41 +10,27 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
+import { useUserViews } from 'hooks/useUserViews';
 import { useWebConfig } from 'hooks/useWebConfig';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import LibraryIcon from '../LibraryIcon';
 import DrawerHeaderLink from './DrawerHeaderLink';
 
 const MainDrawerContent = () => {
-    const { api, user } = useApi();
+    const { user } = useApi();
     const location = useLocation();
-    const [ userViews, setUserViews ] = useState<BaseItemDto[]>([]);
+    const { data: userViewsData } = useUserViews(user?.Id);
+    const userViews = userViewsData?.Items || [];
     const webConfig = useWebConfig();
 
     const isHomeSelected = location.pathname === '/home.html' && (!location.search || location.search === '?tab=0');
-
-    useEffect(() => {
-        if (api && user?.Id) {
-            getUserViewsApi(api)
-                .getUserViews({ userId: user.Id })
-                .then(({ data }) => {
-                    setUserViews(data.Items || []);
-                })
-                .catch(err => {
-                    console.warn('[MainDrawer] failed to fetch user views', err);
-                    setUserViews([]);
-                });
-        } else {
-            setUserViews([]);
-        }
-    }, [ api, user?.Id ]);
 
     return (
         <>

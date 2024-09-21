@@ -178,7 +178,7 @@ function getItemImageUrls(item, imageOptions) {
         });
     }
 
-    if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+    if (item.ParentBackdropItemId && item.ParentBackdropImageTags?.length) {
         return item.ParentBackdropImageTags.map((imgTag, index) => {
             return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
                 type: 'Backdrop',
@@ -213,8 +213,8 @@ function enabled() {
 let rotationInterval;
 let currentRotatingImages = [];
 let currentRotationIndex = -1;
-export function setBackdrops(items, imageOptions, enableImageRotation) {
-    if (enabled()) {
+export function setBackdrops(items, imageOptions, enableImageRotation, isEnabled = false) {
+    if (isEnabled || enabled()) {
         const images = getImageUrls(items, imageOptions);
 
         if (images.length) {

@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { DeviceInfo } from '@jellyfin/sdk/lib/generated-client/models/device-info';
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
 
@@ -103,7 +104,41 @@ export function getLibraryIcon(library: string | null | undefined) {
     }
 }
 
+export function getItemTypeIcon(itemType: BaseItemKind | string) {
+    switch (itemType) {
+        case BaseItemKind.MusicAlbum:
+            return 'album';
+        case BaseItemKind.MusicArtist:
+        case BaseItemKind.Person:
+            return 'person';
+        case BaseItemKind.Audio:
+            return 'audiotrack';
+        case BaseItemKind.Movie:
+            return 'movie';
+        case BaseItemKind.Episode:
+        case BaseItemKind.Series:
+            return 'tv';
+        case BaseItemKind.Program:
+            return 'live_tv';
+        case BaseItemKind.Book:
+            return 'book';
+        case BaseItemKind.Folder:
+            return 'folder';
+        case BaseItemKind.BoxSet:
+            return 'collections';
+        case BaseItemKind.Playlist:
+            return 'view_list';
+        case BaseItemKind.Photo:
+            return 'photo';
+        case BaseItemKind.PhotoAlbum:
+            return 'photo_album';
+        default:
+            return 'folder';
+    }
+}
+
 export default {
     getDeviceIcon,
-    getLibraryIcon
+    getLibraryIcon,
+    getItemTypeIcon
 };

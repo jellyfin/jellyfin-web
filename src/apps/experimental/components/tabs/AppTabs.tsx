@@ -4,9 +4,11 @@ import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { debounce } from 'lodash-es';
 import React, { FC, useCallback, useEffect } from 'react';
-import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import TabRoutes, { getDefaultTabIndex } from './tabRoutes';
+import TabRoutes from './tabRoutes';
+import useCurrentTab from 'hooks/useCurrentTab';
+import globalize from 'lib/globalize';
 
 interface AppTabsParams {
     isDrawerOpen: boolean
@@ -18,14 +20,7 @@ const AppTabs: FC<AppTabsParams> = ({
     isDrawerOpen
 }) => {
     const isBigScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-    const location = useLocation();
-    const [ searchParams, setSearchParams ] = useSearchParams();
-    const searchParamsTab = searchParams.get('tab');
-    const libraryId = location.pathname === '/livetv.html' ?
-        'livetv' : searchParams.get('topParentId');
-    const activeTab = searchParamsTab !== null ?
-        parseInt(searchParamsTab, 10) :
-        getDefaultTabIndex(location.pathname, libraryId);
+    const { searchParams, setSearchParams, activeTab } = useCurrentTab();
 
     // HACK: Force resizing to workaround upstream bug with tab resizing
     // https://github.com/mui/material-ui/issues/24011
@@ -71,8 +66,8 @@ const AppTabs: FC<AppTabsParams> = ({
                                 {
                                     route.tabs.map(({ index, label }) => (
                                         <Tab
-                                            key={`${route}-tab-${index}`}
-                                            label={label}
+                                            key={`${route.path}-tab-${index}`}
+                                            label={globalize.translate(label)}
                                             data-tab-index={`${index}`}
                                             onClick={onTabClick}
                                         />

@@ -1,8 +1,13 @@
 
 import escapeHtml from 'escape-html';
+
+import { getUserViewsQuery } from 'hooks/useUserViews';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import homeSections from '../homesections/homesections';
@@ -75,7 +80,7 @@ function getLandingScreenOptions(type) {
     } else if (type === 'tvshows') {
         list.push({
             name: globalize.translate('Shows'),
-            value: LibraryTab.Shows,
+            value: LibraryTab.Series,
             isDefault: true
         });
         list.push({
@@ -152,7 +157,7 @@ function getLandingScreenOptions(type) {
         });
         list.push({
             name: globalize.translate('Series'),
-            value: LibraryTab.Series
+            value: LibraryTab.SeriesTimers
         });
     }
 
@@ -291,7 +296,12 @@ function loadForm(context, user, userSettings, apiClient) {
 
     updateHomeSectionValues(context, userSettings);
 
-    const promise1 = apiClient.getUserViews({ IncludeHidden: true }, user.Id);
+    const promise1 = queryClient
+        .fetchQuery(getUserViewsQuery(
+            toApi(apiClient),
+            user.Id,
+            { includeHidden: true }
+        ));
     const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
 
     Promise.all([promise1, promise2]).then(responses => {

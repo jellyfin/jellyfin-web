@@ -1,8 +1,8 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import dom from '../../../../scripts/dom';
 import confirm from '../../../../components/confirm/confirm';
@@ -21,7 +21,7 @@ type MenuEntry = {
     icon?: string;
 };
 
-const UserProfiles: FunctionComponent = () => {
+const UserProfiles = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
@@ -49,6 +49,7 @@ const UserProfiles: FunctionComponent = () => {
         const showUserMenu = (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
             const userId = card?.getAttribute('data-userid');
+            const username = card?.getAttribute('data-username');
 
             if (!userId) {
                 console.error('Unexpected null user id');
@@ -58,7 +59,7 @@ const UserProfiles: FunctionComponent = () => {
             const menuItems: MenuEntry[] = [];
 
             menuItems.push({
-                name: globalize.translate('ButtonOpen'),
+                name: globalize.translate('ButtonEditUser'),
                 id: 'open',
                 icon: 'mode_edit'
             });
@@ -106,7 +107,7 @@ const UserProfiles: FunctionComponent = () => {
                                 break;
 
                             case 'delete':
-                                deleteUser(userId);
+                                deleteUser(userId, username);
                         }
                     }
                 }).catch(() => {
@@ -117,12 +118,13 @@ const UserProfiles: FunctionComponent = () => {
             });
         };
 
-        const deleteUser = (id: string) => {
-            const msg = globalize.translate('DeleteUserConfirmation');
+        const deleteUser = (id: string, username?: string | null) => {
+            const title = username ? globalize.translate('DeleteName', username) : globalize.translate('DeleteUser');
+            const text = globalize.translate('DeleteUserConfirmation');
 
             confirm({
-                title: globalize.translate('DeleteUser'),
-                text: msg,
+                title,
+                text,
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(function () {
@@ -157,6 +159,7 @@ const UserProfiles: FunctionComponent = () => {
         <Page
             id='userProfilesPage'
             className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
+            title={globalize.translate('HeaderUsers')}
         >
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>

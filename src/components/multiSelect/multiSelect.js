@@ -1,12 +1,11 @@
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
-import PlaylistEditor from '../playlisteditor/playlisteditor';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
 import datetime from '../../scripts/datetime';
@@ -88,7 +87,7 @@ function onSelectionChange() {
     updateItemSelection(this, this.checked);
 }
 
-function showSelection(item, isChecked) {
+function showSelection(item, isChecked, addInitialCheck) {
     let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
     if (!itemSelectionPanel) {
@@ -100,9 +99,7 @@ function showSelection(item, isChecked) {
         parent.appendChild(itemSelectionPanel);
 
         let cssClass = 'chkItemSelect';
-        if (isChecked && !browser.firefox) {
-            // In firefox, the initial tap hold doesnt' get treated as a click
-            // In other browsers it does, so we need to make sure that initial click is ignored
+        if (isChecked && addInitialCheck) {
             cssClass += ' checkedInitial';
         }
         const checkedAttribute = isChecked ? ' checked' : '';
@@ -269,9 +266,16 @@ function showMenuForSelectedItems(e) {
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                new PlaylistEditor({
-                                    items: items,
-                                    serverId: serverId
+                                import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+                                    const playlistEditor = new PlaylistEditor();
+                                    playlistEditor.show({
+                                        items: items,
+                                        serverId: serverId
+                                    }).catch(() => {
+                                        // Dialog closed
+                                    });
+                                }).catch(err => {
+                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
@@ -357,11 +361,11 @@ function combineVersions(apiClient, selection) {
     });
 }
 
-function showSelections(initialCard) {
+function showSelections(initialCard, addInitialCheck) {
     import('../../elements/emby-checkbox/emby-checkbox').then(() => {
         const cards = document.querySelectorAll('.card');
         for (let i = 0, length = cards.length; i < length; i++) {
-            showSelection(cards[i], initialCard === cards[i]);
+            showSelection(cards[i], initialCard === cards[i], addInitialCheck);
         }
 
         showSelectionCommands();
@@ -398,7 +402,7 @@ export default function (options) {
         const card = dom.parentWithClass(e.target, 'card');
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
 
         e.preventDefault();
@@ -496,7 +500,7 @@ export default function (options) {
         touchTarget = null;
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
     }
 
@@ -565,5 +569,9 @@ export default function (options) {
 }
 
 export const startMultiSelect = (card) => {
-    showSelections(card);
+    showSelections(card, false);
+};
+
+export const stopMultiSelect = () => {
+    hideSelections();
 };

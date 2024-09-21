@@ -1,7 +1,7 @@
 import 'jquery';
 
 import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-input/emby-input';
@@ -19,6 +19,7 @@ function loadPage(page, config, languageOptions, systemInfo) {
     $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
         return '<option value="' + language.Value + '">' + language.Name + '</option>';
     })).val(config.UICulture);
+    page.querySelector('#txtLibraryScanFanoutConcurrency').value = config.LibraryScanFanoutConcurrency || '';
     page.querySelector('#txtParallelImageEncodingLimit').value = config.ParallelImageEncodingLimit || '';
 
     loading.hide();
@@ -35,6 +36,7 @@ function onSubmit() {
         config.MetadataPath = $('#txtMetadataPath', form).val();
         config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
         config.QuickConnectAvailable = form.querySelector('#chkQuickConnectAvailable').checked;
+        config.LibraryScanFanoutConcurrency = parseInt(form.querySelector('#txtLibraryScanFanoutConcurrency').value || '0', 10);
         config.ParallelImageEncodingLimit = parseInt(form.querySelector('#txtParallelImageEncodingLimit').value || '0', 10);
 
         ApiClient.updateServerConfiguration(config).then(function() {
@@ -93,8 +95,7 @@ export default function (view) {
                 },
                 validateWriteable: true,
                 header: globalize.translate('HeaderSelectMetadataPath'),
-                instruction: globalize.translate('HeaderSelectMetadataPathHelp'),
-                enableNetworkSharePath: true
+                instruction: globalize.translate('HeaderSelectMetadataPathHelp')
             });
         });
     });

@@ -4,12 +4,11 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import React, { FC, ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
 
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import UserMenuButton from './UserMenuButton';
 
@@ -17,7 +16,8 @@ interface AppToolbarProps {
     buttons?: ReactNode
     isDrawerAvailable: boolean
     isDrawerOpen: boolean
-    onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
+    onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void,
+    isUserMenuAvailable?: boolean
 }
 
 const onBackButtonClick = () => {
@@ -27,21 +27,18 @@ const onBackButtonClick = () => {
         });
 };
 
-const AppToolbar: FC<AppToolbarProps> = ({
+const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     buttons,
     children,
     isDrawerAvailable,
     isDrawerOpen,
-    onDrawerButtonClick
+    onDrawerButtonClick = () => { /* no-op */ },
+    isUserMenuAvailable = true
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
-    const currentLocation = useLocation();
 
     const isBackButtonAvailable = appRouter.canGoBack();
-
-    // Handles a specific case to hide the user menu on the select server page while authenticated
-    const isUserMenuAvailable = currentLocation.pathname !== '/selectserver.html';
 
     return (
         <Toolbar
@@ -84,16 +81,14 @@ const AppToolbar: FC<AppToolbarProps> = ({
 
             {children}
 
-            {isUserLoggedIn && isUserMenuAvailable && (
-                <>
-                    <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-                        {buttons}
-                    </Box>
+            <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+                {buttons}
+            </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <UserMenuButton />
-                    </Box>
-                </>
+            {isUserLoggedIn && isUserMenuAvailable && (
+                <Box sx={{ flexGrow: 0 }}>
+                    <UserMenuButton />
+                </Box>
             )}
         </Toolbar>
     );

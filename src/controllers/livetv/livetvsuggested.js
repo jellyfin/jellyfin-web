@@ -3,7 +3,7 @@ import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
@@ -199,7 +199,7 @@ function getDefaultTabIndex(folderId) {
             return 3;
         case LibraryTab.Schedule:
             return 4;
-        case LibraryTab.Series:
+        case LibraryTab.SeriesTimers:
             return 5;
         default:
             return 0;

@@ -1,23 +1,35 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { Api } from '@jellyfin/sdk';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import type { AxiosRequestConfig } from 'axios';
 
+import { useApi } from './useApi';
+
 const fetchSystemInfo = async (
-    api: Api | undefined,
-    options: AxiosRequestConfig
+    api?: Api,
+    options?: AxiosRequestConfig
 ) => {
-    if (!api) throw new Error('No API instance available');
+    if (!api) {
+        console.warn('[fetchSystemInfo] No API instance available');
+        return;
+    }
 
     const response = await getSystemApi(api)
         .getSystemInfo(options);
     return response.data;
 };
 
-export const useSystemInfo = (api: Api | undefined) => {
-    return useQuery({
-        queryKey: [ 'SystemInfo' ],
-        queryFn: ({ signal }) => fetchSystemInfo(api, { signal }),
-        enabled: !!api
-    });
+export const getSystemInfoQuery = (
+    api?: Api
+) => queryOptions({
+    queryKey: [ 'SystemInfo' ],
+    queryFn: ({ signal }) => fetchSystemInfo(api, { signal, headers: { 'Cache-Control': 'no-cache' } }),
+    // Allow for query reuse in legacy javascript.
+    staleTime: 1000, // 1 second
+    enabled: !!api
+});
+
+export const useSystemInfo = () => {
+    const { api } = useApi();
+    return useQuery(getSystemInfoQuery(api));
 };

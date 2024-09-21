@@ -21,7 +21,7 @@ export function buildCardImage(
             shape = CardShape.Banner;
         } else if (item.PrimaryImageAspectRatio >= 1.33) {
             shape = CardShape.Backdrop;
-        } else if (item.PrimaryImageAspectRatio > 0.71) {
+        } else if (item.PrimaryImageAspectRatio > 0.8) {
             shape = CardShape.Square;
         } else {
             shape = CardShape.Portrait;

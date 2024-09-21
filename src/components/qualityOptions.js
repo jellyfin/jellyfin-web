@@ -1,22 +1,29 @@
-import { appHost } from '../components/apphost';
-import globalize from '../scripts/globalize';
-import appSettings from '../scripts/settings/appSettings';
+import globalize from '../lib/globalize';
 
 export function getVideoQualityOptions(options) {
     const maxStreamingBitrate = options.currentMaxBitrate;
-    let videoWidth = options.videoWidth;
-    const videoHeight = options.videoHeight;
+    const videoBitRate = options.videoBitRate ?? -1;
+    const videoCodec = options.videoCodec;
+    let referenceBitRate = videoBitRate;
 
-    // If the aspect ratio is less than 16/9 (1.77), set the width as if it were pillarboxed.
-    // 4:3 1440x1080 -> 1920x1080
-    if (videoWidth / videoHeight < 16 / 9) {
-        videoWidth = videoHeight * (16 / 9);
-    }
-
-    const maxVideoWidth = options.maxVideoWidth == null ? appSettings.maxVideoWidth() : options.maxVideoWidth;
-
-    const hostScreenWidth = (maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth) || 4096;
-    const maxAllowedWidth = videoWidth || 4096;
+    // Quality options are indexed by bitrate. If you must duplicate them, make sure each of them are unique (by making the last digit a 1)
+    // Question: the maxHeight field seems not be used anywhere, is it safe to remove those?
+    const bitrateConfigurations = [
+        { name: '120 Mbps', maxHeight: 2160, bitrate: 120000000 },
+        { name: '80 Mbps', maxHeight: 2160, bitrate: 80000000 },
+        { name: '60 Mbps', maxHeight: 2160, bitrate: 60000000 },
+        { name: '40 Mbps', maxHeight: 2160, bitrate: 40000000 },
+        { name: '20 Mbps', maxHeight: 2160, bitrate: 20000000 },
+        { name: '15 Mbps', maxHeight: 1440, bitrate: 15000000 },
+        { name: '10 Mbps', maxHeight: 1440, bitrate: 10000000 },
+        { name: '8 Mbps', maxHeight: 1080, bitrate: 8000000 },
+        { name: '6 Mbps', maxHeight: 1080, bitrate: 6000000 },
+        { name: '4 Mbps', maxHeight: 720, bitrate: 4000000 },
+        { name: '3 Mbps', maxHeight: 720, bitrate: 3000000 },
+        { name: '1.5 Mbps', maxHeight: 720, bitrate: 1500000 },
+        { name: '720 kbps', maxHeight: 480, bitrate: 720000 },
+        { name: '420 kbps', maxHeight: 360, bitrate: 420000 }
+    ];
 
     const qualityOptions = [];
 
@@ -30,31 +37,22 @@ export function getVideoQualityOptions(options) {
         qualityOptions.push(autoQualityOption);
     }
 
-    // Quality options are indexed by bitrate. If you must duplicate them, make sure each of them are unique (by making the last digit a 1)
-    if (maxAllowedWidth >= 3800 && hostScreenWidth >= 1930) {
-        qualityOptions.push({ name: '4K - 120 Mbps', maxHeight: 2160, bitrate: 120000000 });
-        qualityOptions.push({ name: '4K - 80 Mbps', maxHeight: 2160, bitrate: 80000000 });
-    }
-    // Some 1080- videos are reported as 1912?
-    if (maxAllowedWidth >= 1900 && hostScreenWidth >= 1290) {
-        qualityOptions.push({ name: '1080p - 60 Mbps', maxHeight: 1080, bitrate: 60000000 });
-        qualityOptions.push({ name: '1080p - 40 Mbps', maxHeight: 1080, bitrate: 40000000 });
-        qualityOptions.push({ name: '1080p - 20 Mbps', maxHeight: 1080, bitrate: 20000000 });
-        qualityOptions.push({ name: '1080p - 15 Mbps', maxHeight: 1080, bitrate: 15000000 });
-        qualityOptions.push({ name: '1080p - 10 Mbps', maxHeight: 1080, bitrate: 10000000 });
-    }
-    if (maxAllowedWidth >= 1260 && hostScreenWidth >= 650) {
-        qualityOptions.push({ name: '720p - 8 Mbps', maxHeight: 720, bitrate: 8000000 });
-        qualityOptions.push({ name: '720p - 6 Mbps', maxHeight: 720, bitrate: 6000000 });
-        qualityOptions.push({ name: '720p - 4 Mbps', maxHeight: 720, bitrate: 4000000 });
-    }
-    if (maxAllowedWidth >= 620) {
-        qualityOptions.push({ name: '480p - 3 Mbps', maxHeight: 480, bitrate: 3000000 });
-        qualityOptions.push({ name: '480p - 1.5 Mbps', maxHeight: 480, bitrate: 1500000 });
-        qualityOptions.push({ name: '480p - 720 kbps', maxHeight: 480, bitrate: 720000 });
+    if (videoBitRate > 0 && videoBitRate < bitrateConfigurations[0].bitrate) {
+        // Slightly increase reference bitrate for high efficiency codecs when it is not too high
+        // Ideally we only need to do this for transcoding to h264, but we need extra api request to get that info which is not ideal for this
+        if (videoCodec && ['hevc', 'av1', 'vp9'].includes(videoCodec) && referenceBitRate <= 20000000) {
+            referenceBitRate *= 1.5;
+        }
+        // Push one entry that has higher limit than video bitrate to allow using source bitrate when Auto is also limited
+        const sourceOptions = bitrateConfigurations.filter((c) => c.bitrate > referenceBitRate).pop();
+        qualityOptions.push(sourceOptions);
     }
 
-    qualityOptions.push({ name: '360p - 420 kbps', maxHeight: 360, bitrate: 420000 });
+    bitrateConfigurations.forEach((c) => {
+        if (videoBitRate <= 0 || c.bitrate <= referenceBitRate) {
+            qualityOptions.push(c);
+        }
+    });
 
     if (maxStreamingBitrate) {
         let selectedIndex = qualityOptions.length - 1;

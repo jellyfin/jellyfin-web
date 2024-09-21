@@ -2,7 +2,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import escapeHTML from 'escape-html';
 import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
@@ -61,7 +61,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
         </div>`;
 
     return (
-        <div data-userid={user.Id} className={cssClass}>
+        <div data-userid={user.Id} data-username={user.Name} className={cssClass}>
             <div className='cardBox visualCardBox'>
                 <div className='cardScalable visualCardBox-cardScalable'>
                     <div className='cardPadder cardPadder-square'></div>

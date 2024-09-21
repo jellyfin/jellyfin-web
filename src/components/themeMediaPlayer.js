@@ -1,6 +1,14 @@
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
+import { getItemQuery } from 'hooks/useItem';
+import { currentSettings as userSettings } from 'scripts/settings/userSettings';
+import { ItemKind } from 'types/base/models/item-kind';
+import Events from 'utils/events.ts';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
 import { playbackManager } from './playback/playbackmanager';
-import * as userSettings from '../scripts/settings/userSettings';
-import Events from '../utils/events.ts';
 import ServerConnections from './ServerConnections';
 
 let currentOwnerId;
@@ -50,44 +58,61 @@ function stopIfPlaying() {
 }
 
 function enabled(mediaType) {
-    if (mediaType === 'Video') {
+    if (mediaType === MediaType.Video) {
         return userSettings.enableThemeVideos();
     }
 
     return userSettings.enableThemeSongs();
 }
 
-const excludeTypes = ['CollectionFolder', 'UserView', 'Program', 'SeriesTimer', 'Person', 'TvChannel', 'Channel'];
+const excludeTypes = [
+    ItemKind.CollectionFolder,
+    ItemKind.UserView,
+    ItemKind.Person,
+    ItemKind.Program,
+    ItemKind.TvChannel,
+    ItemKind.Channel,
+    ItemKind.SeriesTimer
+];
 
-function loadThemeMedia(item) {
-    if (item.CollectionType) {
-        stopIfPlaying();
-        return;
-    }
+async function loadThemeMedia(serverId, itemId) {
+    const apiClient = ServerConnections.getApiClient(serverId);
+    const api = toApi(apiClient);
+    const userId = apiClient.getCurrentUserId();
 
-    if (excludeTypes.indexOf(item.Type) !== -1) {
-        stopIfPlaying();
-        return;
-    }
+    try {
+        const item = await queryClient.fetchQuery(getItemQuery(
+            api,
+            userId,
+            itemId));
 
-    const apiClient = ServerConnections.getApiClient(item.ServerId);
-    apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
-        const result = userSettings.enableThemeVideos() && themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult : themeMediaResult.ThemeSongsResult;
-
-        const ownerId = result.OwnerId;
-
-        if (ownerId !== currentOwnerId) {
-            playThemeMedia(result.Items, ownerId);
+        if (item.CollectionType) {
+            stopIfPlaying();
+            return;
         }
-    });
+
+        if (excludeTypes.includes(item.Type)) {
+            stopIfPlaying();
+            return;
+        }
+
+        const { data: themeMedia } = await getLibraryApi(api)
+            .getThemeMedia({ userId, itemId: item.Id, inheritFromParent: true });
+
+        const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
+
+        if (result.OwnerId !== currentOwnerId) {
+            playThemeMedia(result.Items, result.OwnerId);
+        }
+    } catch (err) {
+        console.error('[ThemeMediaPlayer] failed to load theme media', err);
+    }
 }
 
-document.addEventListener('viewshow', function (e) {
-    const state = e.detail.state || {};
-    const item = state.item;
-
-    if (item?.ServerId) {
-        loadThemeMedia(item);
+document.addEventListener('viewshow', e => {
+    const { serverId, id } = e.detail?.params || {};
+    if (serverId && id) {
+        void loadThemeMedia(serverId, id);
         return;
     }
 
@@ -100,7 +125,7 @@ document.addEventListener('viewshow', function (e) {
     }
 }, true);
 
-Events.on(playbackManager, 'playbackstart', function (e, player) {
+Events.on(playbackManager, 'playbackstart', (_e, player) => {
     const item = playbackManager.currentItem(player);
     // User played something manually
     if (currentThemeIds.indexOf(item.Id) == -1) {

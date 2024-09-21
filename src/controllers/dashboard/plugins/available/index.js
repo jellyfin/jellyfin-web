@@ -1,8 +1,7 @@
 import escapeHTML from 'escape-html';
 
 import loading from '../../../../components/loading/loading';
-import libraryMenu from '../../../../scripts/libraryMenu';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import '../../../../components/cardbuilder/card.scss';
 import '../../../../elements/emby-button/emby-button';
 import '../../../../elements/emby-checkbox/emby-checkbox';
@@ -120,7 +119,8 @@ function onSearchBarType(searchBar) {
 
 function getPluginHtml(plugin, options, installedPlugins) {
     let html = '';
-    let href = plugin.externalUrl ? plugin.externalUrl : '#/dashboard/plugins/add?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+    let href = plugin.externalUrl ? plugin.externalUrl :
+        `#/dashboard/plugins/${plugin.guid}?name=${encodeURIComponent(plugin.name)}`;
 
     if (options.context) {
         href += '&context=' + options.context;
@@ -159,22 +159,8 @@ function getPluginHtml(plugin, options, installedPlugins) {
     return html;
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/plugins',
-        name: globalize.translate('TabMyPlugins')
-    }, {
-        href: '#/dashboard/plugins/catalog',
-        name: globalize.translate('TabCatalog')
-    }, {
-        href: '#/dashboard/plugins/repositories',
-        name: globalize.translate('TabRepositories')
-    }];
-}
-
 export default function (view) {
     view.addEventListener('viewshow', function () {
-        libraryMenu.setTabs('plugins', 1, getTabs);
         reloadList(this);
     });
 }

@@ -12,7 +12,7 @@ import {
     destroyFlvPlayer,
     destroyCastPlayer,
     getCrossOriginValue,
-    enableHlsJsPlayer,
+    enableHlsJsPlayerForCodecs,
     applySrc,
     resetSrc,
     playWithPromise,
@@ -27,7 +27,7 @@ import {
 } from '../../components/htmlMediaHelper';
 import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
@@ -37,6 +37,7 @@ import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
+import { MediaError } from 'types/mediaError';
 
 /**
  * Returns resolved URL.
@@ -99,7 +100,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass') {
+        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
             return false;
         }
     }
@@ -209,15 +210,15 @@ export class HtmlVideoPlayer {
      */
     #audioTrackIndexToSetOnPlaying;
     /**
-     * @type {null | undefined}
-     */
-    #currentClock;
-    /**
      * @type {any | null | undefined}
      */
     #currentAssRenderer;
     /**
-     * @type {null | undefined}
+     * @type {any | null | undefined}
+     */
+    #currentPgsRenderer;
+    /**
+     * @type {number | undefined}
      */
     #customTrackIndex;
     /**
@@ -443,6 +444,7 @@ export class HtmlVideoPlayer {
                     startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
+                    videoPreference: { preferHDR: true },
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;
                     }
@@ -517,9 +519,9 @@ export class HtmlVideoPlayer {
             elem.crossOrigin = crossOrigin;
         }
 
-        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
+        if (enableHlsJsPlayerForCodecs(options.mediaSource, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
-        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
+        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
         } else {
             elem.autoplay = true;
@@ -592,6 +594,9 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+        } else if (this.#currentPgsRenderer) {
+            this.updateCurrentTrackOffset(offsetValue);
+            this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -860,6 +865,8 @@ export class HtmlVideoPlayer {
             videoElement.parentNode.removeChild(videoElement);
         }
 
+        this._currentAspectRatio = null;
+
         const dlg = this.#videoDialog;
         if (dlg) {
             this.#videoDialog = null;
@@ -982,6 +989,8 @@ export class HtmlVideoPlayer {
             seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                 if (this.#currentAssRenderer) {
                     this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    this.#currentAssRenderer.resize();
+                    this.#currentAssRenderer.resetRenderAheadCache(false);
                 }
             });
 
@@ -1018,7 +1027,7 @@ export class HtmlVideoPlayer {
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
             if (!mediaSource || mediaSource.RunTimeTicks) {
-                onErrorInternal(this, 'mediadecodeerror');
+                onErrorInternal(this, MediaError.NO_MEDIA_ERROR);
             }
         }
     }
@@ -1070,7 +1079,7 @@ export class HtmlVideoPlayer {
                 return;
             case 2:
                 // MEDIA_ERR_NETWORK
-                type = 'network';
+                type = MediaError.NETWORK_ERROR;
                 break;
             case 3:
                 // MEDIA_ERR_DECODE
@@ -1078,12 +1087,12 @@ export class HtmlVideoPlayer {
                     handleHlsJsMediaError(this);
                     return;
                 } else {
-                    type = 'mediadecodeerror';
+                    type = MediaError.MEDIA_DECODE_ERROR;
                 }
                 break;
             case 4:
                 // MEDIA_ERR_SRC_NOT_SUPPORTED
-                type = 'medianotsupported';
+                type = MediaError.MEDIA_NOT_SUPPORTED;
                 break;
             default:
                 // seeing cases where Edge is firing error events with no error code
@@ -1165,14 +1174,17 @@ export class HtmlVideoPlayer {
         this.destroyNativeTracks(videoElement, targetTrackIndex);
         this.destroyStoredTrackInfo(targetTrackIndex);
 
-        this.#currentClock = null;
-        this._currentAspectRatio = null;
-
-        const jassub = this.#currentAssRenderer;
-        if (jassub) {
-            jassub.destroy();
+        const octopus = this.#currentAssRenderer;
+        if (octopus) {
+            octopus.dispose();
         }
         this.#currentAssRenderer = null;
+
+        const pgsRenderer = this.#currentPgsRenderer;
+        if (pgsRenderer) {
+            pgsRenderer.dispose();
+        }
+        this.#currentPgsRenderer = null;
     }
 
     /**
@@ -1246,90 +1258,89 @@ export class HtmlVideoPlayer {
          */
     renderSsaAss(videoElement, track, item) {
         const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
-        const avaliableFonts = [];
+        const availableFonts = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
         const apiClient = ServerConnections.getApiClient(item);
         attachments.forEach(i => {
             // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
             if (supportedFonts.includes(i.MimeType)) {
                 // embedded font url
-                avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
             }
         });
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
             api_key: apiClient.accessToken()
         });
-            // TODO: replace with `event-target-polyfill` once https://github.com/benlesh/event-target-polyfill/pull/12 or 11 is merged
-        import('event-target-polyfill').then(() => {
-            import('jassub').then(({ default: JASSUB }) => {
-                // test SIMD support
-                JASSUB._test();
+        const htmlVideoPlayer = this;
+        import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                fonts: availableFonts,
+                workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
+                legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
+                onError() {
+                    // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
+                    htmlVideoPlayer.#currentAssRenderer = null;
 
-                const options = {
-                    video: videoElement,
-                    subUrl: getTextTrackUrl(track, item),
-                    fonts: avaliableFonts,
-                    fallbackFont: 'liberation sans',
-                    availableFonts: { 'liberation sans': `${appRouter.baseUrl()}/default.woff2` },
-                    // Disabled eslint compat, but is safe as corejs3 polyfills URL
-                    // eslint-disable-next-line compat/compat
-                    workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url).href,
-                    // eslint-disable-next-line compat/compat
-                    wasmUrl: new URL('jassub/dist/jassub-worker.wasm', import.meta.url).href,
-                    // eslint-disable-next-line compat/compat
-                    legacyWasmUrl: new URL('jassub/dist/jassub-worker.wasm.js', import.meta.url).href,
-                    // eslint-disable-next-line compat/compat
-                    modernWasmUrl : new URL('jassub/dist/jassub-worker-modern.wasm', import.meta.url).href,
-                    timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-                    // new jassub options; override all, even defaults
-                    blendMode: 'js',
-                    asyncRender: true,
-                    offscreenRender: true,
-                    // RVFC is polyfilled everywhere, but webOS 2 reports polyfill API's as functional even tho they aren't
-                    onDemandRender: browser.web0sVersion !== 2,
-                    useLocalFonts: true,
-                    dropAllAnimations: false,
-                    dropAllBlur: !JASSUB._supportsSIMD,
-                    libassMemoryLimit: 40,
-                    libassGlyphLimit: 40,
-                    targetFps: 24,
-                    prescaleFactor: 0.8,
-                    prescaleHeightLimit: 1080,
-                    maxRenderHeight: 2160
-                };
+                    // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
+                    setTimeout(() => {
+                        onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
+                    }, 0);
+                },
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
-                Promise.all([
-                    apiClient.getNamedConfiguration('encoding'),
-                    // Worker in Tizen 5 doesn't resolve relative path with async request
-                    resolveUrl(options.workerUrl),
-                    resolveUrl(options.legacyWorkerUrl)
-                ]).then(([config, workerUrl, legacyWorkerUrl]) => {
-                    options.workerUrl = workerUrl;
-                    options.legacyWorkerUrl = legacyWorkerUrl;
+                // new octopus options; override all, even defaults
+                renderMode: 'wasm-blend',
+                dropAllAnimations: false,
+                libassMemoryLimit: 40,
+                libassGlyphLimit: 40,
+                targetFps: 24,
+                prescaleFactor: 0.8,
+                prescaleHeightLimit: 1080,
+                maxRenderHeight: 2160,
+                resizeVariation: 0.2,
+                renderAhead: 90
+            };
 
-                    const cleanup = () => {
-                        this.#currentAssRenderer.destroy();
-                        this.#currentAssRenderer = null;
-                        onErrorInternal(this, 'mediadecodeerror');
-                    };
+            Promise.all([
+                apiClient.getNamedConfiguration('encoding'),
+                // Worker in Tizen 5 doesn't resolve relative path with async request
+                resolveUrl(options.workerUrl),
+                resolveUrl(options.legacyWorkerUrl)
+            ]).then(([config, workerUrl, legacyWorkerUrl]) => {
+                options.workerUrl = workerUrl;
+                options.legacyWorkerUrl = legacyWorkerUrl;
 
-                    if (config.EnableFallbackFont) {
-                        apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
-                            fontFiles.forEach(font => {
-                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
-                                    api_key: apiClient.accessToken()
-                                });
-                                avaliableFonts.push(fontUrl);
+                if (config.EnableFallbackFont) {
+                    apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                        fontFiles.forEach(font => {
+                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
+                                api_key: apiClient.accessToken()
                             });
-                            this.#currentAssRenderer = new JASSUB(options);
-                            this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
+                            availableFonts.push(fontUrl);
                         });
-                    } else {
-                        this.#currentAssRenderer = new JASSUB(options);
-                        this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
-                    }
-                });
+                        this.#currentAssRenderer = new SubtitlesOctopus(options);
+                    });
+                } else {
+                    this.#currentAssRenderer = new SubtitlesOctopus(options);
+                }
             });
+        });
+    }
+
+    /**
+     * @private
+     */
+    renderPgs(videoElement, track, item) {
+        import('libpgs').then((libpgs) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000
+            };
+            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
         });
     }
 
@@ -1451,6 +1462,10 @@ export class HtmlVideoPlayer {
                 this.renderSsaAss(videoElement, track, item);
                 return;
             }
+            if (format === 'pgssub') {
+                this.renderPgs(videoElement, track, item);
+                return;
+            }
 
             if (this.requiresCustomSubtitlesElement()) {
                 this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
@@ -1511,16 +1526,6 @@ export class HtmlVideoPlayer {
          * @private
          */
     updateSubtitleText(timeMs) {
-        const clock = this.#currentClock;
-        if (clock) {
-            try {
-                clock.seek(timeMs / 1000);
-            } catch (err) {
-                console.error(`error in libjass: ${err}`);
-            }
-            return;
-        }
-
         const allTrackEvents = [this.#currentTrackEvents, this.#currentSecondaryTrackEvents];
         const subtitleTextElements = [this.#videoSubtitlesElem, this.#videoSecondarySubtitlesElem];
 
@@ -1611,7 +1616,11 @@ export class HtmlVideoPlayer {
                 playerDlg.innerHTML = html;
                 const videoElement = playerDlg.querySelector('video');
 
-                videoElement.volume = getSavedVolume();
+                // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+                if (!appHost.supports('physicalvolumecontrol')) {
+                    videoElement.volume = getSavedVolume();
+                }
+
                 videoElement.addEventListener('timeupdate', this.onTimeUpdate);
                 videoElement.addEventListener('ended', this.onEnded);
                 videoElement.addEventListener('volumechange', this.onVolumeChange);

@@ -15,12 +15,13 @@ export enum LibraryTab {
     Recordings = 'recordings',
     Schedule = 'schedule',
     Series = 'series',
-    Shows = 'shows',
+    SeriesTimers = 'seriestimers',
     Songs = 'songs',
     Suggestions = 'suggestions',
     Trailers = 'trailers',
     Upcoming = 'upcoming',
+    PhotoAlbums = 'photoalbums',
     Photos = 'photos',
     Videos = 'videos',
-    Books = 'books',
+    Books = 'books'
 }

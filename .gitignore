@@ -3,18 +3,16 @@ dist
 web
 node_modules
 
+# test coverage
+coverage
+
 # config
 config.json
 
 # ide
 .idea
-
-# log
-yarn-error.log
+.vs
 
 # vim
 *.sw?
 
-# build artifacts
-fedora/jellyfin-web-*.src.rpm
-fedora/jellyfin-web-*.tar.gz

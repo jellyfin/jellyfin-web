@@ -20,7 +20,7 @@ export class PdfPlayer {
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onScreenResize = this.onScreenResize.bind(this);
         this.onFullPage = this.onFullPage.bind(this);
-        this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.onClick = this.onClick.bind(this);
     }
 
@@ -90,22 +90,29 @@ export class PdfPlayer {
         return true;
     }
 
-    onWindowKeyUp(e) {
+    onWindowKeyDown(e) {
+        if (!this.loaded) return;
+
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = keyboardnavigation.getKeyName(e);
 
-        if (!this.loaded) return;
         switch (key) {
             case 'l':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 this.next();
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 this.previous();
                 break;
             case 'Escape':
+                e.preventDefault();
                 this.stop();
                 break;
             case 'Home':
@@ -150,7 +157,7 @@ export class PdfPlayer {
     bindEvents() {
         this.bindMediaElementEvents();
 
-        document.addEventListener('keyup', this.onWindowKeyUp);
+        document.addEventListener('keydown', this.onWindowKeyDown);
         if ('screen' in window) window.screen.orientation.addEventListener('change', this.onScreenResize);
         else document.addEventListener('orientationchange', this.onScreenResize);
     }
@@ -169,7 +176,7 @@ export class PdfPlayer {
             this.unbindMediaElementEvents();
         }
 
-        document.removeEventListener('keyup', this.onWindowKeyUp);
+        document.removeEventListener('keydown', this.onWindowKeyDown);
         if ('screen' in window) window.screen.orientation.removeEventListener('change', this.onScreenResize);
         else document.removeEventListener('orientationchange', this.onScreenResize);
     }
@@ -230,7 +237,12 @@ export class PdfPlayer {
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
-            const downloadTask = getDocument(downloadHref);
+            const downloadTask = getDocument({
+                url: downloadHref,
+                // Disable for PDF.js XSS vulnerability
+                // https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq
+                isEvalSupported: false
+            });
             return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
                 this.book = book;
