@@ -1729,5 +1729,17 @@
     "ErrorDeletingLyrics": "Serverist tekstide kustutamisel tekkis viga. Palun kontrollige, et Jellyfinil oleks meedia kausta kirjutamisõigus ja proovige uuesti.",
     "HeaderDeleteLyrics": "Kustuta laulusõnad",
     "HeaderAllRecordings": "Kõik salvestised",
-    "HeaderConfirmRepositoryInstallation": "Kinnitage pluginate kataloogi paigaldamine"
+    "HeaderConfirmRepositoryInstallation": "Kinnitage pluginate kataloogi paigaldamine",
+    "Inker": "Tintija",
+    "HeaderVideoAdvanced": "Täpsemad videosätted",
+    "LabelAllowFmp4TranscodingContainer": "Luba fMP4 transkodeerimise konteiner",
+    "LabelAllowStreamSharing": "Luba striimi jagamine",
+    "LabelAlwaysRemuxFlacAudioFiles": "Alati remuxi FLAC audiofailid",
+    "LabelAlwaysRemuxMp3AudioFiles": "Alati remuxi MP3 failid",
+    "Illustrator": "Illustreerija",
+    "LabelAlbumGain": "Albumi helivõimendus",
+    "LabelAllowContentWithTags": "Lubage siltidega objektid",
+    "LabelSelectAudioNormalization": "Heli normaliseerimine",
+    "IgnoreDtsHelp": "Selle valiku väljalülitamine võib lahendada mõned probleemid, nt puuduv heli eraldi heli- ja videovoogudega kanalitel.",
+    "HeaderUploadLyrics": "Lae laulusõnad üles"
 }
