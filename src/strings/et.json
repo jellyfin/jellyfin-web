@@ -1752,5 +1752,9 @@
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Eelistatud heli transkodeerimise koodek video taasesitamisel",
     "LabelStereoDownmixAlgorithm": "Stereo Downmixi algorütm",
     "LabelDummyChapterDuration": "Intervall",
-    "LabelDeveloper": "Arendaja"
+    "LabelDeveloper": "Arendaja",
+    "LabelChapterImageResolution": "Resolutsioon",
+    "LabelDummyChapterDurationHelp": "Intervall fiktiivsete peatükkide vahel. Seadista 0, et keelata fiktiivsete peatükkide genereerimine. Selle muutmine ei mõjuta olemasolevaid fiktiivseid peatükke.",
+    "LabelEnableAudioVbr": "Luba VBR helikodeering",
+    "LabelChapterImageResolutionHelp": "Eraldatud peatükipiltide resolutsioon. Selle muutmine ei mõjuta olemasolevaid fiktiivseid peatükke."
 }
