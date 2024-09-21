@@ -417,9 +417,9 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
     }
 
     if (item.PresetMediaSource) {
-        return Promise.resolve({
+        return {
             MediaSources: [item.PresetMediaSource]
-        });
+        };
     }
 
     const itemId = item.Id;
