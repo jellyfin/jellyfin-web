@@ -1735,7 +1735,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
         items: items,
         shape: shape,
         showTitle: true,
-        showYear: type.mediaType === 'Video' || type.type === 'Series',
+        showYear: type.mediaType === 'Video' || type.type === 'Series' || type.type === 'Movie',
         centerText: true,
         lazy: true,
         showDetailsMenu: true,
